@@ -71,7 +71,7 @@ static PerfTestResult *createPerfTestResult(PerfTestResults *results)
     if (!results)
         return 0;
 
-    test = (PerfTestResult *)malloc(sizeof(PerfTestResult));
+    test = (PerfTestResult *)calloc(1, sizeof(PerfTestResult));
     eaPush(&results->testResults, test);
 
     return test;
@@ -83,7 +83,7 @@ static PerfTestResult2 *createPerfTestResult2(PerfTestResults2 *results)
     if (!results)
         return 0;
 
-    test = (PerfTestResult2 *)malloc(sizeof(PerfTestResult2));
+    test = (PerfTestResult2 *)calloc(1, sizeof(PerfTestResult2));
     eaPush(&results->testResults, test);
 
     return test;

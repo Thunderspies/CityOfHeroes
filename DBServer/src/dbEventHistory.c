@@ -121,7 +121,7 @@ static void UpdateCache(int min_container_id, U32 min_timestamp)
 
     for (count = 0; count < row_count; count++)
     {
-        entry = malloc(sizeof(KarmaEventHistory));
+        entry = calloc(1, sizeof(KarmaEventHistory));
 
         if (entry)
         {

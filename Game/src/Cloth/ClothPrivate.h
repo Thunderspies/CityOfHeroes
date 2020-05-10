@@ -69,6 +69,7 @@ extern void ClothColDelete(ClothCol *clothcol);
 // MACROS
 
 #define CLOTH_MALLOC(type, n) (type *)malloc((n) * sizeof(type))
+#define CLOTH_CALLOC(type, n) (type *)calloc(n, sizeof(type))
 #define CLOTH_REALLOC(old, type, n) (type *)realloc(old, (n) * sizeof(type))
 #define CLOTH_FREE(p)       { if(p) { free(p);     (p)=0; } }
 

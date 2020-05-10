@@ -660,7 +660,7 @@ void stat_ReadTable(void)
         &uStartThisMonthSecs, &uStartLastMonthSecs);
 
     // A buffer ODBC wants.
-    plenIndicator = malloc(ARRAY_SIZE(cols)*sizeof(SQLLEN));
+    plenIndicator = calloc(ARRAY_SIZE(cols), sizeof(SQLLEN));
 
     // Make up the SQL statement to collect all the rows we care about.
     // Also figure out how many bytes we need to store a row.
@@ -687,7 +687,7 @@ void stat_ReadTable(void)
         nolock, timerMakeDateStringFromSecondsSince2000(pchLastMonth, uStartLastMonthSecs));        
 
     // Allocate the row buffer.
-    pchBuff = malloc(iLen);
+    pchBuff = calloc(iLen, 1);
 
     stmt = sqlConnStmtAlloc(SQLCONN_FOREGROUND);
 

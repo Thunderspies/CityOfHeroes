@@ -205,6 +205,7 @@ StructParser::StructParser()
 
     m_pPrefix = NULL;
     m_pSuffix = NULL;
+    m_ProjectName[0] = 0;
 }
 
 bool StructParser::DoesFileNeedUpdating(char const* pFileName)
@@ -3466,6 +3467,7 @@ int StructParser::DumpFieldDirectEmbedded(FILE *pFile, STRUCT_FIELD_DESC *pField
 
             int i;
 
+            if (pOtherStruct)
             for (i=0; i < pOtherStruct->iNumFields; i++)
             {
                 char finalPrefixString[MAX_NAME_LENGTH];

@@ -1502,17 +1502,6 @@ static void startupInfo(int argc,char **argv)
     printf_stderr( "SVN Revision: %s\n", build_version);
 }
 
-void memtest()
-{
-    char    *mem;
-    int        i;
-
-    for(i=0;i<2048;i++)
-    {
-        mem = malloc(1024*1024);
-    }
-}
-
 static int enterString(char* buffer, int maxLength, F32 timeout){
     int length = 0;
     int timeStart = timeGetTime();
@@ -1776,7 +1765,6 @@ int main(int argc,char **argv)
     
     timeBeginPeriod(1);
 
-    //memtest();
     logSetMsgQueueSize(32 * 1024 * 1024);
     FolderCacheChooseMode();
 

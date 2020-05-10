@@ -906,7 +906,7 @@ typedef enum PBName {
 static U8* pixbuffers[3] = {0};
 static U8* getBuffer(PBName buf) {
     if (!pixbuffers[buf]) {
-        pixbuffers[buf] = malloc(bufferSizeX*bufferSizeY*4);
+        pixbuffers[buf] = calloc(bufferSizeX*bufferSizeY*4, 1);
     }
     return pixbuffers[buf];
 }
@@ -1025,7 +1025,7 @@ U8* uncompressRawTexInfo(TexReadInfo *rawInfo) // Uncompresses to GL_RGBA8
                 break;
             case TEXFMT_ARGB_0888:
                 lsprintf("TEXFMT_ARGB_0888 resample %dx%d...", rawInfo->width, rawInfo->height);
-                buffer = malloc(size);
+                buffer = calloc(size, 1);
                 rawBuffer = rawInfo->data;
                 size = w*h;
                 for (i=0; i<size; i++) {
@@ -1041,7 +1041,7 @@ U8* uncompressRawTexInfo(TexReadInfo *rawInfo) // Uncompresses to GL_RGBA8
                 break;
             case GL_RGB8:
                 lsprintf("GL_RGB8 resample %dx%d...", rawInfo->width, rawInfo->height);
-                buffer = malloc(size);
+                buffer = calloc(size, 1);
                 rawBuffer = rawInfo->data;
                 size = rawInfo->width*rawInfo->height;
                 for (i=0; i<size-1; i++) {

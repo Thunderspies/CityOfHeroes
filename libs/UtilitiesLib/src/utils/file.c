@@ -3145,7 +3145,7 @@ bool fileChecksumfileMatches(char *fn)
     if(buf)
     {
         int i;
-        char *next_tok;
+        char *next_tok = NULL;
         char *cs = strtok_s(buf,"\n",&next_tok);
         for( i = 0; i < ARRAY_SIZE(checksum); ++i )
         {

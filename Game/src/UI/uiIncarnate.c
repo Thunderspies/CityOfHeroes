@@ -243,7 +243,7 @@ static void BuildRecipeTree(const DetailRecipe **originalList)
     if (originalList)
     {
         int i;
-        s_ppIncarnateRecipeList = malloc(sizeof(RecipeTreeNode));
+        s_ppIncarnateRecipeList = calloc(1, sizeof(RecipeTreeNode));
         s_ppIncarnateRecipeList->name = "AllString";
         s_ppIncarnateRecipeList->recipeDisplay = NULL;
         s_ppIncarnateRecipeList->children = NULL;

@@ -633,7 +633,7 @@ static PlayStream *playStreamCreate(SoundFileInfo *info,int channel,DSParams * p
     if (!decode->decode_buffer)
     {
         decode->decode_len = BUFFER_FILL_SIZE;
-        decode->decode_buffer = malloc(BUFFER_FILL_SIZE);
+        decode->decode_buffer = calloc(1, BUFFER_FILL_SIZE);
     }
     if (dsound->in_use && decode->codec)
     {

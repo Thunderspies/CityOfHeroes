@@ -12,7 +12,7 @@ extern "C" {
 extern "C" {
 void* cryptic_jpeg_malloc(int size)
 {
-    return malloc(size);
+    return calloc(size, 1);
 }
 
 void cryptic_jpeg_free(void* mem)
@@ -48,7 +48,7 @@ int jpegLoad(char *mem,int size,TexReadInfo *info)
         goto fail_exit;
     }
 
-    Pbuf = (uchar *)malloc(Pd->get_width() * 3 * Pd->get_height());
+    Pbuf = (uchar *)calloc(Pd->get_width() * 3 * Pd->get_height(), 1);
     if (!Pbuf)
     {
         goto fail_exit;

@@ -1498,7 +1498,7 @@ void removeLeadingAndFollowingSpacesUnlessAllSpaces(char * str)
 
 char* strInsert( char * dest, const char * insert_ptr, const char *insert )
 {
-    static char  *buffer;
+    static char  *buffer = NULL;
     static int buffer_size = 0;
     int requiredBufferSize;
 

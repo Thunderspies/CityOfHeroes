@@ -303,7 +303,7 @@ static bool s_HandleImeComposition( uiIMEState *s, HWND hWnd, DWORD dbcsChar, DW
             stringSize = ImmGetCompositionStringW(hImc, GCS_RESULTSTR, NULL, 0);
             
             // Allocate a buffer of the appropriate length
-            str = (WCHAR*)malloc(stringSize + sizeof(WCHAR));
+            str = (WCHAR*)calloc(1, stringSize + sizeof(WCHAR));
             if(str){                
                 UIEdit *edit = s->pUIEdit;
                 LONG iStrEnd = stringSize/sizeof(WCHAR);
@@ -499,7 +499,7 @@ static bool s_HandleImeNotify_OpenChangeCandidate(uiIMEState *s, HIMC hImc)
         // --------------------
         // alloc the candidate list
         
-        lpCandList = malloc( bcSizeCandList );
+        lpCandList = calloc(bcSizeCandList, 1);
         
         if( verify( lpCandList && c ))
         {

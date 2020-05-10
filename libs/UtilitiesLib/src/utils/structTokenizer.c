@@ -222,7 +222,7 @@ TokenizerHandle TokenizerCreateString(const char* string, int length)
         return NULL;
     }
 
-    tok = (Tokenizer*)malloc(sizeof(Tokenizer));
+    tok = (Tokenizer*)calloc(1, sizeof(Tokenizer));
     TokenizerInit(tok);
 
     ret = (TokenizerContext*)memAlloc(sizeof(TokenizerContext));
@@ -251,7 +251,7 @@ TokenizerHandle TokenizerCreateString(const char* string, int length)
 // external TokenizerCreate function, returns a handle or NULL on failure
 TokenizerHandle TokenizerCreateEx(const char* filename, int ignore_empty)
 {
-    Tokenizer* tok = (Tokenizer*)malloc(sizeof(Tokenizer));
+    Tokenizer* tok = (Tokenizer*)calloc(1, sizeof(Tokenizer));
     TokenizerInit(tok);
 
     tok->context = OpenTokenFile(filename);

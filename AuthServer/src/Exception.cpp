@@ -603,7 +603,7 @@ static void GenerateExceptionReport(PEXCEPTION_POINTERS data)
         char* output = buffer;
         while (pStack + 1 <= pStackTop) {
             if ((Count % StackColumns) == 0)
-                output += wsprintfA(output, "%08x: ", pStack);
+                output += wsprintfA(output, "%08x: ", (intptr_t)pStack);
             const char *Suffix = " ";
             if ((++Count % StackColumns) == 0 || pStack + 2 > pStackTop)
                 Suffix = "\r\n";

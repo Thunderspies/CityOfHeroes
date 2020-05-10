@@ -466,7 +466,7 @@ static int insertIntoRightVillainList(VillainListData *vlData, int uniquenessTes
 static void transferVillainGroup(VillainListData *existingVG)
 {
     VillainListData *newVG;
-    newVG = malloc(sizeof(VillainListData));
+    newVG = calloc(1, sizeof(VillainListData));
     newVG->villainGroup = existingVG->villainGroup;
     newVG->villainIndex = existingVG->villainIndex;
     newVG->villainRank = existingVG->villainRank;
@@ -790,7 +790,7 @@ static void addRandomVillains(CustomVillainGroupList *villainList, int vgIndex, 
         if ((vg_Filter&missingFilter) & (1 << i) )
         {
             VillainListData *VLData;
-            VLData = malloc(sizeof(VillainListData));
+            VLData = calloc(1, sizeof(VillainListData));
             VLData->villainGroup = vgIndex;
             VLData->villainIndex = -(i+1);
             VLData->cvg_displayName = NULL;
@@ -884,7 +884,7 @@ static void drawLeftStandardVillainList(int npcIndex, int minAllowedLevel, int m
                         else
                         {
                             VillainListData *VLData;
-                            VLData = malloc(sizeof(VillainListData));
+                            VLData = calloc(1, sizeof(VillainListData));
                             VLData->villainGroup = i;
                             VLData->villainIndex = j-1;
                             VLData->villainRank = villainDefList.villainDefs[i]->rank;
@@ -914,7 +914,7 @@ static void drawLeftStandardVillainList(int npcIndex, int minAllowedLevel, int m
                     if (prevName)
                     {
                         VillainListData *VLData;
-                        VLData = malloc(sizeof(VillainListData));
+                        VLData = calloc(1, sizeof(VillainListData));
                         VLData->villainGroup = i;
                         VLData->villainIndex = j-1;
                         VLData->villainRank = villainDefList.villainDefs[i]->rank;
@@ -1074,7 +1074,7 @@ static void populateVillainListFromCVG(MMElementList *pList, int insertIntoRight
                     PCC_Critter *pcc;
                     VillainListData *VLData;
                     pcc = g_CustomVillainGroups[i]->customVillainList[j];
-                    VLData = malloc(sizeof(VillainListData));
+                    VLData = calloc(1, sizeof(VillainListData));
                     VLData->villainGroup = i;
                     VLData->villainIndex = j;
                     VLData->villainRank = pcc->rankIdx;
@@ -1139,7 +1139,7 @@ static void populateVillainListFromCVG(MMElementList *pList, int insertIntoRight
                         if (mmGroup)
                         {
                             VillainListData *VLData;
-                            VLData = malloc(sizeof(VillainListData));
+                            VLData = calloc(1, sizeof(VillainListData));
 
                             VLData->villainGroup = mmGroup->vg ;
                             VLData->cvg_displayName = NULL;
@@ -1244,7 +1244,7 @@ static void populateVillainListFromCVG(MMElementList *pList, int insertIntoRight
                                 {
                                     MMVillainGroup *mmGroup = NULL;
                                     VillainListData *VLData;
-                                    VLData = malloc(sizeof(VillainListData));
+                                    VLData = calloc(1, sizeof(VillainListData));
                                     VLData->villainIndex = villainIndex;
                                     VLData->villainRank = vdef->rank;
                                     VLData->villainGroup = k;

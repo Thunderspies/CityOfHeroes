@@ -141,7 +141,7 @@ void determineTextColor(int rgba[4])
 
 static void vprnt(float x, float y, float z, float xsc, float ysc, float wd, int flags, const char *str, va_list args)
 {
-    static char  *buffer;
+    static char  *buffer = NULL;
     int rgba[4];
     static int buffersize = 0;
     int translate = !(flags & NO_MSPRINT);

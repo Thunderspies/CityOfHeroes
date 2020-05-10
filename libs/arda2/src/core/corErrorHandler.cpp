@@ -173,6 +173,7 @@ errHandlerResult corErrorHandler::DefaultReport(const char* szFileName, int iLin
     // format a message
     _snprintf(message, sizeof(message), "[%s] %s - %s(%d) : %s", 
         timeStamp, szSeverity, szFileName, iLineNumber, szDescription);
+    message[1024 - 1] = 0;
 
     // don't run this message on the XBox360, we'll just see two
     // printouts in the debugger's output window (which can kill

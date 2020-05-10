@@ -3044,6 +3044,7 @@ static int entReceiveOtherSupergroupInfo(Packet *pak, Entity *e, bool oo_packet)
                     {
                         SAFE_FREE(pNew);
                     } else {
+                        pNew->bValid = true;
                         eaPush(&e->supergroup->specialDetails, pNew);
                     }
                 }

@@ -55,7 +55,7 @@ static void ctsUpdateStatus(char* filename, const char* newStatus)
     SourceLinkState* linkState = stashFindPointerReturnPointer(currentLinkStates, fixedFilename);
     if (!linkState)
     {
-        linkState = malloc(sizeof(SourceLinkState));
+        linkState = calloc(1, sizeof(SourceLinkState));
         linkState->state[0] = '\0';
         stashAddPointer(currentLinkStates, fixedFilename, linkState, false);
     }
@@ -166,7 +166,7 @@ static void ctsShowStatus(F32 x, F32 y, F32 z, const char* filename, CTSDisplayT
     linkState = stashFindPointerReturnPointer(currentLinkStates, filename);
     if (!linkState)
     {
-        linkState = malloc(sizeof(SourceLinkState));
+        linkState = calloc(1, sizeof(SourceLinkState));
         linkState->state[0] = '\0';
         stashAddPointer(currentLinkStates, filename, linkState, false);
     }

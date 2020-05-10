@@ -295,13 +295,13 @@ void timerSetBreakPoint(U32 layoutID, U32 uid, S32 set)
     }
 }
 
-static U8*                writeBuffer;
-static int                writeBufferSize;
+static U8*                writeBuffer = NULL;
+static int                writeBufferSize = 0;
 static const int        writeBufferMaxSize = 128 * 1024;
 static FILE*            recordFileHandle;
 
-static U8*                readBuffer;
-static int                readBufferSize;
+static U8*                readBuffer = NULL;
+static int                readBufferSize = 0;
 static int                readBufferCursor;
 static const int        readBufferMaxSize = 128 * 1024;
 static FILE*            playbackFileHandle;

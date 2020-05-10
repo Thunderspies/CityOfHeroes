@@ -36,11 +36,11 @@ typedef struct
 static void processGridEntries(GridCell *cell,GridEntryState *state)
 {
     int            i,t,tag,group_opened;
-    static        int rndo;
+    static        int rndo = 0;
     void        *node;
     GridEnts    *ents;
-    static        U32    *tags;
-    static        int tag_max;
+    static        U32    *tags = NULL;
+    static        int tag_max = 0;
 
     tag = state->tag;
     do

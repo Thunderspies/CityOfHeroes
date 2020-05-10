@@ -485,8 +485,8 @@ static void createZHierarchy(void)
             int size;
             zo_zhierarchy_arrays[i].dim = 1 << i;
             size = zo_zhierarchy_arrays[i].dim * zo_zhierarchy_arrays[i].dim;
-            zo_zhierarchy_arrays[i].minZ = malloc(size * sizeof(*zo_zhierarchy_arrays[i].minZ));
-            zo_zhierarchy_arrays[i].maxZ = malloc(size * sizeof(*zo_zhierarchy_arrays[i].maxZ));
+            zo_zhierarchy_arrays[i].minZ = calloc(size, sizeof(*zo_zhierarchy_arrays[i].minZ));
+            zo_zhierarchy_arrays[i].maxZ = calloc(size, sizeof(*zo_zhierarchy_arrays[i].maxZ));
         }
     }
 

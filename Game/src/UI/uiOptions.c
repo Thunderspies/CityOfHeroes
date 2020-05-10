@@ -2492,7 +2492,7 @@ void saveInitial(GameOptions *popt)
         {
         case kOptionType_Bool:
             if (!popt->pSave) 
-                popt->pSave = malloc(sizeof(bool));
+                popt->pSave = calloc(1, sizeof(bool));
             if( popt->id )
                 *(bool *)popt->pSave = optionGet(popt->id);
             else if (popt->pvToggle)
@@ -2500,7 +2500,7 @@ void saveInitial(GameOptions *popt)
             break;
         case kOptionType_Func:
             if (!popt->pSave)
-                popt->pSave = malloc(sizeof(int));
+                popt->pSave = calloc(1, sizeof(int));
 
             if( popt->id )
                 *(int *)popt->pSave = optionGet(popt->id);
@@ -2511,7 +2511,7 @@ void saveInitial(GameOptions *popt)
         case kOptionType_IntMinMaxSlider:
         case kOptionType_IntSnapSlider:
             if (!popt->pSave)
-                popt->pSave = malloc(sizeof(int));
+                popt->pSave = calloc(1, sizeof(int));
 
             if( popt->id )
             {
@@ -2530,7 +2530,7 @@ void saveInitial(GameOptions *popt)
         case kOptionType_MinMaxSlider:
         case kOptionType_SnapMinMaxSlider:
             if (!popt->pSave)
-                popt->pSave = malloc(sizeof(float));
+                popt->pSave = calloc(1, sizeof(float));
 
             if( popt->id )
                 *(float *)popt->pSave = optionGetf(popt->id);

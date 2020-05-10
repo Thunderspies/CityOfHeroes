@@ -642,7 +642,7 @@ void *sharedMemorySetSizeEx(SharedMemoryHandle *handle, uintptr_t size, int allo
         if(allowFakeSharing) 
         {
             // Just allocate memory for it, pretend it's shared
-            handle->data = malloc(size);
+            handle->data = calloc(size, 1);
             handle->size = size;
             sharedMemorySetMode(SMM_DISABLED);
             //assert(!fake_shared_memory.base_address);

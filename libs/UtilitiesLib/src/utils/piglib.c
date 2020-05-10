@@ -401,7 +401,7 @@ static CRITICAL_SECTION        zCS;
 
 static void* pigZAlloc(void* opaque, U32 items, U32 size)
 {
-    return malloc(items * size);
+    return calloc(items * size, 1);
 }
 
 static void pigZFree(void* opaque, void* address)

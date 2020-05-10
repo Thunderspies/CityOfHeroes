@@ -2,7 +2,7 @@
 #include "sourceparserbaseclass.h"
 
 
-SourceParserBaseClass::SourceParserBaseClass()
+SourceParserBaseClass::SourceParserBaseClass() : m_pParent(nullptr), m_iIndexInParent(0)
 {}
 
 SourceParserBaseClass::~SourceParserBaseClass()

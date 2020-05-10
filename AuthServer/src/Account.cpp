@@ -353,6 +353,7 @@ char CAccount::CheckPassword( const char *name, char *dbpwdLineage2, char *dbpwd
 
                 //make string from one way key
                 _snprintf(key, 31, "%d", oneTimeKey);
+                key[32 - 1] = 0;
 
                 //make md5 password
                 md5.Update(passwdDB, 16);
@@ -404,10 +405,11 @@ char CAccount::CheckPassword( const char *name, char *dbpwdLineage2, char *dbpwd
                   }
   
                   Adler32 CRC;
-                char salt_str[15];
+                char salt_str[16];
                   size_t salt;
                   size_t i;
-                strncpy(salt_str, name, sizeof(salt_str));
+                strncpy(salt_str, name, sizeof(salt_str) - 1);
+                  salt_str[16 - 1] = 0;
                   size_t salt_len = strlen(salt_str);
                   for (i = 0; i < salt_len; ++i)
                   {

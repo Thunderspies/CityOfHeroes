@@ -607,7 +607,7 @@ static logFileStruct * openAndRotateLogFile(const char *fname_noext, const char 
         log_file = malloc(sizeof(logFileStruct));
         log_file->roll_name = allocAddString(fname_new);
         log_file->cached_handle = NULL;
-        log_file->write_buffer = malloc(LOG_IO_BUF_SIZE);
+        log_file->write_buffer = calloc(1, LOG_IO_BUF_SIZE);
         log_file->write_buffer_bytes = 0;
         log_file->stream_uncommitted = 0;
         log_file->time_of_last_write = 0;
@@ -1273,7 +1273,7 @@ void logPutMsgSub(char *msg_str,int len,char *filename,int zip_output,int zipped
         if (!background_writer_running)
         {
             if(!msg_queue) {
-                msg_queue = malloc(msg_queue_size * sizeof(MsgEntry));
+                msg_queue = calloc(msg_queue_size, sizeof(MsgEntry));
                 InitializeCriticalSectionAndSpinCount(&multiple_writers, 4000);
                 assert(!atexit(s_atexit));
                 assert(SetConsoleCtrlHandler(s_handler_routine, TRUE));

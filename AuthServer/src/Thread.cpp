@@ -162,10 +162,10 @@ _BEFORE
     g_hIOCompletionPort    = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, config.numServerThread);
     g_hIOCompletionPortInt = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, config.numServerIntThread);
 
-    g_hServerThread = (HANDLE *) malloc(sizeof(HANDLE) * config.numServerThread);
-    g_nServerThreadId = (unsigned *) malloc(sizeof(unsigned) * config.numServerThread);
-    g_hServerThreadInt = (HANDLE *) malloc(sizeof(HANDLE) * config.numServerIntThread);
-    g_nServerThreadIntId = (unsigned *) malloc(sizeof(unsigned) * config.numServerIntThread);
+    g_hServerThread = (HANDLE *) calloc(config.numServerThread, sizeof(HANDLE));
+    g_nServerThreadId = (unsigned *) calloc(config.numServerThread, sizeof(unsigned));
+    g_hServerThreadInt = (HANDLE *) calloc(config.numServerIntThread, sizeof(HANDLE));
+    g_nServerThreadIntId = (unsigned *) calloc(config.numServerIntThread, sizeof(unsigned));
     
     
     for (i = 0; i < (ULONG_PTR)config.numServerThread; i++) {

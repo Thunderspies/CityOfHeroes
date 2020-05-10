@@ -403,7 +403,7 @@ void sqlReadColumnsAsyncWithDebugDelay(TableInfo *table, char *limit, char *col_
     entry->readcolumns.restrict = strdup(restrict);
     entry->readcolumns.callback = callback;
     entry->readcolumns.callbackData = callbackData;
-    entry->readcolumns.field_ptrs = malloc(MAX_FIELD_PTRS * sizeof(ColumnInfo *));
+    entry->readcolumns.field_ptrs = calloc(MAX_FIELD_PTRS, sizeof(ColumnInfo *));
     entry->readcolumns.packet = pak;
     entry->readcolumns.link = pak ? pak->link : NULL;
     entry->readcolumns.link_UID = entry->readcolumns.link ? entry->readcolumns.link->UID : 0;

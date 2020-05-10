@@ -224,7 +224,7 @@ void memCheckInit()
 void memCheckDumpAllocs()
 {
 HFILE        warnfile;
-OFSTRUCT    reopenbuf;
+OFSTRUCT    reopenbuf = {0};
 
     warnfile = OpenFile(  "c:\\memlog.txt",    // pointer to the filename
                           &reopenbuf,    // pointer to the file information struct

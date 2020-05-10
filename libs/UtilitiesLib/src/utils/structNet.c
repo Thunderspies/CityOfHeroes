@@ -266,10 +266,14 @@ void sdFreeParseInfo(ParseTable* fieldDefs)
     FORALL_PARSEINFO(fieldDefs, i)
     {
         ParseTable* fd = &fieldDefs[i];
-        if (fd->name!=invalidName && fd->name!=outOfSyncName)
+        if (fd->name && fd->name!=invalidName && fd->name!=outOfSyncName) {
             free((void*)fd->name);
-        if (TOK_GET_TYPE(fd->type) == TOK_STRUCT_X)
+            fd->name = NULL;
+        }
+        if (TOK_GET_TYPE(fd->type) == TOK_STRUCT_X) {
             sdFreeParseInfo((ParseTable*)fd->subtable);
+            fd->subtable = NULL;
+        }
     }
     free(fieldDefs);
 }

@@ -10,6 +10,7 @@ extern char gVersionString[];
 FileListLoader::FileListLoader()
 {
     m_iNumFiles = 0;
+    m_MasterFileTime = {};
 }
 FileListLoader::~FileListLoader()
 {

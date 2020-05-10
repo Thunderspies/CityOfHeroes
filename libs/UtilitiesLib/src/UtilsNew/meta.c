@@ -202,7 +202,7 @@ void meta_handleCommandLine(int argc, char **argv)
                 else
                 {
                     int j, ret = 1;
-                    intptr_t params[4];
+                    intptr_t params[4] = {0};
                     assert(as_size(&object->typeinfo.function_parameters) <= 4);
                     for(j = 0; ret && j < as_size(&object->typeinfo.function_parameters); j++)
                         ret &= s_getValue_string(&object->typeinfo.function_parameters[j].typeinfo, argv[++i], &params[j]);
@@ -523,7 +523,7 @@ void meta_handleRemote(NetLink *link, Packet *pak_in, int forward_id, int access
             xcase TYPE_FUNCTION:
             {
                 int j;
-                intptr_t params[4];
+                intptr_t params[4] = {0};
                 assert(as_size(&object->typeinfo.function_parameters) <= 4);
                 for(j = 0; j < as_size(&object->typeinfo.function_parameters); j++)
                     s_getValue_packet(&object->typeinfo.function_parameters[j].typeinfo, pak_in, &params[j]);
