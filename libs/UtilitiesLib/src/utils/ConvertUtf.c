@@ -560,7 +560,7 @@ int utf8ToMbcs(char *buf,int buf_size)
     ConversionResult    cres;
 
     len8 = (int)strlen(buf);
-    cres = ConvertUTF8toUTF16(&utf8_ptr,utf8_ptr+len8+1,&utf16_ptr,utf16+sizeof(utf16),strictConversion);
+    cres = ConvertUTF8toUTF16(&utf8_ptr,utf8_ptr+len8+1,&utf16_ptr,&utf16[20000],strictConversion);
     if (cres != conversionOK)
         utf16[0] = 0;
     buf[0] = 0;

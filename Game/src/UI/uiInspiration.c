@@ -578,7 +578,7 @@ static void inspirationUpdate( Entity *e, int i, int j )
     inspSlot[i][j].ipow = j;
     inspSlot[i][j].state = ICON_NONE;
 
-    if( e->pchar->aInspirations[i][j] && e->pchar->aInspirations[i][j]->pchName && e->pchar->aInspirations[i][j]->pchName )
+    if( e->pchar->aInspirations[i][j] && e->pchar->aInspirations[i][j]->pchName && e->pchar->aInspirations[i][j]->pchIconName )
     {
         inspSlot[i][j].icon = atlasLoadTexture( e->pchar->aInspirations[i][j]->pchIconName );
         inspSlot[i][j].type = kTrayItemType_Inspiration;

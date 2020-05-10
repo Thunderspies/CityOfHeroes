@@ -860,7 +860,7 @@ static void fxFindInputs(FxInfo * fxinfo, FxParams * fxp)
         {
             if( type == TARGET_BODY_PART )
                 seq = fxpold.keys[1].seq;
-            else if ( type = ORIGIN_BODY_PART )
+            else if ( type == ORIGIN_BODY_PART )
                 seq = fxpold.keys[0].seq;
 
             assert( seq );

@@ -711,7 +711,7 @@ void TeamTaskCheckForSGComplete(Entity *e)
     if(!team)
         return;
 
-    if (team->activetask->def && TASK_IS_SGMISSION(team->activetask->def) &&
+    if (TASK_IS_SGMISSION(team->activetask->def) &&
         e->supergroup && e->supergroup->activetask &&
         isSameStoryTask( &e->supergroup->activetask->sahandle, &team->activetask->sahandle) &&
         team->activetask->assignedDbId == e->supergroup_id)
