@@ -1190,6 +1190,9 @@ void aiBehaviorAddPermFlag(Entity* e, AIVarsBase* aibase, const char* string)
 
     aiBehaviorCreatePERMVAR(e, aibase, &aibase->behaviors);
 
+    if (!aibase->behaviors)
+        return;
+
     aiBehaviorProcessFlag(e, aibase, &aibase->behaviors, aibase->behaviors[0], string);
 }
 
