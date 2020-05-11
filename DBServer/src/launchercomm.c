@@ -1598,6 +1598,10 @@ int launcherCommStartProcess(const char *db_hostname, U32 host_ip, MapCon* map_c
     {
         estrConcatf(&cmd, " -ticketscale %f", server_cfg.ticketscale);
     }
+    if (server_cfg.client_logout_time != 30)
+    {
+        estrConcatf(&cmd, " -clientlogouttime %d", server_cfg.client_logout_time);
+    }
     if (server_cfg.aggrocap > 17)
     {
         estrConcatf(&cmd, " -aggrocap %d", server_cfg.aggrocap);

@@ -81,6 +81,7 @@ typedef struct ServerCfg
     F32        aeinfluencescale;
     F32        aeprestigescale;
     F32        ticketscale;
+    int        client_logout_time;
     int        aggrocap;
     int        targetcapmode;
     int        auction_last_login_delay;

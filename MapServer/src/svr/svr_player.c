@@ -2743,7 +2743,7 @@ Entity* svrFindPlayerInTeamup(int teamID, PlayerEntType type)
 
 void svrPlayerSetDisconnectTimer(Entity *e,int bad_connection)
 {
-    F32    seconds = 30;
+    F32    seconds = server_state.client_logout_time;
 
     if (e->access_level > 0)
     {

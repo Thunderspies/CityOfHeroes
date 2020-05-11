@@ -919,6 +919,8 @@ void parseArgs2(int argc,char **argv)
             ;
         else if (strcmp(argv[i],"-xpscale")==0)
             server_state.xpscale = atof(argv[++i]);
+        else if (strcmp(argv[i],"-clientlogouttime")==0)
+            server_state.client_logout_time = atoi(argv[++i]);
         else if (strcmp(argv[i],"-influencescale")==0)
             server_state.influencescale = atof(argv[++i]);
         else if (strcmp(argv[i],"-prestigescale")==0)
