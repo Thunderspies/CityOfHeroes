@@ -192,6 +192,7 @@ typedef struct MapCon
     U32        tcp_port;
     char    patch_version[100];
     char    map_name[1024];
+    char    map_key[1024];
     char    mission_info[1024];
     int        map_running;
     int        num_players;

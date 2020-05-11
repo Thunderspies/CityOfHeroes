@@ -68,7 +68,8 @@ typedef struct ServerState
     unsigned int        enableBoostDiminishing : 1;        // Enable diminishing returns on boosts (aka Enhancement Diversification)
     unsigned int        skyFadeInteresting : 1;            // Set to 1 if skyFade values need to be sent
 
-    unsigned int        transient : 1;
+    unsigned int        transient : 1; // unload if no players are connected for some time
+    unsigned int        preload_transient : 1; // unload after a few seconds, used to preload all transient map and have them report contacts and doors so that they can be found by tasks and storyarcs
 
     int        viewCutScene;    //viewing a cut scene
     Mat4    cutSceneCameraMat;  //since many files dont care what a cutScene is 

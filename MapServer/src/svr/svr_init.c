@@ -1401,6 +1401,10 @@ void parseArgs2(int argc,char **argv)
             int timeout_minutes = atoi(argv[++i]);
             server_state.idle_exit_timeout = timeout_minutes > 0 ? (U32)timeout_minutes : 0;
         }
+        else if (stricmp(argv[i], "-preloadtransient") == 0)
+        {
+            server_state.preload_transient = true;
+        }
         else if (stricmp(argv[i], "-idleUpkeep") == 0)
         {
             int idle_minutes = atoi(argv[++i]);

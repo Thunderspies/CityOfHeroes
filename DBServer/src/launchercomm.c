@@ -1493,7 +1493,7 @@ int launcherCommStartServerProcess(const char *command, U32 host_ip, ServerAppCo
     return 1;
 }
 
-int launcherCommStartProcess(const char *db_hostname, U32 host_ip, MapCon* map_con)
+int launcherCommStartProcess(const char* db_hostname, U32 host_ip, MapCon* map_con, bool preload_transient)
 {
     NetLink            *best_link=0;
     LauncherLink    *client;
@@ -1623,6 +1623,9 @@ int launcherCommStartProcess(const char *db_hostname, U32 host_ip, MapCon* map_c
             WeeklyTF_GenerateTokenString(weeklyTF_cfg, &cmd);
         }
     }
+
+    if (preload_transient)
+        estrConcatStaticCharArray(&cmd, " -preloadtransient");
 
     // 0 is English, 5 is German and 6 is French. We must always tell the new
     // MapServer which locale to use since it may be running on a machine
