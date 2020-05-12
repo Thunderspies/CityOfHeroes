@@ -266,7 +266,7 @@ void sdFreeParseInfo(ParseTable* fieldDefs)
     FORALL_PARSEINFO(fieldDefs, i)
     {
         ParseTable* fd = &fieldDefs[i];
-        if (fd->name && fd->name!=invalidName && fd->name!=outOfSyncName) {
+        if (fd->name && fd->name != invalidName && fd->name != outOfSyncName) {
             free((void*)fd->name);
             fd->name = NULL;
         }
