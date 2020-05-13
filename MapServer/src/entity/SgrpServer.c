@@ -1815,35 +1815,47 @@ int sgroup_verifyCostume( Packet *pak, Entity *e )
 {
     int i, j;
 
-    unsigned int primary    = pktGetBitsPack(pak, 32);
-    unsigned int secondary    = pktGetBitsPack(pak, 32);
-    unsigned int primary2    = pktGetBitsPack(pak, 32);
-    unsigned int secondary2 = pktGetBitsPack(pak, 32);
-    unsigned int tertiary    = pktGetBitsPack(pak, 32);
-    unsigned int quaternary = pktGetBitsPack(pak, 32);
+    SGColorBits primaryU;
+    primaryU.SGBitSetLow = pktGetBitsPack(pak, 32);
+    primaryU.SGBitSetHigh = pktGetBitsPack(pak, 32);
+    SGColorBits secondaryU;
+    secondaryU.SGBitSetLow = pktGetBitsPack(pak, 32);
+    secondaryU.SGBitSetHigh = pktGetBitsPack(pak, 32);
+    SGColorBits primary2U;
+    primary2U.SGBitSetLow = pktGetBitsPack(pak, 32);
+    primary2U.SGBitSetHigh = pktGetBitsPack(pak, 32);
+    SGColorBits secondary2U;
+    secondary2U.SGBitSetLow = pktGetBitsPack(pak, 32);
+    secondary2U.SGBitSetHigh = pktGetBitsPack(pak, 32);
+    SGColorBits tertiaryU;
+    tertiaryU.SGBitSetLow = pktGetBitsPack(pak, 32);
+    tertiaryU.SGBitSetHigh = pktGetBitsPack(pak, 32);
+    SGColorBits quaternaryU;
+    quaternaryU.SGBitSetLow = pktGetBitsPack(pak, 32);
+    quaternaryU.SGBitSetHigh = pktGetBitsPack(pak, 32);
     int hide_emblem            = pktGetBits( pak, 1 );
 
     for( i = 0; i < e->pl->costume[0]->appearance.iNumParts && i < MAX_COSTUME_PARTS/2; i++ )
     {
-        if( ((primary >> (i*2)) & 3) == 0 || ((secondary >> (i*2)) & 3) == 0  )
+        if( ((primaryU.SGBitSet >> (i*2)) & 3) == 0 || ((secondaryU.SGBitSet >> (i*2)) & 3) == 0  )
             return false;
     }
 
     for( j = 0; i < e->pl->costume[0]->appearance.iNumParts; j++, i++ )
     {
-        if( ((primary2 >> (j*2)) & 3) == 0 || ((secondary2 >> (j*2)) & 3) == 0  )
+        if( ((primary2U.SGBitSet >> (j*2)) & 3) == 0 || ((secondary2U.SGBitSet >> (j*2)) & 3) == 0  )
             return false;
 
-        if( ((tertiary >> (j*2)) & 3) == 0 || ((quaternary >> (j*2)) & 3) == 0  )
+        if( ((tertiaryU.SGBitSet >> (j*2)) & 3) == 0 || ((quaternaryU.SGBitSet >> (j*2)) & 3) == 0  )
             return false;
     }
 
-    e->pl->superColorsPrimary        = primary;
-    e->pl->superColorsSecondary        = secondary;
-    e->pl->superColorsPrimary2        = primary2;
-    e->pl->superColorsSecondary2    = secondary2;
-    e->pl->superColorsTertiary        = tertiary;
-    e->pl->superColorsQuaternary    = quaternary;
+    e->pl->superColorsPrimaryU        = primaryU;
+    e->pl->superColorsSecondaryU        = secondaryU;
+    e->pl->superColorsPrimary2U        = primary2U;
+    e->pl->superColorsSecondary2U    = secondary2U;
+    e->pl->superColorsTertiaryU        = tertiaryU;
+    e->pl->superColorsQuaternaryU    = quaternaryU;
     e->pl->hide_supergroup_emblem    = hide_emblem;
     e->send_costume = 1;
     return true;
@@ -1855,17 +1867,23 @@ int sgroup_verifyCostumeEx( Packet *pak, Entity *e )
     int hide_emblem;
     int i, j, k;
     Costume *costume;
-    unsigned int sgColors[NUM_SG_COLOR_SLOTS][6];
+    SGColorBits sgColorsU[NUM_SG_COLOR_SLOTS][6];
 
     num_slot = pktGetBits( pak, 8 );
     for (k = 0; k < num_slot; k++)
     {
-        sgColors[k][0] = pktGetBitsPack(pak, 32);
-        sgColors[k][1] = pktGetBitsPack(pak, 32);
-        sgColors[k][2] = pktGetBitsPack(pak, 32);
-        sgColors[k][3] = pktGetBitsPack(pak, 32);
-        sgColors[k][4] = pktGetBitsPack(pak, 32);
-        sgColors[k][5] = pktGetBitsPack(pak, 32);
+        sgColorsU[k][0].SGBitSetLow = pktGetBitsPack(pak, 32);
+        sgColorsU[k][0].SGBitSetHigh = pktGetBitsPack(pak, 32);
+        sgColorsU[k][1].SGBitSetLow = pktGetBitsPack(pak, 32);
+        sgColorsU[k][1].SGBitSetHigh = pktGetBitsPack(pak, 32);
+        sgColorsU[k][2].SGBitSetLow = pktGetBitsPack(pak, 32);
+        sgColorsU[k][2].SGBitSetHigh = pktGetBitsPack(pak, 32);
+        sgColorsU[k][3].SGBitSetLow = pktGetBitsPack(pak, 32);
+        sgColorsU[k][3].SGBitSetHigh = pktGetBitsPack(pak, 32);
+        sgColorsU[k][4].SGBitSetLow = pktGetBitsPack(pak, 32);
+        sgColorsU[k][4].SGBitSetHigh = pktGetBitsPack(pak, 32);
+        sgColorsU[k][5].SGBitSetLow = pktGetBitsPack(pak, 32);
+        sgColorsU[k][5].SGBitSetHigh = pktGetBitsPack(pak, 32);
     }
     hide_emblem = pktGetBits( pak, 1 );
     costume = e->pl->costume[e->pl->current_costume];
@@ -1873,36 +1891,36 @@ int sgroup_verifyCostumeEx( Packet *pak, Entity *e )
     {
         for( i = 0; i < costume->appearance.iNumParts && i < MAX_COSTUME_PARTS/2; i++ )
         {
-            if( ((sgColors[k][0] >> (i*2)) & 3) == 0 || ((sgColors[k][1] >> (i*2)) & 3) == 0  )
+            if( ((sgColorsU[k][0].SGBitSet >> (i*2)) & 3) == 0 || ((sgColorsU[k][1].SGBitSet >> (i*2)) & 3) == 0  )
                 return false;
         }
 
         for( j = 0; i < costume->appearance.iNumParts; j++, i++ )
         {
-            if( ((sgColors[k][2] >> (j*2)) & 3) == 0 || ((sgColors[k][3] >> (j*2)) & 3) == 0  )
+            if( ((sgColorsU[k][2].SGBitSet >> (j*2)) & 3) == 0 || ((sgColorsU[k][3].SGBitSet >> (j*2)) & 3) == 0  )
                 return false;
 
-            if( ((sgColors[k][4] >> (j*2)) & 3) == 0 || ((sgColors[k][5] >> (j*2)) & 3) == 0  )
+            if( ((sgColorsU[k][4].SGBitSet >> (j*2)) & 3) == 0 || ((sgColorsU[k][5].SGBitSet >> (j*2)) & 3) == 0  )
                 return false;
         }
     }
 
     for (k = 0; k < num_slot; k++)
     {
-        costume->appearance.superColorsPrimary[k] = sgColors[k][0];
-        costume->appearance.superColorsSecondary[k] = sgColors[k][1];
-        costume->appearance.superColorsPrimary2[k] = sgColors[k][2];
-        costume->appearance.superColorsSecondary2[k] = sgColors[k][3];
-        costume->appearance.superColorsTertiary[k] = sgColors[k][4];
-        costume->appearance.superColorsQuaternary[k] = sgColors[k][5];
+        costume->appearance.superColorsPrimaryU[k] = sgColorsU[k][0];
+        costume->appearance.superColorsSecondaryU[k] = sgColorsU[k][1];
+        costume->appearance.superColorsPrimary2U[k] = sgColorsU[k][2];
+        costume->appearance.superColorsSecondary2U[k] = sgColorsU[k][3];
+        costume->appearance.superColorsTertiaryU[k] = sgColorsU[k][4];
+        costume->appearance.superColorsQuaternaryU[k] = sgColorsU[k][5];
         if (k == costume->appearance.currentSuperColorSet)
         {
-            e->pl->superColorsPrimary = sgColors[k][0];
-            e->pl->superColorsSecondary = sgColors[k][1];
-            e->pl->superColorsPrimary2 = sgColors[k][2];
-            e->pl->superColorsSecondary2 = sgColors[k][3];
-            e->pl->superColorsTertiary = sgColors[k][4];
-            e->pl->superColorsQuaternary = sgColors[k][5];
+            e->pl->superColorsPrimaryU = sgColorsU[k][0];
+            e->pl->superColorsSecondaryU = sgColorsU[k][1];
+            e->pl->superColorsPrimary2U = sgColorsU[k][2];
+            e->pl->superColorsSecondary2U = sgColorsU[k][3];
+            e->pl->superColorsTertiaryU = sgColorsU[k][4];
+            e->pl->superColorsQuaternaryU = sgColorsU[k][5];
             e->pl->hide_supergroup_emblem = hide_emblem;
             e->send_costume = 1;
         }

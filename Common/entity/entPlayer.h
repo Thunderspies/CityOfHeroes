@@ -404,12 +404,12 @@ typedef struct EntPlayer
     int            validateCostume;    // if set, the primary costume should be validated on receipt of account inventory
     int            doNotKick;            // if set, the character will not be kicked for invalid cosutmes, ATs and Powersets
 
-    unsigned int superColorsPrimary;        // these are bitfields
-    unsigned int superColorsSecondary;
-    unsigned int superColorsPrimary2;
-    unsigned int superColorsSecondary2;
-    unsigned int superColorsTertiary;
-    unsigned int superColorsQuaternary;
+    SGColorBits superColorsPrimaryU; // these are bitfields
+    SGColorBits superColorsSecondaryU;
+    SGColorBits superColorsPrimary2U;
+    SGColorBits superColorsSecondary2U;
+    SGColorBits superColorsTertiaryU;
+    SGColorBits superColorsQuaternaryU;
 
     DoorAnimState *door_anim;            // state if the player is animating through a door - client & server
 

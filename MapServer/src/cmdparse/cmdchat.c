@@ -4392,12 +4392,12 @@ void chatCommand( Cmd * cmd, ClientLink *client, char* str )
                             sgColorIndex = 0;
                             costume->appearance.currentSuperColorSet = 0;
                         }
-                        e->pl->superColorsPrimary    = costume->appearance.superColorsPrimary[sgColorIndex];
-                        e->pl->superColorsSecondary  = costume->appearance.superColorsSecondary[sgColorIndex];
-                        e->pl->superColorsPrimary2   = costume->appearance.superColorsPrimary2[sgColorIndex];
-                        e->pl->superColorsSecondary2 = costume->appearance.superColorsSecondary2[sgColorIndex];
-                        e->pl->superColorsTertiary   = costume->appearance.superColorsTertiary[sgColorIndex];
-                        e->pl->superColorsQuaternary = costume->appearance.superColorsQuaternary[sgColorIndex];
+                        e->pl->superColorsPrimaryU    = costume->appearance.superColorsPrimaryU[sgColorIndex];
+                        e->pl->superColorsSecondaryU  = costume->appearance.superColorsSecondaryU[sgColorIndex];
+                        e->pl->superColorsPrimary2U   = costume->appearance.superColorsPrimary2U[sgColorIndex];
+                        e->pl->superColorsSecondary2U = costume->appearance.superColorsSecondary2U[sgColorIndex];
+                        e->pl->superColorsTertiaryU   = costume->appearance.superColorsTertiaryU[sgColorIndex];
+                        e->pl->superColorsQuaternaryU = costume->appearance.superColorsQuaternaryU[sgColorIndex];
                         costume_sendSGColors(e);
                         
                         PrintCostumeToLog(e);

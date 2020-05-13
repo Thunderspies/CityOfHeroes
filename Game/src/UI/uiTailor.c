@@ -670,7 +670,7 @@ static float tailorTotalXPositions[13][3] =
     {    695.0f,        0.0f,        705.0f,    },        //12 Available Influence
 };
 
-static unsigned int sgColors[NUM_SG_COLOR_SLOTS + 1][6];
+static SGColorBits sgColorsU[NUM_SG_COLOR_SLOTS + 1][6];
 static unsigned int currentCostumeColors[MAX_COSTUME_PARTS][4];
 static int s_anyChanges;
 static int hasDiscountSalvage;
@@ -862,12 +862,12 @@ void tailor_pushSGColors(Costume *costume)
 
     for (i = 0; i < NUM_SG_COLOR_SLOTS; i++)
     {
-        sgColors[i + 1][0] = costume->appearance.superColorsPrimary[i];
-        sgColors[i + 1][1] = costume->appearance.superColorsSecondary[i];
-        sgColors[i + 1][2] = costume->appearance.superColorsPrimary2[i];
-        sgColors[i + 1][3] = costume->appearance.superColorsSecondary2[i];
-        sgColors[i + 1][4] = costume->appearance.superColorsTertiary[i];
-        sgColors[i + 1][5] = costume->appearance.superColorsQuaternary[i];
+        sgColorsU[i + 1][0] = costume->appearance.superColorsPrimaryU[i];
+        sgColorsU[i + 1][1] = costume->appearance.superColorsSecondaryU[i];
+        sgColorsU[i + 1][2] = costume->appearance.superColorsPrimary2U[i];
+        sgColorsU[i + 1][3] = costume->appearance.superColorsSecondary2U[i];
+        sgColorsU[i + 1][4] = costume->appearance.superColorsTertiaryU[i];
+        sgColorsU[i + 1][5] = costume->appearance.superColorsQuaternaryU[i];
     }
 }
 
@@ -877,8 +877,8 @@ void tailor_SGColorSetSwitch(int colorSet)
     assert(colorSet >= 0 && colorSet < NUM_SG_COLOR_SLOTS + 1);
     if (gTailorColorGroup != 0)
     {
-        costume_SGColorsExtract(e, gSuperCostume, &sgColors[gTailorColorGroup][0], &sgColors[gTailorColorGroup][1], &sgColors[gTailorColorGroup][2], 
-                                                     &sgColors[gTailorColorGroup][3], &sgColors[gTailorColorGroup][4], &sgColors[gTailorColorGroup][5]);
+        costume_SGColorsExtract(e, gSuperCostume, &sgColorsU[gTailorColorGroup][0], &sgColorsU[gTailorColorGroup][1], &sgColorsU[gTailorColorGroup][2], 
+                                                     &sgColorsU[gTailorColorGroup][3], &sgColorsU[gTailorColorGroup][4], &sgColorsU[gTailorColorGroup][5]);
         if (colorSet == 0)
         {
             e->costume = costume_as_const(gTailoredCostume);
@@ -901,8 +901,8 @@ void tailor_SGColorSetSwitch(int colorSet)
     if (gTailorColorGroup != 0)
     {
         costume_baseColorsApplyToCostume(gSuperCostume, currentCostumeColors);
-        costume_SGColorsApplyToCostume(e, gSuperCostume, sgColors[gTailorColorGroup][0], sgColors[gTailorColorGroup][1], sgColors[gTailorColorGroup][2],
-                                                            sgColors[gTailorColorGroup][3], sgColors[gTailorColorGroup][4], sgColors[gTailorColorGroup][5]);
+        costume_SGColorsApplyToCostume(e, gSuperCostume, sgColorsU[gTailorColorGroup][0], sgColorsU[gTailorColorGroup][1], sgColorsU[gTailorColorGroup][2],
+                                                            sgColorsU[gTailorColorGroup][3], sgColorsU[gTailorColorGroup][4], sgColorsU[gTailorColorGroup][5]);
     }
 }
 
@@ -1243,8 +1243,8 @@ void tailorMenuEx(int sgMode)
         
         tailor_CopyColorsToTemp(1);
         supercostumeTailorMenu(sgMode ? 1.0f : gTailorSGCostumeScale, sgMode, screenScaleX, screenScaleY);
-        costume_SGColorsExtract(e, gSuperCostume, &sgColors[gTailorColorGroup][0], &sgColors[gTailorColorGroup][1], &sgColors[gTailorColorGroup][2], 
-                                                     &sgColors[gTailorColorGroup][3], &sgColors[gTailorColorGroup][4], &sgColors[gTailorColorGroup][5]);
+        costume_SGColorsExtract(e, gSuperCostume, &sgColorsU[gTailorColorGroup][0], &sgColorsU[gTailorColorGroup][1], &sgColorsU[gTailorColorGroup][2], 
+                                                     &sgColorsU[gTailorColorGroup][3], &sgColorsU[gTailorColorGroup][4], &sgColorsU[gTailorColorGroup][5]);
         setSpriteScaleMode(ssm);
     }
     if (loadedCostume)
@@ -1265,8 +1265,8 @@ void tailorMenuEx(int sgMode)
     if (gTailorColorGroup != 0)
     {
         costume_baseColorsApplyToCostume(gSuperCostume, currentCostumeColors);
-        costume_SGColorsApplyToCostume(e, gSuperCostume, sgColors[gTailorColorGroup][0], sgColors[gTailorColorGroup][1], sgColors[gTailorColorGroup][2],
-                                                            sgColors[gTailorColorGroup][3], sgColors[gTailorColorGroup][4], sgColors[gTailorColorGroup][5]);
+        costume_SGColorsApplyToCostume(e, gSuperCostume, sgColorsU[gTailorColorGroup][0], sgColorsU[gTailorColorGroup][1], sgColorsU[gTailorColorGroup][2],
+                                                            sgColorsU[gTailorColorGroup][3], sgColorsU[gTailorColorGroup][4], sgColorsU[gTailorColorGroup][5]);
     }
      costume_Apply(e);
 
@@ -1380,7 +1380,7 @@ void tailorMenuEx(int sgMode)
         else if (result & ACB_ACCEPT)
         {
             init = 0;
-            sendSuperCostumeData( sgColors, e->pl->hide_supergroup_emblem, costume_getNumSGColorSlot(e) );
+            sendSuperCostumeData(sgColorsU, e->pl->hide_supergroup_emblem, costume_getNumSGColorSlot(e));
             tailor_exit(0);
         }
         setSpriteScaleMode(ssm);
@@ -1449,7 +1449,7 @@ void tailorMenuEx(int sgMode)
 void tailorMenu_applyChanges()
 {
     Entity *e = playerPtr();
-    sendSuperCostumeData( sgColors, e->pl->hide_supergroup_emblem, costume_getNumSGColorSlot(e) );
+    sendSuperCostumeData( sgColorsU, e->pl->hide_supergroup_emblem, costume_getNumSGColorSlot(e) );
     costume_baseColorsApplyToCostume(gTailoredCostume, currentCostumeColors);
     if (s_anyChanges)
     {
@@ -1494,14 +1494,14 @@ void tailor_init(int sgMode)
 
     if (gSuperCostume != NULL)
     {
-        costume_SGColorsExtract(e, gSuperCostume, &sgColors[SGColorIndex][0], &sgColors[SGColorIndex][1], &sgColors[SGColorIndex][2],
-            &sgColors[SGColorIndex][3], &sgColors[SGColorIndex][4], &sgColors[SGColorIndex][5]);
+        costume_SGColorsExtract(e, gSuperCostume, &sgColorsU[SGColorIndex][0], &sgColorsU[SGColorIndex][1], &sgColorsU[SGColorIndex][2],
+            &sgColorsU[SGColorIndex][3], &sgColorsU[SGColorIndex][4], &sgColorsU[SGColorIndex][5]);
         costume_destroy(gSuperCostume);
         gSuperCostume = 0;
     }
     else
     {
-        memset(&sgColors[SGColorIndex][0], 0, 6 * sizeof(int));
+        memset(&sgColorsU[SGColorIndex][0], 0, 6 * sizeof(SGColorBits));
     }
 
     if (sgMode)
@@ -1518,8 +1518,8 @@ void tailor_init(int sgMode)
     if (sgMode)
     {
         costume_baseColorsApplyToCostume(gSuperCostume, currentCostumeColors);
-        costume_SGColorsApplyToCostume(e, gSuperCostume, sgColors[SGColorIndex][0], sgColors[SGColorIndex][1], sgColors[SGColorIndex][2],
-            sgColors[SGColorIndex][3], sgColors[SGColorIndex][4], sgColors[SGColorIndex][5]);
+        costume_SGColorsApplyToCostume(e, gSuperCostume, sgColorsU[SGColorIndex][0], sgColorsU[SGColorIndex][1], sgColorsU[SGColorIndex][2],
+            sgColorsU[SGColorIndex][3], sgColorsU[SGColorIndex][4], sgColorsU[SGColorIndex][5]);
         costume_Apply(e);
     }
     else
