@@ -376,7 +376,7 @@ int convertAttribMods(Character *p, DBPowers *pdb)
         // If its pet thats not commandable or dismissable
         if( pmod->ptemplate->offAttrib == kSpecialAttrib_EntCreate && pmod->erCreated)
         {
-            const VillainDef* def = erGetEnt(pmod->erCreated)->villainDef;
+            const VillainDef* def = villainFindByName(pmod->ptemplate->pchEntityDef);
             if( !def || !def->canZone ) // check that its been explicitly allowed to zone
                 skip = 1;
             else
