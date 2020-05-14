@@ -967,10 +967,10 @@ const cCostume * costume_current_const( Entity * e )
     return costume_as_const(costume_current(e));
 }
 
-void costume_SGColorsExtract( Entity *e, Costume *costume, unsigned int *prim, unsigned int *sec, unsigned int *prim2, unsigned int *sec2, unsigned int *three, unsigned int *four )
+void costume_SGColorsExtract(Entity* e, Costume* costume, SGColorBits* primU, SGColorBits* secU, SGColorBits* prim2U, SGColorBits* sec2U, SGColorBits* threeU, SGColorBits* fourU)
 {
     int i, j;
-     unsigned int primary = 0, secondary = 0, primary2 = 0, secondary2 = 0, tertiary = 0, quaternary = 0;
+    SGColorBits primaryU = {0}, secondaryU = {0}, primary2U = {0}, secondary2U = {0}, tertiaryU = {0}, quaternaryU = {0};
 
     for( i = 0; i < costume->appearance.iNumParts && i < MAX_COSTUME_PARTS/2; i++ )
     {
@@ -980,18 +980,18 @@ void costume_SGColorsExtract( Entity *e, Costume *costume, unsigned int *prim, u
         Color c2 = colorFlip( COLOR_CAST(e->supergroup->colors[1]) );
 
         if( part->color[0].integer == c1.integer )
-            primary |= SGC_PRIMARY << (i*2);
+            primaryU.SGBitSet |= (U64)SGC_PRIMARY << (i*2);
         else if( part->color[0].integer == c2.integer )
-            primary |= SGC_SECONDARY << (i*2);
+            primaryU.SGBitSet |= (U64)SGC_SECONDARY << (i * 2);
         else
-            primary |= SGC_DEFAULT << (i*2);
+            primaryU.SGBitSet |= (U64)SGC_DEFAULT << (i * 2);
 
         if( part->color[1].integer == c1.integer )
-            secondary |= SGC_PRIMARY << (i*2);
+            secondaryU.SGBitSet |= (U64)SGC_PRIMARY << (i * 2);
         else if( part->color[1].integer == c2.integer )
-            secondary |= SGC_SECONDARY << (i*2);
+            secondaryU.SGBitSet |= (U64)SGC_SECONDARY << (i * 2);
         else
-            secondary |= SGC_DEFAULT << (i*2);
+            secondaryU.SGBitSet |= (U64)SGC_DEFAULT << (i * 2);
     }
 
     for( j = 0; i < costume->appearance.iNumParts; j++, i++ )
@@ -1002,40 +1002,40 @@ void costume_SGColorsExtract( Entity *e, Costume *costume, unsigned int *prim, u
         Color c2 = colorFlip( COLOR_CAST(e->supergroup->colors[1]) );
 
         if( part->color[0].integer == c1.integer )
-            primary2 |= SGC_PRIMARY << (j*2);
+            primary2U.SGBitSet |= (U64)SGC_PRIMARY << (j * 2);
         else if( part->color[0].integer == c2.integer )
-            primary2 |= SGC_SECONDARY << (j*2);
+            primary2U.SGBitSet |= (U64)SGC_SECONDARY << (j * 2);
         else
-            primary2 |= SGC_DEFAULT << (j*2);
+            primary2U.SGBitSet |= (U64)SGC_DEFAULT << (j * 2);
 
         if( part->color[1].integer == c1.integer )
-            secondary2 |= SGC_PRIMARY << (j*2);
+            secondary2U.SGBitSet |= (U64)SGC_PRIMARY << (j * 2);
         else if( part->color[1].integer == c2.integer )
-            secondary2 |= SGC_SECONDARY << (j*2);
+            secondary2U.SGBitSet |= (U64)SGC_SECONDARY << (j * 2);
         else
-            secondary2 |= SGC_DEFAULT << (j*2);
+            secondary2U.SGBitSet |= (U64)SGC_DEFAULT << (j * 2);
 
         if( part->color[2].integer == c1.integer )
-            tertiary |= SGC_PRIMARY << (j*2);
+            tertiaryU.SGBitSet |= (U64)SGC_PRIMARY << (j * 2);
         else if( part->color[2].integer == c2.integer )
-            tertiary |= SGC_SECONDARY << (j*2);
+            tertiaryU.SGBitSet |= (U64)SGC_SECONDARY << (j * 2);
         else
-            tertiary |= SGC_DEFAULT << (j*2);
+            tertiaryU.SGBitSet |= (U64)SGC_DEFAULT << (j * 2);
 
         if( part->color[3].integer == c1.integer )
-            quaternary |= SGC_PRIMARY << (j*2);
+            quaternaryU.SGBitSet |= (U64)SGC_PRIMARY << (j * 2);
         else if( part->color[3].integer == c2.integer )
-            quaternary |= SGC_SECONDARY << (j*2);
+            quaternaryU.SGBitSet |= (U64)SGC_SECONDARY << (j * 2);
         else
-            quaternary |= SGC_DEFAULT << (j*2);
+            quaternaryU.SGBitSet |= (U64)SGC_DEFAULT << (j * 2);
     }
 
-    *prim = primary;
-    *sec = secondary;
-    *prim2 = primary2;
-    *sec2 = secondary2;
-    *three = tertiary;
-    *four = quaternary;
+    *primU = primaryU;
+    *secU = secondaryU;
+    *prim2U = primary2U;
+    *sec2U = secondary2U;
+    *threeU = tertiaryU;
+    *fourU = quaternaryU;
 }
 
 // Extract colors from costume.  And, yes, that declaration of colorArray is correct.  Don't touch it.
@@ -1100,7 +1100,7 @@ void ExtractCostumeColorsForCompareinTailor( const cCostume *costume, unsigned i
     }
 }
 
-void costume_SGColorsApplyToCostume(Entity *e, Costume *costume, unsigned int prim, unsigned int sec, unsigned int prim2, unsigned int sec2, unsigned int three, unsigned int four)
+void costume_SGColorsApplyToCostume(Entity* e, Costume* costume, SGColorBits primU, SGColorBits secU, SGColorBits prim2U, SGColorBits sec2U, SGColorBits threeU, SGColorBits fourU)
 {
     int i;
 
@@ -1113,17 +1113,17 @@ void costume_SGColorsApplyToCostume(Entity *e, Costume *costume, unsigned int pr
 
         if( i < MAX_COSTUME_PARTS/2 )
         {
-            primary    = (prim >> i*2) & 3;
-            secondary  = (sec >> i*2 ) & 3;
+            primary    = (primU.SGBitSet >> i*2) & 3;
+            secondary  = (secU.SGBitSet >> i*2 ) & 3;
             tertiary   = SGC_DEFAULT;
             quaternary = SGC_DEFAULT;
         }
         else
         {
-            primary       = (prim2 >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
-            secondary  = (sec2 >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
-            tertiary   = (three >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
-            quaternary = (four >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
+            primary       = (prim2U.SGBitSet >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
+            secondary  = (sec2U.SGBitSet >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
+            tertiary   = (threeU.SGBitSet >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
+            quaternary = (fourU.SGBitSet >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
         }
 
         if( primary == SGC_PRIMARY )
@@ -1175,17 +1175,17 @@ void costume_SGColorsApply( Entity *e )
 
         if( i < MAX_COSTUME_PARTS/2 )
         {
-            primary    = (e->pl->superColorsPrimary >> i*2) & 3;
-            secondary  = (e->pl->superColorsSecondary >> i*2 ) & 3;
+            primary    = (e->pl->superColorsPrimaryU.SGBitSet >> i*2) & 3;
+            secondary  = (e->pl->superColorsSecondaryU.SGBitSet >> i*2 ) & 3;
             tertiary   = SGC_DEFAULT;
             quaternary = SGC_DEFAULT;
         }
         else
         {
-            primary    = (e->pl->superColorsPrimary2 >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
-            secondary  = (e->pl->superColorsSecondary2 >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
-            tertiary   = (e->pl->superColorsTertiary >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
-            quaternary = (e->pl->superColorsQuaternary >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
+            primary    = (e->pl->superColorsPrimary2U.SGBitSet >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
+            secondary  = (e->pl->superColorsSecondary2U.SGBitSet >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
+            tertiary   = (e->pl->superColorsTertiaryU.SGBitSet >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
+            quaternary = (e->pl->superColorsQuaternaryU.SGBitSet >> (i-MAX_COSTUME_PARTS/2)*2 ) & 3;
         }
 
         if( primary == SGC_PRIMARY )
@@ -1443,12 +1443,18 @@ int costume_receive(Packet *pak, Costume* costume)
 
     for (i = 0; i < NUM_SG_COLOR_SLOTS; i++)
     {
-        costume->appearance.superColorsPrimary[i] = pktGetBits(pak, 32);
-        costume->appearance.superColorsSecondary[i] = pktGetBits(pak, 32);
-        costume->appearance.superColorsPrimary2[i] = pktGetBits(pak, 32);
-        costume->appearance.superColorsSecondary2[i] = pktGetBits(pak, 32);
-        costume->appearance.superColorsTertiary[i] = pktGetBits(pak, 32);
-        costume->appearance.superColorsQuaternary[i] = pktGetBits(pak, 32);
+        costume->appearance.superColorsPrimaryU[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume->appearance.superColorsPrimaryU[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume->appearance.superColorsSecondaryU[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume->appearance.superColorsSecondaryU[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume->appearance.superColorsPrimary2U[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume->appearance.superColorsPrimary2U[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume->appearance.superColorsSecondary2U[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume->appearance.superColorsSecondary2U[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume->appearance.superColorsTertiaryU[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume->appearance.superColorsTertiaryU[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume->appearance.superColorsQuaternaryU[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume->appearance.superColorsQuaternaryU[i].SGBitSetHigh = pktGetBits(pak, 32);
     }
 
 
@@ -1542,12 +1548,18 @@ void costume_send(Packet* pak, Costume * costume, int send_names)
 
     for (i = 0; i < NUM_SG_COLOR_SLOTS; i++)
     {
-        pktSendBits(pak, 32, costume->appearance.superColorsPrimary[i]);
-        pktSendBits(pak, 32, costume->appearance.superColorsSecondary[i]);
-        pktSendBits(pak, 32, costume->appearance.superColorsPrimary2[i]);
-        pktSendBits(pak, 32, costume->appearance.superColorsSecondary2[i]);
-        pktSendBits(pak, 32, costume->appearance.superColorsTertiary[i]);
-        pktSendBits(pak, 32, costume->appearance.superColorsQuaternary[i]);
+        pktSendBits(pak, 32, costume->appearance.superColorsPrimaryU[i].SGBitSetLow);
+        pktSendBits(pak, 32, costume->appearance.superColorsPrimaryU[i].SGBitSetHigh);
+        pktSendBits(pak, 32, costume->appearance.superColorsSecondaryU[i].SGBitSetLow);
+        pktSendBits(pak, 32, costume->appearance.superColorsSecondaryU[i].SGBitSetHigh);
+        pktSendBits(pak, 32, costume->appearance.superColorsPrimary2U[i].SGBitSetLow);
+        pktSendBits(pak, 32, costume->appearance.superColorsPrimary2U[i].SGBitSetHigh);
+        pktSendBits(pak, 32, costume->appearance.superColorsSecondary2U[i].SGBitSetLow);
+        pktSendBits(pak, 32, costume->appearance.superColorsSecondary2U[i].SGBitSetHigh);
+        pktSendBits(pak, 32, costume->appearance.superColorsTertiaryU[i].SGBitSetLow);
+        pktSendBits(pak, 32, costume->appearance.superColorsTertiaryU[i].SGBitSetHigh);
+        pktSendBits(pak, 32, costume->appearance.superColorsQuaternaryU[i].SGBitSetLow);
+        pktSendBits(pak, 32, costume->appearance.superColorsQuaternaryU[i].SGBitSetHigh);
     }
 
     for(i=0;i<MAX_BODY_SCALES;i++) {
@@ -3194,12 +3206,12 @@ void costume_applyTailorChanges(Entity *e, int genderChange, Costume *costume)
     {
         for (i = 0; i < NUM_SG_COLOR_SLOTS; i++)
         {
-            costume->appearance.superColorsPrimary[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsPrimary[i];
-            costume->appearance.superColorsSecondary[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsSecondary[i];
-            costume->appearance.superColorsPrimary2[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsPrimary2[i];
-            costume->appearance.superColorsSecondary2[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsSecondary2[i];
-            costume->appearance.superColorsTertiary[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsTertiary[i];
-            costume->appearance.superColorsQuaternary[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsQuaternary[i];
+            costume->appearance.superColorsPrimaryU[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsPrimaryU[i];
+            costume->appearance.superColorsSecondaryU[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsSecondaryU[i];
+            costume->appearance.superColorsPrimary2U[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsPrimary2U[i];
+            costume->appearance.superColorsSecondary2U[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsSecondary2U[i];
+            costume->appearance.superColorsTertiaryU[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsTertiaryU[i];
+            costume->appearance.superColorsQuaternaryU[i] = e->pl->costume[e->pl->current_costume]->appearance.superColorsQuaternaryU[i];
         }
         costume->appearance.currentSuperColorSet = e->pl->costume[e->pl->current_costume]->appearance.currentSuperColorSet;
 
@@ -3301,12 +3313,18 @@ void costume_sendSGColors(Entity *e)
         pktSendBits(pak, 5, costume->appearance.currentSuperColorSet);
         for (i = 0; i < NUM_SG_COLOR_SLOTS; i++)
         {
-            pktSendBits(pak, 32, costume->appearance.superColorsPrimary[i]);
-            pktSendBits(pak, 32, costume->appearance.superColorsSecondary[i]);
-            pktSendBits(pak, 32, costume->appearance.superColorsPrimary2[i]);
-            pktSendBits(pak, 32, costume->appearance.superColorsSecondary2[i]);
-            pktSendBits(pak, 32, costume->appearance.superColorsTertiary[i]);
-            pktSendBits(pak, 32, costume->appearance.superColorsQuaternary[i]);
+            pktSendBits(pak, 32, costume->appearance.superColorsPrimaryU[i].SGBitSetLow);
+            pktSendBits(pak, 32, costume->appearance.superColorsPrimaryU[i].SGBitSetHigh);
+            pktSendBits(pak, 32, costume->appearance.superColorsSecondaryU[i].SGBitSetLow);
+            pktSendBits(pak, 32, costume->appearance.superColorsSecondaryU[i].SGBitSetHigh);
+            pktSendBits(pak, 32, costume->appearance.superColorsPrimary2U[i].SGBitSetLow);
+            pktSendBits(pak, 32, costume->appearance.superColorsPrimary2U[i].SGBitSetHigh);
+            pktSendBits(pak, 32, costume->appearance.superColorsSecondary2U[i].SGBitSetLow);
+            pktSendBits(pak, 32, costume->appearance.superColorsSecondary2U[i].SGBitSetHigh);
+            pktSendBits(pak, 32, costume->appearance.superColorsTertiaryU[i].SGBitSetLow);
+            pktSendBits(pak, 32, costume->appearance.superColorsTertiaryU[i].SGBitSetHigh);
+            pktSendBits(pak, 32, costume->appearance.superColorsQuaternaryU[i].SGBitSetLow);
+            pktSendBits(pak, 32, costume->appearance.superColorsQuaternaryU[i].SGBitSetHigh);
         }
         END_PACKET
     }
@@ -3349,23 +3367,29 @@ void receiveSGColorData(Packet *pak)
     costume2->appearance.currentSuperColorSet = costume->appearance.currentSuperColorSet = pktGetBits(pak, 5);
     for (i = 0; i < NUM_SG_COLOR_SLOTS; i++)
     {
-        costume2->appearance.superColorsPrimary[i] = costume->appearance.superColorsPrimary[i] = pktGetBits(pak, 32);
-        costume2->appearance.superColorsSecondary[i] = costume->appearance.superColorsSecondary[i] = pktGetBits(pak, 32);
-        costume2->appearance.superColorsPrimary2[i] = costume->appearance.superColorsPrimary2[i] = pktGetBits(pak, 32);
-        costume2->appearance.superColorsSecondary2[i] = costume->appearance.superColorsSecondary2[i] = pktGetBits(pak, 32);
-        costume2->appearance.superColorsTertiary[i] = costume->appearance.superColorsTertiary[i] = pktGetBits(pak, 32);
-        costume2->appearance.superColorsQuaternary[i] = costume->appearance.superColorsQuaternary[i] = pktGetBits(pak, 32);
-        if ((costume->appearance.superColorsPrimary[i] | costume->appearance.superColorsSecondary[i] |
-            costume->appearance.superColorsPrimary2[i] | costume->appearance.superColorsSecondary2[i] |
-            costume->appearance.superColorsTertiary[i] | costume->appearance.superColorsQuaternary[i]) == 0)
+        costume2->appearance.superColorsPrimaryU[i].SGBitSetLow = costume->appearance.superColorsPrimaryU[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume2->appearance.superColorsPrimaryU[i].SGBitSetHigh = costume->appearance.superColorsPrimaryU[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume2->appearance.superColorsSecondaryU[i].SGBitSetLow = costume->appearance.superColorsSecondaryU[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume2->appearance.superColorsSecondaryU[i].SGBitSetHigh = costume->appearance.superColorsSecondaryU[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume2->appearance.superColorsPrimary2U[i].SGBitSetLow = costume->appearance.superColorsPrimary2U[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume2->appearance.superColorsPrimary2U[i].SGBitSetHigh = costume->appearance.superColorsPrimary2U[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume2->appearance.superColorsSecondary2U[i].SGBitSetLow = costume->appearance.superColorsSecondary2U[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume2->appearance.superColorsSecondary2U[i].SGBitSetHigh = costume->appearance.superColorsSecondary2U[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume2->appearance.superColorsTertiaryU[i].SGBitSetLow = costume->appearance.superColorsTertiaryU[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume2->appearance.superColorsTertiaryU[i].SGBitSetHigh = costume->appearance.superColorsTertiaryU[i].SGBitSetHigh = pktGetBits(pak, 32);
+        costume2->appearance.superColorsQuaternaryU[i].SGBitSetLow = costume->appearance.superColorsQuaternaryU[i].SGBitSetLow = pktGetBits(pak, 32);
+        costume2->appearance.superColorsQuaternaryU[i].SGBitSetHigh = costume->appearance.superColorsQuaternaryU[i].SGBitSetHigh = pktGetBits(pak, 32);
+        if ((costume->appearance.superColorsPrimaryU[i].SGBitSet | costume->appearance.superColorsSecondaryU[i].SGBitSet |
+            costume->appearance.superColorsPrimary2U[i].SGBitSet | costume->appearance.superColorsSecondary2U[i].SGBitSet |
+            costume->appearance.superColorsTertiaryU[i].SGBitSet | costume->appearance.superColorsQuaternaryU[i].SGBitSet) == 0)
         {
             // 0x55555555 is a sane default initialization value.  Don't change unless you really know what you're doing
-            costume2->appearance.superColorsPrimary[i] = costume->appearance.superColorsPrimary[i] = 0x55555555;
-            costume2->appearance.superColorsSecondary[i] = costume->appearance.superColorsSecondary[i] = 0x55555555;
-            costume2->appearance.superColorsPrimary2[i] = costume->appearance.superColorsPrimary2[i] = 0x55555555;
-            costume2->appearance.superColorsSecondary2[i] = costume->appearance.superColorsSecondary2[i] = 0x55555555;
-            costume2->appearance.superColorsTertiary[i] = costume->appearance.superColorsTertiary[i] = 0x55555555;
-            costume2->appearance.superColorsQuaternary[i] = costume->appearance.superColorsQuaternary[i] = 0x55555555;
+            costume2->appearance.superColorsPrimaryU[i].SGBitSet = costume->appearance.superColorsPrimaryU[i].SGBitSet = 0x5555555555555555uLL;
+            costume2->appearance.superColorsSecondaryU[i].SGBitSet = costume->appearance.superColorsSecondaryU[i].SGBitSet = 0x5555555555555555uLL;
+            costume2->appearance.superColorsPrimary2U[i].SGBitSet = costume->appearance.superColorsPrimary2U[i].SGBitSet = 0x5555555555555555uLL;
+            costume2->appearance.superColorsSecondary2U[i].SGBitSet = costume->appearance.superColorsSecondary2U[i].SGBitSet = 0x5555555555555555uLL;
+            costume2->appearance.superColorsTertiaryU[i].SGBitSet = costume->appearance.superColorsTertiaryU[i].SGBitSet = 0x5555555555555555uLL;
+            costume2->appearance.superColorsQuaternaryU[i].SGBitSet = costume->appearance.superColorsQuaternaryU[i].SGBitSet = 0x5555555555555555uLL;
         }
     }
 #ifndef TEST_CLIENT

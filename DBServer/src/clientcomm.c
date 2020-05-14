@@ -611,7 +611,6 @@ static void sendAppearance(Packet * pak, int container_id, int currentCostume)
 }
 
 
-// BW - WTF is this for? we already have MAX_COSTUME_PARTS, why use another magic number here???
 #define TOTAL_COSTUME_PARTS (MAX_COSTUME_PARTS)
 static void handleSqlCostumeCallback(Packet *pak,U8 *costume,int col_count,ColumnInfo **field_ptrs,void *data)
 {
