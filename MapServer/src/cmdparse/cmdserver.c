@@ -2124,6 +2124,8 @@ Cmd server_cmds[] =
         "sets the noKick flag on player" },
     { 9, "idle_exit_timeout",    0, {{CMDINT(server_state.idle_exit_timeout)}},0,
         "shutdown the server if it is idle for this many minutes, 0 means there is no idle exit timeout" },
+    { 9, "client_logout_time",    0, {{CMDINT(server_state.client_logout_time)}},0,
+        "timeout in seconds for for the disconnect countdown when players are logging out" },
     { 9, "flashback_left_reward_apply",    SCMD_FLASHBACK_LEFT_REWARD_APPLY, {{CMDINT(tmp_int)}, CMDINT(tmp_int2)}, 0,
         "Tell the specified player to reward himself FlashbackLeft from the specified story arc." },
     { 9, "debug_set_vip",    SCMD_DEBUG_SET_VIP, {{CMDINT(tmp_int)}}, 0,
@@ -2174,6 +2176,7 @@ void cmdOldServerStateInit()
     server_state.aeinfluencescale = 1.0;
     server_state.aeprestigescale = 1.0;
     server_state.ticketscale = 1.0;
+    server_state.client_logout_time = 30;
     server_state.aggrocap = 17;
     server_state.targetcapmode = 1;
     server_visible_state.time = 0;

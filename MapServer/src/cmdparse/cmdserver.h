@@ -177,7 +177,9 @@ typedef struct ServerState
 
     char**    blockedMapKeys;
 
-    int accountCertificationTestStage; 
+    int accountCertificationTestStage;
+
+    int client_logout_time;
 
     U32        idle_exit_timeout;                            // shutdown the server if it is idle for this many minutes, 0 means there is no idle exit
     U32        maintenance_idle;                            // idle minutes before performing periodic minor idle maintenance, 0 means there is no idle maintenance
