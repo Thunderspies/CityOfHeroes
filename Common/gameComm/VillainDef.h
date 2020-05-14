@@ -84,8 +84,7 @@ typedef enum VillainDoppelFlags
     VDF_RANDOMPOWER = 1 << 9,
     VDF_GHOST = 1 << 10,
     VDF_NOPOWERS = 1 << 11,
-    VDF_COMMAND = 1 << 12,
-    VDF_COUNT = 1 << 13, // this isn't really a count...
+    VDF_COUNT = 1 << 12, // this isn't really a count...
 }VillainDoppelFlags;
 extern StaticDefineInt ParseVillainDoppelFlags[];
 
