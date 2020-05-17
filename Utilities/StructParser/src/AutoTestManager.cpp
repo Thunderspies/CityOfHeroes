@@ -18,6 +18,7 @@ AutoTestManager::AutoTestManager()
     m_bSomethingChanged = false;
     m_iNumAutoTests = 0;
     m_AutoTestFileName[0] = 0;
+    m_pMostRecentGroup = NULL;
 }
 
 AutoTestManager::~AutoTestManager()

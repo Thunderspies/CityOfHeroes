@@ -20,7 +20,7 @@
 #include "graphics/textureatlas.h"
 
 EditListView * newELV(int x,int y,int width,int height) {
-    EditListView * lv = (EditListView *)malloc(sizeof(EditListView));
+    EditListView * lv = (EditListView *)calloc(1, sizeof(EditListView));
     int i;
     lv->x=x;
     lv->y=y;

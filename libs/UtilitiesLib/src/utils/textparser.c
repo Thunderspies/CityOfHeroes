@@ -6833,7 +6833,7 @@ bool fixedarray_fromsimple(ParseTable tpi[], int column, void* structptr, int in
     int i, numelems = tpi[column].param;
     char* param = calloc(strlen(str)+1, 1);
     char *next;
-    char *strtokcontext;
+    char *strtokcontext = NULL;
 
     strcpy_s(param, strlen(str)+1, str);
     next = strtok_s(param, ",", &strtokcontext);
@@ -7207,7 +7207,7 @@ bool earray_fromsimple(ParseTable tpi[], int column, void* structptr, int index,
     int e, i = 0;
     char* param = calloc(strlen(str)+1, 1);
     char *next;
-    char *strtokcontext;
+    char *strtokcontext = NULL;
 
     strcpy_s(param, strlen(str)+1, str);
     next = strtok_s(str, ",", &strtokcontext);

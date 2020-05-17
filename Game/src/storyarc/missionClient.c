@@ -31,17 +31,17 @@ char* MissionAddTimer(char* str, TaskStatus* task, int testwidth)
         return str;
 
     strncpy(buf, str, 1000);
-    strncat(buf, " - ", 1000);
+    strncat(buf, " - ", 1000 - strlen(buf));
     if (testwidth)
     {
-        strncat(buf, "000:00", 1000);
+        strncat(buf, "000:00", 1000 - strlen(buf));
     }
     else
     {
         char remainstr[100];
         if (remaining < 0) remaining = 0;
         timerMakeOffsetStringFromSeconds(remainstr, remaining);
-        strncat(buf, remainstr, 1000);
+        strncat(buf, remainstr, 1000 - strlen(buf));
     }
     buf[999] = 0;
     return buf;

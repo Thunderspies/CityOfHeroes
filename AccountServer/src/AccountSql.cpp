@@ -276,7 +276,7 @@ static bool asql_execute_procedure(SqlConn conn, asql_stored_proc proc) {
     HSTMT stmt = as.conn[conn].proc[proc];
     SQLRETURN ret = 0;
     unsigned i;
-    char sql_state[SQL_SQLSTATE_SIZE+1];
+    char sql_state[SQL_SQLSTATE_SIZE+1] = {0};
 
     for (i=0; i<ASQL_MAX_RETRIES; i++) {
         ret = _sqlConnStmtExecute(stmt, conn);

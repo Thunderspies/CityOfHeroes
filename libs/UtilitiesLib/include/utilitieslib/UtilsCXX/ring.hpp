@@ -21,7 +21,7 @@ public:
     unsigned long m_size;
 
 public:
-    PointerRingBase() : m_base(NULL) {}
+    PointerRingBase() : m_base(NULL), m_read(0), m_write(0), m_size(0) {}
 
     void set_buffer(void ** buf, size_t size) {
         assert(!m_base);

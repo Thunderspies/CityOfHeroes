@@ -767,7 +767,7 @@ static int aiFindLimiterVolumesCallBack(GroupDef * def, Mat4 parent_mat)
 {
     if(groupDefFindProperty(def, "PathLimitedVolume"))
     {
-        PathLimitedVolume* vol = (PathLimitedVolume*)malloc(sizeof(PathLimitedVolume));
+        PathLimitedVolume* vol = (PathLimitedVolume*)calloc(1, sizeof(PathLimitedVolume));
         addVec3(parent_mat[3], def->min, vol->min);
         vecY(vol->min) -= 0.5; // to avoid small offset problems with spawned guys
         addVec3(parent_mat[3], def->max, vol->max);

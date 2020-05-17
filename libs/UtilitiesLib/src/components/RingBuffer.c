@@ -69,7 +69,7 @@ U8 *ringBufferAlloc(RingBuffer *rb, size_t len)
     }
     assert(tooLarge == !ret);
     if (!ret) {
-        ret = malloc(len);
+        ret = calloc(len, 1);
         rb->numMallocs++;
     }
     rb->numAllocations++;

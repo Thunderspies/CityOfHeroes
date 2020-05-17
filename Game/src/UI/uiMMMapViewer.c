@@ -210,11 +210,11 @@ static void mmmapviewer_drawPictures(MMMapViewer * mv, float x, float y, float z
     int a, b;    //the element ids being displayed
     float tx;
 
-
-    if(!mv || !mv->map)
+    int numFloors = eaSize(&mv->map->mapFloors);
+    if(!mv || !mv->map || !numFloors)
         return;
 
-    element = mv->currChoice%eaSize(&mv->map->mapFloors);
+    element = mv->currChoice % numFloors;
     if(element == eaSize(&mv->map->mapFloors))
         return;    //this means we're empty.
 

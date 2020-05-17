@@ -1525,7 +1525,7 @@ U8 * getThePixelBuffer( SeqInst * seq, Vec3 headshotCameraPos, F32 headShotFovMa
     {
         U8 * invertedPixBuf;
 
-        invertedPixBuf = malloc( sizeOfPictureX * sizeOfPictureY * 4 );
+        invertedPixBuf = calloc(sizeOfPictureX * sizeOfPictureY * 4, 1);
 
         for( i = 0 ; i < sizeOfPictureY ; i++ )
         {

@@ -529,7 +529,7 @@ INLINEDBG int sqlConnStmtExecDirect(HSTMT stmt, char const* str, int str_len, Sq
 
     for (;;) {
         U32 now;
-        char sql_state[SQL_SQLSTATE_SIZE + 1];
+        char sql_state[SQL_SQLSTATE_SIZE + 1] = {0};
 
         if (utf8)
             ret = _sqlConnStmtExecDirectUtf8(stmt, str, str_len, conn);

@@ -290,7 +290,7 @@ ContextMenu *interactSimplePet = 0;
 
 static void interactTray_addCode( InteractTray *tray, int(*visible)(void*), void *visData, void (*code)(void*), void *codeData, char *txt)
 {
-    ActionButton *action = malloc(sizeof(ActionButton));
+    ActionButton *action = calloc(1, sizeof(ActionButton));
     action->txt = malloc(sizeof(char)*128);
     strcpy(action->txt, txt);
     action->code = code;

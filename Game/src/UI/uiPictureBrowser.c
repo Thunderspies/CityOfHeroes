@@ -696,7 +696,10 @@ void picturebrowser_setPlay(PictureBrowser *pb, int play)
 
 void picturebrowser_setCostumeVariation(PictureBrowser *pb, int index)
 {
-    int id = pb->currentCostume = index %eaiSize(&pb->costumeChanges);
+    int numChanges = eaiSize(&pb->costumeChanges);
+    if (!numChanges)
+        return;
+    int id = pb->currentCostume = index % numChanges;
     AtlasTex *update = 0;
     const cCostume *c= npcDefsGetCostume(eaiGet(&pb->costumeChanges, id), 0);
 

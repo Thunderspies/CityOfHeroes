@@ -317,7 +317,7 @@ static void smf_CompileSelectionString(SMBlock *pBlock, int iXBase, int iYBase, 
             unsigned int pBlockEarlyCharacterIndex = pBlock->displayStringStartIndex;
             unsigned int pBlockLateCharacterIndex = pBlock->displayStringStartIndex + (rawText ? strlen(rawText) : 0);
             unsigned int rawLength = strlen(rawText);
-            char *finalText = (char *) malloc(sizeof(char) * (rawLength + 1));
+            char *finalText = (char *) calloc((rawLength + 1), sizeof(char));
             unsigned int selectionEarlyCharacterIndex, selectionLateCharacterIndex;
             SMFBlock *selectionEarlyPane, *selectionLatePane;
             unsigned int finalEarlyCharacterIndex, finalLateCharacterIndex;

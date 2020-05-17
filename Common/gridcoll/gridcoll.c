@@ -424,7 +424,7 @@ int collGrid(Grid *grid,const Vec3 start,const Vec3 end,CollInfo *coll,F32 radiu
         grid = &obj_grid;
 
     if (!curr_obj_list)
-        curr_obj_list = malloc(256*sizeof(curr_obj_list[0]));
+        curr_obj_list = calloc(256, sizeof(curr_obj_list[0]));
 
     copyVec3(start,params.start);
     copyVec3(end,params.end);

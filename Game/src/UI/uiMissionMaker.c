@@ -362,7 +362,7 @@ void compressArcPCCCostumes(PlayerCreatedStoryArc *pArc)
             differenceChart = malloc(sizeof(int*)*eaSize(&pArc->ppCustomCritters));
             for (i =0; i < eaSize(&pArc->ppCustomCritters); ++i)
             {
-                differenceChart[i] = malloc(sizeof(int)*eaSize(&pArc->ppCustomCritters));
+                differenceChart[i] = calloc(eaSize(&pArc->ppCustomCritters), sizeof(int));
             }
             eaiCreate(&selectedCostumes);
             selectBaseCostumes(pArc, differenceChart, &selectedCostumes);

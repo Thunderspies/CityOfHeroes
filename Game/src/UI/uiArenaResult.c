@@ -194,7 +194,7 @@ void arenaRebuildResultView(ArenaRankingTable * ranking)
         int i;
         for( i = 0; i<eaSize(&ranking->entries); i++ )
         {
-            ArenaRankingTableEntry * ars=(ArenaRankingTableEntry*)malloc(sizeof(ArenaRankingTableEntry));
+            ArenaRankingTableEntry * ars=(ArenaRankingTableEntry*)calloc(1, sizeof(ArenaRankingTableEntry));
             memcpy(ars,ranking->entries[i],sizeof(ArenaRankingTableEntry));
             ars->playername=strdup(ranking->entries[i]->playername);
             // Add all items into the list
@@ -215,7 +215,7 @@ void arenaRebuildResultView(ArenaRankingTable * ranking)
 
             while (eaSize(&arsArray) < ranking->entries[i]->side)
             {
-                ars = (ArenaRankingTableEntry*) malloc(sizeof(ArenaRankingTableEntry));
+                ars = (ArenaRankingTableEntry*) calloc(1, sizeof(ArenaRankingTableEntry));
                 ars->rank = 0; // copy this out of entries
                 ars->playername = strdup(getTeamString(eaSize(&arsArray) + 1));
                 ars->dbid = 0; // do I care about this?

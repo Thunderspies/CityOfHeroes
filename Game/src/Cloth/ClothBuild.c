@@ -452,7 +452,7 @@ int ClothBuildGridFromTriList(Cloth *cloth,
     Vec3 *newpoints;
     F32 *newmasses;
     
-    ConnectInfo *connections = CLOTH_MALLOC(ConnectInfo, npoints);
+    ConnectInfo *connections = CLOTH_CALLOC(ConnectInfo, npoints);
 
     // Create Connection Info
     for (i=0; i<npoints; i++)
@@ -484,7 +484,7 @@ int ClothBuildGridFromTriList(Cloth *cloth,
     }
         
     // Order grid
-    neworder = CLOTH_MALLOC(int, npoints);
+    neworder = CLOTH_CALLOC(int, npoints);
 
     width = order_grid(connections, npoints, neworder);
     CLOTH_FREE(connections);
@@ -672,7 +672,7 @@ int ClothBuildAttachHarness(Cloth *cloth, int hooknum, Vec3 *hooks)
             eyenum++;
     //////////////////////////////////////////////////
     
-    hooklist = CLOTH_MALLOC(HookInfo, hooknum);
+    hooklist = CLOTH_CALLOC(HookInfo, hooknum);
     for (i=0, h=0; h<eyenum && i<hooknum; i++)
     {
         int j;

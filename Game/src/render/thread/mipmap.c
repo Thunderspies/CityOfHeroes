@@ -112,13 +112,13 @@ default:
     glGetIntegerv( GL_PACK_SKIP_PIXELS, &packskippixels );
 
     /* Allocate storage for intermediate images */
-    tempin = (GLfloat *) malloc( widthin * heightin
-        * components * sizeof(GLfloat) );
+    tempin = (GLfloat *) calloc( widthin * heightin
+        * components, sizeof(GLfloat));
     if (!tempin) {
         return GLU_OUT_OF_MEMORY;
     }
-    tempout = (GLfloat *) malloc( widthout * heightout
-        * components * sizeof(GLfloat) );
+    tempout = (GLfloat *) calloc( widthout * heightout
+        * components, sizeof(GLfloat));
     if (!tempout) {
         free( tempin );
         return GLU_OUT_OF_MEMORY;
@@ -625,7 +625,7 @@ GLint COH_Build2DMipmapsSRC(GLenum target, GLenum dst_format,
 
     if (w!=width || h!=height) {
         /* must rescale image to get "top" mipmap texture image */
-        image = malloc( (w+4) * h * bpp );
+        image = calloc((w+4) * h * bpp, 1);
         if (!image) {
             return GLU_OUT_OF_MEMORY;
         }
@@ -647,7 +647,7 @@ GLint COH_Build2DMipmapsSRC(GLenum target, GLenum dst_format,
 
         neww = (w<2) ? 1 : w/2;
         newh = (h<2) ? 1 : h/2;
-        newimage = malloc( (neww+4) * newh * bpp );
+        newimage = calloc((neww+4) * newh * bpp, 1);
         if (!newimage) {
             return GLU_OUT_OF_MEMORY;
         }

@@ -384,7 +384,7 @@ void pbufMakeCurrentDirect(PBuffer *pbuf)
         }
         else
         {
-            pbuf->fog_context = malloc(sizeof(FogContext));
+            pbuf->fog_context = calloc(1, sizeof(FogContext));
             WCW_InitFogContext(pbuf->fog_context);
         }
         if (pbuf->num_aux_buffers) {
@@ -400,7 +400,7 @@ void pbufMakeCurrentDirect(PBuffer *pbuf)
         }
         else
         {
-            pbuf->fog_context = malloc(sizeof(FogContext));
+            pbuf->fog_context = calloc(1, sizeof(FogContext));
             WCW_InitFogContext(pbuf->fog_context);
         }
     }
@@ -686,7 +686,7 @@ static bool pbufInitInternal(RdrPbufParams *params)
         // Fake PBuffer or FBO
         const FogContext *orgFogContext = WCW_GetFogContext();
 
-        pbuf->fog_context = malloc(sizeof(FogContext));
+        pbuf->fog_context = calloc(1, sizeof(FogContext));
         WCW_InitFogContext(pbuf->fog_context);
 
         // Calling WCW_InitFogContext() above also sets the current fog context

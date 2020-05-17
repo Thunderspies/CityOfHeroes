@@ -111,7 +111,7 @@ ClothMesh *ClothLODGetMesh(ClothLOD *lod, int sublod)
 ClothObject *ClothObjectCreate()
 {
     int i;
-    ClothObject *obj = CLOTH_MALLOC(ClothObject, 1);
+    ClothObject *obj = CLOTH_CALLOC(ClothObject, 1);
     obj->NumLODs = 0;
     obj->LODs = 0;
     obj->CurLOD = 0;

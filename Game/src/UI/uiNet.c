@@ -2956,6 +2956,7 @@ void ScriptUIReceiveUpdate(Packet* pak)
                 ScriptUIUpdate* update = malloc(sizeof(ScriptUIUpdate));
                 update->widgetId = widgetId;
                 update->index = index;
+                update->hidden = hidden;
                 update->var = strdup(var);
                 update->packetID = pak->id;
                 eaPush(&scriptUIUpdates, update);

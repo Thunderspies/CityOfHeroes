@@ -729,7 +729,7 @@ static FrameSet * getFrameSet( FrameStyle style, int size, int radius, TabDir di
         char *pchStyle;
         int start;
 
-        pFrameSet = (FrameSet *)malloc(sizeof(FrameSet));
+        pFrameSet = (FrameSet *)calloc(1, sizeof(FrameSet));
         eaPush(&s_ppFrameSets, pFrameSet);
 
         pFrameSet->style = style;

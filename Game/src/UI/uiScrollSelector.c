@@ -136,7 +136,7 @@ static ScrollSelector * matchSS( const void * parent, int type )
 static void addScrollElement( ScrollSelector *ss, int idx, const char * name, int coh, int cov, int dev, int legacy, int key, int masked, 
                                 int invalid, int architect, int store, char * color )
 {
-    ScrollElement * se = malloc(sizeof(ScrollElement));
+    ScrollElement * se = calloc(1, sizeof(ScrollElement));
     se->idx = idx;
     se->displayName = name;
 

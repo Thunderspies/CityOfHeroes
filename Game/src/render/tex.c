@@ -1237,7 +1237,7 @@ int texFillInBind(char *filename, BasicTexture *bind) {
     #define MAX_HEADER_SIZE 1024 // largest texture header we expect to run across (fyi largest so far is 570 as of 1/13/11)
 
     if (!extradata) {
-        extradata = malloc(MAX_HEADER_SIZE);
+        extradata = calloc(1, MAX_HEADER_SIZE);
     }
 
     bind->flags &= ~(TEX_ALPHA|TEX_BUMPMAP|TEX_TGA|TEX_DDS|TEX_JPEG); // clear flags set in this function

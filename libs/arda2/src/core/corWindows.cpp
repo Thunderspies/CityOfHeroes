@@ -47,6 +47,7 @@ void corOutputDebugString(const WCHAR* format, ...)
   // print to the temporary buffer
   _vsnwprintf(tmp, sizeof(tmp), format, args);
   va_end(args);
+  tmp[512 - 1] = 0;
   // finally output it
 #if CORE_SYSTEM_WINAPI
   OutputDebugStringW(tmp);

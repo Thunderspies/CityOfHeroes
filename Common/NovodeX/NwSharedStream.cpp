@@ -21,7 +21,7 @@ NwSharedStream::NwSharedStream(const char* streamName, bool load)
     {
         // 1 k for now...
         uiBufferSize = 1024;
-        pTempBuffer = (NxU8*)malloc(uiBufferSize);
+        pTempBuffer = (NxU8*)calloc(uiBufferSize, 1);
     }
 
     pCursor = pTempBuffer;

@@ -665,7 +665,7 @@ typedef struct RedeemedCounts
 
 MP_DEFINE(RedeemedCounts);
 
-static RedeemedCounts **ppWaitingForCounts;
+static RedeemedCounts **ppWaitingForCounts = NULL;
 static StashTable stWaitingForCounts;
 
 static void gatherRedeemedSlotTokenCounts(Account *account, NetLink *link, int message_dbid)
@@ -687,7 +687,7 @@ static void gatherRedeemedSlotTokenCounts(Account *account, NetLink *link, int m
     }
     eaPush(&ppWaitingForCounts,client);
 
-    client->redeemed_token_counts = static_cast<int*>(malloc(state->shard_count*sizeof(int)));
+    client->redeemed_token_counts = static_cast<int*>(calloc(state->shard_count, sizeof(int)));
     client->requested = timerSecondsSince2000();
     client->account = account;
     client->link = link;

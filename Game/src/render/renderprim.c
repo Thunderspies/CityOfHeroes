@@ -319,12 +319,12 @@ void *rdrGetTex(int texid, int *width, int *height, int get_color, int get_alpha
     get.texid = texid;
     if (floating_point)
     {
-        get.data = malloc(w * h * bpp * sizeof(float));
+        get.data = calloc(w * h * bpp, sizeof(float));
         get.pixeltype = GL_FLOAT;
     }
     else
     {
-        get.data = malloc(w * h * bpp * sizeof(U8));
+        get.data = calloc(w * h * bpp, sizeof(U8));
         get.pixeltype = GL_UNSIGNED_BYTE;
     }
 

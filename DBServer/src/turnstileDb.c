@@ -76,7 +76,7 @@ static void turnstileDBserver_handleRegister(Packet *pak_in, NetLink *link)
         serverPort = pktGetBitsAuto(pak_in);
 
         // Allocate memory for structures
-        dbserver = malloc(sizeof(DBServerCfg));
+        dbserver = calloc(1, sizeof(DBServerCfg));
 
         // I suppose I could directly strdup the output from the pktGetString(...) calls ...
         serverNamePtr = strdup(serverName);

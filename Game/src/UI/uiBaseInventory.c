@@ -122,7 +122,7 @@ static SMFsave * findOrAddSMF( const char * str_ptr, const char * text, float sc
     }
 
     // no dice, add it to list
-    new_smf = malloc(sizeof(SMFsave));
+    new_smf = calloc(1, sizeof(SMFsave));
     new_smf->str_ptr = str_ptr;
     new_smf->smf = smfBlock_Create();
     smf_ParseAndFormat(new_smf->smf, textStd(text), 0, 0, 0,(ITEM_WD-2*PIX3)*sc, 1000, false, true, false, &gTextAttr_White12, 0 );

@@ -227,7 +227,7 @@ void LoadProfanity(void)
     char *s;
     char *walk;
     int locale;
-    char *context;
+    char *context = NULL;
 
     if(!s_hashFilth)
     {

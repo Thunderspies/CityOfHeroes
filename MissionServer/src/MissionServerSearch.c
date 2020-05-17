@@ -543,7 +543,7 @@ int missionserver_makeSpaceInCache(S64 memory)
 void missionserversearch_InitializeSearchCache()
 {
     //unsigned long s_memory_total, s_memory_used;
-    unsigned long mem_available = 0, temp_total;
+    unsigned long long mem_available = 0, temp_total;
     S64 mem_current_used;
     getPhysicalMemory(&temp_total, &mem_available);
     s_memory_total =(S64)temp_total;
@@ -2006,7 +2006,7 @@ static int s_searchByTypeSwitch(MissionServerSearchType type, MissionSearchParam
     int empty = !eaiSize(arcids);
     int found = 0;
     static int *results = 0;
-    MissionServerSearchCombine combine;
+    MissionServerSearchCombine combine = MSSEARCH_COMBINE_OR;
 
     if(type ==MSSEARCH_VILLAIN_GROUPS)
         return 0;    //villain groups are handled with text.

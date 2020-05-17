@@ -8,7 +8,7 @@
 
 PipeClient PipeClientCreate(const char *pipe_name, const char *pipe_server) {
     char full_pipe_name[MAX_PATH];
-    PipeClient pc = malloc(sizeof(PipeClient_t));
+    PipeClient pc = calloc(1, sizeof(PipeClient_t));
     DWORD dwMode;
     BOOL fSuccess;
 

@@ -875,7 +875,7 @@ void trackerTextCallback(int start,int end,char ** text,int * colors,int * max,v
     int i;
     if (lineNums!=NULL)
         free(lineNums);
-    lineNums=(int *)malloc(sel_count*sizeof(int));
+    lineNums=(int *)calloc(sel_count, sizeof(int));
     numLinesSelected=0;
 
     //set up the hash table

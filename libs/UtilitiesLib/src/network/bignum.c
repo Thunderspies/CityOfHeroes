@@ -38,7 +38,7 @@ static BigNum *BigNum_Create(int data_len)
     if( res )
     {
         res->data_len = data_len;
-        res->data = malloc(res->data_len*sizeof(*res->data));
+        res->data = calloc(res->data_len, sizeof(*res->data));
     }
     return res;
 }

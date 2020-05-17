@@ -181,6 +181,7 @@ void OpenStoreExternal(Entity* merchant, Entity* client, const char *name)
             store = malloc(sizeof(MultiStore));
 
             store->iCnt = 1;
+            store->idNPC = 0;
 
             eaCreate(&store->ppchStores);
             eaPush(&store->ppchStores, strdup(name));

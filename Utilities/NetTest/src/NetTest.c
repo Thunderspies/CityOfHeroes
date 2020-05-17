@@ -366,6 +366,10 @@ void doVerify(U32 size, int quiet)
     }
 
     NMForAllLinks(verifyCallback);
+    if (size >= 1024 * 1024)
+    {
+        free(broadcastdata);
+    }
 }
 
 

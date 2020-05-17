@@ -341,7 +341,7 @@ bool game_validateChecksums(bool bForceFullVerify, bool *pCancelled)
     s_current_len = 0;
     s_current_file = 0;
     s_total_file = checkFiles->numFiles;
-    s_chunk_mem = malloc(CHUNK_SIZE);
+    s_chunk_mem = calloc(1, CHUNK_SIZE);
 
     timerStart(timer);
     updateProgressDialog(0, s_total_len/1024, NULL, NULL);

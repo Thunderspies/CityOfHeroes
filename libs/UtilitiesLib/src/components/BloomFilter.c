@@ -60,6 +60,7 @@ BloomFilter* bloomFilterCreate(U32 uiExpectedUniqueElements, F32 fFalsePositiveR
     bf->uiNumUniqueElements = 0;
 
     bf->bitTable = createBitArray(bf->uiBitTableSize);
+    bf->uiNumUniqueElementsExpected = uiExpectedUniqueElements;
 
 
     return bf;

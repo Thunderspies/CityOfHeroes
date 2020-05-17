@@ -576,8 +576,8 @@ void bsWriteStringAligned(BitStream *bs, const char *str)
 }
 
 char* bsReadStringAndLength(BitStream* bs, int *pLen){
-    THREADSAFE_STATIC char *buf;
-    THREADSAFE_STATIC int buf_size;
+    THREADSAFE_STATIC char *buf = NULL;
+    THREADSAFE_STATIC int buf_size = 0;
     static char *null_string = "(null)";
     int            i,shift = bs->cursor.bit;
     U8            *data;
@@ -803,7 +803,7 @@ void bsCompress(BitStream *bs, int useTypedBits, void *zstream_void) {
     if(destLen <= sizeof(temp_buffer))
         dest = temp_buffer;
     else
-        dest = malloc(destLen);
+        dest = calloc(destLen, 1);
 
     PERFINFO_AUTO_START("compress", 1);
     if (z)
@@ -871,7 +871,7 @@ static CRITICAL_SECTION        zCS;
 
 static void* bsZAlloc(void* opaque, U32 items, U32 size)
 {
-    return malloc(items * size);
+    return calloc(items * size, 1);
 }
 
 static void bsZFree(void* opaque, void* address)
@@ -984,7 +984,7 @@ void bsUnCompress(BitStream *bs, int useTypedBits, void *zstream_void) {
         bs->errorFlags = BSE_COMPRESSION;
         return;
     }
-    dest = malloc(destLen);
+    dest = calloc(destLen, 1);
     // Determine size of compressed stream
     byteLength = (bs->bitLength >> 3) - bs->cursor.byte;
     if (useTypedBits && debug_byte_length!=byteLength) {

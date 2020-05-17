@@ -1163,6 +1163,7 @@ void SourceParser::NukeCObjFile(char *pFileName)
 
     char buf[MAX_PATH];
     _snprintf(buf, sizeof(buf), "%s%s.obj", m_intDir.c_str(), fileNameWithoutExtension);
+    buf[MAX_PATH - 1] = 0;
     remove(buf);
 }
 

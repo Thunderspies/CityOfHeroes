@@ -1115,7 +1115,7 @@ void receiveItemLocations(Packet *pak)
     {
         for( i = 0; i < count; i++ )
         {
-            RemainderLocations *pLoc = malloc(sizeof(RemainderLocations));
+            RemainderLocations *pLoc = calloc(1, sizeof(RemainderLocations));
             pLoc->type = ICON_ITEM;
             copyMat4( unitmat, pLoc->mat );
             pktGetVec3(pak, pLoc->mat[3]);
@@ -1142,7 +1142,7 @@ void receiveCritterLocations(Packet *pak)
     {
         for( i = 0; i < count; i++ )
         {
-            RemainderLocations *pLoc = malloc(sizeof(RemainderLocations));
+            RemainderLocations *pLoc = calloc(1, sizeof(RemainderLocations));
             pLoc->type = ICON_ENEMY;
             copyMat4( unitmat, pLoc->mat );
             pktGetVec3(pak, pLoc->mat[3]);

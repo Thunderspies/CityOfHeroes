@@ -34,7 +34,7 @@ SimpleBufHandle SimpleBufOpenWrite(const char* filename, int forcewrite)
     SimpleBuffer* buf;
     buf = malloc(sizeof(SimpleBuffer));
     memset(buf, 0, sizeof(SimpleBuffer));
-    buf->data = malloc(INITIAL_BUF_SIZE);
+    buf->data = calloc(1, INITIAL_BUF_SIZE);
     buf->filesize = 0;
     buf->memsize = INITIAL_BUF_SIZE;
     buf->writing = 1;
