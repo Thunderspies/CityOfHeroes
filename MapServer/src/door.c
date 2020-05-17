@@ -205,7 +205,7 @@ static int enterMissionDoor(Entity *e, DoorEntry* door, Vec3 doorpos, const char
 
     // if the team's active mission is a SG mission and this player's SG is on a mission and
     //        the mission is the same as the one the SG is on, override the team's map with the map of the SG mission
-    if (!t->map_id && t->activetask->def && TASK_IS_SGMISSION(t->activetask->def) )
+    if (!t->map_id && TASK_IS_SGMISSION(t->activetask->def) )
     {
         t->map_id = t->activetask->missionMapId;
     }
@@ -1365,7 +1365,7 @@ void enterDoor(Entity *e,Vec3 pos,char* selected_map_id,int is_volume,StashTable
         else if (!e->supergroup || e->supergroup_id != g_base.supergroup_id)
         {
             // I'm not in this supergroup, but I'm taggin along on their raid
-            if(    e->teamup && e->teamup->activetask && e->teamup->activetask->def && TASK_IS_SGMISSION(e->teamup->activetask->def) )
+            if(    e->teamup && e->teamup->activetask && TASK_IS_SGMISSION(e->teamup->activetask->def) )
             {
                 if (lockTeamupForDoor(e))
                 {

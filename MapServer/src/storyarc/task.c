@@ -846,7 +846,7 @@ void TaskMarkIssued(StoryInfo* info, StoryContactInfo* contactInfo, StoryTaskInf
     {
         BitFieldSet(contactInfo->taskIssued, TASK_BITFIELD_SIZE, StoryHandleToIndex(&task->sahandle), isIssued);
         parent = TaskParentDefinition(&task->sahandle);
-        if (parent && TASK_IS_UNIQUE(parent))
+        if (TASK_IS_UNIQUE(parent))
         {
             BitFieldSet(info->uniqueTaskIssued, UNIQUE_TASK_BITFIELD_SIZE, UniqueTaskGetIndex(parent->logicalname), isIssued);
         }

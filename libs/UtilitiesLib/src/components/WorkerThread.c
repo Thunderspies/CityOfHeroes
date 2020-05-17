@@ -137,7 +137,7 @@ static INLINEDBG void handleQueuedCmd(QueuedCmd *cmd, WTDispatchCallback dispatc
 
     if (cmd->type >= WT_CMD_USER_START)
         dispatch(user_data,cmd->type,data);
-    else if (cmd->type == WT_CMD_DEBUGCALLBACK)
+    else if (cmd->type == WT_CMD_DEBUGCALLBACK && data)
         (*((WTDebugCallback*)data))((char*)data + sizeof(WTDebugCallback));
 
     if (cmd->data)
@@ -204,7 +204,7 @@ static INLINEDBG void *allocStoredCmd(WorkerThread *wt, CmdQueue *cmd_queue, int
     else
     {
         cmd->size = malloc_size;
-        cmd->data = malloc(malloc_size);
+        cmd->data = calloc(malloc_size, 1);
         return cmd->data;
     }
 }

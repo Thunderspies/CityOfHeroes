@@ -1240,7 +1240,7 @@ void entMotionCheckDoorOccluders(void)
             Entity            *e = entities[i];
             GroupDef        *def;
 
-            if (!e->coll_tracker || !e->coll_tracker->def || !e->coll_tracker->def)
+            if (!e->coll_tracker || !e->coll_tracker->def)
                 continue;
 
             if (e->seq->alphasort)

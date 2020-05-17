@@ -6613,7 +6613,7 @@ void EncounterNotifyInterestedEncountersThatObjectiveIsComplete( char * objectiv
             }
         }
 
-        if( group->active && !group->conquered && group->active->spawndef && group->active->spawndef )
+        if( group->active && !group->conquered && group->active->spawndef )
         {
             const SpawnDef * spawndef = group->active->spawndef;
 

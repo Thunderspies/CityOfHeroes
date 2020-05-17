@@ -443,7 +443,7 @@ void AttemptToExtractVersionFromString(const char **ppString, U32 *pVersion)
 
         while (**ppString && **ppString != '_')
         {
-            *ppString++;
+            (*ppString)++;
         }
     }
 }
@@ -891,7 +891,7 @@ static int sNumReferentInfos = 0;
 
 void *AllocateLinkedBlocks(int iNumBlocks, int iBlockSize)
 {
-    char *pBuffer = malloc(iNumBlocks * iBlockSize);
+    char *pBuffer = calloc(iNumBlocks, iBlockSize);
     int i;
 
     for (i=0; i < iNumBlocks; i++)

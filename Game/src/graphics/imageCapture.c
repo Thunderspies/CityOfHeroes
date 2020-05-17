@@ -476,7 +476,7 @@ int getLeftX(U8 * img, unsigned int width, unsigned int height)
 //returns a number between 0 and height-1 indicating the lowest position with content.  On error returns -1;
 int getRightX(U8 * img, unsigned int width, unsigned int height)
 {
-    unsigned int i;
+    int i;
     for(i = width-1; i >= 0; i--)
     {
         if(checkImageColumnForContent(img, width, height, i))
@@ -489,7 +489,7 @@ int getRightX(U8 * img, unsigned int width, unsigned int height)
 
 int hasContent(U8 * img, unsigned int width, unsigned int height)
 {
-    unsigned int i;
+    int i;
     for(i = width-1; i >= 0; i--)
     {
         if(checkImageColumnForContent(img, width, height, i))

@@ -234,7 +234,7 @@ void MissionTeamupUpdated(Entity* e)
         TaskIsMission(e->teamup->activetask))
     {
         // is owner still on team?
-        if (team_IsMember(e, e->teamup->activetask->assignedDbId) || (e->teamup->activetask->def && TASK_IS_SGMISSION(e->teamup->activetask->def)))
+        if (team_IsMember(e, e->teamup->activetask->assignedDbId) || (TASK_IS_SGMISSION(e->teamup->activetask->def)))
         {
             // detach if mission is complete, and no one on map
             if (!TASK_INPROGRESS(e->teamup->activetask->state) &&

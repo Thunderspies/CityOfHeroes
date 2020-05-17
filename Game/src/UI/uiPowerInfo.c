@@ -329,35 +329,35 @@ static const char *getRequiresString( const char *estr, const CharacterClass *pC
 
         if(strstriConst(estr, "originsource>Magic"))
         {
-            estrConcatStaticCharArray(&str, textStd("IsMagicOrigin"));
+            estrConcatf(&str, textStd("IsMagicOrigin"));
             first = 1;
         }
         if(strstriConst(estr, "originsource>Mutation"))
         {
             if(first)
                 estrConcatStaticCharArray(&str, ", ");
-            estrConcatStaticCharArray(&str, textStd("IsMutationOrigin"));
+            estrConcatf(&str, textStd("IsMutationOrigin"));
             first = 1;
         }
         if(strstriConst(estr, "originsource>Natural"))
         {
             if(first)
                 estrConcatStaticCharArray(&str, ", ");
-            estrConcatStaticCharArray(&str, textStd("IsNaturalOrigin"));
+            estrConcatf(&str, textStd("IsNaturalOrigin"));
             first = 1;
         }
         if(strstriConst(estr, "originsource>Science"))
         {
             if(first)
                 estrConcatStaticCharArray(&str, ", ");
-            estrConcatStaticCharArray(&str, textStd("IsScienceOrigin"));
+            estrConcatf(&str, textStd("IsScienceOrigin"));
             first = 1;
         }
         if(strstriConst(estr, "originsource>Technology"))
         {
             if(first)
                 estrConcatStaticCharArray(&str, ", ");
-            estrConcatStaticCharArray(&str, textStd("IsTechnologyOrigin"));
+            estrConcatf(&str, textStd("IsTechnologyOrigin"));
         }
         estrConcatStaticCharArray(&str, "</i>");
         
@@ -1715,7 +1715,7 @@ static void power_AddPets( char ** str, const BasePower * pPowBase, const Charac
                 estrConcatf( str, "<br><color #ffffff>%s %s", textStd("CreatesPet"), textStd(pDef->levels[0]->displayNames[0]) );
 
                  if( pPowBase->ppTemplates[i]->fDuration && pPowBase->ppTemplates[i]->fDuration < 9999 )
-                    estrConcatStaticCharArray(str, textStd("ForDuration", getPrettyDuration(pPowBase->ppTemplates[i]->fDuration)));
+                    estrConcatf(str, textStd("ForDuration", getPrettyDuration(pPowBase->ppTemplates[i]->fDuration)));
 
                 estrConcatf( str, "<br><color #aaaaaa>%s: <color #ffffff>%.2f<br>", textStd("BaseHitpoints"), villianClass->pattrMax[iLevel].fHitPoints );
 

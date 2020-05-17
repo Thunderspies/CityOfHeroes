@@ -664,7 +664,7 @@ static void timerRecordStep()
     {
         int size = ARRAY_SIZE(timing_state.totalCPUTimePassed);
         // int pos = (int)((timing_state.totalCPUTimePos - 1 + size) % size);
-        FWRITE_U64(timing_state.totalCPUTimePassed[size]);
+        FWRITE_U64(timing_state.totalCPUTimePassed[size - 1]);
     }
     
     timerRecordWriteCPU(timing_state.autoTimerRootList);

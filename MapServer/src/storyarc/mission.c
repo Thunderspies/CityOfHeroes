@@ -322,7 +322,7 @@ MissionInfo* MissionInitInfo(Entity* player)
         g_activemission->timezero = player->teamup->activetask->timezero;
     }
 
-    if (g_activemission->task && TASK_DELAY_START(g_activemission->task))
+    if (TASK_DELAY_START(g_activemission->task))
     {
         U32 timeLimit = g_activemission->starttime + g_activemission->task->timeoutMins * 60;
         if (!g_activemission->timeout || g_activemission->timeout > timeLimit)

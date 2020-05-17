@@ -348,11 +348,11 @@ void stat_LevelingPactDeleteMe(int dbid)
     }
 }
 
-static int s_totalPactInf(U32 *inf)
+static int s_totalPactInf(U32 *inf, int inflength)
 {
     int i;
     int retInf = 0;
-    for(i = 0; inf && i < ARRAY_SIZE(inf); i++)
+    for(i = 0; inf && i < inflength; i++)
     {
         if(U32_MAX - retInf >= inf[i])
         {
@@ -366,14 +366,14 @@ static int s_totalPactInf(U32 *inf)
     return retInf;
 }
 
-static int s_redistributeInf(U32 *inf, int member_count, int total_inf)
+static int s_redistributeInf(U32 *inf, int inflength, int member_count, int total_inf)
 {
     int i;
     if(inf)
     {
         for(i = 0; i < member_count; i++)
             inf[i] = total_inf / member_count;
-        for(; i < ARRAY_SIZE(inf); i++)
+        for (; i < inflength; i++)
             inf[i] = 0;
         return 0;
     }
@@ -528,8 +528,8 @@ void stat_LevelingPactUnpack(char *container_data, int dbid, int *members, int m
             levelingpact->experience *= levelingpact->count;
 
             // redistribute inf
-            influence = s_totalPactInf(levelingpact->influence);
-            s_redistributeInf(levelingpact->influence, member_count, influence);
+            influence = s_totalPactInf(levelingpact->influence, ARRAY_SIZE(levelingpact->influence));
+            s_redistributeInf(levelingpact->influence, ARRAY_SIZE(levelingpact->influence), member_count, influence);
 
             container_str = dbContainerPackage(levelingpact_desc, levelingpact);
             dbContainerSendList(CONTAINER_LEVELINGPACTS, &container_str, &dbid, 1, CONTAINER_CMD_CREATE_MODIFY);

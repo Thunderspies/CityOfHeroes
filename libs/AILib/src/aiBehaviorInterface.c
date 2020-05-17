@@ -315,7 +315,7 @@ bool aiBehaviorAddToHashTable(AIBTableEntry* entry, int isAlias)
 
 void aiBehaviorTableAddBehavior(AIBehaviorInfo* info)
 {
-    AIBTableEntry* entry = (AIBTableEntry*)malloc(sizeof(AIBTableEntry));
+    AIBTableEntry* entry = (AIBTableEntry*)calloc(sizeof(AIBTableEntry), 1);
 
     entry->name = info->name;
     entry->type = AIB_BEHAVIOR;
@@ -327,7 +327,7 @@ void aiBehaviorTableAddBehavior(AIBehaviorInfo* info)
 
 void aiBehaviorTableAddFlag(AIBehaviorFlagInfo* info)
 {
-    AIBTableEntry* entry = (AIBTableEntry*)malloc(sizeof(AIBTableEntry));
+    AIBTableEntry* entry = (AIBTableEntry*)calloc(sizeof(AIBTableEntry), 1);
 
     entry->name = info->name;
     entry->type = AIB_FLAG;
@@ -339,7 +339,7 @@ void aiBehaviorTableAddFlag(AIBehaviorFlagInfo* info)
 
 void aiBehaviorTableAddAlias(AIBehaviorAliasInfo* info)
 {
-    AIBTableEntry* entry = (AIBTableEntry*)malloc(sizeof(AIBTableEntry));
+    AIBTableEntry* entry = (AIBTableEntry*)calloc(sizeof(AIBTableEntry), 1);
 
     entry->name = info->name;
     entry->type = AIB_ALIAS;
@@ -351,7 +351,7 @@ void aiBehaviorTableAddAlias(AIBehaviorAliasInfo* info)
 
 void aiBehaviorTableAddCustom(void* info, int type, const char* name)
 {
-    AIBTableEntry* entry = (AIBTableEntry*)malloc(sizeof(AIBTableEntry));
+    AIBTableEntry* entry = (AIBTableEntry*)calloc(sizeof(AIBTableEntry), 1);
 
     entry->name = name;
     entry->type = type;
@@ -937,7 +937,7 @@ void aiBehaviorProcessString(Entity* e, AIVarsBase* aibase, AIBehavior*** behavi
     for(i = highestIdx-1; i >= 0; i--)
     {
         char* processedStr = NULL;
-        int addSelfAsFlag, processEntry;
+        int addSelfAsFlag = 0, processEntry = 0;
         AIBTableEntry* entry;
 
         if(stringPreprocessCallback)
@@ -986,7 +986,7 @@ void aiBehaviorProcessString(Entity* e, AIVarsBase* aibase, AIBehavior*** behavi
             newbehavior->originalString = allocAddString(origStr);
             newbehavior->uninterruptable = uninterruptable ? 1 : 0;
         }
-        else if(entry->type = AIB_CUSTOM)
+        else if(entry->type == AIB_CUSTOM)
         {
             devassertmsg(behaviorCustomTableEntryCallback, "Need to specify a Custom TableEntry"
                 " Callback for Behavior custom keywords to work");
