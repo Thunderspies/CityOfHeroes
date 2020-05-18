@@ -95,7 +95,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32;_DEBUG;_LIB;ADLER32_SIMD_SSSE3;X86_WINDOWS;INFLATE_CHUNK_SIMD_SSE2;CRC32_SIMD_SSE42_PCLMUL;DEFLATE_FILL_WINDOW_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -110,7 +110,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_LIB;ADLER32_SIMD_SSSE3;X86_WINDOWS;INFLATE_CHUNK_SIMD_SSE2;INFLATE_CHUNK_READ_64LE;CRC32_SIMD_SSE42_PCLMUL;DEFLATE_FILL_WINDOW_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -127,7 +127,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32;NDEBUG;_LIB;ADLER32_SIMD_SSSE3;X86_WINDOWS;INFLATE_CHUNK_SIMD_SSE2;CRC32_SIMD_SSE42_PCLMUL;DEFLATE_FILL_WINDOW_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -146,7 +146,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_LIB;ADLER32_SIMD_SSSE3;X86_WINDOWS;INFLATE_CHUNK_SIMD_SSE2;INFLATE_CHUNK_READ_64LE;CRC32_SIMD_SSE42_PCLMUL;DEFLATE_FILL_WINDOW_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -159,10 +159,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\contrib\optimizations\inffast_chunk.c" />
     <ClCompile Include="..\..\src\adler32.c" />
+    <ClCompile Include="..\..\src\adler32_simd.c" />
     <ClCompile Include="..\..\src\compress.c" />
+    <ClCompile Include="..\..\src\cpu_features.c" />
     <ClCompile Include="..\..\src\crc32.c" />
+    <ClCompile Include="..\..\src\crc32_simd.c" />
+    <ClCompile Include="..\..\src\crc_folding.c" />
     <ClCompile Include="..\..\src\deflate.c" />
+    <ClCompile Include="..\..\src\fill_window_sse.c" />
     <ClCompile Include="..\..\src\gzclose.c" />
     <ClCompile Include="..\..\src\gzlib.c" />
     <ClCompile Include="..\..\src\gzread.c" />
@@ -176,9 +182,23 @@
     <ClCompile Include="..\..\src\zutil.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\contrib\minizip\crypt.h" />
+    <ClInclude Include="..\..\contrib\minizip\ioapi.h" />
+    <ClInclude Include="..\..\contrib\minizip\iowin32.h" />
+    <ClInclude Include="..\..\contrib\minizip\mztools.h" />
+    <ClInclude Include="..\..\contrib\minizip\unzip.h" />
+    <ClInclude Include="..\..\contrib\minizip\zip.h" />
+    <ClInclude Include="..\..\contrib\optimizations\chunkcopy.h" />
+    <ClInclude Include="..\..\contrib\optimizations\inffast_chunk.h" />
+    <ClInclude Include="..\..\contrib\optimizations\insert_string.h" />
+    <ClInclude Include="..\..\contrib\optimizations\slide_hash_neon.h" />
+    <ClInclude Include="..\..\contrib\tests\infcover.h" />
     <ClInclude Include="..\..\include\zlib\zconf.h" />
     <ClInclude Include="..\..\include\zlib\zlib.h" />
+    <ClInclude Include="..\..\src\adler32_simd.h" />
+    <ClInclude Include="..\..\src\cpu_features.h" />
     <ClInclude Include="..\..\src\crc32.h" />
+    <ClInclude Include="..\..\src\crc32_simd.h" />
     <ClInclude Include="..\..\src\deflate.h" />
     <ClInclude Include="..\..\src\gzguts.h" />
     <ClInclude Include="..\..\src\inffast.h" />
