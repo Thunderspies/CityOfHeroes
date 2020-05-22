@@ -196,7 +196,7 @@
 #include <utilitieslib/network/crypt.h>
 #include "group/groupfileload.h"
 
-ServerState server_state;
+ServerState server_state = {0};
 
 static int status_server_id;
 static int list_id,container_id,map_id;

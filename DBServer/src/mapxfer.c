@@ -208,7 +208,7 @@ MapCon *startInstancedMap(NetLink* link, EntCon* ent_con, char* mapinfo, char* e
     // and start the map
     if (client->static_link)
         force_launcher_ip = link->addr.sin_addr.S_un.S_addr;
-    if (!launcherCommStartProcess(myHostname(),force_launcher_ip,map_con))
+    if (!launcherCommStartProcess(myHostname(), force_launcher_ip, map_con, false))
     {
         if (overloadProtection_DoNotStartMaps())
         {
@@ -300,7 +300,7 @@ MapCon *startMapIfStatic(NetLink *link, EntCon* ent_con, int map_id, char *errms
         if (link)
             sendMapLoadingMessage(link, ent_con->is_gameclient, ent_con->id, 1);
 
-        if (!launcherCommStartProcess(my_hostname,0,map_con))
+        if (!launcherCommStartProcess(my_hostname, 0, map_con, false))
         {
             // trying to start a map could initiate the overload protection
             // So, check here again
