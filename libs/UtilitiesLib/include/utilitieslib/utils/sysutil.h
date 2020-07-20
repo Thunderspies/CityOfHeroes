@@ -13,7 +13,7 @@ char* getExecutableVersion(int dots);
 char* getExecutableVersionEx(char* executableName, int dots);
 int versionCompare(char* version1, char* version2);
 char *getExecutableDir(char *buf);
-unsigned long getPhysicalMemory(unsigned long *max, unsigned long *avail); // Returns max when NULLs are passed in
+DWORDLONG getPhysicalMemory(DWORDLONG *max, DWORDLONG *avail); // Returns max when NULLs are passed in
 unsigned long getProcessPageFileUsage();
 void winCopyToClipboard(const char* s);
 const char *winCopyFromClipboard(void); // Returns pointer to static buffer

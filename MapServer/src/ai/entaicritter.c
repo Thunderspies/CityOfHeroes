@@ -980,7 +980,7 @@ static void aiCritterFindTarget(Entity* e,
                 if(status->entity != attackTarget)    // if you're already targeting this guy it's ok
                                                     // even if he's capping out
                 {
-                    if(aiTarget->attackerList.count >= server_state.aggrocap)
+                    if ((int)aiTarget->attackerList.count >= server_state.aggrocap)
                     {
                         AIAttackerInfo* attackerInfo;
                         Entity* leastAggro = NULL;

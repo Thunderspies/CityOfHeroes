@@ -932,7 +932,7 @@ bool fillModuleListPSAPI( ModuleList& modules, DWORD pid, HANDLE hProcess )
 
     if ( cbNeeded > TTBUFLEN )
     {
-        printf( "More than %zu module handles. Huh?\n", lenof( hMods ) );
+        printf("More than %zu module handles. Huh?\n", (TTBUFLEN / sizeof HMODULE));
         goto cleanup;
     }
 

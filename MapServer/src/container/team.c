@@ -184,7 +184,7 @@ bool areMembersUniverseMixed(TeamMembers *membersList)
                 int prae = dbPraetorianProgressFromId(membersList->ids[index]);
 
                 // cached and possibly out of date
-                if (prae == kPraetorianProgress_Tutorial || kPraetorianProgress_Praetoria)
+                if (prae == kPraetorianProgress_Tutorial || prae == kPraetorianProgress_Praetoria)
                 {
                     prae_count++;
                 }

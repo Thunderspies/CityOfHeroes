@@ -3520,6 +3520,7 @@ bool rewardApply(RewardAccumulator* reward, Entity* e, bool bGivePowers, bool bH
     float fPrestigeMod;
     float fInfluenceMod;
     bool bArchitect = 0;
+    bool bArchitectScale = 0;
     bool bArchitectTest = 0;
     bool bArchitectAllRewards = e && e->pl && AccountCanGainAllMissionArchitectRewards(ent_GetProductInventory( e ), e->pl->loyaltyPointsEarned, e->pl->account_inventory.accountStatusFlags);
     TeamRewardDebug * pDebug=0;
@@ -3531,12 +3532,21 @@ bool rewardApply(RewardAccumulator* reward, Entity* e, bool bGivePowers, bool bH
     if(reward && !e && e->pchar)
         return false;
 
-    if(g_ArchitectTaskForce && !rewardSourceAllowedArchitect(source))
+    if(g_ArchitectTaskForce)
     {
-        if( (g_ArchitectTaskForce->architect_flags&ARCHITECT_TEST) )
-            bArchitectTest = 1;
-        if( !(g_ArchitectTaskForce->architect_flags&ARCHITECT_DEVCHOICE) ) // dev choice is treated like a normal mission
-            bArchitect = 1;
+        if (!rewardSourceAllowedArchitect(source))
+        {
+            if ((g_ArchitectTaskForce->architect_flags & ARCHITECT_TEST))
+                bArchitectTest = 1;
+            // dev choice is treated like a normal mission
+            if (!(g_ArchitectTaskForce->architect_flags & ARCHITECT_DEVCHOICE))
+                bArchitect = 1;
+        }
+
+        // featured and dev choice missions scale experience, influence, and prestige normally
+        if (!((g_ArchitectTaskForce->architect_flags & ARCHITECT_FEATURED) || (g_ArchitectTaskForce->architect_flags & ARCHITECT_DEVCHOICE) ||
+              (g_ArchitectTaskForce->architect_flags & ARCHITECT_DEVCHOICE_NORMALREWARD)))
+            bArchitectScale = 1;
     }
 
     if (source == REWARDSOURCE_DROP)
@@ -3596,7 +3606,7 @@ bool rewardApply(RewardAccumulator* reward, Entity* e, bool bGivePowers, bool bH
         if(bLevelCapped)
         {
             int iLeftOver = 0;
-            character_GiveCappedExperience(e->pchar, reward->experience*(bArchitect?server_state.aescale:server_state.xpscale), &iXPReceived, &iXPDebt, &iLeftOver); // Added AE Exp Scaling
+            character_GiveCappedExperience(e->pchar, reward->experience*(bArchitectScale?server_state.aescale:server_state.xpscale), &iXPReceived, &iXPDebt, &iLeftOver); // Added AE Exp Scaling
 
             if (source == REWARDSOURCE_DEBUG)
                 pDebug->debt += iXPDebt;
@@ -3614,7 +3624,7 @@ bool rewardApply(RewardAccumulator* reward, Entity* e, bool bGivePowers, bool bH
         else
         {
 
-            float fXPScale = bArchitect?server_state.aescale:server_state.xpscale; // Added AE Exp Scaling
+            float fXPScale = bArchitectScale?server_state.aescale:server_state.xpscale; // Added AE Exp Scaling
             int bPatrolXP = false;
 
             if( bExemplar )
@@ -3715,7 +3725,7 @@ bool rewardApply(RewardAccumulator* reward, Entity* e, bool bGivePowers, bool bH
     if(reward->influence && !bArchitectTest && (!bArchitect || bArchitectAllRewards))
     {
         e->general_update = 1;
-        iInfluence = ceil(reward->influence*fInfluenceMod*(bArchitect?server_state.aescale:server_state.xpscale));
+        iInfluence = ceil(reward->influence*fInfluenceMod*(bArchitectScale?server_state.aeinfluencescale:server_state.influencescale));
 
         if(iInfluence)
         {
@@ -3749,11 +3759,11 @@ bool rewardApply(RewardAccumulator* reward, Entity* e, bool bGivePowers, bool bH
     // Award the entity with prestige points.
     if(reward->prestige && e->pl->supergroup_mode && !bArchitectTest && (!bArchitect || bArchitectAllRewards))
     {
-        iPrestige = reward->prestige*fPrestigeMod*(bArchitect?1.f:server_state.xpscale);
+        iPrestige = reward->prestige*fPrestigeMod*(bArchitectScale?server_state.aeprestigescale:server_state.prestigescale);
 
         if( source == REWARDSOURCE_DEBUG )
             pDebug->prestige += iPrestige;
-        else
+        else if (iPrestige != 0)
         {
             sgrprewards_PrestigeAdj(e, iPrestige);
             badge_RecordPrestige(e, iPrestige);
@@ -3764,7 +3774,7 @@ bool rewardApply(RewardAccumulator* reward, Entity* e, bool bGivePowers, bool bH
         {
             pchPrestigeReport = "PrestigeYouLost";
         }
-        else
+        else if (iPrestige > 0)
         {
             pchPrestigeReport = "PrestigeYouReceived";
         }

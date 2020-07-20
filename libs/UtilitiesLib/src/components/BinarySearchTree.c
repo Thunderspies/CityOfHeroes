@@ -834,7 +834,7 @@ BSTNodeHandle BSTSystem_GetNewNode(void *pData, intptr_t iKey, BSTNodeHandle hPa
 
     if (gFirstFreeNodeHandle == BSTNODE_HANDLE_INVALID)
     {
-        BSTNode *pNewPool = malloc(sizeof(BSTNode) * (NUM_HANDLES_TO_ADD_TO_POOL_AT_ONCE + siNumHandlesInPool));
+        BSTNode *pNewPool = calloc((NUM_HANDLES_TO_ADD_TO_POOL_AT_ONCE + siNumHandlesInPool), sizeof(BSTNode));
         int i;
 
         if (gpNodePool)

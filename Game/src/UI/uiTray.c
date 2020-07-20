@@ -63,6 +63,7 @@
 #include "uiGift.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "entity/character_eval.h"
+#include "entity/entworldcoll.h"
 #include "UI/uiOptions.h"
 #include "fxutil.h"
 #include "graphics/ttFontUtil.h"
@@ -88,7 +89,7 @@ F32                gfTargetConfusion = 0.5;
 #define DONT_UPDATE_SERVER ( FALSE )
 #define PLAYER_HEIGHT 6.0f
 
-static void trayobj_select(Entity *e, TrayObj *ts);
+static void trayobj_select(Entity* e, TrayObj* ts, Vec3 loc);
 
 //------------------------------------------------------------
 // set the cur tray. currently used only by uiNet.c

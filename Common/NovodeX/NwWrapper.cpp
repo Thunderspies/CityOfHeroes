@@ -225,7 +225,7 @@ struct MyAllocator : public NxUserAllocator
     virtual void* mallocDEBUG(size_t size, const char* fileName, int line)
     {
         PERFINFO_AUTO_START_STATIC(heapPerfInfoName, &perfInfo, 1);
-        void* result = ::_malloc_dbg(size, 1, fileName, line);
+        void* result = ::_calloc_dbg(size, 1, 1, fileName, line);
         PERFINFO_AUTO_STOP();
         return result;
     }
@@ -234,7 +234,7 @@ struct MyAllocator : public NxUserAllocator
     virtual void* malloc(size_t size)
     {
         PERFINFO_AUTO_START_STATIC(heapPerfInfoName, &perfInfo, 1);
-        void* result = ::_malloc_dbg(size, 1, __FILE__, __LINE__);
+        void* result = ::_calloc_dbg(size, 1, 1, __FILE__, __LINE__);
         PERFINFO_AUTO_STOP();
         return result;
     }

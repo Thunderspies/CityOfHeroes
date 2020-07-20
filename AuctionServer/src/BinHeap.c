@@ -127,7 +127,7 @@ void *binheap_Remove(BinHeap *bh, int i)
     {
         int ileft = BH_LEFT(i);
         int iright = BH_RIGHT(i);
-        int iswap;
+        int iswap = 0;
         void *cl = eaGet(&bh->elts,ileft);
         void *cr = eaGet(&bh->elts,iright);
 

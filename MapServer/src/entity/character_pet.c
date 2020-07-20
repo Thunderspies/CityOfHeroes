@@ -402,29 +402,33 @@ static void setPetCostumeColors(Entity* pPet, ColorPair uiTint)
  * character_CreatePet
  *
  */
-void character_CreatePet(Character* p, AttribMod* pmod)
+void character_CreatePet(Character *p, AttribMod *pmod)
 {
-    Entity* pPet;
-    Entity* eCreator;
+    Entity *pPet;
+    Entity *eCreator;
     const BasePower* creationPower;
-    Power* ppow;
+    Power * ppow;
     F32 fLevel;
 
-    assert(p != NULL);
-    assert(pmod != NULL);
-    assert(pmod->ptemplate != NULL);
+    assert(p!=NULL);
+    assert(pmod!=NULL);
+    assert(pmod->ptemplate!=NULL);
 
-    if (pmod->ptemplate->pchEntityDef == NULL || pmod->ptemplate->pchPriorityListPassive == NULL || pmod->erCreated != 0)
+    if(pmod->ptemplate->pchEntityDef==NULL
+        || pmod->ptemplate->pchPriorityListPassive==NULL
+        || pmod->erCreated!=0)
     {
         return;
     }
 
-    if ((eCreator = erGetEnt(pmod->erSource)) == NULL)
+
+    if((eCreator=erGetEnt(pmod->erSource)) == NULL)
         return;
 
-    AI_LOG(AI_LOG_POWERS, (p->entParent, "Process :    Creating pet %s doing %s.\n", pmod->ptemplate->pchEntityDef, pmod->ptemplate->pchPriorityListPassive));
+    AI_LOG(AI_LOG_POWERS, (p->entParent, "Process :    Creating pet %s doing %s.\n",
+        pmod->ptemplate->pchEntityDef, pmod->ptemplate->pchPriorityListPassive));
 
-    if (ENTTYPE(eCreator) == ENTTYPE_PLAYER && !eCreator->initialPositionSet)
+    if( ENTTYPE(eCreator) == ENTTYPE_PLAYER && !eCreator->initialPositionSet ) 
         return; // wait until I've been someplace before spawning pet
 
     if (eCreator->pchar->ppowCreatedMe)
@@ -495,19 +499,7 @@ void character_CreatePet(Character* p, AttribMod* pmod)
     
 
     if( !p->entParent->erOwner && strstriConst( pmod->ptemplate->pchEntityDef, DOPPEL_NAME) )
-    {
-        if ((int)strlen(pmod->ptemplate->pchParams)) // Check if an explicit 
-        {
-            pPet = villainCreateDoppelganger(pmod->ptemplate->pchEntityDef + strlen(DOPPEL_NAME), 0, 0, VR_BOSS, pmod->ptemplate->pchParams,
-                                             (int)fLevel, 0, 0, p->entParent,
-                                             pmod->erSource, creationPower);
-        }
-        else
-        {
-            pPet = villainCreateDoppelganger(pmod->ptemplate->pchEntityDef + strlen(DOPPEL_NAME), 0, 0, VR_BOSS, 0, (int)fLevel, 0, 0, p->entParent,
-                                             pmod->erSource, creationPower);
-        }        
-    }
+         pPet=villainCreateDoppelganger( pmod->ptemplate->pchEntityDef + strlen(DOPPEL_NAME), 0, 0, VR_BOSS, 0, (int)fLevel, 0, 0, p->entParent, pmod->erSource, creationPower);
     else
         pPet=villainCreateByName(pmod->ptemplate->pchEntityDef, (int)fLevel, NULL, false, NULL, pmod->erSource, creationPower);
 

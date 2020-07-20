@@ -397,7 +397,7 @@ unsigned int persist_hashStruct(PersistInfo *info, const void *structptr, int ha
 int persist_compStruct(PersistInfo *info, const void *struct1, const void *struct2)
 {
     ParseTable *tpi = info->settings.tpi;
-    int i, it;
+    int i, it = 0;
     for(i = 0; i < eaiSize(&info->key_idxs); i++)
     {
         int column = info->key_idxs[i];
@@ -446,7 +446,7 @@ intptr_t persist_getKey(PersistInfo *info, void *structptr)
 intptr_t persist_dupKey(PersistInfo *info, void *structptr)
 {
     ParseTable *tpi = info->settings.tpi;
-    intptr_t key;
+    intptr_t key = 0;
     switch(info->keytype)
     {
         xcase KEY_VOID:
@@ -576,7 +576,7 @@ static void s_addRow(PersistInfo *info, void *structptr, int idx, int call_backe
     }
     if(info->key_autoinc >= 0)
     {
-        int val;
+        int val = 0;
         switch(TOK_GET_TYPE(tpi[info->key_autoinc].type))
         {
             xcase TOK_U8_X:        val = TokenStoreGetU8(tpi, info->key_autoinc, structptr, 0);
@@ -618,14 +618,14 @@ void persist_mergeReplace(PersistInfo *info, void *structptr)
                 old = info->structptrs[0];
         xcase KEY_INT:
         {
-            int key;
+            int key = 0;
             switch(TOK_GET_TYPE(tpi[info->key_idxs[0]].type))
             {
                 xcase TOK_U8_X:        key = TokenStoreGetU8(tpi, info->key_idxs[0], structptr, 0);
                 xcase TOK_INT_X:    key = TokenStoreGetInt(tpi, info->key_idxs[0], structptr, 0);
                 xdefault:            assert(0);
             }
-            if(stashIntRemovePointer(info->lookup, key, &old))
+            if(key > 0 && stashIntRemovePointer(info->lookup, key, &old))
                 assert(stashIntAddPointer(info->lookup, key, structptr, false));
         }
         xcase KEY_STRING:
@@ -730,7 +730,7 @@ void s_finishRemove(PersistInfo *info, RowInfo row, void *structptr)
 static void s_removeAndDestroy(PersistInfo *info, void *structptr)
 {
     RowInfo row;
-    void *structwas;
+    void *structwas = NULL;
     DirtyType dirty;
     ParseTable *tpi = info->settings.tpi;
 
@@ -1276,7 +1276,7 @@ void persist_Dirty(const char *type, void *structptr, void *lineptr)
 int persist_ResetAutoIncrement(const char *type)
 {
     int i;
-    intptr_t key_last;
+    intptr_t key_last = 0;
     ParseTable *tpi;
     PersistInfo *info = s_getInfo(type);
     assertmsg(s_isInfoLoaded(info), "modifying a database that isn't loaded");
@@ -1286,7 +1286,7 @@ int persist_ResetAutoIncrement(const char *type)
     tpi = info->settings.tpi;
     for(i = 0; i < eaSizeUnsafe(&info->structptrs); i++)
     {
-        intptr_t key;
+        intptr_t key = 0;
         switch(TOK_GET_TYPE(tpi[info->key_autoinc].type))
         {
             xcase TOK_U8_X:        key = TokenStoreGetU8(tpi, info->key_autoinc, info->structptrs[i], 0);
@@ -1566,7 +1566,7 @@ static const char* getValue(const char *key, const char **keys, const char **val
 
 static void* s_http_findStruct(PersistInfo *info, char *path)
 {
-    void *structptr;
+    void *structptr = NULL;
     switch(info->keytype)
     {
         xcase KEY_VOID:

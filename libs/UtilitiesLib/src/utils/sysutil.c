@@ -167,18 +167,18 @@ int versionCompare(char* version1, char* version2){
 }
 
 #endif
-unsigned long getPhysicalMemory(unsigned long *max, unsigned long *avail ) {
-    MEMORYSTATUS memoryStatus;
-    ZeroMemory(&memoryStatus,sizeof(MEMORYSTATUS));
-    memoryStatus.dwLength = sizeof (MEMORYSTATUS);
+DWORDLONG getPhysicalMemory(DWORDLONG *max, DWORDLONG *avail ) {
+    MEMORYSTATUSEX memoryStatus;
+    ZeroMemory(&memoryStatus,sizeof(MEMORYSTATUSEX));
+    memoryStatus.dwLength = sizeof (MEMORYSTATUSEX);
 
-    GlobalMemoryStatus (&memoryStatus);
+    GlobalMemoryStatusEx (&memoryStatus);
     if (max) 
-        *max = memoryStatus.dwTotalPhys;
+        *max = memoryStatus.ullTotalPhys;
     if (avail)
-        *avail = memoryStatus.dwAvailPhys;
+        *avail = memoryStatus.ullAvailPhys;
 
-    return memoryStatus.dwTotalPhys;
+    return memoryStatus.ullTotalPhys;
 }
 
 // give correct CR/LF pairs

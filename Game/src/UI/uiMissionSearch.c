@@ -2576,7 +2576,7 @@ float missionsearch_LineButtons(MissionSearchLine *line, F32 x, F32 y, F32 z, F3
         }
         y += buttonht;
 
-         if( line->filename && drawMMButton( "DeleteString", "delete_button_inside", "delete_button_outside", x + buttonwd/2, y, z+1, buttonwd, sc, (!line->arc|MMBUTTON_ERROR|MMBUTTON_SMALL ), 0 ))
+         if( line->filename && drawMMButton( "DeleteString", "delete_button_inside", "delete_button_outside", x + buttonwd/2, y, z+1, buttonwd, sc, ((!line->arc)|MMBUTTON_ERROR|MMBUTTON_SMALL ), 0 ))
         {
             s_deleteArc(line);
         }

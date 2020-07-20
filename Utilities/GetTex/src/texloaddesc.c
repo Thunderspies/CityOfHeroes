@@ -17,7 +17,7 @@
 #include <utilitieslib/utils/FolderCache.h>
 
 
-TexInf    *tex_infs;
+TexInf    *tex_infs = NULL;
 int        tex_inf_count=0,tex_inf_max=0;
 static StashTable htTexInfs=0;
 

@@ -383,7 +383,7 @@ void ClothStripCreateIndices(ClothStrip *strip, int num, int newtype)
     if (newtype >= 0)
         strip->Type = newtype;
     strip->NumIndices = num;
-    strip->IndicesCCW = CLOTH_MALLOC(S16, num);
+    strip->IndicesCCW = CLOTH_CALLOC(S16, num);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -424,11 +424,11 @@ void ClothMeshAllocate(ClothMesh *mesh, int npoints)
 {
     mesh->NumPoints = npoints;
     mesh->Allocate = 1;
-    mesh->Points = CLOTH_MALLOC(Vec3, npoints);
-    mesh->Normals = CLOTH_MALLOC(Vec3, npoints);
-    mesh->BiNormals = CLOTH_MALLOC(Vec3, npoints);
-    mesh->Tangents = CLOTH_MALLOC(Vec3, npoints);
-    mesh->TexCoords = CLOTH_MALLOC(Vec2, npoints);
+    mesh->Points = CLOTH_CALLOC(Vec3, npoints);
+    mesh->Normals = CLOTH_CALLOC(Vec3, npoints);
+    mesh->BiNormals = CLOTH_CALLOC(Vec3, npoints);
+    mesh->Tangents = CLOTH_CALLOC(Vec3, npoints);
+    mesh->TexCoords = CLOTH_CALLOC(Vec2, npoints);
     assert(mesh->Points);
     assert(mesh->Normals);
     assert(mesh->BiNormals);

@@ -655,7 +655,7 @@ static void s_drawMenuInventoryEnhancement( Character *pchar, int ispec, float c
         {
             state = kBoostState_Normal;
         }
-        else if ( (combo.state != COMBO_CHOOSE2 || combo.state != COMBO_EQUIP ||
+        else if ( (combo.state != COMBO_CHOOSE2 && combo.state != COMBO_EQUIP ||
                   (combo.state == COMBO_CHOOSE2 && !boost_IsValidCombination( combo.slotA, spec )) || combo.slotA == spec ))
         {
              if( combo.slotB && combo.slotB->ppowBase == spec->ppowBase && combo.slotB->idx == spec->idx )
@@ -874,7 +874,7 @@ int drawMenuPowerEnhancement( Character *pchar, int iset, int ipow, int ispec, f
             (boost_IsValidCombination(spec, spec) || boost_IsBoostable(pchar->entParent, spec) || boost_IsCatalyzable(spec)))
             || (combo.state == COMBO_CHOOSE2 && combo.slotA != spec && combo.slotB != spec && boost_IsValidCombination( combo.slotA, spec ) ))
             state = kBoostState_Normal;
-        else if ( (combo.state != COMBO_CHOOSE2 || combo.state != COMBO_EQUIP ||
+        else if ( (combo.state != COMBO_CHOOSE2 && combo.state != COMBO_EQUIP ||
                   (combo.state == COMBO_CHOOSE2 && !boost_IsValidCombination( combo.slotA, spec )) )  )
         {
             state = kBoostState_Disabled;

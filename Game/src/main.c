@@ -298,13 +298,21 @@ int main(int argc, char **argv)
 
     game_loadData(0);
 
+    // init sound in development mode and in create-bins mode
+    if (game_state.create_bins || FolderCacheGetMode() == FOLDER_CACHE_MODE_DEVELOPMENT_DYNAMIC)
+        sndInit();
+
     // exit before main loop and graphics stuff if we're just creating binaries
     if (game_state.create_bins)
     {
         cmdAccessOverride(10);
         cmdParse("cmdms");
         mapperLoadCityInfo();
-        sndInit();
+        writeConsole(OUTPUT_DEBUG, "Client binning process complete!");
+        /*while (kbhit())
+            getch();
+        printf("Press any key to quit.");
+        getch();*/
         return 0;
     }
 

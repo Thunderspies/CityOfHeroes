@@ -57,7 +57,7 @@ static U32 ageByTexBind(const BasicTexture *bind) // higher gets unloaded after 
 
 void texDetermineAllowedTextureMemory(void)
 {
-    unsigned long ulAvail, ulMax; // Bytes
+    DWORDLONG ulAvail, ulMax; // Bytes
     long avail, max, remaining; // KB
 
     getPhysicalMemory(&ulMax, &ulAvail);

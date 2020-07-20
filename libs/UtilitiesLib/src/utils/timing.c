@@ -295,13 +295,13 @@ void timerSetBreakPoint(U32 layoutID, U32 uid, S32 set)
     }
 }
 
-static U8*                writeBuffer;
-static int                writeBufferSize;
+static U8*                writeBuffer = NULL;
+static int                writeBufferSize = 0;
 static const int        writeBufferMaxSize = 128 * 1024;
 static FILE*            recordFileHandle;
 
-static U8*                readBuffer;
-static int                readBufferSize;
+static U8*                readBuffer = NULL;
+static int                readBufferSize = 0;
 static int                readBufferCursor;
 static const int        readBufferMaxSize = 128 * 1024;
 static FILE*            playbackFileHandle;
@@ -664,7 +664,7 @@ static void timerRecordStep()
     {
         int size = ARRAY_SIZE(timing_state.totalCPUTimePassed);
         // int pos = (int)((timing_state.totalCPUTimePos - 1 + size) % size);
-        FWRITE_U64(timing_state.totalCPUTimePassed[size]);
+        FWRITE_U64(timing_state.totalCPUTimePassed[size - 1]);
     }
     
     timerRecordWriteCPU(timing_state.autoTimerRootList);

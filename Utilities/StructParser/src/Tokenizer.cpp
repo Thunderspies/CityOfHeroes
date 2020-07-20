@@ -76,6 +76,8 @@ Tokenizer::Tokenizer()
     m_bSkipDefines = false;
     m_pExtraIdentifierChars = NULL;
     m_bIgnoreQuotes = false;
+    m_pBufferStart = NULL;
+    m_pBufferEnd = NULL;
 }
 
 Tokenizer::~Tokenizer()

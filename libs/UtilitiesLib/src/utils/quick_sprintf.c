@@ -70,6 +70,10 @@ static INLINEDBG int core_vsnprintf(char *buf,size_t buf_size,size_t max_bytes,c
                 {
                     safecopy("%",&tail,&space);
                 }
+                xcase ' ':   // deal with the unescaped percentage signs without calling vsnprintf
+                {
+                    safecopy("% ",&tail,&space);    
+                }
                 xdefault:
                 {
                     // temporarily using the non-secure _vsnprintf to prevent CoX crashing

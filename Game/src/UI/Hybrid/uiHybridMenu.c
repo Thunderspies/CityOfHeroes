@@ -2698,7 +2698,7 @@ int drawHybridButtonWindow( HybridElement * hb, F32 cx, F32 cy, F32 z, F32 sc, i
             hb->percent = stateScale(hb->percent, 0);
         }
     }
-    if( flags&HB_DISABLED && !flags&HB_DRAW_NORMAL_ICON)
+    if( (flags&HB_DISABLED) && !(flags&HB_DRAW_NORMAL_ICON))
         color = 0x66666680;
 
     if (flags&HB_DRAW_BACKING)

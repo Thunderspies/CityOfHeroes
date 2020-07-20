@@ -479,7 +479,7 @@ static void addMapDesc( MMElement * pElement, MapLimit * pLimit, int floorCount 
 
     if( pLimit && 
         (pLimit->around_or_regular[kMapLimit_All] || pLimit->regular_only[kMapLimit_All]  || pLimit->around_only[kMapLimit_All]  || 
-        pLimit->wall[kMapLimit_All] || pLimit->wall[kMapLimit_All])  )
+        pLimit->wall[kMapLimit_All] || pLimit->floor[kMapLimit_All])  )
     {
         estrCreate(&str);
         estrConcatf(&str, "<br>%s<br>", textStd("MMMissionDesc") );

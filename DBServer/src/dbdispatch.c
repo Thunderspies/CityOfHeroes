@@ -727,7 +727,7 @@ void handleContainerSet(Packet *pak,NetLink *link)
 
             if (!mapcon->link && !mapcon->is_static)
             {
-                if (!launcherCommStartProcess(myHostname(),force_launcher_ip,mapcon))
+                if (!launcherCommStartProcess(myHostname(), force_launcher_ip, mapcon, false))
                 {
                     // Don't delete the map container on overload protection
                     if (!overloadProtection_DoNotStartMaps())

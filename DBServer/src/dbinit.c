@@ -1038,6 +1038,7 @@ SpecialColumn team_cmds[] =
 SpecialColumn map_cmds[] =
 {
     { "MapName",        CFTYPE_ANSISTRING,    OFFSETOF(MapCon,map_name)                                        },
+    { "MapKey",        CFTYPE_ANSISTRING,    OFFSETOF(MapCon,map_key)                                        },
     { "MissionInfo",    CFTYPE_ANSISTRING,    OFFSETOF(MapCon,mission_info)                                    },
     { "MapGroupsId",    CFTYPE_INT,            OFFSETOF(MapCon,mapgroup_id),    CMD_MEMBER,    CONTAINER_MAPGROUPS    },
     { "DontAutoStart",    CFTYPE_INT,            OFFSETOF(MapCon,dontAutoStart)                                    },
@@ -1054,6 +1055,7 @@ void dbInit(int start_static)
 {
     struct hostent    *host_ent;
     int            i;
+    bool start_all = (start_static == INT_MAX);
 
     initCtrlHandler();
     lock_id_hashes = stashTableCreateInt(4);
@@ -1407,6 +1409,7 @@ void dbInit(int start_static)
             int abort=0;
             int launched=0;
             int num_starting;
+            bool preload_transient;
             // Loop through entire list by number of launchers
             for(base=0; !abort && base<map_list->num_alloced && launched < start_static; )
             {
@@ -1415,7 +1418,8 @@ void dbInit(int start_static)
                 for (i=base; i<map_list->num_alloced && count<launcher_count; i++)
                 {
                     map_con = (MapCon *)map_list->containers[i];
-                    if (!map_con->dontAutoStart)
+                    preload_transient = start_all && map_con->dontAutoStart && map_con->transient && map_con->map_key[0];
+                    if (!map_con->dontAutoStart || preload_transient)
                     {
                         if (low==-1)
                             low = i;
@@ -1431,9 +1435,10 @@ void dbInit(int start_static)
                 for (i=low; !abort && i<=high; i++)
                 {
                     map_con = (MapCon *)map_list->containers[i];
-                    if (!map_con->dontAutoStart)
+                    preload_transient = start_all && map_con->dontAutoStart && map_con->transient && map_con->map_key[0];
+                    if (!map_con->dontAutoStart || preload_transient)
                     {
-                        int ret = launcherCommStartProcess(my_hostname,0,map_con);
+                        int ret = launcherCommStartProcess(my_hostname, 0, map_con, preload_transient);
                         printf_stderr("%d ", map_con->id);
                         if (!ret) 
                         {// Will wait forever otherwise.
@@ -1456,7 +1461,8 @@ void dbInit(int start_static)
                     num_starting = 0;
                     for (i=low; i<=high; i++) {
                         map_con = (MapCon *)map_list->containers[i];
-                        if (!map_con->dontAutoStart && (!map_con->active || map_con->starting))
+                        preload_transient = start_all && map_con->dontAutoStart && map_con->transient && map_con->map_key[0];
+                        if ((!map_con->dontAutoStart || preload_transient) && (!map_con->active || map_con->starting))
                             num_starting++;
                     }
                 } while (num_starting && timerElapsed(timer) < 200.f);
@@ -1500,17 +1506,6 @@ static void startupInfo(int argc,char **argv)
     printf_stderr(    "(%d) %s %s\n",_getpid(),getExecutableName(),program_parms);
     printf_stderr( "working dir: %s\n", buffer);
     printf_stderr( "SVN Revision: %s\n", build_version);
-}
-
-void memtest()
-{
-    char    *mem;
-    int        i;
-
-    for(i=0;i<2048;i++)
-    {
-        mem = malloc(1024*1024);
-    }
 }
 
 static int enterString(char* buffer, int maxLength, F32 timeout){
@@ -1776,7 +1771,6 @@ int main(int argc,char **argv)
     
     timeBeginPeriod(1);
 
-    //memtest();
     logSetMsgQueueSize(32 * 1024 * 1024);
     FolderCacheChooseMode();
 
@@ -1820,7 +1814,8 @@ int main(int argc,char **argv)
 
     if(is_log_server)
     {
-        //adding ctrl handler here so that when the dbserver instance that is running as a logserver
+        setWindowIconColoredLetter(compatibleGetConsoleWindow(), 'L', 0x00ff00);
+        // adding ctrl handler here so that when the dbserver instance that is running as a logserver
         //quits, it can properly close the zmqsocket in logserver.c
         initCtrlHandler();
         logMain();

@@ -92,19 +92,19 @@ void reloadClientMessageStores(int localeID) {
     }
     eaPush(&ppchMessageFiles, NULL);
 
-    push_estr(ppchMessageDirs, "powers"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "badges"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "PopHelp"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "classes"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "origins"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "boostset"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "attribs"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "costume"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "bases"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "defs"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "cards"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "villains"); //eaPush(&ppchMessageDirs, NULL);
-    push_estr(ppchMessageDirs, "Player_Created"); eaPush(&ppchMessageDirs, NULL);
+    push_estr(ppchMessageDirs, "powers");
+    push_estr(ppchMessageDirs, "badges");
+    push_estr(ppchMessageDirs, "PopHelp");
+    push_estr(ppchMessageDirs, "classes");
+    push_estr(ppchMessageDirs, "origins");
+    push_estr(ppchMessageDirs, "boostset");
+    push_estr(ppchMessageDirs, "attribs");
+    push_estr(ppchMessageDirs, "costume");
+    push_estr(ppchMessageDirs, "bases");
+    push_estr(ppchMessageDirs, "defs");
+    push_estr(ppchMessageDirs, "cards");
+    push_estr(ppchMessageDirs, "villains");
+    push_estr(ppchMessageDirs, "Player_Created");
     eaPush(&ppchMessageDirs, NULL);
 
     push_estr(ppchTexWordsFiles, "textureWords.ms"); //eaPush(&ppchTexWordsFiles, NULL);
@@ -122,7 +122,7 @@ void reloadClientMessageStores(int localeID) {
     for (i = 0; ppchMessageFiles && ppchMessageFiles[i]; i += 2) {
         writeConsole(OUTPUT_DEBUG, "\t%s", ppchMessageFiles[i]);
     }
-    for (i = 0; ppchMessageDirs && ppchMessageDirs[i]; i += 2) {
+    for (i = 0; ppchMessageDirs && ppchMessageDirs[i]; i++) {
         writeConsole(OUTPUT_DEBUG, "\t%s\\", ppchMessageDirs[i]);
     }
     installCustomMessageStoreHandlers(menuMessages);

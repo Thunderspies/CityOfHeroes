@@ -38,7 +38,7 @@ void beaconServerSetDataToolsRootPath(const char* dataToolsRootPath){
 }
 
 const char* beaconServerGetDataToolsRootPath(void){
-    return beacon_server.dataToolsRootPath ? beacon_server.dataToolsRootPath : "c:/game";
+    return beacon_server.dataToolsRootPath ? beacon_server.dataToolsRootPath : ".";
 }
 
 const char* beaconServerGetDataPath(void){

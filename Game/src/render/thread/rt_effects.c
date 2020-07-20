@@ -248,8 +248,8 @@ void saveThumbnailColorDepth(PBuffer *pb, const char *color_name, const char *de
 void saveThumbnailPBAux(PBuffer *pb, int buf, const char *name) // this buf is 1 off from the index into the aux buffers
 {
     static GLenum buflookup[] = {GL_FRONT_LEFT, GL_AUX0, GL_AUX1, GL_AUX2, GL_AUX3};
-    static char *aux_buff;
-    static int aux_buff_size;
+    static char *aux_buff = NULL;
+    static int aux_buff_size = 0;
     int size = pb->virtual_width * pb->virtual_height * 4;
     if (size > aux_buff_size) {
         SAFE_FREE(aux_buff);

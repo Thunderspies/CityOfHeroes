@@ -5,7 +5,7 @@ int launcherCount(void);
 int launcherCountStaticMapLaunchers(void);
 void launcherLaunchBeaconizers(void);
 int launchersStillConnecting(void);
-int launcherCommStartProcess(const char *db_hostname, U32 host_ip, MapCon* map_con);
+int launcherCommStartProcess(const char* db_hostname, U32 host_ip, MapCon* map_con, bool preload_transient);
 int launcherCommStartServerProcess(const char *command, U32 host_ip, ServerAppCon *server_app, int trackByExe, int monitorOnly);
 int launcherCommExec(const char *cmd,U32 host_ip);
 int launcherCommRecordCrash(U32 host_ip);

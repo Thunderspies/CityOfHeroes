@@ -1540,6 +1540,7 @@ void sndInit()
     FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "sound/*", noteChangedSounds);
     LoadSoundDefs();
     sndPlayingThreadStart();
+    writeConsole(OUTPUT_DEBUG, "Loaded sounds");
 }
 
 void sndExit()

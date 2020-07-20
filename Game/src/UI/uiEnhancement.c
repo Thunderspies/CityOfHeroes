@@ -426,7 +426,7 @@ void uiEnhancementFormatText(uiEnhancement *pEnh)
 
 uiEnhancement *uiEnhancementCreate( const char *boostName, int level)
 {
-    uiEnhancement *pEnh = (uiEnhancement *) malloc(sizeof(uiEnhancement));
+    uiEnhancement *pEnh = (uiEnhancement *) calloc(1, sizeof(uiEnhancement));
     memset(pEnh, 0, sizeof(uiEnhancement));
 
     pEnh->level = level;
@@ -446,7 +446,7 @@ uiEnhancement *uiEnhancementCreate( const char *boostName, int level)
 
 uiEnhancement *uiEnhancementCreateFromBoost(const Boost *boost)
 {
-    uiEnhancement *pEnh = (uiEnhancement *) malloc(sizeof(uiEnhancement));
+    uiEnhancement *pEnh = (uiEnhancement *) calloc(1, sizeof(uiEnhancement));
     memset(pEnh, 0, sizeof(uiEnhancement));
 
     // @todo SHAREDMEM, need boost to be mutable

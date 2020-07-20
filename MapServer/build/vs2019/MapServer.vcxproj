@@ -111,7 +111,14 @@
       <Message>Running StructParser</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetPath) $(ProjectDir)..\..\..\bin</Command>
+      <Command>copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\$(ProjectName)_Debug.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\$(ProjectName)_Debug.pdb
+copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\BeaconServer.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\BeaconServer.pdb
+copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\BeaconClient.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\BeaconClient.pdb
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Shared\*.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Debug\*.dll $(ProjectDir)..\..\..\bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -136,7 +143,14 @@
       <Message>Running StructParser</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetPath) $(ProjectDir)..\..\..\bin</Command>
+      <Command>copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\$(ProjectName)_Debug.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\$(ProjectName)_Debug.pdb
+copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\BeaconServer.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\BeaconServer.pdb
+copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\BeaconClient.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\BeaconClient.pdb
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Shared\*.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Debug\*.dll $(ProjectDir)..\..\..\bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -164,7 +178,14 @@
       <Message>Running StructParser</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetPath) $(ProjectDir)..\..\..\bin</Command>
+      <Command>copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin
+copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\BeaconServer.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\BeaconServer.pdb
+copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\BeaconClient.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\BeaconClient.pdb
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Shared\*.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Release\*.dll $(ProjectDir)..\..\..\bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -193,7 +214,14 @@
       <Message>Running StructParser</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetPath) $(ProjectDir)..\..\..\bin</Command>
+      <Command>copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin
+copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\BeaconServer.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\BeaconServer.pdb
+copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\BeaconClient.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\BeaconServer.pdb
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Shared\*.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Release\*.dll $(ProjectDir)..\..\..\bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

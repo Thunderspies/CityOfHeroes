@@ -157,7 +157,7 @@ void svrMonShardMonCommSendUpdates(void)
     int i;
     SvrMonShardMonClientLink    *client;
     static int timer=0;
-    static ServerStats oldStats;
+    static ServerStats oldStats = {0};
     ServerMonitorState *state = &g_state;
 
     assert(!g_shardmonitor_mode);

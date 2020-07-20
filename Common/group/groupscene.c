@@ -26,8 +26,8 @@ SceneInfo scene_info;    //Parsed scene file and name of sky file
 static char last_scenefile[MAX_PATH] = "";
 
 TokenizerParseInfo parse_tex_swap[] = {
-    { "Source",            TOK_STRING(TexSwap,src, 0)    },
-    { "Dest",            TOK_STRING(TexSwap,dst, 0)    },
+    { "Source",            TOK_POOL_STRING|TOK_STRING(TexSwap,src, 0)    },
+    { "Dest",            TOK_POOL_STRING|TOK_STRING(TexSwap,dst, 0)    },
     { "{",                TOK_START,        0                        },
     { "}",                TOK_END,            0                        },
     { "", 0, 0 }

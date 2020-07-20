@@ -27,12 +27,12 @@ static void growBuffer(char **buf, int *len, int size, int min)
 {
     int newlen = MAX(MAX(min, *len), getMemSize(size));
     if (!*buf) {
-        *buf = malloc(newlen);
+        *buf = calloc(newlen, 1);
         *len = newlen;
     } else {
         if (newlen > *len) {
             free(*buf);
-            *buf = malloc(newlen);
+            *buf = calloc(newlen, 1);
             *len = newlen;
         }
     }

@@ -815,7 +815,7 @@ void worldReceiveGroups(Packet *pak)
         if(handles_allocated < handles_count)
         {
             SAFE_FREE(handles);
-            handles = malloc(sizeof(handles[0])*handles_count);
+            handles = calloc(handles_count, sizeof(handles[0]));
             handles_allocated = handles_count;
         }
         for (j=0;j<sel_count;j++)

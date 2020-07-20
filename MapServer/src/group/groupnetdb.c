@@ -524,7 +524,7 @@ static void groupdbUngroup(Packet *pak)
 
     mode = pktGetBitsPack(pak,1);
     count = pktGetBitsPack(pak,1); // I haven't tested count>1, but it should work fine (with the sorting I added below) -GG
-    handles = malloc(sizeof(*handles)*count);
+    handles = calloc(count, sizeof(*handles));
     for(i = 0; i < count; i++)
         pktGetTrackerHandleNoAllocPreChecked(pak, &handles[i]);
     if(count)
@@ -559,7 +559,7 @@ static void groupdbGroupOrAttach(Packet *pak,char *cmd_name)
 
     // do all of the checking now.  if there are multiple deletions, the groups' names could change.
     // set things up to do the pivot stuff later
-    handles = malloc(sizeof(handles[0])*count);
+    handles = calloc(count, sizeof(handles[0]));
 
     if(use_origin)
         copyMat4(unitmat, pivot);
@@ -615,7 +615,7 @@ static void groupdbPaste(Packet *pak)
 
     if (!count)
         return;
-    pasties = malloc(sizeof(pasties[0])*count);
+    pasties = calloc(count, sizeof(pasties[0]));
 
     // do all of the checking now.  if there are multiple pastes, the groups' names could change.
     for(i = 0; i < count; i++)
@@ -651,7 +651,7 @@ static void groupdbDelete(Packet *pak)
 
     if(count <= 0)
         return;
-    handles = malloc(sizeof(handles[0])*count);
+    handles = calloc(count, sizeof(handles[0]));
 
     // do all of the checking now.  if there are multiple deletions, the groups' names could change.
     for(i = 0; i < count; i++)

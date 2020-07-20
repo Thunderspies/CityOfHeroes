@@ -75,7 +75,7 @@ void initGenerators() {
 }
 
 MissionSetRules * loadRuleSet(FILE * fin) {
-    MissionSetRules * msr=malloc(sizeof(MissionSetRules));
+    MissionSetRules * msr=calloc(1, sizeof(MissionSetRules));
     char token[128];
     fscanf(fin,"%s",msr->missionSet);
     fscanf(fin,"%s",token);
@@ -471,7 +471,7 @@ void findBoundingBox(DefTracker * tracker,Vec2 *** v) {
         free(allPoints[i]);
     }
     for (i=0;i<4;i++) {
-        Vec2 * corner=malloc(sizeof(Vec2));
+        Vec2 * corner=calloc(1, sizeof(Vec2));
         eaPush((F32***)v,corner);
     }
     (*(*v)[0])[0]=minx;
@@ -645,7 +645,7 @@ int preprocessGenerators() {
                 memset(mp,0,sizeof(*mp));
             }
             fscanf(fin,"%d",&hullsize);
-            v=malloc(sizeof(Vec2)*hullsize);
+            v=calloc(hullsize, sizeof(Vec2));
             for (i=0;i<hullsize;i++) {
                 fscanf(fin,"%f %f",&v[i][0],&v[i][1]);
                 eaPush((F32***)&mp->convexHull,&v[i]);
@@ -698,7 +698,6 @@ int preprocessGenerators() {
             }
             //do my stuff
             {
-                Vec2 * v=malloc(sizeof(Vec2));
                 int portals;
                 int k;
                 double area=0;
@@ -960,7 +959,7 @@ void fitPieceToPiece(MGNode * target,MGNode * source) {
 int mapGeneratorClock;
 
 MGNode * generateMapRecursive(MapSetGenerator * msg,MissionSetRules * msr,CurrentMapStatus * cms,MGNode * sourceNode,int sourceIndex) {
-    MGNode * node=malloc(sizeof(MGNode));
+    MGNode * node=calloc(1, sizeof(MGNode));
     MGNode * temp;
     static int lowestElevator;        //we need this so floor X doesn't get two elevators to floor X+1
     int branchPath;                    //portal to which the main branch goes
@@ -1106,7 +1105,7 @@ MGNode * generateMapRecursive(MapSetGenerator * msg,MissionSetRules * msr,Curren
     //if we are going to use this piece, go ahead and throw some doors on it
     if (node->hasDoors)
         for (i=0;i<node->piece->portals;i++) {
-            MGNode * door=malloc(sizeof(MGNode));
+            MGNode * door=calloc(1, sizeof(MGNode));
             node->doors[i]=door;
             door->piece=getRandomPiece(msg,-1,-1,MG_Door,-1,-1);
             if (door->piece==NULL) {

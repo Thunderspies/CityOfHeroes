@@ -7,9 +7,9 @@
 #include <utilitieslib/utils/mathutil.h>
 #include "group/groupfileload.h"
 
-DynGroup        *dyn_groups;
-int                dyn_group_count,dyn_group_max;
-DynGroupStatus    *dyn_group_status;
+DynGroup        *dyn_groups = NULL;
+int                dyn_group_count = 0,dyn_group_max = 0;
+DynGroupStatus    *dyn_group_status = NULL;
 
 static int findBreakable(DefTracker *tracker)
 {

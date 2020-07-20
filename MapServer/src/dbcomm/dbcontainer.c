@@ -112,7 +112,7 @@ int dbReadContainer(Packet *pak,ContainerInfo *ci,int list_id)
 void dbReceiveEnts(int count,Packet *pak,NetLink *link)
 {
     int                i;
-    static    int        max_ents,*ack_list,*cookie_list;
+    static    int        max_ents = 0,*ack_list = NULL,*cookie_list = NULL;
     Packet            *pak_out;
     ContainerInfo    ci;
     char *ci_data = NULL;

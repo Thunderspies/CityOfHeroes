@@ -112,7 +112,12 @@
       <Message>Running StructParser</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetPath) $(ProjectDir)..\..\..\bin\Ouroboros_Debug.exe</Command>
+      <Command>copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\Ouroboros_Debug.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\Ouroboros_Debug.pdb
+copy /Y $(ProjectDir)..\..\..\3rdparty\cg\bin\cg.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\cg\bin\cgGL.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Shared\*.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Debug\*.dll $(ProjectDir)..\..\..\bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,7 +142,12 @@
       <Message>Running StructParser</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetPath) $(ProjectDir)..\..\..\bin\Ouroboros_Debug.exe</Command>
+      <Command>copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\Ouroboros_Debug.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\Ouroboros_Debug.pdb
+copy /Y $(ProjectDir)..\..\..\3rdparty\cg\bin.x64\cg.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\cg\bin.x64\cgGL.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Shared\*.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Debug\*.dll $(ProjectDir)..\..\..\bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -166,7 +176,12 @@
       <Message>Running StructParser</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetPath) $(ProjectDir)..\..\..\bin\Ouroboros.exe</Command>
+      <Command>copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\Ouroboros.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\Ouroboros.pdb
+copy /Y $(ProjectDir)..\..\..\3rdparty\cg\bin\cg.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\cg\bin\cgGL.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Shared\*.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Release\*.dll $(ProjectDir)..\..\..\bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -195,7 +210,12 @@
       <Message>Running StructParser</Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetPath) $(ProjectDir)..\..\..\bin\Ouroboros.exe</Command>
+      <Command>copy /Y $(TargetDir)$(ProjectName).exe $(ProjectDir)..\..\..\bin\Ouroboros.exe
+copy /Y $(TargetDir)$(ProjectName).pdb $(ProjectDir)..\..\..\bin\Ouroboros.pdb
+copy /Y $(ProjectDir)..\..\..\3rdparty\cg\bin.x64\cg.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\cg\bin.x64\cgGL.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Shared\*.dll $(ProjectDir)..\..\..\bin
+copy /Y $(ProjectDir)..\..\..\3rdparty\PhysX\bin\Release\*.dll $(ProjectDir)..\..\..\bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

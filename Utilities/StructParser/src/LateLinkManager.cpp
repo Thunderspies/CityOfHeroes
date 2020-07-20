@@ -12,6 +12,7 @@ LateLinkManager::LateLinkManager()
     m_bSomethingChanged = false;
     m_iNumLateLinks = 0;
     m_LateLinkFileName[0] = 0;
+    m_ProjectName[0] = 0;
 }
 
 LateLinkManager::~LateLinkManager()

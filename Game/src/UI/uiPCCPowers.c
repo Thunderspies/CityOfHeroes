@@ -660,7 +660,7 @@ static int drawMatchingPowerSets(int startY, int category, int class_index, floa
     if (PowerSetMatches[category] == NULL)
     {
         int includeMisc = 0;
-        PowerSetMatches[category] = malloc(sizeof(int)*eaSize(&missionMakerPowerSet[category]->ppPowerSets));
+        PowerSetMatches[category] = calloc(eaSize(&missionMakerPowerSet[category]->ppPowerSets), sizeof(int));
         for (i = 0; i < eaSize(&missionMakerPowerSet[category]->ppPowerSets); i++)
         {
             PowerSetMatches[category][i] = 0;
@@ -795,7 +795,7 @@ static void sortPowers(int category)
 {
     int i;
     PCC_powerIndex **tempPowerList = NULL;
-    if (!PCCSortedPowers[category])    PCCSortedPowers[category] = malloc(sizeof(int)*eaSize(&missionMakerPowerSet[category]->ppPowerSets));
+    if (!PCCSortedPowers[category])    PCCSortedPowers[category] = calloc(eaSize(&missionMakerPowerSet[category]->ppPowerSets), sizeof(int));
     for (i = 0; i < eaSize(&missionMakerPowerSet[category]->ppPowerSets); ++i)
     {
         PCC_powerIndex *powerIndex;

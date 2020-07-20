@@ -65,6 +65,7 @@ static void setDefaultBeaconizerConfig()
     server_cfg.do_not_launch_master_beacon_server = 0;
     
     server_cfg.request_beacon_server_count = -1;
+    server_cfg.beacon_client_count = 2;
     
     getExecutableDir(server_cfg.beacon_request_cache_dir);
     
@@ -109,8 +110,13 @@ void serverCfgLoad()
     server_cfg.logins_per_minute    = 100;
 
     server_cfg.xpscale                = 1.0f;
+    server_cfg.influencescale         = 1.0f;
+    server_cfg.prestigescale          = 1.0f;
     server_cfg.aescale                = 1.0f;
+    server_cfg.aeinfluencescale       = 1.0f;
+    server_cfg.aeprestigescale        = 1.0f;
     server_cfg.ticketscale            = 1.0f;
+    server_cfg.client_logout_time     = 30;
     server_cfg.aggrocap               = 17;
     server_cfg.targetcapmode          = 1;
     server_cfg.client_commands[0]    = 0;
@@ -151,6 +157,12 @@ void serverCfgLoad()
     server_cfg.name_lock_timeout = DEFAULT_NAME_LOCK_TIMEOUT;
 
     server_cfg.advertisedIp = 0;
+
+    {
+        SYSTEM_INFO si;
+        GetSystemInfo(&si);
+        server_cfg.beacon_client_count = si.dwNumberOfProcessors + 1;
+    }
 
     if (!realFilename || !(file = fopen(realFilename, "rt")))
     {
@@ -348,6 +360,11 @@ void serverCfgLoad()
         {
             server_cfg.request_beacon_server_count = atoi(s2);
         }
+        else if (!stricmp(s, "BeaconClientCount"))
+        {
+            int beacon_clients = MIN(atoi(s2), server_cfg.beacon_client_count);
+            server_cfg.beacon_client_count = beacon_clients;
+        }
         else if (stricmp(s, "DoNotPreloadCrashReportDLL")==0)
             server_cfg.do_not_preload_crashreportdll = atoi(s2);
         else if (stricmp(s, "BeaconRequestCacheDir")==0)
@@ -363,10 +380,20 @@ void serverCfgLoad()
             server_cfg.disableContainerBackups = atoi(s2);
         else if (stricmp(s, "XPScale")==0)
             server_cfg.xpscale = atof(s2);
+        else if (stricmp(s, "InfluenceScale")==0)
+            server_cfg.influencescale = atof(s2);
+        else if (stricmp(s, "PrestigeScale")==0)
+            server_cfg.prestigescale = atof(s2);
         else if (stricmp(s, "AEScale")==0)
             server_cfg.aescale = atof(s2);
+        else if (stricmp(s, "AEInfluenceScale")==0)
+            server_cfg.aeinfluencescale = atof(s2);
+        else if (stricmp(s, "AEPrestigeScale")==0)
+            server_cfg.aeprestigescale = atof(s2);
         else if (stricmp(s, "TicketScale")==0)
             server_cfg.ticketscale = atof(s2);
+        else if (stricmp(s, "ClientLogoutTime")==0)
+            server_cfg.client_logout_time = atoi(s2);
         else if (stricmp(s, "AggroCap") == 0)
             server_cfg.aggrocap = atof(s2);
         else if (stricmp(s, "TargetCapMode") == 0)

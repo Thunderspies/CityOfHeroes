@@ -1335,7 +1335,7 @@ S32 readBeaconFile(char* fileName){
     beaconReader.fileTotalPos                = 0;
     
     beaconReader.fileBufferSize             = 1024 * 1024;
-    beaconReader.fileBuffer                    = malloc(beaconReader.fileBufferSize);
+    beaconReader.fileBuffer                    = calloc(beaconReader.fileBufferSize, 1);
     beaconReader.fileBufferPos                = beaconReader.fileBuffer;
     beaconReader.fileBufferValidRemaining    = 0;
     

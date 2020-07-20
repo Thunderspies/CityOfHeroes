@@ -199,8 +199,8 @@ void TextureMap(CDXSurface *src, CDXSurface *dest, int x1, int y1, int x2, int y
     if (dClipRect->bottom > m_tableSize) {
         SAFE_FREE(m_leftTable);
         SAFE_FREE(m_rightTable);
-        m_leftTable  = (TexMapTable*)malloc(sizeof(TexMapTable)*dClipRect->bottom);
-        m_rightTable = (TexMapTable*)malloc(sizeof(TexMapTable)*dClipRect->bottom);
+        m_leftTable  = (TexMapTable*)calloc(dClipRect->bottom, sizeof(TexMapTable));
+        m_rightTable = (TexMapTable*)calloc(dClipRect->bottom, sizeof(TexMapTable));
         m_tableSize = dClipRect->bottom;
     } else {
         //debug: memset(m_leftTable, 0xee, sizeof(TexMapTable)*m_tableSize);

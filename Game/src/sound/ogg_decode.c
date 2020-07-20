@@ -711,7 +711,7 @@ bool oggToPcm(SoundFileInfo *info)
         ZeroStruct(&decode);
         decode.info = info;
         oggInitDecoder(&decode);
-        decode.decode_buffer = malloc(decode.pcm_len);
+        decode.decode_buffer = calloc(decode.pcm_len, 1);
 
         if(decode.decode_buffer) {
             decode.decode_len = decode.pcm_len;

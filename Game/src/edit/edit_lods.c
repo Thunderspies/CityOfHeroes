@@ -900,7 +900,7 @@ void editLODsUI(void)
 {
     char buffer[MAX_PATH],name[MAX_PATH], *s;
     RegReader rr;
-    int x, y;
+    int x = 0, y = 0;
 
     if (edit_lods.ui_id)
         return;

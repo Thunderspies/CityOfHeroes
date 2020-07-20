@@ -130,7 +130,7 @@ static void onNegativeChanged(void* userData) {
 
 static bool createColorPicker(int* initialColor, int alpha) {
     int id;
-    int x, y;
+    int x = 0, y = 0;
     RegReader rr;
 
     s_colorPickerID = editorUICreateWindow("Pick Color");

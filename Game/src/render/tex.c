@@ -1237,7 +1237,7 @@ int texFillInBind(char *filename, BasicTexture *bind) {
     #define MAX_HEADER_SIZE 1024 // largest texture header we expect to run across (fyi largest so far is 570 as of 1/13/11)
 
     if (!extradata) {
-        extradata = malloc(MAX_HEADER_SIZE);
+        extradata = calloc(1, MAX_HEADER_SIZE);
     }
 
     bind->flags &= ~(TEX_ALPHA|TEX_BUMPMAP|TEX_TGA|TEX_DDS|TEX_JPEG); // clear flags set in this function
@@ -2323,11 +2323,15 @@ void texCheckSwapList(void) {
     swaplist = sceneGetTexSwaps(&count);
     // Check for any swapped textures, and load them as well
     if (count) {
+        char srcname[256];
+        char dstname[256];
         didSwap = calloc(count, sizeof(int));
         // Call texFixName to remove .tga, etc from texture names in the swap list
         for (i=0; i < count; i++) {
-            texFixName(swaplist[i]->src, swaplist[i]->src, -1);
-            texFixName(swaplist[i]->dst, swaplist[i]->dst, -1);
+            texFixName(swaplist[i]->src, srcname, sizeof(srcname));
+            texFixName(swaplist[i]->dst, dstname, sizeof(dstname));
+            swaplist[i]->src = (char*)allocAddString(srcname);
+            swaplist[i]->dst = (char*)allocAddString(dstname);
         }
     }
 

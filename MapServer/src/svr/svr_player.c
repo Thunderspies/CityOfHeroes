@@ -470,7 +470,7 @@ void svrCheckIdleShutdown(void)
 {
     // local servers for development and editing don't ever idle exit.
     // also only idle out static map instances, not the master started with AutoStart at shard startup (see comments above)
-    if ( !db_state.local_server && server_state.idle_exit_timeout > 0 && (server_state.transient || isStaticMapInstance()))
+    if ( !db_state.local_server && (server_state.idle_exit_timeout > 0 || server_state.preload_transient) && (server_state.transient || isStaticMapInstance()))
     {
         // is the server currently idle
         if (!player_count)
@@ -499,6 +499,18 @@ void svrCheckIdleShutdown(void)
                 printf("server has exceeded idle exit timeout [%d minutes]. shutting down.\n",  server_state.idle_exit_timeout);
                 dbRequestShutdown();
                 svrResetSecondsIdle();    // reset the idle time so that we don't generate another request immediately
+            }
+        }
+
+        if (server_state.preload_transient && (svrGetSecondsIdle() > 5))
+        {
+            server_state.preload_transient = false;
+            if (!player_count)
+            {
+                LOG_OLD("mapserver: transient server preloaded. shutting down until it is required again");
+                printf("transient server preloaded. shutting down until it is required again\n");
+                dbRequestShutdown();
+                svrResetSecondsIdle(); // reset the idle time so that we don't generate another request immediately
             }
         }
     }
@@ -2743,7 +2755,7 @@ Entity* svrFindPlayerInTeamup(int teamID, PlayerEntType type)
 
 void svrPlayerSetDisconnectTimer(Entity *e,int bad_connection)
 {
-    F32    seconds = 30;
+    F32    seconds = server_state.client_logout_time;
 
     if (e->access_level > 0)
     {

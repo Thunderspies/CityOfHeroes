@@ -94,7 +94,7 @@ static void onDialogCancel() {
 }
 
 void edit_openAdjustCubemapDialog() {
-    int x, y;
+    int x = 0, y = 0;
     RegReader rr;
 
     if (s_dialogID >= 0)

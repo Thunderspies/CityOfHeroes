@@ -363,7 +363,7 @@ void autoRegisterCrypticStuff()
 {
     const char *install_directory = regGetInstallationDir();
     RegReader reader;
-    int last_ran_timestamp;
+    int last_ran_timestamp = 0;
     int current_timestamp = fileLastChanged("./src/util/NCAutoSetup.exe");
     reader = createRegReader();
     initRegReader(reader, regGetAppKey());

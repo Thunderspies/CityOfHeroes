@@ -930,7 +930,7 @@ int walkSkeletonAndCreateRagdoll( GfxNode* rootNode, const Mat4 parentMat, Ragdo
         ++iBoneCount;
 
         // Allocate it
-        Ragdoll* newRagdoll = (Ragdoll*)malloc(sizeof(Ragdoll));
+        Ragdoll* newRagdoll = (Ragdoll*)calloc(1, sizeof(Ragdoll));
 
         // Set defaults
         newRagdoll->boneId = node->anim_id;

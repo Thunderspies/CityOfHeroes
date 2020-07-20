@@ -68,7 +68,8 @@ typedef struct ServerState
     unsigned int        enableBoostDiminishing : 1;        // Enable diminishing returns on boosts (aka Enhancement Diversification)
     unsigned int        skyFadeInteresting : 1;            // Set to 1 if skyFade values need to be sent
 
-    unsigned int        transient : 1;
+    unsigned int        transient : 1; // unload if no players are connected for some time
+    unsigned int        preload_transient : 1; // unload after a few seconds, used to preload all transient map and have them report contacts and doors so that they can be found by tasks and storyarcs
 
     int        viewCutScene;    //viewing a cut scene
     Mat4    cutSceneCameraMat;  //since many files dont care what a cutScene is 
@@ -115,7 +116,11 @@ typedef struct ServerState
     int        tsr_dbconnect; // When running a MapServer -tsr, connect to the DbServer, and exit when it closes
     int        nostats;    // Don't calculate, load, or store, statistics for players
     float    xpscale;
+    float    influencescale;
+    float    prestigescale;
     float    aescale;
+    float    aeinfluencescale;
+    float    aeprestigescale;
     float    ticketscale;
     int     aggrocap;
     int     targetcapmode;
@@ -173,7 +178,9 @@ typedef struct ServerState
 
     char**    blockedMapKeys;
 
-    int accountCertificationTestStage; 
+    int accountCertificationTestStage;
+
+    int client_logout_time;
 
     U32        idle_exit_timeout;                            // shutdown the server if it is idle for this many minutes, 0 means there is no idle exit
     U32        maintenance_idle;                            // idle minutes before performing periodic minor idle maintenance, 0 means there is no idle maintenance

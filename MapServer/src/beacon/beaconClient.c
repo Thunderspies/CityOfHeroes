@@ -8,7 +8,6 @@
 #include <utilitieslib/utils/log.h>
 
 #undef GetEnvironmentStrings
-#define PRODUCTION_BEACON_CLIENTS 3
 
 static char* beaconClientExeName = "BeaconClient.exe";
 
@@ -1065,7 +1064,7 @@ static void beaconSentryDestroyClientData(BeaconSentryClientData* client){
 
 static void beaconClientCheckSentry(void){
     if(beaconClientIsSentry()){
-        S32 desiredClientCount = beaconIsProductionMode() ? PRODUCTION_BEACON_CLIENTS : (beacon_client.cpuCount + 1);
+        S32 desiredClientCount = (beacon_client.cpuCount + 1);
         S32 needNewSentryClient = 0;
         S32 bytesRead;
         S32 i;
@@ -1096,7 +1095,7 @@ static void beaconClientCheckSentry(void){
                                     hideClient);
             }
         }
-        else{
+        else if(!beaconIsProductionMode()) {
             // Too many clients!!!
             
             S32 toKillCount = beacon_client.sentryClients.count - desiredClientCount;

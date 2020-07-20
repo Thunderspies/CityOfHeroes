@@ -421,6 +421,15 @@ typedef F32 Quat[4];
 #define CLRB(mem,bitnum) ((mem)[(bitnum) >> 5] &= ~(1 << ((bitnum) & 31)))
 #define TSTB(mem,bitnum) (!!((mem)[(bitnum) >> 5] & (1 << ((bitnum) & 31))))
 
+typedef union SGColorBits {
+    U64 SGBitSet;
+    struct
+    {
+        U32 SGBitSetLow;
+        U32 SGBitSetHigh;
+    };
+} SGColorBits;
+
 #ifndef BOOL
     typedef int BOOL;
 #endif

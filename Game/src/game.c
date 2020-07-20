@@ -964,7 +964,7 @@ void checkLogoutProgress()
 
     if (p && p->logout_timer)
     {
-        int quitSeconds = (int)(p->logout_timer / 30.f) - 1.0f;
+        int quitSeconds = (int)(p->logout_timer / 30.f - 1.0f);
         int kickSeconds = MissionKickSeconds();
         extern void         commSendQuitGame(int abort_quit);
         //        saveOnExit();
@@ -1572,7 +1572,7 @@ static void checkForCrash()
     if (!isDevelopmentMode() || forceCrashCheck)
     {
         char progressUserString[100];
-        PROGRESSDIALOGTYPE type;
+        PROGRESSDIALOGTYPE type = PROGRESSDIALOGTYPE_NONE;
         RegReader    rr;
 
         rr = createRegReader();

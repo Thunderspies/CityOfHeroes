@@ -29,9 +29,6 @@
 #include "overloadProtection.h"
 #include "launcher_common.h"
 
-#define PRODUCTION_BEACON_CLIENTS 3
-
-
 
 typedef struct
 {
@@ -134,6 +131,7 @@ static void launchBeaconClient(NetLink* link){
             " -beaconclient %s"
             " -noencrypt"
             " -beaconproductionmode"
+            " -beaconallownovodex"
             ,
             myHostname(),
             server_cfg.master_beacon_server);
@@ -176,6 +174,7 @@ static void launchRequestBeaconServer(NetLink* link){
             " -beaconrequestserver %s"
             " -noencrypt"
             " -beaconproductionmode"
+            " -beaconallownovodex"
             ,
             myHostname(),
             server_cfg.master_beacon_server);
@@ -199,6 +198,8 @@ static void launchMasterBeaconServer(NetLink* link){
             " -beaconrequestcachedir %s"
             " -noencrypt"
             " -beaconproductionmode"
+            " -beaconallownovodex"
+            " -beaconnosymstore"
             ,
             myHostname(),
             server_cfg.beacon_request_cache_dir);
@@ -381,7 +382,7 @@ void launcherLaunchBeaconizers()
             if(!(role->primaryRole & ROLE_MONITOR)){
                 // Launch enough beacon clients to get to #CPUs+1.
                 
-                for(j = launcher->beaconizer.count.clients ; j < PRODUCTION_BEACON_CLIENTS; j++){
+                for(j = launcher->beaconizer.count.clients ; j < server_cfg.beacon_client_count; j++){
                     launchBeaconClient(link);
                 }
 
@@ -1492,7 +1493,7 @@ int launcherCommStartServerProcess(const char *command, U32 host_ip, ServerAppCo
     return 1;
 }
 
-int launcherCommStartProcess(const char *db_hostname, U32 host_ip, MapCon* map_con)
+int launcherCommStartProcess(const char* db_hostname, U32 host_ip, MapCon* map_con, bool preload_transient)
 {
     NetLink            *best_link=0;
     LauncherLink    *client;
@@ -1569,17 +1570,37 @@ int launcherCommStartProcess(const char *db_hostname, U32 host_ip, MapCon* map_c
         }
         estrConcatCharString(&cmd, server_cfg.blocked_map_keys[0]);
     }
-    if (server_cfg.xpscale > 1.0f || server_cfg.xpscale < 1.0f)
+    if (server_cfg.xpscale != 1.0f)
     {
         estrConcatf(&cmd, " -xpscale %f", server_cfg.xpscale);
     }
-    if (server_cfg.aescale > 1.0f || server_cfg.aescale < 1.0f)
+    if (server_cfg.influencescale != 1.0f)
+    {
+        estrConcatf(&cmd, " -influencescale %f", server_cfg.influencescale);
+    }
+    if (server_cfg.prestigescale != 1.0f)
+    {
+        estrConcatf(&cmd, " -prestigescale %f", server_cfg.xpscale);
+    }
+    if (server_cfg.aescale != 1.0f)
     {
         estrConcatf(&cmd, " -aescale %f", server_cfg.aescale);
     }
-    if (server_cfg.ticketscale > 1.0f || server_cfg.ticketscale < 1.0f)
+    if (server_cfg.aeinfluencescale != 1.0f)
+    {
+        estrConcatf(&cmd, " -aeinfluencescale %f", server_cfg.aeinfluencescale);
+    }
+    if (server_cfg.aeprestigescale != 1.0f)
+    {
+        estrConcatf(&cmd, " -aeprestigescale %f", server_cfg.aeprestigescale);
+    }
+    if (server_cfg.ticketscale != 1.0f)
     {
         estrConcatf(&cmd, " -ticketscale %f", server_cfg.ticketscale);
+    }
+    if (server_cfg.client_logout_time != 30)
+    {
+        estrConcatf(&cmd, " -clientlogouttime %d", server_cfg.client_logout_time);
     }
     if (server_cfg.aggrocap > 17)
     {
@@ -1602,6 +1623,9 @@ int launcherCommStartProcess(const char *db_hostname, U32 host_ip, MapCon* map_c
             WeeklyTF_GenerateTokenString(weeklyTF_cfg, &cmd);
         }
     }
+
+    if (preload_transient)
+        estrConcatStaticCharArray(&cmd, " -preloadtransient");
 
     // 0 is English, 5 is German and 6 is French. We must always tell the new
     // MapServer which locale to use since it may be running on a machine

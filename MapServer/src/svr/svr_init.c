@@ -919,8 +919,18 @@ void parseArgs2(int argc,char **argv)
             ;
         else if (strcmp(argv[i],"-xpscale")==0)
             server_state.xpscale = atof(argv[++i]);
+        else if (strcmp(argv[i],"-clientlogouttime")==0)
+            server_state.client_logout_time = atoi(argv[++i]);
+        else if (strcmp(argv[i],"-influencescale")==0)
+            server_state.influencescale = atof(argv[++i]);
+        else if (strcmp(argv[i],"-prestigescale")==0)
+            server_state.prestigescale = atof(argv[++i]);
         else if (strcmp(argv[i],"-aescale")==0)
             server_state.aescale = atof(argv[++i]);
+        else if (strcmp(argv[i],"-aeinfluencescale")==0)
+            server_state.aeinfluencescale = atof(argv[++i]);
+        else if (strcmp(argv[i],"-aeprestigescale")==0)
+            server_state.aeprestigescale = atof(argv[++i]);
         else if (strcmp(argv[i],"-ticketscale")==0)
             server_state.ticketscale = atof(argv[++i]);
         else if (strcmp(argv[i], "-aggrocap") == 0)
@@ -1390,6 +1400,10 @@ void parseArgs2(int argc,char **argv)
         {
             int timeout_minutes = atoi(argv[++i]);
             server_state.idle_exit_timeout = timeout_minutes > 0 ? (U32)timeout_minutes : 0;
+        }
+        else if (stricmp(argv[i], "-preloadtransient") == 0)
+        {
+            server_state.preload_transient = true;
         }
         else if (stricmp(argv[i], "-idleUpkeep") == 0)
         {

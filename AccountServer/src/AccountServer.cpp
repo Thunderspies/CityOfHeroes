@@ -727,11 +727,11 @@ static void handleClientCountByShardRequest(AccountServerShard *shard, Packet *p
 
     client->auth_id = auth_id;
     client->shard = shard;
-    client->unlocked_used_counts = static_cast<int*>(malloc(state->shard_count*sizeof(int)));
-    client->total_used_counts = static_cast<int*>(malloc(state->shard_count*sizeof(int)));
-    client->account_extra_counts = static_cast<int*>(malloc(state->shard_count*sizeof(int)));
-    client->server_max_counts = static_cast<int*>(malloc(state->shard_count*sizeof(int)));
-    client->vip_only_statuses = static_cast<int*>(malloc(state->shard_count*sizeof(int)));
+    client->unlocked_used_counts = static_cast<int*>(calloc(state->shard_count, sizeof(int)));
+    client->total_used_counts = static_cast<int*>(calloc(state->shard_count, sizeof(int)));
+    client->account_extra_counts = static_cast<int*>(calloc(state->shard_count, sizeof(int)));
+    client->server_max_counts = static_cast<int*>(calloc(state->shard_count, sizeof(int)));
+    client->vip_only_statuses = static_cast<int*>(calloc(state->shard_count, sizeof(int)));
     client->requested = timerSecondsSince2000();
 
     for(i = 0; i < state->shard_count; ++i)

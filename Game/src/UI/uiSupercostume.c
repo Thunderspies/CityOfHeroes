@@ -298,9 +298,9 @@ void costume_setCurrentCostume( Entity *e , int supergroup )
 static void supercostume_Finalize()
 {
     Entity *e = playerPtr();
-    unsigned int prim, sec, prim2, sec2, tert, quat;
+    SGColorBits prim, sec, prim2, sec2, tert, quat;
 
-    costume_SGColorsExtract( e, gSuperCostume, &prim, &sec, &prim2, &sec2, &tert, &quat );
+    costume_SGColorsExtract(e, gSuperCostume, &prim, &sec, &prim2, &sec2, &tert, &quat);
     sendSuperCostume( prim, sec, prim2, sec2, tert, quat, e->pl->hide_supergroup_emblem );
     costume_destroy( gSuperCostume );
     gSuperCostume = 0;

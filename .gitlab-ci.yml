@@ -1,0 +1,16 @@
+build:
+  tags: 
+    - windows
+  script:
+    - msbuild build/vs2019/master.sln /m /p:BuildInParallel=true /p:Configuration=Release /p:Platform=x86
+  artifacts:
+    when: on_success
+    name: "Source.$CI_COMMIT_REF_NAME-$CI_COMMIT_SHA"
+    paths:
+      - bin/*.exe
+      - bin/*.pdb
+      - bin/*.dll
+      - bin/etc/config.txt
+      - bin/version.ini
+      - bin/data/server/db/*.cfg
+      - bin/data/server/db/*.db

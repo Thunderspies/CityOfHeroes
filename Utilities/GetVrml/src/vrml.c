@@ -531,8 +531,8 @@ int        i;
 static F32 *getF32s(int *count)
 {
 char    *s;
-static F32    *list;
-static int list_len;
+static F32    *list = NULL;
+static int list_len = 0;
 F32        *ptr;
 int        i;
 
@@ -559,8 +559,8 @@ int        i;
 static S32 *getS32s(int *count)
 {
 char    *s;
-static S32    *list;
-static int list_len;
+static S32    *list = NULL;
+static int list_len = 0;
 S32        *ptr;
 int        i;
 

@@ -256,12 +256,11 @@ void prnt_dims(CBox *bxRes, float x, float y, float z, float xsc, float ysc, cha
         prnt(x,y+BOX_DY(*bxRes),z,xsc,ysc,str);
 }
 
-
-static F32 storedsalvagesmf_Display( StoredSalvageSMF *smf, const char *name, const char *shortInfo, const char *info, const char *entFrom, F32 x, F32 y, F32 z, F32 dxMax, F32 sc, int rarity, int bDisplay )
+static F32 storedenhancementsmf_Display( StoredSalvageSMF *smf, const char *name, const char *shortInfo, const char *info, const char *entFrom, F32 x, F32 y, F32 z, F32 dxMax, F32 sc, int rarity, int bDisplay )
 {
     F32 resDy = 0;
     char *txtShortInfo = textStd(shortInfo);
-    char *txtInfo = textStd(info);
+    char *txtInfo = info;
     char *txtName = textStd(name);
     bool reformat = false;
 
@@ -349,6 +348,10 @@ static F32 storedsalvagesmf_Display( StoredSalvageSMF *smf, const char *name, co
     return smf->height;
 }
 
+static F32 storedsalvagesmf_Display( StoredSalvageSMF *smf, const char *name, const char *shortInfo, const char *info, const char *entFrom, F32 x, F32 y, F32 z, F32 dxMax, F32 sc, int rarity, int bDisplay )
+{
+    return storedenhancementsmf_Display(smf, name, shortInfo, textStd(info), entFrom, x, y, z, dxMax, sc, rarity, bDisplay);
+}
 
 
 void basestoragestate_Init(BaseStorageState *state)
@@ -568,7 +571,7 @@ static bool s_DisplayStoredEnhancement(BaseStorageState *state, StoredEnhancemen
     if(verify(smf))
     {
            F32 dxMax = wd - (ICON_COL*sc+2*PIX3*sc); 
-        ht = MAX(ROW_HT*sc,storedsalvagesmf_Display( smf, ppow->pchDisplayName, ppow->pchDisplayShortHelp, sEnhHelp.buff, itm->nameEntFrom, x+(ICON_COL)*sc, y+(PIX3)*sc, z+1, dxMax, sc, -1, bDisplay )+R10*sc);
+        ht = MAX(ROW_HT*sc,storedenhancementsmf_Display( smf, ppow->pchDisplayName, ppow->pchDisplayShortHelp, sEnhHelp.buff, itm->nameEntFrom, x+(ICON_COL)*sc, y+(PIX3)*sc, z+1, dxMax, sc, -1, bDisplay )+R10*sc);
           *dy += ht;
 
         if (!bDisplay)

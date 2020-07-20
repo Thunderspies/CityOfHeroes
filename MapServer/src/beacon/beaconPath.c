@@ -415,7 +415,7 @@ static void beaconSearchOutputPath(    AStarSearchData* data,
     BeaconConnection*    connFromMe = NULL;
     Beacon*                destBeacon = search->dst;
     S32                    first = 1;
-    F32                    last_y;
+    F32                    last_y = posY(search->src);
     
     while(curInfo){
         AStarInfo*            parentInfo;

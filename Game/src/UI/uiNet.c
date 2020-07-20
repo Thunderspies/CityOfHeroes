@@ -2029,20 +2029,26 @@ void receiveClientCombatStats( Packet *pak )
 }
 //-----------------------------------------------------------------------
 
-void sendSuperCostume( unsigned int primary, unsigned int secondary, unsigned int primary2, unsigned int secondary2, unsigned int tertiary, unsigned int quaternary, bool hide_emblem )
+void sendSuperCostume(SGColorBits primaryU, SGColorBits secondaryU, SGColorBits primary2U, SGColorBits secondary2U, SGColorBits tertiaryU, SGColorBits quaternaryU, bool hide_emblem)
 {
     START_INPUT_PACKET(pak, CLIENTINP_SEND_SGCOSTUME );
-    pktSendBitsPack( pak, 32, primary );
-    pktSendBitsPack( pak, 32, secondary );
-    pktSendBitsPack( pak, 32, primary2 );
-    pktSendBitsPack( pak, 32, secondary2 );
-    pktSendBitsPack( pak, 32, tertiary );
-    pktSendBitsPack( pak, 32, quaternary );
+    pktSendBitsPack( pak, 32, primaryU.SGBitSetLow );
+    pktSendBitsPack( pak, 32, primaryU.SGBitSetHigh );
+    pktSendBitsPack( pak, 32, secondaryU.SGBitSetLow );
+    pktSendBitsPack( pak, 32, secondaryU.SGBitSetHigh );
+    pktSendBitsPack( pak, 32, primary2U.SGBitSetLow );
+    pktSendBitsPack( pak, 32, primary2U.SGBitSetHigh );
+    pktSendBitsPack( pak, 32, secondary2U.SGBitSetLow );
+    pktSendBitsPack( pak, 32, secondary2U.SGBitSetHigh );
+    pktSendBitsPack( pak, 32, tertiaryU.SGBitSetLow );
+    pktSendBitsPack( pak, 32, tertiaryU.SGBitSetHigh );
+    pktSendBitsPack( pak, 32, quaternaryU.SGBitSetLow );
+    pktSendBitsPack( pak, 32, quaternaryU.SGBitSetHigh );
     pktSendBits( pak, 1, hide_emblem );
     END_INPUT_PACKET
 }
 
-void sendSuperCostumeData( unsigned int sgColorData[][6], bool hide_emblem, int num_slots)
+void sendSuperCostumeData(SGColorBits sgColorDataU[][6], bool hide_emblem, int num_slots)
 {
     int i;
     START_INPUT_PACKET(pak, CLIENTINP_SEND_SGCOSTUME_DATA );
@@ -2050,21 +2056,27 @@ void sendSuperCostumeData( unsigned int sgColorData[][6], bool hide_emblem, int 
     for (i = 1; i <= num_slots; i++)
     {
         // Last sanity check before we send
-        if ((sgColorData[i][0] | sgColorData[i][1] | sgColorData[i][2] | sgColorData[i][3] | sgColorData[i][4] | sgColorData[i][5]) == 0)
+        if ((sgColorDataU[i][0].SGBitSet | sgColorDataU[i][1].SGBitSet | sgColorDataU[i][2].SGBitSet | sgColorDataU[i][3].SGBitSet | sgColorDataU[i][4].SGBitSet | sgColorDataU[i][5].SGBitSet) == 0)
         {
-            sgColorData[i][0] = 0x55555555;
-            sgColorData[i][1] = 0x55555555;
-            sgColorData[i][2] = 0x55555555;
-            sgColorData[i][3] = 0x55555555;
-            sgColorData[i][4] = 0x55555555;
-            sgColorData[i][5] = 0x55555555;
+            sgColorDataU[i][0].SGBitSet = 0x5555555555555555uLL;
+            sgColorDataU[i][1].SGBitSet = 0x5555555555555555uLL;
+            sgColorDataU[i][2].SGBitSet = 0x5555555555555555uLL;
+            sgColorDataU[i][3].SGBitSet = 0x5555555555555555uLL;
+            sgColorDataU[i][4].SGBitSet = 0x5555555555555555uLL;
+            sgColorDataU[i][5].SGBitSet = 0x5555555555555555uLL;
         }
-        pktSendBitsPack( pak, 32, sgColorData[i][0] );
-        pktSendBitsPack( pak, 32, sgColorData[i][1] );
-        pktSendBitsPack( pak, 32, sgColorData[i][2] );
-        pktSendBitsPack( pak, 32, sgColorData[i][3] );
-        pktSendBitsPack( pak, 32, sgColorData[i][4] );
-        pktSendBitsPack( pak, 32, sgColorData[i][5] );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][0].SGBitSetLow );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][0].SGBitSetHigh );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][1].SGBitSetLow );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][1].SGBitSetHigh );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][2].SGBitSetLow );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][2].SGBitSetHigh );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][3].SGBitSetLow );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][3].SGBitSetHigh );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][4].SGBitSetLow );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][4].SGBitSetHigh );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][5].SGBitSetLow );
+        pktSendBitsPack( pak, 32, sgColorDataU[i][5].SGBitSetHigh );
     }
     pktSendBits( pak, 1, hide_emblem );
     END_INPUT_PACKET
@@ -2944,6 +2956,7 @@ void ScriptUIReceiveUpdate(Packet* pak)
                 ScriptUIUpdate* update = malloc(sizeof(ScriptUIUpdate));
                 update->widgetId = widgetId;
                 update->index = index;
+                update->hidden = hidden;
                 update->var = strdup(var);
                 update->packetID = pak->id;
                 eaPush(&scriptUIUpdates, update);

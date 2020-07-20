@@ -13,6 +13,7 @@
 typedef struct Packet Packet;
 typedef struct Entity Entity;
 
+// do not change this unless you understand the impact it has on related code and the network protocol
 #define MAX_COSTUME_PARTS    60
 
 #define ARM_GROW_SCALE 5.0
@@ -56,6 +57,7 @@ typedef enum CostumeLoadErrors{
     COSTUME_ERROR_INVALIDFILE = 1<<8,
 
 } CostumeLoadErrors;
+
 typedef struct CostumePart
 {
     const char* pchName;        // Name of the BodyPart where this costume part should go.
@@ -183,12 +185,12 @@ typedef struct Appearance
     Color colorSkin;    // Index into palette of skin color.
 
     // Additional SG color slots
-    int superColorsPrimary[NUM_SG_COLOR_SLOTS];
-    int superColorsSecondary[NUM_SG_COLOR_SLOTS];
-    int superColorsPrimary2[NUM_SG_COLOR_SLOTS];
-    int superColorsSecondary2[NUM_SG_COLOR_SLOTS];
-    int superColorsTertiary[NUM_SG_COLOR_SLOTS];
-    int superColorsQuaternary[NUM_SG_COLOR_SLOTS];
+    SGColorBits superColorsPrimaryU[NUM_SG_COLOR_SLOTS];
+    SGColorBits superColorsSecondaryU[NUM_SG_COLOR_SLOTS];
+    SGColorBits superColorsPrimary2U[NUM_SG_COLOR_SLOTS];
+    SGColorBits superColorsSecondary2U[NUM_SG_COLOR_SLOTS];
+    SGColorBits superColorsTertiaryU[NUM_SG_COLOR_SLOTS];
+    SGColorBits superColorsQuaternaryU[NUM_SG_COLOR_SLOTS];
     int currentSuperColorSet;
 
     int iNumParts;        // Number of parts in the costume
@@ -431,10 +433,10 @@ typedef enum SGColorType
     SGC_SECONDARY,
 } SGColorType;
 
-void costume_SGColorsExtract( Entity *e, Costume *costume, unsigned int *prim, unsigned int *sec, unsigned int *prim2, unsigned int *sec2, unsigned int *three, unsigned int *four );
+void costume_SGColorsExtract(Entity* e, Costume* costume, SGColorBits* primU, SGColorBits* secU, SGColorBits* prim2U, SGColorBits* sec2U, SGColorBits* threeU, SGColorBits* fourU);
 void costume_baseColorsExtract( const cCostume *costume, unsigned int colorArray[][4], unsigned int *skinColor );
 void ExtractCostumeColorsForCompareinTailor( const cCostume *costume, unsigned int colorArray[][2], unsigned int *skinColor );
-void costume_SGColorsApplyToCostume( Entity *e, Costume *costume, unsigned int prim, unsigned int sec, unsigned int prim2, unsigned int sec2, unsigned int three, unsigned int four );
+void costume_SGColorsApplyToCostume(Entity* e, Costume* costume, SGColorBits primU, SGColorBits secU, SGColorBits prim2U, SGColorBits sec2U, SGColorBits threeU, SGColorBits fourU);
 void costume_baseColorsApplyToCostume( Costume *costume, unsigned int colorArray[][4] );
 void costume_SGColorsApply( Entity *e );
 Costume * costume_makeSupergroup( Entity *e );

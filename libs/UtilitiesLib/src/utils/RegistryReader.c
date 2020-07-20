@@ -107,7 +107,7 @@ int rrLazyWriteInit(RegReaderImp* reader)
         reader->keyExists = 1;
 
         // Look through all of known predefined keys.
-        for(predefKey = predefinedKeys; predefKey < predefinedKeys + sizeof(predefinedKeys); predefKey++){
+        for(predefKey = predefinedKeys; predefKey < predefinedKeys + (sizeof(predefinedKeys) / sizeof(predefinedKeys[0])); predefKey++){
 
             // Compare each predefined key names to the beginning of the key string.
             // If they match, we've found the correct predefined key to be used to open the given key.
@@ -264,7 +264,6 @@ int rrReadInt(RegReaderImp* reader, const char* valueName, unsigned int* value){
     if (!value)
         return 0;
     if(!reader->keyOpened) {
-        *value = 0;
         return 0;
     }
     
@@ -300,7 +299,6 @@ int rrReadInt64(RegReaderImp* reader, const char* valueName, S64* value){
     if (!value)
         return 0;
     if(!reader->keyOpened) {
-        *value = 0;
         return 0;
     }
 
@@ -460,7 +458,7 @@ int registryWriteInt(const char *keyName, const char *valueName, unsigned int va
     int result;
 
     // Look through all of known predefined keys.
-    for(predefKey = predefinedKeys; predefKey < predefinedKeys + sizeof(predefinedKeys); predefKey++){
+    for (predefKey = predefinedKeys; predefKey < predefinedKeys + (sizeof(predefinedKeys) / sizeof(predefinedKeys[0])); predefKey++){
 
         // Compare each predefined key names to the beginning of the key string.
         // If they match, we've found the correct predefined key to be used to open the given key.

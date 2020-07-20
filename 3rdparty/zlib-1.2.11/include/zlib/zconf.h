@@ -179,7 +179,7 @@
 #    define WIN32
 #  endif
 #endif
-#if (defined(MSDOS) || defined(OS2) || defined(WINDOWS)) && !defined(_WIN32)
+#if (defined(MSDOS) || defined(OS2) || defined(WINDOWS)) && !defined(WIN32)
 #  if !defined(__GNUC__) && !defined(__FLAT__) && !defined(__386__)
 #    ifndef SYS16BIT
 #      define SYS16BIT
@@ -214,7 +214,7 @@
 #if !defined(STDC) && (defined(__GNUC__) || defined(__BORLANDC__))
 #  define STDC
 #endif
-#if !defined(STDC) && (defined(MSDOS) || defined(WINDOWS) || defined(_WIN32))
+#if !defined(STDC) && (defined(MSDOS) || defined(WINDOWS) || defined(WIN32))
 #  define STDC
 #endif
 #if !defined(STDC) && (defined(OS2) || defined(__HOS_AIX__))
@@ -328,12 +328,12 @@
 #  endif
 #endif
 
-#if defined(WINDOWS) || defined(_WIN32)
+#if defined(WINDOWS) || defined(WIN32)
    /* If building or using zlib as a DLL, define ZLIB_DLL.
     * This is not mandatory, but it offers a little performance increase.
     */
 #  ifdef ZLIB_DLL
-#    if defined(_WIN32) && (!defined(__BORLANDC__) || (__BORLANDC__ >= 0x500))
+#    if defined(WIN32) && (!defined(__BORLANDC__) || (__BORLANDC__ >= 0x500))
 #      ifdef ZLIB_INTERNAL
 #        define ZEXTERN extern __declspec(dllexport)
 #      else
@@ -386,6 +386,9 @@
 #ifndef FAR
 #  define FAR
 #endif
+#ifndef far
+#  define far
+#endif
 
 #if !defined(__MACTYPES__)
 typedef unsigned char  Byte;  /* 8 bits */
@@ -431,7 +434,7 @@ typedef uLong FAR uLongf;
    typedef unsigned long z_crc_t;
 #endif
 
-#ifdef HAVE_UNISTD_H    /* may be set to #if 1 by ./configure */
+#if !defined(_WIN32)
 #  define Z_HAVE_UNISTD_H
 #endif
 

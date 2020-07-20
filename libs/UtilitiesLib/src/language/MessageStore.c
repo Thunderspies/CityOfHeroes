@@ -844,7 +844,7 @@ static int ParseAttrCond(    MessageStore*        store,
 
     char *attribstr = 0, *valueToCompareTo, *outputIfTrue, *outputIfFalse;
     char *parse=srcstr, *temp;
-    char* tempCharStore;        // temporary result storage for error checking - Voodoo                                    
+    const char* tempCharStore;        // temporary result storage for error checking - Voodoo                                    
     
     if(outputIfFalse = strchr(srcstr, '|'))    // be at least somewhat flexible with spaces around the | else marker
     {
@@ -1559,9 +1559,11 @@ int msvaPrintf(MessageStore* store, char* outputBuffer, int bufferLength, const 
 
 static int vsprintfInternal(char* outputBuffer, int bufferLength, const char* format, va_list arg)
 {
+    static char buf[16384] = {0};
+    
     if(!outputBuffer)
     {
-        return _vscprintf(format, arg);
+        return _vsnprintf_s(buf, sizeof(buf), sizeof(buf), format, arg);
     }
     else
     {
@@ -2110,7 +2112,7 @@ int msvaPrintfInternalEx(    MessageStore* store,
 
     newMessageSize = ((int) strlen(oldMessageCursor)) + 1; 
 //    newMessageSize = ((int) strlen(oldMessageCursor)) * 2; 
-    newMessage = (char *) malloc(newMessageSize);
+    newMessage = (char *) calloc(newMessageSize, 1);
     newMessageCursor = newMessage;
     newMessageEnd = newMessage + newMessageSize;
 
@@ -2386,7 +2388,7 @@ int msIsLocked(MessageStore* store){
 
 const char* vaCmdTranslate( const char *str, va_list args, int help, int reverse )
 {
-    static char  *buffer;
+    static char  *buffer = NULL;
     static int buffersize = 0;
     int requiredBufferSize;
     int flag = 0;

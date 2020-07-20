@@ -154,8 +154,8 @@ void unpackCostumes( Entity * e, DBCostume *dbcostumes)
         costumeAwardAuthParts( e );
 
     // while we are at it, might as well convert supergroup to new color structure, fun fun
-    if( e->supergroup && (!e->pl->superColorsPrimary || !e->pl->superColorsSecondary || !e->pl->superColorsPrimary2 || !e->pl->superColorsSecondary2   ) )
-        costume_SGColorsExtract( e, e->pl->superCostume, &e->pl->superColorsPrimary, &e->pl->superColorsSecondary, &e->pl->superColorsPrimary2, &e->pl->superColorsSecondary2, &e->pl->superColorsTertiary, &e->pl->superColorsQuaternary );
+    if(e->supergroup && (!e->pl->superColorsPrimaryU.SGBitSet || !e->pl->superColorsSecondaryU.SGBitSet || !e->pl->superColorsPrimary2U.SGBitSet || !e->pl->superColorsSecondary2U.SGBitSet))
+        costume_SGColorsExtract(e, e->pl->superCostume, &e->pl->superColorsPrimaryU, &e->pl->superColorsSecondaryU, &e->pl->superColorsPrimary2U, &e->pl->superColorsSecondary2U, &e->pl->superColorsTertiaryU, &e->pl->superColorsQuaternaryU);
 
 }
 void unpackAppearance( Entity *e, DBAppearance * dba )
@@ -168,7 +168,7 @@ void unpackAppearance( Entity *e, DBAppearance * dba )
     // If any fields in Appearance are changed make sure that this function gets
     // updated!
 #ifndef _M_X64
-    STATIC_INFUNC_ASSERT(sizeof(Appearance) == 324)
+    STATIC_INFUNC_ASSERT(sizeof(Appearance) == 472)
 #endif
 
     for( i = 0; i < numCostumes; i++ )
@@ -205,12 +205,12 @@ void unpackAppearance( Entity *e, DBAppearance * dba )
 
         for(k=0;k<NUM_SG_COLOR_SLOTS;k++)
         {
-            e->pl->costume[i]->appearance.superColorsPrimary[k]    = dba->appearance[i].superColorsPrimary[k];
-            e->pl->costume[i]->appearance.superColorsSecondary[k]  = dba->appearance[i].superColorsSecondary[k];
-            e->pl->costume[i]->appearance.superColorsPrimary2[k]   = dba->appearance[i].superColorsPrimary2[k];
-            e->pl->costume[i]->appearance.superColorsSecondary2[k] = dba->appearance[i].superColorsSecondary2[k];
-            e->pl->costume[i]->appearance.superColorsTertiary[k]   = dba->appearance[i].superColorsTertiary[k];
-            e->pl->costume[i]->appearance.superColorsQuaternary[k] = dba->appearance[i].superColorsQuaternary[k];
+            e->pl->costume[i]->appearance.superColorsPrimaryU[k]    = dba->appearance[i].superColorsPrimaryU[k];
+            e->pl->costume[i]->appearance.superColorsSecondaryU[k]  = dba->appearance[i].superColorsSecondaryU[k];
+            e->pl->costume[i]->appearance.superColorsPrimary2U[k]   = dba->appearance[i].superColorsPrimary2U[k];
+            e->pl->costume[i]->appearance.superColorsSecondary2U[k] = dba->appearance[i].superColorsSecondary2U[k];
+            e->pl->costume[i]->appearance.superColorsTertiaryU[k]   = dba->appearance[i].superColorsTertiaryU[k];
+            e->pl->costume[i]->appearance.superColorsQuaternaryU[k] = dba->appearance[i].superColorsQuaternaryU[k];
         }
 
         e->pl->costume[i]->appearance.currentSuperColorSet = dba->appearance[i].currentSuperColorSet;

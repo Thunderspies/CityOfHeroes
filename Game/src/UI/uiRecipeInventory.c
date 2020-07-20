@@ -1211,7 +1211,7 @@ static void recipeTreeAdd(uiTreeNode *pNode, const DetailRecipe *pRecipe, Entity
     pATNode = recipeTreeFind(pNode, nameHash);
     if (pATNode == NULL)
     {
-        treeRecipeDisplayState *pDisplay = (treeRecipeDisplayState *) malloc(sizeof(treeRecipeDisplayState));
+        treeRecipeDisplayState *pDisplay = (treeRecipeDisplayState *) calloc(1, sizeof(treeRecipeDisplayState));
         pATNode = uiTreeNewNode();
         memset(pDisplay, 0, sizeof(treeRecipeDisplayState));
         pDisplay->recipeFormat = smfBlock_Create();
@@ -1317,7 +1317,7 @@ static void recipeMeritTreeAdd(uiTreeNode *pNode, const DetailRecipe *pRecipe)
     pNodeData = (uiMeritNodeData *) pNode->pData;
 
     {
-        treeRecipeDisplayState *pDisplay = (treeRecipeDisplayState *) malloc(sizeof(treeRecipeDisplayState));
+        treeRecipeDisplayState *pDisplay = (treeRecipeDisplayState *) calloc(1, sizeof(treeRecipeDisplayState));
         memset(pDisplay, 0, sizeof(treeRecipeDisplayState));
         pDisplay->recipeFormat = smfBlock_Create();
         pDisplay->recipe = pRecipe;
@@ -1974,7 +1974,8 @@ int recipeInventoryWindow()
                             || strstri(pWorkshopType, "ticket") != NULL 
                             || strstri(pWorkshopType, "incarnate") != NULL
                             || strstri(pWorkshopType, "HAM") != NULL
-                            || strstri(pWorkshopType, "VAM") != NULL))
+                            || strstri(pWorkshopType, "VAM") != NULL
+                            || strstri(pWorkshopType, "split") != NULL))
     {
         gSplitPane = true;
         if (window_getMode( WDW_RECIPEINVENTORY ) == WINDOW_SHRINKING)

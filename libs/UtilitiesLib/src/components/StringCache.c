@@ -41,7 +41,7 @@ void stringCachePreAlloc(int size)
 void StringCache_Init()
 {
     if (!alloc_add_string_table.table)
-        stringCachePreAlloc(4096);
+        stringCachePreAlloc(8192);
 }
 
 const char *StringCache_AllocAddString(StringCache *sc, const char *s)

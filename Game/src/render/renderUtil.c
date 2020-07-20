@@ -524,7 +524,7 @@ void rdrGetSystemSpecs( SystemSpecs * systemSpecs )
 
     if (systemSpecs->videoCardVendorID == VENDOR_NV) {
         getNVidiaSystemSpecs(systemSpecs);
-    } else if (systemSpecs->videoCardVendorID == VENDOR_AMD) {
+    } else if (systemSpecs->videoCardVendorID == VENDOR_AMD || systemSpecs->videoCardVendorID == VENDOR_INTEL) {
         systemSpecs->videoMemory = getVideoMemoryMBs();
     }
 
@@ -573,17 +573,15 @@ void rdrPrintSystemSpecs(SystemSpecs *systemSpecs){
         int i = 0;
         DISPLAY_DEVICE dd;
         dd.cb = sizeof(DISPLAY_DEVICE);
-        while (EnumDisplayDevices(NULL, i, &dd, 0)) {
+        while (EnumDisplayDevices(NULL, i, &dd, 0) && dd.StateFlags & DISPLAY_DEVICE_ACTIVE) {
             char buf[128] = { 0 };
             sprintf(buf, "Video Device %d: %s, ID: %s, Flags: 0x%08x", i, dd.DeviceString, dd.DeviceID, dd.StateFlags);
             if (dd.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) {
                 strcat(buf, " (PRIMARY)");
             }
             writeConsole(OUTPUT_VERBOSE, "%s", buf);
-
-            i++;
+            ++i;
         }
-
     }
     writeConsole(OUTPUT_VERBOSE, "Driver Date: %s", dateToString(systemSpecs->videoDriverDate));
     if (systemSpecs->videoMemory) {
@@ -1230,7 +1228,7 @@ static void setupOldDriverWarning()
         // Only show the dialog if the game version changes or the driver date changes
         const char *currentVersion = getExecutablePatchVersion(NULL);
         char registryVersion[100];
-        int registryLastDate;
+        int registryLastDate = 0;
         RegReader    rr;
 
         rr = createRegReader();

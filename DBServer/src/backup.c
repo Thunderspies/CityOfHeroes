@@ -226,7 +226,7 @@ bool backupSaveContainer( AnyContainer * con, U32 timestamp )
             stashIntAddInt(st_SavedSupergroups, container->id, 0, 1 );
     }
 
-    bh = malloc(sizeof(BackupHeader));
+    bh = calloc(1, sizeof(BackupHeader));
     if( timestamp )
         bh->date = timestamp;
     else

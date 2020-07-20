@@ -9,8 +9,8 @@
 
 typedef struct SystemSpecs
 {
-    U32        maxPhysicalMemory;
-    U32        availablePhysicalMemory; //At time specs are fetched
+    DWORDLONG        maxPhysicalMemory;
+    DWORDLONG        availablePhysicalMemory; //At time specs are fetched
     char    videoCardName[256];
     int        videoCardVendorID;
     int        videoCardDeviceID;

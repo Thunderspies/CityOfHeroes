@@ -13,7 +13,7 @@ static void duRegReaderLazyInit(){
 }
 
 int duGetIntDebugSetting(char* keyName){
-    int value;
+    int value = 0;
     char buf[1000];
 
     // Got a valid key name from caller?

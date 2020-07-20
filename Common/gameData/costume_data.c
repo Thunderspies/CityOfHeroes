@@ -1547,7 +1547,7 @@ int costume_load( char * filename )
         static_costume_strings = malloc(300*sizeof(char*));
         for (i=0;i<300;++i)
         {
-            static_costume_strings[i] = malloc(32);
+            static_costume_strings[i] = calloc(32, 1);
         }
     }
     if( !imageserver_ReadFromCSV_EX( &pCostume, NULL, filename, static_costume_strings ) )

@@ -918,7 +918,7 @@ static void drawSearchOptions( float x, float y, float z, float wd, float ht, fl
 
     if( !comboLFGSearch )
     {
-        comboLFGSearch = malloc(sizeof(ComboBox));
+        comboLFGSearch = calloc(1, sizeof(ComboBox));
         comboboxTitle_init( comboLFGSearch, R10, R10, 1, 280, 30, 270, currentWindow );
 
         for( i = 0; i < ARRAY_SIZE(searchOptions); i++ )

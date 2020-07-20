@@ -256,7 +256,7 @@ static void ClothFreeData(Cloth *cloth);
 // Create an empty Cloth structure (i.e. does not allocate particles)
 Cloth *ClothCreateEmpty(int minsublod)
 {
-    Cloth *cloth = CLOTH_MALLOC(Cloth, 1);
+    Cloth *cloth = CLOTH_CALLOC(Cloth, 1);
     if (cloth)
     {
         ClothInitialize(cloth);
@@ -352,40 +352,40 @@ int ClothCreateParticles(Cloth *cloth, int width, int height)
     if (!width || !height)
         return 0;
     
-    if (!(cloth->OrigPos = CLOTH_MALLOC(Vec3, npoints)))
+    if (!(cloth->OrigPos = CLOTH_CALLOC(Vec3, npoints)))
         return 0;
-    if (!(cloth->InvMasses = CLOTH_MALLOC(F32, npoints)))
+    if (!(cloth->InvMasses = CLOTH_CALLOC(F32, npoints)))
         return 0;
-    if (!(cloth->commonData.ApproxNormalLens = CLOTH_MALLOC(F32, npoints)))
+    if (!(cloth->commonData.ApproxNormalLens = CLOTH_CALLOC(F32, npoints)))
         return 0;
-    if (!(cloth->ColAmt = CLOTH_MALLOC(F32, npoints)))
+    if (!(cloth->ColAmt = CLOTH_CALLOC(F32, npoints)))
         return 0;
     
-    if (!(cloth->PosBuffer1 = CLOTH_MALLOC(Vec3, npoints)))
+    if (!(cloth->PosBuffer1 = CLOTH_CALLOC(Vec3, npoints)))
         return 0;
-    if (!(cloth->PosBuffer2 = CLOTH_MALLOC(Vec3, npoints)))
+    if (!(cloth->PosBuffer2 = CLOTH_CALLOC(Vec3, npoints)))
         return 0;
 
     rpoints = ClothNumRenderedParticles(&cloth->commonData, cloth->MinSubLOD);
-    if (!(cloth->renderData.RenderPos = CLOTH_MALLOC(Vec3, rpoints)))
+    if (!(cloth->renderData.RenderPos = CLOTH_CALLOC(Vec3, rpoints)))
         return 0;
 
     cloth->CurPos = cloth->PosBuffer1;
     cloth->OldPos = cloth->PosBuffer2;
 
-    if (!(cloth->renderData.Normals = CLOTH_MALLOC(Vec3, rpoints)))
+    if (!(cloth->renderData.Normals = CLOTH_CALLOC(Vec3, rpoints)))
         return 0;
 #if CLOTH_CALC_BINORMALS
-    if (!(cloth->renderData.BiNormals = CLOTH_MALLOC(Vec3, rpoints)))
+    if (!(cloth->renderData.BiNormals = CLOTH_CALLOC(Vec3, rpoints)))
         return 0;
 #endif
 #if CLOTH_CALC_BINORMALS
-    if (!(cloth->renderData.Tangents = CLOTH_MALLOC(Vec3, rpoints)))
+    if (!(cloth->renderData.Tangents = CLOTH_CALLOC(Vec3, rpoints)))
         return 0;
 #endif
-    if (!(cloth->renderData.NormalScale = CLOTH_MALLOC(F32, rpoints)))
+    if (!(cloth->renderData.NormalScale = CLOTH_CALLOC(F32, rpoints)))
         return 0;
-    if (!(cloth->renderData.TexCoords = CLOTH_MALLOC(Vec2, rpoints)))
+    if (!(cloth->renderData.TexCoords = CLOTH_CALLOC(Vec2, rpoints)))
         return 0;
 
     return rpoints;
@@ -543,7 +543,7 @@ void ClothCalcLengthConstraints(Cloth *cloth, S32 flags, int nfracscales, F32 *i
         sublod--;
     }
     
-    cloth->commonData.LengthConstraints = cloth->LengthConstraintsInit = CLOTH_MALLOC(ClothLengthConstraint, nconstraints);
+    cloth->commonData.LengthConstraints = cloth->LengthConstraintsInit = CLOTH_CALLOC(ClothLengthConstraint, nconstraints);
 
     {
         int nc = 0;
@@ -2525,7 +2525,7 @@ void ClothCopyToRenderData(Cloth *cloth, Vec3 *hookNormals, CCTRWhat what)
             CLOTH_FREE(cloth->renderData.hookNormals);
         } else if (hookNormals && !cloth->renderData.hookNormals) {
             // TODO: Is this the right number of hook normals?
-            cloth->renderData.hookNormals = CLOTH_MALLOC(Vec3, cloth->commonData.MaxAttachments);
+            cloth->renderData.hookNormals = CLOTH_CALLOC(Vec3, cloth->commonData.MaxAttachments);
         }
         if (hookNormals) {
             memcpy(cloth->renderData.hookNormals, hookNormals, cloth->commonData.MaxAttachments*sizeof(Vec3));

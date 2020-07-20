@@ -1498,7 +1498,7 @@ void removeLeadingAndFollowingSpacesUnlessAllSpaces(char * str)
 
 char* strInsert( char * dest, const char * insert_ptr, const char *insert )
 {
-    static char  *buffer;
+    static char  *buffer = NULL;
     static int buffer_size = 0;
     int requiredBufferSize;
 
@@ -1532,7 +1532,7 @@ char *strchrInsert( const char * dest, const char * insert, int character )
       while(curptr)
     {
         char tmp;
-        *curptr++;
+        curptr++;
         tmp = *curptr;
          *curptr = '\0';
         estrConcatMinimumWidth(&str, dup, curptr-dup+1);
@@ -2083,7 +2083,6 @@ const char* packAndEscape(const char *str)
 
 char* hexStringFromIntList(const int* pIntList, U32 uiNumInts)
 {
-    const char* pcNewString = malloc(sizeof(char) * 8 * uiNumInts);
     U32 uiNumChars = 8 * uiNumInts + 1;
     char* pcResult = calloc(sizeof(char),  uiNumChars);
     U32 uiIntIndex;

@@ -415,7 +415,7 @@ static void sqlContainerUpdateRows(ContainerTemplate *tplt, int *container_id, L
                 case CFTYPE_UNICODESTRING:
                 case CFTYPE_UNICODESTRING_MAX:
                 {
-                    sqlBindTemp * temp = malloc(sizeof(sqlBindTemp) + (line->size+1) * sizeof(wchar_t));
+                    sqlBindTemp * temp = calloc(sizeof(sqlBindTemp) + (line->size+1) * sizeof(wchar_t), 1);
                     int wsize = MultiByteToWideChar(CP_UTF8, 0, diff->text + line->str_idx, (int)line->size, temp->wdata, (int)line->size + 1);
                     temp->wdata[wsize] = 0;
 #ifdef FULLDEBUG

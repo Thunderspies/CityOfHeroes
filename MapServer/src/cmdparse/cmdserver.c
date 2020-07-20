@@ -196,7 +196,7 @@
 #include <utilitieslib/network/crypt.h>
 #include "group/groupfileload.h"
 
-ServerState server_state;
+ServerState server_state = {0};
 
 static int status_server_id;
 static int list_id,container_id,map_id;
@@ -1029,6 +1029,16 @@ Cmd server_cmds[] =
                             "Send message <system name> <subject> <body> <influence> <attachment> <delay>" },
     { 9, "xpscale",            0, {{ PARSETYPE_FLOAT, &server_state.xpscale}}, 0,
                             "Scales the amount of XP awarded."},
+    { 9, "influencescale",            0, {{ PARSETYPE_FLOAT, &server_state.influencescale}}, 0,
+                            "Scales the amount of influence awarded."},
+    { 9, "prestigescale",            0, {{ PARSETYPE_FLOAT, &server_state.prestigescale}}, 0,
+                            "Scales the amount of prestige awarded."},
+    { 9, "aescale",            0, {{ PARSETYPE_FLOAT, &server_state.aescale}}, 0,
+                            "Scales the amount of AE XP awarded."},
+    { 9, "aeinfluencescale",            0, {{ PARSETYPE_FLOAT, &server_state.aeinfluencescale}}, 0,
+                            "Scales the amount of AE influence awarded."},
+    { 9, "aeprestigescale",            0, {{ PARSETYPE_FLOAT, &server_state.aeprestigescale}}, 0,
+                            "Scales the amount of AE prestige awarded."},
     { 9, "showobjectives",    SCMD_SHOW_OBJECTIVES, {{ 0 }}, 0,
                             "Shows a list of objectives for the mission and their current status"},
     { 9, "gotoobjective",    SCMD_GOTO_OBJECTIVE, {{ CMDINT(tmp_int) }}, CMDF_HIDEVARS,
@@ -2114,6 +2124,8 @@ Cmd server_cmds[] =
         "sets the noKick flag on player" },
     { 9, "idle_exit_timeout",    0, {{CMDINT(server_state.idle_exit_timeout)}},0,
         "shutdown the server if it is idle for this many minutes, 0 means there is no idle exit timeout" },
+    { 9, "client_logout_time",    0, {{CMDINT(server_state.client_logout_time)}},0,
+        "timeout in seconds for for the disconnect countdown when players are logging out" },
     { 9, "flashback_left_reward_apply",    SCMD_FLASHBACK_LEFT_REWARD_APPLY, {{CMDINT(tmp_int)}, CMDINT(tmp_int2)}, 0,
         "Tell the specified player to reward himself FlashbackLeft from the specified story arc." },
     { 9, "debug_set_vip",    SCMD_DEBUG_SET_VIP, {{CMDINT(tmp_int)}}, 0,
@@ -2158,8 +2170,13 @@ void cmdOldServerStateInit()
     server_state.logSeqStates = 0;
     server_state.logServerTicks = 0;
     server_state.xpscale = 1.0;
+    server_state.influencescale = 1.0;
+    server_state.prestigescale = 1.0;
     server_state.aescale = 1.0;
+    server_state.aeinfluencescale = 1.0;
+    server_state.aeprestigescale = 1.0;
     server_state.ticketscale = 1.0;
+    server_state.client_logout_time = 30;
     server_state.aggrocap = 17;
     server_state.targetcapmode = 1;
     server_visible_state.time = 0;

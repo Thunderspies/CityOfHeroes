@@ -199,7 +199,7 @@ static inline void tiffIfdStore(tiffFile * file, uint16_t tag, uint16_t type, ui
             file->nextDataOffset += (uint32_t)size;
 
             // word align
-            if (!(file->nextDataOffset-1) & file->nextDataOffset) {
+            if (!(file->nextDataOffset-1) && file->nextDataOffset) {
                 file->data[file->nextDataOffset++] = 0;
             }
         }

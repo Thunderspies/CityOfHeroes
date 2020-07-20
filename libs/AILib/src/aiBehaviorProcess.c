@@ -179,7 +179,7 @@ static void aiBehaviorOnStart(Entity* e, AIVarsBase* aibase, AIBehavior*** behav
         estrClear(&estr);
     }
 
-    if(aibase->isNPC && !behavior->info->specialFlags & AIB_NPC_ALLOWED)
+    if(aibase->isNPC && !(behavior->info->specialFlags & AIB_NPC_ALLOWED))
     {
         aiBehaviorParseError(e, "Trying to run non-NPC behavior on an NPC",
             behavior->info->name, behavior->originalString);
