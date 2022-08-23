@@ -29,10 +29,10 @@
 #include "sound/sound.h"
 #include "entity/origins.h"
 #include "entity/powers.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "player/player.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiClipper.h"
 #include "UI/uiToolTip.h"
 #include "UI/uiPowerInfo.h"
@@ -45,7 +45,7 @@
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "clientcomm/dbclient.h"
 #include "auth/authUserData.h"
-#include "clientComm/authclient.h"
+#include "clientcomm/authclient.h"
 #include "account/AccountData.h"
 #include "account/AccountCatalog.h"
 

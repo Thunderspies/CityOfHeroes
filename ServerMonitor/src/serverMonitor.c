@@ -14,9 +14,9 @@
 #include <utilitieslib/utils/winutil.h>
 
 #include <assert.h>
-#include <CommCtrl.h>
+#include <commctrl.h>
 #include <process.h>
-#include <Shellapi.h>
+#include <shellapi.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

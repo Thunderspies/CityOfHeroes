@@ -3,13 +3,13 @@
 #define LINEAGE2_GAME_CODE 8
 #include "WantedSocket.h"
 #include "util.h"
-#include "config.h"
+#include "Config.h"
 #include "Account.h"
-#include "dbconn.h"
+#include "DBConn.h"
 #include "AccountDB.h"
-#include "thread.h"
+#include "Thread.h"
 #include "IOServer.h"
-#include "IPSessiondb.h"
+#include "IPSessionDB.h"
 #include "ServerList.h"
 #include "LogSocket.h"
 

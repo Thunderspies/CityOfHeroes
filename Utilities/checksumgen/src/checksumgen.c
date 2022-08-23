@@ -17,7 +17,7 @@
 #include <sys/types.h>
 #include <sys/utime.h>
 #include <utilitieslib/components/SharedMemory.h>
-#include <utilitieslib/utils/fileUtil.h>
+#include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/network/bindiff.h>
 #include <zlib/zlib.h>
 #include <utilitieslib/network/crypt.h>

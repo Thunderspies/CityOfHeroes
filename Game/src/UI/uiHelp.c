@@ -14,21 +14,21 @@
 #include "UI/uiBox.h"
 #include "UI/uiClipper.h"
 #include "UI/uiComboBox.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include <utilitieslib/utils/mathutil.h>
 
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_font.h"
 #include "UI/sprite/sprite_text.h"
 #include "graphics/textureatlas.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "entity/entity.h"
 #include "cmdparse/cmdgame.h"
 
 #include "entity/entVarUpdate.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 #include "uiSMFView.h"
 #include "formatter/smf_main.h"

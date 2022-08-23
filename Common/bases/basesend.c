@@ -3,7 +3,7 @@
 #include "bases/basesend.h"
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/network/netcomp.h>
-#include <utilitieslib/components/EArray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/EString.h>
 #include "bases/basedata.h"
 #include <utilitieslib/network/bindiff.h>

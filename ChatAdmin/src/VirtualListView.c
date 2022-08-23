@@ -7,7 +7,7 @@
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "LangAdminUtil.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 #include <assert.h>
 
 #pragma comment (lib, "comctl32.lib")

@@ -1,5 +1,5 @@
 
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "entity/entity.h"
 
 void aiSetMessageHandler(Entity* e, AIMessageHandler handler){

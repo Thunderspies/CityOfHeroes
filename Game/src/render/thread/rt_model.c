@@ -1248,7 +1248,7 @@ typedef struct {
 } Record;
 
 Record **eaRecords;
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "render/tex.h"
 
 int tppproc(StashElement elem)

@@ -20,7 +20,7 @@
 #include "gameComm/sendToClient.h"
 #include "storyarc/storyarcprivate.h"
 
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // W A Y P O I N T S

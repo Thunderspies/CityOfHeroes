@@ -23,7 +23,7 @@
 #include "cmdparse/cmdcontrols.h"
 #include <utilitieslib/components/SharedMemory.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "bases/baseedit.h"
 #include "render/renderprim.h"
 #include "UI/uiUtilGame.h"

@@ -4,7 +4,7 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include <utilitieslib/assert/assert.h>
-#include "auction/auction.h"
+#include "auction/Auction.h"
 #include <utilitieslib/network/crypt.h>
 #include <utilitieslib/components/HashFunctions.h>
 #include "entity/Concept.h"
@@ -56,7 +56,7 @@
 #include "player/BadgeStats.h"
 #include "mapgroup.h"
 #include "cmdparse/cmdservercsr.h"
-#include "reward.h"
+#include "Reward.h"
 #include "containerArena.h"
 #include "gameSys/arenamap.h"
 #include "gameComm/trayCommon.h"

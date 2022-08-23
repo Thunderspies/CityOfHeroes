@@ -11,14 +11,14 @@
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/components/bitfield.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/Supergroup.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "entity/costume.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 
 #include "player/badges.h"
 #include "entity/origins.h"
@@ -26,7 +26,7 @@
 #include "entity/powers.h"
 #include "entity/character_base.h"
 #include "entity/character_inventory.h"
-#include "entity/rewardtoken.h"
+#include "entity/RewardToken.h"
 #include "auth/authUserData.h"
 
 #include "entity/character_eval.h"

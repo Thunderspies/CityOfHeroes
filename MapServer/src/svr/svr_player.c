@@ -21,7 +21,7 @@
 #include "entity/character_base.h"
 #include "entity/character_level.h"
 #include "group/groupnetdb.h"
-#include <utilitieslib/utils/breakpoint.h>
+#include <utilitieslib/utils/Breakpoint.h>
 #include "entity/entVarUpdate.h"
 #include "svr_player.h"
 #include "container/team.h"
@@ -53,7 +53,7 @@
 #include "bases/bases.h"
 #include "bases/baseserver.h"
 #include "entity/character_inventory.h"
-#include "gameSys/endgameraid.h"
+#include "gameSys/EndGameRaid.h"
 #include "container/league.h"
 #include <utilitieslib/utils/log.h>
 #include "svr_tick.h"

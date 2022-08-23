@@ -9,7 +9,7 @@
 #include <utilitieslib/utils/SuperAssert.h>
 #include "win/win_init.h"
 #include <utilitieslib/utils/fpmacros.h>
-#include "clienterror.h"
+#include "clientError.h"
 #include <utilitieslib/utils/FolderCache.h>
 #include "clientcomm/autoResumeInfo.h"
 #include "cmdparse/cmdgame.h"
@@ -45,7 +45,7 @@ void game_beforeRegisterWinClass(int argc, char **argv)
 }
 
 // remind bruce to remove this after the issues ncsoft's new "global auth" get ironed out
-#include "clientComm/authclient.h"
+#include "clientcomm/authclient.h"
 #include <utilitieslib/network/sock.h>
 void quickAuthCheck(BOOL localhost)
 {

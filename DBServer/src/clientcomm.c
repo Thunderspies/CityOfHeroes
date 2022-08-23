@@ -1,6 +1,6 @@
 #include <utilitieslib/network/netio.h>
 #include "accountservercomm.h"
-#include "account\accountdata.h"
+#include "account/AccountData.h"
 #include <utilitieslib/utils/textparser.h>
 #include "comm_backend.h"
 #include <utilitieslib/utils/error.h>
@@ -8,7 +8,7 @@
 #include "container.h"
 #include "dbserver/servercfg.h"
 #include "mapxfer.h"
-#include <utilitieslib/Version/AppVersion.h>
+#include <utilitieslib/version/AppVersion.h>
 #include "dbdispatch.h"
 #include <stdio.h>
 #include <sqlext.h>
@@ -35,11 +35,11 @@
 #include <utilitieslib/stdtypes.h>
 #include "entity/gametypes.h"
 #include <utilitieslib/components/StashTable.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "dbrelay.h"
 #include <utilitieslib/components/HashFunctions.h>
 
-#include "../Common/ClientLogin/clientcommlogin.h"
+#include "../Common/ClientLogin/clientcommLogin.h"
 #include "queueservercomm.h"
 #include <utilitieslib/utils/StringUtil.h>
 #include "statservercomm.h"

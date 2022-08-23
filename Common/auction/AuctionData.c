@@ -1,7 +1,7 @@
 #include "auction/AuctionData.h"
-#include "auction/auction.h"
+#include "auction/Auction.h"
 #include "account/AccountCatalog.h"
-#include <utilitieslib/components/EArray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/StashTable.h>
 #include "gameComm/trayCommon.h"
 #include "entity/salvage.h"

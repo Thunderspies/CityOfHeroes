@@ -2,13 +2,13 @@
  *    Ripped and modified version of assert.c found in the MS CRT lib.
  *    
  */
-#include "utilitieslib/utils/superassert.h"
+#include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/utils/file.h"
 #include "utilitieslib/utils/wininclude.h"
 #include "utilitieslib/utils/memlog.h"
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/utils/error.h"
-#include "utilitieslib/utils/stackdump.h"
+#include "utilitieslib/utils/Stackdump.h"
 #include "utilitieslib/utils/osdependent.h"
 #include "tchar.h"
 #include <tlhelp32.h>
@@ -639,7 +639,7 @@ void setAssertShardTime(int shardTime)
 #include "signal.h"
 #include "utilitieslib/network/sock.h"
 #include <time.h>
-#include <DbgHelp.h>
+#include <dbghelp.h>
 #include "errorrep.h"
 #include <sys/stat.h>
 #include <io.h>

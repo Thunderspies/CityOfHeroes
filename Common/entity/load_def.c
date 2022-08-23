@@ -16,7 +16,7 @@
 #include <utilitieslib/components/SharedMemory.h>
 #include <utilitieslib/utils/error.h>
 #include "player/badges.h"
-#include "entity/concept.h"
+#include "entity/Concept.h"
 #include "entity/salvage.h"
 #include "entity/Proficiency.h"
 #include "bases/DetailRecipe.h"
@@ -36,9 +36,9 @@
 #define COMBAT_MOD_PARSE_INFO_DEFINITIONS // to get the ParseInfos for reading
 #include "entity/combat_mod.h"
 #include "cmdparse/cmdserver.h"
-#include "gamesys/DayJob.h"
+#include "gameSys/DayJob.h"
 #include "entity/character_karma.h"
-#include "gamesys/EndGameRaid.h"
+#include "gameSys/EndGameRaid.h"
 #elif CLIENT
 #include "cmdparse/cmdgame.h"
 #include "UI/uiTextLink.h"
@@ -91,7 +91,7 @@
 
 #include "entity/attrib_description.h"
 #include "entity/character_inventory.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "bases/basedata.h"
 #include "storyarc/pnpcCommon.h"
 

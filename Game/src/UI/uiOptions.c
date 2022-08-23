@@ -1,4 +1,4 @@
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiKeymapping.h"
 #include "UI/uiUtilGame.h"
 #include "UI/uiUtil.h"
@@ -18,12 +18,12 @@
 #include "UI/uiNet.h"
 #include "UI/uiOptions.h"
 #include "UI/uiReticle.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/sprite/sprite_text.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "graphics/gfx.h"
 #include "graphics/gfxSettings.h"
-#include "uislider.h"
+#include "uiSlider.h"
 #include "UI/uiWindows_init.h"
 #include "UI/uiComboBox.h"
 #include "sound/sound.h"

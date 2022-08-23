@@ -5,13 +5,13 @@
 #include <utilitieslib/network/netcomp.h>
 #include "group/group.h"
 #include <utilitieslib/utils/utils.h>
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/assert/assert.h>
 #include "group/groupfilelib.h"
 #include "time.h"
 #include <float.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "bases/bases.h"
 #include "bases/baseparse.h"
 #include <utilitieslib/components/StashTable.h>
@@ -506,7 +506,7 @@ static int writeToDiskAndFree(char *fname,char **filedatap)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef TEST_CLIENT
-#include "..\Common\group\groupMetaMinimap.h"
+#include "group/groupMetaMinimap.h"
 #endif
 static int groupSaveMapInternal(char *fname,DefTracker **trackers,int refCount,char **filedatap)
 {

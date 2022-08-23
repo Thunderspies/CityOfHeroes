@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "GlobalAuth.h"
-#include "lock.h"
+#include "Lock.h"
 #include "IOObject.h"
 
 #define TOP_TICK_EXPIRE 24*3600*1000

@@ -12,7 +12,7 @@
 #include "IOBuffer.h"
 #include "Lock.h"
 #include "IOObject.h"
-#include "blowfish.h"
+#include "Blowfish.h"
 
 #define INBUFSIZE   32768
 #define    OUTBUFSIZE  16384

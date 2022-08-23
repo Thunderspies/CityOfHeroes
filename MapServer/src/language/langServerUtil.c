@@ -9,7 +9,7 @@
 #include "entity/entPlayer.h"
 #include "entity/entity.h"
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/entPlayer.h"
 #include "entity/entity.h"
 #include "svr/svr_base.h"

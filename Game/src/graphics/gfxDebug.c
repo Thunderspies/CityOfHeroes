@@ -34,7 +34,7 @@
 #include "graphics/camera.h"
 #include "graphics/jpeg.h"
 #include <utilitieslib/components/StashTable.h>
-#include "render/renderSSAO.h"
+#include "render/renderssao.h"
 #include "graphics/gfxDevHUD.h"
 
 //##########################################################################

@@ -11,8 +11,8 @@
 
 #include "mission.h"
 #include "storyarcprivate.h"
-#include "reward.h"
-#include "dbcomm/staticmapinfo.h"
+#include "Reward.h"
+#include "dbcomm/staticMapInfo.h"
 #include "storyarc/missionMapCommon.h"
 #include "entity/CustomVillainGroup.h"
 // *********************************************************************************

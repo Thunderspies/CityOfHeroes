@@ -2,7 +2,7 @@
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/memcheck.h"
 #include "utilitieslib/stdtypes.h"
-#include "utilitieslib/utils/superassert.h"
+#include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/utils/timing.h"
 
 // Note: currently, opt_strnicmp and opt_strupr are not used

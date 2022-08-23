@@ -3,15 +3,15 @@
 
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
-#include "entity/teamcommon.h"
+#include "entity/teamCommon.h"
 #include "chatdefs.h"
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/components/genericlist.h>
-#include "turnstile/turnstileservercommon.h"
-#include "turnstileservergroup.h"
-#include "turnstileserver.h"
-#include "turnstileservermsg.h"
-#include "turnstileserverevent.h"
+#include "turnstile/TurnstileServerCommon.h"
+#include "TurnstileServerGroup.h"
+#include "TurnstileServer.h"
+#include "TurnstileServerMsg.h"
+#include "TurnstileServerEvent.h"
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/log.h>
 

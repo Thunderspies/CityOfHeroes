@@ -6,7 +6,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "UI/uiBuff.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/character_workshop.h"
 #include "player/inventory_client.h"
 #include <utilitieslib/network/netio.h>
@@ -37,7 +37,7 @@
 #include "UI/uiGroupWindow.h"
 #include "group/groupdynrecv.h"
 #include "comm_game.h"
-#include "gameComm/npc.h"            // For npcDefsGetCostume()
+#include "gameComm/Npc.h"            // For npcDefsGetCostume()
 #include "entity/PowerInfo.h"
 #include "entity/character_base.h"    // For structure Character
 #include "entity/character_level.h"
@@ -55,8 +55,8 @@
 #include "UI/uiCursor.h"
 #include "UI/uiTray.h"
 #include "UI/uiInspiration.h"
-#include <utilitieslib/components/Earray.h>
-#include "entity/EntPlayer.h"
+#include <utilitieslib/components/earray.h>
+#include "entity/entPlayer.h"
 #include "player/playerState.h"
 #include <utilitieslib/components/StringCache.h>
 #include "demo.h"
@@ -79,12 +79,12 @@
 #include "UI/uiPet.h"
 #include "entity/character_workshop.h"
 #include "UI/uiOptions.h"
-#include "storyarc/contactclient.h"
-#include "entity/rewardtoken.h"
+#include "storyarc/contactClient.h"
+#include "entity/RewardToken.h"
 #include "entity/Supergroup.h"
 #include "bases/basedata.h"
 #include "bases/DetailRecipe.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiPlayerNote.h"
 #include "UI/uiRecipeInventory.h"
 #include "float.h"
@@ -106,7 +106,7 @@
 #include "UI/uiMissionReview.h"
 #include "entity/power_customization.h"
 #include "storyarc/pnpcCommon.h"
-#include "clientComm/authclient.h"
+#include "clientcomm/authclient.h"
 
 static U32    last_packet_abs_time;
 static int  ent_create;     // Shared between various entRecv helper functions.

@@ -3,7 +3,7 @@
 #include "seq/anim.h"
 #include "render/rendermodel.h"
 #include <utilitieslib/components/StashTable.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include "render/tex.h"
 #include "seq/AutoLOD.h"
 #include "render/thread/rt_model.h"

@@ -1,4 +1,4 @@
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "entaiCritterPrivate.h"
 #include "beacon/beaconPath.h"
 #include "beacon/beaconPrivate.h"

@@ -19,7 +19,7 @@
 #include "cryptlib/aes.h"
 #include "utilitieslib/stdtypes.h"
 #include "utilitieslib/utils/timing.h"
-#include "utilitieslib/utils/superassert.h"
+#include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/network/crypt.h"
 #include "utilitieslib/utils/mathutil.h"
 

@@ -31,7 +31,7 @@
 #include "UI/uiUtil.h"
 #include "UI/uiBaseInput.h"
 #include "UI/uiBaseRoom.h"
-#include "UI/uibaseprops.h"
+#include "UI/uiBaseProps.h"
 #include "UI/uiBaseInventory.h"
 #include "UI/uiWindows.h"
 #include "UI/uiScrollBar.h"

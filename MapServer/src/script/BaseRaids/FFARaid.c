@@ -8,18 +8,18 @@
 #include "bases/basesystems.h"
 #include "bases/basedata.h"
 #include <utilitieslib/components/earray.h>
-#include "gameComm/villaindef.h"
-#include "gamesys/sgraid.h"
+#include "gameComm/VillainDef.h"
+#include "gameSys/sgraid.h"
 #include <utilitieslib/utils/error.h>
 #include "ai/entai.h"
 #include "entity/entity.h"
 #include "entity/entserver.h"
-#include "ai/entaiscript.h"
+#include "ai/entaiScript.h"
 #include "script/scriptengine.h"
 #include "gameComm/dooranimcommon.h"
 #include "svr/svr_player.h"
 #include "gameSys/raidmapserver.h"
-#include "gamesys/sgraid_V2.h"
+#include "gameSys/sgraid_V2.h"
 
 #define WRAPUP_LENGTH    1.0f    // in minutes
 #define ATTACKER_CLOCK    2.0f    // in minutes

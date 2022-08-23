@@ -29,7 +29,7 @@
 #pragma warning (disable:4996)
 
 #define DIRECTINPUT_VERSION 0x0800
-#include <Dinput.h>
+#include <dinput.h>
 
 char    inp_levels[256], inp_edges[256];
 KeyInput textKeyboardBuffer[64];

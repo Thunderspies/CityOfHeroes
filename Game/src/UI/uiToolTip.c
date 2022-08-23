@@ -16,7 +16,7 @@
 
 #include "entity/entVarUpdate.h"
 #include "win/win_init.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/input.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "language/langClientUtil.h"

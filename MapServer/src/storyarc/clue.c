@@ -12,7 +12,7 @@
 
 #include "clue.h"
 #include "storyarcprivate.h"
-#include "reward.h"
+#include "Reward.h"
 #include "entity/entGameActions.h"
 #include "entity/entPlayer.h"
 #include "dbcomm/dbcomm.h"

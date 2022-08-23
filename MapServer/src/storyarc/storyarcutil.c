@@ -22,10 +22,10 @@
 #include "script/scriptengine.h"
 #include "generator/encounter.h"
 #include "entity/entserver.h"
-#include "ai/entaipriority.h"
+#include "ai/entaiPriority.h"
 #include "cmdparse/chat_emote.h" //for g_EmoteAnims
 #include "ai/entaiprivate.h" //maybe move out
-#include "generator/encounterprivate.h"
+#include "generator/encounterPrivate.h"
 #include "dbcomm/dbcomm.h"
 #include "seq/seq.h"
 #include "entity/entity.h"
@@ -39,16 +39,16 @@
 #include "beacon/beaconPath.h"
 #include "entity/character_base.h"
 #include "entity/origins.h"
-#include "entity/teamcommon.h"
+#include "entity/teamCommon.h"
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/language/AppLocale.h>
 #include "language/commonLangUtil.h"
 #include <utilitieslib/utils/tokenstore.h>
 #include "ailib/aiBehaviorPublic.h"
-#include "seq/animBitList.h"
+#include "seq/AnimBitList.h"
 #include "storyarc/pnpcCommon.h"
-#include "entity/supergroup.h"
+#include "entity/Supergroup.h"
 #include "auth/authUserData.h"
 #include <utilitieslib/utils/log.h>
 

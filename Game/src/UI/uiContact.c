@@ -4,17 +4,17 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "gameComm/wdwbase.h"
 #include "storyarc/contactClient.h"
 #include "cmdparse/cmdcommon.h"
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/timing.h>
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "player/player.h"
 #include "entity/entity.h"
 #include "entity/character_base.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/utils/utils.h>
 
 #include "graphics/seqgraphics.h"

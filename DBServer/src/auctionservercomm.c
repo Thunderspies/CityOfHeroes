@@ -7,9 +7,9 @@
 #include "dbserver/auctionservercomm.h"
 #include <utilitieslib/network/sock.h>
 #include "dbrelay.h"
-#include "auction/xact.h"
+#include "auction/Xact.h"
 #include "sql_fifo.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "dbserver/servercfg.h"
 #include "dbinit.h"
 #include "container.h"
@@ -28,7 +28,7 @@
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/utils/file.h>
-#include "turnstile/turnstileservercommon.h"
+#include "turnstile/TurnstileServerCommon.h"
 
 #include "accountservercomm.h"
 #include "mapxfer.h"

@@ -3,10 +3,10 @@
 #include "UI/uiCostume.h"
 #include "UI/uiScrollBar.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "cmdparse/cmdcommon.h"
 #include "sound/sound.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/utils/file.h>
 
@@ -22,9 +22,9 @@
 
 #include "gameComm/wdwbase.h"
 #include <utilitieslib/utils/textparser.h>
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "storyarc/pnpcCommon.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "graphics/seqgraphics.h"
 #include <utilitieslib/utils/error.h>
 #include "entity/entclient.h"
@@ -47,7 +47,7 @@
 #include "UI/uiComboBox.h"
 #include "UI/uiToolTip.h"
 #include "UI/uiGame.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiClipper.h"
 #include "UI/uiBox.h"
 #include "UI/uiMissionMaker.h"

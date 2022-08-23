@@ -13,7 +13,7 @@
  *
  ***************************************************************************/
 #include <utilitieslib/stdtypes.h>
-#include "accountcmds.h"
+#include "AccountCmds.h"
 #include "account/AccountCatalog.h"
 #include "AccountDb.hpp"
 #include "AccountServer.hpp"
@@ -25,7 +25,7 @@
 #include "cmdparse/cmdenum.h"
 #include "cmdparse/cmdaccountserver.h"
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/gametypes.h"
 #include <utilitieslib/utils/cmdoldparse.h>
 #include <utilitieslib/utils/file.h> // isDevelopmentMode()

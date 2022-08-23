@@ -2,7 +2,7 @@
 #include "gameComm/wdwbase.h"
 
 #include "entity/entity.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/entclient.h"
 #include "entity/character_base.h"
 #include "entity/powers.h"
@@ -16,7 +16,7 @@
 #include "UI/sprite/sprite_base.h"
 #include "gameComm/petCommon.h"
 #include "player/player.h"
-#include "arena/ArenaGame.h"
+#include "arena/arenagame.h"
 
 #include "UI/uiNet.h"
 #include "UI/uiPet.h"
@@ -42,11 +42,11 @@
 #include "entity/teamup.h"
 #include "seq/seq.h"
 #include "filter/validate_name.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "cmdparse/cmdgame.h"
 #include "UI/uiInfo.h"
 #include "UI/uiTray.h"
-#include "uiGift.h"
+#include "UI/uiGift.h"
 #include "UI/uiPowerInventory.h"
 #include "UI/uiBuff.h"
 #include "UI/uiInspiration.h"

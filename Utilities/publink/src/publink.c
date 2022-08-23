@@ -7,7 +7,7 @@
 #include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/memcheck.h>
-#include <utilitieslib/components/stashtable.h>
+#include <utilitieslib/components/StashTable.h>
 
 static int public_sock;
 #define DEFAULT_PUBLICCHAT_PORT 6987

@@ -1,7 +1,7 @@
 #include "MessageView.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 
 TextEntry * TextEntryCreate(char * msg)

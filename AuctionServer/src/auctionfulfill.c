@@ -7,10 +7,10 @@
 #include "auctionfulfill.h"
 #include "BinHeap.h"
 #include "XactServer.h"
-#include "auctiondb.h"
-#include <utilitieslib/components/stringcache.h>
-#include "auctionserver.h"
-#include "auction/auction.h"
+#include "AuctionDb.h"
+#include <utilitieslib/components/StringCache.h>
+#include "AuctionServer.h"
+#include "auction/Auction.h"
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/utils/error.h>

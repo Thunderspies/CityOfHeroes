@@ -11,7 +11,7 @@
 
 #include "dbcomm/dbcomm.h"
 #include "dbcomm/dbcontainer.h"
-#include "ArenaEvent.h"
+#include "arenaevent.h"
 #include "arenaplayer.h"
 #include <utilitieslib/utils/error.h>
 #include "entity/entity.h"

@@ -16,10 +16,10 @@
 #include "UI/sprite/sprite_text.h"
 #include "gameData/raidstruct.h"
 #include <utilitieslib/components/StashTable.h>
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiChat.h"
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/entity.h"
 #include "player/player.h"
 #include "UI/uiFx.h"

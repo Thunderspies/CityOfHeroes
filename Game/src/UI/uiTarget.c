@@ -13,7 +13,7 @@
 #include "UI/uiChat.h"
 #include "UI/uiGame.h"
 #include "UI/uiTeam.h"
-#include "uiLeague.h"
+#include "UI/uiLeague.h"
 #include "UI/uiTurnstile.h"
 #include "UI/uiArena.h"
 #include "UI/uiTrade.h"
@@ -45,8 +45,8 @@
 #include "entity/powers.h"
 #include "entity/origins.h"
 #include "entity/classes.h"
-#include "gameComm/npc.h"
-#include <utilitieslib/components/Earray.h>
+#include "gameComm/Npc.h"
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/utils.h>
 #include "uiSMFView.h"
@@ -59,7 +59,7 @@
 #include "gameComm/chatClient.h" // only for UsingChatServer() call (temporary)
 #include "entity/entity.h"
 #include "entity/entclient.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "UI/uiPet.h"
 #include "entity/Supergroup.h"

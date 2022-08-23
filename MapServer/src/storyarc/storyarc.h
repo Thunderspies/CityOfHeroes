@@ -14,7 +14,7 @@
 #ifndef __STORYARC_H
 #define __STORYARC_H
 
-#include "storyarcInterface.h"
+#include "storyarcinterface.h"
 
 // *********************************************************************************
 //  Handles and utility functions

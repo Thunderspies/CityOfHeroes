@@ -1,6 +1,6 @@
 #include "entity/chatSettings.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/language/MessageStore.h>

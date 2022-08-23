@@ -13,7 +13,7 @@
 #include "graphics/camera.h"
 #include "cmdparse/cmdgame.h"
 #include "gridcoll/gridcoll.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "graphics/sun.h"
 #include "edit/edit_cmd_select.h"
 #include "utils/position.h"

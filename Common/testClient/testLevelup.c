@@ -5,8 +5,8 @@
 #include "entity/origins.h"
 #include <utilitieslib/utils/utils.h>
 #include "entity/powers.h"
-#include <utilitieslib/components/Earray.h>
-#include "gamedata/randomCharCreate.h"
+#include <utilitieslib/components/earray.h>
+#include "gameData/randomCharCreate.h"
 #include "UI/uiNet.h"
 #include "clientcomm/clientcomm.h"
 #include "entity/entclient.h"

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/HashFunctions.h>
 #include <utilitieslib/network/crypt.h>
 #include "container.h"
@@ -50,12 +50,12 @@
 #include "queueservercomm.h"
 #include "clientcomm.h"
 #include "entity/gametypes.h"
-#include "turnstiledb.h"
+#include "turnstileDb.h"
 #include "auth/authUserData.h"
 #include "dbEventHistory.h"
 #include <utilitieslib/utils/log.h>
 #include "chatrelay.h"
-#include <utilitieslib/utils/ConvertUTF.h>
+#include <utilitieslib/utils/ConvertUtf.h>
 #include "overloadProtection.h"
 #include "logserver.h"
 

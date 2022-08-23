@@ -1,11 +1,11 @@
 #include "formatter/smf_util.h"
 #include "smf_select.h"
 
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 
 #include "UI/uiInput.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 
 #include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/utils/timing.h>

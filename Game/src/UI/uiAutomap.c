@@ -42,14 +42,14 @@
 #include <utilitieslib/utils/timing.h>
 #include "player/player.h"
 #include "graphics/camera.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/textparser.h>
 #include "win/win_init.h"
 #include "entity/entclient.h"
 #include "win/win_cursor.h"
 #include "storyarc/contactClient.h"
 #include "language/langClientUtil.h"
-#include "UI/uiAutoMapFog.h"
+#include "UI/uiAutomapFog.h"
 #include "entity/entVarUpdate.h"
 #include "UI/uiEditText.h"
 #include "UI/uiComboBox.h"
@@ -57,7 +57,7 @@
 #include "entity/entity.h"
 #include "seq/anim.h"
 #include "group/group.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "gameComm/itemselect.h"
 #include "group/groupfileload.h"
 #include "entity/teamCommon.h"
@@ -69,7 +69,7 @@
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "render/tex.h"
 #include "graphics/imageCapture.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "UI/uiClipper.h"
 #include "entity/character_target.h"
 #include "storyarc/pnpcCommon.h"
@@ -79,7 +79,7 @@
 #include "storyarc/missiongeoCommon.h"
 #include "UI/uiMissionReview.h"
 #include "entity/gametypes.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/utils/sysutil.h>
 #include "shlobj.h"
 #include <nvdxt_options.h>

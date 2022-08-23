@@ -17,16 +17,16 @@
 #include "dblog.h"
 #include "namecache.h"
 #include "container_tplt.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "dbperf.h"
 #include "dbmsg.h" // for containerBroadcast
 #include <utilitieslib/components/StashTable.h>
 #include "waitingEntities.h"
-#include <utilitieslib/utils/stackdump.h>
+#include <utilitieslib/utils/Stackdump.h>
 #include "backup.h"
 #include "sql_fifo.h"
 #include <utilitieslib/utils/log.h>
-#include <utilitieslib/utils/ConvertUTF.h>
+#include <utilitieslib/utils/ConvertUtf.h>
 #include <utilitieslib/components/earray.h>
 
 DbList    container_lists[MAX_CONTAINER_TYPES];

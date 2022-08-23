@@ -2,7 +2,7 @@
 #define _SEQGRAPHICS_H
 
 #include <utilitieslib/stdtypes.h>
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "seq/seqskeleton.h"
 
 

@@ -9,7 +9,7 @@
  */
 
 #include "bases/DetailRecipe.h"
-#include "ArenaGame.h"
+#include "arenagame.h"
 #include "UI/uiConsole.h"
 #include "clientcomm/clientcomm.h"
 #include "entity/entVarUpdate.h"
@@ -20,13 +20,13 @@
 #include "UI/uiWindows.h"
 #include "UI/uiArena.h"
 #include "UI/uiArenaResult.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "sound/sound.h"
 #include "UI/uiArenaJoin.h"
 #include <utilitieslib/utils/timing.h>
 #include "player/pmotion.h"
-#include "UI/uidialog.h"
-#include <utilitieslib/components/Earray.h>
+#include "UI/uiDialog.h"
+#include <utilitieslib/components/earray.h>
 #include "entity/entity.h"
 #include "gameData/arenastruct.h"
 #include "UI/sprite/sprite_text.h"

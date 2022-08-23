@@ -12,7 +12,7 @@
 #include "dbcomm/dbcomm.h"
 #include "cmdparse/cmdstatserver.h"
 #include "gameData/sgrpstatsstruct.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/file.h>
 #include "dbcomm/dbcontainer.h"
 #include <utilitieslib/utils/error.h>
@@ -28,7 +28,7 @@
 #include "entity/SgrpStats.h"
 #include <utilitieslib/components/earray.h>
 #include "Entity/stat_SgrpBadges.h"
-#include "player/badgestats.h"
+#include "player/BadgeStats.h"
 #include "entity/SgrpBadges.h"
 #include <utilitieslib/utils/fileutil.h>
 #include "cmdparse/cmdenum.h"

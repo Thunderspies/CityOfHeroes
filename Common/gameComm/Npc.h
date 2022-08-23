@@ -5,7 +5,7 @@ typedef struct cCostume cCostume;
 typedef struct Entity Entity;
 
 #include <utilitieslib/utils/textparser.h>
-#include "gameComm/villaindef.h"
+#include "gameComm/VillainDef.h"
 
 #include "gameData/PowerNameRef.h"
 

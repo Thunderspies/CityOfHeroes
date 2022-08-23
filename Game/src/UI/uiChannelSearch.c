@@ -12,7 +12,7 @@
 #include "UI/uiUtil.h"
 #include "UI/uiUtilGame.h"
 #include "UI/uiWindows.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiComboBox.h"
 #include "uiSlider.h"
 #include "UI/uiScrollBar.h"
@@ -41,8 +41,8 @@
 #include "filter/profanity.h"
 #include "filter/validate_name.h"
 
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/utils/utils.h>
 #include "clientcomm/clientcomm.h"
 #include "cmdparse/cmdgame.h"

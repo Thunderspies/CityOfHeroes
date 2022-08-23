@@ -7,8 +7,8 @@
 #ifndef AUCTIONCLIENT_H
 #define AUCTIONCLIENT_H
 
-#include "auction.h"
-#include "xact.h"
+#include "Auction.h"
+#include "Xact.h"
 
 typedef struct Entity Entity;
 typedef enum TrayItemType TrayItemType;

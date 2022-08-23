@@ -5,9 +5,9 @@
 #include "time.h"
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "player/player.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "cmdparse/cmdgame.h"
 #include "UI/uiConsole.h"
 #include "UI/uiKeymapping.h"
@@ -23,7 +23,7 @@
 #include "UI/uiFocus.h"
 #include <utilitieslib/language/AppLocale.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "formatter/smf_main.h"
 
 // holder for parsed data list - bad structure naming here

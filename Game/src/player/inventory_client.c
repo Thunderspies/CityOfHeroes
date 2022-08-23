@@ -7,7 +7,7 @@
 #include <utilitieslib/network/net_packetutil.h>
 
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 
 #include <utilitieslib/utils/timing.h>
@@ -23,7 +23,7 @@
 #include "entity/character_level.h"
 #include "entity/character_inventory.h"
 
-#include "auction/auction.h"
+#include "auction/Auction.h"
 #include "account/AccountCatalog.h"
 #include "clientcomm/dbclient.h"
 #include "player/inventory_client.h"

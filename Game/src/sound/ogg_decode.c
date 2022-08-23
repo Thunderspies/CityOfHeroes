@@ -5,7 +5,7 @@
 #include "assert.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/utils/strings_opt.h>
 #include <utilitieslib/utils/wininclude.h>
 #include <utilitieslib/utils/utils.h>

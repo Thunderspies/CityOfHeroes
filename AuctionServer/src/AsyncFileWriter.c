@@ -13,7 +13,7 @@
  *
  ***************************************************************************/
 #include "AsyncFileWriter.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/utils/error.h>

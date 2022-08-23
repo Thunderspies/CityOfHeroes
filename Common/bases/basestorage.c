@@ -15,7 +15,7 @@
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/MemoryPool.h>
 #include "bases/bases.h"
 #include "bases/basedata.h"

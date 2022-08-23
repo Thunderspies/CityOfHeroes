@@ -1,6 +1,6 @@
 //***********************************************
 
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "gameComm/chatClient.h"
 #include "gameComm/chatClient.h"
 #include <utilitieslib/components/StashTable.h>
@@ -9,10 +9,10 @@
 #include "UI/uiChat.h"
 #include "assert.h"
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiConsole.h"
 #include <utilitieslib/utils/utils.h>
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/sprite/sprite_text.h"
 #include <utilitieslib/utils/timing.h>
 #include "UI/uiChannel.h"
@@ -21,7 +21,7 @@
 #include "render/tex.h"
 #include "graphics/textureatlas.h"
 
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "chatdb.h"
 #include "cmdparse/cmdgame.h"

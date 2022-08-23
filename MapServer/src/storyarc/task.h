@@ -149,6 +149,6 @@ void TaskEnteredVolume(Entity *player, const char *volumeName);
 #include "taskdef.h"
 #include "taskdetail.h"
 #include "locationTask.h"
-#include "teamtask.h"
+#include "TeamTask.h"
 
 #endif // __TASK_H

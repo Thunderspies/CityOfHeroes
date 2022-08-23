@@ -5,7 +5,7 @@
 #include <limits.h>
 #include "uiIME.h"
 #include "player/player.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/playerState.h"
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_text.h"
@@ -18,7 +18,7 @@
 #include "edit/edit_cmd.h"
 #include "clientcomm/clientcomm.h"
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/input.h"
 #include "win/win_init.h"
 
@@ -41,12 +41,12 @@
 #include "uiEmote.h"
 #include "UI/uiPet.h"
 #include "UI/uiClipper.h"
-#include "gameData\menudef.h"
+#include "gameData/menudef.h"
 #include "demo.h"
 #include "UI/uiFocus.h"
 #include <utilitieslib/utils/sysutil.h>
 #include "UIEdit.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/utils.h>
 #include "sound/sound.h"
 #include <utilitieslib/utils/strings_opt.h>
@@ -56,7 +56,7 @@
 #include "UI/uiArena.h"
 #include "uiChatOptions.h"
 #include "UI/uiOptions.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiTextLink.h"
 #include "gameComm/chatClient.h"
 #include "chatdb.h"

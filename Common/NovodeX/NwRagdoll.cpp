@@ -25,7 +25,7 @@ extern "C"
     #include "seq/gfxtree.h"
     #include "seq/seq.h"
     #include <utilitieslib/utils/mathutil.h>
-    #include <utilitieslib/components/queue.h>
+    #include <utilitieslib/components/Queue.h>
     #include "entity/entity.h"
     #include "render/renderprim.h"
     #include "entity/motion.h"

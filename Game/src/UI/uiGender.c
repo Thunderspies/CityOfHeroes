@@ -36,7 +36,7 @@
 #include <utilitieslib/utils/textparser.h>
 
 // for temporary default body type selections (development only)
-#include "UI/uidialog.h"    
+#include "UI/uiDialog.h"    
 #include "UI/uiComboBox.h"
 #include <utilitieslib/utils/utils.h>
 #include "UI/uiCostume.h"
@@ -50,7 +50,7 @@
 #include <utilitieslib/utils/file.h>
 #include "entity/PCC_Critter.h"
 #include "UI/uiNet.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiSupercostume.h"
 #include "auth/authUserData.h"
 #include "entity/LoadDefCommon.h"

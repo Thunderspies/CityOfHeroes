@@ -4,9 +4,9 @@
 
 #include "IPSessionDB.h"
 #include "util.h"
-#include "config.h"
+#include "Config.h"
 #include "buildn.h"
-#include "accountdb.h"
+#include "AccountDB.h"
 #include "IOServer.h"
 
 bool IPServerReconnect = false;

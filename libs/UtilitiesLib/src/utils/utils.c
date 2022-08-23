@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "utilitieslib/utils/timing.h"
 #include "utilitieslib/utils/error.h"
-#include "utilitieslib/components/EArray.h"
+#include "utilitieslib/components/earray.h"
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -24,7 +24,7 @@
 #include <process.h>
 
 #ifndef _XBOX
-    #include <ShlObj.h>
+    #include <shlobj.h>
 #endif
 
 #include "utilitieslib/utils/mathutil.h"

@@ -13,10 +13,10 @@
 #include "clientcomm/clientcomm.h"
 #include "entity/entVarUpdate.h"
 #include "entity/character_eval.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/utils.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "entity/teamCommon.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
@@ -24,9 +24,9 @@
 #include "UI/uiWindows.h"
 #include "UI/uiUtil.h"
 #include "UI/uiUtilGame.h"
-#include "uilistview.h"
+#include "uiListView.h"
 #include "UI/uiClipper.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 #include "gameComm/wdwbase.h"
 #include "graphics/textureatlas.h"
 #include "UI/sprite/sprite_font.h"
@@ -37,14 +37,14 @@
 #include "UI/uiToolTip.h"
 #include "UI/uiGame.h"
 #include "cmdparse/cmdgame.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "sound/sound.h"
-#include "uiLeague.h"
+#include "UI/uiLeague.h"
 #include "UI/uiContextMenu.h"
 #include "UI/uiCursor.h"
 #include "UI/uiTarget.h"
 #include "UI/uiChat.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "UI/uiTabControl.h"
 
 #ifndef TEST_CLIENT

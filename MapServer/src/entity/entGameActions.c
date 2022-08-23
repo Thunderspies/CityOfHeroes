@@ -12,7 +12,7 @@
 #include "player/pmotion.h"
 #include <utilitieslib/utils/error.h>
 #include "language/langServerUtil.h"    // for svrMenuMessages
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "player/playerState.h" // client-side file. I'm going to hell for this.
 #include "entity/character_base.h"
 #include <utilitieslib/components/earray.h>
@@ -31,11 +31,11 @@
 #include "entity/character_mods.h"
 #include "entity/attribmod.h"
 #include "entity/powers.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "entserver.h"
 #include "container/team.h"            // for teamGetIdFromEnt()
 #include "entity/character_level.h"
-#include "storyarc/storyarcInterface.h"
+#include "storyarc/storyarcinterface.h"
 #include "ai/entai.h"
 #include "ai/entaiprivate.h"
 
@@ -63,7 +63,7 @@
 
 #include "seq/seqskeleton.h"
 #include "seq/seqanimate.h"
-#include "NovodeX/nwragdoll.h"
+#include "NovodeX/NwRagdoll.h"
 #include "NovodeX/NwWrapper.h"
 #include "entity/Supergroup.h"
 

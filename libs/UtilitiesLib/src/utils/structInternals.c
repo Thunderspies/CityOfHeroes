@@ -10,8 +10,8 @@
 
 #include "utilitieslib/stdtypes.h"
 #include "utilitieslib/utils/structInternals.h"
-#include "utilitieslib/utils/tokenStore.h"
-#include "utilitieslib/utils/superAssert.h"
+#include "utilitieslib/utils/tokenstore.h"
+#include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/utils/error.h"

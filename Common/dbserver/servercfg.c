@@ -1,5 +1,5 @@
 #include "servercfg.h"
-#include "auction/auction.h"
+#include "auction/Auction.h"
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/timing.h>

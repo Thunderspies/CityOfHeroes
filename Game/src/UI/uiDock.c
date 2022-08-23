@@ -17,7 +17,7 @@
 #include "assert.h"
 #include "gameComm/chatClient.h"
 #include "UI/uiChatUtil.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiFriend.h"
 #include "UI/uiInfo.h"
 #include "player/player.h"

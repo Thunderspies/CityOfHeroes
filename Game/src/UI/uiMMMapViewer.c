@@ -18,11 +18,11 @@
 #include "graphics/textureatlas.h"
 
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "graphics/imageCapture.h"
 #include "entity/entity.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/motion.h"
 #include "entity/entclient.h"
 #include "entity/costume_client.h"
@@ -30,7 +30,7 @@
 #include "seq/seqstate.h"
 #include "entity/character_animfx_client.h"
 #include "entity/character_base.h"
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "UI/uiAutomap.h"
 

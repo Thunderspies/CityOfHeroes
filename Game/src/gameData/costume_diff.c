@@ -3,7 +3,7 @@
 #include "entity/costume.h"
 #include "gameData/costume_data.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/error.h>

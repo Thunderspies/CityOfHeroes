@@ -3,14 +3,14 @@
 
 #include "graphics/ttFontUtil.h"
 #include "graphics/ttFont.h"
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/utils/StringUtil.h>
 
 #include "render/sprite.h"
 #include "UI/sprite/sprite_base.h"
 #include "UI/uiChat.h" // for GetTextStyleForType
 #include "UI/uiClipper.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "UI/sprite/sprite_text.h" // for DetermineColor()
 
 #include <utilitieslib/utils/timing.h>

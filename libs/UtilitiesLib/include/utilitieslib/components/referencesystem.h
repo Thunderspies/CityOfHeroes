@@ -2,7 +2,7 @@
 #define _REFERENCESYSTEM_H_
 
 #include "../stdtypes.h"
-#include "estring.h"
+#include "EString.h"
 #include "earray.h"
 
 

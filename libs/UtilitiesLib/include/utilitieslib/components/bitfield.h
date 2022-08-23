@@ -6,7 +6,7 @@
 #ifndef EXTERNAL_TEST
     #include "../stdtypes.h"
 #else
-    #include "test.h"
+    #include "Test.h"
 #endif
 
 // Basically BitField's should be declared as an array of U32's.

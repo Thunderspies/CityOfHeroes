@@ -1,8 +1,8 @@
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/components/MemoryPool.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/assert/assert.h>
 

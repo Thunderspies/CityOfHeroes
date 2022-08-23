@@ -15,7 +15,7 @@
 #include "UI/uiNet.h"
 #include "entity/entity.h"
 #include "gameData/arenastruct.h"
-#include "arena/ArenaGame.h"
+#include "arena/arenagame.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 
 

@@ -10,11 +10,11 @@
 #include "player/player.h"
 #include "entity/entity.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/FolderCache.h>
 #include "UI/uiPowerCust.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "formatter/smf_util.h"
 #include "formatter/smf_main.h"
 #include "UI/uiInput.h"
@@ -29,7 +29,7 @@
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_font.h"
 #include "entity/character_base.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiAvatar.h"
 #include "UI/Hybrid/uiHybridMenu.h"
 

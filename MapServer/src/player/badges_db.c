@@ -5,12 +5,12 @@
  ***************************************************************************/
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/StringCache.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/teamCommon.h"
 #include <utilitieslib/utils/file.h>
 
 #include "container/dbcontainerpack.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entity.h"
 
 #include "player/badges.h"

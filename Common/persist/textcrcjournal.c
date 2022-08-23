@@ -21,7 +21,7 @@
 #include "utilitieslib/network/crypt.h"
 #include "utilitieslib/utils/timing.h"
 #include "utilitieslib/utils/textparser.h"
-#include "utilitieslib/components/estring.h"
+#include "utilitieslib/components/EString.h"
 #include "utilitieslib/utils/file.h"
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/utils/error.h"

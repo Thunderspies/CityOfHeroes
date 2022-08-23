@@ -2,9 +2,9 @@
 // This handles two client side details of Zowies: 1) making them hum and glow in the world, and 2) making the active task Zowies appear on the minimap.
 
 #include "group/grouputil.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "group/group.h"
-#include "storyarc/contactclient.h"
+#include "storyarc/contactClient.h"
 #include <utilitieslib/components/StashTable.h>
 #include "cmdparse/cmdgame.h"
 #include "sound/sound.h"

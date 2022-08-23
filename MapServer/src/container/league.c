@@ -16,8 +16,8 @@
 #include "dbcomm/staticMapInfo.h"
 #include <utilitieslib/network/net_packet.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
-#include "gameSys/turnstile.h"
+#include <utilitieslib/components/EString.h>
+#include "gameSys/Turnstile.h"
 #include "door.h"
 
 //    returns -1 if not found

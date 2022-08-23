@@ -2,9 +2,9 @@
 #define VILLAINDEF_H
 
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/utils/structdefines.h>
+#include <utilitieslib/utils/structDefines.h>
 
-#include "entity/EntityRef.h"
+#include "entity/entityRef.h"
 
 typedef struct Costume Costume;
 typedef struct Entity Entity;

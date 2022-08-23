@@ -1,12 +1,12 @@
 #include "arda2/core/corFirst.h"
 
 #include "util.h"
-#include "config.h"
-#include "log.h"
-#include "logsocket.h"
-#include "blowfish.h"
-#include "cryptLib/sha.h"
-#include "cryptLib/sha512.h"
+#include "Config.h"
+#include "Log.h"
+#include "LogSocket.h"
+#include "Blowfish.h"
+#include "cryptlib/sha.h"
+#include "cryptlib/sha512.h"
 
 using namespace std;
 

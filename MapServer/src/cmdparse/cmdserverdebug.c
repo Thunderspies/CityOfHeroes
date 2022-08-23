@@ -6,11 +6,11 @@
 #include <utilitieslib/utils/utils.h>
 #include "entity/entserver.h"
 #include "ai/entai.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "gameComm/NpcServer.h"
 #include <utilitieslib/utils/cmdoldparse.h>
 #include "cmdparse/cmdserverdebug.h"
-#include "generator/encounterprivate.h"
+#include "generator/encounterPrivate.h"
 #include "dbcomm/dbdoor.h"
 #include <utilitieslib/components/earray.h>
 #include "storyarc/mission.h"

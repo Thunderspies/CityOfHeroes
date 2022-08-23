@@ -9,7 +9,7 @@
 #include "filter/profanity.h"
 #include <utilitieslib/utils/utils.h>
 #include "gameComm/Npc.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 CustomVG **g_CustomVillainGroups;
 

@@ -8,7 +8,7 @@
 #include "UI/sprite/sprite_font.h"
 
 #include "win/input.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/win_init.h" // for windowClientSize
 #include "player/player.h"      // for playerPtr
 #include "graphics/font.h"
@@ -42,7 +42,7 @@
 #include "UI/Hybrid/uiRedirect.h"
 #include <utilitieslib/language/AppLocale.h>
 #include "filter/titles.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiTailor.h"
 #include "UI/uiComboBox.h"
 #include "UI/uiToolTip.h"

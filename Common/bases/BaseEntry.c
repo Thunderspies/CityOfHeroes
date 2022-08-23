@@ -12,7 +12,7 @@
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/components/StashTable.h>
-#include "entity/supergroup.h"
+#include "entity/Supergroup.h"
 
 BaseAccess sgrp_BaseAccessFromSgrp(Supergroup *sg, SgrpBaseEntryPermission bep)
 {

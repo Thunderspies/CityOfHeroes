@@ -2,7 +2,7 @@
 
 #include "UI/uiTeam.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "cmdparse/cmdgame.h"
 #include "UI/uiCursor.h"
@@ -16,7 +16,7 @@
 #include "UI/sprite/sprite_text.h"
 #include "entity/teamCommon.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "storyarc/contactclient.h"
+#include "storyarc/contactClient.h"
 #include "UI/uiContactDialog.h"
 #include "UI/uiGroupWindow.h"
 #include "entity/teamup.h"

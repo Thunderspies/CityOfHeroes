@@ -17,13 +17,13 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/sysutil.h>
 #include "dbserver/servercfg.h"
-#include <utilitieslib/utils/foldercache.h>
-#include <utilitieslib/utils/consoledebug.h>
+#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/ConsoleDebug.h>
 #include <utilitieslib/language/AppLocale.h>
-#include <utilitieslib/utils/memorymonitor.h>
-#include "entity/entvarupdate.h"        // for PKT_BITS_TO_REP_DB_ID
+#include <utilitieslib/utils/MemoryMonitor.h>
+#include "entity/entVarUpdate.h"        // for PKT_BITS_TO_REP_DB_ID
 #include <utilitieslib/network/sock.h>
-#include <utilitieslib/language/multimessagestore.h>
+#include <utilitieslib/language/MultiMessageStore.h>
 #include "dbcomm/dbcontainer.h"
 #include "dbcomm/dbcomm.h"
 #include "container/container_server.h"
@@ -38,8 +38,8 @@
 #include "dbcomm/logcomm.h"
 #include <utilitieslib/utils/winutil.h>
 #include "entity/entity.h"
-#include "entity/supergroup.h"
-#include "container/containersupergroup.h"
+#include "entity/Supergroup.h"
+#include "container/containerSupergroup.h"
 #include <utilitieslib/utils/log.h>
 
 // we'll be automagically registered to serve the following containers:

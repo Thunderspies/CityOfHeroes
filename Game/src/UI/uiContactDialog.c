@@ -5,25 +5,25 @@
  ***************************************************************************/
 #include <stdio.h>
 
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 
 #include "storyarc/contactCommon.h"
 
 #include "graphics/truetype/ttFontDraw.h"
 #include "entity/entity.h"
 #include "player/player.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entclient.h"
 #include "UI/uiUtil.h"
 #include "UI/uiUtilGame.h"
 #include "UI/uiWindows.h"
 #include "UI/uiCursor.h"
 #include "UI/uiInput.h"
-#include "uiStore.h"
+#include "UI/uiStore.h"
 #include "UI/uiScrollBar.h"
-#include "uiTree.h"
-#include "UI/uidialog.h"
+#include "UI/uiTree.h"
+#include "UI/uiDialog.h"
 #include "UI/uiComboBox.h"
 #include "formatter/smf_interact.h" // calls smf_Navigate directly
 #include "formatter/smf_main.h"

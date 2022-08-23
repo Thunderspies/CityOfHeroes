@@ -12,17 +12,17 @@
  * Revision History:
  ***************************************************************************/
 #include "AuctionClient.h"
-#include <utilitieslib/components/stringcache.h>
+#include <utilitieslib/components/StringCache.h>
 #include <utilitieslib/utils/timing.h>
 #include "dbcomm/logcomm.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "gameComm/trayCommon.h"
-#include "xact.h"
+#include "Xact.h"
 #include "entity/character_base.h"
 #include "entity/character_combat.h"
-#include "auction.h"
+#include "Auction.h"
 //#include "entclient.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entity.h"
 #include "svr/svr_player.h"
 #include "comm_backend.h"
@@ -34,8 +34,8 @@
 #include <utilitieslib/components/MemoryPool.h>
 #include "entity/powers.h"
 #include "comm_game.h"
-#include "bases/detailrecipe.h"
-#include <utilitieslib/language/messagestoreutil.h>
+#include "bases/DetailRecipe.h"
+#include <utilitieslib/language/MessageStoreUtil.h>
 #include "entity/character_net.h"
 #include "AuctionData.h"
 #include <utilitieslib/components/bitfield.h>

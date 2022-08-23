@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "LateLinkManager.h"
 #include "strutils.h"
-#include "sourceparser.h"
-#include "autorunmanager.h"
+#include "SourceParser.h"
+#include "AutoRunManager.h"
 
 
 #define LATELINK_WILDCARD_PREFIX "AUTO_RUN_"

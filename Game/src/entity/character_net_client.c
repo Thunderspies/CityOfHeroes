@@ -6,7 +6,7 @@
 #include <utilitieslib/assert/assert.h>
 
 #include <utilitieslib/network/netio.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/error.h>
 
 #include "entity/entity.h"

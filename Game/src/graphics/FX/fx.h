@@ -3,7 +3,7 @@
 
 #include <utilitieslib/stdtypes.h>
 #include "fxutil.h"
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 
 typedef struct FxCape FxCape;
 typedef struct FxGeo FxGeo;

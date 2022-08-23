@@ -5,7 +5,7 @@
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/sysutil.h"
 #ifndef _XBOX
-    #include <Tlhelp32.h>
+    #include <tlhelp32.h>
 #endif
 #include "utilitieslib/components/earray.h"
 

@@ -4,14 +4,14 @@
 #include <utilitieslib/utils/scriptvars.h>
 #include <utilitieslib/language/MessageStore.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/file.h>
 #include "graphics/font.h"  // for xyprintf
 #include "cmdparse/cmdgame.h"
 #include "player/player.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/utils/piglib.h>
 #include <utilitieslib/utils/utils.h>
 #include "UI/Hybrid/uiWebStoreFrame.h"

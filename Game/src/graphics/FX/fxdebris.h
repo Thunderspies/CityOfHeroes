@@ -2,7 +2,7 @@
 #define _FXDEBRIS_H
 
 #include <utilitieslib/components/Queue.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include "NovodeX/NwWrapper.h"
 
 #if NOVODEX

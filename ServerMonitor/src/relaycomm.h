@@ -25,7 +25,7 @@ extern TokenizerParseInfo CmdRelayConNetInfo[];
 #include <utilitieslib/utils/ListView.h>
 #include "container.h"
 #include <utilitieslib/network/net_structdefs.h>
-#include <utilitieslib/utils/structnet.h>
+#include <utilitieslib/utils/structNet.h>
 
 
 

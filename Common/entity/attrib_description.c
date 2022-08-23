@@ -16,7 +16,7 @@
 #include "character_attribs.h"
 #include "entity/character_level.h"
 #include <utilitieslib/utils/error.h>
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "comm_game.h"
 #include <utilitieslib/components/StashTable.h>
 #include "gameComm/wdwbase.h"

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "identifierDictionary.h"
+#include "IdentifierDictionary.h"
 #include <cstdio>
 #include "strutils.h"
 #include "utils.h"

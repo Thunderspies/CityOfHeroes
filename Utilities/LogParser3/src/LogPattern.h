@@ -1,5 +1,5 @@
 #pragma once
-#include "logTime.h"
+#include "LogTime.h"
 class PatternImpl;
 
 /**********        Pattern            **********/

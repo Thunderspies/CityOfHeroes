@@ -13,7 +13,7 @@
 #include "dbcomm/dbcomm.h"
 #include "cmdparse/cmdserver.h"
 #include "player/clientEntityLink.h"
-#include "gamecomm/sendToClient.h"
+#include "gameComm/sendToClient.h"
 #include "entity/entserver.h"
 #include "svr/svr_base.h"
 #include "svr/svr_player.h"

@@ -2,17 +2,17 @@
 #include "Packet.h"
 #include "IOSocket.h"
 #include "buildn.h"
-#include "protocol.h"
+#include "Protocol.h"
 #include "DBConn.h"
-#include "account.h"
+#include "Account.h"
 #include "util.h"
-#include "des.h"
+#include "Des.h"
 #include "ServerList.h"
 #include "Thread.h"
 #include "AccountDB.h"
 #include "IOServer.h"
-#include "config.h"
-#include "ipsessiondb.h"
+#include "Config.h"
+#include "IPSessionDB.h"
 
 BOOL SendSocketEx(SOCKET mys, const char *format, ...);
 extern BOOL SendSocket(in_addr , const char *format, ...);

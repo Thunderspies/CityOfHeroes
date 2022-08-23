@@ -4,7 +4,7 @@
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/network/netio.h>
 #include "comm_backend.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/strings_opt.h>

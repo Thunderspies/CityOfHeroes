@@ -2,6 +2,7 @@
 #define PLAYER_CREATED_STORYARC_H
 #include <utilitieslib/utils/textparser.h>
 #include "comm_backend.h"
+#include "mission/MissionSearch.h"
 
 typedef struct cCostume cCostume;
 typedef struct Costume Costume;

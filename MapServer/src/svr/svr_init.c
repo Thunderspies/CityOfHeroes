@@ -26,7 +26,7 @@
 #include "dbcomm/dbcomm.h"
 #include <utilitieslib/utils/utils.h>
 #include "utils/debugUtils.h"
-#include "ai/entscript.h"
+#include "ai/entScript.h"
 #include "cmdparse/entcon.h"
 #include <utilitieslib/UtilsNew/profiler.h>
 #include "dbcomm/dbquery.h"
@@ -49,7 +49,7 @@
 #include "svr_tick.h"
 #include "generator/encounter.h"
 #include "ai/entai.h"
-#include "storyarc/storyarcInterface.h"
+#include "storyarc/storyarcinterface.h"
 #include "language/langServerUtil.h"
 #include "entity/load_def.h" // for load_AllDefs
 #include <utilitieslib/utils/FolderCache.h>
@@ -99,7 +99,7 @@
 #include "gameData/arenaschedule.h"
 #include "gameData/iopdata.h"
 #include "seq/seqstate.h"
-#include "NovodeX/Nwwrapper.h"
+#include "NovodeX/NwWrapper.h"
 #include "group/groupnovodex.h"
 #include "entity/ragdoll.h"
 #include <utilitieslib/components/SharedHeap.h>
@@ -115,10 +115,10 @@
 #include <utilitieslib/version/AppRegCache.h>
 #include <utilitieslib/language/MessageStore.h>
 #include "entity/TaskforceParams.h"
-#include "gameSys/turnstile.h"
+#include "gameSys/Turnstile.h"
 #include "storyarc/playerCreatedStoryarcValidate.h"
 #include "plaque.h"
-#include "reward.h"
+#include "Reward.h"
 #include "player/inventory_server.h"
 #include <utilitieslib/utils/log.h>
 #include "account/AccountCatalog.h"

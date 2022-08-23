@@ -1,7 +1,7 @@
 #ifndef _REFERENCESYSTEM_INTERNAL_H_
 #define _REFERENCESYSTEM_INTERNAL_H_
 
-#include "ReferenceSystem.h"
+#include "referencesystem.h"
 #include "StashTable.h"
 
 #define REFERENCEDICTIONARY_MAX_NAME_LENGTH 32

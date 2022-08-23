@@ -20,7 +20,7 @@
 #include "gameData/BodyPart.h"
 #include "gameData/randomCharCreate.h"
 #include "gameComm/Npc.h"
-#include "cmdparse/cmdCommon.h"
+#include "cmdparse/cmdcommon.h"
 #include "entity/entrecv.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/error.h>
@@ -45,7 +45,7 @@
 #include "clientcomm/dbclient.h"
 #include "clientcomm/authclient.h"
 #include "chatter.h"
-#include "testclient/TestClient.h"
+#include "testClient/TestClient.h"
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/network/net_version.h>
@@ -69,7 +69,7 @@
 #include "tchar.h"
 #include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StringCache.h>
-#include "testclientcmdparse.h"
+#include "testClientCmdParse.h"
 #include "testAccountServer.h"
 #include "testMissionSearch.h"
 #include "comm_backend.h"

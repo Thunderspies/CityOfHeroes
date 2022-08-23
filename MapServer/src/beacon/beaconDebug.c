@@ -7,7 +7,7 @@
 #include "comm_game.h"
 #include "cmdparse/cmdserver.h"
 #include "svr/svr_base.h"
-#include <utilitieslib/utils/simpleparser.h>
+#include <utilitieslib/utils/SimpleParser.h>
 #include "generator/entgenCommon.h"
 #include "entity/entserver.h"
 #include "ai/entai.h"

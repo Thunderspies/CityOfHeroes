@@ -7,7 +7,7 @@
 #include "UI/sprite/sprite_font.h"
 
 #include "win/input.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/win_init.h" // for windowClientSize
 #include "player/player.h"      // for playerPtr
 #include "graphics/font.h"
@@ -38,9 +38,9 @@
 #include "entity/entity.h"
 #include "seq/seq.h"
 #include "render/tex.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "account/AccountData.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "clientcomm/dbclient.h"
 #include <utilitieslib/language/AppLocale.h>
 #include "UI/uiComboBox.h"

@@ -10,8 +10,8 @@
 #include "cmdparse/cmdgame.h"
 #include "UI/uiWindows.h"
 #include "UI/uiGroupWindow.h"
-#include <utilitieslib/components/Earray.h>
-#include "uiLeague.h"
+#include <utilitieslib/components/earray.h>
+#include "UI/uiLeague.h"
 #include "entity/teamup.h"
 
 int league_CanOfferMembership(void *foo)

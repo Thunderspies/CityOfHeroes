@@ -26,7 +26,7 @@
 #include "gameSys/arenamap.h"
 #include "cmdparse/cmdserver.h"
 #include <utilitieslib/language/MessageStore.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "gameComm/Npc.h"
 #include <utilitieslib/components/earray.h>
 #include "entity/character_base.h"

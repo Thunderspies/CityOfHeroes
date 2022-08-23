@@ -1,6 +1,6 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "player/badges.h"
 #include "badgestats_db.h"
 #include "container/dbcontainerpack.h"
@@ -11,7 +11,7 @@
 #ifndef SERVER
 #define SERVER
 #endif
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 
 typedef struct badgestat_column_desc
 {

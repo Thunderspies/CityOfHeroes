@@ -28,7 +28,7 @@
 #include "UI/uiInspiration.h"
 #include "uiBaseLog.h"
 #include "uiBaseStorage.h"
-#include "UI/uibaseprops.h"
+#include "UI/uiBaseProps.h"
 
 #include "entity/character_base.h"
 #include "gameComm/wdwbase.h"
@@ -36,7 +36,7 @@
 #include "entity/powers.h"
 #include "player/player.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entVarUpdate.h"
 #include "clientcomm/clientcomm.h"
 #include "cmdparse/cmdcommon.h"
@@ -55,7 +55,7 @@
 #include "bases/DetailRecipe.h"
 
 #include <utilitieslib/utils/strings_opt.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "formatter/smf_main.h"
 #include "graphics/groupThumbnail.h"
 #include "bases/bases.h"

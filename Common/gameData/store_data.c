@@ -12,7 +12,7 @@
 #include <utilitieslib/components/SharedMemory.h>
 #include <utilitieslib/assert/assert.h>
 
-#include "gameComm/npc.h" // for PowerNameRef
+#include "gameComm/Npc.h" // for PowerNameRef
 #include "entity/powers.h"
 
 #include "store.h"

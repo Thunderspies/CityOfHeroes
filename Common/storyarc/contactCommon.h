@@ -4,7 +4,7 @@
 #define CONTACTCOMMON_H
 
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/utils/structdefines.h>
+#include <utilitieslib/utils/structDefines.h>
 
 #define LEN_MISSION_INTRO        256
 #define LEN_CONTACT_SOL_DIALOG    1024

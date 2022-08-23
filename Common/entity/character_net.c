@@ -22,7 +22,7 @@
 #include "Reward.h"
 #include "dbcomm/logcomm.h"
 #include "dbcomm/dbcomm.h"
-#include "gameSys/turnstile.h"
+#include "gameSys/Turnstile.h"
 #elif CLIENT
 #include "UI/uiRecipeInventory.h"
 #include "UI/uiIncarnate.h"
@@ -31,9 +31,9 @@
 #include "comm_game.h"
 #endif
 #include "entity/entity.h"
-#include "gameComm/villaindef.h"
+#include "gameComm/VillainDef.h"
 #include "entity/salvage.h"
-#include "entity/concept.h"
+#include "entity/Concept.h"
 
 
 /**********************************************************************func*

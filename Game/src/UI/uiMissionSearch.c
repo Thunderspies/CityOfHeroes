@@ -5,8 +5,8 @@
 
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/utils/timing.h>
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 #include "storyarc/playerCreatedStoryarc.h"
 #include "storyarc/playerCreatedStoryarcClient.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
@@ -25,7 +25,7 @@
 
 #include "entity/entity.h"
 #include "player/player.h" 
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "cmdparse/cmdgame.h"
 #include "gameData/BodyPart.h"
 
@@ -44,7 +44,7 @@
 #include "UI/uiScrollBar.h"
 #include "UI/uiClipper.h"
 #include "UIEdit.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiComboBox.h"
 #include "UI/uiMissionMaker.h"
 #include "UI/uiMissionMakerScrollSet.h"
@@ -52,7 +52,7 @@
 #include "UI/uiPictureBrowser.h"
 #include "UI/uiOptions.h"
 
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include <utilitieslib/components/bitfield.h>
 #include "storyarc/playerCreatedStoryarcValidate.h"
 #include "formatter/smf_main.h"

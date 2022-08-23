@@ -5,7 +5,7 @@
 #include <utilitieslib/utils/SuperAssert.h>
 #include "entity/character_karma.h"
 #include "script/scriptengine.h"
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "container/containerEventHistory.h"
 #include "container/EventHistory.h"

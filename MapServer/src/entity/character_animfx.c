@@ -24,9 +24,9 @@
 
 #include "svr/svr_base.h"
 #include "comm_game.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "entity/entPlayer.h"
-#include "entServer.h"
+#include "entserver.h"
 #include "entity/costume.h"
 
 #include <utilitieslib/components/StringCache.h>      // for stringToReference

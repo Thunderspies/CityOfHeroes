@@ -1,6 +1,6 @@
 #include "edit/DebugLocation.h"
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "render/renderprim.h"
 #include <utilitieslib/network/net_packet.h>
 #include "graphics/camera.h"

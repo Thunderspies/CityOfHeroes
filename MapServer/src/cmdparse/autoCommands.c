@@ -7,7 +7,7 @@
 #include "comm_backend.h"
 #include "dbcomm/dbcomm.h"
 #include "entity/entVarUpdate.h"
-#include <utilitieslib/utils/mathUtil.h>
+#include <utilitieslib/utils/mathutil.h>
 #include "entity/entity.h"
 #include <utilitieslib/utils/timing.h>
 #include "cmdparse/cmdserver.h"

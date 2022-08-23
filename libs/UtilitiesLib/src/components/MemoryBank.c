@@ -15,7 +15,7 @@
 #include "utilitieslib/components/MemoryPool.h"
 #include "utilitieslib/components/MemoryBank.h"
 #include "utilitieslib/components/ArrayOld.h"
-#include "utilitieslib/utils/Timing.h"
+#include "utilitieslib/utils/timing.h"
 
 typedef struct MemoryLoanImp MemoryLoanImp;
 typedef struct MemoryBankElementImp MemoryBankElementImp;

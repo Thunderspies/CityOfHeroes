@@ -9,7 +9,7 @@
 #include "graphics/truetype/ttFontCore.h"
 #include "graphics/truetype/ttFontManager.h"
 #include "graphics/ttFontUtil.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/input.h"
 #include "render/tex.h"
 

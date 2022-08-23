@@ -12,8 +12,8 @@
 #include "formatter/smf_render.h"
 
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 
 #include "UI/sprite/sprite_base.h" // for the scissors calls
 #include "UI/sprite/sprite_text.h"

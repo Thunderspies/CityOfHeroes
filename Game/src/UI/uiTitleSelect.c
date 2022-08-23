@@ -4,7 +4,7 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include "gameComm/wdwbase.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/utils.h>
 #include "comm_game.h"
 #include "filter/titles.h"
@@ -12,7 +12,7 @@
 #include "graphics/truetype/ttFontDraw.h"
 #include "entity/origins.h"
 #include "entity/character_base.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "clientcomm/clientcomm.h"
 #include "storyarc/contactCommon.h"
 

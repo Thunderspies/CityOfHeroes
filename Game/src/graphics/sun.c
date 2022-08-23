@@ -21,7 +21,7 @@
 #include "win/win_init.h"
 #include "group/groupfilelib.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "assert.h"
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/FolderCache.h>
@@ -40,7 +40,7 @@
 #include "render/renderEffects.h"
 #include "group/groupnetrecv.h"
 #include <utilitieslib/utils/structHist.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "LWC.h"
 
 // Sky value blending rules:

@@ -53,14 +53,14 @@
 #include "UI/uiCursor.h"
 #include "UI/uiLogin.h"
 #include "UI/uiQuit.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiBrowser.h"
 #include "UI/uiComment.h"
 #include "UI/uiCostumeSelect.h"
 #include "gameComm/initClient.h"
 #include <utilitieslib/utils/utils.h>
 #include "UI/uiMapSelect.h"
-#include "UI/uiRespec.h"
+#include "UI/uiReSpec.h"
 #include "gameComm/chatClient.h"
 #include "UI/uiChat.h"
 #include "UI/sprite/sprite_text.h"
@@ -69,13 +69,13 @@
 #include "UI/uiRaidResult.h"
 
 #include "edit/edit_net.h"
-#include "arena/ArenaGame.h"
+#include "arena/arenagame.h"
 #include "gameData/arenastruct.h"
 #include "gameData/sgraidClient.h"
 
 #include "clientcomm/clientcomm.h"
 #include "UI/uiTabControl.h"
-#include "clientComm/authclient.h"
+#include "clientcomm/authclient.h"
 
 #include "seq/anim.h"
 #include "entity/entity.h"
@@ -95,13 +95,13 @@
 #include "player/badges.h"
 #include "player/badges_client.h"
 #include "UI/uiTurnstile.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "graphics/gfxLoadScreens.h"
 #include "UI/uiGame.h"
 #include "UI/uiConvertEnhancement.h"
 #include "player/playerSticky.h"
 
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 #define DEFAULT_TIMEOUT 60 // Default timeout to use on each of the phases of connecting
 

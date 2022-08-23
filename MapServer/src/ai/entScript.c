@@ -1,4 +1,4 @@
-#include "entscript.h"
+#include "entScript.h"
 #include "MessageHandler.h"
 #include <assert.h>
 #include <string.h>

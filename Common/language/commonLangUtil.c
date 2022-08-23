@@ -25,7 +25,7 @@
 
     #include "entity/entity.h"
     #include "entity/costume.h"
-    #include <utilitieslib/components/estring.h>
+    #include <utilitieslib/components/EString.h>
     #include "entity/entPlayer.h"
 
     StaticDefineInt ParseGender[] = {

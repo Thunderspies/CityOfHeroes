@@ -174,7 +174,7 @@ void BaseRaidInit()
 #include "basesystems.h"
 #include "basedata.h"
 #include "earray.h"
-#include "villaindef.h"
+#include "VillainDef.h"
 #include "sgraid.h"
 #include "error.h"
 #include "entai.h"

@@ -11,7 +11,7 @@
 #include "edit/edit_net.h"
 #include "UI.h"
 #include "UI/uiInput.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "win/win_init.h"
 #include "group/groupfilelib.h"
 #include <utilitieslib/utils/utils.h>
@@ -46,7 +46,7 @@
 #include "bases/basedraw.h"
 #include "graphics/camera.h"
 
-#include "properties.h"
+#include "Properties.h"
 #include "group/groupgrid.h"
 
 ScrollInfo    lib_scroll;

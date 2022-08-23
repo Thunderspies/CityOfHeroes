@@ -4,10 +4,10 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include "entity/costume.h"
-#include "entity/rewardtoken.h"
+#include "entity/RewardToken.h"
 #include "entity/Supergroup.h"
 #include "entity/entity.h"                // for Entity
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/character_base.h"
 #include "entity/character_level.h"    // for tailor_setCurrent
 #include "entity/character_inventory.h"
@@ -22,7 +22,7 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/timing.h>
 #include "entity/entVarUpdate.h"
-#include "GameData/costume_data.h"
+#include "gameData/costume_data.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "seq/seq.h"
 #include <utilitieslib/utils/file.h>
@@ -36,13 +36,13 @@
 #include "entity/character_net.h"
 #include "entity/power_customization.h"
 #include "account/AccountData.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/character_level.h"
 
 #ifdef SERVER
     #include "dbcomm/dbcomm.h"
     #include "entity/entVarUpdate.h"
-    #include "gamecomm/svr_chat.h"
+    #include "gameComm/svr_chat.h"
     #include "language/langServerUtil.h"
     #include "entity/entGameActions.h"
     #include "entity/entserver.h"
@@ -58,7 +58,7 @@
     #include "entity/costume_client.h"
     #include "player/player.h"
     #include "UI/uiTailor.h"
-    #include "UI/uiSuperCostume.h"
+    #include "UI/uiSupercostume.h"
     #include "clientcomm/dbclient.h"
     #include "player/inventory_client.h"
 #endif

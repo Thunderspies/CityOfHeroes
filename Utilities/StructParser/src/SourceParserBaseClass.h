@@ -2,7 +2,7 @@
 #define _SOURCEPARSER_BASECLASS_H_
 
 #include "tokenizer.h"
-#include "filelistloader.h"
+#include "FileListLoader.h"
 
 #define MAGICWORD_BEGINNING_OF_FILE -1
 #define MAGICWORD_END_OF_FILE -2

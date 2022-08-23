@@ -1,6 +1,6 @@
 #include "utilitieslib/network/crc32c.h"        
 #include "utilitieslib/utils/endian.h"
-#include "utilitieslib/utils/superassert.h"
+#include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/utils/utils.h"
 
 //#define COMPILER_SUPPORTS_SSE42

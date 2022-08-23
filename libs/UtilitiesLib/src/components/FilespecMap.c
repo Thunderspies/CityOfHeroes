@@ -1,4 +1,4 @@
-#include "utilitieslib/components/filespecmap.h"
+#include "utilitieslib/components/FilespecMap.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/assert/assert.h"

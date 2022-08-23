@@ -37,7 +37,7 @@
 #include "utilitieslib/utils/fileWatch.h"
 #include "utilitieslib/utils/file.h"
 #include "utilitieslib/components/StringCache.h"
-#include "utilitieslib/utils/MathUtil.h"
+#include "utilitieslib/utils/mathutil.h"
 #include <share.h>
 #include "utilitieslib/UtilsNew/lock.h"
 #include "zlib/zlib.h"

@@ -22,7 +22,7 @@ HINSTANCE winGetHInstance(void)
 #ifndef _XBOX
 #include <direct.h>
 #include "locale.h"
-#include "utilitieslib/utils/convertutf.h"
+#include "utilitieslib/utils/ConvertUtf.h"
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/utils/StringUtil.h"
@@ -31,7 +31,7 @@ HINSTANCE winGetHInstance(void)
 #include <stdio.h>
 #include "utilitieslib/assert/assert.h"
 #include "utilitieslib/utils/timing.h"
-#include <Tlhelp32.h>
+#include <tlhelp32.h>
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/memlog.h"
 #include "utilitieslib/utils/RegistryReader.h"

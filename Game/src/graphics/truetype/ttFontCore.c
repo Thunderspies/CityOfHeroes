@@ -9,7 +9,7 @@
 #include "graphics/truetype/ttAppleMapping.h"
 #include "graphics/truetype/ttFontBitmap.h"
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/memlog.h>
 #include "cmdparse/cmdgame.h"
 

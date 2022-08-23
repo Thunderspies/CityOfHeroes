@@ -8,21 +8,21 @@
 #include "account/AccountData.h"
 #include "AccountDb.hpp"
 #include "AccountCmds.h"
-#include "cmdparse/CmdAccountServer.h"
+#include "cmdparse/cmdaccountserver.h"
 #include <utilitieslib/network/crypt.h>
-#include <utilitieslib/components/stringcache.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/StringCache.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/structDefines.h>
 #include <utilitieslib/network/sock.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/sysutil.h>
-#include <utilitieslib/utils/foldercache.h>
+#include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/utils/winutil.h>
-#include <utilitieslib/utils/memorymonitor.h>
+#include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/network/net_masterlist.h>
-#include <utilitieslib/components/stashTable.h>
+#include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/network/net_linklist.h>
 #include <utilitieslib/network/net_link.h>
 #include "comm_backend.h"
@@ -47,9 +47,9 @@
 #include "transaction.h"
 #include "account_inventory.h"
 #include "account_loyaltyrewards.h"
-#include "accountcmds.h"
+#include "AccountCmds.h"
 #include <utilitieslib/utils/SuperAssert.h>
-#include <DbgHelp.h>
+#include <dbghelp.h>
 
 /// Spread the authentication key generation over a period of time
 #define SHARD_RECONNECT_REAUTH_PLAYERS_PER_SECOND (100)

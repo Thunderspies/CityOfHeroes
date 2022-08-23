@@ -20,7 +20,7 @@
 #include "language/langClientUtil.h"
 #include "entity/costume_client.h"
 #include "entity/entVarUpdate.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "cmdparse/cmdgame.h"
 #include "player/player.h"
 #include "entity/entity.h"
@@ -33,12 +33,12 @@
 #include "UI/sprite/sprite_text.h"
 #include "graphics/textureatlas.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 #include "uiListView.h"
 #include "UI/uiClipper.h"
 #include "graphics/ttFontUtil.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiReticle.h"
 #include "UI/uiSuperRegistration.h"
 #include "UI/uiWindows_init.h"

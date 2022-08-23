@@ -6,13 +6,13 @@
 #define WAS_UNICODE
 #endif // UNICODE
 
-#include "utilitieslib/utils/wintabutil.h"
+#include "utilitieslib/utils/WinTabUtil.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/utils/utils.h"
 
-#include <CommCtrl.h>
+#include <commctrl.h>
 
 //---------------------------------------------------------------------------------------
 // TAB CONTROL UTILITIES

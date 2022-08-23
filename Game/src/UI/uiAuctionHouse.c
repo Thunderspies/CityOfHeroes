@@ -2,7 +2,7 @@
 #include "strings_opt.h"
 #include "bitfield.h"
 #include "StringCache.h"
-#include "uiEdit.h"
+#include "UIEdit.h"
 
 // This is how many auction items we can hold in the memory pool at once.
 // It will therefore grow by this many at once, too.

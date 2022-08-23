@@ -6,7 +6,7 @@
 #include "bases/basetogroup.h"
 #include "bases/basedata.h"
 #include "bases/baseedit.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <stdio.h>
 #include <string.h>
 #include "demo.h"
@@ -16,7 +16,7 @@
 #include "entity/entity.h"
 #include "entity/entclient.h"
 #include "entity/costume_client.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "varutils.h"
 #include <utilitieslib/utils/timing.h>
 #include "seq/seqsequence.h"
@@ -31,8 +31,8 @@
 #include "win/input.h"
 #include "UI/uiGame.h"
 #include "player/player.h"
-#include "gameComm/npc.h"
-#include <utilitieslib/components/Earray.h>
+#include "gameComm/Npc.h"
+#include <utilitieslib/components/earray.h>
 #include "graphics/gfx.h"
 #include "graphics/gfxDebug.h"
 #include "UI/uiChat.h"

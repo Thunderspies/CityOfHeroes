@@ -13,7 +13,7 @@
 
 #include "utilitieslib/network/netio.h"
 #include "utilitieslib/utils/textparser.h"
-#include "utilitieslib/utils/structinternals.h"
+#include "utilitieslib/utils/structInternals.h"
 
 
 

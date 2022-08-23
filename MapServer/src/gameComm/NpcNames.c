@@ -14,7 +14,7 @@
 #include "filter/profanity.h"
 
 #include "entity/entity.h"
-#include "entity/Costume.h"
+#include "entity/costume.h"
 #include "seq/seq.h"
 
 

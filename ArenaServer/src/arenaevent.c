@@ -8,7 +8,7 @@
  *
  */
 
-#include "ArenaEvent.h"
+#include "arenaevent.h"
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/EString.h>
 #include "dbcomm/dbcontainer.h"

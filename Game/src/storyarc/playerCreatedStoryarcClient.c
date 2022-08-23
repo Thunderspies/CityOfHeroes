@@ -4,9 +4,9 @@
 #include "storyarc/playerCreatedStoryarcClient.h"
 #include "player/player.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/costume.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "entity/entclient.h"
 #include "entity/entity.h"
 #include "cmdparse/cmdcommon.h"

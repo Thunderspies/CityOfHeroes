@@ -56,7 +56,7 @@
 #include "render/rendershadow.h"
 #include "render/renderbonedmodel.h"
 #include "render/rendertree.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "player/pmotion.h"
 #include "group/grouputil.h"
 #include "graphics/clothnode.h"
@@ -83,7 +83,7 @@
 #include "gameData/costume_critter.h"
 #include "entity/motion.h"
 #include "graphics/sun.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/teamup.h"
 #include <utilitieslib/utils/Quat.h>
 #include "edit/edit_cmd.h"

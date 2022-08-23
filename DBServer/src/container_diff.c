@@ -7,7 +7,7 @@
 #include "container.h"
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/strings_opt.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/error.h>

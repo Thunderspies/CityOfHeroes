@@ -24,7 +24,7 @@
 #include "seq/AutoLOD.h"
 #include <utilitieslib/utils/winutil.h>
 #include <utilitieslib/utils/sysutil.h>
-#include <utilitieslib/components/sharedmemory.h>
+#include <utilitieslib/components/SharedMemory.h>
 
 #include <io.h>
 #include <conio.h>

@@ -10,7 +10,7 @@
 #include "container/containerloadsave.h" // packageEntAll()
 #include "auction/AuctionClient.h" // ent_XactReqShardJump()
 #include "dbquery.h" // dbQueryGetFilter()
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/network/netcomp.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/network/crypt.h>
@@ -23,7 +23,7 @@
 #include "entity/entserver.h"
 #include "svr/svr_player.h"
 #include "entity/entVarUpdate.h"
-#include "gamesys/dooranim.h"
+#include "gameSys/dooranim.h"
 #include "gameComm/sendToClient.h"
 #include "language/langServerUtil.h"
 #include "storyarc/storyarcinterface.h"
@@ -31,7 +31,7 @@
 #include "gameSys/arenamap.h"
 #include "script/scriptengine.h"
 #include "entity/pvp.h"
-#include "turnstile/turnstileservercommon.h"
+#include "turnstile/TurnstileServerCommon.h"
 #include <utilitieslib/utils/file.h>
 #include "logcomm.h"
 #include "LWC_common.h"

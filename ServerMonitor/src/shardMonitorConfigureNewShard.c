@@ -1,7 +1,7 @@
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/utils/utils.h>
 
-#include <CommCtrl.h>
+#include <commctrl.h>
 
 #include "prompt.h"
 #include "resource.h"

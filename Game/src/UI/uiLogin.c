@@ -3,12 +3,12 @@
 #include <utilitieslib/network/rsa.h>
 #include <utilitieslib/language/AppLocale.h>
 #include "UI/uiQuit.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "graphics/ttFont.h"
 #include <utilitieslib/utils/StringUtil.h>
 #include "gameComm/initClient.h"
 #include "UI/uiEditText.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiComboBox.h"
 #include "UI/uiInclude.h"
 #include "UI/uiInput.h"
@@ -40,9 +40,9 @@
 #include "sound/sound.h"
 #include "win/input.h"
 #include "clientcomm/autoResumeInfo.h"
-#include "clientComm/authclient.h"
+#include "clientcomm/authclient.h"
 #include "clientcomm/dbclient.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "uiPowers.h"
 #include "UI/uiCostume.h"
 #include "UI/uiAvatar.h"
@@ -55,7 +55,7 @@
 #include "entity/costume_client.h"
 #include "seq/seq.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/utils/file.h>
 #include "demo.h"
 #include "auth/authUserData.h"

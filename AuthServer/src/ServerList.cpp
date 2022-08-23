@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 #include "ServerList.h"
 #include "DBConn.h"
-#include "config.h"
+#include "Config.h"
 #include "util.h"
 #include "IOSocket.h"
 

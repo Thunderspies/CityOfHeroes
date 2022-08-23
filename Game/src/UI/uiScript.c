@@ -19,7 +19,7 @@
 #include <utilitieslib/utils/timing.h>
 #include "player/player.h"
 #include "entity/entity.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "gameComm/wdwbase.h"
 #include <utilitieslib/language/AppLocale.h>
 #include <utilitieslib/language/MessageStoreUtil.h>

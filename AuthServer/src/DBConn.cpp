@@ -4,7 +4,7 @@
 
 #include "DBConn.h"
 #include "resource.h"
-#include "config.h"
+#include "Config.h"
 
 #define RECOVERY_INTERVAL       30000
 #define GLOBALAUTH_REG_ENTRY        "Software\\NCSoft\\GLOBALAUTH"

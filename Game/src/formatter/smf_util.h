@@ -3,7 +3,7 @@
 
 #include <utilitieslib/stdtypes.h> // for bool
 #include "graphics/truetype/ttFontDraw.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 
 /***************************************************************************/
 /* SMF Memory Analysis Flags                                               */

@@ -5,7 +5,7 @@
  ***************************************************************************/
 #include <utilitieslib/components/earray.h>
 
-#include "entity/Entity.h"
+#include "entity/entity.h"
 #include "gameComm/VillainDef.h"
 #include "entity/character_base.h"
 #include "entity/powers.h"

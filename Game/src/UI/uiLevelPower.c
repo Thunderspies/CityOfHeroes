@@ -4,7 +4,7 @@
 #include "UI/uiUtil.h"
 #include "UI/uiTray.h"
 #include "UI/uiInput.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "uiPowers.h"
 #include "UI/uiEditText.h"
 #include "UI/uiUtilMenu.h"
@@ -18,7 +18,7 @@
 #include "UI/sprite/sprite_font.h"
 #include "graphics/textureatlas.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "player/player.h"
 #include "entity/powers.h"
 #include "entity/origins.h"

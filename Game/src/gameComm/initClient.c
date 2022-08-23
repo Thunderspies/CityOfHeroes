@@ -11,7 +11,7 @@
 #include "clientcomm/clientcomm.h"
 #include "comm_game.h"
 #include "entity/entVarUpdate.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "entity/entclient.h"
 #include "player/player.h"
 #include "UI/uiCostume.h"
@@ -38,8 +38,8 @@
 #include "demo.h"
 #include "UI/sprite/sprite_text.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
-#include <utilitieslib/components/Earray.h>
+#include "entity/entPlayer.h"
+#include <utilitieslib/components/earray.h>
 #include "UI/uiWindows_init.h"
 #include "auth/authUserData.h"
 #include <utilitieslib/utils/file.h>

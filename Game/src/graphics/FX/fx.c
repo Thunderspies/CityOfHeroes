@@ -23,7 +23,7 @@
 #include "graphics/light.h"
 #include "seq/seq.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "seq/seqsequence.h"
 #include "entity/entclient.h" //for debug
 #include "graphics/groupdraw.h"

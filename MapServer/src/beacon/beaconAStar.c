@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "beaconAStar.h"
 #include <utilitieslib/components/MemoryPool.h>
-#include <utilitieslib/stdTypes.h>
+#include <utilitieslib/stdtypes.h>
 #include "dbcomm/dbcomm.h"
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/timing.h>

@@ -12,10 +12,10 @@
 #include "UI/uiArenaResult.h"
 #include "UI/uiArena.h"
 #include "UI/uiArenaList.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "cmdparse/cmdgame.h"
 #include "graphics/ttFontUtil.h"
-#include "arena/ArenaGame.h"
+#include "arena/arenagame.h"
 #include "win/win_init.h"
 #include <utilitieslib/utils/timing.h>
 #include "graphics/textureatlas.h"

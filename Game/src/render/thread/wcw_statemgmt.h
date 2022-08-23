@@ -4,7 +4,7 @@
 #include "render/renderUtil.h"
 #include "render/thread/rt_tex.h"
 #include "render/thread/ogl.h"
-#include <cg/cgGL.h>
+#include <Cg/cgGL.h>
 
 // Remove this when we no longer need to set ARB registers
 #define RT_SUPPORT_ARB_SHADER_PATH 1

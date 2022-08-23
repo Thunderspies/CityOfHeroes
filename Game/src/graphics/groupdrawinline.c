@@ -18,7 +18,7 @@
 #include "graphics/FX/fx.h"
 #include "seq/tricks.h"
 #include "group/groupdyn.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "edit/edit_cmd.h"
 #include "render/tex.h"
 #include <utilitieslib/components/StashTable.h>

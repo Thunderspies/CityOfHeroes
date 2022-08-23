@@ -19,7 +19,7 @@
     #include "gameComm/sendToClient.h"
     #include "storyarc/storyarcutil.h"
     #include "storyarc/storyarcprivate.h"
-    #include <utilitieslib/components/stringcache.h>
+    #include <utilitieslib/components/StringCache.h>
     #include "language/langServerUtil.h"
     #include "entity/character_eval.h"
 #endif

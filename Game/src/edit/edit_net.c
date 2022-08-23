@@ -7,7 +7,7 @@
 #include "group/group.h"
 #include "edit/edit.h"
 #include <utilitieslib/network/netcomp.h>
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "edit/edit_net.h"
 #include "edit/edit_cmd.h"
 #include "edit/edit_select.h"

@@ -3,9 +3,9 @@
  *     All Rights Reserved
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "player/player.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "storyarc/missionClient.h"
 #include "language/langClientUtil.h"
 #include "storyarc/storyarcCommon.h"
@@ -37,7 +37,7 @@
 
 #include "cmdparse/cmdgame.h"
 #include "UI/uiContextMenu.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "entity/entity.h"
 #include "UI/uiSGRaidList.h"
 #include "entity/teamCommon.h"
@@ -47,7 +47,7 @@
 #include <utilitieslib/utils/timing.h>
 
 #include "entity/Supergroup.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "bases/bases.h"
 #include "edit/ClickToSource.h"
 #include <utilitieslib/language/MessageStoreUtil.h>

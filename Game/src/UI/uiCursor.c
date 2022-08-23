@@ -22,9 +22,9 @@
 #include "UI/uiInput.h"
 #include "UI/uiTarget.h"
 #include "UI/uiTeam.h"
-#include "uiGift.h"
+#include "UI/uiGift.h"
 #include "UI/uiPet.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 
 #include "entity/powers.h"
 #include "entity/character_base.h"
@@ -36,7 +36,7 @@
 #include "UI/uiInspiration.h"
 #include "UI/uiContextMenu.h"
 #include "group/grouputil.h"    // for groupDefFindPropertyValue
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "player/pmotion.h"
 #include "storyarc/contactClient.h"
 #include "graphics/textureatlas.h"
@@ -49,7 +49,7 @@
 #include "player/playerSticky.h"
 #include "graphics/font.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "gameComm/itemselect.h"
 #include "bases/baseedit.h"
 #include <utilitieslib/components/StashTable.h>

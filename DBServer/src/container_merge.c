@@ -9,7 +9,7 @@
 #include <utilitieslib/utils/mathutil.h>
 #include "dbinit.h"
 #include <utilitieslib/components/StashTable.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/log.h>
 

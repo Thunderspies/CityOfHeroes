@@ -37,20 +37,20 @@
 #include "UI/uiSuperRegistration.h"
 #include "gameComm/wdwbase.h"
 #include "UI/uiClipper.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/utils/utils.h>
 #include "clientcomm/clientcomm.h"
 #include "entity/entVarUpdate.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "entity/entity.h"
 #include "cmdparse/cmdgame.h"
 #include "gameData/raidstruct.h"
-#include "gameData/sgRaidClient.h"
+#include "gameData/sgraidClient.h"
 #include "entity/Supergroup.h"
 #include "UI/uiSupergroup.h"
 #include "auth/authUserData.h"

@@ -4,10 +4,10 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/badges.h"
 #include "player/badges_client.h"
 

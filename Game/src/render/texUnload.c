@@ -3,7 +3,7 @@
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/utils/memlog.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/osdependent.h>
 #include "videoMemory.h"

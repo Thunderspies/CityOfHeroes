@@ -5,7 +5,7 @@
 #include "ScriptLuaEncounter.h"
 #include "script/script.h"
 #include "ScriptLuaCommon.h"
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 
 //ENCOUNTERGROUP MyEncounter()
 static int l_MyEncounter (lua_State *L) {

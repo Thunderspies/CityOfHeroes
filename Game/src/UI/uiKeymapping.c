@@ -13,13 +13,13 @@
 #include "win/input.h"
 #include "cmdparse/cmdgame.h"
 #include "player/player.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_font.h"
 #include "UI/sprite/sprite_base.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/utils.h>
 #include "entity/entity.h"

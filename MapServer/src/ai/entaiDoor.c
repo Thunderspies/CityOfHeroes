@@ -1,7 +1,7 @@
 
 #include <utilitieslib/stdtypes.h>
 #include "ailib/aiBehaviorInterface.h"
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "entaiPriority.h"
 #include "door.h"
 #include "dbcomm/dbdoor.h"

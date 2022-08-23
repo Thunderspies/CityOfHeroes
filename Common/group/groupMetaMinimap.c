@@ -9,7 +9,7 @@
 #include "group/grouputil.h"
 #include "group/groupfileload.h"
 #include <utilitieslib/utils/mathutil.h>
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "bases/bases.h"
 #include <utilitieslib/utils/error.h>
 #if SERVER

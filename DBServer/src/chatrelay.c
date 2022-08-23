@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "chatrelay.h"
 #include "comm_backend.h"
 #include "dbserver/servercfg.h"

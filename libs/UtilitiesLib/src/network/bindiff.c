@@ -4,7 +4,7 @@
 #include "utilitieslib/utils/file.h"
 #include "utilitieslib/utils/mathutil.h"
 #include "utilitieslib/utils/utils.h"
-#include "utilitieslib/components/stashtable.h"
+#include "utilitieslib/components/StashTable.h"
 #include <string.h>
 
 THREADSAFE_STATIC int insert_bytes,copy_bytes,insert_ops,copy_ops;

@@ -15,7 +15,7 @@
 #include <utilitieslib/utils/timing.h>
 #include "render/renderprim.h"
 #include "graphics/textureatlas.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "graphics/gfxwindow.h"
 #include "graphics/camera.h"
 
@@ -355,7 +355,7 @@ int ClickToSourceDisplay(F32 x, F32 y, F32 z, F32 yShift, int color, const char*
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 /// Output a object costume
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "seq/seq.h"
 #include "seq/seqtype.h"
 #include "entity/costume.h"

@@ -8,7 +8,7 @@
 #include "UI/uiUtilMenu.h"
 #include "bases/bases.h"
 #include "bases/basedata.h"
-#include "UI/uibaseprops.h"
+#include "UI/uiBaseProps.h"
 #include "UI/uiScrollBar.h"
 #include "UI/uiTabControl.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
@@ -19,7 +19,7 @@
 
 #include "formatter/smf_main.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 // from uiBaseProps.c
 extern TextAttribs gTextTitleAttr;

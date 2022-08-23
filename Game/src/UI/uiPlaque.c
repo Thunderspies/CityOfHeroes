@@ -3,11 +3,11 @@
 #include "UI/uiWindows.h"
 #include "UI/sprite/sprite_font.h"
 #include "gameComm/wdwbase.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "formatter/smf_format.h"
 #include "uiSMFView.h"
 #include "UI/uiUtilGame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiChat.h"
 
 static char** plaqueStrings = NULL;

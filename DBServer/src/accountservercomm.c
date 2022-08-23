@@ -10,9 +10,9 @@
 #include "clientcomm.h"
 #include "offline.h"
 #include "dbrelay.h"
-#include "auction/xact.h"
+#include "auction/Xact.h"
 #include "sql_fifo.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "dbserver/servercfg.h"
 #include "dbinit.h"
 #include "container.h"
@@ -48,11 +48,11 @@
 #include "container_merge.h"
 #include "container_diff.h"
 #include "comm_game.h"
-#include "turnstiledb.h"
-#include "turnstile/turnstileservercommon.h"
+#include "turnstileDb.h"
+#include "turnstile/TurnstileServerCommon.h"
 #include "queueservercomm.h"
 #include <utilitieslib/utils/log.h>
-#include "account/accountdata.h"
+#include "account/AccountData.h"
 #include <utilitieslib/utils/StringUtil.h>
 
 #define ACCOUNT_DEADMAN_TIME (60*2)

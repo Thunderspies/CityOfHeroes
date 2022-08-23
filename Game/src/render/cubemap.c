@@ -14,7 +14,7 @@
 #include "render/thread/wcw_statemgmt.h"
 #include "graphics/failtext.h"
 #include "seq/seq.h" //MAX_LODS
-#include "render/renderSSAO.h"
+#include "render/renderssao.h"
 #include "graphics/gfxSettings.h"
 #include "render/thread/rt_cubemap.h"
 #include "demo.h"

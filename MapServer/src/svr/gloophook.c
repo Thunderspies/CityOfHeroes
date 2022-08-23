@@ -4,7 +4,7 @@
 #include "cmdparse/cmdserver.h"
 #include "missionMapInit.h"
 #include <utilitieslib/components/HashFunctions.h>
-#include "entity/entityref.h"
+#include "entity/entityRef.h"
 #include <utilitieslib/utils/timing.h>
 #include "ai/entaiprivate.h"
 #include "entity/entserver.h"
@@ -22,7 +22,7 @@
 #include "utils/position.h"
 #include "script/scriptengine.h"
 #include "ai/entai.h"
-#include "NovodeX/nwwrapper.h"
+#include "NovodeX/NwWrapper.h"
 #include "entity/entGameActions.h"
 
 typedef struct EntityTimer {

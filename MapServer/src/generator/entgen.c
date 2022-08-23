@@ -19,7 +19,7 @@
 #include "entity/entsend.h"
 #include "ai/entai.h"
 #include "gameComm/NpcServer.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include <utilitieslib/utils/error.h>
 #include "svr/svr_player.h"
 #include "entity/motion.h"

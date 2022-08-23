@@ -19,7 +19,7 @@
 #include "UI/uiPet.h"
 #include "win/win_init.h"
 #include "UI/uiUtilMenu.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "entity/entclient.h"
 #include "assert.h"
 #include "UI/uiInput.h"
@@ -34,7 +34,7 @@
 #include "gameComm/itemselect.h"             // for clect target
 #include "graphics/camera.h"                 // for crazy define
 #include "player/pmotion.h"                // for entMode
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiUtil.h"
 #include "UI/uiToolTip.h"
 #include "UI/uiInspiration.h"
@@ -51,7 +51,7 @@
 #include <utilitieslib/utils/utils.h>
 #include "graphics/textureatlas.h"
 #include <utilitieslib/utils/strings_opt.h>
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiReticle.h"
 #include "clientcomm/clientcommreceive.h"
 #include "entity/entity.h"
@@ -59,7 +59,7 @@
 #include "entity/character_inventory.h"
 #include "UI/uiPowerInventory.h"
 #include "UI/uiTrade.h"
-#include "uiGift.h"
+#include "UI/uiGift.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 //#include "entity/character_eval.h"
 #include "UI/uiClipper.h"

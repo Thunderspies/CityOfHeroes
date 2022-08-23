@@ -19,7 +19,7 @@
 #include "language/langServerUtil.h"
 #include "gameComm/svr_chat.h"
 #include "entity/entity.h"
-#include "entity/supergroup.h"
+#include "entity/Supergroup.h"
 #include "entity/character_eval.h"
 #include "entity/character_level.h"
 #include "cmdparse/cmdserver.h"

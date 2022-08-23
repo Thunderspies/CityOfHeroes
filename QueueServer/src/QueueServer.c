@@ -19,7 +19,7 @@
 #include <math.h>
 #include "BinHeap.h"
 
-#include "ClientLogin/clientcommlogin.h"
+#include "ClientLogin/clientcommLogin.h"
 
 
 #define QUEUESERVER_TICK_FREQ            1        // ticks/sec

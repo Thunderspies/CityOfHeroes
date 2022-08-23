@@ -16,14 +16,14 @@
 #include "script/scriptutil.h"
 
 #include "storyarc/storyarcprivate.h"
-#include "generator/encounterprivate.h"
+#include "generator/encounterPrivate.h"
 #include "ai/entai.h"
 #include "ai/entaiScript.h"
 #include "ai/entaivars.h"
 #include "ai/entaiprivate.h"
 #include "svr/svr_player.h"
 #include "entity/entPlayer.h"
-#include "entity/entgameactions.h"
+#include "entity/entGameActions.h"
 #include "entity/character_base.h"
 #include "entity/character_level.h"
 #include "entity/character_target.h"
@@ -32,9 +32,9 @@
 #include "cmdparse/cmdserver.h"
 #include "dbcomm/staticMapInfo.h"
 #include "door.h"
-#include "gameSys/turnstile.h"
+#include "gameSys/Turnstile.h"
 
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 
 // *********************************************************************************
 //  Missions

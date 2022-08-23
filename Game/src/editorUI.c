@@ -5,7 +5,7 @@
 #include "UI/uiUtilGame.h"
 #include "UI/uiUtil.h"
 #include "edit/edit_cmd.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "graphics/textureatlas.h"
 #include "UI/uiUtilMenu.h"
 #include "graphics/ttFont.h"
@@ -17,9 +17,9 @@
 #include "UI/sprite/sprite_font.h"
 #include "UI/uiEditText.h"
 #include "UI/uiSlider.h"
-#include "UI/uidialog.h"
-#include "UI/uiedit.h"
-#include <utilitieslib/components/estring.h>
+#include "UI/uiDialog.h"
+#include "UI/UIEdit.h"
+#include <utilitieslib/components/EString.h>
 #include "UI/uiComboBox.h"
 #include "UI/uiBox.h"
 #include "UI/uiScrollBar.h"

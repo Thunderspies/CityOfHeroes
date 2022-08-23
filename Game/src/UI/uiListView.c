@@ -198,7 +198,7 @@ Widget3Part ColumnSelectedHeaderParts =
 //--------------------------------------------------------------------------------------------------------------------
 // UIColumnHeader 
 //--------------------------------------------------------------------------------------------------------------------
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 UIColumnHeader* uiCHCreate(void)
 {

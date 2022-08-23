@@ -3,7 +3,7 @@
 #include "UI/uiCostume.h"
 #include "UI/uiScrollBar.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "cmdparse/cmdcommon.h"
 #include "sound/sound.h"
 

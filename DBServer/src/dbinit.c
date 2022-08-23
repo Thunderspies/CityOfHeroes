@@ -38,7 +38,7 @@
 #include "container_merge.h"
 #include "namecache.h"
 #include "statagg.h"
-#include <utilitieslib/Version/AppRegCache.h>
+#include <utilitieslib/version/AppRegCache.h>
 #include "dbrelay.h"
 #include "logserver.h"
 #include "chatrelay.h"
@@ -58,18 +58,18 @@
 #include "dbcomm/staticMapInfo.h"
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/components/StringTable.h>
-#include <utilitieslib/utils/stackdump.h>
+#include <utilitieslib/utils/Stackdump.h>
 #include "dbimport.h"
 #include "backup.h"
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/winutil.h>
-#include "turnstiledb.h"
+#include "turnstileDb.h"
 #include "missionservercomm.h"    //for reset mission server link console
 #include "queueservercomm.h"
-#include "../Common/ClientLogin/clientcommlogin.h"
+#include "../Common/ClientLogin/clientcommLogin.h"
 #include "dbEventHistory.h"
 #include <utilitieslib/utils/log.h>
-#include <utilitieslib/utils/genericdialog.h>
+#include <utilitieslib/utils/genericDialog.h>
 #include <utilitieslib/components/earray.h>
 #include "account/AccountCatalog.h"
 #include "overloadProtection.h"

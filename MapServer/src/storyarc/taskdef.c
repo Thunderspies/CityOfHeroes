@@ -11,8 +11,8 @@
 
 #include "task.h"
 #include "storyarcprivate.h"
-#include "reward.h"
-#include "dbcomm/staticmapinfo.h"
+#include "Reward.h"
+#include "dbcomm/staticMapInfo.h"
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "svr/svr_player.h" // for reloading tasksets

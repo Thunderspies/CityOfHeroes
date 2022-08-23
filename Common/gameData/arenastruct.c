@@ -17,7 +17,7 @@
 #include "entity/character_base.h"
 #include "comm_game.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/error.h>
 #include "entity/entVarUpdate.h"
 #include <utilitieslib/utils/timing.h>

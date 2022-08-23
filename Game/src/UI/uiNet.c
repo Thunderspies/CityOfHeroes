@@ -4,7 +4,7 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include <stdio.h>
-#include "entity/rewardtoken.h"
+#include "entity/RewardToken.h"
 #include "bases/baseupkeep.h"
 
 #include "bases/DetailRecipe.h"
@@ -13,12 +13,12 @@
 #include "entity/Invention.h"
 #include <stdlib.h>
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/network/netio.h>
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiInspiration.h"
 #include "entity/entVarUpdate.h"
 #include "clientcomm/clientcomm.h"
@@ -34,7 +34,7 @@
 #include "UI/uiChat.h"
 #include "UI/uiGame.h"
 #include "UI/uiDock.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiConsole.h"
 #include "uiSalvage.h"
 #include "UI/uiCompass.h"
@@ -54,7 +54,7 @@
 #include "entity/classes.h"
 #include "entity/origins.h"
 #include "entity/character_net.h"
-#include "UI/uiRespec.h"
+#include "UI/uiReSpec.h"
 #include <utilitieslib/utils/timing.h>
 #include "UI/sprite/sprite_text.h"
 #include "UI/uiKeybind.h"
@@ -92,8 +92,8 @@
 #include "entity/entity.h"
 #include "UI/uiArenaList.h"
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/components/estring.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/EString.h>
+#include <utilitieslib/components/earray.h>
 #include "gameComm/petCommon.h"
 #include <utilitieslib/network/netcomp.h>
 #ifdef TEST_CLIENT
@@ -109,11 +109,11 @@
 #include "bases/basedata.h"
 #include "UI/uiBaseInput.h"
 #include "UI/uiPlaque.h"
-#include "storyarc/contactclient.h"
+#include "storyarc/contactClient.h"
 #include "sound/sound.h"
 #include <utilitieslib/language/AppLocale.h>
 #include "bases/bases.h"
-#include "gamedata/costume_critter.h"
+#include "gameData/costume_critter.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/components/StashTable.h>
 #include "UI/uiLogin.h"
@@ -130,7 +130,7 @@
 #include "UI/uiRecipeInventory.h"
 #include "uiMissionComment.h"
 #include "UI/uiTeam.h"
-#include "uiLeague.h"
+#include "UI/uiLeague.h"
 #include "UI/uiPopHelp.h"
 #include "UI/uiAuction.h"
 #include "UI/uiUtilMenu.h"

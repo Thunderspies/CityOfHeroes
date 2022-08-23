@@ -17,7 +17,7 @@
 #include "uiUtilGame.h"
 #include "uiScrollBar.h"
 #include "uiWindows.h"
-#include "uiEdit.h"
+#include "UIEdit.h"
 #include "uiTree.h"
 #include "uiEnhancement.h"
 #include "uiComboBox.h"
@@ -25,7 +25,7 @@
 #include "uiRecipeInventory.h"
 #include "uiToolTip.h"
 #include "auction/AuctionData.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 
 #include "sprite/sprite_base.h"
 #include "sprite/sprite_text.h"
@@ -35,9 +35,9 @@
 #include "../graphics/font.h"   // for xyprintf
 #include "../graphics/ttFontUtil.h"
 #include "language/langClientUtil.h"
-#include <utilitieslib/language/messagestoreutil.h>
+#include <utilitieslib/language/MessageStoreUtil.h>
 
-#include "win_init.h"   // for windowClientSize
+#include "win/win_init.h"   // for windowClientSize
 #include "cmdparse/cmdgame.h"
 
 #include "entity/character_base.h"
@@ -48,15 +48,15 @@
 #include <utilitieslib/components/earray.h>
 #include "player/player.h"
 #include "entity/entity.h" 
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "uiClipper.h"
 #include "entity/salvage.h" 
-#include "bases/detailrecipe.h"
+#include "bases/DetailRecipe.h"
 #include "uiNet.h"
 #include "../win/input.h"
 
 #ifndef TEST_CLIENT
-#include "smf_main.h"
+#include "formatter/smf_main.h"
 #endif
 
 // frame positions

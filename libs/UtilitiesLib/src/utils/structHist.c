@@ -9,7 +9,7 @@
 #include "utilitieslib/utils/timing.h"
 #include <string.h>
 #include "utilitieslib/utils/tokenstore.h"
-#include "utilitieslib/utils/textparserutils.h"
+#include "utilitieslib/utils/textparserUtils.h"
 
 //NOTE: THIS IS A UNION!
 typedef union StructHistElem

@@ -1,7 +1,7 @@
 #include "uiTradeLogic.h"
 #include "UI/uiCursor.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "cmdparse/cmdgame.h"
 #include "UI/uiWindows.h"
 #include "UI/uiChat.h"

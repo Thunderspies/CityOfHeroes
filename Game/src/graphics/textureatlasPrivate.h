@@ -5,9 +5,9 @@
 #include "render/tex.h"
 #include "render/tex_gen.h"
 #include "graphics/textureatlas.h"
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include "graphics/truetype/ttFontManager.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <windows.h>
 
 #define BORDER_1 1

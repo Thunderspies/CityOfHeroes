@@ -1,12 +1,12 @@
 #include "uiAmountSlider.h"
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiWindows.h"
 #include "gameComm/wdwbase.h"
 #include "UI/uiUtil.h"
 #include "UI/uiUtilGame.h"
 #include "uiSlider.h"
-#include "uiEdit.h"
+#include "UIEdit.h"
 #include "UI/uiInput.h"
 #include "win/input.h"
 #include "UI/sprite/sprite_base.h"

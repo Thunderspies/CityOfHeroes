@@ -1,4 +1,4 @@
-#include <utilitieslib/utils/superassert.h>
+#include <utilitieslib/utils/SuperAssert.h>
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/network/net_packet.h>
 #include <utilitieslib/network/net_masterlist.h>
@@ -18,7 +18,7 @@
 #include "commctrl.h"
 #include "tchar.h"
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 #define BUFFER_SIZE_DEFAULT 128*1024
 #define BUFFER_SIZE_MAX 1*1024*1024

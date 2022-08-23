@@ -2,7 +2,7 @@
 #define __ADMIN_H__
 
 #include <utilitieslib/network/netio.h>
-#include "ShardNet.h"
+#include "shardnet.h"
 
 
 enum

@@ -6,7 +6,7 @@
  */
 #include <utilitieslib/stdtypes.h>
 #include "seq/seq.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "seq/seqskeleton.h"
 #include "graphics/textureatlas.h"
 #include "render/pbuffer.h"

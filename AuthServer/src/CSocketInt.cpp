@@ -5,9 +5,9 @@
 #include "buildn.h"
 #include "Packet.h"
 #include "IOServer.h"
-#include "accountdb.h"
-#include "config.h"
-#include "dbconn.h"
+#include "AccountDB.h"
+#include "Config.h"
+#include "DBConn.h"
 
 #define TIMEOUT    60
 #define INT_SOCKET_BUFFER_LEN 256

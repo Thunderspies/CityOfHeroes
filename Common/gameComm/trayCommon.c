@@ -751,7 +751,7 @@ InventoryType InventoryType_FromTrayItemType(TrayItemType type)
 }
 
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 StaticDefineInt parse_TrayItemTypeEnum[] =
 {

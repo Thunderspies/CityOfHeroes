@@ -1,8 +1,8 @@
 #include <stdarg.h>
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/ConvertUtf.h>
-#include <utilitieslib/utils/stringutil.h>
-#include "entity/proficiency.h"
+#include <utilitieslib/utils/StringUtil.h>
+#include "entity/Proficiency.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "graphics/camera.h"
@@ -15,7 +15,7 @@
 #include "varutils.h"
 #include "group/group.h"
 #include <utilitieslib/language/MessageStore.h>
-#include "UI/uikeyBind.h"
+#include "UI/uiKeybind.h"
 #include "entity/entrecv.h"
 #include "UI/uiEditText.h"
 #include "UI/uiCompass.h"
@@ -57,7 +57,7 @@
 #include "UI/uiComboBox.h"
 #include "gameData/costume_data.h"
 #include "entity/teamCommon.h"
-#include "entity/superGroup.h"
+#include "entity/Supergroup.h"
 #include "graphics/splat.h"
 #include "UI/uiPet.h"
 #include "graphics/groupdraw.h"

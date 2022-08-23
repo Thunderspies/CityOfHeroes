@@ -16,14 +16,14 @@
 #include "UI/uiLoadingTip.h"
 #include "UI/uiUtil.h"
 #include "UI/uiUtilGame.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 #include "UI/uiInput.h"
 #include "gameComm/initClient.h"
 #include "entity/entrecv.h"
 #include "UI/uiGame.h"
 #include "win/input.h"
 #include "UI/uiKeybind.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/Hybrid/uiHybridMenu.h"
 #include <utilitieslib/language/AppLocale.h>
 #include "group/group.h"

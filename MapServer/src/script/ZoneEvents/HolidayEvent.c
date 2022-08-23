@@ -5,7 +5,7 @@
 #include "script/scriptengine.h"
 #include <utilitieslib/utils/file.h>
 #include "gameComm/svr_chat.h"
-#include "holidayevent.h"
+#include "HolidayEvent.h"
 
 static GLOWIEDEF HolidayEventPresent = NULL;
 static GLOWIEDEF HolidayEventSpecialPresent = NULL;

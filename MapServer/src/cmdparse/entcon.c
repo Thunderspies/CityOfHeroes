@@ -19,10 +19,10 @@
 #include "entity/entserver.h"
 #include "beacon/beaconDebug.h"
 #include "beacon/beaconPath.h"
-#include "ai/entaiPrivate.h"
+#include "ai/entaiprivate.h"
 #include "ai/entaiPriority.h"
 #include "gameComm/sendToClient.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "player/clientEntityLink.h"
 #include "seq/seq.h"
 #include "generator/entgen.h"
@@ -40,7 +40,7 @@
 #include "ai/entaiLog.h"
 #include "ai/entai.h"
 #include <utilitieslib/components/earray.h>
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entGameActions.h"
 #include "NovodeX/NwWrapper.h"
 #include "storyarc/storyarcutil.h"
@@ -48,7 +48,7 @@
 #include <utilitieslib/utils/error.h>
 #include "seq/seqstate.h"
 #include <utilitieslib/components/StashTable.h>
-#include <utilitieslib/utils/foldercache.h>
+#include <utilitieslib/utils/FolderCache.h>
 #include "ailib/aiBehaviorPublic.h"
 
 static StashTable commandTable = 0;

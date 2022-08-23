@@ -6,7 +6,7 @@
 #ifndef CHARACTER_COMBAT_H__
 #define CHARACTER_COMBAT_H__
 
-#include "entity/EntityRef.h" // for EntityRef
+#include "entity/entityRef.h" // for EntityRef
 
 typedef struct Character Character;
 typedef struct BasePower BasePower;

@@ -1,6 +1,6 @@
 #include "containerbroadcast.h"
 #include "containerloadsave.h"
-#include "containersupergroup.h"
+#include "containerSupergroup.h"
 #include "entity/entity.h"
 #include "team.h"
 #include "gameComm/svr_chat.h"
@@ -31,7 +31,7 @@
 #include "entity/character_level.h"
 #include "entity/alignment_shift.h"
 #include "dbcomm/dbquery.h"
-#include "gameSys/turnstile.h"
+#include "gameSys/Turnstile.h"
 #include "dbcomm/logcomm.h"
 //-----------------------------------------------------------------------------
 // Container Code courtesy of Bruce ///////////////////////////////////////////

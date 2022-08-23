@@ -10,7 +10,7 @@
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/textparser.h>
 #include "entity/entity.h"
@@ -19,14 +19,14 @@
 #include "entity/character_level.h"
 #include "entity/character_inventory.h"
 #include "entity/salvage.h"
-#include "entity/concept.h"
+#include "entity/Concept.h"
 #include "entity/powers.h"
 #include "bases/basedata.h"
 #include "bases/DetailRecipe.h"
 #include <utilitieslib/components/StashTable.h>
 #include "entity/LoadDefCommon.h"
 #include "gameData/mininghelper.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/utils/log.h>
 #include <utilitieslib/components/SharedHeap.h>
 
@@ -36,7 +36,7 @@
 #include "dbcomm/logcomm.h"
 #include "dbcomm/dbcontainer.h"
 #include "Reward.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entGameActions.h"
 #include "svr/svr_base.h"
 #include "comm_game.h"

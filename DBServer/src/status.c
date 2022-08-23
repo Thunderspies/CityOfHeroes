@@ -5,7 +5,7 @@
 #include <utilitieslib/utils/utils.h>
 #include "container_tplt.h"
 #include "container_tplt_utils.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 void entStatusCb(EntCon *container,char *buf)
 {

@@ -2,7 +2,7 @@
 #include <utilitieslib/stdtypes.h>
 #include "ailib/aiBehaviorPublic.h"
 #include "beacon/beacon.h"
-#include "beacon/beaconpath.h"
+#include "beacon/beaconPath.h"
 #include "entity/character_base.h"
 #include "cmdparse/cmdserver.h"
 #include "gameSys/dooranim.h"
@@ -13,7 +13,7 @@
 #include "entaiBehaviorStruct.h"
 #include "entaiCritterPrivate.h"
 #include "entaiLog.h"
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "entaiPriority.h"
 #include "entaiPriorityPrivate.h"
 #include "entity/entity.h"
@@ -25,7 +25,7 @@
 #include "entity/powers.h"
 #include "seq/seq.h"
 #include "seq/seqstate.h"
-#include <utilitieslib/utils/textParser.h>
+#include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/timing.h>
 

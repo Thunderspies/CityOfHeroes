@@ -6,8 +6,8 @@
 
 #include "AuctionDb.h"
 #include <utilitieslib/network/crypt.h>
-#include "AuctionHistory.h"
-#include "auctionserver.h"
+#include "auctionhistory.h"
+#include "AuctionServer.h"
 #include "AsyncFileWriter.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/file.h>
@@ -19,8 +19,8 @@
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/MemoryPool.h>
 #include "auction/Auction.h"
-#include <utilitieslib/components/estring.h>
-#include <utilitieslib/components/stringcache.h>
+#include <utilitieslib/components/EString.h>
+#include <utilitieslib/components/StringCache.h>
 #include <utilitieslib/network/net_packet.h>
 #include <utilitieslib/network/net_packetutil.h>
 #include <utilitieslib/utils/textparser.h>

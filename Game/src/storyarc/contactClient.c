@@ -1,7 +1,7 @@
 #include <utilitieslib/utils/utils.h>
-#include "storyarc/contactclient.h"
+#include "storyarc/contactClient.h"
 #include <utilitieslib/network/netio.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/strings_opt.h>
 #include <utilitieslib/utils/error.h>
 #include "UI/uiCompass.h"
@@ -12,10 +12,10 @@
 #include "UI/uiMission.h"
 #include "player/player.h"
 #include "group/groupnetrecv.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "clientcomm/clientcomm.h"
 #include "cmdparse/cmdgame.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiMissionSummary.h"
 #include "UI/uiCompass.h"
 #include "UI/uiUtil.h"

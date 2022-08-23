@@ -19,7 +19,7 @@
 #include "gameComm/wdwbase.h"
 #include "win/win_init.h"
 #include <utilitieslib/utils/timing.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/components/earray.h>
 #include "player/player.h"
 

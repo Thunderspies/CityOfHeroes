@@ -1,6 +1,6 @@
 #ifndef _XBOX // xbox has no pdh stuff
 #include "utilitieslib/utils/wininclude.h"
-#include <PdhMsg.h>
+#include <pdhmsg.h>
 #include <conio.h>
 #include <stdio.h>
 #include <pdh.h>

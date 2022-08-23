@@ -5,7 +5,7 @@
  ***************************************************************************/
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/strings_opt.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/error.h>
 
 #include "svr_base.h"

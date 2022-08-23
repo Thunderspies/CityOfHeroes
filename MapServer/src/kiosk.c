@@ -25,7 +25,7 @@
 #include "dbcomm/dbnamecache.h"
 #include "entity/entity.h"
 
-#include "gamesys/arenamapserver.h"
+#include "gameSys/arenamapserver.h"
 
 typedef struct Kiosk
 {

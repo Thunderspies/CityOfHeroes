@@ -19,7 +19,7 @@
 #include "formatter/smf_main.h"
 #include "uiSMFView.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiTabControl.h"
 
 #define MARGIN 5

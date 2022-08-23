@@ -1,5 +1,5 @@
 
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "seq/seq.h"
 #include "entity/entity.h"
 #include <utilitieslib/utils/timing.h>

@@ -30,7 +30,7 @@
 #include "entity/entity.h"
 #include <utilitieslib/utils/timing.h>
 #include "entity/entDebugPrivate.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiPet.h"
 #include "bases/baseedit.h"
 #include "entity/teamup.h"

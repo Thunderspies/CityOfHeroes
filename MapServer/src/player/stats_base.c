@@ -11,7 +11,7 @@
 #include <utilitieslib/utils/utils.h>
 
 #include "dbcomm/staticMapInfo.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "dbcomm/dbcomm.h"
 
 #include "stats_base.h"

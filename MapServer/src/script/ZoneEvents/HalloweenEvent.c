@@ -14,7 +14,7 @@
 
 #include "script/scriptutil.h"
 #include "entity/entity.h"
-#include "gameSys/dayjob.h"
+#include "gameSys/DayJob.h"
 
 static int        g_trickortreatdelay = 60 * 10;        // time between door openings
 static int        g_trickortreatplayerdelay = 60;        // time between door openings
@@ -315,7 +315,7 @@ void HalloweenEventInit()
 
 #include "HalloweenEvent.h"
 #include "entity/entGameActions.h"
-#include "reward.h"
+#include "Reward.h"
 #include "ai/entai.h"
 #include "ai/entaiScript.h"
 #include "ai/entaiprivate.h"
@@ -323,7 +323,7 @@ void HalloweenEventInit()
 #include "entity/character_level.h"
 #include "entity/entserver.h"
 #include "gameSys/dooranim.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "storyarc/storyarcutil.h"
 #include "dbcomm/dbcomm.h"
 #include "group/groupnetsend.h"

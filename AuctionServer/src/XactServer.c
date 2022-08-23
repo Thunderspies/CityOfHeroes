@@ -19,12 +19,12 @@
 #include "XactServerInternal.h"
 #include <utilitieslib/utils/file.h>
 #include "AsyncFileWriter.h"
-#include "auctiondb.h"
-#include <utilitieslib/components/stringcache.h>
-#include "auction/xact.h"
+#include "AuctionDb.h"
+#include <utilitieslib/components/StringCache.h>
+#include "auction/Xact.h"
 #include "comm_backend.h"
-#include "auctionserver.h"
-#include "auction/auction.h"
+#include "AuctionServer.h"
+#include "auction/Auction.h"
 #include "entity/character_inventory.h"
 #include <utilitieslib/network/net_packet.h>
 #include <utilitieslib/network/net_packetutil.h>
@@ -32,7 +32,7 @@
 #include <utilitieslib/network/net_link.h>
 #include <utilitieslib/network/net_masterlist.h>
 #include <utilitieslib/network/net_structdefs.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/winutil.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/assert/assert.h>

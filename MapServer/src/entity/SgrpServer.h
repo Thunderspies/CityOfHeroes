@@ -2,7 +2,7 @@
 #define SGRPSERVER_H
 
 #include <utilitieslib/stdtypes.h>
-#include "entity/supergroup.h" // need enum, but don't want to break edit-and-continue
+#include "entity/Supergroup.h" // need enum, but don't want to break edit-and-continue
 
 typedef struct Entity                Entity;
 typedef struct Packet                Packet;

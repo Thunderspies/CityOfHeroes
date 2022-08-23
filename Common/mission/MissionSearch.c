@@ -1,7 +1,7 @@
 
 #include <utilitieslib/stdtypes.h>
 #include "mission/MissionSearch.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/language/AppLocale.h>

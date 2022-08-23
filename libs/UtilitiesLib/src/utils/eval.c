@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 #include "utilitieslib/assert/assert.h"
-#include "utilitieslib/components/estring.h"
+#include "utilitieslib/components/EString.h"
 #include "utilitieslib/utils/error.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/components/StashTable.h"

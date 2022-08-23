@@ -13,10 +13,10 @@
  */
 
 #include "utilitieslib/stdtypes.h"
-#include "utilitieslib/utils/structinternals.h"
+#include "utilitieslib/utils/structInternals.h"
 #include "utilitieslib/utils/textparser.h"
 #include "utilitieslib/components/earray.h"
-#include "utilitieslib/utils/tokenStore.h"
+#include "utilitieslib/utils/tokenstore.h"
 #include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/stdtypes.h"
 #include "utilitieslib/utils/error.h"
@@ -24,8 +24,8 @@
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/sysutil.h"
 #include "utilitieslib/utils/mathutil.h"
-#include "utilitieslib/components/stringcache.h"
-#include "utilitieslib/components/sharedmemory.h"
+#include "utilitieslib/components/StringCache.h"
+#include "utilitieslib/components/SharedMemory.h"
 #include "utilitieslib/components/referencesystem.h"
 
 #ifdef ENABLE_LEAK_DETECTION

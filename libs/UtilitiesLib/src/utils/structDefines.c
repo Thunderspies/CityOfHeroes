@@ -14,9 +14,9 @@
 
 #include "utilitieslib/utils/structDefines.h"
 #include "utilitieslib/network/crypt.h"
-#include "utilitieslib/components/stashtable.h"
+#include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/utils/error.h"
-#include "utilitieslib/utils/superassert.h"
+#include "utilitieslib/utils/SuperAssert.h"
 
 // *********************************************************************************
 //  Dynamic defines

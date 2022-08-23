@@ -20,7 +20,7 @@
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/scriptvars.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "account/AccountData.h"
 
 #if CLIENT

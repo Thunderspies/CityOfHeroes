@@ -5,7 +5,7 @@
  ***************************************************************************/
 
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "gameComm/wdwbase.h"
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_text.h"

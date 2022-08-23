@@ -6,7 +6,7 @@
 
 #include "win/win_init.h"
 #include "graphics/gfx.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/entVarUpdate.h"
 #include "language/langClientUtil.h"
 #include <utilitieslib/utils/mathutil.h>
@@ -15,7 +15,7 @@
 #include "UI/uiWindows.h"
 #include "UI/uiInput.h"
 #include "UI/uiGame.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiUtil.h"
 #include "uiSMFView.h"
 #include "UI/uiUtilMenu.h"
@@ -25,7 +25,7 @@
 #include "UI/sprite/sprite_font.h"
 #include "cmdparse/cmdcommon.h"
 #include "filter/validate_name.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "cmdparse/cmdgame.h"
 #include "UI/uiNet.h"
 #include "UI/uiChat.h"
@@ -33,7 +33,7 @@
 #include "UI/uiMissionMaker.h"
 
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 
 #include "graphics/ttFontUtil.h"

@@ -9,7 +9,7 @@
 #define __rt_cgfx_h__
 
 #include "render/thread/ogl.h"
-#include <cg/cgGL.h>
+#include <Cg/cgGL.h>
 #include "seq/tricks.h"
 #include "render/thread/rt_tricks.h"
 #include "render/thread/rt_model.h"

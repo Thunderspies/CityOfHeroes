@@ -11,7 +11,7 @@
 #include "dbdispatch.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "queueservercomm.h"
-#include "dbcomm/StaticMapInfo.h"
+#include "dbcomm/staticMapInfo.h"
 #include "entity/gametypes.h"
 #include <utilitieslib/utils/log.h>
 #include "accountservercomm.h"

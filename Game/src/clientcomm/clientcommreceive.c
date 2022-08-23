@@ -14,11 +14,11 @@
 #include "entity/entclient.h"
 #include "UI/uiChat.h"
 #include "UI/uiCursor.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiGame.h"
 #include "UI/uiConsole.h"
 #include "UI/uiCompass.h"
-#include "UI/uiAutoMapFog.h"
+#include "UI/uiAutomapFog.h"
 #include "UI/uiRecipeInventory.h"
 #include "UI/uiIncarnate.h"
 #include "UI/uiLogin.h"
@@ -44,24 +44,24 @@
 #include "UI/uiTitleSelect.h"
 #include "UI/sprite/sprite_text.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiOptions.h"
 #include "UI/uiQuit.h"
 #include "graphics/sun.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "UI/uiRespec.h"
+#include "UI/uiReSpec.h"
 #include "UI/uiLevelPower.h"
 #include "UI/uiLevelSpec.h"
 #include "win/hwlight.h"
 #include "UI/uiContactFinder.h"
 #include "UI/uiWindows.h"
 #include "UI/Hybrid/uiWebStoreFrame.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 // Remove these...
 // Move related functionality into another file.
 #include "storyarc/contactClient.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiContactDialog.h"
 #include "UI/uiAutomap.h"
 

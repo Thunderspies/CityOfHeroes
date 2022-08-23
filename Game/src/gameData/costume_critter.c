@@ -2,8 +2,8 @@
 #include "entity/costume.h"
 #include "gameComm/VillainDef.h"
 #include "gameData/costume_data.h"
-#include "gameComm/npc.h"
-#include <utilitieslib/components/Earray.h>
+#include "gameComm/Npc.h"
+#include <utilitieslib/components/earray.h>
 #include "seq/seq.h"
 #include "seq/seqtype.h"
 #include "entity/entclient.h"

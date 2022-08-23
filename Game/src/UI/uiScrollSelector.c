@@ -11,7 +11,7 @@
 #include "UI/uiGame.h"  
 #include "UI/uiWindows.h"
 #include "UI/uiScrollBar.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/Hybrid/uiHybridMenu.h"
 
 #include "UI/uiMissionMakerScrollSet.h"
@@ -23,7 +23,7 @@
 #include "UI/uiPowerCust.h"
 #include "gameData/costume_data.h"
 #include "player/player.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/file.h>
@@ -38,7 +38,7 @@
 #include "entity/costume_client.h"
 #include "graphics/ttFontUtil.h"
 
-#include "gameComm/npc.h" // costume sets
+#include "gameComm/Npc.h" // costume sets
 #include "entity/powers.h" // customizable powers
 
 //---------------------------------------------------------------------------------------------

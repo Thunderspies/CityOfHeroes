@@ -24,7 +24,7 @@
 #include "entity/character_inventory.h"
 #include "entity/character_target.h"
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "auth/authUserData.h"
 #include <utilitieslib/utils/log.h>
 #include "dbcomm/logcomm.h"

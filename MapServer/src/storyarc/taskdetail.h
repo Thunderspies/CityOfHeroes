@@ -13,7 +13,7 @@
 #define __TASKDETAIL_H
 
 #include "storyarcinterface.h"
-#include "storyarc/contactcommon.h"
+#include "storyarc/contactCommon.h"
 
 // *********************************************************************************
 //  Generating the detail page

@@ -20,7 +20,7 @@
 #include "render/renderUtil.h"
 #include "render/thread/wcw_statemgmt.h"
 #include "seq/seq.h" //MAX_LODS
-#include "render/renderSSAO.h"
+#include "render/renderssao.h"
 #include "graphics/gfxSettings.h"
 #include "rt_filter.h"
 #include "render/thread/rt_pbuffer.h"

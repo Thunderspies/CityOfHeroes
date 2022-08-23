@@ -7,10 +7,10 @@
 
 #include "UI/uiUtil.h"
 #include "UI/uiUtilGame.h"
-#include "uiTree.h"
+#include "UI/uiTree.h"
 #include "UI/uiInput.h"
 
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 
 #include "formatter/smf_main.h"
 
@@ -18,8 +18,8 @@
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_font.h"
 
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/utils/Cbox.h>
 
 #include <utilitieslib/language/MessageStoreUtil.h>
 

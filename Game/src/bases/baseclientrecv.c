@@ -7,7 +7,7 @@
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/network/netcomp.h>
 #include "bases/basetogroup.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "bases/basedata.h"
 #include <utilitieslib/utils/textparser.h>
 #include "bases/baseparse.h"
@@ -16,7 +16,7 @@
 #include "group/groupscene.h"
 #include "graphics/sun.h"
 #include "bases/baseedit.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "UI/uiAutomap.h"
 
 #include "seq/seq.h"

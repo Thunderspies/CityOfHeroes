@@ -65,7 +65,7 @@
 #include "gameComm/chatClient.h"
 #include "UI/uiWindows_init.h"
 #include "UI/sprite/sprite_text.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "render/texWords.h"
 #include "graphics/textureatlas.h"
 #include "render/tex.h"
@@ -103,7 +103,7 @@
 #include "editorUI.h"
 #include "group/group.h"
 #include <utilitieslib/utils/mutex.h>
-#include <utilitieslib/utils/filewatch.h>
+#include <utilitieslib/utils/fileWatch.h>
 #include "graphics/FX/fxdebris.h"
 #include "UI/uiWindows.h"
 #include "seq/AutoLOD.h"
@@ -116,12 +116,12 @@
 #include "storyarc/missionMapCommon.h"
 #include "storyarc/pnpcCommon.h"
 #include "UI/uiMissionMakerScrollSet.h"
-#include "render/renderSSAO.h"
+#include "render/renderssao.h"
 #include "render/rendershadowmap.h"
 #include "render/cubemap.h"
 #include "render/renderstats.h"
 #include "render/perfcounter.h"
-#include "ui/uiPopHelp.h"
+#include "UI/uiPopHelp.h"
 #include "render/rendershadowmap.h"
 #include <utilitieslib/UtilsNew/profiler.h>
 #include <utilitieslib/utils/ssemath.h>

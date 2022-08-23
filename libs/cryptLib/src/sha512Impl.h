@@ -18,7 +18,7 @@
 #ifndef _SHA512IMPL_H_
 #define _SHA512IMPL_H_
 
-#include "../include/cryptLib/sha.h"
+#include "../include/cryptlib/sha.h"
 
 namespace cryptLib
 {

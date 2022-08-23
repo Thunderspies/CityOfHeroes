@@ -2,7 +2,7 @@
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/error.h>
 #include "group/groupfileload.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include <string.h>
 #include <utilitieslib/utils/utils.h>
 #include "group/groupfileloadutil.h"
@@ -24,10 +24,10 @@
 #include "NovodeX/NwWrapper.h"
 #include <utilitieslib/utils/strings_opt.h>
 #include "gridcoll/gridfind.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StashTable.h>
 #include "seq/AutoLOD.h"
-#include <utilitieslib/utils/structinternals.h>
+#include <utilitieslib/utils/structInternals.h>
 
 
 

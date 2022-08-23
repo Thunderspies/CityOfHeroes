@@ -35,7 +35,7 @@
 #include "entity/powers.h"
 #include "entity/origins.h"
 #include "entity/classes.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/win_init.h"
 #include <utilitieslib/utils/timing.h>
 #include "clientcomm/clientcomm.h"

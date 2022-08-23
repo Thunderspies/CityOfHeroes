@@ -5,7 +5,7 @@
  ***************************************************************************/
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/mathutil.h>
 
 #include "entity/entity.h"
@@ -40,7 +40,7 @@
 #include "uiSlider.h"
 #include "UI/uiScrollBar.h"
 #include "UI/uiContextMenu.h"
-#include "UI/uibaseprops.h"
+#include "UI/uiBaseProps.h"
 #include "UI/uiBaseRoom.h"
 #include "UI/uiToolTip.h"
 #include "bases/bases.h"

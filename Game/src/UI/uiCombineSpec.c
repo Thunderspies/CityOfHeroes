@@ -10,9 +10,9 @@
 #include "UI/uiTray.h"
 #include "UI/uiInfo.h"
 #include "UI/uiInput.h"
-#include "UI/uiRespec.h"
+#include "UI/uiReSpec.h"
 #include "UI/uiCursor.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiWindows.h"
 #include "UI/uiUtilMenu.h"
 #include "UI/uiEditText.h"
@@ -35,8 +35,8 @@
 #include "cmdparse/cmdcommon.h"
 #include "win/win_init.h"
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StashTable.h>
 #include "player/player.h"
 #include "sound/sound.h"
@@ -49,7 +49,7 @@
 #include "entity/boostset.h"
 #include "entity/origins.h"
 #include "entity/classes.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
 #include "graphics/ttFontUtil.h"
 #include "entity/attrib_names.h"
@@ -68,7 +68,7 @@
 #include "uiGrowBig.h"
 #include "uiSalvage.h"
 
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 //-------------------------------------------------------------
 
 void TestDimReturns(Power *ppow);

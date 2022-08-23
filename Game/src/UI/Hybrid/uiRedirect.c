@@ -9,7 +9,7 @@
 #include "UI/sprite/sprite_font.h"
 
 #include "win/input.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/win_init.h" // for windowClientSize
 #include "player/player.h"      // for playerPtr
 #include "graphics/font.h"
@@ -18,7 +18,7 @@
 #include "language/langClientUtil.h"
 #include "graphics/textureatlas.h"
 #include "cmdparse/cmdgame.h"  // for timestep
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 
 #include "formatter/smf_parse.h"

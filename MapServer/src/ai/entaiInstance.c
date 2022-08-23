@@ -14,7 +14,7 @@
 #include "entaiBehaviorCoh.h"
 #include "entaiCritterPrivate.h"
 #include "entaiLog.h"
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "entaiPriority.h"
 #include "entity/entGameActions.h"
 #include "generator/entgen.h"

@@ -9,7 +9,7 @@
 #include <utilitieslib/utils/textparser.h>
 #include "entity/RewardItemType.h"
 #include "entity/salvage.h"
-#include "entity/concept.h"
+#include "entity/Concept.h"
 #include "entity/Proficiency.h"
 
 StaticDefineInt RewardItemTypeEnum[] =

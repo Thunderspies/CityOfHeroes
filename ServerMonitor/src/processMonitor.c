@@ -6,7 +6,7 @@
 
 #include <direct.h>
 #include <psapi.h>
-#include <Shellapi.h>
+#include <shellapi.h>
 
 #include "processMonitor.h"
 #include "serverMonitorCommon.h"

@@ -7,10 +7,10 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/utils/FolderCache.h>
-#include <utilitieslib/utils/consoledebug.h>
+#include <utilitieslib/utils/ConsoleDebug.h>
 #include <utilitieslib/language/AppLocale.h>
-#include <utilitieslib/utils/memorymonitor.h>
-#include "entity/entvarupdate.h"        // for PKT_BITS_TO_REP_DB_ID
+#include <utilitieslib/utils/MemoryMonitor.h>
+#include "entity/entVarUpdate.h"        // for PKT_BITS_TO_REP_DB_ID
 #include <utilitieslib/network/sock.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <time.h>

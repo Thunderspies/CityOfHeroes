@@ -1,5 +1,5 @@
 
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "entaiCritterPrivate.h"
 #include "gameSys/dooranim.h"
 #include "beacon/beaconPath.h"

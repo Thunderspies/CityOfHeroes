@@ -1,5 +1,5 @@
 #include <utilitieslib/network/netio.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "dbcomm.h"
 #include "dbcontainer.h"
 #include <utilitieslib/utils/utils.h>

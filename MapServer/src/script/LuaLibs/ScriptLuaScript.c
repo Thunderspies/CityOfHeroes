@@ -7,7 +7,7 @@
 #include "ScriptLuaCommon.h"
 #include "entity/character_eval.h"
 #include <utilitieslib/utils/file.h>                // needed for isDevelopmentMode()
-#include "gameSys/turnstile.h"
+#include "gameSys/Turnstile.h"
 #include "storyarc/mission.h"            // needed for turnstileConfigDef somehow
 
 // Script Systems Library Defintions

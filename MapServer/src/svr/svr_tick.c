@@ -28,7 +28,7 @@
 #include <utilitieslib/network/net_version.h>
 #include "entity/entPlayer.h"
 #include "entity/entsend.h"
-#include <utilitieslib/utils/memorymonitor.h>
+#include <utilitieslib/utils/MemoryMonitor.h>
 #include "entity/character_level.h"
 #include "script/scriptengine.h"
 #include "script/scriptdebug.h"
@@ -39,7 +39,7 @@
 #include "entity/character_base.h"
 #include "gameComm/automapServer.h"
 #include <utilitieslib/utils/strings_opt.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "storyarc/TeamTask.h"
 #include "beacon/beaconDebug.h"
 #include "beacon/beaconClientServerPrivate.h"
@@ -51,7 +51,7 @@
 #include "group/groupnetdb.h"
 #include "group/groupfileloadutil.h"
 #include "group/groupfilesave.h"
-#include "gameSys/arenaMapserver.h"
+#include "gameSys/arenamapserver.h"
 #include "seq/modelReload.h"
 #include "seq/tricks.h"
 #include "seq/anim.h"
@@ -60,7 +60,7 @@
 #include "gameSys/cutScene.h"
 #include "gameSys/sgraid.h"
 #include "bases/basesystems.h"
-#include "NovodeX/nwwrapper.h"
+#include "NovodeX/NwWrapper.h"
 #include "entity/teamCommon.h"
 #include <utilitieslib/components/SharedHeap.h>
 #include <utilitieslib/components/SharedMemory.h>

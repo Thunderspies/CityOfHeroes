@@ -43,7 +43,7 @@
 #include "entity/SgrpServer.h"
 #include "gameSys/raidmapserver.h"
 #include "gameSys/sgraid.h"
-#include "reward.h"
+#include "Reward.h"
 #include "entity/entStrings.h"
 #include "comm_game.h"
 #include "auth/authUserData.h"
@@ -51,11 +51,11 @@
 #include "player/badges_server.h"
 #include "dbcomm/staticMapInfo.h"
 #include "entity/teamup.h"
-#include <utilitieslib/language/messagestoreutil.h>
-#include "gameSys/turnstile.h"
+#include <utilitieslib/language/MessageStoreUtil.h>
+#include "gameSys/Turnstile.h"
 #include "container/containerbroadcast.h"
 #include "entity/character_eval.h"
-#include "gamesys/endgameraid.h"
+#include "gameSys/EndGameRaid.h"
 #include "door.h"
 
 

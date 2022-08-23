@@ -7,7 +7,7 @@
 #include "UI/uiScrollBar.h"
 #include "UI/uiNet.h"
 #include "UI/uiInput.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 
 #include "formatter/smf_main.h"
 
@@ -15,7 +15,7 @@
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_font.h"
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "cmdparse/cmdgame.h"
 

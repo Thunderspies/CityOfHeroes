@@ -25,8 +25,8 @@
 #include "entity/entity.h"
 #include "entity/entserver.h"
 #include "group/grouputil.h"
-#include "group/groupproperties.h"
-#include "gamesys/sgraid_V2.h"
+#include "group/groupProperties.h"
+#include "gameSys/sgraid_V2.h"
 #endif
 
 typedef struct

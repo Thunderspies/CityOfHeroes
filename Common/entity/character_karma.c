@@ -7,9 +7,9 @@
 #include "entity.h"
 #include "svr/svr_base.h"
 #include "comm_game.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "powers.h"
-#include "script/ZoneEvents/scriptedzoneeventkarma.h"
+#include "script/ZoneEvents/ScriptedZoneEventKarma.h"
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/components/SharedMemory.h>

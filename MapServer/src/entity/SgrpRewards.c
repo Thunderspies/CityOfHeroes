@@ -20,7 +20,7 @@
 #include <utilitieslib/utils/textparser.h>
 
 #include "entity/entity.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "SgrpServer.h"
 #include "entity/Supergroup.h"
 #include "entity/character_base.h"

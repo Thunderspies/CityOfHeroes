@@ -8,14 +8,14 @@
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/assert/assert.h>
-#include <utilitieslib/utils/stackdump.h>
+#include <utilitieslib/utils/Stackdump.h>
 #include <utilitieslib/utils/strings_opt.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "dbserver/servercfg.h"
 #include "sql_fifo.h"
 #include "dbinit.h"
-#include <utilitieslib/utils/ConvertUTF.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/utils/ConvertUtf.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/StringUtil.h>
 #include <utilitieslib/components/earray.h>

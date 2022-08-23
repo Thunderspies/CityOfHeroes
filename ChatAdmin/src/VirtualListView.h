@@ -5,7 +5,7 @@
 #endif
 #include <winsock2.h>
 #include <windows.h>
-#include <CommCtrl.h>
+#include <commctrl.h>
 
 typedef int (*FilterFunc) (void *);    // returns non-zero if matches the current filter
 typedef int (*CompareFunc) (const void *, const void *);

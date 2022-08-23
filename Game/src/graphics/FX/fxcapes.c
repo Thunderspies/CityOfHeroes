@@ -1,6 +1,6 @@
 #include "graphics/FX/fxcapes.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include "seq/anim.h"
 #include "render/tex.h"
 #include "render/model_cache.h"

@@ -14,7 +14,7 @@
 #include "entity/character_base.h"
 #include "clientcomm/clientcomm.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "graphics/font.h"
 #include "graphics/gfxLoadScreens.h"
 #include "player/player.h"

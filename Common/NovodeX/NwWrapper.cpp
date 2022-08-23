@@ -78,7 +78,7 @@ extern "C"{
     #include "group/groupfileload.h"
     #include "group/groupnovodex.h"
     #include "group/group.h"
-    #include <utilitieslib/components/queue.h>
+    #include <utilitieslib/components/Queue.h>
     #include "entity/entity.h"
     #include <utilitieslib/utils/strings_opt.h>
     #include <utilitieslib/components/StashTable.h>

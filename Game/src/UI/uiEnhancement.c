@@ -14,8 +14,8 @@
 #include "UI/uiNet.h"
 #include "UI/uiEnhancement.h"
 #include "UI/uiRecipeInventory.h"
-#include "UI/uidialog.h"
-#include "uiGift.h"
+#include "UI/uiDialog.h"
+#include "UI/uiGift.h"
 #include "UI/uiGame.h"
 #include "UI/uiTrade.h"
 #include "UI/uiToolTip.h"
@@ -54,10 +54,10 @@
 #include "cmdparse/cmdcommon.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/language/MultiMessageStore.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "language/langClientUtil.h"    // for menuMessages
 #include <utilitieslib/utils/scriptvars.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/language/AppLocale.h>
 #include "auction/AuctionData.h"
 

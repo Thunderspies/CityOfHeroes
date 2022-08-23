@@ -5,19 +5,19 @@
  ***************************************************************************/
 
 #include "auctionhistory.h"
-#include "auction/auction.h"
+#include "auction/Auction.h"
 #include "BinHeap.h"
 #include "XactServer.h"
-#include "auctiondb.h"
-#include <utilitieslib/components/stringcache.h>
-#include "auctionserver.h"
-#include "auction/auction.h"
+#include "AuctionDb.h"
+#include <utilitieslib/components/StringCache.h>
+#include "AuctionServer.h"
+#include "auction/Auction.h"
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/MemoryPool.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "AsyncFileWriter.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/file.h>

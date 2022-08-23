@@ -10,7 +10,7 @@
 #include "UI/uiChatUtil.h"
 #include "graphics/ttFont.h"
 #include "UI/uiClipper.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiScrollBar.h"
 #include "UI/uiComboBox.h"
 #include <utilitieslib/utils/utils.h>
@@ -27,7 +27,7 @@
 #include "UI/uiChat.h"
 #include "win/input.h"
 #include "uiListView.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "formatter/smf_main.h"
 #include "player/player.h"
 #include "clientcomm/clientcomm.h"

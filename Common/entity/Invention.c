@@ -25,7 +25,7 @@
 #include "entity/character_base.h"
 #include "entity/character_inventory.h"
 #include "entity/character_net.h"
-#include "entity/concept.h"
+#include "entity/Concept.h"
 #include "entity/Invention.h"
 #include "bases/DetailRecipe.h"
 #include "entity/boost.h"
@@ -33,7 +33,7 @@
 
 #if SERVER 
 #include "dbcomm/logcomm.h"
-#include "reward.h"
+#include "Reward.h"
 #endif
 
 #if CLIENT // SERVER

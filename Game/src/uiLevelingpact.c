@@ -8,11 +8,11 @@
 #include "UI/uiWindows.h"
 #include "cmdparse/cmdgame.h"
 #include "player/player.h"
-#include "storyarc/contactclient.h"
+#include "storyarc/contactClient.h"
 #include "entity/entity.h"
 #include "entity/entity_enum.h"
 #include "entity/teamCommon.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/character_level.h"
 #include "comm_game.h"
 #include "UI/uiContextMenu.h"
@@ -25,7 +25,7 @@
 #include "UI/sprite/sprite_font.h"
 #include "formatter/smf_main.h"
 #include "UI/uiSMFView.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiFriend.h"
 
 void levelingpact_OfferMembership(void *foo)

@@ -4,8 +4,8 @@
 
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/utils/utils.h>
-#include "UI/uiturnstile.h"
-#include "testclientcmdparse.h"
+#include "UI/uiTurnstile.h"
+#include "testClientCmdParse.h"
 #include "turnstile/TurnstileCommon.h"
 #include "clientcomm/clientcomm.h"
 #include "entity/entity.h"

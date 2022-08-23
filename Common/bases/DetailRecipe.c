@@ -5,11 +5,11 @@
  ***************************************************************************/
 #include "bases/DetailRecipe.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/utils/structdefines.h>
+#include <utilitieslib/utils/structDefines.h>
 #include "entity/entity.h"
 #include "entity/entPlayer.h"
 #include <utilitieslib/utils/eval.h>
-#include "entity/Salvage.h"
+#include "entity/salvage.h"
 #include "entity/powers.h"
 #include "bases/basedata.h"
 #include <utilitieslib/utils/utils.h>
@@ -18,7 +18,7 @@
 #include <utilitieslib/components/MemoryPool.h>
 #include "bases/baseparse.h"
 #include "entity/Supergroup.h"
-#include "entity/Salvage.h"
+#include "entity/salvage.h"
 #include "entity/character_base.h"
 #include "entity/character_eval.h"
 #include "entity/character_inventory.h"
@@ -46,7 +46,7 @@
 #include "gameData/mininghelper.h"
 #include "storyarc/playerCreatedStoryarcServer.h"
 #include "entity/incarnate_server.h"
-#include "entity/powerinfo.h"
+#include "entity/PowerInfo.h"
 #include "dbcomm/logcomm.h"
 #else
 #include "cmdparse/cmdgame.h"

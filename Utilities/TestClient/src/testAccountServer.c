@@ -10,8 +10,8 @@
 #include "clientcomm/dbclient.h"
 #include "clientcomm/clientcomm.h"
 #include <utilitieslib/network/net_packet.h>
-#include "entity/EntVarUpdate.h"
-#include <utilitieslib/components/EArray.h>
+#include "entity/entVarUpdate.h"
+#include <utilitieslib/components/earray.h>
 #include "testUtil.h"
 #include "gameComm/initClient.h"
 #include "gameData/costume_data.h"
@@ -24,7 +24,7 @@
 #include "testClientInclude.h"
 #include "bases/DetailRecipe.h"
 #include "bases/basedata.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/entPlayer.h"
 #include "entity/character_eval.h"
 

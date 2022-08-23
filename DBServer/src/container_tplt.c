@@ -16,7 +16,7 @@
 #include <utilitieslib/components/earray.h>
 #include "sql_fifo.h"
 #include <utilitieslib/utils/log.h>
-#include <utilitieslib/utils/genericdialog.h>
+#include <utilitieslib/utils/genericDialog.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "sql/sqlinclude.h" // for MS SQL 2005 HACK
 

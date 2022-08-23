@@ -10,7 +10,7 @@
  */
 #ifndef _XBOX
 
-#include "utilitieslib/utils/consoledebug.h"
+#include "utilitieslib/utils/ConsoleDebug.h"
 #include "utilitieslib/stdtypes.h"
 #include <stdio.h>
 #include <conio.h>

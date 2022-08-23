@@ -1,7 +1,7 @@
 #include "gameComm/wdwbase.h"
 #include <utilitieslib/utils/utils.h>
 #include "comm_game.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/sysutil.h>
@@ -19,7 +19,7 @@
 #include "UI/uiTabControl.h"
 #include "UI/uiUtilMenu.h"
 #include "UI/uiInput.h"
-#include "uiEdit.h"
+#include "UIEdit.h"
 #include "UI/uiPetition.h"
 #include "UI/uiClipper.h"
 #include "UI/uiOptions.h"
@@ -32,8 +32,8 @@
 #include "UI/sprite/sprite_font.h"
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_base.h"
-#include <utilitieslib/components/estring.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/EString.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 
 #include "formatter/smf_main.h"

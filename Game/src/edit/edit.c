@@ -1,7 +1,7 @@
 #include "group/group.h"
 #include <utilitieslib/components/StashTable.h>
 #include "edit/edit_cmd.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "win/input.h"
 #include "cmdparse/cmdcommon.h"
 #include "edit/edit_library.h"

@@ -1,7 +1,7 @@
 #ifndef UIMMMAPVIEWER_H
 #define UIMMMAPVIEWER_H
 
-#include "..\common\group\groupMetaMinimap.h"
+#include "group/groupMetaMinimap.h"
 
 //MOVEMENT
 

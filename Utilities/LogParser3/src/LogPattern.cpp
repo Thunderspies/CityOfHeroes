@@ -3,8 +3,8 @@
 //purpose of this program is to measure the size of a stucture when allocated.
 #include <string.h>
 #include <queue>
-#include "logTime.h"
-#include "logSearch.h"
+#include "LogTime.h"
+#include "LogSearch.h"
 
 #include <iostream>
 

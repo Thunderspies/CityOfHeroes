@@ -3,7 +3,7 @@
 
 #include "windows.h"
 #include <cstdio>
-#include "filelistloader.h"
+#include "FileListLoader.h"
 
 class FileListWriter
 {

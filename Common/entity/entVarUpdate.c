@@ -9,7 +9,7 @@
 #include "combat/combat.h"
 #include "ai/entai.h"
 #include <utilitieslib/utils/timing.h>
-#include "gamecomm/trading.h"
+#include "gameComm/trading.h"
 #include "player/pmotion.h"
 #include "entity/entserver.h"
 #include "character_base.h"
@@ -28,11 +28,11 @@
 #include "bases/basesystems.h"
 #include "entity/SgrpServer.h"
 #include "bases/baseserver.h"
-#include "gamesys/DayJob.h"
+#include "gameSys/DayJob.h"
 #include "storyarc/playerCreatedStoryarcServer.h"
 #include "entity/pvp.h"
 #include "entity/alignment_shift.h"
-#include "storyarc/contactDef.h"
+#include "storyarc/contactdef.h"
 #include "storyarc/pnpcCommon.h"
 #if SERVER
 #include "storyarc/pnpc.h"

@@ -1,7 +1,7 @@
 
 #include "storyarc/playerCreatedStoryarc.h"
 #include "storyarc/playerCreatedStoryarcValidate.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/network/netcomp.h>

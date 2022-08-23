@@ -13,9 +13,9 @@
  *
  ***************************************************************************/
 #include "Xact.h"
-#include "auction/auction.h"
+#include "auction/Auction.h"
 #include "gameComm/trayCommon.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/assert/assert.h>

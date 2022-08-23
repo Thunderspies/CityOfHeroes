@@ -1,5 +1,5 @@
 #include <utilitieslib/utils/textparser.h>
-#include "gamecomm/VillainDef.h"
+#include "gameComm/VillainDef.h"
 #include "storyarc/missionset.h"
 #include "taskRandom.h"
 #include <utilitieslib/components/earray.h>

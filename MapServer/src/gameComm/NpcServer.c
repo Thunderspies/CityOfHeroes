@@ -19,7 +19,7 @@
 #include "entity/entGameActions.h"
 #include "NpcServer.h"
 #include "NpcNames.h"
-#include "gamecomm/Npc.h"        // For NPCDef structure
+#include "gameComm/Npc.h"        // For NPCDef structure
 #include "entity/costume.h"    // For Costume structure
 #include "generator/entgen.h"     // For entCreateEx().  JS: Why the heck is that function in entgen?
 

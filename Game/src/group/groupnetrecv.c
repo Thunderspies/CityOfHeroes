@@ -14,7 +14,7 @@
 #include "group/groupfilelib.h"
 #include "group/groupfileload.h"
 #include "group/groupfileloadutil.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "group/groupdynrecv.h"
 #include "graphics/groupMiniTrackers.h"
 #include "cmdparse/cmdgame.h"
@@ -28,7 +28,7 @@
 #include "render/tex.h"
 #include "group/groupdyn.h"
 #include "UI/uiQuit.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "group/groupgrid.h"
 #include "graphics/vistray.h"
 #include "NovodeX/NwWrapper.h" 
@@ -40,7 +40,7 @@
 #include <utilitieslib/utils/timing.h>
 #include "group/grouputil.h"
 #include "bases/baseparse.h"
-#include "bases/baseraid.h"
+#include "bases/baseRaid.h"
 #include "bases/bases.h"
 #include "render/thread/rt_init.h"
 #include "graphics/groupdrawutil.h"

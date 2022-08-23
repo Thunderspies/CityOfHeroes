@@ -1,6 +1,6 @@
 #include "cmdparse/cmdcommon.h"
 #include "entity/entity.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "player/pmotion.h"
 #include <utilitieslib/utils/memcheck.h>
 #include "entity/motion.h"
@@ -22,7 +22,7 @@
 #include <utilitieslib/components/StashTable.h>
 #include "storyarc/playerCreatedStoryarcValidate.h"
 #include "group/groupProperties.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 #if CLIENT
     #include "cmdparse/cmdgame.h"

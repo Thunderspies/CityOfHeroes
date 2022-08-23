@@ -19,9 +19,9 @@
 #include "cmdparse/cmdcommon.h"
 #include "win/input.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include "gameComm/initClient.h"
 #include "clientcomm/clientcomm.h"
 #include "assert.h"
@@ -31,8 +31,8 @@
 #include "entity/character_base.h"
 #include "UI/uiKeybind.h"
 #include "render/renderstats.h"
-#include "gameComm/npc.h"
-#include <utilitieslib/components/estring.h>
+#include "gameComm/Npc.h"
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/strings_opt.h>
 #include "entity/motion.h"
 #include "cmdparse/cmdcontrols.h"
@@ -72,7 +72,7 @@
 #include <utilitieslib/utils/sysutil.h>
 #include "UI/uiKeymapping.h"
 #include "UI/uiNet.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiCustomWindow.h"
 
 typedef struct ClientEntityDebugPoint

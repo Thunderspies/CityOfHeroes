@@ -1,7 +1,7 @@
 #include "UI/uiUtilMenu.h"
 #include "uiPCCCreationNLM.h"
 #include <utilitieslib/utils/SuperAssert.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 static NonLinearMenu *NLM_PCCCreation = NULL;
 extern NonLinearMenuElement PCC_Rank_NLME;    //    rank non linear menu element

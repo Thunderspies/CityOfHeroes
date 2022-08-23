@@ -8,7 +8,7 @@
 #include "UI/sprite/sprite_font.h"
 
 #include "win/input.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/win_init.h" // for windowClientSize
 #include "player/player.h"      // for playerPtr
 #include "graphics/font.h"
@@ -41,12 +41,12 @@
 #include "gameComm/initClient.h"
 #include "UI/uiPowerInventory.h"
 #include "graphics/seqgraphics.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "filter/validate_name.h"
 #include "UI/uiWindows.h"
 #include "entity/entVarUpdate.h"
-#include <utilitieslib/components/estring.h>
-#include "entity/EntPlayer.h"
+#include <utilitieslib/components/EString.h>
+#include "entity/entPlayer.h"
 #include "clientcomm/dbclient.h"
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/language/AppLocale.h>

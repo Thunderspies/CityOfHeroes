@@ -6,7 +6,7 @@
 #include "script/script.h"
 #include "ScriptLuaCommon.h"
 #include "script/scriptengine.h"
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 #include <utilitieslib/utils/timing.h>
 
 int lua_callbackEntityString(STRING call, Entity* param1, STRING param2)

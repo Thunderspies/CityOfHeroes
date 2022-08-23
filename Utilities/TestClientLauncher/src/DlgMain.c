@@ -1,12 +1,12 @@
 #include <utilitieslib/stdtypes.h>
 #include <winsock2.h>
 #include <windows.h>
-#include <CommCtrl.h>
+#include <commctrl.h>
 #include "resource.h"
 #include <string.h>
 #include <stdio.h>
 #include "TestClientLauncher.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 #include <utilitieslib/utils/winutil.h>
 #include <utilitieslib/utils/StringUtil.h>
 

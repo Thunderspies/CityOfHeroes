@@ -5,7 +5,7 @@
 //#include "render/thread/wcw_statemgmt.h"    // WCW_BindTexture()
 #include <utilitieslib/utils/StringUtil.h>
 #include <utilitieslib/components/StringTable.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/components/HashFunctions.h>
 #include "render/thread/rt_queue.h"
 #include <utilitieslib/components/StashTable.h>

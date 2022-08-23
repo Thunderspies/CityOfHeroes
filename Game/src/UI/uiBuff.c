@@ -23,7 +23,7 @@
 #include "graphics/ttFontUtil.h"
 #include "cmdparse/cmdcommon.h"
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "player/player.h"
 
 #include "UI/sprite/sprite_base.h"

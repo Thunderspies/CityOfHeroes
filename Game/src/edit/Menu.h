@@ -2,7 +2,7 @@
 #define MENU_H
 
 #include "EditListView.h"
-#include <utilitieslib/components/Estring.h>
+#include <utilitieslib/components/EString.h>
 
 typedef struct MenuEntry MenuEntry; 
 

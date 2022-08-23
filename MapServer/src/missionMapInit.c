@@ -1,29 +1,29 @@
 #include "missionMapInit.h"
 #include <utilitieslib/components/ArrayOld.h>
 #include <utilitieslib/components/StashTable.h>
-#include "generator/Entgen.h"
-#include "generator/EntgenLoader.h"
+#include "generator/entgen.h"
+#include "generator/entgenLoader.h"
 #include "comm_backend.h"
 
 #include <utilitieslib/components/HashTableStack.h>
-#include "group/Group.h"
-#include "group/GroupProperties.h"
+#include "group/group.h"
+#include "group/groupProperties.h"
 #include "cmdparse/cmdserver.h"
 #include "group/grouputil.h"
 #include <utilitieslib/utils/RegistryReader.h>
 #include "group/groupnetsend.h"
 #include "utils/debugUtils.h"
 
-#include "entity/Entity.h"
+#include "entity/entity.h"
 #include <utilitieslib/components/StringCache.h>
 #include <utilitieslib/utils/error.h>
 #include "beacon/beacon.h"
 #include "generator/encounter.h"
 #include "storyarc/mission.h"
-#include "gamesys/dooranim.h"
-#include "dbcomm/staticmapinfo.h"
+#include "gameSys/dooranim.h"
+#include "dbcomm/staticMapInfo.h"
 #include "storyarc/locationTask.h"
-#include "gamesys/sgraid.h"
+#include "gameSys/sgraid.h"
 #include "dbcomm/dbcomm.h"
 #include "ai/entai.h"
 #include "zowie.h"

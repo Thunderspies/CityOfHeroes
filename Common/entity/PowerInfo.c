@@ -25,7 +25,7 @@
 #include "UI/uiTray.h"
 #include "player/player.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #endif
 #if SERVER
 #include "entity/character_combat.h"

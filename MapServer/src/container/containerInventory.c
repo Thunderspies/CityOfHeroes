@@ -6,7 +6,7 @@
 
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/MemoryPool.h>
 #include "dbcomm/dbcontainer.h"
 #include "dbcomm/logcomm.h"
@@ -20,7 +20,7 @@
 #include "entity/character_inventory.h"
 #include "containerInventory.h"
 #include "entity/salvage.h"
-#include "entity/concept.h"
+#include "entity/Concept.h"
 #include "cmdparse/cmdserver.h"
 #include <utilitieslib/components/StashTable.h>
 

@@ -15,7 +15,7 @@
 #include "gameComm/Npc.h"
 #include "player/badges.h"
 #include "player/badges_server.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entity.h"
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/utils/fileutil.h>

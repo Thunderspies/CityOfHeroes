@@ -3,7 +3,7 @@
 #include "graphics/FX/fx.h"
 #include <utilitieslib/components/genericlist.h>
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "cmdparse/cmdgame.h"
 #include "graphics/font.h"
 #include "time.h"

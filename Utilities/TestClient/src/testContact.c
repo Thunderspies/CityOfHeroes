@@ -8,7 +8,7 @@
 #include "testClientInclude.h"
 #include "testUtil.h"
 #include <utilitieslib/components/earray.h>
-#include "gamedata/randomCharCreate.h"
+#include "gameData/randomCharCreate.h"
 #include "UI/uiCompass.h"
 #include <utilitieslib/assert/assert.h>
 #include "clientcomm/clientcomm.h"

@@ -11,7 +11,7 @@
 #include <direct.h>
 #include "testClientInclude.h"
 #include "tchar.h"
-#include <utilitieslib/utils/stringutil.h>
+#include <utilitieslib/utils/StringUtil.h>
 
 HWND    hwnd;
 static HDC        hDC;

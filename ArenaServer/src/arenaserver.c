@@ -25,7 +25,7 @@
 #include "dbcomm/dbcomm.h"
 #include "container/containerArena.h"
 #include <utilitieslib/components/earray.h>
-#include "ArenaEvent.h"
+#include "arenaevent.h"
 #include "arenaplayer.h"
 #include "arenaserver.h"
 #include "arenaupdates.h"
@@ -35,7 +35,7 @@
 #include <utilitieslib/utils/sysutil.h>
 #include <math.h>
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/language/MultiMessageStore.h>
 #include <utilitieslib/version/AppVersion.h>
 #include <utilitieslib/language/AppLocale.h>

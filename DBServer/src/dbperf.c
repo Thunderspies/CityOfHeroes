@@ -7,7 +7,7 @@
 #include <utilitieslib/utils/MemoryMonitor.h>
 #include "comm_backend.h"
 #include "dbperf.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "dbdispatch.h"
 #include <utilitieslib/utils/file.h>

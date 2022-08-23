@@ -12,7 +12,7 @@
 #include "dbserver/servercfg.h"
 #include <utilitieslib/utils/timing.h>
 #include "container_merge.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/HashFunctions.h>
 #include <utilitieslib/components/StashTable.h>
 #include "dbdispatch.h"

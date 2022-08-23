@@ -9,7 +9,7 @@
 #include "entity/entity.h"
 #include "gameComm/VillainDef.h"
 #include <utilitieslib/components/bitfield.h>
-#include "gamedata/randomName.h"
+#include "gameData/randomName.h"
 #include "storyarc/missionMapCommon.h"
 #include <utilitieslib/utils/structDefines.h>
 #include "storyarc/pnpcCommon.h"

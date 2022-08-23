@@ -22,7 +22,7 @@
 #include <utilitieslib/components/genericlist.h>
 #include <utilitieslib/utils/timing.h>
 #include "graphics/sun.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/utils/strings_opt.h>

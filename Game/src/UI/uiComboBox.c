@@ -18,7 +18,7 @@
 #include "graphics/textureatlas.h"
 
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/mathutil.h>
 
 enum

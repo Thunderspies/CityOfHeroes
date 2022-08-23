@@ -11,7 +11,7 @@
 #include <utilitieslib/components/earray.h>
 #include "entity/gametypes.h"
 #include "comm_backend.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/StringUtil.h>
 #include <math.h>
 

@@ -1,5 +1,5 @@
 #include <string.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/character_base.h"
 #include "entity/entity.h"
 #include "entity/motion.h"
@@ -20,7 +20,7 @@
 #include "float.h"
 #include <utilitieslib/utils/Quat.h>
 #include "auth/authUserData.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/components/earray.h>
 #include "storyarc/playerCreatedStoryarc.h"
 #include <utilitieslib/utils/log.h>
@@ -38,10 +38,10 @@
 #include "dbcomm/dbcontainer.h"
 #include "group/groupnetsend.h"
 #include "svr/svr_player.h"
-#include "ai/entaiVars.h"
-#include "entity/entServer.h"
+#include "ai/entaivars.h"
+#include "entity/entserver.h"
 #include "entity/entsend.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/badges_server.h"
 #include <utilitieslib/utils/log.h>
 #else

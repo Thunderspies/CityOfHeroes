@@ -9,7 +9,7 @@
  */
 
 #include "arenamapserver.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "arenamap.h"
 #include "dbcomm/dbcomm.h"
 #include "comm_game.h"
@@ -22,19 +22,19 @@
 #include "entity/character_combat.h"
 #include "entity/character_tick.h"
 #include "entity/entGameActions.h"
-#include "entity/entServer.h"
+#include "entity/entserver.h"
 #include "entity/entPlayer.h"
 #include "container/team.h"
 #include "dbcomm/dbdoor.h"
 #include "entity/powers.h"
-#include "entity/powerinfo.h"
+#include "entity/PowerInfo.h"
 #include "entity/character_animfx.h"
 #include "player/playerState.h"
 #include <utilitieslib/utils/timing.h>
 #include "player/parseClientInput.h"
 #include "seq/seq.h"
 #include "entity/entity.h"
-#include "beacon/beaconprivate.h"
+#include "beacon/beaconPrivate.h"
 #include "gridcoll/gridcoll.h"
 #include "entity/character_target.h"
 #include "petarena.h"

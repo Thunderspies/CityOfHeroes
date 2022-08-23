@@ -2,7 +2,7 @@
 
 #include "MissionControl.h"
 #include "group/group.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include <utilitieslib/components/StashTable.h>
 #include "group/grouptrack.h"
 #include <utilitieslib/utils/mathutil.h>
@@ -516,7 +516,7 @@ void MissionControlHandleResponse(Packet * pak) {
 #include <utilitieslib/components/ArrayOld.h>
 #include <utilitieslib/network/netcomp.h>
 #include "beacon/beacon.h"
-#include "beacon/beaconprivate.h"
+#include "beacon/beaconPrivate.h"
 
 extern Array basicBeaconArray;
 

@@ -1,6 +1,6 @@
 
 #include "beaconPrivate.h"
-#include "cmdparse/cmdCommon.h"
+#include "cmdparse/cmdcommon.h"
 #include "beacon/beaconConnection.h"
 #include "entity/entserver.h"
 #include "generator/entgen.h"
@@ -13,7 +13,7 @@
 #include <utilitieslib/utils/utils.h>
 #include "ai/entai.h"
 #include "group/grouptrack.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "group/groupfilelib.h"
 #include <utilitieslib/utils/strings_opt.h>
 #include "group/groupscene.h"

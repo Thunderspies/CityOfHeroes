@@ -1,5 +1,5 @@
 #include <utilitieslib/stdtypes.h>
-#include "properties.h"
+#include "Properties.h"
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/assert/assert.h>

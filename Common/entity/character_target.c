@@ -8,7 +8,7 @@
 #include <utilitieslib/components/earray.h>
 
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "gridcoll/gridcoll.h"
 #include "entity/powers.h"
 #include "entity/character_base.h"

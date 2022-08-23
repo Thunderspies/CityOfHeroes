@@ -2,7 +2,7 @@
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/utils/utils.h>
 #include "comm_backend.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "group/groupfilesave.h"
 #include <utilitieslib/utils/timing.h>
 #include "cmdparse/cmdserver.h"

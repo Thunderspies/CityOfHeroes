@@ -11,11 +11,11 @@
 #include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/textparser.h>
-#include "entity/Entity.h"
+#include "entity/entity.h"
 #include "entity/Supergroup.h"
 #include "container/dbcontainerpack.h"
 #include <utilitieslib/utils/file.h>
-#include "entity/rewardtoken.h"
+#include "entity/RewardToken.h"
 #include "entity/Supergroup.h"
 #include "team.h"
 #include "bases/basedata.h"

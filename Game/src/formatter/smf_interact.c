@@ -3,8 +3,8 @@
 #include "formatter/smf_interact.h"
 #include "formatter/smf_main.h"
 
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 
 #include "UI/sprite/sprite_base.h"
 #include "UI/uiInput.h"
@@ -12,7 +12,7 @@
 #include "UI/uiWindows.h"
 #include "UI/uiFocus.h"
 #include "UI/uiContextMenu.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 
 #include "cmdparse/cmdgame.h"
 #include "UI/uiGame.h"

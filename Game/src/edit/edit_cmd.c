@@ -14,12 +14,12 @@
 #include "UI/uiKeybind.h"
 #include <utilitieslib/utils/cmdoldparse.h>
 #include <utilitieslib/components/StashTable.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
-#include "gameComm/npc.h"        // For NPC structure defintion
+#include "gameComm/Npc.h"        // For NPC structure defintion
 #include "graphics/seqgraphics.h"
 #include "win/input.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "edit_info.h"
 #include "edit/edit_select.h"
 #include "edit_errcheck.h"

@@ -18,7 +18,7 @@
 #include "player/player.h"
 #include "entity/entity.h"
 #include "entity/character_base.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "cmdparse/cmdgame.h"
 
 static SMFView *s_pview;

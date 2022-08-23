@@ -8,10 +8,10 @@
 #include "UI/uiScrollBar.h"
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "graphics/textureatlas.h"
 #include "UI/sprite/sprite_base.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "storyarc/playerCreatedStoryarcClient.h"
 #include "graphics/seqgraphics.h"
 

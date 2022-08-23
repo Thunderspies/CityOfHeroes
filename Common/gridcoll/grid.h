@@ -2,7 +2,7 @@
 #define _GRID_H
 
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 
 
 #define NUMCELLS 2

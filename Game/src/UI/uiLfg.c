@@ -2,7 +2,7 @@
 #include <utilitieslib/stdtypes.h>
 #include "UI/uiLfg.h"
 #include "UI/uiWindows.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiUtil.h"
 #include "UI/uiUtilGame.h"
 #include "string.h"
@@ -36,9 +36,9 @@
 #include "uiEmote.h"
 #include "filter/profanity.h"
 #include "UI/uiNet.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "comm_game.h"
 #include "UI/uiOptions.h"
 

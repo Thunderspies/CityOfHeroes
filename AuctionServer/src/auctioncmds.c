@@ -4,12 +4,12 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include "auctioncmds.h"
-#include "auctionserver.h"
+#include "AuctionServer.h"
 #include "cmdparse/cmdenum.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "comm_backend.h"
-#include "auction/auction.h"
-#include "auctiondb.h"
+#include "auction/Auction.h"
+#include "AuctionDb.h"
 #include "cmdparse/cmdauction.h"
 #include <utilitieslib/utils/cmdoldparse.h>
 #include <utilitieslib/utils/utils.h>

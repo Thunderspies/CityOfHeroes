@@ -5,7 +5,7 @@
  ***************************************************************************/
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/mathutil.h>
 
 #include "entity/entity.h"
@@ -32,7 +32,7 @@
 #include "UI/uiComboBox.h"
 #include "UI/uiClipper.h"
 #include "uiColorPicker.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiToolTip.h"
 #include "UI/uiGame.h"
 

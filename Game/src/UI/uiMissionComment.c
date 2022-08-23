@@ -1,6 +1,6 @@
 
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/textparser.h>
 #include "formatter/smf_main.h"
 #include "formatter/smf_util.h"

@@ -1,6 +1,6 @@
 
 #include <utilitieslib/stdtypes.h>
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "entaiPriorityPrivate.h"
 #include "entaiPriority.h"
 #include "entaiScript.h"
@@ -17,14 +17,14 @@
 
 #include "seq/AnimBitList.h"
 #include "entity/entserver.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "player/clientEntityLink.h"
 #include "generator/encounterPrivate.h"
 #include "entity/character_base.h"
 #include "entity/powers.h"
 #include "entity/classes.h"
 #include "entity/origins.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "svr/svr_player.h"
 #include "entity/motion.h"
 #include "gameComm/VillainDef.h"
@@ -43,7 +43,7 @@
 #include "cmdparse/cmdserver.h"
 #include "storyarc/storyarcprivate.h"
 #include "NovodeX/NwWrapper.h"
-#include "clicktosourceflags.h"
+#include "ClickToSourceFlags.h"
 #include "group/group.h"
 #include "entity/boostset.h"
 #include "bases/DetailRecipe.h"

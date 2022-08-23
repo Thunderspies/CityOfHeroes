@@ -10,11 +10,11 @@
 #include <utilitieslib/components/bitfield.h>
 
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"    // for PlayerType
+#include "entity/entPlayer.h"    // for PlayerType
 #include "entity/Supergroup.h"
 
 #include "player/badges.h"
-#include "entity/rewardtoken.h"
+#include "entity/RewardToken.h"
 #include "bases/basedata.h"
 #include "bases/DetailRecipe.h"
 

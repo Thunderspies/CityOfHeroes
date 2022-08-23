@@ -16,7 +16,7 @@
 #include "utilitieslib/utils/fileutil.h"
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/winfiletime.h"
-#include "utilitieslib/components/EArray.h"
+#include "utilitieslib/components/earray.h"
 #include "utilitieslib/utils/mathutil.h"
 #include "utilitieslib/utils/timing.h"
 #include "utilitieslib/components/StringTable.h"

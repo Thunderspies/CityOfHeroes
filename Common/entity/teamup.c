@@ -4,11 +4,11 @@
 #include <memory.h>
 #include <utilitieslib/components/MemoryPool.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/stdtypes.h>
 #include "entity/teamCommon.h"
 #include "entity/Supergroup.h"
-#include "entity/rewardtoken.h"
+#include "entity/RewardToken.h"
 #include <utilitieslib/components/earray.h>
 #include "entity/character_base.h"
 
@@ -17,7 +17,7 @@
 #ifdef SERVER
 #include "storyarc/storyinfo.h"
 #include "storyarc/storyarcprivate.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/entityRef.h"
 #endif
 

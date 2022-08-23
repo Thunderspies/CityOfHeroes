@@ -11,7 +11,7 @@
 #include "ai/entai.h"
 #include "ai/entaiLog.h"
 #include "ai/entaivars.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "entGameActions.h"
 #include "dbcomm/dbcomm.h"
 #include "dbghelper.h"

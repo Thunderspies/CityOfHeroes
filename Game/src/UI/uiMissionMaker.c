@@ -4,13 +4,13 @@
 #include "gameComm/wdwbase.h"
 #include <utilitieslib/utils/utils.h>
 #include "comm_game.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/sysutil.h>
 #include "player/player.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 
 #include "graphics/textureatlas.h"
 #include "win/input.h"
@@ -25,7 +25,7 @@
 #include "UI/uiTabControl.h"
 #include "UI/uiUtilMenu.h"
 #include "UI/uiInput.h"
-#include "uiEdit.h"
+#include "UIEdit.h"
 #include "UI/uiPetition.h"
 #include "UI/uiClipper.h"
 #include "UI/uiOptions.h"
@@ -33,7 +33,7 @@
 #include "UI/uiNet.h"
 #include "UI/uiTarget.h"
 #include "UI/uiLogin.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "uiScrollSelector.h"
 #include "UI/uiLogin.h"
 #include "UI/uiNet.h"
@@ -48,13 +48,13 @@
 #include "UI/sprite/sprite_font.h"
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_base.h"
-#include <utilitieslib/components/estring.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/EString.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/textparserUtils.h>
 #include <utilitieslib/utils/tokenstore.h>
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "storyarc/pnpcCommon.h"
 #include "graphics/seqgraphics.h"
 #include <utilitieslib/utils/SimpleParser.h>
@@ -84,7 +84,7 @@
 #include <utilitieslib/language/AppLocale.h>
 #include <zlib/zlib.h>
 
-#include "AutoGen/playerCreatedStoryArcValidate_h_ast.h"
+#include "AutoGen/playerCreatedStoryarcValidate_h_ast.h"
 #include "AutoGen/uiMissionMakerScrollSet_h_ast.h"
 
 static int s_CompressCrittersForTextFile = 0;

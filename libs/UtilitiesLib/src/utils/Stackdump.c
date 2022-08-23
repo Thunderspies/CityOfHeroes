@@ -1,5 +1,5 @@
-#include <crashrpt/stackwalk.h>
-#include "utilitieslib/utils/stackdump.h"
+#include <crashrpt/Stackwalk.h>
+#include "utilitieslib/utils/Stackdump.h"
 #include "utilitieslib/utils/wininclude.h"
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/utils/SuperAssert.h"

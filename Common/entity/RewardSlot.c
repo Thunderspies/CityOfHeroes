@@ -6,7 +6,7 @@
 #include "entity/RewardSlot.h"
 #include <utilitieslib/components/MemoryPool.h>
 #include "entity/salvage.h"
-#include "entity/concept.h"
+#include "entity/Concept.h"
 #include "entity/Proficiency.h"
 #include <utilitieslib/network/net_packet.h>
 #include <utilitieslib/utils/textparser.h>

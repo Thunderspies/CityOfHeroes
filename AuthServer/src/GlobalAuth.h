@@ -10,7 +10,7 @@
 #define CONFIG_FILENAME     "etc/config.txt"
 
 #include <winsock2.h>
-#include <Mswsock.h>
+#include <mswsock.h>
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>
@@ -35,14 +35,14 @@
 #include <cassert>
 
 #include "XTREE"
-#include "exception.h"
+#include "Exception.h"
 #include "Protocol.h"
-#include "log.h"
-#include "memory.h"
+#include "Log.h"
+#include "Memory.h"
 #include "Reporter.h"
 #include "Des.h"
 #include "AuthType.h"
-#include "lock.h"
+#include "Lock.h"
 
 
 #ifdef DEBUG_MEMORY

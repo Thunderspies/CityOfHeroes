@@ -6,7 +6,7 @@
 //
 // NCsoft - modified for use on PC
 //--------------------------------------------------------------------------------------
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "SymbolHelper.h"
 #include <string>
 #include <dbghelp.h>

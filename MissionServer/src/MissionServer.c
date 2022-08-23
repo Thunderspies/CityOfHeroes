@@ -3728,7 +3728,7 @@ void missionserver_init(void)
 #define REBUILD_BY_HONORS 0
 
 #if FIX_CHAT_HANDLES
-    #include "../common/chatdb.h"
+    #include "../Common/chatdb.h"
 
     ParseTable parse_email[] = {
         { "From",            TOK_INT(Email,from,0)    },

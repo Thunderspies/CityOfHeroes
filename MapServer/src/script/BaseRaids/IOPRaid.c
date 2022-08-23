@@ -8,13 +8,13 @@
 #include "bases/basesystems.h"
 #include "bases/basedata.h"
 #include <utilitieslib/components/earray.h>
-#include "gameComm/villaindef.h"
+#include "gameComm/VillainDef.h"
 #include "gameSys/sgraid.h"
 #include <utilitieslib/utils/error.h>
 #include "ai/entai.h"
 #include "entity/entity.h"
 #include "entity/entserver.h"
-#include "ai/entaiscript.h"
+#include "ai/entaiScript.h"
 #include "script/scriptengine.h"
 #include "gameComm/dooranimcommon.h"
 #include "svr/svr_player.h"

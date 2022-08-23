@@ -22,7 +22,7 @@
 #include "UI/uiInput.h"
 #include "graphics/seqgraphics.h"
 #include "graphics/ttFont.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/powers.h"
 #include "entity/origins.h"
 #include "filter/titles.h"
@@ -32,9 +32,9 @@
 #include "cmdparse/cmdgame.h"    // for editnpc
 #include "cmdparse/cmdcommon.h"  // for timestep
 #include "entity/entclient.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/input.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "graphics/font.h"
 #include "sound/sound.h"
 #include "UI/uiNet.h"
@@ -48,7 +48,7 @@
 #include "UI/uiFocus.h"
 #include <utilitieslib/utils/utils.h>
 #include "UI/uiComboBox.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "formatter/smf_main.h"
 #include "graphics/ttFontUtil.h"
 #include "graphics/textureatlas.h"

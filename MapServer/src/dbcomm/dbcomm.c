@@ -16,7 +16,7 @@
 #include <utilitieslib/utils/error.h>
 #include "dbghelper.h"
 #include "storyarc/storyarcinterface.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "svr/svr_player.h"
 #include <utilitieslib/network/sock.h>
 #include <utilitieslib/network/netcomp.h>
@@ -26,7 +26,7 @@
 #include "logcomm.h"
 #include "container/mapgroup.h"
 #include "gameSys/arenamapserver.h"
-#include "gameSys/turnstile.h"
+#include "gameSys/Turnstile.h"
 #include "shardcomm.h"
 #include "chatdb.h"
 #include "entity/entity.h"
@@ -36,7 +36,7 @@
 #include <utilitieslib/utils/memlog.h>
 #include <utilitieslib/utils/RegistryReader.h>
 #include "dbbackup.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "container/containerEmail.h"
 #include "storyarc/missionServerMapTest.h"
 #include "svr/svr_base.h"
@@ -44,7 +44,7 @@
 #include "entity/character_base.h"
 #include <utilitieslib/version/AppVersion.h>
 #include <utilitieslib/utils/sysutil.h>
-#include "container/eventHistory.h"
+#include "container/EventHistory.h"
 #include "entity/character_workshop.h"
 #include "entity/character_combat.h"
 #include "entity/character_net_server.h"
@@ -59,7 +59,7 @@
 #include "auth/authUserData.h"
 #include "storyarc/playerCreatedStoryarcServer.h"
 #include "gameComm/sendToClient.h"
-#include "script/ZoneEvents/scriptedzoneevent.h"
+#include "script/ZoneEvents/ScriptedZoneEvent.h"
 #include "bases/DetailRecipe.h"
 #include "gameComm/svr_chat.h"
 #include "cmdparse/cmdserver.h"

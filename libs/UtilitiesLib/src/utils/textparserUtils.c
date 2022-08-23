@@ -1,6 +1,6 @@
 
 #include "utilitieslib/utils/textparserUtils.h"
-#include "utilitieslib/components/stringcache.h"
+#include "utilitieslib/components/StringCache.h"
 #include "utilitieslib/utils/textparser.h"
 #include "utilitieslib/utils/mathutil.h"
 #include "utilitieslib/utils/SuperAssert.h"
@@ -11,11 +11,11 @@
 #include "utilitieslib/utils/structInternals.h"
 #include "utilitieslib/utils/structTokenizer.h"
 #include "utilitieslib/utils/tokenstore.h"
-#include "utilitieslib/components/stashtable.h"
+#include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/components/earray.h"
-#include "utilitieslib/utils/structnet.h"
+#include "utilitieslib/utils/structNet.h"
 #include "utilitieslib/utils/strings_opt.h"
-#include "utilitieslib/components/memorypool.h"
+#include "utilitieslib/components/MemoryPool.h"
 
 #define PARSEINFO_ROOTNAME "root"
 

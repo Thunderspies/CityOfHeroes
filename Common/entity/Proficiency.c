@@ -9,9 +9,9 @@
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/textparser.h> // for TokenizerParseInfo
-#include "entity/concept.h"
+#include "entity/Concept.h"
 #include "entity/character_inventory.h"
 #include <utilitieslib/components/earray.h>
 

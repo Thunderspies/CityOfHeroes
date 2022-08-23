@@ -18,7 +18,7 @@
 #include <utilitieslib/utils/mathutil.h>
 #include "demo.h"
 #include "UI/uiCursor.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/sysutil.h>
 
 int show_console=0;

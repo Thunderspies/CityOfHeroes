@@ -1,6 +1,6 @@
 #include "UI/uiClipper.h"
-#include <utilitieslib/components/memorypool.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/MemoryPool.h>
+#include <utilitieslib/components/earray.h>
 #include "uiListView.h"        // For UIBox stuff.  Move it out of that file.
 #include "win/win_init.h"
 #include "UI/sprite/sprite_base.h"

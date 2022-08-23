@@ -33,7 +33,7 @@
 #include "entity/entGameActions.h"
 #include "player/playerState.h"
 #include <utilitieslib/components/earray.h>
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "cmdparse/cmdserver.h"
 #include "cmdparse/cmdservercsr.h"
 #include "storyarc/storyarcprivate.h"
@@ -67,7 +67,7 @@
 #include "cmdparse/autoCommands.h"
 #include <utilitieslib/utils/log.h>
 #include "dbcomm/logcomm.h"
-#include "gameSys/turnstile.h"
+#include "gameSys/Turnstile.h"
 #include "auth/authUserData.h"
 
 int bad_db_id=0;

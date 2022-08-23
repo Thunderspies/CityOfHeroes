@@ -14,7 +14,7 @@
 #include <utilitieslib/network/rsa.h>
 #include <utilitieslib/network/bignum.h>
 #include <utilitieslib/network/netio.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/network/ftpclient.h>
 #include "getopt.h"
 #include <utilitieslib/network/net_packet.h>

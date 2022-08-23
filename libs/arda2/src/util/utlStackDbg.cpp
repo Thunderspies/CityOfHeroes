@@ -19,7 +19,7 @@
 #include <stdio.h>
 
 //#include <string.h>
-#include <DbgHelp.h>
+#include <dbghelp.h>
 
 // ======================================================================
 

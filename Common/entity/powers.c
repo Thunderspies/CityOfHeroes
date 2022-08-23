@@ -32,7 +32,7 @@
 #include <utilitieslib/utils/log.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/components/SharedMemory.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 #ifdef CLIENT
 #include "graphics/textureatlas.h"

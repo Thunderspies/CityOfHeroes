@@ -9,7 +9,7 @@
 #include <stdlib.h> // for offsetof
 
 #include "entity/boost.h"
-#include <utilitieslib/utils/color.h>
+#include <utilitieslib/utils/Color.h>
 #include "entity/power_system.h"
 
 // POWERS_PARSE_INFO_DEFINITIONS must be defined before including this file

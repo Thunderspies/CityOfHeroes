@@ -2,7 +2,7 @@
 #include <utilitieslib/stdtypes.h>
 #include "entai.h"
 #include "entaiLog.h"
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 
 #include "beacon/beaconConnection.h"
 #include "beacon/beaconPath.h"

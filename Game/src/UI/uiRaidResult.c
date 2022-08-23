@@ -7,7 +7,7 @@
 #include "UI/uiUtil.h"
 #include <utilitieslib/utils/qsortG.h>
 #include "entity/gametypes.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_font.h"

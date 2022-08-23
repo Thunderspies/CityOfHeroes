@@ -4,7 +4,7 @@
 //
 
 #include "script/scriptutil.h"
-#include "scriptui.h"
+#include "ScriptUI.h"
 
 #define COVBLOODYBAYORETOKEN_NUM    6
 char *CoVBloodyBayOreTokens[] =

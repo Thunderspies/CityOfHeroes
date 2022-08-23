@@ -33,7 +33,7 @@
 
 #include "render/thread/ogl.h"
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/osdependent.h>
 
 static void VisualInfo(HDC dc);

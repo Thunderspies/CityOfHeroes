@@ -7,7 +7,7 @@
 #include "UI/sprite/sprite_font.h"
 
 #include "win/input.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/win_init.h" // for windowClientSize
 #include "player/player.h"      // for playerPtr
 #include "graphics/font.h"
@@ -32,13 +32,13 @@
 #include "UI/Hybrid/uiRedirect.h"
 #include "UI/Hybrid/uiArchetype.h"
 #include "entity/classes.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 
 #include "entity/origins.h"
 #include "clientcomm/dbclient.h"
 #include "auth/authUserData.h"
-#include "clientComm/authclient.h"
-#include "entity/EntPlayer.h"
+#include "clientcomm/authclient.h"
+#include "entity/entPlayer.h"
 #include "entity/entity.h"
 #include "gameComm/initClient.h"
 #include "LWC.h"

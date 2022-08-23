@@ -5,7 +5,7 @@
  ***************************************************************************/
 
 #include "entity/entclient.h"      // for entfromid
-#include "entity/EntPlayer.h"      // for entfromid
+#include "entity/entPlayer.h"      // for entfromid
 #include "graphics/ttFont.h"
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_text.h"
@@ -27,7 +27,7 @@
 #include "player/pmotion.h"
 #include "entity/character_base.h"
 #include "entity/origins.h"
-#include "gameComm/npc.h"            // for npcDefList.npcDefs
+#include "gameComm/Npc.h"            // for npcDefList.npcDefs
 #include "UI/uiReticle.h"
 #include "graphics/ttFontUtil.h"
 #include "UI/uiUtil.h"

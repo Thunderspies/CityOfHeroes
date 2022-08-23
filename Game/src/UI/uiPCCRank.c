@@ -14,7 +14,7 @@
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_font.h"
 #include "graphics/textureatlas.h"
-#include <utilitieslib/components/estring.h>                //    estrings
+#include <utilitieslib/components/EString.h>                //    estrings
 
 #include "cmdparse/cmdgame.h"                //    game commands
 #include "sound/sound.h"                    //    to play sounds
@@ -23,7 +23,7 @@
 #include "entity/entity.h"                    //    for pchar
 #include "entity/character_base.h"            //    for pclass
 #include "UI/uiAvatar.h"                //    AVATAR genders
-#include "entity/EntPlayer.h"                //    for pl
+#include "entity/entPlayer.h"                //    for pl
 #include "entity/powers.h"
 #include "uiPCCCreationNLM.h"        //    for pcc creation menu
 #include "entity/costume_client.h"

@@ -6,9 +6,9 @@
 #include <stdio.h>
 
 #include "entity/entity.h"
-#include "entity/entServer.h" // for entGetName
+#include "entity/entserver.h" // for entGetName
 #include "entity/powers.h"
-#include "gameComm/villaindef.h"
+#include "gameComm/VillainDef.h"
 #include "generator/encounterPrivate.h"
 #include <utilitieslib/utils/strings_opt.h>
 

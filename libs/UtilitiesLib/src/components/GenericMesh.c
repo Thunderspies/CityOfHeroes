@@ -1,7 +1,7 @@
 #include "utilitieslib/components/GenericMesh.h"
 #include "utilitieslib/utils/mathutil.h"
 #include "utilitieslib/utils/SuperAssert.h"
-#include "utilitieslib/utils/Error.h"
+#include "utilitieslib/utils/error.h"
 #include "utilitieslib/utils/memcheck.h"
 
 #if 0

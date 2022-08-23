@@ -1,13 +1,13 @@
 #include "utilitieslib/utils/textparser.h"
-#include "utilitieslib/utils/superassert.h"
-#include "utilitieslib/components/memorypool.h"
+#include "utilitieslib/utils/SuperAssert.h"
+#include "utilitieslib/components/MemoryPool.h"
 #include "utilitieslib/components/earray.h"
 #include <stdio.h>
 #include <string.h>
 #include "utilitieslib/utils/RegistryReader.h"
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/utils/error.h"
-#include "utilitieslib/utils/textparserutils.h"
+#include "utilitieslib/utils/textparserUtils.h"
 
 
 // key should be either a full key "HKEY_CURRENT_USER\\SOFTWARE\\Cryptic\\Coh" or just the post-cryptic bit, "Coh"

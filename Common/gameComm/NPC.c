@@ -1,4 +1,4 @@
-#include "gameComm/npc.h"        // For NPC structure defintion
+#include "gameComm/Npc.h"        // For NPC structure defintion
 
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/error.h>
@@ -7,7 +7,7 @@
 #include "entity/costume.h"
 
 // For character stat assignment
-#include "entity/Entity.h"
+#include "entity/entity.h"
 #include "entity/character_base.h"    // For character structure definition
 #include "entity/classes.h"    // For character class initialization
 #include "entity/origins.h"    // For character origin initialization
@@ -21,7 +21,7 @@
 #include <string.h>
 
 #if CLIENT
-#include "clienterror.h"
+#include "clientError.h"
 #include "entity/entclient.h"
 #include "storyarc/playerCreatedStoryarcClient.h"
 #endif

@@ -11,7 +11,7 @@
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/assert/assert.h>
 
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 
 #include "player/badges.h"
 #include "BadgeStats.h"

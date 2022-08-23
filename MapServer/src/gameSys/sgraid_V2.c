@@ -14,7 +14,7 @@
 #include <utilitieslib/utils/structoldnames.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "group/group.h"
 #include "bases/basedata.h"
 #include "bases/bases.h"
@@ -25,8 +25,8 @@
 #include "script/scriptengine.h"
 #include "dbcomm/dbcontainer.h"
 #include "comm_backend.h"
-#include "entity/supergroup.h"
-#include "ai/entaiscript.h"
+#include "entity/Supergroup.h"
+#include "ai/entaiScript.h"
 #include "svr/svr_player.h"
 #include "sgraid_V2.h"
 #include "gameData/iopdata.h"

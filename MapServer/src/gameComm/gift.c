@@ -15,7 +15,7 @@
 #include "entity/character_combat.h"
 #include "gameComm/trayCommon.h"
 #include <utilitieslib/utils/mathutil.h>
-#include "gamesys/arenamap.h"
+#include "gameSys/arenamap.h"
 #include "entity/entserver.h"
 #include "entity/character_target.h"
 #include "entity/character_inventory.h"

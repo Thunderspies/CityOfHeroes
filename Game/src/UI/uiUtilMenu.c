@@ -20,12 +20,12 @@
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/utils/utils.h>
 #include "UI/uiUtilGame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiWindows.h"
 #include "auth/authUserData.h"
 #include "UI/uiLogin.h"
 #include "win/win_init.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include <utilitieslib/version/AppRegCache.h>
 #include "entity/entity.h"
 #include "player/player.h"

@@ -15,9 +15,9 @@
 #include "entity/powers.h"
 #include "player/player.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "character.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entVarUpdate.h"
 #include "clientcomm/clientcomm.h"
 #include "cmdparse/cmdcommon.h"
@@ -38,7 +38,7 @@
 #include <utilitieslib/language/MessageStore.h>
 
 #include <utilitieslib/utils/strings_opt.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "formatter/smf_main.h"
 #include "graphics/groupThumbnail.h"
 #include "bases/bases.h"
@@ -49,11 +49,11 @@
 #include <utilitieslib/components/HashFunctions.h>
 #include "entity/boostset.h"
 #include <utilitieslib/components/StashTable.h>
-#include "entity/rewardtoken.h"
+#include "entity/RewardToken.h"
 #include "storyarc/playerCreatedStoryarc.h"
 
 #include "UI/uiCursor.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiUtil.h"
 #include "UI/uiUtilGame.h"
 #include "UI/uiWindows.h"
@@ -67,7 +67,7 @@
 #include "UI/uiScrollBar.h"
 #include "UI/uiInput.h"
 #include "UI/uiOptions.h"
-#include "uiGift.h"
+#include "UI/uiGift.h"
 #include "uiCombineSpec.h"
 #include "UI/uiEnhancement.h"
 #include "uiTree.h"

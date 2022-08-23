@@ -71,7 +71,7 @@ STATIC_ASSERT(!(sizeof(ArrayHdr)%sizeof(void*))); // alignment
 
 #define TYPE_T void*
 #define TYPE_FUNC_PREFIX ap
-#include "array_def.h"
+#include "Array_def.h"
 #undef TYPE_T
 #undef TYPE_FUNC_PREFIX
 
@@ -103,7 +103,7 @@ STATIC_ASSERT(!(sizeof(ArrayHdr)%sizeof(void*))); // alignment
 
 #define TYPE_T char
 #define TYPE_FUNC_PREFIX achr
-#include "array_def.h"
+#include "Array_def.h"
 #undef TYPE_T
 #undef TYPE_FUNC_PREFIX
 
@@ -122,7 +122,7 @@ STATIC_ASSERT(!(sizeof(ArrayHdr)%sizeof(void*))); // alignment
 
 #define TYPE_T int
 #define TYPE_FUNC_PREFIX aint
-#include "array_def.h"
+#include "Array_def.h"
 #undef TYPE_T
 #undef TYPE_FUNC_PREFIX
 

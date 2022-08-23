@@ -16,9 +16,9 @@
 #include "game.h"
 #include "formatter/smf_util.h"
 #include "formatter/smf_main.h"
-#include "graphics\textureatlas.h"
+#include "graphics/textureatlas.h"
 #include "graphics/seqgraphics.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entity.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "sound/sound.h"
@@ -26,12 +26,12 @@
 #include "UI/uiGame.h"
 #include "cmdparse/cmdgame.h"
 #include "UI/uiInput.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "filter/validate_name.h"
 #include "filter/profanity.h"
 #include "storyarc/playerCreatedStoryarcValidate.h"
-#include "UI/uidialog.h"
-#include "gameComm/villainDef.h"
+#include "UI/uiDialog.h"
+#include "gameComm/VillainDef.h"
 #include "uiPCCProfile.h"
 #include "entity/powers.h"
 #include "uiNPCCreationNLM.h"

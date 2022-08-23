@@ -18,7 +18,7 @@
 #include "utilitieslib/utils/textparser.h"
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/utils.h"
-#include "utilitieslib/utils/foldercache.h"
+#include "utilitieslib/utils/FolderCache.h"
 
 // NOTE: in future, if more flexibility is required, we can
 // separate INCLUDE handling to a layer above tokenizer.

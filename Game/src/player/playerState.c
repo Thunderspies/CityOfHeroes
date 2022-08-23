@@ -20,7 +20,7 @@
 #include "clientcomm/clientcomm.h"
 #include "UI/uiChat.h"
 #include "UI/uiCursor.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiStatus.h"
 #include "UI/uiInput.h"
 #include "player/pmotion.h"

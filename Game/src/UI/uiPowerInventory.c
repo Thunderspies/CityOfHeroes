@@ -7,7 +7,7 @@
 
 #include <utilitieslib/assert/assert.h>
 
-#include <utilitieslib/components/Earray.h>         // for StructGetNum
+#include <utilitieslib/components/earray.h>         // for StructGetNum
 #include <utilitieslib/utils/mathutil.h>
 #include "sound/sound.h"
 #include "player/player.h"
@@ -20,7 +20,7 @@
 #include "cmdparse/cmdcommon.h"      // for TIMESTEP
 #include "entity/attrib_names.h"
 #include "bases/DetailRecipe.h"
-#include "language\langClientUtil.h"
+#include "language/langClientUtil.h"
 
 #include "UI/sprite/sprite_font.h"    // for font definitions
 #include "UI/sprite/sprite_text.h"    // for font functions
@@ -42,7 +42,7 @@
 #include "UI/uiToolTip.h"
 #include "UI/uiContextMenu.h"
 #include "UI/uiPet.h"
-#include "uiGift.h"
+#include "UI/uiGift.h"
 
 #include "UI/uiPowerInventory.h"
 #include "clientcomm/clientcomm.h"
@@ -51,7 +51,7 @@
 #include "entity/entity_power_client.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "player/badges.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 
 //------------------------------------------------------------------------------------------------------------
 // Definitions ///////////////////////////////////////////////////////////////////////////////////////////////

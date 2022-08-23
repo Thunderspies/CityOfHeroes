@@ -1,5 +1,5 @@
 #include "utilitieslib/components/ReferenceList.h"
-#include "utilitieslib/components/EArray.h"
+#include "utilitieslib/components/earray.h"
 #include "utilitieslib/assert/assert.h"
 
 typedef union ReferenceImp {

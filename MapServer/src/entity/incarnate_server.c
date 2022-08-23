@@ -12,7 +12,7 @@
 #include "gameComm/svr_chat.h"
 #include "gameComm/sendToClient.h"
 #include "dbcomm/dbcomm.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/structDefines.h>
 
 SHARED_MEMORY IncarnateMods g_IncarnateMods;

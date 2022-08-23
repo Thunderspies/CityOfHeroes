@@ -1,5 +1,5 @@
 #include "uiNewFeatures.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 #include "gameComm/wdwbase.h"
 #include "UI/uiWindows.h"
 #include "UI/uiInput.h"
@@ -10,7 +10,7 @@
 #include "UI/sprite/sprite_font.h"
 #include <utilitieslib/components/StringCache.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "UI/uiNet.h"
 #include <utilitieslib/utils/timing.h>

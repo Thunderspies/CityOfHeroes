@@ -3,7 +3,7 @@
 #include <utilitieslib/utils/memcheck.h>
 #include "assert.h"
 #include <utilitieslib/utils/error.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 #include "cmdparse/cmdgame.h"
 #include "graphics/gfxwindow.h"

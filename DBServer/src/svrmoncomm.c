@@ -1,7 +1,7 @@
 #define SVRMONCOMM_PARSE_INFO_DEFS
 #include "svrmoncomm.h"
 #include "accountservercomm.h"
-#include "auction/auction.h"
+#include "auction/Auction.h"
 #include "dbserver/auctionservercomm.h"
 #include <utilitieslib/utils/error.h>
 #include "comm_backend.h"
@@ -12,7 +12,7 @@
 #include <utilitieslib/components/StashTable.h>
 #include "dbdispatch.h"
 #include "launchercomm.h"
-#include <utilitieslib/Version/AppVersion.h>
+#include <utilitieslib/version/AppVersion.h>
 #include "clientcomm.h"
 #include <utilitieslib/utils/timing.h>
 #include "container/containerbroadcast.h"
@@ -22,7 +22,7 @@
 #include "statservercomm.h"
 #include "beaconservercomm.h"
 #include "missionservercomm.h"
-#include "turnstiledb.h"
+#include "turnstileDb.h"
 #include <utilitieslib/utils/log.h>
 #include "overloadProtection.h"
 #include "waitingEntities.h"

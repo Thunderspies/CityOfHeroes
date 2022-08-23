@@ -28,7 +28,7 @@ connection plan:
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/version/AppVersion.h>
 #include <utilitieslib/components/SharedHeap.h>
-#include "Launcher_enum.h"
+#include "launcher_enum.h"
 #include <utilitieslib/utils/cpu_count.h>
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/version/AppRegCache.h>

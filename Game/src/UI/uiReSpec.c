@@ -18,7 +18,7 @@
 #include "UI/uiCursor.h"
 #include "uiPowers.h"
 #include "UI/uiTray.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiLevelPower.h"
 #include "UI/uiLevelSpec.h"
 #include "uiCombineSpec.h"
@@ -50,14 +50,14 @@
 #include "entity/origins.h"
 #include "entity/classes.h"
 #include "entity/powers.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/entVarUpdate.h"
 #include "entity/character_base.h"
 #include "entity/character_level.h"
 #include "entity/character_net.h"
 #include "entity/PowerInfo.h"
 #include "clientcomm/clientcomm.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiToolTip.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/utils/file.h>

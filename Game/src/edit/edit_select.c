@@ -28,10 +28,10 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/components/StashTable.h>
 #include "editorUI.h"
-#include "properties.h"
+#include "Properties.h"
 #include "edit/edit_library.h"
 #include "group/groupfileload.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 Vec3        quickPlacementRotateNormal;
 

@@ -12,7 +12,7 @@
  */
 
 #include "entity/entity.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "gameData/store.h"
 #include "storyarc/contact.h"
 #include "gameData/store_net.h"
@@ -31,10 +31,10 @@
 #include "storyarc/dialogdef.h"
 #include <utilitieslib/components/HashFunctions.h>
 #include "entity/character_eval.h"
-#include "reward.h"
+#include "Reward.h"
 #include "dbcomm/logcomm.h"
 
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 
 // *********************************************************************************
 //  S C R I P T    D A T A

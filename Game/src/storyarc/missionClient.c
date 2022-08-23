@@ -5,7 +5,7 @@
 #include "UI/uiAutomap.h"
 #include "cmdparse/cmdgame.h"
 #include "bases/bases.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/utils/utils.h>
 

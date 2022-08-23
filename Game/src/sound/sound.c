@@ -16,12 +16,12 @@
 #include <utilitieslib/utils/error.h>
 #include "graphics/font.h"
 #include "UI/uiGame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/FolderCache.h>
 #include <dsound.h>
 #include "player/player.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/motion.h"
 #include "auth/authUserData.h"
 #include <utilitieslib/utils/strings_opt.h>

@@ -1,6 +1,6 @@
 
-#include "entaiPrivate.h"
-#include "gameComm/npc.h"
+#include "entaiprivate.h"
+#include "gameComm/Npc.h"
 #include "entity/entity.h"
 #include "cmdparse/cmdcommon.h"
 #include <utilitieslib/utils/utils.h>

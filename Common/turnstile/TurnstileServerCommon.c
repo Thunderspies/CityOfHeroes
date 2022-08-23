@@ -13,8 +13,8 @@
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/network/sock.h>
 #include <utilitieslib/assert/assert.h>
-#include "entity/teamcommon.h"
-#include "turnstileservercommon.h"
+#include "entity/teamCommon.h"
+#include "TurnstileServerCommon.h"
 #include <math.h>
 #if SERVER
 #include "entity/character_eval.h"

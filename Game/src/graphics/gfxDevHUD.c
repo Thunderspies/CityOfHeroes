@@ -14,7 +14,7 @@
 #include "render/renderUtil.h"
 #include "UI/sprite/sprite_base.h"
 #include "graphics/textureatlas.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 #include "win/win_init.h"
 #include "UI/uiGame.h"
 #include "UI/uiCursor.h"

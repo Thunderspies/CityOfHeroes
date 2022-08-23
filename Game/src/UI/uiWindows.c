@@ -13,7 +13,7 @@
 #include "clientcomm/clientcomm.h"
 
 #include "entity/character_base.h"
-#include "arena/ArenaGame.h"
+#include "arena/arenagame.h"
 
 #include "UI/uiPet.h"
 #include "UI/uiNet.h"
@@ -36,7 +36,7 @@
 #include "winuser.h"
 #include "UI/uiWindows.h"
 #include "UI/uiWindows_init.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 
 #include "graphics/ttFontUtil.h"
 #include "UI/sprite/sprite_base.h"
@@ -54,10 +54,10 @@
 #include "entity/entity.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "bases/baseedit.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
 #include "edit/edit_cmd.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiTraySingle.h"
 
 #include <utilitieslib/language/MessageStoreUtil.h>

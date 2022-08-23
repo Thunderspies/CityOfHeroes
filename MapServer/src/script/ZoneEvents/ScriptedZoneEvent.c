@@ -16,8 +16,8 @@
 #include <utilitieslib/components/StashTable.h>
 #include "malloc.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "scriptedzoneevent.h"
-#include "script/scripthook/ScriptHookInternal.h"
+#include "ScriptedZoneEvent.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 #include "entity/character_karma.h"
 #include "ScriptedZoneEventKarma.h"
 #include "cmdparse/cmdserver.h"
@@ -26,7 +26,7 @@
 #include "entity/character_inventory.h"
 #include "group/groupdbmodify.h"
 #include <utilitieslib/utils/log.h>
-#include "gameSys/turnstile.h"
+#include "gameSys/Turnstile.h"
 #include "player/pmotion.h"
 
 #include "AutoGen/ScriptedZoneEvent_c_ast.h"

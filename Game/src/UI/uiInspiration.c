@@ -14,7 +14,7 @@
 #include "UI/uiTrade.h"
 #include "UI/uiContextMenu.h"
 #include "UI/uiWindows_init.h"
-#include "uiGift.h"
+#include "UI/uiGift.h"
 
 #include "entity/character_base.h"
 #include "gameComm/wdwbase.h"
@@ -40,12 +40,12 @@
 #include <utilitieslib/utils/strings_opt.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/teamCommon.h"
 #include "entity/TaskforceParams.h"
 #include "UI/uiInspiration.h"
 #include "UI/uiAuction.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "auction/AuctionData.h"
 //-----------------------------------------------------------------------------------------
 

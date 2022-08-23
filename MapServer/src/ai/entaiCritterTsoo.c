@@ -1,5 +1,5 @@
 #include "entaiCritterPrivate.h"
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "entaiCritterPrivate.h"
 #include "beacon/beaconPrivate.h"
 #include "entity/entserver.h"

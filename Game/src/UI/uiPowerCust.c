@@ -5,18 +5,18 @@
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/sysutil.h>
 
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 #include "entity/character_animfx_client.h"
 #include "cmdparse/cmdgame.h"
 #include "entity/costume_client.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/entclient.h"
 #include "entity/entity.h"
 #include "graphics/font.h"
 #include "graphics/FX/fx.h"
 #include "win/input.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "player/player.h"
 #include "entity/power_customization.h"
 #include "entity/powers.h"
@@ -31,7 +31,7 @@
 #include "graphics/ttFontUtil.h"
 #include "UI/uiAvatar.h"
 #include "UI/uiCostume.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiGame.h"
 #include "UI/uiGender.h"
 #include "UI/uiInput.h"
@@ -45,7 +45,7 @@
 #include "UI/uiUtilMenu.h"
 #include "UI/uiScrollBar.h"
 #include "UI/uiClipper.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "entity/character_eval.h"
 #include "entity/character_combat_eval.h"
 

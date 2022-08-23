@@ -6,7 +6,7 @@
 #include <utilitieslib/assert/assert.h>
 
 #include <utilitieslib/utils/error.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 #include "entity/entity.h"
 #include "seq/seqstate.h"      // for SeqStateNames

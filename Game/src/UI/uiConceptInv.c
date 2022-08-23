@@ -8,10 +8,10 @@
 #include "uiGrowBig.h"
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/powers.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/badges.h"
 #include "player/badges_client.h"
 
@@ -43,7 +43,7 @@
 #include <utilitieslib/utils/mathutil.h>
 
 #include <utilitieslib/language/MessageStore.h>
-#include "entity/concept.h"
+#include "entity/Concept.h"
 #include "entity/character_base.h"
 #include "entity/character_inventory.h"
 #include "UI/uiComboBox.h"

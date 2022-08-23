@@ -1,7 +1,7 @@
 
 #include <utilitieslib/stdtypes.h>
 #include "ailib/aiBehaviorPublic.h"
-#include "ai/entaiPrivate.h"
+#include "ai/entaiprivate.h"
 #include "beacon/beaconPath.h"
 #include "ai/entaiPriority.h"
 #include "generator/encounter.h"
@@ -12,7 +12,7 @@
 #include "seq/seqstate.h"
 #include "seq/seq.h"
 #include "entity/entity.h"
-#include "gridcoll/megagrid.h"
+#include "gridcoll/megaGrid.h"
 #include "cmdparse/cmdcommon.h"
 #include "entity/character_base.h"
 #include "cmdparse/cmdserver.h"

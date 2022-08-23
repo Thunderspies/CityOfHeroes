@@ -3,7 +3,7 @@
  *     All Rights Reserved
  *     Confidential Property of Cryptic Studios
 ***************************************************************************/
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiWindows.h"
 #include "UI/uiGroupWindow.h"
 #include "UI/uiTarget.h"
@@ -30,7 +30,7 @@
 #include "UI/uiToolTip.h"
 #include "UI/uiContextMenu.h"
 #include "entity/powers.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "language/langClientUtil.h"
 #include "cmdparse/cmdgame.h"
 #include "gameComm/itemselect.h"
@@ -44,15 +44,15 @@
 #include "win/win_init.h"
 #include "entity/teamCommon.h"
 #include "UI/uiTray.h"
-#include "uiGift.h"
+#include "UI/uiGift.h"
 #include "UI/uiBuff.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "arena/arenagame.h"
-#include "uiLeague.h"
+#include "UI/uiLeague.h"
 #include "UI/uiTabControl.h"
 #include "UI/uiLfg.h"
 #include "UI/uiClipper.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/character_target.h"
 
 #define MAX_MEMBER_TIPS 2

@@ -1,8 +1,8 @@
 #include "logParser3.h"
 #include <utilitieslib/utils/wininclude.h> //for threads
-#include "logSearch.h"
-#include "logTime.h"
-#include "logPattern.h"
+#include "LogSearch.h"
+#include "LogTime.h"
+#include "LogPattern.h"
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/utils.h>
 #include "LogConfig.h"

@@ -3,7 +3,7 @@
 
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/components/MemoryPool.h"
-#include "utilitieslib/components/stashtable.h"
+#include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/components/StringCache.h"
 
 typedef struct AIMessage

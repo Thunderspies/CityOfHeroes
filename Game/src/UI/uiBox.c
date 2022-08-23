@@ -6,7 +6,7 @@
 #include "UI/uiUtilGame.h"
 #include "UI/uiUtil.h"
 #include <stdlib.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include "UI/sprite/sprite_base.h"
 
 MP_DEFINE(UIBox);

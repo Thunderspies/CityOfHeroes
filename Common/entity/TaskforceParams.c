@@ -25,7 +25,7 @@
 #include "storyarc/taskforce.h"
 #include "dbcomm/dbcontainer.h"
 #include "container/containerbroadcast.h"
-#include "gamecomm/VillainDef.h"
+#include "gameComm/VillainDef.h"
 #include "ai/entai.h"
 #include <utilitieslib/utils/textparser.h>
 #include "entity/LoadDefCommon.h"

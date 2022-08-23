@@ -2,7 +2,7 @@
 // This script will give a power to a player when they enter the map and meet the requirements
 //
 #include "script/scriptutil.h"
-#include "script/scripthook/ScriptHookReward.h"
+#include "script/Scripthook/ScriptHookReward.h"
 
 // called when the player enters the map
 int OnEnterGrantPowerTest(ENTITY player)

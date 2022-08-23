@@ -1,5 +1,5 @@
 #include "ScriptUI.h"
-#include "entity/Entity.h"
+#include "entity/entity.h"
 #include "svr/svr_base.h"
 #include "comm_game.h"
 #include "TeamReward.h"

@@ -2,12 +2,12 @@
 #include <utilitieslib/stdtypes.h>
 #include <winsock2.h>
 #include <windows.h>
-#include <CommCtrl.h>
+#include <commctrl.h>
 #include "resource.h"
 #include <string.h>
 #include <stdio.h>
 #include "TestClientLauncher.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 #include <utilitieslib/utils/winutil.h>
 #include "DlgText.h"
 #include "DlgMain.h"
@@ -20,7 +20,7 @@
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/utils/StringUtil.h>
-#include "TCHAR.H"
+#include "tchar.h"
 #undef fopen
 
 #pragma comment (lib, "comctl32.lib")

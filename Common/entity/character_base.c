@@ -10,7 +10,7 @@
 
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/genericlist.h>
 
 #include "entity/entity.h"
@@ -24,13 +24,13 @@
 #include "entity/PowerInfo.h"
 #include "entity/powers.h"
 #include <utilitieslib/utils/error.h>
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "auth/authUserData.h"
 #include "entity/motion.h"
 #include "gameComm/trayCommon.h"
 #include <utilitieslib/components/MemoryPool.h>
 #include "entity/Proficiency.h"
-#include "entity/concept.h"
+#include "entity/Concept.h"
 #include "bases/DetailRecipe.h"
 #include "gameData/mininghelper.h"
 #include "entity/boostset.h"
@@ -45,7 +45,7 @@
 #include "entity/incarnate.h"
 
 #if SERVER
-#include "entity/EntGameActions.h"
+#include "entity/entGameActions.h"
 #include "entity/character_pet.h"
 #include "entity/character_combat.h"
 #include "entity/character_animfx.h"
@@ -53,8 +53,8 @@
 #include "entity/character_tick.h"
 #include "dbcomm/logcomm.h"
 #include "dbcomm/dbcomm.h"
-#include "DbgHelper.h"
-#include <utilitieslib/components/estring.h>
+#include "dbghelper.h"
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/file.h>
 #include "comm_game.h"
 #include "language/langServerUtil.h"
@@ -63,7 +63,7 @@
 #include "character_karma.h"
 #include "gameComm/NpcServer.h"
 #include "dbcomm/staticMapInfo.h"
-#include "gamesys/turnstile.h"
+#include "gameSys/Turnstile.h"
 #include "entity/incarnate_server.h"
 #include "bases/basedata.h"
 

@@ -10,7 +10,7 @@
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/StringUtil.h>
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/entity.h"
 #include "player/player.h"
 #include "seq/seq.h"
@@ -19,13 +19,13 @@
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "cmdparse/cmdgame.h"
 #include "entity/costume.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entclient.h"
 #include "entity/costume_client.h"
 #include "entity/character_base.h"
 #include "gameData/costume_data.h"
 #include "language/langClientUtil.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 
 #include "UI/uiGame.h"
 #include "UI/uiUtil.h"
@@ -54,8 +54,8 @@
 #include "UI/uiFocus.h"
 #include "uiSaveCostume.h"
 #include "filter/validate_name.h"
-#include <utilitieslib/components/estring.h>
-#include "UI/uidialog.h"
+#include <utilitieslib/components/EString.h>
+#include "UI/uiDialog.h"
 #include "sound/sound.h"
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/ConvertUtf.h>

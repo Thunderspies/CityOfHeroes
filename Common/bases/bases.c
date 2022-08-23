@@ -17,7 +17,7 @@
 #include "entity/entPlayer.h"
 #include <utilitieslib/utils/error.h>
 #include "bases/baseparse.h"
-#include "bases/baseraid.h"
+#include "bases/baseRaid.h"
 #include "entity/boost.h"
 
 #if SERVER
@@ -26,9 +26,9 @@
 #include "entity/entserver.h"
 #include "ai/entai.h"
 #include "generator/entgen.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "seq/seq.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "entity/character_animfx.h"
 #include "bases/baseserverrecv.h"
 #include "bases/baseparse.h"
@@ -41,7 +41,7 @@
 
 extern int world_modified;
 
-#include "gamesys/raidmapserver.h"
+#include "gameSys/raidmapserver.h"
 #include "storyarc/storyarcprivate.h"
 
 #elif CLIENT

@@ -20,7 +20,7 @@
 #include "weeklyTFcfg.h"
 #include "serverAutoStart.h"
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "beaconservercomm.h"
 #include <utilitieslib/components/StashTable.h>
 #include "dbmsg.h"

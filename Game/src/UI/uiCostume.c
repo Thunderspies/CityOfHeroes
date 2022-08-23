@@ -26,7 +26,7 @@
 #include "UI/uiTailor.h"
 #include "UI/uiInput.h"
 #include "UI/uiSupercostume.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_font.h"
@@ -41,7 +41,7 @@
 #include "language/langClientUtil.h"
 #include "sound/sound.h"
 #include "entity/character_base.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "uiSlider.h"
 #include "graphics/ttFontUtil.h"
 #include "UI/uiComboBox.h"
@@ -49,7 +49,7 @@
 #include <utilitieslib/utils/file.h>
 #include "entity/entity.h"
 #include "uiScrollSelector.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "UI/uiScrollBar.h"
 #include "UI/uiNet.h"
 #include "entity/power_customization.h"
@@ -73,7 +73,7 @@
 #include "player/inventory_client.h"
 #include "account/AccountData.h"
 #include "account/AccountCatalog.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 
 #ifdef TEST_CLIENT
 Costume *pccFixupCostume = NULL;

@@ -1,14 +1,14 @@
-#include "utilitieslib/components/ReferenceSystem.h"
+#include "utilitieslib/components/referencesystem.h"
 #include "utilitieslib/components/ReferenceSystem_Internal.h"
 
-#include "utilitieslib/components/hashfunctions.h"
-#include "utilitieslib/utils/stringutil.h"
+#include "utilitieslib/components/HashFunctions.h"
+#include "utilitieslib/utils/StringUtil.h"
 
 #include "utilitieslib/utils/error.h"
 #include "utilitieslib/components/earray.h"
 
-#include "utilitieslib/components/stashtable.h"
-#include "utilitieslib/utils/superassert.h"
+#include "utilitieslib/components/StashTable.h"
+#include "utilitieslib/utils/SuperAssert.h"
 
 #define DEBUG_PRINTF if (0) printf
 

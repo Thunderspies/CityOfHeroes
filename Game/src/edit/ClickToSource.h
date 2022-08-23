@@ -2,7 +2,7 @@
 #define CLICKTOSOURCE_H
 
 #include <utilitieslib/stdtypes.h>
-#include "clicktosourceflags.h"
+#include "ClickToSourceFlags.h"
 
 typedef struct Packet Packet;
 

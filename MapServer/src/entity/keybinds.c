@@ -9,7 +9,7 @@
 #include <utilitieslib/utils/error.h>
 #include "entity/entVarUpdate.h"
 #include "language/langServerUtil.h"
-#include "gamecomm/sendToClient.h"
+#include "gameComm/sendToClient.h"
 #include <utilitieslib/utils/utils.h>
 
 //-------------------------------------------------------------------------------

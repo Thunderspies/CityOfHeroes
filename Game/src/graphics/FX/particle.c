@@ -18,7 +18,7 @@
 #include "fxutil.h"
 #include <utilitieslib/components/genericlist.h>
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "time.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/strings_opt.h>

@@ -7,7 +7,7 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/MemoryPool.h>
 #include "entity/character_base.h"
 #include "bases/DetailRecipe.h"
@@ -25,7 +25,7 @@
 #include "dbcomm/logcomm.h"
 #include "bases/bases.h"
 #include "bases/basedata.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "bases/baseserver.h"
 #include "gameComm/svr_chat.h"

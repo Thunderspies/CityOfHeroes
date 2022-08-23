@@ -9,7 +9,7 @@
 #include "render/renderUtil.h"
 #include "render/thread/wcw_statemgmt.h"
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "render/thread/rt_effects.h"
 #include "cmdparse/cmdgame.h"

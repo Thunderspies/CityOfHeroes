@@ -6,7 +6,7 @@
 #include "game.h"
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/SuperAssert.h>
-#include "clienterror.h"
+#include "clientError.h"
 #include <utilitieslib/utils/FolderCache.h>
 #include "clientcomm/autoResumeInfo.h"
 #include "cmdparse/cmdgame.h"

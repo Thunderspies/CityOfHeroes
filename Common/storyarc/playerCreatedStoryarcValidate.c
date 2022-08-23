@@ -16,7 +16,7 @@
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/utils.h>
 #include "entity/RewardToken.h"
 #include <zlib/zlib.h>
@@ -34,10 +34,10 @@
 #include <utilitieslib/utils/tokenstore.h>
 #include "AutoGen/playerCreatedStoryarcValidate_h_ast.h"
 #include "AutoGen/playerCreatedStoryarcValidate_h_ast.c"
-#include "LWC_Common.h"
+#include "LWC_common.h"
 #ifdef CLIENT
 #include "cmdparse/cmdgame.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #endif
 
 #define DEFAULT_ANIMATION "At_Ease"

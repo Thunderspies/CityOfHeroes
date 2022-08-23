@@ -26,7 +26,7 @@
 #include <conio.h>
 #include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/network/netio_core.h>
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include <utilitieslib/utils/RegistryReader.h>
 #include "storyarc/missionspec.h"
 #include "dbcomm/staticMapInfo.h"

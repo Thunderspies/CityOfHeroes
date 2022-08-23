@@ -1,6 +1,6 @@
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/utils/utils.h>
 

@@ -15,7 +15,7 @@
 #include "graphics/camera.h"
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "render/thread/rt_init.h"
 #include "seq/AutoLOD.h"
 

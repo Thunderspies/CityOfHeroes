@@ -5,7 +5,7 @@
  ***************************************************************************/
 #include "auth/authUserData.h"
 #include <utilitieslib/assert/assert.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 #ifdef SERVER
 #include "comm_game.h"
@@ -1719,7 +1719,7 @@ static char* strPrintAuthUserData(U32 *data, int base)
 }
 
 #ifdef SERVER
-#include "gamecomm/sendtoclient.h"
+#include "gameComm/sendToClient.h"
 #include "language/langServerUtil.h"
 #include "entity/entity.h"
 #include "entity/entPlayer.h"

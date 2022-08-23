@@ -15,7 +15,7 @@
 #ifndef XACTSERVER_H
 #define XACTSERVER_H
 
-#include "auction/xact.h"
+#include "auction/Xact.h"
 
 #define XACTION_TIMEOUT 300 // 5 min
 

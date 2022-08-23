@@ -13,7 +13,7 @@
 #include "queueservercomm.h"
 #include "sql_fifo.h"
 #include "auth/authUserData.h"
-#include "../Common/ClientLogin/clientcommlogin.h"
+#include "../Common/ClientLogin/clientcommLogin.h"
 #include "accountservercomm.h"
 #include "dbmsg.h"
 #include "entity/entVarUpdate.h"

@@ -16,7 +16,7 @@
 #include "entity/character_eval.h"
 #include "entity/character_level.h"
 #include "storyarc/contactCommon.h"
-#include "reward.h"
+#include "Reward.h"
 #include "storyarc/pnpcCommon.h"
 #include "contactDialog.h"
 #include "dbcomm/dbcomm.h"

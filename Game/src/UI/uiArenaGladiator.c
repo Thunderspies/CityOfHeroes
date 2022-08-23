@@ -20,9 +20,9 @@
 #include "UI/sprite/sprite_font.h"
 #include "gameData/arenastruct.h"
 #include "player/player.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "graphics/textureatlas.h"
-#include "arena/ArenaGame.h"
+#include "arena/arenagame.h"
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/timing.h>
 #include "entity/character_base.h"

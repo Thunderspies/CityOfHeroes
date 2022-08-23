@@ -11,7 +11,7 @@
 #include "UI/sprite/sprite_font.h"
 #include "formatter/smf_main.h"
 #include "entity/character_base.h"
-#include "arena/ArenaGame.h"
+#include "arena/arenagame.h"
 #include "entity/entity.h"
 #include "bases/bases.h"
 #include "entity/Supergroup.h"

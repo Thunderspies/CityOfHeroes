@@ -2,12 +2,12 @@
 #include <string.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "gridcoll/gridcoll.h"
 #include "graphics/camera.h"
 #include "varutils.h"
 #include "entity/motion.h"
-#include "utils/Position.h"
+#include "utils/position.h"
 #include "entworldcoll.h"
 #include "entity/character_base.h"
 #include "gridcoll/gridcache.h"
@@ -36,7 +36,7 @@
     #include "entity/entserver.h"
     #include "cmdparse/cmdcontrols.h"
     #include "player/pmotion.h"
-    #include "beacon/beaconpath.h"
+    #include "beacon/beaconPath.h"
     #include "entity/character_target.h"
 #endif
 
@@ -59,8 +59,8 @@ GlobalMotionState global_motion_state;
 #elif SERVER
     #include "entity/entGameActions.h"
     #include "svr/svr_base.h"
-    #include "ai/entaiPrivate.h"
-    #include "entity/entincludeserver.h"
+    #include "ai/entaiprivate.h"
+    #include "entity/entIncludeServer.h"
     #include "storyarc/storyarcinterface.h"
     #define SETB_MOTION(a, b) SETB(a, b)
     #define CLRB_MOTION(a, b) CLRB(a, b)

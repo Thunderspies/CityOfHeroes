@@ -3,7 +3,7 @@
 #include <utilitieslib/components/HashTableStack.h>
 
 #include "group/group.h"
-#include "group/GroupProperties.h"
+#include "group/groupProperties.h"
 #include <utilitieslib/utils/SimpleParser.h>
 
 #include <string.h>

@@ -2,7 +2,7 @@
 #define SCRIPTUI_H
 
 #include "scripttypes.h"
-#include "storyarc/scriptuienum.h"
+#include "storyarc/ScriptUIEnum.h"
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/EString.h>
 

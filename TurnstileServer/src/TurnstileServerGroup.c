@@ -3,17 +3,17 @@
 
 #include <utilitieslib/network/netio.h>
 #include "malloc.h"
-#include <utilitieslib/components/stashtable.h>
+#include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/components/genericlist.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/mathutil.h>
-#include "entity/teamcommon.h"
+#include "entity/teamCommon.h"
 #include "chatdefs.h"
-#include "turnstile/turnstileservercommon.h"
-#include "turnstileservermsg.h"
-#include "turnstileserverevent.h"
-#include "turnstileservergroup.h"
+#include "turnstile/TurnstileServerCommon.h"
+#include "TurnstileServerMsg.h"
+#include "TurnstileServerEvent.h"
+#include "TurnstileServerGroup.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/log.h>
 

@@ -1,6 +1,6 @@
-#include "storyarc\storyarcClient.h"
+#include "storyarc/storyarcClient.h"
 #include <utilitieslib/network/netio.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "clientcomm/clientcomm.h"
 #include "entity/entVarUpdate.h"
 #include "UI/uiConsole.h"

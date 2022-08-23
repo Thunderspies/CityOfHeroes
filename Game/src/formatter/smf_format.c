@@ -16,7 +16,7 @@
 #include "formatter/smf_format.h"
 
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 #include "graphics/truetype/ttFontDraw.h"
 #include "graphics/ttFontUtil.h"
@@ -27,14 +27,14 @@
 #include "UI/sprite/sprite_font.h"
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/timing.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/StringUtil.h>
 #include "entity/entclient.h"
 
 #include <utilitieslib/language/AppLocale.h>
 //to get the mm texture right
 #include "entity/costume.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "graphics/seqgraphics.h"
 #include "UI/uiPictureBrowser.h"
 #include "entity/entity.h"

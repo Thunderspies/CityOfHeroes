@@ -20,8 +20,8 @@
 #include "group/groupProperties.h"
 #include "group/groupnetsend.h"
 #include <utilitieslib/utils/textparser.h>
-#include "gamecomm/dooranimcommon.h"
-#include "entity/entplayer.h"
+#include "gameComm/dooranimcommon.h"
+#include "entity/entPlayer.h"
 #include "entity/entVarUpdate.h"
 #include "arenakiosk.h"
 #include "arenamapserver.h"

@@ -6,8 +6,8 @@
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "language/commonLangUtil.h"
-#include <utilitieslib/components/estring.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/EString.h>
+#include <utilitieslib/components/earray.h>
 #include "auth/authUserData.h"
 #include <utilitieslib/utils/osdependent.h>
 #include <utilitieslib/utils/utils.h>

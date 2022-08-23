@@ -1,5 +1,5 @@
 
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "entaiCritterPrivate.h"
 #include "entity/motion.h"
 #include "beacon/beaconConnection.h"
@@ -10,7 +10,7 @@
 #include "seq/seqstate.h"
 #include "seq/seq.h"
 #include "entity/entity.h"
-#include "gamesys/dooranim.h"
+#include "gameSys/dooranim.h"
 #include "cmdparse/cmdcommon.h"
 #include "entity/character_base.h"
 #include "cmdparse/cmdserver.h"

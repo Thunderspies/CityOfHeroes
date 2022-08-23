@@ -5,9 +5,9 @@
 #include "UI/uiUtilMenu.h"
 #include "filter/validate_name.h"
 #include "UIEdit.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "UI/uiFocus.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/StringUtil.h>
 #include "UI/sprite/sprite_text.h"
 #include "win/input.h"
@@ -26,7 +26,7 @@
 #include <utilitieslib/utils/utils.h>
 #include "UI/uiUtilGame.h"
 #include "uiIME.h"
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/utils/error.h>
 
 static unsigned short* newlineCharacter = L"\n";

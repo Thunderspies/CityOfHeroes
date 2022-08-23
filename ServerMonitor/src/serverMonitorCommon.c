@@ -29,7 +29,7 @@
 #include "shardMonitor.h"
 #include "shardMonitorCmdRelay.h"
 #include "shardMonitorComm.h"
-#include "updateserverList.h"
+#include "updateServerList.h"
 
 HINSTANCE   g_hInst=NULL;                    // instance handle
 HWND g_hDlg=NULL;

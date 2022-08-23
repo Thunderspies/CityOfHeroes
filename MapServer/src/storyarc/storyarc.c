@@ -17,7 +17,7 @@
 #include "storyarcprivate.h"
 #include "entity/character_level.h"
 #include "entity/character_eval.h"
-#include "reward.h"
+#include "Reward.h"
 #include "svr/svr_player.h"
 #include "container/team.h"
 #include "TeamReward.h"
@@ -26,13 +26,13 @@
 #include "entity/entity.h"
 #include "dbcomm/dbnamecache.h"
 #include "comm_game.h"
-#include "entity/supergroup.h"
-#include "entity/sgrpserver.h"
+#include "entity/Supergroup.h"
+#include "entity/SgrpServer.h"
 #include "gameComm/svr_chat.h"
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "cmdparse/cmdserver.h"
-#include "entity/TaskForceParams.h"
+#include "entity/TaskforceParams.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "player/badges_server.h"
 #include "playerCreatedStoryarcServer.h"

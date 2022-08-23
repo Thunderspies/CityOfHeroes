@@ -5,7 +5,7 @@
 #include "entity/classes.h"
 #include "player/player.h"
 #include "entity/entity.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/character_base.h"
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/fileutil.h>

@@ -7,7 +7,7 @@
 #ifndef AUCTIONDB_H
 #define AUCTIONDB_H
 
-#include "auction/auction.h"
+#include "auction/Auction.h"
 
 typedef struct NetLink NetLink;
 typedef struct StashTableImp *StashTable;

@@ -1,6 +1,6 @@
 #include "edit/MapGenerator.h"
 #include "stdio.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "string.h"
 #include "edit/edit_select.h"
 #include "seq/anim.h"
@@ -11,7 +11,7 @@
 #include "group/groupfilelib.h"
 #include "edit/edit_net.h"
 #include "cmdparse/cmdgame.h"
-#include "menu.h"
+#include "Menu.h"
 #include "win/win_init.h"
 #include "edit/edit_cmd_file.h"
 

@@ -48,7 +48,7 @@
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "seq/gfxtree.h"
-#include "gameComm/npc.h"        // For NPC structure definition
+#include "gameComm/Npc.h"        // For NPC structure definition
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_text.h"
 #include "seq/seqregistration.h"
@@ -58,7 +58,7 @@
 #include "graphics/ttFontUtil.h"
 #include "group/group.h"
 #include "graphics/groupMiniTrackers.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 #include <utilitieslib/utils/tga.h>
 #include "entity/entclient.h"

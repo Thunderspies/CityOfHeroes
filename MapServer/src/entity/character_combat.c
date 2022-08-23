@@ -11,13 +11,13 @@
 #include "ai/entai.h"
 #include "ai/entaiLog.h"
 #include "entity/entity.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "gameComm/sendToClient.h" // inexplicably for sendInfoBox
 #include "entGameActions.h" // for entAlive
 #include "gridcoll/gridfind.h"
 #include <utilitieslib/utils/utils.h>
 #include "entity/motion.h"
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "dbcomm/dbcomm.h"
 #include "dbghelper.h"
 #include "entity/entworldcoll.h" // for entHeight
@@ -27,7 +27,7 @@
 #include "entity/teamup.h"
 
 #include "entity/powers.h"
-#include "entity/powerinfo.h"
+#include "entity/PowerInfo.h"
 #include "entity/boostset.h"
 
 #include "combat_mod.h"
@@ -57,8 +57,8 @@
 #include "gameComm/trading.h"
 #include <utilitieslib/utils/Quat.h>
 #include <utilitieslib/language/AppLocale.h>
-#include "gameSys/turnstile.h"
-#include "script/scripthook/ScriptHookInternal.h"
+#include "gameSys/Turnstile.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 
 
 static void ApplyTravelSuppression(Character *pChar, float fDuration)

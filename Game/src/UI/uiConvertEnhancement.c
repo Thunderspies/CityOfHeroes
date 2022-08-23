@@ -12,7 +12,7 @@
 #include "UI/uiComboBox.h"
 #include "uiHelpButton.h"
 #include "UI/uiBox.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiClipper.h"
 #include "player/player.h"
 #include "character.h"
@@ -23,12 +23,12 @@
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_font.h"
 #include "entity/powers.h"
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 #include "cmdparse/cmdgame.h"
 #include "graphics/textureatlas.h"
 #include "UI/sprite/sprite_base.h"
-#include "uioptions_type.h"
+#include "uiOptions_Type.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "UI/uiNet.h"
 #include "UI/uiOptions.h"

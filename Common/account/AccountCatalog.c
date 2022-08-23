@@ -30,7 +30,7 @@
 
 #if defined(SERVER)
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/badges.h"
 #include "entity/RewardToken.h"
 #include "dbcomm/dbcomm.h"

@@ -2,7 +2,7 @@
 
 #include "kill_process.h"
 
-#include <Tlhelp32.h>
+#include <tlhelp32.h>
 #include <crtdbg.h>
 
 

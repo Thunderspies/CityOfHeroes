@@ -12,7 +12,7 @@
 #include <utilitieslib/utils/memcheck.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/MemoryMonitor.h>
-#include <utilitieslib/utils/stringutil.h>
+#include <utilitieslib/utils/StringUtil.h>
 
 
 char *poss_clients[] = {

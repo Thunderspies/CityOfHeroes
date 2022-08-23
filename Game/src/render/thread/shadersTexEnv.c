@@ -7,7 +7,7 @@
 #include "shadersTexEnv.h"
 #include "render/thread/ogl.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/error.h>
 #include "assert.h"
 #include "render/thread/wcw_statemgmt.h"

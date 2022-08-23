@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "GlobalAuth.h"
-#include "lock.h"
+#include "Lock.h"
 #include "IOSocket.h"
 
 class AccountDB  

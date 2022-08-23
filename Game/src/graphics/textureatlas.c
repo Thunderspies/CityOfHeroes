@@ -2,8 +2,8 @@
 #include <utilitieslib/components/StashTable.h>
 #include "render/thread/rt_queue.h"
 #include "render/tex.h"
-#include <utilitieslib/components/memorypool.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/MemoryPool.h>
+#include <utilitieslib/components/earray.h>
 #include "graphics/font.h"
 #include "render/sprite.h"
 #include "render/tex_gen.h"

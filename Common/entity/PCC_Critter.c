@@ -4,15 +4,15 @@
 #include "entity/character_base.h"
 #include <utilitieslib/components/earray.h>
 #include "entity/powers.h"
-#include "gameData/bodyPart.h"
+#include "gameData/BodyPart.h"
 #include "entity/costume.h"
 #include "entity/entity.h"
 #include "player/player.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "varutils.h"                //    playerVarAlloc
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "entity/origins.h"                //    for origins pointer
-#include "entity/EntPlayer.h"                //    costume ent player pointer
+#include "entity/entPlayer.h"                //    costume ent player pointer
 #include "filter/profanity.h"
 #include "filter/validate_name.h"
 #include "storyarc/playerCreatedStoryarcValidate.h"

@@ -3,7 +3,7 @@
 #define    _SVR_CHAT_H
 
 #include <utilitieslib/network/net_link.h>
-#include "entity/entvarupdate.h"
+#include "entity/entVarUpdate.h"
 
 typedef struct Entity Entity;
 typedef struct ClientLink ClientLink;

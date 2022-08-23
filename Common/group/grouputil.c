@@ -8,11 +8,11 @@
 #include "group/group.h"
 #include <utilitieslib/components/ArrayOld.h>
 #include <utilitieslib/components/StashTable.h>
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "seq/tricks.h"
 #include "seq/anim.h"
 #include "NovodeX/NwWrapper.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 /***************************************************************************************************
  * Function groupProcessType + groupProcessTypeHelper

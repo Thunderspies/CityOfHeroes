@@ -5,10 +5,10 @@
  ***************************************************************************/
 #include <utilitieslib/stdtypes.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/utils/eval.h>
 #include "entity/Supergroup.h"
-#include "entity/rewardtoken.h"
+#include "entity/RewardToken.h"
 #include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/components/earray.h>
 #include "entity/teamup.h"

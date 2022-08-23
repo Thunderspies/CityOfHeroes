@@ -19,7 +19,7 @@
 #include "UI/uiTrade.h"
 #include "UI/uiContextMenu.h"
 #include "UI/uiWindows_init.h"
-#include "uiGift.h"
+#include "UI/uiGift.h"
 
 #include "entity/character_base.h"
 #include "gameComm/wdwbase.h"

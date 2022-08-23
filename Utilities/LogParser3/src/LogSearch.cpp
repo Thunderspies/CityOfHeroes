@@ -1,9 +1,9 @@
 #include "LogSearch.h"
 #include <string>
 #include <list>
-#include "logPattern.h"
-#include "logTime.h"
-#include "logPattern.h"
+#include "LogPattern.h"
+#include "LogTime.h"
+#include "LogPattern.h"
 extern "C"
 {
 #include <utilitieslib/utils/wininclude.h>

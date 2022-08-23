@@ -7,7 +7,7 @@
 #include "utilitieslib/utils/timing.h"
 #include "utilitieslib/utils/mathutil.h"
 #include "utilitieslib/components/StashTable.h"
-#include "utilitieslib/components/estring.h"
+#include "utilitieslib/components/EString.h"
 #include "utilitieslib/utils/utils.h"
 
 extern int g_bAssertOnBitStreamError;

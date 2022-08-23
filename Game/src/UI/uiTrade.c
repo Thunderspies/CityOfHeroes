@@ -17,7 +17,7 @@
 #include "UI/uiRecipeInventory.h"
 #include "UI/uiInput.h"
 #include "UI/uiInfo.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiContextMenu.h"
 #include "uiCombineSpec.h"
 #include "uiAmountSlider.h"
@@ -34,7 +34,7 @@
 #include "entity/powers.h"
 #include "cmdparse/cmdgame.h"
 #include "entity/character_net.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/costume.h"
 #include "comm_game.h"
 #include "entity/origins.h"

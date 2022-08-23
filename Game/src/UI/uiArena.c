@@ -34,7 +34,7 @@
 #include "gameData/arenastruct.h"
 #include "player/player.h"
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/input.h"
 #include "limits.h"
 #include <utilitieslib/utils/utils.h>

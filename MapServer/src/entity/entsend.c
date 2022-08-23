@@ -4,7 +4,7 @@
 #include "entity/Invention.h"
 #include <string.h>
 #include "entserver.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entityRef.h"
 #include "entity/motion.h"
 #include "cmdparse/cmdcommon.h"
@@ -39,10 +39,10 @@
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/components/StringCache.h>    // for stringToReference
-#include "storyarc/storyarcInterface.h"
+#include "storyarc/storyarcinterface.h"
 #include "svr/svr_base.h"
 #include "svr/svr_player.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include <utilitieslib/components/earray.h>
 #include "entity/costume.h"
 #include "language/langServerUtil.h"
@@ -54,7 +54,7 @@
 #include "entity/costume.h"
 #include "player/badges.h"
 #include "player/badges_server.h"
-#include "gamecomm/npc.h"
+#include "gameComm/Npc.h"
 #include "entity/netfx.h"
 #include "gameSys/arenamapserver.h"
 #include "seq/seq.h"
@@ -63,7 +63,7 @@
 #include "gameSys/cutScene.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "utils/position.h"
-#include "reward.h"
+#include "Reward.h"
 #include "player/inventory_server.h"
 #include "script/ZoneEvents/ScriptUI.h"
 #include "entity/pvp.h"
@@ -90,7 +90,7 @@
 #include "character_animfx.h"
 #include "storyarc/pnpcCommon.h"
 #include "auth/authUserData.h"
-#include "gameSys/turnstile.h"
+#include "gameSys/Turnstile.h"
 #include "entity/character_target.h"
 
 U32        need_to_send_cache[(MAX_ENTITIES_PRIVATE*2+31)/32];    // 2-bitfield to track which server ents need to be sent this tick

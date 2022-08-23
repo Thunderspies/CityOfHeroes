@@ -7,18 +7,18 @@
 #include "UI/uiTarget.h"
 #include "UI/uiCursor.h"
 #include "UI/uiNet.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 
 #include "entity/character_base.h"
 #include "entity/powers.h"
 #include "entity/boost.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "UI/sprite/sprite_text.h"
 #include "entity/teamCommon.h"
 #include "entity/Supergroup.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/character_inventory.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "bases/DetailRecipe.h"

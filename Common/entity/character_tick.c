@@ -13,12 +13,12 @@
 
 #include "ai/entai.h"          // for AI_LOG
 #include "entVarUpdate.h"   // inexplicably for sendInfoBox
-#include "entity/entgameActions.h" // for setFlying and dieNow
+#include "entity/entGameActions.h" // for setFlying and dieNow
 #include "player/playerState.h"    // for STATE_SIMPLE. Client-side file
 #include <utilitieslib/utils/timing.h>         // for timerSecondsSince2000
 #include "entworldcoll.h"   // for entHeight
 #include "entity.h"
-#include "entplayer.h"
+#include "entPlayer.h"
 #include "entity/entserver.h"
 #include "svr/svr_base.h"
 #include "graphics/camera.h"
@@ -26,16 +26,16 @@
 #include "dbcomm/dbcomm.h"
 #include "dbcomm/dbdoor.h"
 #include "dbcomm/dbmapxfer.h"
-#include "gameComm/sendtoclient.h"
+#include "gameComm/sendToClient.h"
 #include "svr/svr_player.h"
-#include "language/langserverutil.h"
+#include "language/langServerUtil.h"
 #include "teamup.h"
 #include "motion.h"
 #include "door.h"
 
 
 #include "powers.h"
-#include "powerinfo.h"
+#include "PowerInfo.h"
 #include "auth/authUserData.h"
 #include "character_base.h"
 #include "character_mods.h"
@@ -54,7 +54,7 @@
 #include "seq/seqstate.h"
 #include "seq/seq.h"
 #include "gameSys/arenamap.h"
-#include "gamesys/sgraid.h"
+#include "gameSys/sgraid.h"
 #include "cmdparse/cmdserver.h"
 #include "dbcomm/staticMapInfo.h"
 #include "script/scriptengine.h"

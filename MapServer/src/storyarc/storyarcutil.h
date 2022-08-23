@@ -16,7 +16,7 @@
 #include "storyarcinterface.h"
 #include <utilitieslib/language/MultiMessageStore.h>
 #include <utilitieslib/utils/file.h>
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 
 typedef struct ScriptVarsTable ScriptVarsTable;
 typedef struct ParseTable ParseTable;

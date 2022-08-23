@@ -17,7 +17,7 @@
 
 #include "entity/entity.h"
 #include <utilitieslib/components/MemoryPool.h>
-#include "generator/encounterprivate.h"
+#include "generator/encounterPrivate.h"
 #include "storyarc/storyarcprivate.h"
 
 #include "ai/entai.h"
@@ -34,8 +34,8 @@
 #include "entity/character_level.h"
 #include "entity/character_base.h"
 #include "entity/character_inventory.h"
-#include "reward.h"
-#include "teamreward.h"
+#include "Reward.h"
+#include "TeamReward.h"
 #include "container/mapgroup.h"
 #include "cmdparse/cmdserver.h"
 #include "entity/SgrpServer.h"
@@ -43,7 +43,7 @@
 #include "player/badges_server.h"
 #include "entity/incarnate_server.h"
 
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 
 //////////////////////////////////////////////////////////////////////////////////
 // T O K E N S 

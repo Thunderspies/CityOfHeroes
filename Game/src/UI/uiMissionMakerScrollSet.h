@@ -5,7 +5,7 @@
 
 #include "UI/uiScrollBar.h"
 #include "storyarc/playerCreatedStoryarcValidate.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 
 typedef struct MMElementList MMElementList;
 

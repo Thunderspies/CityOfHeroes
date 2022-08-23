@@ -8,7 +8,7 @@
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/components/bitfield.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StashTable.h>
 
 #include "dbcomm.h"
@@ -27,7 +27,7 @@
 #include "entity/boostset.h"
 #include "entity/costume.h"
 #include "kiosk.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "entity/attrib_names.h"
 #include "player/badges.h"
 #include "language/commonLangUtil.h"
@@ -39,7 +39,7 @@
 #include "comm_backend.h"
 #include "player/pl_stats_internal.h"
 #include "entity/friendCommon.h"
-#include "entity/supergroup.h"
+#include "entity/Supergroup.h"
 #include <utilitieslib/language/AppLocale.h>
 #include <utilitieslib/components/HashFunctions.h>
 

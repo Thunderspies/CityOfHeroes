@@ -13,7 +13,7 @@
 #include "UI/uiContextMenu.h"
 #include "UI/uiInfo.h"
 #include "UI/uiGame.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiOptions.h"
 #include "uiSalvage.h"
 #include "sound/sound.h"
@@ -36,8 +36,8 @@
 #include <utilitieslib/utils/timing.h>
 #include "entity/character_inventory.h"
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 
 #define STORE_DIVIDE 4
 #define STORE_FOOTER 50

@@ -1,6 +1,6 @@
-#include "clientComm/authclient.h"
+#include "clientcomm/authclient.h"
 #include <utilitieslib/utils/osdependent.h>
-#include "des.h"
+#include "Des.h"
 #include <string.h>
 #include <stdio.h>
 #include <utilitieslib/network/sock.h>

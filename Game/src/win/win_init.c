@@ -21,7 +21,7 @@
 #include "resource.h"
 #include <direct.h>
 #include "clientcomm/autoResumeInfo.h"
-#include "clientComm/authclient.h"
+#include "clientcomm/authclient.h"
 #include "graphics/gfxwindow.h"
 #include "UI/uiWindows.h"
 #include "UI/uiWindows_init.h"
@@ -43,7 +43,7 @@
 #include "UI/uiIME.h"
 #include "clientError.h"
 #include "render/pbuffer.h"
-#include "render/renderSSAO.h"
+#include "render/renderssao.h"
 #include <utilitieslib/language/AppLocale.h>
 #include "shlobj.h"
 #include <utilitieslib/utils/timing.h>
@@ -55,7 +55,7 @@
 #include "win/hwlight.h"
 #include <utilitieslib/utils/log.h>
 #include "clientcomm/dbclient.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 void windowDestroyDisplayContexts(void);
 void windowReleaseDisplayContexts(void);

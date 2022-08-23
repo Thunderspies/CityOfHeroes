@@ -20,8 +20,8 @@
 #include "CustomDialogs.h"
 #include "Login.h"
 #include "ChatAdminUtils.h"
-#include <Richedit.h>
-#include <CommCtrl.h>
+#include <richedit.h>
+#include <commctrl.h>
 #include <utilitieslib/utils/log.h>
 
 HINSTANCE g_hInst = 0; // instance handle

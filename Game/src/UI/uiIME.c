@@ -4,7 +4,7 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include <utilitieslib/stdtypes.h>
-#include "uiEdit.h"
+#include "UIEdit.h"
 #include "UI/uiBox.h"
 #include "UI/uiUtilGame.h"
 #include "UI/uiUtil.h"
@@ -13,8 +13,8 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/assert/assert.h>
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 #include "graphics/ttFontUtil.h"
 #include <utilitieslib/utils/StringUtil.h>
 #include "gameComm/wdwbase.h"

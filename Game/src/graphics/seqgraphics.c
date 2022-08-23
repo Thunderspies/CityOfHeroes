@@ -47,7 +47,7 @@
 #include "graphics/sun.h"
 #include <utilitieslib/utils/FolderCache.h>
 #include "seq/gfxtree.h"
-#include "gameComm/npc.h"        // For NPC structure defintion
+#include "gameComm/Npc.h"        // For NPC structure defintion
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_text.h"
 #include "seq/seqregistration.h"
@@ -57,10 +57,10 @@
 #include "graphics/ttFontUtil.h"
 #include "group/group.h"
 #include "graphics/groupMiniTrackers.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "graphics/imageCapture.h"
 #include "UI/uiPictureBrowser.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "graphics/viewport.h"
 #include "graphics/jpeg.h"
 #include "render/thread/rt_state.h"

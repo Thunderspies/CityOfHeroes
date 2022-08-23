@@ -1,5 +1,5 @@
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "render/texEnums.h"
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/components/StashTable.h>

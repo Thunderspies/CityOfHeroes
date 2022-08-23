@@ -2,7 +2,7 @@
 #include "mover.h"
 #include "clientcomm/clientcomm.h"
 #include <stdio.h>
-#include "gamedata/randomCharCreate.h"
+#include "gameData/randomCharCreate.h"
 #include "testClientInclude.h"
 #include "testClient/TestClient.h"
 #include <utilitieslib/utils/utils.h>

@@ -17,7 +17,7 @@
 
 #include "entity/entity.h"
 #include <utilitieslib/components/MemoryPool.h>
-#include "generator/encounterprivate.h"
+#include "generator/encounterPrivate.h"
 #include "storyarc/storyarcprivate.h"
 
 #include "ailib/aiBehaviorPublic.h"
@@ -37,7 +37,7 @@
 #include "entity/character_base.h"
 #include "entity/character_eval.h"
 #include "entity/character_combat.h"
-#include "reward.h"
+#include "Reward.h"
 #include "dbghelper.h"
 #include "door.h"
 #include "gridcoll/gridcoll.h"
@@ -48,7 +48,7 @@
 #include "entity/origins.h"
 #include "language/commonLangUtil.h"
 
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 #include "script/ZoneEvents/ScriptedZoneEventKarma.h"
 
 

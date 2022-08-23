@@ -48,7 +48,7 @@
 #include "UI/uiMissionSummary.h"
 #include "win/input.h"
 #include "entity/teamCommon.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "storyarc/zowieClient.h"
@@ -59,7 +59,7 @@
 
 #include <utilitieslib/language/AppLocale.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 
 #include "UI/uiAutomap.h"
 

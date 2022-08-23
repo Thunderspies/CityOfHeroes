@@ -13,7 +13,7 @@
 #include "seq/gfxtree.h"
 #include "group/grouptrack.h"
 #include <utilitieslib/components/StashTable.h>
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include <utilitieslib/assert/assert.h>
 #include "group/groupfilelib.h"
 #include "entity/motion.h"
@@ -21,7 +21,7 @@
 #include "group/groupgrid.h"
 #include <utilitieslib/network/crypt.h>
 #include "group/groupdyn.h"
-#include "Novodex/NwWrapper.h"
+#include "NovodeX/NwWrapper.h"
 #include "group/groupnovodex.h"
 #if SERVER
 #include "group/groupjournal.h"
@@ -48,7 +48,7 @@
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/FolderCache.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 GroupInfo            group_info,*group_ptr;
 static StashTable s_texNames;

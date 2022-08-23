@@ -17,11 +17,11 @@
 #include "dbserver/servercfg.h"
 #include <utilitieslib/utils/StringUtil.h>
 #include "authcomm.h"
-#include "entity/teamcommon.h"
+#include "entity/teamCommon.h"
 #include "accountservercomm.h"
 #include <utilitieslib/utils/timing.h>
-#include "turnstiledb.h"
-#include "turnstile/turnstileservercommon.h"
+#include "turnstileDb.h"
+#include "turnstile/TurnstileServerCommon.h"
 #include <utilitieslib/utils/log.h>
 
 static NetLinkList turnstile_links = {0};

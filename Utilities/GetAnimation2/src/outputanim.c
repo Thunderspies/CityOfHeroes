@@ -14,7 +14,7 @@
 #include <utilitieslib/utils/file.h>
 #include <sys/stat.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/utils/quat.h>
+#include <utilitieslib/utils/Quat.h>
 
 extern int total_uncompressed_position_keys; 
 extern int    total_added_rot_nodes;

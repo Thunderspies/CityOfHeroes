@@ -7,7 +7,7 @@
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/SuperAssert.h>
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
 #include "graphics/font.h"
 #include "graphics/textureatlas.h"

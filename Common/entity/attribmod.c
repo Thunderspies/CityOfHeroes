@@ -11,15 +11,15 @@
 #include <utilitieslib/utils/timing.h>
 
 #include "entity.h"
-#include "entplayer.h"
+#include "entPlayer.h"
 #include "entworldcoll.h" // for entHeight
 #include "ai/entai.h"
-#include "EntityRef.h"
+#include "entityRef.h"
 #include <utilitieslib/components/genericlist.h>
 #include <utilitieslib/utils/textparser.h>
 #include "entity/entGameActions.h" // for serveDamage
-#include "gamecomm/sendToClient.h"   // inexplicably for sendInfoBox
-#include "gameComm/npc.h"
+#include "gameComm/sendToClient.h"   // inexplicably for sendInfoBox
+#include "gameComm/Npc.h"
 #include "dbcomm/dbcomm.h"
 #include "dbghelper.h"
 #include "player/pl_stats.h" // for stat_...
@@ -27,7 +27,7 @@
 #include "entVarUpdate.h" // for COMBAT_UPDATE_INTERVAL
 #include "player/badges_server.h"
 #include "language/langServerUtil.h"
-#include "reward.h" // for rewardFindDefAndApplyToEnt
+#include "Reward.h" // for rewardFindDefAndApplyToEnt
 
 #include "classes.h"
 #include "powers.h"
@@ -62,7 +62,7 @@
 #include "character_eval.h"
 #include "ailib/aiBehaviorPublic.h"
 #include "TeamReward.h"
-#include "script/scripthook/ScriptHookCallbacks.h"
+#include "script/Scripthook/ScriptHookCallbacks.h"
 #endif 
 
 MP_DEFINE(AttribMod);

@@ -13,7 +13,7 @@
 #include "cmdparse/cmdserver.h"
 #include "gameComm/sendToClient.h"
 #include "language/langServerUtil.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "chatdb.h"
 #include "gameComm/svr_chat.h"
 #include "entity/teamCommon.h"
@@ -29,7 +29,7 @@
 #include <utilitieslib/components/earray.h>
 #include "dbnamecache.h"
 #include "comm_backend.h"
-#include "staticmapinfo.h"
+#include "staticMapInfo.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "logcomm.h"

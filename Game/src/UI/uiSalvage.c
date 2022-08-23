@@ -8,13 +8,13 @@
 #include "uiGrowBig.h"
 #include "entity/salvage.h"
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 #include "bases/DetailRecipe.h"
 #include "auth/authUserData.h"
 
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/badges.h"
 #include "player/badges_client.h"
 #include "player/inventory_client.h"
@@ -61,9 +61,9 @@
 #include "entity/entVarUpdate.h"
 #include "UI/uiChat.h"
 #include "uiBaseStorage.h"
-#include "uiGift.h"
+#include "UI/uiGift.h"
 #include "bases/bases.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiOptions.h"
 #include "sound/sound.h"
 #include <utilitieslib/language/MessageStoreUtil.h>

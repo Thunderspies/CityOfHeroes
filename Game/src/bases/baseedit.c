@@ -3,7 +3,7 @@
  *     All Rights Reserved
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/mathutil.h>
 
 #include "graphics/gfxwindow.h"
@@ -23,7 +23,7 @@
 #include "player/player.h"
 #include "UI/uiNet.h"
 #include <utilitieslib/utils/timing.h>
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/sprite/sprite_text.h"
 #include <utilitieslib/components/ArrayOld.h>
 #include <utilitieslib/language/MessageStore.h>

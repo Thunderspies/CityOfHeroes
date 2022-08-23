@@ -18,7 +18,7 @@
 #include <utilitieslib/network/crypt.h>
 #include "bases/bases.h"
 #include "entity/LoadDefCommon.h"
-#include <utilitieslib/utils/structinternals.h>
+#include <utilitieslib/utils/structInternals.h>
 
 typedef struct GroupLibNameEntry
 {

@@ -2,7 +2,7 @@
 #define _GROUP_H
 
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/EArray.h>
+#include <utilitieslib/components/earray.h>
 #include "render/texEnums.h"
 
 typedef struct GroupDef GroupDef;

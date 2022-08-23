@@ -1,11 +1,11 @@
 #include "entity/incarnate.h"
 #include "player/badges.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/character_base.h"
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/utils/structDefines.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #if SERVER
 #include "player/badges_server.h"
 #endif

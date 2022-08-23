@@ -15,14 +15,14 @@
 #include "script/scriptengine.h"
 #include "script/scriptutil.h"
 
-#include "generator/encounterprivate.h"
+#include "generator/encounterPrivate.h"
 #include "ai/entai.h"
 #include "ai/entaiScript.h"
 #include "ai/entaivars.h"
 #include "ai/entaiprivate.h"
 #include "svr/svr_player.h"
 #include "entity/entPlayer.h"
-#include "entity/entgameactions.h"
+#include "entity/entGameActions.h"
 #include "entity/character_base.h"
 #include "entity/character_level.h"
 #include "entity/character_target.h"
@@ -38,7 +38,7 @@
 #include "gridcoll/gridcoll.h"
 #include "entity/motion.h"
 
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 
 // *********************************************************************************
 //  Location references

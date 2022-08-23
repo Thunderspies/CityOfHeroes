@@ -4,7 +4,7 @@
 #include <utilitieslib/utils/utils.h>
 #include "bases/baseparse.h"
 #include <utilitieslib/components/EString.h>
-#include <utilitieslib/components/EArray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/assert/assert.h>
 #include "bases/basedata.h"
 #include "entity/salvage.h"

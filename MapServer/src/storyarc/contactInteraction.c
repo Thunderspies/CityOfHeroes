@@ -37,7 +37,7 @@
 #include "entity/SgrpRewards.h"
 #include "gameSys/arenamap.h"
 #include "auth/authUserData.h"                // authUserMonthsPlayed()
-#include "cmdparse/cmdServer.h"
+#include "cmdparse/cmdserver.h"
 #include "entity/character_inventory.h"
 #include "taskforce.h"
 #include <utilitieslib/language/MessageStoreUtil.h>

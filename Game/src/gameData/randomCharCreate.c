@@ -1,13 +1,13 @@
 #include <utilitieslib/stdtypes.h>
 #include "randomCharCreate.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "gameComm/initClient.h"
 #include "entity/origins.h"
 #include "entity/classes.h"
 #include "entity/character_base.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/powers.h"
 #include "entity/costume.h"
 #include "entity/costume_client.h"

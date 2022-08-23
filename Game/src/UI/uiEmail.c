@@ -1,7 +1,7 @@
 #include <utilitieslib/stdtypes.h>
 #include "gameComm/wdwbase.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "entity/character_level.h"
 #include "entity/character_eval.h"
@@ -26,12 +26,12 @@
 #include "assert.h"
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/utils.h>
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "uiListView.h"
 #include "UI/uiClipper.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiFocus.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "UIEdit.h"
 #include <utilitieslib/utils/SimpleParser.h>
 #include "filter/profanity.h"
@@ -56,7 +56,7 @@
 #include "UI/uiAuction.h"
 #include "auction/AuctionData.h"
 #include "storyarc/playerCreatedStoryarcValidate.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "UI/uiNet.h"
 #include "account/AccountCatalog.h"
 

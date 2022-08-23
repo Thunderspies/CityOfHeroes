@@ -4,7 +4,7 @@
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/network/netcomp.h>
 #include <utilitieslib/utils/error.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
 

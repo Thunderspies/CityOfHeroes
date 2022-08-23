@@ -159,7 +159,7 @@ MapEncounterSpawn *** minimap_getSpawnList();
 Extent * minimap_getCurrentExtent();
 
 #if (defined(SERVER) || defined(CLIENT)) && !defined(NO_TEXT_PARSER) && !defined(UNITTEST)
-#include "autogen/groupMetaMinimap_h_ast.h"
+#include "AutoGen/groupMetaMinimap_h_ast.h"
 #endif
 
 #endif

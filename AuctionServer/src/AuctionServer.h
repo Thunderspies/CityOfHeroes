@@ -7,7 +7,7 @@
 #ifndef AUCTIONSERVER_H
 #define AUCTIONSERVER_H
 
-#include "auction/auction.h"
+#include "auction/Auction.h"
 #include "auction/Xact.h"
 
 #define AUC_NUM_TYPES 10000 // rough estimate of the actual

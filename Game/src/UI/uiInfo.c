@@ -18,7 +18,7 @@
 #include "uiCombineSpec.h"
 #include "UI/uiTabControl.h"
 #include "UI/uiBaseRoom.h"
-#include "UI/uibaseprops.h"
+#include "UI/uiBaseProps.h"
 #include "UI/uiBaseInventory.h"
 #include "UI/uiEnhancement.h"
 #include "uiSalvage.h"
@@ -29,10 +29,10 @@
 #include "UI/uiRecipeInventory.h"
 
 #include <utilitieslib/components/ArrayOld.h>
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/powers.h"
 #include "entity/boostset.h"
 #include "player/player.h"
@@ -68,7 +68,7 @@
 #include "graphics/groupThumbnail.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "storyarc/contactclient.h"
+#include "storyarc/contactClient.h"
 #include "auth/authUserData.h"
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/components/StashTable.h>

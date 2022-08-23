@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "AutoRunManager.h"
 #include "strutils.h"
-#include "sourceparser.h"
+#include "SourceParser.h"
 
 
 #define AUTORUN_WILDCARD_PREFIX "AUTO_RUN_"

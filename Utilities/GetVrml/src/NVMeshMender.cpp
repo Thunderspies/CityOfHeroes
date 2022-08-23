@@ -32,7 +32,7 @@ old nvMeshMender interface for all those using it already
 
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/file.h>
-#include "nvMeshMender.h"
+#include "NVMeshMender.h"
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/utils/mathutil.h> // for MAX
 

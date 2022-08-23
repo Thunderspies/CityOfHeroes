@@ -8,7 +8,7 @@
 #include "entity/entity_enum.h"
 #include "container/containerSupergroup.h"
 #include "entity/teamup.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/SgrpBadges.h"
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/utils.h>
@@ -21,13 +21,13 @@
 #include "entity/Supergroup.h"
 #include "entity/SgrpStats.h"
 #include "player/BadgeStats.h"
-#include <utilitieslib/components/Bitfield.h>
+#include <utilitieslib/components/bitfield.h>
 #include "dbcomm/logcomm.h"
 #include "player/badges_load.h"
 #include "player/badges.h"
-#include "dbcomm/dbContainer.h"
+#include "dbcomm/dbcontainer.h"
 #include "comm_backend.h"
-#include "entity/supergroup.h"
+#include "entity/Supergroup.h"
 #include "dbcomm/dbcomm.h"
 #include "entity/supergroup_eval.h"
 #include "statserver.h"

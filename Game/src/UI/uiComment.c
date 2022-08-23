@@ -6,7 +6,7 @@
 #include "gameComm/wdwbase.h"
 #include <utilitieslib/utils/utils.h>
 #include "comm_game.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 #include "graphics/textureatlas.h"
 #include "win/input.h"
@@ -18,7 +18,7 @@
 #include "UI/uiEditText.h"
 #include "UI/uiUtilMenu.h"
 #include "UI/uiInput.h"
-#include "uiEdit.h"
+#include "UIEdit.h"
 #include "UI/uiPetition.h"
 
 #include "entity/entVarUpdate.h"

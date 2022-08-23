@@ -1,10 +1,10 @@
 
 #include <utilitieslib/utils/utils.h>    // for strstri
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "player/player.h"
 #include "cmdparse/cmdgame.h"
 #include "entity/costume.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entclient.h"    // for entSetAlpha
 #include "clientcomm/clientcomm.h"
 #include "entity/costume_client.h"

@@ -46,9 +46,9 @@
 #include "gameComm/VillainDef.h"
 #include "entity/character_combat.h"
 #include "entity/character_tick.h"
-#include "script/scripthook/ScriptHookEntityTeam.h"
-#include "script/scripthook/ScriptHookInternal.h"
-#include "script/scripthook/ScriptHookMission.h"
+#include "script/Scripthook/ScriptHookEntityTeam.h"
+#include "script/Scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookMission.h"
 #include "entity/character_animfx.h" // temporary for ExitStance
 #include "language/commonLangUtil.h"
 

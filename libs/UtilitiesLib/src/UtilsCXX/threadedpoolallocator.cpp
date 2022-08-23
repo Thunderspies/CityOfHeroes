@@ -1,6 +1,6 @@
 #include "utilitieslib/UtilsCXX/threadedpoolallocator.hpp"
 #include "utilitieslib/UtilsNew/barrier.h"
-#include "utilitieslib/components/memorypool.h"
+#include "utilitieslib/components/MemoryPool.h"
 #include "utilitieslib/UtilsCXX/criticalsection.hpp"
 #include "utilitieslib/UtilsCXX/futex.hpp"
 

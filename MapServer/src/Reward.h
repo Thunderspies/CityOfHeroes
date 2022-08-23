@@ -7,7 +7,7 @@
 #define REWARD_H__
 
 #include <utilitieslib/components/earray.h>
-#include "gameComm/NPC.h"        // For PowerNameRef and ParsePowerNameRef
+#include "gameComm/Npc.h"        // For PowerNameRef and ParsePowerNameRef
 #include <utilitieslib/utils/textparser.h> // For TokenizerParseInfo
 #include "entity/RewardItemType.h"
 #include "entity/incarnate_server.h"

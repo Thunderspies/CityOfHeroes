@@ -15,7 +15,7 @@
 #include "UI/sprite/sprite_base.h"
 #include "UI/sprite/sprite_font.h"
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/components/StashTable.h>
@@ -24,7 +24,7 @@
 #include "UI/uiOptions.h"
 #include "graphics/ttFontUtil.h"
 #include "UI/uiChat.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "uiSalvage.h"
 #include "entity/salvage.h"
 

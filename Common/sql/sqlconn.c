@@ -2,11 +2,11 @@
 #include "sqlconn.h"
 #include "sqlinclude.h"
 #include <utilitieslib/utils/SuperAssert.h>
-#include <utilitieslib/utils/stackdump.h>
+#include <utilitieslib/utils/Stackdump.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/utils/stringutil.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/utils/StringUtil.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/utils/log.h>
 #include <utilitieslib/utils/endian.h>

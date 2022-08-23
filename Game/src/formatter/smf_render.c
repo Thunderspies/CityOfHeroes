@@ -12,12 +12,12 @@
 #include "formatter/smf_render.h"
 
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/powers.h"
 #include "entity/costume.h"
 #include "bases/DetailRecipe.h"
 
-#include "gameComm/npc.h"
+#include "gameComm/Npc.h"
 #include "graphics/truetype/ttFontDraw.h"
 #include "graphics/ttFontUtil.h"
 #include "UI/sprite/sprite_base.h"
@@ -31,7 +31,7 @@
 #include <utilitieslib/utils/timing.h>
 
 #include <utilitieslib/utils/MemoryMonitor.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/StringUtil.h>
 #include "UI/uiPictureBrowser.h"
 #include "win/win_init.h"

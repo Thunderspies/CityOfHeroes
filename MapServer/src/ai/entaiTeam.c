@@ -3,7 +3,7 @@
 #include "ailib/aiBehaviorInterface.h"    // for the teambase creating and destroying
 #include "ailib/aiBehaviorPublic.h"
 #include "cmdparse/cmdserver.h"
-#include "ai/entaiPrivate.h"
+#include "ai/entaiprivate.h"
 #include "ai/entaiLog.h"
 #include <utilitieslib/utils/error.h>
 #include "entity/motion.h"

@@ -17,7 +17,7 @@
 #include <utilitieslib/utils/utils.h>
 #include "cmdparse/cmdcommon.h"
 #include "svr/svr_base.h"
-#include "gamecomm/sendToClient.h"
+#include "gameComm/sendToClient.h"
 #include "svr/svr_player.h"
 #include <utilitieslib/utils/timing.h>
 #include "entity/entPlayer.h"

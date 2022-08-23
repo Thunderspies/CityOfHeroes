@@ -2,8 +2,8 @@
 // NOTE - the textparser can NOT be used from a second thread.
 // Please let Mark know if this needs to be changed
 
-#include "utilitieslib/utils/superassert.h"
-#include "utilitieslib/components/memorypool.h"
+#include "utilitieslib/utils/SuperAssert.h"
+#include "utilitieslib/components/MemoryPool.h"
 #include "utilitieslib/utils/textparser.h"
 #include "utilitieslib/components/earray.h"
 #include <stdio.h>
@@ -16,7 +16,7 @@
 #include "utilitieslib/utils/qsortG.h"
 #include "utilitieslib/stdtypes.h"
 #include "utilitieslib/components/StringCache.h"
-#include "utilitieslib/utils/quat.h"
+#include "utilitieslib/utils/Quat.h"
 #include "utilitieslib/utils/structInternals.h"
 #include "utilitieslib/utils/tokenstore.h"
 #include "utilitieslib/utils/structTokenizer.h"
@@ -39,13 +39,13 @@
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/error.h"
-#include "utilitieslib/components/stringtable.h"
+#include "utilitieslib/components/StringTable.h"
 #include "utilitieslib/components/SharedMemory.h"
 #include "utilitieslib/components/SharedHeap.h"
 #include "utilitieslib/utils/sysutil.h"
 #include "utilitieslib/utils/FolderCache.h"
 #include "utilitieslib/utils/mathutil.h"
-#include "utilitieslib/components/Estring.h"
+#include "utilitieslib/components/EString.h"
 #include "utilitieslib/utils/rand.h"
 #include "utilitieslib/utils/endian.h"
 

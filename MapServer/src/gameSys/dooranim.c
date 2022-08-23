@@ -4,17 +4,17 @@
  *  Copyright 2003 Cryptic Studios, Inc.
  */
 
-#include "gamesys/dooranim.h"
+#include "gameSys/dooranim.h"
 #include "gameComm/dooranimcommon.h"
 #include "svr/svr_base.h"
 #include "entity/entity.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "svr/svr_player.h"
 #include "dbcomm/dbdoor.h"
-#include "gameComm/sendtoclient.h"
+#include "gameComm/sendToClient.h"
 #include "comm_game.h"
 #include "ai/entai.h"
-#include <utilitieslib/utils/breakpoint.h>
+#include <utilitieslib/utils/Breakpoint.h>
 #include "dbcomm/dbcomm.h"
 #include "dbcomm/dbmapxfer.h"
 #include "player/parseClientInput.h"

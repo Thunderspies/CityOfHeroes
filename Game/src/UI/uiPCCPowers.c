@@ -21,17 +21,17 @@
 #include "entity/character_base.h"            // character base
 #include "sound/sound.h"                    //    sounds
 #include "entity/powers.h"                    //    basepowersets
-#include <utilitieslib/components/Earray.h>                    //    earraygetsize
+#include <utilitieslib/components/earray.h>                    //    earraygetsize
 #include "entity/entity.h"                    //    entity def
-#include "entity/EntPlayer.h"                //    for PL
+#include "entity/entPlayer.h"                //    for PL
 #include "entity/costume.h"                //    for costumeunawardparts
 #include "graphics/ttFontUtil.h"                //    for CENTER_Y
 #include <utilitieslib/language/MessageStoreUtil.h>        //    for textStd
 #include "player/player.h"                    //    for playerPtr
 #include "entity/entclient.h"                //    for entcreate
 #include <utilitieslib/components/StashTable.h>                //    for stashTable
-#include "gameComm/villainDef.h"                //    for villain rank enum
-#include <utilitieslib/components/estring.h>
+#include "gameComm/VillainDef.h"                //    for villain rank enum
+#include <utilitieslib/components/EString.h>
 #include "entity/PCC_Critter.h"
 #include "entity/PCC_Critter_Client.h"
 #include "uiPCCCreationNLM.h"

@@ -14,7 +14,7 @@
 #include "group/groupProperties.h"
 #include "group/grouputil.h"
 #include "group/groupnetsend.h"
-#include "dbcomm/staticmapinfo.h"
+#include "dbcomm/staticMapInfo.h"
 #include "entity/entity.h"
 
 // *********************************************************************************

@@ -27,15 +27,15 @@
 #include <utilitieslib/components/StashTable.h>
 #include "sound_common.h"
 
-#include "scripthook/ScriptHookWaypoint.h"
-#include "scripthook/ScriptHookEntityTeam.h"
-#include "scripthook/ScriptHookReward.h"
-#include "scripthook/ScriptHookEncounter.h"
-#include "scripthook/ScriptHookLocation.h"
-#include "scripthook/ScriptHookMission.h"
-#include "scripthook/ScriptHookCallbacks.h"
-#include "scripthook/ScriptHookContact.h"
-#include "scripthook/ScriptHookAI.h"
+#include "Scripthook/ScriptHookWaypoint.h"
+#include "Scripthook/ScriptHookEntityTeam.h"
+#include "Scripthook/ScriptHookReward.h"
+#include "Scripthook/ScriptHookEncounter.h"
+#include "Scripthook/ScriptHookLocation.h"
+#include "Scripthook/ScriptHookMission.h"
+#include "Scripthook/ScriptHookCallbacks.h"
+#include "Scripthook/ScriptHookContact.h"
+#include "Scripthook/ScriptHookAI.h"
 
 // script doors
 void OpenDoor(  LOCATION doorName );

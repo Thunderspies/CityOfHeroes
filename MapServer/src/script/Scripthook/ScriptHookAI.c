@@ -17,7 +17,7 @@
 
 #include "cmdparse/cmdserver.h"
 #include "storyarc/storyarcprivate.h"
-#include "generator/encounterprivate.h"
+#include "generator/encounterPrivate.h"
 #include "ai/entai.h"
 #include "ai/entaiLog.h"
 #include "ailib/aiBehaviorPublic.h"
@@ -27,7 +27,7 @@
 #include "ai/entaiprivate.h"
 #include "svr/svr_player.h"
 #include "entity/entPlayer.h"
-#include "entity/entgameactions.h"
+#include "entity/entGameActions.h"
 #include "entity/character_base.h"
 #include "entity/character_level.h"
 #include "entity/character_target.h"
@@ -37,7 +37,7 @@
 #include "seq/seqstate.h"
 #include "beacon/beacon.h"
 
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 
 // *********************************************************************************
 //  AI Behavior stuff

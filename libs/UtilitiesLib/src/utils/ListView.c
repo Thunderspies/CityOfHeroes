@@ -4,7 +4,7 @@
 
 #include "utilitieslib/utils/ListView.h"
 #include "utilitieslib/utils/StringUtil.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 #include "utilitieslib/assert/assert.h"
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/components/earray.h"

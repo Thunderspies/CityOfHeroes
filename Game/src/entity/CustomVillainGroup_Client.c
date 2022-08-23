@@ -6,7 +6,7 @@
 #include "entity/PCC_Critter.h"
 #include "entity/PCC_Critter_Client.h"                //    for client critter things
 #include "UI/uiMissionMakerScrollSet.h"        //    for update custom critter list
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/language/MessageStoreUtil.h>                //    for textStd
 #include <utilitieslib/utils/FolderCache.h>
 #include "UI/uiCustomVillainGroupWindow.h"

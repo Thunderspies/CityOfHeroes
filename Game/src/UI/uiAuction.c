@@ -21,7 +21,7 @@
 #include "UI/uiChat.h"
 #include "uiAmountSlider.h"
 #include "UI/uiTray.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiOptions.h"
 #include "uiSalvage.h"
 #include "UI/uiPlaque.h"
@@ -45,20 +45,20 @@
 #include "sound/sound.h"
 #include "entity/powers.h"
 #include "entity/boostset.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "player/player.h"
 #include "entity/entity.h" 
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "win/input.h"
 #include <utilitieslib/components/StashTable.h>
 #include "graphics/textureatlas.h"
 #include "bases/DetailRecipe.h"
 #include "gameComm/trayCommon.h"
-#include "auction/auction.h"
+#include "auction/Auction.h"
 #include "entity/boost.h"
 #include "entity/attrib_names.h"
 #include "auction/AuctionData.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "storyarc/playerCreatedStoryarcValidate.h"
 #include "account/AccountCatalog.h"
 

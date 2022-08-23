@@ -5,13 +5,13 @@
 #include "dbcomm/dbcomm.h"
 #include "gameComm/sendToClient.h"
 #include "language/langServerUtil.h"
-#include "reward.h"
+#include "Reward.h"
 #include "entity/character_base.h"
 #include "entity/character_target.h"
 #include "container/team.h"
-#include "teamReward.h"
+#include "TeamReward.h"
 #include <utilitieslib/utils/mathutil.h>
-#include "entgameactions.h"
+#include "entGameActions.h"
 #include <utilitieslib/utils/error.h>
 #include "dbcomm/logcomm.h"
 #include "cmdparse/cmdserver.h"

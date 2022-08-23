@@ -1,13 +1,13 @@
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/network/netio.h>
 #include "entity/costume.h"
 #include "entity/costume_client.h"
-#include "gamedata/bodypart.h"
+#include "gameData/BodyPart.h"
 #include "comm_backend.h"
 #include "clientcomm/dbclient.h"
 #include <utilitieslib/network/sock.h>
 #include <utilitieslib/network/net_link.h>
-#include <utilitieslib/Version/AppVersion.h>
+#include <utilitieslib/version/AppVersion.h>
 #include <stdio.h>
 #include "testClient/TestClient.h"
 #include <utilitieslib/utils/timing.h>
@@ -30,13 +30,13 @@
 #include "UI/uiNet.h"
 #include "UI/uiConsole.h"
 #include <utilitieslib/components/HashFunctions.h>
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include <utilitieslib/utils/file.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "player/inventory_client.h"
-#include "clientComm/authclient.h"
+#include "clientcomm/authclient.h"
 #include "clientcomm/clientcomm.h"
 #include "graphics/font.h"
 

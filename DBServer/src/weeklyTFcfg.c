@@ -1,6 +1,6 @@
 #include "weeklyTFcfg.h"
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "dbrelay.h"
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/utils/utils.h>

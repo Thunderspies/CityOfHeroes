@@ -1,5 +1,5 @@
 #include "dbcomm.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "dbcontainer.h"
 #include <utilitieslib/utils/error.h>
 #include "container_diff.h"
@@ -13,7 +13,7 @@
 #include "entity/entity.h"
 #include "container/team.h"
 #include "gameSys/raidmapserver.h"
-#include "gameSys/endgameraid.h"
+#include "gameSys/EndGameRaid.h"
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/timing.h>
 #include "container/container_util.h"

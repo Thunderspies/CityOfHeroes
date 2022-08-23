@@ -11,7 +11,7 @@
 #include "league.h"
 #include "svr/svr_player.h"
 #include "storyarc/storyarcprivate.h"
-#include "entity/entgameactions.h"
+#include "entity/entGameActions.h"
 #include "storyarc/TeamTask.h"
 #include "storyarc/contact.h"
 #include "language/langServerUtil.h"

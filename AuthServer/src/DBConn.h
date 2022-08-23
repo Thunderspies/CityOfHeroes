@@ -11,7 +11,7 @@
 
 #include "GlobalAuth.h"
 #include "IOObject.h"
-#include "lock.h"
+#include "Lock.h"
 
 #define MAX_CONN_STR 256
 

@@ -4,8 +4,8 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include "chat_emote.h"
-#include "entity/Entity.h"
-#include "entity/EntityRef.h"
+#include "entity/entity.h"
+#include "entity/entityRef.h"
 #include "TeamReward.h"
 #include "player/badges_server.h"
 #include "language/langServerUtil.h"

@@ -18,7 +18,7 @@ NCINLINE void lazyUnlock(LazyLock *lock);    // releases the lock
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <WinBase.h>
+#include <winbase.h>
 
 struct LazyLock
 {

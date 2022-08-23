@@ -17,7 +17,7 @@
 
 #include "cmdparse/cmdserver.h"
 #include "storyarc/storyarcprivate.h"
-#include "generator/encounterprivate.h"
+#include "generator/encounterPrivate.h"
 #include "ai/entai.h"
 #include "ai/entaiLog.h"
 #include "ai/entaiScript.h"
@@ -25,7 +25,7 @@
 #include "ai/entaiprivate.h"
 #include "svr/svr_player.h"
 #include "entity/entPlayer.h"
-#include "entity/entgameactions.h"
+#include "entity/entGameActions.h"
 #include "entity/character_base.h"
 #include "entity/character_level.h"
 #include "entity/character_target.h"
@@ -34,7 +34,7 @@
 #include "group/group.h"
 #include "entity/motion.h"
 
-#include "script/scripthook/ScriptHookInternal.h"
+#include "script/Scripthook/ScriptHookInternal.h"
 #include "entity/PCC_Critter.h"
 
 //Internal Functions

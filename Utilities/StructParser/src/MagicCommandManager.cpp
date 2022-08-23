@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "MagicCommandManager.h"
 #include "strutils.h"
-#include "sourceparser.h"
-#include "autorunmanager.h"
+#include "SourceParser.h"
+#include "AutoRunManager.h"
 
 
 

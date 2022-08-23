@@ -11,7 +11,7 @@
 #include "storyarc/storyarcprivate.h"
 #include "storyarc/pnpc.h"
 #include "entity/entVarUpdate.h"
-#include "entity/entServer.h"
+#include "entity/entserver.h"
 #include "comm_game.h"
 #include "storyarc/contact.h"
 #include "storyarc/pnpcCommon.h"

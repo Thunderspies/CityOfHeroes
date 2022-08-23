@@ -16,7 +16,7 @@
 #include "AccountDb.hpp"
 #include "AccountSql.h"
 #include "AccountServer.hpp"
-#include "accountcmds.h"
+#include "AccountCmds.h"
 #include "account_inventory.h"
 #include "account_loyaltyrewards.h"
 #include "request_shardxfer.hpp"

@@ -4,19 +4,19 @@
 #include <utilitieslib/stdtypes.h>
 #include <serverlib/serverlib.h>
 #include <utilitieslib/utils/timing.h>
-#include <utilitieslib/UtilsNew/str.h>
+#include <utilitieslib/UtilsNew/Str.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/error.h>
 #include "dbserver/servercfg.h"      // for MAX_DBSERVER
 #include <utilitieslib/network/netio.h>
 #include "comm_backend.h"
-#include "entity/teamcommon.h"
+#include "entity/teamCommon.h"
 #include "chatdefs.h"
-#include "turnstile/turnstileservercommon.h"
-#include "turnstileservergroup.h"
-#include "turnstileservermsg.h"
+#include "turnstile/TurnstileServerCommon.h"
+#include "TurnstileServerGroup.h"
+#include "TurnstileServerMsg.h"
 #include "TurnstileServerEvent.h"
-#include "turnstileserver.h"
+#include "TurnstileServer.h"
 
 static NetLink db_links[MAX_DBSERVER];
 static int retryTimers[MAX_DBSERVER];                // timers used to throttle reconnect attempts

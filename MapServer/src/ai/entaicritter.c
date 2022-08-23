@@ -11,7 +11,7 @@
 #include "seq/seqstate.h"
 #include "seq/seq.h"
 #include "entity/entity.h"
-#include "gamesys/dooranim.h"
+#include "gameSys/dooranim.h"
 #include "gridcoll/megaGrid.h"
 #include "entity/powers.h"
 #include "entity/character_base.h"

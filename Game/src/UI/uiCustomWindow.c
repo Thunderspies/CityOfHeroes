@@ -1,5 +1,5 @@
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/textparser.h>
 #include "gameComm/wdwbase.h"
 #include "win/win_init.h"
@@ -17,7 +17,7 @@
 #include "UI/uiClipper.h"
 #include "UI/uiBox.h"
 #include "UI/uiContextMenu.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiInput.h"
 #include "UI/uiCursor.h"
 #include "UI/uiTray.h"

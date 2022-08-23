@@ -20,7 +20,7 @@
 #include "entity/LoadDefCommon.h"
 #include <utilitieslib/utils/file.h> // isDevelopmentMode()
 #include "entity/classes.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StringCache.h>
 #include "account/AccountCatalog.h"
 
@@ -28,7 +28,7 @@
     #include "cmdparse/cmdgame.h"
     #include "UI/uiCostume.h"
     #include "UI/uiTailor.h"
-    #include "UI/uidialog.h"
+    #include "UI/uiDialog.h"
     #include "UI/uiSupercostume.h"
     #include "imageServer.h"
     #include "entity/costume_client.h"

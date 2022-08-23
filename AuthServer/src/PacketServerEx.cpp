@@ -1,4 +1,4 @@
-#include "packet.h"
+#include "Packet.h"
 
 LONG CPacketServerEx::g_nPendingPacket;
 

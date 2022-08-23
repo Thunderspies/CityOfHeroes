@@ -8,7 +8,7 @@
 #include "utilitieslib/assert/assert.h"
 #include "utilitieslib/utils/error.h"
 #include "utilitieslib/utils/fpmacros.h"
-#include "utilitieslib/components/memorypool.h"
+#include "utilitieslib/components/MemoryPool.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/components/Frustum.h"
 #include "utilitieslib/components/Octree.h"

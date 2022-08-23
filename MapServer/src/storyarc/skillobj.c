@@ -5,7 +5,7 @@
  ***************************************************************************/
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/utils.h>
 

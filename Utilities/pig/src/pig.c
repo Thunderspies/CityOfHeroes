@@ -40,7 +40,7 @@
 #include "utilitieslib/utils/ListView.h"
 #include "resource.h"
 #include "utilitieslib/utils/winutil.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 #include "utilitieslib/utils/log.h"
 #include "utilitieslib/utils/textparser.h"
 

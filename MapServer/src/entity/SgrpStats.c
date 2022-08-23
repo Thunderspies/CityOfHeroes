@@ -21,7 +21,7 @@
 
 // for rewards
 #include "entity/entity.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "SgrpServer.h"
 #include "entity/Supergroup.h"
 #include <utilitieslib/utils/log.h>

@@ -4,7 +4,7 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include <stdarg.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 #include "graphics/ttFont.h"
 #include <utilitieslib/language/MessageStore.h> // for msvaPrintf
@@ -27,7 +27,7 @@
 #include "storyarc/playerCreatedStoryarcValidate.h"
 #include "player/player.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "auth/authUserData.h"
 #include "cmdparse/cmdgame.h"
 

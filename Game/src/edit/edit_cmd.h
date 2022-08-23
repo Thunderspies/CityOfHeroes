@@ -3,7 +3,7 @@
 
 #include <utilitieslib/stdtypes.h>
 //#include <utilitieslib/utils/cmdoldparse.h>
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "Menu.h"
 
 typedef struct DefTracker DefTracker;

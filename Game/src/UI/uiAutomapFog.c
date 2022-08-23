@@ -1,5 +1,5 @@
 #include "UI/uiAutomap.h"
-#include "UI/uiAutoMapFog.h"
+#include "UI/uiAutomapFog.h"
 #include "render/tex_gen.h"
 #include "render/tex.h"
 #include "graphics/textureatlas.h"
@@ -16,7 +16,7 @@
 #include "entity/teamCommon.h"
 #include "entity/Supergroup.h"
 #include "UI/uiMissionReview.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 
 typedef struct
 {

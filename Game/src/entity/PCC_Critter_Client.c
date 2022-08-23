@@ -2,7 +2,7 @@
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "entity/origins.h"                //    for origins pointer
 
-#include "entity/EntPlayer.h"                //    costume ent player pointer
+#include "entity/entPlayer.h"                //    costume ent player pointer
 
 #include "entity/PCC_Critter.h"
 #include "entity/PCC_Critter_Client.h"
@@ -10,12 +10,12 @@
 #include "entity/costume.h"
 #include "entity/entity.h"
 #include "player/player.h"
-#include <utilitieslib/components/estring.h>
-#include <utilitieslib/components/memorypool.h>
+#include <utilitieslib/components/EString.h>
+#include <utilitieslib/components/MemoryPool.h>
 
 #include "varutils.h"                //    playerVarAlloc
 #include "entity/character_base.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 #include "entity/entclient.h"                //    for entcreate
 #include "UI/uiSupercostume.h"            //    costume validation things

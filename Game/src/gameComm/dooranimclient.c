@@ -9,7 +9,7 @@
 #include <utilitieslib/network/netio.h>
 #include "clientcomm/clientcomm.h"
 #include "player/player.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/entVarUpdate.h"
 #include "UI/uiCursor.h"
 #include "win/win_init.h"

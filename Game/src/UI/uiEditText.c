@@ -17,7 +17,7 @@
 #include "language/langClientUtil.h"
 #include "graphics/ttFontUtil.h"
 #include "win/win_init.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "graphics/ttFont.h"
 #include "UI/uiBox.h"
 #include "UI/uiClipper.h"

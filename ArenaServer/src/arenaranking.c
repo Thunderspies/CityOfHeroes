@@ -16,7 +16,7 @@
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/entity.h"
 #include <utilitieslib/utils/log.h>
 

@@ -1,5 +1,5 @@
 #include "UI/uiTabControl.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "assert.h"
 #include "graphics/textureatlas.h"
 #include "UI/sprite/sprite_text.h"

@@ -2,13 +2,13 @@
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/eval.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/mathutil.h>
 
 #include "entity/entity.h"
-#include "entity/entplayer.h"
-#include "gamecomm/villainDef.h"
+#include "entity/entPlayer.h"
+#include "gameComm/VillainDef.h"
 
 #include "entity/origins.h"
 #include "entity/classes.h"

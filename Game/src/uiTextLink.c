@@ -1,8 +1,8 @@
 
 #include <utilitieslib/components/StashTable.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/mathutil.h>
 
 #include "entity/powers.h"

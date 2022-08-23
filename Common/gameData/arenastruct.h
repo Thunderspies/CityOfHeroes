@@ -16,7 +16,7 @@
 #include "arenaref.h"
 #include <utilitieslib/utils/textparser.h>
 #include "entity/gametypes.h"
-#include <utilitieslib/utils/structdefines.h>
+#include <utilitieslib/utils/structDefines.h>
 
 typedef struct Packet Packet;
 

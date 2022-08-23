@@ -12,12 +12,11 @@
 #include <utilitieslib/language/MessageStore.h>
 #include <utilitieslib/components/bitfield.h>
 #include "entity/entity.h"    
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "entity/origins.h"
 #include "entity/classes.h"
 #include "entity/character_base.h"
 #include "player/badges.h"
-#include <utilitieslib/language/MessageStore.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "entity/LoadDefCommon.h"

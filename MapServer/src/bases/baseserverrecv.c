@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "bases/basestorage.h"
-#include "entity/Salvage.h"
+#include "entity/salvage.h"
 #include "entity/powers.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "bases/bases.h"
@@ -30,9 +30,9 @@
 #include "entity/character_inventory.h"
 #include "gridcoll/gridcache.h"
 #include "container/baseloadsave.h"
-#include "entity/supergroup.h"
+#include "entity/Supergroup.h"
 #include "container/team.h"
-#include "gameComm/sendtoclient.h"
+#include "gameComm/sendToClient.h"
 #include <utilitieslib/utils/utils.h>
 #include "cmdparse/cmdserver.h"
 #include "language/langServerUtil.h"

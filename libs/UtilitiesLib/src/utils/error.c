@@ -1,5 +1,5 @@
 #include "utilitieslib/utils/error.h"
-#include "utilitieslib/components/stringcache.h"
+#include "utilitieslib/components/StringCache.h"
 #include "utilitieslib/utils/log.h"
 #include <stdarg.h>
 #include <stdio.h>

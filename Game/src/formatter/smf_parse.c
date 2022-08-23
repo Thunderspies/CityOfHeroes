@@ -10,8 +10,8 @@
 #include "formatter/smf_parse.h"
 
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 
 #include "UI/sprite/sprite_font.h"
 #include <utilitieslib/utils/timing.h>

@@ -19,15 +19,15 @@
 #include "UI/uiMapSelect.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "player/player.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 
 #include "formatter/smf_main.h"
 #include "entity/entity.h"
 #include "entity/character_base.h"
 #include "entity/Supergroup.h"
-#include "entity/EntPlayer.h"
-#include <utilitieslib/components/estring.h>
-#include <utilitieslib/components/Earray.h>
+#include "entity/entPlayer.h"
+#include <utilitieslib/components/EString.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/sprite/sprite_text.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "cmdparse/cmdgame.h"

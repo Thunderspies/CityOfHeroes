@@ -1,8 +1,8 @@
 #include "group/grouputil.h"
-#include "group/groupproperties.h"
+#include "group/groupProperties.h"
 #include "group/group.h"
 #include "entity/entity.h"
-#include "entity/entityref.h"
+#include "entity/entityRef.h"
 
 // Define both the client and server versions.  The common routines only reference two members: name and mat, and both of these will hold the same values
 // on the client as they do on the server.

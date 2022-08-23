@@ -4,13 +4,13 @@
 #include "UI/uiWindows.h"    //    for window functions
 #include "UI/uiUtilGame.h"    //    for drawFrame
 #include "UI/uiUtilMenu.h"    //    for textWithDot
-#include "UI/uidialog.h"    //    for dialog windows
+#include "UI/uiDialog.h"    //    for dialog windows
 #include "uiHelpButton.h"
 #include "cmdparse/cmdcommon.h"
 
 #include "storyarc/playerCreatedStoryarcValidate.h"    //    for villain group list
 #include "uiScrollSelector.h"                //    for scroll selectors            
-#include <utilitieslib/components/Earray.h>                            //    earray functions
+#include <utilitieslib/components/earray.h>                            //    earray functions
 #include <utilitieslib/language/MessageStoreUtil.h>                //    for textStd
 #include <utilitieslib/utils/error.h>
 #include "UI/uiClipper.h"                        //    for clipping
@@ -18,8 +18,8 @@
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_font.h"
 #include "graphics/ttFontUtil.h"
-#include "gameComm/villainDef.h"                        //    for villainDef
-#include <utilitieslib/components/estring.h>                        //    for estrings
+#include "gameComm/VillainDef.h"                        //    for villainDef
+#include <utilitieslib/components/EString.h>                        //    for estrings
 #include "UI/uiPictureBrowser.h"                //    for picture browser
 #include "formatter/smf_main.h"                        //    for smf
 #include <utilitieslib/utils/SuperAssert.h>                    //    for assert

@@ -2,10 +2,10 @@
 #include "entity/entity.h"
 #include "player/player.h"
 #include <utilitieslib/network/net_packet.h>            // for pkt.. functions
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include <utilitieslib/components/earray.h>
 #include "entity/powers.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "entity/classes.h"
 #include "entity/character_base.h"
 #include "gameData/costume_data.h"
@@ -20,7 +20,7 @@
 #include "entity/power_customization_client.h"
 #elif SERVER
 #include "entity/power_customization_server.h"
-#include "reward.h"
+#include "Reward.h"
 #include <utilitieslib/utils/error.h>
 #endif
 

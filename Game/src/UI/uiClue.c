@@ -4,10 +4,10 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include "assert.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "cmdparse/cmdcommon.h"
 #include <utilitieslib/utils/mathutil.h>
-#include "storyarc\storyarcClient.h"
+#include "storyarc/storyarcClient.h"
 
 #include "gameComm/wdwbase.h"
 
@@ -22,7 +22,7 @@
 #include "UI/uiBox.h"
 #include "UI/uiClipper.h"
 #include "UI/uiConsole.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 
 #include "UI/sprite/sprite_base.h"
@@ -33,7 +33,7 @@
 #include "formatter/smf_main.h"
 #include "edit/ClickToSource.h"
 #include <utilitieslib/utils/textparser.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/sysutil.h>
 #include "cmdparse/cmdgame.h"
 #include "storyarc/playerCreatedStoryarcValidate.h"

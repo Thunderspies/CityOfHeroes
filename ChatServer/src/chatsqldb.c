@@ -1,13 +1,13 @@
 #include <utilitieslib/stdtypes.h>
 #include "chatsqldb.h"
 #include "chatdb.h"
-#include "chatsql.h"
+#include "ChatSql.h"
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/log.h>
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/components/stashtable.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/StashTable.h>
+#include <utilitieslib/components/EString.h>
 
 typedef struct ChatDb
 {

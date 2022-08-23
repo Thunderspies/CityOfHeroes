@@ -3,7 +3,7 @@
 #include "group/groupdyn.h"
 #include "groupdynsend.h"
 #include <utilitieslib/utils/utils.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/network/netio.h>

@@ -2,10 +2,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "precomp.h"
+#include "PreComp.h"
 #include "md5.h"
-#include "cryptLib/sha.h"
-#include "cryptlib/Adler32.h"
+#include "cryptlib/sha.h"
+#include "cryptlib/adler32.h"
 
 using namespace std;
 using namespace CryptoPP;

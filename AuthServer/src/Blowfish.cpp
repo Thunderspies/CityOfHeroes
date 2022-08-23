@@ -1,5 +1,5 @@
 #define ORDER_DCBA
-#include "blowfish.h"
+#include "Blowfish.h"
 #include <string.h>
 
 static UWORD_32bits bf_PSource[bf_N + 2] = {

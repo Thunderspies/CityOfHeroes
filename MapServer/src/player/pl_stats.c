@@ -11,11 +11,11 @@
 #include "gameComm/sendToClient.h" // conprintf
 
 #include "entity/entity.h"
-#include "entity/entplayer.h"
+#include "entity/entPlayer.h"
 #include "cmdparse/cmdserver.h"
 #include "entity/character_base.h"
-#include "gameComm/villainDef.h"
-#include "gamesys/arenamap.h"
+#include "gameComm/VillainDef.h"
+#include "gameSys/arenamap.h"
 
 #include "stats_base.h"
 #include "pl_stats.h"

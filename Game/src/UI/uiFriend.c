@@ -26,13 +26,13 @@
 #include "UI/uiScrollBar.h"
 #include "UI/uiContextMenu.h"
 #include "uiListView.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "UI/uiClipper.h"
 #include "graphics/ttFontUtil.h"
 
 #include "UI/uiComboBox.h"
 #include <utilitieslib/utils/utils.h>
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "win/input.h"
 #include "chatdb.h"
 #include "gameComm/chatClient.h"

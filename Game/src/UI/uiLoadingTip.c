@@ -11,7 +11,7 @@
 #include "uiSMFView.h"
 
 #include <utilitieslib/version/AppRegCache.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/error.h>
 #include "win/win_init.h"
 

@@ -4,8 +4,8 @@
 #include <utilitieslib/stdtypes.h>
 #include "entity/gametypes.h"
 #include <utilitieslib/utils/Color.h>
-#include <utilitieslib/utils/superassert.h>
-#include "bases/baseraid.h"
+#include <utilitieslib/utils/SuperAssert.h>
+#include "bases/baseRaid.h"
 #include "utilitieslib/components/StashTable.h"
 #include "bases/basedata.h"
 

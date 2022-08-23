@@ -1,5 +1,5 @@
 
-#include "entaiPrivate.h"
+#include "entaiprivate.h"
 #include "beacon/beaconPath.h"
 #include "beacon/beaconPrivate.h"
 #include "entity/entity.h"

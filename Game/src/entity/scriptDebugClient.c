@@ -11,7 +11,7 @@
 #include "gameComm/debugCommon.h"
 #include "entity/scriptDebugClient.h" 
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/utils/utils.h>
 #include "cmdparse/cmdgame.h"

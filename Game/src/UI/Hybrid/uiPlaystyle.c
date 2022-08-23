@@ -7,7 +7,7 @@
 
 #include "win/input.h"
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "win/win_init.h" // for windowClientSize
 #include "player/player.h"      // for playerPtr
 #include "graphics/font.h"
@@ -30,7 +30,7 @@
 #include "UI/Hybrid/uiHybridMenu.h"
 
 #include "entity/classes.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 
 enum
 {

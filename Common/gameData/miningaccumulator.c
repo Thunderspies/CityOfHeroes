@@ -4,7 +4,7 @@
 #include <utilitieslib/components/StashTable.h>
 #include "comm_backend.h"
 #include "container/dbcontainerpack.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StringCache.h>
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/utils/timing.h>

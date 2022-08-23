@@ -26,9 +26,9 @@
 #include <utilitieslib/utils/eval.h>
 #include "gameSys/sgraid.h"
 #include "gameSys/raidmapserver.h"
-#include "entity/supergroup.h"
+#include "entity/Supergroup.h"
 #include "door.h"
-#include "reward.h"
+#include "Reward.h"
 #include "taskforce.h"
 #include "entity/TaskforceParams.h"
 #include "storyarc/missionMapCommon.h"

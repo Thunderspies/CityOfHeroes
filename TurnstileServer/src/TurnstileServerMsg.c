@@ -4,16 +4,16 @@
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/components/earray.h>
 #include "comm_backend.h"
-#include "entity/teamcommon.h"
+#include "entity/teamCommon.h"
 #include "chatdefs.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/utils.h>
 #include "auth/auth.h"
 #include "account/AccountTypes.h"
-#include "turnstile/turnstileservercommon.h"
-#include "turnstileservergroup.h"
-#include "turnstileserver.h"
-#include "turnstileservermsg.h"
+#include "turnstile/TurnstileServerCommon.h"
+#include "TurnstileServerGroup.h"
+#include "TurnstileServer.h"
+#include "TurnstileServerMsg.h"
 #include "TurnstileServerEvent.h"
 #include <utilitieslib/utils/log.h>
 

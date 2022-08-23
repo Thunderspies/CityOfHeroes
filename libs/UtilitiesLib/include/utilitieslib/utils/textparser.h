@@ -11,9 +11,9 @@
 #include "../stdtypes.h"
 #include "memcheck.h"
 
-#include "structdefines.h" // TODO - remove later
-#include "structtokenizer.h" // TODO - remove later
-#include "textparserutils.h" // TODO - remove later
+#include "structDefines.h" // TODO - remove later
+#include "structTokenizer.h" // TODO - remove later
+#include "textparserUtils.h" // TODO - remove later
 #include <utilitieslib/utils/structoldnames.h> // backwards compatibility
 
 C_DECLARATIONS_BEGIN

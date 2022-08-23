@@ -3,7 +3,7 @@
 
 #include "GlobalAuth.h"
 #include "ServerId.h"
-#include "account.h"
+#include "Account.h"
 
 #define MAX_IP_LEN 15
 // In theory, the game client can accept up to 255 characters

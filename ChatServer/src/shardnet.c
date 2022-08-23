@@ -16,7 +16,7 @@
 #include <utilitieslib/network/net_masterlist.h>
 #include "filter/profanity.h"
 #include "shardnet.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "filter/reserved_names.h"
 #include "monitor.h"
 #include "admin.h"

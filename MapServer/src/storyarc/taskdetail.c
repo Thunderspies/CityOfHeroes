@@ -11,7 +11,7 @@
 
 #include "task.h"
 #include "storyarcprivate.h"
-#include "reward.h"
+#include "Reward.h"
 #include "entity/powers.h"
 #include "comm_game.h"
 #include "entity/entity.h"

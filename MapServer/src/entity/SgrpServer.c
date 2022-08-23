@@ -1,5 +1,5 @@
 #include "SgrpServer.h"
-#include "entity/Sgrpbasepermissions.h"
+#include "entity/SgrpBasePermissions.h"
 #include "bases/baseupkeep.h"
 
 #include <utilitieslib/utils/eval.h>
@@ -22,7 +22,7 @@
 #include "entity/entity.h"
 #include "entity/entPlayer.h"
 #include "language/langServerUtil.h"
-#include <utilitieslib/utils/memorymonitor.h>
+#include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/language/MultiMessageStore.h>
 #include "gameComm/sendToClient.h"
 #include "dbcomm/staticMapInfo.h"
@@ -35,7 +35,7 @@
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/utils.h>
 #include "filter/validate_name.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "bases/bases.h"
 #include "bases/baseparse.h"
 #include "bases/basedata.h"
@@ -45,7 +45,7 @@
 #include "auth/authUserData.h"
 #include "entity/character_inventory.h"
 #include <utilitieslib/utils/mathutil.h>
-#include "storyarc/storysend.h"
+#include "storyarc/storySend.h"
 #include "storyarc/contactdef.h"
 #include "storyarc/storyarcprivate.h"
 #include "gameSys/raidmapserver.h"

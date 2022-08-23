@@ -1,13 +1,13 @@
-#include <utilitieslib/components/Earray.h>         // for StructGetNum
+#include <utilitieslib/components/earray.h>         // for StructGetNum
 #include "player/player.h"
 #include "entity/entity.h"         // for entity
 #include "entity/powers.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/character_base.h" // for pchar
 #include "entity/attrib_description.h"
 #include "entity/attrib_names.h"
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/structDefines.h>
 #include "win/input.h"
 
@@ -34,7 +34,7 @@
 #include "uiCombineSpec.h"
 #include <utilitieslib/language/AppLocale.h>
 #include "gameData/PowerNameRef.h"
-#include "gameComm/villainDef.h"
+#include "gameComm/VillainDef.h"
 #include "UI/uiPowerInfo.h"
 #include "uiSlider.h"
 #include "UI/uiGame.h"

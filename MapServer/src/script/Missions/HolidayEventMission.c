@@ -6,9 +6,9 @@
 #include "script/scriptutil.h"
 #include "script/scriptengine.h"
 #include "gridcoll/gridcoll.h"
-#include "generator/encounterprivate.h"
+#include "generator/encounterPrivate.h"
 #include <utilitieslib/utils/file.h>
-#include "script/ZoneEvents/holidayevent.h"
+#include "script/ZoneEvents/HolidayEvent.h"
 #include <utilitieslib/utils/SuperAssert.h>
 #include "dbcomm/dbcontainer.h"
 

@@ -5,7 +5,7 @@
  ***************************************************************************/
 #include <string.h>
 
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/textparser.h>
 
@@ -17,10 +17,10 @@
 
 #include "menudef.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "auth/authUserData.h"
 #include "player/badges.h"
-#include "entity/rewardtoken.h"
+#include "entity/RewardToken.h"
 #include "player/player.h"
 #include "entity/costume_client.h"
 #include "account/AccountData.h"

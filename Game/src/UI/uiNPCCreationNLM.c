@@ -1,7 +1,7 @@
 #include "UI/uiUtilMenu.h"
 #include "uiNPCCreationNLM.h"
 #include <utilitieslib/utils/SuperAssert.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 
 static NonLinearMenu *NLM_NPCCreation = NULL;
 extern NonLinearMenuElement NPC_costume_NLME;

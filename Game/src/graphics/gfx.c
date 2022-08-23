@@ -39,7 +39,7 @@
 #include "seq/anim.h"
 #include "graphics/textureatlas.h"
 #include "render/renderWater.h"
-#include "render/renderSSAO.h"
+#include "render/renderssao.h"
 #include "render/pbuffer.h"
 #include "render/renderEffects.h"
 #include "graphics/gfxLoadScreens.h"

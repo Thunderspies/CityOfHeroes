@@ -1,11 +1,11 @@
 #include "Thread.h"
 #include "Job.h"
 #include "IOServer.h"
-#include "config.h"
+#include "Config.h"
 #include "DBConn.h"
 #include "ServerList.h"
 #include "IPSessionDB.h"
-#include "logsocket.h"
+#include "LogSocket.h"
 #include "logprotocol.h"
 #include "util.h"
 

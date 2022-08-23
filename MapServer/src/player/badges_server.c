@@ -10,7 +10,7 @@
 #include <utilitieslib/utils/eval.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/error.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/network/net_packet.h>
 #include <utilitieslib/network/net_packetutil.h>
 #include <utilitieslib/components/bitfield.h>
@@ -18,12 +18,12 @@
 
 #include "pl_stats.h"
 #include "entity/entity.h"
-#include "entity/entplayer.h"
-#include "gameComm/villainDef.h"
-#include "gamecomm/sendToClient.h"
+#include "entity/entPlayer.h"
+#include "gameComm/VillainDef.h"
+#include "gameComm/sendToClient.h"
 #include "entity/entGameActions.h"
 #include "dbcomm/dbcomm.h"
-#include "reward.h"
+#include "Reward.h"
 #include "language/langServerUtil.h"
 #include "language/commonLangUtil.h"
 #include "auth/authUserData.h"
@@ -40,7 +40,7 @@
 
 #include <utilitieslib/language/MessageStore.h>
 #include "TeamReward.h"
-#include "container/Team.h"
+#include "container/team.h"
 #include "entity/teamCommon.h"
 #include "entity/Supergroup.h"
 #include "BadgeStats.h"

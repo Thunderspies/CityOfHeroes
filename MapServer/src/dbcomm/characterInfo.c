@@ -4,8 +4,8 @@
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
 #include <utilitieslib/utils/timing.h>
-#include <utilitieslib/utils/consoledebug.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/utils/ConsoleDebug.h>
+#include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/FolderCache.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/utils.h>

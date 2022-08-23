@@ -32,8 +32,8 @@
 #include "cmdparse/cmdserver.h"
 #include "gameComm/svr_chat.h"
 #include <utilitieslib/components/StringCache.h>
-#include "entity/supergroup.h"
-#include "entity/sgrpserver.h"
+#include "entity/Supergroup.h"
+#include "entity/SgrpServer.h"
 #include "bases/basesystems.h"
 #include "player/badges_server.h"
 #include "taskforce.h"

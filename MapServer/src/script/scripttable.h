@@ -11,7 +11,7 @@
 #ifndef SCRIPTTABLE_H
 #define SCRIPTTABLE_H
 
-#include "gameComm/debugcommon.h"
+#include "gameComm/debugCommon.h"
 
 #define MAX_SCRIPT_PARAMS    90
 #define MAX_SCRIPT_SIGNALS    20

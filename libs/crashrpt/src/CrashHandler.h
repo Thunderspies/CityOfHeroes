@@ -17,7 +17,7 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include "../include/crashrpt/crashrpt.h"      // defines LPGETLOGFILE callback
+#include "../include/crashrpt/CrashRpt.h"      // defines LPGETLOGFILE callback
 #include "CReportConduit.h"
 
 ////////////////////////////// Class Definitions /////////////////////////////

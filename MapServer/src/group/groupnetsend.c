@@ -12,7 +12,7 @@
 #include "seq/anim.h"
 #include "bases/basesend.h"
 #include "storyarc/mission.h"
-#include "beacon/beaconfile.h"
+#include "beacon/beaconFile.h"
 #include "bases/bases.h"
 #include "gameSys/sgraid_V2.h"
 #include "dbcomm/staticMapInfo.h"

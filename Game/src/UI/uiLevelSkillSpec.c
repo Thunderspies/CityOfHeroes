@@ -1,6 +1,6 @@
 #include "stdtypes.h"
 
-#include "uiGame.h"
+#include "uigame.h"
 #include "uiUtil.h"
 #include "uiUtilMenu.h"
 #include "uiUtilGame.h"

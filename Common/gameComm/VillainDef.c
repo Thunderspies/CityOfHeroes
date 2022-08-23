@@ -3,8 +3,8 @@
  *     All Rights Reserved
  *     Confidential Property of Cryptic Studios
  ***************************************************************************/
-#include "gameComm/villainDef.h"
-#include "gameComm/npc.h"        // For NPC structure defintion
+#include "gameComm/VillainDef.h"
+#include "gameComm/Npc.h"        // For NPC structure defintion
 #include <utilitieslib/utils/error.h>
 
 #include <utilitieslib/components/earray.h>
@@ -21,7 +21,7 @@
 #include "language/langServerUtil.h"    // For server-side message stores.
 #include "generator/encounterPrivate.h"
 #include "storyarc/mission.h"
-#include "seq/animbitlist.h"
+#include "seq/AnimBitList.h"
 #include "entity/PCC_Critter.h"
 #include "entity/CustomVillainGroup.h"
 #include "entity/Supergroup.h"
@@ -30,7 +30,7 @@
 #include "script/scriptengine.h"
 #endif
 
-#include "entity/Entity.h"
+#include "entity/entity.h"
 #include "entity/character_base.h"   // For character structure definition
 #include "entity/character_level.h"  // For character_Level
 #include "entity/classes.h"    // For character class initialization

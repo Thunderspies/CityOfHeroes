@@ -12,7 +12,7 @@
 #include "gameData/BodyPart.h"
 #include <utilitieslib/utils/error.h>
 #include "entity/character_base.h"
-#include "entity/Costume.h"
+#include "entity/costume.h"
 #include "entity/power_customization.h"
 #include "entity/PowerInfo.h"
 #include <utilitieslib/components/earray.h>
@@ -29,7 +29,7 @@
 #ifdef SERVER
     #include "entity/entGameActions.h"
     #include "container/containerEmail.h"
-    #include "storyarc/storyarcInterface.h"
+    #include "storyarc/storyarcinterface.h"
     #include "gameComm/trading.h"
     #include "entity/keybinds.h"
     #include "player/pl_stats.h"
@@ -37,7 +37,7 @@
     #include "gameData/arenastruct.h"
     #include "gameComm/pet.h"
     #include "entity/mapHistory.h"
-    #include "gamesys/Turnstile.h"
+    #include "gameSys/Turnstile.h"
     #include "account/AccountInventory.h"
     #include "storyarc/contactdef.h"
 #else

@@ -10,7 +10,7 @@
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include <utilitieslib/components/StashTable.h>
 #include "player/pophelp.h"
-#include "clienterror.h"
+#include "clientError.h"
 #include "entity/LoadDefCommon.h"
 #ifdef SERVER
 #include "svr/svr_base.h"

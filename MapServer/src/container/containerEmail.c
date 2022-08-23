@@ -13,12 +13,12 @@
 #include "dbcomm/dbnamecache.h"
 #include "entity/entity.h"
 #include "comm_backend.h"
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/EString.h>
 #include "language/langServerUtil.h"
 #include "entity/entPlayer.h"
 #include "entity/friends.h"
 #include "entity/SgrpServer.h"
-#include "script/Script.h"
+#include "script/script.h"
 #include "account/AccountInventory.h"
 #include "gameComm/trayCommon.h"
 #include "bases/DetailRecipe.h"

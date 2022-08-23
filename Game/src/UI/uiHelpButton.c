@@ -18,7 +18,7 @@
 #include "UI/sprite/sprite_text.h"
 #include "UI/sprite/sprite_font.h"
 #include "graphics/textureatlas.h"
-#include <utilitieslib/utils/CBox.h>
+#include <utilitieslib/utils/Cbox.h>
 #include "graphics/ttFontUtil.h"
 
 #define IDEAL_WD 300

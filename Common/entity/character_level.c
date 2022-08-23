@@ -8,7 +8,7 @@
 #include <utilitieslib/components/earray.h>
 
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "entity/classes.h"
 #include "entity/origins.h"
 #include "entity/character_base.h"
@@ -22,7 +22,7 @@
 #include "entity/buddy_server.h"
 #include "dbcomm/dbcomm.h"    // for dbLog() messages
 #include "dbcomm/shardcomm.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "auth/authUserData.h"
 #include "entity/power_system.h"
 #include "player/pophelp.h"

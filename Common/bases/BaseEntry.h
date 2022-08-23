@@ -7,7 +7,7 @@
 #define BASEENTRY_H
 
 #include <utilitieslib/stdtypes.h>
-#include "entity/sgrpbasepermissions.h"
+#include "entity/SgrpBasePermissions.h"
 
 typedef struct StashTableImp *StashTable;
 typedef const struct StashTableImp *cStashTable;

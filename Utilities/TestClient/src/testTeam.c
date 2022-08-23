@@ -8,8 +8,8 @@
 #include "entity/entity.h"
 #include "clientcomm/clientcomm.h"
 #include "player/player.h"
-#include "gamedata/randomName.h"
-#include "gamedata/randomCharCreate.h"
+#include "gameData/randomName.h"
+#include "gameData/randomCharCreate.h"
 #include <utilitieslib/components/earray.h>
 #include "UI/uiNet.h"
 #include <utilitieslib/network/netio.h>
@@ -17,7 +17,7 @@
 #include "entity/Supergroup.h"
 #include "testUtil.h"
 #include "cmdparse/cmdcommon.h"
-#include "UI/uiturnstile.h"
+#include "UI/uiTurnstile.h"
 
 #define commAddInput(s) printf("commAddInput(\"%s\");\n", s); commAddInput(s);
 

@@ -15,8 +15,8 @@
 #include "graphics/textureatlas.h"
 
 #include "win/input.h"
-#include <utilitieslib/components/Earray.h>
-#include <utilitieslib/components/estring.h>
+#include <utilitieslib/components/earray.h>
+#include <utilitieslib/components/EString.h>
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/mathutil.h>
 #include "win/win_init.h"

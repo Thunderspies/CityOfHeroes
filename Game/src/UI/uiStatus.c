@@ -24,9 +24,9 @@
 #include "UI/uiInput.h"
 #include "win/input.h"
 #include "cmdparse/cmdgame.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "UI/uiBox.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "UI/uiWindows_init.h"
 #include "UI/uiOptions.h"
 #include "entity/Supergroup.h"
@@ -36,7 +36,7 @@
 #include "entity/character_level.h"
 
 #include "entity/powers.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/strings_opt.h>
 #include "graphics/textureatlas.h"
 #include "entity/entity.h"

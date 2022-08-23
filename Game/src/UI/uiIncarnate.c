@@ -11,11 +11,11 @@
 #include "formatter/smf_main.h"
 
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "entity/character_base.h"
 #include "player/badges.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "cmdparse/cmdgame.h"
 #include "clientcomm/clientcomm.h"
 #include <utilitieslib/language/MessageStoreUtil.h>

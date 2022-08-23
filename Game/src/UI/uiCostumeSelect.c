@@ -12,10 +12,10 @@
 #include "UI/uiCostumeSelect.h"
 #include "graphics/seqgraphics.h"
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 #include "player/player.h"
 #include "entity/costume.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 
 #include "graphics/ttFontUtil.h"
 #include "UI/sprite/sprite_base.h"

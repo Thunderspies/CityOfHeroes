@@ -5,9 +5,9 @@
  ***************************************************************************/
 #include <utilitieslib/network/net_packet.h>
 #include <utilitieslib/network/net_packetutil.h>
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "entity/entity.h"
-#include "entity/EntPlayer.h"
+#include "entity/entPlayer.h"
 
 #include "player/badges.h"
 #include "UI/uiBadges.h"

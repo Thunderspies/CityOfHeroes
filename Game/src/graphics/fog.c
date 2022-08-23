@@ -1,7 +1,7 @@
 #include <utilitieslib/stdtypes.h>
 #include "graphics/fog.h"
 #include "group/grouputil.h"
-#include <utilitieslib/components/Earray.h>
+#include <utilitieslib/components/earray.h>
 #include "graphics/light.h"
 #include "graphics/camera.h"
 #include "graphics/sun.h"

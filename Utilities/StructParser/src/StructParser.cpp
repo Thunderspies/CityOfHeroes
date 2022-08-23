@@ -7,12 +7,12 @@
 #include "tokenizer.h"
 #include "structparser.h"
 #include "windows.h"
-#include "identifierdictionary.h"
-#include "magiccommandmanager.h"
+#include "IdentifierDictionary.h"
+#include "MagicCommandManager.h"
 #include "strutils.h"
-#include "filelistloader.h"
-#include "sourceparser.h"
-#include "autorunmanager.h"
+#include "FileListLoader.h"
+#include "SourceParser.h"
+#include "AutoRunManager.h"
 
 #define MAX_TABS 32
 #define TAB_WIDTH 4

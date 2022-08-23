@@ -4,11 +4,11 @@
 #include <utilitieslib/utils/wininclude.h>
 
 #define GLEW_STATIC
-#include "gl/glew.h"
-#include "gl/wglew.h"
+#include "GL/glew.h"
+#include "GL/wglew.h"
 
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 extern int gl_clamp_val;
 

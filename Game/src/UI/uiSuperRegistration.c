@@ -20,10 +20,10 @@
 #include "cmdparse/cmdcommon.h"  // for timestep
 #include "entity/entclient.h"
 #include "UI/uiEditText.h"
-#include "uiEdit.h"
-#include <utilitieslib/components/Earray.h>
+#include "UIEdit.h"
+#include <utilitieslib/components/earray.h>
 #include "win/input.h"
-#include "UI/uidialog.h"
+#include "UI/uiDialog.h"
 #include "graphics/font.h"
 #include "entity/entVarUpdate.h"
 #include "language/langClientUtil.h"

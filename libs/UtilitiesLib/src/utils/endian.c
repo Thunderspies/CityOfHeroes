@@ -2,7 +2,7 @@
 #include "utilitieslib/utils/textparser.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/utils/error.h"
-#include "utilitieslib/utils/structinternals.h"
+#include "utilitieslib/utils/structInternals.h"
 
 EndianTest endian_test = {1};
 
