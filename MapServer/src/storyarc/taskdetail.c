@@ -215,7 +215,7 @@ void TaskGenerateDetail(int owner_id, Entity* sg_player, ContactHandle contactHa
         if( task->sahandle.bPlayerCreated )
         {
             // We know this contact
-            char * contactfile = "Player_Created/MissionArchitectContact.contact";
+            char * contactfile = "Player_Created/MissionArchitectcontact.contact";
             contactHandle = ContactGetHandleLoose(contactfile);
         }
     }

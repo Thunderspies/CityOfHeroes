@@ -259,7 +259,7 @@ static DefineIntList defineMapping[] = {
     { "actionHideBehindEnt",            AI_PRIORITY_ACTION_HIDE_BEHIND_ENT                },
     { "actionNextPriority",                AI_PRIORITY_ACTION_NEXT_PRIORITY                 },
     { "actionNeverForgetAttackTarget",    AI_PRIORITY_ACTION_NEVERFORGETTARGET            },
-    { "actionNPC.Hostage",                AI_PRIORITY_ACTION_NPC_HOSTAGE                     },
+    { "actionNpc.hostage",                AI_PRIORITY_ACTION_NPC_HOSTAGE                     },
     { "actionNPC.ThankHero",            AI_PRIORITY_ACTION_THANK_HERO                     },
     { "actionPatrol",                    AI_PRIORITY_ACTION_PATROL                         },
     { "actionPlayFX",                    AI_PRIORITY_ACTION_PLAY_FX                         },

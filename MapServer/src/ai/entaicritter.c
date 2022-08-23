@@ -42,7 +42,7 @@ StaticDefineInt aiParseActivity[] = {
     { "FollowRoute",    AI_ACTIVITY_FOLLOW_ROUTE    },
     { "FrozenInPlace",    AI_ACTIVITY_FROZEN_IN_PLACE    },
     { "HideBehindEnt",    AI_ACTIVITY_HIDE_BEHIND_ENT    },
-    { "NPC.Hostage",    AI_ACTIVITY_NPC_HOSTAGE        },
+    { "Npc.hostage",    AI_ACTIVITY_NPC_HOSTAGE        },
     { "Patrol",            AI_ACTIVITY_PATROL            },
     { "RunAway",        AI_ACTIVITY_RUN_AWAY        },
     { "RunIntoDoor",    AI_ACTIVITY_RUN_INTO_DOOR    },

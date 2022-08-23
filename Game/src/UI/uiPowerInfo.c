@@ -379,19 +379,19 @@ static const char *getRequiresString( const char *estr, const CharacterClass *pC
     if(strstriConst(estr, "kDD_StatusMode_2source.mode?"))
         estrConcatf( &str, "<br>&nbsp;&nbsp;&nbsp;&nbsp;<i><color #aaaa88>%s</i>", textStd("ComboEffectEmpower") );
 
-    if(strstriConst(estr, "Temporary_Powers.Temporary_Powers.Combo_Level_1source.ownPower?!Temporary_Powers.Temporary_Powers.Combo_Level_2source.ownPower?!&&Temporary_Powers.Temporary_Powers.Combo_Level_3source.ownPower?!&&") ||
-        strstriConst(estr, "Temporary_Powers.Temporary_Powers.Combo_Level_1source.ownPower?!&&Temporary_Powers.Temporary_Powers.Combo_Level_2source.ownPower?!&&Temporary_Powers.Temporary_Powers.Combo_Level_3source.ownPower?!&&") )
+    if(strstriConst(estr, "Temporary_Powers.Temporary_powers.combo_Level_1source.ownPower?!Temporary_Powers.Temporary_powers.combo_Level_2source.ownPower?!&&Temporary_Powers.Temporary_powers.combo_Level_3source.ownPower?!&&") ||
+        strstriConst(estr, "Temporary_Powers.Temporary_powers.combo_Level_1source.ownPower?!&&Temporary_Powers.Temporary_powers.combo_Level_2source.ownPower?!&&Temporary_Powers.Temporary_powers.combo_Level_3source.ownPower?!&&") )
     {
         if(!bAssumeDefaults)
             estrConcatf( &str, "<br>&nbsp;&nbsp;&nbsp;&nbsp;<i><color #aaaa88>%s</i>", textStd("ComboEffectBrawling0") );
     }
     else
     {    
-        if(strstriConst(estr, "Temporary_Powers.Temporary_Powers.Combo_Level_1source.ownPower?"))
+        if(strstriConst(estr, "Temporary_Powers.Temporary_powers.combo_Level_1source.ownPower?"))
             estrConcatf( &str, "<br>&nbsp;&nbsp;&nbsp;&nbsp;<i><color #aaaa88>%s</i>", textStd("ComboEffectBrawling1") );
-        if(strstriConst(estr, "Temporary_Powers.Temporary_Powers.Combo_Level_2source.ownPower?"))
+        if(strstriConst(estr, "Temporary_Powers.Temporary_powers.combo_Level_2source.ownPower?"))
             estrConcatf( &str, "<br>&nbsp;&nbsp;&nbsp;&nbsp;<i><color #aaaa88>%s</i>", textStd("ComboEffectBrawling2") );
-        if(strstriConst(estr, "Temporary_Powers.Temporary_Powers.Combo_Level_3source.ownPower?"))
+        if(strstriConst(estr, "Temporary_Powers.Temporary_powers.combo_Level_3source.ownPower?"))
             estrConcatf( &str, "<br>&nbsp;&nbsp;&nbsp;&nbsp;<i><color #aaaa88>%s</i>", textStd("ComboEffectBrawling3") );
     }
 

@@ -1045,11 +1045,11 @@ static void reloadCostumesCallback(const char *relpath, int when);
 
 void loadCostumes()
 {
-    char *fileToLoad = "Menu/Costume/Localized/Costume.ctm";
+    char *fileToLoad = "Menu/Costume/Localized/costume.ctm";
 
 //    if (isDevelopmentMode())
     if (game_state.editnpc)
-        fileToLoad = "Menu/Costume/Costume.ctm"; // So we don't have to work in the localized directory
+        fileToLoad = "Menu/Costume/costume.ctm"; // So we don't have to work in the localized directory
 
     writeConsole(OUTPUT_DEBUG, "Loading costume bins");
     if (!ParserLoadFiles(NULL, fileToLoad, "costume.bin", 0, ParseCostumeSet, &gCostumeMaster, NULL, NULL, costume_preprocess))
@@ -1084,10 +1084,10 @@ void loadCostumes()
 
 void reloadCostumes(void)
 {
-    char *fileToLoad = "Menu/Costume/Localized/Costume.ctm";
+    char *fileToLoad = "Menu/Costume/Localized/costume.ctm";
 
     if (game_state.editnpc)
-        fileToLoad = "Menu/Costume/Costume.ctm"; // So we don't have to work in the localized directory
+        fileToLoad = "Menu/Costume/costume.ctm"; // So we don't have to work in the localized directory
 
     loadstart_printf("Reloading Costume..." );
 
@@ -1142,7 +1142,7 @@ static void reloadCostumesCallback(const char *relpath, int when)
 
 void loadCostumes()
 {
-    char *fileToLoad = "Menu/Costume/Localized/Costume.ctm";
+    char *fileToLoad = "Menu/Costume/Localized/costume.ctm";
 
 //    if (isDevelopmentMode())
 //        fileToLoad = "Menu/Costume/Costume.ctm"; // So we don't have to work in the localized directory

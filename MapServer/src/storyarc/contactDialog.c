@@ -2677,7 +2677,7 @@ void TaskForceArchitectStart( Entity * e, char* pchPlayerArc, int mission_id, in
     int                    i;
     TFArchitectFlags    flags = arc_flags;
 
-    char * contactfile = "Player_Created/MissionArchitectContact.contact";
+    char * contactfile = "Player_Created/MissionArchitectcontact.contact";
 
     contactHandle = ContactGetHandleLoose(contactfile);
     contact = GetContact(contactHandle);

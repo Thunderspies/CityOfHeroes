@@ -252,7 +252,7 @@ static U32 containerHandleEntity(ContainerInfo *ci)
     }
     if ((e->supergroup_id && !e->supergroup) ||    (!e->supergroup_id && e->supergroup))
     {
-        Errorf("supergroup_id container bug.  dbid %i, supergroup_id %i, supergroup.count %i", e->db_id, e->supergroup_id, e->supergroup?e->supergroup->members.count:-1);
+        Errorf("supergroup_id container bug.  dbid %i, supergroup_id %i, Supergroup.count %i", e->db_id, e->supergroup_id, e->supergroup?e->supergroup->members.count:-1);
         // HACK - fix it for now..
         if (e->supergroup) 
             e->supergroup = NULL;

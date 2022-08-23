@@ -1918,7 +1918,7 @@ const char* aiGetActivityName(AIActivity activity){
         case AI_ACTIVITY_HIDE_BEHIND_ENT:
             return "HideBehindEnt";
         case AI_ACTIVITY_NPC_HOSTAGE:
-            return "NPC.Hostage";
+            return "Npc.hostage";
         case AI_ACTIVITY_PATROL:
             return "Patrol";
         case AI_ACTIVITY_RUN_AWAY:

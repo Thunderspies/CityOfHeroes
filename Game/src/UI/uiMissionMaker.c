@@ -1280,7 +1280,7 @@ static void missionMakerTestStoryArcAccept(PlayerCreatedStoryArc *pArc)
     {
         sendTestStoryArc(pArc);
         if( isDevelopmentMode() )
-            cmdParse( "ContactDialog Player_Created/MissionArchitectContact.contact" );
+            cmdParse( "ContactDialog Player_Created/MissionArchitectcontact.contact" );
         StructDestroy(ParsePlayerStoryArc, pArc);
         window_setMode(WDW_MISSIONMAKER, WINDOW_SHRINKING);
         window_setMode(WDW_MISSIONSEARCH, WINDOW_SHRINKING);

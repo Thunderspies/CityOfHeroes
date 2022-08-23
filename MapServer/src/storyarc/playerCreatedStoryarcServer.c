@@ -2563,7 +2563,7 @@ void missionserver_map_receiveArcData(Packet *pak_in)
                 TaskForceArchitectStart(e, arcdata_unzipped, arcid, test, s_ArchitectFlagsFromHonors(rating.honors, devchoice), authorid);
                 if(client && isDevelopmentMode() )
                 {
-                    ContactDebugInteract(client, "Player_Created/MissionArchitectContact.contact", 0);
+                    ContactDebugInteract(client, "Player_Created/MissionArchitectcontact.contact", 0);
                 }
                 SAFE_FREE(arcdata_unzipped);
             }

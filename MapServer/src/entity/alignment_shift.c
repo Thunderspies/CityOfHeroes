@@ -801,7 +801,7 @@ void alignmentshift_UpdateAlignment(Entity *e)
                 newMapId = MAP_VILLAIN_START;
             }
 
-            character_AddRewardPower(e->pchar, powerdict_GetBasePowerByFullName(&g_PowerDictionary, "Temporary_Powers.Temporary_Powers.ClearAlignmentPower"));
+            character_AddRewardPower(e->pchar, powerdict_GetBasePowerByFullName(&g_PowerDictionary, "Temporary_Powers.Temporary_powers.clearAlignmentPower"));
 
             // We only destroy pets for the MTX alignment change because the other switches
             // only happen in controlled situations where pets aren't a problem.

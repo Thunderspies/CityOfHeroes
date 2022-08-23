@@ -1260,7 +1260,7 @@ void badge_RecordInventionCreated(Entity *e, const char *recipename, bool dontGi
 
         if (!dontGiveGenericCredit)
         {
-            badge_StatAdd(e,"invention.Created",1);
+            badge_StatAdd(e,"Invention.created",1);
         }
 
         if(recipename)

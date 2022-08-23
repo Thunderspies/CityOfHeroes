@@ -2203,7 +2203,7 @@ int StoryArcAddPlayerCreated(Entity *e, StoryInfo* pInfo, int tf_id )
     StoryContactInfo *pContact;
     StoryArc* pArc;
     int contacthandle;
-    char * contactfile = "Player_Created/MissionArchitectContact.contact";
+    char * contactfile = "Player_Created/MissionArchitectcontact.contact";
 
     // find or add the contact
     contacthandle = ContactGetHandleLoose(contactfile);
