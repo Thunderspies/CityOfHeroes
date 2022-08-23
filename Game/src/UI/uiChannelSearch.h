@@ -1,6 +1,6 @@
 /*\
 *
-*    uiChannelSearch.h/c - Copyright 2004, 2005 Cryptic Studios
+*    uiChannelsearch.h/c - Copyright 2004, 2005 Cryptic Studios
 *        All Rights Reserved
 *        Confidential property of Cryptic Studios
 *

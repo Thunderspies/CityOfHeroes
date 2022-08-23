@@ -1,6 +1,6 @@
 /*\
  *
- *    scripthookreward.h - Copyright 2004 Cryptic Studios
+ *    scripthookReward.h - Copyright 2004 Cryptic Studios
  *        All Rights Reserved
  *        Confidential property of Cryptic Studios
  *

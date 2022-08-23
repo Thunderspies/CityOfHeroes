@@ -1,6 +1,6 @@
 //
 //
-// live_menu.c -- master UI loop
+// live_Menu.c -- master UI loop
 //-------------------------------------------------------------------------------------------------
 #include "sound/sound.h"
 #include "UI/sprite/sprite_text.h"    // for font stuff

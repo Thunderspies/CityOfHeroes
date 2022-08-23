@@ -11,7 +11,7 @@ typedef struct StashTableImp *StashTable;
 typedef const struct StashTableImp *cStashTable;
 typedef enum TrialStatus TrialStatus;
 
-// destination stuff - (functions are used in uiAutoMap.c )
+// destination stuff - (functions are used in uiAutomap.c )
 //---------------------------------------------------------------------
 
 // structure to hold destination information

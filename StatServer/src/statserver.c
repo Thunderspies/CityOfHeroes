@@ -101,6 +101,7 @@ static void StatDbConnect(void)
 #undef DB_CONNECT_TRIES
 }
 
+
 void UpdateStatTitle(void)
 {
     char buf[200];
@@ -981,4 +982,3 @@ Supergroup *stat_sgrpFromName(char *name, int *pResIdSgrp, bool loadSync)
 
     return res;
 }
-

@@ -4,7 +4,7 @@
 #include "render/tex.h"
 #include <utilitieslib/utils/Color.h>
 #include <utilitieslib/utils/mathutil.h>
-//#include <utilitieslib/components/Earray.h>
+//#include <utilitieslib/components/earray.h>
 #include "win/input.h"
 #include "entity/entclient.h"
 #include "graphics/font.h"

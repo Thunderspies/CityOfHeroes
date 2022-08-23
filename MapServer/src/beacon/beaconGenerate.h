@@ -476,7 +476,7 @@ void beaconMakeDiskSwapBlocks(void);
 void beaconClearNonAdjacentSwapBlocks(BeaconDiskSwapBlock* centerBlock);
 void beaconDestroyDiskSwapInfo(int quiet);
 
-// beaconClientServer.c ---------------------------------------------------------------------
+// beaconClientserver.c ---------------------------------------------------------------------
 
 void destroyBeaconLegalAreaCompressed(BeaconLegalAreaCompressed* area);
 BeaconLegalAreaCompressed* beaconAddLegalAreaCompressed(BeaconDiskSwapBlock* block);

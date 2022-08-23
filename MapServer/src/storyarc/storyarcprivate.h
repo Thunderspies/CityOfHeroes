@@ -142,7 +142,7 @@ typedef enum VillainPacingEnum {
 } VillainPacingEnum;
 
 ///////////////////////////////////////////////////////////////////////////////
-// server side version of StoryarcAlliance in uiContactDialog.h
+// server side version of StoryarcAlliance in uicontactDialog.h
 typedef enum StoryarcAlliance {
     SA_ALLIANCE_BOTH,
     SA_ALLIANCE_HERO,

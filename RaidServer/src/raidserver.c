@@ -89,6 +89,9 @@ void RaidUpdate(U32 raidid, int deleting)
     containerReflectDestroy(&reflectinfo);
 }
 
+
+
+
 void RaidDestroy(U32 raidid)
 {
     RaidUpdate(raidid, 1);
@@ -1162,6 +1165,3 @@ int        i,timer;
     }
     EXCEPTION_HANDLER_END
 }
-
-
-

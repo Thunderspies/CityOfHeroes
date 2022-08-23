@@ -11328,7 +11328,7 @@ static void cmdOldServerCheckCmds()
                 for (m=0; m<ARRAY_SIZE(tmp_var_list) && !b; m++) {
                     if (dd->ptr == tmp_var_list[m]) {
 /*                        Errorf("\
-Found command \"%s\" using tmp_* in cmdServer.c but not marked as CMDF_HIDEVARS.\nThis means that if someone types the \
+Found command \"%s\" using tmp_* in cmdserver.c but not marked as CMDF_HIDEVARS.\nThis means that if someone types the \
 command with no parameters it will show the value of the tmp_* variable (which may have been the parameter \
 to someone else's command if this is a server-side command), and will fail to display the handy usage \
 instructions.", cmd->name); */

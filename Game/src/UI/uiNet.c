@@ -167,6 +167,7 @@ void receiveChatMsg( Packet *pak )
      addSystemChatMsgEx(s, type, duration, id, position);
 }
 
+
 //
 //
 //
@@ -4505,4 +4506,3 @@ void displayProductPage(Packet *pak)
     webStoreOpenProduct(pktGetString(pak));
 #endif
 }
-

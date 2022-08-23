@@ -1,6 +1,6 @@
 /*
  *
- *    turnstileServerCommon.h - Copyright 2010 NC Soft
+ *    TurnstileServerCommon.h - Copyright 2010 NC Soft
  *        All Rights Reserved
  *        Confidential property of NC Soft
  *

@@ -1,6 +1,6 @@
 /*\
  *
- *    teamtask.h/c - Copyright 2003, 2004 Cryptic Studios
+ *    TeamTask.h/c - Copyright 2003, 2004 Cryptic Studios
  *        All Rights Reserved
  *        Confidential property of Cryptic Studios
  *

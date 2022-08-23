@@ -1743,7 +1743,7 @@ void baseCostAndUpkeep(int *cost_out, int *upkeep_out)
 /**********************************************************************func*
  * sgroup_UpdatePrestigeBaseAndUpkeep 
  * NOTE: only locked version for now
- * todo: move to sgrpserver.c after hotfix.
+ * todo: move to SgrpServer.c after hotfix.
  */
 void sgroup_UpdatePrestigeBaseAndUpkeep(Supergroup *sg, int idSgrp, bool locked)
 {

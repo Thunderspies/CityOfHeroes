@@ -26,6 +26,7 @@ void smCrashMsgShow()
     }
 }
 
+
 void smCrashMsgHide()
 {
     if (hCrashMsgDialog && bSmStatusUp && !bSmStatusHidden) {
@@ -126,4 +127,3 @@ LRESULT CALLBACK DlgSvrMonCrashMsgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPA
     }
     return FALSE;
 }
-

@@ -631,7 +631,7 @@ void dbGatherMapLinkInfo()
 
     gatherDoors(&local_doors,"FlashbackDoor",0,DOORTYPE_FLASHBACK_CONTACT);
 
-    //JS:    Something similar is already being done in pnpc.c and locationTask.c.
+    //JS:    Something similar is already being done in pnpc.c and locationtask.c.
     //        They also include error checking.  Maybe this info should be grabbed from
     //        those modules instead.
     gatherDoors(&local_doors,"PersistentNPC",0,DOORTYPE_PERSISTENT_NPC);

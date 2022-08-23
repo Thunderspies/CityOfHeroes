@@ -41,6 +41,7 @@ static void Usage()
     printf("\t-nogui: disable all gui\n");
 }
 
+
 int main(int argc,char **argv)
 {
     int        i,run_server=1,patch_to_latest=0,rebuild_if_bad=0;
@@ -109,4 +110,3 @@ int main(int argc,char **argv)
     EXCEPTION_HANDLER_END 
     exit(errCode);
 }
-

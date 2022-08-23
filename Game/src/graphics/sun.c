@@ -2040,4 +2040,3 @@ void sunPop(void)
     sun_stack_depth--;
     g_sun = sun_stack[sun_stack_depth];
 }
-

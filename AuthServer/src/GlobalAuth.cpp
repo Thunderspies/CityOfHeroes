@@ -54,6 +54,8 @@ static void ShowLoggingLevel( void )
     logger.SetMsgAllowed(LOG_DEBUG, bDebugON);
 }
 
+
+
 static void OnChangeLoggingLevel( void )
 {
     static struct    {
@@ -494,5 +496,3 @@ exception_init();
 
     return 0;
 }
-
-

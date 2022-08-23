@@ -1,6 +1,6 @@
 //
 //
-// entstrings.h
+// entStrings.h
 //
 // Send / Recieve functions (and any other utility functions that pop up) for entity strings
 //---------------------------------------------------------------------------------------------------------

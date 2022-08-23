@@ -4173,7 +4173,7 @@ static void receiveFullPopHelp( Packet * pak, EntPlayer *pl)
 }
 
 
-// The following functions were moved from entClient.c
+// The following functions were moved from entclient.c
 
 //
 //

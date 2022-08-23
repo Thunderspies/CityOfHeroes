@@ -738,7 +738,7 @@ void showAnimationDebugInfo(void);
 void gfxNodeSetFxUseFlag( GfxNode * node );
 void gfxNodeClearFxUseFlag( GfxNode * node );
 
-//From seqload, I should move to seqLoad.h someday
+//From seqload, I should move to seqload.h someday
 bool seqGetMoveIdxFromName( const char * moveName, const SeqInfo * seqInfo, U16* iResult );
 const TypeGfx * seqGetTypeGfx( const SeqInfo * info, const SeqMove * move, const char * typeName );
 const TypeP * seqGetTypeP( const SeqInfo * info, const char * typeName );

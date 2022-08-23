@@ -116,7 +116,7 @@ extern BeaconClientConnection beacon_client_conn;
 
 typedef struct BeaconMapDataPacket BeaconMapDataPacket;
 
-// beaconClientServer.c ---------------------------------------------------------------------------
+// beaconClientserver.c ---------------------------------------------------------------------------
 
 #define COLOR_YELLOW    (COLOR_RED|COLOR_GREEN)
 #define COLOR_WHITE        (COLOR_RED|COLOR_GREEN|COLOR_BLUE)

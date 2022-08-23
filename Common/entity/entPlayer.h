@@ -1,4 +1,4 @@
-// entPlayer.h - player specific fields of entity.  Allocated iff ENTTYPE_PLAYER
+// entplayer.h - player specific fields of entity.  Allocated iff ENTTYPE_PLAYER
 
 #ifndef __ENTPLAYER_H
 #define __ENTPLAYER_H

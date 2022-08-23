@@ -1,6 +1,6 @@
 //
 //
-// initCLient.c - client start up functions
+// initClient.c - client start up functions
 //----------------------------------------------------------------------------------------------------------------
 
 #include "gameComm/initCommon.h"

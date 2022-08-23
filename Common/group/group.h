@@ -228,7 +228,7 @@ typedef struct GroupDef
 
     StashTable    properties;
     U32            access_time;
-    GroupFileEntry *gf;        // used in groupFileLoad.c to cache the results of groupGetFileEntryPtr(def->name);
+    GroupFileEntry *gf;        // used in groupfileload.c to cache the results of groupGetFileEntryPtr(def->name);
     GroupFile    *file;
     
     void*        nxShape;

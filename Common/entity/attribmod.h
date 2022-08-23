@@ -956,4 +956,3 @@ typedef enum CombatMessageType
 
 
 /* End of File */
-

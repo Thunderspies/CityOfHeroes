@@ -239,7 +239,7 @@ static void update_zowie_tasks(Entity *e, int zi)
                 // This simply says that the first available zowie has been hit, and nukes that bit.
                 // *IF* someone notices and bugs the fact that on zowie missions that accept two zowie types, this will heavily favor the
                 // first type, we can fix this by shuffling the task->zowieIndices and task->zindices arrays right after they've been created,
-                // using the seed and a single routine placed in zowiecommon.c.  It'd need a prototype:
+                // using the seed and a single routine placed in zowieCommon.c.  It'd need a prototype:
                 //    void zowieShuffleIndices(int *indices, int count, unsigned int seed)
                 // and should use the same Rule 30 rand code as the generator in ZowieBuildPool(...)
 

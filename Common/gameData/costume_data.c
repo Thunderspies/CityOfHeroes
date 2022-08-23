@@ -1145,7 +1145,7 @@ void loadCostumes()
     char *fileToLoad = "Menu/Costume/Localized/costume.ctm";
 
 //    if (isDevelopmentMode())
-//        fileToLoad = "Menu/Costume/Costume.ctm"; // So we don't have to work in the localized directory
+//        fileToLoad = "Menu/Costume/costume.ctm"; // So we don't have to work in the localized directory
 
     loadstart_printf("Loading Costume..." );
 

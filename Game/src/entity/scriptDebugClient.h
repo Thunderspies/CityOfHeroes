@@ -1,6 +1,6 @@
 /*\
  *
- *    scriptdebugclient.h/c - Copyright 2004 Cryptic Studios
+ *    scriptDebugClient.h/c - Copyright 2004 Cryptic Studios
  *        All Rights Reserved
  *        Confidential property of Cryptic Studios
  *

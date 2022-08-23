@@ -600,7 +600,7 @@ static uiIMEState s_IMEState = {0};
 
 
 //================================================================================
-//  Lifted from directX sample C++/Common/DXUTgui.cpp
+//  Lifted from directX sample C++/Common/DXUTgUI.cpp
 // this section is madness
 //================================================================================
 

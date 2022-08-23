@@ -1,4 +1,4 @@
-/* File Position.h
+/* File position.h
  *    This module contains some generic operations that can be done using some positional
  *    information.  It is expected that the pointers passed to the functions are actually
  *    pointers to structures that match the Position structure's format.  The position 

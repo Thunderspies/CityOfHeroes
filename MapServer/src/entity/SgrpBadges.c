@@ -107,7 +107,7 @@ void sgrpbadge_ServerInit(void)
 // bool sgrpbadge_GetIdxFromName(char *pch, int *pi)
 // {
 //     BadgeDef *pdef;
-//     if(stashFindInt(g_SgroupBadges.hashByName, pch, (int *)&pdef))
+//     if(stashFindInt(g_Sgroupbadges.hashByName, pch, (int *)&pdef))
 //     {
 //         if( pi )
 //         {

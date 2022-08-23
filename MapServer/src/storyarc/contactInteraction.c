@@ -1,12 +1,12 @@
 /*\
  *
- *    contactinteraction.h/c - Copyright 2003-2005 Cryptic Studios
+ *    contactInteraction.h/c - Copyright 2003-2005 Cryptic Studios
  *        All Rights Reserved
  *        Confidential property of Cryptic Studios
  *
  *    IO functions for contact dialogs
  *    trainer and unknown contact dialog functions
- *    the normal contact dialog is in contactdialog.c
+ *    the normal contact dialog is in contactDialog.c
  *
  */
 

@@ -160,6 +160,7 @@ void sendMessageToSlaveLauncher(ChildInfo *cisl, char *command, char *buf)
     PipeServerSendMessage(pipe_server, cisl->uid, "%s %s", command, buf);
 }
 
+
 void launchNewClientOnSlave(char *host) {
     int i;
     for (i=0; i<eaSize(children); i++) {
@@ -985,4 +986,3 @@ TCHAR *TCharFromCharStatic(char const *src)
     static TCHAR buf[1024];
     return TCharFromChar(buf,src,ARRAY_SIZE(buf));
 }
-

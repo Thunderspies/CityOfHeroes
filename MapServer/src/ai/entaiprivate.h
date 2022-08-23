@@ -278,7 +278,7 @@ void*                 aiSendMessagePtr(Entity* e, AIMessage msg, void* data);
 void*                 aiSendMessageInt(Entity* e, AIMessage msg, int data);
 
 //----------------------------------------------------------------
-// entaiCritter.c stuff.
+// entaicritter.c stuff.
 //----------------------------------------------------------------
 
 void aiCallForHelp(Entity* me, AIVars* ai, F32 radius, const char* targetName);

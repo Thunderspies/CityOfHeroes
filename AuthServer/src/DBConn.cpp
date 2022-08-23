@@ -22,6 +22,7 @@ DBEnv::DBEnv() : m_lock(eSystemSpinLock, 4000)
     m_connCount = 0;    
 }
 
+
 DBEnv::~DBEnv()
 {
     if(m_henv != SQL_NULL_HENV) {
@@ -676,4 +677,3 @@ void CDBConn::ResetHtmt(void)
     SQLFreeStmt(m_stmt, SQL_UNBIND);
     SQLFreeStmt(m_stmt, SQL_CLOSE);
 }
-

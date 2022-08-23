@@ -376,7 +376,7 @@ void ClearEncounterGroupOverRides()
     }
 }
 
-//Encounter.c calles this
+//encounter.c calles this
 int ScriptGetEncounter(EncounterGroup* group, Entity* player)
 {
     int i;

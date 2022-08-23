@@ -27,6 +27,7 @@ void* __cdecl operator new(size_t size, LPCSTR fileName, int line)
 {
     return _malloc_dbg(size, _NORMAL_BLOCK, fileName, line);
 }
+
 void operator delete(void *ptr, LPCSTR fileName, int lineNumber)
 {
     _free_dbg(ptr, _NORMAL_BLOCK);
@@ -179,4 +180,3 @@ _BEFORE
 _AFTER_FIN
     return TRUE;
 }
-

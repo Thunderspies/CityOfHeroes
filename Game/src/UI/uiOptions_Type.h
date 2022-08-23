@@ -140,7 +140,7 @@ typedef enum EUserOptions
 	kUO_CursorScale, // F32
 	kUO_ShowTimer, // Power Recast Timer
 	// ADD HERE
-// NOTE: Adding options to the list (and defining them in game_options array in uiOptions_type.c will take care of a slash command, save to file, and clientside networking,
+// NOTE: Adding options to the list (and defining them in game_options array in uiOptions_Type.c will take care of a slash command, save to file, and clientside networking,
 //		 However you will need to take care of serverside netowrking ( entserver.c and parseClientInput.c ) and database saving ( containerloadsave.c )
 
 	kUO_OptionTotal, 

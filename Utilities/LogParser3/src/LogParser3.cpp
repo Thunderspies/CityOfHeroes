@@ -11,6 +11,8 @@ extern "C"
 #include <utilitieslib/utils/file.h>
 }
 
+
+
 bool LogFileSearch::getFilesByPattern(char *dirName, 
                                       const char *filePattern, 
                                       Search &fileSearch,
@@ -245,5 +247,3 @@ int main(int argc, char **args)
     fileSearch.init(argc, args);
     fileSearch.performSearch();    
 }
-
-

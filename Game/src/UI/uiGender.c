@@ -36,7 +36,7 @@
 #include <utilitieslib/utils/textparser.h>
 
 // for temporary default body type selections (development only)
-#include "UI/uiDialog.h"    
+#include "UI/uiDialog.h"
 #include "UI/uiComboBox.h"
 #include <utilitieslib/utils/utils.h>
 #include "UI/uiCostume.h"

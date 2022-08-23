@@ -1,4 +1,4 @@
-// ContactCommon.h - contact dialog links and other stuff server and client have to agree on
+// contactCommon.h - contact dialog links and other stuff server and client have to agree on
 
 #ifndef CONTACTCOMMON_H
 #define CONTACTCOMMON_H
@@ -97,7 +97,7 @@ typedef enum
 } ContactDestType;
 
 // this is the list of integer links that the contact dialog uses
-// NOTE change uiContactDialog.c if you modify this list
+// NOTE change uicontactDialog.c if you modify this list
 typedef enum
 {
     // zero contactlink means NULL

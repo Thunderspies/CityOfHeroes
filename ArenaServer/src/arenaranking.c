@@ -1302,4 +1302,3 @@ void EventDistributeRefunds(ArenaEvent* event)
         }
     }
 }
-

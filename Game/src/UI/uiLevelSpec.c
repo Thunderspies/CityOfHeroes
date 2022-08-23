@@ -504,7 +504,7 @@ void specMenu()
         level_increaseLevel(); // Make the level increase permanent. Do this after everything else.
 
         //go back to game if we're done levelling
-        // DGNOTE 10/1/2008 - not yet on this.  See the comment with the same DGNOTE tag in ContactInteraction.c for reasons why.
+        // DGNOTE 10/1/2008 - not yet on this.  See the comment with the same DGNOTE tag in contactInteraction.c for reasons why.
         //if (!character_CanLevel(e->pchar))
         {
             start_menu( MENU_GAME );

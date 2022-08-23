@@ -1248,7 +1248,7 @@ StructDesc tf_storyarc_desc[] =
 };
 
 // ***********************************************************************************
-// IMPORTANT: Make sure you also update this in containersupergroup.c sg_task_line_desc
+// IMPORTANT: Make sure you also update this in containerSupergroup.c sg_task_line_desc
 // Yes this is a terrible hack, but its the best option for now
 // ***********************************************************************************
 

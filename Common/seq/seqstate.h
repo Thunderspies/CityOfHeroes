@@ -133,7 +133,7 @@
 //If you do need it defined in the code, 
 //        1. add it to the end of this list (increment CODE_DEFINED_STATE_COUNT if needed)
 //        2. add it to the end of the seqstate.c list.  (Note that the two lists have to be kept exactly the same, if they aren't, it will assert) Dumb, I know,  but I don't have time to make it smarter right now)
-//        3. Increase CODE_DEFINED_STATE_COUNT if necessary. Note that if you change CODE_DEFINED_STATE_COUNT, you need to make a trivial change to the powers parse table so powers.bin will get rebuilt, since powers.bin stores bit number. Swapping the two lines at the bottom of Attribmod.h would do the trick. 
+//        3. Increase CODE_DEFINED_STATE_COUNT if necessary. Note that if you change CODE_DEFINED_STATE_COUNT, you need to make a trivial change to the powers parse table so powers.bin will get rebuilt, since powers.bin stores bit number. Swapping the two lines at the bottom of attribmod.h would do the trick.
 //
 //In either case, if you know, flag whether it's continuing or flash and whether it's predictable)
 //

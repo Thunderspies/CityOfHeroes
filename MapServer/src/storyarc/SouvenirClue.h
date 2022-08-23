@@ -1,6 +1,6 @@
 /*\
  *
- *    souvenirclue.h/c - Copyright 2003, 2004 Cryptic Studios
+ *    SouvenirClue.h/c - Copyright 2003, 2004 Cryptic Studios
  *        All Rights Reserved
  *        Confidential property of Cryptic Studios
  *

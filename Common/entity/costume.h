@@ -132,7 +132,7 @@ typedef enum {    kBodyScale_Global = 0,
 #define NUM_2D_BODY_SCALES  (9)
 #define NUM_3D_BODY_SCALES    (7)
 #define NUM_DB_BODY_SCALES    (NUM_2D_BODY_SCALES + NUM_3D_BODY_SCALES)    
-// This needs to match the number of SG color slots in containerLoadSave.c
+// This needs to match the number of SG color slots in containerloadsave.c
 #define NUM_SG_COLOR_SLOTS    (6)
 
 typedef struct Appearance

@@ -1,4 +1,4 @@
-/* File GroupUtil.h
+/* File grouputil.h
  *    This file defines several callback mechanism for processing each group in the
  *    group info tree.
  *

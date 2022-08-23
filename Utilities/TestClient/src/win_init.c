@@ -32,6 +32,8 @@ void windowSize(int *width,int *height)
     *height    = rect.bottom - rect.top;
 }
 
+
+
 void windowClientSize(int *width, int *height){
     RECT clientRect;
 
@@ -253,5 +255,3 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     newConsoleWindow();
     return main(argc,argv);
 }
-
-

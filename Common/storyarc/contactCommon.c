@@ -1,4 +1,4 @@
-// ContactCommon.c - contact dialog links and other stuff server and client have to agree on
+// contactCommon.c - contact dialog links and other stuff server and client have to agree on
 
 #include "storyarc/contactCommon.h"
 

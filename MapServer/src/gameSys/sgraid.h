@@ -34,7 +34,7 @@ int RaidTimeRemaining(void);
 void RaidDisplayFloat(U32 sg, const char *message);
 void RaidMapHandleKill(Entity * killer,Entity * victim);
 
-// actually in baseraid.c
+// actually in baseRaid.c
 void RaidItemInteract(Entity* player, RoomDetail* det);
 
 #endif // SGRAID_H

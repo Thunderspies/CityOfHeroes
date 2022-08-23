@@ -1,6 +1,6 @@
 /*\
  *
- *    locationTask.h/c - Copyright 2003, 2004 Cryptic Studios
+ *    locationtask.h/c - Copyright 2003, 2004 Cryptic Studios
  *        All Rights Reserved
  *        Confidential property of Cryptic Studios
  *

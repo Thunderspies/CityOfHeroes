@@ -22,7 +22,7 @@ typedef struct Teamup Teamup;
 typedef struct League League;
 typedef struct TaskForce TaskForce;
 typedef struct LevelingPact LevelingPact;
-typedef U32 NwEmissaryDataGuid; // typedef'd in nwwrapper.h
+typedef U32 NwEmissaryDataGuid; // typedef'd in NwWrapper.h
 
 typedef enum SayCondition
 {
@@ -538,4 +538,3 @@ static int maxAlignmentPoints_Villain = 10;
 static int maxAlignmentPoints_Rogue = 10;
 
 #endif
-

@@ -47,7 +47,7 @@ typedef struct ScriptLocation
 
 extern ScriptLocation** g_scriptLocations;
 
-// ScriptHookEntityTeam.c
+// ScriptHookEntityteam.c
 Entity* EntTeamInternal(TEAM team, int index, int* num);
 Entity* EntTeamInternalEx(TEAM team, int index, int* num, int onlytargetable, int countDead);
 ENTITY EntityNameFromEnt(Entity* e);
@@ -62,7 +62,7 @@ RoomInfo* GetRoomInfo( STRING missionroom );
 // scripthook.c
 ScriptMarker* MarkerFind(const char* name, int namedvolume);
 
-// ScriptHookEncounter.c
+// ScriptHookencounter.c
 EncounterGroup* FindEncounterGroupInternal(AREA area, STRING layout, int inactiveonly, int deserted);
 
 

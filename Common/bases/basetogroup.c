@@ -704,4 +704,3 @@ void baseToDefs(Base *base, int suffix)
     }
     #endif
 }
-

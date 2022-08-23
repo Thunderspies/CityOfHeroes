@@ -82,6 +82,7 @@ static void getFileNames(char * fname, char** fnames, int * cur_fname_count, cha
     _findclose(handle);
 }
 
+
 // Read a text file which contains a list of files, one per line, and add files which match the given extension
 //    to the list.
 static int getFileNames_fromList(char* fileListPath, char** fnames, char* extension)
@@ -1454,4 +1455,3 @@ int main(int argc,char **argv)
     exit(0);
     EXCEPTION_HANDLER_END
 }
-

@@ -633,7 +633,7 @@ void costume_Apply(Entity *pe)
         if ( pe->costume && pe->seq && (ENTTYPE(pe) == ENTTYPE_PLAYER) && !pe->npcIndex && isMenu(MENU_GAME) && (game_state.game_mode == SHOW_GAME) )    
                                                                                                                                 //    extra sanity check. Dont do this check if you aren't in game, and are a applicable entity
         {
-            float newHeight = (100.0f + pe->costume->appearance.fScale) * 0.01;    //    this formula is in the NwRagdoll.cpp
+            float newHeight = (100.0f + pe->costume->appearance.fScale) * 0.01;    //    this formula is in the Nwragdoll.cpp
             float oldHeight = pe->seq->currgeomscale[1];
             if (oldHeight && newHeight && (ABS(newHeight - oldHeight) > 0.01f) )
             {

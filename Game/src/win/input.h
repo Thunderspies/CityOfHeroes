@@ -1,4 +1,4 @@
-/* File Input.h
+/* File input.h
  *    This file defines functions and variables that defines the game's input system.
  *
  *    Keyboard:
