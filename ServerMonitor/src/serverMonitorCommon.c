@@ -396,7 +396,7 @@ void svrMonParseArgs(LPSTR lpCmdLine)
 }
 
 
-LRESULT CALLBACK DlgMainProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i=0;
 
@@ -554,7 +554,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         }
     }
 
-    g_hDlg = CreateDialogA(hInstance, (LPCSTR)(intptr_t)(IDD_DLG_MAIN), NULL, (DLGPROC)DlgMainProc); 
+    g_hDlg = CreateDialogA(hInstance, (LPCSTR)(intptr_t)(IDD_DLG_MAIN), NULL, DlgMainProc);
     assert(g_hDlg);
     ShowWindow(g_hDlg, SW_SHOW);
     {

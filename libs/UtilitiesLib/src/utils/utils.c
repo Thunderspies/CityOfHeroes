@@ -728,7 +728,7 @@ char *getUserName()
 {
     static int gotUserName = 0;
     static char    name[1000];
-    int        name_len = sizeof(name);
+    DWORD      name_len = sizeof(name);
 
     if(!gotUserName)
     {
@@ -1288,44 +1288,6 @@ char *strncpyt(char *dst, const char *src, int dst_size) // Does a strncpy, null
     return dst;
 }
 
-#if _MSC_VER < 1400
-// VS2005 has these functions already
-errno_t strcpy_s(char *dst, size_t dst_size, const char *src) // Same as strncpyt
-{
-    errno_t res;
-    if(isDevelopmentMode())
-        assert(strlen(src) <= dst_size - 1); // VS2005 asserts on truncating with strcpy_s, devassert for now
-    res = strncpy_s(dst, dst_size, src, dst_size - 1);
-    dst[dst_size-1] = 0;
-#ifdef STR_OVERRUN_DEBUG
-    {
-        // Fills all of the area the caller claims is available with a fill, to catch people passing in too small of buffer sizes
-        size_t len = strlen(dst)+1;
-        if (dst_size > len) {
-            memset(dst + len, 0xf9, dst_size - len - 1);
-        }
-    }
-#endif
-    return res;
-}
-
-errno_t strcat_s(char *dst, size_t dst_size, const char *src)
-{
-    strncat_count(dst, src, (int)dst_size);
-    return NO_ERROR;
-}
-
-errno_t strncpy_s(char* dst, size_t dst_size, const char* src, size_t count)
-{
-    assert(count <= dst_size);
-    strncpy(dst, src, count);
-    assert(dst_size > 0);
-    assert(count >= 0);
-    if(count < dst_size)
-        dst[count]=0; // null terminate
-    return NO_ERROR;
-}
-#else // functions to make VS2005 not a pain to use
 int open_cryptic(const char* filename, int oflag)
 {
     int fd;
@@ -1334,7 +1296,6 @@ int open_cryptic(const char* filename, int oflag)
 
     return fd;
 }
-#endif
 
 char *strcpy_unsafe(char *dst, const char *src)
 {
@@ -1944,17 +1905,21 @@ int createShortcut(char *file, char *out, int icon, char *working_dir, char *arg
 {
     HRESULT hres;
     IShellLinkA *psl;
+    void *createdLink;
     CoInitialize(NULL);
     hres = CoCreateInstance(&CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, 
-                                 &IID_IShellLink, (void **) &psl); 
+                                 &IID_IShellLink, &createdLink);
     if (SUCCEEDED(hres)) 
     { 
-        IPersistFile* ppf; 
+        IPersistFile* ppf;
+        void *persistFile;
+        psl = createdLink;
 
-        hres = psl->lpVtbl->QueryInterface(psl,&IID_IPersistFile, (void **) &ppf); 
+        hres = psl->lpVtbl->QueryInterface(psl,&IID_IPersistFile, &persistFile);
         if (SUCCEEDED(hres)) 
         { 
             char path[MAX_PATH], *tmp;
+            ppf = persistFile;
 
             hres = psl->lpVtbl->SetPath(psl,file); 
 
@@ -2008,13 +1973,23 @@ int createShortcut(char *file, char *out, int icon, char *working_dir, char *arg
 #endif
 
 #ifndef _XBOX
-int spawnProcess(char *cmdLine, int mode)
+intptr_t spawnProcess(char *cmdLine, int mode)
 {
     char *args[100];
-    int ret;
-    tokenize_line_quoted(cmdLine, args, 0);
-    ret = _spawnv(mode, args[0], args);
-    if ( ret < 0 )
+    const char *spawnArgs[ARRAY_SIZE(args) + 1];
+    intptr_t ret;
+    int i;
+    int count = tokenize_line_quoted(cmdLine, args, 0);
+    if (count <= 0)
+    {
+        errno = EINVAL;
+        return -1;
+    }
+    for (i = 0; i < count; ++i)
+        spawnArgs[i] = args[i];
+    spawnArgs[count] = NULL;
+    ret = _spawnv(mode, spawnArgs[0], spawnArgs);
+    if ( ret == -1 )
     {
         switch ( errno )
         {

@@ -48,7 +48,7 @@ public:
     virtual void OnIOCallback(BOOL success, DWORD transferred, LPOVERLAPPED pOverlapped) {}
 
     friend class CDBConn;
-    friend BOOL CALLBACK LoginDlgProc(HWND hDlg, DWORD dwMessage, DWORD wParam, LPARAM lParam);
+    friend INT_PTR CALLBACK LoginDlgProc(HWND hDlg, UINT dwMessage, WPARAM wParam, LPARAM lParam);
 
     DBEnv();
     ~DBEnv();
@@ -112,6 +112,6 @@ protected:
 
 extern DBEnv *g_linDB;
 
-BOOL CALLBACK LoginDlgProc(HWND hDlg, DWORD dwMessage, DWORD wParam, LPARAM lParam);
+INT_PTR CALLBACK LoginDlgProc(HWND hDlg, UINT dwMessage, WPARAM wParam, LPARAM lParam);
 
 #endif // !defined(AFX_DBCONN_H__BE8285EA_B6EF_4AB1_83B4_8FE6EA59F5BA__INCLUDED_)

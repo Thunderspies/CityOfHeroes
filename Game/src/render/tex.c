@@ -55,7 +55,7 @@ extern CRITICAL_SECTION CriticalSectionTexLoadQueues; //for the thread linked li
 CRITICAL_SECTION CriticalSectionQueueingLoads; // blocked as long as the thread is still queueing loads
 extern CRITICAL_SECTION CriticalSectionTexLoadData; // blocked whenever texLoadData is running (to allow it to be called from both threads)
 extern HANDLE background_loader_handle;
-extern DWORD background_loader_threadID;
+extern unsigned background_loader_threadID;
 static volatile long numTexLoadsInThread=0;
 TexThreadPackage * texBindsReadyForFinalProcessing;
 int texMemoryUsage[2]={0};

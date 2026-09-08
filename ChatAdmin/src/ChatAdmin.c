@@ -223,7 +223,7 @@ void EasyCheckMenuItem(int itemID, bool checked)
     CheckMenuItem(GetMenu(g_hDlgMain), itemID, state | MF_BYCOMMAND);
 }
 
-LRESULT CALLBACK DlgMainProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i=0;
 
@@ -410,7 +410,7 @@ int WINAPI WinMain ( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     packetStartup(0,1);
     pktSetDebugInfo();
 
-    hDlg = CreateDialog(hInstance, (LPCTSTR) (IDD_DLG_MAIN), NULL, (DLGPROC)DlgMainProc); 
+    hDlg = CreateDialog(hInstance, (LPCTSTR) (IDD_DLG_MAIN), NULL, DlgMainProc);
     if(!hDlg)
     {
         DWORD i = GetLastError();
@@ -595,7 +595,7 @@ ControlAccess controlAccess[] =
     { 0 },
 };
 
-BOOL CALLBACK EnableControlEnumProc(HWND hWnd, BOOL enable);
+BOOL CALLBACK EnableControlEnumProc(HWND hWnd, LPARAM enable);
 
 
 // Iterate through all controls in the 'controlAccess' list
@@ -610,7 +610,7 @@ void EnableControls(HWND hDlg, BOOL enable)
         hDlg = g_hDlgMain;
 
     // do non-menu controls (buttons, lists, etc)
-    EnumChildWindows(hDlg, (WNDENUMPROC) EnableControlEnumProc, enable);
+    EnumChildWindows(hDlg, EnableControlEnumProc, enable);
 
     // do menu controls
     hMenu = GetMenu(hDlg);
@@ -631,7 +631,7 @@ void EnableControls(HWND hDlg, BOOL enable)
     }
 }
 
-BOOL CALLBACK EnableControlEnumProc(HWND hWnd, BOOL enable)
+BOOL CALLBACK EnableControlEnumProc(HWND hWnd, LPARAM enable)
 {
     HWND parent = GetParent(hWnd);
     ControlAccess * control = &controlAccess[0];

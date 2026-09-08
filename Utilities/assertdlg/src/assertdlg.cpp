@@ -13,7 +13,7 @@ TCHAR szWindowClass[MAX_LOADSTRING]; // the main window class name
 // Forward declarations of functions included in this code module:
 ATOM MyRegisterClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE, int);
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK WndProc(HWND HWND, UINT UINT, WPARAM WPARAM, LPARAM LPARAM);
 
 TCHAR errortitle[] = "Program Error";
 
@@ -131,7 +131,7 @@ typedef struct ErrorParams
 } ErrorParams;
 
 // Message handler for error box.
-LRESULT CALLBACK ErrorDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ErrorDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     static char* errorbuf;
     static HFONT bigfont = 0;
@@ -236,7 +236,7 @@ LRESULT CALLBACK ErrorDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 // Message handler for about box.
-LRESULT CALLBACK Assert(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK Assert(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -343,26 +343,26 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
     params.title = errortitle;
     params.err = errorbuf;
     params.fault = 0;
-    ret = (int)DialogBoxParam(hInst, (LPCTSTR)IDD_ERROR, NULL, (DLGPROC)ErrorDlg, (LPARAM)&params);
+    ret = (int)DialogBoxParam(hInst, (LPCTSTR)IDD_ERROR, NULL, ErrorDlg, (LPARAM)&params);
     params.title = const_cast<char*>("errorbufwide");
     params.err = errorbufwide;
     params.fault = const_cast<char*>("It is Mark's Fault");
     ShowCursor(0);
-    ret = (int)DialogBoxParam(hInst, (LPCTSTR)IDD_ERROR, NULL, (DLGPROC)ErrorDlg, (LPARAM)&params);
+    ret = (int)DialogBoxParam(hInst, (LPCTSTR)IDD_ERROR, NULL, ErrorDlg, (LPARAM)&params);
     MessageBox(NULL, "Don't have cursor", "Cursor test", MB_SETFOREGROUND);
     ShowCursor(1);
     MessageBox(NULL, "Have cursor", "Cursor test", MB_SETFOREGROUND);
     params.title = const_cast<char*>("errorbuflongstr");
     params.err = errorbuflongstr;
     params.fault = const_cast<char*>("It is Somebody's Fault");
-    ret = (int)DialogBoxParam(hInst, (LPCTSTR)IDD_ERROR, NULL, (DLGPROC)ErrorDlg, (LPARAM)&params);
+    ret = (int)DialogBoxParam(hInst, (LPCTSTR)IDD_ERROR, NULL, ErrorDlg, (LPARAM)&params);
     params.title = const_cast<char*>("errorbuflong");
     params.err = errorbuflong;
     params.fault = const_cast<char*>("It is really Mark's Fault");
     ShowCursor(0);
     MessageBox(NULL, "Don't have cursor", "Cursor test", MB_SETFOREGROUND);
-    ret = (int)DialogBoxParam(hInst, (LPCTSTR)IDD_ERROR, NULL, (DLGPROC)ErrorDlg, (LPARAM)&params);
-    ret = (int)DialogBox(hInst, (LPCTSTR)IDD_ABOUTBOX, NULL, (DLGPROC)Assert);
+    ret = (int)DialogBoxParam(hInst, (LPCTSTR)IDD_ERROR, NULL, ErrorDlg, (LPARAM)&params);
+    ret = (int)DialogBox(hInst, (LPCTSTR)IDD_ABOUTBOX, NULL, Assert);
     wsprintf(buf, "Dialog returned %i", ret);
     MessageBox(NULL, "Don't have cursor", "Cursor test", MB_SETFOREGROUND);
     MessageBox(NULL, buf, "Assert dialog", MB_SETFOREGROUND);
@@ -420,7 +420,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbSize = sizeof(WNDCLASSEX);
 
     wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = (WNDPROC)WndProc;
+    wcex.lpfnWndProc = WndProc;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
@@ -488,7 +488,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
                 case IDM_ABOUT:
-                    DialogBox(hInst, (LPCTSTR)IDD_ABOUTBOX, hWnd, (DLGPROC)Assert);
+                    DialogBox(hInst, (LPCTSTR)IDD_ABOUTBOX, hWnd, Assert);
                     break;
                 case IDM_EXIT:
                     DestroyWindow(hWnd);

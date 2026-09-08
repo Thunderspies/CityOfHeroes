@@ -1190,7 +1190,7 @@ static MsgEntry *getMsg()
     return msg;
 }
 
-static DWORD WINAPI logBackgroundWriter( LPVOID lpParam )
+static unsigned __stdcall logBackgroundWriter( LPVOID lpParam )
 {
     EXCEPTION_HANDLER_BEGIN
         MsgEntry    *msg;

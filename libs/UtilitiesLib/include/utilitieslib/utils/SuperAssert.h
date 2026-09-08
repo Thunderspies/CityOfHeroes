@@ -24,7 +24,6 @@ extern "C"{
 #define BREAK_INSTEAD_OF_ASSERT 0 // make sure you use do-not-check-in (no dashes) if you set this
 
 typedef struct _EXCEPTION_POINTERS *PEXCEPTION_POINTERS;
-typedef enum _MINIDUMP_TYPE _MINIDUMP_TYPE;
 
 #define ASSERTMODE_DEBUGBUTTONS        (1 << 0)
 #define ASSERTMODE_ERRORREPORT        (1 << 1)
@@ -73,7 +72,6 @@ void setAssertShardTime(int shardTime);
     void assertWriteMiniDumpSimple(PEXCEPTION_POINTERS info);
     void assertWriteFullDump(char* filename, PEXCEPTION_POINTERS info);
     void assertWriteFullDumpSimple(PEXCEPTION_POINTERS info);
-    void assertWriteFullDumpSimpleSetFlags(_MINIDUMP_TYPE flags);
 
     typedef void (*ErrorCallback)(char* errMsg);
 
@@ -151,8 +149,6 @@ void setAssertShardTime(int shardTime);
 
     #define assertmsgf(exp, msg, ...) do { (void)(exp); } while(0)
     #define assertmsg(exp, msg) do { (void)(exp); } while(0)
-
-    #define assertWriteFullDumpSimpleSetFlags(flags)  do {} while(0)
 
     #if defined(assert)
     #undef assert

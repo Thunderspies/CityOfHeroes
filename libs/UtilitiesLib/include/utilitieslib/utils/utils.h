@@ -193,7 +193,7 @@ __time32_t statTimeFromUTC(__time32_t utcTime);
 #define getAutoDbName(server_name) getAutoDbName_s(SAFESTR(server_name))
 void getAutoDbName_s(char *server_name, size_t server_name_size); // Determines appropriate DbServer from data directory, modifies server_name
 int createShortcut(char *file, char *out, int icon, char *working_dir, char *args, char *desc);
-int spawnProcess(char *cmdLine, int mode); // spawn a process. mode should be either _P_WAIT (for synchronous) or _P_NOWAIT (for asynchronous).  returns either the return value of the process (synchronous), or the process handle (asynchronous)
+intptr_t spawnProcess(char *cmdLine, int mode); // spawn a process. mode should be either _P_WAIT (for synchronous) or _P_NOWAIT (for asynchronous).  returns either the return value of the process (synchronous), or the process handle (asynchronous)
 
 #define printUnit(buf, val) printUnit_s(SAFESTR(buf), val)
 char *printUnit_s(char *buf, size_t buf_size, S64 val);

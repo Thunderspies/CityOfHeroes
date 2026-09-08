@@ -21,6 +21,11 @@
 #include <io.h>
 #include <direct.h>
 #include <time.h>
+#include <sys/stat.h>
+#include <malloc.h>
+#include <wchar.h>
+// Parse CRT inline functions before the string macros below can rewrite them.
+#include <tchar.h>
 #ifdef __cplusplus
 #    include <cstdio>
 #else
@@ -130,20 +135,6 @@
 
 
 C_DECLARATIONS_BEGIN
-
-#ifdef _WINBASE_
-#error("winbase.h has already been included before stdtypes.h");
-#endif
-
-#ifndef _WIN32_WINNT
-#    if defined(CLIENT) || defined(UTILITIESLIB)
-#        define _WIN32_WINNT 0x0601 // Windows 7 and up
-#    else
-#        define _WIN32_WINNT 0x0601 // Windows 7 and up
-#    endif
-#else
-#error("_WIN32_WINNT is already defined");
-#endif
 
 #pragma warning (disable:4244)        /* disable bogus conversion warnings */
 #pragma warning (disable:4305)        /* disable bogus conversion warnings */
@@ -516,40 +507,35 @@ int pprintfv(int predicate, const char *format, va_list argptr);
 #define Strcpy(dst, src) strcpy_s(dst, ARRAY_SIZE_CHECKED(dst), src)
 #define Strcat(dst, src) strcat_s(dst, ARRAY_SIZE_CHECKED(dst), src)
 
-#if _MSC_VER < 1400
-    // defined in utils.c
-    typedef int errno_t;
-    errno_t strcpy_s(char *dst, size_t dst_size, const char *src);
-    errno_t strcat_s(char *dst, size_t dst_size, const char *src);
-    errno_t strncpy_s(char* dst, size_t dst_size, const char* str, size_t count);
+// Map legacy names to the current CRT and project wrappers.
+int open_cryptic(const char* filename, int oflag);
+#define open open_cryptic
+#define mkdir _mkdir
+#define rmdir _rmdir
+#define chdir _chdir
+#define close _close
+#define unlink _unlink
+#define chmod _chmod
+#define getch _getch
+#define kbhit _kbhit
+#define strlwr _strlwr
+#define strupr _strupr
+#define strcmpi _strcmpi
+#define stricmp _stricmp
+#define strnicmp _strnicmp
+#define getpid _getpid
+#define wcsicmp _wcsicmp
 
-    // old names
-#    define __time32_t time_t
-#    define _time32 time
-#    define _ctime32 ctime
-#    define _finddata32_t _finddata_t
-#    define _findfirst32 _findfirst
-#    define _findnext32 _findnext
-#    define _stat32 stat
-#    define _mktime32 mktime
-
-#else
-    // VS2005 wants to use ISO compliant names for functions...
-    int open_cryptic(const char* filename, int oflag);
-#    define open open_cryptic
-#    define mkdir _mkdir
-#    define rmdir _rmdir
-#    define chdir _chdir
-#    define close _close
-#    define unlink _unlink
-#    define chmod _chmod
-#    define getch _getch
-#    define kbhit _kbhit
-#    define strlwr _strlwr
-#    define strcmpi _strcmpi
-#    define getpid _getpid
-#    define wcsicmp _wcsicmp
+// Include the owning CRT headers above before remapping their declarations.
+// Preserve any CRT-selected large-file aliases and its default time width.
+#ifndef stat
+#    define stat _stat
 #endif
+#ifndef fstat
+#    define fstat _fstat
+#endif
+#undef alloca
+#define alloca _alloca
 
 #define fopen include_file_h_for_fopen
 #define _beginthreadex include_utils_h_for_threads

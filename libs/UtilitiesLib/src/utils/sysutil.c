@@ -17,12 +17,12 @@
 
 char* getComputerName(){
     static char buffer[1024];
-    int bufferSize = 1024;
+    DWORD bufferSize = sizeof(buffer);
 
     if(!buffer[0])
     {
-        GetComputerNameA(buffer, &bufferSize);
-        buffer[bufferSize] = '\0';
+        if (!GetComputerNameA(buffer, &bufferSize))
+            buffer[0] = '\0';
     }
     
     return buffer;
@@ -59,7 +59,8 @@ char* getExecutableVersionEx(char* executableName, int dots){
     char* moduleFilename = executableName;
     int fileVersionInfoSize;
     VS_FIXEDFILEINFO* fileInfo;
-    int fileInfoSize;
+    void* fileInfoData;
+    UINT fileInfoSize;
     static char versionStr[128];
 
     fileVersionInfoSize = GetFileVersionInfoSizeA(moduleFilename, 0);
@@ -73,7 +74,13 @@ char* getExecutableVersionEx(char* executableName, int dots){
     result = GetFileVersionInfoA(moduleFilename, 0, fileVersionInfoSize, fileVersionInfo);
     assert(result);
 
-    result = VerQueryValueA(fileVersionInfo, "\\", &fileInfo, &fileInfoSize);
+    result = VerQueryValueA(fileVersionInfo, "\\", &fileInfoData, &fileInfoSize);
+    if (!result || fileInfoSize < sizeof(*fileInfo))
+    {
+        free(fileVersionInfo);
+        return NULL;
+    }
+    fileInfo = fileInfoData;
 
     #define HIBITS(x) x >> 16
     #define LOWBITS(x) x & ((1 << 16) - 1)

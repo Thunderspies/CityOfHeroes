@@ -349,17 +349,17 @@ _BEFORE
         memset ( msg_packet, 0, 1024 * sizeof( wchar_t ));
 
         if ( LOG_ID == LOG_ACCOUNT_AUTHED )
-            swprintf( msg_packet, LOG_F_ACCOUNT_AUTHED,  tm.wMonth, tm.wDay, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds,LOG_ACCOUNT_AUTHED,uid, 
+            swprintf( msg_packet, _countof(msg_packet), LOG_F_ACCOUNT_AUTHED,  tm.wMonth, tm.wDay, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds,LOG_ACCOUNT_AUTHED,uid,
             ip.S_un.S_un_b.s_b1,ip.S_un.S_un_b.s_b2,ip.S_un.S_un_b.s_b3,ip.S_un.S_un_b.s_b4 , stat, age, gender, param1, zipcode,w_account );
         else if ( LOG_ID == LOG_ACCOUNT_LOGIN )
-            swprintf( msg_packet, LOG_F_ACCOUNT_LOGIN,  tm.wMonth, tm.wDay, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds,LOG_ACCOUNT_LOGIN,uid, ip.S_un.S_un_b.s_b1,ip.S_un.S_un_b.s_b2,ip.S_un.S_un_b.s_b3,ip.S_un.S_un_b.s_b4, stat, age, gender, param1, zipcode , w_account);
+            swprintf( msg_packet, _countof(msg_packet), LOG_F_ACCOUNT_LOGIN,  tm.wMonth, tm.wDay, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds,LOG_ACCOUNT_LOGIN,uid, ip.S_un.S_un_b.s_b1,ip.S_un.S_un_b.s_b2,ip.S_un.S_un_b.s_b3,ip.S_un.S_un_b.s_b4, stat, age, gender, param1, zipcode , w_account);
     //  quitgame
         else if ( LOG_ID == LOG_ACCOUNT_LOGOUT ){
-            swprintf( msg_packet, LOG_F_ACCOUNT_LOGOUT, tm.wMonth, tm.wDay, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds,LOG_ACCOUNT_LOGOUT, uid, ip.S_un.S_un_b.s_b1,ip.S_un.S_un_b.s_b2,ip.S_un.S_un_b.s_b3,ip.S_un.S_un_b.s_b4, stat, age, gender, param1, zipcode , w_account);
+            swprintf( msg_packet, _countof(msg_packet), LOG_F_ACCOUNT_LOGOUT, tm.wMonth, tm.wDay, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds,LOG_ACCOUNT_LOGOUT, uid, ip.S_un.S_un_b.s_b1,ip.S_un.S_un_b.s_b2,ip.S_un.S_un_b.s_b3,ip.S_un.S_un_b.s_b4, stat, age, gender, param1, zipcode , w_account);
         }
     //  logout
         else if ( LOG_ID == LOG_ACCOUNT_LOGOUT2 )
-        swprintf( msg_packet, LOG_F_ACCOUNT_LOGOUT2, tm.wMonth, tm.wDay, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds,LOG_ACCOUNT_LOGOUT2, uid, 
+        swprintf( msg_packet, _countof(msg_packet), LOG_F_ACCOUNT_LOGOUT2, tm.wMonth, tm.wDay, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond, tm.wMilliseconds,LOG_ACCOUNT_LOGOUT2, uid,
                 ip.S_un.S_un_b.s_b1,ip.S_un.S_un_b.s_b2,ip.S_un.S_un_b.s_b3,ip.S_un.S_un_b.s_b4, 
                 stat, age , gender, w_account);
         gLogLock.ReadLock();

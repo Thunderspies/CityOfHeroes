@@ -24,7 +24,7 @@ int smentsFilter(DbContainer *dbcon, void *filterData) // Returns 1 if it passes
     return 0;
 }
 
-LRESULT CALLBACK DlgSvrMonEntsProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgSvrMonEntsProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i=0;
     ServerMonitorState *state=&g_state;
@@ -83,7 +83,7 @@ void smentsSetFilterId(ServerMonitorState *state, int id)
 void smentsShow(ServerMonitorState *state)
 {
     if (hEntsDialog == NULL || !bSmentsUp) {
-        hEntsDialog = CreateDialog(g_hInst, (LPCTSTR)(intptr_t)(IDD_DLG_ENTS), NULL, (DLGPROC)DlgSvrMonEntsProc); 
+        hEntsDialog = CreateDialog(g_hInst, (LPCTSTR)(intptr_t)(IDD_DLG_ENTS), NULL, DlgSvrMonEntsProc);
         ShowWindow(hEntsDialog, SW_SHOW);
         bSmentsUp = true;
         svrMonRequestEnts(state, 1);

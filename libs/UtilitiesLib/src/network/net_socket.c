@@ -52,8 +52,8 @@ void destroyAsyncOpContext(AsyncOpContext* context){
 }
 
 int simpleWSARecv(SOCKET sock, char* buf, int len, int useless, AsyncOpContext* context){
-    ULONG    ulFlags = MSG_PARTIAL;
-    int        received = 0;
+    DWORD    ulFlags = MSG_PARTIAL;
+    DWORD      received = 0;
     WSABUF    bufferArray;
     int        result;
     context->type = AOT_Receive;
@@ -87,13 +87,14 @@ int simpleWSARecv(SOCKET sock, char* buf, int len, int useless, AsyncOpContext* 
         }
     }
 
-    return received;
+    return result == 0 ? (int)received : 0;
 }
 
 int wsanobufs_hit=0;
 
 int simpleWsaSend(SOCKET sock, char* buf, int length, int flags, AsyncOpContext* context){
     WSABUF sendBuf;
+    DWORD bytesTransferred;
 
     //printf("Queuing async send op\n");
     sendBuf.buf = buf;
@@ -106,7 +107,7 @@ int simpleWsaSend(SOCKET sock, char* buf, int length, int flags, AsyncOpContext*
 
     LOG(LOG_NET, LOG_LEVEL_DEBUG, 0, "Async context at %x\n", context);
 
-    if(0 != WSASend(sock, &sendBuf, 1, &context->bytesTransferred, 0, &context->ol, NULL)){
+    if(0 != WSASend(sock, &sendBuf, 1, &bytesTransferred, 0, &context->ol, NULL)){
         int errVal = WSAGetLastError();
 
         // If the peer has disconnected, marked the socket to be destroyed.
@@ -125,13 +126,15 @@ int simpleWsaSend(SOCKET sock, char* buf, int length, int flags, AsyncOpContext*
         return 0;
     }
 
-    return context->bytesTransferred;
+    context->bytesTransferred = bytesTransferred;
+    return (int)bytesTransferred;
 }
 
 int simpleWSARecvFrom(SOCKET sock, char* buf, int len, int flags, struct sockaddr* addr, int *addrLen, AsyncOpContext* context){
-    int        received = 0;
+    DWORD      received = 0;
     WSABUF    bufferArray;
-    UINT    result;
+    int     result;
+    DWORD   recvFlags = (DWORD)flags;
 
     assert(!context->inProgress);
     context->inProgress = 1;
@@ -149,7 +152,7 @@ int simpleWSARecvFrom(SOCKET sock, char* buf, int len, int flags, struct sockadd
                     &bufferArray,
                     1,
                     &received,
-                    &flags,
+                    &recvFlags,
                     addr,
                     addrLen,
                     &context->ol,
@@ -167,7 +170,7 @@ int simpleWSARecvFrom(SOCKET sock, char* buf, int len, int flags, struct sockadd
         assert(0);
     }
 
-    return received;
+    return result == 0 ? (int)received : 0;
 }
 
 
@@ -175,7 +178,7 @@ int simpleWSARecvFrom(SOCKET sock, char* buf, int len, int flags, struct sockadd
  *    A slightly simplified form of sendto().
  *
  */
-int SendToSock(int fd, void* message, int len, struct sockaddr_in* addr){
+int SendToSock(SOCKET fd, void* message, int len, struct sockaddr_in* addr){
     int    len_sent;
 
     len_sent = sendto(fd,message,len,0,(struct sockaddr *)addr,sizeof(struct sockaddr_in));
@@ -232,7 +235,7 @@ void FD_AddLinkList(FD_SET* readSet, FD_SET* writeSet, FD_SET* errorSet, NetLink
 }
 
 
-void socketSetBufferSize(int socket, NetLinkBufferType type, int size){
+void socketSetBufferSize(SOCKET socket, NetLinkBufferType type, int size){
     int ret, sizeof_size = sizeof(size);
     int result_size;
 

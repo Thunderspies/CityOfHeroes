@@ -82,7 +82,7 @@ CRITICAL_SECTION CriticalSectionGeoUncompress;
 static int initedBackgroundLoader;
 
 HANDLE background_loader_handle = NULL;
-DWORD background_loader_threadID = 0;
+unsigned background_loader_threadID = 0;
 
 static void modelSetTexOptCtriFlags(Model *model, Vec3 *verts, int *tris);
 
@@ -1805,7 +1805,7 @@ static GeoLoadData *geoLoadStubs(FILE * file, GeoLoadData * gld,GeoUseType type)
 // }
 
 /*Geo Loader thread: All I do is sleep, waiting to be given work by QueueUserAPC*/
-static DWORD WINAPI backgroundLoadingThread( LPVOID lpParam )
+static unsigned __stdcall backgroundLoadingThread( LPVOID lpParam )
 {
     EXCEPTION_HANDLER_BEGIN
         PERFINFO_AUTO_START("backgroundLoadingThread", 1);
@@ -1820,6 +1820,7 @@ static DWORD WINAPI backgroundLoadingThread( LPVOID lpParam )
         PERFINFO_AUTO_STOP();
         return 0; 
     EXCEPTION_HANDLER_END
+    return 0;
 } 
 
 void initBackgroundLoader()

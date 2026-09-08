@@ -250,7 +250,7 @@ int merger_diffbig(PersistInfo *info, int write)
     return 1;
 }
 
-static DWORD WINAPI s_flusherthread(LPVOID lpParam)
+static unsigned __stdcall s_flusherthread(LPVOID lpParam)
 {
     EXCEPTION_HANDLER_BEGIN
 

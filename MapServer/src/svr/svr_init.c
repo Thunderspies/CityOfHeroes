@@ -1707,7 +1707,7 @@ static HWND createWndIconHandler(void)
 
         winClass.cbSize            = sizeof(winClass);
         winClass.style            = CS_OWNDC | CS_DBLCLKS;
-        winClass.lpfnWndProc    = (WNDPROC)iconWindowProc;
+        winClass.lpfnWndProc    = iconWindowProc;
         winClass.cbClsExtra        = 0;
         winClass.cbWndExtra        = 0;
         winClass.hInstance        = GetModuleHandle(NULL);
@@ -1758,7 +1758,7 @@ static BOOL deleteIconAtExit(DWORD fdwCtrlType)
     return FALSE;
 }
 
-static DWORD WINAPI iconThread(void* unused)
+static unsigned __stdcall iconThread(void* unused)
 {
     HWND hwnd = createWndIconHandler();
 

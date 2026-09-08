@@ -1943,7 +1943,7 @@ int x_fclose(FileWrapper *fw)
 int x_fgetc(FileWrapper *fw)
 {
     int ret=-1;
-    int count;
+    DWORD count;
     switch(fw->iomode) {
         xcase IO_GZ:
             PERFINFO_AUTO_START("x_fgetc:gzgetc", 1);
@@ -1961,8 +1961,7 @@ int x_fgetc(FileWrapper *fw)
         xcase IO_WINIO:
             PERFINFO_AUTO_START("x_fgetc:ReadFile", 1);
             ret = 0;
-            ReadFile(fw->fptr, &ret, 1, &count, NULL);
-            if (count!=1)
+            if (!ReadFile(fw->fptr, &ret, 1, &count, NULL) || count != 1)
                 ret = EOF;
     }
     PERFINFO_AUTO_STOP();
@@ -1972,7 +1971,7 @@ int x_fgetc(FileWrapper *fw)
 int x_fputc(int c,FileWrapper *fw)
 {
     int ret=-1;
-    int count;
+    DWORD count;
     switch(fw->iomode) {
         xcase IO_GZ:
             PERFINFO_AUTO_START("x_fputc:gzputc", 1);
@@ -1990,10 +1989,10 @@ int x_fputc(int c,FileWrapper *fw)
         xcase IO_WINIO:
             PERFINFO_AUTO_START("x_fputc:WriteFile", 1);
             ret = WriteFile(fw->fptr, &c, 1, &count, NULL);
-            if (ret==0)
+            if (ret == 0 || count != 1)
                 ret = EOF;
             else
-                ret = c;
+                ret = (unsigned char)c;
     }
     PERFINFO_AUTO_STOP();
     return ret;
@@ -2002,7 +2001,6 @@ int x_fputc(int c,FileWrapper *fw)
 S64 x_fseek(FileWrapper *fw, S64 dist,int whence)
 {
     S64 ret=-1;
-    DWORD dwPtr=0;
     switch(fw->iomode) {
         xcase IO_GZ:
             PERFINFO_AUTO_START("x_fseek:gzseek", 1);
@@ -2033,26 +2031,26 @@ S64 x_fseek(FileWrapper *fw, S64 dist,int whence)
             }
             ret = fsetpos(fw->fptr,&dist);
         xcase IO_WINIO:
-            PERFINFO_AUTO_START("x_fseek:SetFilePointer", 1);
+            PERFINFO_AUTO_START("x_fseek:SetFilePointerEx", 1);
             {
-                U32 lowbits = (U32)(dist&0xFFFFFFFFLL);
-                S32 highbits = (S32)(dist >> 32LL);
+                LARGE_INTEGER distance;
+                DWORD method;
+                distance.QuadPart = dist;
                 switch(whence)
                 {
                     xcase SEEK_SET:
-                        dwPtr = SetFilePointer(fw->fptr,lowbits,&highbits,FILE_BEGIN);
+                        method = FILE_BEGIN;
                     xcase SEEK_END:
-                        dwPtr = SetFilePointer(fw->fptr,lowbits,&highbits,FILE_END);
+                        method = FILE_END;
                     xcase SEEK_CUR:
-                        dwPtr = SetFilePointer(fw->fptr,lowbits,&highbits,FILE_CURRENT);
+                        method = FILE_CURRENT;
                     xdefault:
                         assert(0);
+                        PERFINFO_AUTO_STOP();
+                        return -1;
                 }
+                ret = SetFilePointerEx(fw->fptr, distance, NULL, method) ? 0 : -1;
             }
-            if (dwPtr == INVALID_SET_FILE_POINTER && GetLastError() != NO_ERROR )
-                ret = -1;
-            else
-                ret = 0;
     }
     PERFINFO_AUTO_STOP();
     return ret;
@@ -2078,32 +2076,11 @@ int x_getc(FileWrapper *fw)
         xcase IO_WINIO:
             PERFINFO_AUTO_START("x_getc:ReadFile", 1);
             ret = 0;
-            ReadFile(fw->fptr, &ret, 1, &count, NULL);
-            if (count!=1)
+            if (!ReadFile(fw->fptr, &ret, 1, &count, NULL) || count != 1)
                 ret = EOF;
     }
     PERFINFO_AUTO_STOP();
     return ret;
-}
-
-// Functionally identical to SetFilePointerEx, but runs on Win98
-BOOL SetFilePointerExWin98(HANDLE hFile, LARGE_INTEGER liDistanceToMove, PLARGE_INTEGER lpNewFilePointer, DWORD dwMoveMethod)
-{
-    LARGE_INTEGER li;
-
-    li.QuadPart = liDistanceToMove.QuadPart;
-
-    li.LowPart = SetFilePointer (hFile, li.LowPart, &li.HighPart, dwMoveMethod);
-
-    if (li.LowPart == INVALID_SET_FILE_POINTER && GetLastError() != NO_ERROR)
-    {
-        // Failure
-        li.QuadPart = -1;
-        return FALSE;
-    }
-
-    lpNewFilePointer->QuadPart = li.QuadPart;
-    return TRUE;
 }
 
 S64 x_ftell(FileWrapper *fw)
@@ -2127,7 +2104,7 @@ S64 x_ftell(FileWrapper *fw)
             {
                 LARGE_INTEGER zero = {0};
                 LARGE_INTEGER newpos;
-                if (SetFilePointerExWin98(fw->fptr,zero,&newpos,FILE_CURRENT))
+                if (SetFilePointerEx(fw->fptr,zero,&newpos,FILE_CURRENT))
                     ret = newpos.QuadPart;
                 else
                     ret = -1;

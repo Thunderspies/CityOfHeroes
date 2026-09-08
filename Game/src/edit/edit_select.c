@@ -1888,7 +1888,7 @@ void addProperty2(MenuEntry * me,ClickInfo * ci){
             sprintf(buffer2, "0");
             ptd.property = buffer;
             ptd.value = buffer2;
-            another = DialogBoxParam(glob_hinstance, MAKEINTRESOURCE(IDD_NEWPROP), hwnd, (DLGPROC)editPropertyDialog, (LPARAM)&ptd);
+            another = DialogBoxParam(glob_hinstance, MAKEINTRESOURCE(IDD_NEWPROP), hwnd, editPropertyDialog, (LPARAM)&ptd);
             inpClear();
             // check for cancel
             if (another == 2) {

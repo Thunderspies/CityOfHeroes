@@ -54,7 +54,7 @@ typedef struct TFCRequestQueue {
 TFCRequestQueue **queue_requests; // EArray
 TFCRequestQueue **queue_results; // EArray
 TFCRequestQueue *queue_notYetQueued;
-DWORD threads[MAX_THREADS];
+unsigned threads[MAX_THREADS];
 
 
 MP_DEFINE(TFCRequest);
@@ -87,7 +87,7 @@ static void tfcInitCriticalSections(void)
 {
     if (!critSectFileWrite_init) {
         // Lazy init critical sections, but safely
-        static volatile int num_people_initing=0;
+        static volatile LONG num_people_initing=0;
         int result = InterlockedIncrement(&num_people_initing);
         if (result != 1) {
             while (!critSectFileWrite_init)
@@ -336,7 +336,7 @@ typedef struct ThreadStartParam {
     TFCRequestQueue *queue_out;
 } ThreadStartParam;
 
-static DWORD WINAPI threadedFileCopyThread( LPVOID lpParam )
+static unsigned __stdcall threadedFileCopyThread( LPVOID lpParam )
 {
     EXCEPTION_HANDLER_BEGIN
     ThreadStartParam *param = (ThreadStartParam*)lpParam;

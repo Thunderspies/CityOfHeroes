@@ -18,7 +18,7 @@ static void fixButtons(HWND hDlg)
         EnableWindow(GetDlgItem(hDlg, IDC_LOGIN_OK), FALSE);
 }
 
-LRESULT CALLBACK DlgLoginProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgLoginProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (iMsg) 
     {
@@ -106,7 +106,7 @@ int LoginDlg(HWND hDlg)
     if(!s_lock)
     {
         s_lock = 1;
-        res = DialogBox (g_hInst, MAKEINTRESOURCE (IDD_LOGIN), hDlg, (DLGPROC)DlgLoginProc);
+        res = DialogBox (g_hInst, MAKEINTRESOURCE (IDD_LOGIN), hDlg, DlgLoginProc);
         if(res == IDC_LOGIN_OK)
         {
             chatAdminConnect();

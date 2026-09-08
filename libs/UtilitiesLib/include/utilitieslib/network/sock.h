@@ -13,6 +13,7 @@
 #include <netinet/tcp.h>
 #include <netdb.h>
 #include <unistd.h>
+typedef int SOCKET;
 #define closesocket(x) close(x)
 #define ioctlsocket(x,y,z) ioctl(x,y,(U32)z)
 #define Sleep(x) usleep(x*1000)
@@ -22,10 +23,10 @@
 C_DECLARATIONS_BEGIN
 
 void sockSetAddr(struct sockaddr_in *addr,unsigned int ip,int port);
-int sockBind(int sock,const struct sockaddr_in *name);
-void sockSetBlocking(int fd, int block);
-void sockSetDelay(int fd, int delay);
-int sockCheckWriteConnection(unsigned int fd);
+int sockBind(SOCKET sock,const struct sockaddr_in *name);
+void sockSetBlocking(SOCKET fd, int block);
+void sockSetDelay(SOCKET fd, int delay);
+int sockCheckWriteConnection(SOCKET fd);
 void sockStart(void);
 void sockStop(void);
 int sockGetError(void);

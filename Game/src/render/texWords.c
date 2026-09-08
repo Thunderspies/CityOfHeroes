@@ -57,7 +57,7 @@ U32 texWords_pixels=0; // Count of pixels rendered (more like "bytes")
 static CRITICAL_SECTION criticalSectionDoingTexWordRendering; // We use statics here
 static CRITICAL_SECTION criticalSectionDoingTexWordInfo;
 HANDLE background_renderer_handle = NULL;
-DWORD background_renderer_threadID = 0;
+unsigned background_renderer_threadID = 0;
 extern TexThreadPackage * texBindsReadyForFinalProcessing;
 extern CRITICAL_SECTION CriticalSectionTexLoadQueues;
 static volatile long numTexWordsInThread=0;
@@ -318,7 +318,7 @@ void texWordsFlush(void)
 // }
 
 /*TexWords Renderer thread: All I do is sleep, waiting to be given things by QueueUserAPC*/
-static DWORD WINAPI texWordsThread( LPVOID lpParam )
+static unsigned __stdcall texWordsThread( LPVOID lpParam )
 {
     EXCEPTION_HANDLER_BEGIN
         //if (fileIsUsingDevData()) {
@@ -328,6 +328,7 @@ static DWORD WINAPI texWordsThread( LPVOID lpParam )
             SleepEx(INFINITE, TRUE);
         return 0; 
     EXCEPTION_HANDLER_END
+    return 0;
 }
 
 void initBackgroundTexWordRenderer(void)
@@ -2596,6 +2597,11 @@ static VOID CALLBACK texWordDoThreadedWorkSub( TexWordThreadPackage *twPkg)
     PERFINFO_AUTO_STOP();
 }
 
+static VOID CALLBACK texWordDoThreadedWorkAPC(ULONG_PTR data)
+{
+    texWordDoThreadedWorkSub((TexWordThreadPackage*)data);
+}
+
 int texWordDoThreadedWork(TexThreadPackage *pkg, bool yield)
 {
     TexWord *texWord=pkg->bind->texWord;
@@ -2616,7 +2622,7 @@ int texWordDoThreadedWork(TexThreadPackage *pkg, bool yield)
     // Do software composition
     // queue this in another thread (or do it immediately in the case of a foreground load)
     if (yield) {
-        QueueUserAPC((PAPCFUNC)texWordDoThreadedWorkSub, background_renderer_handle, (ULONG_PTR)twPkg);
+        QueueUserAPC(texWordDoThreadedWorkAPC, background_renderer_handle, (ULONG_PTR)twPkg);
     } else {
         // Do it now!
         texWordDoThreadedWorkSub(twPkg);

@@ -23,22 +23,22 @@ void    sockSetAddr(struct sockaddr_in *addr,unsigned int ip,int port)
      addr->sin_port = htons((u_short)port);
 }
 
-int    sockBind(int sock,const struct sockaddr_in *name)
+int    sockBind(SOCKET sock,const struct sockaddr_in *name)
 {
     if (bind (sock,(struct sockaddr *) name, sizeof(struct sockaddr_in)) >= 0) return 1;
 
     return 0;
 }
 
-void    sockSetBlocking(int fd,int block)
+void    sockSetBlocking(SOCKET fd,int block)
 {
-int        noblock;
+u_long     noblock;
 
     noblock = !block;
     ioctlsocket (fd, FIONBIO, &noblock);
 }
 
-void sockSetDelay(int fd, int delay)
+void sockSetDelay(SOCKET fd, int delay)
 {
     int noDelay;
 
@@ -48,7 +48,7 @@ void sockSetDelay(int fd, int delay)
 }
 
 // Poll a non-blocking socket to see if it's writeable.  This is used by the asynchronous connect tech in net_link.c
-int sockCheckWriteConnection(unsigned int fd)
+int sockCheckWriteConnection(SOCKET fd)
 {
     // This is total boilerplate code .....
     int ready;

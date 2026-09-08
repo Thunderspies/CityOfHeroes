@@ -46,7 +46,7 @@ typedef struct StatInfo
      StashTable sgstatFromIdSg;
 } StatInfo;
 
-static StatInfo stat = {0};
+static StatInfo s_statInfo = {0};
 
 void statdb_Save(bool saveAllDirty)
 {
@@ -65,7 +65,7 @@ void statdb_Save(bool saveAllDirty)
     // --------------------
     // figure out which stats to send
 
-    for(stashGetIterator( stat.sgstatFromIdSg,&hi); stashGetNextElement(&hi,&he);)
+    for(stashGetIterator( s_statInfo.sgstatFromIdSg,&hi); stashGetNextElement(&hi,&he);)
     {
         stat_SgrpStats *pStat = stashElementGetPointer( he );
 
@@ -80,7 +80,7 @@ void statdb_Save(bool saveAllDirty)
         {
             int iKey = stashElementGetIntKey(he);
             LOG( LOG_STATSERVER, LOG_LEVEL_VERBOSE, 0, __FUNCTION__ ": NULL pStat for idSgrp(%d)", iKey );
-            stashIntRemovePointer(stat.sgstatFromIdSg, iKey, NULL);
+            stashIntRemovePointer(s_statInfo.sgstatFromIdSg, iKey, NULL);
         }
     }
 
@@ -177,7 +177,7 @@ void miningdata_Save(float duration)
 void statdb_Init()
 {
     g_sgrpFromId = stashTableCreateInt(128);
-    stat.sgstatFromIdSg = stashTableCreateInt(128);
+    s_statInfo.sgstatFromIdSg = stashTableCreateInt(128);
 
     // init the command handler
     cmdOldInit(client_sgstat_cmds);
@@ -255,7 +255,7 @@ U32 stat_dealWithContainer(ContainerInfo *ci,int type)
             // - init it
             // - send it to the db so it creates an entry, with the id as the callback.
             // - add it to the hash by sgrp id
-            if( !stashIntFindPointer(stat.sgstatFromIdSg, idSgrp, &pStats) )
+            if( !stashIntFindPointer(s_statInfo.sgstatFromIdSg, idSgrp, &pStats) )
             {
                 static PerformanceInfo* perfInfo;
                 int cookie = 0;                
@@ -267,7 +267,7 @@ U32 stat_dealWithContainer(ContainerInfo *ci,int type)
                 
                 dbAsyncContainerUpdate(CONTAINER_SGRPSTATS, -1, CONTAINER_CMD_CREATE, str, cookie );
                 dbMessageScanUntil(__FUNCTION__, &perfInfo);
-                stashIntAddPointer(stat.sgstatFromIdSg, idSgrp, pStats, false);
+                stashIntAddPointer(s_statInfo.sgstatFromIdSg, idSgrp, pStats, false);
                 LOG( LOG_STATSERVER, LOG_LEVEL_VERBOSE, 0, "created stats container '%d' for idSgrp '%d'", pStats->db_id, idSgrp );
 
                 free(str);
@@ -325,7 +325,7 @@ U32 stat_dealWithContainer(ContainerInfo *ci,int type)
         
         if(ci->delete_me)
         {
-            if( stashIntRemovePointer(stat.sgstatFromIdSg, idStat, &pStat) )
+            if( stashIntRemovePointer(s_statInfo.sgstatFromIdSg, idStat, &pStat) )
             {
                 LOG( LOG_STATSERVER, LOG_LEVEL_VERBOSE, 0, " delete stat %d", idStat);
                 // don't delete pointer itself, it still belongs to a supergroup that
@@ -340,13 +340,13 @@ U32 stat_dealWithContainer(ContainerInfo *ci,int type)
             // --------------------
             // init hash
 
-            if( !stat.sgstatFromIdSg )
-                stat.sgstatFromIdSg = stashTableCreateInt(128);
+            if( !s_statInfo.sgstatFromIdSg )
+                s_statInfo.sgstatFromIdSg = stashTableCreateInt(128);
 
             // --------------------
             // find or add the info
 
-            if(!stashIntFindPointer(stat.sgstatFromIdSg, idStat, &pStat))
+            if(!stashIntFindPointer(s_statInfo.sgstatFromIdSg, idStat, &pStat))
             {
                 pStat = stat_SgrpStats_Create(CONTAINER_SGRPSTATS,0,0);
             }
@@ -364,9 +364,9 @@ U32 stat_dealWithContainer(ContainerInfo *ci,int type)
             if(pStat->idSgrp > 0)
             {
                 stat_SgrpStats *pStatExisting;
-                if(!stashIntFindPointer(stat.sgstatFromIdSg,pStat->idSgrp, &pStatExisting))
+                if(!stashIntFindPointer(s_statInfo.sgstatFromIdSg,pStat->idSgrp, &pStatExisting))
                 {
-                    stashIntAddPointer(stat.sgstatFromIdSg,pStat->idSgrp, pStat, false);
+                    stashIntAddPointer(s_statInfo.sgstatFromIdSg,pStat->idSgrp, pStat, false);
                 }
                 else if( verify(pStatExisting != pStat) ) // redundant check
                 {
@@ -586,7 +586,7 @@ void dealWithNotify(U32 list_id, U32 cid, U32 dbid, int add)
                 // ----------
                 // also delete stats from db
                 
-                if( stashIntRemovePointer(stat.sgstatFromIdSg, idSgrp, &pStat) )
+                if( stashIntRemovePointer(s_statInfo.sgstatFromIdSg, idSgrp, &pStat) )
                 {
                     LOG( LOG_STATSERVER, LOG_LEVEL_VERBOSE, 0, " delete stat %d", pStat->db_id);
                     dbAsyncContainerUpdate( CONTAINER_SGRPSTATS, pStat->db_id, CONTAINER_CMD_DELETE, "", 0 );
@@ -835,7 +835,7 @@ char* localizedPrintf(Entity * e, char* messageID,  ...)
 void statdb_SetSgStatDirty(int idSgrp)
 {
     stat_SgrpStats *pStats;
-    if (!stashIntFindPointer(stat.sgstatFromIdSg, idSgrp, &pStats))
+    if (!stashIntFindPointer(s_statInfo.sgstatFromIdSg, idSgrp, &pStats))
         pStats = NULL;
     if(verify( pStats ))
     {

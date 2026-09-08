@@ -12,7 +12,7 @@ static enum {
     PROMPT_MODE_INT,
 } mode;
 
-static BOOL CALLBACK GetValueDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK GetValueDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 DWORD promptGetValue(HINSTANCE hinst, HWND hwnd, char *sName, DWORD dwDefaultValue) // Calls a dialog, and asks for sName
 {
@@ -22,7 +22,7 @@ DWORD promptGetValue(HINSTANCE hinst, HWND hwnd, char *sName, DWORD dwDefaultVal
     dwValue = dwDefaultValue;
     mode = PROMPT_MODE_INT;
 
-    res = DialogBoxW (hinst, MAKEINTRESOURCEW (IDD_PROMPT), hwnd, (DLGPROC)GetValueDlgProc);
+    res = DialogBoxW (hinst, MAKEINTRESOURCEW (IDD_PROMPT), hwnd, GetValueDlgProc);
 
     return dwValue;
 }
@@ -35,13 +35,13 @@ char *promptGetString(HINSTANCE hinst, HWND hwnd, char *sName, const char *sDefa
     strncpyt(cpValue, sDefaultValue, ARRAY_SIZE(cpValue));
     mode = PROMPT_MODE_STRING;
 
-    res = DialogBoxW (hinst, MAKEINTRESOURCEW (IDD_PROMPT), hwnd, (DLGPROC)GetValueDlgProc);
+    res = DialogBoxW (hinst, MAKEINTRESOURCEW (IDD_PROMPT), hwnd, GetValueDlgProc);
 
     return cpValue;
 }
 
 
-static BOOL CALLBACK GetValueDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK GetValueDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     BOOL b;
     wchar_t wbuffer[2048]={0};

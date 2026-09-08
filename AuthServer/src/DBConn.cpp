@@ -83,7 +83,7 @@ bool DBEnv::Login(bool reset)
     if (!LoadConnStrFromConfig()) {
         loadFromConfig = false;
         if (!LoadConnStrFromReg()) {
-            DialogBoxParam(g_instance, MAKEINTRESOURCE(IDD_LOGIN), NULL, (DLGPROC)LoginDlgProc, (LPARAM)this);
+            DialogBoxParam(g_instance, MAKEINTRESOURCE(IDD_LOGIN), NULL, LoginDlgProc, (LPARAM)this);
         }
     }
     SQLRETURN ret = SQLAllocHandle(SQL_HANDLE_DBC, m_henv, &hDbc);
@@ -102,7 +102,7 @@ bool DBEnv::Login(bool reset)
             if (ret == SQL_SUCCESS || ret == SQL_SUCCESS_WITH_INFO)
                 break;
             if (!reset && (!config.connectionString || !config.connectionString[0])) {
-                DialogBoxParam(g_instance, MAKEINTRESOURCE(IDD_LOGIN), NULL, (DLGPROC)LoginDlgProc, (LPARAM)this);
+                DialogBoxParam(g_instance, MAKEINTRESOURCE(IDD_LOGIN), NULL, LoginDlgProc, (LPARAM)this);
             }
             else if (config.connectionString) {
                 if (loadFromConfig) {
@@ -362,7 +362,7 @@ CDBConn::~CDBConn()
     m_pEnv->m_lock.Leave();
 }
 
-BOOL CALLBACK LoginDlgProc(HWND hDlg, DWORD dwMessage, DWORD wParam, LPARAM lParam)
+INT_PTR CALLBACK LoginDlgProc(HWND hDlg, UINT dwMessage, WPARAM wParam, LPARAM lParam)
 {
     static DBEnv *pEnv;
 

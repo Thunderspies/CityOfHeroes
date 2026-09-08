@@ -48,8 +48,7 @@
 #include "account_inventory.h"
 #include "account_loyaltyrewards.h"
 #include "AccountCmds.h"
-#include <utilitieslib/utils/SuperAssert.h>
-#include <dbghelp.h>
+#include <utilitieslib/utils/assert_dump.h>
 
 /// Spread the authentication key generation over a period of time
 #define SHARD_RECONNECT_REAUTH_PLAYERS_PER_SECOND (100)

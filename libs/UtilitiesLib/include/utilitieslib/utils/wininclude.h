@@ -5,15 +5,10 @@
 
 #undef CreateThread
 #include <winsock2.h>
+#include <windows.h>
 #include <winbase.h>
 #include <iphlpapi.h>
 #define CreateThread include_utils_h_for_threads
-
-#if __SAL_H_FULL_VER >= 140050727
-    #define PLATFORMSDK 0x0600
-#else
-    #define PLATFORMSDK 0x0500
-#endif
 
 C_DECLARATIONS_BEGIN
 

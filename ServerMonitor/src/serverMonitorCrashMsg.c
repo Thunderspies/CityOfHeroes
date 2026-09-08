@@ -16,7 +16,7 @@ static bool bSmStatusHidden = false;
 void smCrashMsgShow()
 {
     if (hCrashMsgDialog == NULL || !bSmStatusUp) {
-        hCrashMsgDialog = CreateDialog(g_hInst, (LPCTSTR)(intptr_t)(IDD_DLG_STATUS), NULL, (DLGPROC)DlgSvrMonCrashMsgProc); 
+        hCrashMsgDialog = CreateDialog(g_hInst, (LPCTSTR)(intptr_t)(IDD_DLG_STATUS), NULL, DlgSvrMonCrashMsgProc);
         ShowWindow(hCrashMsgDialog, SW_SHOW);
         bSmStatusUp = true;
     }
@@ -92,7 +92,7 @@ void updateCrashMsgText(ListView *lv, MapCon* con, void *unused)
 }
 
 
-LRESULT CALLBACK DlgSvrMonCrashMsgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgSvrMonCrashMsgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (iMsg)
     {

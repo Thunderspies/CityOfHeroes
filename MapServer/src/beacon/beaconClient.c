@@ -400,7 +400,7 @@ static void beaconClientCheckWindow(void){
     }
 }
 
-static DWORD WINAPI beaconClientWindowThread(void* unused){
+static unsigned __stdcall beaconClientWindowThread(void* unused){
     U32 ticksPerSecond = timerCpuSpeed();
     U32 fastCheckTime = 4 * ticksPerSecond;
     U16 oldKeyStates[256];

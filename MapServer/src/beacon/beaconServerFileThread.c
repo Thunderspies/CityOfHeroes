@@ -350,7 +350,7 @@ static BeaconFileLoadRequest* beaconServerGetNextLoadRequest(){
     return request;
 }
 
-static DWORD WINAPI beaconServerBeaconFileLoadThread(void* unused){
+static unsigned __stdcall beaconServerBeaconFileLoadThread(void* unused){
     EXCEPTION_HANDLER_BEGIN
     
     EnterLoadRequestCS();
@@ -839,7 +839,7 @@ static void beaconServerReadProcessNodeFile(BeaconProcessQueueNode* node){
     beaconMapDataPacketReadFile(node->mapData, fileName, &node->uniqueStorageName, &node->timeStamp, 0);
 }
 
-static DWORD WINAPI beaconServerProcessQueueThread(void* unused){
+static unsigned __stdcall beaconServerProcessQueueThread(void* unused){
     EXCEPTION_HANDLER_BEGIN
     
     EnterQueueCS();

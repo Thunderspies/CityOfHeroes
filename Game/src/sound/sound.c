@@ -1110,7 +1110,7 @@ void soundTick(F32 deltaTime)
     PERFINFO_AUTO_STOP();
 }
 
-static DWORD WINAPI soundPlayingThread( LPVOID lpParam )
+static unsigned __stdcall soundPlayingThread( LPVOID lpParam )
 {
     EXCEPTION_HANDLER_BEGIN
     
@@ -1172,7 +1172,8 @@ static DWORD WINAPI soundPlayingThread( LPVOID lpParam )
 
 static void sndPlayingThreadStart()
 {
-    DWORD dwThreadId, dwThrdParam = 0;
+    unsigned dwThreadId;
+    DWORD dwThrdParam = 0;
 
     if(g_audio_state.noaudio || soundPlayingThreadState != SOUNDPLAY_NOTSTARTED)
         return;

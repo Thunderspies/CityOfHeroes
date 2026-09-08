@@ -12,7 +12,7 @@ typedef struct MapCon MapCon;
 void updateCrashMsgText(ListView *lv, MapCon* con, void *unused);
 void updateCrashMsg(HWND parent, char *text);
 
-LRESULT CALLBACK DlgSvrMonCrashMsgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgSvrMonCrashMsgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 
 

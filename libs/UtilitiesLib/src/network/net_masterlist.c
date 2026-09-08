@@ -275,11 +275,11 @@ static void NMProcessAsyncIO(int milliseconds)
     recursive_call = true;
 
     while(1){
-        int bytesTransferred;
+        DWORD bytesTransferred = 0;
         NetLink* link;
         ULONG_PTR elementref=0;
         NetMasterListElement* element = NULL;
-        OVERLAPPED* ol;
+        OVERLAPPED* ol = NULL;
         AsyncOpContext* context;
 
         PERFINFO_AUTO_START("GetQueuedCompletionStatus", 1);

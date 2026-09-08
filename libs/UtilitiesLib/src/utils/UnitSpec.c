@@ -53,7 +53,7 @@ UnitSpec* usFindProperUnitSpec(UnitSpec* specs, S64 size)
     for(i = 0; specs[i].unitName; i++)
     {
         if(specs[i].switchBoundary > size)
-            return &specs[max(0, i-1)];
+            return &specs[i > 0 ? i-1 : 0];
     }
     return &specs[i-1];
 }

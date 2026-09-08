@@ -55,14 +55,14 @@
 
 #endif
 
-#if _MSC_VER >= 1400
-#    undef strdup
-#    define strdup _strdup
-#    undef wcsdup
-#    define wcsdup _wcsdup
-#    undef getcwd
-#    define getcwd _getcwd
-#endif
+// Keep these aliases after crtdbg.h, which defines its own debug allocation macros.
+// The underscored names still expand through the CRT and timed allocation mappings.
+#undef strdup
+#define strdup _strdup
+#undef wcsdup
+#define wcsdup _wcsdup
+#undef getcwd
+#define getcwd _getcwd
 
 #include "../stdtypes.h"
 

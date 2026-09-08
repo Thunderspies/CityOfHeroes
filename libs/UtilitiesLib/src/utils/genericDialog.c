@@ -87,7 +87,7 @@ static char g_OkToAllCancelString[1024];
 static char g_OkToAllCancelCaption[512];
 GenericDialogCallback g_OkToAllCancelCallback = NULL;
 
-LRESULT CALLBACK DlgOkToAllCancelProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgOkToAllCancelProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (iMsg)
     {
@@ -129,9 +129,9 @@ int okToAllCancelDialog(const char *dialogText, const char *caption )
     }
     strcpy( g_OkToAllCancelString, dialogText );
     strcpy( g_OkToAllCancelCaption, caption );
-    ret = DialogBoxIndirect(winGetHInstance(), (LPDLGTEMPLATE)OkToAllCancelDialogResource, NULL, (DLGPROC)DlgOkToAllCancelProc);
+    ret = DialogBoxIndirect(winGetHInstance(), (LPDLGTEMPLATE)OkToAllCancelDialogResource, NULL, DlgOkToAllCancelProc);
     return (IDC_OKTOALL == ret ) ? IDOKTOALL : ((IDOK == ret) ? IDOK : IDCANCEL) ;
-    //return (IDC_OKTOALL == DialogBox(winGetHInstance(), (LPCTSTR) (IDD_MB_OKTOALL), NULL, (DLGPROC)DlgOkToAllProc) );
+    //return (IDC_OKTOALL == DialogBox(winGetHInstance(), (LPCTSTR) (IDD_MB_OKTOALL), NULL, DlgOkToAllProc) );
 }
 int okToAllCancelDialogEx(char *dialogText, char *caption, GenericDialogCallback callback_proc)
 {
@@ -155,7 +155,7 @@ static char g_OkToAllString[1024];
 static char g_OkToAllCaption[512];
 GenericDialogCallback g_OkToAllCallback = NULL;
 
-LRESULT CALLBACK DlgOkToAllProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgOkToAllProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (iMsg)
     {
@@ -192,8 +192,8 @@ int okToAllDialog(const char *dialogText, const char *caption)
     }
     strcpy( g_OkToAllString, dialogText );
     strcpy( g_OkToAllCaption, caption );
-    return (IDC_OKTOALL == DialogBoxIndirect(winGetHInstance(), (LPDLGTEMPLATE)OkToAllDialogResource, NULL, (DLGPROC)DlgOkToAllProc) ) ? IDOKTOALL : IDOK;
-    //return (IDC_OKTOALL == DialogBox(winGetHInstance(), (LPCTSTR) (IDD_MB_OKTOALL), NULL, (DLGPROC)DlgOkToAllProc) );
+    return (IDC_OKTOALL == DialogBoxIndirect(winGetHInstance(), (LPDLGTEMPLATE)OkToAllDialogResource, NULL, DlgOkToAllProc) ) ? IDOKTOALL : IDOK;
+    //return (IDC_OKTOALL == DialogBox(winGetHInstance(), (LPCTSTR) (IDD_MB_OKTOALL), NULL, DlgOkToAllProc) );
 }
 int okToAllDialogEx(char *dialogText, char *caption, GenericDialogCallback callback_proc)
 {
@@ -230,7 +230,7 @@ static char g_RequestStringCaption[512];
 static char g_RequestStringInput[512];
 GenericDialogCallback g_RequestStringCallback = NULL;
 
-LRESULT CALLBACK DlgRequestStringProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgRequestStringProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (iMsg)
     {
@@ -276,8 +276,8 @@ char *requestStringDialog(char *dialogText, char *caption )
     strcpy( g_RequestStringText, dialogText );
     strcpy( g_RequestStringCaption, caption );
     return (IDOK == DialogBoxIndirect(winGetHInstance(), (LPDLGTEMPLATE)RequestStringDialogResource, NULL,
-        (DLGPROC)DlgRequestStringProc) ) ? g_RequestStringInput : NULL;
-    //return (IDOK == DialogBox(winGetHInstance(), (LPCTSTR) (IDD_DLG_REQUEST_STRING), NULL, (DLGPROC)DlgRequestStringProc)) ? g_RequestStringInput : NULL;
+        DlgRequestStringProc) ) ? g_RequestStringInput : NULL;
+    //return (IDOK == DialogBox(winGetHInstance(), (LPCTSTR) (IDD_DLG_REQUEST_STRING), NULL, DlgRequestStringProc)) ? g_RequestStringInput : NULL;
 }
 
 char *requestStringDialogEx(char *dialogText, char *caption, GenericDialogCallback callback_proc)
@@ -310,8 +310,12 @@ bool startProgressDialog(HWND parent, wchar_t * title, wchar_t * cancel)
     if (FAILED(CoInitialize(NULL)))
         return false;
 
-    if (FAILED(CoCreateInstance(&CLSID_ProgressDialog, NULL, CLSCTX_INPROC_SERVER, &IID_IProgressDialog, &dialog)))
-        return false;
+    {
+        void *createdDialog;
+        if (FAILED(CoCreateInstance(&CLSID_ProgressDialog, NULL, CLSCTX_INPROC_SERVER, &IID_IProgressDialog, &createdDialog)))
+            return false;
+        dialog = createdDialog;
+    }
 
     dialog->lpVtbl->SetTitle(dialog, title);
 

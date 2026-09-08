@@ -1,6 +1,8 @@
 #ifndef _ANIM_H
 #define _ANIM_H
 
+extern unsigned background_loader_threadID;
+
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/components/gridpoly.h>
 #include "gridcoll/ctri.h"

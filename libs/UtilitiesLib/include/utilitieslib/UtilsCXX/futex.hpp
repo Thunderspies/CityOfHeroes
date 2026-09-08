@@ -4,11 +4,14 @@
 #include "../UtilsNew/barrier.h"
 #include "../UtilsNew/ntapiext.h"
 
-#if PLATFORMSDK >= 0x0600
-    #define interlockedbittestandset_sometimes_volatile volatile
+static inline unsigned char futexBitTestAndSet(volatile LONG *value, LONG bit)
+{
+#if defined(__MINGW32__)
+    return InterlockedBitTestAndSet(value, bit);
 #else
-    #define interlockedbittestandset_sometimes_volatile
+    return _interlockedbittestandset(value, bit);
 #endif
+}
 
 /* Allows up to 2^23-1 waiters */
 #define FUTEX_WAKE 256
@@ -29,14 +32,14 @@ public:
     }
 
     bool trylock() {
-        if (!m_owned && !_interlockedbittestandset((interlockedbittestandset_sometimes_volatile long*)&m_waiters, 0))
+        if (!m_owned && !futexBitTestAndSet((volatile LONG*)&m_waiters, 0))
             return true;
         return false;
     }
 
     void lock() {
         /* Try to take lock if not owned */
-        while (m_owned || _interlockedbittestandset((interlockedbittestandset_sometimes_volatile long*)&m_waiters, 0))
+        while (m_owned || futexBitTestAndSet((volatile LONG*)&m_waiters, 0))
         {
             LONG waiters = m_waiters | 1;
             

@@ -517,11 +517,7 @@ static unsigned short _FileAttributesToUnixMode(
 
 int _AltStat(
     const char                  *name,
-#if _MSC_VER < 1400
-    struct _stat                    *st_buf)
-#else
     struct _stat32             *st_buf)
-#endif
 {
     int                         drive = 1;
     HANDLE                      hndl;
@@ -577,12 +573,16 @@ int _AltStat(
             warn("Could not close file object handle");
     }
 
-    if (!_FileTimesToUnixTimes(name,
-            &bhfi.ftLastAccessTime, &bhfi.ftLastWriteTime, &bhfi.ftCreationTime,
-            NULL, &st_buf->st_mtime, NULL))
     {
-        PERFINFO_AUTO_STOP();
-        return -1;
+        __time32_t mtime;
+        if (!_FileTimesToUnixTimes(name,
+                &bhfi.ftLastAccessTime, &bhfi.ftLastWriteTime, &bhfi.ftCreationTime,
+                NULL, &mtime, NULL))
+        {
+            PERFINFO_AUTO_STOP();
+            return -1;
+        }
+        st_buf->st_mtime = mtime;
     }
 
     st_buf->st_mode = _FileAttributesToUnixMode(bhfi.dwFileAttributes, name);

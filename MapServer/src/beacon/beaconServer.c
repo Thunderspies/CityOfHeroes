@@ -2727,7 +2727,7 @@ static void beaconServerCheckWindow(void){
     }
 }
 
-static DWORD WINAPI beaconServerWindowThread(void* unused){
+static unsigned __stdcall beaconServerWindowThread(void* unused){
     while(1){
         beaconServerCheckWindow();
         Sleep(500);

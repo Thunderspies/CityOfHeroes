@@ -218,7 +218,7 @@ static void parseUpdateServerData(const char* text, UpdateServerData* pData )
     pData->dataRate = atoi( getCactiValue("throughput", text) );
 }
 
-static DWORD WINAPI retrieveDataThread(void* pData)
+static unsigned __stdcall retrieveDataThread(void* pData)
 {
     // steps: 
     //    1. connect to updateserver

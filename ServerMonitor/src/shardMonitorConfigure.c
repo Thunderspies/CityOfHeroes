@@ -28,7 +28,7 @@ TokenizerParseInfo shardMonitorConfigInfo[] = {
     { 0 }
 };
 
-static BOOL CALLBACK shardMonConfigureDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK shardMonConfigureDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 ShardMonitorConfig shmConfig = {0};
 ListView *lvShmConfigure = NULL;
@@ -57,7 +57,7 @@ void shardMonConfigure(HINSTANCE hinst, HWND hwndParent, char *configfile)
     int res;
 
     g_configfile = configfile;
-    res = DialogBox (hinst, MAKEINTRESOURCE (IDD_DLG_SHARDMON_CONFIGURE), hwndParent, (DLGPROC)shardMonConfigureDlgProc);
+    res = DialogBox (hinst, MAKEINTRESOURCE (IDD_DLG_SHARDMON_CONFIGURE), hwndParent, shardMonConfigureDlgProc);
 }
 
 void shardMonConfigAdd(HWND hDlg)
@@ -152,7 +152,7 @@ static void shardMonConfigMoveDown(HWND hDlg)
 
 
 
-static BOOL CALLBACK shardMonConfigureDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK shardMonConfigureDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i;
     char *configfile = g_configfile;

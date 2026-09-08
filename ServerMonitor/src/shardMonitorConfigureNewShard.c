@@ -9,7 +9,7 @@
 static DWORD dwValue;
 static char cpValue[128];
 
-static BOOL CALLBACK ShardMonConfigureNewShardDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK ShardMonConfigureNewShardDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 int shardMonConfigureNewShard(HINSTANCE hinst, HWND hwnd, char *name, U32 *ip)
 {
@@ -17,7 +17,7 @@ int shardMonConfigureNewShard(HINSTANCE hinst, HWND hwnd, char *name, U32 *ip)
 
     dwValue = *ip;
     Strncpyt(cpValue, name);
-    res = DialogBoxA (hinst, MAKEINTRESOURCEA (IDD_DLG_NEWSHARD), hwnd, (DLGPROC)ShardMonConfigureNewShardDlgProc);
+    res = DialogBoxA (hinst, MAKEINTRESOURCEA (IDD_DLG_NEWSHARD), hwnd, ShardMonConfigureNewShardDlgProc);
 
     if (res) {
         strcpy(name, cpValue);
@@ -28,7 +28,7 @@ int shardMonConfigureNewShard(HINSTANCE hinst, HWND hwnd, char *name, U32 *ip)
 }
 
 
-static BOOL CALLBACK ShardMonConfigureNewShardDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK ShardMonConfigureNewShardDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     char buffer[256] = {0};
     switch (iMsg) {

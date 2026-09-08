@@ -15,7 +15,7 @@ void getNameList(void);
 HINSTANCE   g_hInst=NULL;                    // instance handle
 HWND        g_hWnd=NULL;                        // window handle
 
-LRESULT CALLBACK DlgMainProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 char *hostname=NULL;
 
@@ -31,7 +31,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, in
 
     getNameList();
 
-    DialogBox (g_hInst, (LPCTSTR) (IDD_DIALOG1), NULL, (DLGPROC)DlgMainProc);
+    DialogBox (g_hInst, (LPCTSTR) (IDD_DIALOG1), NULL, DlgMainProc);
 
     return 0;
 }
@@ -273,7 +273,7 @@ void doAttach() {
 
 }
 
-LRESULT CALLBACK DlgMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i=0;
     //BOOL b;

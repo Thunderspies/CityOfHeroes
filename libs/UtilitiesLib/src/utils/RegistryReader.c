@@ -153,20 +153,40 @@ int initRegReaderEx(RegReaderImp* reader, const char* templateString, ...){
     return initRegReader(reader, buffer);
 }
 
+// Registry string byte counts include stored terminators, but malformed values
+// may omit them. Append only the missing terminators, within the caller's capacity.
+static int rrTerminateString(char *buffer, DWORD size, DWORD capacity, DWORD terminators)
+{
+    DWORD present = 0;
+    DWORD missing;
+    if (size > capacity)
+        return 0;
+    while (present < terminators && present < size && buffer[size - present - 1] == '\0')
+        ++present;
+    missing = terminators - present;
+    if (missing > capacity - size)
+        return 0;
+    while (missing--)
+        buffer[size++] = '\0';
+    return 1;
+}
+
 int rrReadString(RegReaderImp* reader, const char* valueName, char* outBuffer, int bufferSize){
     DWORD valueType;
     int regQueryResult;
+    DWORD dataSize;
 
-    if(!reader->keyOpened)
+    if(!reader->keyOpened || !outBuffer || bufferSize <= 0)
         return 0;
 
+    dataSize = (DWORD)bufferSize;
     regQueryResult = RegQueryValueExA(
         reader->key,    // handle to key
         valueName,        // value name
         NULL,            // reserved
         &valueType,        // type buffer
-        outBuffer,        // data buffer
-        &bufferSize        // size of data buffer
+        (LPBYTE)outBuffer,        // data buffer
+        &dataSize        // size of data buffer
         );
 
     // Does the value exist?
@@ -178,25 +198,26 @@ int rrReadString(RegReaderImp* reader, const char* valueName, char* outBuffer, i
     if(REG_SZ != valueType && REG_EXPAND_SZ != valueType){
         return 0;
     }else{
-        outBuffer[bufferSize] = '\0';
-        return 1;
+        return rrTerminateString(outBuffer, dataSize, (DWORD)bufferSize, 1);
     }
 }
 
 int rrReadMultiString(RegReaderImp* reader, const char* valueName, char* outBuffer, int bufferSize){
     DWORD valueType;
     int regQueryResult;
+    DWORD dataSize;
 
-    if(!reader->keyOpened)
+    if(!reader->keyOpened || !outBuffer || bufferSize <= 0)
         return 0;
 
+    dataSize = (DWORD)bufferSize;
     regQueryResult = RegQueryValueExA(
         reader->key,    // handle to key
         valueName,        // value name
         NULL,            // reserved
         &valueType,        // type buffer
-        outBuffer,        // data buffer
-        &bufferSize        // size of data buffer
+        (LPBYTE)outBuffer,        // data buffer
+        &dataSize        // size of data buffer
         );
 
     // Does the value exist?
@@ -208,14 +229,13 @@ int rrReadMultiString(RegReaderImp* reader, const char* valueName, char* outBuff
     if(REG_MULTI_SZ != valueType){
         return 0;
     }else{
-        outBuffer[bufferSize] = '\0';
-        return 1;
+        return rrTerminateString(outBuffer, dataSize, (DWORD)bufferSize, 2);
     }
 }
 
 int rrWriteString(RegReaderImp* reader, const char* valueName, const char* str){
     char outBuffer[2048];
-    int bufferSize = ARRAY_SIZE(outBuffer);
+    DWORD bufferSize = ARRAY_SIZE(outBuffer);
     DWORD valueType;
     int regSetResult;
     int regQueryResult;
@@ -231,7 +251,7 @@ int rrWriteString(RegReaderImp* reader, const char* valueName, const char* str){
         valueName,        // value name
         NULL,            // reserved
         &valueType,        // type buffer
-        outBuffer,        // data buffer
+        (LPBYTE)outBuffer,        // data buffer
         &bufferSize        // size of data buffer
         );
 
@@ -246,8 +266,8 @@ int rrWriteString(RegReaderImp* reader, const char* valueName, const char* str){
         valueName,        // value name
         0,                // reserved
         type,            // value type
-        str,            // value data
-        (int)strlen(str)        // size of value data
+        (const BYTE*)str, // value data
+        (DWORD)(strlen(str) + 1) // size including the terminator
         );
 
     if(ERROR_SUCCESS != regSetResult)
@@ -258,7 +278,8 @@ int rrWriteString(RegReaderImp* reader, const char* valueName, const char* str){
 
 int rrReadInt(RegReaderImp* reader, const char* valueName, unsigned int* value){
     DWORD valueType;
-    int valueSize;
+    DWORD valueSize;
+    DWORD readValue;
     int regQueryResult;
 
     if (!value)
@@ -267,14 +288,14 @@ int rrReadInt(RegReaderImp* reader, const char* valueName, unsigned int* value){
         return 0;
     }
     
-    valueSize = sizeof(*value);
+    valueSize = sizeof(readValue);
 
     regQueryResult = RegQueryValueExA(
         reader->key,    // handle to key
         valueName,        // value name
         NULL,            // reserved
         &valueType,        // type buffer
-        (unsigned char*)value,    // data buffer
+        (unsigned char*)&readValue,    // data buffer
         &valueSize                // size of data buffer
         );
     
@@ -284,16 +305,19 @@ int rrReadInt(RegReaderImp* reader, const char* valueName, unsigned int* value){
     }
     
     // If the stored value is not a string, it is not possible to retrieve it.
-    if(REG_DWORD != valueType){
+    if(REG_DWORD != valueType || valueSize != sizeof(readValue)){
         return 0;
-    }else
+    }else {
+        *value = readValue;
         return 1;
+    }
 
 }
 
 int rrReadInt64(RegReaderImp* reader, const char* valueName, S64* value){
     DWORD valueType;
-    int valueSize;
+    DWORD valueSize;
+    S64 readValue;
     int regQueryResult;
 
     if (!value)
@@ -302,14 +326,14 @@ int rrReadInt64(RegReaderImp* reader, const char* valueName, S64* value){
         return 0;
     }
 
-    valueSize = sizeof(*value);
+    valueSize = sizeof(readValue);
 
     regQueryResult = RegQueryValueExA(
         reader->key,    // handle to key
         valueName,        // value name
         NULL,            // reserved
         &valueType,        // type buffer
-        (unsigned char*)value,    // data buffer
+        (unsigned char*)&readValue,    // data buffer
         &valueSize                // size of data buffer
         );
 
@@ -319,10 +343,12 @@ int rrReadInt64(RegReaderImp* reader, const char* valueName, S64* value){
     }
 
     // If the stored value is not a string, it is not possible to retrieve it.
-    if(REG_QWORD != valueType){
+    if(REG_QWORD != valueType || valueSize != sizeof(readValue)){
         return 0;
-    }else
+    }else {
+        *value = readValue;
         return 1;
+    }
 
 }
 
@@ -412,38 +438,45 @@ int rrClose(RegReaderImp* reader){
 
 int rrEnumStrings(RegReaderImp* reader, int index, char* outName, int* inOutNameLen, char* outValue, int* inOutValueLen){
     DWORD valueType;
-    DWORD retVal;
-    
-    if(!reader->keyOpened){
+    LSTATUS retVal;
+    DWORD nameSize, valueSize;
+    int nameCapacity, valueCapacity;
+
+    if(!reader->keyOpened || !inOutNameLen || !inOutValueLen)
+        return 0;
+
+    nameCapacity = *inOutNameLen;
+    valueCapacity = *inOutValueLen;
+    if (index < 0 || !outName || !outValue || nameCapacity <= 0 || valueCapacity <= 0)
+    {
+        *inOutNameLen = -1;
         return 0;
     }
-    
-    retVal = RegEnumValueA(reader->key, index, outName, inOutNameLen, NULL, &valueType, outValue, inOutValueLen);
+    // RegEnumValueA internally treats the name capacity as a SHORT.
+    nameSize = (DWORD)(nameCapacity < 32767 ? nameCapacity : 32767);
+    valueSize = (DWORD)valueCapacity;
+    retVal = RegEnumValueA(reader->key, (DWORD)index, outName, &nameSize, NULL, &valueType, (LPBYTE)outValue, &valueSize);
 
-    switch(retVal){
-        xcase ERROR_SUCCESS:{
-            if(    valueType == REG_SZ ||
-                valueType == REG_EXPAND_SZ)
-            {
-                outName[*inOutNameLen] = 0;
-                outValue[*inOutValueLen] = 0;
-                
-                if(stricmp(outName, "(default)")){
-                    return 1;
-                }
-            }
-            
-            return 0;
-        }
-        xcase ERROR_NO_MORE_ITEMS:{
-            return -1;
-        }
-        xdefault:{
-            *inOutNameLen = -1;
-            
-            return 0;
-        }
+    if (retVal == ERROR_NO_MORE_ITEMS)
+        return -1;
+    if (retVal != ERROR_SUCCESS || nameSize >= (DWORD)nameCapacity || valueSize > (DWORD)valueCapacity)
+    {
+        *inOutNameLen = -1;
+        return 0;
     }
+
+    if (valueType == REG_SZ || valueType == REG_EXPAND_SZ)
+    {
+        if (!rrTerminateString(outValue, valueSize, (DWORD)valueCapacity, 1))
+        {
+            *inOutNameLen = -1;
+            return 0;
+        }
+        outName[nameSize] = 0;
+    }
+    *inOutNameLen = (int)nameSize;
+    *inOutValueLen = (int)valueSize;
+    return (valueType == REG_SZ || valueType == REG_EXPAND_SZ) && stricmp(outName, "(default)") != 0;
 }
 
 

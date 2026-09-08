@@ -1,14 +1,10 @@
 #ifndef _CONDITION_HPP
 #define _CONDITION_HPP
 
-#if _WINNT_WINVER < 0x600
-    #error "Condition Variables require Vista or newer"
-#endif
-
 #include "criticalsection.hpp"
 
-#if PLATFORMSDK < 0x0600
-#error "Condition variables are not supported on a Platform SDK before 6.0A"
+#if _WIN32_WINNT < 0x0600
+#error "Condition Variables require Vista or newer"
 #endif
 
 class Condition {

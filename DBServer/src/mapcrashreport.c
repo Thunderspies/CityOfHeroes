@@ -82,7 +82,7 @@ static bool isDuplicateCrash( U32 ip, U32 mapid, U32 pid )
     return false;
 }
 
-static DWORD WINAPI mapCrashThread( LPVOID lpParam )
+static unsigned __stdcall mapCrashThread( LPVOID lpParam )
 {
     EXCEPTION_HANDLER_BEGIN
     int        s;
@@ -138,6 +138,7 @@ static DWORD WINAPI mapCrashThread( LPVOID lpParam )
         }
     }
     EXCEPTION_HANDLER_END
+    return 0;
 }
 
 void startMapCrashReportThread()

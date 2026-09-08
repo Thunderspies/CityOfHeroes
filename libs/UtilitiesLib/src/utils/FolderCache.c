@@ -1003,11 +1003,7 @@ FolderNode *FolderCacheFileSystemOverride(FolderCache *fc, char *relpath)
 {
     FolderNode *ret;
     int i;
-#if _MSC_VER < 1400
-    struct _stat sbuf;
-#else
     struct _stat32 sbuf;
-#endif
     char filename[MAX_PATH];
     static StashTable htOverrideCache = 0;
     static CRITICAL_SECTION critsect; // Because the StashTable isn't thread-safe

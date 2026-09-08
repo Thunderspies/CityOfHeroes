@@ -292,7 +292,7 @@ char *utf8ToMbStatic(char *utf8string)
 }
 
 // Message handler for error box.
-LRESULT CALLBACK ErrorDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ErrorDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     static char* errorbuf;
     static HFONT bigfont = 0;
@@ -925,5 +925,9 @@ bool winProcessRunning(PROCESS_INFORMATION *pi)
 
 bool winProcessExitCode(PROCESS_INFORMATION *pi, U32 *res_exit)
 {
-    return res_exit && pi && GetExitCodeProcess(pi->hProcess,res_exit);
+    DWORD exitCode;
+    if (!res_exit || !pi || !GetExitCodeProcess(pi->hProcess, &exitCode))
+        return false;
+    *res_exit = exitCode;
+    return true;
 }

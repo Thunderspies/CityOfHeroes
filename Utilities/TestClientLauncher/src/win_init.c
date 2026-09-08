@@ -67,11 +67,11 @@ void windowPosition(int *left,int *top)
     *top = placement.rcNormalPosition.top;
 }
 
-static LONG WINAPI MainWndProc ( HWND    hWnd,
+static LRESULT CALLBACK MainWndProc ( HWND    hWnd,
                           UINT    uMsg,
                           WPARAM  wParam,
                           LPARAM  lParam ) {
-    LONG    lRet = 1;
+    LRESULT lRet = 1;
 
     switch ( uMsg ) {
     case WM_SYSCOMMAND:
@@ -233,7 +233,7 @@ int WINAPI WinMain ( HINSTANCE hInstance, HINSTANCE hPrevInstance,
     g_hInst = glob_hinstance = hInstance;
 
 /*    WndClass.style = CS_HREDRAW | CS_VREDRAW;
-    WndClass.lpfnWndProc = (WNDPROC)MainWndProc;
+    WndClass.lpfnWndProc = MainWndProc;
     WndClass.cbClsExtra = 0;
     WndClass.cbWndExtra = 0;
     WndClass.hInstance = g_hInst;

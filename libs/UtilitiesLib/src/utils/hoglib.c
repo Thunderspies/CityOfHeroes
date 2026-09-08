@@ -3384,10 +3384,10 @@ int hogFileModifyUpdateTimestamp(HogFile *handle, HogFileIndex file, U32 timesta
 
 static bool hog_thread_inited=false;
 static HANDLE hog_thread_handle=NULL;
-static DWORD hog_thread_id;
+static unsigned hog_thread_id;
 static VOID CALLBACK hogThreadingHasWorkFunc( ULONG_PTR dwParam);
 
-static DWORD WINAPI hogThreadingThread( LPVOID lpParam )
+static unsigned __stdcall hogThreadingThread( LPVOID lpParam )
 {
     EXCEPTION_HANDLER_BEGIN
         PERFINFO_AUTO_START("hogThreadingThread", 1);

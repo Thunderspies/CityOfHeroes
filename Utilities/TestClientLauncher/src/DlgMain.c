@@ -58,12 +58,12 @@ char strCommand[1024];
 char cs[512]="Jimb";
 
 
-LRESULT CALLBACK DlgMainProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 void DlgMainDoDialog()
 {
     InitCommonControls();
-    DialogBox (g_hInst, (LPCTSTR) (IDD_DLGMAIN), NULL, (DLGPROC)DlgMainProc);
+    DialogBox (g_hInst, (LPCTSTR) (IDD_DLGMAIN), NULL, DlgMainProc);
 }
 
 
@@ -390,7 +390,7 @@ void saveButtonValuesToReg() {
     }
 }
 
-LRESULT CALLBACK DlgMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i;
     //BOOL b;

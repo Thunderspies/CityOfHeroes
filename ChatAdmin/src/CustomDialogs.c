@@ -5,7 +5,7 @@
 #include <utilitieslib/utils/timing.h>
 #include "ChatAdminUtils.h"
 
-static BOOL CALLBACK GetStringDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK GetStringDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK GetYesNoDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 
@@ -71,7 +71,7 @@ void CreateDialogPrompt(HWND hWnd, char * title, char * prompt, dialogHandler2 o
     HWND hDlg = CreateDialogParam(g_hInst, 
                       MAKEINTRESOURCE(IDD_PROMPT_STRING), 
                       hWnd,
-                      (DLGPROC) GetStringDlgProc,
+                      GetStringDlgProc,
                       (LPARAM)DlgParamCreate(title, prompt,onAccept,onDecline,data));
 
     if(!hDlg)
@@ -90,7 +90,7 @@ static void fixStringButtons(HWND hDlg)
     EnableWindow(GetDlgItem(hDlg, IDOK), (count > 0) ? TRUE : FALSE);
 }
 
-static BOOL CALLBACK GetStringDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK GetStringDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     DlgParam * dp = (DlgParam*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
     
@@ -184,7 +184,7 @@ static void fixTimeButtons(HWND hDlg)
     EnableWindow(GetDlgItem(hDlg, IDOK), (mins > 0 ? TRUE : FALSE));
 }
 
-static BOOL CALLBACK GetTimeDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK GetTimeDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     DlgParam * dp = (DlgParam*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
     char buf[1000];
@@ -272,8 +272,8 @@ void CreateDialogPromptTime(HWND hWnd, char * title, char * prompt, dialogHandle
     HWND hDlg = CreateDialogParam(g_hInst, 
         MAKEINTRESOURCE(IDD_PROMPT_TIME), 
         hWnd,
-        (DLGPROC) GetTimeDlgProc,
-        (LPARAM)DlgParamCreate(title, prompt,onAccept,onDecline,data));
+        GetTimeDlgProc,
+        (LPARAM)dp);
 
     if(!hDlg)
     {

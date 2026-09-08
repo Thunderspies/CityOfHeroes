@@ -39,7 +39,7 @@ DLGHDR *g_pHdr = NULL;
 
 VOID WINAPI OnSelChanged(HWND hwndDlg);
 
-LRESULT CALLBACK DlgTextMainProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgTextMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK DlgTextTabProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 typedef struct {
@@ -418,8 +418,8 @@ void DlgTextMainDoDialog() {
     loadQuickCommandFile();
     loadServerListFile();
     loadLoginInfoFile();
-//    DialogBox (g_hInst, (LPCTSTR) (IDD_DLGTEXTMAIN), NULL, (DLGPROC)DlgTextMainProc);
-    hwndMain = CreateDialog(g_hInst, (LPCTSTR) (IDD_DLGTEXTMAIN), NULL, (DLGPROC)DlgTextMainProc);
+//    DialogBox (g_hInst, (LPCTSTR) (IDD_DLGTEXTMAIN), NULL, DlgTextMainProc);
+    hwndMain = CreateDialog(g_hInst, (LPCTSTR) (IDD_DLGTEXTMAIN), NULL, DlgTextMainProc);
     ShowWindow(hwndMain,SW_SHOW);
     while (bRet = GetMessage(&msg,NULL,0,0)) {
         if (-1 == bRet) return;
@@ -753,7 +753,7 @@ VOID WINAPI OnTextMainDialogInit(HWND hwndDlg) {
     if (batchmode.state == BMS_INIT) onLoginCommand(pHdr->eaTabs[batchmode.tabid]->hwndDisplay);
 }
 
-LRESULT CALLBACK DlgTextMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgTextMainProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i=0;
 

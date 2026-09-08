@@ -56,7 +56,7 @@ static void updateEnabledState(HWND hDlg)
     }
 }
 
-static BOOL CALLBACK askOptionsDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK askOptionsDlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i;
     switch (iMsg) {
@@ -139,6 +139,6 @@ int doAskOptions(const char *appName, OptionList *options, int numOptions, float
         regPutInt("ShowHelpText", 0);
         MessageBox(compatibleGetConsoleWindow(), showOnceHelpText, g_appname, MB_OK);
     }
-    res = DialogBox (NULL, MAKEINTRESOURCE (IDD_ASK_OPTIONS), compatibleGetConsoleWindow(), (DLGPROC)askOptionsDlgProc);
+    res = DialogBox (NULL, MAKEINTRESOURCE (IDD_ASK_OPTIONS), compatibleGetConsoleWindow(), askOptionsDlgProc);
     return g_ret;
 }

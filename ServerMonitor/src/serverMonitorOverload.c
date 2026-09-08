@@ -30,7 +30,7 @@ enum
     OVERLOADPROTECTIONFLAG_SQL_QUEUE            = 1 << 3,
 };
 
-LRESULT CALLBACK DlgSvrMonOverloadProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgSvrMonOverloadProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i=0;
     ServerMonitorState *state=&g_state;
@@ -89,7 +89,7 @@ void smoverloadShow(ServerMonitorState *state)
 {
     if (hOverloadDialog == NULL || !bSmoverloadUp) {
         bSmoverloadUp = true;
-        hOverloadDialog = CreateDialog(g_hInst, (LPCTSTR)(intptr_t)(IDD_DLG_OVERLOADPROTECTION), NULL, (DLGPROC)DlgSvrMonOverloadProc); 
+        hOverloadDialog = CreateDialog(g_hInst, (LPCTSTR)(intptr_t)(IDD_DLG_OVERLOADPROTECTION), NULL, DlgSvrMonOverloadProc);
         smoverloadUpdate();
         ShowWindow(hOverloadDialog, SW_SHOW);
     }

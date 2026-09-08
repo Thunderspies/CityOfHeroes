@@ -36,7 +36,7 @@ void sendfloat(SOCKET s, const char * n, float f)
     send(s, buf, (int)strlen(buf), 0);
 }
 
-static DWORD WINAPI listenThreadMain(void *data) {
+static unsigned __stdcall listenThreadMain(void *data) {
     struct sockaddr_in    addr_in;
     int port=DEFAULT_SVRMON_LISTEN_PORT;
     int result;
@@ -307,7 +307,7 @@ static QueuedCommand* queueCommand(char* buf, SOCKET s, ServerStats* pCurStats)
 }
 
 #define MAX_CMD_LEN 2048
-static DWORD WINAPI commandThreadMain(void *data)
+static unsigned __stdcall commandThreadMain(void *data)
 {
     struct sockaddr_in    addr_in;
     int port=DEFAULT_SVRMON_COMMAND_PORT;

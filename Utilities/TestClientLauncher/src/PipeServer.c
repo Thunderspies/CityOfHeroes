@@ -14,11 +14,11 @@
 #define BUFSIZE 100000
 #define PIPE_TIMEOUT (5*60*1000) // 5 minutes?
 
-VOID WatcherThread(LPVOID);
-VOID InstanceThread(LPVOID); 
+static unsigned __stdcall WatcherThread(LPVOID);
+static unsigned __stdcall InstanceThread(LPVOID);
 
 PipeServer PipeServerCreate(const char *pipe_name) {
-    DWORD dwThreadId;
+    unsigned dwThreadId;
     PipeServer ret = calloc(sizeof(PipeServer_t), 1);
 
     ret->pipename = strdup(pipe_name);
@@ -30,7 +30,7 @@ PipeServer PipeServerCreate(const char *pipe_name) {
     ret->hWatcherThread = CreateThread( 
         NULL,              // no security attribute 
         0,                 // default stack size 
-        (LPTHREAD_START_ROUTINE) WatcherThread, 
+        WatcherThread,
         (LPVOID) ret,    // thread parameter 
         0,                 // not suspended 
         &dwThreadId);      // returns thread ID 
@@ -42,7 +42,7 @@ PipeServer PipeServerCreate(const char *pipe_name) {
     ret->hInstanceThread = CreateThread( 
         NULL,              // no security attribute 
         0,                 // default stack size 
-        (LPTHREAD_START_ROUTINE) InstanceThread, 
+        InstanceThread,
         (LPVOID) ret,      // thread parameter 
         0,                 // not suspended 
         &dwThreadId);      // returns thread ID 
@@ -109,7 +109,7 @@ void PipeServerQuery(PipeServer p, PipeServerCallback callback) {
     LeaveCriticalSection(&p->critsect);
 }
 
-VOID WatcherThread(LPVOID param) 
+static unsigned __stdcall WatcherThread(LPVOID param)
 { 
     SECURITY_DESCRIPTOR sd;
     BOOL fConnected; 
@@ -270,7 +270,7 @@ static void queryPipe(PipeServer ps, int uid)
 
 // One of these is created to handle *all* clients, it needs to parse a message,
 // and then get it back to the WinMain thread
-VOID InstanceThread(LPVOID lpvParam) 
+static unsigned __stdcall InstanceThread(LPVOID lpvParam)
 { 
     PipeServer ps = (PipeServer)lpvParam;
     int i;

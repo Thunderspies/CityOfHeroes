@@ -54,7 +54,7 @@ typedef struct {
     char * data;
 }workerThreadParams;
 
-static DWORD WINAPI workerThreadMain(void *data) {
+static unsigned __stdcall workerThreadMain(void *data) {
     
     workerThreadParams * params = (workerThreadParams*) data;
     BOOL res = FALSE;

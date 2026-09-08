@@ -1413,7 +1413,7 @@ void protectMemory(void* mem)
     VirtualProtect(mem, 1, mbi.Protect | PAGE_GUARD, &oldProtect);
 }
 
-static DWORD WINAPI keepMemoryThread(void* unusedParam){
+static unsigned __stdcall keepMemoryThread(void* unusedParam){
     // MS: This is a crazy experiment to force all memory to stay in physical RAM and thus to not get paged.
     //     It does this by reading every page in the virtual page list.
     //     Games are supposed to be responsive, right?

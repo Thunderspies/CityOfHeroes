@@ -74,13 +74,15 @@ S64 getRegistryMhz()
         int        result;
         HKEY    hKey;
         int        data = 0;
-        int        dataSize = sizeof(int);
+        DWORD      dataSize = sizeof(data);
         result = RegOpenKeyExA(HKEY_LOCAL_MACHINE,"Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey);
         if (result != ERROR_SUCCESS)
             return 0;
         result = RegQueryValueExA(hKey, "~MHz", NULL, NULL, (LPBYTE)&data, &dataSize);
         RegCloseKey (hKey);
 
+        if (result != ERROR_SUCCESS)
+            return 0;
         mhz = data;
         mhz *= 1000000;
 #else

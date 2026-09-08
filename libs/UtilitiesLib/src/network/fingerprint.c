@@ -162,7 +162,7 @@ static void lazyInitChildHashTable(SimpleHashTable* parent, SimpleHashTable** ch
 // Returns whether the new entry was added successfully.
 // The default behavior when a slot conflict is found is to discard the new entry.
 int sHashAddElement(SimpleHashTable* table, void* key, unsigned int maxKeySize, void* value){
-    int index = checksum(key, min(maxKeySize, table->minMatchSize)) % table->maxSize;
+    int index = checksum(key, maxKeySize < table->minMatchSize ? maxKeySize : table->minMatchSize) % table->maxSize;
 
     table->insertionAttemptCount++;
     table->storage[index].hitCount++;

@@ -1072,7 +1072,7 @@ void setStatusBar(int elem, const char *fmt, ...)
     SendMessageA(hStatusBar, SB_SETTEXTA, elem, (LPARAM)str);
 }
 
-LRESULT CALLBACK DlgPigViewProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgPigViewProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     int i;
     RECT rect;
@@ -1201,7 +1201,7 @@ static int win32listPig(const char *out)
         }
 
         lvFiles = listViewCreate();
-        hiret = DialogBox (winGetHInstance(), (LPCTSTR) (IDD_PIG), NULL, (DLGPROC)DlgPigViewProc);
+        hiret = DialogBox (winGetHInstance(), (LPCTSTR) (IDD_PIG), NULL, DlgPigViewProc);
         //listViewDestroy(lvFiles);
 
     }

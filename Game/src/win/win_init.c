@@ -112,10 +112,7 @@ LONG WINAPI DefWindowProc_timed( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
     return ret;
 }
 
-static LONG WINAPI SplashProc ( HWND    hWnd,
-                          UINT    uMsg,
-                          WPARAM  wParam,
-                          LPARAM  lParam ) 
+static LRESULT CALLBACK SplashProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 static HBITMAP hbmLogo;
 static int width;
@@ -236,7 +233,7 @@ void RegisterSplashWindow()
 
     splashwc.hInstance       = glob_hinstance;    
     splashwc.style         = CS_OWNDC;
-    splashwc.lpfnWndProc   = (WNDPROC)SplashProc;
+    splashwc.lpfnWndProc   = SplashProc;
     splashwc.cbClsExtra    = 0;
     splashwc.cbWndExtra    = 0;
     if ( locGetIDInRegistry() == locGetIDByWindowsLocale(LOCALE_KOREAN) )
@@ -268,7 +265,7 @@ void RegisterSplashWindow()
 }
 
 // run the splash screen during startup
-DWORD WINAPI SplashThread(void* data)
+unsigned __stdcall SplashThread(void* data)
 {
     MSG msg;
 
@@ -426,7 +423,7 @@ void windowSetSize(int width, int height)
 
 static LONG WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-static LONG WINAPI MainWndProcCallback(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK MainWndProcCallback(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     // This makes it possible to compile-and-continue MainWndProc.
 
@@ -1834,7 +1831,7 @@ char *EnterTextStrings[] =
 ""
 };
 
-LRESULT CALLBACK EnterTextDialog(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
+INT_PTR CALLBACK EnterTextDialog(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
     static TextDialogParams* etd;
     RECT rc;
@@ -1878,7 +1875,7 @@ LRESULT CALLBACK EnterTextDialog(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
     return 0;
 }
 
-LRESULT CALLBACK EnterTextDialogViaEString(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
+INT_PTR CALLBACK EnterTextDialogViaEString(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
     static TextDialogEStrings* etd;
     RECT rc;
@@ -1939,7 +1936,7 @@ bool winGetString(char* prompt, char* result)
     bClickedOk = (DialogBoxParamW(glob_hinstance, 
         MAKEINTRESOURCEW(IDD_ENTERTEXT), 
         hwnd, 
-        (DLGPROC)EnterTextDialog, 
+        EnterTextDialog,
         (LPARAM)&etd) == IDOK);
 
     if(bClickedOk) {
@@ -1965,7 +1962,7 @@ bool winGetEString(char *prompt, char **result)
     bClickedOk = (DialogBoxParamW(glob_hinstance, 
                                     MAKEINTRESOURCEW(IDD_ENTERTEXT), 
                                     hwnd, 
-                                    (DLGPROC)EnterTextDialogViaEString, 
+                                    EnterTextDialogViaEString,
                                     (LPARAM)&etd)
                     == IDOK);
 
@@ -2049,7 +2046,7 @@ void winRegisterClass(HINSTANCE hInstance)
 {
     wc.cbSize         = sizeof(wc);
     wc.style         = CS_OWNDC | CS_DBLCLKS;
-    wc.lpfnWndProc   = (WNDPROC)MainWndProcCallback;
+    wc.lpfnWndProc   = MainWndProcCallback;
     wc.cbClsExtra    = 0;
     wc.cbWndExtra    = 0;
     wc.hInstance     = hInstance;

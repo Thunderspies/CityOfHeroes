@@ -301,7 +301,7 @@ static void s_mergeChangesSync(PersistInfo **infos, int count)
     Str_destroy(&sys_call);
 }
 
-static DWORD WINAPI s_thread_mergeChanges(LPVOID lpParam)
+static unsigned __stdcall s_thread_mergeChanges(LPVOID lpParam)
 {
     EXCEPTION_HANDLER_BEGIN
 

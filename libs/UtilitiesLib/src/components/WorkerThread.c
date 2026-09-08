@@ -330,7 +330,7 @@ U32 wtGetThreadID(WorkerThread *wt)
     return wt->thread_id;
 }
 
-static DWORD WINAPI wtThread( LPVOID lpParam )
+static unsigned __stdcall wtThread( LPVOID lpParam )
 {
     EXCEPTION_HANDLER_BEGIN
 
@@ -384,7 +384,7 @@ static DWORD WINAPI wtThread( LPVOID lpParam )
 
 void wtStart(WorkerThread *wt)
 {
-    DWORD dwThreadId; 
+    unsigned dwThreadId;
 
     if (!wt->run_threaded)
         return;

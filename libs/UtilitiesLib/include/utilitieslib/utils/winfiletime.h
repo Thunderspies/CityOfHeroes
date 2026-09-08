@@ -1,13 +1,7 @@
 #ifndef _WINFILETIME_H
 #define _WINFILETIME_H
 
-int _AltStat(const char *name, 
-#if _MSC_VER < 1400
-    struct _stat        *st_buf
-#else
-    struct _stat32      *st_buf
-#endif
-    );
+int _AltStat(const char *name, struct _stat32 *st_buf);
 
 int _SetUTCFileTimes(
     const char      *name,

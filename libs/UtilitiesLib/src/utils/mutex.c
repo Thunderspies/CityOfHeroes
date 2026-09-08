@@ -10,7 +10,7 @@
 #include "utilitieslib/components/earray.h"
 
 static HANDLE threadAgnosticMutex_handle=NULL;
-static DWORD threadAgnosticMutex_threadID;
+static unsigned threadAgnosticMutex_threadID;
 typedef struct MutexEventPair {
     HANDLE hMutex;
     HANDLE hEvent;
@@ -18,10 +18,10 @@ typedef struct MutexEventPair {
 } MutexEventPair;
 static MutexEventPair **threadAgnosticMutex_actions=NULL; // Only modified/accessed in-thread
 
-static DWORD WINAPI threadAgnosticMutexThread( LPVOID lpParam )
+static unsigned __stdcall threadAgnosticMutexThread( LPVOID lpParam )
 {
     EXCEPTION_HANDLER_BEGIN
-        static volatile int count_of_threads;
+        static volatile LONG count_of_threads;
         int result;
         result = InterlockedIncrement(&count_of_threads);
         assert(result==1); // Two of these threads started!
@@ -66,6 +66,7 @@ static DWORD WINAPI threadAgnosticMutexThread( LPVOID lpParam )
         PERFINFO_AUTO_STOP();
         return 0; 
     EXCEPTION_HANDLER_END
+    return 0;
 } 
 
 static VOID CALLBACK threadAgnosticMutexAcquireFunc( ULONG_PTR dwParam)
@@ -119,7 +120,7 @@ HANDLE acquireThreadAgnosticMutex(const char *name)
     assert(name);
 
     if (!inited) {
-        static volatile int num_people_initing=0;
+        static volatile LONG num_people_initing=0;
         int result = InterlockedIncrement(&num_people_initing);
         if (result != 1) {
             while (!inited)
@@ -139,10 +140,10 @@ HANDLE acquireThreadAgnosticMutex(const char *name)
     }
     strcpy(name_fixed, name);
     {
-        char *s = strchr(name_fixed, '\\'); // Skip past Global\ 
+        char *s = strchr(name_fixed, '\\'); // Preserve the namespace prefix.
         if (!s)
             s = name_fixed;
-        strupr(s);
+        _strupr_s(s, sizeof(name_fixed) - (size_t)(s - name_fixed));
     }
     pair->hMutex = CreateMutexA(NULL, FALSE, name_fixed); // initially not owned
     assert(pair->hMutex);
@@ -179,7 +180,7 @@ void releaseThreadAgnosticMutex(HANDLE hPair)
 static int ttam_timer;
 static F32 ttam_last_result[TTAM_NUM_THREADS];
 
-static DWORD WINAPI testThreadAgnosticMutexThread(void *dwParam)
+static unsigned __stdcall testThreadAgnosticMutexThread(void *dwParam)
 {
     int threadnum = PTR_TO_S32(dwParam);
     do {

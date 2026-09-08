@@ -15,11 +15,11 @@ int simpleWsaSend(SOCKET sock, char* buf, int length, int flags, AsyncOpContext*
 
 int simpleWSARecvFrom(SOCKET sock, char* buf, int len, int flags, struct sockaddr* addr, int *addrLen, AsyncOpContext* context);
 
-int SendToSock(int fd, void* message, int len, struct sockaddr_in* addr);
+int SendToSock(SOCKET fd, void* message, int len, struct sockaddr_in* addr);
 
 void FD_AddLinkList(FD_SET* readSet, FD_SET* writeSet, FD_SET* errorSet, NetLinkList* linklist);
 void FD_AddLink(FD_SET* readSet, FD_SET* writeSet, FD_SET* errorSet, NetLink* link);
 
-void socketSetBufferSize(int socket, NetLinkBufferType type, int size);
+void socketSetBufferSize(SOCKET socket, NetLinkBufferType type, int size);
 
 #endif
