@@ -206,6 +206,8 @@ inline int matFloatToIntRound( float f )
 #if CORE_COMPILER_MSVC && CORE_SYSTEM_WIN32
     __asm fld f
     __asm fistp retval
+#elif defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX)
+    __asm__ __volatile__("flds %1; fistpl %0" : "=m" (retval) : "m" (f) : "st");
 #else
     if ( matIsNegative(f) )
         retval = static_cast<int>(f - 0.5f);

@@ -220,10 +220,14 @@ extern  F32 costable[];
 static INLINEDBG int round32(float a) { //return a;
 #if defined(_WIN32) && !defined(_XBOX) && !defined(_WIN64)
     int i;
+#if defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX)
+    __asm__ __volatile__("flds %1; fistpl %0" : "=m" (i) : "m" (a) : "st");
+#else
     __asm {
         fld   a
         fistp i
     }
+#endif
     return i;
 #elif defined(_XBOX) || defined(_WIN64)
     return (int)(a + .5);
@@ -339,6 +343,15 @@ extern U32 oldControlState;
         // but need to do unaligned loads and stores which may make it pointless
         static INLINEDBG void qtruncVec3(const Vec3 flt,int ilt[3])
         {
+#if defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX)
+            __asm__ __volatile__(
+                "flds %3; fisttpl %0; "
+                "flds %4; fisttpl %1; "
+                "flds %5; fisttpl %2; "
+                : "=m" (ilt[0]), "=m" (ilt[1]), "=m" (ilt[2])
+                : "m" (flt[0]), "m" (flt[1]), "m" (flt[2])
+                : "st", "memory");
+#else
             _asm{
                 mov eax,dword ptr[flt]
                 mov ecx,dword ptr[ilt]
@@ -349,6 +362,7 @@ extern U32 oldControlState;
                 fld dword ptr[eax+8]
                 fisttp dword ptr[ecx+8]
             }
+#endif
         }
     #else
         // @todo, _controlfp_s won't be inlined so this will be slow.
@@ -363,6 +377,15 @@ extern U32 oldControlState;
             unsigned int saved_fpu_control;
             _controlfp_s(&saved_fpu_control, 0, 0);    // retrieve current control word
             _controlfp_s(NULL, _RC_CHOP, _MCW_RC);    // set the fpu rounding mode to chop
+#if defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX)
+            __asm__ __volatile__(
+                "flds %3; fistpl %0; "
+                "flds %4; fistpl %1; "
+                "flds %5; fistpl %2; "
+                : "=m" (ilt[0]), "=m" (ilt[1]), "=m" (ilt[2])
+                : "m" (flt[0]), "m" (flt[1]), "m" (flt[2])
+                : "st", "memory");
+#else
             _asm{
                 mov eax,dword ptr[flt]
                 mov ecx,dword ptr[ilt]
@@ -373,6 +396,7 @@ extern U32 oldControlState;
                 fld dword ptr[eax+8]
                 fistp dword ptr[ecx+8]
             }
+#endif
             _controlfp_s(NULL, saved_fpu_control, _MCW_RC);    // restore the previous fpu rounding mode
         }
     #endif
@@ -406,6 +430,10 @@ static INLINEDBG int nearSameDoubleTol(double a, double b, double tol)
 #else
     static INLINEDBG void mathutil_sincosf( float angle, float* sinPtr, float* cosPtr )
     {
+#if defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX)
+        __asm__ __volatile__("flds %2; fsincos; fstps %0; fstps %1"
+            : "=m" (*cosPtr), "=m" (*sinPtr) : "m" (angle) : "st", "st(1)");
+#else
         __asm
         {
             fld    angle
@@ -415,6 +443,7 @@ static INLINEDBG int nearSameDoubleTol(double a, double b, double tol)
                     fstp [ecx]
                     fstp [edx]
         }
+#endif
     }
 #endif
 
