@@ -242,7 +242,29 @@ char* strsep(char** str, const char* delim){
     return strsep2(str, delim, NULL);
 }
 
-#if !defined(_XBOX) && !defined(_WIN64)
+#if defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX)
+// Match the Win32 search's ASCII folding; bytes above ASCII are unchanged.
+char* strstri(char* str1, const char* str2)
+{
+    char* start;
+    if (!*str2)
+        return str1;
+    for (start = str1; *start; ++start) {
+        const unsigned char* h = (const unsigned char*)start;
+        const unsigned char* n = (const unsigned char*)str2;
+        while (*h && *n) {
+            unsigned char a = *h, b = *n;
+            if (a >= 'A' && a <= 'Z') a += 'a' - 'A';
+            if (b >= 'A' && b <= 'Z') b += 'a' - 'A';
+            if (a != b) break;
+            ++h;
+            ++n;
+        }
+        if (!*n) return start;
+    }
+    return NULL;
+}
+#elif !defined(_XBOX) && !defined(_WIN64)
 // stristr /////////////////////////////////////////////////////////
 //
 // performs a case-insensitive lookup of a string within another
