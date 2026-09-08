@@ -3273,6 +3273,236 @@ static void addChatChannelsToCM(ContextMenu *cm)
         i++;
     }
 }
+static const char * chatcm_userChannelTextAdapter(void* arg0)
+{
+    return chatcm_userChannelText((void *)arg0);
+}
+
+static void addFilterAdapter(void* arg0)
+{
+    addFilter((ChatWindow *)arg0);
+}
+
+static int canEditFilter_CMAdapter(void* arg0)
+{
+    return canEditFilter_CM((ChatWindow *)arg0);
+}
+
+static void editFilterAdapter(void* arg0)
+{
+    editFilter((ChatWindow *)arg0);
+}
+
+static int canDeleteFilter_CMAdapter(void* arg0)
+{
+    return canDeleteFilter_CM((ChatWindow *)arg0);
+}
+
+static void deleteFilterAdapter(void* arg0)
+{
+    deleteFilter((ChatWindow *)arg0);
+}
+
+static int hasSelectedFilterAdapter(void* arg0)
+{
+    return hasSelectedFilter((ChatWindow *)arg0);
+}
+
+static void clearFilterAdapter(void* arg0)
+{
+    clearFilter((ChatWindow *)arg0);
+}
+
+static void chatLinkcm_sendTellAdapter(void* arg0)
+{
+    chatLinkcm_sendTell((char *)arg0);
+}
+
+static const char * chatLinkcm_sendTellNameAdapter(void* arg0)
+{
+    return chatLinkcm_sendTellName((char *)arg0);
+}
+
+static void chatLinkcm_sendTellToTeamLeaderAdapter(void* arg0)
+{
+    chatLinkcm_sendTellToTeamLeader((char *)arg0);
+}
+
+static const char * chatLinkcm_sendTellToTeamLeaderNameAdapter(void* arg0)
+{
+    return chatLinkcm_sendTellToTeamLeaderName((char *)arg0);
+}
+
+static void chatLinkcm_inviteTeamAdapter(void* arg0)
+{
+    chatLinkcm_inviteTeam((char *)arg0);
+}
+
+static const char * chatLinkcm_inviteTeamNameAdapter(void* arg0)
+{
+    return chatLinkcm_inviteTeamName((char *)arg0);
+}
+
+static void chatLinkcm_inviteLeagueAdapter(void* arg0)
+{
+    chatLinkcm_inviteLeague((char *)arg0);
+}
+
+static const char * chatLinkcm_inviteLeagueNameAdapter(void* arg0)
+{
+    return chatLinkcm_inviteLeagueName((char *)arg0);
+}
+
+static const char * chatLinkcm_sendTellToLeagueLeaderNameAdapter(void* arg0)
+{
+    return chatLinkcm_sendTellToLeagueLeaderName((char *)arg0);
+}
+
+static void chatLinkcm_getGlobalNameAdapter(void* arg0)
+{
+    chatLinkcm_getGlobalName((char *)arg0);
+}
+
+static void chatLinkcm_FriendAdapter(void* arg0)
+{
+    chatLinkcm_Friend((char *)arg0);
+}
+
+static const char * chatLinkcm_FriendNameAdapter(void* arg0)
+{
+    return chatLinkcm_FriendName((char *)arg0);
+}
+
+static void chatLinkcm_NoteAdapter(void* arg0)
+{
+    chatLinkcm_Note((char *)arg0);
+}
+
+static const char * chatLinkcm_NoteNameAdapter(void* arg0)
+{
+    return chatLinkcm_NoteName((char *)arg0);
+}
+
+static void chatLinkcm_ignoreAdapter(void* arg0)
+{
+    chatLinkcm_ignore((char *)arg0);
+}
+
+static const char * chatLinkcm_ignoreNameAdapter(void* arg0)
+{
+    return chatLinkcm_ignoreName((char *)arg0);
+}
+
+static void chatLinkcm_ignoreSpammerAdapter(void* arg0)
+{
+    chatLinkcm_ignoreSpammer((char *)arg0);
+}
+
+static const char * chatLinkcm_ignoreSpammerNameAdapter(void* arg0)
+{
+    return chatLinkcm_ignoreSpammerName((char *)arg0);
+}
+
+static void chatLinkGlobalcm_sendTellAdapter(void* arg0)
+{
+    chatLinkGlobalcm_sendTell((char *)arg0);
+}
+
+static void chatLinkGlobalcm_inviteTeamAdapter(void* arg0)
+{
+    chatLinkGlobalcm_inviteTeam((char *)arg0);
+}
+
+static void chatLinkGlobalcm_inviteLeagueAdapter(void* arg0)
+{
+    chatLinkGlobalcm_inviteLeague((char *)arg0);
+}
+
+static void chatLinkGlobalcm_getLocalNameAdapter(void* arg0)
+{
+    chatLinkGlobalcm_getLocalName((char *)arg0);
+}
+
+static void chatLinkGlobalcm_FriendAdapter(void* arg0)
+{
+    chatLinkGlobalcm_Friend((char *)arg0);
+}
+
+static void chatLinkGlobalcm_NoteAdapter(void* arg0)
+{
+    chatLinkGlobalcm_Note((char *)arg0);
+}
+
+static const char * chatLinkGlobalcm_NoteNameAdapter(void* arg0)
+{
+    return chatLinkGlobalcm_NoteName((char *)arg0);
+}
+
+static void chatLinkGlobal_SilenceAdapter(void* arg0)
+{
+    chatLinkGlobal_Silence((char *)arg0);
+}
+
+static const char * chatLinkcm_SilenceTextAdapter(void* arg0)
+{
+    return chatLinkcm_SilenceText((char *)arg0);
+}
+
+static void chatLinkGlobal_KickAdapter(void* arg0)
+{
+    chatLinkGlobal_Kick((char *)arg0);
+}
+
+static void chatLinkGlobalcm_ignoreAdapter(void* arg0)
+{
+    chatLinkGlobalcm_ignore((char *)arg0);
+}
+
+static void chatLinkGlobalcm_ignoreSpammerAdapter(void* arg0)
+{
+    chatLinkGlobalcm_ignoreSpammer((char *)arg0);
+}
+
+static const char * chatLinkGlobalcm_ignoreSpammerNameAdapter(void* arg0)
+{
+    return chatLinkGlobalcm_ignoreSpammerName((char *)arg0);
+}
+
+static void chatLinkChannelcm_sendAdapter(void* arg0)
+{
+    chatLinkChannelcm_send((char *)arg0);
+}
+
+static void chatLinkChannelcm_membersAdapter(void* arg0)
+{
+    chatLinkChannelcm_members((char *)arg0);
+}
+
+static void startColorPickerWindowAdapter(void* arg0)
+{
+    startColorPickerWindow((char *)arg0);
+}
+
+static int isChannelOperatorAdapter(void* arg0)
+{
+    return isChannelOperator((char *)arg0);
+}
+
+static void chatLinkChannelcm_setMotdAdapter(void* arg0)
+{
+    chatLinkChannelcm_setMotd((char *)arg0);
+}
+
+static void chatLinkChannelcm_setDescriptionAdapter(void* arg0)
+{
+    chatLinkChannelcm_setDescription((char *)arg0);
+}
+
+static void chatLinkChannelcm_leaveAdapter(void* arg0)
+{
+    chatLinkChannelcm_leave((char *)arg0);
+}
+
 void initContextMenus()
 {
     int i,k;
@@ -3286,7 +3516,7 @@ void initContextMenus()
     contextMenu_addDividerVisible(chatContext, belongToChannels_CM );
 
     for(i=1;i<=MAX_WATCHING;i++)
-        contextMenu_addVariableTextCheckBox(chatContext, canDisplayChannel_CM, (void*) i, chatcm_setUserChannel, (void*) i, chatcm_userChannelText, (void*) i); 
+        contextMenu_addVariableTextCheckBox(chatContext, canDisplayChannel_CM, (void*) i, chatcm_setUserChannel, (void*) i, chatcm_userChannelTextAdapter, (void*) i);
 
     for( i = 0; i < CHAT_TIP_TOTAL; i++ )
         addToolTip( &chatTip[i] );
@@ -3294,7 +3524,7 @@ void initContextMenus()
     // leave channel sub-menu
     sLeaveChannelSubMenu = contextMenu_Create(NULL);
     for(i=1;i<=MAX_WATCHING;i++)
-        contextMenu_addVariableTextCode( sLeaveChannelSubMenu, canLeaveChannel_CM, (void*)i, chatcm_leaveChannel, (void*) i, chatcm_userChannelText, (void*) i, 0);
+        contextMenu_addVariableTextCode( sLeaveChannelSubMenu, canLeaveChannel_CM, (void*)i, chatcm_leaveChannel, (void*) i, chatcm_userChannelTextAdapter, (void*) i, 0);
 
     for(i=0; i<MAX_CHAT_WINDOWS; i++)
     {    
@@ -3307,7 +3537,7 @@ void initContextMenus()
         contextMenu_addDividerVisible(window->menu, belongToChannels_CM );
 
         for(k=1;k<=MAX_WATCHING;k++)
-            contextMenu_addVariableTextCheckBox(window->menu, canDisplayChannel_CM, (void*) k, chatcm_setUserChannel, (void*) k, chatcm_userChannelText, (void*) k); 
+            contextMenu_addVariableTextCheckBox(window->menu, canDisplayChannel_CM, (void*) k, chatcm_setUserChannel, (void*) k, chatcm_userChannelTextAdapter, (void*) k);
 
         contextMenu_addDivider(window->menu);
 
@@ -3321,53 +3551,53 @@ void initContextMenus()
 
         contextMenu_addDividerVisible(window->menu, isUsingChatServer_CM );
 
-        contextMenu_addCode(window->menu, canAddFilter_CM,        0,        addFilter,                window, textStd("CMAddChatTab"),    0);
-        contextMenu_addCode(window->menu, canEditFilter_CM,        window,    editFilter,                window, textStd("CMEditChatTab"),    0);
-        contextMenu_addCode(window->menu, canDeleteFilter_CM,    window,    deleteFilter,            window, textStd("CMDeleteChatTab"),    0);
-        contextMenu_addCode(window->menu, hasSelectedFilter,    window,    clearFilter,            window, textStd("CMClearChatTab"),    0);
+        contextMenu_addCode(window->menu, canAddFilter_CM,        0, addFilterAdapter,                window, textStd("CMAddChatTab"),    0);
+        contextMenu_addCode(window->menu, canEditFilter_CMAdapter,        window, editFilterAdapter,                window, textStd("CMEditChatTab"),    0);
+        contextMenu_addCode(window->menu, canDeleteFilter_CMAdapter,    window, deleteFilterAdapter,            window, textStd("CMDeleteChatTab"),    0);
+        contextMenu_addCode(window->menu, hasSelectedFilterAdapter,    window, clearFilterAdapter,            window, textStd("CMClearChatTab"),    0);
     }
 
     chatLinkContext = contextMenu_Create( NULL );
-    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_sendTell, 0, chatLinkcm_sendTellName, 0, 0 );
-    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_sendTellToTeamLeader, 0, chatLinkcm_sendTellToTeamLeaderName, 0, 0 );
-    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_inviteTeam, 0, chatLinkcm_inviteTeamName, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_sendTellAdapter, 0, chatLinkcm_sendTellNameAdapter, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_sendTellToTeamLeaderAdapter, 0, chatLinkcm_sendTellToTeamLeaderNameAdapter, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_inviteTeamAdapter, 0, chatLinkcm_inviteTeamNameAdapter, 0, 0 );
 
-    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_inviteLeague, 0, chatLinkcm_inviteLeagueName, 0, 0);
-    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_sendTellToTeamLeader, 0, chatLinkcm_sendTellToLeagueLeaderName, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_inviteLeagueAdapter, 0, chatLinkcm_inviteLeagueNameAdapter, 0, 0);
+    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_sendTellToTeamLeaderAdapter, 0, chatLinkcm_sendTellToLeagueLeaderNameAdapter, 0, 0 );
 
-    contextMenu_addCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_getGlobalName, 0, textStd("CMGetGlobal"), 0 );
-    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_Friend, 0, chatLinkcm_FriendName, 0, 0 );
-    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_Note, 0, chatLinkcm_NoteName, 0, 0 );
+    contextMenu_addCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_getGlobalNameAdapter, 0, textStd("CMGetGlobal"), 0 );
+    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_FriendAdapter, 0, chatLinkcm_FriendNameAdapter, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_NoteAdapter, 0, chatLinkcm_NoteNameAdapter, 0, 0 );
     contextMenu_addDivider(chatLinkContext);
-    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_ignore, 0, chatLinkcm_ignoreName, 0, 0 );
-    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_ignoreSpammer, 0, chatLinkcm_ignoreSpammerName, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_ignoreAdapter, 0, chatLinkcm_ignoreNameAdapter, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkContext, alwaysAvailable, 0, chatLinkcm_ignoreSpammerAdapter, 0, chatLinkcm_ignoreSpammerNameAdapter, 0, 0 );
 
     chatLinkGlobalContext = contextMenu_Create( NULL );
-    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_sendTell, 0, chatLinkcm_sendTellName, 0, 0 );
-    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_inviteTeam, 0, chatLinkcm_inviteTeamName, 0, 0 );
-    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_inviteLeague, 0, chatLinkcm_inviteLeagueName, 0, 0);
-    contextMenu_addCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_getLocalName, 0, textStd("CMGetLocal"), 0 );
-    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_Friend, 0, chatLinkcm_FriendName, 0, 0 );
-    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_Note, 0, chatLinkGlobalcm_NoteName, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_sendTellAdapter, 0, chatLinkcm_sendTellNameAdapter, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_inviteTeamAdapter, 0, chatLinkcm_inviteTeamNameAdapter, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_inviteLeagueAdapter, 0, chatLinkcm_inviteLeagueNameAdapter, 0, 0);
+    contextMenu_addCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_getLocalNameAdapter, 0, textStd("CMGetLocal"), 0 );
+    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_FriendAdapter, 0, chatLinkcm_FriendNameAdapter, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_NoteAdapter, 0, chatLinkGlobalcm_NoteNameAdapter, 0, 0 );
     
     contextMenu_addDividerVisible(chatLinkGlobalContext, chatLinkGlobal_CanMod);
     //contextMenu_addCode( chatLinkGlobalContext, chatLinkGlobal_CanMod, 0, chatLinkGlobal_Op, 0,  textStd("CMMakeOp"), 0 ); -- Chris Bruce doesn't like this here
-    contextMenu_addVariableTextCode( chatLinkGlobalContext, chatLinkGlobal_CanMod, 0, chatLinkGlobal_Silence, 0, chatLinkcm_SilenceText, 0, 0 );
-    contextMenu_addCode( chatLinkGlobalContext, chatLinkGlobal_CanMod, 0, chatLinkGlobal_Kick, 0,  textStd("CMKick"), 0 );
+    contextMenu_addVariableTextCode( chatLinkGlobalContext, chatLinkGlobal_CanMod, 0, chatLinkGlobal_SilenceAdapter, 0, chatLinkcm_SilenceTextAdapter, 0, 0 );
+    contextMenu_addCode( chatLinkGlobalContext, chatLinkGlobal_CanMod, 0, chatLinkGlobal_KickAdapter, 0,  textStd("CMKick"), 0 );
     contextMenu_addDivider(chatLinkGlobalContext);
-    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_ignore, 0, chatLinkcm_ignoreName, 0, 0 );
-    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_ignoreSpammer, 0, chatLinkGlobalcm_ignoreSpammerName, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_ignoreAdapter, 0, chatLinkcm_ignoreNameAdapter, 0, 0 );
+    contextMenu_addVariableTextCode( chatLinkGlobalContext, alwaysAvailable, 0, chatLinkGlobalcm_ignoreSpammerAdapter, 0, chatLinkGlobalcm_ignoreSpammerNameAdapter, 0, 0 );
 
 
     chatLinkChannelContext = contextMenu_Create( NULL );
-    contextMenu_addCode(chatLinkChannelContext, alwaysAvailable, 0,    chatLinkChannelcm_send, 0, textStd("CMSendMessage"), 0);
-    contextMenu_addCode(chatLinkChannelContext, alwaysAvailable, 0,    chatLinkChannelcm_members, 0, textStd("CMListMembers"), 0);
-    contextMenu_addCode(chatLinkChannelContext, alwaysAvailable, 0,    startColorPickerWindow, 0, textStd("CMSetChannelColor"), 0);
-    contextMenu_addDividerVisible(chatLinkChannelContext, isChannelOperator);
-    contextMenu_addCode(chatLinkChannelContext, isChannelOperator, 0, chatLinkChannelcm_setMotd, 0, textStd("CMSetMotd"), 0);
-    contextMenu_addCode(chatLinkChannelContext, isChannelOperator, 0, chatLinkChannelcm_setDescription, 0, textStd("CMSetDescription"), 0);
+    contextMenu_addCode(chatLinkChannelContext, alwaysAvailable, 0, chatLinkChannelcm_sendAdapter, 0, textStd("CMSendMessage"), 0);
+    contextMenu_addCode(chatLinkChannelContext, alwaysAvailable, 0, chatLinkChannelcm_membersAdapter, 0, textStd("CMListMembers"), 0);
+    contextMenu_addCode(chatLinkChannelContext, alwaysAvailable, 0, startColorPickerWindowAdapter, 0, textStd("CMSetChannelColor"), 0);
+    contextMenu_addDividerVisible(chatLinkChannelContext, isChannelOperatorAdapter);
+    contextMenu_addCode(chatLinkChannelContext, isChannelOperatorAdapter, 0, chatLinkChannelcm_setMotdAdapter, 0, textStd("CMSetMotd"), 0);
+    contextMenu_addCode(chatLinkChannelContext, isChannelOperatorAdapter, 0, chatLinkChannelcm_setDescriptionAdapter, 0, textStd("CMSetDescription"), 0);
     contextMenu_addDivider(chatLinkChannelContext);
-    contextMenu_addCode( chatLinkChannelContext, alwaysAvailable, 0, chatLinkChannelcm_leave, 0, textStd("CMLeaveChannel"), 0 );
+    contextMenu_addCode( chatLinkChannelContext, alwaysAvailable, 0, chatLinkChannelcm_leaveAdapter, 0, textStd("CMLeaveChannel"), 0 );
 
 }
 

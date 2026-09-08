@@ -123,7 +123,7 @@ typedef struct MenuEntry {
 } MenuEntry;
 
 MenuEntry * newMenuEntry(Menu *,MenuEntry *,const char * name);
-void recurseOnAllEntries(MenuEntry * me,int onlyOpened,int preorder,void * info,void (*func)(MenuEntry *,ClickInfo *));
+void recurseOnAllEntries(MenuEntry * me,int onlyOpened,int preorder,void * info,void (*func)(MenuEntry *,void *));
 void displayMenuEntry(MenuEntry *,void * info);    //displays a MenuEntry and all of its children
                                                 //info is a pointer to an array of integers
                                                 //giving information about which elements

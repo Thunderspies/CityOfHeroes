@@ -668,6 +668,11 @@ static void checkNewWindow(ScheduledBaseRaid* raid, U32 raidid)
     raidInfo->window_hour = oldHours;
 }
 
+static void checkNewWindowAdapter(void* arg0, U32 arg1)
+{
+    checkNewWindow((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 int sgRaidTimeWindow(void)
 {
     float x, y, z, wd, ht, sc;
@@ -759,7 +764,7 @@ int sgRaidTimeWindow(void)
 
         // Check to see if they currently have a scheduled raid in a slot they are changing
         windowConflict = SGRAID_WINDOWCHANGE_OK;
-        cstoreForEach(g_ScheduledBaseRaidStore, checkNewWindow);
+        cstoreForEach(g_ScheduledBaseRaidStore, checkNewWindowAdapter);
 
         if (windowConflict == SGRAID_WINDOWCHANGE_OK)
             sgRaidWindowChange(0);

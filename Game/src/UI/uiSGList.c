@@ -178,8 +178,9 @@ static int sgDescCompare(const SupergroupLine** sg1, const SupergroupLine** sg2)
     return stricmp( (*sg1)->description, (*sg1)->description );        
 }
 
-static UIBox sgListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, SupergroupLine* sg, int itemIndex)
+static UIBox sgListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* sgData, int itemIndex)
 {
+    SupergroupLine* sg = (SupergroupLine*)sgData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator;

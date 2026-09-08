@@ -179,7 +179,7 @@ void onRunBatchFile()
 
     if(OpenAndAllocFile("Select Batch File", "*.bat", &file))
     {
-        listViewDoOnSelected(lvRelays, (ListViewCallbackFunc) sendBatchFileToClient, &file);
+        listViewDoOnSelected(lvRelays, sendBatchFileToClient, &file);
         free(file.data);
     }
 }
@@ -386,17 +386,17 @@ void SendCommand(CmdRelayCon * con, int cmd, int relayType)
 }
 
 
-void onRelayStartDbServer(ListView *lv, void *structptr, int cmd)
+void onRelayStartDbServer(ListView* lv, void* structptr, void* cmdData)
 {
     SendCommand((CmdRelayCon*) structptr, CMDRELAY_REQUEST_START_DBSERVER, RELAY_TYPE_DBSERVER);
 }
 
-void onRelayStartLauncher(ListView *lv, void *structptr, int cmd)
+void onRelayStartLauncher(ListView* lv, void* structptr, void* cmdData)
 {
     SendCommand((CmdRelayCon*) structptr, CMDRELAY_REQUEST_START_LAUNCHER, RELAY_TYPE_ALL);
 }
 
-void onRelayKillAllLauncher(ListView *lv, void *structptr, int cmd)
+void onRelayKillAllLauncher(ListView* lv, void* structptr, void* cmdData)
 {
     SendCommand((CmdRelayCon*) structptr, CMDRELAY_REQUEST_KILL_ALL_LAUNCHER, RELAY_TYPE_ALL);
 }
@@ -421,22 +421,22 @@ void onRelayKillAllStatServer(ListView *lv, void *structptr, int cmd)
     SendCommand((CmdRelayCon*) structptr, CMDRELAY_REQUEST_KILL_ALL_STATSERVER, RELAY_TYPE_ALL);
 }
 
-void onRelayKillAllMapserver(ListView *lv, void *structptr, int cmd)
+void onRelayKillAllMapserver(ListView* lv, void* structptr, void* cmdData)
 {
     SendCommand((CmdRelayCon*) structptr, CMDRELAY_REQUEST_KILL_ALL_MAPSERVER, RELAY_TYPE_ALL);
 }
 
-void onRelayCancelAll(ListView *lv, void *structptr, int cmd)
+void onRelayCancelAll(ListView* lv, void* structptr, void* cmdData)
 {
     SendCommand((CmdRelayCon*) structptr, CMDRELAY_REQUEST_CANCEL_ALL, RELAY_TYPE_ALL);
 }
 
-void onRelayStartAll(ListView *lv, void *structptr, int cmd)
+void onRelayStartAll(ListView* lv, void* structptr, void* cmdData)
 {
     SendCommand((CmdRelayCon*) structptr, CMDRELAY_REQUEST_START_ALL, RELAY_TYPE_ALL);
 }
 
-void onRelayStopAll(ListView *lv, void *structptr, int cmd)
+void onRelayStopAll(ListView* lv, void* structptr, void* cmdData)
 {
     SendCommand((CmdRelayCon*) structptr, CMDRELAY_REQUEST_STOP_ALL, RELAY_TYPE_ALL);
 }
@@ -492,6 +492,12 @@ void onCustomCmdDelete(HWND hDlg)
         SendMessage(GetDlgItem(hDlg, IDC_COMBO_RELAY_CUSTOM_CMD), CB_DELETESTRING, (WPARAM) i, 0);
 }
 
+
+void onRelayApplyPatch(ListView *lv, void *structptr, char * updateSvr);
+static void onRelayApplyPatchCallback(ListView* arg0, void* arg1, void* arg2)
+{
+    onRelayApplyPatch((ListView *)arg0, (void *)arg1, (char *)arg2);
+}
 
 LRESULT CALLBACK DlgCmdRelayProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -552,29 +558,29 @@ LRESULT CALLBACK DlgCmdRelayProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lP
             if(strlen(g_updateServerAddr))
             {
                 addNameToList("UpdateSvr", g_updateServerAddr);
-                listViewDoOnSelected(lvRelays, (ListViewCallbackFunc) onRelayApplyPatch, g_updateServerAddr);
+                listViewDoOnSelected(lvRelays, onRelayApplyPatchCallback, g_updateServerAddr);
             }
             return TRUE;
         xcase IDC_RELAY_START_ALL:
-            listViewDoOnSelected(lvRelays, (ListViewCallbackFunc) onRelayStartAll, 0);
+            listViewDoOnSelected(lvRelays, onRelayStartAll, 0);
             return TRUE;
         xcase IDC_RELAY_STOP_ALL:
-            listViewDoOnSelected(lvRelays, (ListViewCallbackFunc) onRelayStopAll, 0);
+            listViewDoOnSelected(lvRelays, onRelayStopAll, 0);
             return TRUE;
         xcase IDC_RELAY_KILLALL_MAPSERVER:
-            listViewDoOnSelected(lvRelays, (ListViewCallbackFunc) onRelayKillAllMapserver, 0);
+            listViewDoOnSelected(lvRelays, onRelayKillAllMapserver, 0);
             return TRUE;
         xcase IDC_RELAY_KILLALL_LAUNCHER:
-            listViewDoOnSelected(lvRelays, (ListViewCallbackFunc) onRelayKillAllLauncher, 0);
+            listViewDoOnSelected(lvRelays, onRelayKillAllLauncher, 0);
             return TRUE;
         xcase IDC_RELAY_START_LAUNCHER:
-            listViewDoOnSelected(lvRelays, (ListViewCallbackFunc) onRelayStartLauncher, 0);
+            listViewDoOnSelected(lvRelays, onRelayStartLauncher, 0);
             return TRUE;
         xcase IDC_RELAY_START_DBSERVER:
-            listViewDoOnSelected(lvRelays, (ListViewCallbackFunc) onRelayStartDbServer, 0);
+            listViewDoOnSelected(lvRelays, onRelayStartDbServer, 0);
             return TRUE;
         xcase IDC_BUTTON_RELAY_CANCEL_ALL:
-            listViewDoOnSelected(lvRelays, (ListViewCallbackFunc) onRelayCancelAll, 0);
+            listViewDoOnSelected(lvRelays, onRelayCancelAll, 0);
             return TRUE;
         xcase IDC_BUTTON_RELAY_CUSTOM_CMD_ALL:
             getText(hDlg, NULL, relayMapping, ARRAY_SIZE(relayMapping));

@@ -814,8 +814,9 @@ void svrMonTick(HWND hDlg, ServerMonitorState *state)
     }
 }
 
-void smcbMsViewEnts(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbMsViewEnts(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     MapCon *con = (MapCon*)structptr;
 
     smentsSetFilterId(state, con->id);
@@ -1030,46 +1031,46 @@ LRESULT CALLBACK DlgSvrMonProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPar
                 break;
             case IDC_BTN_MSSHOW:
                 state->userData = (void*)(intptr_t)SW_SHOW;
-                listViewDoOnSelected(state->lvMaps, (ListViewCallbackFunc)smcbMsShow, state);
+                listViewDoOnSelected(state->lvMaps, smcbMsShow, state);
                 break;
             case IDC_BTN_MSHIDE:
                 state->userData = (void*)(intptr_t)SW_HIDE;
-                listViewDoOnSelected(state->lvMaps, (ListViewCallbackFunc)smcbMsShow, state);
+                listViewDoOnSelected(state->lvMaps, smcbMsShow, state);
                 break;
             case IDC_BTN_MSRDC:
-                listViewDoOnSelected(state->lvMaps, (ListViewCallbackFunc)smcbMsRemoteDesktop, state);
+                listViewDoOnSelected(state->lvMaps, smcbMsRemoteDesktop, state);
                 break;
             case IDC_BTN_LRDC:
-                listViewDoOnSelected(state->lvLaunchers, (ListViewCallbackFunc)smcbLRemoteDesktop, state);
+                listViewDoOnSelected(state->lvLaunchers, smcbLRemoteDesktop, state);
                 break;
             case IDC_BTN_LN_SUSPEND:
-                listViewDoOnSelected(state->lvLaunchers, (ListViewCallbackFunc)smcbLauncherSuspend, state);
+                listViewDoOnSelected(state->lvLaunchers, smcbLauncherSuspend, state);
                 break;
             case IDC_BTN_LN_RESUME:
-                listViewDoOnSelected(state->lvLaunchers, (ListViewCallbackFunc)smcbLauncherResume, state);
+                listViewDoOnSelected(state->lvLaunchers, smcbLauncherResume, state);
                 break;
             case IDC_BTN_SMSDELINK:
                 listViewDoOnSelected(state->lvMapsStuck, smcbMsDelink, state);
                 break;
             case IDC_BTN_SMSSHOW:
                 state->userData = (void*)(intptr_t)SW_SHOW;
-                listViewDoOnSelected(state->lvMapsStuck, (ListViewCallbackFunc)smcbMsShow, state);
+                listViewDoOnSelected(state->lvMapsStuck, smcbMsShow, state);
                 break;
             case IDC_BTN_SMSHIDE:
                 state->userData = (void*)SW_HIDE;
-                listViewDoOnSelected(state->lvMapsStuck, (ListViewCallbackFunc)smcbMsShow, state);
+                listViewDoOnSelected(state->lvMapsStuck, smcbMsShow, state);
                 break;
             case IDC_BTN_SMSKILL:
-                listViewDoOnSelected(state->lvMapsStuck, (ListViewCallbackFunc)smcbMsKill, state);
+                listViewDoOnSelected(state->lvMapsStuck, smcbMsKill, state);
                 break;
             case IDC_BTN_SMSRDC:
-                listViewDoOnSelected(state->lvMapsStuck, (ListViewCallbackFunc)smcbMsRemoteDesktop, state);
+                listViewDoOnSelected(state->lvMapsStuck, smcbMsRemoteDesktop, state);
                 break;
             case IDC_BTN_SARDC:
-                listViewDoOnSelected(state->lvServerApps, (ListViewCallbackFunc)smcbSaRemoteDesktop, state);
+                listViewDoOnSelected(state->lvServerApps, smcbSaRemoteDesktop, state);
                 break;
             case IDC_BTN_SAKILL:
-                listViewDoOnSelected(state->lvServerApps, (ListViewCallbackFunc)smcbSaKill, state);
+                listViewDoOnSelected(state->lvServerApps, smcbSaKill, state);
                 break;
             case IDC_BTN_SHUTDOWNALL:
                 if (IDYES==MessageBoxA(hDlg, "Are you sure you want to shutdown all servers connected to this dbserver?", "Confirm Shutdown", MB_YESNO)) {
@@ -1084,10 +1085,10 @@ LRESULT CALLBACK DlgSvrMonProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPar
                 }
                 break;
             case IDC_BTN_SMSREMOTEDEBUG:
-                listViewDoOnSelected(state->lvMapsStuck, (ListViewCallbackFunc)smcbMsRemoteDebug, state);
+                listViewDoOnSelected(state->lvMapsStuck, smcbMsRemoteDebug, state);
                 break;
             case IDC_BTN_SMSVIEWERROR:
-                listViewDoOnSelected(state->lvMapsStuck, (ListViewCallbackFunc)smcbMsViewError, state);
+                listViewDoOnSelected(state->lvMapsStuck, smcbMsViewError, state);
                 break;
             case IDC_BTN_VIEWENTS:
                 if (!g_shardmonitor_mode) {
@@ -1097,7 +1098,7 @@ LRESULT CALLBACK DlgSvrMonProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lPar
                 break;
             case IDC_BTN_MSVIEWENTS:
                 if (!g_shardmonitor_mode) {
-                    listViewDoOnSelected(state->lvMaps, (ListViewCallbackFunc)smcbMsViewEnts, state);
+                    listViewDoOnSelected(state->lvMaps, smcbMsViewEnts, state);
                 }
                 break;
             case IDC_BTN_ADMINMESSAGE:

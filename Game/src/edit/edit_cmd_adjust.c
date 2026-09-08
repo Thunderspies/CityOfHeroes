@@ -1043,7 +1043,7 @@ void editCmdBurningBuildingModifyHealth() {
     estrPrintf(&propertyEnt->value_str, "%f%c", currentHealth,sign);
 }
 
-void boxScaleChanged(void* notUsed) {
+void boxScaleChanged(int notUsed) {
     boxScaleInfo.def->box_scale[0]=atof(boxScaleInfo.x);
     boxScaleInfo.def->box_scale[1]=atof(boxScaleInfo.y);
     boxScaleInfo.def->box_scale[2]=atof(boxScaleInfo.z);

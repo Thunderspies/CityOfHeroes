@@ -277,6 +277,11 @@ static void badgeMonitor_focusBadge(void* data)
     // TODO implement (how?)
 }
 
+static const char * badgeMonitorGetStopDisplayTextAdapter(void* arg0)
+{
+    return badgeMonitorGetStopDisplayText((void *)arg0);
+}
+
 static void initBadgeMonitorContextMenu()
 {
     if (badgeMonitorContextMenu)
@@ -287,7 +292,7 @@ static void initBadgeMonitorContextMenu()
     badgeMonitorContextMenu = contextMenu_Create(0);
     contextMenu_addTitle(badgeMonitorContextMenu, "BadgeMonitorString");
     contextMenu_addCode(badgeMonitorContextMenu, alwaysAvailable, 0, badgeMonitor_focusBadge, 0, "FocusBadgeMonitorString", 0);
-    contextMenu_addVariableTextCode(badgeMonitorContextMenu, alwaysAvailable, 0, badgeMonitor_stopDisplay, 0, badgeMonitorGetStopDisplayText, 0, NULL);
+    contextMenu_addVariableTextCode(badgeMonitorContextMenu, alwaysAvailable, 0, badgeMonitor_stopDisplay, 0, badgeMonitorGetStopDisplayTextAdapter, 0, NULL);
     contextMenu_addCode(badgeMonitorContextMenu, alwaysAvailable, 0, badgeMonitor_MoveUp, 0, "MoveUpString", 0);
     contextMenu_addCode(badgeMonitorContextMenu, alwaysAvailable, 0, badgeMonitor_MoveDown, 0, "MoveDownString", 0);
     contextMenu_addDivider(badgeMonitorContextMenu);

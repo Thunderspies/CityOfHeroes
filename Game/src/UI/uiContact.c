@@ -583,19 +583,35 @@ static void contactCMSetWaypoint(int pendingContactSelection)
         clearDestination(&waypointDest);
 }
 
+static int contactCMHasTaskAdapter(void* arg0)
+{
+    return contactCMHasTask((int)(intptr_t)arg0);
+}
+
+static void contactCMSetTaskAdapter(void* arg0)
+{
+    contactCMSetTask((int)(intptr_t)arg0);
+}
+
+static int contactCMHasLocationAdapter(void* arg0)
+{
+    return contactCMHasLocation((int)(intptr_t)arg0);
+}
+
+static void contactCMSetWaypointAdapter(void* arg0)
+{
+    contactCMSetWaypoint((int)(intptr_t)arg0);
+}
+
 static void contactContextMenuSetup(int idx)
 {
     if(!contactContextMenu)
         contactContextMenu = contextMenu_Create(NULL);
 
-    contextMenu_setCode(contactContextMenu, 
-        (CMVisible)contactCMHasTask, (void*)idx, 
-        (CMCode)contactCMSetTask, (void*)idx, 
+    contextMenu_setCode(contactContextMenu, contactCMHasTaskAdapter, (void*)idx, contactCMSetTaskAdapter, (void*)idx,
         "CMSelectTask", 0);
 
-    contextMenu_setCode(contactContextMenu, 
-        (CMVisible)contactCMHasLocation, (void*)idx, 
-        (CMCode)contactCMSetWaypoint, (void*)idx, 
+    contextMenu_setCode(contactContextMenu, contactCMHasLocationAdapter, (void*)idx, contactCMSetWaypointAdapter, (void*)idx,
         "CMSelectContact", 0);
 }
 

@@ -954,8 +954,9 @@ static char *waitTimeToRawStr(float waitTime)
     return buff;
 }
 
-UIBox eventListViewDisplayItem(UIListView *list, PointFloatXYZ rowOrigin, void *userSettings, TurnstileMissionClient *item, int itemIndex)
+UIBox eventListViewDisplayItem(UIListView *list, PointFloatXYZ rowOrigin, void *userSettings, void* itemData, int itemIndex)
 {
+    TurnstileMissionClient * item = (TurnstileMissionClient *)itemData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator = {0}; 

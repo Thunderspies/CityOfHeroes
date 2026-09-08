@@ -175,7 +175,7 @@ static bool issueCommand(CommandID cmdID, const char* args)
     switch( cmdID )
     {
         case eCmdID_StartDBserver:
-            cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayStartDbServer);
+            cmdRelayCmdToAllClients(onRelayStartDbServer);
             break;
         case eCmdID_ShutdownDBserver:
             svrMonShutdownAll(&g_state, args);
@@ -198,13 +198,13 @@ static bool issueCommand(CommandID cmdID, const char* args)
             listViewForEach(g_state.lvMapsStuck, smcbMsDelink, &g_state);
             break;
         case eCmdID_KillLauncher:
-            cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayKillAllLauncher);
+            cmdRelayCmdToAllClients(onRelayKillAllLauncher);
             break;
         case eCmdID_StartLauncher:
-            cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayStartLauncher);
+            cmdRelayCmdToAllClients(onRelayStartLauncher);
             break;
         case eCmdID_KillMapservers:
-            cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayKillAllMapserver);
+            cmdRelayCmdToAllClients(onRelayKillAllMapserver);
             break;
         case eCmdID_ReloadConfig:
             // TBD - what command is this??

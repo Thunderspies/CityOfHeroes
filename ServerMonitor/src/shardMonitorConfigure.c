@@ -73,8 +73,10 @@ void shardMonConfigAdd(HWND hDlg)
     }
 }
 
-static void editEntry(ListView *lv, ShardMonitorConfigEntry *smce, HWND hDlg)
+static void editEntry(ListView* lv, void* smceData, void* hDlgData)
 {
+    ShardMonitorConfigEntry * smce = (ShardMonitorConfigEntry *)smceData;
+    HWND hDlg = (HWND)hDlgData;
     if (shardMonConfigureNewShard(g_hInst, hDlg, smce->name, &smce->ip)) {
         listViewItemChanged(lvShmConfigure, smce);
     }
@@ -88,8 +90,10 @@ static void shardMonConfigEdit(HWND hDlg)
     }
 }
 
-static void removeEntry(ListView *lv, ShardMonitorConfigEntry *smce, HWND hDlg)
+static void removeEntry(ListView* lv, void* smceData, void* hDlgData)
 {
+    ShardMonitorConfigEntry * smce = (ShardMonitorConfigEntry *)smceData;
+    HWND hDlg = (HWND)hDlgData;
     eaRemove(&shmConfig.shardList, eaFind(&shmConfig.shardList, smce));
     listViewDelItem(lvShmConfigure, listViewFindItem(lvShmConfigure, smce));
 }
@@ -99,8 +103,10 @@ static void shardMonConfigRemove(HWND hDlg)
     listViewDoOnSelected(lvShmConfigure, removeEntry, hDlg);
 }
 
-static void moveUp(ListView *lv, ShardMonitorConfigEntry *smce, HWND hDlg)
+static void moveUp(ListView* lv, void* smceData, void* hDlgData)
 {
+    ShardMonitorConfigEntry * smce = (ShardMonitorConfigEntry *)smceData;
+    HWND hDlg = (HWND)hDlgData;
     int i;
     int index = eaFind(&shmConfig.shardList, smce);
     if (index==-1)
@@ -124,8 +130,10 @@ static void shardMonConfigMoveUp(HWND hDlg)
     }
 }
 
-static void moveDown(ListView *lv, ShardMonitorConfigEntry *smce, HWND hDlg)
+static void moveDown(ListView* lv, void* smceData, void* hDlgData)
 {
+    ShardMonitorConfigEntry * smce = (ShardMonitorConfigEntry *)smceData;
+    HWND hDlg = (HWND)hDlgData;
     int i;
     int index = eaFind(&shmConfig.shardList, smce);
     if (index==-1)

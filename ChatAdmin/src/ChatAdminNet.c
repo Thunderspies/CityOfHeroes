@@ -968,19 +968,12 @@ void chatCmdUserOffline(char * handle)
 
 
 
-typedef void (*handler0)();
-typedef void (*handler1)(char *cmd1);
-typedef void (*handler2)(char *cmd1,char *cmd2);
-typedef void (*handler3)(char *cmd1,char *cmd2,char *cmd3);
-typedef void (*handler4)(char *cmd1,char *cmd2,char *cmd3, char *cmd4);
-typedef void (*handler5)(char *cmd1,char *cmd2,char *cmd3, char *cmd4, char * cmd5);
-typedef void (*handler6)(char *cmd1,char *cmd2,char *cmd3, char *cmd4, char * cmd5, char * cmd6);
 
 typedef struct PrimaryChatCmd PrimaryChatCmd;
 typedef struct{
     
     char                *cmdname;
-    void                (*handler)();
+    void                (*handler)(char **args);
     int                    msgType;
     U32                    cmd_sizes[6];
     char                *altMsg;
@@ -1000,11 +993,241 @@ typedef struct PrimaryChatCmd{
 
 }PrimaryChatCmd;
 
+static void chatCmdNoPermissionToSendInChannelCommand(char **args)
+{
+    chatCmdNoPermissionToSendInChannel(args[0]);
+}
+
+static void chatCmdUserModeChangeCommand(char **args)
+{
+    chatCmdUserModeChange(args[0], args[1], args[2], args[3]);
+}
+
+static void chatCmdIgnoringCommand(char **args)
+{
+    chatCmdIgnoring(args[0], args[1]);
+}
+
+static void chatCmdIgnoringUpdateCommand(char **args)
+{
+    chatCmdIgnoringUpdate(args[0]);
+}
+
+static void chatCmdUnignoreCommand(char **args)
+{
+    chatCmdUnignore(args[0]);
+}
+
+static void chatCmdUserNameNotAllowedCommand(char **args)
+{
+    chatCmdUserNameNotAllowed(args[0], args[1]);
+}
+
+static void chatCmdChannelNameNotAllowedCommand(char **args)
+{
+    chatCmdChannelNameNotAllowed(args[0], args[1]);
+}
+
+static void chatCmdYouInvitedCommand(char **args)
+{
+    chatCmdYouInvited(args[0], args[1]);
+}
+
+static void chatCmdYouInvitedGroupCommand(char **args)
+{
+    chatCmdYouInvitedGroup(args[0], args[1]);
+}
+
+static void chatCmdFriendsListFullCommand(char **args)
+{
+    chatCmdFriendsListFull(args[0], args[1]);
+}
+
+static void chatCmdSilencedCommand(char **args)
+{
+    chatCmdSilenced(args[0], args[1]);
+}
+
+static void chatCmdAdminSilencedCommand(char **args)
+{
+    chatCmdAdminSilenced(args[0], args[1]);
+}
+
+static void chatCmdNotifySilencedCommand(char **args)
+{
+    chatCmdNotifySilenced(args[0]);
+}
+
+static void chatAdminDisconnectCommand(char **args)
+{
+    chatAdminDisconnect();
+}
+
+static void chatAdminLoginFailCommand(char **args)
+{
+    chatAdminLoginFail(args[0]);
+}
+
+static void chatCmdNameCommand(char **args)
+{
+    chatCmdName(args[0], args[1]);
+}
+
+static void chatCmdLoginCommand(char **args)
+{
+    chatCmdLogin(args[0], args[1], args[2]);
+}
+
+static void chatCmdLoginEndCommand(char **args)
+{
+    chatCmdLoginEnd();
+}
+
+static void chatCmdRenameCommand(char **args)
+{
+    chatCmdRename();
+}
+
+static void chatCmdAccessLevelCommand(char **args)
+{
+    chatCmdAccessLevel(args[0]);
+}
+
+static void chatCmdUserMsgCommand(char **args)
+{
+    chatCmdUserMsg(args[0], args[1]);
+}
+
+static void chatCmdStoredMsgCommand(char **args)
+{
+    chatCmdStoredMsg(args[0], args[1], args[2]);
+}
+
+static void chatCmdChannelCommand(char **args)
+{
+    chatCmdChannel(args[0], args[1]);
+}
+
+static void chatCmdJoinCommand(char **args)
+{
+    chatCmdJoin(args[0], args[1], args[2], args[3], args[4]);
+}
+
+static void chatCmdLeaveCommand(char **args)
+{
+    chatCmdLeave(args[0], args[1], args[2]);
+}
+
+static void chatCmdInviteCommand(char **args)
+{
+    chatCmdInvite(args[0], args[1]);
+}
+
+static void chatCmdInviteReminderCommand(char **args)
+{
+    chatCmdInviteReminder(args[0]);
+}
+
+static void chatCmdChanMsgCommand(char **args)
+{
+    chatCmdChanMsg(args[0], args[1], args[2]);
+}
+
+static void chatCmdChanMotdCommand(char **args)
+{
+    chatCmdChanMotd(args[0], args[1], args[2], args[3]);
+}
+
+static void chatCmdChanDescCommand(char **args)
+{
+    chatCmdChanDesc(args[0], args[1]);
+}
+
+static void chatCmdChanMemberCommand(char **args)
+{
+    chatCmdChanMember(args[0], args[1]);
+}
+
+static void chatCmdChannelKillCommand(char **args)
+{
+    chatCmdChannelKill(args[0], args[1]);
+}
+
+static void chatCmdCsrSendAllCommand(char **args)
+{
+    chatCmdCsrSendAll(args[0], args[1]);
+}
+
+static void chatCmdCsrStatusCommand(char **args)
+{
+    chatCmdCsrStatus(args[0], args[1], args[2], args[3], args[4], args[5]);
+}
+
+static void chatCmdWatchingCommand(char **args)
+{
+    chatCmdWatching(args[0]);
+}
+
+static void chatCmdInvisibleCommand(char **args)
+{
+    chatCmdInvisible();
+}
+
+static void chatCmdVisibleCommand(char **args)
+{
+    chatCmdVisible();
+}
+
+static void chatCmdFriendReqCommand(char **args)
+{
+    chatCmdFriendReq(args[0]);
+}
+
+static void chatCmdFriendCommand(char **args)
+{
+    chatCmdFriend(args[0], args[1], args[2], args[3]);
+}
+
+static void chatCmdUnfriendCommand(char **args)
+{
+    chatCmdUnfriend(args[0]);
+}
+
+static void chatCmdInvalidUserCommand(char **args)
+{
+    chatCmdInvalidUser(args[0]);
+}
+
+static void chatCmdChannelAddCommand(char **args)
+{
+    chatCmdChannelAdd(args[0]);
+}
+
+static void chatCmdChannelRemoveCommand(char **args)
+{
+    chatCmdChannelRemove(args[0]);
+}
+
+static void chatCmdUserAddCommand(char **args)
+{
+    chatCmdUserAdd(args[0]);
+}
+
+static void chatCmdUserOnlineCommand(char **args)
+{
+    chatCmdUserOnline(args[0]);
+}
+
+static void chatCmdUserOfflineCommand(char **args)
+{
+    chatCmdUserOffline(args[0]);
+}
+
 static PrimaryChatCmd channelCmds = 
 {
     {
-        {    "NoPermissionToSendInChannel",        chatCmdNoPermissionToSendInChannel, 0, {MAX_CHANNELNAME}    },
-        {    "UserModeChange",                    chatCmdUserModeChange,                0, {MAX_CHANNELNAME, MAX_PLAYERNAME, MAX_PLAYERNAME, 200}    },
+        {    "NoPermissionToSendInChannel",        chatCmdNoPermissionToSendInChannelCommand, 0, {MAX_CHANNELNAME}    },
+        {    "UserModeChange",                    chatCmdUserModeChangeCommand,                0, {MAX_CHANNELNAME, MAX_PLAYERNAME, MAX_PLAYERNAME, 200}    },
 
         { 0 },
     }
@@ -1014,20 +1237,20 @@ static PrimaryChatCmd channelCmds =
 static PrimaryChatCmd systemCmds = 
 {
     {
-        {    "Ignoring",                            chatCmdIgnoring,                0,    {MAX_CHANNELNAME}    },
-        {    "IgnoringUpdate",                    chatCmdIgnoringUpdate,            0,    {MAX_CHANNELNAME}    },
-        {    "StoppedIgnoring",                    chatCmdUnignore,                0,    {MAX_PLAYERNAME}    },
+        {    "Ignoring",                            chatCmdIgnoringCommand,                0,    {MAX_CHANNELNAME}    },
+        {    "IgnoringUpdate",                    chatCmdIgnoringUpdateCommand,            0,    {MAX_CHANNELNAME}    },
+        {    "StoppedIgnoring",                    chatCmdUnignoreCommand,                0,    {MAX_PLAYERNAME}    },
 
-        {    "UserNameNotAllowed",                chatCmdUserNameNotAllowed,        0,    {MAX_PLAYERNAME, 64}    },
-        {    "ChannelNameNotAllowed",            chatCmdChannelNameNotAllowed,    0,    {MAX_PLAYERNAME, 64}    },
+        {    "UserNameNotAllowed",                chatCmdUserNameNotAllowedCommand,        0,    {MAX_PLAYERNAME, 64}    },
+        {    "ChannelNameNotAllowed",            chatCmdChannelNameNotAllowedCommand,    0,    {MAX_PLAYERNAME, 64}    },
 
-        {    "YouInvited",                        chatCmdYouInvited,                0,    {MAX_CHANNELNAME, MAX_PLAYERNAME}},
-        {    "YouInvitedGroup",                    chatCmdYouInvitedGroup,            0,    {MAX_CHANNELNAME, 64}    },
+        {    "YouInvited",                        chatCmdYouInvitedCommand,                0,    {MAX_CHANNELNAME, MAX_PLAYERNAME}},
+        {    "YouInvitedGroup",                    chatCmdYouInvitedGroupCommand,            0,    {MAX_CHANNELNAME, 64}    },
         
-        {    "FriendsListFull",                    chatCmdFriendsListFull,            0,    {MAX_PLAYERNAME, MAX_PLAYERNAME}},
-        {    "Silenced",                            chatCmdSilenced,                0,    {MAX_PLAYERNAME, 64}},
-        {    "AdminSilenced",                    chatCmdAdminSilenced,            0,    {MAX_PLAYERNAME, 64}},
-        {    "NotifySilenced",                    chatCmdNotifySilenced,            0,    {64}},
+        {    "FriendsListFull",                    chatCmdFriendsListFullCommand,            0,    {MAX_PLAYERNAME, MAX_PLAYERNAME}},
+        {    "Silenced",                            chatCmdSilencedCommand,                0,    {MAX_PLAYERNAME, 64}},
+        {    "AdminSilenced",                    chatCmdAdminSilencedCommand,            0,    {MAX_PLAYERNAME, 64}},
+        {    "NotifySilenced",                    chatCmdNotifySilencedCommand,            0,    {64}},
         
         {    "PlayerNotOnlineMessageQueued",        0,    MSG_ERROR,        {MAX_PLAYERNAME}},
         {    "UnableToJoinChannelFull",            0,    MSG_ERROR,        {MAX_CHANNELNAME}},
@@ -1073,52 +1296,52 @@ static PrimaryChatCmd mainCmds =
         {    "SysMsg",            0, 0, {0}, 0, &systemCmds        },
         {    "ChanSysMsg",        0, 0, {0}, 0, &channelCmds        },
 
-        {    "Disconnect",        chatAdminDisconnect,    },
-        {    "AdminLoginFail",    chatAdminLoginFail,        0,    100},        
+        {    "Disconnect",        chatAdminDisconnectCommand,    },
+        {    "AdminLoginFail",    chatAdminLoginFailCommand,        0,    100},
         {    "KickedByGameLogin",                 0,        MSG_SYS    },        
 
-        {    "Name",                chatCmdName,            0, {MAX_PLAYERNAME, MAX_PLAYERNAME}},    
-        {    "Login",            chatCmdLogin,            0, {32, MAX_PLAYERNAME, MAX_PLAYERNAME}},    
-        {    "LoginEnd",            chatCmdLoginEnd,        },    
-        {    "Renameable",        chatCmdRename            },    
-        {    "AccessLevel",        chatCmdAccessLevel,        0,    64},
+        {    "Name",                chatCmdNameCommand,            0, {MAX_PLAYERNAME, MAX_PLAYERNAME}},
+        {    "Login",            chatCmdLoginCommand,            0, {32, MAX_PLAYERNAME, MAX_PLAYERNAME}},
+        {    "LoginEnd",            chatCmdLoginEndCommand,        },
+        {    "Renameable",        chatCmdRenameCommand            },
+        {    "AccessLevel",        chatCmdAccessLevelCommand,        0,    64},
 
-        {    "UserMsg",            chatCmdUserMsg,            0, {MAX_PLAYERNAME, MAX_MESSAGE}},
-        {    "StoredMsg",        chatCmdStoredMsg,        0, {64, MAX_PLAYERNAME, MAX_MESSAGE}},
+        {    "UserMsg",            chatCmdUserMsgCommand,            0, {MAX_PLAYERNAME, MAX_MESSAGE}},
+        {    "StoredMsg",        chatCmdStoredMsgCommand,        0, {64, MAX_PLAYERNAME, MAX_MESSAGE}},
 
 
-        {    "Channel",            chatCmdChannel,            0, {MAX_CHANNELNAME, 64}},
-        {    "Join",                chatCmdJoin,            0, {MAX_CHANNELNAME, MAX_PLAYERNAME, 64, 64, 1}},
+        {    "Channel",            chatCmdChannelCommand,            0, {MAX_CHANNELNAME, 64}},
+        {    "Join",                chatCmdJoinCommand,            0, {MAX_CHANNELNAME, MAX_PLAYERNAME, 64, 64, 1}},
     //    {    "Reserve",            chatCmdReserve,            0, {MAX_CHANNELNAME}},
-        {    "Leave",            chatCmdLeave,            0, {MAX_CHANNELNAME, MAX_PLAYERNAME, 10}},
-        {    "Invite",            chatCmdInvite,            0, {MAX_CHANNELNAME, MAX_PLAYERNAME}},
-        {    "InviteReminder",    chatCmdInviteReminder,    0, {MAX_CHANNELNAME}},
-        {    "ChanMsg",            chatCmdChanMsg,            0, {MAX_CHANNELNAME, MAX_PLAYERNAME,MAX_MESSAGE}},
-        {    "ChanMotd",            chatCmdChanMotd,        0, {100, MAX_CHANNELNAME, MAX_PLAYERNAME, MAX_MESSAGE}},
-        {    "ChanDesc",            chatCmdChanDesc,        0, {MAX_CHANNELNAME, MAX_MESSAGE}},
-        {    "chanmember",        chatCmdChanMember,        0, {MAX_CHANNELNAME, MAX_PLAYERNAME}},
+        {    "Leave",            chatCmdLeaveCommand,            0, {MAX_CHANNELNAME, MAX_PLAYERNAME, 10}},
+        {    "Invite",            chatCmdInviteCommand,            0, {MAX_CHANNELNAME, MAX_PLAYERNAME}},
+        {    "InviteReminder",    chatCmdInviteReminderCommand,    0, {MAX_CHANNELNAME}},
+        {    "ChanMsg",            chatCmdChanMsgCommand,            0, {MAX_CHANNELNAME, MAX_PLAYERNAME,MAX_MESSAGE}},
+        {    "ChanMotd",            chatCmdChanMotdCommand,        0, {100, MAX_CHANNELNAME, MAX_PLAYERNAME, MAX_MESSAGE}},
+        {    "ChanDesc",            chatCmdChanDescCommand,        0, {MAX_CHANNELNAME, MAX_MESSAGE}},
+        {    "chanmember",        chatCmdChanMemberCommand,        0, {MAX_CHANNELNAME, MAX_PLAYERNAME}},
 
-        {    "ChanKill",            chatCmdChannelKill,        0, {MAX_CHANNELNAME, MAX_PLAYERNAME}},
-        {    "CsrSendAll",        chatCmdCsrSendAll,        0, {MAX_MESSAGE, MAX_MESSAGE}},
-        {    "CsrStatus",        chatCmdCsrStatus,        0, {MAX_PLAYERNAME, 64, MAX_FRIENDSTATUS, 64, 64, 1024}},
-        {    "Watching",            chatCmdWatching,        {MAX_CHANNELNAME}},
+        {    "ChanKill",            chatCmdChannelKillCommand,        0, {MAX_CHANNELNAME, MAX_PLAYERNAME}},
+        {    "CsrSendAll",        chatCmdCsrSendAllCommand,        0, {MAX_MESSAGE, MAX_MESSAGE}},
+        {    "CsrStatus",        chatCmdCsrStatusCommand,        0, {MAX_PLAYERNAME, 64, MAX_FRIENDSTATUS, 64, 64, 1024}},
+        {    "Watching",            chatCmdWatchingCommand,        {MAX_CHANNELNAME}},
 
-        {    "Invisible",        chatCmdInvisible        },
-        {    "Visible",            chatCmdVisible            },
+        {    "Invisible",        chatCmdInvisibleCommand        },
+        {    "Visible",            chatCmdVisibleCommand            },
 
-        {    "FriendReq",        chatCmdFriendReq,        0, {MAX_PLAYERNAME}},
-        {    "Friend",            chatCmdFriend,            0, {MAX_PLAYERNAME, 64, MAX_FRIENDSTATUS, MAX_FRIENDSTATUS}},
-        {    "UnFriend",            chatCmdUnfriend,        0, {MAX_PLAYERNAME}},
+        {    "FriendReq",        chatCmdFriendReqCommand,        0, {MAX_PLAYERNAME}},
+        {    "Friend",            chatCmdFriendCommand,            0, {MAX_PLAYERNAME, 64, MAX_FRIENDSTATUS, MAX_FRIENDSTATUS}},
+        {    "UnFriend",            chatCmdUnfriendCommand,        0, {MAX_PLAYERNAME}},
 
-        {    "InvalidUser",        chatCmdInvalidUser,        0, {MAX_PLAYERNAME}},
+        {    "InvalidUser",        chatCmdInvalidUserCommand,        0, {MAX_PLAYERNAME}},
 
 
         // ChatAdmin-specific commands
-        {    "ChanAdd",            chatCmdChannelAdd,        0, {MAX_CHANNELNAME}},
-        {    "ChanRemove",        chatCmdChannelRemove,    0, {MAX_CHANNELNAME}},
-        {    "UserAdd",            chatCmdUserAdd,            0, {MAX_PLAYERNAME}},
-        {    "UserOnline",        chatCmdUserOnline,        0, {MAX_PLAYERNAME}},
-        {    "UserOffline",        chatCmdUserOffline,        0, {MAX_PLAYERNAME}},
+        {    "ChanAdd",            chatCmdChannelAddCommand,        0, {MAX_CHANNELNAME}},
+        {    "ChanRemove",        chatCmdChannelRemoveCommand,    0, {MAX_CHANNELNAME}},
+        {    "UserAdd",            chatCmdUserAddCommand,            0, {MAX_PLAYERNAME}},
+        {    "UserOnline",        chatCmdUserOnlineCommand,        0, {MAX_PLAYERNAME}},
+        {    "UserOffline",        chatCmdUserOfflineCommand,        0, {MAX_PLAYERNAME}},
     
         { 0 },
     }
@@ -1193,23 +1416,7 @@ void processShardCmd(PrimaryChatCmd * pCmds, char **args,int count)
         }
         if(cmd->handler)
         {
-            switch(cmd->num_args)
-            {
-                xcase 0:
-                    ((handler0)cmd->handler)();
-                xcase 1:
-                    ((handler1)cmd->handler)(args[0]);
-                xcase 2:
-                    ((handler2)cmd->handler)(args[0],args[1]);
-                xcase 3:
-                    ((handler3)cmd->handler)(args[0],args[1],args[2]);
-                xcase 4:
-                    ((handler4)cmd->handler)(args[0],args[1],args[2],args[3]);
-                xcase 5:
-                    ((handler5)cmd->handler)(args[0],args[1],args[2],args[3], args[4]);
-                xcase 6:
-                    ((handler6)cmd->handler)(args[0],args[1],args[2],args[3], args[4], args[5]);
-            }
+            cmd->handler(args);
         }
         else
         {

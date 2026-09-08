@@ -32,17 +32,17 @@ void svrMonClearAllLists(ServerMonitorState *state);
 
 int notTroubleStatus(char *status);
 
-void smcbMsDelink(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbMsShow(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbMsKill(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbLRemoteDesktop(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbLauncherSuspend(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbLauncherResume(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbMsRemoteDesktop(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbMsRemoteDebug(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbMsViewError(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbSaKill(ListView *lv, void *structptr, ServerMonitorState *state);
-void smcbSaRemoteDesktop(ListView *lv, void *structptr, ServerMonitorState *state);
+void smcbMsDelink(ListView* lv, void* structptr, void* stateData);
+void smcbMsShow(ListView* lv, void* structptr, void* stateData);
+void smcbMsKill(ListView* lv, void* structptr, void* stateData);
+void smcbLRemoteDesktop(ListView* lv, void* structptr, void* stateData);
+void smcbLauncherSuspend(ListView* lv, void* structptr, void* stateData);
+void smcbLauncherResume(ListView* lv, void* structptr, void* stateData);
+void smcbMsRemoteDesktop(ListView* lv, void* structptr, void* stateData);
+void smcbMsRemoteDebug(ListView* lv, void* structptr, void* stateData);
+void smcbMsViewError(ListView* lv, void* structptr, void* stateData);
+void smcbSaKill(ListView* lv, void* structptr, void* stateData);
+void smcbSaRemoteDesktop(ListView* lv, void* structptr, void* stateData);
 
 void launchRemoteDesktop(U32 ip, const char *name);
 

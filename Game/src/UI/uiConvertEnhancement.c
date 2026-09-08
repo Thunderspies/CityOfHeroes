@@ -134,6 +134,11 @@ static void convertReject(void * data)
 
 static ConvertData sConvertData;
 
+static void convertConfirmAdapter(void * arg0)
+{
+    convertConfirm((ConvertData *)arg0);
+}
+
 int convertEnhancementWindow()
 {
     F32 x, y, z, wd, ht, sc;
@@ -369,7 +374,7 @@ int convertEnhancementWindow()
         }
         else
         {
-            dialog( DIALOG_YES_NO, -1, -1, -1, -1, sConvertConfirmStr, NULL, convertConfirm, NULL, convertReject, 0 , sendOptions, confirmDCB, 1, 0, 0, &sConvertData );
+            dialog( DIALOG_YES_NO, -1, -1, -1, -1, sConvertConfirmStr, NULL, convertConfirmAdapter, NULL, convertReject, 0 , sendOptions, confirmDCB, 1, 0, 0, &sConvertData );
         }
     }
     // UNCOMMMENT if we are going to sell enhancement converters

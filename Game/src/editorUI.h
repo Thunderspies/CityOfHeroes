@@ -91,7 +91,7 @@ typedef enum {
     EDITORUI_SATURATIONVALUESELECTOR,
 } EditorUIType;
 
-typedef void(*EditorUICallback)(void*);
+typedef void(*EditorUICallback)(int);
 
 // this function is used by every editor window to get drawn
 int editorUIDrawWindow(void);
@@ -196,7 +196,7 @@ int editorUIShowByParentSelection(int ID);
 void editorUIRemoveLastWidget(int ID);
 
 // Set the callback param if you intend on using it
-void editorUISetWidgetCallbackParam(int widgetID, void* callbackParam);
+void editorUISetWidgetCallbackParam(int widgetID, int callbackParam);
 
 int editorUIGetWindow(int offset);
 void editorUIDestroyWindow(int ID);

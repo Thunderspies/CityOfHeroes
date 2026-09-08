@@ -397,7 +397,7 @@ static DBIResult displayBaseItem( void * item, float x, float y, float ht, float
                     ret = DBI_SELECT;
             }
         }
-        if( mouseRightClick( &box, MS_RIGHT ) )
+        if( mouseRightClick() )
         {    
             int x, y;
             inpMousePos( &x, &y );
@@ -998,6 +998,26 @@ static int notranslate( void * data )
     return false;
 }
 
+static const char * basecm_itemTitleAdapter(void* arg0)
+{
+    return basecm_itemTitle((void *)arg0);
+}
+
+static const char * basecm_itemInfoAdapter(void* arg0)
+{
+    return basecm_itemInfo((void *)arg0);
+}
+
+static const char * basecm_roomInfoAdapter(void* arg0)
+{
+    return basecm_roomInfo((void *)arg0);
+}
+
+static const char * basecm_plotInfoAdapter(void* arg0)
+{
+    return basecm_plotInfo((void *)arg0);
+}
+
 int baseInventoryWindow(void)
 {
 
@@ -1123,18 +1143,18 @@ int baseInventoryWindow(void)
             uiTabControlAdd( baseRoomStyleTabs, roomdecor_names[i], roomdecor_names[i] );
 
         gItemContext = contextMenu_Create( NULL );
-        contextMenu_addVariableTitle( gItemContext, basecm_itemTitle, 0);
-        contextMenu_addVariableTextTrans( gItemContext, basecm_itemInfo, 0,notranslate,0);
+        contextMenu_addVariableTitle( gItemContext, basecm_itemTitleAdapter, 0);
+        contextMenu_addVariableTextTrans( gItemContext, basecm_itemInfoAdapter, 0,notranslate,0);
         contextMenu_addCode( gItemContext, alwaysAvailable, 0, baseitem_Info, 0, "CMInfoString", 0  );
 
         gRoomContext = contextMenu_Create( NULL );
-        contextMenu_addVariableTitle( gRoomContext, basecm_itemTitle, 0);
-        contextMenu_addVariableText( gRoomContext, basecm_roomInfo, 0);
+        contextMenu_addVariableTitle( gRoomContext, basecm_itemTitleAdapter, 0);
+        contextMenu_addVariableText( gRoomContext, basecm_roomInfoAdapter, 0);
         contextMenu_addCode( gRoomContext, alwaysAvailable, 0, baseitem_RoomInfo, 0, "CMInfoString", 0  );
 
         gPlotContext = contextMenu_Create( NULL );
-        contextMenu_addVariableTitle( gPlotContext, basecm_itemTitle, 0);
-        contextMenu_addVariableText( gPlotContext, basecm_plotInfo, 0);
+        contextMenu_addVariableTitle( gPlotContext, basecm_itemTitleAdapter, 0);
+        contextMenu_addVariableText( gPlotContext, basecm_plotInfoAdapter, 0);
         contextMenu_addCode( gPlotContext, alwaysAvailable, 0, baseitem_PlotInfo, 0, "CMInfoString", 0  );
 
         eaCreate(&tabSaves);

@@ -18,7 +18,7 @@ typedef struct ContextCommand
     char *name;
     char *cmd_name;
     struct ContextCommand *submenu;
-    int (*is_available_func)(struct ContextCommand *);
+    int (*is_available_func)(void *);
     const char * (*name_append_func)(struct ContextCommand *);
     int *toggle_var;
     int param;
@@ -149,7 +149,7 @@ static const char *editSelName(ContextCommand *cmd)
     return "NONE";
 }
 
-static char *editSelMaterialName(ContextCommand *cmd)
+static const char *editSelMaterialName(ContextCommand *cmd)
 {
     if (sel_count == 1 && sel_list[0].def_tracker && sel_list[0].def_tracker->def && sel_list[0].def_tracker->def->model && cmd && cmd->param < sel_list[0].def_tracker->def->model->tex_count)
     {
@@ -164,7 +164,7 @@ static char *editSelMaterialName(ContextCommand *cmd)
     return "";
 }
 
-static char *editSelMaterialBlendMode(ContextCommand *cmd)
+static const char *editSelMaterialBlendMode(ContextCommand *cmd)
 {
     if (sel_count == 1 && sel_list[0].def_tracker && sel_list[0].def_tracker->def && sel_list[0].def_tracker->def->model && cmd && cmd->param < sel_list[0].def_tracker->def->model->tex_count)
     {
@@ -201,7 +201,7 @@ static char *editSelMaterialBlendMode(ContextCommand *cmd)
     return "";
 }
 
-static char *editSelMaterialTexName(ContextCommand *cmd)
+static const char *editSelMaterialTexName(ContextCommand *cmd)
 {
     int idx, layer;
     if (!cmd)
@@ -225,7 +225,7 @@ static char *editSelMaterialTexName(ContextCommand *cmd)
     return "";
 }
 
-static char *editSelModelName(ContextCommand *cmd)
+static const char *editSelModelName(ContextCommand *cmd)
 {
     if (sel_count == 1 && sel_list[0].def_tracker && sel_list[0].def_tracker->def && sel_list[0].def_tracker->def->model)
     {
@@ -242,7 +242,7 @@ static char *editSelModelName(ContextCommand *cmd)
     return "";
 }
 
-static char *editSelTrickName(ContextCommand *cmd)
+static const char *editSelTrickName(ContextCommand *cmd)
 {
     if (sel_count == 1 && sel_list[0].def_tracker && sel_list[0].def_tracker->def && sel_list[0].def_tracker->def->model)
     {
@@ -255,7 +255,7 @@ static char *editSelTrickName(ContextCommand *cmd)
     return "";
 }
 
-static char *autosaveAppend(ContextCommand *cmd)
+static const char *autosaveAppend(ContextCommand *cmd)
 {
     static char append[1024];
     if (edit_state.autosave)
@@ -266,14 +266,14 @@ static char *autosaveAppend(ContextCommand *cmd)
     return append;
 }
 
-static char *burningSpeedAppend(ContextCommand *cmd)
+static const char *burningSpeedAppend(ContextCommand *cmd)
 {
     static char append[1024];
     sprintf(append," %f%%%%/s",edit_state.burningBuildingSpeed);
     return append;
 }
 
-static char *loadRecentAppend(ContextCommand *cmd)
+static const char *loadRecentAppend(ContextCommand *cmd)
 {
     extern MRUList * recentMaps;
     if (!recentMaps || cmd->param >= recentMaps->count)
@@ -292,13 +292,93 @@ static int loadRecentAvailable(ContextCommand *cmd)
 
 //////////////////////////////////////////////////////////////////////////
 
+static int editSelOneCallback(void *data)
+{
+    return editSelOne((ContextCommand*)data);
+}
+
+static int editSelOneModelCallback(void *data)
+{
+    return editSelOneModel((ContextCommand*)data);
+}
+
+static int editSelMaterialCallback(void *data)
+{
+    return editSelMaterial((ContextCommand*)data);
+}
+
+static int editSelMaterialTexCallback(void *data)
+{
+    return editSelMaterialTex((ContextCommand*)data);
+}
+
+static int editSelLightCallback(void *data)
+{
+    return editSelLight((ContextCommand*)data);
+}
+
+static int editSelCubemapCallback(void *data)
+{
+    return editSelCubemap((ContextCommand*)data);
+}
+
+static int editSelTexOldCallback(void *data)
+{
+    return editSelTexOld((ContextCommand*)data);
+}
+
+static int editSelTexNewCallback(void *data)
+{
+    return editSelTexNew((ContextCommand*)data);
+}
+
+static int editSelTintCallback(void *data)
+{
+    return editSelTint((ContextCommand*)data);
+}
+
+static int editSelFogCallback(void *data)
+{
+    return editSelFog((ContextCommand*)data);
+}
+
+static int editSelSoundCallback(void *data)
+{
+    return editSelSound((ContextCommand*)data);
+}
+
+static int editSelFXCallback(void *data)
+{
+    return editSelFX((ContextCommand*)data);
+}
+
+static int editSelVolumeCallback(void *data)
+{
+    return editSelVolume((ContextCommand*)data);
+}
+
+static int editLodsCallback(void *data)
+{
+    return editLods((ContextCommand*)data);
+}
+
+static int editLibPieceCallback(void *data)
+{
+    return editLibPiece((ContextCommand*)data);
+}
+
+static int loadRecentAvailableCallback(void *data)
+{
+    return loadRecentAvailable((ContextCommand*)data);
+}
+
 static ContextCommand fileRecentCommands[] =
 {
-    { "", "loadRecent 4", 0, loadRecentAvailable, loadRecentAppend, 0, 4 },
-    { "", "loadRecent 3", 0, loadRecentAvailable, loadRecentAppend, 0, 3 },
-    { "", "loadRecent 2", 0, loadRecentAvailable, loadRecentAppend, 0, 2 },
-    { "", "loadRecent 1", 0, loadRecentAvailable, loadRecentAppend, 0, 1 },
-    { "", "loadRecent 0", 0, loadRecentAvailable, loadRecentAppend, 0, 0 },
+    { "", "loadRecent 4", 0, loadRecentAvailableCallback, loadRecentAppend, 0, 4 },
+    { "", "loadRecent 3", 0, loadRecentAvailableCallback, loadRecentAppend, 0, 3 },
+    { "", "loadRecent 2", 0, loadRecentAvailableCallback, loadRecentAppend, 0, 2 },
+    { "", "loadRecent 1", 0, loadRecentAvailableCallback, loadRecentAppend, 0, 1 },
+    { "", "loadRecent 0", 0, loadRecentAvailableCallback, loadRecentAppend, 0, 0 },
     { 0 },
 };
 
@@ -464,7 +544,7 @@ static ContextCommand selectCommands[] =
     { "Paste (&v)", "paste 1" },
     { "Undo (F12)", "undo 1" },
     { "Select All", "selectall 1" },
-    { "Select All Instances Of This Object", "selectallinstancesoffthisobject 1", 0, editSelOneModel },
+    { "Select All Instances Of This Object", "selectallinstancesoffthisobject 1", 0, editSelOneModelCallback },
     { "Unselect (ESC)", "unsel 1" },
     { "Hide (&h)", "hide 1" },
     { "Hide Others", "hideothers 1" },
@@ -531,55 +611,55 @@ static ContextCommand knobsCommands[] =
 
 static ContextCommand contextCommands[] =
 {
-    { "Set Ambient", "setambient 1", 0, editSelLight },
-    { "Remove Ambient", "unsetambient 1", 0, editSelLight },
-    { "maxbright", "maxbright 1", 0, editSelLight },
-    { "Light Color", "lightcolor 1", 0, editSelLight },
-    { "Light Size", "++lightsize", 0, editSelLight, 0, &edit_state.lightsize },
-    { "Adjust Cubemap", "adjustcubemap 1", 0, editSelCubemap },
-    { "-", 0, 0, editSelLight },
+    { "Set Ambient", "setambient 1", 0, editSelLightCallback },
+    { "Remove Ambient", "unsetambient 1", 0, editSelLightCallback },
+    { "maxbright", "maxbright 1", 0, editSelLightCallback },
+    { "Light Color", "lightcolor 1", 0, editSelLightCallback },
+    { "Light Size", "++lightsize", 0, editSelLightCallback, 0, &edit_state.lightsize },
+    { "Adjust Cubemap", "adjustcubemap 1", 0, editSelCubemapCallback },
+    { "-", 0, 0, editSelLightCallback },
 
-    { "Replace Tex1", "replacetex1 1", 0, editSelTexOld },
-    { "Replace Tex2", "replacetex2 1", 0, editSelTexOld },
-    { "Remove Tex", "removetex 1", 0, editSelTexOld },
-    { "-", 0, 0, editSelTexOld },
+    { "Replace Tex1", "replacetex1 1", 0, editSelTexOldCallback },
+    { "Replace Tex2", "replacetex2 1", 0, editSelTexOldCallback },
+    { "Remove Tex", "removetex 1", 0, editSelTexOldCallback },
+    { "-", 0, 0, editSelTexOldCallback },
 
-    { "Texture Swap", "textureswap 1", 0, editSelTexNew },
-    { "-", 0, 0, editSelTexNew },
+    { "Texture Swap", "textureswap 1", 0, editSelTexNewCallback },
+    { "-", 0, 0, editSelTexNewCallback },
 
-    { "Tint Color 1", "tintcolor1 1", 0, editSelTint },
-    { "Tint Color 2", "tintcolor2 1", 0, editSelTint },
-    { "-", 0, 0, editSelTint },
+    { "Tint Color 1", "tintcolor1 1", 0, editSelTintCallback },
+    { "Tint Color 2", "tintcolor2 1", 0, editSelTintCallback },
+    { "-", 0, 0, editSelTintCallback },
 
-    { "Fog Near Distance", "fognear 1", 0, editSelFog },
-    { "Fog Far Distance", "fogfar 1", 0, editSelFog },
-    { "Fog Color 1", "fogcolor1 1", 0, editSelFog },
-    { "Fog Color 2", "fogcolor2 1", 0, editSelFog },
-    { "Fog Size", "++fogsize", 0, editSelFog, 0, &edit_state.fogsize },
-    { "Fog Fade Speed", "fogspeed 1", 0, editSelFog },
-    { "-", 0, 0, editSelFog },
+    { "Fog Near Distance", "fognear 1", 0, editSelFogCallback },
+    { "Fog Far Distance", "fogfar 1", 0, editSelFogCallback },
+    { "Fog Color 1", "fogcolor1 1", 0, editSelFogCallback },
+    { "Fog Color 2", "fogcolor2 1", 0, editSelFogCallback },
+    { "Fog Size", "++fogsize", 0, editSelFogCallback, 0, &edit_state.fogsize },
+    { "Fog Fade Speed", "fogspeed 1", 0, editSelFogCallback },
+    { "-", 0, 0, editSelFogCallback },
 
-    { "Sound Volume", "soundvol 1", 0, editSelSound },
-    { "Sound Size", "++soundsize", 0, editSelSound, 0, &edit_state.soundsize },
-    { "Sound Ramp", "soundramp 1", 0, editSelSound },
-    { "Sound Name", "soundname 1", 0, editSelSound },
-    { "Sound Find", "soundfind 1", 0, editSelSound },
-    { "Sound Exclude", "soundexclude 1", 0, editSelSound },
-    { "Sound Script", "soundscript 1", 0, editSelSound },
-    { "-", 0, 0, editSelSound },
+    { "Sound Volume", "soundvol 1", 0, editSelSoundCallback },
+    { "Sound Size", "++soundsize", 0, editSelSoundCallback, 0, &edit_state.soundsize },
+    { "Sound Ramp", "soundramp 1", 0, editSelSoundCallback },
+    { "Sound Name", "soundname 1", 0, editSelSoundCallback },
+    { "Sound Find", "soundfind 1", 0, editSelSoundCallback },
+    { "Sound Exclude", "soundexclude 1", 0, editSelSoundCallback },
+    { "Sound Script", "soundscript 1", 0, editSelSoundCallback },
+    { "-", 0, 0, editSelSoundCallback },
 
-    { "Set Type...", "settype 1", 0, editSelFX },
-    { "Set FX...", "setfx 1", 0, editSelFX },
-    { "-", 0, 0, editSelFX },
+    { "Set Type...", "settype 1", 0, editSelFXCallback },
+    { "Set FX...", "setfx 1", 0, editSelFXCallback },
+    { "-", 0, 0, editSelFXCallback },
 
-    { "Set Volume Size...", "boxscale 1", 0, editSelVolume },
-    { "-", 0, 0, editSelVolume },
+    { "Set Volume Size...", "boxscale 1", 0, editSelVolumeCallback },
+    { "-", 0, 0, editSelVolumeCallback },
 
-    { "Edit LODs...", "editlods", 0, editLods },
-    { "-", 0, 0, editLods },
+    { "Edit LODs...", "editlods", 0, editLodsCallback },
+    { "-", 0, 0, editLodsCallback },
 
-    { "Find In Library", "findlibpiece", 0, editLibPiece },
-    { "-", 0, 0, editLibPiece },
+    { "Find In Library", "findlibpiece", 0, editLibPieceCallback },
+    { "-", 0, 0, editLibPieceCallback },
 
     { 0 },
 };
@@ -596,153 +676,153 @@ static ContextCommand rootCommands[] =
 
 static ContextCommand materialCommands0[] = 
 {
-    { "Edit ", "editTexBind 0", 0, editSelMaterial, editSelMaterialName, 0, 0 },
-    { "-", 0, 0, editSelMaterial, 0, 0, 0 },
-    { "", 0, 0, editSelMaterial, editSelMaterialBlendMode, 0, 0 },
-    { "Base1: ", "editMaterial 00", 0, editSelMaterialTex, editSelMaterialTexName, 0, 00 },
-    { "Mul1:  ", "editMaterial 10", 0, editSelMaterialTex, editSelMaterialTexName, 0, 10 },
-    { "Bump1: ", "editMaterial 20", 0, editSelMaterialTex, editSelMaterialTexName, 0, 20 },
-    { "Dual1: ", "editMaterial 30", 0, editSelMaterialTex, editSelMaterialTexName, 0, 30 },
-    { "AddGlow: ", "editMaterial 90", 0, editSelMaterialTex, editSelMaterialTexName, 0, 90 },
-    { "Mask:  ", "editMaterial 40", 0, editSelMaterialTex, editSelMaterialTexName, 0, 40 },
-    { "Base2: ", "editMaterial 50", 0, editSelMaterialTex, editSelMaterialTexName, 0, 50 },
-    { "Mul2:  ", "editMaterial 60", 0, editSelMaterialTex, editSelMaterialTexName, 0, 60 },
-    { "Bump2: ", "editMaterial 70", 0, editSelMaterialTex, editSelMaterialTexName, 0, 70 },
-    { "Dual2: ", "editMaterial 80", 0, editSelMaterialTex, editSelMaterialTexName, 0, 80 },
-    { "Cubemap: ", "editMaterial 100", 0, editSelMaterialTex, editSelMaterialTexName, 0, 100 },
+    { "Edit ", "editTexBind 0", 0, editSelMaterialCallback, editSelMaterialName, 0, 0 },
+    { "-", 0, 0, editSelMaterialCallback, 0, 0, 0 },
+    { "", 0, 0, editSelMaterialCallback, editSelMaterialBlendMode, 0, 0 },
+    { "Base1: ", "editMaterial 00", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 00 },
+    { "Mul1:  ", "editMaterial 10", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 10 },
+    { "Bump1: ", "editMaterial 20", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 20 },
+    { "Dual1: ", "editMaterial 30", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 30 },
+    { "AddGlow: ", "editMaterial 90", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 90 },
+    { "Mask:  ", "editMaterial 40", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 40 },
+    { "Base2: ", "editMaterial 50", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 50 },
+    { "Mul2:  ", "editMaterial 60", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 60 },
+    { "Bump2: ", "editMaterial 70", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 70 },
+    { "Dual2: ", "editMaterial 80", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 80 },
+    { "Cubemap: ", "editMaterial 100", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 100 },
     { 0 },
 };
 
 static ContextCommand materialCommands1[] = 
 {
-    { "Edit ", "editTexBind 1", 0, editSelMaterial, editSelMaterialName, 0, 1 },
-    { "-", 0, 0, editSelMaterial, 0, 0, 1 },
-    { "", 0, 0, editSelMaterial, editSelMaterialBlendMode, 0, 1 },
-    { "Base1: ", "editMaterial 01", 0, editSelMaterialTex, editSelMaterialTexName, 0, 01 },
-    { "Mul1:  ", "editMaterial 11", 0, editSelMaterialTex, editSelMaterialTexName, 0, 11 },
-    { "Bump1: ", "editMaterial 21", 0, editSelMaterialTex, editSelMaterialTexName, 0, 21 },
-    { "Dual1: ", "editMaterial 31", 0, editSelMaterialTex, editSelMaterialTexName, 0, 31 },
-    { "AddGlow: ", "editMaterial 91", 0, editSelMaterialTex, editSelMaterialTexName, 0, 91 },
-    { "Mask:  ", "editMaterial 41", 0, editSelMaterialTex, editSelMaterialTexName, 0, 41 },
-    { "Base2: ", "editMaterial 51", 0, editSelMaterialTex, editSelMaterialTexName, 0, 51 },
-    { "Mul2:  ", "editMaterial 61", 0, editSelMaterialTex, editSelMaterialTexName, 0, 61 },
-    { "Bump2: ", "editMaterial 71", 0, editSelMaterialTex, editSelMaterialTexName, 0, 71 },
-    { "Dual2: ", "editMaterial 81", 0, editSelMaterialTex, editSelMaterialTexName, 0, 81 },
-    { "Cubemap: ", "editMaterial 101", 0, editSelMaterialTex, editSelMaterialTexName, 0, 101 },
+    { "Edit ", "editTexBind 1", 0, editSelMaterialCallback, editSelMaterialName, 0, 1 },
+    { "-", 0, 0, editSelMaterialCallback, 0, 0, 1 },
+    { "", 0, 0, editSelMaterialCallback, editSelMaterialBlendMode, 0, 1 },
+    { "Base1: ", "editMaterial 01", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 01 },
+    { "Mul1:  ", "editMaterial 11", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 11 },
+    { "Bump1: ", "editMaterial 21", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 21 },
+    { "Dual1: ", "editMaterial 31", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 31 },
+    { "AddGlow: ", "editMaterial 91", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 91 },
+    { "Mask:  ", "editMaterial 41", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 41 },
+    { "Base2: ", "editMaterial 51", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 51 },
+    { "Mul2:  ", "editMaterial 61", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 61 },
+    { "Bump2: ", "editMaterial 71", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 71 },
+    { "Dual2: ", "editMaterial 81", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 81 },
+    { "Cubemap: ", "editMaterial 101", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 101 },
     { 0 },
 };
 
 static ContextCommand materialCommands2[] = 
 {
-    { "Edit ", "editTexBind 2", 0, editSelMaterial, editSelMaterialName, 0, 2 },
-    { "-", 0, 0, editSelMaterial, 0, 0, 2 },
-    { "", 0, 0, editSelMaterial, editSelMaterialBlendMode, 0, 2 },
-    { "Base1: ", "editMaterial 02", 0, editSelMaterialTex, editSelMaterialTexName, 0, 02 },
-    { "Mul1:  ", "editMaterial 12", 0, editSelMaterialTex, editSelMaterialTexName, 0, 12 },
-    { "Bump1: ", "editMaterial 22", 0, editSelMaterialTex, editSelMaterialTexName, 0, 22 },
-    { "Dual1: ", "editMaterial 32", 0, editSelMaterialTex, editSelMaterialTexName, 0, 32 },
-    { "AddGlow: ", "editMaterial 92", 0, editSelMaterialTex, editSelMaterialTexName, 0, 92 },
-    { "Mask:  ", "editMaterial 42", 0, editSelMaterialTex, editSelMaterialTexName, 0, 42 },
-    { "Base2: ", "editMaterial 52", 0, editSelMaterialTex, editSelMaterialTexName, 0, 52 },
-    { "Mul2:  ", "editMaterial 62", 0, editSelMaterialTex, editSelMaterialTexName, 0, 62 },
-    { "Bump2: ", "editMaterial 72", 0, editSelMaterialTex, editSelMaterialTexName, 0, 72 },
-    { "Dual2: ", "editMaterial 82", 0, editSelMaterialTex, editSelMaterialTexName, 0, 82 },
-    { "Cubemap: ", "editMaterial 102", 0, editSelMaterialTex, editSelMaterialTexName, 0, 102 },
+    { "Edit ", "editTexBind 2", 0, editSelMaterialCallback, editSelMaterialName, 0, 2 },
+    { "-", 0, 0, editSelMaterialCallback, 0, 0, 2 },
+    { "", 0, 0, editSelMaterialCallback, editSelMaterialBlendMode, 0, 2 },
+    { "Base1: ", "editMaterial 02", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 02 },
+    { "Mul1:  ", "editMaterial 12", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 12 },
+    { "Bump1: ", "editMaterial 22", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 22 },
+    { "Dual1: ", "editMaterial 32", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 32 },
+    { "AddGlow: ", "editMaterial 92", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 92 },
+    { "Mask:  ", "editMaterial 42", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 42 },
+    { "Base2: ", "editMaterial 52", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 52 },
+    { "Mul2:  ", "editMaterial 62", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 62 },
+    { "Bump2: ", "editMaterial 72", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 72 },
+    { "Dual2: ", "editMaterial 82", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 82 },
+    { "Cubemap: ", "editMaterial 102", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 102 },
     { 0 },
 };
 
 static ContextCommand materialCommands3[] = 
 {
-    { "Edit ", "editTexBind 3", 0, editSelMaterial, editSelMaterialName, 0, 3 },
-    { "-", 0, 0, editSelMaterial, 0, 0, 3 },
-    { "", 0, 0, editSelMaterial, editSelMaterialBlendMode, 0, 3 },
-    { "Base1: ", "editMaterial 03", 0, editSelMaterialTex, editSelMaterialTexName, 0, 03 },
-    { "Mul1:  ", "editMaterial 13", 0, editSelMaterialTex, editSelMaterialTexName, 0, 13 },
-    { "Bump1: ", "editMaterial 23", 0, editSelMaterialTex, editSelMaterialTexName, 0, 23 },
-    { "Dual1: ", "editMaterial 33", 0, editSelMaterialTex, editSelMaterialTexName, 0, 33 },
-    { "AddGlow: ", "editMaterial 93", 0, editSelMaterialTex, editSelMaterialTexName, 0, 93 },
-    { "Mask:  ", "editMaterial 43", 0, editSelMaterialTex, editSelMaterialTexName, 0, 43 },
-    { "Base2: ", "editMaterial 53", 0, editSelMaterialTex, editSelMaterialTexName, 0, 53 },
-    { "Mul2:  ", "editMaterial 63", 0, editSelMaterialTex, editSelMaterialTexName, 0, 63 },
-    { "Bump2: ", "editMaterial 73", 0, editSelMaterialTex, editSelMaterialTexName, 0, 73 },
-    { "Dual2: ", "editMaterial 83", 0, editSelMaterialTex, editSelMaterialTexName, 0, 83 },
-    { "Cubemap: ", "editMaterial 103", 0, editSelMaterialTex, editSelMaterialTexName, 0, 103 },
+    { "Edit ", "editTexBind 3", 0, editSelMaterialCallback, editSelMaterialName, 0, 3 },
+    { "-", 0, 0, editSelMaterialCallback, 0, 0, 3 },
+    { "", 0, 0, editSelMaterialCallback, editSelMaterialBlendMode, 0, 3 },
+    { "Base1: ", "editMaterial 03", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 03 },
+    { "Mul1:  ", "editMaterial 13", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 13 },
+    { "Bump1: ", "editMaterial 23", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 23 },
+    { "Dual1: ", "editMaterial 33", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 33 },
+    { "AddGlow: ", "editMaterial 93", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 93 },
+    { "Mask:  ", "editMaterial 43", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 43 },
+    { "Base2: ", "editMaterial 53", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 53 },
+    { "Mul2:  ", "editMaterial 63", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 63 },
+    { "Bump2: ", "editMaterial 73", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 73 },
+    { "Dual2: ", "editMaterial 83", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 83 },
+    { "Cubemap: ", "editMaterial 103", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 103 },
     { 0 },
 };
 
 static ContextCommand materialCommands4[] = 
 {
-    { "Edit ", "editTexBind 4", 0, editSelMaterial, editSelMaterialName, 0, 4 },
-    { "-", 0, 0, editSelMaterial, 0, 0, 4 },
-    { "", 0, 0, editSelMaterial, editSelMaterialBlendMode, 0, 4 },
-    { "Base1: ", "editMaterial 04", 0, editSelMaterialTex, editSelMaterialTexName, 0, 04 },
-    { "Mul1:  ", "editMaterial 14", 0, editSelMaterialTex, editSelMaterialTexName, 0, 14 },
-    { "Bump1: ", "editMaterial 24", 0, editSelMaterialTex, editSelMaterialTexName, 0, 24 },
-    { "Dual1: ", "editMaterial 34", 0, editSelMaterialTex, editSelMaterialTexName, 0, 34 },
-    { "AddGlow: ", "editMaterial 94", 0, editSelMaterialTex, editSelMaterialTexName, 0, 94 },
-    { "Mask:  ", "editMaterial 44", 0, editSelMaterialTex, editSelMaterialTexName, 0, 44 },
-    { "Base2: ", "editMaterial 54", 0, editSelMaterialTex, editSelMaterialTexName, 0, 54 },
-    { "Mul2:  ", "editMaterial 64", 0, editSelMaterialTex, editSelMaterialTexName, 0, 64 },
-    { "Bump2: ", "editMaterial 74", 0, editSelMaterialTex, editSelMaterialTexName, 0, 74 },
-    { "Dual2: ", "editMaterial 84", 0, editSelMaterialTex, editSelMaterialTexName, 0, 84 },
-    { "Cubemap: ", "editMaterial 104", 0, editSelMaterialTex, editSelMaterialTexName, 0, 104 },
+    { "Edit ", "editTexBind 4", 0, editSelMaterialCallback, editSelMaterialName, 0, 4 },
+    { "-", 0, 0, editSelMaterialCallback, 0, 0, 4 },
+    { "", 0, 0, editSelMaterialCallback, editSelMaterialBlendMode, 0, 4 },
+    { "Base1: ", "editMaterial 04", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 04 },
+    { "Mul1:  ", "editMaterial 14", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 14 },
+    { "Bump1: ", "editMaterial 24", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 24 },
+    { "Dual1: ", "editMaterial 34", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 34 },
+    { "AddGlow: ", "editMaterial 94", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 94 },
+    { "Mask:  ", "editMaterial 44", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 44 },
+    { "Base2: ", "editMaterial 54", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 54 },
+    { "Mul2:  ", "editMaterial 64", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 64 },
+    { "Bump2: ", "editMaterial 74", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 74 },
+    { "Dual2: ", "editMaterial 84", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 84 },
+    { "Cubemap: ", "editMaterial 104", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 104 },
     { 0 },
 };
 
 static ContextCommand materialCommands5[] = 
 {
-    { "Edit ", "editTexBind 5", 0, editSelMaterial, editSelMaterialName, 0, 5 },
-    { "-", 0, 0, editSelMaterial, 0, 0, 5 },
-    { "", 0, 0, editSelMaterial, editSelMaterialBlendMode, 0, 5 },
-    { "Base1: ", "editMaterial 05", 0, editSelMaterialTex, editSelMaterialTexName, 0, 05 },
-    { "Mul1:  ", "editMaterial 15", 0, editSelMaterialTex, editSelMaterialTexName, 0, 15 },
-    { "Bump1: ", "editMaterial 25", 0, editSelMaterialTex, editSelMaterialTexName, 0, 25 },
-    { "Dual1: ", "editMaterial 35", 0, editSelMaterialTex, editSelMaterialTexName, 0, 35 },
-    { "AddGlow: ", "editMaterial 95", 0, editSelMaterialTex, editSelMaterialTexName, 0, 95 },
-    { "Mask:  ", "editMaterial 45", 0, editSelMaterialTex, editSelMaterialTexName, 0, 45 },
-    { "Base2: ", "editMaterial 55", 0, editSelMaterialTex, editSelMaterialTexName, 0, 55 },
-    { "Mul2:  ", "editMaterial 65", 0, editSelMaterialTex, editSelMaterialTexName, 0, 65 },
-    { "Bump2: ", "editMaterial 75", 0, editSelMaterialTex, editSelMaterialTexName, 0, 75 },
-    { "Dual2: ", "editMaterial 85", 0, editSelMaterialTex, editSelMaterialTexName, 0, 85 },
-    { "Cubemap: ", "editMaterial 105", 0, editSelMaterialTex, editSelMaterialTexName, 0, 105 },
+    { "Edit ", "editTexBind 5", 0, editSelMaterialCallback, editSelMaterialName, 0, 5 },
+    { "-", 0, 0, editSelMaterialCallback, 0, 0, 5 },
+    { "", 0, 0, editSelMaterialCallback, editSelMaterialBlendMode, 0, 5 },
+    { "Base1: ", "editMaterial 05", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 05 },
+    { "Mul1:  ", "editMaterial 15", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 15 },
+    { "Bump1: ", "editMaterial 25", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 25 },
+    { "Dual1: ", "editMaterial 35", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 35 },
+    { "AddGlow: ", "editMaterial 95", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 95 },
+    { "Mask:  ", "editMaterial 45", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 45 },
+    { "Base2: ", "editMaterial 55", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 55 },
+    { "Mul2:  ", "editMaterial 65", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 65 },
+    { "Bump2: ", "editMaterial 75", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 75 },
+    { "Dual2: ", "editMaterial 85", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 85 },
+    { "Cubemap: ", "editMaterial 105", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 105 },
     { 0 },
 };
 
 static ContextCommand materialCommands6[] = 
 {
-    { "Edit ", "editTexBind 6", 0, editSelMaterial, editSelMaterialName, 0, 6 },
-    { "-", 0, 0, editSelMaterial, 0, 0, 6 },
-    { "", 0, 0, editSelMaterial, editSelMaterialBlendMode, 0, 6 },
-    { "Base1: ", "editMaterial 06", 0, editSelMaterialTex, editSelMaterialTexName, 0, 06 },
-    { "Mul1:  ", "editMaterial 16", 0, editSelMaterialTex, editSelMaterialTexName, 0, 16 },
-    { "Bump1: ", "editMaterial 26", 0, editSelMaterialTex, editSelMaterialTexName, 0, 26 },
-    { "Dual1: ", "editMaterial 36", 0, editSelMaterialTex, editSelMaterialTexName, 0, 36 },
-    { "AddGlow: ", "editMaterial 96", 0, editSelMaterialTex, editSelMaterialTexName, 0, 96 },
-    { "Mask:  ", "editMaterial 46", 0, editSelMaterialTex, editSelMaterialTexName, 0, 46 },
-    { "Base2: ", "editMaterial 56", 0, editSelMaterialTex, editSelMaterialTexName, 0, 56 },
-    { "Mul2:  ", "editMaterial 66", 0, editSelMaterialTex, editSelMaterialTexName, 0, 66 },
-    { "Bump2: ", "editMaterial 76", 0, editSelMaterialTex, editSelMaterialTexName, 0, 76 },
-    { "Dual2: ", "editMaterial 86", 0, editSelMaterialTex, editSelMaterialTexName, 0, 86 },
-    { "Cubemap: ", "editMaterial 106", 0, editSelMaterialTex, editSelMaterialTexName, 0, 106 },
+    { "Edit ", "editTexBind 6", 0, editSelMaterialCallback, editSelMaterialName, 0, 6 },
+    { "-", 0, 0, editSelMaterialCallback, 0, 0, 6 },
+    { "", 0, 0, editSelMaterialCallback, editSelMaterialBlendMode, 0, 6 },
+    { "Base1: ", "editMaterial 06", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 06 },
+    { "Mul1:  ", "editMaterial 16", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 16 },
+    { "Bump1: ", "editMaterial 26", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 26 },
+    { "Dual1: ", "editMaterial 36", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 36 },
+    { "AddGlow: ", "editMaterial 96", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 96 },
+    { "Mask:  ", "editMaterial 46", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 46 },
+    { "Base2: ", "editMaterial 56", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 56 },
+    { "Mul2:  ", "editMaterial 66", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 66 },
+    { "Bump2: ", "editMaterial 76", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 76 },
+    { "Dual2: ", "editMaterial 86", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 86 },
+    { "Cubemap: ", "editMaterial 106", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 106 },
     { 0 },
 };
 
 static ContextCommand materialCommands7[] = 
 {
-    { "Edit ", "editTexBind 7", 0, editSelMaterial, editSelMaterialName, 0, 7 },
-    { "-", 0, 0, editSelMaterial, 0, 0, 7 },
-    { "", 0, 0, editSelMaterial, editSelMaterialBlendMode, 0, 7 },
-    { "Base1: ", "editMaterial 07", 0, editSelMaterialTex, editSelMaterialTexName, 0, 07 },
-    { "Mul1:  ", "editMaterial 17", 0, editSelMaterialTex, editSelMaterialTexName, 0, 17 },
-    { "Bump1: ", "editMaterial 27", 0, editSelMaterialTex, editSelMaterialTexName, 0, 27 },
-    { "Dual1: ", "editMaterial 37", 0, editSelMaterialTex, editSelMaterialTexName, 0, 37 },
-    { "AddGlow: ", "editMaterial 97", 0, editSelMaterialTex, editSelMaterialTexName, 0, 97 },
-    { "Mask:  ", "editMaterial 47", 0, editSelMaterialTex, editSelMaterialTexName, 0, 47 },
-    { "Base2: ", "editMaterial 57", 0, editSelMaterialTex, editSelMaterialTexName, 0, 57 },
-    { "Mul2:  ", "editMaterial 67", 0, editSelMaterialTex, editSelMaterialTexName, 0, 67 },
-    { "Bump2: ", "editMaterial 77", 0, editSelMaterialTex, editSelMaterialTexName, 0, 77 },
-    { "Dual2: ", "editMaterial 87", 0, editSelMaterialTex, editSelMaterialTexName, 0, 87 },
-    { "Cubemap: ", "editMaterial 107", 0, editSelMaterialTex, editSelMaterialTexName, 0, 107 },
+    { "Edit ", "editTexBind 7", 0, editSelMaterialCallback, editSelMaterialName, 0, 7 },
+    { "-", 0, 0, editSelMaterialCallback, 0, 0, 7 },
+    { "", 0, 0, editSelMaterialCallback, editSelMaterialBlendMode, 0, 7 },
+    { "Base1: ", "editMaterial 07", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 07 },
+    { "Mul1:  ", "editMaterial 17", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 17 },
+    { "Bump1: ", "editMaterial 27", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 27 },
+    { "Dual1: ", "editMaterial 37", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 37 },
+    { "AddGlow: ", "editMaterial 97", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 97 },
+    { "Mask:  ", "editMaterial 47", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 47 },
+    { "Base2: ", "editMaterial 57", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 57 },
+    { "Mul2:  ", "editMaterial 67", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 67 },
+    { "Bump2: ", "editMaterial 77", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 77 },
+    { "Dual2: ", "editMaterial 87", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 87 },
+    { "Cubemap: ", "editMaterial 107", 0, editSelMaterialTexCallback, editSelMaterialTexName, 0, 107 },
     { 0 },
 };
 
@@ -750,19 +830,19 @@ static ContextCommand modelCommands[] =
 {
     { "Group" },
     { "", "setview 1", 0, 0, editSelName },
-    { "Model", 0, 0, editSelOneModel },
-    { "", "editModel", 0, editSelOneModel, editSelModelName },
-    { "Trick", 0, 0, editSelOneModel },
-    { "", "editTrick", 0, editSelOneModel, editSelTrickName },
-    { "Materials", 0, 0, editSelOneModel },
-    { "", 0, materialCommands0, editSelMaterial, editSelMaterialName, 0, 0 },
-    { "", 0, materialCommands1, editSelMaterial, editSelMaterialName, 0, 1 },
-    { "", 0, materialCommands2, editSelMaterial, editSelMaterialName, 0, 2 },
-    { "", 0, materialCommands3, editSelMaterial, editSelMaterialName, 0, 3 },
-    { "", 0, materialCommands4, editSelMaterial, editSelMaterialName, 0, 4 },
-    { "", 0, materialCommands5, editSelMaterial, editSelMaterialName, 0, 5 },
-    { "", 0, materialCommands6, editSelMaterial, editSelMaterialName, 0, 6 },
-    { "", 0, materialCommands7, editSelMaterial, editSelMaterialName, 0, 7 },
+    { "Model", 0, 0, editSelOneModelCallback },
+    { "", "editModel", 0, editSelOneModelCallback, editSelModelName },
+    { "Trick", 0, 0, editSelOneModelCallback },
+    { "", "editTrick", 0, editSelOneModelCallback, editSelTrickName },
+    { "Materials", 0, 0, editSelOneModelCallback },
+    { "", 0, materialCommands0, editSelMaterialCallback, editSelMaterialName, 0, 0 },
+    { "", 0, materialCommands1, editSelMaterialCallback, editSelMaterialName, 0, 1 },
+    { "", 0, materialCommands2, editSelMaterialCallback, editSelMaterialName, 0, 2 },
+    { "", 0, materialCommands3, editSelMaterialCallback, editSelMaterialName, 0, 3 },
+    { "", 0, materialCommands4, editSelMaterialCallback, editSelMaterialName, 0, 4 },
+    { "", 0, materialCommands5, editSelMaterialCallback, editSelMaterialName, 0, 5 },
+    { "", 0, materialCommands6, editSelMaterialCallback, editSelMaterialName, 0, 6 },
+    { "", 0, materialCommands7, editSelMaterialCallback, editSelMaterialName, 0, 7 },
     { 0 },
 };
 

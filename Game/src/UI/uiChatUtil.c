@@ -1169,6 +1169,51 @@ void switchPaneCM( ChatFilter * filter)
         uiTabControlMoveTabPublic(cw->topTabControl,cw->botTabControl,filter);
 }
 
+static void editFilterCMAdapter(void* arg0)
+{
+    editFilterCM((ChatFilter *)arg0);
+}
+
+static void deleteFilterCMAdapter(void* arg0)
+{
+    deleteFilterCM((ChatFilter *)arg0);
+}
+
+static void clearFilterCMAdapter(void* arg0)
+{
+    clearFilterCM((ChatFilter *)arg0);
+}
+
+static int canMoveBottomCMAdapter(void* arg0)
+{
+    return canMoveBottomCM((ChatFilter *)arg0);
+}
+
+static void switchPaneCMAdapter(void* arg0)
+{
+    switchPaneCM((ChatFilter *)arg0);
+}
+
+static int canMoveTopCMAdapter(void* arg0)
+{
+    return canMoveTopCM((ChatFilter *)arg0);
+}
+
+static void onFilterSelectedCallback(uiTabData data)
+{
+    onFilterSelected((ChatFilter*)data);
+}
+
+static void onFilterMovedCallback(uiTabData mover, uiTabData movee)
+{
+    onFilterMoved((ChatFilter*)mover, (ChatFilter*)movee);
+}
+
+static void chooseFilterFontColorCallback(uiTabData data, bool selected)
+{
+    chooseFilterFontColor((ChatFilter*)data, selected);
+}
+
 void ChatWindowInit(int windowIdx)
 {
     ChatWindow * window = GetChatWindow(windowIdx);
@@ -1187,15 +1232,15 @@ void ChatWindowInit(int windowIdx)
     if( !tabContextMenu )
     {
         tabContextMenu = contextMenu_Create(NULL);
-        contextMenu_addCode(tabContextMenu, alwaysAvailable,        0,        editFilterCM,            0, textStd("CMEditChatTab"),        0);
-        contextMenu_addCode(tabContextMenu, alwaysAvailable,        0,        deleteFilterCM,            0, textStd("CMDeleteChatTab"),        0);
-        contextMenu_addCode(tabContextMenu, alwaysAvailable,        0,        clearFilterCM,            0, textStd("CMClearChatTab"),        0);
-        contextMenu_addCode(tabContextMenu, canMoveBottomCM,        0,        switchPaneCM,            0, textStd("CMMoveBottomChatTab"),    0);
-        contextMenu_addCode(tabContextMenu, canMoveTopCM,            0,        switchPaneCM,            0, textStd("CMMoveTopChatTab"),        0);
+        contextMenu_addCode(tabContextMenu, alwaysAvailable,        0, editFilterCMAdapter,            0, textStd("CMEditChatTab"),        0);
+        contextMenu_addCode(tabContextMenu, alwaysAvailable,        0, deleteFilterCMAdapter,            0, textStd("CMDeleteChatTab"),        0);
+        contextMenu_addCode(tabContextMenu, alwaysAvailable,        0, clearFilterCMAdapter,            0, textStd("CMClearChatTab"),        0);
+        contextMenu_addCode(tabContextMenu, canMoveBottomCMAdapter,        0, switchPaneCMAdapter,            0, textStd("CMMoveBottomChatTab"),    0);
+        contextMenu_addCode(tabContextMenu, canMoveTopCMAdapter,            0, switchPaneCMAdapter,            0, textStd("CMMoveTopChatTab"),        0);
     }
 
-    window->topTabControl = uiTabControlCreate(TabType_ChatTab, (uiTabActionFunc) onFilterSelected, (uiTabActionFunc2) onFilterMoved, 0, (uiTabFontColorFunc) chooseFilterFontColor, tabContextMenu);
-    window->botTabControl = uiTabControlCreate(TabType_ChatTab, (uiTabActionFunc) onFilterSelected, (uiTabActionFunc2) onFilterMoved, 0, (uiTabFontColorFunc) chooseFilterFontColor, tabContextMenu);
+    window->topTabControl = uiTabControlCreate(TabType_ChatTab, onFilterSelectedCallback, onFilterMovedCallback, 0, chooseFilterFontColorCallback, tabContextMenu);
+    window->botTabControl = uiTabControlCreate(TabType_ChatTab, onFilterSelectedCallback, onFilterMovedCallback, 0, chooseFilterFontColorCallback, tabContextMenu);
 
     uiTabControlSetParentWindow(window->topTabControl, window->windefIdx);
     uiTabControlSetParentWindow(window->botTabControl, window->windefIdx);

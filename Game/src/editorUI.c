@@ -103,11 +103,11 @@ int editorUISelectedWindow;        // make sure only one window has any focus at
 
 typedef struct EditorUIWidget {
     int (*draw)(EditorUIWidget * widget,int x,int y,int z,int top,int bottom,double scale,int hasFocus,int locked);        // how this widget draws itself
-    void (*destroy)(void * widget);    // destructor
+    void (*destroy)(EditorUIWidget * widget);    // destructor
     double elementsTall;            // how many elements tall this widget is
     int window;                        // each widget knows what parent it belongs to
     EditorUICallback callback;        // function that gets called when this widget changes
-    void * callbackParam;            // param passed to callback function when widget changes
+    int callbackParam;            // param passed to callback function when widget changes
     EditorUISubWidgets **subWidgets;// array of groups of subwidgets
     int ID;                            // ID, sent to callback functions, globally increasing by 1 per widget
     int selected;                    // if non-zero, currently selected by the user
@@ -606,7 +606,7 @@ EditorUIWidget * getSubWidgetParent(int widgetID) {
     return NULL;
 }
 
-void editorUISetWidgetCallbackParam(int widgetID, void* callbackParam)
+void editorUISetWidgetCallbackParam(int widgetID, int callbackParam)
 {
     EditorUIWidget* widget = editorUIWidgetFromID(widgetID);
     widget->callbackParam = callbackParam;
@@ -2251,7 +2251,7 @@ int editorUIDrawComboBox(EditorUIWidget * w,int x,int y,int z,int top,int bottom
     return change;
 }
 
-void destroyComboBox(EditorUIComboBox* w) {
+void destroyComboBox(EditorUIWidget* w) {
     EditorUIComboBox* widget=(EditorUIComboBox*)w;
     eaDestroyEx(&widget->myStrings,NULL);
     uiEditDestroy(widget->myEditState);
@@ -2362,9 +2362,9 @@ static int editorUIComboTextBoxShowWhenLast(int widgetId)
 }
 
 // The text entry will always be the 2nd element in the subWidgets->widgets array(always a NULL widget first)
-static void editorUIComboTextBoxCallback(void* widgetId)
+static void editorUIComboTextBoxCallback(int widgetId)
 {
-    int comboId = (int)widgetId;
+    int comboId = widgetId;
     EditorUIWidget* parentWidget = editorUIWidgetFromID(comboId);
     if (parentWidget && parentWidget->type == EDITORUI_COMBOBOX && eaSize(&parentWidget->subWidgets) && eaSize(&parentWidget->subWidgets[0]->widgets) > 1)
     {
@@ -2399,7 +2399,7 @@ int editorUIAddComboTextBoxFromEArray(int ID,char * value,int capacity,char * te
     editorUIEndSubWidgets(ID);
 
     // Pass in the subwidget id as the callback param for the combobox
-    editorUISetWidgetCallbackParam(widgetId, (void*)widgetId);
+    editorUISetWidgetCallbackParam(widgetId, widgetId);
 
     eaDestroy(&comboTexts);
     return widgetId;
@@ -2463,7 +2463,7 @@ int editorUIDrawList(EditorUIWidget * w,int x,int y,int z,int top,int bottom,dou
     return changed;
 }
 
-void destroyList(EditorUIComboBox* w) {
+void destroyList(EditorUIWidget* w) {
     EditorUIList* widget=(EditorUIList*)w;
     eaDestroyEx(&widget->myStrings,NULL);
     free(widget->myText);
@@ -2549,7 +2549,7 @@ int editorUIDrawConsole(EditorUIWidget * w,int x,int y,int z,int top,int bottom,
     return  0;
 }
 
-void destroyConsole(EditorUIComboBox* w) {
+void destroyConsole(EditorUIWidget* w) {
     EditorUIConsole * widget=(EditorUIConsole *)w;
     eaDestroyEx(&widget->lines,NULL);
 }

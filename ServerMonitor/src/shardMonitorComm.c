@@ -100,25 +100,25 @@ int svrMonShardMonHandleClientMsg(Packet *pak,int cmd, NetLink *link)
         svrMonShardMonHandleDbMsg(state, client, pak);
         break;
     case SVRMONSHARDMON_RELAY_START_ALL:
-        cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayStartAll);
+        cmdRelayCmdToAllClients(onRelayStartAll);
         break;
     case SVRMONSHARDMON_RELAY_STOP_ALL:
-        cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayStopAll);
+        cmdRelayCmdToAllClients(onRelayStopAll);
         break;
     case SVRMONSHARDMON_RELAY_KILL_ALL_MAPSERVER:
-        cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayKillAllMapserver);
+        cmdRelayCmdToAllClients(onRelayKillAllMapserver);
         break;
     case SVRMONSHARDMON_RELAY_KILL_ALL_LAUNCHER:
-        cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayKillAllLauncher);
+        cmdRelayCmdToAllClients(onRelayKillAllLauncher);
         break;
     case SVRMONSHARDMON_RELAY_START_LAUNCHER:
-        cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayStartLauncher);
+        cmdRelayCmdToAllClients(onRelayStartLauncher);
         break;
     case SVRMONSHARDMON_RELAY_START_DBSERVER:
-        cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayStartDbServer);
+        cmdRelayCmdToAllClients(onRelayStartDbServer);
         break;
     case SVRMONSHARDMON_RELAY_CANCEL_ALL:
-        cmdRelayCmdToAllClients((ListViewCallbackFunc) onRelayCancelAll);
+        cmdRelayCmdToAllClients(onRelayCancelAll);
         break;
     case SVRMONSHARDMON_RELAY_APPLY_PATCH:
         cmdRelayAutoApplyPatch(pak);

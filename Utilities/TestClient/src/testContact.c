@@ -33,7 +33,7 @@ void uiContactDialogSetChallengeTimeLimits(U32 bronze, U32 silver, U32 gold)
     return;
 }
 
-void cd_SetBasic( int type, char *body, ContactResponseOption ** rep, void ( *fp)( int, void* ), void* voidptr ) {
+void cd_SetBasic( CDtype type, char *body, ContactResponseOption ** rep, void ( *fp)( int, void* ), void* voidptr ) {
     int i;
     char c;
     int opt;

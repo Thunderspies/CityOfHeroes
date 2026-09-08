@@ -32,8 +32,10 @@ BOOL OpenAndAllocFile(char * title, char * pattern, FileAllocInfo * file)
 }
 
 
-void sendBatchFileToClient(ListView *lv, CmdRelayCon *con, FileAllocInfo * file)
+void sendBatchFileToClient(ListView* lv, void* conData, void* fileData)
 {
+    CmdRelayCon * con = (CmdRelayCon *)conData;
+    FileAllocInfo * file = (FileAllocInfo *)fileData;
     NetLink *link = con->link;
     if(link)
     {

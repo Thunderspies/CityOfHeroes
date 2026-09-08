@@ -269,17 +269,27 @@ static void customButtoncallback_setCommand(CustomWindowItem * pDialogCWB)
     }
 }
 
+static void customButtoncallback_setNameAdapter(void * arg0)
+{
+    customButtoncallback_setName((CustomWindowItem *)arg0);
+}
+
 void customButtonCM_editName( CustomWindowItem * pCWB )
 {
     dialogSetTextEntry(pCWB->pchName);
-    dialog(DIALOG_OK_CANCEL_TEXT_ENTRY, -1, -1, -1, -1,    "Edit Name", NULL, customButtoncallback_setName, NULL, NULL, DLGFLAG_GAME_ONLY|DLGFLAG_NO_TRANSLATE, NULL, NULL, 0, 0, 256, pCWB );
+    dialog(DIALOG_OK_CANCEL_TEXT_ENTRY, -1, -1, -1, -1,    "Edit Name", NULL, customButtoncallback_setNameAdapter, NULL, NULL, DLGFLAG_GAME_ONLY|DLGFLAG_NO_TRANSLATE, NULL, NULL, 0, 0, 256, pCWB );
     
+}
+
+static void customButtoncallback_setCommandAdapter(void * arg0)
+{
+    customButtoncallback_setCommand((CustomWindowItem *)arg0);
 }
 
 void customButtonCM_editCommand( CustomWindowItem * pCWB )
 {
     dialogSetTextEntry(pCWB->pchCommand);
-    dialog(DIALOG_OK_CANCEL_TEXT_ENTRY, -1, -1, -1, -1,    "Edit Command", NULL, customButtoncallback_setCommand, NULL, NULL, DLGFLAG_GAME_ONLY|DLGFLAG_NO_TRANSLATE, NULL, NULL, 0, 0, 256, pCWB );
+    dialog(DIALOG_OK_CANCEL_TEXT_ENTRY, -1, -1, -1, -1,    "Edit Command", NULL, customButtoncallback_setCommandAdapter, NULL, NULL, DLGFLAG_GAME_ONLY|DLGFLAG_NO_TRANSLATE, NULL, NULL, 0, 0, 256, pCWB );
 }
 
 void customButtonCM_Remove( CustomWindowItem * pCWB )
@@ -300,6 +310,21 @@ void customButtonCM_Remove( CustomWindowItem * pCWB )
     }
 }
 
+static void customButtonCM_editNameAdapter(void* arg0)
+{
+    customButtonCM_editName((CustomWindowItem *)arg0);
+}
+
+static void customButtonCM_editCommandAdapter(void* arg0)
+{
+    customButtonCM_editCommand((CustomWindowItem *)arg0);
+}
+
+static void customButtonCM_RemoveAdapter(void* arg0)
+{
+    customButtonCM_Remove((CustomWindowItem *)arg0);
+}
+
 void loadCustomWindows()
 {
     cleanUpCustomWindows();
@@ -313,9 +338,9 @@ void loadCustomWindows()
     if(!s_CustomButtonContext)
     {
         s_CustomButtonContext = contextMenu_Create(0);
-        contextMenu_addCode(s_CustomButtonContext, alwaysAvailable, 0, customButtonCM_editName, 0, "Edit &Name", 0 );
-        contextMenu_addCode(s_CustomButtonContext, alwaysAvailable, 0, customButtonCM_editCommand, 0, "Edit &Command", 0 );
-        contextMenu_addCode(s_CustomButtonContext, alwaysAvailable, 0, customButtonCM_Remove, 0, "Delete", 0 );
+        contextMenu_addCode(s_CustomButtonContext, alwaysAvailable, 0, customButtonCM_editNameAdapter, 0, "Edit &Name", 0 );
+        contextMenu_addCode(s_CustomButtonContext, alwaysAvailable, 0, customButtonCM_editCommandAdapter, 0, "Edit &Command", 0 );
+        contextMenu_addCode(s_CustomButtonContext, alwaysAvailable, 0, customButtonCM_RemoveAdapter, 0, "Delete", 0 );
     }
 
     createWdwFromDefs();

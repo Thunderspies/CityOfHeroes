@@ -193,8 +193,10 @@ ChatShardCon *  receiveShardStatus(Packet * pak)
     return shard;
 }
 
-void prepareChatShardUpdate(ListView * lv, ChatShardCon * shard, ChatShardCon *** pRemoveList)
+void prepareChatShardUpdate(ListView* lv, void* shardData, void* pRemoveListData)
 {
+    ChatShardCon * shard = (ChatShardCon *)shardData;
+    ChatShardCon *** pRemoveList = (ChatShardCon ***)pRemoveListData;
     if(shard)
         eaPush(pRemoveList, shard);
 }
@@ -205,7 +207,7 @@ void receiveAllChatShards(Packet * pak)
     ChatShardCon ** removeList = NULL;
     ChatShardCon * shard;
 
-    listViewForEach(lvChatShards, (ListViewCallbackFunc) prepareChatShardUpdate, (void*) &removeList);
+    listViewForEach(lvChatShards, prepareChatShardUpdate, (void*) &removeList);
     
     for(i=0;i<gChatCon.links;i++)
      {

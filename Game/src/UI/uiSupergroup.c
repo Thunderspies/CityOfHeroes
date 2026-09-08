@@ -381,6 +381,11 @@ static int allianceShowDivider(void *data)
     return CM_HIDE;
 }
 
+static const char * allianceNameAdapter(void* arg0)
+{
+    return allianceName((void *)arg0);
+}
+
 static void alliance_menu(float x, float y)
 {
     static int init = 0;
@@ -401,9 +406,9 @@ static void alliance_menu(float x, float y)
             contextMenu_addDividerVisible(allianceSubContext[i], allianceHasPermission);
             contextMenu_addCode(allianceSubContext[i], allianceHasPermission, NULL, allianceBreakAlliance, (void *)i, "CMBreakAlliance", NULL);
             
-            contextMenu_addVariableTextCode(allianceContext, allianceVisibleLeader, (void *)i, NULL, NULL, allianceName, (void *)i, allianceSubContext[i]);
+            contextMenu_addVariableTextCode(allianceContext, allianceVisibleLeader, (void *)i, NULL, NULL, allianceNameAdapter, (void *)i, allianceSubContext[i]);
             //contextMenu_addVariableTextCode(allianceContext, allianceVisibleMember, (void *)i, NULL, NULL, allianceName, (void *)i, NULL);
-            contextMenu_addVariableTextCode(allianceContext, allianceVisibleMember, (void *)i, NULL, NULL, allianceName, (void *)i, allianceSubContext[i]);
+            contextMenu_addVariableTextCode(allianceContext, allianceVisibleMember, (void *)i, NULL, NULL, allianceNameAdapter, (void *)i, allianceSubContext[i]);
         }
 
         init = 1;
@@ -1022,8 +1027,9 @@ static int sgMemberIsDark(SupergroupStats* item)
     return item->playerType != e->supergroup->playerType;
 }
 
-UIBox sgListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, SupergroupStats* item, int itemIndex)
+UIBox sgListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
 {
+    SupergroupStats* item = (SupergroupStats*)itemData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator;

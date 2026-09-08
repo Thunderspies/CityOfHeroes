@@ -227,6 +227,16 @@ static void gift_sendToMemeber7(void *data)
     gift_sendToTeammate( 7, data );
 }
 
+static int team_PlayerIsOnTeamAdapter(void)
+{
+    return team_PlayerIsOnTeam();
+}
+
+static const char * gift_TeammateNameAdapter(void* arg0)
+{
+    return gift_TeammateName((void *)arg0);
+}
+
 static void gift_initSubMenu()
 {
     int i;
@@ -237,11 +247,11 @@ static void gift_initSubMenu()
     if( gGiftSubMenu )
         return;
 
-    gGiftSubMenu = contextMenu_Create( team_PlayerIsOnTeam );
+    gGiftSubMenu = contextMenu_Create( team_PlayerIsOnTeamAdapter);
 
     for( i = 0; i < MAX_TEAM_MEMBERS; i++ )
     {
-        contextMenu_addVariableTextCode( gGiftSubMenu, gift_canSendToTeammate, &teamlist[i], code[i], 0, gift_TeammateName, &teamlist[i], 0 );
+        contextMenu_addVariableTextCode( gGiftSubMenu, gift_canSendToTeammate, &teamlist[i], code[i], 0, gift_TeammateNameAdapter, &teamlist[i], 0 );
     }
 
 }
@@ -379,11 +389,16 @@ static void gift_sendToTarget(void *data)
 
 }
 
+static const char * gift_TargetNameAdapter(void* arg0)
+{
+    return gift_TargetName((void *)arg0);
+}
+
 void gift_addToContextMenu( ContextMenu * cm )
 {
     gift_initSubMenu();
 
-    contextMenu_addVariableTextCode( cm, gift_canSendToTarget, 0, gift_sendToTarget, 0, gift_TargetName, 0, 0 );
+    contextMenu_addVariableTextCode( cm, gift_canSendToTarget, 0, gift_sendToTarget, 0, gift_TargetNameAdapter, 0, 0 );
     contextMenu_addCode( cm, gift_showSubMenu, 0, 0, 0, "CMGiveTo", gGiftSubMenu );
     
 }

@@ -16,7 +16,7 @@ typedef struct
 
 BOOL OpenAndAllocFile(char * title, char * pattern, FileAllocInfo * file);
 
-void sendBatchFileToClient(ListView *lv, CmdRelayCon *con, FileAllocInfo * file);
+void sendBatchFileToClient(ListView* lv, void* conData, void* fileData);
 
 char *OpenFileDlg(char * title, char *fileMask,char *fileName);
 

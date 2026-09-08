@@ -196,7 +196,7 @@ MenuEntry * newMenuEntry(Menu * m,MenuEntry * parent,const char * name) {
     return me;
 }
 
-void recurseOnAllEntries(MenuEntry * me,int onlyOpened,int preorder,void * info,void (*func)(MenuEntry *,ClickInfo *)) {
+void recurseOnAllEntries(MenuEntry * me,int onlyOpened,int preorder,void * info,void (*func)(MenuEntry *,void *)) {
     if (me==NULL) return;
     if (preorder)
         func(me,info);
@@ -224,7 +224,7 @@ MenuEntry* findMenuEntry(MenuEntry *me, const char *name)
 }
 
 
-void destroyMenuEntry(MenuEntry * me,ClickInfo * ci)
+void destroyMenuEntry(MenuEntry * me,void * ci)
 {
     estrDestroy(&me->name);
     MP_FREE(MenuEntry, me);

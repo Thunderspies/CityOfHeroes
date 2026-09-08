@@ -1153,7 +1153,7 @@ void chatClientWhoLocalEx( char * globalName, char * status, int invite )
     }
 }
 
-void chatClientWhoLocal( char * globalName, char * status, int invite ){ chatClientWhoLocalEx( globalName, status, 0 ); }
+void chatClientWhoLocal( char * globalName, char * status ){ chatClientWhoLocalEx( globalName, status, 0 ); }
 void chatClientWhoLocalInvite( char * globalName, char * status ){ chatClientWhoLocalEx( globalName, status, 1 ); }
 void chatClientWhoLocalLeagueInvite( char * globalName, char * status ){ chatClientWhoLocalEx( globalName, status, 2 ); }
 
@@ -1170,78 +1170,290 @@ static void chatClientGmailClaim( char * id, char * unused){ emailClearAttachmen
 
 
 
-typedef void (*handler0)();
-typedef void (*handler1)(char *cmd1);
-typedef void (*handler2)(char *cmd1,char *cmd2);
-typedef void (*handler3)(char *cmd1,char *cmd2,char *cmd3);
-typedef void (*handler4)(char *cmd1,char *cmd2,char *cmd3, char *cmd4);
-typedef void (*handler5)(char *cmd1,char *cmd2,char *cmd3, char *cmd4, char * cmd5);
-typedef void (*handler6)(char *cmd1,char *cmd2,char *cmd3, char *cmd4, char * cmd5, char *cmd6);
-typedef void (*handler7)(char *cmd1,char *cmd2,char *cmd3, char *cmd4, char * cmd5, char *cmd6, char *cmd7);
 typedef struct{
         char    *cmdname;
-        void    (*handler)();
+        void    (*handler)(char **args);
         U32        cmd_sizes[8];
         int        num_args;
 } ClientShardCmd;
 
+static void chatClientNameCommand(char **args)
+{
+    chatClientName(args[0], args[1]);
+}
+
+static void chatClientLoginCommand(char **args)
+{
+    chatClientLogin(args[0], args[1], args[2]);
+}
+
+static void chatClientLoginEndCommand(char **args)
+{
+    chatClientLoginEnd();
+}
+
+static void chatClientRenameCommand(char **args)
+{
+    chatClientRename();
+}
+
+static void chatClientServerStatusCommand(char **args)
+{
+    chatClientServerStatus(args[0]);
+}
+
+static void chatClientUserMsgCommand(char **args)
+{
+    chatClientUserMsg(args[0], args[1]);
+}
+
+static void chatClientStoredMsgCommand(char **args)
+{
+    chatClientStoredMsg(args[0], args[1], args[2]);
+}
+
+static void chatClientChannelCommand(char **args)
+{
+    chatClientChannel(args[0], args[1]);
+}
+
+static void chatClientChannelInfoCommand(char **args)
+{
+    chatClientChannelInfo(args[0], args[1], args[2], args[3]);
+}
+
+static void chatClientJoinCommand(char **args)
+{
+    chatClientJoin(args[0], args[1], args[2], args[3], args[4]);
+}
+
+static void chatClientReserveCommand(char **args)
+{
+    chatClientReserve(args[0]);
+}
+
+static void chatClientLeaveCommand(char **args)
+{
+    chatClientLeave(args[0], args[1], args[2]);
+}
+
+static void chatClientInviteCommand(char **args)
+{
+    chatClientInvite(args[0], args[1]);
+}
+
+static void chatClientInviteReminderCommand(char **args)
+{
+    chatClientInviteReminder(args[0]);
+}
+
+static void chatClientChanMsgCommand(char **args)
+{
+    chatClientChanMsg(args[0], args[1], args[2]);
+}
+
+static void chatClientChanMotdCommand(char **args)
+{
+    chatClientChanMotd(args[0], args[1], args[2], args[3]);
+}
+
+static void chatClientChanDescCommand(char **args)
+{
+    chatClientChanDesc(args[0], args[1], args[2]);
+}
+
+static void chatClientChanMemberCommand(char **args)
+{
+    chatClientChanMember(args[0], args[1]);
+}
+
+static void chatClientChannelKillCommand(char **args)
+{
+    chatClientChannelKill(args[0], args[1]);
+}
+
+static void chatClientCsrSendAllCommand(char **args)
+{
+    chatClientCsrSendAll(args[0], args[1]);
+}
+
+static void chatClientWatchingCommand(char **args)
+{
+    chatClientWatching(args[0]);
+}
+
+static void chatClientInvisibleCommand(char **args)
+{
+    chatClientInvisible();
+}
+
+static void chatClientVisibleCommand(char **args)
+{
+    chatClientVisible();
+}
+
+static void chatClientFriendHideCommand(char **args)
+{
+    chatClientFriendHide();
+}
+
+static void chatClientFriendUnHideCommand(char **args)
+{
+    chatClientFriendUnHide();
+}
+
+static void chatClientTellHideCommand(char **args)
+{
+    chatClientTellHide();
+}
+
+static void chatClientTellUnHideCommand(char **args)
+{
+    chatClientTellUnHide();
+}
+
+static void chatClientFriendReqCommand(char **args)
+{
+    chatClientFriendReq(args[0]);
+}
+
+static void chatClientFriendCommand(char **args)
+{
+    chatClientFriend(args[0], args[1], args[2], args[3]);
+}
+
+static void chatClientUnfriendCommand(char **args)
+{
+    chatClientUnfriend(args[0]);
+}
+
+static void chatClientInvalidUserCommand(char **args)
+{
+    chatClientInvalidUser(args[0]);
+}
+
+static void chatClientAccessLevelCommand(char **args)
+{
+    chatClientAccessLevel(args[0]);
+}
+
+static void chatClientCsrStatusCommand(char **args)
+{
+    chatClientCsrStatus(args[0], args[1], args[2], args[3], args[4], args[5]);
+}
+
+static void chatClientWhoGlobalCommand(char **args)
+{
+    chatClientWhoGlobal(args[0], args[1]);
+}
+
+static void chatClientWhoGlobalHiddenCommand(char **args)
+{
+    chatClientWhoGlobalHidden(args[0], args[1]);
+}
+
+static void chatClientWhoLocalCommand(char **args)
+{
+    chatClientWhoLocal(args[0], args[1]);
+}
+
+static void chatClientWhoLocalInviteCommand(char **args)
+{
+    chatClientWhoLocalInvite(args[0], args[1]);
+}
+
+static void chatClientWhoLocalLeagueInviteCommand(char **args)
+{
+    chatClientWhoLocalLeagueInvite(args[0], args[1]);
+}
+
+static void chatClientGmailCommand(char **args)
+{
+    chatClientGmail(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+}
+
+static void chatClientGmailClaimCommand(char **args)
+{
+    chatClientGmailClaim(args[0], args[1]);
+}
+
+static void chatClientCsrMailTotalCommand(char **args)
+{
+    chatClientCsrMailTotal(args[0], args[1], args[2]);
+}
+
+static void charClientCsrMailInboxCommand(char **args)
+{
+    charClientCsrMailInbox(args[0], args[1], args[2], args[3], args[4]);
+}
+
+static void charClientCsrMailSentCommand(char **args)
+{
+    charClientCsrMailSent(args[0], args[1], args[2], args[3], args[4]);
+}
+
+static void chatClientBounceMailResultCommand(char **args)
+{
+    chatClientBounceMailResult(args[0]);
+}
+
 static ClientShardCmd cmds[] =
 {
-        {    "Name",                chatClientName,            {MAX_PLAYERNAME, MAX_PLAYERNAME}},    
-        {    "Login",            chatClientLogin,        {32, MAX_PLAYERNAME, MAX_PLAYERNAME}},    
-        {    "LoginEnd",            chatClientLoginEnd,        },    
-        {    "Renameable",        chatClientRename        },    
-        {    "ChatServerStatus",    chatClientServerStatus,    100},
+        {    "Name",                chatClientNameCommand,            {MAX_PLAYERNAME, MAX_PLAYERNAME}},
+        {    "Login",            chatClientLoginCommand,        {32, MAX_PLAYERNAME, MAX_PLAYERNAME}},
+        {    "LoginEnd",            chatClientLoginEndCommand,        },
+        {    "Renameable",        chatClientRenameCommand        },
+        {    "ChatServerStatus",    chatClientServerStatusCommand,    100},
 
-        {    "UserMsg",            chatClientUserMsg,        {MAX_PLAYERNAME, MAX_MESSAGE}},
-        {    "StoredMsg",        chatClientStoredMsg,    {64, MAX_PLAYERNAME, MAX_MESSAGE}},
+        {    "UserMsg",            chatClientUserMsgCommand,        {MAX_PLAYERNAME, MAX_MESSAGE}},
+        {    "StoredMsg",        chatClientStoredMsgCommand,    {64, MAX_PLAYERNAME, MAX_MESSAGE}},
 
                 
-        {    "Channel",            chatClientChannel,        {MAX_CHANNELNAME, 64}},
-        {    "ChanInfo",            chatClientChannelInfo,    {MAX_CHANNELNAME, 64, 64, MAX_CHANNELDESC}},
-        {    "Join",                chatClientJoin,            {MAX_CHANNELNAME, MAX_PLAYERNAME, 64, 64, 1}},
-        {    "Reserve",            chatClientReserve,        {MAX_CHANNELNAME}},
-        {    "Leave",            chatClientLeave,        {MAX_CHANNELNAME, MAX_PLAYERNAME, 10}},
-        {    "Invite",            chatClientInvite,        {MAX_CHANNELNAME, MAX_PLAYERNAME}},
-        {    "InviteReminder",    chatClientInviteReminder,    {MAX_CHANNELNAME}},
-        {    "ChanMsg",            chatClientChanMsg,        {MAX_CHANNELNAME, MAX_PLAYERNAME,MAX_MESSAGE}},
-        {    "ChanMotd",            chatClientChanMotd,        {100, MAX_CHANNELNAME, MAX_PLAYERNAME, MAX_MESSAGE}},
-        {    "ChanDesc",            chatClientChanDesc,        {MAX_CHANNELNAME, MAX_PLAYERNAME, MAX_CHANNELDESC}},
-        {    "chanmember",        chatClientChanMember,    {MAX_CHANNELNAME, MAX_PLAYERNAME}},
+        {    "Channel",            chatClientChannelCommand,        {MAX_CHANNELNAME, 64}},
+        {    "ChanInfo",            chatClientChannelInfoCommand,    {MAX_CHANNELNAME, 64, 64, MAX_CHANNELDESC}},
+        {    "Join",                chatClientJoinCommand,            {MAX_CHANNELNAME, MAX_PLAYERNAME, 64, 64, 1}},
+        {    "Reserve",            chatClientReserveCommand,        {MAX_CHANNELNAME}},
+        {    "Leave",            chatClientLeaveCommand,        {MAX_CHANNELNAME, MAX_PLAYERNAME, 10}},
+        {    "Invite",            chatClientInviteCommand,        {MAX_CHANNELNAME, MAX_PLAYERNAME}},
+        {    "InviteReminder",    chatClientInviteReminderCommand,    {MAX_CHANNELNAME}},
+        {    "ChanMsg",            chatClientChanMsgCommand,        {MAX_CHANNELNAME, MAX_PLAYERNAME,MAX_MESSAGE}},
+        {    "ChanMotd",            chatClientChanMotdCommand,        {100, MAX_CHANNELNAME, MAX_PLAYERNAME, MAX_MESSAGE}},
+        {    "ChanDesc",            chatClientChanDescCommand,        {MAX_CHANNELNAME, MAX_PLAYERNAME, MAX_CHANNELDESC}},
+        {    "chanmember",        chatClientChanMemberCommand,    {MAX_CHANNELNAME, MAX_PLAYERNAME}},
 
-        {    "ChanKill",            chatClientChannelKill,    {MAX_CHANNELNAME, MAX_PLAYERNAME}},
-        {    "CsrSendAll",        chatClientCsrSendAll,    {MAX_MESSAGE, MAX_MESSAGE}},
+        {    "ChanKill",            chatClientChannelKillCommand,    {MAX_CHANNELNAME, MAX_PLAYERNAME}},
+        {    "CsrSendAll",        chatClientCsrSendAllCommand,    {MAX_MESSAGE, MAX_MESSAGE}},
 
-        {    "Watching",            chatClientWatching,        {MAX_CHANNELNAME}},
+        {    "Watching",            chatClientWatchingCommand,        {MAX_CHANNELNAME}},
 
-        {    "Invisible",        chatClientInvisible        },
-        {    "Visible",            chatClientVisible        },
-        {    "FriendHide",        chatClientFriendHide    },
-        {    "FriendUnHide",        chatClientFriendUnHide    },
-        {    "TellHide",            chatClientTellHide        },
-        {    "TellUnHide",        chatClientTellUnHide    },
+        {    "Invisible",        chatClientInvisibleCommand        },
+        {    "Visible",            chatClientVisibleCommand        },
+        {    "FriendHide",        chatClientFriendHideCommand    },
+        {    "FriendUnHide",        chatClientFriendUnHideCommand    },
+        {    "TellHide",            chatClientTellHideCommand        },
+        {    "TellUnHide",        chatClientTellUnHideCommand    },
 
-        {    "FriendReq",        chatClientFriendReq,    {MAX_PLAYERNAME}},
-        {    "Friend",            chatClientFriend,        {MAX_PLAYERNAME, 64, MAX_FRIENDSTATUS, MAX_FRIENDSTATUS}},
-        {    "UnFriend",            chatClientUnfriend,        {MAX_PLAYERNAME}},
+        {    "FriendReq",        chatClientFriendReqCommand,    {MAX_PLAYERNAME}},
+        {    "Friend",            chatClientFriendCommand,        {MAX_PLAYERNAME, 64, MAX_FRIENDSTATUS, MAX_FRIENDSTATUS}},
+        {    "UnFriend",            chatClientUnfriendCommand,        {MAX_PLAYERNAME}},
         
-        {    "InvalidUser",        chatClientInvalidUser,    {MAX_PLAYERNAME}},
+        {    "InvalidUser",        chatClientInvalidUserCommand,    {MAX_PLAYERNAME}},
 
-        {    "AccessLevel",        chatClientAccessLevel,    {64}},
-        {    "CsrStatus",        chatClientCsrStatus,    {MAX_PLAYERNAME,64,MAX_FRIENDSTATUS,64,64,64}},        
-        {    "WhoGlobal",        chatClientWhoGlobal,        {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
-        {    "WhoGlobalHidden",    chatClientWhoGlobalHidden,    {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
-        {    "WhoLocal",            chatClientWhoLocal,            {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
-        {    "WhoLocalInvite",    chatClientWhoLocalInvite,    {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
-        {    "WhoLocalLeagueInvite",    chatClientWhoLocalLeagueInvite,    {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
+        {    "AccessLevel",        chatClientAccessLevelCommand,    {64}},
+        {    "CsrStatus",        chatClientCsrStatusCommand,    {MAX_PLAYERNAME,64,MAX_FRIENDSTATUS,64,64,64}},
+        {    "WhoGlobal",        chatClientWhoGlobalCommand,        {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
+        {    "WhoGlobalHidden",    chatClientWhoGlobalHiddenCommand,    {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
+        {    "WhoLocal",            chatClientWhoLocalCommand,            {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
+        {    "WhoLocalInvite",    chatClientWhoLocalInviteCommand,    {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
+        {    "WhoLocalLeagueInvite",    chatClientWhoLocalLeagueInviteCommand,    {MAX_PLAYERNAME, MAX_FRIENDSTATUS}},
         
-        {    "Gmail",            chatClientGmail, {MAX_PLAYERNAME, 64,  MAX_SUBJECT, MAX_MESSAGE, MAX_PATH, 64, 12 }},
-        {    "GmailClaim",        chatClientGmailClaim, { 12, MAX_PATH }},
+        {    "Gmail",            chatClientGmailCommand, {MAX_PLAYERNAME, 64,  MAX_SUBJECT, MAX_MESSAGE, MAX_PATH, 64, 12 }},
+        {    "GmailClaim",        chatClientGmailClaimCommand, { 12, MAX_PATH }},
 
-        {    "CsrMailTotal",     chatClientCsrMailTotal, {MAX_PLAYERNAME, 12, 12}},
-        {   "CsrMailInbox",        charClientCsrMailInbox,    {12, MAX_SUBJECT,MAX_PATH,MAX_PLAYERNAME, 12}},
-        {   "CsrMailSent",        charClientCsrMailSent,    {12, 12, MAX_PATH, MAX_PLAYERNAME, MAX_MESSAGE}},
-        {   "CsrBounceMailResult", chatClientBounceMailResult, {12}},
+        {    "CsrMailTotal",     chatClientCsrMailTotalCommand, {MAX_PLAYERNAME, 12, 12}},
+        {   "CsrMailInbox",        charClientCsrMailInboxCommand,    {12, MAX_SUBJECT,MAX_PATH,MAX_PLAYERNAME, 12}},
+        {   "CsrMailSent",        charClientCsrMailSentCommand,    {12, 12, MAX_PATH, MAX_PLAYERNAME, MAX_MESSAGE}},
+        {   "CsrBounceMailResult", chatClientBounceMailResultCommand, {12}},
 
         { 0 },
 };
@@ -1316,25 +1528,7 @@ bool processShardCmd(char **args,int count)
                 return false;
             }
         }
-        switch(cmd->num_args)
-        {
-            xcase 0:
-                ((handler0)cmd->handler)();
-            xcase 1:
-                ((handler1)cmd->handler)(args[0]);
-            xcase 2:
-                ((handler2)cmd->handler)(args[0],args[1]);
-            xcase 3:
-                ((handler3)cmd->handler)(args[0],args[1],args[2]);
-            xcase 4:
-                ((handler4)cmd->handler)(args[0],args[1],args[2],args[3]);
-            xcase 5:
-                ((handler5)cmd->handler)(args[0],args[1],args[2],args[3], args[4]);
-            xcase 6:
-                ((handler6)cmd->handler)(args[0],args[1],args[2],args[3], args[4], args[5]);
-            xcase 7:
-                ((handler7)cmd->handler)(args[0],args[1],args[2],args[3], args[4], args[5], args[6]);
-        }
+        cmd->handler(args);
     }
     return true;
 }

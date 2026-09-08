@@ -215,6 +215,16 @@ static void drawRewardMeter(F32 cx, F32 cy, F32 z, F32 ht, F32 sc, int rewardEar
     display_sprite(meterFrame[1], cx-meterFrame[1]->width*sc/2.f, yMeterEnd, z+2.f, sc, (yMeterStart-yMeterEnd)/meterFrame[1]->height, tierFrameColor[0]);
 }
 
+static void loyaltyRewardBuyAdapter(void* arg0)
+{
+    loyaltyRewardBuy((char *)arg0);
+}
+
+static void dbLoyaltyRewardBuyItemAdapter(void* arg0)
+{
+    dbLoyaltyRewardBuyItem((char *)arg0);
+}
+
 void loyaltyTreeRender(F32 x, F32 y, F32 z, F32 sc)
 {
     AtlasTex * topBackground = atlasLoadTexture("lt_cityscape_0");
@@ -518,11 +528,11 @@ void loyaltyTreeRender(F32 x, F32 y, F32 z, F32 sc)
                         //buy reward
                         if (MENU_GAME == currentMenu)
                         {
-                            dialogStdCB(DIALOG_ACCEPT_CANCEL, "ConfirmLoyaltyPointSpendingText", 0, 0, loyaltyRewardBuy, 0, 0, cpp_const_cast(void*)(lrNode->name) );
+                            dialogStdCB(DIALOG_ACCEPT_CANCEL, "ConfirmLoyaltyPointSpendingText", 0, 0, loyaltyRewardBuyAdapter, 0, 0, cpp_const_cast(void*)(lrNode->name) );
                         }
                         else
                         {
-                            dialogStdCB(DIALOG_ACCEPT_CANCEL, "ConfirmLoyaltyPointSpendingText", 0, 0, dbLoyaltyRewardBuyItem, 0, 0, cpp_const_cast(void*)(lrNode->name) );
+                            dialogStdCB(DIALOG_ACCEPT_CANCEL, "ConfirmLoyaltyPointSpendingText", 0, 0, dbLoyaltyRewardBuyItemAdapter, 0, 0, cpp_const_cast(void*)(lrNode->name) );
                         }
                     } else {
                         dialogStd(DIALOG_OK, "AccountServerUnavailable", NULL, NULL, NULL, NULL, 0);

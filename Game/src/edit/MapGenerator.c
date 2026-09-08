@@ -354,7 +354,9 @@ void getDefPoints(GroupDef * def,const Mat4 mat,Vec2 *** v) {
 
 Vec2 grahamCenterPoint;
 
-int grahamScanComparator(const Vec2 ** v1,const Vec2 ** v2) {
+int grahamScanComparator(const void* v1Data, const void* v2Data) {
+    const Vec2 ** v1 = (const Vec2 **)v1Data;
+    const Vec2 ** v2 = (const Vec2 **)v2Data;
     double d=    atan2((**v2)[1]-grahamCenterPoint[1],(**v2)[0]-grahamCenterPoint[0])-
         atan2((**v1)[1]-grahamCenterPoint[1],(**v1)[0]-grahamCenterPoint[0]);
     if (d<0) return 1;
@@ -362,7 +364,7 @@ int grahamScanComparator(const Vec2 ** v1,const Vec2 ** v2) {
     return 0;
 }
 
-double dGrahamScanComparator(const Vec2 ** v1,const Vec2 ** v2) {
+double dGrahamScanComparator(Vec2 * const * v1,Vec2 * const * v2) {
     return    atan2((**v1)[1]-grahamCenterPoint[1],(**v1)[0]-grahamCenterPoint[0])-
             atan2((**v2)[1]-grahamCenterPoint[1],(**v2)[0]-grahamCenterPoint[0]);
 }

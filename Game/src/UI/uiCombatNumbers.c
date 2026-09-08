@@ -128,6 +128,21 @@ static char * combatNumbersCM_MonitorText( AttribDescription * pDesc )
     return textStd( "cmMonitorAttrib", pDesc->pchDisplayName );
 }
 
+static int combatNumbersCM_checkMonitorAdapter(void* arg0)
+{
+    return combatNumbersCM_checkMonitor((AttribDescription *)arg0);
+}
+
+static void combatNumbersCM_MonitorAdapter(void* arg0)
+{
+    combatNumbersCM_Monitor((AttribDescription *)arg0);
+}
+
+static const char * combatNumbersCM_MonitorTextAdapter(void* arg0)
+{
+    return combatNumbersCM_MonitorText((AttribDescription *)arg0);
+}
+
 static void initCombatNumbersCM(void)
 {
     if( s_CombatNumberCM )
@@ -136,7 +151,7 @@ static void initCombatNumbersCM(void)
     s_CombatNumberCM = contextMenu_Create(0);
     contextMenu_addTitle( s_CombatNumberCM, "CombatNumbersString" );
     contextMenu_addCheckBox( s_CombatNumberCM, combatNumbersCM_checkHidePowers, 0, combatNumberCM_HidePowers, 0, "cmHidePowerSources" );
-    contextMenu_addVariableTextCheckBox( s_CombatNumberCM, combatNumbersCM_checkMonitor, 0, combatNumbersCM_Monitor, 0, combatNumbersCM_MonitorText, 0 );
+    contextMenu_addVariableTextCheckBox( s_CombatNumberCM, combatNumbersCM_checkMonitorAdapter, 0, combatNumbersCM_MonitorAdapter, 0, combatNumbersCM_MonitorTextAdapter, 0 );
 }
 
 char * attribDesc_GetString( AttribDescription *pDesc, F32 fVal, Character *pchar )

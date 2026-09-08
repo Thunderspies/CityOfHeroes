@@ -12,7 +12,7 @@ typedef int (*CompareFunc) (const void *, const void *);
 typedef char * (*DisplayFunc) (void *);
 typedef void (*Destructor)(void* element);
 typedef bool (*FindFunc)(void * element, void * data);
-typedef bool (*ColorFunc)(void * element, COLORREF* pTextColor, COLORREF* pBkColor);
+typedef void (*ColorFunc)(void * element, COLORREF* pTextColor, COLORREF* pBkColor);
 typedef void (*OnNotifyCallbackFunc) (void *);
 
 

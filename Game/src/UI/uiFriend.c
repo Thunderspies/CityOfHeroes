@@ -242,8 +242,9 @@ int friendStatusCompare(const Friend** f1, const Friend** f2)
 
 
 
-UIBox friendListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, Friend* item, int itemIndex)
+UIBox friendListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
 {
+    Friend* item = (Friend*)itemData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator; 
@@ -314,8 +315,9 @@ UIBox friendListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void*
     return box;
 }
 
-UIBox levelingpactListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, Friend* item, int itemIndex)
+UIBox levelingpactListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
 {
+    Friend* item = (Friend*)itemData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator; 
@@ -815,8 +817,9 @@ bool playerIsGlobalFriendOnShard(char * name)
 
 
 
-UIBox globalFriendListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, GlobalFriend* item, int itemIndex)
+UIBox globalFriendListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
 {
+    GlobalFriend* item = (GlobalFriend*)itemData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator; 
@@ -1667,8 +1670,9 @@ static void addGlobalIgnoreDlgHandler(void * data)
 
 
 
-UIBox globalIgnoreListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, ChatUser * item, int itemIndex)
+UIBox globalIgnoreListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
 {
+    ChatUser * item = (ChatUser *)itemData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator; 

@@ -948,6 +948,36 @@ void enhancementcm_MoveToTrade( TrayObj * obj )
 }
 
 
+static int enhancementcm_CanSendToStorageAdapter(void* arg0)
+{
+    return enhancementcm_CanSendToStorage((TrayObj *)arg0);
+}
+
+static void enhancementcm_MoveToStorageAdapter(void* arg0)
+{
+    enhancementcm_MoveToStorage((TrayObj *)arg0);
+}
+
+static int enhancementcm_CanSendToAuctionAdapter(void* arg0)
+{
+    return enhancementcm_CanSendToAuction((TrayObj *)arg0);
+}
+
+static void enhancementcm_MoveToAuctionAdapter(void* arg0)
+{
+    enhancementcm_MoveToAuction((TrayObj *)arg0);
+}
+
+static int enhancementcm_CanSendToTradeAdapter(void* arg0)
+{
+    return enhancementcm_CanSendToTrade((TrayObj *)arg0);
+}
+
+static void enhancementcm_MoveToTradeAdapter(void* arg0)
+{
+    enhancementcm_MoveToTrade((TrayObj *)arg0);
+}
+
 void initEnhancementContext(void)
 {
     if( !gEnhancementContext )
@@ -958,9 +988,9 @@ void initEnhancementContext(void)
         contextMenu_addVariableText( gEnhancementContext, traycm_PowerInfo, 0);
         contextMenu_addCode( gEnhancementContext, cmIsShell, 0, traycm_Info, 0, "CMInfoString", 0  );
         //contextMenu_addVariableTextCode( gEnhancementContext, enhancementcm_CanSell,0, enhancementcm_Sell, 0, enhancementcm_SellText, 0, 0  );
-        contextMenu_addCode( gEnhancementContext, enhancementcm_CanSendToStorage, 0, enhancementcm_MoveToStorage, 0, "CMMoveToStorage", 0  );
-        contextMenu_addCode( gEnhancementContext, enhancementcm_CanSendToAuction, 0, enhancementcm_MoveToAuction, 0, "CMMoveToAuction", 0  );
-        contextMenu_addCode( gEnhancementContext, enhancementcm_CanSendToTrade, 0, enhancementcm_MoveToTrade, 0, "CMMoveToTrade", 0  );
+        contextMenu_addCode( gEnhancementContext, enhancementcm_CanSendToStorageAdapter, 0, enhancementcm_MoveToStorageAdapter, 0, "CMMoveToStorage", 0  );
+        contextMenu_addCode( gEnhancementContext, enhancementcm_CanSendToAuctionAdapter, 0, enhancementcm_MoveToAuctionAdapter, 0, "CMMoveToAuction", 0  );
+        contextMenu_addCode( gEnhancementContext, enhancementcm_CanSendToTradeAdapter, 0, enhancementcm_MoveToTradeAdapter, 0, "CMMoveToTrade", 0  );
         gift_addToContextMenu( gEnhancementContext );
         contextMenu_addDivider(gEnhancementContext );
         contextMenu_addCode( gEnhancementContext, alwaysAvailable, 0, enhancementcm_Delete, 0, "CMRemoveEnhancement", 0  );

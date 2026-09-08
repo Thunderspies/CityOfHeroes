@@ -1354,6 +1354,21 @@ static void trade_partnerStatus( Entity *e, float x, float y, float z, float sc,
 #define BUT_WD 100
 #define BUT_HT 20
 
+static const char * trade_PowerTextAdapter(void* arg0)
+{
+    return trade_PowerText((TradeObj *)arg0);
+}
+
+static const char * trade_PowerInfoAdapter(void* arg0)
+{
+    return trade_PowerInfo((TradeObj *)arg0);
+}
+
+static void trade_InfoAdapter(void* arg0)
+{
+    trade_Info((TradeObj *)arg0);
+}
+
 int tradeWindow()
 {
     float x, y, z, wd, ht, sc, oht;
@@ -1388,9 +1403,9 @@ int tradeWindow()
     if( !init )
     {
         gTradeContext = contextMenu_Create( NULL );
-        contextMenu_addVariableTitle( gTradeContext, trade_PowerText, 0);
-        contextMenu_addVariableText( gTradeContext, trade_PowerInfo, 0);
-        contextMenu_addCode( gTradeContext, alwaysAvailable, 0, trade_Info, 0, "CMInfoString", 0  );
+        contextMenu_addVariableTitle( gTradeContext, trade_PowerTextAdapter, 0);
+        contextMenu_addVariableText( gTradeContext, trade_PowerInfoAdapter, 0);
+        contextMenu_addCode( gTradeContext, alwaysAvailable, 0, trade_InfoAdapter, 0, "CMInfoString", 0  );
     }
 
     // first draw background

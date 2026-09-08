@@ -533,6 +533,11 @@ void inviteTargetToChannel(void * data)
     }
 }
 
+static const char * chatcm_userChannelTextAdapter(void* arg0)
+{
+    return chatcm_userChannelText((void *)arg0);
+}
+
 ContextMenu * getChannelInviteMenu()
 {
     int i;
@@ -545,7 +550,7 @@ ContextMenu * getChannelInviteMenu()
 
         for(i=1;i<=MAX_WATCHING;i++)
         {
-            contextMenu_addVariableTextCode(s_menu, canInviteTargetToChannel, (void*) i, inviteTargetToChannel, (void*) i, chatcm_userChannelText, (void*) i, 0); 
+            contextMenu_addVariableTextCode(s_menu, canInviteTargetToChannel, (void*) i, inviteTargetToChannel, (void*) i, chatcm_userChannelTextAdapter, (void*) i, 0);
         }
     }
 
@@ -596,6 +601,11 @@ void changeUserMode(char * mode)
     changeUserMode_Long(targetGetHandle(), mode);
 }
 
+static void changeUserModeAdapter(void* arg0)
+{
+    changeUserMode((char *)arg0);
+}
+
 void initChannelUserContextMenu()
 {
     interactChannelUser = contextMenu_Create( 0 );
@@ -603,10 +613,10 @@ void initChannelUserContextMenu()
     contextMenu_addCode( interactChannelUser, isGlobalFriend,        0, removeFromGlobalFriendsList, 0,            "CMRemoveGlobalFriendString", 0 );
     contextMenu_addCode( interactChannelUser, alwaysAvailable,        0, chatInitiateTell,            (void*)1,    "CMChatString", 0 );
 
-    contextMenu_addCode( interactChannelUser, canMakeOperator_CM,    0, changeUserMode,    "-join",        "CMKickFromChannelString", 0 );
-    contextMenu_addCode( interactChannelUser, canSilence_CM,        0, changeUserMode,    "-send",        "CMSilenceString", 0 );
-    contextMenu_addCode( interactChannelUser, canUnsilence_CM,        0, changeUserMode,    "+send",        "CMUnsilenceString", 0 );
-    contextMenu_addCode( interactChannelUser, canModify_CM,            0, changeUserMode,    "+operator",    "CMMakeOperatorString", 0 );
+    contextMenu_addCode( interactChannelUser, canMakeOperator_CM,    0, changeUserModeAdapter,    "-join",        "CMKickFromChannelString", 0 );
+    contextMenu_addCode( interactChannelUser, canSilence_CM,        0, changeUserModeAdapter,    "-send",        "CMSilenceString", 0 );
+    contextMenu_addCode( interactChannelUser, canUnsilence_CM,        0, changeUserModeAdapter,    "+send",        "CMUnsilenceString", 0 );
+    contextMenu_addCode( interactChannelUser, canModify_CM,            0, changeUserModeAdapter,    "+operator",    "CMMakeOperatorString", 0 );
 
     contextMenu_addCode( interactChannelUser, canInviteTargetToAnyChannel, 0, 0, 0, "CMChannelInvite", getChannelInviteMenu());
 }
@@ -624,8 +634,9 @@ int compareUserHandle(const ChatUser** f1, const ChatUser** f2)
 
 
 
-UIBox userLVDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, ChatUser* item, int itemIndex)
+UIBox userLVDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
 {
+    ChatUser* item = (ChatUser*)itemData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator; 

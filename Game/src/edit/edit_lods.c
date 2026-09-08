@@ -667,7 +667,7 @@ static void editLODsGetWarning2(char *text)
     strcpy(text, "WARNING: vis scale not set to 1");
 }
 
-static void editLODsDistanceChanged(void *unused)
+static void editLODsDistanceChanged(int unused)
 {
     if (!edit_lods.tracker)
         return;
@@ -675,7 +675,7 @@ static void editLODsDistanceChanged(void *unused)
     updateLODInfo(0);
 }
 
-static void editLODsLODsChanged(void *unused)
+static void editLODsLODsChanged(int unused)
 {
     if (!edit_lods.tracker)
         return;
@@ -683,7 +683,7 @@ static void editLODsLODsChanged(void *unused)
     updateLODInfo(1);
 }
 
-static void editLODsFallbackChanged(void *unused)
+static void editLODsFallbackChanged(int unused)
 {
     if (!edit_lods.tracker)
         return;
@@ -713,7 +713,7 @@ static float editLODsGetBreakdown(int lod_num, int *selected)
     return edit_lods.lods[lod_num].distance / dist;
 }
 
-static void editLODsShowCurrentChanged(void *widget)
+static void editLODsShowCurrentChanged(int widget)
 {
     if (!edit_lods.tracker)
         return;
@@ -725,7 +725,7 @@ static void editLODsShowCurrentChanged(void *widget)
 }
 
 static float new_num_lods = 0;
-static void editLODsNumLODsChanged(void *widget)
+static void editLODsNumLODsChanged(int widget)
 {
     int i;
     float last_percent = 100;
@@ -836,7 +836,7 @@ static void editLODsUnsetAutomatic(void)
     edit_lods.automatic = 0;
 }
 
-static void editLODsAutomaticPressed(void *widget)
+static void editLODsAutomaticPressed(int widget)
 {
     if (!edit_lods.automatic)
         return;
@@ -880,7 +880,7 @@ static void addLODPage(int lod_num)
 }
 
 static int last_num_reloads = 0, last_num_lod_reloads = 0;
-static void editLODsPerFrame(void *widget)
+static void editLODsPerFrame(int widget)
 {
     if (!edit_lods.tracker)
         return;

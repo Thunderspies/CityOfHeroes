@@ -455,22 +455,23 @@ void commandMenuUpdateRecentMaps(char * name)
     }
 }
 
-int favoriteMenuColorFunc(MenuEntry * me,ClickInfo * ci) {
+int libraryMenuColorFunc(MenuEntry *me, ClickInfo *ci);
+
+int favoriteMenuColorFunc(MenuEntry * me, void* ciData) {
+    ClickInfo * ci = (ClickInfo *)ciData;
     static int recentLine=0;
-    extern int libraryMenuColorFunc(MenuEntry *,ClickInfo *);
     if (me && strcmp(me->name,"Recent")==0 && me->parent==me->theMenu->root)
         recentLine=ci->line;
     if (me && me->parent && strcmp(me->parent->name,"Recent")==0)
         return recentItemColors[ci->line-recentLine];
-    return libraryMenuColorFunc(me,ci);
+    return libraryMenuColorFunc(me, ci);
 }
 
 void favoritesMenuUpdateRecentItems(char * name_param,MenuEntry * me)
 {
     char local_name[TEXT_DIALOG_MAX_STRLEN];
     int i;
-    extern void libraryMenuClickFunc(MenuEntry *,ClickInfo *);
-    extern int libraryMenuColorFunc(MenuEntry *,ClickInfo *);
+
     int color=0;
 
     if (me)
@@ -1027,6 +1028,11 @@ void createFavoritesMenuCallback(const char *relpath, int when) {
         recreateFavoritesMenu=1;
 }
 
+static int libraryMenuColorCallback(MenuEntry *entry, void *data)
+{
+    return libraryMenuColorFunc(entry, (ClickInfo*)data);
+}
+
 void libUpdateList()
 {
     int        i,count=0,all_count;
@@ -1040,7 +1046,7 @@ void libUpdateList()
         allLibraryObjectNames=stashTableCreateWithStringKeys(all_count, StashDefault);
         menuInit=1;
         libraryMenu = newMenu(15,25,300,450,"Library");
-        libraryMenu->colorFunc=libraryMenuColorFunc;
+        libraryMenu->colorFunc=libraryMenuColorCallback;
         for (i=0;i<all_count;i++) {
             name=objectLibraryNameFromIdx(i);
             dir=objectLibraryPathFromIdx(i);

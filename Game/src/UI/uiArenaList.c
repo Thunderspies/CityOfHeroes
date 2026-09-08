@@ -176,7 +176,7 @@ static int arenaStatusCompare( const ArenaEvent **a1, const ArenaEvent **a2 )
 
 
 
-static UIBox lvEventsDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, ArenaEvent* item, int itemIndex);
+static UIBox lvEventsDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex);
 
 static void arenaListInit()
 {
@@ -248,8 +248,9 @@ void arenaRebuildListView()
 
 static ToolTip arenaListPlayersToolTip;
 
-static UIBox lvEventsDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, ArenaEvent* item, int itemIndex)
+static UIBox lvEventsDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
 {
+    ArenaEvent* item = (ArenaEvent*)itemData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator;

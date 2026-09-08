@@ -23,7 +23,7 @@ typedef struct AttribDescription AttribDescription;
 typedef struct Entity Entity;
 
 float status_drawBuffs( Entity *e, float x, float y, float z, float wd, float ht, float scale, int flip, ToolTipParent *parent );
-void linedrawBuffs( int window, Entity *e, float x, float y, float z, float wd, float ht, float scale, int flip, ToolTipParent *parent );
+void linedrawBuffs( BuffWindow window, Entity *e, float x, float y, float z, float wd, float ht, float scale, int flip, ToolTipParent *parent );
 
 
 void addUpdatePowerBuff(Entity * e, const BasePower *ppow, int iBlink, int uid, AttribDescription **ppDesc, F32 *ppfMag );

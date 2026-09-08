@@ -251,16 +251,18 @@ void shardMonConnectAll()
     }
 }
 
-static void connectSingleWrapper(ListView *lv, ServerStats *stat, void *junk)
+static void connectSingleWrapper(ListView* lv, void* statData, void* junk)
 {
+    ServerStats * stat = (ServerStats *)statData;
     if (!stat->link.connected) {
         if (!shardMonConnectSingle(stat)) {
             stat->reconnect_countdown = DEFAULT_RECONNECT_TIME;
         }
     }
 }
-static void disconnectSingleWrapper(ListView *lv, ServerStats *stat, void *junk)
+static void disconnectSingleWrapper(ListView* lv, void* statData, void* junk)
 {
+    ServerStats * stat = (ServerStats *)statData;
     shardMonDisconnect(stat);
 }
 
@@ -273,8 +275,10 @@ void shardMonDisconnectSingleWrapper()
     listViewDoOnSelected(lvSmShards1, disconnectSingleWrapper, NULL);
 }
 
-static void sendMessage(ListView *lv, ServerStats *stat, char *msg)
+static void sendMessage(ListView* lv, void* statData, void* msgData)
 {
+    ServerStats * stat = (ServerStats *)statData;
+    char * msg = (char *)msgData;
     Packet *pak;
     pak = pktCreateEx(&stat->link,SVRMONSHARDMON_RELAYMESSAGE);
     // Make payload packet
@@ -283,8 +287,10 @@ static void sendMessage(ListView *lv, ServerStats *stat, char *msg)
     pktSend(&pak,&stat->link);
 }
 
-static void sendLauncherReconcilation(ListView *lv, ServerStats *stat, char *launcherIP)
+static void sendLauncherReconcilation(ListView* lv, void* statData, void* launcherIPData)
 {
+    ServerStats * stat = (ServerStats *)statData;
+    char * launcherIP = (char *)launcherIPData;
     Packet *pak;
     pak = pktCreateEx(&stat->link,SVRMONSHARDMON_RECONCILE_LAUNCHER);
     // Make payload packet
@@ -293,8 +299,10 @@ static void sendLauncherReconcilation(ListView *lv, ServerStats *stat, char *lau
     pktSend(&pak,&stat->link);
 }
 
-static void sendOverloadProtection(ListView *lv, ServerStats *stat, char *msg)
+static void sendOverloadProtection(ListView* lv, void* statData, void* msgData)
 {
+    ServerStats * stat = (ServerStats *)statData;
+    char * msg = (char *)msgData;
     Packet *pak;
     pak = pktCreateEx(&stat->link,SVRMONSHARDMON_RELAYMESSAGE);
     // Make payload packet
@@ -325,8 +333,10 @@ void shardMonSendOverloadProtection(HWND hDlg, bool enable)
     listViewDoOnSelected(lvSmShards1, sendOverloadProtection, msg);
 }
 
-static void targettedServerMonitor(ListView *lv, ServerStats *stat, HWND hDlg)
+static void targettedServerMonitor(ListView* lv, void* statData, void* hDlgData)
 {
+    ServerStats * stat = (ServerStats *)statData;
+    HWND hDlg = (HWND)hDlgData;
     if (!TabDlgActivateTabIfAvailable(NULL, stat->name)) {
         strcpy(g_autoconnect_addr, makeIpStr(stat->ip));
         TabDlgInsertTab(g_hInst, NULL, IDD_DLG_SVRMON, DlgSvrMonProc, stat->name, true, 0);        
@@ -344,8 +354,10 @@ void shardMonTargettedServerMonitor(HWND hDlg)
     }
 }
 
-static void targettedRemoteDesktop(ListView *lv, ServerStats *stat, HWND hDlg)
+static void targettedRemoteDesktop(ListView* lv, void* statData, void* hDlgData)
 {
+    ServerStats * stat = (ServerStats *)statData;
+    HWND hDlg = (HWND)hDlgData;
     launchRemoteDesktop(stat->ip, stat->name);
 }
 
@@ -651,8 +663,10 @@ void updateShardMonCrashMsg(HWND hDlg, char *text)
     Strncpyt(old_text, text);
 }
 
-static void updateTroubleText(ListView *lv, ServerStats *stat, HWND hDlg)
+static void updateTroubleText(ListView* lv, void* statData, void* hDlgData)
 {
+    ServerStats * stat = (ServerStats *)statData;
+    HWND hDlg = (HWND)hDlgData;
     int trouble_level;
     troubledStat(stat, trouble_reason, &trouble_level);
     updateShardMonCrashMsg(hDlg, trouble_reason);

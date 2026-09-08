@@ -1866,10 +1866,15 @@ static void s_deleteArcDialog(MissionSearchLine *line)
     line->deleteme = 1;
 }
 
+static void s_deleteArcDialogAdapter(void * arg0)
+{
+    s_deleteArcDialog((MissionSearchLine *)arg0);
+}
+
 static void s_deleteArc(MissionSearchLine *line)
 {
     assert(!line->id && line->filename);
-    dialog(DIALOG_YES_NO, -1, -1, -1, -1, "MissionSearchReallyDelete", NULL, s_deleteArcDialog, NULL, NULL, DLGFLAG_ARCHITECT, 0, 0, 1, 0, 0, line);
+    dialog(DIALOG_YES_NO, -1, -1, -1, -1, "MissionSearchReallyDelete", NULL, s_deleteArcDialogAdapter, NULL, NULL, DLGFLAG_ARCHITECT, 0, 0, 1, 0, 0, line);
 }
 static void s_deleteCustomCritterDialog(PCC_Critter *pCritter)
 {
@@ -1877,18 +1882,28 @@ static void s_deleteCustomCritterDialog(PCC_Critter *pCritter)
     updateCustomCritterList(&missionMaker);
     populateCVGSS();
 }
+static void s_deleteCustomCritterDialogAdapter(void * arg0)
+{
+    s_deleteCustomCritterDialog((PCC_Critter *)arg0);
+}
+
 static void s_deleteCustomCritter(PCC_Critter *pCritter)
 {
-    dialog(DIALOG_YES_NO, -1, -1, -1, -1, "CustomCritterReallyDelete", NULL, s_deleteCustomCritterDialog, NULL, NULL, DLGFLAG_ARCHITECT, 0, 0, 1, 0, 0, pCritter);
+    dialog(DIALOG_YES_NO, -1, -1, -1, -1, "CustomCritterReallyDelete", NULL, s_deleteCustomCritterDialogAdapter, NULL, NULL, DLGFLAG_ARCHITECT, 0, 0, 1, 0, 0, pCritter);
 }
 static void s_deleteCVGDialog(CustomVG *cvg)
 {
     CVG_removeCustomVillainGroup(cvg->displayName, 1);
     updateCustomCritterList(&missionMaker);
 }
+static void s_deleteCVGDialogAdapter(void * arg0)
+{
+    s_deleteCVGDialog((CustomVG *)arg0);
+}
+
 static void s_deleteCustomVillainGroup(CustomVG *cvg)
 {
-    dialog(DIALOG_YES_NO, -1, -1, -1, -1, "CVGReallyDelete", NULL, s_deleteCVGDialog, NULL, NULL, DLGFLAG_ARCHITECT, 0, 0, 1, 0, 0, cvg);
+    dialog(DIALOG_YES_NO, -1, -1, -1, -1, "CVGReallyDelete", NULL, s_deleteCVGDialogAdapter, NULL, NULL, DLGFLAG_ARCHITECT, 0, 0, 1, 0, 0, cvg);
 }
 void missionsearch_deleteArc(const char *filename)
 {

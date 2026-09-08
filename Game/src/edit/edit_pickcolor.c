@@ -106,25 +106,25 @@ static void updateRgbFromHsv(void) {
     uiRgba[2] = curr_color[2] = round(rgbf[2]*255);
 }
 
-static void onRgbChanged(void* userData) {
+static void onRgbChanged(int userData) {
     curr_color[0] = round(uiRgba[0]);
     curr_color[1] = round(uiRgba[1]);
     curr_color[2] = round(uiRgba[2]);
 
-    if (editorUIIsUserInteracting((int)userData))
+    if (editorUIIsUserInteracting(userData))
         updateHsvFromRgb();
 }
 
-static void onHsvChanged(void* userData) {
-    if (editorUIIsUserInteracting((int)userData))
+static void onHsvChanged(int userData) {
+    if (editorUIIsUserInteracting(userData))
         updateRgbFromHsv();
 }
 
-static void onAlphaChanged(void* userData) {
+static void onAlphaChanged(int userData) {
     curr_color[3] = round(uiRgba[3]);
 }
 
-static void onNegativeChanged(void* userData) {
+static void onNegativeChanged(int userData) {
     curr_color[3] = isNegative ? 0xff : 0xfe;
 }
 
@@ -168,29 +168,29 @@ static bool createColorPicker(int* initialColor, int alpha) {
 
     editorUIAddDualColorSwatch(s_colorPickerID, original_color, curr_color);
     id = editorUIAddSaturationValueSelector(s_colorPickerID, uiHsv, onHsvChanged);
-    editorUISetWidgetCallbackParam(id, (void*)id);
+    editorUISetWidgetCallbackParam(id, id);
     id = editorUIAddHueSelector(s_colorPickerID, uiHsv, onHsvChanged);
-    editorUISetWidgetCallbackParam(id, (void*)id);
+    editorUISetWidgetCallbackParam(id, id);
 
     id = editorUIAddEditSlider(s_colorPickerID, uiRgba, 0, 255, 0, 255, 1,
         onRgbChanged, "Red:");
-    editorUISetWidgetCallbackParam(id, (void*)id);
+    editorUISetWidgetCallbackParam(id, id);
     id = editorUIAddEditSlider(s_colorPickerID, uiRgba + 1, 0, 255, 0, 255, 1,
         onRgbChanged, "Green:");
-    editorUISetWidgetCallbackParam(id, (void*)id);
+    editorUISetWidgetCallbackParam(id, id);
     id = editorUIAddEditSlider(s_colorPickerID, uiRgba + 2, 0, 255, 0, 255, 1,
         onRgbChanged, "Blue:");
-    editorUISetWidgetCallbackParam(id, (void*)id);
+    editorUISetWidgetCallbackParam(id, id);
 
     id = editorUIAddEditSlider(s_colorPickerID, uiHsv, 0, 360, 0, 360, 1,
         onHsvChanged, "Hue (deg):");
-    editorUISetWidgetCallbackParam(id, (void*)id);
+    editorUISetWidgetCallbackParam(id, id);
     id = editorUIAddEditSlider(s_colorPickerID, uiHsv + 1, 0, 100, 0, 100, 1,
         onHsvChanged, "Saturation (%):");
-    editorUISetWidgetCallbackParam(id, (void*)id);
+    editorUISetWidgetCallbackParam(id, id);
     id = editorUIAddEditSlider(s_colorPickerID, uiHsv + 2, 0, 100, 0, 100, 1,
         onHsvChanged, "Value (%):");
-    editorUISetWidgetCallbackParam(id, (void*)id);
+    editorUISetWidgetCallbackParam(id, id);
 
     if (alpha) {
         editorUIAddEditSlider(s_colorPickerID, uiRgba + 3, 0, 255, 0, 255, 1,

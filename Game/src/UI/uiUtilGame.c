@@ -2392,7 +2392,7 @@ void drawBar( float x, float y, float z, float width, float scale, float percent
 }
 
 
-void drawBendyTrayFrame( float x, float y, float z, float wd, float ht, float sc, int color, int back_color, int bend_type )
+void drawBendyTrayFrame( float x, float y, float z, float wd, float ht, float sc, int color, int back_color, TrayBendType bend_type )
 {
     FrameSet *pFrameSet = getFrameSet( kFrameStyle_Standard, PIX3, R22, kTabDir_None );
     float w, width, size = PIX3;

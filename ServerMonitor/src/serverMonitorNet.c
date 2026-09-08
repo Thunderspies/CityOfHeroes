@@ -856,14 +856,16 @@ void svrMonDelink(ServerMonitorState *state, MapCon *con)
     }
 }
 
-void smcbMsDelink(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbMsDelink(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     MapCon *con = (MapCon*)structptr;
     svrMonDelink(state, con);
 }
 
-void smcbMsShow(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbMsShow(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     char temp[MAX_PATH];
     MapCon *con = (MapCon*)structptr;
     int cmd = (int)(intptr_t)state->userData;
@@ -902,8 +904,9 @@ void killByIP(NetLink *link, U32 ip, U32 pid)
     lnkBatchSend(link);
 }
 
-void smcbMsKill(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbMsKill(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     MapCon *con = (MapCon*)structptr;
     if (con) {
         killByIP(&state->db_link, con->link?con->link->addr.sin_addr.S_un.S_addr:con->ip_list[0], con->remote_process_info.process_id);
@@ -912,8 +915,9 @@ void smcbMsKill(ListView *lv, void *structptr, ServerMonitorState *state)
     }
 }
 
-void smcbMsRemoteDebug(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbMsRemoteDebug(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     MapCon *con = (MapCon*)structptr;
     if (con) {
         char buf[MAX_PATH];
@@ -1099,8 +1103,9 @@ static int strdiff(const char *str1, const char *str2)
     return ret;
 }
 
-void smcbMsRemoteDesktop(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbMsRemoteDesktop(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     MapCon *con = (MapCon*)structptr;
     if (con) {
         U32 ip;
@@ -1141,8 +1146,9 @@ void smcbMsRemoteDesktop(ListView *lv, void *structptr, ServerMonitorState *stat
     }
 }
 
-void smcbSaKill(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbSaKill(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     ServerAppCon *con = (ServerAppCon*)structptr;
     if (con) {
         killByIP(&state->db_link, con->ip, con->remote_process_info.process_id);
@@ -1152,24 +1158,27 @@ void smcbSaKill(ListView *lv, void *structptr, ServerMonitorState *state)
 }
 
 
-void smcbSaRemoteDesktop(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbSaRemoteDesktop(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     ServerAppCon *con = (ServerAppCon*)structptr;
     if (con) {
         launchRemoteDesktop(con->ip, con->remote_process_info.hostname);
     }
 }
 
-void smcbLRemoteDesktop(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbLRemoteDesktop(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     LauncherCon *con = (LauncherCon*)structptr;
     if (con && con->link) {
         launchRemoteDesktop(con->link->addr.sin_addr.S_un.S_addr, con->remote_process_info.hostname);
     }
 }
 
-void smcbLauncherSuspend(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbLauncherSuspend(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     LauncherCon *con = (LauncherCon*)structptr;
     if (con && con->link) {
         // we don't suspend 'monitor only' launchers because they can't launch
@@ -1181,8 +1190,9 @@ void smcbLauncherSuspend(ListView *lv, void *structptr, ServerMonitorState *stat
     }
 }
 
-void smcbLauncherResume(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbLauncherResume(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     LauncherCon *con = (LauncherCon*)structptr;
     if (con && con->link) {
         char* ipStr = makeIpStr(con->link->addr.sin_addr.S_un.S_addr);
@@ -1190,8 +1200,9 @@ void smcbLauncherResume(ListView *lv, void *structptr, ServerMonitorState *state
     }
 }
 
-void smcbMsViewError(ListView *lv, void *structptr, ServerMonitorState *state)
+void smcbMsViewError(ListView* lv, void* structptr, void* stateData)
 {
+    ServerMonitorState * state = (ServerMonitorState *)stateData;
     MapCon *con = (MapCon*)structptr;
     if (con && con->raw_data) {
         char    buf[1000];

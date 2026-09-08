@@ -88,6 +88,11 @@ void dockwindow_launch( void * data )
     start_menu( menu );
 }
 
+static void dockRunCommand(void* command)
+{
+    cmdParse((char*)command);
+}
+
 void addChannelWindowToMenu(ContextMenu *menu)
 {
     contextMenu_addCode(menu, dockwindow_usingChatServer, NULL,    channelWindowOpen, NULL, "CMChannelWindow", NULL );    
@@ -137,7 +142,7 @@ static void initDock()
     contextMenu_addCheckBox( dockContext, dockwindow_isOpen,            &windowNums[WDW_TARGET],            dockwindow_open,            &windowNums[WDW_TARGET],            "CMTargetWindow"    );
     contextMenu_addCheckBox( dockContext, dockwindow_isOpen,            &windowNums[WDW_HELP],                dockwindow_open,            &windowNums[WDW_HELP],                "CMHelpWindow"        );
     contextMenu_addCheckBox( dockContext, dockwindow_isOpen,            &windowNums[WDW_COSTUME_SELECT],    dockwindow_open,            &windowNums[WDW_COSTUME_SELECT],    "CMCostumeWindow"    );
-    contextMenu_addCode(     dockContext, alwaysAvailable,                &windowNums[WDW_ARENA_LIST],        cmdParse,                    "arena_list",        "CMArenaWindow",    0);
+    contextMenu_addCode(     dockContext, alwaysAvailable,                &windowNums[WDW_ARENA_LIST],        dockRunCommand,                "arena_list",        "CMArenaWindow",    0);
     contextMenu_addCode(     dockContext, alwaysAvailable,                &menuNums[MENU_REGISTER],            dockwindow_launch,            &menuNums[MENU_REGISTER],            "CMIDCard",            0);
     contextMenu_addCode(     dockContext, alwaysAvailable,                0,                                    dockwindow_selfInfo,        0,                                    "CMPersonalInfo",    0);
     contextMenu_addCode(     dockContext, dockwindow_usingChatServer,    0,                                    displayChatHandleDialog,    0,                                    "CMChatHandle",        0);    

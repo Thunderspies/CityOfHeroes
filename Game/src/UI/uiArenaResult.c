@@ -90,7 +90,7 @@ static int arenaColumnCompareDeathTime(const ArenaRankingTableEntry **a1, const 
     return (*a1)->rank-(*a2)->rank;    // rank is the same whenever this gets displayed anyway
 }
 
-static UIBox lvResultsDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, ArenaRankingTableEntry* item, int itemIndex);
+static UIBox lvResultsDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex);
 
 static void arenaResultInit(ArenaRankingTableEntry * arte)
 {
@@ -255,8 +255,9 @@ void arenaRebuildResultView(ArenaRankingTable * ranking)
 }
 
 
-static UIBox lvResultsDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, ArenaRankingTableEntry * item, int itemIndex)
+static UIBox lvResultsDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
 {
+    ArenaRankingTableEntry * item = (ArenaRankingTableEntry *)itemData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator;

@@ -1247,6 +1247,16 @@ void missionMakerDontOverwrite( char * pchFile )
     SAFE_FREE(pchFile);
 }
 
+static void missionMakerOverwriteAdapter(void* arg0)
+{
+    missionMakerOverwrite((char *)arg0);
+}
+
+static void missionMakerDontOverwriteAdapter(void* arg0)
+{
+    missionMakerDontOverwrite((char *)arg0);
+}
+
 void missionMakerSaveAsDialog(void *userdata)
 {
     int flags = PTR_TO_S32(userdata);
@@ -1256,7 +1266,7 @@ void missionMakerSaveAsDialog(void *userdata)
         FILE * open_test = fopen( getMissionPath(filename), "rb" );
         if ( open_test )
         {
-            dialogStdCB( DIALOG_YES_NO, "FileExists", NULL, NULL, missionMakerOverwrite, missionMakerDontOverwrite, DLGFLAG_ARCHITECT, strdup(filename) );
+            dialogStdCB( DIALOG_YES_NO, "FileExists", NULL, NULL, missionMakerOverwriteAdapter, missionMakerDontOverwriteAdapter, DLGFLAG_ARCHITECT, strdup(filename) );
             fclose(open_test);
             return;
         }
@@ -1307,6 +1317,21 @@ static void quitTFAndContinue(PlayerCreatedStoryArc *pArc)
     missionMakerTestStoryArc(pArc);
 }
 
+static void quitTFAndContinueAdapter(void * arg0)
+{
+    quitTFAndContinue((PlayerCreatedStoryArc *)arg0);
+}
+
+static void missionMakerTestStoryArcAcceptAdapter(void* arg0)
+{
+    missionMakerTestStoryArcAccept((PlayerCreatedStoryArc *)arg0);
+}
+
+static void missionMakerTestStoryArcCancelAdapter(void* arg0)
+{
+    missionMakerTestStoryArcCancel((PlayerCreatedStoryArc *)arg0);
+}
+
 void missionMakerTestStoryArc(PlayerCreatedStoryArc *pArc)
 {
     Entity *e = playerPtr();
@@ -1325,12 +1350,11 @@ void missionMakerTestStoryArc(PlayerCreatedStoryArc *pArc)
     {
         if( e->pl->taskforce_mode )
         {
-             dialog(DIALOG_TWO_RESPONSE, -1, -1, 600, -1,"MustLeaveTaskForce", "CancelString", 0, "QuitTFAndContinue", quitTFAndContinue, DLGFLAG_ARCHITECT, 0, 0, 0, 0, 0, pArc );
+             dialog(DIALOG_TWO_RESPONSE, -1, -1, 600, -1,"MustLeaveTaskForce", "CancelString", 0, "QuitTFAndContinue", quitTFAndContinueAdapter, DLGFLAG_ARCHITECT, 0, 0, 0, 0, 0, pArc );
         }
         else
         {
-            dialogStdCB(DIALOG_ACCEPT_CANCEL, "EnteringArchitectTaskForceTestWarning", 0, 0,
-                        missionMakerTestStoryArcAccept, missionMakerTestStoryArcCancel,    DLGFLAG_ARCHITECT, pArc );
+            dialogStdCB(DIALOG_ACCEPT_CANCEL, "EnteringArchitectTaskForceTestWarning", 0, 0, missionMakerTestStoryArcAcceptAdapter, missionMakerTestStoryArcCancelAdapter,    DLGFLAG_ARCHITECT, pArc );
             
         }
     }
@@ -1757,6 +1781,11 @@ static int drawTrackIcon( CBox *box, F32 x, F32 y, F32 z, F32 sc, AtlasTex *icon
     return mouseClickHit(box, MS_LEFT);
 }
 
+static void MMScrollSet_deleteMissionAdapter(void* arg0)
+{
+    MMScrollSet_deleteMission((MMScrollSet_Mission *)arg0);
+}
+
 void missionMakerNav( F32 x, F32 y, F32 z, F32 sc, F32 wd, F32 ht )
 {
     F32 per_space = (wd-2*R10*sc)/6.f-4*sc, sin_val;
@@ -1898,7 +1927,7 @@ void missionMakerNav( F32 x, F32 y, F32 z, F32 sc, F32 wd, F32 ht )
                    if( drawCloseButton( tx + per_space/2 + 50*sc, y + 30*sc, z, sc, nc  ) ) 
                 {
                     collisions_off_for_rest_of_frame = 1;
-                    dialogStdCB(DIALOG_ACCEPT_CANCEL, textStd("MMReallyDeleteMission", i), 0, 0, MMScrollSet_deleteMission, 0, DLGFLAG_ARCHITECT, missionMaker.ppMission[i-1] );
+                    dialogStdCB(DIALOG_ACCEPT_CANCEL, textStd("MMReallyDeleteMission", i), 0, 0, MMScrollSet_deleteMissionAdapter, 0, DLGFLAG_ARCHITECT, missionMaker.ppMission[i-1] );
                 }
                 if( missionMaker.current_mission == i-1 )
                 {

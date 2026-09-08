@@ -242,20 +242,30 @@ static smf_CM_textSub(void *data)
     estrConcatCharString(&smfEdit_currentCharactersToInsert, (char *)data);
     smf_SetSelectionCommand(SMFSelectionCommand_Delete);
 }
+static void smf_CM_colorAdapter(void* arg0)
+{
+    smf_CM_color((void *)arg0);
+}
+
+static void smf_CM_textSubAdapter(void* arg0)
+{
+    smf_CM_textSub((void *)arg0);
+}
+
 void smf_CreateContextMenu(void)
 {
     if (!smf_Interact_contextColorSubMenu)
     {
         smf_Interact_contextColorSubMenu = contextMenu_Create(NULL);
-        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_color, "red", "SMFCMColorRed", NULL);
-        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_color, "orange", "SMFCMColorOrange", NULL);
-        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_color, "yellow", "SMFCMColorYellow", NULL);
-        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_color, "palegreen", "SMFCMColorPaleGreen", NULL);
-        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_color, "green", "SMFCMColorGreen", NULL);
-        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_color, "skyblue", "SMFCMColorSkyBlue", NULL);
-        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_color, "royalblue", "SMFCMColorRoyalBlue", NULL);
-        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_color, "indigo", "SMFCMColorIndigo", NULL);
-        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_color, "violet", "SMFCMColorViolet", NULL);
+        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_colorAdapter, "red", "SMFCMColorRed", NULL);
+        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_colorAdapter, "orange", "SMFCMColorOrange", NULL);
+        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_colorAdapter, "yellow", "SMFCMColorYellow", NULL);
+        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_colorAdapter, "palegreen", "SMFCMColorPaleGreen", NULL);
+        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_colorAdapter, "green", "SMFCMColorGreen", NULL);
+        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_colorAdapter, "skyblue", "SMFCMColorSkyBlue", NULL);
+        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_colorAdapter, "royalblue", "SMFCMColorRoyalBlue", NULL);
+        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_colorAdapter, "indigo", "SMFCMColorIndigo", NULL);
+        contextMenu_addCode(smf_Interact_contextColorSubMenu, smf_CM_canColor, 0, smf_CM_colorAdapter, "violet", "SMFCMColorViolet", NULL);
     }
 
     if (!smf_Interact_contextScaleSubMenu)
@@ -269,11 +279,11 @@ void smf_CreateContextMenu(void)
     if (!smf_Interact_contextTextSubMenu)
     {
         smf_Interact_contextTextSubMenu = contextMenu_Create(NULL);
-        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSub, "$name", "SMFCMTextSubName", NULL);
-        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSub, "$class", "SMFCMTextSubClass", NULL);
-        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSub, "$origin", "SMFCMTextSubOrigin", NULL);
-        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSub, "$level", "SMFCMTextSubLevel", NULL);
-        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSub, "$supergroup", "SMFCMTextSubSuperGroup", NULL);
+        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSubAdapter, "$name", "SMFCMTextSubName", NULL);
+        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSubAdapter, "$class", "SMFCMTextSubClass", NULL);
+        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSubAdapter, "$origin", "SMFCMTextSubOrigin", NULL);
+        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSubAdapter, "$level", "SMFCMTextSubLevel", NULL);
+        contextMenu_addCode(smf_Interact_contextTextSubMenu, smf_CM_canTextSub, 0, smf_CM_textSubAdapter, "$supergroup", "SMFCMTextSubSuperGroup", NULL);
     }
 
     if (!smf_Interact_contextMenu)

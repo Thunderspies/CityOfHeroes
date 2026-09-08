@@ -1824,6 +1824,16 @@ void powerInfoSetClass(const CharacterClass *pClass)
 static ContextMenu * cmClassSelector;
 static int powerInfo_cmAvailable(const CharacterClass *pClass){ return (pClass==s_pClass)?CM_CHECKED:CM_AVAILABLE; }
 //static void powerInfo_cmSetClass(CharacterClass *pClass){ powerInfoSetClass( cpp_const_cast(const CharacterClass*)(pClass) ); }
+static int powerInfo_cmAvailableAdapter(void* arg0)
+{
+    return powerInfo_cmAvailable((const CharacterClass *)arg0);
+}
+
+static void powerInfoSetClassAdapter(void* arg0)
+{
+    powerInfoSetClass((const CharacterClass *)arg0);
+}
+
 void powerInfoClassSelector()
 {
     int i, x, y;
@@ -1837,7 +1847,7 @@ void powerInfoClassSelector()
         {
             const CharacterClass *pClass = g_CharacterClasses.ppClasses[i];
             void* context_menu_data = cpp_const_cast(CharacterClass*)(pClass);
-            contextMenu_addCheckBox( cmClassSelector, powerInfo_cmAvailable, context_menu_data, powerInfoSetClass, context_menu_data, pClass->pchDisplayName );
+            contextMenu_addCheckBox( cmClassSelector, powerInfo_cmAvailableAdapter, context_menu_data, powerInfoSetClassAdapter, context_menu_data, pClass->pchDisplayName );
         }
     }
 

@@ -3,6 +3,7 @@
 
 
 #include <utilitieslib/stdtypes.h>
+#include "gameComm/wdwbase.h"
 
 typedef void* uiTabData;
 typedef struct uiTabControl uiTabControl;
@@ -26,7 +27,7 @@ uiTabControl *    uiTabControlCreate(TabType type, uiTabActionFunc onSelectedCod
 uiTabControl *    uiTabControlCreateEx(TabType type, uiTabActionFunc onSelectedCode, uiTabActionFunc2 onMovedCode, uiTabActionFunc onDestroy, uiTabFontColorFunc fontColorFunc, ContextMenu *cm, int dragHoverSelect);
 void            uiTabControlDestroy(uiTabControl * tc);
 
-void            uiTabControlSetParentWindow(uiTabControl * tc, int wdw);    // use this if tab control is inside a draggable (resizable) window
+void            uiTabControlSetParentWindow(uiTabControl * tc, WindowName wdw);    // use this if tab control is inside a draggable (resizable) window
 
 void             uiTabControlAdd(uiTabControl * tc, const char * text, uiTabData data);
 void            uiTabControlAddColorOverride(uiTabControl * tc, const char * text, uiTabData data, int color, int activeColor);

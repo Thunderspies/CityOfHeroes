@@ -93,8 +93,10 @@ static CRITICAL_SECTION sCritSec;
 
 #define DEFAULT_UPDATE_INTERVAL  5.0f  // seconds between update requests
 
-static void targettedRemoteDesktop(ListView *lv, UpdateServerStats *stat, HWND hDlg)
+static void targettedRemoteDesktop(ListView* lv, void* statData, void* hDlgData)
 {
+    UpdateServerStats * stat = (UpdateServerStats *)statData;
+    HWND hDlg = (HWND)hDlgData;
     launchRemoteDesktop(stat->ip, stat->name);
 }
 
@@ -322,13 +324,15 @@ static void updateServerConnectAll()
     }
 }
 
-static void connectSingleWrapper(ListView *lv, UpdateServerStats *stat, void *junk)
+static void connectSingleWrapper(ListView* lv, void* statData, void* junk)
 {
+    UpdateServerStats * stat = (UpdateServerStats *)statData;
     updateServerConnectSingle(stat);
 }
 
-static void disconnectSingleWrapper(ListView *lv, UpdateServerStats *stat, void *junk)
+static void disconnectSingleWrapper(ListView* lv, void* statData, void* junk)
 {
+    UpdateServerStats * stat = (UpdateServerStats *)statData;
     updateServerDisconnect(stat);
 }
 

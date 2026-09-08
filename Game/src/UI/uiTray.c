@@ -1819,6 +1819,11 @@ void updateMacro(TrayObj *macroUpdateObj)
     }
 }
 
+static void updateMacroAdapter(void * arg0)
+{
+    updateMacro((TrayObj *)arg0);
+}
+
 void traycm_EditMacro( void * data )
 {
     Entity * e = playerPtr();
@@ -1841,10 +1846,10 @@ void traycm_EditMacro( void * data )
 
      if( update && IS_TRAY_MACRO(update->type) )
     {
-        dialogRemove(NULL,updateMacro,NULL);
+        dialogRemove(NULL, updateMacroAdapter,NULL);
         dialogSetTextEntry( update->command );
         dialog(DIALOG_OK_CANCEL_TEXT_ENTRY, -1, -1, -1, -1,
-            textStd("MacroEdit", update->shortName ), NULL, updateMacro, NULL, NULL,
+            textStd("MacroEdit", update->shortName ), NULL, updateMacroAdapter, NULL, NULL,
             DLGFLAG_GAME_ONLY|DLGFLAG_NO_TRANSLATE, NULL, NULL, 0, 0, 255, update );
     }
 }

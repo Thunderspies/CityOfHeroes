@@ -185,8 +185,9 @@ void ContactDialog( Packet *pak, int yesno )
     dialogStd(yesno?DIALOG_YES_NO:DIALOG_OK, descstr, NULL, NULL, contactSendYesResponse, yesno?contactSendNoResponse:NULL, 1 );
 }
 
-static void ContactDialogContextSendReply(int link, ContactDialogContext* dialogContext)
+static void ContactDialogContextSendReply(int link, void* dialogContextData)
 {
+    ContactDialogContext* dialogContext = (ContactDialogContext*)dialogContextData;
     START_INPUT_PACKET(pak, CLIENTINP_CONTACT_DIALOG_RESPONSE);
     pktSendBitsPack(pak, 1, link);
     END_INPUT_PACKET

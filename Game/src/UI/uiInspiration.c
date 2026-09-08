@@ -496,6 +496,61 @@ void inspirationMerge( char * pchSourceIn, char * pchDestIn )
 
 }
 
+static int inspirationcm_CanSendToStorageAdapter(void* arg0)
+{
+    return inspirationcm_CanSendToStorage((TrayObj *)arg0);
+}
+
+static void inspirationcm_MoveToStorageAdapter(void* arg0)
+{
+    inspirationcm_MoveToStorage((TrayObj *)arg0);
+}
+
+static int inspirationcm_CanSendToTradeAdapter(void* arg0)
+{
+    return inspirationcm_CanSendToTrade((TrayObj *)arg0);
+}
+
+static void inspirationcm_MoveToTradeAdapter(void* arg0)
+{
+    inspirationcm_MoveToTrade((TrayObj *)arg0);
+}
+
+static int inspirationcm_CanSendToAuctionAdapter(void* arg0)
+{
+    return inspirationcm_CanSendToAuction((TrayObj *)arg0);
+}
+
+static void inspirationcm_MoveToAuctionAdapter(void* arg0)
+{
+    inspirationcm_MoveToAuction((TrayObj *)arg0);
+}
+
+static int inspirationcm_CanMergeSmallAdapter(void* arg0)
+{
+    return inspirationcm_CanMergeSmall((TrayObj *)arg0);
+}
+
+static int inspirationcm_CanMergeMediumAdapter(void* arg0)
+{
+    return inspirationcm_CanMergeMedium((TrayObj *)arg0);
+}
+
+static int inspirationcm_CanMergeLargeAdapter(void* arg0)
+{
+    return inspirationcm_CanMergeLarge((TrayObj *)arg0);
+}
+
+static int inspirationcm_CanMergeAdapter(void* arg0)
+{
+    return inspirationcm_CanMerge((BasePower *)arg0);
+}
+
+static void inspirationcm_MergeAdapter(void* arg0)
+{
+    inspirationcm_Merge((BasePower *)arg0);
+}
+
 static void inspirationcm_init()
 {
     int i=0;
@@ -508,19 +563,19 @@ static void inspirationcm_init()
     contextMenu_addCode( gInspirationContext, alwaysAvailable, 0, inspirationcm_Remove,    0, "CMRemoveInspiration", 0  );
     contextMenu_addCode( gInspirationContext, alwaysAvailable, 0, traycm_Info,            0, "CMInfoString",    0  );
 
-    contextMenu_addCode( gInspirationContext, inspirationcm_CanSendToStorage,    0, inspirationcm_MoveToStorage,        0, "CMMoveToStorage", 0 );
-    contextMenu_addCode( gInspirationContext, inspirationcm_CanSendToTrade,        0, inspirationcm_MoveToTrade,        0, "CMMoveToTrade", 0 );
-    contextMenu_addCode( gInspirationContext, inspirationcm_CanSendToAuction,    0, inspirationcm_MoveToAuction,        0, "CMMoveToAuction", 0 );
+    contextMenu_addCode( gInspirationContext, inspirationcm_CanSendToStorageAdapter,    0, inspirationcm_MoveToStorageAdapter,        0, "CMMoveToStorage", 0 );
+    contextMenu_addCode( gInspirationContext, inspirationcm_CanSendToTradeAdapter,        0, inspirationcm_MoveToTradeAdapter,        0, "CMMoveToTrade", 0 );
+    contextMenu_addCode( gInspirationContext, inspirationcm_CanSendToAuctionAdapter,    0, inspirationcm_MoveToAuctionAdapter,        0, "CMMoveToAuction", 0 );
 
-    contextMenu_addCode( gInspirationContext, inspirationcm_CanMergeSmall, 0, 0, 0, "CMMergeInsp", gInspirationMergeSmall );
-    contextMenu_addCode( gInspirationContext, inspirationcm_CanMergeMedium, 0, 0, 0, "CMMergeInsp", gInspirationMergeMedium );
-    contextMenu_addCode( gInspirationContext, inspirationcm_CanMergeLarge, 0, 0, 0, "CMMergeInsp", gInspirationMergeLarge );
+    contextMenu_addCode( gInspirationContext, inspirationcm_CanMergeSmallAdapter, 0, 0, 0, "CMMergeInsp", gInspirationMergeSmall );
+    contextMenu_addCode( gInspirationContext, inspirationcm_CanMergeMediumAdapter, 0, 0, 0, "CMMergeInsp", gInspirationMergeMedium );
+    contextMenu_addCode( gInspirationContext, inspirationcm_CanMergeLargeAdapter, 0, 0, 0, "CMMergeInsp", gInspirationMergeLarge );
 
     while( g_smallInspirations[i] )
     {
         const BasePower * pInsp = basePower_inspirationGetByName( "Small", g_smallInspirations[i] );
         AtlasTex * pTex = atlasLoadTexture(pInsp->pchIconName);
-        contextMenu_addIconCode( gInspirationMergeSmall, inspirationcm_CanMerge, (void*)pInsp, inspirationcm_Merge, (void*)pInsp, pInsp->pchDisplayName, 0, pTex );
+        contextMenu_addIconCode( gInspirationMergeSmall, inspirationcm_CanMergeAdapter, (void*)pInsp, inspirationcm_MergeAdapter, (void*)pInsp, pInsp->pchDisplayName, 0, pTex );
         i++;
     }
     i = 0;
@@ -528,7 +583,7 @@ static void inspirationcm_init()
     {
         const BasePower * pInsp = basePower_inspirationGetByName( "Medium", g_mediumInspirations[i] );
         AtlasTex * pTex = atlasLoadTexture(pInsp->pchIconName);
-        contextMenu_addIconCode( gInspirationMergeMedium, inspirationcm_CanMerge, (void*)pInsp, inspirationcm_Merge, (void*)pInsp, pInsp->pchDisplayName, 0, pTex );
+        contextMenu_addIconCode( gInspirationMergeMedium, inspirationcm_CanMergeAdapter, (void*)pInsp, inspirationcm_MergeAdapter, (void*)pInsp, pInsp->pchDisplayName, 0, pTex );
         i++;
     }
     i = 0;
@@ -536,7 +591,7 @@ static void inspirationcm_init()
     {
         const BasePower * pInsp = basePower_inspirationGetByName( "Large", g_largeInspirations[i] );
         AtlasTex * pTex = atlasLoadTexture(pInsp->pchIconName);
-        contextMenu_addIconCode( gInspirationMergeLarge, inspirationcm_CanMerge, (void*)pInsp, inspirationcm_Merge, (void*)pInsp, pInsp->pchDisplayName, 0, pTex );
+        contextMenu_addIconCode( gInspirationMergeLarge, inspirationcm_CanMergeAdapter, (void*)pInsp, inspirationcm_MergeAdapter, (void*)pInsp, pInsp->pchDisplayName, 0, pTex );
         i++;
     }
 

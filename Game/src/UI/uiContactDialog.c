@@ -884,7 +884,7 @@ void cd_clear(void)
  * cd_SetBasic
  *
  */
-void cd_SetBasic(int type, char *body, ContactResponseOption **rep,
+void cd_SetBasic(CDtype type, char *body, ContactResponseOption **rep,
     void ( *fp)( int, void* ), void* voidptr)
 {
     cd_clear();

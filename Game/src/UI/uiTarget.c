@@ -299,12 +299,22 @@ static void interactTray_addCode( InteractTray *tray, int(*visible)(void*), void
     action->visData = visData;
     eaPush(&tray->action, action);
 }
+static int isCurrentTargetAdapter(void)
+{
+    return isCurrentTarget();
+}
+
+static const char * playerNote_TargetEditNameAdapter(void* arg0)
+{
+    return playerNote_TargetEditName((void *)arg0);
+}
+
 static void initInteractTrays(void)
 {
     //-------------------------------------------------------------------
     // player interaction
     //-------------------------------------------------------------------
-    interactPlayer = contextMenu_Create( isCurrentTarget );
+    interactPlayer = contextMenu_Create( isCurrentTargetAdapter);
 
     contextMenu_addCode( interactPlayer, canTradeWithTarget, 0, tradeWithTarget, 0, "CMTradeString", 0 );
     interactTray_addCode( &interact[INTERACT_PLAYER], canTradeWithTarget, 0, tradeWithTarget, 0, "TradeString");
@@ -410,7 +420,7 @@ static void initInteractTrays(void)
     //contextMenu_addCode( interactPlayer, raidCanInviteTarget, 0, raidInviteTarget, 0, "CMRaidInvite", NULL);
     //interactTray_addCode( &interact[INTERACT_PLAYER], raidCanInviteTarget, 0, raidInviteTarget, 0, "RaidInvite");
 
-    contextMenu_addVariableTextCode( interactPlayer, alwaysAvailable, 0, playerNote_TargetEdit, 0, playerNote_TargetEditName, 0, 0 );
+    contextMenu_addVariableTextCode( interactPlayer, alwaysAvailable, 0, playerNote_TargetEdit, 0, playerNote_TargetEditNameAdapter, 0, 0 );
     interactTray_addCode( &interact[INTERACT_PLAYER], alwaysAvailable, 0, playerNote_TargetEdit, 0, "AddEditNote");
 
     contextMenu_addCode( interactPlayer, turnstileGameCM_onEndGameRaid, 0, turnstile_votekickTarget, 0, "TUTVoteKickRequest", 0 );
@@ -487,7 +497,7 @@ static void initInteractTrays(void)
     contextMenu_addCode( interactPlayerNotOnMap, league_CanMakeLeader, 0, league_makeLeader, 0, "CMLeagueMakeLeader", 0 );
     interactTray_addCode( &interact[INTERACT_PLAYER_NOT_ON_MAP], league_CanMakeLeader, 0, league_makeLeader, 0, "LeagueMakeLeader");
 
-    contextMenu_addVariableTextCode( interactPlayerNotOnMap, alwaysAvailable, 0, playerNote_TargetEdit, 0, playerNote_TargetEditName, 0, 0 );
+    contextMenu_addVariableTextCode( interactPlayerNotOnMap, alwaysAvailable, 0, playerNote_TargetEdit, 0, playerNote_TargetEditNameAdapter, 0, 0 );
     interactTray_addCode( &interact[INTERACT_PLAYER_NOT_ON_MAP], alwaysAvailable, 0, playerNote_TargetEdit, 0, "AddEditNote");
 
     contextMenu_addCode( interactPlayerNotOnMap, canInviteTargetToAnyChannel, 0, 0, 0, "CMChannelInvite", getChannelInviteMenu());
@@ -506,13 +516,13 @@ static void initInteractTrays(void)
     contextMenu_addCode( interactPlayerOffline, sgroup_higherRanking, 0, sgroup_kick, 0, "CMKickFromSgroup", 0 );
     interactTray_addCode( &interact[INTERACT_OFFLINE], sgroup_higherRanking, 0, sgroup_kick, 0, "KickFromSupergroup");
 
-    contextMenu_addVariableTextCode( interactPlayerOffline, alwaysAvailable, 0, playerNote_TargetEdit, 0, playerNote_TargetEditName, 0, 0 );
+    contextMenu_addVariableTextCode( interactPlayerOffline, alwaysAvailable, 0, playerNote_TargetEdit, 0, playerNote_TargetEditNameAdapter, 0, 0 );
     interactTray_addCode( &interact[INTERACT_OFFLINE], alwaysAvailable, 0, playerNote_TargetEdit, 0, "AddEditNote");
 
     //-------------------------------------------------------------------
     // villain interaction
     //-------------------------------------------------------------------
-    interactVillain = contextMenu_Create( isCurrentTarget );
+    interactVillain = contextMenu_Create( isCurrentTargetAdapter);
 
     contextMenu_addCode( interactVillain, 0, 0, CodeFollow, 0, "CMFollowString", 0 );
     interactTray_addCode( &interact[INTERACT_VILLAIN], alwaysAvailable, 0, CodeFollow, 0, "FollowString");
@@ -523,7 +533,7 @@ static void initInteractTrays(void)
     //-------------------------------------------------------------------
     // NPC interaction
     //-------------------------------------------------------------------
-    interactNPC = contextMenu_Create( isCurrentTarget );
+    interactNPC = contextMenu_Create( isCurrentTargetAdapter);
 
     contextMenu_addCode( interactNPC, 0, 0, CodeFollow, 0, "CMFollowString", 0 );
     interactTray_addCode( &interact[INTERACT_NPC], alwaysAvailable, 0, CodeFollow, 0, "FollowString");
@@ -540,7 +550,7 @@ static void initInteractTrays(void)
     // Item interaction
     //-------------------------------------------------------------------
 
-    interactItem = contextMenu_Create( isCurrentTarget );
+    interactItem = contextMenu_Create( isCurrentTargetAdapter);
 
     contextMenu_addCode( interactItem, 0, 0, CodeInteractItem, 0, "CMInteractString", 0 );
     interactTray_addCode( &interact[INTERACT_ITEM], alwaysAvailable, 0, CodeInteractItem, 0, "InteractString");

@@ -225,17 +225,57 @@ static void ctsShowContextMenu()
 }
 
 // Setup the submenu for the right click filename options
+static const char * ctsGetBranchNumberAdapter(void* arg0)
+{
+    return ctsGetBranchNumber((void*)arg0);
+}
+
+static void ctsOpenFileAdapter(void* arg0)
+{
+    ctsOpenFile();
+}
+
+static void ctsOpenDirectoryAdapter(void* arg0)
+{
+    ctsOpenDirectory();
+}
+
+static void ctsCheckoutFileAdapter(void* arg0)
+{
+    ctsCheckoutFile();
+}
+
+static void ctsCheckinFileAdapter(void* arg0)
+{
+    ctsCheckinFile();
+}
+
+static void ctsUndoCheckoutAdapter(void* arg0)
+{
+    ctsUndoCheckout();
+}
+
+static void ctsGetLatestAdapter(void* arg0)
+{
+    ctsGetLatest();
+}
+
+static void ctsCheckRevisionsAdapter(void* arg0)
+{
+    ctsCheckRevisions();
+}
+
 static void ctsSetupSubMenu()
 {
     subMenu = contextMenu_Create(NULL);
-    contextMenu_addVariableText(subMenu, ctsGetBranchNumber, 0);
-    contextMenu_addCode(subMenu, ctsFileExists, NULL, (CMCode)ctsOpenFile, NULL, "Open File", 0);
-    contextMenu_addCode(subMenu, ctsFileExists, NULL, (CMCode)ctsOpenDirectory, NULL, "Open Directory", 0);
-    contextMenu_addCode(subMenu, ctsFileNotCheckedOut, NULL, (CMCode)ctsCheckoutFile, NULL, "Checkout File", 0);
-    contextMenu_addCode(subMenu, ctsFileCheckedOutByYou, NULL, (CMCode)ctsCheckinFile, NULL, "Checkin File", 0);
-    contextMenu_addCode(subMenu, ctsFileCheckedOutByYou, NULL, (CMCode)ctsUndoCheckout, NULL, "Undo Checkout", 0);
-    contextMenu_addCode(subMenu, ctsFileExistsWithSC, NULL, (CMCode)ctsGetLatest, NULL, "Get Latest", 0);
-    contextMenu_addCode(subMenu, ctsFileExistsWithSC, NULL, (CMCode)ctsCheckRevisions, NULL, "Check Revisions", 0);
+    contextMenu_addVariableText(subMenu, ctsGetBranchNumberAdapter, 0);
+    contextMenu_addCode(subMenu, ctsFileExists, NULL, ctsOpenFileAdapter, NULL, "Open File", 0);
+    contextMenu_addCode(subMenu, ctsFileExists, NULL, ctsOpenDirectoryAdapter, NULL, "Open Directory", 0);
+    contextMenu_addCode(subMenu, ctsFileNotCheckedOut, NULL, ctsCheckoutFileAdapter, NULL, "Checkout File", 0);
+    contextMenu_addCode(subMenu, ctsFileCheckedOutByYou, NULL, ctsCheckinFileAdapter, NULL, "Checkin File", 0);
+    contextMenu_addCode(subMenu, ctsFileCheckedOutByYou, NULL, ctsUndoCheckoutAdapter, NULL, "Undo Checkout", 0);
+    contextMenu_addCode(subMenu, ctsFileExistsWithSC, NULL, ctsGetLatestAdapter, NULL, "Get Latest", 0);
+    contextMenu_addCode(subMenu, ctsFileExistsWithSC, NULL, ctsCheckRevisionsAdapter, NULL, "Check Revisions", 0);
 }
 
 // Handles width differently depending on which display type we are using

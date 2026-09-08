@@ -1663,11 +1663,16 @@ static int uiEditCharacterWidthsHandler(UIEditCharacterWidthsParam* param){
     return 1;
 }
 
+static int uiEditCharacterWidthsHandlerGlyphCallback(TTTextForEachGlyphParam* param)
+{
+    return uiEditCharacterWidthsHandler((UIEditCharacterWidthsParam*)param);
+}
+
 float* uiEditLineGetCharacterWidths(UIEdit* edit, UIEditLine* line)
 {
     int i;
     UIEditCharacterWidthsParam characterWidthsParam;
-    characterWidthsParam.forEachParam.handler = (GlyphHandler)uiEditCharacterWidthsHandler;
+    characterWidthsParam.forEachParam.handler = uiEditCharacterWidthsHandlerGlyphCallback;
     characterWidthsParam.characterWidths = NULL;
     characterWidthsParam.lastWidthSum = 0.0;
     ttTextForEachGlyph(edit->font, (TTTextForEachGlyphParam*)&characterWidthsParam, 0, 0, edit->textScale, edit->textScale, line->lineText, estrWideLength(&line->lineText), true);

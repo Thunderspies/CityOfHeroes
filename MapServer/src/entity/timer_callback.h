@@ -42,7 +42,7 @@ typedef struct TimerCallback
 
 extern MemPool  alter_work_mem_pool;
 
-extern TimerCallback  *timerCreateCallback(int (* code )( void *go ), void *mem_pool);
+extern TimerCallback  *timerCreateCallback(int (* code )( void *go ), MemPool *mem_pool);
 extern void timerServeCallbacks(void);
 
 

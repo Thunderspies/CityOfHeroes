@@ -675,6 +675,16 @@ static int cmsalvage_canSell( void * data )
     else 
         return CM_HIDE;
 } 
+static const char * cmsalvage_moveOneTextAdapter(void* arg0)
+{
+    return cmsalvage_moveOneText((void *)arg0);
+}
+
+static const char * cmsalvage_moveStackTextAdapter(void* arg0)
+{
+    return cmsalvage_moveStackText((void *)arg0);
+}
+
 static void initSalavageContext()
 {
     s_SalvageContext = contextMenu_Create(NULL);
@@ -687,8 +697,8 @@ static void initSalavageContext()
     contextMenu_addCode( s_SalvageContext, alwaysAvailable, 0, cmsalvage_Info, 0, "CMInfoString", 0  );
     contextMenu_addCode( s_SalvageContext, cmsalvage_canDelete, 0, cmsalvage_Delete, 0, "CMRemoveSalvage", 0  );
     contextMenu_addCode( s_SalvageContext, cmsalvage_canDelete, 0, cmsalvage_DeleteStack, 0, "CMRemoveSalvageStack", 0  );
-    contextMenu_addVariableTextCode( s_SalvageContext, cmsalvage_canMove, 0, cmsalvage_MoveOne, 0, cmsalvage_moveOneText, 0, 0  );
-    contextMenu_addVariableTextCode( s_SalvageContext, cmsalvage_canMove, 0, cmsalvage_MoveStack, 0, cmsalvage_moveStackText, 0, 0  );
+    contextMenu_addVariableTextCode( s_SalvageContext, cmsalvage_canMove, 0, cmsalvage_MoveOne, 0, cmsalvage_moveOneTextAdapter, 0, 0  );
+    contextMenu_addVariableTextCode( s_SalvageContext, cmsalvage_canMove, 0, cmsalvage_MoveStack, 0, cmsalvage_moveStackTextAdapter, 0, 0  );
 
     contextMenu_addVariableTitle( s_SalvageContextNoGift, cmsalvage_Name, 0);
     contextMenu_addVariableText( s_SalvageContextNoGift, cmsalvage_Desc, 0);
@@ -697,8 +707,8 @@ static void initSalavageContext()
     contextMenu_addCode( s_SalvageContextNoGift, alwaysAvailable, 0, cmsalvage_Info, 0, "CMInfoString", 0  );
     contextMenu_addCode( s_SalvageContextNoGift, cmsalvage_canDelete, 0, cmsalvage_Delete, 0, "CMRemoveSalvage", 0  );
     contextMenu_addCode( s_SalvageContextNoGift, cmsalvage_canDelete, 0, cmsalvage_DeleteStack, 0, "CMRemoveSalvageStack", 0  );
-    contextMenu_addVariableTextCode( s_SalvageContextNoGift, cmsalvage_canMove, 0, cmsalvage_MoveOne, 0, cmsalvage_moveOneText, 0, 0  );
-    contextMenu_addVariableTextCode( s_SalvageContextNoGift, cmsalvage_canMove, 0, cmsalvage_MoveStack, 0, cmsalvage_moveStackText, 0, 0  );
+    contextMenu_addVariableTextCode( s_SalvageContextNoGift, cmsalvage_canMove, 0, cmsalvage_MoveOne, 0, cmsalvage_moveOneTextAdapter, 0, 0  );
+    contextMenu_addVariableTextCode( s_SalvageContextNoGift, cmsalvage_canMove, 0, cmsalvage_MoveStack, 0, cmsalvage_moveStackTextAdapter, 0, 0  );
 
     gift_addToContextMenu(s_SalvageContext);
 }

@@ -60,13 +60,15 @@ static int compareMemberFlags(const void * a, const void * b)
         return stricmp(memberA->user->handle, memberB->user->handle);
 }
 
-char * displayMemberHandle(CAChanMember * member)
+char * displayMemberHandle(void* memberData)
 {
+    CAChanMember * member = (CAChanMember *)memberData;
     return member->user->handle;
 }
 
-char * displayMemberFlags(CAChanMember * member)
+char * displayMemberFlags(void* memberData)
 {
+    CAChanMember * member = (CAChanMember *)memberData;
     return flagStr(member->flags);
 }
 
@@ -78,8 +80,9 @@ VirtualListViewEntry CAChanMemberInfo[] =
 };
 
 
-void CAChanMemberColor(CAChanMember * member, COLORREF* pTextColor, COLORREF* pBkColor)
+void CAChanMemberColor(void* memberData, COLORREF* pTextColor, COLORREF* pBkColor)
 {
+    CAChanMember * member = (CAChanMember *)memberData;
     if(member->flags & CHANFLAGS_ADMIN)
     {
         *pTextColor = RGB(255,0,0);
@@ -119,7 +122,7 @@ void CAChanMonInit(CAChanMon * cm, HWND hDlg)
     cm->hDlg = hDlg;
 
     cm->memberList = vListViewCreate();
-    vListViewInit(cm->memberList, CAChanMemberInfo, hDlg, GetDlgItem(hDlg, IDC_LST_CHANMON_MEMBERS), CAChanMemberFilter, (ColorFunc) CAChanMemberColor);
+    vListViewInit(cm->memberList, CAChanMemberInfo, hDlg, GetDlgItem(hDlg, IDC_LST_CHANMON_MEMBERS), CAChanMemberFilter,  CAChanMemberColor);
 
     MessageViewShowTime(cm->mv, g_bShowChatTimestamps);
 }
@@ -143,8 +146,10 @@ void ChanMonChannelMsg(char * channelName, char * msg, int type)
 }
 
 
-bool isMember(CAChanMember * member, CAUser * user)
+bool isMember(void* memberData, void* userData)
 {
+    CAChanMember * member = (CAChanMember *)memberData;
+    CAUser * user = (CAUser *)userData;
     return (member->user == user);
 }
 
@@ -155,7 +160,7 @@ void ChanMonUpdateUser(CAUser * user)
     for(i=eaSize(&gChanMons)-1;i>=0;--i)
     {
         VListView * lv = gChanMons[i]->memberList;
-        CAChanMember * member = (CAChanMember*) vListViewFind(lv, user, (FindFunc)isMember);
+        CAChanMember * member = (CAChanMember*) vListViewFind(lv, user, isMember);
         if(member)
         {
             vListViewRefreshItem(lv, member);
@@ -219,7 +224,7 @@ void ChanMonJoin(CAChannel * channel, CAUser * user, int flags)
     CAChanMon * cm = GetChanMon(channel);
     if(cm)
     {
-        CAChanMember * member = vListViewFind(cm->memberList, user, (FindFunc)isMember);
+        CAChanMember * member = vListViewFind(cm->memberList, user, isMember);
         if(member)
         {
             member->flags = flags;
@@ -244,7 +249,7 @@ void ChanMonLeave(CAChannel * channel, CAUser * user)
             ChanMonTabRemove(channel);
         else
         {
-            vListViewFindAndRemove(cm->memberList, user, (FindFunc)isMember);
+            vListViewFindAndRemove(cm->memberList, user, isMember);
             ChanMonUpdateCount(cm);
         }
     }

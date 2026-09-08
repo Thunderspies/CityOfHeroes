@@ -791,8 +791,9 @@ char* emailBuildDateString(char* datestr, U32 seconds)
     return datestr;
 }
 
-static UIBox emailHeaderDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, EmailHeader* item, int itemIndex)
+static UIBox emailHeaderDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
 {
+    EmailHeader* item = (EmailHeader*)itemData;
     UIBox box = {0};
     PointFloatXYZ pen = rowOrigin;
     float sc = list->scale;
@@ -907,7 +908,7 @@ static void emailInitHeaderListView(UIListView** listAddr, int isPlayer)
 
         uiLVFinalizeSettings(list);
 
-        list->displayItem = (UIListViewDisplayItemFunc)emailHeaderDisplayItem;
+        list->displayItem = emailHeaderDisplayItem;
 
         uiLVEnableMouseOver(list, 1);
         uiLVEnableSelection(list, 1);

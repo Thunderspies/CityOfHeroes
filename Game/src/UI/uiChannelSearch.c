@@ -272,8 +272,9 @@ static int chanDescCompare(const ChannelLine** chan1, const ChannelLine** chan2)
     return stricmp( (*chan1)->description, (*chan2)->description );        
 }
 
-static UIBox chanListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, ChannelLine* chan, int itemIndex)
+static UIBox chanListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* chanData, int itemIndex)
 {
+    ChannelLine* chan = (ChannelLine*)chanData;
     UIBox box;
     PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator;

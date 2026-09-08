@@ -1293,6 +1293,36 @@ int rageVisible(void* foo)
 
 //
 //
+static const char * statuscm_hpAdapter(void* arg0)
+{
+    return statuscm_hp((void*)arg0);
+}
+
+static const char * statuscm_endAdapter(void* arg0)
+{
+    return statuscm_end((void*)arg0);
+}
+
+static const char * statuscm_rageAdapter(void* arg0)
+{
+    return statuscm_rage((void*)arg0);
+}
+
+static const char * statuscm_xpAdapter(void* arg0)
+{
+    return statuscm_xp((void*)arg0);
+}
+
+static const char * statuscm_debtAdapter(void* arg0)
+{
+    return statuscm_debt((void*)arg0);
+}
+
+static const char * statuscm_restAdapter(void* arg0)
+{
+    return statuscm_rest((void*)arg0);
+}
+
 int statusWindow()
 {
 	static AtlasTex* heroIcon = 0, * vigilanteIcon = 0, * villainIcon = 0, * rogueIcon = 0, * loyalistIcon = 0, * resistanceIcon = 0, * neutralPrimalIcon = 0, * ringIcon = 0;
@@ -1345,13 +1375,13 @@ int statusWindow()
 	if (!gXpcm)
 	{
 		gXpcm = contextMenu_Create(NULL);
-		contextMenu_addVariableText(gXpcm, statuscm_hp, NULL);
-		contextMenu_addVariableText(gXpcm, statuscm_end, NULL);
-		contextMenu_addVariableTextVisible(gXpcm, rageVisible, NULL, statuscm_rage, NULL);
-		contextMenu_addVariableText(gXpcm, statuscm_xp, NULL);
+		contextMenu_addVariableText(gXpcm, statuscm_hpAdapter, NULL);
+		contextMenu_addVariableText(gXpcm, statuscm_endAdapter, NULL);
+		contextMenu_addVariableTextVisible(gXpcm, rageVisible, NULL, statuscm_rageAdapter, NULL);
+		contextMenu_addVariableText(gXpcm, statuscm_xpAdapter, NULL);
 		contextMenu_addCode(gXpcm, levelingpact_IsInPact, 0, levelingpact_openWindow, 0, "LevelingpactTip", 0);
-		contextMenu_addVariableText(gXpcm, statuscm_debt, NULL);
-		contextMenu_addVariableText(gXpcm, statuscm_rest, NULL);
+		contextMenu_addVariableText(gXpcm, statuscm_debtAdapter, NULL);
+		contextMenu_addVariableText(gXpcm, statuscm_restAdapter, NULL);
 	}
 
 	if (!window_getDims(WDW_STAT_BARS, &x, &y, &z, &wd, &ht, &scale, &color, &bcolor) || baseedit_Mode())

@@ -2,6 +2,9 @@
 #define _EDIT_LIBRARY_H
 
 typedef struct PropertyDefList PropertyDefList;
+typedef struct MenuEntry MenuEntry;
+typedef struct ClickInfo ClickInfo;
+void libraryMenuClickFunc(MenuEntry * entry, ClickInfo * click);
 
 extern PropertyDefList g_propertyDefList;
 

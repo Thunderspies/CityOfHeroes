@@ -135,8 +135,23 @@ void setStatusBar(int elem, const char *fmt, ...) {
     SendMessage(hStatusBar, SB_SETTEXT, elem, (LPARAM)tmp);
 }
 
+static void showChildCallback(ListView *lv, void *item, void *data)
+{
+    showChild(lv, (ChildInfo*)item, (int)(intptr_t)data);
+}
+
+static void setNextChildCallback(ListView *lv, void *item, void *data)
+{
+    setNextChild(lv, (ChildInfo*)item, data);
+}
+
+static void grabConsoleCallback(ListView *lv, void *item, void *data)
+{
+    grabConsole(lv, (ChildInfo*)item, data);
+}
+
 void onShowChild(HWND hDlg, int cmd) {
-    doOnSelected(hDlg, (ListViewCallbackFunc)showChild, (void*)(intptr_t)cmd);
+    doOnSelected(hDlg, showChildCallback, (void*)(intptr_t)cmd);
 }
 
 void onKillChild(HWND hDlg) {
@@ -148,11 +163,11 @@ void onSendCommand(HWND hDlg) {
 }
 
 void onSetNextChild(HWND hDlg) {
-    doOnSelected(hDlg, (ListViewCallbackFunc)setNextChild, NULL);
+    doOnSelected(hDlg, setNextChildCallback, NULL);
 }
 
 void onGrabConsole(HWND hDlg) {
-    doOnSelected(hDlg, (ListViewCallbackFunc)grabConsole, NULL);
+    doOnSelected(hDlg, grabConsoleCallback, NULL);
 }
 
 void onQuitChild(HWND hDlg)

@@ -324,8 +324,9 @@ void characterTransferHandleProgress(float screenScaleX, float screenScaleY)
     }
 }
 
-UIBox displayShardListViewItem(UIListView* list, PointFloatXYZ row_origin, void* user_settings, DestinationShard* dest_shard, int item_index)
+UIBox displayShardListViewItem(UIListView* list, PointFloatXYZ row_origin, void* user_settings, void* dest_shardData, int item_index)
 {
+    DestinationShard* dest_shard = (DestinationShard*)dest_shardData;
     UIBox retval;
     UIColumnHeaderIterator column_iterator;
     float xpos;

@@ -48,8 +48,9 @@ static int compareChannelName(const void * a, const void * b)
 }
 
 
-char * displayChannelName(CAChannel * channel)
+char * displayChannelName(void* channelData)
 {
+    CAChannel * channel = (CAChannel *)channelData;
     return channel->name;
 }
 
@@ -213,8 +214,9 @@ void ChannelListInit()
 
 
 
-int CAChannelFilter(CAChannel * channel)
+int CAChannelFilter(void* channelData)
 {
+    CAChannel * channel = (CAChannel *)channelData;
     if(gChannelListFilterLength)
         return strncmp(channel->filterName, gChannelListFilter, gChannelListFilterLength);
     else
@@ -263,7 +265,7 @@ LRESULT CALLBACK DlgChannelListProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM
 
             if (lvChannelList) vListViewDestroy(lvChannelList);
             lvChannelList = vListViewCreate();
-            vListViewInit(lvChannelList, CAChannelInfo, hDlg, GetDlgItem(hDlg, IDC_LST_ALLCHANNELS), (FilterFunc)CAChannelFilter, 0);
+            vListViewInit(lvChannelList, CAChannelInfo, hDlg, GetDlgItem(hDlg, IDC_LST_ALLCHANNELS), CAChannelFilter, 0);
 
             SetTimer(hDlg, 0, 5000, NULL);
 

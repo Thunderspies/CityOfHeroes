@@ -578,15 +578,15 @@ OptionDisplayType displayIfVip(GameOptions *go)
 
 
 
-static char *DisplayShowOption(UserOption *pv);
+static char *DisplayShowOption(void* pvData);
 static char *DisplayStackOption(void *pv);
 static char *DisplayPetSayOption(void *unused);
 static char *DisplayTeamCompleteOption(void *unused);
 
-static void ToggleLimitedShowOption(UserOption *pv);
-static void ToggleShowOption(UserOption *pv);
-static void ToggleCertShowClaimOption(UserOption *pv);
-static void ToggleShowOnOff(UserOption *pv);
+static void ToggleLimitedShowOption(void* pvData);
+static void ToggleShowOption(void* pvData);
+static void ToggleCertShowClaimOption(void* pvData);
+static void ToggleShowOnOff(void* pvData);
 static void ToggleStackOption(void *pv);
 static void TogglePetSayOption(void *unused);
 static void ToggleTeamCompleteOption(void *unused);
@@ -943,8 +943,9 @@ static GameOptions s_optListControls[] =
 
 //----------------------------------------------------------------------------------------------------------------
 
-static char *DisplayShowOption(UserOption *pv)
+static char *DisplayShowOption(void* pvData)
 {
+    UserOption * pv = (UserOption *)pvData;
     static char ach[128];
     int val = pv->iVal;
 
@@ -1033,8 +1034,9 @@ static void ToggleJoystickEnable(void *pv)
     JoystickEnable();
 }
 
-static void ToggleShowOption(UserOption *pv)
+static void ToggleShowOption(void* pvData)
 {
+    UserOption * pv = (UserOption *)pvData;
     if(pv->iVal & kShow_Selected && pv->iVal & kShow_OnMouseOver)
         pv->iVal = kShow_HideAlways;
     else if(pv->iVal & kShow_Always)
@@ -1067,8 +1069,9 @@ static void TogglePetSayOption(void *unused)
         optionSet(kUO_ChatEnablePetTeamSay, 1, 0);    
     }
 }
-static void ToggleCertShowClaimOption(UserOption *pv)
+static void ToggleCertShowClaimOption(void* pvData)
 {
+    UserOption * pv = (UserOption *)pvData;
     pv->iVal = !pv->iVal;
     updateCertifications(0);
 }
@@ -1086,8 +1089,9 @@ static void ToggleTeamCompleteOption(void *unused)
     optionSet( kUO_TeamComplete, (optionGet(kUO_TeamComplete)+1)%3, 0 );
 }
 
-static void ToggleLimitedShowOption(UserOption *pv)
+static void ToggleLimitedShowOption(void* pvData)
 {
+    UserOption * pv = (UserOption *)pvData;
     if(pv->iVal&kShow_Selected && pv->iVal&kShow_OnMouseOver)
         pv->iVal = kShow_HideAlways;
     else if(pv->iVal&kShow_OnMouseOver)
@@ -1098,8 +1102,9 @@ static void ToggleLimitedShowOption(UserOption *pv)
         pv->iVal = kShow_OnMouseOver;
 }
 
-static void ToggleShowOnOff(UserOption *pv)
+static void ToggleShowOnOff(void* pvData)
 {
+    UserOption * pv = (UserOption *)pvData;
     if(pv->iVal & kShow_Always )
         pv->iVal = kShow_HideAlways;
     else

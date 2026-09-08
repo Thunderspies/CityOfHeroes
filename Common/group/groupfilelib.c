@@ -66,7 +66,9 @@ StashTable                    group_file_hashes;
 static char                    binfile_fullpath[1000];
 
 extern Menu * libraryMenu;
-extern void   libraryMenuClickFunc(MenuEntry *,void *);
+#ifdef CLIENT
+#include "edit/edit_library.h"
+#endif
 
 static char *groupGetPublicName(const char *name,char *pub_name,int len)
 {

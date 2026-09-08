@@ -63,8 +63,9 @@ void onShardRelayTick(HWND hDlg)
     lock--;
 }
 
-void sendBatchFileToSvrMon(ListView *lv, void *structptr, FileAllocInfo * file)
+void sendBatchFileToSvrMon(ListView* lv, void* structptr, void* fileData)
 {
+    FileAllocInfo * file = (FileAllocInfo *)fileData;
     NetLink * link = &(((ServerStats*) structptr)->link);
 
     if(link)
@@ -87,15 +88,16 @@ void onShardRelayRunBatchFile()
 
     if(OpenAndAllocFile("Select Batch File", "*.bat", &file))
     {
-        listViewDoOnSelected(lvShardRelays, (ListViewCallbackFunc) sendBatchFileToSvrMon, &file);
+        listViewDoOnSelected(lvShardRelays, sendBatchFileToSvrMon, &file);
         free(file.data);
     }
 }
 
 
 // send an "apply patch" command to all server monitors
-void onShardRelayApplyPatch(ListView *lv, void *structptr, char * updateSvr)
+void onShardRelayApplyPatch(ListView* lv, void* structptr, void* updateSvrData)
 {
+    char * updateSvr = (char *)updateSvrData;
     NetLink * link = &(((ServerStats*) structptr)->link);
     
     if(link)
@@ -107,8 +109,10 @@ void onShardRelayApplyPatch(ListView *lv, void *structptr, char * updateSvr)
     }
 }
 
-void ShardRelaySendCommand(ListView *lv, ServerStats *stat, int cmd)
+void ShardRelaySendCommand(ListView* lv, void* statData, void* cmdData)
 {
+    ServerStats * stat = (ServerStats *)statData;
+    int cmd = (int)(intptr_t)cmdData;
     NetLink * link = &(stat->link);
     Packet    *pak = pktCreateEx(link,cmd);
     pktSend(&pak, link);
@@ -192,28 +196,28 @@ LRESULT CALLBACK DlgShardRelayProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM 
         xcase IDC_RELAY_APPLY_PATCH:
             getText(hDlg, NULL, relayMapping, ARRAY_SIZE(relayMapping));
             addNameToList("UpdateSvr", g_updateServerAddr);
-            listViewDoOnSelected(lvShardRelays, (ListViewCallbackFunc) onShardRelayApplyPatch, g_updateServerAddr);
+            listViewDoOnSelected(lvShardRelays, onShardRelayApplyPatch, g_updateServerAddr);
             return TRUE;
         xcase IDC_RELAY_START_ALL:
-            listViewDoOnSelected(lvShardRelays, (ListViewCallbackFunc) ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_START_ALL);
+            listViewDoOnSelected(lvShardRelays, ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_START_ALL);
             return TRUE;
         xcase IDC_RELAY_STOP_ALL:
-            listViewDoOnSelected(lvShardRelays, (ListViewCallbackFunc) ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_STOP_ALL);
+            listViewDoOnSelected(lvShardRelays, ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_STOP_ALL);
             return TRUE;
         xcase IDC_RELAY_KILLALL_MAPSERVER:
-            listViewDoOnSelected(lvShardRelays, (ListViewCallbackFunc) ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_KILL_ALL_MAPSERVER);
+            listViewDoOnSelected(lvShardRelays, ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_KILL_ALL_MAPSERVER);
             return TRUE;
         xcase IDC_RELAY_KILLALL_LAUNCHER:
-            listViewDoOnSelected(lvShardRelays, (ListViewCallbackFunc) ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_KILL_ALL_LAUNCHER);
+            listViewDoOnSelected(lvShardRelays, ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_KILL_ALL_LAUNCHER);
             return TRUE;
         xcase IDC_RELAY_START_LAUNCHER:
-            listViewDoOnSelected(lvShardRelays, (ListViewCallbackFunc) ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_START_LAUNCHER);
+            listViewDoOnSelected(lvShardRelays, ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_START_LAUNCHER);
             return TRUE;
         xcase IDC_RELAY_START_DBSERVER:
-            listViewDoOnSelected(lvShardRelays, (ListViewCallbackFunc) ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_START_DBSERVER);
+            listViewDoOnSelected(lvShardRelays, ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_START_DBSERVER);
             return TRUE;
         xcase IDC_BUTTON_RELAY_CANCEL_ALL:
-            listViewDoOnSelected(lvShardRelays, (ListViewCallbackFunc) ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_CANCEL_ALL);
+            listViewDoOnSelected(lvShardRelays, ShardRelaySendCommand, (void*)(intptr_t)SVRMONSHARDMON_RELAY_CANCEL_ALL);
             return TRUE;
         xcase IDC_RELAY_SELECT_ALL:
             listViewSelectAll(lvShardRelays, TRUE);

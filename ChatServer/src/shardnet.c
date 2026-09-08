@@ -334,20 +334,12 @@ void devPing(User *user, char *cmd)
         sendMsg(user->link,user->auth_id,cmd);
 }
 
-typedef void (*handler0)(User *user);
-typedef void (*handler1)(User *user,char *cmd1);
-typedef void (*handler2)(User *user,char *cmd1,char *cmd2);
-typedef void (*handler3)(User *user,char *cmd1,char *cmd2,char *cmd3);
-typedef void (*handler4)(User *user,char *cmd1,char *cmd2,char *cmd3,char *cmd4);
-typedef void (*handler5)(User *user,char *cmd1,char *cmd2,char *cmd3,char *cmd4,char *cmd5);
-typedef void (*handlerGeneric)(User * user, char **args, int count);
 
-typedef int (*handlerLogin)(ClientLink *client,int auth_id, char *cmd0,U32 hash[4],char *cmd2,char *cmd3,char *cmd4);
 
 typedef struct{
     U32        access_level;
     char    *cmdname;
-    void    (*handler)();
+    int     (*handler)(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash);
     U32        cmd_sizes[6];
     int        no_user;
     int        genericHandler;
@@ -356,94 +348,546 @@ typedef struct{
     int        recv_count;    // (debug only) number of times this command was received from client
 } ShardCmd;
 
+static int gameLoginCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    return gameLogin(client, auth_id, args[0], hash, args[2], args[3], args[4]);
+}
+
+static int pubLoginCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    return pubLogin(client, auth_id, args[0], hash);
+}
+
+static int adminLoginCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    return adminLogin(client, auth_id, args[0], hash);
+}
+
+static int shardLoginCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    return shardLogin(client, auth_id, args[0]);
+}
+
+static int userLogoutCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userLogout(user);
+    return 1;
+}
+
+static int userSendCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userSend(user, args[0], args[1]);
+    return 1;
+}
+
+static int userXactRequestGmailCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userXactRequestGmail(user, args[0], args[1], args[2], args[3]);
+    return 1;
+}
+
+static int userCommitRequestGmailCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userCommitRequestGmail(user, args[0], args[1]);
+    return 1;
+}
+
+static int systemSendGmailCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    systemSendGmail(user, args[0], args[1], args[2], args[3], args[4]);
+    return 1;
+}
+
+static int userGmailDeleteCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userGmailDelete(user, args[0]);
+    return 1;
+}
+
+static int userGmailReturnCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userGmailReturn(user, args[0]);
+    return 1;
+}
+
+static int userGmailClaimCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userGmailClaim(user, args[0]);
+    return 1;
+}
+
+static int userGmailClaimConfirmCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userGmailClaimConfirm(user, args[0]);
+    return 1;
+}
+
+static int userNameCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userName(user, args[0]);
+    return 1;
+}
+
+static int chatServerShutdownCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    chatServerShutdown(user, args[0]);
+    return 1;
+}
+
+static int userCsrNameCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userCsrName(user, args[0], args[1]);
+    return 1;
+}
+
+static int userCsrSilenceCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userCsrSilence(user, args[0], args[1]);
+    return 1;
+}
+
+static int userCsrRenameableCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userCsrRenameable(user, args[0]);
+    return 1;
+}
+
+static int channelKillCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelKill(user, args[0]);
+    return 1;
+}
+
+static int csrStatusCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrStatus(user, args[0]);
+    return 1;
+}
+
+static int csrSilenceAllCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrSilenceAll(user);
+    return 1;
+}
+
+static int csrUnsilenceAllCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrUnsilenceAll(user);
+    return 1;
+}
+
+static int csrSendAllCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrSendAll(user, args[0]);
+    return 1;
+}
+
+static int csrRenameAllCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrRenameAll(user);
+    return 1;
+}
+
+static int csrRemoveAllCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrRemoveAll(user);
+    return 1;
+}
+
+static int csrCheckMailSentCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrCheckMailSent(user, args[0]);
+    return 1;
+}
+
+static int csrCheckMailReceivedCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrCheckMailReceived(user, args[0]);
+    return 1;
+}
+
+static int csrBounceMailSentCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrBounceMailSent(user, args[0], args[1]);
+    return 1;
+}
+
+static int csrBounceMailReceivedCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    csrBounceMailReceived(user, args[0], args[1]);
+    return 1;
+}
+
+static int friendRequestCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    friendRequest(user, args[0]);
+    return 1;
+}
+
+static int friendRemoveCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    friendRemove(user, args[0]);
+    return 1;
+}
+
+static int friendListCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    friendList(user);
+    return 1;
+}
+
+static int friendStatusCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    friendStatus(user, args[0]);
+    return 1;
+}
+
+static int userInvisibleCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userInvisible(user);
+    return 1;
+}
+
+static int userVisibleCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userVisible(user);
+    return 1;
+}
+
+static int userFriendHideCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userFriendHide(user);
+    return 1;
+}
+
+static int userFriendUnHideCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userFriendUnHide(user);
+    return 1;
+}
+
+static int userTellHideCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userTellHide(user);
+    return 1;
+}
+
+static int userTellUnHideCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userTellUnHide(user);
+    return 1;
+}
+
+static int userClearMessageHashCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userClearMessageHash(user);
+    return 1;
+}
+
+static int userGmailFriendOnlySetCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userGmailFriendOnlySet(user);
+    return 1;
+}
+
+static int userGmailFriendOnlyUnsetCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userGmailFriendOnlyUnset(user);
+    return 1;
+}
+
+static int ignoreCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    ignore(user, args[0]);
+    return 1;
+}
+
+static int unIgnoreCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    unIgnore(user, args[0]);
+    return 1;
+}
+
+static int ignoreSpammerCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    ignoreSpammer(user, args[0]);
+    return 1;
+}
+
+static int ignoreAuthCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    ignoreAuth(user, args[0]);
+    return 1;
+}
+
+static int unIgnoreAuthCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    unIgnoreAuth(user, args[0]);
+    return 1;
+}
+
+static int ignoreAuthSpammerCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    ignoreAuthSpammer(user, args[0]);
+    return 1;
+}
+
+static int ignoreListCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    ignoreList(user);
+    return 1;
+}
+
+static int unSpamMeCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    unSpamMe(user);
+    return 1;
+}
+
+static int setSpammerThresholdCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    setSpammerThreshold(user, args[0]);
+    return 1;
+}
+
+static int setSpammerMultiplierCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    setSpammerMultiplier(user, args[0]);
+    return 1;
+}
+
+static int setSpammerDurationCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    setSpammerDuration(user, args[0]);
+    return 1;
+}
+
+static int getGlobalCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    getGlobal(user, args[0]);
+    return 1;
+}
+
+static int getGlobalSilentCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    getGlobalSilent(user, args[0]);
+    return 1;
+}
+
+static int getLocalCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    getLocal(user, args[0]);
+    return 1;
+}
+
+static int getLocalInviteCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    getLocalInvite(user, args[0]);
+    return 1;
+}
+
+static int getLocalLeagueInviteCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    getLocalLeagueInvite(user, args[0]);
+    return 1;
+}
+
+static int channelJoinCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelJoin(user, args[0], args[1]);
+    return 1;
+}
+
+static int channelCreateCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelCreate(user, args[0], args[1]);
+    return 1;
+}
+
+static int channelLeaveCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelLeave(user, args[0], 0);
+    return 1;
+}
+
+static int channelInviteDenyCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelInviteDeny(user, args[0], args[1]);
+    return 1;
+}
+
+static int channelSendCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelSend(user, args[0], args[1]);
+    return 1;
+}
+
+static int channelSetUserAccessCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelSetUserAccess(user, args[0], args[1], args[2]);
+    return 1;
+}
+
+static int channelSetAccessCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelSetAccess(user, args[0], args[1]);
+    return 1;
+}
+
+static int channelCsrMembersAccessCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelCsrMembersAccess(user, args[0], args[1]);
+    return 1;
+}
+
+static int channelInviteCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelInvite(user, args, count);
+    return 1;
+}
+
+static int channelCsrInviteCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelCsrInvite(user, args, count);
+    return 1;
+}
+
+static int watchingListCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    watchingList(user);
+    return 1;
+}
+
+static int channelListMembersCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelListMembers(user, args[0]);
+    return 1;
+}
+
+static int channelSetMotdCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelSetMotd(user, args[0], args[1]);
+    return 1;
+}
+
+static int channelFindCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelFind(user, args[0], args[1]);
+    return 1;
+}
+
+static int channelSetDescriptionCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelSetDescription(user, args[0], args[1]);
+    return 1;
+}
+
+static int channelSetTimoutCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    channelSetTimout(user, args[0], args[1]);
+    return 1;
+}
+
+static int devPingCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    devPing(user, args[0]);
+    return 1;
+}
+
+static int userSetGmailXactDebugCommand(ClientLink *client, int auth_id, User *user, char **args, int count, U32 *hash)
+{
+    userSetGmailXactDebug(user, args[0]);
+    return 1;
+}
+
 static ShardCmd cmds[] =
 {
-    { 0, "Login",                gameLogin,                {MAX_PLAYERNAME, 500, MAX_MESSAGE, 64, 12 },        1 }, 
-    { 0, "PubLogin",            pubLogin,                {MAX_PLAYERNAME, 500,         },                        1 }, 
-    { 1, "AdminLogin",            adminLogin,                {MAX_PLAYERNAME, 500        },                        1 }, 
-    { 0, "ShardLogin",            shardLogin,                {256},                                                1 }, 
-    { 0, "Logout",                userLogout,                 }, 
-    { 0, "SendUser",            userSend,                {MAX_PLAYERNAME,    MAX_MESSAGE} }, 
+    { 0, "Login",                gameLoginCommand,                {MAX_PLAYERNAME, 500, MAX_MESSAGE, 64, 12 },        1 },
+    { 0, "PubLogin",            pubLoginCommand,                {MAX_PLAYERNAME, 500,         },                        1 },
+    { 1, "AdminLogin",            adminLoginCommand,                {MAX_PLAYERNAME, 500        },                        1 },
+    { 0, "ShardLogin",            shardLoginCommand,                {256},                                                1 },
+    { 0, "Logout",                userLogoutCommand,                 },
+    { 0, "SendUser",            userSendCommand,                {MAX_PLAYERNAME,    MAX_MESSAGE} },
 
-    { 0, "GmailXactRequest",    userXactRequestGmail,    {MAX_PLAYERNAME,  200, MAX_MESSAGE, MAX_PATH } }, 
-    { 0, "GmailCommitRequest",    userCommitRequestGmail,    {MAX_PLAYERNAME, MAX_PATH } }, 
-    { 0, "SystemGmail",            systemSendGmail,        {MAX_PLAYERNAME, 200, MAX_MESSAGE, MAX_PATH, 12 } }, 
-    { 0, "GmailDelete",            userGmailDelete,        { 12 } }, 
-    { 0, "GmailReturn",            userGmailReturn,        { 12 } },
+    { 0, "GmailXactRequest",    userXactRequestGmailCommand,    {MAX_PLAYERNAME,  200, MAX_MESSAGE, MAX_PATH } },
+    { 0, "GmailCommitRequest",    userCommitRequestGmailCommand,    {MAX_PLAYERNAME, MAX_PATH } },
+    { 0, "SystemGmail",            systemSendGmailCommand,        {MAX_PLAYERNAME, 200, MAX_MESSAGE, MAX_PATH, 12 } },
+    { 0, "GmailDelete",            userGmailDeleteCommand,        { 12 } },
+    { 0, "GmailReturn",            userGmailReturnCommand,        { 12 } },
 
-    { 0, "GmailClaimRequest",    userGmailClaim,            { 12 } }, 
-    { 0, "GmailClaimConfirm",    userGmailClaimConfirm,    { 12 } }, 
+    { 0, "GmailClaimRequest",    userGmailClaimCommand,            { 12 } },
+    { 0, "GmailClaimConfirm",    userGmailClaimConfirmCommand,    { 12 } },
 
-    { 0, "Name",                userName,                 {MAX_PLAYERNAME} }, 
-    { 3, "Shutdown",            chatServerShutdown,        {MAX_MESSAGE} }, 
+    { 0, "Name",                userNameCommand,                 {MAX_PLAYERNAME} },
+    { 3, "Shutdown",            chatServerShutdownCommand,        {MAX_MESSAGE} },
 
-    { 2, "CsrName",                userCsrName,             {MAX_PLAYERNAME,    MAX_PLAYERNAME} }, 
-    { 2, "CsrSilence",            userCsrSilence,            {MAX_PLAYERNAME,    10} }, 
-    { 2, "CsrGrantRename",        userCsrRenameable,        {MAX_PLAYERNAME} },
-    { 2, "CsrChanKill",            channelKill,            {MAX_CHANNELNAME} }, 
-    { 1, "CsrStatus",            csrStatus,                {MAX_PLAYERNAME} },
-    { 3, "CsrSilenceAll",        csrSilenceAll,            }, 
-    { 3, "CsrUnsilenceAll",        csrUnsilenceAll,        }, 
-    { 3, "CsrSendAll",            csrSendAll,                {MAX_MESSAGE} }, 
-    { 4, "CsrRenameAll",        csrRenameAll,            },
-    { 4, "CsrRemoveAll",        csrRemoveAll,            {MAX_PLAYERNAME} },
-    { 2, "CsrCheckMailSent",     csrCheckMailSent,        {MAX_PLAYERNAME} },
-    { 2, "CsrCheckMailReceived", csrCheckMailReceived,    {MAX_PLAYERNAME} },
-    { 4, "CsrBounceMailSent",     csrBounceMailSent,        {MAX_PLAYERNAME, 12} },
-    { 4, "CsrBounceMailReceived", csrBounceMailReceived,    {MAX_PLAYERNAME, 12} },
+    { 2, "CsrName",                userCsrNameCommand,             {MAX_PLAYERNAME,    MAX_PLAYERNAME} },
+    { 2, "CsrSilence",            userCsrSilenceCommand,            {MAX_PLAYERNAME,    10} },
+    { 2, "CsrGrantRename",        userCsrRenameableCommand,        {MAX_PLAYERNAME} },
+    { 2, "CsrChanKill",            channelKillCommand,            {MAX_CHANNELNAME} },
+    { 1, "CsrStatus",            csrStatusCommand,                {MAX_PLAYERNAME} },
+    { 3, "CsrSilenceAll",        csrSilenceAllCommand,            },
+    { 3, "CsrUnsilenceAll",        csrUnsilenceAllCommand,        },
+    { 3, "CsrSendAll",            csrSendAllCommand,                {MAX_MESSAGE} },
+    { 4, "CsrRenameAll",        csrRenameAllCommand,            },
+    { 4, "CsrRemoveAll",        csrRemoveAllCommand,            {MAX_PLAYERNAME} },
+    { 2, "CsrCheckMailSent",     csrCheckMailSentCommand,        {MAX_PLAYERNAME} },
+    { 2, "CsrCheckMailReceived", csrCheckMailReceivedCommand,    {MAX_PLAYERNAME} },
+    { 4, "CsrBounceMailSent",     csrBounceMailSentCommand,        {MAX_PLAYERNAME, 12} },
+    { 4, "CsrBounceMailReceived", csrBounceMailReceivedCommand,    {MAX_PLAYERNAME, 12} },
 
-    { 0, "Friend",            friendRequest,            {MAX_PLAYERNAME} }, 
-    { 0, "UnFriend",        friendRemove,            {MAX_PLAYERNAME} }, 
-    { 0, "Friends",            friendList,                }, 
-    { 0, "Status",            friendStatus,            {MAX_FRIENDSTATUS} }, 
-    { 0, "Invisible",        userInvisible,            }, 
-    { 0, "Visible",            userVisible,            }, 
-    { 0, "FriendHide",        userFriendHide,            }, 
-    { 0, "FriendunHide",    userFriendUnHide,        }, 
-    { 0, "TellHide",        userTellHide,            }, 
-    { 0, "TellUnHide",        userTellUnHide,            }, 
-    { 0, "GlobalMotd",        userClearMessageHash,    },
+    { 0, "Friend",            friendRequestCommand,            {MAX_PLAYERNAME} },
+    { 0, "UnFriend",        friendRemoveCommand,            {MAX_PLAYERNAME} },
+    { 0, "Friends",            friendListCommand,                },
+    { 0, "Status",            friendStatusCommand,            {MAX_FRIENDSTATUS} },
+    { 0, "Invisible",        userInvisibleCommand,            },
+    { 0, "Visible",            userVisibleCommand,            },
+    { 0, "FriendHide",        userFriendHideCommand,            },
+    { 0, "FriendunHide",    userFriendUnHideCommand,        },
+    { 0, "TellHide",        userTellHideCommand,            },
+    { 0, "TellUnHide",        userTellUnHideCommand,            },
+    { 0, "GlobalMotd",        userClearMessageHashCommand,    },
 
-    { 0, "GMailFriendOnlySet",        userGmailFriendOnlySet,        }, 
-    { 0, "GMailFriendOnlyUnset",    userGmailFriendOnlyUnset,    }, 
+    { 0, "GMailFriendOnlySet",        userGmailFriendOnlySetCommand,        },
+    { 0, "GMailFriendOnlyUnset",    userGmailFriendOnlyUnsetCommand,    },
 
-    { 0, "Ignore",            ignore,                    {MAX_PLAYERNAME} }, 
-    { 0, "Unignore",        unIgnore,                {MAX_PLAYERNAME} },
-    { 0, "IgnoreSpammer",    ignoreSpammer,            {MAX_PLAYERNAME} }, 
-    { 0, "IgnoreAuth",        ignoreAuth,                {12} }, 
-    { 0, "UnignoreAuth",    unIgnoreAuth,            {12} }, 
-    { 0, "IgnoreAuthSpammer",        ignoreAuthSpammer,        {12} }, 
-    { 0, "Ignoring",        ignoreList,                }, 
-    { 0, "unSpamMe",        unSpamMe                },
+    { 0, "Ignore",            ignoreCommand,                    {MAX_PLAYERNAME} },
+    { 0, "Unignore",        unIgnoreCommand,                {MAX_PLAYERNAME} },
+    { 0, "IgnoreSpammer",    ignoreSpammerCommand,            {MAX_PLAYERNAME} },
+    { 0, "IgnoreAuth",        ignoreAuthCommand,                {12} },
+    { 0, "UnignoreAuth",    unIgnoreAuthCommand,            {12} },
+    { 0, "IgnoreAuthSpammer",        ignoreAuthSpammerCommand,        {12} },
+    { 0, "Ignoring",        ignoreListCommand,                },
+    { 0, "unSpamMe",        unSpamMeCommand                },
 
-    { 1, "setSpamThreshold", setSpammerThreshold,    {12} }, 
-    { 1, "setSpamMultiplier",setSpammerMultiplier,    {12} }, 
-    { 1, "setSpamDuration",  setSpammerDuration,    {12} }, 
+    { 1, "setSpamThreshold", setSpammerThresholdCommand,    {12} },
+    { 1, "setSpamMultiplier",setSpammerMultiplierCommand,    {12} },
+    { 1, "setSpamDuration",  setSpammerDurationCommand,    {12} },
 
-    { 0, "GetGlobal",        getGlobal,                {12} },  // Request comes from mapserver
-    { 0, "GetGlobalSilent",    getGlobalSilent,        {12} },  // Request comes from mapserver
-    { 0, "GetLocal",        getLocal,                {MAX_PLAYERNAME} }, // Request comes directly from client
-    { 0, "GetLocalInvite",    getLocalInvite,            {MAX_PLAYERNAME} }, // Request comes directly from client
-    { 0, "GetLocalLeagueInvite",    getLocalLeagueInvite,            {MAX_PLAYERNAME} }, // Request comes directly from client
-    { 0, "Join",            channelJoin,            {MAX_CHANNELNAME, 64} }, 
-    { 0, "Create",            channelCreate,            {MAX_CHANNELNAME, 64} }, 
-    { 0, "Leave",            channelLeave,            {MAX_CHANNELNAME} }, 
-    { 0, "DenyInvite",        channelInviteDeny,        {MAX_CHANNELNAME, MAX_PLAYERNAME} }, 
-    { 0, "Send",            channelSend,            {MAX_CHANNELNAME, MAX_MESSAGE} }, 
-    { 0, "UserMode",        channelSetUserAccess,    {MAX_CHANNELNAME, MAX_PLAYERNAME, 64} }, 
-    { 0, "ChanMode",        channelSetAccess,        {MAX_CHANNELNAME, 64} }, 
-    { 3, "CsrMembersMode",    channelCsrMembersAccess,{MAX_CHANNELNAME, 64} },
-    { 0, "Invite",            channelInvite,            {0},    0,    1}, 
-    { 1, "CsrInvite",        channelCsrInvite,        {0},    0,  1},
-    { 0, "Watching",        watchingList,            }, 
-    { 0, "ChanList",        channelListMembers,        {MAX_CHANNELNAME} }, 
-    { 0, "ChanMotd",        channelSetMotd,            {MAX_CHANNELNAME, MAX_MESSAGE} }, 
-    { 0, "ChanFind",        channelFind,            {64, MAX_MESSAGE} }, 
-    { 0, "ChanDesc",        channelSetDescription,    {MAX_CHANNELNAME, MAX_CHANNELDESC} },
-    { 0, "ChanSetTimeout",    channelSetTimout,        {MAX_CHANNELNAME, 12} },
+    { 0, "GetGlobal",        getGlobalCommand,                {12} },  // Request comes from mapserver
+    { 0, "GetGlobalSilent",    getGlobalSilentCommand,        {12} },  // Request comes from mapserver
+    { 0, "GetLocal",        getLocalCommand,                {MAX_PLAYERNAME} }, // Request comes directly from client
+    { 0, "GetLocalInvite",    getLocalInviteCommand,            {MAX_PLAYERNAME} }, // Request comes directly from client
+    { 0, "GetLocalLeagueInvite",    getLocalLeagueInviteCommand,            {MAX_PLAYERNAME} }, // Request comes directly from client
+    { 0, "Join",            channelJoinCommand,            {MAX_CHANNELNAME, 64} },
+    { 0, "Create",            channelCreateCommand,            {MAX_CHANNELNAME, 64} },
+    { 0, "Leave",            channelLeaveCommand,            {MAX_CHANNELNAME} },
+    { 0, "DenyInvite",        channelInviteDenyCommand,        {MAX_CHANNELNAME, MAX_PLAYERNAME} },
+    { 0, "Send",            channelSendCommand,            {MAX_CHANNELNAME, MAX_MESSAGE} },
+    { 0, "UserMode",        channelSetUserAccessCommand,    {MAX_CHANNELNAME, MAX_PLAYERNAME, 64} },
+    { 0, "ChanMode",        channelSetAccessCommand,        {MAX_CHANNELNAME, 64} },
+    { 3, "CsrMembersMode",    channelCsrMembersAccessCommand,{MAX_CHANNELNAME, 64} },
+    { 0, "Invite",            channelInviteCommand,            {0},    0,    1},
+    { 1, "CsrInvite",        channelCsrInviteCommand,        {0},    0,  1},
+    { 0, "Watching",        watchingListCommand,            },
+    { 0, "ChanList",        channelListMembersCommand,        {MAX_CHANNELNAME} },
+    { 0, "ChanMotd",        channelSetMotdCommand,            {MAX_CHANNELNAME, MAX_MESSAGE} },
+    { 0, "ChanFind",        channelFindCommand,            {64, MAX_MESSAGE} },
+    { 0, "ChanDesc",        channelSetDescriptionCommand,    {MAX_CHANNELNAME, MAX_CHANNELDESC} },
+    { 0, "ChanSetTimeout",    channelSetTimoutCommand,        {MAX_CHANNELNAME, 12} },
 
-    { 9, "DevPing",            devPing,                {MAX_MESSAGE} },
-    { 9, "GmailXactDebug",    userSetGmailXactDebug,    {12} },
+    { 9, "DevPing",            devPingCommand,                {MAX_MESSAGE} },
+    { 9, "GmailXactDebug",    userSetGmailXactDebugCommand,    {12} },
 
     { 0 },
 };
@@ -525,34 +969,34 @@ int processCmd(ClientLink *client,int auth_id,char **args,int count,User **user_
 
         LOG_DEBUG("login\tclient=%x\tauth_id=%i\tcount=%i\targs=%s",client,auth_id,count,concatArgs(args,count));
 
-        return ((handlerLogin)cmd->handler)(client,auth_id,args[0],hash,args[2],args[3],args[4]);
+        return cmd->handler(client, auth_id, user, args, count, hash);
     }
     else if(cmd->genericHandler)
     {
 
         LOG_DEBUG("generic_handler\tclient=%x\tauth_id=%i\tcount=%i\targs=%s",client,auth_id,count,concatArgs(args,count));
-        ((handlerGeneric)cmd->handler)(user, args, count);
+        cmd->handler(client, auth_id, user, args, count, NULL);
     }
     else switch(cmd->num_args)
     {
         xcase 0:
              LOG_DEBUG("0argcmd\tclient=%x\tauth_id=%i\tcount=%i\targs=%s",client,auth_id,count,concatArgs(args,count));
-            ((handler0)cmd->handler)(user);
+            cmd->handler(client, auth_id, user, args, count, NULL);
         xcase 1:
              LOG_DEBUG( "1argcmd\tclient=%x\tauth_id=%i\tcount=%i\targs=%s",client,auth_id,count,concatArgs(args,count));
-            ((handler1)cmd->handler)(user,args[0]);
+            cmd->handler(client, auth_id, user, args, count, NULL);
         xcase 2:
              LOG_DEBUG("2argcmd\tclient=%x\tauth_id=%i\tcount=%i\targs=%s",client,auth_id,count,concatArgs(args,count));
-            ((handler2)cmd->handler)(user,args[0],args[1]);
+            cmd->handler(client, auth_id, user, args, count, NULL);
         xcase 3:
              LOG_DEBUG( "3argcmd\tclient=%x\tauth_id=%i\tcount=%i\targs=%s",client,auth_id,count,concatArgs(args,count));
-            ((handler3)cmd->handler)(user,args[0],args[1],args[2]);
+            cmd->handler(client, auth_id, user, args, count, NULL);
         xcase 4:
             LOG_DEBUG( "4argcmd\tclient=%x\tauth_id=%i\tcount=%i\targs=%s",client,auth_id,count,concatArgs(args,count));
-            ((handler4)cmd->handler)(user,args[0],args[1],args[2],args[3]);
+            cmd->handler(client, auth_id, user, args, count, NULL);
         xcase 5:
             LOG_DEBUG( "5argcmd\tclient=%x\tauth_id=%i\tcount=%i\targs=%s",client,auth_id,count,concatArgs(args,count));
-            ((handler5)cmd->handler)(user,args[0],args[1],args[2],args[3],args[4]);
+            cmd->handler(client, auth_id, user, args, count, NULL);
     }
     return 1;
 }

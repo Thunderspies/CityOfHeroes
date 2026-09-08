@@ -267,8 +267,9 @@ void lfg_setSearchMethod(int wdwType)
     showLFGmode = wdwType;
 }
 
-UIBox lfgListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, Lfg* lfg, int itemIndex)
+UIBox lfgListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* lfgData, int itemIndex)
 {
+    Lfg* lfg = (Lfg*)lfgData;
     UIBox box;
       PointFloatXYZ pen = rowOrigin;
     UIColumnHeaderIterator columnIterator;

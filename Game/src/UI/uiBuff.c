@@ -261,20 +261,55 @@ static int buffcm_StackCheck( void * data)
         return CM_AVAILABLE;
 }
 
+static const char * buffcm_PowerTextAdapter(void* arg0)
+{
+    return buffcm_PowerText((BasePower *)arg0);
+}
+
+static const char * buffcm_PowerInfoAdapter(void* arg0)
+{
+    return buffcm_PowerInfo((BasePower *)arg0);
+}
+
+static int buffcm_PowerNumbersVisibleAdapter(void* arg0)
+{
+    return buffcm_PowerNumbersVisible((int)(intptr_t)arg0);
+}
+
+static const char * buffcm_PowerNumbersInfoAdapter(void* arg0)
+{
+    return buffcm_PowerNumbersInfo((int)(intptr_t)arg0);
+}
+
+static void buffcm_InfoAdapter(void* arg0)
+{
+    buffcm_Info((BasePower *)arg0);
+}
+
+static int buffcm_CancelCheckAdapter(void* arg0)
+{
+    return buffcm_CancelCheck((BasePower *)arg0);
+}
+
+static void buffcm_CancelAdapter(void* arg0)
+{
+    buffcm_Cancel((BasePower *)arg0);
+}
+
 static void initPowerBuffContext(void)
 {
     int i;
     gPowerBuffcm = contextMenu_Create( NULL );
     gPowerBuffsub = contextMenu_Create( NULL );
-    contextMenu_addVariableTitle( gPowerBuffcm, buffcm_PowerText, 0);
-    contextMenu_addVariableText( gPowerBuffcm, buffcm_PowerInfo, 0);
+    contextMenu_addVariableTitle( gPowerBuffcm, buffcm_PowerTextAdapter, 0);
+    contextMenu_addVariableText( gPowerBuffcm, buffcm_PowerInfoAdapter, 0);
 
     for( i=1; i <= 31; i++ )
-        contextMenu_addVariableTitleVisibleNoTrans( gPowerBuffcm, (CMVisible)buffcm_PowerNumbersVisible, (void*)i, (CMText)buffcm_PowerNumbersInfo, (void*)i ); 
+        contextMenu_addVariableTitleVisibleNoTrans( gPowerBuffcm, buffcm_PowerNumbersVisibleAdapter, (void*)i, buffcm_PowerNumbersInfoAdapter, (void*)i );
 
-    contextMenu_addCode( gPowerBuffcm, alwaysAvailable, 0, buffcm_Info, 0, "CMInfoString", 0  );
-    contextMenu_addDividerVisible( gPowerBuffcm, buffcm_CancelCheck);
-    contextMenu_addCode( gPowerBuffcm, buffcm_CancelCheck, 0, buffcm_Cancel, 0, "CMCancelString", 0  );
+    contextMenu_addCode( gPowerBuffcm, alwaysAvailable, 0, buffcm_InfoAdapter, 0, "CMInfoString", 0  );
+    contextMenu_addDividerVisible( gPowerBuffcm, buffcm_CancelCheckAdapter);
+    contextMenu_addCode( gPowerBuffcm, buffcm_CancelCheckAdapter, 0, buffcm_CancelAdapter, 0, "CMCancelString", 0  );
     contextMenu_addDivider( gPowerBuffcm );
     contextMenu_addCheckBox( gPowerBuffcm, buffcm_AutoCheck, 0, buffcm_Auto, 0, "CMAuto" );
     contextMenu_addCheckBox( gPowerBuffcm, buffcm_BlinkCheck, 0, buffcm_Blink, 0, "CMBlink" );

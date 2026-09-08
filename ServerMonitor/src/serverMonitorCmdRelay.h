@@ -60,13 +60,13 @@ extern BOOL g_bRelayDevMode;
 
 void cmdRelayCmdToAllClients(ListViewCallbackFunc callback);
 
-void onRelayStartDbServer(ListView *lv, void *structptr, int cmd);
-void onRelayStartLauncher(ListView *lv, void *structptr, int cmd);
-void onRelayKillAllLauncher(ListView *lv, void *structptr, int cmd);
-void onRelayKillAllMapserver(ListView *lv, void *structptr, int cmd);
-void onRelayCancelAll(ListView *lv, void *structptr, int cmd);
-void onRelayStartAll(ListView *lv, void *structptr, int cmd);
-void onRelayStopAll(ListView *lv, void *structptr, int cmd);
+void onRelayStartDbServer(ListView* lv, void* structptr, void* cmdData);
+void onRelayStartLauncher(ListView* lv, void* structptr, void* cmdData);
+void onRelayKillAllLauncher(ListView* lv, void* structptr, void* cmdData);
+void onRelayKillAllMapserver(ListView* lv, void* structptr, void* cmdData);
+void onRelayCancelAll(ListView* lv, void* structptr, void* cmdData);
+void onRelayStartAll(ListView* lv, void* structptr, void* cmdData);
+void onRelayStopAll(ListView* lv, void* structptr, void* cmdData);
 
 void updateServerRelayStats(ServerStats *stats);
 

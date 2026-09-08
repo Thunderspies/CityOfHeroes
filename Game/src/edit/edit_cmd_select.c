@@ -623,7 +623,7 @@ static int searchForTrackers(DefTracker * tracker,int uid,int suid,char * str,in
     return found;
 }
 
-void searchResultsCallback(void* notUsed) {
+void searchResultsCallback(int notUsed) {
     EditorSearchResult * esr=searchResults[searchIndex];
     if(editorSearch.searchType==0 && editorSearch.searchLocation==2){//display clicked object added by HA as requested by Don Pham 4/11/12
         if(    esr->path[0] < objectLibraryCount()){

@@ -1771,6 +1771,11 @@ static int objectiveStringSize = 0;
 
 // controls the compass
 //
+static void clearDestinationAdapter(void* arg0)
+{
+    clearDestination((Destination *)arg0);
+}
+
 int compassWindow()
 {
     float x, y, z, wd, ht, scale;
@@ -1867,7 +1872,7 @@ int compassWindow()
         contextMenu_addTitle( compassContext, "CMCompass" );
         contextMenu_addCode( compassContext, compasscm_isMapOpen, &boolOffOn[0], compasscm_OpenMap, &boolOffOn[0], "CMViewMap", 0 );
         contextMenu_addCode( compassContext, compasscm_isMapOpen, &boolOffOn[1], compasscm_OpenMap, &boolOffOn[1], "CMCloseMap", 0 );
-        contextMenu_addCode( compassContext, compasscm_isWaypoint, 0,  clearDestination, (void*)&waypointDest, "CMClearWaypoint", 0 );
+        contextMenu_addCode( compassContext, compasscm_isWaypoint, 0, clearDestinationAdapter, (void*)&waypointDest, "CMClearWaypoint", 0 );
         contextMenu_addCode( compassContext, alwaysVisible, 0, 0, 0, "CMHelp", 0 );
     }
 

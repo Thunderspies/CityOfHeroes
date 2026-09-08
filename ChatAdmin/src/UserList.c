@@ -94,13 +94,15 @@ static int compareUserSilenced(const void * a, const void * b)
         return stricmp(userA->handle, userB->handle);
 }
 
-char * displayUserHandle(CAUser * user)
+char * displayUserHandle(void* userData)
 {
+    CAUser * user = (CAUser *)userData;
     return user->handle;
 }
 
-char * displayUserOnline(CAUser * user)
+char * displayUserOnline(void* userData)
 {
+    CAUser * user = (CAUser *)userData;
     static char s_buf[100];
     if(user->online)
         sprintf(s_buf, localizedPrintf("CAStatusOnline"));
@@ -109,8 +111,9 @@ char * displayUserOnline(CAUser * user)
     return s_buf;
 }
 
-char * displayUserSilenced(CAUser * user)
+char * displayUserSilenced(void* userData)
 {
+    CAUser * user = (CAUser *)userData;
     static char s_time[100];
     
     U32 time = timerSecondsSince2000();
@@ -242,8 +245,9 @@ void CAUserUpdate(CAUser * user)
 }
 
 
-void CAUserColor(CAUser * user, COLORREF* pTextColor, COLORREF* pBkColor)
+void CAUserColor(void* userData, COLORREF* pTextColor, COLORREF* pBkColor)
 {
+    CAUser * user = (CAUser *)userData;
     if(user == gAdminClient.user)
     {
         *pTextColor = RGB(255,0,0);//255,255);
@@ -256,8 +260,9 @@ void CAUserColor(CAUser * user, COLORREF* pTextColor, COLORREF* pBkColor)
     }
 }
 
-int CAUserFilter(CAUser * user)
+int CAUserFilter(void* userData)
 {
+    CAUser * user = (CAUser *)userData;
      if(gUserListStatus)
     {
         if(gUserListStatus == FILTER_OFFLINE)
@@ -326,12 +331,17 @@ TokenizerParseInfo ParseUserStatus[] =
 };
 
 
+static void UserStatusEntryDestroyAdapter(void* arg0)
+{
+    UserStatusEntryDestroy((UserStatusEntry *)arg0);
+}
+
 void UserListStatusUpdate(char * handle, char * auth_id, char * shard, char * silencedMins, char *args[], int count, char *channels[], int channel_count)
 {
     int i;
     int mins = atoi(silencedMins);
 
-    listViewDelAllItems(lvUserStatus, UserStatusEntryDestroy);
+    listViewDelAllItems(lvUserStatus, UserStatusEntryDestroyAdapter);
 
     listViewAddItem(lvUserStatus, UserStatusEntryCreate("Handle", handle));
 
@@ -394,8 +404,9 @@ void onAcceptRenameUser(char * oldHandle, char * newHandle)
 
 
 
-void onSilenceUserAccept(char * oldHandle, int minutes)
+void onSilenceUserAccept(void* oldHandleData, int minutes)
 {
+    char * oldHandle = (char *)oldHandleData;
     chatCmdSendf("CsrSilence", "%s %d", oldHandle, minutes);
     free(oldHandle);
 }
@@ -427,7 +438,7 @@ void onUserListSelected(CAUser * user)
 VOID CALLBACK UpdateUserStatusProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
     if(!vListViewGetSelected(lvUserList))
-        listViewDelAllItems(lvUserStatus, UserStatusEntryDestroy);
+        listViewDelAllItems(lvUserStatus, UserStatusEntryDestroyAdapter);
 }
 
 LRESULT CALLBACK DlgUserListProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
@@ -448,7 +459,7 @@ LRESULT CALLBACK DlgUserListProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lP
 
             if (lvUserList) vListViewDestroy(lvUserList);
             lvUserList = vListViewCreate();
-            vListViewInit(lvUserList, CAUserInfo, hDlg, GetDlgItem(hDlg, IDC_LST_ALLUSERS), (FilterFunc)CAUserFilter, (ColorFunc)CAUserColor);
+            vListViewInit(lvUserList, CAUserInfo, hDlg, GetDlgItem(hDlg, IDC_LST_ALLUSERS), CAUserFilter, CAUserColor);
 
             if(lvUserStatus) listViewDestroy(lvUserStatus);
             lvUserStatus = listViewCreate();
@@ -526,7 +537,7 @@ LRESULT CALLBACK DlgUserListProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lP
                     {    
                         char title[1000];
                         strcpy(title, localizedPrintf("CASilenceUserTitle", user->handle));
-                        CreateDialogPromptTime(hDlg, title, localizedPrintf("CASilenceUserPrompt"), (dialogHandler2) onSilenceUserAccept, freeData, strdup(user->handle));  
+                        CreateDialogPromptTime(hDlg, title, localizedPrintf("CASilenceUserPrompt"), onSilenceUserAccept, freeData, strdup(user->handle));
                     }
                 }
             xcase IDB_USERLIST_PRIVATECHAT:
@@ -601,7 +612,7 @@ void UserListFilter()
 {
     vListViewFilter(lvUserList);
     UserListUpdateMatchCount();
-    listViewDelAllItems(lvUserStatus, UserStatusEntryDestroy);
+    listViewDelAllItems(lvUserStatus, UserStatusEntryDestroyAdapter);
     onUserListSelected(vListViewGetSelected(lvUserList));
 }
 
