@@ -11,7 +11,7 @@
 
 #include "../../include/arda2/core/corFirst.h"
 
-#if CORE_SYSTEM_WIN32
+#if CORE_SYSTEM_WIN32 && !CORE_COMPILER_GNU
 // Equivalent to this functionality on 360 is Dm*, like DmGetSymbolFromAddress()
 
 
@@ -439,4 +439,4 @@ bool utlStackDbg::BuildStackTraceStringFromAddress(int iStartDepth, int iMaxDept
     return BuildStackTraceStringFromProbe(iDepth, addresses, szStackTrace, iMaxLen);
 }
 
-#endif // WIN32
+#endif // CORE_SYSTEM_WIN32 && !CORE_COMPILER_GNU

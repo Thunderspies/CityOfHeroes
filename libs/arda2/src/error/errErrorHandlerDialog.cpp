@@ -314,7 +314,7 @@ errHandlerResult errErrorHandlerDialog::Report(const char* szFileName, int iLine
 
 #ifdef CORE_SYSTEM_WIN64
     /// @todo [tcg] stack code not working in 64-bit yet
-#elif
+#elif !CORE_COMPILER_GNU
 
     utlStackDbg::GetSingleton().BuildStackTraceStringFromAddress(3, 20, &msg[nPos], sizeof(msg) - nPos);
 

@@ -12,7 +12,7 @@
 #ifndef INCLUDED_utlStackDbg
 #define INCLUDED_utlStackDbg
 
-#ifdef CORE_SYSTEM_WINAPI
+#if CORE_SYSTEM_WINAPI && !CORE_COMPILER_GNU
 
 class utlStackDbg
 {
@@ -41,6 +41,6 @@ private:
     HMODULE                    m_hLibrary;
 };
 
-#endif //CORE_SYSTEM_WINAPI
+#endif // CORE_SYSTEM_WINAPI && !CORE_COMPILER_GNU
 
 #endif //INCLUDED_utlStackDbg

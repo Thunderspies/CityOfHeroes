@@ -10,8 +10,7 @@
 #error "Do not include stdtypes.h"
 #endif
 
-#ifndef FINAL
-#define ENABLE_PROFILER
+#ifdef ENABLE_PROFILER
 //#define DEBUG_PROFILER
 #define ENABLE_THREADING
 #define SUBTRACT_OVERHEAD
@@ -552,4 +551,3 @@ void EndProfile(const char * filename)
 }
 
 #endif
-

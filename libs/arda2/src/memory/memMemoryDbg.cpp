@@ -37,7 +37,8 @@ using namespace std;
 
 int MEMDBG_VERIFY_HEAP() { return _CrtCheckMemory();}
 
-#if LEAK_TRACKING_DETAILED
+// Detailed tracking requires the compiler-specific stack walker.
+#if LEAK_TRACKING_DETAILED && !CORE_COMPILER_GNU
 
 //* This function will be called for each client block that is leaked at application termination
 void ClientBlockDump(void *pBlock, size_t tSize)
@@ -164,7 +165,7 @@ void * __cdecl operator new[](size_t tSize)
 }
 
 
-#endif // LEAK_TRACKING_DETAILED
+#endif // LEAK_TRACKING_DETAILED && !CORE_COMPILER_GNU
 
 #endif // CORE_DEBUG
 

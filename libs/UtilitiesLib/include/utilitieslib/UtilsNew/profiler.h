@@ -7,7 +7,10 @@
 extern "C" {
 #endif
 
-#ifndef FINAL
+#if defined(__GNUC__)
+// The patchable profiler requires compiler-specific MSVC instrumentation.
+#undef ENABLE_PROFILER
+#elif !defined(FINAL)
 #define ENABLE_PROFILER
 #endif
 
@@ -21,4 +24,3 @@ void EndProfile(const char * filename);
 #endif
 
 #endif
-

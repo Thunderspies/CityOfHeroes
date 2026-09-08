@@ -1,6 +1,8 @@
-#include "../profiler.h"
-#include <process.h>
+#include "../../../include/utilitieslib/UtilsNew/profiler.h"
 #include <stdio.h>
+
+#ifdef ENABLE_PROFILER
+#include <process.h>
 #include <time.h>
 #include <assert.h>
 
@@ -131,3 +133,13 @@ int main(int argc, char *argv[])
 	assert(ret == 1);
 	return 0;
 }
+
+#else
+
+int main(void)
+{
+    puts("Profiling is unsupported in this build.");
+    return 0;
+}
+
+#endif // ENABLE_PROFILER
