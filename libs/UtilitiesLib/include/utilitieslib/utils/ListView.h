@@ -1,6 +1,7 @@
 #ifndef _XBOX
 
 #pragma once
+#include "../stdtypes.h"
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0601 // Windows 7 and up
 #endif
@@ -30,7 +31,7 @@ void listViewSetItemDefaultColor(ListView * lv, void * structptr);
 
 // Call this to attach this ListView to an dialog box and specific ListView control
 // the tpi describes the columns that will be displayed
-void listViewInit(ListView *lv, const ParseTable tpi[], HWND hDlg, HWND hDlgListView);
+void listViewInit(ListView *lv, const ParseTable *tpi, HWND hDlg, HWND hDlgListView);
 
 #define LISTVIEW_EMPTY_ITEM ((void*)(intptr_t)-1) // To be used for a spacer
 // Adds an item to the list, returns the index

@@ -1,4 +1,9 @@
+#ifndef _POPHELP_H
+#define _POPHELP_H
 
+#include <utilitieslib/stdtypes.h>
+
+typedef struct Entity Entity;
 
 typedef struct PopHelpItem
 {
@@ -32,3 +37,5 @@ void setPopHelpState(struct Entity *e, unsigned int n, PopHelpState new_state);
 #ifdef SERVER
 void triggerPopHelpEventHappenedByTag(Entity *e, const char *tag);
 #endif
+
+#endif // _POPHELP_H

@@ -9,6 +9,9 @@
 #include "entity/character_animfx_common.h"
 #include <utilitieslib/utils/Color.h>
 
+struct Character;
+typedef struct Entity Entity;
+
 void character_SetAnimClientBits(struct Character *p, int *piList);
 void character_SetAnimClientStanceBits(struct Character *p, int *piList);
 unsigned int entity_PlayClientsideMaintainedFX(Entity *eSrc, Entity *eTarget, char *pchName, ColorPair uiTint, float fDelay, unsigned int iAttached, float fTimeOut, int iFlags);

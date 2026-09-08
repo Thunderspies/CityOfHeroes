@@ -1,8 +1,9 @@
 #ifndef CHARACTER_KARMA_H__
 #define CHARACTER_KARMA_H__
 
+#include <utilitieslib/utils/structDefines.h>
+
 typedef struct Character Character;
-typedef struct StaticDefineInt StaticDefineInt;
 typedef struct Entity Entity;
 typedef struct BasePower BasePower;
 

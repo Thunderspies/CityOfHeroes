@@ -9,6 +9,9 @@
 #include "entity/boost.h"
 #include "entity/character_base.h"
 
+typedef struct StructDesc StructDesc;
+typedef struct StuffBuff StuffBuff;
+
 #define MAX_DB_BOOSTS ((MAX_POWERS*6)+10)
     // The maximum number of boosts a player can have. Not used in the
     // code except in containerloadsave (the database interface).

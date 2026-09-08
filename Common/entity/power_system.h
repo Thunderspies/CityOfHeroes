@@ -6,9 +6,8 @@
 #ifndef POWER_SYSTEM_H__
 #define POWER_SYSTEM_H__
 
-typedef struct ParseTable ParseTable;
-#define TokenizerParseInfo ParseTable
-typedef struct StaticDefineInt StaticDefineInt;
+#include <utilitieslib/utils/structDefines.h>
+#include <utilitieslib/utils/textparser_types.h>
 
 typedef enum PowerSystem
 {

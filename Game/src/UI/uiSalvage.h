@@ -6,6 +6,7 @@
 #ifndef UISALVAGE_H
 #define UISALVAGE_H
 
+#include "UI/uiDialog.h"
 #include "UI/uiInclude.h"
 #include "gameComm/wdwbase.h"
 #include "UI/uiComboBox.h"
@@ -56,7 +57,6 @@ typedef struct SalvageWindowState
     ComboCheckboxElement **allElements;
 } SalvageWindowState;
 
-typedef struct DialogCheckbox DialogCheckbox;
 extern DialogCheckbox deleteUsefulDCB[];
 extern char * g_salvageColor[];
 

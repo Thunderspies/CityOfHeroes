@@ -1,6 +1,8 @@
 #ifndef ACCOUNTTYPES_H
 #define ACCOUNTTYPES_H
 
+#include <utilitieslib/utils/structDefines.h>
+
 C_DECLARATIONS_BEGIN
 
 /// Default size for account related containers
@@ -19,7 +21,6 @@ C_DECLARATIONS_BEGIN
 #define MAX_MULTI_GAME_TRANSACTIONS 8
 
 // TODO:  Integrate this with the RarityEnums in salvage and recipes and wherever else?
-typedef struct StaticDefineInt StaticDefineInt;
 extern StaticDefineInt AccountTypes_RarityEnum[];
 
 typedef struct StashTableImp *StashTable;

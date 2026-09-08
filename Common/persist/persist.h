@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utilitieslib/stdtypes.h>
+
 typedef struct ParseTable ParseTable;
 
 AUTO_ENUM;

@@ -2,10 +2,10 @@
 #ifndef ATTRIB_DESCRIPTION_H
 #define ATTRIB_DESCRIPTION_H
 
+#include <utilitieslib/utils/structDefines.h>
+#include <utilitieslib/utils/textparser_types.h>
 #include <utilitieslib/stdtypes.h>
 
-typedef struct StaticDefineInt StaticDefineInt;
-typedef struct TokenizerParseInfo TokenizerParseInfo;
 typedef struct Packet Packet;
 typedef struct Entity Entity;
 typedef struct BasePower BasePower;

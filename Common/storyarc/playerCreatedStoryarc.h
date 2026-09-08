@@ -1,5 +1,7 @@
 #ifndef PLAYER_CREATED_STORYARC_H
 #define PLAYER_CREATED_STORYARC_H
+
+#include "storyarc/playerCreatedStoryarcTypes.h"
 #include <utilitieslib/utils/textparser.h>
 #include "comm_backend.h"
 #include "mission/MissionSearch.h"
@@ -145,7 +147,6 @@ typedef enum PCStoryComplaint
 
 #define MISSIONSEARCH_ARCSTATUS_ALL ((1<<kArcStatus_Count)-1)
 
-typedef enum PlayerCreatedDetailType PlayerCreatedDetailType;
 typedef enum MissionServerPurchaseFlags MissionServerPurchaseFlags;
 
 #if defined(CLIENT)
@@ -454,7 +455,6 @@ PlayerCreatedStoryArc *playerCreatedStoryArc_Load( char * pchFile );
 int playerCreatedStoryArc_Save( PlayerCreatedStoryArc* pArc, char * pchFile );
 void playerCreatedStoryArc_Destroy(PlayerCreatedStoryArc* pArc);
 
-typedef enum SpecialAction SpecialAction;
 StaticDefineInt * playerCreatedSDIgetByName( SpecialAction action );
 
 typedef struct MissionSearchHeader MissionSearchHeader;

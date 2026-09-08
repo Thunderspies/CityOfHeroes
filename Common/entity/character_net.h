@@ -6,7 +6,10 @@
 #ifndef CHARACTER_NET_H__
 #define CHARACTER_NET_H__
 
+#include "entity/character_inventory.h"
+
 // forward decls
+typedef struct Entity Entity;
 typedef struct Packet Packet;
 typedef struct BasePower BasePower;
 typedef struct Power Power;
@@ -14,8 +17,6 @@ typedef struct Boost Boost;
 typedef struct PowerDictionary PowerDictionary;
 typedef struct SalvageInventoryItem SalvageInventoryItem;
 typedef struct Character Character;
-typedef enum SalvageRarity SalvageRarity;
-typedef enum InventoryType InventoryType;
 typedef struct ConceptItem ConceptItem;
 typedef struct PowerRef PowerRef;
 

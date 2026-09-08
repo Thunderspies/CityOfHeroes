@@ -1,8 +1,9 @@
 #ifndef AUTOCOMMANDS_H_
 #define AUTOCOMMANDS_H_
 
+#include "container/dbcontainerpack.h"
+
 typedef struct ContainerInfo ContainerInfo;
-typedef struct StructDesc StructDesc;
 typedef struct Entity Entity;
 typedef struct ClientLink ClientLink;
 

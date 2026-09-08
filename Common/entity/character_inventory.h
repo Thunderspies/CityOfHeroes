@@ -6,6 +6,7 @@
 #ifndef CHARACTER_INVENTORY_H
 #define CHARACTER_INVENTORY_H
 
+#include <utilitieslib/utils/textparser_types.h>
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/assert/assert.h>
 
@@ -15,12 +16,9 @@ typedef const struct StashTableImp *cStashTable;
 typedef struct SalvageItem SalvageItem;
 typedef struct ConceptItem ConceptItem;
 typedef struct Character Character;
-typedef enum SalvageRarity SalvageRarity;
 typedef struct BasePower BasePower;
 typedef struct PowerDictionary PowerDictionary;
 typedef struct DetailDict DetailDict;
-typedef struct ParseTable ParseTable;
-#define TokenizerParseInfo ParseTable
 typedef struct DetailRecipe DetailRecipe;
 typedef struct Detail Detail;
 typedef struct DetailCategoryDict DetailCategoryDict;

@@ -47,7 +47,7 @@ static INLINEDBG void endianSwapMat4(const Mat4 src, Mat4 dst)
 
 typedef struct ParseTable ParseTable;
 
-void endianSwapStruct(ParseTable pti[], void *structptr);
+void endianSwapStruct(ParseTable *pti, void *structptr);
 #define endianSwapStructIfBig(pti, structptr) if (isBigEndian()) endianSwapStruct(pti, structptr)
 
 

@@ -6,6 +6,8 @@
 #ifndef PL_STATS_DB_H__
 #define PL_STATS_DB_H__
 
+#include <utilitieslib/stdtypes.h>
+
 #ifndef STATS_BASE_H__
 #include "stats_base.h"
 #endif

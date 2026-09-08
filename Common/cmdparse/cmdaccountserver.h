@@ -15,9 +15,10 @@
 #ifndef CMDACCOUNT_H
 #define CMDACCOUNT_H
 
+#include <utilitieslib/utils/cmdoldparse.h>
+
 C_DECLARATIONS_BEGIN
 
-typedef struct Cmd Cmd;
 extern Cmd g_accountserver_cmds_server[];
 
 #if defined(SERVER) || defined(CLIENT)

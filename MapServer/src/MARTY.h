@@ -1,6 +1,10 @@
 #ifndef MARTY_H
 #define MARTY_H
 
+#include <utilitieslib/utils/structDefines.h>
+
+typedef struct Entity Entity;
+
 #define MAX_MARTY_EXP_MINUTE_RECORDS    120
 #define MAX_REWARD_THROTTLE_TRACKS 2
 
@@ -52,7 +56,6 @@ typedef struct MARTYMods
     MARTYLevelupShifts **levelupShifts;
 }MARTYMods;
 extern MARTYMods g_MARTYMods;
-typedef struct StaticDefineInt StaticDefineInt;
 extern StaticDefineInt ParseMARTYExperienceTypes[];
 extern StaticDefineInt ParseMARTYActions[];
 void MARTY_Tick(Entity *e);
@@ -60,4 +63,4 @@ void validateMARTYMods(MARTYMods *mods, char *filename);
 void clearMARTYHistory(Entity *e);
 int displayMARTYSum(Entity *e, int experienceType, int interval);
 void MARTY_NormalizeExpHistory(Entity *e, int oldLevel);
-#endif;
+#endif

@@ -11,7 +11,8 @@
 #ifndef TURNSTILE_COMMON_H
 #define TURNSTILE_COMMON_H
 
-typedef struct StaticDefineInt StaticDefineInt;
+#include <utilitieslib/utils/structDefines.h>
+
 
 #define    MAX_EVENT    1000            // Maximum event count in certain places.  If we exceed this limit, asserts will start tripping, in which case
                                     // you just increase this to fix the problem

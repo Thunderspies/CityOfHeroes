@@ -1,12 +1,13 @@
 #ifndef _BASEPARSE_H
 #define _BASEPARSE_H
 
+#include <utilitieslib/utils/textparser_types.h>
+
 typedef struct Base Base;
 typedef struct BaseRoom BaseRoom;
-typedef struct ParseLink ParseLink;
+typedef struct StructLink StructLink;
+#define ParseLink StructLink
 typedef struct RoomDetail RoomDetail;
-typedef struct ParseTable ParseTable;
-#define TokenizerParseInfo ParseTable
 
 // --------------------
 // globals

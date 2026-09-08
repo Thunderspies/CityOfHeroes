@@ -1,6 +1,7 @@
 #ifndef _CMDCOMMON_H
 #define _CMDCOMMON_H
 
+#include <utilitieslib/utils/cmdoldparse.h>
 #include <time.h>
 #include <utilitieslib/stdtypes.h>
 #include "entity/entityRef.h"
@@ -323,7 +324,6 @@ typedef struct ControlState
 extern ControlState control_state;
 extern ControlId opposite_control_id[CONTROLID_BINARY_MAX];
 
-typedef struct Cmd Cmd;
 
 #ifdef CLIENT
     extern Cmd client_control_cmds[];

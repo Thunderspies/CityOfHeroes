@@ -7,11 +7,11 @@
 #ifndef AUCTION_H
 #define AUCTION_H
 
+#include <utilitieslib/utils/structDefines.h>
 #include <utilitieslib/utils/textparser.h>
 #include "basetsd.h"
 
 typedef struct Packet Packet;
-typedef struct StaticDefineInt StaticDefineInt;
 typedef struct AuctionEnt AuctionEnt;
 
 

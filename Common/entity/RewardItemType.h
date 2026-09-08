@@ -6,6 +6,7 @@
 #ifndef REWARDITEMTYPE_H
 #define REWARDITEMTYPE_H
 
+#include <utilitieslib/utils/structDefines.h>
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/utils.h>
 
@@ -42,7 +43,6 @@ typedef enum RewardItemType
 static INLINEDBG bool rewarditemtype_Valid(RewardItemType t) {return INRANGE(t, kRewardItemType_Power, kRewardItemType_Count  );} 
 char *rewarditemtype_Str(RewardItemType t);
 
-typedef struct StaticDefineInt StaticDefineInt;
 extern StaticDefineInt RewardItemTypeEnum[];
 
 

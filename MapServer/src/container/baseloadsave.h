@@ -1,6 +1,8 @@
 #ifndef _BASELOADSAVE_H
 #define _BASELOADSAVE_H
 
+#include "container/dbcontainerpack.h"
+
 extern struct StructDesc base_desc[];
 
 char *baseLoadText(int supergroupid,int userid);

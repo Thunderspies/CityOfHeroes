@@ -401,6 +401,6 @@ int costume_save( char * filename );
 int costume_load( char * filename );
 
 typedef struct ParseTable ParseTable;
-bool costume_fillExtraData( ParseTable pti[], CostumeMasterList * costumeMaster, bool shared_memory );
+bool costume_fillExtraData( ParseTable *pti, CostumeMasterList * costumeMaster, bool shared_memory );
 
 #endif

@@ -73,7 +73,7 @@ typedef struct ProficiencyDictionary
 // global inst of dict
 extern SHARED_MEMORY ProficiencyDictionary g_ProficiencyDict;
 extern StaticDefineInt OriginEnum[];
-bool proficiency_FinalProcess(TokenizerParseInfo pti[], ProficiencyDictionary *pdict, bool shared_memory);
+bool proficiency_FinalProcess(TokenizerParseInfo *pti, ProficiencyDictionary *pdict, bool shared_memory);
 TokenizerParseInfo* proficiency_GetParseInfo();
 
 ProficiencyItem const* proficiency_GetItem(char const *name);

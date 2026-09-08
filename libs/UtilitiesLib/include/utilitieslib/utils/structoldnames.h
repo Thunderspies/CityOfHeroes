@@ -12,6 +12,8 @@
 #ifndef STRUCTOLDNAMES_H
 #define STRUCTOLDNAMES_H
 
+#include "textparser_types.h"
+
 C_DECLARATIONS_BEGIN
 
 // structs and types in textparser.h
@@ -23,7 +25,6 @@ C_DECLARATIONS_BEGIN
 #define StructTypeField        StructTypeField
 #define TokenizerFormatField    StructFormatField
 
-#define TokenizerParseInfo        ParseTable
 #define FORALL_PARSEINFO        FORALL_PARSETABLE
 
 // functions in textparser.h

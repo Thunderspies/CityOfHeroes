@@ -15,11 +15,9 @@
 #ifndef CMDAUCTION_H
 #define CMDAUCTION_H
 
+#include <utilitieslib/utils/cmdoldparse.h>
 #include <utilitieslib/stdtypes.h>
 
-typedef struct GenericHashTableImp *GenericHashTable;
-typedef struct HashTableImp *HashTable;
-typedef struct Cmd Cmd;
 extern Cmd g_auction_cmds[];
 extern Cmd g_auction_res[];
 

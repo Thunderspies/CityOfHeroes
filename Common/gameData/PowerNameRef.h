@@ -6,8 +6,8 @@
 #ifndef POWERNAMEREF_H__
 #define POWERNAMEREF_H__
 
-typedef struct ParseTable ParseTable;
-#define TokenizerParseInfo ParseTable
+#include <utilitieslib/utils/textparser_types.h>
+
 
 // We use this structure to load references to Powers from data files.
 typedef struct PowerNameRef

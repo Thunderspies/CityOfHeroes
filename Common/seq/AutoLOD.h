@@ -1,11 +1,10 @@
 #ifndef _AUTOLOD_H_
 #define _AUTOLOD_H_
 
+#include <utilitieslib/utils/textparser_types.h>
 #include <utilitieslib/stdtypes.h>
 
 
-typedef struct ParseTable ParseTable;
-#define TokenizerParseInfo ParseTable
 typedef struct GMeshReductions GMeshReductions;
 
 

@@ -14,6 +14,8 @@
 #ifndef TEXTCRCDB_H
 #define TEXTCRCDB_H
 
+#include <utilitieslib/stdtypes.h>
+
 typedef struct ParseTable ParseTable;
 
 // writes the struct to fn.new

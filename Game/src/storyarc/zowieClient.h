@@ -1,3 +1,9 @@
+#ifndef ZOWIECLIENT_H
+#define ZOWIECLIENT_H
+
+typedef struct StashTableImp *StashTable;
+struct TaskStatus;
+
 extern StashTable zowieDestList;
 
 #ifdef TEST_CLIENT
@@ -19,3 +25,5 @@ void zowieRemoveGlowFlags();
 void clientZowie_Load();
 void zowieReset();
 #endif
+
+#endif // ZOWIECLIENT_H

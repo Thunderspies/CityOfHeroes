@@ -8,9 +8,10 @@
 
 typedef struct Entity Entity;
 typedef struct ClientLink ClientLink;
-typedef enum TrialStatus TrialStatus;
 
 #define DEFAULT_BUBBLE_TIME            2.0 //Time before bringing up the next bubble
+
+#include "storyarc/ScriptUIEnum.h"
 #define DEFAULT_BUBBLE_DURATION        8.0 //Time this bubble lasts on screen
 
 void sendMoralChoice(Entity * e, const char *leftText, const char *rightText, const char *leftWatermark, const char *rightWatermark, int requireConfirmation);

@@ -25,38 +25,38 @@ typedef enum DynOpType
 
 // for UI elements or anything else that wants a light-weight string from a token, doesn't support structs
 // or other complex types.  If prettyprint is set, there is no guarantee that you can later execute TokenFromSimpleString on it
-bool TokenToSimpleString(ParseTable tpi[], int column, void* structptr, char* str, int str_size, bool prettyprint);
-bool TokenFromSimpleString(ParseTable tpi[], int column, void* structptr, char* str);
+bool TokenToSimpleString(ParseTable *tpi, int column, void* structptr, char* str, int str_size, bool prettyprint);
+bool TokenFromSimpleString(ParseTable *tpi, int column, void* structptr, char* str);
 
-bool TokenIsSpecified(ParseTable tpi[], int column, void* srcStruct, int iBitFieldIndex);
-void TokenCopy(ParseTable tpi[], int column, void *dstStruct, void *srcStruct);
-void TokenClear(ParseTable tpi[], int column, void *dstStruct);
-void TokenAddSubStruct(ParseTable tpi[], int column, void *dstStruct, void *srcStruct);
-bool TokenIsNonZero(ParseTable tpi[], int column, void* srcStruct);
+bool TokenIsSpecified(ParseTable *tpi, int column, void* srcStruct, int iBitFieldIndex);
+void TokenCopy(ParseTable *tpi, int column, void *dstStruct, void *srcStruct);
+void TokenClear(ParseTable *tpi, int column, void *dstStruct);
+void TokenAddSubStruct(ParseTable *tpi, int column, void *dstStruct, void *srcStruct);
+bool TokenIsNonZero(ParseTable *tpi, int column, void* srcStruct);
 
 // nice way of implementing inheritance for structs, any fields specified in srcStruct will override those
 // in dstStruct.  If addSubStructs is set, substructures get added to the end of the list instead of overridding.
-void StructOverride(ParseTable pti[], void *dstStruct, void *srcStruct, int addSubStructs);
+void StructOverride(ParseTable *pti, void *dstStruct, void *srcStruct, int addSubStructs);
 
 // Reversed StructOverride - more appropriate for a data-defined "default" struct.  Any fields not specified in dst are filled with default values.
 // addSubStructs - substructs in defaultStruct will be ADDED to the list of structs in dest
 // applySubStructFields - function will recurse so that individual fields in substructures will also use defaults, instead of only applying on a whole-struct level
-void StructApplyDefaults(ParseTable pti[], void *dstStruct, void *defaultStruct, int addSubStructs, int applySubStructFields);
+void StructApplyDefaults(ParseTable *pti, void *dstStruct, void *defaultStruct, int addSubStructs, int applySubStructFields);
 
-void TokenInterpolate(ParseTable tpi[], int column, void* structA, void* structB, void* destStruct, F32 interpParam);
-void StructInterpolate(ParseTable pti[], void* structA, void* structB, void* destStruct, F32 interpParam);
+void TokenInterpolate(ParseTable *tpi, int column, void* structA, void* structB, void* destStruct, F32 interpParam);
+void StructInterpolate(ParseTable *pti, void* structA, void* structB, void* destStruct, F32 interpParam);
 
-void TokenCalcRate(ParseTable tpi[], int column, void* srcStoreA, void* srcStoreB, void* destStore, F32 deltaTime );
-void StructCalcRate(ParseTable pti[], void* structA, void* structB, void* destStruct, F32 deltaTime );
+void TokenCalcRate(ParseTable *tpi, int column, void* srcStoreA, void* srcStoreB, void* destStore, F32 deltaTime );
+void StructCalcRate(ParseTable *pti, void* structA, void* structB, void* destStruct, F32 deltaTime );
 
-void TokenIntegrate(ParseTable tpi[], int column, void* srcValue, void* srcRate, void* destStore, F32 deltaTime );
-void StructIntegrate(ParseTable pti[], void* valueStruct, void* rateStruct, void* destStruct, F32 deltaTime );
+void TokenIntegrate(ParseTable *tpi, int column, void* srcValue, void* srcRate, void* destStore, F32 deltaTime );
+void StructIntegrate(ParseTable *pti, void* valueStruct, void* rateStruct, void* destStruct, F32 deltaTime );
 
-void TokenCalcCyclic(ParseTable tpi[], int column, void* valueStruct, void* ampStruct, void* freqStruct, void* cycleStruct, void* destStruct, F32 fStartTime, F32 deltaTime );
-void StructCalcCyclic(ParseTable pti[], void* valueStruct, void* ampStruct, void* freqStruct, void* cycleStruct, void* destStruct, F32 fStartTime, F32 deltaTime );
+void TokenCalcCyclic(ParseTable *tpi, int column, void* valueStruct, void* ampStruct, void* freqStruct, void* cycleStruct, void* destStruct, F32 fStartTime, F32 deltaTime );
+void StructCalcCyclic(ParseTable *pti, void* valueStruct, void* ampStruct, void* freqStruct, void* cycleStruct, void* destStruct, F32 fStartTime, F32 deltaTime );
 
-void TokenApplyDynOp(ParseTable tpi[], int column, DynOpType optype, F32* values, U8 uiValuesSpecd, void* dstStruct, void* srcStruct, U32* seed);
-void StructApplyDynOp(ParseTable pti[], DynOpType optype, F32* values, U8 uiValuesSpecd, void* dstStruct, void* srcStruct, U32* seed);
+void TokenApplyDynOp(ParseTable *tpi, int column, DynOpType optype, F32* values, U8 uiValuesSpecd, void* dstStruct, void* srcStruct, U32* seed);
+void StructApplyDynOp(ParseTable *pti, DynOpType optype, F32* values, U8 uiValuesSpecd, void* dstStruct, void* srcStruct, U32* seed);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // ParseTableXxx functions let you serialize and load entire parse tables - they automatically handle subtables
@@ -64,29 +64,29 @@ void StructApplyDynOp(ParseTable pti[], DynOpType optype, F32* values, U8 uiValu
 
 void ParseTableFree(ParseTable*** eapti);
 
-bool ParseTableWriteTextFile(char* filename, ParseTable pti[]);        // returns success
-bool ParseTableWriteText(char** estr, ParseTable pti[]);            // returns success
+bool ParseTableWriteTextFile(char* filename, ParseTable *pti);        // returns success
+bool ParseTableWriteText(char** estr, ParseTable *pti);            // returns success
 bool ParseTableReadTextFile(char* filename, ParseTable*** eapti, int* size); // returns an erray of parse tables and size of root struct
-bool ParseTableSend(Packet* pak, ParseTable pti[]);
+bool ParseTableSend(Packet* pak, ParseTable *pti);
 bool ParseTableRecv(Packet* pak, ParseTable*** eapti, int* size);
 
 // these are valid for both serialized and static parse tables
 void ParseTableClearCachedInfo(ParseTable *pti);
-int ParseTableCountFields(ParseTable *pti);    
-int ParseTableCRC(ParseTable pti[], DefineContext* defines);    
-int  ParseTableGetIndex(ParseTable pti[], char* tokenName);
+int ParseTableCountFields(ParseTable *pti);
+int ParseTableCRC(ParseTable *pti, DefineContext* defines);
+int  ParseTableGetIndex(ParseTable *pti, char* tokenName);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Textparser path functions allow for XPath-style addressing of textparser objects
 
 // main function for resolving a textparser path - result is suitable for use with TokenStore functions
 // - table_in and structptr_in are not required if you are referencing well-known root path (Entities, etc.)
-bool ParserResolvePath(char* path_in, ParseTable table_in[], void* structptr_in, 
+bool ParserResolvePath(char* path_in, ParseTable *table_in, void* structptr_in,
                        ParseTable** table_out, int* column_out, void** structptr_out, int* index_out);
 
 // do a key lookup on this struct and return the resulting index
 // - structptr[column] is required to be an earray of structs
-bool ParserResolveKey(char* key, ParseTable table[], int column, void* structptr, int* index);
+bool ParserResolveKey(char* key, ParseTable *table, int column, void* structptr, int* index);
 
 // one or more root path providers can be registered to handle paths that begin with an identifier.
 // providers should set *column to -1 if field is required next: (Mission.Success.Field)
@@ -208,15 +208,15 @@ ParserSetTableInfoExplicitlyEx(table, size, name, ((name "static assert is strin
 
 // table info can be built into the tpi, or explicitly set via these methods
 // Note: explicitly setting this will override the implicit tpi (is this a good idea?)
-bool ParserSetTableInfoExplicitlyEx(ParseTable table[], int size, char* name, int name_static, char *source_file_name);
-bool ParserClearExplicitTableInfo(ParseTable table[]); 
+bool ParserSetTableInfoExplicitlyEx(ParseTable *table, int size, char* name, int name_static, char *source_file_name);
+bool ParserClearExplicitTableInfo(ParseTable *table);
 
 // get useful information about parse tables. default can be overridden with
 // explicit info.
-ParseTableInfo *ParserGetTableInfo(ParseTable table[]);
+ParseTableInfo *ParserGetTableInfo(ParseTable *table);
 
 // misc. helpers
-// TextParserAutoFixupCB * ParserGetTableFixupFunc(ParseTable table[])
+// TextParserAutoFixupCB * ParserGetTableFixupFunc(ParseTable *table)
 
 C_DECLARATIONS_END
 

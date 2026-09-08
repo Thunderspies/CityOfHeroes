@@ -2,7 +2,8 @@
 #ifndef CMDCHAT_H
 #define CMDCHAT_H
 
-typedef struct Cmd Cmd;
+#include <utilitieslib/utils/cmdoldparse.h>
+
 typedef struct ClientLink ClientLink;
 
 void chatCommand( Cmd * cmd, ClientLink *client, char* str );

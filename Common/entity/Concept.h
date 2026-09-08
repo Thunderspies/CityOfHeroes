@@ -231,7 +231,7 @@ typedef struct ConceptDictionary
 
 // global inst of dict
 extern SHARED_MEMORY ConceptDictionary g_ConceptDict;
-bool conceptdict_FinalProcess(ParseTable pti[], ConceptDictionary *pdict, bool shared_memory);
+bool conceptdict_FinalProcess(ParseTable *pti, ConceptDictionary *pdict, bool shared_memory);
 TokenizerParseInfo* conceptdef_GetParseInfo();
 
 bool basepower_CanApplyConcept( const BasePower *recipe, ConceptDef const *concept );

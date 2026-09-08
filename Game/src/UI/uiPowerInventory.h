@@ -1,6 +1,8 @@
 #ifndef UIPOWERINVENTORY_H
 #define UIPOWERINVENTORY_H
 
+#include "entity/powers.h"
+
 typedef struct TrayObj TrayObj;
 // This is the new power inventory window
 //

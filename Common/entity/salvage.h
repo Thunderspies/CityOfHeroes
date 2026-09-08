@@ -6,12 +6,13 @@
 #ifndef SALVAGE_H__
 #define SALVAGE_H__ 
 
+#include <utilitieslib/utils/structDefines.h>
 #include <utilitieslib/stdtypes.h>
 #include "TokenizerUiWidget.h"
 
-typedef struct ParseLink ParseLink;
+typedef struct StructLink StructLink;
+#define ParseLink StructLink
 typedef struct Detail Detail;
-typedef struct StaticDefineInt StaticDefineInt;
 typedef const struct StashTableImp*    cStashTable;
 
 //------------------------------------------------------------
@@ -156,7 +157,7 @@ typedef struct ParseTable ParseTable;
 TokenizerParseInfo* salvageTrackedByEntParseInfo();
 TokenizerParseInfo* salvage_GetParseInfo();
 
-bool salvage_FinalProcess(TokenizerParseInfo pti[], SalvageDictionary *pdict, bool shared_memory);
+bool salvage_FinalProcess(TokenizerParseInfo *pti, SalvageDictionary *pdict, bool shared_memory);
 
 const SalvageItem* salvage_GetItem( char const *name );
 int salvage_ValidId( int id );

@@ -1,6 +1,8 @@
 #ifndef SCRIPTUIENUM_H
 #define SCRIPTUIENUM_H
 
+#include <utilitieslib/utils/structDefines.h>
+
 //these enums cover all the widgets that have
 //data associated with them that can be updated
 typedef enum ScriptUIType
@@ -33,7 +35,6 @@ typedef enum TrialStatus
     trialStatus_Count,
 } TrialStatus;
 
-typedef struct StaticDefineInt StaticDefineInt;
 extern StaticDefineInt TrialStatusEnum[];
 
 #endif

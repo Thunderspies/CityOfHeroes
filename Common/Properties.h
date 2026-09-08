@@ -1,9 +1,9 @@
 #ifndef PROPERTIES_H
 #define PROPERTIES_H
 
-typedef struct DefineIntList DefineIntList;
-typedef struct ParseTable ParseTable;
-#define TokenizerParseInfo ParseTable
+#include <utilitieslib/utils/structDefines.h>
+#include <utilitieslib/utils/textparser_types.h>
+
 
 #define PROPERTY_STRLEN        1024
 

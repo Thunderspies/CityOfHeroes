@@ -33,6 +33,8 @@
 #include <utilitieslib/language/AppLocale.h>
 #include <utilitieslib/utils/tokenstore.h>
 #include "AutoGen/playerCreatedStoryarcValidate_h_ast.h"
+#include "AutoGen/playerCreatedStoryarcTypes_h_ast.h"
+#include "AutoGen/playerCreatedStoryarcTypes_h_ast.c"
 #include "AutoGen/playerCreatedStoryarcValidate_h_ast.c"
 #include "LWC_common.h"
 #ifdef CLIENT

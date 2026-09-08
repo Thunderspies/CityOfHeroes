@@ -1,7 +1,8 @@
 #ifndef STORYARCCOMMON_H
 #define STORYARCCOMMON_H
 
-typedef struct StaticDefineInt StaticDefineInt;
+#include <utilitieslib/utils/structDefines.h>
+
 
 typedef enum MissionPlaceEnum {
     MISSION_NONE,

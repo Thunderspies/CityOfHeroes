@@ -1,6 +1,8 @@
 #ifndef _CHAT_DB_H
 #define _CHAT_DB_H
 
+#include <utilitieslib/utils/textparser_types.h>
+
 
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/network/netio.h>
@@ -14,7 +16,6 @@ typedef struct StashTableImp *StashTable;
 typedef const struct StashTableImp *cStashTable;
 typedef struct User User;
 
-typedef struct ParseTable ParseTable;
 extern ParseTable parse_channel[];
 extern ParseTable parse_user[];
 extern ParseTable parse_gmailuser[];

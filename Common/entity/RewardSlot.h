@@ -6,6 +6,7 @@
 #ifndef REWARDSLOT_H
 #define REWARDSLOT_H
 
+#include <utilitieslib/utils/textparser_types.h>
 #include "entity/RewardItemType.h"
 
 typedef struct Packet Packet;
@@ -24,8 +25,6 @@ static INLINEDBG bool rewardslot_Valid(RewardSlot const *s) {return s && s->name
 bool rewardslot_Matches(RewardSlot const *slot, RewardItemType type, char const *name, int level ) ;
 int rewardslot_ValidCount(RewardSlot const *slots, int size);
 
-typedef struct ParseTable ParseTable;
-#define TokenizerParseInfo ParseTable
 extern TokenizerParseInfo ParseRewardSlot[];
 RewardSlot* rewardslot_Init(RewardSlot* slot, RewardItemType type, char const *name);
 

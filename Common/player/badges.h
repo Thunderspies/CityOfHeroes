@@ -6,13 +6,12 @@
 #ifndef BADGES_H__
 #define BADGES_H__
 
+#include <utilitieslib/utils/textparser_types.h>
 #include <utilitieslib/utils/mathutil.h> // MAX()
 
 typedef struct StuffBuff StuffBuff;
 typedef struct StashTableImp *StashTable;
 typedef const struct StashTableImp *cStashTable;
-typedef struct ParseTable ParseTable;
-#define TokenizerParseInfo ParseTable
 typedef struct RewardItemSet RewardItemSet;
 typedef struct Entity Entity;
 typedef struct Packet Packet;

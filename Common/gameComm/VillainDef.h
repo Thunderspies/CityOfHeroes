@@ -6,6 +6,7 @@
 
 #include "entity/entityRef.h"
 
+typedef struct BasePower BasePower;
 typedef struct Costume Costume;
 typedef struct Entity Entity;
 typedef struct Actor Actor;

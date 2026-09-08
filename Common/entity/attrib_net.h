@@ -6,11 +6,10 @@
 #ifndef ATTRIB_NET_H__
 #define ATTRIB_NET_H__
 
+#include <utilitieslib/utils/textparser_types.h>
 #include "character_attribs.h"
 #include <utilitieslib/utils/structNet.h>
 
-typedef struct ParseTable ParseTable;
-#define TokenizerParseInfo ParseTable
 
 extern TokenizerParseInfo SendBasicCharacter[];
 extern TokenizerParseInfo SendFullCharacter[];
