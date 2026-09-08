@@ -62,7 +62,7 @@ void initQuickTrig()
     for( i = 0 ; i < TRIG_TABLE_ENTRIES ; i++)
     {
         rad = (F32)(TWOPI * ((F32)i / TRIG_TABLE_ENTRIES));
-        sincosf(rad, &(sintable[i]), &(costable[i]));
+        mathutil_sincosf(rad, &(sintable[i]), &(costable[i]));
     }
 }
 
@@ -486,7 +486,7 @@ void yawMat3World(F32 angle, Mat3 uv )
     F32 ut,sint,cost;
     int i;
 
-    sincosf(angle, &sint, &cost);
+    mathutil_sincosf(angle, &sint, &cost);
 
     for(i=0;i<3;i++)
     {
@@ -501,7 +501,7 @@ void pitchMat3World(F32 angle, Mat3 uv)
 F32 ut,sint,cost;
 int i; 
 
-    sincosf(angle, &sint, &cost);
+    mathutil_sincosf(angle, &sint, &cost);
     for(i=0;i<3;i++)
     { 
         ut     = uv[i][1]*cost - uv[i][2]*sint;
@@ -516,7 +516,7 @@ void rollMat3World(F32 angle, Mat3 uv)
 F32 ut,sint,cost;
 int i;
 
-    sincosf(angle, &sint, &cost);
+    mathutil_sincosf(angle, &sint, &cost);
     for(i=0;i<3;i++)
     { 
         ut     = uv[i][0]*cost - uv[i][1]*sint;
@@ -531,7 +531,7 @@ void yawMat3(F32 angle, Mat3 uv)
 F32 ut,sint,cost;
 int i; 
 
-    sincosf(angle, &sint, &cost);
+    mathutil_sincosf(angle, &sint, &cost);
     for(i=0;i<3;i++)
     { 
         ut     = uv[0][i]*cost - uv[2][i]*sint;
@@ -546,7 +546,7 @@ void pitchMat3(F32 angle, Mat3 uv)
 F32 ut,sint,cost;
 int i; 
 
-    sincosf(angle, &sint, &cost);
+    mathutil_sincosf(angle, &sint, &cost);
     for(i=0;i<3;i++)
     { 
         ut     = uv[1][i]*cost - uv[2][i]*sint;
@@ -561,7 +561,7 @@ void rollMat3(F32 angle, Mat3 uv)
 F32 ut,sint,cost;
 int i;
 
-    sincosf(angle, &sint, &cost);
+    mathutil_sincosf(angle, &sint, &cost);
     for(i=0;i<3;i++) { 
         ut     = uv[0][i]*cost - uv[1][i]*sint;
         uv[1][i] = uv[1][i]*cost + uv[0][i]*sint;
@@ -755,9 +755,9 @@ void createMat3PYR(Mat3 mat,const F32 *pyr)
 
     // Matricies in the game are transposed, so the pitch, yaw, and roll matrices
     // are also transposed. An easy way to do this is just to change the sign of sin
-    sincosf(pyr[0], &sinP, &cosP);
-    sincosf(pyr[1], &sinY, &cosY);
-    sincosf(pyr[2], &sinR, &cosR);
+    mathutil_sincosf(pyr[0], &sinP, &cosP);
+    mathutil_sincosf(pyr[1], &sinY, &cosY);
+    mathutil_sincosf(pyr[2], &sinR, &cosR);
 
 
     mat[0][0] =     cosY * cosR;
@@ -784,9 +784,9 @@ void createMat3RYP(Mat3 mat,const F32 *pyr)
 {
     F32 cosP,sinP,cosY,sinY,cosR,sinR,temp;
 
-    sincosf(pyr[0], &sinP, &cosP);
-    sincosf(pyr[1], &sinY, &cosY);
-    sincosf(pyr[2], &sinR, &cosR);
+    mathutil_sincosf(pyr[0], &sinP, &cosP);
+    mathutil_sincosf(pyr[1], &sinY, &cosY);
+    mathutil_sincosf(pyr[2], &sinR, &cosR);
 
     temp =           cosR * sinY;
     mat[0][0] =     cosR * cosY;
@@ -808,9 +808,9 @@ void createMat3YPR(Mat3 mat,const F32 *pyr)
 {
     F32 cosP,sinP,cosY,sinY,cosR,sinR,temp;
 
-    sincosf(pyr[0], &sinP, &cosP);
-    sincosf(pyr[1], &sinY, &cosY);
-    sincosf(pyr[2], &sinR, &cosR);
+    mathutil_sincosf(pyr[0], &sinP, &cosP);
+    mathutil_sincosf(pyr[1], &sinY, &cosY);
+    mathutil_sincosf(pyr[2], &sinR, &cosR);
 
     temp =           sinY * sinP;
     mat[0][0] =  cosY * cosR + temp * sinR;
@@ -832,9 +832,9 @@ void createMat3_0_YPR(Vec3 mat0,const F32 *pyr)
 {
     F32 cosP,sinP,cosY,sinY,cosR,sinR;
 
-    sincosf(pyr[0], &sinP, &cosP);
-    sincosf(pyr[1], &sinY, &cosY);
-    sincosf(pyr[2], &sinR, &cosR);
+    mathutil_sincosf(pyr[0], &sinP, &cosP);
+    mathutil_sincosf(pyr[1], &sinY, &cosY);
+    mathutil_sincosf(pyr[2], &sinR, &cosR);
 
     mat0[0] =  cosY * cosR + sinY * sinP * sinR;
     mat0[1] = -cosP * sinR;
@@ -846,9 +846,9 @@ void createMat3_1_YPR(Vec3 mat1,const F32 *pyr)
 {
     F32 cosP,sinP,cosY,sinY,cosR,sinR;
 
-    sincosf(pyr[0], &sinP, &cosP);
-    sincosf(pyr[1], &sinY, &cosY);
-    sincosf(pyr[2], &sinR, &cosR);
+    mathutil_sincosf(pyr[0], &sinP, &cosP);
+    mathutil_sincosf(pyr[1], &sinY, &cosY);
+    mathutil_sincosf(pyr[2], &sinR, &cosR);
 
     mat1[0] =  cosY * sinR - sinY * sinP * cosR;
     mat1[1] =  cosP * cosR;
@@ -860,8 +860,8 @@ void createMat3_2_YPR(Vec3 mat2,const F32 *pyr)
 {
     F32 cosP,sinP,cosY,sinY;
 
-    sincosf(pyr[0], &sinP, &cosP);
-    sincosf(pyr[1], &sinY, &cosY);
+    mathutil_sincosf(pyr[0], &sinP, &cosP);
+    mathutil_sincosf(pyr[1], &sinY, &cosY);
 
     mat2[0] =  sinY * cosP;
     mat2[1] =  sinP;
@@ -969,8 +969,8 @@ void getRandomAngularDeflection(Vec3 vOutput, F32 fAngle)
 void sphericalCoordsToVec3(Vec3 vOut, F32 theta, F32 phi, F32 radius)
 {
     F32 fSinPhi, fCosPhi, fSinTheta, fCosTheta;
-    sincosf(phi, &fSinPhi, &fCosPhi);
-    sincosf(theta, &fSinTheta, &fCosTheta);
+    mathutil_sincosf(phi, &fSinPhi, &fCosPhi);
+    mathutil_sincosf(theta, &fSinTheta, &fCosTheta);
     vOut[1] = radius * fCosTheta * fSinPhi;
     vOut[0] = radius * fSinTheta * fSinPhi;
     vOut[2] = radius * fCosPhi;

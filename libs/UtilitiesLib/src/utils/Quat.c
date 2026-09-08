@@ -102,7 +102,7 @@ bool axisAngleToQuat(const Vec3 axis, F32 angle, Quat quat)
     if(div > (EPSILON*EPSILON))
     {
         halfAngle = angle * 0.5f;
-        sincosf(halfAngle, &sha, &cha);
+        mathutil_sincosf(halfAngle, &sha, &cha);
         div = (F32)((1.f / sqrt(div)) * sha);
         quatW(quat) = cha;
         quatX(quat) = axis[0] * div;
@@ -122,7 +122,7 @@ bool axisAngleToQuat(const Vec3 axis, F32 angle, Quat quat)
 
 void yawQuat(F32 yaw, Quat q)
 {
-    sincosf(yaw*0.5f, &quatY(q), &quatW(q) );
+    mathutil_sincosf(yaw*0.5f, &quatY(q), &quatW(q) );
     //quatW(q) = cosf(yaw*0.5f);
     quatX(q) = 0.0f;
     //quatY(q) = sinf(yaw*0.5f);
@@ -130,7 +130,7 @@ void yawQuat(F32 yaw, Quat q)
 }
 void pitchQuat(F32 yaw, Quat q)
 {
-    sincosf(yaw*0.5f, &quatX(q), &quatW(q) );
+    mathutil_sincosf(yaw*0.5f, &quatX(q), &quatW(q) );
     //quatW(q) = cosf(yaw*0.5f);
     //quatX(q) = sinf(yaw*0.5f);
     quatY(q) = 0.0f;
@@ -139,7 +139,7 @@ void pitchQuat(F32 yaw, Quat q)
 
 void rollQuat(F32 yaw, Quat q)
 {
-    sincosf(yaw*0.5f, &quatZ(q), &quatW(q) );
+    mathutil_sincosf(yaw*0.5f, &quatZ(q), &quatW(q) );
     //quatW(q) = cosf(yaw*0.5f);
     quatX(q) = 0.0f;
     quatY(q) = 0.0f;

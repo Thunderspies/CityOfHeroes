@@ -398,13 +398,13 @@ static INLINEDBG int nearSameDoubleTol(double a, double b, double tol)
 }
 
 #if defined(_XBOX) || defined(_WIN64)
-    static INLINEDBG void sincosf( float angle, float* sinPtr, float* cosPtr )
+    static INLINEDBG void mathutil_sincosf( float angle, float* sinPtr, float* cosPtr )
     {
         *sinPtr = sinf(angle);
         *cosPtr = cosf(angle);
     }
 #else
-    static INLINEDBG void sincosf( float angle, float* sinPtr, float* cosPtr )
+    static INLINEDBG void mathutil_sincosf( float angle, float* sinPtr, float* cosPtr )
     {
         __asm
         {

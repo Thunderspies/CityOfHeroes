@@ -89,7 +89,7 @@ void matrixFromAxisAngle(Vec3 a1, F32 angle, Mat3 m)
  {
     F32 c,s, t, tmp1, tmp2;
 
-    sincosf(angle, &s, &c);
+    mathutil_sincosf(angle, &s, &c);
 
     t = 1.0 - c;
 

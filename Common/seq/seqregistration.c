@@ -242,7 +242,7 @@ static void srQuatFromAxisAngle(SeqRegQuat * q, Vec3 axis, F32 theta)
 {
     F32 theta_div_2 = theta/2.0f;
     F32 sin_theta; // = sinf(theta_div_2);
-    sincosf(theta_div_2, &sin_theta, &(q->w));
+    mathutil_sincosf(theta_div_2, &sin_theta, &(q->w));
 
     normalVec3(axis);    // FIXME: shouldn't modify passed in vector without warning :(
 
