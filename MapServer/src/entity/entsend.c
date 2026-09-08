@@ -3806,8 +3806,10 @@ static void sendSkyFade(Packet *pak)
     }
 }
 
-static int __cdecl compareEntityDistance(const int* ent1, const int* ent2)
+static int __cdecl compareEntityDistance(const void* ent1Data, const void* ent2Data)
 {
+    const int* ent1 = (const int*)ent1Data;
+    const int* ent2 = (const int*)ent2Data;
     int d1 = ent1[1];
     int d2 = ent2[1];
 
@@ -4652,8 +4654,10 @@ typedef struct InfoBoostData
     int count;
 }InfoBoostData;
 
-static int boostListComparator(const InfoBoostData **a, const InfoBoostData **b)
+static int boostListComparator(const void* aData, const void* bData)
 {
+    const InfoBoostData ** a = (const InfoBoostData **)aData;
+    const InfoBoostData ** b = (const InfoBoostData **)bData;
     if (a && b && *a && *b)
     {
         int retVal = (*a)->count - (*b)->count;

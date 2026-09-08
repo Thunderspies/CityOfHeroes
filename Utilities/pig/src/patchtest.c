@@ -37,8 +37,9 @@ typedef struct PatchTestVersion {
 static PatchTestVersion **versions;
 MP_DEFINE(NewPigEntry);
 
-void destroyNewPigEntry(NewPigEntry *entry)
+void destroyNewPigEntry(void* entryData)
 {
+    NewPigEntry * entry = (NewPigEntry *)entryData;
     SAFE_FREE(entry->fname);
     MP_FREE(NewPigEntry, entry);
 }
@@ -84,8 +85,10 @@ NewPigEntry **parseFile(const char *fname)
     return ret;
 }
 
-static int cmpVersions(const PatchTestVersion **a, const PatchTestVersion **b)
+static int cmpVersions(const void* aData, const void* bData)
 {
+    const PatchTestVersion ** a = (const PatchTestVersion **)aData;
+    const PatchTestVersion ** b = (const PatchTestVersion **)bData;
     unsigned char *fna = (*a)->filename + strlen("C:/lists/");
     unsigned char *fnb = (*b)->filename + strlen("C:/lists/");
     while (fna && fnb && isdigit(fna[0]) && isdigit(fnb[0]))

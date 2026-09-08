@@ -28,10 +28,19 @@ typedef void (*EArrayItemDestructor)(void*);
 typedef void* (*EArrayItemConstructor)(int size);
 typedef void* (*CustomMemoryAllocator)(void* data, size_t size);
 
-#define mEACast(handle)                            (cpponly_reinterpret_cast(mEArrayHandle*)(handle))
-#define cEACast(handle)                            (cpp_const_cast(mEArrayHandle*)(cpponly_reinterpret_cast(cEArrayHandle*)(handle)))
-#define ccmEACast(handle)                        (cpponly_reinterpret_cast(ccmEArrayHandle*)(handle))
-#define cccEACast(handle)                        (cpp_const_cast(ccmEArrayHandle*)(cpponly_reinterpret_cast(cccEArrayHandle*)(handle)))
+/* Adapt addresses of typed array handles to the shared storage API.
+ * Handles must be non-NULL; their array may be NULL until created or grown.
+ * Const variants preserve element constness while allowing array mutation.
+ */
+#define mEACast(handle) (cpp_reinterpret_cast(mEArrayHandle*)(handle))
+#define cEACast(handle) \
+	(cpp_const_cast(mEArrayHandle*)( \
+		cpp_reinterpret_cast(cEArrayHandle*)(handle)))
+#define ccmEACast(handle) (cpp_reinterpret_cast(ccmEArrayHandle*)(handle))
+#define cccEACast(handle) (cpp_reinterpret_cast(cccEArrayHandle*)(handle))
+
+// Mutable array storage whose element values remain read-only.
+#define cEAHandleCast(handle) (cpp_const_cast(cEArrayHandle*)(cpp_reinterpret_cast(cccEArrayHandle*)(handle)))
 
 // Use eags() in a debugger
 #define eaSize(handle)                            (EAPtrTest(handle), eaSizeUnsafe(handle))
@@ -39,18 +48,26 @@ typedef void* (*CustomMemoryAllocator)(void* data, size_t size);
 int        eaCapacity(cccEArrayHandle* handle);    // get the current number of items that can be held without growing
 size_t    eaMemUsage(cccEArrayHandle* handle);    // get the amount of memory actually used (not counting slack allocated)
 
-#define eaPushArray(handle, src)                eaPushArrayDbg(mEACast(handle), ccmEACast(src), __FILE__, __LINE__)
+#define eaPushArray(handle, src) \
+	eaPushArrayDbg(mEACast(handle), cccEACast(src), __FILE__, __LINE__)
 #define eaPushArrayConst(handle, src)            eaPushArrayDbg(cEACast(handle), cccEACast(src), __FILE__, __LINE__)
-#define eaCopy(dest, src)                        eaCopyDbg(mEACast(dest), ccmEACast(src), __FILE__, __LINE__)
+#define eaCopy(dest, src) \
+	eaCopyDbg(mEACast(dest), cccEACast(src), __FILE__, __LINE__)
 #define eaCopyConst(dest, src)                    eaCopyDbg(cEACast(dest), cccEACast(src), __FILE__, __LINE__)
-#define eaCompress(dest, src, alloc, data)        eaCompressDbg(mEACast(dest), src, alloc, data, __FILE__, __LINE__)
-#define eaCompressConst(dest, src, alloc, data)    eaCompressDbg(cEACast(dest), src, alloc, data, __FILE__, __LINE__)
+#define eaCompress(dest, src, alloc, data) \
+	eaCompressDbg(mEACast(dest), cccEACast(src), alloc, data, __FILE__, \
+	__LINE__)
+#define eaCompressConst(dest, src, alloc, data) \
+	eaCompressDbg(cEACast(dest), cccEACast(src), alloc, data, __FILE__, \
+	__LINE__)
 
 #define eaCreate(handle)                        eaCreateWithCapacityDbg(mEACast(handle), 1, __FILE__, __LINE__)
 #define eaCreateConst(handle)                    eaCreateWithCapacityDbg(cEACast(handle), 1, __FILE__, __LINE__)
 #define eaCreateWithCapacity(handle, cap)        eaCreateWithCapacityDbg(mEACast(handle), cap, __FILE__, __LINE__)
 #define eaCreateWithCapacityConst(handle, cap)    eaCreateWithCapacityDbg(cEACast(handle), cap, __FILE__, __LINE__)
-#define eaCreateSmallocSafe(handle)                eaCreateWithCapacityDbg(handle, EARRAY_SMALLOC_SAFE_COUNT, __FILE__, __LINE__)
+#define eaCreateSmallocSafe(handle) \
+	eaCreateWithCapacityDbg(mEACast(handle), EARRAY_SMALLOC_SAFE_COUNT, \
+	__FILE__, __LINE__)
 #define eaSetCapacity(handle, cap)                eaSetCapacityDbg(mEACast(handle), cap, __FILE__, __LINE__)
 #define eaSetCapacityConst(handle, cap)            eaSetCapacityDbg(cEACast(handle), cap, __FILE__, __LINE__)
 #define eaSetSize(handle, size)                    eaSetSizeDbg(mEACast(handle), size, __FILE__, __LINE__)
@@ -58,34 +75,54 @@ size_t    eaMemUsage(cccEArrayHandle* handle);    // get the amount of memory ac
 #define eaDestroy(handle)                        eaDestroyDbg(mEACast(handle))
 #define eaDestroyConst(handle)                    eaDestroyDbg(cEACast(handle))
 
-#define eaPush(handle, structptr)                eaPushDbg(mEACast(handle), cpponly_reinterpret_cast(void*)(structptr), __FILE__, __LINE__)
-#define eaPushConst(handle, structptr)            eaPushDbg(cEACast(handle), cpp_const_cast(void*)(cpponly_reinterpret_cast(const void*)(structptr)), __FILE__, __LINE__)
-#define eaPushUnique(handle, structptr)            eaPushUniqueDbg(mEACast(handle), cpponly_reinterpret_cast(void*)(structptr), __FILE__, __LINE__)
-#define eaPushUniqueConst(handle, structptr)    eaPushUniqueDbg(cEACast(handle), cpp_const_cast(void*)(cpponly_reinterpret_cast(const void*)(structptr)), __FILE__, __LINE__)
+#define eaPush(handle, structptr) \
+	eaPushDbg(mEACast(handle), cpp_reinterpret_cast(void*)(structptr), \
+	__FILE__, __LINE__)
+#define eaPushConst(handle, structptr) \
+	eaPushDbg(cEACast(handle), \
+	cpp_const_cast(void*)(cpp_reinterpret_cast(const \
+	void*)(structptr)), __FILE__, __LINE__)
+#define eaPushUnique(handle, structptr) \
+	eaPushUniqueDbg(mEACast(handle), \
+	cpp_reinterpret_cast(void*)(structptr), __FILE__, __LINE__)
+#define eaPushUniqueConst(handle, structptr) \
+	eaPushUniqueDbg(cEACast(handle), \
+	cpp_const_cast(void*)(cpp_reinterpret_cast(const \
+	void*)(structptr)), __FILE__, __LINE__)
 #define eaPushFront(handle, structptr)            eaInsert(handle,structptr,0)
 #define eaPop(handle)                            eaPopDbg(mEACast(handle))
-#define eaPopConst(handle)                        eaPopConstDbg(cpponly_reinterpret_cast(cEArrayHandle*)(handle))
+#define eaPopConst(handle) \
+	eaPopConstDbg(cpp_reinterpret_cast(cEArrayHandle*)(handle))
 #define eaClear(handle)                            eaClearDbg(mEACast(handle))
 #define eaClearConst(handle)                    eaClearDbg(cEACast(handle))
 
 #define eaSet(handle, structptr, i)                eaSetDbg(mEACast(handle), structptr, i)
-#define eaSetConst(handle, structptr, i)        eaSetDbg(cEACast(handle), cpp_const_cast(void*)(cpponly_reinterpret_cast(const void*)(structptr)), i)
+#define eaSetConst(handle, structptr, i) \
+	eaSetDbg(cEACast(handle), \
+	cpp_const_cast(void*)(cpp_reinterpret_cast(const \
+	void*)(structptr)), i)
 #define eaSetForced(handle, structptr, i)        eaSetForcedDbg(mEACast(handle), structptr, i, __FILE__, __LINE__)
-#define eaSetForcedConst(handle, structptr, i)    eaSetForcedDbg(cEACast(handle), cpp_const_cast(void*)(cpponly_reinterpret_cast(const void*)(structptr)), i, __FILE__, __LINE__)
+#define eaSetForcedConst(handle, structptr, i) \
+	eaSetForcedDbg(cEACast(handle), \
+	cpp_const_cast(void*)(cpp_reinterpret_cast(const \
+	void*)(structptr)), i, __FILE__, __LINE__)
 #define eaGet(handle, i)                        eaGetDbg(ccmEACast(handle), i)
 #define eaGetConst(handle, i)                    eaGetConstDbg(cccEACast(handle), i)
 #define eaLast(handle)                            eaLastDbg(ccmEACast(handle))
 #define eaLastConst(handle)                        eaLastConstDbg(cccEACast(handle))
 #define eaInsert(handle, structptr, i)            eaInsertDbg(mEACast(handle), structptr, i, __FILE__, __LINE__)
-#define eaInsertConst(handle, structptr, i)        eaInsertDbg(cEACast(handle), cpp_const_cast(void*)(cpponly_reinterpret_cast(const void*)(structptr)), i, __FILE__, __LINE__)
+#define eaInsertConst(handle, structptr, i) \
+	eaInsertDbg(cEACast(handle), \
+	cpp_const_cast(void*)(cpp_reinterpret_cast(const \
+	void*)(structptr)), i, __FILE__, __LINE__)
 #define eaRemove(handle, i)                        eaRemoveDbg(mEACast(handle), i)
-#define eaRemoveConst(handle, i)                eaRemoveDbg(cEACast(handle), i)
+#define eaRemoveConst(handle, i)                eaRemoveConstDbg(cEAHandleCast(handle), i)
 void    eaRemoveAndDestroy(mEArrayHandle* handle, int i, EArrayItemDestructor destructor);                // remove and destroy the i'th element. silent fail.
 #define eaRemoveFast(handle, i)                    eaRemoveFastDbg(mEACast(handle), i)
-#define eaRemoveFastConst(handle, i)            eaRemoveFastConstDbg(cpponly_reinterpret_cast(cEArrayHandle*)(handle), i)
-#define eaFind(handle, structptr)                eaFindDbg(cccEACast(handle), structptr)
-#define eaFindAndRemove(handle, structptr)        eaFindAndRemoveDbg(cEACast(handle), structptr)
-#define eaFindAndRemoveFast(handle, structptr)    eaFindAndRemoveFastDbg(cEACast(handle), structptr)
+#define eaRemoveFastConst(handle, i)            eaRemoveFastConstDbg(cEAHandleCast(handle), i)
+#define eaFind(handle, structptr)                eaFindDbg(cpp_reinterpret_cast(cccEArrayHandle*)(handle), structptr)
+#define eaFindAndRemove(handle, structptr)        eaFindAndRemoveDbg(cEAHandleCast(handle), structptr)
+#define eaFindAndRemoveFast(handle, structptr)    eaFindAndRemoveFastDbg(cEAHandleCast(handle), structptr)
 void    eaSwap(cEArrayHandle* handle, int i, int j);            // exchange the i'th element with the j'th element
 void    eaMove(cEArrayHandle* handle, int dest, int src);    // shift left or right to move the src'th element to dest
 void    eaReverse(cEArrayHandle* handle);
@@ -95,16 +132,32 @@ void    eaReverse(cEArrayHandle* handle);
 #define eaClearExConst(handle, destructor)        eaClearExDbg(cEACast(handle), destructor)
 #define eaDestroyEx(handle, destructor)            eaDestroyExDbg(mEACast(handle), destructor)
 #define eaDestroyExConst(handle, destructor)    eaDestroyExDbg(cEACast(handle), destructor)
-#define eaCopyEx(psrc, pdst, size, ctor)        eaCopyExDbg(ccmEACast(psrc), mEACast(pdst), size, ctor, __FILE__, __LINE__)
+#define eaCopyEx(psrc, pdst, size, ctor) \
+	eaCopyExDbg(cccEACast(psrc), mEACast(pdst), size, ctor, __FILE__, \
+	__LINE__)
 #define eaCopyExConst(psrc, pdst, size, ctor)    eaCopyExDbg(cccEACast(psrc), cEACast(pdst), size, ctor, __FILE__, __LINE__)
 
 cccEArrayHandle eaFromPointerUnsafe(const void* ptr);    // convert temporarily, returns static buffer
 
-#define eaQSort(handle, comparator)            (eaSize(&(handle)) ? qsort((cpponly_reinterpret_cast(void*)(handle)), eaSize(&(handle)), sizeof((handle)[0]), (comparator)) : (void)0)
-#define eaQSortConst(handle, comparator)    (eaSize(&(handle)) ? qsort((cpp_const_cast(void*)(cpponly_reinterpret_cast(const void*)(handle))), eaSize(&(handle)), sizeof((handle)[0]), (comparator)) : (void)0)
-#define eaQSortG(handle, comparator)        (eaSize(&(handle)) ? qsortG((cpponly_reinterpret_cast(void*)(handle)), eaSize(&(handle)), sizeof((handle)[0]), (comparator)) : (void)0)
-#define eaBSearch(handle, comparator, key)    (eaSize(&(handle)) ? bsearch(&(key), (cpponly_reinterpret_cast(void*)(handle)), eaSize(&(handle)), sizeof((handle)[0]), (comparator)) : NULL)
-#define eaBFind(handle, comparator, key)    (eaSize(&(handle)) ? (int)bfind(&(key), (cpponly_reinterpret_cast(void*)(handle)), eaSize(&(handle)), sizeof((handle)[0]), (comparator)) : 0)
+#define eaQSort(handle, comparator) \
+	(eaSize(&(handle)) ? qsort((cpp_reinterpret_cast(void*)(handle)), \
+	eaSize(&(handle)), sizeof((handle)[0]), (comparator)) : (void)0)
+#define eaQSortConst(handle, comparator) \
+	(eaSize(&(handle)) ? \
+	qsort((cpp_const_cast(void*)(cpp_reinterpret_cast(const \
+	void*)(handle))), eaSize(&(handle)), sizeof((handle)[0]), \
+	(comparator)) : (void)0)
+#define eaQSortG(handle, comparator) \
+	(eaSize(&(handle)) ? qsortG((cpp_reinterpret_cast(void*)(handle)), \
+	eaSize(&(handle)), sizeof((handle)[0]), (comparator)) : (void)0)
+#define eaBSearch(handle, comparator, key) \
+	(eaSize(&(handle)) ? bsearch(&(key), \
+	(cpp_reinterpret_cast(void*)(handle)), eaSize(&(handle)), \
+	sizeof((handle)[0]), (comparator)) : NULL)
+#define eaBFind(handle, comparator, key) \
+	(eaSize(&(handle)) ? (int)bfind(&(key), \
+	(cpp_reinterpret_cast(void*)(handle)), eaSize(&(handle)), \
+	sizeof((handle)[0]), (comparator)) : 0)
 #define eaSortedInsert(handle, comparator, key)    eaInsert(handle, key, eaBFind(*(handle), comparator, key))
 int eaValidateHeap(void);
 
@@ -130,32 +183,50 @@ typedef U32* const cmEArray32Handle;
 typedef const U32* const ccEArray32Handle;
 
 #define mEA32Cast(handle)                                    (cpp_reinterpret_cast(mEArray32Handle*)(handle))
-#define cEA32Cast(handle)                                    (cpp_const_cast(mEArray32Handle*)(cpponly_reinterpret_cast(cEArray32Handle*)(handle)))
+#define cEA32Cast(handle) \
+	(cpp_const_cast(mEArray32Handle*)( \
+		cpp_reinterpret_cast(cEArray32Handle*)(handle)))
 #define cmEA32Cast(handle)                                    (cpp_reinterpret_cast(cmEArray32Handle*)(handle))
-#define ccEA32Cast(handle)                                    (cpp_const_cast(cmEArray32Handle*)(cpponly_reinterpret_cast(ccEArray32Handle*)(handle)))
+#define ccEA32Cast(handle) \
+	(cpp_const_cast(cmEArray32Handle*)( \
+		cpp_reinterpret_cast(ccEArray32Handle*)(handle)))
 
 #define ea32Size(handle)                                    (EA32PtrTest(handle), (*(handle) ? EArray32FromHandle(*(handle))->count : 0))
 int        ea32Capacity(mEArray32Handle* handle);                // get the current number of items that can be held without growing
 size_t    ea32MemUsage(mEArray32Handle* handle);                // get the amount of memory actually used (not counting slack allocated)
 
-#define ea32Create(handle)                                    ea32CreateWithCapacityDbg(handle, 1, __FILE__, __LINE__)
-#define ea32CreateWithCapacity(handle, cap)                    ea32CreateWithCapacityDbg(handle, cap, __FILE__, __LINE__)
-#define ea32CreateSmallocSafe(handle)                        ea32CreateWithCapacityDbg(handle, EARRAY32_SMALLOC_SAFE_COUNT, __FILE__, __LINE__)
-#define ea32SetCapacity(handle, cap)                        ea32SetCapacityDbg(handle, cap, __FILE__, __LINE__)
-#define ea32SetSize(handle, size)                            ea32SetSizeDbg(handle, size, __FILE__, __LINE__)
+#define ea32Create(handle) \
+	ea32CreateWithCapacityDbg(mEA32Cast(handle), 1, __FILE__, __LINE__)
+#define ea32CreateWithCapacity(handle, cap) \
+	ea32CreateWithCapacityDbg(mEA32Cast(handle), cap, __FILE__, __LINE__)
+#define ea32CreateSmallocSafe(handle) \
+	ea32CreateWithCapacityDbg(mEA32Cast(handle), \
+	EARRAY32_SMALLOC_SAFE_COUNT, __FILE__, __LINE__)
+#define ea32SetCapacity(handle, cap) \
+	ea32SetCapacityDbg(mEA32Cast(handle), cap, __FILE__, __LINE__)
+#define ea32SetSize(handle, size) \
+	ea32SetSizeDbg(mEA32Cast(handle), size, __FILE__, __LINE__)
 void    ea32Destroy(mEArray32Handle* handle);                // free list
 
-#define ea32Push(handle, value)                                ea32PushDbg(handle, value, __FILE__, __LINE__)
-#define ea32PushUnique(handle, value)                        ea32PushUniqueDbg(handle, value, __FILE__, __LINE__)
+#define ea32Push(handle, value) \
+	ea32PushDbg(mEA32Cast(handle), value, __FILE__, __LINE__)
+#define ea32PushUnique(handle, value) \
+	ea32PushUniqueDbg(mEA32Cast(handle), value, __FILE__, __LINE__)
 #define ea32PushArray(handle, src)                            ea32PushArrayDbg(handle, src, __FILE__, __LINE__)
-#define ea32Insert(handle, value, i)                        ea32InsertDbg(handle, value, i, __FILE__, __LINE__)
+#define ea32Insert(handle, value, i) \
+	ea32InsertDbg(mEA32Cast(handle), value, i, __FILE__, __LINE__)
 U32        ea32Pop(mEArray32Handle* handle);                    // remove the last item from the list
 void    ea32PopAll(mEArray32Handle* handle);                    // empty the list
 void    ea32Reverse(mEArray32Handle* handle);
 void    ea32Clear(mEArray32Handle* handle);                    // sets all elements to 0
-#define ea32Copy(dest, src)                                    ea32CopyDbg(dest, src, __FILE__, __LINE__)
-#define ea32Append(handle, values, count)                    ea32AppendDbg(handle, values, count, __FILE__, __LINE__)
-#define ea32Compress(dst, src, alloc, data)                    ea32CompressDbg(dst, src, alloc, data, __FILE__, __LINE__)
+#define ea32Copy(dest, src) \
+	ea32CopyDbg(mEA32Cast(dest), mEA32Cast(src), __FILE__, __LINE__)
+#define ea32Append(handle, values, count) \
+	ea32AppendDbg(mEA32Cast(handle), (U32*)(values), count, __FILE__, \
+	__LINE__)
+#define ea32Compress(dst, src, alloc, data) \
+	ea32CompressDbg(mEA32Cast(dst), mEA32Cast(src), alloc, data, \
+	__FILE__, __LINE__)
 
 void    ea32Set(mEArray32Handle* handle, U32 value, int i);    // set i'th element (zero-based)
 U32        ea32Get(mEArray32Handle* handle, int i);                // get i'th element (zero-based), 0 on error
@@ -280,6 +351,10 @@ extern "C++" {
 template <class T>
 static INLINEDBG void EAPtrTest(T const * const * const * ptr) {}
 }
+#elif defined(__GNUC__)
+/* Validate pointer elements without converting a typed array handle. */
+#define EAPtrTest(ptr) ((void)sizeof(char[ \
+	__builtin_classify_type(**(ptr)) == 5 ? 1 : -1]))
 #else
 static INLINEDBG void EAPtrTest(void const * const * const * ptr) {}
 #endif
@@ -290,7 +365,9 @@ void eaSetCapacityDbg(mEArrayHandle* handle, int capacity, const char *file, int
 void eaSetSizeDbg(mEArrayHandle* handle, int size, const char *file, int line);                    // grows or shrinks to i, adds NULL entries if required
 int eaPushDbg(mEArrayHandle* handle, void* structptr, const char *file, int line);                // add to the end of the list, returns the index it was added at (the new size)
 int eaPushUniqueDbg(mEArrayHandle* handle, void* structptr, const char *file, int line);        // add to the end of the list if not already in the list, returns the index it was added at (the new size)
-int eaPushArrayDbg(mEArrayHandle* handle, ccmEArrayHandle* src, const char *file, int line);    // add an earray to the end of the list, returns the index it was added at
+// Append src pointer values; return their starting index in handle.
+int eaPushArrayDbg(mEArrayHandle *handle, cccEArrayHandle *src,
+	const char *file, int line);
 void eaInsertDbg(mEArrayHandle* handle, void* structptr, int i, const char *file, int line);    // insert before i'th position, will not insert on error (i == -1, etc.)
 bool eaSetDbg(mEArrayHandle* handle, void* structptr, int i);                                    // set i'th element (zero-based)
 void eaSetForcedDbg(mEArrayHandle* handle, void* structptr, int i, const char *file, int line);    // set i'th element (zero-based), increase capacity/size if necessary
@@ -332,7 +409,14 @@ typedef struct EArray32
 #    define EArray32FromHandle(handle) ((EArray32*)(((char*)handle) - EARRAY32_HEADER_SIZE))
 #endif
 #define HandleFromEArray32(array) ((U32*)(((char*)array) + EARRAY32_HEADER_SIZE))
+#if defined(__GNUC__) && !defined(__cplusplus)
+/* Check signed/unsigned 32-bit storage without evaluating the handle. */
+#define EA32PtrTest(ptr) ((void)sizeof(char[ \
+	(__builtin_types_compatible_p(__typeof__(**(ptr)), int) || \
+	__builtin_types_compatible_p(__typeof__(**(ptr)), U32)) ? 1 : -1]))
+#else
 static INLINEDBG void EA32PtrTest(U32 const * const * ptr) {}
+#endif
 
 void    ea32CreateWithCapacityDbg(mEArray32Handle* handle, int capacity, const char *file, int line);
 void    ea32SetCapacityDbg(mEArray32Handle* handle, int capacity, const char *file, int line);    // set the current capacity to size, may reduce size
@@ -347,13 +431,30 @@ void    ea32CompressDbg(mEArray32Handle *dst, mEArray32Handle *src, CustomMemory
 
 typedef int* eaiHandle;
 
+#if defined(__GNUC__) && !defined(__cplusplus)
+/* Both integer spellings represent the same 32-bit array storage. */
+#define EAIntPtrTest(ptr) ((void)sizeof(char[ \
+	(__builtin_types_compatible_p(__typeof__(**(ptr)), int) || \
+	__builtin_types_compatible_p(__typeof__(**(ptr)), U32)) ? 1 : -1]))
+#else
 static INLINEDBG void EAIntPtrTest(int const * const * ptr) {}
+#endif
 
-#define eaiCreateDbg(handle, file, line)                (EAIntPtrTest(handle), ea32CreateWithCapacityDbg(handle, 1, file, line))
-#define eaiSetCapacityDbg(handle, capacity, file, line)    (EAIntPtrTest(handle), ea32SetCapacityDbg(handle, capacity, file, line))
-#define eaiInsertDbg(handle, value, i, file, line)        (EAIntPtrTest(handle), ea32InsertDbg(handle, value, i, file, line))
-#define eaiCopyDbg(dest, src, file, line)                (EAIntPtrTest(dest), EAIntPtrTest(src), ea32CopyDbg(dest, src, file, line))
-#define eaiAppendDbg(handle, values, count, file, line)    (EAIntPtrTest(handle), ea32AppendDbg(handle, values, count, file, line))
+#define eaiCreateDbg(handle, file, line) \
+	(EAIntPtrTest(handle), ea32CreateWithCapacityDbg(mEA32Cast(handle), \
+	1, file, line))
+#define eaiSetCapacityDbg(handle, capacity, file, line) \
+	(EAIntPtrTest(handle), ea32SetCapacityDbg(mEA32Cast(handle), \
+	capacity, file, line))
+#define eaiInsertDbg(handle, value, i, file, line) \
+	(EAIntPtrTest(handle), ea32InsertDbg(mEA32Cast(handle), value, i, \
+	file, line))
+#define eaiCopyDbg(dest, src, file, line) \
+	(EAIntPtrTest(dest), EAIntPtrTest(src), \
+	ea32CopyDbg(mEA32Cast(dest), mEA32Cast(src), file, line))
+#define eaiAppendDbg(handle, values, count, file, line) \
+	(EAIntPtrTest(handle), ea32AppendDbg(mEA32Cast(handle), \
+	(U32*)(values), count, file, line))
 
 int eaiSortedPushDbg(meaiHandle *array, int elem, const char *file, int line);
 int eaiSortedPushUniqueDbg(meaiHandle *array, int elem, const char *file, int line);
@@ -364,7 +465,13 @@ void eaiSortedUnionDbg(meaiHandle *arrayDst, meaiHandle *array1, meaiHandle *arr
 
 typedef F32* meafHandle;
 
+#if defined(__GNUC__) && !defined(__cplusplus)
+/* Require float storage without evaluating the handle. */
+#define EAF32PtrTest(ptr) ((void)sizeof(char[ \
+	__builtin_types_compatible_p(__typeof__(**(ptr)), F32) ? 1 : -1]))
+#else
 static INLINEDBG void EAF32PtrTest(F32 const * const * ptr) {}
+#endif
 
 static INLINEDBG int eafPush(meafHandle *handle, F32 val)
 {
@@ -387,6 +494,22 @@ static INLINEDBG void eafInsert(meafHandle *handle, F32 val, int idx )
     ea32Insert(mEA32Cast(handle), (U32)0, idx);
     (*handle)[idx] = val;
 }
+
+
+#ifndef EARRAY_IMPL
+/* Typed handles use the same pointer/32-bit storage as the implementation.
+* Keep the owning functions available for function pointers and raw callers.
+*/
+#define eaCapacity(handle) (eaCapacity)(cccEACast(handle))
+#define eaMemUsage(handle) (eaMemUsage)(cccEACast(handle))
+#define ea32MemUsage(handle) (ea32MemUsage)(mEA32Cast(handle))
+#define ea32Destroy(handle) (ea32Destroy)(mEA32Cast(handle))
+#define eaSwap(handle, i, j) (eaSwap)(cEAHandleCast(handle), i, j)
+#define eaMove(handle, dest, src) (eaMove)(cEAHandleCast(handle), dest, src)
+#define eaReverse(handle) (eaReverse)(cEAHandleCast(handle))
+#define StringArrayFind(array, elem) \
+	(StringArrayFind)((const char *const *)(array), elem)
+#endif
 
 C_DECLARATIONS_END
 

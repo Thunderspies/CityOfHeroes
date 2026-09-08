@@ -212,15 +212,20 @@ uiTabControl *    uiTabControlCreateEx(TabType type, uiTabActionFunc onSelectedC
 
 
 
+static void uiTabDestroyAdapter(void* arg0)
+{
+    uiTabDestroy((uiTab *)arg0);
+}
+
 void uiTabControlDestroy(uiTabControl * tc)
 {
     if( !tc )
         return;
 
     if( tc->onDestroy )
-        eaClearEx(&tc->tabs, (EArrayItemDestructor) tc->onDestroy );
+        eaClearEx(&tc->tabs, tc->onDestroy );
     else
-        eaClearEx(&tc->tabs, (EArrayItemDestructor) uiTabDestroy);
+        eaClearEx(&tc->tabs, uiTabDestroyAdapter);
 
     eaDestroy(&tc->tabs);
 
@@ -346,7 +351,7 @@ void uiTabControlRemoveAll(uiTabControl * tc)
         if( tc->onDestroy )
             eaClearEx(&tc->tabs, tc->onDestroy);
         else
-            eaClearEx(&tc->tabs, uiTabDestroy);
+            eaClearEx(&tc->tabs, uiTabDestroyAdapter);
         tc->selected = 0;
     }
 }

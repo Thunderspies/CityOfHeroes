@@ -162,7 +162,10 @@ static int BitDefHandler(ParseContext context, char* params){
 #pragma warning(disable:4047) // return type differs in lvl of indirection warning
 
 static PCommandWord NamedBitsArrayDefContents[] = {
-    {"Bit",                    {    {CREATE_STRUCTURE_FROM_PARENT, OFFSETOF(NamedBitArrayDefImp, bitDefMemoryPool)},
+	{"Bit",                    {    {CREATE_STRUCTURE_FROM_PARENT,
+			{.operandOffset =
+				OFFSETOF(NamedBitArrayDefImp,
+					bitDefMemoryPool)}},
                                 {EXECUTE_HANDLER, BitDefHandler}}},
     {0}
 };

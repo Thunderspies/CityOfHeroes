@@ -339,6 +339,11 @@ void destroyTextMessage(TextMessage* textMessage){
     textMessage->variableDefNameIndices = NULL;
 }
 
+static void destroyTextMessageAdapter(void* arg0)
+{
+    destroyTextMessage((TextMessage*)arg0);
+}
+
 void destroyMessageStore(MessageStore* store)
 {
     if(!store){
@@ -355,7 +360,7 @@ void destroyMessageStore(MessageStore* store)
     else
     {
         if(store->messageIDStash)
-            stashTableDestroyEx(store->messageIDStash, NULL, destroyTextMessage);
+            stashTableDestroyEx(store->messageIDStash, NULL, destroyTextMessageAdapter);
         if(store->messageStash)
             stashTableDestroy(store->messageStash);
         if(store->textMessagePool)
@@ -767,7 +772,11 @@ int verifyPrintable(char* message, const char* messageFilename, int lineCount)
                 &&
                 !strchr("!@#$%^&*()-_=+[]{|};:',<.>/?\" ~\r\n\t", c))
             {
-                ErrorFilenamef(messageFilename, "Bad character '%c' (%i) in \"%s\", line %i in file %s\n", c, str-message+1, message, lineCount, messageFilename);
+				ErrorFilenamef(messageFilename,
+					"Bad character '%c' (%i) in \"%s\", "
+					"line %i in file %s\n", c,
+					(const char *)str - message + 1,
+					message, lineCount, messageFilename);
                 return 0;
             }
         }

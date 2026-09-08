@@ -975,18 +975,24 @@ int globalFriendNameCompare(const GlobalFriend** f1, const GlobalFriend** f2)
     return globalFriendCompareString(f1, f2, (*f1)->name, (*f2)->name);
 }
 
-int globalFriendShardCompare(const GlobalFriend** f1, const GlobalFriend** f2)
+int globalFriendShardCompare(const void* f1Data, const void* f2Data)
 {
+    const GlobalFriend** f1 = (const GlobalFriend**)f1Data;
+    const GlobalFriend** f2 = (const GlobalFriend**)f2Data;
     return globalFriendCompareString(f1, f2, (*f1)->shard, (*f2)->shard);
 }
 
-int globalFriendMapCompare(const GlobalFriend** f1, const GlobalFriend** f2)
+int globalFriendMapCompare(const void* f1Data, const void* f2Data)
 {
+    const GlobalFriend** f1 = (const GlobalFriend**)f1Data;
+    const GlobalFriend** f2 = (const GlobalFriend**)f2Data;
     return globalFriendCompareString(f1, f2, (*f1)->map, (*f2)->map);
 }
 
-int globalFriendLevelCompare(const GlobalFriend** f1, const GlobalFriend** f2)
+int globalFriendLevelCompare(const void* f1Data, const void* f2Data)
 {
+    const GlobalFriend** f1 = (const GlobalFriend**)f1Data;
+    const GlobalFriend** f2 = (const GlobalFriend**)f2Data;
     int level1 = (*f1)->xpLevel;
     int level2 = (*f2)->xpLevel;
      if(level1 < level2)
@@ -997,8 +1003,10 @@ int globalFriendLevelCompare(const GlobalFriend** f1, const GlobalFriend** f2)
         return globalFriendHandleCompare(f1, f2);
 }
 
-int globalFriendTeamCompare(const GlobalFriend** f1, const GlobalFriend** f2)
+int globalFriendTeamCompare(const void* f1Data, const void* f2Data)
 {
+    const GlobalFriend** f1 = (const GlobalFriend**)f1Data;
+    const GlobalFriend** f2 = (const GlobalFriend**)f2Data;
     int size1 = (*f1)->teamSize;
     int size2 = (*f2)->teamSize;
     if(size1 < size2)
@@ -1009,13 +1017,17 @@ int globalFriendTeamCompare(const GlobalFriend** f1, const GlobalFriend** f2)
         return globalFriendHandleCompare(f1, f2);
 }
 
-int globalFriendArchetypeCompare(const GlobalFriend** f1, const GlobalFriend** f2)
+int globalFriendArchetypeCompare(const void* f1Data, const void* f2Data)
 {
+    const GlobalFriend** f1 = (const GlobalFriend**)f1Data;
+    const GlobalFriend** f2 = (const GlobalFriend**)f2Data;
     return globalFriendCompareString(f1, f2, (*f1)->archetype, (*f2)->archetype);
 }
 
-int globalFriendOriginCompare(const GlobalFriend** f1, const GlobalFriend** f2)
+int globalFriendOriginCompare(const void* f1Data, const void* f2Data)
 {
+    const GlobalFriend** f1 = (const GlobalFriend**)f1Data;
+    const GlobalFriend** f2 = (const GlobalFriend**)f2Data;
     return globalFriendCompareString(f1, f2, (*f1)->origin, (*f2)->origin);
 }
 
@@ -1023,8 +1035,10 @@ int globalFriendOriginCompare(const GlobalFriend** f1, const GlobalFriend** f2)
 /* Function friendStatusCompare()
 *    used to sort players by status. If they're playing, sort by player name
 */
-int globalFriendStatusCompare(const GlobalFriend** f1, const GlobalFriend** f2)
+int globalFriendStatusCompare(const void* f1Data, const void* f2Data)
 {
+    const GlobalFriend** f1 = (const GlobalFriend**)f1Data;
+    const GlobalFriend** f2 = (const GlobalFriend**)f2Data;
     const GlobalFriend* friend1 = *f1;
     const GlobalFriend* friend2 = *f2;
 
@@ -1051,9 +1065,14 @@ typedef struct GlobalFriendColumns
 
 //<PLAYER NAME> <XP LEVEL> <MAP NAME> <ARCHETYPE> <ORIGIN> <PRIMARY SET> <SECONDARY SET>
 
+static int globalFriendHandleCompareCallback(const void *a, const void *b)
+{
+    return globalFriendHandleCompare((const GlobalFriend**)a, (const GlobalFriend**)b);
+}
+
 GlobalFriendColumns gFriendColumns [] = 
 {
-    {FRIEND_HANDLE_COLUMN,        "friendHandle",        1,    110,    globalFriendHandleCompare    },
+    {FRIEND_HANDLE_COLUMN,        "friendHandle",        1,    110,    globalFriendHandleCompareCallback    },
     {FRIEND_STATUS_COLUMN,        "friendStatus",        1,    100,    globalFriendStatusCompare    },
 //    {FRIEND_NAME_COLUMN,        "friendName",        0,    60,    globalFriendNameCompare        },
     {FRIEND_SHARD_COLUMN,        "friendShard",        0,    65,    globalFriendShardCompare    },

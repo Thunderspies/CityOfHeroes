@@ -160,6 +160,11 @@ int RaidListSend(SupergroupRaidInfo* info, U32 id)
     SupergroupRaidInfoSend(g_pak, &sendinfo);
     return 1;
 }
+static void RaidListSendAdapter(void* arg0, U32 arg1)
+{
+    RaidListSend((SupergroupRaidInfo*)arg0, (U32)arg1);
+}
+
 void handleRequestRaidList(Packet* pak, U32 listid, U32 cid)
 {
     U32 dbid, sgid;
@@ -177,7 +182,7 @@ void handleRequestRaidList(Packet* pak, U32 listid, U32 cid)
     g_excludesgid = 0;
     RaidListSend(info, sgid); // send sgid first
     g_excludesgid = sgid;
-    cstoreForEach(g_SupergroupRaidInfoStore, RaidListSend); // then every other sg
+    cstoreForEach(g_SupergroupRaidInfoStore, RaidListSendAdapter); // then every other sg
     
     pktSendBits(ret, 1, 0);        // done with infos
     pktSend(&ret, &db_comm_link);
@@ -214,13 +219,18 @@ static int checkWindow(ScheduledBaseRaid* baseraid, U32 raidid)
     }
     return 1;
 }
+static void checkWindowAdapter(void* arg0, U32 arg1)
+{
+    checkWindow((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 int SGWindowIsScheduled(U32 sgid, U32 windowstart, U32 windowend)
 {
     g_defendingsg = sgid;
     g_windowstart = windowstart;
     g_windowend = windowend;
     g_haveraid = 0;
-    cstoreForEach(g_ScheduledBaseRaidStore, checkWindow);
+    cstoreForEach(g_ScheduledBaseRaidStore, checkWindowAdapter);
     return g_haveraid;
 }
 void SGGetOpenRaidWindows(U32 sgid, U32* first, U32* second)

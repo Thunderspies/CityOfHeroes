@@ -51,9 +51,14 @@ TTFontManager* createTTFontManager(){
 }
 
 
+static void destroyTTFMCacheElementAdapter(void* arg0)
+{
+    destroyTTFMCacheElement((TTFMCacheElement*)arg0);
+}
+
 void destroyTTFontManager(TTFontManager* manager){
     // Destroy all cache elements and hash table
-    stashTableDestroyEx(manager->glyphCache, NULL, destroyTTFMCacheElement);
+    stashTableDestroyEx(manager->glyphCache, NULL, destroyTTFMCacheElementAdapter);
     // Destroy cache hash table.
     destroyArray(manager->fonts);
     free(manager);
@@ -280,7 +285,7 @@ TTFMCacheElement* ttFMGetCachedTexture(TTCompositeFont* compositeFont, TTFontRen
 }
 
 void ttFMClearCache(TTFontManager* manager){
-    stashTableDestroyEx(manager->glyphCache, NULL, destroyTTFMCacheElement);
+    stashTableDestroyEx(manager->glyphCache, NULL, destroyTTFMCacheElementAdapter);
     manager->glyphCache = stashTableCreate(128, StashDefault, StashKeyTypeFixedSize, sizeof(TTFontRenderParams));
 }
 

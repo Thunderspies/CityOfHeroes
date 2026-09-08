@@ -1,3 +1,4 @@
+#include "entity/entity_enum.h"
 /***************************************************************************
  *     Copyright (c) 2000-2006, Cryptic Studios
  *     All Rights Reserved
@@ -23,7 +24,7 @@ void runState();
 void setState(  ClientGameState st, int baseGurney);
 
 void addFloatingDamage( Entity *damager, Entity *victim, int dmg, char *pch, float *loc, bool wasAbsorb);
-void addFloatingInfo(int svr_idx, char *pch, U32 colorFG, U32 colorBG, U32 colorBorder, float fScale, float fLifetime, float fDelay, int style, float *loc);
+void addFloatingInfo(int svr_idx, char *pch, U32 colorFG, U32 colorBG, U32 colorBorder, float fScale, float fLifetime, float fDelay, EFloaterStyle style, float *loc);
 void DistributeUnclaimedFloaters(Entity *e);
 void ClearUnclaimedFloaters(void);
 

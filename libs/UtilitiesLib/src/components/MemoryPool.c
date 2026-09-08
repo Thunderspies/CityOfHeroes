@@ -496,13 +496,18 @@ static void compactMemoryPool(MemoryPoolImp *pool)
     PERFINFO_AUTO_STOP();
 }
 
+static void compactMemoryPoolAdapter(void* arg0)
+{
+    compactMemoryPool((MemoryPoolImp *)arg0);
+}
+
 void mpCompactPools(void)
 {
     PERFINFO_AUTO_START("mpCompactPools", 1);
     mpDelayedCompaction = true;
     mmCRTHeapLock(); // Because we do heap operations in here, we must enter the CRT heap before the memory pool critical section
     lazyLock(&mpCritSect);
-    eaClearEx(&mpNeedCompaction, compactMemoryPool);
+    eaClearEx(&mpNeedCompaction, compactMemoryPoolAdapter);
     lazyUnlock(&mpCritSect);
     mmCRTHeapUnlock();
     compactMemoryPoolDoFreeing(); // Must free *outside* of critical section
@@ -1072,8 +1077,10 @@ int mpVerifyAllFreelists(void)
     return verify_freelists_ret;
 }
 
-static int __cdecl cmpPtr(const void ** a, const void** b)
+static int __cdecl cmpPtr(const void* aData, const void* bData)
 {
+    const void ** a = (const void **)aData;
+    const void** b = (const void**)bData;
     return *a > *b ? 1 : *b > *a ? -1 : 0;
 }
 

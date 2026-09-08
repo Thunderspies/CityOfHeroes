@@ -32,8 +32,9 @@ static BeaconDebugLine* getNewLine(){
     return newLine;
 }
 
-void destroyBeaconDebugLine(BeaconDebugLine* line)
+void destroyBeaconDebugLine(void* lineData)
 {
+    BeaconDebugLine* line = (BeaconDebugLine*)lineData;
     MP_FREE(BeaconDebugLine, line);
 }
 

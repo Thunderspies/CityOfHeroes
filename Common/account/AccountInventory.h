@@ -41,7 +41,7 @@ void sendAccountInventoryToClient(Entity * e, char *pShard, int bonus_slots);
 CertificationRecord* certificationRecordInHistory(Entity *pEnt, const char * pchKey );
 CertificationRecord* certificationRecord_Create();
 
-void certificationRecord_Destroy(CertificationRecord* pRecord);
+void certificationRecord_Destroy(void* pRecordData);
 void certificationRecord_DestroyAll(Entity *pEnt);
 bool certificationRecord_Locked(CertificationRecord* pRecord);
 

@@ -1433,8 +1433,10 @@ TokenizerParseInfo ParseVisitedMaps[] =
     { "", 0, 0 }
 };
 
-static int compareCityZones( const CityZone** c1, const CityZone** c2 )
+static int compareCityZones(const void* c1Data, const void* c2Data)
 {
+    const CityZone** c1 = (const CityZone**)c1Data;
+    const CityZone** c2 = (const CityZone**)c2Data;
     const CityZone *cz1 = *c1;
     const CityZone *cz2 = *c2;
 

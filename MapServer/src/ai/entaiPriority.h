@@ -1,3 +1,4 @@
+#include "entaivars.h"
 
 #ifndef ENTAIPRIORITY_H
 #define ENTAIPRIORITY_H
@@ -129,6 +130,6 @@ void setAnimationBasedOnPriorityList( Entity * e, const char * name );
 void aiCritterPriorityDoActionFunc(    Entity* e,
                                    const AIPriorityAction* action,
                                    const AIPriorityDoActionParams* params);
-void aiCritterDoActivity(Entity* e, AIVars* ai, int activity);
+void aiCritterDoActivity(Entity* e, AIVars* ai, AIActivity activity);
 
 #endif

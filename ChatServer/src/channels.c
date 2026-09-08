@@ -884,8 +884,10 @@ void channelKill(User *user,char *channel_name)
         channelLeave(channel->members[i],channel_name,0);
 }
 
-static int chanPopCompare(const Channel **chan1, const Channel **chan2)
+static int chanPopCompare(const void* chan1Data, const void* chan2Data)
 {
+    const Channel ** chan1 = (const Channel **)chan1Data;
+    const Channel ** chan2 = (const Channel **)chan2Data;
     return eaSize(&(*chan2)->online) - eaSize(&(*chan1)->online);
 }
 

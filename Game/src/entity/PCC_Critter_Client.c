@@ -39,7 +39,9 @@ static PCC_Critter **s_PCCLoadDest;
 
 static int s_PCC_count = 1;
 
-static int compareCritters(const PCC_Critter **a, const PCC_Critter **b ) { return  stricmp( (*a)->name, (*b)->name ); }
+static int compareCritters(const void* aData, const void* bData) {
+    const PCC_Critter ** a = (const PCC_Critter **)aData;
+    const PCC_Critter ** b = (const PCC_Critter **)bData; return  stricmp( (*a)->name, (*b)->name ); }
 extern int currentlyBoughtCritterPowers[3];
 extern int CVGroupIndex;
 extern MMScrollSet missionMaker;

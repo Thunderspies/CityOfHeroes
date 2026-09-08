@@ -1696,8 +1696,10 @@ static MissionSearchTab* s_myArcsTab(void)
     return 0; //!!
 }
 
-int missionsearch_sort( const MissionSearchLine ** p1, const MissionSearchLine **p2 )
-{ 
+int missionsearch_sort(const void* p1Data, const void* p2Data)
+{
+    const MissionSearchLine ** p1 = (const MissionSearchLine **)p1Data;
+    const MissionSearchLine ** p2 = (const MissionSearchLine **)p2Data;
     int reverser = 1;
     int sort_type = ABS(s_sort_idx);
 
@@ -1900,13 +1902,18 @@ void missionsearch_deleteArc(const char *filename)
 // uiNet Interface /////////////////////////////////////////////////////////////
 
 
+static void s_destroyCachedSearchLineAdapter(void* arg0)
+{
+    s_destroyCachedSearchLine((MissionSearchLine *)arg0);
+}
+
 void missionsearch_TabClear(MissionSearchPage category, const char *context, int page, int pages)
 {
     MissionSearchTab *tab = missionsearch_GetTabByCategory( category );
 
     if(tab)
     {
-        eaClearEx(&tab->lines, s_destroyCachedSearchLine);
+        eaClearEx(&tab->lines, s_destroyCachedSearchLineAdapter);
         if(context[0] && !devassert(tab->context))
             estrPrintCharString(&tab->context, context);
         tab->page = page;
@@ -2135,7 +2142,7 @@ void missionsearch_clearPages(MissionSearchTab *tab)
 {
     if(tab)
     {
-        eaClearEx(&tab->lines, s_destroyCachedSearchLine);
+        eaClearEx(&tab->lines, s_destroyCachedSearchLineAdapter);
         tab->list_scroll.offset = 0;
         tab->loaded = 0;
     }

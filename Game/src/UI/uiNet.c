@@ -1304,6 +1304,16 @@ void receiveTeamList( Packet * pak, Entity *e )
 }
 
 // sgroup_sendList
+static void destroySupergroupStatsCallback(void* arg0)
+{
+    destroySupergroupStats((SupergroupStats *)arg0);
+}
+
+static void destroySupergroupMemberInfoAdapter(void* arg0)
+{
+    destroySupergroupMemberInfo((SupergroupMemberInfo*)arg0);
+}
+
 void receiveSuperStats(Packet *pak, Entity *e)
 {
     int i, count;
@@ -1334,7 +1344,7 @@ void receiveSuperStats(Packet *pak, Entity *e)
         if( e->sgStats )
         {
             // Free up the old EArray
-            eaDestroyEx( &e->sgStats, destroySupergroupStats );
+            eaDestroyEx( &e->sgStats, destroySupergroupStatsCallback );
         }
 
         srClearAll();
@@ -1374,7 +1384,7 @@ void receiveSuperStats(Packet *pak, Entity *e)
     if( e->sgStats )
     {
         // Free up the old EArray
-        eaDestroyEx( &e->sgStats, destroySupergroupStats );
+        eaDestroyEx( &e->sgStats, destroySupergroupStatsCallback );
     }
 
     if( count > 0 )
@@ -1434,7 +1444,7 @@ void receiveSuperStats(Packet *pak, Entity *e)
         sg->entryPermission = pktGetBitsAuto( pak );
 
         if(sg->memberranks)
-            eaClearEx(&sg->memberranks, destroySupergroupMemberInfo);
+            eaClearEx(&sg->memberranks, destroySupergroupMemberInfoAdapter);
 
         n = pktGetBitsPack(pak, 1);
         for (i = 0; i < n; i++)

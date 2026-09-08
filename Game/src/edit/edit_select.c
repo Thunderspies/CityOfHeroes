@@ -885,8 +885,10 @@ void editSelContents()
     }
 }
 
-int cmpDepth(SelInfo *a,SelInfo *b)
+int cmpDepth(const void* aData, const void* bData)
 {
+    SelInfo * a = (SelInfo *)aData;
+    SelInfo * b = (SelInfo *)bData;
     int i;
     for (i=0;i<a->depth && i<b->depth;i++)
         if (a->idxs[i]!=b->idxs[i])
@@ -926,7 +928,7 @@ int editSelSort()
                 return 0;    //trying to 
         }
     }
-    qsort(sel_list,sel_count,sizeof(sel_list[0]),(int (*) (const void *, const void *)) cmpDepth);
+    qsort(sel_list,sel_count,sizeof(sel_list[0]),cmpDepth);
     return 1;
 }
 
@@ -1584,7 +1586,7 @@ void addDoorPropertyCopyValue(void* notUsed) {
     sprintf(addPropInfo.value,"%s",addDoorPropInfo.spawnLocations[addPropInfo.whichValue]);
 }
 
-void addPropertyClear(void* notUsed) {
+void addPropertyClear(int notUsed) {
     addPropInfo.whichValue=0;
     addPropInfo.whichName=0;
     addPropInfo.value[0]=0;
@@ -1639,12 +1641,12 @@ typedef struct {
 
 AddDestroyablePropertiesMenuInfo addDestroyablePropInfo;
 
-void addDestroyablePropertiesConstrainMinHealth(void* notUsed) {
+void addDestroyablePropertiesConstrainMinHealth(int notUsed) {
     if (addDestroyablePropInfo.min>addDestroyablePropInfo.max)
         addDestroyablePropInfo.min=addDestroyablePropInfo.max;
 }
 
-void addDestroyablePropertiesConstrainMaxHealth(void* notUsed) {
+void addDestroyablePropertiesConstrainMaxHealth(int notUsed) {
     if (addDestroyablePropInfo.max<addDestroyablePropInfo.min)
         addDestroyablePropInfo.max=addDestroyablePropInfo.min;
 }

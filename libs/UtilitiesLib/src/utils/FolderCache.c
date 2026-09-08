@@ -47,9 +47,11 @@ typedef struct PigChangeCallbackMapping {
     int virtual_location;
 } PigChangeCallbackMapping;
 
-void fcCallbackDeleted(PigChangeCallbackMapping *mapping, const char* path);
-void fcCallbackUpdated(PigChangeCallbackMapping *mapping, const char* path, U32 filesize, U32 timestamp);
-void fcCallbackNew(PigChangeCallbackMapping *mapping, const char* path, U32 filesize, U32 timestamp);
+static void fcCallbackDeleted(void *data, const char* path);
+static void fcCallbackUpdated(void *data, const char* path,
+	U32 filesize, U32 timestamp);
+static void fcCallbackNew(void *data, const char* path,
+	U32 filesize, U32 timestamp);
 
 int folder_cache_debug=0;
 int folder_cache_update_enable=1;
@@ -977,14 +979,17 @@ static int FolderCacheUpdate(DirChangeInfo** bufferOverrunOut)
     return 0;
 }
 
-void fcCallbackDeleted(PigChangeCallbackMapping *mapping, const char* path)
+static void fcCallbackDeleted(void *data, const char* path)
 {
+	PigChangeCallbackMapping *mapping = data;
     //printf("File deleted: %s\n", path);
     handleDelete(mapping->fc, mapping->virtual_location, path, 1);
 }
 
-void fcCallbackUpdated(PigChangeCallbackMapping *mapping, const char* path, U32 filesize, U32 timestamp)
+static void fcCallbackUpdated(void *data, const char* path,
+	U32 filesize, U32 timestamp)
 {
+	PigChangeCallbackMapping *mapping = data;
     int file_index=-1;
     PigFile *pig_file;
     pig_file = PigSetGetPigFile(VIRTUAL_LOCATION_TO_PIG_INDEX(mapping->virtual_location));
@@ -994,8 +999,10 @@ void fcCallbackUpdated(PigChangeCallbackMapping *mapping, const char* path, U32 
     handleUpdate(mapping->fc, mapping->virtual_location, file_index, path, filesize, timestamp, 0, 0, 1);
 }
 
-void fcCallbackNew(PigChangeCallbackMapping *mapping, const char* path, U32 filesize, U32 timestamp)
+static void fcCallbackNew(void *data, const char* path,
+	U32 filesize, U32 timestamp)
 {
+	PigChangeCallbackMapping *mapping = data;
     fcCallbackUpdated(mapping, path, filesize, timestamp);
 }
 

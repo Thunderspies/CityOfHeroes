@@ -1,3 +1,4 @@
+#include "entity/teamCommon.h"
 /*\
  *
  *    contactDialog.h/c - Copyright 2003, 2004 Cryptic Studios
@@ -51,7 +52,7 @@ void ContactInteractionPromptNewTasks(ContactInteractionContext *context, int in
 int ContactNewspaperTaskHistoryLookup(StoryInfo* info, const char* unique, int historyIndex);
 int ContactNewspaperTaskHistoryUpdate(StoryInfo* info, const char* unique, int historyIndex);
 
-void TaskforceAccept(Entity *player, int timeLimits, int limitedLives, int powerLimits,
+void TaskforceAccept(Entity *player, TFParamTimeLimits timeLimits, int limitedLives, TFParamPowers powerLimits,
                      bool debuff, bool buff, bool noEnhancements, bool noInspirations, char *fileID);
 
 void TaskForceArchitectStart( Entity * e, char* pchPlayerArc, int mission_id, int test_mode, int arc_flags, int authorid );

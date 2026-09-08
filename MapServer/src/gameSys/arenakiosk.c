@@ -92,6 +92,11 @@ static int ArenaKioskLoader(GroupDefTraverser* traverser)
     return 1;
 }
 
+static void ArenaKioskDestroyAdapter(void* arg0)
+{
+    ArenaKioskDestroy((ArenaKiosk*)arg0);
+}
+
 void ArenaKioskLoad(void)
 {
     GroupDefTraverser traverser = {0};
@@ -101,7 +106,7 @@ void ArenaKioskLoad(void)
     // If we're doing a reload, clear out old data first.
     if (g_kiosks)
     {
-        eaClearEx(&g_kiosks, ArenaKioskDestroy);
+        eaClearEx(&g_kiosks, ArenaKioskDestroyAdapter);
         eaSetSize(&g_kiosks, 0);
     }
     else

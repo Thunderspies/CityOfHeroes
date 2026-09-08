@@ -437,7 +437,9 @@ typedef struct EntityToDistance {
     float    distanceSQR;
 } EntityToDistance;
 
-static int compareEntityDistances(const EntityToDistance* e1, const EntityToDistance* e2){
+static int compareEntityDistances(const void* e1Data, const void* e2Data){
+    const EntityToDistance* e1 = (const EntityToDistance*)e1Data;
+    const EntityToDistance* e2 = (const EntityToDistance*)e2Data;
     if(e1->distanceSQR < e2->distanceSQR)
         return -1;
     else if(e1->distanceSQR == e2->distanceSQR)
@@ -1868,8 +1870,10 @@ void aiCritter(Entity* e, AIVars* ai){
     }
 }
 
-static int compareStatusAggro(const AIProxEntStatus **a, const AIProxEntStatus **b ) 
-{ 
+static int compareStatusAggro(const void* aData, const void* bData)
+{
+    const AIProxEntStatus ** a = (const AIProxEntStatus **)aData;
+    const AIProxEntStatus ** b = (const AIProxEntStatus **)bData;
     return ((*a)->dangerValue - (*b)->dangerValue); 
 }
 Entity * aiSetAttackTargetToAggroPlayer(Entity *e, AIVars *ai, int critterAggroIndex)

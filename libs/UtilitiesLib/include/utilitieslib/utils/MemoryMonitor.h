@@ -91,9 +91,7 @@ void memMonitorTrackSharedMemory(int v);
 //void moPrintStats(MemOperationStat* stat);
 //void mmPrintStats();
 
-typedef int (__cdecl *MMOSSortCompare)(const ModuleMemOperationStats** elem1, const ModuleMemOperationStats** elem2);
-int __cdecl MMOSTrafficCompare(const ModuleMemOperationStats** elem1, const ModuleMemOperationStats** elem2);
-int __cdecl MMOSOpCountCompare(const ModuleMemOperationStats** elem1, const ModuleMemOperationStats** elem2);
+typedef int (__cdecl *MMOSSortCompare)(const void* elem1, const void* elem2);
 void memMonitorDisplayStats(void);
 void memMonitorLogStats(void);
 U64 memMonitorBytesAlloced(void); // Gets the total amount of memory we think is allocated

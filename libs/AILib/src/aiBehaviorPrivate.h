@@ -61,7 +61,7 @@ typedef struct AIBTableEntry
 }AIBTableEntry;
 
 AIBehaviorInfo* aiBehaviorInfoFromString(const char* name);
-void aiBehaviorDestroyCondition(AIBCondition* cond);
+void aiBehaviorDestroyCondition(void* condData);
 void aiBehaviorDestroy(AIVarsBase* aibase, AIBehavior* behavior);
 void aiBehaviorModDestroy(AIBehaviorMod* mod);
 void aiBehaviorDataFree(Entity* e, AIVarsBase* aibase, void* data);

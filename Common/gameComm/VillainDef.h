@@ -211,7 +211,7 @@ extern SHARED_MEMORY PowerSetConversionTable g_PowerSetConversionTable;
 //---------------------------------------------------------------------------------------------------------------
 // Villain definition parsing
 //---------------------------------------------------------------------------------------------------------------
-void villainReadDefFiles();
+void villainReadDefFiles(void);
 Costume* villainDefsGetCostume(int npcIndex, int costumeIndex);
 
 //---------------------------------------------------------------------------------------------------------------

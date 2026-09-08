@@ -433,8 +433,10 @@ TokenInfo    *tok;
     }
 }
 
-static int tokNameCmp (const VrmlToken *cmd1, const VrmlToken *cmd2)
+static int tokNameCmp (const void* cmd1Data, const void* cmd2Data)
 {
+    const VrmlToken * cmd1 = (const VrmlToken *)cmd1Data;
+    const VrmlToken * cmd2 = (const VrmlToken *)cmd2Data;
     if (!cmd1 || !cmd2)
         return -1;
     return stricmp(cmd1->name,cmd2->name);
@@ -447,7 +449,7 @@ int        count;
     for(count=0;tokens[count].name;count++)
         ;
     qsort(tokens,count,sizeof(VrmlToken),
-          (int (*) (const void *, const void *)) tokNameCmp);
+          tokNameCmp);
     return count;
 }
 
@@ -465,7 +467,7 @@ static    int vrml_token_count;
     search.name = s;
 
     match = bsearch(&search, vrml_tokens, vrml_token_count,
-                sizeof(VrmlToken),(int (*) (const void *, const void *))tokNameCmp);
+                sizeof(VrmlToken),tokNameCmp);
 
     if (match)
         return match->value;

@@ -85,7 +85,7 @@ int gmeshSplitTri(GMesh *mesh, const Vec4 plane, int tri_idx); // returns 1 if t
 void gmeshRemoveTri(GMesh *mesh, int tri_idx);
 void gmeshMarkBadTri(GMesh *mesh, int tri_idx);
 int gmeshMarkDegenerateTris(GMesh *mesh);
-void gmeshSortTrisByTexID(GMesh *mesh, int (*cmp)(int *, int *));
+void gmeshSortTrisByTexID(GMesh *mesh, int (*cmp)(const void *, const void *));
 void gmeshRemapVertex(GMesh *mesh, int old_idx, int new_idx);
 void gmeshRemapTriVertex(GMesh *mesh, int tri_idx, int old_idx, int new_idx);
 

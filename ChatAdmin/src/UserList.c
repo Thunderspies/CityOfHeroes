@@ -201,9 +201,14 @@ void CAUserRemove(CAUser * user)
     }
 }
 
+static void CAUserDestroyAdapter(void* arg0)
+{
+    CAUserDestroy((CAUser *)arg0);
+}
+
 void CAUserRemoveAll()
 {
-    stashTableClearEx(gHandleToUserHash, NULL, CAUserDestroy);
+    stashTableClearEx(gHandleToUserHash, NULL, CAUserDestroyAdapter);
     vListViewRemoveAll(lvUserList, 0);    
     UserListUpdateCount();
     UserListUpdateMatchCount();

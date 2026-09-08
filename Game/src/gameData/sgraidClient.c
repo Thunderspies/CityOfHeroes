@@ -297,9 +297,14 @@ static void raidShowNotify()
 }
 
 // check for upcoming raids and pop messages
+static void checkRaidTimesAdapter(void* arg0, U32 arg1)
+{
+    checkRaidTimes((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void raidClientTick(void)
 {
     raidCurrentlyActive = 0;
-    cstoreForEach(g_ScheduledBaseRaidStore, checkRaidTimes);
+    cstoreForEach(g_ScheduledBaseRaidStore, checkRaidTimesAdapter);
     raidShowNotify();
 }

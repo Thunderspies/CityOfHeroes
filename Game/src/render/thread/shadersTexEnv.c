@@ -163,8 +163,9 @@ static int processTextureOp(TextureOp *texop, GLenum defaultSourceOp)
     return 1;
 }
 
-static int processRawText(TokenizerParseInfo pti[], TexEnvProg* texEnvProg)
+static bool processRawText(ParseTable* pti, void* structptr)
 {
+    TexEnvProg* texEnvProg = (TexEnvProg*)structptr;
     int numstages=0;
     int ret=1;
     int i;
@@ -207,7 +208,7 @@ int renderTexEnvparse(char *filename, BlendModeShader blendMode)
         eaSetSize(&eaTexEnvProgs, blendMode+1);
     eaSet(&eaTexEnvProgs, texEnvProg, blendMode);
 
-    ret = ParserLoadFiles(NULL, filename, NULL, 0, parse_tec_file, texEnvProg, NULL, NULL, (ParserLoadPreProcessFunc)processRawText);
+    ret = ParserLoadFiles(NULL, filename, NULL, 0, parse_tec_file, texEnvProg, NULL, NULL, processRawText);
 
     numstages = eaSize(&texEnvProg->stages);
     if (ret && numstages) {

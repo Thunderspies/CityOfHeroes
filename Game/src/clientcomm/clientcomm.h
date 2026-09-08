@@ -4,6 +4,8 @@
 #include <utilitieslib/network/net_structdefs.h>
 #include <utilitieslib/utils/timing.h>
 
+typedef struct EntPlayer EntPlayer;
+
 typedef enum{
     NST_None,
     NST_ReceivedUnreliable,
@@ -91,7 +93,7 @@ int commGetCharacterCountsAsync(void);
 int commGetAccountServerCatalogAsync(void);
 int commGetAccountServerInventory(void);
 void commSendPopHelp(unsigned int pop_help_event, unsigned int new_state);
-void commSendPopHelpLatest(struct EntPlayer *pl);
+void commSendPopHelpLatest(EntPlayer *pl);
 void commLogPackets(int value);
 
 void commTickTroubledMode();

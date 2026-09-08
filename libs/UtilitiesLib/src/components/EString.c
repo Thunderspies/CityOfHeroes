@@ -1,3 +1,4 @@
+#define ESTRING_IMPL
 #include "utilitieslib/components/EString.h"
 #include <stddef.h>
 #include <stdlib.h>
@@ -576,7 +577,7 @@ void estrRemoveDoubleQuotes(char **str)
 {
     int i;
 
-    for (i = estrLength(str) - 1; i >= 0; i--)
+	for (i = estrLength((const char *const *)str) - 1; i >= 0; i--)
     {
         if ((*str)[i] == '\"')
             estrRemove(str, i, 1);

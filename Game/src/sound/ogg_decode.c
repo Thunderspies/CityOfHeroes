@@ -386,8 +386,9 @@ static void clearCurOggState()
 }
 
 
-static size_t readbytes(void *dst,size_t struct_size,size_t num_structs,MemFile *mf)
+static size_t readbytes(void *dst, size_t struct_size, size_t num_structs, void* mfData)
 {
+    MemFile * mf = (MemFile *)mfData;
     size_t        t,amt;
 
     amt = num_structs * struct_size;

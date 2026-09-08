@@ -174,8 +174,10 @@ static void updateLevelRanges()
     }
 }
 
-int sortCVGNames(const MMElement **a, const MMElement **b)
+int sortCVGNames(const void* aData, const void* bData)
 {
+    const MMElement ** a = (const MMElement **)aData;
+    const MMElement ** b = (const MMElement **)bData;
     if( !(*a)->pchText || !(*a)->pchDisplayName || stricmp( (*a)->pchText, "NewString" ) == 0 || stricmp( (*a)->pchDisplayName, textStd("NewString") ) == 0 )
         return -1;
     if( !(*b)->pchText || !(*b)->pchDisplayName || stricmp( (*b)->pchText, "NewString" ) == 0 || stricmp( (*b)->pchDisplayName, textStd("NewString") ) == 0 )
@@ -188,8 +190,10 @@ int sortCVGNames(const MMElement **a, const MMElement **b)
     //    otherwise, treat normally
     return ( ( ( stricmp( textStd( (*a)->pchDisplayName ), textStd( (*b)->pchDisplayName ) ) ) >= 0 ) ? 1 : -1 );
 }
-static int sortCVGData(const VillainListData **a_ptr, const VillainListData **b_ptr)
+static int sortCVGData(const void* a_ptrData, const void* b_ptrData)
 {
+    const VillainListData ** a_ptr = (const VillainListData **)a_ptrData;
+    const VillainListData ** b_ptr = (const VillainListData **)b_ptrData;
     const VillainListData *a, *b;
     if (sortOptionStatus & (1 << currentSortingOption))
     {

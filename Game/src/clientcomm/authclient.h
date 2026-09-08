@@ -106,7 +106,7 @@ void acGetPlayFail(AuthPacket *pak);
 void acGetBlockedAccount(AuthPacket *pak);
 void acGetBlockedAccountWithMsg(AuthPacket *pak);
 void acGetAccountKicked(AuthPacket *pak);
-int authWaitFor(int wait_for_cmd);
+int authWaitFor(enum AuthToClientCmd wait_for_cmd);
 int authLogin(char *name,char *password);
 char *authGetError();
 int authLogout();

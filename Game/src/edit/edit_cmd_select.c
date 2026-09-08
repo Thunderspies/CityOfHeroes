@@ -1127,8 +1127,9 @@ static VisModel *visCreate(Model *model, BasicTexture *tex)
     return vis;
 }
 
-static void visFree(VisModel *vis)
+static void visFree(void* visData)
 {
+    VisModel * vis = (VisModel *)visData;
     MP_FREE(VisModel, vis);
 }
 

@@ -1654,6 +1654,11 @@ static void Regeneration_Tick(Character *p, float fRate)
  * character_TickPhaseOne
  *
  */
+static void rewardtoken_DestroyAdapter(void* arg0)
+{
+    rewardtoken_Destroy((RewardToken *)arg0);
+}
+
 void character_TickPhaseOne(Character *p, float fRate)
 {
     Entity *eTarget = NULL;
@@ -1742,7 +1747,7 @@ void character_TickPhaseOne(Character *p, float fRate)
                 RewardToken *destToken, *srcToken;
 
                 e->teamup->activePlayerDbid = e->db_id;
-                eaClearEx(&e->teamup->activePlayerRewardTokens, rewardtoken_Destroy);
+                eaClearEx(&e->teamup->activePlayerRewardTokens, rewardtoken_DestroyAdapter);
                 for (tokenIndex = 0; tokenIndex < tokenCount; tokenIndex++)
                 {
                     srcToken = e->pl->activePlayerRewardTokens[tokenIndex];
@@ -2070,6 +2075,11 @@ static int s_iDefiantMode = -1;
 
 // if attrLast is NULL, assume that we haven't actually updated the attributes
 //   right before this call.  We probably just directly altered the Character's hit points.
+static void damageTrackerDestroyAdapter(void* arg0)
+{
+    damageTrackerDestroy((DamageTracker*)arg0);
+}
+
 void character_HandleDeathAndResurrection(Character *p, CharacterAttributes *attrLast)
 {
     U32 ulNow = timerSecondsSince2000();
@@ -2138,7 +2148,7 @@ void character_HandleDeathAndResurrection(Character *p, CharacterAttributes *att
             // Clear out the damage list.
             if(p->entParent->who_damaged_me)
             {
-                eaClearEx(&p->entParent->who_damaged_me, damageTrackerDestroy);
+                eaClearEx(&p->entParent->who_damaged_me, damageTrackerDestroyAdapter);
             }
 
             modStateBits(p->entParent, ENT_DEAD, 0, FALSE);

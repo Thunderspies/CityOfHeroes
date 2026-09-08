@@ -194,8 +194,10 @@ void setEntCollTimes(int enabled, U32 client_abs, U32 client_abs_slow)
     entCollTimes.client_abs_slow = client_abs_slow;
 }
 
-static int compareServerIDs(const int* id1, const int* id2)
+static int compareServerIDs(const void* id1Data, const void* id2Data)
 {
+    const int* id1 = (const int*)id1Data;
+    const int* id2 = (const int*)id2Data;
     return *id1 - *id2;
 }
 

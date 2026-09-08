@@ -414,11 +414,16 @@ static void cmdDispatch(void *unused, DrawType type, void *data)
 #define CMD_QUEUE_SIZE    (1<<20)
 #define MSG_QUEUE_SIZE    (1<<6)
 
+static void cmdDispatchCallback(void *unused, int type, void *data)
+{
+    cmdDispatch(unused, (DrawType)type, data);
+}
+
 void renderThreadSetThreading(int run_thread)
 {
     g_run_render_thread = run_thread;
     if (!render_thread)
-        render_thread = wtCreate((WTDispatchCallback)cmdDispatch, CMD_QUEUE_SIZE, (WTDispatchCallback)winErrorDispatch, winRenderStall, MSG_QUEUE_SIZE, 0);
+        render_thread = wtCreate(cmdDispatchCallback, CMD_QUEUE_SIZE, winErrorDispatch, winRenderStall, MSG_QUEUE_SIZE, 0);
     wtSetThreaded(render_thread, run_thread);
 }
 
@@ -426,7 +431,7 @@ void renderThreadStart(void)
 {
     if (!render_thread)
     {
-        render_thread = wtCreate((WTDispatchCallback)cmdDispatch, CMD_QUEUE_SIZE, (WTDispatchCallback)winErrorDispatch, winRenderStall, MSG_QUEUE_SIZE, 0);
+        render_thread = wtCreate(cmdDispatchCallback, CMD_QUEUE_SIZE, winErrorDispatch, winRenderStall, MSG_QUEUE_SIZE, 0);
         wtSetThreaded(render_thread, g_run_render_thread);
     }
 

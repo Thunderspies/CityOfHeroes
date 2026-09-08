@@ -551,7 +551,7 @@ default:            m = 0;
 #if 1
 void quantTex(void *data,int w,int h);
 
-static GLint APIENTRY gluScaleImage( GLenum format,
+static GLint APIENTRY scaleMipImage( GLenum format,
                                     GLint w, GLint h,
                                     GLenum typein, const U32 *datain,
                                     GLint neww, GLint newh,
@@ -629,7 +629,7 @@ GLint COH_Build2DMipmapsSRC(GLenum target, GLenum dst_format,
         if (!image) {
             return GLU_OUT_OF_MEMORY;
         }
-        error = gluScaleImage( src_format, width, height, type, data,
+        error = scaleMipImage( src_format, width, height, type, data,
             w, h, type, image );
         if (error) {
             return error;
@@ -652,7 +652,7 @@ GLint COH_Build2DMipmapsSRC(GLenum target, GLenum dst_format,
             return GLU_OUT_OF_MEMORY;
         }
 
-        error =  gluScaleImage( src_format, w, h, type, image,
+        error =  scaleMipImage( src_format, w, h, type, image,
             neww, newh, type, newimage );
         if (error) {
             return error;

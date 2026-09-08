@@ -168,6 +168,11 @@ static int removeItemOfPower( ItemOfPower* iop, U32 iopId )
     return 1;
 }
 
+static void removeItemOfPowerAdapter(void* arg0, U32 arg1)
+{
+    removeItemOfPower((ItemOfPower*)arg0, (U32)arg1);
+}
+
 void RestartItemOfPowerGame()
 {
     ItemOfPowerInfo * info;
@@ -182,7 +187,7 @@ void RestartItemOfPowerGame()
     //Get Rid of Everyone's Items of Power
     if (!rmParam_idlist) eaiCreate(&rmParam_idlist);
     eaiSetSize(&rmParam_idlist, 0);
-    cstoreForEach(g_ItemOfPowerStore, removeItemOfPower);
+    cstoreForEach(g_ItemOfPowerStore, removeItemOfPowerAdapter);
     sgCount = eaiSize( &rmParam_idlist );
     for( i = 0 ; i < sgCount ; i++ )
     {
@@ -413,6 +418,11 @@ int itemOfPowerSGDeleteIter(ItemOfPower* iop, U32 raidid)
 }
 
 
+static void itemOfPowerSGDeleteIterAdapter(void* arg0, U32 arg1)
+{
+    itemOfPowerSGDeleteIter((ItemOfPower*)arg0, (U32)arg1);
+}
+
 void handleSupergroupDeleteForItemsOfPower(U32 sgid)
 {
     {  //Start Log 
@@ -426,7 +436,7 @@ void handleSupergroupDeleteForItemsOfPower(U32 sgid)
     }    //End log
 
     param_sgid = sgid;
-    cstoreForEach(g_ItemOfPowerStore, itemOfPowerSGDeleteIter);
+    cstoreForEach(g_ItemOfPowerStore, itemOfPowerSGDeleteIterAdapter);
 
     {  //Start Log 
         LOG( LOG_IOP, LOG_LEVEL_VERBOSE, 0, "ENDCMD Supergroup Delete" );
@@ -441,6 +451,11 @@ static int gatherSGsItemsOfPower(ItemOfPower* iop, U32 iopId)
 }
 
 //Informs the player of all his supergroup's items of power
+static void gatherSGsItemsOfPowerAdapter(void* arg0, U32 arg1)
+{
+    gatherSGsItemsOfPower((ItemOfPower*)arg0, (U32)arg1);
+}
+
 void PlayerFullItemOfPowerUpdate(U32 sgid, U32 dbid, int add)
 {
     int i, count;
@@ -451,7 +466,7 @@ void PlayerFullItemOfPowerUpdate(U32 sgid, U32 dbid, int add)
     param_sgid = sgid;
     if (!param_idlist) eaiCreate(&param_idlist);
     eaiSetSize(&param_idlist, 0);
-    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPower);
+    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPowerAdapter);
     count = eaiSize(&param_idlist);
     if (!count) return; // done
 
@@ -483,7 +498,7 @@ int getItemOfPowerFromSGByNameAndCreationTime( int sgid, const char * nameOfItem
     param_sgid = sgid;
     if (!param_idlist) eaiCreate(&param_idlist);
     eaiSetSize(&param_idlist, 0);
-    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPower);
+    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPowerAdapter);
     count = eaiSize( &param_idlist );
 
     for( i = 0 ; i < count ; i++ )
@@ -547,7 +562,7 @@ void updateSuperGroupWithCorrectItemsOfPower( int concernedSG )
     param_sgid = concernedSG; //poor man's parameter to gatherSGsItemsOfPower
     if (!param_idlist) eaiCreate(&param_idlist); //poor man's parameter to gatherSGsItemsOfPower
     eaiSetSize(&param_idlist, 0);
-    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPower);
+    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPowerAdapter);
     raidIopCount = eaiSize(&param_idlist);
 
     {//Start Log 
@@ -650,7 +665,7 @@ void updateSuperGroupWithCorrectItemsOfPower( int concernedSG )
     param_sgid = concernedSG; //poor man's parameter to gatherSGsItemsOfPower
     if (!param_idlist) eaiCreate(&param_idlist); //poor man's parameter to gatherSGsItemsOfPower
     eaiSetSize(&param_idlist, 0);
-    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPower);
+    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPowerAdapter);
     raidIopCount = eaiSize(&param_idlist);
 
     for( i=0 ; i < sgIopCount ; i++ )
@@ -767,6 +782,11 @@ static int getAvailableUniques(ItemOfPower* iop, U32 iopID)
     return 1;
 }
 
+static void getAvailableUniquesAdapter(void* arg0, U32 arg1)
+{
+    getAvailableUniques((ItemOfPower*)arg0, (U32)arg1);
+}
+
 void handleItemOfPowerGrantNew(Packet* pak, U32 listid, U32 cid)
 {
     U32 sgid;
@@ -800,7 +820,7 @@ void handleItemOfPowerGrantNew(Packet* pak, U32 listid, U32 cid)
         //Get all the Unique Items of Power
         if (!param_idlist) eaiCreate(&param_idlist);
         eaiSetSize(&param_idlist, 0);
-        cstoreForEach(g_ItemOfPowerStore, getAvailableUniques);
+        cstoreForEach(g_ItemOfPowerStore, getAvailableUniquesAdapter);
         count = eaiSize( &param_idlist );
 
         //Pick Randomly among the available unique IoPs
@@ -1011,7 +1031,7 @@ int getRandomIopFromSG( int sgid )
     param_sgid = sgid;
     if (!param_idlist) eaiCreate(&param_idlist);
     eaiSetSize(&param_idlist, 0);
-    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPower);
+    cstoreForEach(g_ItemOfPowerStore, gatherSGsItemsOfPowerAdapter);
     count = eaiSize( &param_idlist );
 
     if( count )
@@ -1110,13 +1130,23 @@ static int countItemsOfPower(ItemOfPower* iop, U32 iopId)
         param_int++;
     return 1;
 }
+static void countItemsOfPowerAdapter(void* arg0, U32 arg1)
+{
+    countItemsOfPower((ItemOfPower*)arg0, (U32)arg1);
+}
+
 int NumItemsOfPower(U32 sgid)
 {
     param_sgid = sgid;
     param_int = 0;
-    cstoreForEach(g_ItemOfPowerStore, countItemsOfPower);
+    cstoreForEach(g_ItemOfPowerStore, countItemsOfPowerAdapter);
     return param_int;
 }
+static void printIOPAdapter(void* arg0, U32 arg1)
+{
+    printIOP((ItemOfPower*)arg0, (U32)arg1);
+}
+
 void ShowAllItemsOfPower(void)
 {
     char buf[200];
@@ -1125,5 +1155,5 @@ void ShowAllItemsOfPower(void)
 
     printf( "\nCurrent Item Of Power Game: %d, Started: %s State: %s\n", g_IoPGame->id, buf, stringFromGameState(g_IoPGame->state) );
     printf("All Items Of Power:\n");
-    cstoreForEach( g_ItemOfPowerStore, printIOP );
+    cstoreForEach( g_ItemOfPowerStore, printIOPAdapter);
 }

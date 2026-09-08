@@ -288,8 +288,10 @@ void demoRecord(char const *fmt, ...)
     estrDestroy(&str);
 }
 
-static int __cdecl cmpDemoRecords(const DemoRecord *a,const DemoRecord *b)
+static int __cdecl cmpDemoRecords(const void* aData, const void* bData)
 {
+    const DemoRecord * a = (const DemoRecord *)aData;
+    const DemoRecord * b = (const DemoRecord *)bData;
     int        a_id,b_id;
 
     if (a->abs_time != b->abs_time)

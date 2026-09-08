@@ -13,7 +13,7 @@
 #include <utilitieslib/components/StashTable.h>
 
 
-bool sgrpbaseentrypermission_Valid( int perm )
+bool sgrpbaseentrypermission_Valid( SgrpBaseEntryPermission perm )
 {
     int max = (1<<kSgrpBaseEntryPermission_Count) - 1;
     return (perm >= 0 && perm <= max);

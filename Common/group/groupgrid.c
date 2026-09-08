@@ -253,8 +253,9 @@ int glob_neighborhoodVolumeIdx;
 int glob_materialVolumeIdx;
 int glob_indoorVolumeIdx;
 
-int findInsideTest(DefTracker *tracker,int backside)
+int findInsideTest(void* trackerData, int backside)
 {
+    DefTracker * tracker = (DefTracker *)trackerData;
     int        ok=0;
     FindInsideOpts find_type = glob_find_type;
 
@@ -713,13 +714,23 @@ static void scanForOverlappingVolumes()
     }
 }
 
+static void cvolume_DestroyAdapter(void* arg0)
+{
+    cvolume_Destroy((candidateVolume *)arg0);
+}
+
+static void opoint_DestroyAdapter(void* arg0)
+{
+    opoint_Destroy((overlapPoint *)arg0);
+}
+
 void overlappingVolume_Load()
 {
     GroupDefTraverser traverser = {0};
     curPointIndex = 0;
     if (s_volumes)
     {
-        eaClearEx(&s_volumes, cvolume_Destroy);
+        eaClearEx(&s_volumes, cvolume_DestroyAdapter);
         eaSetSize(&s_volumes, 0);
     }
     else
@@ -728,7 +739,7 @@ void overlappingVolume_Load()
     }
     if (s_points)
     {
-        eaClearEx(&s_points, opoint_Destroy);
+        eaClearEx(&s_points, opoint_DestroyAdapter);
         eaSetSize(&s_points, 0);
     }
     else

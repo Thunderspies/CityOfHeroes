@@ -30,8 +30,10 @@ void filespecMapDestroy(FilespecMap *handle)
     free(handle);
 }
 
-int sortByNumSlashes(const FilespecMapElement **a, const FilespecMapElement **b)
+int sortByNumSlashes(const void* aData, const void* bData)
 {
+    const FilespecMapElement ** a = (const FilespecMapElement **)aData;
+    const FilespecMapElement ** b = (const FilespecMapElement **)bData;
     if ((*a)->isExt != (*b)->isExt) {
         // Those with extensions first!
         return (*b)->isExt - (*a)->isExt;

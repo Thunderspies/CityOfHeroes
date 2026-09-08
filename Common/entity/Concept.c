@@ -181,8 +181,9 @@ TokenizerParseInfo ParseConceptDictionary[] =
 };
 
 
-bool conceptdict_FinalProcess(ParseTable pti[], ConceptDictionary *pdict, bool shared_memory)
+bool conceptdict_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    ConceptDictionary * pdict = (ConceptDictionary *)structptr;
     if( verify( pdict ))
     {
         int i;

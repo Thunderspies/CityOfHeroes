@@ -516,6 +516,11 @@ static void sendSaveInfo(NetLink *link,char *name,int num_bytes)
     pktSend(&pak,link);*/
 }
 
+static int trackerHandleCompCallback(const void* arg0, const void* arg1)
+{
+    return trackerHandleComp((const TrackerHandle *)arg0, (const TrackerHandle *)arg1);
+}
+
 static void groupdbUngroup(Packet *pak)
 {
     int i, count;
@@ -528,7 +533,7 @@ static void groupdbUngroup(Packet *pak)
     for(i = 0; i < count; i++)
         pktGetTrackerHandleNoAllocPreChecked(pak, &handles[i]);
     if(count)
-        qsort(handles, count, sizeof(*handles), trackerHandleComp); // sorts reverse from what we want
+        qsort(handles, count, sizeof(*handles), trackerHandleCompCallback); // sorts reverse from what we want
 
     for(i = count-1; i >= 0; --i) // ungroup deepest handles first
     {
@@ -766,6 +771,11 @@ static LayerCheckoutStatus * getLayerCheckoutStatus( const char * name )
     return les;
 }
 
+static void deleteDefTexSwapCallback(void* arg0)
+{
+    deleteDefTexSwap((DefTexSwap *)arg0);
+}
+
 static DefTracker * receiveAndUpdateTracker(Packet * pak, UpdateMode update_orig)
 {
     int            file_idx,def_idx,dup=0,j/*,ref_count*/;
@@ -861,7 +871,7 @@ static DefTracker * receiveAndUpdateTracker(Packet * pak, UpdateMode update_orig
     }
 
     //new texture stuff
-    eaDestroyEx(&def->def_tex_swaps, deleteDefTexSwap);
+    eaDestroyEx(&def->def_tex_swaps, deleteDefTexSwapCallback);
     def->def_tex_swaps = def_data.def_tex_swaps;
 
     // special case: watch for changes to def's with "SharedFrom" property set.  Since these defs are not

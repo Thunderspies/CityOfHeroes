@@ -168,8 +168,10 @@ DirtyType remover_diffsmall(PersistInfo *info, void *structptr)
     return DIRTY_DBONLY;
 }
 
-static bool s_processLine(DiffLine *line, PersistInfo *info)
+static bool s_processLine(void* lineData, void* infoData)
 {
+    DiffLine * line = (DiffLine *)lineData;
+    PersistInfo * info = (PersistInfo *)infoData;
     assert(!!line->structptr + !!line->lineptr + !!line->killed.s + !!line->key_last == 1); // it's invalid for more than one to be defined // FIXME: this shouldn't be an assert
 
     if(line->structptr)

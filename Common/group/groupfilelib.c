@@ -396,8 +396,10 @@ static void loadGroupNames(char *fname, __time32_t date)
     free(mem);
 }
 
-static int cmpNames(const GroupLibNameEntry **a,const GroupLibNameEntry **b)
+static int cmpNames(const void* aData, const void* bData)
 {
+    const GroupLibNameEntry ** a = (const GroupLibNameEntry **)aData;
+    const GroupLibNameEntry ** b = (const GroupLibNameEntry **)bData;
     int aidx = (*a)->dir_idx;
     int bidx = (*b)->dir_idx;
     if (aidx!=bidx)

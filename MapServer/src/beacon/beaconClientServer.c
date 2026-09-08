@@ -1588,6 +1588,21 @@ static void sendDetailEntities(Packet* pak, GroupDef* def, const Mat4 mat, void*
     beaconSendDefInstance(pak, def, mat, forceLargeModelData ? 1 : 0);
 }
 
+static void destroySentModelInfoAdapter(void* arg0)
+{
+    destroySentModelInfo((SentModelInfo*)arg0);
+}
+
+static void destroyMat3Adapter(void* arg0)
+{
+    destroyMat3((Mat3Ptr)arg0);
+}
+
+static void destroyVec3Adapter(void* arg0)
+{
+    destroyVec3((F32*)arg0);
+}
+
 void beaconMapDataPacketFromMapData(BeaconMapDataPacket** mapDataIn, S32 forceLargeModelData){
     #define WRITE_CHECK(s) pktSendString(pak, s);
     
@@ -1613,11 +1628,11 @@ void beaconMapDataPacketFromMapData(BeaconMapDataPacket** mapDataIn, S32 forceLa
     if (defUsedHashTable)
         stashTableClear(defUsedHashTable);
     if (modelNameHashTable)
-        stashTableClearEx(modelNameHashTable, NULL, destroySentModelInfo);
+        stashTableClearEx(modelNameHashTable, NULL, destroySentModelInfoAdapter);
     if (mat3HashTable)
-        stashTableClearEx(mat3HashTable, destroyMat3, NULL);
+        stashTableClearEx(mat3HashTable, destroyMat3Adapter, NULL);
     if (vec3HashTable)
-        stashTableClearEx(vec3HashTable, destroyVec3, NULL);
+        stashTableClearEx(vec3HashTable, destroyVec3Adapter, NULL);
     
     // Mark the defs that are actually used.
 
@@ -2168,10 +2183,15 @@ static void beaconReceiveGroupFileStep2(Packet* pak, GroupFile* file){
     }
 }
 
+static void destroySentModelInfoHelperAdapter(void* arg0)
+{
+    destroySentModelInfoHelper((SentModelInfo*)arg0);
+}
+
 void beaconResetReceivedMapData()
 {
     if (modelInfoHashTable)
-        stashTableClearEx(modelInfoHashTable, NULL, destroySentModelInfoHelper);
+        stashTableClearEx(modelInfoHashTable, NULL, destroySentModelInfoHelperAdapter);
 
     SAFE_FREE(vec3s.vec3s);
     ZeroStruct(&vec3s);
@@ -2291,7 +2311,7 @@ S32 beaconMapDataPacketToMapData(BeaconMapDataPacket* mapData){
     }
 
     if (modelInfoHashTable)
-        stashTableClearEx(modelInfoHashTable, NULL, destroySentModelInfoHelper);
+        stashTableClearEx(modelInfoHashTable, NULL, destroySentModelInfoHelperAdapter);
     
     // Get the MapDataPacket version.
     

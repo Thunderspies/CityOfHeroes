@@ -1,3 +1,4 @@
+#define GENERICLIST_IMPL
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -256,7 +257,7 @@ int listLength(void *headptr) {
     return ret;
 }
 
-void listQsort(void ** headptr, int (__cdecl *compare )(const void **, const void **)) {
+void listQsort(void ** headptr, int (__cdecl *compare )(const void *, const void *)) {
     int len = listLength(*headptr);
 
     if (len <=1) {

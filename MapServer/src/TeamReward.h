@@ -55,7 +55,7 @@ typedef struct TeamDamageTracker
 } TeamDamageTracker;
 
 TeamDamageTracker* teamDamageTrackerCreate();
-void teamDamageTrackerDestroy(TeamDamageTracker* t);
+void teamDamageTrackerDestroy(void* tData);
 TeamDamageTracker* teamDamageTrackerFindTeam(TeamDamageTracker** t, int teamID);
 
 //------------------------------------------------------------

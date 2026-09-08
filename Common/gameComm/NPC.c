@@ -76,13 +76,16 @@ DefineIntList ParseEnumList[] =
 
 
 
-static int __cdecl compareNPCDefNames(const NPCDef** d1, const NPCDef** d2)
+static int __cdecl compareNPCDefNames(const void* d1Data, const void* d2Data)
 {
+    const NPCDef** d1 = (const NPCDef**)d1Data;
+    const NPCDef** d2 = (const NPCDef**)d2Data;
     return stricmp((*d1)->name, (*d2)->name);
 }
 
-bool npcDefsReadFilesPreProcess(ParseTable tpi[], NPCDefList * nlist)
+bool npcDefsReadFilesPreProcess(ParseTable* tpi, void* structptr)
 {
+    NPCDefList * nlist = (NPCDefList *)structptr;
     eaQSortConst(nlist->npcDefs, compareNPCDefNames);
     
     return 1;
@@ -269,12 +272,22 @@ static void reloadVillainCostumesCallback(const char *relpath, int when)
     }
 }
 
+static bool npcDefsFinalProcessCallback(ParseTable pti[], void* structptr, bool shared_memory)
+{
+    return npcDefsFinalProcess(pti, (NPCDefList *)structptr, shared_memory);
+}
+
+static bool npcDefsReadFilesPostProcessCallback(ParseTable pti[], void* structptr)
+{
+    return npcDefsReadFilesPostProcess(pti, (NPCDefList *)structptr);
+}
+
 void npcReadDefFiles()
 {
     DefineContext* enumContext = DefineCreateFromIntList(ParseEnumList);
 
 #if SERVER
-    ParserLoadFilesShared("SM_VillainCostume", "Defs", ".nd", "VillainCostume.bin", 0, ParseNPCDefBegin, &npcDefList, sizeof(npcDefList), enumContext, NULL, npcDefsReadFilesPreProcess, npcDefsReadFilesPostProcess, npcDefsFinalProcess);
+    ParserLoadFilesShared("SM_VillainCostume", "Defs", ".nd", "VillainCostume.bin", 0, ParseNPCDefBegin, &npcDefList, sizeof(npcDefList), enumContext, NULL, npcDefsReadFilesPreProcess, npcDefsReadFilesPostProcessCallback, npcDefsFinalProcessCallback);
 #elif CLIENT
     ParserLoadFiles("Defs", ".nd", "VillainCostume.bin", 0, ParseNPCDefBegin, &npcDefList, enumContext, NULL, npcDefsReadFilesPreProcess);
     npcDefsReadFilesPostProcess(ParseNPCDefBegin, &npcDefList);

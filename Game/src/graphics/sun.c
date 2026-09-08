@@ -1433,11 +1433,17 @@ static int skyNodeCmp(const SkyNode *sky_node1, const SkyNode *sky_node2)
     return 0;
 }
 
+static int skyNodeCmp(const SkyNode *sky_node1, const SkyNode *sky_node2);
+static int skyNodeCmpCallback(const void* arg0, const void* arg1)
+{
+    return skyNodeCmp((const SkyNode *)arg0, (const SkyNode *)arg1);
+}
+
 static void collapseSkyNodes(SkyNodeList *sky_node_list)
 {
     int i;
     // Collapse similar/same SkyNodes so that we don't draw two of the same at 50% alpha each and expect it to look reasonable
-    qsort(sky_node_list->nodes, sky_node_list->count, sizeof(sky_node_list->nodes[0]), skyNodeCmp);
+    qsort(sky_node_list->nodes, sky_node_list->count, sizeof(sky_node_list->nodes[0]), skyNodeCmpCallback);
     for (i=sky_node_list->count - 2; i>=0; i--) {
         if (skyNodeCmp(&sky_node_list->nodes[i], &sky_node_list->nodes[i+1]) == 0) {
             sky_node_list->nodes[i].alpha += sky_node_list->nodes[i+1].alpha;

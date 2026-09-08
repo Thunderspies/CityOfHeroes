@@ -33,12 +33,18 @@ void initHashTableStack(Array* stack, unsigned int size){
     initArray(stack, size);
 }
 
-void stashTableDestroyStack(Array* stack){    
+void stashTableDestroyStack(void* stackData){
+    Array* stack = (Array*)stackData;
     destroyArray(stack);
 }
 
+static void stashTableDestroyCallback(void* arg0)
+{
+    stashTableDestroy((StashTable)arg0);
+}
+
 void stashTableDestroyStackEx(Array* stack){    
-    destroyArrayEx(stack, stashTableDestroy);
+    destroyArrayEx(stack, stashTableDestroyCallback);
 }
 
 void stashTableClearStack(Array* stack){

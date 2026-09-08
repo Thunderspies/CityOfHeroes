@@ -157,6 +157,11 @@ int zowie_ObjectivesRemaining(StoryTaskInfo *task)
 * zowie_Load
 *
 */
+static void zowie_DestroyAdapter(void* arg0)
+{
+    zowie_Destroy((Zowie *)arg0);
+}
+
 void zowie_Load(void)
 {
     GroupDefTraverser traverser = {0};
@@ -165,7 +170,7 @@ void zowie_Load(void)
     // If we're doing a reload, clear out old data first.
     if (g_Zowies)
     {
-        eaClearEx(&g_Zowies, zowie_Destroy);
+        eaClearEx(&g_Zowies, zowie_DestroyAdapter);
         eaSetSize(&g_Zowies, 0);
     }
     else

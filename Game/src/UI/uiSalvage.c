@@ -125,7 +125,7 @@ static TextAttribs gTextAttr =
 #define iTabCategoryAll 0
 #define CATEGORY_ALL "AllTab"
 
-static int tabNamesSort(const char** name1, const char** name2 );
+static int tabNamesSort(const void* name1Data, const void* name2Data);
 static void s_tabSelectCb(void*data);
 
 // For processing the "Open" command from the context menu.
@@ -893,6 +893,11 @@ void uiSalvage_initSortCombo(WindowName wdw, ComboBox *sortbyCombo, bool include
     sortbyCombo->reverse = TRUE;
 }
 
+static void salvagetabstate_DestroyAdapter(void* arg0)
+{
+    salvagetabstate_Destroy((SalvageTabState *)arg0);
+}
+
 static void salvagewindowstate_Init(SalvageWindowState *state)
 {
     int i;
@@ -911,7 +916,7 @@ static void salvagewindowstate_Init(SalvageWindowState *state)
     {
         char **tabs = NULL;
         
-        eaClearEx(&state->tabStates, salvagetabstate_Destroy);
+        eaClearEx(&state->tabStates, salvagetabstate_DestroyAdapter);
         
         state->inventionInventoryIdx = -1;
         
@@ -1411,8 +1416,10 @@ static void salvagecm_reAll( void *data )
 }
 
 
-static int tabNamesSort(const char** name1, const char** name2 )
+static int tabNamesSort(const void* name1Data, const void* name2Data)
 {
+    const char** name1 = (const char**)name1Data;
+    const char** name2 = (const char**)name2Data;
     static char temp[64];
     strcpy(temp,textStd((char *)*name1));
     return stricmp( temp,textStd((char *)*name2) );

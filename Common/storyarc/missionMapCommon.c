@@ -170,8 +170,9 @@ StashTable stMissionMapImages;
 StashTable stMissionMapHeaders = {0};
 
 
-static bool map_preprocess( void * unused, MissionMapList * missionmaplist )
+static bool map_preprocess(ParseTable* unused, void* structptr)
 {
+    MissionMapList * missionmaplist = (MissionMapList *)structptr;
     int i, j, k;
 
     for( i = 0; i < eaSize(&missionmaplist->missionmapsets); i++ )

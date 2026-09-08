@@ -180,8 +180,10 @@ void AvailableChannelDestroy(AvailableChannel * ac)
     free(ac);
 }
 
-int sortAvailableChannelFunc(const AvailableChannel** pp1, const AvailableChannel** pp2)
-{    
+int sortAvailableChannelFunc(const void* pp1Data, const void* pp2Data)
+{
+    const AvailableChannel** pp1 = (const AvailableChannel**)pp1Data;
+    const AvailableChannel** pp2 = (const AvailableChannel**)pp2Data;
        const AvailableChannel * ac1 = *pp1;
       const AvailableChannel * ac2 = *pp2;
 
@@ -532,6 +534,12 @@ void chatTabCleanup()
         chatTabClose(false);
 }
 
+void AvailableChannelDestroy(AvailableChannel * ac);
+static void AvailableChannelDestroyCallback(void* arg0)
+{
+    AvailableChannelDestroy((AvailableChannel *)arg0);
+}
+
 void chatTabClose(bool save)
 {
     ChatFilter * filter = gTabData.filter;
@@ -631,7 +639,7 @@ void chatTabClose(bool save)
         gTabData.nameEdit = 0;
     }
 
-    eaDestroyEx(&gTabData.available, AvailableChannelDestroy);
+    eaDestroyEx(&gTabData.available, AvailableChannelDestroyCallback);
     eaDestroy(&gTabData.leaveQueue);
 
     gTabData.filter = 0;

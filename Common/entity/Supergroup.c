@@ -272,16 +272,34 @@ void destroySupergroup(Supergroup *supergroup)
     MP_FREE(Supergroup, supergroup);
 }
 
+void destroySupergroupMemberInfo(SupergroupMemberInfo* member);
+static void destroySupergroupMemberInfoCallback(void* arg0)
+{
+    destroySupergroupMemberInfo((SupergroupMemberInfo*)arg0);
+}
+
+static void rewardtoken_DestroyCallback(void* arg0)
+{
+    rewardtoken_Destroy((RewardToken *)arg0);
+}
+
+#if SERVER || STATSERVER
+static void DestroySpecialDetailCallback(void* arg0)
+{
+    DestroySpecialDetail((SpecialDetail *)arg0);
+}
+#endif
+
 void clearSupergroup(Supergroup *supergroup)
 {
     if (!supergroup)
         return;
     destroyTeamMembersContents(&supergroup->members);
-    eaDestroyEx(&supergroup->memberranks, destroySupergroupMemberInfo);
-    eaDestroyEx(&supergroup->rewardTokens, rewardtoken_Destroy);
+    eaDestroyEx(&supergroup->memberranks, destroySupergroupMemberInfoCallback);
+    eaDestroyEx(&supergroup->rewardTokens, rewardtoken_DestroyCallback);
 
 #if SERVER || STATSERVER
-    eaDestroyEx(&supergroup->specialDetails, DestroySpecialDetail);
+    eaDestroyEx(&supergroup->specialDetails, DestroySpecialDetailCallback);
     if (supergroup->activetask) storyTaskInfoDestroy(supergroup->activetask);
 #endif
 

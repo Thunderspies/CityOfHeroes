@@ -63,8 +63,9 @@ void addRewardChoice(int visible, int disabled, char *txt)
     eaPush(&s_RewardChoices, choice);
 }
 
-static void destroyRewardChoice( RewardChoice * choice )
+static void destroyRewardChoice(void* choiceData)
 {
+    RewardChoice * choice = (RewardChoice *)choiceData;
     if (choice->sm)
     {
         smfBlock_Destroy(choice->sm);

@@ -32,8 +32,10 @@
 DbList    container_lists[MAX_CONTAINER_TYPES];
 int        container_count;
 
-int cmpLines(const LineTracker *a,const LineTracker *b)
+int cmpLines(const void* aData, const void* bData)
 {
+    const LineTracker * a = (const LineTracker *)aData;
+    const LineTracker * b = (const LineTracker *)bData;
     return a->idx - b->idx;
 }
 

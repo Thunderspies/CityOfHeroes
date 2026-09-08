@@ -101,6 +101,11 @@ bool entsAreTeamed( Entity* a, Entity* b, bool checkLeague )
 }
 #endif
 
+static void rewardtoken_DestroyAdapter(void* arg0)
+{
+    rewardtoken_Destroy((RewardToken *)arg0);
+}
+
 void destroyTeamup(Teamup *teamup)
 {
     if (!teamup)
@@ -110,7 +115,7 @@ void destroyTeamup(Teamup *teamup)
 
 #ifdef SERVER
     eaiDestroy(&teamup->taskSelect.memberValid);
-    eaClearEx(&teamup->activePlayerRewardTokens, rewardtoken_Destroy);
+    eaClearEx(&teamup->activePlayerRewardTokens, rewardtoken_DestroyAdapter);
     storyTaskInfoDestroy(teamup->activetask);
 #endif
     MP_FREE(Teamup, teamup);
@@ -122,7 +127,7 @@ void clearTeamup(Teamup *teamup)
     StoryTaskInfo* active = teamup->activetask;
     int saved_rotors[3];
     memcpy(saved_rotors, teamup->members.rotors, 3*sizeof(int));
-    eaClearEx(&teamup->activePlayerRewardTokens, rewardtoken_Destroy);
+    eaClearEx(&teamup->activePlayerRewardTokens, rewardtoken_DestroyAdapter);
 #endif
 
     destroyTeamMembersContents(&teamup->members);

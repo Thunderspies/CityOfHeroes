@@ -1197,8 +1197,10 @@ PigFilePtr PigSetGetPigFileByName(const char* filename)
     return NULL;
 }
 
-int pigCmpEntryPathname(const NewPigEntry *a,const NewPigEntry *b)
+int pigCmpEntryPathname(const void* aData, const void* bData)
 {
+    const NewPigEntry * a = (const NewPigEntry *)aData;
+    const NewPigEntry * b = (const NewPigEntry *)bData;
     char    *sa,*sb;
     int        t;
 

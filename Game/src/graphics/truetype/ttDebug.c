@@ -148,8 +148,9 @@ TTGlyphInfo* ttGlyphInfoCreate()
 {
     return calloc(1, sizeof(TTGlyphInfo));
 }
-void ttGlyphInfoDestroy(TTGlyphInfo* info)
+void ttGlyphInfoDestroy(void* infoData)
 {
+    TTGlyphInfo* info = (TTGlyphInfo*)infoData;
     if(info)
         free(info);
 }
@@ -223,6 +224,11 @@ static int ttDebugTextGatherGlyphInfo(TTDebugTextParam* param)
     return 1;
 }
 
+static int ttDebugTextGatherGlyphInfoGlyphCallback(TTTextForEachGlyphParam* param)
+{
+    return ttDebugTextGatherGlyphInfo((TTDebugTextParam*)param);
+}
+
 void ttDebugTextAlterScale(TTDebugText* obj, float xScale, float yScale)
 {
     TTDebugTextParam param;
@@ -236,7 +242,7 @@ void ttDebugTextAlterScale(TTDebugText* obj, float xScale, float yScale)
     obj->yScale = yScale;
 
     // Gather the glyph info for the text at the specified scale.
-    param.forEachGlyphParam.handler = (GlyphHandler)ttDebugTextGatherGlyphInfo;
+    param.forEachGlyphParam.handler = ttDebugTextGatherGlyphInfoGlyphCallback;
     param.text = obj;
     ttTextForEachGlyph(&obj->font, (TTTextForEachGlyphParam*)&param, 0, 0, xScale, yScale, obj->text, obj->characterCount, true);
 }

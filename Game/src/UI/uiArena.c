@@ -1097,11 +1097,16 @@ void addArenaChatMsg( char * txt, int type )
     reformatText = 1;
 }
 
+static void ChatLine_DestroyAdapter(void* arg0)
+{
+    ChatLine_Destroy((ChatLine *)arg0);
+}
+
 static void clearArenaChat()
 {
     if( arenaChatQ.ppLines )
     {
-        eaClearEx(&arenaChatQ.ppLines, ChatLine_Destroy);
+        eaClearEx(&arenaChatQ.ppLines, ChatLine_DestroyAdapter);
         arenaChatQ.size = 0;
     }
 }

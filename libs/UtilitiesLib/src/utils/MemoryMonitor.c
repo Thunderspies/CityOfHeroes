@@ -112,7 +112,7 @@ S64 MonitorWorkTime = 0;
 
 MemoryMonitor MemMonitor;
 
-static volatile int staticInsideHook = 0;
+static volatile LONG staticInsideHook = 0;
 
 void mmCRTHeapLock()
 {
@@ -781,8 +781,10 @@ static void mmPrintStats()
 }
 
 
-static int __cdecl MMOSTrafficCompare(const ModuleMemOperationStats** elem1, const ModuleMemOperationStats** elem2) 
+static int __cdecl MMOSTrafficCompare(const void* elem1Data, const void* elem2Data)
 {
+    const ModuleMemOperationStats** elem1 = (const ModuleMemOperationStats**)elem1Data;
+    const ModuleMemOperationStats** elem2 = (const ModuleMemOperationStats**)elem2Data;
     double result = (*elem1)->stats[MOT_BALANCE-1].memTraffic.value - (*elem2)->stats[MOT_BALANCE-1].memTraffic.value;
     if(result < 0.0)
         return -1;
@@ -792,8 +794,10 @@ static int __cdecl MMOSTrafficCompare(const ModuleMemOperationStats** elem1, con
         return 0;
 }
 
-static int __cdecl MMOSOpCountCompare(const ModuleMemOperationStats** elem1, const ModuleMemOperationStats** elem2) 
+static int __cdecl MMOSOpCountCompare(const void* elem1Data, const void* elem2Data)
 {
+    const ModuleMemOperationStats** elem1 = (const ModuleMemOperationStats**)elem1Data;
+    const ModuleMemOperationStats** elem2 = (const ModuleMemOperationStats**)elem2Data;
     double result = (*elem1)->stats[MOT_BALANCE-1].count.value - (*elem2)->stats[MOT_BALANCE-1].count.value;
     if(result < 0.0)
         return -1;
@@ -922,8 +926,9 @@ static void memMonitorGetStatsEx(MMOSSortCompare compare, int width, memMonitorF
     }
 }
 
-void estrConcatHandler(char *appendMe, char **estrBuffer)
+static void estrConcatHandler(char *appendMe, void *data)
 {
+	char **estrBuffer = data;
     estrConcatCharString(estrBuffer, appendMe);
 }
 

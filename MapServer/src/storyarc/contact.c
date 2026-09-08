@@ -418,8 +418,10 @@ StoryTaskInfo* ContactGetAssignedTask(int player_id, StoryContactInfo* contactIn
 //  Contact debugging
 // *********************************************************************************
 
-static int sortContacts(const ContactDef** left, const ContactDef** right)
+static int sortContacts(const void* leftData, const void* rightData)
 {
+    const ContactDef** left = (const ContactDef**)leftData;
+    const ContactDef** right = (const ContactDef**)rightData;
     const ContactDef* lhs = *left;
     const ContactDef* rhs = *right;
     char lname[1000];

@@ -64,7 +64,7 @@ static INLINEDBG AuctionItemDict *auctionData_GetDict(void)
     return &g_AuctionItemDict;
 }
 
-char* auction_identifierFromItem(void * item, TrayItemType type, int level );
+char* auction_identifierFromItem(AuctionItem * item, TrayItemType type, int level );
 char* auction_identifier( int type, const char *name, int level );
 
 int auctionData_GetID(int type, const char *name, int level);

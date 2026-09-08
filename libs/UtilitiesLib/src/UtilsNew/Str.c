@@ -31,7 +31,7 @@ Str Str_temp_dbg(void *mem, size_t mem_size DBG_PARMS)
 
 int Str_len_dbg(Str *hstr DBG_PARMS)
 {
-    int n = achr_size_dbg(hstr DBG_PARMS_CALL) - 1; 
+	int n = achr_size_dbg((char const *const *)hstr DBG_PARMS_CALL) - 1;
 #ifdef CHECK_STR_SIZE
     if(hstr && *hstr)
     {

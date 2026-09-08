@@ -1158,7 +1158,9 @@ static int beaconHasRaisedConnection(Beacon* source, BeaconConnection* targetCon
 static Array tempBeacons;
 static Array tempSubBlocks;
 
-static int __cdecl compareBeaconConnections(const BeaconConnection** c1p, const BeaconConnection** c2p){
+static int __cdecl compareBeaconConnections(const void* c1pData, const void* c2pData){
+    const BeaconConnection** c1p = (const BeaconConnection**)c1pData;
+    const BeaconConnection** c2p = (const BeaconConnection**)c2pData;
     const BeaconConnection* c1 = *c1p;
     const BeaconConnection* c2 = *c2p;
     
@@ -1173,7 +1175,9 @@ static int __cdecl compareBeaconConnections(const BeaconConnection** c1p, const 
     }
 }
 
-static int __cdecl compareBeaconConnectionTargets(const BeaconConnection** c1p, const BeaconConnection** c2p){
+static int __cdecl compareBeaconConnectionTargets(const void* c1pData, const void* c2pData){
+    const BeaconConnection** c1p = (const BeaconConnection**)c1pData;
+    const BeaconConnection** c2p = (const BeaconConnection**)c2pData;
     const BeaconConnection* c1 = *c1p;
     const BeaconConnection* c2 = *c2p;
     
@@ -1647,7 +1651,9 @@ static Array* beaconCompileNearbyBeacons(Beacon* source, F32 minRadius, F32 maxR
     return &tempArray;
 }
 
-static int __cdecl compareBeaconProcessConnectionDistanceXZ(const BeaconProcessConnection* b1, const BeaconProcessConnection* b2){
+static int __cdecl compareBeaconProcessConnectionDistanceXZ(const void* b1Data, const void* b2Data){
+    const BeaconProcessConnection* b1 = (const BeaconProcessConnection*)b1Data;
+    const BeaconProcessConnection* b2 = (const BeaconProcessConnection*)b2Data;
     if(b1->distanceXZ > b2->distanceXZ){
         return 1;
     }
@@ -2126,7 +2132,9 @@ static U32 checkedConnectionCount;
 //    PERFINFO_AUTO_STOP();
 //}
 
-static int __cdecl compareBeaconDistanceXZ(const Beacon** b1Param, const Beacon** b2Param){
+static int __cdecl compareBeaconDistanceXZ(const void* b1ParamData, const void* b2ParamData){
+    const Beacon** b1Param = (const Beacon**)b1ParamData;
+    const Beacon** b2Param = (const Beacon**)b2ParamData;
     const Beacon* b1 = *b1Param;
     const Beacon* b2 = *b2Param;
     
@@ -3115,7 +3123,9 @@ static void beaconPropagateCluster(BeaconBlock* galaxy, BeaconBlock* cluster, in
     }
 }
 
-static int __cdecl compareBeaconClusterSize(const BeaconBlock** b1, const BeaconBlock** b2){
+static int __cdecl compareBeaconClusterSize(const void* b1Data, const void* b2Data){
+    const BeaconBlock** b1 = (const BeaconBlock**)b1Data;
+    const BeaconBlock** b2 = (const BeaconBlock**)b2Data;
     int size1 = (*b1)->subBlockArray.size;
     int size2 = (*b2)->subBlockArray.size;
 
@@ -3555,7 +3565,9 @@ static void collectNearbyBeacons(Array* beaconArray, void* userData){
     }
 }
 
-static int __cdecl compareBeaconDistance(const Beacon** b1, const Beacon** b2){
+static int __cdecl compareBeaconDistance(const void* b1Data, const void* b2Data){
+    const Beacon** b1 = (const Beacon**)b1Data;
+    const Beacon** b2 = (const Beacon**)b2Data;
     F32 d1 = (*b1)->userFloat;
     F32 d2 = (*b2)->userFloat;
     

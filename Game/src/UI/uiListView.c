@@ -1174,6 +1174,11 @@ int uiLVClear( UIListView* list )
     return uiLVClearEx( list, NULL );
 }
 
+static void uiBoxDestroyAdapter(void* arg0)
+{
+    uiBoxDestroy((UIBox*)arg0);
+}
+
 int uiLVClearEx(UIListView* list, void (*destructor)(void*) )
 {
     if(!list)
@@ -1183,7 +1188,7 @@ int uiLVClearEx(UIListView* list, void (*destructor)(void*) )
         eaClearEx(&list->items, destructor);
     else
         eaSetSize(&list->items, 0);
-    eaClearEx(&list->itemWindows, uiBoxDestroy);
+    eaClearEx(&list->itemWindows, uiBoxDestroyAdapter);
     list->selectedItem = NULL;
     return 1;
 }

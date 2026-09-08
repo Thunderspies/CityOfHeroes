@@ -120,6 +120,12 @@ int __cdecl compareModelBSearch(const ModelSearchData* search, const Model** mod
 
 GeoLoadData* useThisGeoLoadData;
 
+int __cdecl compareModelBSearch(const ModelSearchData* search, const Model** model);
+static int compareModelBSearchCallback(const void* arg0, const void* arg1)
+{
+    return compareModelBSearch((const ModelSearchData*)arg0, (const Model**)arg1);
+}
+
 Model * modelFind( const char *name, const char * filename, int load_type, int use_type )
 {
 
@@ -172,7 +178,7 @@ Model * modelFind( const char *name, const char * filename, int load_type, int u
                 
                     search.name = name;
                     search.namelen = len;
-                    ppModel = bsearch(&search, header->models, header->model_count, sizeof(header->models[0]), compareModelBSearch);
+                    ppModel = bsearch(&search, header->models, header->model_count, sizeof(header->models[0]), compareModelBSearchCallback);
                     
                     if(ppModel)
                     {
@@ -1419,6 +1425,12 @@ static int __cdecl compareModelNames(const Model** m1, const Model** m2)
     return compareModelNamesAndLengths((*m1)->name, (*m1)->namelen_notrick, (*m2)->name, (*m2)->namelen_notrick);
 }
 
+static int __cdecl compareModelNames(const Model** m1, const Model** m2);
+static int compareModelNamesCallback(const void* arg0, const void* arg1)
+{
+    return compareModelNames((const Model**)arg0, (const Model**)arg1);
+}
+
 void geoSortModels(GeoLoadData* gld)
 {
     PERFINFO_AUTO_START("qsort", 1);
@@ -1426,7 +1438,7 @@ void geoSortModels(GeoLoadData* gld)
         qsort(    gld->modelheader.models,
                 gld->modelheader.model_count,
                 sizeof(gld->modelheader.models[0]),
-                compareModelNames);
+                compareModelNamesCallback);
                 
     PERFINFO_AUTO_STOP_START("verify", 1);
 
@@ -2484,8 +2496,9 @@ void modelDoneMakingLODs(Model *model)
 #endif
 }
 
-static void modelFreeLODModel(LodModel *lodmodel)
+static void modelFreeLODModel(void* lodmodelData)
 {
+    LodModel * lodmodel = (LodModel *)lodmodelData;
     if (!(lodmodel->model->loadstate & LOADED))
     {
         forceGeoLoaderToComplete();

@@ -307,7 +307,8 @@ StringTable strTableCopyToAllocatedSpace(StringTable table, void* pAllocatedSpac
     assert( uiTotalSize == uiOverheadSize + uiIndexArraySize + uiTotalStringSize ); // to be safe
 
 
-    pStringTableImp->indexTable.storage = (char**)((char*)pStringTableImp->pFirstMemChunk + sizeof(MemChunk));
+	pStringTableImp->indexTable.storage =
+		(void **)(pStringTableImp->pFirstMemChunk + 1);
     pStringTableImp->pFirstMemChunk->pcData = (char*)pStringTableImp->indexTable.storage + uiIndexArraySize;
     // Make sure we haven't gone over or under total allocation
     assert( pStringTableImp->pFirstMemChunk->pcData + uiTotalStringSize == (char*)pAllocatedSpace + uiTotalSize);

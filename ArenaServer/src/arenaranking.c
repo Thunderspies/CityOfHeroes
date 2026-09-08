@@ -30,8 +30,10 @@ static int g_use_deathtime = 0;
 
 ArenaRankingTable g_leaderboard[ARENA_NUM_RATINGS];
 
-static int compareEventHistoryEntry(const EventHistoryEntry** a, const EventHistoryEntry** b)
+static int compareEventHistoryEntry(const void* aData, const void* bData)
 {
+    const EventHistoryEntry** a = (const EventHistoryEntry**)aData;
+    const EventHistoryEntry** b = (const EventHistoryEntry**)bData;
     const EventHistoryEntry* l = *a;
     const EventHistoryEntry* r = *b;
 
@@ -68,8 +70,10 @@ static int compareEventHistoryEntry(const EventHistoryEntry** a, const EventHist
     return r->totalkills - l->totalkills;
 }
 
-static int compareArenaRankingTableEntry(const ArenaRankingTableEntry** a, const ArenaRankingTableEntry** b)
+static int compareArenaRankingTableEntry(const void* aData, const void* bData)
 {
+    const ArenaRankingTableEntry** a = (const ArenaRankingTableEntry**)aData;
+    const ArenaRankingTableEntry** b = (const ArenaRankingTableEntry**)bData;
     const ArenaRankingTableEntry* l = *a;
     const ArenaRankingTableEntry* r = *b;
 
@@ -908,8 +912,10 @@ void EventCreatePairingsSingleElim(ArenaEvent* event, int totalrounds)
 #undef CHECK_PAST_OPPONENTS
 #undef CHECK_VALID_GROUPS
 
-static int compareLeaderBoardEntry(const ArenaRankingTableEntry** a, const ArenaRankingTableEntry** b)
+static int compareLeaderBoardEntry(const void* aData, const void* bData)
 {
+    const ArenaRankingTableEntry** a = (const ArenaRankingTableEntry**)aData;
+    const ArenaRankingTableEntry** b = (const ArenaRankingTableEntry**)bData;
     int retval;
     const ArenaRankingTableEntry* l = *a;
     const ArenaRankingTableEntry* r = *b;

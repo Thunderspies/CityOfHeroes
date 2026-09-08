@@ -5,7 +5,7 @@
 #define MEMREF_TAG 0xC0DF15CE
 
 typedef struct MemRef {
-    volatile int reference_count;
+    volatile LONG reference_count;
     U32 tag;
 } MemRef;
 

@@ -16,7 +16,7 @@ typedef struct PetName
 } PetName;
 
 PetName *petname_Create(void);
-void PetNameDestroy(PetName* pn);
+void PetNameDestroy(void* pnData);
 void petReceiveCommand( Entity * e, Packet * pak );
 void petReceiveSay( Entity * e, Packet * pak );
 void petReceiveRename( Entity * e, Packet * pak );

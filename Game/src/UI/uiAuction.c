@@ -219,8 +219,10 @@ void uiAuctionHouseHistoryReceive(Packet *pak)
     }
 }
 
-static int alphabeticalSort( const AuctionKeyWord** left, const AuctionKeyWord** right)
+static int alphabeticalSort(const void* leftData, const void* rightData)
 {
+    const AuctionKeyWord** left = (const AuctionKeyWord**)leftData;
+    const AuctionKeyWord** right = (const AuctionKeyWord**)rightData;
     return stricmp( (*left)->keyword, (*right)->keyword );
 }
 
@@ -1017,8 +1019,10 @@ static SimpleTreeNode * addSimpleNode( SimpleTreeNode *pParent, MultiLevelStashN
     return pNew;
 }
 
-static int nodeSort( const SimpleTreeNode** left, const SimpleTreeNode** right)
+static int nodeSort(const void* leftData, const void* rightData)
 {
+    const SimpleTreeNode** left = (const SimpleTreeNode**)leftData;
+    const SimpleTreeNode** right = (const SimpleTreeNode**)rightData;
     if( stricmp((*left)->name, "OtherString") == 0 )
         return -1;
     else if( stricmp((*right)->name, "OtherString") == 0 )
@@ -1883,8 +1887,10 @@ typedef enum AuctionSortType
     kAuctionSort_NumBidding,
 }AuctionSortType;
 
-static int auction_resultsort( const AuctionItem ** p1, const AuctionItem **p2 )
-{ 
+static int auction_resultsort(const void* p1Data, const void* p2Data)
+{
+    const AuctionItem ** p1 = (const AuctionItem **)p1Data;
+    const AuctionItem ** p2 = (const AuctionItem **)p2Data;
     int sort_type = ABS(s_sort_idx);
 
     //if this matches arc id

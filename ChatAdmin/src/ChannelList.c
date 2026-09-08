@@ -109,10 +109,15 @@ void CAChannelRemove(CAChannel * channel)
 }
 
 
+static void CAChannelDestroyAdapter(void* arg0)
+{
+    CAChannelDestroy((CAChannel *)arg0);
+}
+
 void CAChannelRemoveAll()
 {    
     vListViewRemoveAll(lvChannelList, 0);
-    stashTableClearEx(gNameToChannelHash, NULL, CAChannelDestroy);
+    stashTableClearEx(gNameToChannelHash, NULL, CAChannelDestroyAdapter);
     ChannelListUpdateCount();
     ChannelListUpdateMatchCount();}
 

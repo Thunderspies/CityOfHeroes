@@ -787,8 +787,10 @@ typedef struct PCC_powerIndex
     char *displayName;
     int index;
 }PCC_powerIndex;
-static int lessThan(const PCC_powerIndex **a, const PCC_powerIndex **b)
+static int lessThan(const void* aData, const void* bData)
 {
+    const PCC_powerIndex ** a = (const PCC_powerIndex **)aData;
+    const PCC_powerIndex ** b = (const PCC_powerIndex **)bData;
     return stricmp((*a)->displayName, (*b)->displayName);
 }
 static void sortPowers(int category)

@@ -124,13 +124,17 @@ static FxFluid * fxLoadFxFluid( char fname[] )
 }
 
 
-static int fxFluidNameCmp(const FxFluid ** info1, const FxFluid ** info2 )
+static int fxFluidNameCmp(const void* info1Data, const void* info2Data)
 {
+    const FxFluid ** info1 = (const FxFluid **)info1Data;
+    const FxFluid ** info2 = (const FxFluid **)info2Data;
     return stricmp( (*info1)->name, (*info2)->name );
 }
 
-static int fxFluidNameCmp2(const FxFluid * info1, const FxFluid ** info2 )
+static int fxFluidNameCmp2(const void* info1Data, const void* info2Data)
 {
+    const FxFluid * info1 = (const FxFluid *)info1Data;
+    const FxFluid ** info2 = (const FxFluid **)info2Data;
     return stricmp( info1->name, (*info2)->name );
 }
 
@@ -218,7 +222,7 @@ FxFluid * fxGetFxFluid( char fluid_name[] )
     dummy.name = fx_name_cleaned_up;
     numfluids = eaSize(&fx_fluidlist.fluids);
     dptr = bsearch(&dummy, fx_fluidlist.fluids, numfluids,
-        sizeof(FxFluid*),(int (*) (const void *, const void *))fxFluidNameCmp2);
+        sizeof(FxFluid*),fxFluidNameCmp2);
     if( dptr )
     {
         fxfluid = *dptr;
@@ -316,7 +320,7 @@ void fxPreloadFluidInfo()
             fxCleanFileName(buf2, fluid->name); //(buf2 will always be shorter than info->name)
             strcpy(fluid->name, buf2);
         }
-        qsort(fx_fluidlist.fluids, num_structs, sizeof(void*), (int (*) (const void *, const void *)) fxFluidNameCmp);
+        qsort(fx_fluidlist.fluids, num_structs, sizeof(void*), fxFluidNameCmp);
     }
 }
 

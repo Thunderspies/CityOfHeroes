@@ -396,11 +396,16 @@ StructHistCollection createStructHistCollection(const char *logDir)
     return shc;
 }
 
+static void destroyStructHistAdapter(void* arg0)
+{
+    destroyStructHist((StructHist)(intptr_t)arg0);
+}
+
 void destroyStructHistCollection(StructHistCollection shc)
 {
     if (shc) {
-        stashTableDestroyEx(shc->ghtStructHists, NULL, destroyStructHist);
-        stashTableDestroyEx(shc->ghtRemovedStructHists, NULL, destroyStructHist);
+        stashTableDestroyEx(shc->ghtStructHists, NULL, destroyStructHistAdapter);
+        stashTableDestroyEx(shc->ghtRemovedStructHists, NULL, destroyStructHistAdapter);
         free(shc);
     }
 }

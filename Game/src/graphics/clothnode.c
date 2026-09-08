@@ -1328,7 +1328,7 @@ static void initEntityCapeCol(ClothObject * clothobj, int lod, Vec3 scale, const
 // NOTE: There are a number of assumptions about the cape and harness data
 //  (see ClothBuild.c).
 
-GfxNode * initClothCapeNode(int * nodeId, const char* textures[4], U8 colors[4][4], Model *cape, Model *harness, Vec3 scale, F32 stiffness, F32 drag, F32 point_y_scale, F32 colrad, int clothType, const char *seqType, const char *trickName)
+GfxNode * initClothCapeNode(int * nodeId, const char* textures[4], U8 colors[4][4], Model *cape, Model *harness, Vec3 scale, F32 stiffness, F32 drag, F32 point_y_scale, F32 colrad, ClothType clothType, const char *seqType, const char *trickName)
 {
     Vec3 *verts;
     Vec2 *weights;

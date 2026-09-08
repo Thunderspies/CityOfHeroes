@@ -1491,8 +1491,10 @@ static void powerdict_FinalizeDictFx(PowerFX *fx)
     fx->fInitialTimeToBlock = fx->iInitialFramesBeforeBlock/30.0f;
 }
 
-int powerdict_compareCategories(const PowerCategory **left, const PowerCategory **right)
+int powerdict_compareCategories(const void* leftData, const void* rightData)
 {
+    const PowerCategory ** left = (const PowerCategory **)leftData;
+    const PowerCategory ** right = (const PowerCategory **)rightData;
     return strcmp((*left)->pchName, (*right)->pchName);
 }
 
@@ -2435,8 +2437,9 @@ static TokenizerParseInfo ParseDestroyPartialAttribMod[] =
 * load_PreprocPowerDictionary
 *
 */
-bool load_PreprocPowerDictionary(TokenizerParseInfo pti[], PowerDictionary *pdict)
+bool load_PreprocPowerDictionary(ParseTable* pti, void* structptr)
 {
+    PowerDictionary * pdict = (PowerDictionary *)structptr;
     int i;
     int iSizePows = eaSize(&pdict->ppPowers);
     int *crcFullNameList;
@@ -2474,8 +2477,9 @@ static s_ExtraLoadFlags = 0;
 * load_PreprocPowerSetDictionary
 *
 */
-bool load_PreprocPowerSetDictionary(TokenizerParseInfo pti[], PowerDictionary *pdict)
+bool load_PreprocPowerSetDictionary(ParseTable* pti, void* structptr)
 {
+    PowerDictionary * pdict = (PowerDictionary *)structptr;
 #ifndef TEST_CLIENT    
     // We only care about this when we actually parse power sets
     if (!msGetHideTranslationErrors())
@@ -2721,9 +2725,9 @@ void load_PowerDictionary(SHARED_MEMORY_PARAM PowerDictionary *ppow, char *pchFi
         ParserLoadFiles(pchFilename,".categories","powercats.bin",flags,
             ParsePowerCatDictionary,(void*)ppow,NULL,NULL,NULL);
         ParserLoadFiles(pchFilename,".powersets","powersets.bin",flags,
-            ParsePowerSetDictionary,(void*)ppow,NULL,NULL,(ParserLoadPreProcessFunc)load_PreprocPowerSetDictionary);
+            ParsePowerSetDictionary,(void*)ppow,NULL,NULL,load_PreprocPowerSetDictionary);
         ParserLoadFiles(pchFilename,".powers","powers.bin",flags|s_ExtraLoadFlags,
-            ParsePowerDictionary,(void*)ppow,NULL,NULL,(ParserLoadPreProcessFunc)load_PreprocPowerDictionary);
+            ParsePowerDictionary,(void*)ppow,NULL,NULL,load_PreprocPowerDictionary);
     
         load_PowerDictionary_MoveToShared((PowerDictionary*)ppow, phandle, flags);
     }

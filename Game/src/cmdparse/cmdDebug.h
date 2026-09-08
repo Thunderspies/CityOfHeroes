@@ -19,6 +19,6 @@ extern BeaconDebugLine**    beaconConnection;
 extern int                    beacConn_showWhenMouseDown;
 
 void cmdOldDebugHandle(Packet* pak);
-void destroyBeaconDebugLine(BeaconDebugLine* line);
+void destroyBeaconDebugLine(void* lineData);
 
 #endif

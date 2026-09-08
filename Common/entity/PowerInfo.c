@@ -65,13 +65,24 @@ PowerInfo* powerInfo_Create(void)
     return info;
 }
 
+static void powerRef_DestroyCallback(void* arg0)
+{
+    powerRef_Destroy((PowerRef*)arg0);
+}
+
+void powerRechargeTimer_Destroy(PowerRechargeTimer* timer);
+static void powerRechargeTimer_DestroyCallback(void* arg0)
+{
+    powerRechargeTimer_Destroy((PowerRechargeTimer*)arg0);
+}
+
 void powerInfo_Destroy(PowerInfo* info)
 {
     if(!info)
         return;
 
-    eaDestroyEx(&info->activePowers, powerRef_Destroy);
-    eaDestroyEx(&info->rechargeTimers, powerRechargeTimer_Destroy);
+    eaDestroyEx(&info->activePowers, powerRef_DestroyCallback);
+    eaDestroyEx(&info->rechargeTimers, powerRechargeTimer_DestroyCallback);
 
     MP_FREE(PowerInfo, info);
 }
@@ -401,6 +412,11 @@ static void character_SendPowerRanges(Character *pchar, bool bSendAll, Packet *p
     pktSendBits(pak, 1, 0);
 }
 
+static void powerRef_DestroyAdapter(void* arg0)
+{
+    powerRef_Destroy((PowerRef*)arg0);
+}
+
 void entity_SendPowerInfoUpdate(Entity* e, Packet* pak)
 {
     int sendPowerInfoUpdate;
@@ -438,7 +454,7 @@ void entity_SendPowerInfoUpdate(Entity* e, Packet* pak)
 
                 bRedefine = true;
 
-                eaClearEx(&e->powerDefChange, powerRef_Destroy);
+                eaClearEx(&e->powerDefChange, powerRef_DestroyAdapter);
 
                 iSizeSets = eaSize(&e->pchar->ppPowerSets);
                 for(k=0; k<iSizeSets; k++)
@@ -520,7 +536,7 @@ void entity_SendPowerInfoUpdate(Entity* e, Packet* pak)
             }
         }
 
-        eaClearEx(&e->powerDefChange, powerRef_Destroy);
+        eaClearEx(&e->powerDefChange, powerRef_DestroyAdapter);
 
         character_SendPowerRanges(e->pchar, bRedefine, pak);
 
@@ -548,7 +564,7 @@ void entity_SendPowerInfoUpdate(Entity* e, Packet* pak)
                 pktSendBits(pak, 1, 0);
             }
         }
-        eaClearEx(&e->activeStatusChange, powerRef_Destroy);
+        eaClearEx(&e->activeStatusChange, powerRef_DestroyAdapter);
 
         iSize = eaSize(&e->enabledStatusChange);
         pktSendBitsPack(pak, 4, iSize);
@@ -567,7 +583,7 @@ void entity_SendPowerInfoUpdate(Entity* e, Packet* pak)
                 pktSendBits(pak, 1, 0);
             }
         }
-        eaClearEx(&e->enabledStatusChange, powerRef_Destroy);
+        eaClearEx(&e->enabledStatusChange, powerRef_DestroyAdapter);
 
         iSize = eaSize(&e->usageStatusChange);
         pktSendBitsPack(pak, 4, iSize);
@@ -589,7 +605,7 @@ void entity_SendPowerInfoUpdate(Entity* e, Packet* pak)
                 pktSendBits(pak, 1, 0);
             }
         }
-        eaClearEx(&e->usageStatusChange, powerRef_Destroy);
+        eaClearEx(&e->usageStatusChange, powerRef_DestroyAdapter);
 
         iSize = eaSize(&e->rechargeStatusChange);
         pktSendBitsPack(pak, 1, iSize);
@@ -613,7 +629,7 @@ void entity_SendPowerInfoUpdate(Entity* e, Packet* pak)
                 pktSendBits(pak, 1, 0);
             }
         }
-        eaClearEx(&e->rechargeStatusChange, powerRef_Destroy);
+        eaClearEx(&e->rechargeStatusChange, powerRef_DestroyAdapter);
 
         iSize = eaiSize(&e->inspirationStatusChange);
         pktSendIfSetBitsPack(pak, 4, iSize);

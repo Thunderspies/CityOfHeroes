@@ -24,7 +24,7 @@ extern CRITICAL_SECTION PigCritSec;
 
 #define DEFAULT_BUFFER_SIZE 4096
 
-typedef struct PigFileHandle {
+struct PigFileHandle {
     PigFileDescriptor data;
     U32 pos;
     U8 flags; //EOF - any others?
@@ -32,7 +32,7 @@ typedef struct PigFileHandle {
     U32 bufferlen; // Amount of data in the buffer
     U32 bufferpos; // Position in the file that the buffer begins at
     U32 last_used_time_stamp; // For freeing zipped data buffer
-} PigFileHandle;
+};
 
 #define MAX_FILES 2048
 int pig_file_handles_max=0;
@@ -49,7 +49,7 @@ void initPigFileHandles(void) {
     }
 }
 
-PigFileHandle *createPigFileHandle() {
+PigFileHandle *createPigFileHandle(void) {
     PigFileHandle *fh = NULL;
     int i;
 
@@ -78,7 +78,7 @@ PigFileHandle *createPigFileHandle() {
 }
 
 
-void *pig_fopen(const char *name,const char *how)
+PigFileHandle *pig_fopen(const char *name,const char *how)
 {
     PigFileDescriptor pfd;
     int pig_index = -1;
@@ -94,7 +94,7 @@ void *pig_fopen(const char *name,const char *how)
 
 static bool sPrintPiggFile = false;
 
-void *pig_fopen_pfd(PigFileDescriptor *pfd,const char *how) {
+PigFileHandle *pig_fopen_pfd(PigFileDescriptor *pfd,const char *how) {
     PigFileHandle *pfh;
 
     if (strcspn(how, "wWaA+")!=strlen(how)) {
@@ -128,7 +128,7 @@ void *pig_fopen_pfd(PigFileDescriptor *pfd,const char *how) {
         }
     }
 
-    return (void *)pfh;
+    return pfh;
 }
 
 

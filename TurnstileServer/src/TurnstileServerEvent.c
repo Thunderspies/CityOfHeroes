@@ -242,8 +242,10 @@ static void TurnstileFixupLeaderTeam(MissionInstance *instance)
         }
     }
 }
-static int groupSizeComparator(const QueueGroup **a, const QueueGroup **b ) 
-{ 
+static int groupSizeComparator(const void* aData, const void* bData)
+{
+    const QueueGroup ** a = (const QueueGroup **)aData;
+    const QueueGroup ** b = (const QueueGroup **)bData;
     devassert(a);
     devassert(b);
     devassert(*a);

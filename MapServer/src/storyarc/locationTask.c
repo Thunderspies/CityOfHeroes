@@ -134,6 +134,11 @@ static void VerifyMapLocations(void)
     }
 }
 
+static void VisitLocationDestroyAdapter(void* arg0)
+{
+    VisitLocationDestroy((VisitLocation*)arg0);
+}
+
 void VisitLocationLoad(void)
 {
     GroupDefTraverser traverser = {0};
@@ -143,7 +148,7 @@ void VisitLocationLoad(void)
     // If we're doing a reload, clear out old data first.
     if(visitLocations)
     {
-        eaClearEx(&visitLocations, VisitLocationDestroy);
+        eaClearEx(&visitLocations, VisitLocationDestroyAdapter);
         eaSetSize(&visitLocations, 0);
     }
     else

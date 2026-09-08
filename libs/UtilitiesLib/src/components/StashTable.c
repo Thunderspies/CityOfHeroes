@@ -1,3 +1,4 @@
+#define STASH_TABLE_IMPL
 
 #include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/components/StringTable.h"
@@ -412,7 +413,7 @@ void stashTableMerge(StashTableImp* pDestinationTable, const StashTableImp* pSou
     assert( keyType == pDestinationTable->eKeyType );
 
     stashGetIterator(cpp_const_cast(StashTable)(pSourceTable), &iter);
-    while (stashGetNextElement(&iter, &(StashElement)pElement))
+	while (stashGetNextElement(&iter, &pElement))
     {
         bool bNoCollision = false;
 
@@ -766,41 +767,42 @@ void stashGetIterator(StashTableImp* pTable, StashTableIterator* pIter)
 
 void stashGetIteratorConst(cStashTable pTable, cStashTableIterator* pIter)
 {
-    stashGetIterator(cpp_const_cast(StashTable)(pTable), pIter);
+	pIter->pTable = pTable;
+	pIter->uiIndex = 0;
 }
 
-bool stashGetNextElement(StashTableIterator* pIter, StashElementImp** ppElem)
+static cStashElement stashNextElement(cStashTable table, U32 *index)
 {
-    U32 uiCurrentIndex;
-    StashTableImp* pTable = pIter->pTable;
-    StashElementImp* pElement;
+	devassert(table);
+	if (!table)
+		return NULL;
 
-    devassert(pTable);
-    if (!pTable)
-        return false;
-
-    assert(!pTable->bReadOnly);
-
-    // Look through the table starting at the index specified by the iterator.
-    for(uiCurrentIndex = pIter->uiIndex; uiCurrentIndex < pTable->uiMaxSize; ++uiCurrentIndex)
-    {
-        pElement = &pTable->pStorage[uiCurrentIndex];
-
-        // If we have found an non-empty, non-deleted element...
-        if (!slotEmpty(pElement) && !slotDeleted(pElement))
-        {
-            pIter->uiIndex = uiCurrentIndex + 1;
-            if (ppElem)
-                *ppElem = pElement;
-            return true;
-        }
-    }
-    return false;
+	for (U32 i = *index; i < table->uiMaxSize; ++i) {
+		cStashElement element = &table->pStorage[i];
+		if (!slotEmpty(element) && !slotDeleted(element)) {
+			*index = i + 1;
+			return element;
+		}
+	}
+	return NULL;
 }
 
-bool stashGetNextElementConst(cStashTableIterator* pIter, cStashElement* ppElem)
+bool stashGetNextElement(StashTableIterator *iter, StashElement *out)
 {
-    return stashGetNextElement(pIter, cpp_const_cast(StashElement*)(ppElem));
+	if (iter->pTable)
+		assert(!iter->pTable->bReadOnly);
+	cStashElement element = stashNextElement(iter->pTable, &iter->uiIndex);
+	if (element && out)
+		*out = (StashElement)element;
+	return element != NULL;
+}
+
+bool stashGetNextElementConst(cStashTableIterator *iter, cStashElement *out)
+{
+	cStashElement element = stashNextElement(iter->pTable, &iter->uiIndex);
+	if (element && out)
+		*out = element;
+	return element != NULL;
 }
 
 void stashForEachElement(StashTableImp* pTable, StashElementProcessor proc)
@@ -822,7 +824,17 @@ void stashForEachElement(StashTableImp* pTable, StashElementProcessor proc)
 
 void stashForEachElementConst(cStashTable pTable, cStashElementProcessor proc)
 {
-    stashForEachElement(cpp_const_cast(StashTable)(pTable), proc);
+	cStashTableIterator iter;
+    cStashElement elem;
+
+    if (!pTable)
+        return;
+	stashGetIteratorConst(pTable, &iter);
+    while (stashGetNextElementConst(&iter, &elem))
+    {
+        if (!proc(elem))
+            return;
+    }
 }
 
 void stashForEachElementEx(StashTableImp* pTable, StashElementProcessorEx proc, void* userdata)
@@ -869,8 +881,8 @@ static bool stashFindIndexByKeyInternal(const StashTableImp* pTable, StashKey ke
         break;
     case StashKeyTypeInts:
         {
-            U32 i = PTR_TO_U32(key.pKey);
-            uiHashValue = burtlehash2(&i, 1, DEFAULT_HASH_SEED);
+			ub4 i = PTR_TO_U32(key.pKey);
+			uiHashValue = burtlehash2(&i, 1, DEFAULT_HASH_SEED);
         }
         break;
     case StashKeyTypeFixedSize:
@@ -1294,7 +1306,8 @@ static bool stashRemoveValueInternal(StashTableImp* pTable, StashKey key, U32 ui
     }
     if ( pValue )
         pValue->pValue = pTable->pStorage[uiStorageIndex].value.pValue;
-    pTable->pStorage[uiStorageIndex].value.pValue = STASH_TABLE_DELETED_SLOT_VALUE;
+	pTable->pStorage[uiStorageIndex].value.pValue =
+		U32_TO_PTR(STASH_TABLE_DELETED_SLOT_VALUE);
     pTable->uiValidValues--;
     if ( pTable->bDeepCopyKeys )
     {
@@ -1459,7 +1472,7 @@ bool stashFindPointerConst(const StashTableImp* pTable, const void* pKey, const 
 void* stashFindPointerReturnPointer(StashTableImp* table, const void* pKey) 
 {
     void* pResult;
-    if ( table && stashFindPointerConst((cStashTable)table, pKey, &pResult) )
+	if (table && stashFindPointerConst(table, pKey, (const void**)&pResult))
         return pResult;
     return NULL;
 }

@@ -1883,18 +1883,23 @@ static void freeFunc(char *str)
 {
     free(str);
 }
+static void freeFuncAdapter(void* arg0)
+{
+    freeFunc((char *)arg0);
+}
+
 static void loadProgramCacheReset(bool shouldDoCaching)
 {
     lpc_enabled = shouldDoCaching;
     if (lpc_enabled) {
         if (lpc_table) {
-            stashTableClearEx(lpc_table, NULL, freeFunc);
+            stashTableClearEx(lpc_table, NULL, freeFuncAdapter);
         } else {
             lpc_table = stashTableCreateWithStringKeys(16, StashDefault|StashDeepCopyKeys);
         }
     } else {
         if (lpc_table) {
-            stashTableDestroyEx(lpc_table, NULL, freeFunc);
+            stashTableDestroyEx(lpc_table, NULL, freeFuncAdapter);
             lpc_table = NULL;
         }
     }

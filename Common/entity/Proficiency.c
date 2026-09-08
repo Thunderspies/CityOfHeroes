@@ -78,8 +78,9 @@ TokenizerParseInfo ParseProficiencyDictionary[] =
 //------------------------------------------------------------
 //  create the hashes for the proficiencies
 //----------------------------------------------------------
-bool proficiency_FinalProcess(TokenizerParseInfo pti[], ProficiencyDictionary *pdict, bool shared_memory)
+bool proficiency_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    ProficiencyDictionary * pdict = (ProficiencyDictionary *)structptr;
     if( verify( pdict ))
     {
         genericinvdict_CreateHashes((GenericInvDictionary*)pdict, proficiency_GetAttribs(), shared_memory);

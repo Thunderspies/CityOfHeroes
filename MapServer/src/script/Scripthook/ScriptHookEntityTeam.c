@@ -600,6 +600,11 @@ ENTITY GetPlayerTeamFromPlayer(ENTITY player)
     return TEAM_NONE;
 }
 
+static void damageTrackerDestroyAdapter(void* arg0)
+{
+    damageTrackerDestroy((DamageTracker*)arg0);
+}
+
 void Kill(TEAM team, int giveKillCredit )
 {
     int i, numents = 0;
@@ -612,7 +617,7 @@ void Kill(TEAM team, int giveKillCredit )
             // Deliver fatal blow and let dying animation play etc.
             e->pchar->attrCur.fHitPoints = -999999;
             if( !giveKillCredit )
-                eaClearEx(&e->who_damaged_me, damageTrackerDestroy);
+                eaClearEx(&e->who_damaged_me, damageTrackerDestroyAdapter);
         }
         else
         {

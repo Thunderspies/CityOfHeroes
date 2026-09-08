@@ -708,7 +708,7 @@ int gmeshSplitTri(GMesh *mesh, const Vec4 plane, int tri_idx)
     return 1;
 }
 
-void gmeshSortTrisByTexID(GMesh *mesh, int (*cmp) (int *, int *))
+void gmeshSortTrisByTexID(GMesh *mesh, int (*cmp) (const void *, const void *))
 {
     int        *temp_ids,tc=0,i,j,tricount=0;
     GTriIdx    *temp_tris;
@@ -727,7 +727,7 @@ void gmeshSortTrisByTexID(GMesh *mesh, int (*cmp) (int *, int *))
     }
 
     if (cmp)
-        qsort(temp_ids,tc,sizeof(int),(int (*) (const void *, const void *))cmp);
+        qsort(temp_ids,tc,sizeof(int),cmp);
 
     for(i=0;i<tc;i++)
     {

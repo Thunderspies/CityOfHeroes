@@ -2877,11 +2877,17 @@ static int cmpLogicalName(const ContactDef **va,const ContactDef **vb)
     return x;
 }
 
-static int comparePowerCats( const PowerCategory ** p1, const PowerCategory **p2 ){ return stricmp( (*p1)->pchName, (*p2)->pchName ); }
-static int comparePowerSets( const BasePowerSet ** p1, const BasePowerSet **p2 ){ return stricmp( (*p1)->pchName, (*p2)->pchName ); }
+static int comparePowerCats(const void* p1Data, const void* p2Data){
+    const PowerCategory ** p1 = (const PowerCategory **)p1Data;
+    const PowerCategory ** p2 = (const PowerCategory **)p2Data; return stricmp( (*p1)->pchName, (*p2)->pchName ); }
+static int comparePowerSets(const void* p1Data, const void* p2Data){
+    const BasePowerSet ** p1 = (const BasePowerSet **)p1Data;
+    const BasePowerSet ** p2 = (const BasePowerSet **)p2Data; return stricmp( (*p1)->pchName, (*p2)->pchName ); }
 
-static int cmpLocationName(const ContactDef **va,const ContactDef **vb)
+static int cmpLocationName(const void* vaData, const void* vbData)
 {
+    const ContactDef ** va = (const ContactDef **)vaData;
+    const ContactDef ** vb = (const ContactDef **)vbData;
     int x;
     char a[100];
     char b[100];
@@ -2898,6 +2904,12 @@ static int cmpLocationName(const ContactDef **va,const ContactDef **vb)
     if( !x )
         return cmpLogicalName(va, vb);
     return x;
+}
+
+static int cmpLogicalName(const ContactDef **va,const ContactDef **vb);
+static int cmpLogicalNameCallback(const void* arg0, const void* arg1)
+{
+    return cmpLogicalName((const ContactDef **)arg0, (const ContactDef **)arg1);
 }
 
 static showContactsAndMissions(Packet* pak, int sortByZone)
@@ -2919,7 +2931,7 @@ static showContactsAndMissions(Packet* pak, int sortByZone)
     if (sortByZone) 
         qsort((void**)sortedContacts,n,sizeof(void*),cmpLocationName);
     else
-        qsort((void**)sortedContacts,n,sizeof(void*),cmpLogicalName);
+        qsort((void**)sortedContacts,n,sizeof(void*),cmpLogicalNameCallback);
 
     currentLocation[0] = '\0';
     currentTipType = 0;

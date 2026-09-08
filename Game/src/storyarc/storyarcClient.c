@@ -35,6 +35,11 @@ void ClueReceive(StoryClue* clue, Packet* pak)
     clue->iconfile = strdup(s);
 }
 
+static void StoryClueDestroyAdapter(void* arg0)
+{
+    StoryClueDestroy((StoryClue*)arg0);
+}
+
 void ClueListReceive(Packet* pak)
 {
     int clueCount;
@@ -46,7 +51,7 @@ void ClueListReceive(Packet* pak)
     }
     else
     {
-        eaClearEx(&storyClues, StoryClueDestroy);
+        eaClearEx(&storyClues, StoryClueDestroyAdapter);
     }
 
     // How many clues are we receving?
@@ -76,7 +81,7 @@ void KeyClueListReceive(Packet* pak)
     }
     else
     {
-        eaClearEx(&keyClues, StoryClueDestroy);
+        eaClearEx(&keyClues, StoryClueDestroyAdapter);
     }
 
     // How many clues are we receving?

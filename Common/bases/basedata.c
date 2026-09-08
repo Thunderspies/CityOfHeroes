@@ -324,8 +324,9 @@ static const RoomCategory * basedate_findRoomCategory( char * pchName )
  * RoomDictFinalize
  *
  */
-static bool RoomTemplateDictFinalize(TokenizerParseInfo pti[], RoomTemplateDict *pRoomTemplateDict)
+static bool RoomTemplateDictFinalize(ParseTable* pti, void* structptr)
 {
+    RoomTemplateDict * pRoomTemplateDict = (RoomTemplateDict *)structptr;
     int i;
     int iNumRooms = eaSize(&pRoomTemplateDict->ppRooms);
     for(i=0; i<iNumRooms; i++)
@@ -433,8 +434,9 @@ static TokenizerParseInfo ParseDestroyUnusedDetail[] =
  * DetailDictPreprocess
  *
  */
-static bool DetailDictPreprocess(TokenizerParseInfo pti[], DetailDict *pDetailDict)
+static bool DetailDictPreprocess(ParseTable* pti, void* structptr)
 {
+    DetailDict * pDetailDict = (DetailDict *)structptr;
     int idx = 0;
     int j;
     int iNumDetails = eaSize(&pDetailDict->ppDetails);
@@ -553,8 +555,9 @@ static bool DetailDictPreprocess(TokenizerParseInfo pti[], DetailDict *pDetailDi
  * DetailDictPostprocess
  *
  */
-static bool DetailDictPostprocess(TokenizerParseInfo pti[], DetailDict *pDetailDict)
+static bool DetailDictPostprocess(ParseTable* pti, void* structptr)
 {
+    DetailDict * pDetailDict = (DetailDict *)structptr;
     int j;
     int idx = 0;
     int iNumDetails = eaSize(&pDetailDict->ppDetails);
@@ -673,8 +676,9 @@ const Detail ** baseTabList_get(const char * pchName)
  * DetailCategoryDictPostprocess
  *
  */
-static bool DetailCategoryDictPostprocess(TokenizerParseInfo pti[], DetailCategoryDict *pDetailDict)
+static bool DetailCategoryDictPostprocess(ParseTable* pti, void* structptr)
 {
+    DetailCategoryDict * pDetailDict = (DetailCategoryDict *)structptr;
     int i,idx=0;
     int iNumDetails = eaSize(&g_DetailDict.ppDetails);
 
@@ -695,8 +699,9 @@ static bool DetailCategoryDictPostprocess(TokenizerParseInfo pti[], DetailCatego
  * PlotDictFinalize
  *
  */
-static bool PlotDictFinalize(TokenizerParseInfo pti[], BasePlotDict *pPlotDict)
+static bool PlotDictFinalize(ParseTable* pti, void* structptr)
 {
+    BasePlotDict * pPlotDict = (BasePlotDict *)structptr;
     int i;
 
     for( i = eaSize(&pPlotDict->ppPlots)-1; i >= 0; i-- )
@@ -788,8 +793,9 @@ const Detail *basedata_GetDetailByName(const char *pch)
     return (const Detail *)ParserLinkFromString(&g_base_detailInfoLink, pch);
 }
 
-static bool basedetail_FinalProcess(ParseTable pti[], DetailDict * ddict, bool shared_memory)
+static bool basedetail_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    DetailDict * ddict = (DetailDict *)structptr;
     basedetail_CreateDetailInvHashes(ddict, shared_memory);
 
     if( !baseCreateTabLists(ddict, shared_memory) )

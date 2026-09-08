@@ -3809,7 +3809,9 @@ static void displayCrazyLoadCovering(){
     }
 }
 
-static int __cdecl compareConnTotal(const AStarConnectionInfo** i1p, const AStarConnectionInfo** i2p){
+static int __cdecl compareConnTotal(const void* i1pData, const void* i2pData){
+    const AStarConnectionInfo** i1p = (const AStarConnectionInfo**)i1pData;
+    const AStarConnectionInfo** i2p = (const AStarConnectionInfo**)i2pData;
     const AStarConnectionInfo* i1 = *i1p;
     const AStarConnectionInfo* i2 = *i2p;
     
@@ -3822,6 +3824,16 @@ static int __cdecl compareConnTotal(const AStarConnectionInfo** i1p, const AStar
     else{
         return 1;
     }
+}
+
+static void destroyAStarRecordingSetAdapter(void* arg0)
+{
+    destroyAStarRecordingSet((AStarRecordingSet*)arg0);
+}
+
+static void destroyAStarBeaconBlockAdapter(void* arg0)
+{
+    destroyAStarBeaconBlock((AStarBeaconBlock*)arg0);
 }
 
 void displayAStarRecording(){
@@ -4218,8 +4230,8 @@ void displayAStarRecording(){
         displayEntDebugInfoTextEnd();
 
         if(clear){
-            eaClearEx(&debug_state.aStarRecording.sets, destroyAStarRecordingSet);
-            eaClearEx(&debug_state.aStarRecording.blocks, destroyAStarBeaconBlock);
+            eaClearEx(&debug_state.aStarRecording.sets, destroyAStarRecordingSetAdapter);
+            eaClearEx(&debug_state.aStarRecording.blocks, destroyAStarBeaconBlockAdapter);
         }
     }
 }
@@ -5156,8 +5168,10 @@ static int gatherPhysicsRecordings(StashElement element){
     return 1;
 }
 
-static int compareRecordingName(const PhysicsRecording** rec1, const PhysicsRecording** rec2)
+static int compareRecordingName(const void* rec1Data, const void* rec2Data)
 {
+    const PhysicsRecording** rec1 = (const PhysicsRecording**)rec1Data;
+    const PhysicsRecording** rec2 = (const PhysicsRecording**)rec2Data;
     return stricmp((*rec1)->name, (*rec2)->name);
 }
 
@@ -5888,8 +5902,8 @@ void entDebugReceiveServerPerformanceUpdate(Packet* pak){
 void entDebugReceiveAStarRecording(Packet* pak){
     MP_CREATE(AStarRecordingSet, 100);
 
-    eaClearEx(&debug_state.aStarRecording.sets, destroyAStarRecordingSet);
-    eaClearEx(&debug_state.aStarRecording.blocks, destroyAStarBeaconBlock);
+    eaClearEx(&debug_state.aStarRecording.sets, destroyAStarRecordingSetAdapter);
+    eaClearEx(&debug_state.aStarRecording.blocks, destroyAStarBeaconBlockAdapter);
 
     while(pktGetBits(pak, 1)){
         AStarBeaconBlock* block = createAStarBeaconBlock();

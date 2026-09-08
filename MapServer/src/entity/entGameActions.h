@@ -58,7 +58,7 @@ void setRewardOnClick( Entity * e, const char * text );
 void setSayOnKillHero( Entity * e, const char * text );
 void addOnClickCondition( Entity *e, OnClickConditionType type, const char *condition, const char *say, const char *reward);
 void clearallOnClickCondition( Entity *e );
-void OnClickCondition_Destroy(OnClickCondition* cond);
+void OnClickCondition_Destroy(void* condData);
 bool OnClickCondition_Check(Entity *e, Entity *target, char **say, char **reward);
 void doHitStumble( Entity * e, F32 iAmt );
 

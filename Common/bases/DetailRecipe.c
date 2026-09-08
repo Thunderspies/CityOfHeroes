@@ -196,8 +196,9 @@ static EvalContext *s_pRecipeEval;
 //------------------------------------------------------------
 //
 //----------------------------------------------------------
-static bool RecipeDetailDictPreprocess(ParseTable pti[], DetailRecipeDict *pRecipeDict)
+static bool RecipeDetailDictPreprocess(ParseTable* pti, void* structptr)
 {
+    DetailRecipeDict * pRecipeDict = (DetailRecipeDict *)structptr;
     bool ret = true;
 
     // Validate Requires statements inside recipes
@@ -586,8 +587,9 @@ static bool detailrecipe_CreateSalvageComponentHash(DetailRecipeDict *pdict, boo
 //------------------------------------------------------------
 // init the salvage table
 //----------------------------------------------------------
-static bool detailrecipe_FinalProcess(ParseTable pti[], DetailRecipeDict *pdict, bool shared_memory)
+static bool detailrecipe_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    DetailRecipeDict * pdict = (DetailRecipeDict *)structptr;
     bool ret = true;
     int i;
     int rarityCount = 0;

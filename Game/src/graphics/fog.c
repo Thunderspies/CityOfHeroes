@@ -72,11 +72,16 @@ static int fogFind_cb(GroupDefTraverser *def_trav)
     return 1;
 }
 
+static void destroyFogNodeEntryAdapter(void* arg0)
+{
+    destroyFogNodeEntry((FogNodeEntry *)arg0);
+}
+
 void fogGather(void)
 {
     GroupDefTraverser traverser={0};
 
-    eaClearEx(&fogNodes, destroyFogNodeEntry);
+    eaClearEx(&fogNodes, destroyFogNodeEntryAdapter);
 
     groupProcessDefExBegin(&traverser, &group_info, fogFind_cb);
     needsRefresh=true;

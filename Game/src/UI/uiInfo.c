@@ -429,8 +429,10 @@ void info_addBadges( Packet * pak )
         pktGetBits(pak, 32); // eat data for now, may use later
 }
 
-static int info_addSalvageDrops_cmp(const SalvageItem **a, const SalvageItem **b)
+static int info_addSalvageDrops_cmp(const void* aData, const void* bData)
 {
+    const SalvageItem ** a = (const SalvageItem **)aData;
+    const SalvageItem ** b = (const SalvageItem **)bData;
     if((*a)->rarity != (*b)->rarity)
         return (*a)->rarity - (*b)->rarity;
     else

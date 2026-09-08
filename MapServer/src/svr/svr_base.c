@@ -259,6 +259,11 @@ static void destroyClientPacketLog(ClientPacketLog* log){
     free(log);
 }
 
+static void destroyClientPacketLogAdapter(void* arg0)
+{
+    destroyClientPacketLog((ClientPacketLog*)arg0);
+}
+
 void clientPacketLogSetEnabled(int on, int dbID){
     if(on > 0){
         clientPacketLogEnabled = 1;
@@ -284,7 +289,7 @@ void clientPacketLogSetEnabled(int on, int dbID){
             }else{
                 clientPacketLogEnabled = 0;
 
-                stashTableDestroyEx(dbIDToPacketLogTable, NULL, destroyClientPacketLog);
+                stashTableDestroyEx(dbIDToPacketLogTable, NULL, destroyClientPacketLogAdapter);
                 dbIDToPacketLogTable = 0;
             }
         }
@@ -437,7 +442,8 @@ void clientSubPacketLogEnd(int index, void* indexParam){
     }
 }
 
-static int gatherDBIDs(int** dbIDs, StashElement element){
+static int gatherDBIDs(void* dbIDsData, StashElement element){
+    int** dbIDs = (int**)dbIDsData;
     int iKey = stashElementGetIntKey(element);
     if(iKey) {
         eaiPush(dbIDs, iKey);

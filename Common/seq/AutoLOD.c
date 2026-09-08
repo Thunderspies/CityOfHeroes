@@ -73,8 +73,9 @@ AutoLOD *dupAutoLOD(AutoLOD *lod)
     return new_lod;
 }
 
-void freeAutoLOD(AutoLOD *lod)
+void freeAutoLOD(void* lodData)
 {
+    AutoLOD * lod = (AutoLOD *)lodData;
     if (lod->lod_modelname)
         ParserFreeString(lod->lod_modelname);
     lod->lod_modelname = 0;

@@ -1341,7 +1341,9 @@ static void getAreaBeaconPos(BeaconGenerateChunk* chunk, BeaconGenerateColumnAre
     pos[1] += 2;
 }
 
-static S32 __cdecl compareEdgeYaws(const BeaconGenerateEdgeNode** n1p, const BeaconGenerateEdgeNode** n2p){
+static S32 __cdecl compareEdgeYaws(const void* n1pData, const void* n2pData){
+    const BeaconGenerateEdgeNode** n1p = (const BeaconGenerateEdgeNode**)n1pData;
+    const BeaconGenerateEdgeNode** n2p = (const BeaconGenerateEdgeNode**)n2pData;
     const BeaconGenerateEdgeNode* n1 = *n1p;
     const BeaconGenerateEdgeNode* n2 = *n2p;
     
@@ -1927,7 +1929,9 @@ static void addFlatAreasToChunkColumns(BeaconGenerateChunk* chunk, BeaconGenerat
     }
 }
 
-static S32 __cdecl compareEdgeDistance(const BeaconGenerateColumnArea** a1p, const BeaconGenerateColumnArea** a2p){
+static S32 __cdecl compareEdgeDistance(const void* a1pData, const void* a2pData){
+    const BeaconGenerateColumnArea** a1p = (const BeaconGenerateColumnArea**)a1pData;
+    const BeaconGenerateColumnArea** a2p = (const BeaconGenerateColumnArea**)a2pData;
     const BeaconGenerateBeaconingInfo* b1 = (*a1p)->beacon;
     const BeaconGenerateBeaconingInfo* b2 = (*a2p)->beacon;
     
@@ -2811,7 +2815,9 @@ static BeaconDiskSwapBlock* getBlockWithMostInMemory(S32* outCount){
     return best;
 }
 
-static S32 __cdecl compareAreaYMin(const BeaconGenerateColumnArea** a1p, const BeaconGenerateColumnArea** a2p){
+static S32 __cdecl compareAreaYMin(const void* a1pData, const void* a2pData){
+    const BeaconGenerateColumnArea** a1p = (const BeaconGenerateColumnArea**)a1pData;
+    const BeaconGenerateColumnArea** a2p = (const BeaconGenerateColumnArea**)a2pData;
     const BeaconGenerateColumnArea* a1 = *a1p;
     const BeaconGenerateColumnArea* a2 = *a2p;
     
@@ -2979,7 +2985,9 @@ static void beaconPropagateLegalBlocks(){
 }
 
 
-static S32 __cdecl compareVec3Z(const Vec3 v1, const Vec3 v2){
+static S32 __cdecl compareVec3Z(const void* v1Data, const void* v2Data){
+    const F32* v1 = (const F32*)v1Data;
+    const F32* v2 = (const F32*)v2Data;
     if(vecZ(v1) < vecZ(v2))
         return -1;
     else if(vecZ(v1) > vecZ(v2))

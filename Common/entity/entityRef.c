@@ -17,8 +17,8 @@ typedef union
 {
     struct
     {
-        unsigned long owner;
-        unsigned long UID;
+        U32 owner;
+        U32 UID;
     };
     EntityRef ref;
 } EntityRefImp;
@@ -58,8 +58,6 @@ EntityRef erGetRef(Entity* ent)
     return ref.ref;
 }
 
-#pragma warning(push)
-#pragma warning(disable:4028) // parameter differs from declaration
 /**********************************************************************func*
  * Function erGetEnt()
  *  Given an entity reference, this function returns the corresponding
@@ -69,8 +67,10 @@ EntityRef erGetRef(Entity* ent)
  *      Valid Entity* - if the entity still exists.
  *      NULL - the entity no longer exists.
  */
-Entity* erGetEnt(EntityRefImp ref)
+Entity* erGetEnt(EntityRef value)
 {
+    EntityRefImp ref;
+    ref.ref = value;
     if(ref.owner != 0
         && ref.owner < (U32)entities_max
         && entity_state[ref.owner] & ENTITY_IN_USE
@@ -102,8 +102,10 @@ Entity* erGetEnt(EntityRefImp ref)
  * erGetEntID
  *
  */
-S32 erGetEntID(EntityRefImp ref)
+S32 erGetEntID(EntityRef value)
 {
+    EntityRefImp ref;
+    ref.ref = value;
     if(ref.owner != 0
         && ref.owner < (U32)entities_max
         && entity_state[ref.owner] & ENTITY_IN_USE
@@ -142,8 +144,10 @@ S32 erGetEntID(EntityRefImp ref)
  *      0 if not a player
  *
  */
-int erGetDbId(EntityRefImp ref)
+S32 erGetDbId(EntityRef value)
 {
+    EntityRefImp ref;
+    ref.ref = value;
     if(ref.UID & DB_ID_BIT)
     {
         return ref.UID & ~DB_ID_BIT;
@@ -189,11 +193,10 @@ char* erGetRefString(Entity* ent)
  */
 Entity* erGetEntFromString(const char* refstring)
 {
-    EntityRefImp er = {0};
-    sscanf(refstring, "%I64x", &er.ref);
+    EntityRef er = 0;
+    sscanf(refstring, "%I64x", &er);
     return erGetEnt(er);
 }
 
-#pragma warning(pop)
 
 /* End of File */

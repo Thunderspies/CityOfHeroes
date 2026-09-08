@@ -945,9 +945,10 @@ static FileScanAction queuePendingProcess(char* dir, struct _finddata32_t* data)
     return FSA_NO_EXPLORE_DIRECTORY;
 }
 
-static S32 __cdecl compareNodeTimestamps(    const BeaconProcessQueueNode** n1,
-                                            const BeaconProcessQueueNode** n2)
+static S32 __cdecl compareNodeTimestamps(const void* n1Data, const void* n2Data)
 {
+    const BeaconProcessQueueNode** n1 = (const BeaconProcessQueueNode**)n1Data;
+    const BeaconProcessQueueNode** n2 = (const BeaconProcessQueueNode**)n2Data;
     U32 t1 = (*n1)->timeStamp;
     U32 t2 = (*n2)->timeStamp;
     

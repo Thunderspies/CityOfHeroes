@@ -586,8 +586,9 @@ void playerCreatedStoryArc_GenerateData()
 
 }
 
-bool MMRewardsPostProcess(ParseTable pti[], MMRewards *rewards)
+bool MMRewardsPostProcess(ParseTable* pti, void* structptr)
 {
+    MMRewards * rewards = (MMRewards *)structptr;
     if (rewards->ppBonus1Requires)
         chareval_Validate(rewards->ppBonus1Requires, "PC_Rewards.txt");
     if (rewards->ppBonus2Requires)

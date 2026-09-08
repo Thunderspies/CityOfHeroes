@@ -115,21 +115,32 @@ void pktDequeueDestroy(Packet *pak) {
     pktDestroy(pak);
 }
 
-void pktDequeueDestroyAssertInSendqueue(Packet *pak) {
+static void pktDequeueDestroyAssertInSendqueue(void *entry)
+{
+	Packet *pak = entry;
     assert(pak->inSendQueue);
     pak->inRetransmitQueue = 0;
     pak->inSendQueue = 0;
     pktDestroy(pak);
 }
 
-void pktDestroyIfNotInSendqueue(Packet *pak) {
+static void pktDestroyIfNotInSendqueue(void *entry)
+{
+	Packet *pak = entry;
     if (!pak->inSendQueue) {
         pktDestroy(pak);
     }
 }
 
-void arrayOfPacketsDestory(Array* array) {
-    destroyArrayEx(array, pktDestroy);
+static void pktDestroyCallback(void* arg0)
+{
+    pktDestroy((Packet*)arg0);
+}
+
+static void arrayOfPacketsDestory(void *entry)
+{
+	Array *array = entry;
+    destroyArrayEx(array, pktDestroyCallback);
 }
 
 // FIXME!!!
@@ -163,7 +174,7 @@ void clearNetLink(NetLink* link){
     // Cleanup all the dynamic storage in the link.
     // Note that the packets held all dynamic storage should be freed also.
     if(link->receiveQueue)
-        destroyQueueEx(link->receiveQueue, pktDestroy);
+		destroyQueueEx(link->receiveQueue, pktDestroyCallback);
 
     // Check to verify all packets in retransmitQueue are also in reliablePacketsArray
     if(link->retransmitQueue){
@@ -196,7 +207,8 @@ void clearNetLink(NetLink* link){
         destroyQueueEx(link->sendQueue2, pktDequeueDestroyAssertInSendqueue);
 
     if(link->receivedPacketStorage.storage)
-        destroyArrayPartialEx(&link->receivedPacketStorage, pktDestroy);
+		destroyArrayPartialEx(&link->receivedPacketStorage,
+			pktDestroyCallback);
 
     if(link->receivedPacketID)
         destroySimpleSet(link->receivedPacketID);

@@ -98,18 +98,19 @@ int svrMonDelCallback(NetLink *link)
     destructor_tpi = NULL;
     for (i=0; i<MAX_CONTAINER_TYPES; i++) {
         if (client->htSentIds[i]) {
-            stashTableDestroyEx(client->htSentIds[i], NULL, (Destructor)destructor);
+            stashTableDestroyEx(client->htSentIds[i], NULL, destructor);
             client->htSentIds[i] = NULL;
         }
     }
-    stashTableDestroyEx(client->htTemp, NULL, (Destructor)destructor);
+    stashTableDestroyEx(client->htTemp, NULL, destructor);
 
     return 1;
 }
 
 
-static int sendDeleteProcessor(Packet* pak, StashElement element)
+static int sendDeleteProcessor(void* pakData, StashElement element)
 {
+    Packet* pak = (Packet*)pakData;
     DbContainer *con = stashElementGetPointer(element);
 
     pktSendBitsPack(pak, 1, con->id);
@@ -151,7 +152,7 @@ void svrMonSendList(SvrMonClientLink *client, ContainerType type, int size, int 
 
     if (full_update) {
         destructor_tpi = tpi;
-        stashTableClearEx(client->htSentIds[type], NULL, (Destructor)destructor);
+        stashTableClearEx(client->htSentIds[type], NULL, destructor);
     }
 
     assert(stashGetValidElementCount(client->htTemp)==0);
@@ -192,7 +193,7 @@ void svrMonSendList(SvrMonClientLink *client, ContainerType type, int size, int 
 
     // Remove all from htSentIds, and set it to htTemp
     destructor_tpi = tpi;
-    stashTableClearEx(client->htSentIds[type], NULL, (Destructor)destructor);
+    stashTableClearEx(client->htSentIds[type], NULL, destructor);
     client->htTemp = client->htSentIds[type];
     client->htSentIds[type] = htSentThisFrame;
 

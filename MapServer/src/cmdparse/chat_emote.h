@@ -72,7 +72,7 @@ TokenizerParseInfo ParseEmoteAnims[] =
 
 extern SHARED_MEMORY EmoteAnims g_EmoteAnims;
 
-bool EmoteAnimFinalProcess(ParseTable pti[], EmoteAnims* anims, bool shared_memory);
+bool EmoteAnimFinalProcess(ParseTable* pti, void* structptr, bool shared_memory);
 
 //-------------------------------------------------------------------------------------
 // costume change emotes

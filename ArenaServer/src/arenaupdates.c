@@ -320,6 +320,11 @@ int ecup_Iter(ArenaEvent* event)
     }
     return 1;
 }
+static void ArenaRefDestroyCallback(void* arg0)
+{
+    ArenaRefDestroy((ArenaRef*)arg0);
+}
+
 void ClientUpdateParticipant(ArenaClientList* list, int dbid, int fullupdate)
 {
     Packet* pak;
@@ -346,7 +351,7 @@ void ClientUpdateParticipant(ArenaClientList* list, int dbid, int fullupdate)
             for (i = 0; i < n; i++)
                 ClientUpdateEvent(list, ecup_refs[i]->eventid);
     }
-    eaDestroyEx(&ecup_refs, ArenaRefDestroy);
+    eaDestroyEx(&ecup_refs, ArenaRefDestroyCallback);
 }
 
 void ClientUpdatePlayer(int dbid)

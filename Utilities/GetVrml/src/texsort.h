@@ -20,7 +20,7 @@ extern int        tex_name_count;
 void texLoadAll(void);
 void texNameClear(int addwhite);
 int texNameAdd(char *name);
-int cmpTex(int *a,int *b);
+int cmpTex(const void *aData, const void *bData);
 void reorderTriIdxsByTex(GMesh *mesh);
 void texPrintUsage(void);
 // End mkproto

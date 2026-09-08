@@ -184,8 +184,10 @@ __forceinline static int compareEdges2(const SEdge *e1, const SEdge *e2)
     return e1->cost > e2->cost;
 }
 
-static int compareEdges(const SEdge **e1, const SEdge **e2)
+static int compareEdges(const void* e1Data, const void* e2Data)
 {
+    const SEdge ** e1 = (const SEdge **)e1Data;
+    const SEdge ** e2 = (const SEdge **)e2Data;
     return compareEdges2(*e1, *e2);
 }
 
@@ -1060,13 +1062,31 @@ static TriCutType *createTriCut(GMesh *mesh, Vec3 min, Vec3 max, int scale_by_ar
     return tc;
 }
 
+__forceinline static void freeIEdge(IEdge *e);
+static void freeIEdgeCallback(void* arg0)
+{
+    freeIEdge((IEdge *)arg0);
+}
+
+__forceinline static void freeSEdge(SEdge *e);
+static void freeSEdgeCallback(void* arg0)
+{
+    freeSEdge((SEdge *)arg0);
+}
+
+__forceinline static void freeSVert(SVertInfo *svi);
+static void freeSVertCallback(void* arg0)
+{
+    freeSVert((SVertInfo *)arg0);
+}
+
 static void freeTriCut(TriCutType *tc)
 {
     int i;
 
-    eaDestroyEx(&tc->internal_edges, freeIEdge);
-    eaDestroyEx(&tc->super_edges, freeSEdge);
-    eaDestroyEx(&tc->svertinfos, freeSVert);
+    eaDestroyEx(&tc->internal_edges, freeIEdgeCallback);
+    eaDestroyEx(&tc->super_edges, freeSEdgeCallback);
+    eaDestroyEx(&tc->svertinfos, freeSVertCallback);
 
     for (i = 0; i < tc->mesh->vert_count; i++)
     {
@@ -1490,8 +1510,9 @@ static void addVertChange(VertRemaps *vremaps, int vertidx, Vec3 newpos, Vec2 ne
     eafPush(&vremaps->tex1s, newtex1[1]);
 }
 
-static void freeReduceInstruction(ReduceInstruction *ri)
+static void freeReduceInstruction(void* riData)
 {
+    ReduceInstruction * ri = (ReduceInstruction *)riData;
     eaiDestroy(&ri->vremaps.remaps);
     eaiDestroy(&ri->vremaps.remap_tris);
     eaiDestroy(&ri->vremaps.changes);

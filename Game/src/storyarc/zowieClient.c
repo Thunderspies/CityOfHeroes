@@ -114,6 +114,11 @@ static void clientZowie_Destroy(Zowie *pZowie)
 * zowie_Load
 *
 */
+static void clientZowie_DestroyAdapter(void* arg0)
+{
+    clientZowie_Destroy((Zowie *)arg0);
+}
+
 void clientZowie_Load()
 {
     GroupDefTraverser traverser = {0};
@@ -122,7 +127,7 @@ void clientZowie_Load()
     // If we're doing a reload, clear out old data first.
     if (g_Zowies)
     {
-        eaClearEx(&g_Zowies, clientZowie_Destroy);
+        eaClearEx(&g_Zowies, clientZowie_DestroyAdapter);
         eaSetSize(&g_Zowies, 0);
     }
     else

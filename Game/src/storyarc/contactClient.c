@@ -232,6 +232,11 @@ void ContactStatusListReceive(Packet* pak)
 }
 
 // Always does a full send
+static void ContactStatusDestroyAdapter(void* arg0)
+{
+    ContactStatusDestroy((ContactStatus*)arg0);
+}
+
 void ContactStatusAccessibleListReceive(Packet *pak)
 {
     int contactIndex, contactCount;
@@ -242,7 +247,7 @@ void ContactStatusAccessibleListReceive(Packet *pak)
     }
     else
     {
-        eaClearEx(&contactsAccessibleNow, ContactStatusDestroy);
+        eaClearEx(&contactsAccessibleNow, ContactStatusDestroyAdapter);
     }
 
     // How many incoming contact status updates are there?
@@ -800,6 +805,12 @@ static TaskStatusSet* TaskStatusSetCreate()
     return calloc(sizeof(TaskStatusSet), 1);
 }
 
+void TaskStatusDestroy(TaskStatus* task);
+static void TaskStatusDestroyCallback(void* arg0)
+{
+    TaskStatusDestroy((TaskStatus*)arg0);
+}
+
 static void TaskStatusSetDestroy(TaskStatusSet* set)
 {
     if(!set)
@@ -807,7 +818,7 @@ static void TaskStatusSetDestroy(TaskStatusSet* set)
 
     if(set->list)
     {
-        eaDestroyEx(&set->list, TaskStatusDestroy);
+        eaDestroyEx(&set->list, TaskStatusDestroyCallback);
     }
 
     free(set);
@@ -849,8 +860,10 @@ TaskStatusSet* TaskStatusSetGetPlayer()
     return set;
 }
 
-static int taskStatusSetCompare(const TaskStatusSet** set1, const TaskStatusSet** set2)
+static int taskStatusSetCompare(const void* set1Data, const void* set2Data)
 {
+    const TaskStatusSet** set1 = (const TaskStatusSet**)set1Data;
+    const TaskStatusSet** set2 = (const TaskStatusSet**)set2Data;
     Entity* player = playerPtr();
     Teamup* team;
     int i;

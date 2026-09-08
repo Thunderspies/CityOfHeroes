@@ -553,7 +553,7 @@ void MultiValReferenceString(MultiVal* dst, const char* str)
     dst->str        = str;
 }
 
-void MultiValReferencePointer(MultiVal* dst, const void* ptr)
+void MultiValReferencePointer(MultiVal* dst, void* ptr)
 {
     MultiValClear(dst);
     dst->type        = MULTI_NP_POINTER;
@@ -807,9 +807,14 @@ MultiValArray* MultiValArrayCreate()
     return calloc(sizeof(MultiValArray*), 1);
 }
 
+static void MultiValDestroyCallback(void* value)
+{
+    MultiValDestroy((MultiVal*)value);
+}
+
 void MultiValArrayClear(MultiValArray* array)
 {
-    eaClearEx(array, MultiValDestroy);
+    eaClearEx(array, MultiValDestroyCallback);
 }
 
 void MultiValArrayDestroy(MultiValArray* array)

@@ -287,8 +287,10 @@ void character_DestroyAllArenaPets( Character * pchar )
 }
 
 // Sort first by power, then by pet number
-static int comparePetName(const PetName** ppet1, const PetName** ppet2 )
+static int comparePetName(const void* ppet1Data, const void* ppet2Data)
 {
+    const PetName** ppet1 = (const PetName**)ppet1Data;
+    const PetName** ppet2 = (const PetName**)ppet2Data;
     int result = strcmp((*ppet1)->pchEntityDef,(*ppet2)->pchEntityDef);
     if (result) return result;
     else return (*ppet1)->petNumber-(*ppet2)->petNumber;

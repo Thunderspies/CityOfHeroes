@@ -17,8 +17,9 @@ MultiVal* MultiValCreate()
     return MP_ALLOC(MultiVal);
 }
 
-void MultiValDestroy(MultiVal* val)
+void MultiValDestroy(void* valData)
 {
+    MultiVal* val = (MultiVal*)valData;
     MP_FREE(MultiVal, val);
 }
 

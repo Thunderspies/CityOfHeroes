@@ -1736,13 +1736,17 @@ avsn2_exit:
 }
 
 
-static int cmpRandom(void *a, void *b)
+static int cmpRandom(const void* aData, const void* bData)
 {
+    const SortThing* a = (const SortThing*)aData;
+    const SortThing* b = (const SortThing*)bData;
     return rand()*3/(RAND_MAX+1) - 1;
 }
 
-static int cmpSortThingsType(SortThing *sta,SortThing *stb)
+static int cmpSortThingsType(const void* aData, const void* bData)
 {
+    const SortThing* sta = (const SortThing*)aData;
+    const SortThing* stb = (const SortThing*)bData;
     int t;
 
     t = sta->has_translucency - stb->has_translucency;
@@ -1768,13 +1772,17 @@ static int cmpSortThingsType(SortThing *sta,SortThing *stb)
     return sta->model - stb->model;
 }
 
-static int cmpSortThingsModel(SortThing *sta,SortThing *stb)
+static int cmpSortThingsModel(const void* aData, const void* bData)
 {
+    const SortThing* sta = (const SortThing*)aData;
+    const SortThing* stb = (const SortThing*)bData;
     return sta->model - stb->model;
 }
 
-static int cmpSortThingsShadows(SortThing *sta,SortThing *stb)
+static int cmpSortThingsShadows(const void* aData, const void* bData)
 {
+    const SortThing* sta = (const SortThing*)aData;
+    const SortThing* stb = (const SortThing*)bData;
     int t;
     
     // shadows will draw with either depth or depthalpha shader, depending
@@ -1854,8 +1862,10 @@ static int cmpGfxNodeBones(GfxNode *node1, GfxNode *node2)
 }
 
 //Notice that dist goes down negative z, so lower is farther
-static int cmpSortThingsDist(SortThing *sta,SortThing *stb)
+static int cmpSortThingsDist(const void* aData, const void* bData)
 {
+    const SortThing* sta = (const SortThing*)aData;
+    const SortThing* stb = (const SortThing*)bData;
     if (sta->modelSource == SORTTHING_GFXTREENODE && stb->modelSource == SORTTHING_GFXTREENODE && sta->gfxnode != stb->gfxnode && sta->gfxnode->seqHandle && sta->gfxnode->seqHandle == stb->gfxnode->seqHandle) {
         int ret;
         // sort by bone
@@ -1870,8 +1880,10 @@ static int cmpSortThingsDist(SortThing *sta,SortThing *stb)
     return (sta->dist > stb->dist) ? 1 : -1;
 }
 
-static int cmpSortThingsRevDist(SortThing *sta,SortThing *stb)
+static int cmpSortThingsRevDist(const void* aData, const void* bData)
 {
+    const SortThing* sta = (const SortThing*)aData;
+    const SortThing* stb = (const SortThing*)bData;
     if (sta->dist == stb->dist) {
         if (sta->alpha == stb->alpha)
             return cmpSortThingsType(sta, stb);
@@ -1970,14 +1982,14 @@ PERFINFO_AUTO_STOP();
 #define X_HEIGHT 10
 int xx;
 
-typedef int (*cmp_func_type)(SortThing *,SortThing *);
+typedef int (*cmp_func_type)(const void *, const void *);
 
 static void sortList(SortThing sortThings[], int sortThingCount, cmp_func_type cmp_func)
 {
     //assert(heapValidateAll());
     if( cmp_func && !GFX_DEBUG_TEST(game_state.perf, GFXDEBUG_PERF_SKIP_SORTING) )
-        qsortG( sortThings, sortThingCount, sizeof(SortThing), (int (*) (const void *, const void *)) cmp_func);
-    //qsort( sortThings, sortThingCount, sizeof(SortThing), (int (*) (const void *, const void *)) cmp_func);
+        qsortG( sortThings, sortThingCount, sizeof(SortThing), cmp_func);
+    //qsort( sortThings, sortThingCount, sizeof(SortThing), cmp_func);
 }
 
 static INLINEDBG int isFakedOpaque(Model *model)

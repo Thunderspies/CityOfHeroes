@@ -18,7 +18,7 @@
 #include "utilitieslib/utils/log.h"
 #include "utilitieslib/utils/utils.h"
 
-static int __cdecl cmpU32(U32* a,U32* b);
+static int __cdecl cmpU32(const void* aData, const void* bData);
 static int mergeSibs(Array* sibs, Packet **pak_dst);
 static int pktProcessAck(U32 id, NetLink *link, U32 timestamp);
 static void lnkAddSiblingPacket(NetLink* link, Packet* pak);
@@ -244,8 +244,10 @@ int pktMerge(NetLink* link,Packet** pak_dst)
  *
  *
  */
-int __cdecl cmpSib(const Packet **a, const Packet **b)
+int __cdecl cmpSib(const void* aData, const void* bData)
 {
+    const Packet ** a = (const Packet **)aData;
+    const Packet ** b = (const Packet **)bData;
     return (*a)->sib_partnum - (*b)->sib_partnum;
 }
 
@@ -383,6 +385,11 @@ int __cdecl cmpOrdered(const Packet **a, const Packet **b, const void *context)
  *    Add an ordered packet to the ordered packet storage. if this is the first packet expected
  *    put it in the receive queue.
  */
+static int cmpOrderedAdapter(const void* arg0, const void* arg1, const void* arg2)
+{
+    return cmpOrdered((const Packet **)arg0, (const Packet **)arg1, (const void *)arg2);
+}
+
 void lnkAddOrderedPacket(NetLink* link, Packet* pak)
 {
     // tcp is already ordered, so just add it.
@@ -396,7 +403,7 @@ void lnkAddOrderedPacket(NetLink* link, Packet* pak)
         int i;
         
         arrayPushBack(&link->orderedWaitingPaks, pak);
-        stableSort(link->orderedWaitingPaks.storage, link->orderedWaitingPaks.size, sizeof(pak), NULL, cmpOrdered );
+        stableSort(link->orderedWaitingPaks.storage, link->orderedWaitingPaks.size, sizeof(pak), NULL, cmpOrderedAdapter);
 
         for(i = 0; 
             i < link->orderedWaitingPaks.size 
@@ -552,8 +559,10 @@ void lnkSimulateNetworkConditions(NetLink* link, int lag, int lagVary, int packe
  *        <1 - "b" is greater.
  *
  */
-static int __cdecl cmpU32(U32* a,U32* b)
+static int __cdecl cmpU32(const void* aData, const void* bData)
 {
+    U32* a = (U32*)aData;
+    U32* b = (U32*)bData;
     return *a - *b;
 }
 
@@ -670,7 +679,7 @@ U32 pktWrap(Packet* pak_in, NetLink* link, BitStream* stream)
 
         // Sort all acks in increasing order.
         qsort(link->ids_toack,link->ack_count,sizeof(U32),
-            (int (__cdecl *) (const void *, const void *)) cmpU32);
+            cmpU32);
 
         // Count how many unique acks there are.
         uniqueAckCount = 1;                    // There is at least one unique ack.

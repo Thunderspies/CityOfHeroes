@@ -94,11 +94,16 @@ static char* rankNames[NUM_SG_RANKS] =
     "GM_Hidden"
 };
 
+static void destroySupergroupStatsCallback(void* arg0)
+{
+    destroySupergroupStats((SupergroupStats *)arg0);
+}
+
 void sgroup_clearStats( Entity* e )
 {
     if( e && e->sgStats )
     {
-        eaDestroyEx( &e->sgStats, destroySupergroupStats );
+        eaDestroyEx( &e->sgStats, destroySupergroupStatsCallback );
         //done in EArrayDestory: free( sg->stats );
         //done in EArrayDestory: sg->stats = 0;
     }
@@ -252,7 +257,7 @@ SupergroupStats ***findOrReplaceSgStat(int sg_id,SupergroupStats ***replace)
     {
         if (sgStatCache[i]->last_update + SGSTAT_REFRESH_SECONDS < timerSecondsSince2000())
         {
-            eaDestroyEx( &sgStatCache[i]->stats, destroySupergroupStats );
+            eaDestroyEx( &sgStatCache[i]->stats, destroySupergroupStatsCallback );
             eaRemove(&sgStatCache,i);
         }
         else if (sgStatCache[i]->sg_id == sg_id)
@@ -262,7 +267,7 @@ SupergroupStats ***findOrReplaceSgStat(int sg_id,SupergroupStats ***replace)
     {
         if (entry)
         {
-            eaDestroyEx(&entry->stats, destroySupergroupStats );
+            eaDestroyEx(&entry->stats, destroySupergroupStatsCallback );
             eaCopyEx(replace,&entry->stats,sizeof(SupergroupStats),createSupergroupStatsWrapper);
         }
         else

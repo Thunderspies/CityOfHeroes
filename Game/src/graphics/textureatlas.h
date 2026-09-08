@@ -5,6 +5,7 @@
 
 typedef struct PBuffer PBuffer;
 typedef struct BasicTexture BasicTexture;
+typedef struct TTFMCacheElement TTFMCacheElement;
 
 
 // a texture that is part of an atlas
@@ -41,7 +42,7 @@ void atlasDisplayStats(void);
 AtlasTex *atlasLoadTextureEx(const char *sprite_name, int dontUseSkin);
 AtlasTex *atlasLoadTexture(const char *sprite_name);
 
-AtlasTex *atlasGenTextureEx(U8 *src_bitmap, U32 width, U32 height, PixelType pixel_type, char *name, struct TTFMCacheElement *font_element);
+AtlasTex *atlasGenTextureEx(U8 *src_bitmap, U32 width, U32 height, PixelType pixel_type, char *name, TTFMCacheElement *font_element);
 static INLINEDBG AtlasTex *atlasGenTexture(U8 *src_bitmap, U32 width, U32 height, PixelType pixel_type, char *name) { return atlasGenTextureEx(src_bitmap, width, height, pixel_type, name, 0); }
 AtlasTex *atlasGenTextureFromBasic(BasicTexture *basic_texture, bool flipX, bool flipY);
 

@@ -131,8 +131,10 @@ static void initCombatMonitorCM()
 }
 
 
-static int compareCombatStats( const CombatMonitorStat *s1, const CombatMonitorStat *s2 )
+static int compareCombatStats(const void* s1Data, const void* s2Data)
 {
+    const CombatMonitorStat * s1 = (const CombatMonitorStat *)s1Data;
+    const CombatMonitorStat * s2 = (const CombatMonitorStat *)s2Data;
     if( s1->iKey && !s2->iKey ) 
         return -1;
     if( !s1->iKey && s2->iKey )

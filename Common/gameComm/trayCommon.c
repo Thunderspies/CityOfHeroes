@@ -122,10 +122,16 @@ Tray *tray_Create(void)
     return tray;
 }
 
+void trayobj_Destroy( TrayObj *item );
+static void trayobj_DestroyCallback(void* arg0)
+{
+    trayobj_Destroy((TrayObj *)arg0);
+}
+
 void tray_Destroy(Tray *tray)
 {
-    eaDestroyEx(&tray->internals->slot, trayobj_Destroy);
-    eaDestroyEx(&tray->internals->serverSlot, trayobj_Destroy);
+    eaDestroyEx(&tray->internals->slot, trayobj_DestroyCallback);
+    eaDestroyEx(&tray->internals->serverSlot, trayobj_DestroyCallback);
     MP_FREE(TrayInternals, tray->internals);
     MP_FREE(Tray, tray);
 }

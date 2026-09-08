@@ -209,6 +209,11 @@ void basedit_Clear()
 * baseedit_AddSGSwap
 *
 */
+static void deleteDefTexSwapAdapter(void* arg0)
+{
+    deleteDefTexSwap((DefTexSwap *)arg0);
+}
+
 void baseedit_AddSGSwap(GroupDef *def)
 {
     Color newcolors[2];
@@ -230,7 +235,7 @@ void baseedit_AddSGSwap(GroupDef *def)
         DefTexSwap *dts;
         char texName[128];
 
-        eaClearEx(&def->def_tex_swaps, deleteDefTexSwap);
+        eaClearEx(&def->def_tex_swaps, deleteDefTexSwapAdapter);
 
         if (sg->emblem[0] == '!')
         {
@@ -1754,8 +1759,10 @@ typedef struct PositionDist
 
 MP_DEFINE(PositionDist);
 
-static int comparePositionDist(const PositionDist** pd1, const PositionDist** pd2 )
+static int comparePositionDist(const void* pd1Data, const void* pd2Data)
 {
+    const PositionDist** pd1 = (const PositionDist**)pd1Data;
+    const PositionDist** pd2 = (const PositionDist**)pd2Data;
     if( ((*pd1)->dist) - ((*pd2)->dist) > 0.f )
         return 1;
     else

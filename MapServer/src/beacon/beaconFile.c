@@ -2165,6 +2165,12 @@ static S32 getIntProperty(GroupDef* def, char* propName){
     return propValue ? atoi(propValue) : 0;
 }
 
+static S32 __cdecl compareVec3(const Vec3 v1, const Vec3 v2);
+static int compareVec3Callback(const void* arg0, const void* arg1)
+{
+    return compareVec3((const F32*)arg0, (const F32*)arg1);
+}
+
 static S32 beaconCRCCallback(GroupDefTraverser* traverser){
     GroupDef*        def = traverser->def;
     Vec3*            parent_mat = traverser->mat;
@@ -2313,7 +2319,7 @@ static S32 beaconCRCCallback(GroupDefTraverser* traverser){
             copyApproxVec3(vert, crcTri.vert[j]);
         }
         
-        qsort(crcTri.vert, 3, sizeof(crcTri.vert[0]), compareVec3);
+        qsort(crcTri.vert, 3, sizeof(crcTri.vert[0]), compareVec3Callback);
         
         triCRC = freshCRC(&crcTri, sizeof(crcTri));
         
@@ -2327,7 +2333,9 @@ static S32 beaconCRCCallback(GroupDefTraverser* traverser){
     return 1;
 }
 
-static S32 __cdecl compareBasicBeacons(const CRCBasicBeacon* b1, const CRCBasicBeacon* b2){
+static S32 __cdecl compareBasicBeacons(const void* b1Data, const void* b2Data){
+    const CRCBasicBeacon* b1 = (const CRCBasicBeacon*)b1Data;
+    const CRCBasicBeacon* b2 = (const CRCBasicBeacon*)b2Data;
     return compareVec3(b1->pos, b2->pos);
 }
 
@@ -2340,7 +2348,9 @@ static S32 compareInt(S32 i1, S32 i2){
         return 0;
 }
 
-static S32 __cdecl compareTrafficBeacons(const CRCTrafficBeacon* b1, const CRCTrafficBeacon* b2){
+static S32 __cdecl compareTrafficBeacons(const void* b1Data, const void* b2Data){
+    const CRCTrafficBeacon* b1 = (const CRCTrafficBeacon*)b1Data;
+    const CRCTrafficBeacon* b2 = (const CRCTrafficBeacon*)b2Data;
     S32 i;
     S32 compare;
     
@@ -2364,7 +2374,9 @@ static S32 __cdecl compareTrafficBeacons(const CRCTrafficBeacon* b1, const CRCTr
     return 0;
 }
 
-static S32 __cdecl compareCRCModelInfo(const CRCModelInfo* i1, const CRCModelInfo* i2){
+static S32 __cdecl compareCRCModelInfo(const void* i1Data, const void* i2Data){
+    const CRCModelInfo* i1 = (const CRCModelInfo*)i1Data;
+    const CRCModelInfo* i2 = (const CRCModelInfo*)i2Data;
     return stricmp(i1->model->name, i2->model->name);
 }
 

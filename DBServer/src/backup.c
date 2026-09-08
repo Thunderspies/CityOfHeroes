@@ -85,8 +85,10 @@ static void s_getBackupHeaderList(int id, int type, BackupHeader ***retHeaders)
 //negative value means that a was earlier than b
 static INLINEDBG int s_compareTimestamps(U32 a, U32 b) {return timerDayFromSecondsSince2000( a ) - timerDayFromSecondsSince2000( b );} 
 
-static int compare_backups(const BackupHeader** bh1, const BackupHeader** bh2 )
+static int compare_backups(const void* bh1Data, const void* bh2Data)
 {
+    const BackupHeader** bh1 = (const BackupHeader**)bh1Data;
+    const BackupHeader** bh2 = (const BackupHeader**)bh2Data;
     if( (*bh1)->type == (*bh2)->type )
     {
         if( (*bh1)->id == (*bh2)->id )

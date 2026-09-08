@@ -518,6 +518,16 @@ static void destroyMiniTracker(MiniTracker *mini_tracker)
     MP_FREE(MiniTracker, mini_tracker);
 }
 
+static void clearMiniTrackerAdapter(void* arg0)
+{
+    clearMiniTracker((MiniTracker *)arg0);
+}
+
+static void destroyMiniTrackerAdapter(void* arg0)
+{
+    destroyMiniTracker((MiniTracker *)arg0);
+}
+
 static void clearStackFrame(void)
 {
     // clear allocated texbinds and free quickly
@@ -528,14 +538,14 @@ static void clearStackFrame(void)
     if(gmts == &gmts_stack[0]) // front of the 'stack', clear everything
     {
         // clear MiniTrackers and free quickly
-        eaClearEx(&gmts->eaWorldMiniTrackersToFree, clearMiniTracker);
-        stashTableClearEx(stNodeMiniTrackers, NULL, clearMiniTracker);
+        eaClearEx(&gmts->eaWorldMiniTrackersToFree, clearMiniTrackerAdapter);
+        stashTableClearEx(stNodeMiniTrackers, NULL, clearMiniTrackerAdapter);
         mpFreeAll(MP_NAME(MiniTracker)); // Note this memory pool will not normally get compacted
     }
     else
     {
         // destroy MiniTrackers individually
-        eaClearEx(&gmts->eaWorldMiniTrackersToFree, destroyMiniTracker);
+        eaClearEx(&gmts->eaWorldMiniTrackersToFree, destroyMiniTrackerAdapter);
     }
 
     // clear indexes/caches

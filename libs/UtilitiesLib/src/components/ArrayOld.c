@@ -636,7 +636,9 @@ void* pqPop(Array* queue, QueueCompare comp, QueueIndexUpdate indexUpdate){
 
 #include <stdio.h>
 
-static int intCompare(int i1, int i2){
+static int intCompare(void *item1, void *item2){
+    int i1 = (int)(intptr_t)item1;
+    int i2 = (int)(intptr_t)item2;
     if(i1 < i2)
         return -1;
     
@@ -646,7 +648,7 @@ static int intCompare(int i1, int i2){
     return 1;
 }
 
-void testHeap(){
+void testHeap(void){
     int i;
     Array* array;
     void* poppedItem;
@@ -655,9 +657,9 @@ void testHeap(){
     // setup an array to be used as a pqueue
     array = createArray();
     initArray(array, 11);
-    arrayPushBack(array, 999);
+    arrayPushBack(array, (void*)(intptr_t)999);
     for(i = 1; i < array->maxSize; i++){
-        arrayPushBack(array, i);
+        arrayPushBack(array, (void*)(intptr_t)i);
     }
     
     
@@ -669,7 +671,7 @@ void testHeap(){
     printf("\n");
     
     
-    heapify(array, (QueueCompare)intCompare, NULL);
+    heapify(array, intCompare, NULL);
     
     
     printf("After heapifying, the array looks like: ");
@@ -678,14 +680,14 @@ void testHeap(){
     }
     printf("\n");
     
-    pqPush(array, 11, (QueueCompare)intCompare, NULL);
+    pqPush(array, (void*)(intptr_t)11, intCompare, NULL);
     printf("After insertion, the array looks like: ");
     for(i = 0; i < array->size; i++){
         printf("%i ", array->storage[i]);
     }
     printf("\n");
     
-    poppedItem = pqPop(array, (QueueCompare)intCompare, NULL);
+    poppedItem = pqPop(array, intCompare, NULL);
     printf("After extraction, the array looks like: ");
     for(i = 0; i < array->size; i++){
         printf("%i ", array->storage[i]);

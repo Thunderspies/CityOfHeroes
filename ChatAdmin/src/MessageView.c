@@ -32,9 +32,14 @@ MessageView * MessageViewCreate(HWND hWndView, int maxMsgs)
     return mv;
 }
 
+static void TextEntryDestroyAdapter(void* arg0)
+{
+    TextEntryDestroy((TextEntry *)arg0);
+}
+
 void MessageViewDestroy(MessageView * mv)
 {
-    eaClearEx(&mv->msgs, TextEntryDestroy);
+    eaClearEx(&mv->msgs, TextEntryDestroyAdapter);
 }
 
 //void MessageViewProcessCmd(MessageView * mv, WPARAM wParam, LPARAM lParam);
@@ -74,7 +79,7 @@ void MessageViewRefresh(MessageView * mv)
 
 void MessageViewEmpty(MessageView * mv)
 {
-    eaClearEx(&mv->msgs, TextEntryDestroy);
+    eaClearEx(&mv->msgs, TextEntryDestroyAdapter);
     SetWindowText(mv->hWndView, "");
 }
 

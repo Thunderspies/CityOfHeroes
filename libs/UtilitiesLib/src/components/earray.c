@@ -1,3 +1,4 @@
+#define EARRAY_IMPL
 // earray.c - provides yet another type of expandable pArray
 // these arrays are differentiated in that you generally declare them as
 // MyStruct** earray; and access them like a normal pArray of pointers
@@ -266,13 +267,14 @@ int eaPushDbg(mEArrayHandle* handle, void* structptr, const char *file, int line
 
 int eaPushUniqueDbg(mEArrayHandle* handle, void* structptr, const char *file, int line) // add to the end of the list, returns the index it was added at (the new size)
 {
-    int idx = eaFindDbg(handle, structptr);
+    int idx = eaFindDbg((cccEArrayHandle*)handle, structptr);
     if (idx < 0)
         idx = eaPushDbg(handle, structptr, file, line);
     return idx;
 }
 
-int eaPushArrayDbg(mEArrayHandle* handle, ccmEArrayHandle* src, const char *file, int line) // add to the end of the list, returns the index it was added at
+int eaPushArrayDbg(mEArrayHandle *handle, cccEArrayHandle *src,
+	const char *file, int line)
 {
     int count = eaSizeUnsafe(handle);
     int srcCount = eaSizeUnsafe(src);
@@ -336,7 +338,7 @@ void* eaGetDbg(ccmEArrayHandle* handle, int i)    // get i'th element (zero-base
 
 const void* eaGetConstDbg(cccEArrayHandle* handle, int i)
 {
-    return eaGetDbg(cccEACast(handle), i);
+	return eaGetDbg((ccmEArrayHandle*)handle, i);
 }
 
 void* eaLastDbg(ccmEArrayHandle* handle)
@@ -346,7 +348,7 @@ void* eaLastDbg(ccmEArrayHandle* handle)
 
 const void* eaLastConstDbg(cccEArrayHandle* handle)
 {
-    return eaLastDbg(cccEACast(handle));
+	return eaLastDbg((ccmEArrayHandle*)handle);
 }
 
 void eaInsertDbg(mEArrayHandle* handle, void* structptr, int i, const char *file, int line) // insert before i'th position, will not insert on error (i == -1, etc.)
@@ -381,6 +383,11 @@ void* eaRemoveDbg(mEArrayHandle* handle, int i) // remove the i'th element, NULL
     return structptr;
 }
 
+const void* eaRemoveConstDbg(cEArrayHandle* handle, int i)
+{
+    return eaRemoveDbg(cEACast(handle), i);
+}
+
 void eaRemoveAndDestroy(mEArrayHandle* handle, int i, EArrayItemDestructor destructor)
 {
     void *res = eaRemoveDbg(handle,i);
@@ -408,7 +415,7 @@ const void* eaRemoveFastConstDbg(cEArrayHandle* handle, int i)
     return eaRemoveFastDbg(cEACast(handle), i);
 }
 
-int    eaFindDbg(mEArrayHandle* handle, const void* structptr)
+int    eaFindDbg(cccEArrayHandle* handle, const void* structptr)
 {
     int i;
     EArray* pArray = EArrayFromHandle(*handle);
@@ -420,19 +427,19 @@ int    eaFindDbg(mEArrayHandle* handle, const void* structptr)
     return -1;
 }
 
-int    eaFindAndRemoveDbg(mEArrayHandle* handle, const void* structptr)
+int    eaFindAndRemoveDbg(cEArrayHandle* handle, const void* structptr)
 {
-    int    idx = eaFindDbg(handle,structptr);
+    int    idx = eaFindDbg((cccEArrayHandle*)handle,structptr);
     if(idx >= 0)
-        eaRemoveDbg(handle,idx);
+        eaRemoveConstDbg(handle,idx);
     return idx;
 }
 
-int    eaFindAndRemoveFastDbg(mEArrayHandle* handle, const void* structptr)
+int    eaFindAndRemoveFastDbg(cEArrayHandle* handle, const void* structptr)
 {
-    int    idx = eaFindDbg(handle,structptr);
+    int    idx = eaFindDbg((cccEArrayHandle*)handle,structptr);
     if(idx >= 0)
-        eaRemoveFastDbg(handle,idx);
+        eaRemoveFastConstDbg(handle,idx);
     return idx;
 }
 
@@ -945,8 +952,10 @@ int eaiCompare(int** array1, int** array2)
     return (*array1)[i]-(*array2)[i];
 }
 
-static int s_eaiSortedCmp(const int *key, const int *elem)
+static int s_eaiSortedCmp(const void* keyData, const void* elemData)
 {
+    const int * key = (const int *)keyData;
+    const int * elem = (const int *)elemData;
     return *key - *elem;
 }
 
@@ -1214,14 +1223,15 @@ int StringArrayFind(const char * const * const pArray, const char* elem)
 int StringArrayIntersectionDbg(char*** result, char * const * lhs, char * const * rhs, const char *file, int line)
 {
     int i, n;
-    eaSetSizeDbg(result, 0, file, line);
+	eaSetSizeDbg(mEACast(result), 0, file, line);
     n = eaSize(&lhs);
     for (i = 0; i < n; i++)
     {
-        if (StringArrayFind(rhs, lhs[i]) >= 0 &&
-            !(StringArrayFind(*result, lhs[i]) >= 0))
+		if (StringArrayFind((const char *const *)rhs, lhs[i]) >= 0 &&
+			StringArrayFind((const char *const *)*result,
+				lhs[i]) < 0)
         {
-            eaPushDbg(result, lhs[i], file, line);
+			eaPushDbg(mEACast(result), lhs[i], file, line);
         }
     }
     return eaSize(result);

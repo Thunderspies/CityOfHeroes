@@ -85,12 +85,16 @@ char *getContainerValueStatic(char *container, char* fieldname);
 int getContainerValue(char *container, char* fieldname, char* result, int size);
 int system_detach(char *cmd, int minimized);
 int systemf(FORMAT cmd, ...);
-#define dynArrayAdd(basep,struct_size,count,max_count,num_structs) dynArrayAdd_dbg(basep,struct_size,count,max_count,num_structs MEM_DBG_PARMS_INIT)
+#define dynArrayAdd(basep,struct_size,count,max_count,num_structs) \
+	dynArrayAdd_dbg((void**)(basep),struct_size,count,max_count, \
+	num_structs MEM_DBG_PARMS_INIT)
 #define dynArrayAddp(basep,count,max_count,ptr) dynArrayAddp_dbg(basep,count,max_count,ptr MEM_DBG_PARMS_INIT)
 #define dynArrayAddStruct(basep,count,max_count) dynArrayAdd((void**)basep,sizeof(**(basep)),count,max_count,1)
 #define dynArrayAddStructType(type,basep,count,max_count) ((type*)dynArrayAddStruct(basep,count,max_count))
 #define dynArrayAddStructs(basep,count,max_count,num_structs) dynArrayAdd((void**)basep,sizeof(**(basep)),count,max_count,num_structs)
-#define dynArrayFit(basep,struct_size,max_count,idx_to_fit) dynArrayFit_dbg(basep,struct_size,max_count,idx_to_fit MEM_DBG_PARMS_INIT)
+#define dynArrayFit(basep,struct_size,max_count,idx_to_fit) \
+	dynArrayFit_dbg((void**)(basep),struct_size,max_count,idx_to_fit \
+	MEM_DBG_PARMS_INIT)
 #define dynArrayFitStructs(basep,max_count,idx_to_fit) dynArrayFit((void**)basep,sizeof(**(basep)),max_count,idx_to_fit)
 void *dynArrayAdd_dbg(void **basep,int struct_size,int *count,int *max_count,int num_structs MEM_DBG_PARMS);
 void *dynArrayAddp_dbg(void ***basep,int *count,int *max_count,void *ptr MEM_DBG_PARMS);

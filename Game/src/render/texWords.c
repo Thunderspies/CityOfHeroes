@@ -354,8 +354,10 @@ void initBackgroundTexWordRenderer(void)
 }
 
 
-static int texWordsNameCmp(const TexWord ** info1, const TexWord ** info2 )
+static int texWordsNameCmp(const void* info1Data, const void* info2Data)
 {
+    const TexWord ** info1 = (const TexWord **)info1Data;
+    const TexWord ** info2 = (const TexWord **)info2Data;
     return stricmp( getFileName((char*)(*info1)->name), getFileName((char*)(*info2)->name) );
 }
 
@@ -509,8 +511,9 @@ bool texWordVerify(TexWord *texWord, bool fix) {
     return ret;
 }
 
-bool texWordsPreprocessor(TokenizerParseInfo pti[], TexWordList *twl)
+bool texWordsPreprocessor(ParseTable* pti, void* structptr)
 {
+    TexWordList * twl = (TexWordList *)structptr;
     int numTexWords=eaSize(&twl->texWords);
     int i;
     for (i=0; i<numTexWords; i++) {
@@ -546,7 +549,7 @@ void texWordsLoadInfo()
 
         //Clean up TexWord names, and sort them
         num_structs = eaSize(&texWords_list.texWords);
-        qsort(texWords_list.texWords, num_structs, sizeof(void*), (int (*) (const void *, const void *)) texWordsNameCmp);
+        qsort(texWords_list.texWords, num_structs, sizeof(void*), texWordsNameCmp);
 
         // Add entries of the appropriate locale to the hashtable
         for (i=0; i<num_structs; i++) {

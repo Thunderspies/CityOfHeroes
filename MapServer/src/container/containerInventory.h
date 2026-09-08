@@ -41,7 +41,7 @@ void entity_packageInventory(Entity *e, StuffBuff *psb);
 bool entity_unpackInventory(DBGenericInventoryItem ***hGenItems, 
                             DBConceptInventoryItem ***hConceptItems, 
                             Entity *e, char *table, int row, char *col, char *val);
-int inventory_typeFromTable(char *table);
+InventoryType inventory_typeFromTable(char *table);
 
 
 #endif //CONTAINERINVENTORY_H

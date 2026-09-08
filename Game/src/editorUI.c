@@ -299,11 +299,17 @@ static TreeElement *allocTreeElement(void) {
     return MP_ALLOC(TreeElement);
 }
 
+static void freeTreeElement(TreeElement *elem);
+static void freeTreeElementCallback(void* arg0)
+{
+    freeTreeElement((TreeElement *)arg0);
+}
+
 static void freeTreeElement(TreeElement *elem) {
     if (!elem)
         return;
     if (elem->children)
-        eaDestroyEx(&elem->children, freeTreeElement);
+        eaDestroyEx(&elem->children, freeTreeElementCallback);
     SAFE_FREE(elem->name);
     MP_FREE(TreeElement, elem);
 }
@@ -1536,7 +1542,7 @@ static void treeElementOpen(EditorUITreeControl *tree, TreeElement *elem, TreeEl
 static void treeElementClose(TreeElement *elem)
 {
     if (elem->children)
-        eaDestroyEx(&elem->children, freeTreeElement);
+        eaDestroyEx(&elem->children, freeTreeElementCallback);
 }
 
 static void treeCloseAll(EditorUITreeControl *tree)
@@ -1643,11 +1649,16 @@ static void treeUnselectElement(EditorUITreeControl *tree, const TreeElementAddr
     }
 }
 
+static void freeTreeAddressAdapter(void* arg0)
+{
+    freeTreeAddress((TreeElementAddress *)arg0);
+}
+
 static void treeSelectElement(EditorUITreeControl *tree, const TreeElementAddress *address)
 {
     int i;
     if (!tree->multi_select)
-        eaClearEx(&tree->selected, freeTreeAddress);
+        eaClearEx(&tree->selected, freeTreeAddressAdapter);
     for (i = 0; i < eaSize(&tree->selected); i++)
     {
         if (sameTreeAddress(tree->selected[i], address))
@@ -3198,8 +3209,15 @@ int editorUIAddDrawCallback(int ID, EditorUICallback callback)
 
 void destroyWidget(EditorUIWidget * widget);
 
-void destroySubWidget(EditorUISubWidgets * subWidget) {
-    eaDestroyEx(&subWidget->widgets,destroyWidget);
+void destroyWidget(EditorUIWidget * widget);
+static void destroyWidgetCallback(void* arg0)
+{
+    destroyWidget((EditorUIWidget *)arg0);
+}
+
+void destroySubWidget(void* subWidgetData) {
+    EditorUISubWidgets * subWidget = (EditorUISubWidgets *)subWidgetData;
+    eaDestroyEx(&subWidget->widgets,destroyWidgetCallback);
     free(subWidget);
 }
 
@@ -3214,7 +3232,7 @@ void editorUIDestroyWindowNow(int ID) {
     EDITORUI_VALIDATE_ID(ID);
     if (editorUIWindows[ID].closeCallback!=NULL)
         editorUIWindows[ID].closeCallback();
-    eaDestroyEx(&editorUIWindows[ID].widgets,destroyWidget);
+    eaDestroyEx(&editorUIWindows[ID].widgets,destroyWidgetCallback);
     eaDestroy(&editorUIWindows[ID].current);
     editorUIWindows[ID].widgets=NULL;
     window_setMode(editorUIGetWindow(ID),WINDOW_DOCKED);

@@ -13,8 +13,9 @@ static GroupDef* groupDefDupSimple(GroupDef *def)
     copyGroupDef(ret, def);
     return ret;
 }
-static void groupDefFreeSimple(GroupDef *def)
+static void groupDefFreeSimple(void* defData)
 {
+    GroupDef * def = (GroupDef *)defData;
     PERFINFO_AUTO_START("groupDefFreeSimple", 1);
     uncopyGroupDef(def);
     free(def);
@@ -251,11 +252,17 @@ int journalRedosRemaining(void)
     return eaSize(&journal)-journalCurrentEntry;
 }
 
+static void journalEntryDestroy(JournalEntry * je);
+static void journalEntryDestroyCallback(void* arg0)
+{
+    journalEntryDestroy((JournalEntry *)arg0);
+}
+
 void journalReset(void)
 {
     PERFINFO_AUTO_START("journalReset", 1);
     assert(!journalAddingEntry);
-    eaDestroyEx(&journal,journalEntryDestroy);
+    eaDestroyEx(&journal,journalEntryDestroyCallback);
     journalCurrentEntry=0;
     PERFINFO_AUTO_STOP();
 }

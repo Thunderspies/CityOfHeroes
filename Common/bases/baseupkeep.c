@@ -105,8 +105,9 @@ F32 baseupkeep_PctFromPrestige(int prestige)
 //----------------------------------------
 //  check the parsed data
 //----------------------------------------
-static bool UpkeepDictFinalize(TokenizerParseInfo pti[], BaseUpkeep *pUpkeepDict)
+static bool UpkeepDictFinalize(ParseTable* pti, void* structptr)
 {
+    BaseUpkeep * pUpkeepDict = (BaseUpkeep *)structptr;
     int i;
     int n;
     

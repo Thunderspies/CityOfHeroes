@@ -163,7 +163,7 @@ DirtyType adder_diffbig(PersistInfo *info, void *structptr)
     return DIRTY_ROW;
 }
 
-int remover_diffbig(PersistInfo *info, void *structptr)
+DirtyType remover_diffbig(PersistInfo *info, void *structptr)
 {
     // record the removal for diffing
     switch(info->keytype)

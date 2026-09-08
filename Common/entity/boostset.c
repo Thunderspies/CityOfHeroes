@@ -419,6 +419,11 @@ static void ConversionListDestructor(const BoostSet **pContext)
     eaDestroyConst(&pContext);
 }
 
+static void ConversionListDestructorAdapter(void* arg0)
+{
+    ConversionListDestructor((const BoostSet **)arg0);
+}
+
 void boostset_DestroyDictHashes(BoostSetDictionary *bdict)
 {
     if (bdict->haItemNames)
@@ -439,7 +444,7 @@ void boostset_DestroyDictHashes(BoostSetDictionary *bdict)
 
     if (bdict->htConversionLists)
     {
-        stashTableDestroyEx(cpp_const_cast(StashTable)bdict->htConversionLists, NULL, ConversionListDestructor);
+        stashTableDestroyEx(cpp_const_cast(StashTable)bdict->htConversionLists, NULL, ConversionListDestructorAdapter);
         bdict->htConversionLists = NULL;
     }
 

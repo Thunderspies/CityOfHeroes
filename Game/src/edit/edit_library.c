@@ -1762,7 +1762,9 @@ static void noteChangedProperties(const char *relpath, int when) {
     reloadPropertiesDef=1;
 }
 
-static int compareStringForQSort(const PropertyDef ** a,const PropertyDef ** b) {
+static int compareStringForQSort(const void* aData, const void* bData) {
+    const PropertyDef ** a = (const PropertyDef **)aData;
+    const PropertyDef ** b = (const PropertyDef **)bData;
     return stricmp((*a)->name,(*b)->name);
 }
 

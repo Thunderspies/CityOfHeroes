@@ -26,7 +26,7 @@ static void lnkBatchSendSync(NetLink* link);
 static void lnkBatchSendRaw(NetLink* link);
 static int lnkCheckUnresponsiveLink(NetLink* link);
 static int lnkQueueRetransmits(NetLink* link);
-static int __cdecl comparePacketID(const Packet** pak1In, const Packet** pak2In);
+static int __cdecl comparePacketID(const void* pak1InData, const void* pak2InData);
 
 /****************************************************************************************************
  * Batch packet sending                                                                                *
@@ -416,7 +416,9 @@ static int lnkQueueRetransmits(NetLink* link){
     return retransmitted;
 }
 
-static int __cdecl comparePacketID(const Packet** pak1In, const Packet** pak2In){
+static int __cdecl comparePacketID(const void* pak1InData, const void* pak2InData){
+    const Packet** pak1In = (const Packet**)pak1InData;
+    const Packet** pak2In = (const Packet**)pak2InData;
     const Packet* pak1;
     const Packet* pak2;
     

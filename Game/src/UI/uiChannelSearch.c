@@ -83,11 +83,16 @@ static void clearChannelLine(ChannelLine *chanline)
     MP_FREE(ChannelLine, chanline);
 }
 
+static void clearChannelLineAdapter(void* arg0)
+{
+    clearChannelLine((ChannelLine *)arg0);
+}
+
 static void clearChannelList(void)
 {
     if (!gChannelLines)
         return;
-    eaClearEx( &gChannelLines, clearChannelLine);
+    eaClearEx( &gChannelLines, clearChannelLineAdapter);
     uiLVClear(chanListView);
 }
 

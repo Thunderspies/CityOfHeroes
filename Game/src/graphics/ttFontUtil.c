@@ -201,6 +201,11 @@ void wcFit(WidthCounter* counter){
  *************************************************************************************************************************/
 #define INDENT_SIZE  20
 
+static int TTCharacterWidthsHandlerGlyphCallback(TTTextForEachGlyphParam* param)
+{
+    return TTCharacterWidthsHandler((TTCharacterWidthsParam*)param);
+}
+
 FormattedText* formatTextEx(FormattedText* text, TTDrawContext* font, float xScale, float yScale, int* fitWidths, int fitWidthCount, int style, char* str, int indent)
 {
     TTCharacterWidthsParam characterWidthsParam;
@@ -239,7 +244,7 @@ FormattedText* formatTextEx(FormattedText* text, TTDrawContext* font, float xSca
     GetTextStyleForType(style, &font->renderParams);
 
     // Calculate all character widths.
-    characterWidthsParam.forEachParam.handler = (GlyphHandler)TTCharacterWidthsHandler;
+    characterWidthsParam.forEachParam.handler = TTCharacterWidthsHandlerGlyphCallback;
     characterWidthsParam.characterWidths = characterWidths;
     characterWidthsParam.lastWidthSum = 0.0;
     ttTextForEachGlyph(font, (TTTextForEachGlyphParam*)&characterWidthsParam, 0, 0, xScale, yScale, text->sharedTextBuffer, text->characterCount, true);
@@ -640,7 +645,7 @@ TTTextLine* ttGetLine(TTTextWrapper* obj, unsigned int curLineWidth, unsigned in
     if(obj->characterWidths->size == 0)
     {
         TTCharacterWidthsParam characterWidthsParam;
-        characterWidthsParam.forEachParam.handler = (GlyphHandler)TTCharacterWidthsHandler;
+        characterWidthsParam.forEachParam.handler = TTCharacterWidthsHandlerGlyphCallback;
         characterWidthsParam.characterWidths = obj->characterWidths;
         characterWidthsParam.lastWidthSum = 0.0;
         ttTextForEachGlyph(obj->font, (TTTextForEachGlyphParam*)&characterWidthsParam, 0, 0, sc, sc, obj->wideText, characterCount, true);

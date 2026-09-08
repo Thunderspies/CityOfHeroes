@@ -339,8 +339,10 @@ SwitchToken    key_names[] =
 
 //
 //
-static int __cdecl compareKeyNames(const SwitchToken* t1, const SwitchToken* t2)
+static int __cdecl compareKeyNames(const void* t1Data, const void* t2Data)
 {
+    const SwitchToken* t1 = (const SwitchToken*)t1Data;
+    const SwitchToken* t2 = (const SwitchToken*)t2Data;
     return stricmp(    t1->name2 ? t1->name2 : (t1->name + 4),
                     t2->name2 ? t2->name2 : (t2->name + 4));
 }

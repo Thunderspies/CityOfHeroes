@@ -169,7 +169,7 @@ void runCollRec()
         if (collrec->flags & COLL_FINDINSIDE)
         {
             extern FindInsideOpts glob_find_type;
-            extern int findInsideTest(DefTracker *tracker, int backside);
+            extern int findInsideTest(void *tracker, int backside);
 
             glob_find_type = FINDINSIDE_VOLUMETRIGGER;
             coll.node_callback = findInsideTest;

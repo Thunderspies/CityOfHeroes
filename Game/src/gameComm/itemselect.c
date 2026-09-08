@@ -382,8 +382,9 @@ int isEntitySelectable(Entity *e)
 }
 
 GroupDef *g_pObjGroupDef = NULL;
-int excludeObjectTest(DefTracker *tracker,int backside)
+int excludeObjectTest(void* trackerData, int backside)
 {
+    DefTracker * tracker = (DefTracker *)trackerData;
     if (g_pObjGroupDef == NULL) return 1;
     while(tracker != NULL)
     {

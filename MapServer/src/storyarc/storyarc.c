@@ -208,8 +208,9 @@ int StoryArcProcessAndCheckLevels(StoryArc* story, int minlevel, int maxlevel)
     return ret;
 }
 
-bool StoryArcPostprocessAppendFlashback(TokenizerParseInfo pti[], StoryArcList *sal)
+bool StoryArcPostprocessAppendFlashback(ParseTable* pti, void* structptr)
 {
+    StoryArcList * sal = (StoryArcList *)structptr;
     int i, count = eaSize(&g_flashbacklist);
 
     if (sal->storyarcs != NULL)
@@ -363,8 +364,9 @@ static void StoryArcPostprocess(StoryArc* def)
         ErrorFilenamef(def->filename, "No merit reward specified for this storyarc (%s). Please add this story arc to the merit reward file (data\\defs\\rewards\\storyarc.merits)", StoryArcGetLeafNameByDef(def));
 }
 
-bool StoryArcPostprocessAll(TokenizerParseInfo pti[], StoryArcList *sal, bool shared_memory)
+bool StoryArcPostprocessAll(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    StoryArcList * sal = (StoryArcList *)structptr;
     int sa, sanum = eaSize(&sal->storyarcs);
     for (sa = 0; sa < sanum; sa++)
         StoryArcPostprocess(sal->storyarcs[sa]);
@@ -390,8 +392,9 @@ static int StoryArcPreprocess(StoryArc* def)
     return ret;
 }
 
-bool StoryArcPreprocessAll(TokenizerParseInfo pti[], StoryArcList *sal)
+bool StoryArcPreprocessAll(ParseTable* pti, void* structptr)
 {
+    StoryArcList * sal = (StoryArcList *)structptr;
     bool ret = true;
     int sa, sanum = eaSize(&sal->storyarcs);
     for (sa = 0; sa < sanum; sa++)

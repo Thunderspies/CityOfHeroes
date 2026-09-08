@@ -866,6 +866,12 @@ int playerSlot_FirstOpen()
 }
 
 
+static void playerSlotFree(PlayerSlotEntry *pSlot);
+static void playerSlotFreeCallback(void* arg0)
+{
+    playerSlotFree((PlayerSlotEntry *)arg0);
+}
+
 static void playerSlotsLoad()
 {
     FILE *file;
@@ -891,7 +897,7 @@ static void playerSlotsLoad()
         if(!file)
             return;
     }
-    eaDestroyEx(&ppPlayerSlots, playerSlotFree);
+    eaDestroyEx(&ppPlayerSlots, playerSlotFreeCallback);
 
     while(fgets(buf,sizeof(buf),file))
     {

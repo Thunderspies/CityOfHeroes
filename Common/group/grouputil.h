@@ -78,7 +78,7 @@ typedef struct GroupDefTraverser GroupDefTraverser;
  */
 typedef struct{
     void* context;
-    void* (*createContext)();
+    void* (*createContext)(void);
     void (*copyContext)(void* src, void* dst);
     void (*destroyContext)(void* context);
 } GroupDefTraverserVContext;

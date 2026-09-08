@@ -40,8 +40,9 @@ cStashTable g_hashMapsAndVillainsToSkillObjectives;
  * MapSkillObjectivesDictPostprocess
  *
  */
-static bool MapSkillObjectivesDictPostprocess(TokenizerParseInfo pti[], MapSkillObjectivesDict *pdict, bool shared_memory)
+static bool MapSkillObjectivesDictPostprocess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    MapSkillObjectivesDict * pdict = (MapSkillObjectivesDict *)structptr;
     int i;
     int n;
     char *pch;
@@ -89,8 +90,9 @@ static bool MapSkillObjectivesDictPostprocess(TokenizerParseInfo pti[], MapSkill
  * MapSkillObjectivesDictPreprocess
  *
  */
-static bool MapSkillObjectivesDictPreprocess(TokenizerParseInfo pti[], MapSkillObjectivesDict *pdict)
+static bool MapSkillObjectivesDictPreprocess(ParseTable* pti, void* structptr)
 {
+    MapSkillObjectivesDict * pdict = (MapSkillObjectivesDict *)structptr;
     int i;
     int n;
 

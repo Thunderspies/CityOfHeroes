@@ -1,3 +1,4 @@
+#include "entity/entity_enum.h"
 #ifndef ENTAI_H
 #define ENTAI_H
 
@@ -137,7 +138,7 @@ void aiSetShoutChance(Entity* e, int chance);
 //----------------------------------------------------------------
 
 void aiInitMain(void);
-void aiMain(Entity* e, AIVars* ai, int entType);
+void aiMain(Entity* e, AIVars* ai, EntType entType);
 
 //----------------------------------------------------------------
 // entaiPath.c

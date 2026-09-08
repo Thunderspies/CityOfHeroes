@@ -97,6 +97,11 @@ MultiMessageStore *g_msgs_Plaque = NULL;
  * plaque_Load
  *
  */
+static void plaque_DestroyAdapter(void* arg0)
+{
+    plaque_Destroy((Plaque *)arg0);
+}
+
 void plaque_Load(void)
 {
     GroupDefTraverser        traverser = {0};
@@ -113,7 +118,7 @@ void plaque_Load(void)
     // If we're doing a reload, clear out old data first.
     if(g_Plaques)
     {
-        eaClearEx(&g_Plaques, plaque_Destroy);
+        eaClearEx(&g_Plaques, plaque_DestroyAdapter);
         eaSetSize(&g_Plaques, 0);
     }
     else

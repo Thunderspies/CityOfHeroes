@@ -198,8 +198,10 @@ typedef struct RoomDetailAuxPair
 } RoomDetailAuxPair;
 
 // We sort by: distance; primary id; aux id
-static int compareAuxPairPriority(const RoomDetailAuxPair **p1, const RoomDetailAuxPair **p2)
+static int compareAuxPairPriority(const void* p1Data, const void* p2Data)
 {
+    const RoomDetailAuxPair ** p1 = (const RoomDetailAuxPair **)p1Data;
+    const RoomDetailAuxPair ** p2 = (const RoomDetailAuxPair **)p2Data;
     int dif;
     float fdif = (*p1)->dist - (*p2)->dist;
     if (fdif > 0) return 1;
@@ -789,8 +791,10 @@ void detailSetDestroyed(RoomDetail *detail, bool destroyed, bool rebuild, bool f
 
 // To maintain powering consistency, we sort by:
 //  cost; current on/off status (details that are powered have priority); id
-static int compareEnergyCost(const RoomDetail **d1, const RoomDetail **d2)
+static int compareEnergyCost(const void* d1Data, const void* d2Data)
 {
+    const RoomDetail ** d1 = (const RoomDetail **)d1Data;
+    const RoomDetail ** d2 = (const RoomDetail **)d2Data;
     int dif = (*d1)->info->iEnergyConsume - (*d2)->info->iEnergyConsume;
     if (dif) return dif;
     dif = (*d1)->bPowered ^ (*d2)->bPowered;
@@ -799,8 +803,10 @@ static int compareEnergyCost(const RoomDetail **d1, const RoomDetail **d2)
 }
 
 // Sorted by priority
-static int compareEnergyPriority(const int *c1, const int *c2)
+static int compareEnergyPriority(const void* c1Data, const void* c2Data)
 {
+    const int * c1 = (const int *)c1Data;
+    const int * c2 = (const int *)c2Data;
     return g_DetailCategoryDict.ppCats[(*c1)]->iEnergyPriority - g_DetailCategoryDict.ppCats[(*c2)]->iEnergyPriority;
 }
 
@@ -1013,8 +1019,10 @@ static int baseDistributeEnergy(Base *base, bool bUpkeepShutdown)
 
 // To maintain controlling consistency, we sort by:
 //  cost; current on/off status (details that are controlled have priority); id
-static int compareControlCost(const RoomDetail **d1, const RoomDetail **d2)
+static int compareControlCost(const void* d1Data, const void* d2Data)
 {
+    const RoomDetail ** d1 = (const RoomDetail **)d1Data;
+    const RoomDetail ** d2 = (const RoomDetail **)d2Data;
     int dif = (*d1)->info->iControlConsume - (*d2)->info->iControlConsume;
     if (dif) return dif;
     dif = (*d1)->bControlled ^ (*d2)->bControlled;
@@ -1023,8 +1031,10 @@ static int compareControlCost(const RoomDetail **d1, const RoomDetail **d2)
 }
 
 // Sorted by priority
-static int compareControlPriority(const int *c1, const int *c2)
+static int compareControlPriority(const void* c1Data, const void* c2Data)
 {
+    const int * c1 = (const int *)c1Data;
+    const int * c2 = (const int *)c2Data;
     return g_DetailCategoryDict.ppCats[(*c1)]->iControlPriority - g_DetailCategoryDict.ppCats[(*c2)]->iControlPriority;
 }
 

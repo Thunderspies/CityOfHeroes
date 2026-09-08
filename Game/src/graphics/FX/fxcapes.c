@@ -144,13 +144,17 @@ static FxCape * fxLoadFxCape( char fname[] )
     return fxCape;
 }
 
-static int fxCapeNameCmp(const FxCape ** info1, const FxCape ** info2 )
+static int fxCapeNameCmp(const void* info1Data, const void* info2Data)
 {
+    const FxCape ** info1 = (const FxCape **)info1Data;
+    const FxCape ** info2 = (const FxCape **)info2Data;
     return stricmp( (*info1)->name, (*info2)->name );
 }
 
-static int fxCapeNameCmp2(const FxCape * info1, const FxCape ** info2 )
+static int fxCapeNameCmp2(const void* info1Data, const void* info2Data)
 {
+    const FxCape * info1 = (const FxCape *)info1Data;
+    const FxCape ** info2 = (const FxCape **)info2Data;
     return stricmp( info1->name, (*info2)->name );
 }
 

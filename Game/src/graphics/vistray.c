@@ -571,11 +571,16 @@ void vistrayDraw(DrawParams *draw, Mat4 parent_mat)
     PERFINFO_AUTO_STOP();
 }
 
+static void freeTrayAdapter(void* arg0)
+{
+    freeTray((VisTray *)arg0);
+}
+
 void vistrayReset(void)
 {
     vistrayInit();
 
-    eaClearEx(&vistray_trayarray, freeTray);
+    eaClearEx(&vistray_trayarray, freeTrayAdapter);
     stashTableClear(vistray_trayhash);
 }
 
@@ -774,8 +779,10 @@ void vistrayDetailLightsToGrid(DefTracker *tray_tracker, Grid *light_grid)
         lightsToGrid(tray->details[i],light_grid);
 }
 
-static int cmpPtrQSort(void ** ptr1, void ** ptr2)
+static int cmpPtrQSort(const void* ptr1Data, const void* ptr2Data)
 {
+    void ** ptr1 = (void **)ptr1Data;
+    void ** ptr2 = (void **)ptr2Data;
     if(*ptr1 < *ptr2)
         return -1;
     if(*ptr1 == *ptr2)
@@ -791,7 +798,7 @@ void vistrayClearVisibleList(void)
 
 void vistraySortVisibleList(void)
 {
-    qsort(vistray_visibleTrays, vistray_visibleTrayCount, sizeof(vistray_visibleTrays[0]), (int (*) (const void *, const void *))cmpPtrQSort );
+    qsort(vistray_visibleTrays, vistray_visibleTrayCount, sizeof(vistray_visibleTrays[0]), cmpPtrQSort );
 }
 
 int vistrayIsVisible(DefTracker *tray_tracker)
@@ -799,7 +806,7 @@ int vistrayIsVisible(DefTracker *tray_tracker)
     if (tray_tracker)
     {
         // check if the tray is in the visible list
-        if (bsearch(&tray_tracker, vistray_visibleTrays, vistray_visibleTrayCount, sizeof(DefTracker*), (int (*) (const void *, const void *))cmpPtrQSort ))
+        if (bsearch(&tray_tracker, vistray_visibleTrays, vistray_visibleTrayCount, sizeof(DefTracker*), cmpPtrQSort ))
             return 1;
 
         return 0;

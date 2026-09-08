@@ -647,16 +647,16 @@ char *specialRewardNames[SPECIALREWARDNAME_MAX] =
 };
 
 static void rewardSetAward(const RewardSet* set, RewardAccumulator* reward, Entity* player, VillainGroupEnum vgroup, RewardItemSetTarget bitsTarget, int containerType, char **lootList);
-static void rewardDropGroupAward(const RewardDropGroup* group, RewardAccumulator* reward, Entity *e, int deflevel, bool bEveryone, RewardItemSetTarget bitsTarget, char **lootList);
+static void rewardDropGroupAward(const RewardDropGroup* group, RewardAccumulator* reward, Entity *e, int deflevel, RewardSetFlags set_flags, RewardItemSetTarget bitsTarget, char **lootList);
 static void rewardItemSetAward(const RewardItemSet* set, RewardAccumulator* reward, Entity *e, int deflevel, RewardSetFlags bEveryone, char **lootList);
 static bool rewardVerifyAndProcess(TokenizerParseInfo pti[], void* structptr);
-static bool rewardGenerate(TokenizerParseInfo pti[], void* structptr);
+static bool rewardGenerate(ParseTable* pti, void* structptr);
 static int rewardPointerPostProcess(TokenizerParseInfo pti[], void* structptr);
-static bool rewardItemSetDictionaryVerifyAndProcess(TokenizerParseInfo pti[], void* structptr);
-static bool rewardItemSetFinalProcess(TokenizerParseInfo pti[], void* structptr, bool shared_memory);
-static bool rewardFinalProcess(TokenizerParseInfo pti[], void* structptr, bool shared_memory);
-static bool rewardChoiceFinalProcess(TokenizerParseInfo pti[], void* structptr, bool shared_memory);
-static bool meritRewardFinalProcess(TokenizerParseInfo pti[], void* structptr, bool shared_memory);
+static bool rewardItemSetDictionaryVerifyAndProcess(ParseTable* pti, void* structptr);
+static bool rewardItemSetFinalProcess(ParseTable* pti, void* structptr, bool shared_memory);
+static bool rewardFinalProcess(ParseTable* pti, void* structptr, bool shared_memory);
+static bool rewardChoiceFinalProcess(ParseTable* pti, void* structptr, bool shared_memory);
+static bool meritRewardFinalProcess(ParseTable* pti, void* structptr, bool shared_memory);
 static void rewardConnectToItemSets(void);
 static bool rewardChoiceVerifyAndProcess(ParseTable pti[], void* structptr);
 static int s_updateSendPendingReward(Entity *e, const RewardChoiceSet *rewardChoice);
@@ -800,8 +800,9 @@ void rewardAddSpecialRewardNames(void)
         ErrorfInternal("Reward name conflicts with special reward name \"%s\"", specialRewardNames[SPECIALREWARDNAME_FINISHEDPRAETORIA]);
 }
 
-static bool rewardItemSetFinalProcess(TokenizerParseInfo pti[], ItemSetDictionary *dict, bool shared_memory)
+static bool rewardItemSetFinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    ItemSetDictionary * dict = (ItemSetDictionary *)structptr;
     bool ret = true;
     bool noRequires;
     int i, j;
@@ -841,8 +842,9 @@ static bool rewardItemSetFinalProcess(TokenizerParseInfo pti[], ItemSetDictionar
     return ret;
 }
 
-static bool rewardFinalProcess(TokenizerParseInfo pti[], RewardDictionary *dict, bool shared_memory)
+static bool rewardFinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    RewardDictionary * dict = (RewardDictionary *)structptr;
     bool ret = true;
     int i;
     int n = eaSize(&dict->ppTables);
@@ -863,8 +865,9 @@ static bool rewardFinalProcess(TokenizerParseInfo pti[], RewardDictionary *dict,
     return ret;
 }
 
-static bool rewardChoiceFinalProcess(TokenizerParseInfo pti[], RewardChoiceDictionary *dict, bool shared_memory)
+static bool rewardChoiceFinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    RewardChoiceDictionary * dict = (RewardChoiceDictionary *)structptr;
     bool ret = true;
     int i;
     int n = eaSize(&dict->ppChoiceSets);
@@ -889,8 +892,9 @@ static bool rewardChoiceFinalProcess(TokenizerParseInfo pti[], RewardChoiceDicti
     return ret;
 }
 
-static bool meritRewardFinalProcess(TokenizerParseInfo pti[], MeritRewardDictionary *dict, bool shared_memory)
+static bool meritRewardFinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    MeritRewardDictionary * dict = (MeritRewardDictionary *)structptr;
     bool ret = true;
     int i;
     int n = eaSize(&dict->ppStoryArc);
@@ -1078,8 +1082,9 @@ static bool rewardVerifyAndProcess(TokenizerParseInfo pti[], void* structptr)
     return ret;
 }
 
-static bool rewardGenerate(TokenizerParseInfo pti[], RewardDictionary *pdict)
+static bool rewardGenerate(ParseTable* pti, void* structptr)
 {
+    RewardDictionary * pdict = (RewardDictionary *)structptr;
     int iTable;
     static int errorcount = 0;
 
@@ -1224,8 +1229,9 @@ static int rewardDropGroupVerifyAndProcess(RewardDropGroup* group)
     return ret;
 }
 
-static bool rewardItemSetDictionaryVerifyAndProcess(TokenizerParseInfo pti[], ItemSetDictionary *dict)
+static bool rewardItemSetDictionaryVerifyAndProcess(ParseTable* pti, void* structptr)
 {
+    ItemSetDictionary * dict = (ItemSetDictionary *)structptr;
     int i;
     bool ret = true;
 
@@ -2872,6 +2878,61 @@ RewardAccumulator *rewardaccumulator_Init(RewardAccumulator *pReward)
 // is freed.
 // pReward: the item to cleanup, it is not freed.
 //----------------------------------------------------------
+static void rewardaccumulatedpower_DestroyAdapter(void* arg0)
+{
+    rewardaccumulatedpower_Destroy((RewardAccumulatedPower *)arg0);
+}
+
+static void rewardaccumulatedsalvage_DestroyAdapter(void* arg0)
+{
+    rewardaccumulatedsalvage_Destroy((RewardAccumulatedSalvage *)arg0);
+}
+
+static void rewardaccumulatedconcept_DestroyAdapter(void* arg0)
+{
+    rewardaccumulatedconcept_Destroy((RewardAccumulatedConcept *)arg0);
+}
+
+static void rewardaccumulatedproficiency_DestroyAdapter(void* arg0)
+{
+    rewardaccumulatedproficiency_Destroy((RewardAccumulatedProficiency *)arg0);
+}
+
+static void rewardaccumulateddetailrecipe_DestroyAdapter(void* arg0)
+{
+    rewardaccumulateddetailrecipe_Destroy((RewardAccumulatedDetailRecipe *)arg0);
+}
+
+static void rewardaccumulateddetail_DestroyAdapter(void* arg0)
+{
+    rewardaccumulateddetail_Destroy((RewardAccumulatedDetail *)arg0);
+}
+
+static void rewardaccumulatedtoken_DestroyAdapter(void* arg0)
+{
+    rewardaccumulatedtoken_Destroy((RewardAccumulatedToken *)arg0);
+}
+
+static void rewardaccumulatedrewardtable_DestroyAdapter(void* arg0)
+{
+    rewardaccumulatedrewardtable_Destroy((RewardAccumulatedRewardTable *)arg0);
+}
+
+static void rewardaccumulatedrewardtokencount_DestroyAdapter(void* arg0)
+{
+    rewardaccumulatedrewardtokencount_Destroy((RewardAccumulatedDetailRecipe *)arg0);
+}
+
+static void rewardAccumulatedIncarnatePoints_DestroyAdapter(void* arg0)
+{
+    rewardAccumulatedIncarnatePoints_Destroy((RewardAccumulatedIncarnatePoints *)arg0);
+}
+
+static void rewardAccumulatedAccountProduct_DestroyAdapter(void* arg0)
+{
+    rewardAccumulatedAccountProduct_Destroy((RewardAccumulatedAccountProduct *)arg0);
+}
+
 void rewardaccumulator_Cleanup(RewardAccumulator *pReward, bool freeEArrays )
 {
     if(pReward)
@@ -2883,17 +2944,17 @@ void rewardaccumulator_Cleanup(RewardAccumulator *pReward, bool freeEArrays )
 //        pReward->rewardTable = 0; // ARM NOTE: This appears to be unused, so I'm pulling it.  Revert if I'm wrong.
         pReward->bonus_experience = 0;
 
-        eaClearEx(&pReward->powers, rewardaccumulatedpower_Destroy);
-        eaClearEx(&pReward->salvages, rewardaccumulatedsalvage_Destroy);
-        eaClearEx(&pReward->concepts, rewardaccumulatedconcept_Destroy);
-        eaClearEx(&pReward->proficiencies, rewardaccumulatedproficiency_Destroy);
-        eaClearEx(&pReward->detailRecipes,rewardaccumulateddetailrecipe_Destroy);
-        eaClearEx(&pReward->details, rewardaccumulateddetail_Destroy);
-        eaClearEx(&pReward->tokens, rewardaccumulatedtoken_Destroy);
-        eaClearEx(&pReward->rewardTables, rewardaccumulatedrewardtable_Destroy);
-        eaClearEx(&pReward->rewardTokenCount, rewardaccumulatedrewardtokencount_Destroy);
-        eaClearEx(&pReward->incarnatePoints, rewardAccumulatedIncarnatePoints_Destroy);
-        eaClearEx(&pReward->accountProducts, rewardAccumulatedAccountProduct_Destroy);
+        eaClearEx(&pReward->powers, rewardaccumulatedpower_DestroyAdapter);
+        eaClearEx(&pReward->salvages, rewardaccumulatedsalvage_DestroyAdapter);
+        eaClearEx(&pReward->concepts, rewardaccumulatedconcept_DestroyAdapter);
+        eaClearEx(&pReward->proficiencies, rewardaccumulatedproficiency_DestroyAdapter);
+        eaClearEx(&pReward->detailRecipes, rewardaccumulateddetailrecipe_DestroyAdapter);
+        eaClearEx(&pReward->details, rewardaccumulateddetail_DestroyAdapter);
+        eaClearEx(&pReward->tokens, rewardaccumulatedtoken_DestroyAdapter);
+        eaClearEx(&pReward->rewardTables, rewardaccumulatedrewardtable_DestroyAdapter);
+        eaClearEx(&pReward->rewardTokenCount, rewardaccumulatedrewardtokencount_DestroyAdapter);
+        eaClearEx(&pReward->incarnatePoints, rewardAccumulatedIncarnatePoints_DestroyAdapter);
+        eaClearEx(&pReward->accountProducts, rewardAccumulatedAccountProduct_DestroyAdapter);
 
         if(freeEArrays)
         {

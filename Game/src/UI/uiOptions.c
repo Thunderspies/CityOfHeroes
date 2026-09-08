@@ -3137,8 +3137,9 @@ void optionsSelectTab(void*data)
 
 extern int g_isBindingKey;
 
-static void freeFunc(char *str)
+static void freeFunc(void* strData)
 {
+    char * str = (char *)strData;
     free(str);
 }
 

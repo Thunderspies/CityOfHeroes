@@ -144,6 +144,11 @@ static void s_DestroyLeague(League *league)
     }
 }
 
+static void s_DestroyLeagueAdapter(void* arg0)
+{
+    s_DestroyLeague((League *)arg0);
+}
+
 void stat_LeagueReset(void)
 {
     stat_LeagueUpdateTick(); // flush everything to the db
@@ -153,7 +158,7 @@ void stat_LeagueReset(void)
 
 
     if(s_leagues)
-        stashTableClearEx(s_leagues, NULL, s_DestroyLeague);
+        stashTableClearEx(s_leagues, NULL, s_DestroyLeagueAdapter);
     else
         s_leagues = stashTableCreateInt(0);
     if(s_leagues_byent)
@@ -304,6 +309,11 @@ static void s_DestroyLevelingPact(LevelingPact *levelingpact)
     free(levelingpact);
 }
 
+static void s_DestroyLevelingPactAdapter(void* arg0)
+{
+    s_DestroyLevelingPact((LevelingPact *)arg0);
+}
+
 void stat_LevelingPactReset(void)
 {
     stat_LevelingPactUpdateTick(1); // flush everything to the db
@@ -313,7 +323,7 @@ void stat_LevelingPactReset(void)
 
 
     if(s_levelingpacts)
-        stashTableClearEx(s_levelingpacts, NULL, s_DestroyLevelingPact);
+        stashTableClearEx(s_levelingpacts, NULL, s_DestroyLevelingPactAdapter);
     else
         s_levelingpacts = stashTableCreateInt(0);
     if(s_levelingpacts_byent)

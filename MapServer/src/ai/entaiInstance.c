@@ -534,7 +534,9 @@ static int getPowerGroupFlags(const char* name){
     return 0;
 }
 
-static int compareAIConfigNames(const AIConfig** c1, const AIConfig** c2){
+static int compareAIConfigNames(const void* c1Data, const void* c2Data){
+    const AIConfig** c1 = (const AIConfig**)c1Data;
+    const AIConfig** c2 = (const AIConfig**)c2Data;
     if(!(*c1)->name)
         return -1;
 
@@ -1470,10 +1472,15 @@ static void aiInitConfigFromDef(Entity* e, AIVars* ai)
     }
 }
 
+static void AIConfigTargetPrefDestroyAdapter(void* arg0)
+{
+    AIConfigTargetPrefDestroy((AIConfigTargetPref*)arg0);
+}
+
 void aiReInitCoh(Entity* e)
 {
     AIVars* ai = ENTAI(e);
-    eaClearEx(&ai->targetPref, AIConfigTargetPrefDestroy);
+    eaClearEx(&ai->targetPref, AIConfigTargetPrefDestroyAdapter);
     ZeroStruct(&ai->inputs);
     ai->doNotChangePowers = 0;
 

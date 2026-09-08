@@ -350,7 +350,9 @@ static AITeamMemberInfo* aiTeamGetClosestMember(AITeam* team, const Vec3 pos){
     return bestMember;
 }
 
-static int aiTeamCompareDangerValues(const AIProxEntStatus** status1, const AIProxEntStatus** status2){
+static int aiTeamCompareDangerValues(const void* status1Data, const void* status2Data){
+    const AIProxEntStatus** status1 = (const AIProxEntStatus**)status1Data;
+    const AIProxEntStatus** status2 = (const AIProxEntStatus**)status2Data;
     float diff = (*status1)->dangerValue - (*status2)->dangerValue;
 
     // Sort from high to low.
@@ -363,7 +365,9 @@ static int aiTeamCompareDangerValues(const AIProxEntStatus** status1, const AIPr
         return 1;
 }
 
-static int aiTeamCompareMemberTargetRelation(const AITeamMemberInfo** member1, const AITeamMemberInfo** member2){
+static int aiTeamCompareMemberTargetRelation(const void* member1Data, const void* member2Data){
+    const AITeamMemberInfo** member1 = (const AITeamMemberInfo**)member1Data;
+    const AITeamMemberInfo** member2 = (const AITeamMemberInfo**)member2Data;
     int priority_diff = (*member1)->assignTargetPriority - (*member2)->assignTargetPriority;
 
     // Sort from high to low priority.

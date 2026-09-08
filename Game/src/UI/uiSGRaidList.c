@@ -585,8 +585,10 @@ static int hour_part(int hour)
     while (hour < 0) hour += 24;
     return hour % 24;
 }
-static int compare_hours(int* left, int* right)
+static int compare_hours(const void* leftData, const void* rightData)
 {
+    int* left = (int*)leftData;
+    int* right = (int*)rightData;
     return hour_part(*left) - hour_part(*right);
 }
 
@@ -700,7 +702,7 @@ int sgRaidTimeWindow(void)
         last_tz_adjust = tz_adjust;
         for (i = 0; i < RAID_HOUR_COUNT; i++)
             raid_hours[i] = hour_part(RAID_HOUR_START + i + tz_adjust); 
-        qsort(raid_hours, RAID_HOUR_COUNT, sizeof(raid_hours[0]), (int(*)(const void*,const void*))compare_hours);
+        qsort(raid_hours, RAID_HOUR_COUNT, sizeof(raid_hours[0]), compare_hours);
 
         eaDestroyConst( &hourCB.strings );
     }

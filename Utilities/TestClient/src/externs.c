@@ -512,10 +512,10 @@ int cmdParse(char *str) { commAddInput(str); return 0; }
 void setState( int st, int td ) {;}
 void setCompassDest( int on, int type, char* name, char* map, Vec3 position, int id, TexBind * icon ) {;}
 TexBind *texLoadStd( char * sprite_name ) { return NULL; }
-TexBind *texLoad( const char *name, int mode, TexUsage use_purpose) { return NULL; }
+TexBind *texLoad( const char *name, TexLoadHow mode, TexUsage use_purpose) { return NULL; }
 AtlasTex *atlasLoadTextureEx(const char *sprite_name, int one_use_only) { return NULL; }
 AtlasTex *atlasLoadTexture(const char *sprite_name) { return NULL; }
-BasicTexture *texLoadBasic(const char *name, int mode, TexUsage use_purpose) { return NULL; }
+BasicTexture *texLoadBasic(const char *name, TexLoadHow mode, TexUsage use_purpose) { return NULL; }
 BasicTexture *texFind(const char *name) { return NULL; }
 TexBind *texFindComposite(const char *name) { return NULL; }
 void dock_setLocked(int mode) {;}
@@ -747,7 +747,7 @@ void souvenirCluePrepareUpdate(){;}
 void scissor_dims(int left, int top, int wd, int ht) {;}
 void set_scissor_dbg(int x, char* filename, int lineno) {;}
 int drawStdButton( float cx, float cy, float z, float wd, float ht, int color, char *txt, float txtSc, int flags ) { return 0; }
-void setHelpOverlay( char *texName ) {;}
+void setHelpOverlay( const char *texName ) {;}
 void lfg_add( char * name, int archetype, int origin, int level, int lfg, int hidden, int teamsize, int leader, int sameteam, 
              int leaguesize, int leagueleader, int sameleague, char *mapName, int dbid, int arena_map, int mission_map, 
              int other_faction, int faction_same_map, int other_universe, int universe_same_map, char *comment ) {;}
@@ -793,7 +793,7 @@ void missionSummaryInvalidate(void* set) {;}
 void ArenaStart(int iTimeToStart, int iTimeToRun) {;}
 void ArenaStop(void) {;}
 
-int tailor_RevertBone( int boneID, int type ) { return 0;}
+int tailor_RevertBone( int boneID, const CostumeBoneSet *bset, int type ) { return 0;}
 void tailor_RevertCostumePieces( Entity *e) {;}
 void tailor_exit() {;}
 int gEnterTailor = 0;
@@ -1231,7 +1231,6 @@ void cfg_setIsVIPShard(int data)                {    return;        }
 typedef struct UIEdit UIEdit;
 UIEdit *sellItemEdit = NULL;
 
-typedef enum GRNagContext GRNagContext;
 int okToShowGoingRogueNag(GRNagContext ctx) { return 0; }
 void dialogGoingRogueNag(GRNagContext ctx) { return; }
 
@@ -1254,7 +1253,7 @@ void genderChangeMenuStart(){}
 void display_sprite_ex(AtlasTex *atex, BasicTexture *btex, float xp, float yp, float zp, float xscale, float yscale, int rgba, int rgba2, int rgba3, int rgba4, float u1, float v1, float u2, float v2, float angle, int additive, Clipper2D *clipper, ScreenScaleOption useScreenScale, HAlign ha, VAlign va ) {}
 Clipper2D* clipperGetCurrent() {return 0;}
 void calculatePositionScales(F32 * xposSc, F32 * yposSc) {*xposSc=1.f; *yposSc=1.f;}
-int getScreenScaleOption() {return 0;}
+ScreenScaleOption getScreenScaleOption(void) {return 0;}
 
 void unlockCharacterRightAwayIfPossible(void){}
 

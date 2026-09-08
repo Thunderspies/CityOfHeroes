@@ -36,8 +36,10 @@ static TokenizerParseInfo parseAllAnimLists[] = {
 
 StashTable AnimListHashes = {0};
 
-int cmpAnimListName(const char** l, const char** r)
+int cmpAnimListName(const void* lData, const void* rData)
 {
+    const char** l = (const char**)lData;
+    const char** r = (const char**)rData;
     const char* lhs = *l;
     const char* rhs = *r;
     return stricmp(lhs,rhs);

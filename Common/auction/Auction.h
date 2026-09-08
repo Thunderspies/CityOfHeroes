@@ -131,7 +131,7 @@ void AuctionInventory_FromStr(AuctionInventory **hinv,char *str);
 // auction history stuff
 void setAuctionHistoryItemDetail(AuctionHistoryItemDetail *dest, char *buyer, char *seller, U32 date, int price);
 AuctionHistoryItemDetail *newAuctionHistoryItemDetail(char *buyer, char *seller, U32 date, int price);
-void freeAuctionHistoryItemDetail(AuctionHistoryItemDetail *itm);
+void freeAuctionHistoryItemDetail(void* itmData);
 void freeAuctionHistoryItem(AuctionHistoryItem *itm);
 AuctionHistoryItem *newAuctionHistoryItem(const char *pchIdentifier);
 

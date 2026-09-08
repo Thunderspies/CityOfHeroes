@@ -46,6 +46,11 @@ extern Menu * libraryMenu;
 extern Menu * commandMenu;
 extern EditListView * trackerListView;
 
+static void destroyPropertyEntAdapter(void* arg0)
+{
+    destroyPropertyEnt((PropertyEnt*)arg0);
+}
+
 static void saveCurrData(void)
 {
     if (sel_count)
@@ -57,7 +62,7 @@ static void saveCurrData(void)
         if(!save_properties)
             save_properties = stashTableCreateWithStringKeys(4, StashDeepCopyKeys);
         else
-            stashTableClearEx(save_properties, NULL, destroyPropertyEnt);
+            stashTableClearEx(save_properties, NULL, destroyPropertyEntAdapter);
 
         copyPropertyStashTable(save_def.properties, save_properties);
     }

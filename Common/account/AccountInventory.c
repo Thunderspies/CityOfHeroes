@@ -167,8 +167,9 @@ CertificationRecord* certificationRecord_Create()
     return calloc(1, sizeof(CertificationRecord));
 }
 
-void certificationRecord_Destroy(CertificationRecord* pRecord)
+void certificationRecord_Destroy(void* pRecordData)
 {
+    CertificationRecord* pRecord = (CertificationRecord*)pRecordData;
     estrDestroy(&pRecord->pchRecipe);
     SAFE_FREE(pRecord);
 }

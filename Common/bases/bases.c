@@ -137,8 +137,10 @@ void baseAddReferenceName( char * name )
 
 
 
-static int baseReferenceSort(const char** name1, const char** name2 )
+static int baseReferenceSort(const void* name1Data, const void* name2Data)
 {
+    const char** name1 = (const char**)name1Data;
+    const char** name2 = (const char**)name2Data;
 #if CLIENT
     return strcmp( textStd((char*)*name1), textStd((char*)*name2) );
 #elif SERVER
@@ -315,6 +317,12 @@ DetailSwap *detailSwapSet(RoomDetail *detail, char original[128], char replaced[
 }
 
 
+void detailCleanup(RoomDetail *detail);
+static void detailCleanupCallback(void* arg0)
+{
+    detailCleanup((RoomDetail *)arg0);
+}
+
 void baseClearRoom(BaseRoom *room, F32 height[2])
 {
     int            i;
@@ -336,7 +344,7 @@ void baseClearRoom(BaseRoom *room, F32 height[2])
     for(i=0;i<eaSize(&room->lights);i++)
         setVec3(room->lights[i]->rgba,60-10*i,60-10*i,60-10*i);
     eaDestroyEx(&room->swaps,ParserFreeStruct);
-    eaDestroyEx(&room->details, detailCleanup);
+    eaDestroyEx(&room->details, detailCleanupCallback);
     eaClearEx(&room->doors,ParserFreeStruct);
 
 }

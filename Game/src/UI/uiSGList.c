@@ -111,6 +111,11 @@ static void clearSupergroupLine(SupergroupLine *sgline)
     MP_FREE(SupergroupLine, sgline);
 }
 
+static void clearSupergroupLineAdapter(void* arg0)
+{
+    clearSupergroupLine((SupergroupLine *)arg0);
+}
+
 void receiveSupergroupList(Packet *pak)
 {
     int count, i;
@@ -119,7 +124,7 @@ void receiveSupergroupList(Packet *pak)
     count = pktGetBitsPack(pak, 1);
     if (!gSupergroupLines)
         eaCreate(&gSupergroupLines);
-    eaClearEx( &gSupergroupLines, clearSupergroupLine);
+    eaClearEx( &gSupergroupLines, clearSupergroupLineAdapter);
 
     for (i = 0; i < count; i++)
     {

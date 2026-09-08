@@ -15,8 +15,9 @@
 
 SHARED_MEMORY EmoteAnims g_EmoteAnims;
 
-bool EmoteAnimFinalProcess(ParseTable pti[], EmoteAnims* anims, bool shared_memory)
+bool EmoteAnimFinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    EmoteAnims* anims = (EmoteAnims*)structptr;
     int i;
 
     for (i = 0; i < eaSize(&anims->ppAnims); i++)

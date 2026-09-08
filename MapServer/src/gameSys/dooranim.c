@@ -202,8 +202,9 @@ int DoorAnimFindGroupFromPoint(DoorAnimPoint** doorlist, DoorAnimPoint* sourcedo
     return *numdoors;
 }
 
-void DestroyDoorAnimPoint(DoorAnimPoint* point)
+void DestroyDoorAnimPoint(void* pointData)
 {
+    DoorAnimPoint* point = (DoorAnimPoint*)pointData;
     if (!point)
         return;
     if (point->animation)

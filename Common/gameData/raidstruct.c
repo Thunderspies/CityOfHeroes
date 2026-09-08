@@ -167,8 +167,10 @@ int BaseRaidRemoveParticipant(ScheduledBaseRaid* raid, U32 dbid, int attacker)
 
 // BaseRaidForEachSorted - sorts into time order
 static ScheduledBaseRaid** g_sortedraids;
-static int reverseTimeSort(const ScheduledBaseRaid** left, const ScheduledBaseRaid** right)
+static int reverseTimeSort(const void* leftData, const void* rightData)
 {
+    const ScheduledBaseRaid** left = (const ScheduledBaseRaid**)leftData;
+    const ScheduledBaseRaid** right = (const ScheduledBaseRaid**)rightData;
     if ((*left)->time == (*right)->time)
         return 0;
     if ((*left)->time < (*right)->time)
@@ -181,13 +183,18 @@ static void sortRaids(ScheduledBaseRaid* raid, U32 raidid)
     eaInsert(&g_sortedraids, raid, loc);
 }
 
+static void sortRaidsAdapter(void* arg0, U32 arg1)
+{
+    sortRaids((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void BaseRaidForEachSorted(int (*func)(ScheduledBaseRaid*, U32))
 {
     int i;
     if (!g_sortedraids)
         eaCreate(&g_sortedraids);
     eaSetSize(&g_sortedraids, 0);
-    cstoreForEach(g_ScheduledBaseRaidStore, sortRaids);
+    cstoreForEach(g_ScheduledBaseRaidStore, sortRaidsAdapter);
     for (i = eaSize(&g_sortedraids)-1; i >= 0; i--)
         func(g_sortedraids[i], g_sortedraids[i]->id);
 }
@@ -214,19 +221,29 @@ static void countDefenders(ScheduledBaseRaid* raid, U32 raidid)
         defender_count++;
 }
 
+static void countAttackersAdapter(void* arg0, U32 arg1)
+{
+    countAttackers((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 int BaseRaidCountAttacking(int supergroup_id)
 {
     attacker_count = 0;
     sg_id = supergroup_id;
-    cstoreForEach(g_ScheduledBaseRaidStore, countAttackers);
+    cstoreForEach(g_ScheduledBaseRaidStore, countAttackersAdapter);
     return attacker_count;
+}
+
+static void countDefendersAdapter(void* arg0, U32 arg1)
+{
+    countDefenders((ScheduledBaseRaid*)arg0, (U32)arg1);
 }
 
 int BaseRaidCountDefending(int supergroup_id)
 {
     defender_count = 0;
     sg_id = supergroup_id;
-    cstoreForEach(g_ScheduledBaseRaidStore, countDefenders);
+    cstoreForEach(g_ScheduledBaseRaidStore, countDefendersAdapter);
     return defender_count;
 }
 

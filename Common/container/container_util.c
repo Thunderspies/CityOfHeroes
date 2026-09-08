@@ -44,8 +44,9 @@ void containerGetTrace(Packet* pak, U32* cmd, U32* listid, U32* cid, U32* user_c
 // *********************************************************************************
 
 MP_DEFINE(ContainerReflectInfo);
-void ContainerReflectInfoDestroy(ContainerReflectInfo* info)
+void ContainerReflectInfoDestroy(void* infoData)
 {
+    ContainerReflectInfo* info = (ContainerReflectInfo*)infoData;
     MP_FREE(ContainerReflectInfo, info);
 }
 

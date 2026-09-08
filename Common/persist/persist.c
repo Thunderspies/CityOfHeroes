@@ -343,7 +343,7 @@ static void s_mergeChanges(PersistInfo **infos, int count)
     if(async) // ap_size(&async)
     {
         HANDLE thread;
-        int threadid = 1;
+        unsigned threadid = 1;
         EnterCriticalSection(&s_mergecs);
         thread = CreateThread(0, 0, s_thread_mergeChanges, async, 0, &threadid);
         assert(threadid);

@@ -921,13 +921,19 @@ static UIEdit* uiedit_Create( TTTextWrapper *wrapper, F32 cursorInterval, F32 te
     return res;
 }
 
+static void uiEditLineDestroy(UIEditLine* line);
+static void uiEditLineDestroyCallback(void* arg0)
+{
+    uiEditLineDestroy((UIEditLine*)arg0);
+}
+
 static void uiedit_Destroy( UIEdit *edit )
 {
     if( edit )
     {
         if(edit->lines)
         {
-            eaDestroyEx(&edit->lines, uiEditLineDestroy);
+            eaDestroyEx(&edit->lines, uiEditLineDestroyCallback);
         }
         if(edit->wrapper)
         {
@@ -960,11 +966,16 @@ void uiEditDestroy(UIEdit* edit)
     uiedit_Destroy(edit);
 }
 
+static void uiEditLineDestroyAdapter(void* arg0)
+{
+    uiEditLineDestroy((UIEditLine*)arg0);
+}
+
 void uiEditClear(UIEdit* edit)
 {
     if(!edit)
         return;
-    eaClearEx(&edit->lines, uiEditLineDestroy);
+    eaClearEx(&edit->lines, uiEditLineDestroyAdapter);
     uiEditAddEmptyLine(edit, 0);
     edit->cursor.lineIndex = 0;
     edit->cursor.characterIndex = 0;

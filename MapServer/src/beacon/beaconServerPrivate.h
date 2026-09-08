@@ -3,8 +3,8 @@
 
 #include <utilitieslib/utils/wininclude.h>
 
-#if PLATFORMSDK < 0x0600
-#error "Condition variables are not supported on a Platform SDK before 6.0A"
+#if _WIN32_WINNT < 0x0600
+#error "Condition variables require Vista or newer"
 #endif
 
 // ---[ Common stuff ]-----------------------------------------------------------------------------

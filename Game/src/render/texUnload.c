@@ -232,8 +232,10 @@ static bool unloadCriteriaRaw(BasicTexture *bind)
     return ret;
 }
 
-static int unloadComparator(const BasicTexture **tex1, const BasicTexture **tex2)
+static int unloadComparator(const void* tex1Data, const void* tex2Data)
 {
+    const BasicTexture ** tex1 = (const BasicTexture **)tex1Data;
+    const BasicTexture ** tex2 = (const BasicTexture **)tex2Data;
     // First check to see if raw data is loaded
     if ((*tex1)->load_state[1] == TEX_LOADED) {
         if ((*tex2)->load_state[1] == TEX_LOADED) {

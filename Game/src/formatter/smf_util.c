@@ -840,6 +840,11 @@ static int smf_CharacterWidthsHandler(smf_CharacterWidthsParam* param){
     return 1;
 }
 
+static int smf_CharacterWidthsHandlerGlyphCallback(TTTextForEachGlyphParam* param)
+{
+    return smf_CharacterWidthsHandler((smf_CharacterWidthsParam*)param);
+}
+
 float* smf_GetCharacterWidths(SMBlock *pBlock, TextAttribs *pattrs)
 {
     unsigned int i;
@@ -860,7 +865,7 @@ float* smf_GetCharacterWidths(SMBlock *pBlock, TextAttribs *pattrs)
 
     smf_MakeFont(&pttFont, &rp, pattrs);
 
-    characterWidthsParam.forEachParam.handler = (GlyphHandler)smf_CharacterWidthsHandler;
+    characterWidthsParam.forEachParam.handler = smf_CharacterWidthsHandlerGlyphCallback;
     characterWidthsParam.characterWidths = NULL;
     characterWidthsParam.lastWidthSum = 0.0;
 

@@ -281,7 +281,7 @@ int character_InventoryUsedSlots(Character *pchar, InventoryType type)
     };
 }
 
-static void s_GetInvAndItem(InventoryType type, GenericInvItem ****phInv, void **phItem, Character *p, int id);
+static void s_GetInvAndItem(InventoryType type, GenericInvItem ****phInv, const void **phItem, Character *p, int id);
 
 //------------------------------------------------------------
 //  get the amount in the players inventory of an item of a specific type/id
@@ -362,8 +362,9 @@ GenericInvItem* genericinvitem_Create( const void *item )
     return res;
 }
 
-void genericinvitem_Destroy(GenericInvItem *item)
+void genericinvitem_Destroy(void* itemData)
 {
+    GenericInvItem * item = (GenericInvItem *)itemData;
     MP_FREE(GenericInvItem,item);
 }
 
@@ -1913,8 +1914,9 @@ char const* inventory_GetDbTableName( InventoryType type )
 // NOTE: assumes that ppAttribItems is already full.  note:
 //independent of type
 //----------------------------------------------------------
-bool attribfiledict_FinalProcess(ParseTable pti[], AttribFileDict *dict, bool shared_memory)
+bool attribfiledict_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    AttribFileDict * dict = (AttribFileDict *)structptr;
     int res = 0;
     int i;
 
@@ -2289,8 +2291,9 @@ static AttribFileItem* attribfileitem_Create( int id, char *name )
 #endif // SERVER
 
 #ifdef SERVER
-static void attribfileitem_Destroy( AttribFileItem *item )
+static void attribfileitem_Destroy(void* itemData)
 {
+    AttribFileItem * item = (AttribFileItem *)itemData;
     MP_FREE(AttribFileItem, item);
 }
 

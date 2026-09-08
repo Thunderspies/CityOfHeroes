@@ -120,8 +120,10 @@ void RoomAdd(DefTracker* tracker, int pace, Vec3 markerPos)
 
 
 // just a convenience for debugging purposes: sorting rooms by pacing number
-static int compareRooms(RoomInfo** lhs, RoomInfo** rhs)
+static int compareRooms(const void* lhsData, const void* rhsData)
 {
+    RoomInfo** lhs = (RoomInfo**)lhsData;
+    RoomInfo** rhs = (RoomInfo**)rhsData;
     if ((*lhs)->roompace < (*rhs)->roompace) return -1;
     if ((*lhs)->roompace > (*rhs)->roompace) return 1;
     return 0;
@@ -129,7 +131,7 @@ static int compareRooms(RoomInfo** lhs, RoomInfo** rhs)
 static void SortRooms(void)
 {
     if (eaSize(&g_rooms))
-        qsort(&g_rooms[1], eaSize(&g_rooms)-1, sizeof(g_rooms[0]), (int(*)(const void*, const void*))compareRooms);
+        qsort(&g_rooms[1], eaSize(&g_rooms)-1, sizeof(g_rooms[0]), compareRooms);
 }
 
 DefTracker* g_lasttracker; // used when debugging RoomGetInfo

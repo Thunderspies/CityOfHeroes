@@ -40,7 +40,7 @@ ArenaWeightRange g_weightRanges[ARENA_NUM_WEIGHT_CLASSES] = {
     {    ARENA_WEIGHT_45,    46,    49    },
 };
 
-int GetWeightClass(int level)
+ArenaWeightClass GetWeightClass(int level)
 {
     int i;
     for (i = 1; i < ARENA_NUM_WEIGHT_CLASSES; i++)
@@ -70,12 +70,18 @@ void ArenaKioskSend(Packet* pak, ArenaEventList* list)
 }
 
 //ArenaKioskReceive clears out list before adding all the incoming events to it
+void ArenaEventDestroy(ArenaEvent* ae);
+static void ArenaEventDestroyCallback(void* arg0)
+{
+    ArenaEventDestroy((ArenaEvent*)arg0);
+}
+
 void ArenaKioskReceive(Packet* pak, ArenaEventList* list) {
     int count, i;
     count=pktGetBitsPack(pak,1);
     if (list==NULL)
         return;
-    eaDestroyEx(&list->events,ArenaEventDestroy);
+    eaDestroyEx(&list->events,ArenaEventDestroyCallback);
     list->events=0;
     for (i = 0; i < count; i++)
     {
@@ -1012,12 +1018,12 @@ ArenaEventList* ArenaEventListCreate(void)
 }
 void ArenaEventListDestroy(ArenaEventList* al)
 {
-    eaDestroyEx(&al->events, ArenaEventDestroy);
+    eaDestroyEx(&al->events, ArenaEventDestroyCallback);
     MP_FREE(ArenaEventList, al);
 }
 void ArenaEventListDestroyContents(ArenaEventList* al)
 {
-    eaDestroyEx(&al->events, ArenaEventDestroy);
+    eaDestroyEx(&al->events, ArenaEventDestroyCallback);
 }
 
 ArenaEvent* ArenaEventCreate(void)
@@ -1034,9 +1040,15 @@ void ArenaEventDestroy(ArenaEvent* ae)
     ArenaEventDestroyContents(ae);
     MP_FREE(ArenaEvent, ae);
 }
+void ArenaParticipantDestroy(ArenaParticipant* ap);
+static void ArenaParticipantDestroyCallback(void* arg0)
+{
+    ArenaParticipantDestroy((ArenaParticipant*)arg0);
+}
+
 void ArenaEventDestroyContents(ArenaEvent* ae)
 {
-    eaDestroyEx(&ae->participants, ArenaParticipantDestroy);
+    eaDestroyEx(&ae->participants, ArenaParticipantDestroyCallback);
     eaDestroyEx(&ae->seating, ArenaSeatingDestroy);
     if (ae->history)
     {
@@ -1064,8 +1076,9 @@ ArenaSeating* ArenaSeatingCreate(void)
     MP_CREATE(ArenaSeating, 100);
     return MP_ALLOC(ArenaSeating);
 }
-void ArenaSeatingDestroy(ArenaSeating* ap)
+void ArenaSeatingDestroy(void* apData)
 {
+    ArenaSeating* ap = (ArenaSeating*)apData;
     MP_FREE(ArenaSeating, ap);
 }
 ArenaRef* ArenaRefCreate(void)
@@ -1082,8 +1095,9 @@ ArenaRankingTableEntry* ArenaRankingTableEntryCreate(void)
     MP_CREATE(ArenaRankingTableEntry, 100);
     return MP_ALLOC(ArenaRankingTableEntry);
 }
-void ArenaRankingTableEntryDestroy(ArenaRankingTableEntry* entry)
+void ArenaRankingTableEntryDestroy(void* entryData)
 {
+    ArenaRankingTableEntry* entry = (ArenaRankingTableEntry*)entryData;
     if(entry->playername)
         free(entry->playername);
     MP_FREE(ArenaRankingTableEntry, entry);
@@ -1103,9 +1117,15 @@ EventHistory* EventHistoryCreate(void)
     MP_CREATE(EventHistory, 100);
     return MP_ALLOC(EventHistory);
 }
+void EventHistoryEntryDestroy(EventHistoryEntry* entry);
+static void EventHistoryEntryDestroyCallback(void* arg0)
+{
+    EventHistoryEntryDestroy((EventHistoryEntry*)arg0);
+}
+
 void EventHistoryDestroy(EventHistory* hist)
 {
-    eaDestroyEx(&hist->sides, EventHistoryEntryDestroy);
+    eaDestroyEx(&hist->sides, EventHistoryEntryDestroyCallback);
 
     MP_FREE(EventHistory, hist);
 }

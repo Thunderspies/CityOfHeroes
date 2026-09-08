@@ -166,8 +166,10 @@ static void tabstate_Destroy( TabState *item )
     MP_FREE(TabState, item);
 }
 
-static int s_tabCmp(void const *lhs, void const *rhs)
+static int s_tabCmp(const void* lhsData, const void* rhsData)
 {
+    void const * lhs = (void const *)lhsData;
+    void const * rhs = (void const *)rhsData;
     int res = 0;
     if( verify( lhs && rhs ))
     {

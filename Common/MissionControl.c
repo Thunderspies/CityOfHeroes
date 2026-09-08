@@ -55,12 +55,14 @@ int NPCBeaconRadius;
 double maxLength;
 int needsReprocessing;
 
-void destroyNPCBeacon(NPCBeacon * b) {
+void destroyNPCBeacon(void* bData) {
+    NPCBeacon * b = (NPCBeacon *)bData;
     eaiDestroy(&b->connections);
     free(b);
 }
 
-void destroyTriggerVolume(TriggerVolume * v) {
+void destroyTriggerVolume(void* vData) {
+    TriggerVolume * v = (TriggerVolume *)vData;
     eaDestroyEx((void ***)(&v->targets),NULL);
 }
 

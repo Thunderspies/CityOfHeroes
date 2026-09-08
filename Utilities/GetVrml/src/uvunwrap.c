@@ -35,16 +35,20 @@ static void    calcFaceNormal(Vec3 v0,Vec3 v1,Vec3 v2,Vec3 norm)
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
-static int cpCompare(const CombinedPoly **cp1, const CombinedPoly **cp2)
+static int cpCompare(const void* cp1Data, const void* cp2Data)
 {
+    const CombinedPoly ** cp1 = (const CombinedPoly **)cp1Data;
+    const CombinedPoly ** cp2 = (const CombinedPoly **)cp2Data;
     // biggest first
     if ((*cp1)->areaWithBorder > (*cp2)->areaWithBorder)
         return -1;
     return (*cp1)->areaWithBorder < (*cp2)->areaWithBorder;
 }
 
-static int primCompare(const Prim **p1, const Prim **p2)
+static int primCompare(const void* p1Data, const void* p2Data)
 {
+    const Prim ** p1 = (const Prim **)p1Data;
+    const Prim ** p2 = (const Prim **)p2Data;
 #if 0
     // biggest first in the list, so smallest will be popped off first
     if ((*p1)->area > (*p2)->area)
@@ -1289,8 +1293,10 @@ VertexGraphNode *vertexGraphNodeAdd( VertexGraph *graph, Vec3 connection, Vec3 v
     return newNode;
 }
 
-int vgncCmp( const VertexGraphNodeConnection **a, const VertexGraphNodeConnection **b )
+int vgncCmp(const void* aData, const void* bData)
 {
+    const VertexGraphNodeConnection ** a = (const VertexGraphNodeConnection **)aData;
+    const VertexGraphNodeConnection ** b = (const VertexGraphNodeConnection **)bData;
     return (*a)->node->idx < (*b)->node->idx ? -1 : ((*a)->node->idx > (*b)->node->idx ? 1 : 0) ;
 }
 

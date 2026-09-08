@@ -41,6 +41,6 @@ typedef struct PigFile {
 PigFileHeader *PigFileFind(PigFile *handle, const char *relpath); // Find an entry in a Pig
 
 // Internal function (called by hoglib)
-int pigCmpEntryPathname(const NewPigEntry *a,const NewPigEntry *b);
+int pigCmpEntryPathname(const void* aData, const void* bData);
 U8 *pigGetHeaderData(NewPigEntry *entry, U32 *size);
 U32 PigExtractBytesInternal(FILE *file, void *headerkey, int headerindex, void *buf, U32 pos, U32 size, U64 fileoffset, U32 filesize, U32 pack_size, bool random_access);

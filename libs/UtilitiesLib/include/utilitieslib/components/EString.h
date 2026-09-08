@@ -85,8 +85,8 @@ void estrPackData(char **str, const void *src, int srclen);
 void estrUnpackStr(char **str, const char * const *src);
 static INLINEDBG void estrPackStr(char **str, const char * const *src) { estrPackData(str, *src, estrLength(src)); }
 static INLINEDBG void estrPackStr2(char **str, const char *src) { estrPackData(str, src, (int)strlen(src)); }
-static INLINEDBG void estrPack(char **str) { char *tmp = NULL; estrPackStr(&tmp, str); estrDestroy(str); *str = tmp; }
-static INLINEDBG void estrUnpack(char **str) { char *tmp = NULL; estrUnpackStr(&tmp, str); estrDestroy(str); *str = tmp; }
+static INLINEDBG void estrPack(char **str) { char *tmp = NULL; const char *src = *str; estrPackStr(&tmp, &src); estrDestroy(str); *str = tmp; }
+static INLINEDBG void estrUnpack(char **str) { char *tmp = NULL; const char *src = *str; estrUnpackStr(&tmp, &src); estrDestroy(str); *str = tmp; }
 
 
 //---------------------------------------------------------------------------------
@@ -195,6 +195,17 @@ static INLINEDBG char* estrInternalTempFill(EString *estr, unsigned int bufsize)
     estrTerminateString(estr);
     return estr->str;
 }
+
+
+#ifndef ESTRING_IMPL
+/* Read-only views of typed character-buffer handles. The handle may point to
+* mutable or const characters; these queries never replace or edit them.
+*/
+#define estrLength(str) (estrLength)((const char *const *)(str))
+#define estrGetCapacity(str) (estrGetCapacity)((const char **)(str))
+#define estrUTF8CharacterCount(str) \
+	(estrUTF8CharacterCount)((const char **)(str))
+#endif
 
 C_DECLARATIONS_END
 

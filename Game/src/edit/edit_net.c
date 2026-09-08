@@ -791,8 +791,10 @@ static void sendGroupDef(Packet *pak,GroupDef *def,char *fullpath,char *objname)
 
 }
 
-int cmpNames(const DefTracker ** a,const DefTracker ** b)
+int cmpNames(const void* aData, const void* bData)
 {
+    const DefTracker ** a = (const DefTracker **)aData;
+    const DefTracker ** b = (const DefTracker **)bData;
     return strcmp((*a)->def->name,(*b)->def->name);
 }
 

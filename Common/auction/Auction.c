@@ -223,8 +223,9 @@ AuctionHistoryItemDetail *newAuctionHistoryItemDetail(char *buyer, char *seller,
     return ret;
 }
 
-void freeAuctionHistoryItemDetail(AuctionHistoryItemDetail *itm)
+void freeAuctionHistoryItemDetail(void* itmData)
 {
+    AuctionHistoryItemDetail * itm = (AuctionHistoryItemDetail *)itmData;
     if ( itm )
     {
         if(itm->buyer)

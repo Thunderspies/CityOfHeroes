@@ -470,23 +470,31 @@ static int compareContactsByRelationship(const int *a, const int *b)
 }
 
 
-static int compareContactsByActiveShell(const int *a, const int *b)
-{  
+static int compareContactsByActiveShell(const void* aData, const void* bData)
+{
+    const int * a = (const int *)aData;
+    const int * b = (const int *)bData;
     return compareContactsByActiveThenFunc(a, b, compareContactsByName);
 }
 
-static int compareContactsByNameShell(const int *a, const int *b)
-{  
+static int compareContactsByNameShell(const void* aData, const void* bData)
+{
+    const int * a = (const int *)aData;
+    const int * b = (const int *)bData;
     return compareContactsByActiveThenFunc(a, b, compareContactsByName);
 }
 
-static int compareContactsByRelationshipShell(const int *a, const int *b)
-{  
+static int compareContactsByRelationshipShell(const void* aData, const void* bData)
+{
+    const int * a = (const int *)aData;
+    const int * b = (const int *)bData;
     return compareContactsByActiveThenFunc(a, b, compareContactsByRelationship);
 }
 
-static int compareContactsByZoneShell(const int *a, const int *b)
-{  
+static int compareContactsByZoneShell(const void* aData, const void* bData)
+{
+    const int * a = (const int *)aData;
+    const int * b = (const int *)bData;
     return compareContactsByActiveThenFunc(a, b, compareContactsByZone);
 }
 

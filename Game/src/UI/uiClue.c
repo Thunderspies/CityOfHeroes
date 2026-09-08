@@ -303,6 +303,11 @@ SouvenirClue* getClueByID( int uid )
 }
 
 
+static void scDestroyAdapter(void* arg0)
+{
+    scDestroy((SouvenirClue*)arg0);
+}
+
 void souvenirCluePrepareUpdate()
 {
     int i;
@@ -318,7 +323,7 @@ void souvenirCluePrepareUpdate()
         }
     }
 
-    eaClearEx(&pData->souvenirClues, scDestroy);
+    eaClearEx(&pData->souvenirClues, scDestroyAdapter);
 
     collapseAllSouvenirClues(pData);
 }

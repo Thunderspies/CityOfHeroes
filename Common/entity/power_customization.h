@@ -60,7 +60,7 @@ extern TokenizerParseInfo ParseDBPowerCustomization[];
 extern TokenizerParseInfo ParsePowerCustomizationCost[];
 extern TokenizerParseInfo ParsePowerCustomizationLevelsCost[];
 extern SERVER_SHARED_MEMORY PowerCustomizationMenu gPowerCustomizationMenu;
-int comparePowerCustomizations(const PowerCustomization** lhs, const PowerCustomization** rhs);
+int comparePowerCustomizations(const void* lhsData, const void* rhsData);
 void loadPowerCustomizations();
 PowerCustomizationList * powerCustList_current( Entity * e );
 // Return the PowerCustomization associated with this power, or NULL if not customizable.

@@ -68,7 +68,7 @@ void selCopy(const Vec3 pos);
 int selUpdate(Vec3 start,Vec3 end,int lost_focus);
 void selDraw();
 void editSelContents();
-int cmpDepth(SelInfo *a,SelInfo *b);
+int cmpDepth(const void* aData, const void* bData);
 int editSelSort();
 void closeSelGroups();
 void unSelect(int all);

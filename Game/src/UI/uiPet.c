@@ -259,8 +259,10 @@ static PlayerPetPower **playerPetPowers;
 static PlayerPet allPet = {0};
 static PlayerPetPower allPetPower = {0};
 
-static int comparePlayerPetPower(const PlayerPet** ppet1, const PlayerPet** ppet2 )
+static int comparePlayerPetPower(const void* ppet1Data, const void* ppet2Data)
 {
+    const PlayerPet** ppet1 = (const PlayerPet**)ppet1Data;
+    const PlayerPet** ppet2 = (const PlayerPet**)ppet2Data;
     Entity * pet1 = entFromId( (*ppet1)->svr_id );
     Entity * pet2 = entFromId( (*ppet2)->svr_id ); 
 

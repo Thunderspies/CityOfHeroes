@@ -134,6 +134,12 @@ ChatChannel * ChatChannelCreate(const char * name, int reserved)
     return channel;
 }
 
+void ChatUserDestroy(ChatUser * user);
+static void ChatUserDestroyCallback(void* arg0)
+{
+    ChatUserDestroy((ChatUser *)arg0);
+}
+
 void ChatChannelDestroy(ChatChannel * channel)
 {
     // let chat tab options screen know that this channel is going to be deleted
@@ -152,7 +158,7 @@ void ChatChannelDestroy(ChatChannel * channel)
 
     eaDestroy(&channel->filters);    // should I also clean from windows here?
     
-    eaDestroyEx(&channel->users, ChatUserDestroy);
+    eaDestroyEx(&channel->users, ChatUserDestroyCallback);
     
     free(channel->name);
     free(channel);
@@ -337,6 +343,12 @@ ChatFilter * ChatFilterCreate(const char * name)
 }
 
 
+void ChatLine_Destroy( ChatLine *hItem );
+static void ChatLine_DestroyCallback(void* arg0)
+{
+    ChatLine_Destroy((ChatLine *)arg0);
+}
+
 void ChatFilterDestroy(ChatFilter * filter)
 {
     if(!filter)
@@ -348,7 +360,7 @@ void ChatFilterDestroy(ChatFilter * filter)
     eaDestroy(&filter->channels);
 
     // chat queue
-    eaDestroyEx(&filter->chatQ.ppLines, ChatLine_Destroy);
+    eaDestroyEx(&filter->chatQ.ppLines, ChatLine_DestroyCallback);
     eaDestroyEx(&filter->pendingChannels, 0);
 
     free(filter->name);
@@ -472,11 +484,16 @@ void ChatFilterRename(ChatFilter * filter, const char * name)
         ChatWindowUpdateFilter(filter);    // update parent chat window (if we belong to it)
     }
 }
+static void ChatLine_DestroyAdapter(void* arg0)
+{
+    ChatLine_Destroy((ChatLine *)arg0);
+}
+
 void ChatFilterClear(ChatFilter * filter)
 {
       if(filter)
     {
-           eaClearEx(&filter->chatQ.ppLines, ChatLine_Destroy);
+           eaClearEx(&filter->chatQ.ppLines, ChatLine_DestroyAdapter);
         filter->chatQ.size = 0;
         filter->reformatText = TRUE;
     }
@@ -526,6 +543,11 @@ void chooseFilterFontColor(ChatFilter * filter, bool selected)
 //
 // PENDING CHANNELS    - those that belong to filter but we haven't received a "join" command yet
 //
+static void ChatChannelDestroyAdapter(void* arg0)
+{
+    ChatChannelDestroy((ChatChannel *)arg0);
+}
+
 void ChatFilterPrepareAllForUpdate(int full_update)
 {
     int i,k,size;
@@ -559,8 +581,8 @@ void ChatFilterPrepareAllForUpdate(int full_update)
     // destroy all chat channels -- we'll rebuild them as we get chat server messages
     if(full_update)
     {
-        eaClearEx(&gChatChannels, ChatChannelDestroy);
-        eaClearEx(&gReservedChatChannels, ChatChannelDestroy);
+        eaClearEx(&gChatChannels, ChatChannelDestroyAdapter);
+        eaClearEx(&gReservedChatChannels, ChatChannelDestroyAdapter);
     }
 }
 

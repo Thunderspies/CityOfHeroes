@@ -177,7 +177,7 @@ U8 *rsaOpenSSLToBytes(U8 **res, int *res_len, char *str)
 {
     int len;
     char *s;
-    char *r;
+	U8 *r;
     if(!str || !res)
         return NULL;
     s = str;
@@ -254,10 +254,10 @@ U8 *rsaDecrypt(U8 **res, int *res_len, U8 *ciphertext,int ciphertext_len, U8 *pr
     BigNum *n = NULL;
     BigNum *d = NULL;
     BigNum *c = NULL;
-    char *end;
+	U8 *end;
     char *fail_msg = NULL;
-    char *p;
-    char *tmp = NULL;
+	U8 *p;
+	U8 *tmp = NULL;
     
     if(!res || !res_len || !privexp || privexp_len <= 0 || !mod || mod_len<0 || !ciphertext || ciphertext_len <= 0)
         return NULL;

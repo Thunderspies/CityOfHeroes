@@ -13,8 +13,10 @@
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/log.h>
 
-static int cmpLines(const LineTracker *a,const LineTracker *b)
+static int cmpLines(const void* aData, const void* bData)
 {
+    const LineTracker * a = (const LineTracker *)aData;
+    const LineTracker * b = (const LineTracker *)bData;
     return a->idx - b->idx;
 }
 

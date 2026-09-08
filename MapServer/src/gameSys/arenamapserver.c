@@ -127,6 +127,11 @@ int ArenaClientCallback(Packet *pak, int cmd, NetLink *link)
 }
 
 #define MAX_KIOSK_INCREMENTAL_BYTES            256
+static void ArenaEventDestroyCallback(void* arg0)
+{
+    ArenaEventDestroy((ArenaEvent*)arg0);
+}
+
 void ArenaKioskSendIncremental(Entity* e)
 {
     if (!e->pl->arenaKioskSend && !e->pl->arenaKioskSendInit)
@@ -156,7 +161,7 @@ void ArenaKioskSendIncremental(Entity* e)
     // when I'm totally done with updates
     if (e->pl->arenaKioskSendNext >= eaSize(&e->pl->arenaKioskSend))
     {
-        eaDestroyEx(&e->pl->arenaKioskSend,ArenaEventDestroy);
+        eaDestroyEx(&e->pl->arenaKioskSend,ArenaEventDestroyCallback);
         e->pl->arenaKioskSend = NULL;
     }
 }
@@ -182,7 +187,7 @@ void handleArenaKiosk(Packet* pak)
 
     if (e->pl->arenaKioskSend)
     {
-        eaDestroyEx(&e->pl->arenaKioskSend, ArenaEventDestroy);
+        eaDestroyEx(&e->pl->arenaKioskSend, ArenaEventDestroyCallback);
     }
     e->pl->arenaKioskSend = list.events;
     e->pl->arenaKioskSendNext = 0;

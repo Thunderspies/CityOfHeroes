@@ -624,8 +624,10 @@ static float badge_display( float x, float y, float z, float sc, float wd,
     return ht + BADGE_SPACE*sc;
 }
 
-static int badgeSortByCompletion( const BadgeDef **b1, const BadgeDef **b2 )
+static int badgeSortByCompletion(const void* b1Data, const void* b2Data)
 {
+    const BadgeDef ** b1 = (const BadgeDef **)b1Data;
+    const BadgeDef ** b2 = (const BadgeDef **)b2Data;
     U32 * badgeFields = playerPtr()->pl->aiBadges;
 
 

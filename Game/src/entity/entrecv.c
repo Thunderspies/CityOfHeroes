@@ -2906,6 +2906,11 @@ static int entReceiveAFK(Packet *pak, Entity *e, bool oo_packet)
     return 1;
 }
 
+static void DestroyRecipeInvItemAdapter(void* arg0)
+{
+    DestroyRecipeInvItem((RecipeInvItem *)arg0);
+}
+
 static int entReceiveOtherSupergroupInfo(Packet *pak, Entity *e, bool oo_packet)
 {
     if(pktGetBits(pak, 1))
@@ -2999,7 +3004,7 @@ static int entReceiveOtherSupergroupInfo(Packet *pak, Entity *e, bool oo_packet)
                 }
 
                 // Get the supergroups recipes.
-                eaClearEx(&e->supergroup->invRecipes, DestroyRecipeInvItem);
+                eaClearEx(&e->supergroup->invRecipes, DestroyRecipeInvItemAdapter);
                 n = pktGetBitsAuto(pak);
                 for( i = 0; i < n; ++i )
                 {

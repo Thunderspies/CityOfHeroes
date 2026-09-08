@@ -905,7 +905,8 @@ void entgenDisableOrphanGenerators(int disable){
 //static Array spawnAreaStack;    // Holds all spawn areas that are currently being initialized.
 Array generators = {0, 0, 0};
 
-static void destroyGeneratorInst(GeneratorInst* gen){
+static void destroyGeneratorInst(void* genData){
+    GeneratorInst* gen = (GeneratorInst*)genData;
     // FIXME!!!
     if(gen->spawnPoints){
         destroyArrayEx(gen->spawnPoints, destroyGeneratorInst);

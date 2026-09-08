@@ -607,6 +607,11 @@ int ttDrawText2DWithScalingSoftwareHandler(TTDrawTextParamSoftware* param)
 #include "UI/uiClipper.h"
 #include "win/win_init.h"
 
+static int ttDrawText2DWithScalingHandlerSpriteGlyphCallback(TTTextForEachGlyphParam* param)
+{
+    return ttDrawText2DWithScalingHandlerSprite((TTDrawTextParam*)param);
+}
+
 void ttDrawText2DWithScalingSprite(TTDrawContext* context, float x, float orig_y, float z, float xScale, float yScale, int rgba[4], unsigned short* text, int textLength){
     TTDrawTextParam drawParam;
     float            y = orig_y;
@@ -617,7 +622,7 @@ void ttDrawText2DWithScalingSprite(TTDrawContext* context, float x, float orig_y
     PERFINFO_AUTO_START("ttDrawText2DWithScalingSprite", 1);
 
         memset(&drawParam, 0, sizeof(drawParam));
-        drawParam.forEachGlyphParam.handler = (GlyphHandler)ttDrawText2DWithScalingHandlerSprite;
+        drawParam.forEachGlyphParam.handler = ttDrawText2DWithScalingHandlerSpriteGlyphCallback;
         if(context->dynamic)
         {
             // Assume that the dynamic text is going to moving and scaling frequently.
@@ -642,6 +647,11 @@ void ttDrawText2DWithScalingSprite(TTDrawContext* context, float x, float orig_y
     PERFINFO_AUTO_STOP();
 }
 
+static int ttDrawText2DWithScalingHandlerGlyphCallback(TTTextForEachGlyphParam* param)
+{
+    return ttDrawText2DWithScalingHandler((TTDrawTextParam*)param);
+}
+
 void ttDrawText2DWithScaling(TTDrawContext* context, float x, float y, float z, float xScale, float yScale, int rgba[4], unsigned short* text, int textLength){
     TTDrawTextParam drawParam;
     int w, h;
@@ -655,7 +665,7 @@ void ttDrawText2DWithScaling(TTDrawContext* context, float x, float y, float z, 
         y = h - y;
 
         memset(&drawParam, 0, sizeof(drawParam));
-        drawParam.forEachGlyphParam.handler = (GlyphHandler)ttDrawText2DWithScalingHandler;
+        drawParam.forEachGlyphParam.handler = ttDrawText2DWithScalingHandlerGlyphCallback;
         if(context->dynamic)
         {
             // Assume that the dynamic text is going to moving and scaling frequently.
@@ -676,6 +686,11 @@ void ttDrawText2DWithScaling(TTDrawContext* context, float x, float y, float z, 
     PERFINFO_AUTO_STOP();
 }
 
+static int ttDrawText2DWithScalingSoftwareHandlerGlyphCallback(TTTextForEachGlyphParam* param)
+{
+    return ttDrawText2DWithScalingSoftwareHandler((TTDrawTextParamSoftware*)param);
+}
+
 void ttDrawText2DWithScalingSoftware(TTDrawContext* context, float x, float y, float xScale, float yScale, int rgba[4], unsigned short* text, int textLength, RenderCallback callback, void *userData)
 {
     TTDrawTextParamSoftware drawParam;
@@ -686,7 +701,7 @@ void ttDrawText2DWithScalingSoftware(TTDrawContext* context, float x, float y, f
     PERFINFO_AUTO_START("ttDrawText2DWithScalingSoftware", 1);
 
         memset(&drawParam, 0, sizeof(drawParam));
-        drawParam.forEachGlyphParam.handler = (GlyphHandler)ttDrawText2DWithScalingSoftwareHandler;
+        drawParam.forEachGlyphParam.handler = ttDrawText2DWithScalingSoftwareHandlerGlyphCallback;
         if(context->dynamic)
         {
             // Assume that the dynamic text is going to moving and scaling frequently.
@@ -793,13 +808,18 @@ void destroyTTCachedStringDimensions(TTCachedStringDimensions *ttcsd)
 }
 
 // Sets default cacheable size, also does some maintenence, so should be called every frame or few
+static void destroyTTCachedStringDimensionsAdapter(void* arg0)
+{
+    destroyTTCachedStringDimensions((TTCachedStringDimensions *)arg0);
+}
+
 void ttSetCacheableFontScaling(float xScale, float yScale)
 {
     if (xScale != cachedXScale || yScale != cachedYScale) {
         cachedXScale = xScale;
         cachedYScale = yScale;
         if (htStrDimsCache)
-            stashTableDestroyEx(htStrDimsCache, NULL, destroyTTCachedStringDimensions );
+            stashTableDestroyEx(htStrDimsCache, NULL, destroyTTCachedStringDimensionsAdapter);
         htStrDimsCache = 0;
         if (stCachedStrings) {
             stashTableClear(stCachedStrings);
@@ -807,7 +827,7 @@ void ttSetCacheableFontScaling(float xScale, float yScale)
     }
     // Check to see if hashtable has grown too large and needs to be cleaned!
     if (htStrDimsCache && stashGetOccupiedSlots(htStrDimsCache) > 1024) {
-        stashTableClearEx(htStrDimsCache, NULL, destroyTTCachedStringDimensions );
+        stashTableClearEx(htStrDimsCache, NULL, destroyTTCachedStringDimensionsAdapter);
         //htStrDimsCache = 0;
         if (stCachedStrings) {
             stashTableClear(stCachedStrings);
@@ -816,6 +836,11 @@ void ttSetCacheableFontScaling(float xScale, float yScale)
 }
 
 // Thread-safe if one of the threads always says allowCache=false
+static int ttGetStringDimensionsHandlerGlyphCallback(TTTextForEachGlyphParam* param)
+{
+    return ttGetStringDimensionsHandler((TTTextDimensionParam*)param);
+}
+
 void ttGetStringDimensionsWithScaling(TTDrawContext* context, float xScale, float yScale, unsigned short* text, unsigned int textLength, int* widthOut, int* heightOut, int* nextGlyphLeft, int allowCacheAndScaling){
     int cacheable=0;
     TTTextDimensionParam param = {0};
@@ -876,7 +901,7 @@ void ttGetStringDimensionsWithScaling(TTDrawContext* context, float xScale, floa
         ttcsd = createTTCachedStringDimensions(text, context, xScale, shellMode());
     }
 
-    param.forEachGlyphParam.handler = (GlyphHandler)ttGetStringDimensionsHandler;
+    param.forEachGlyphParam.handler = ttGetStringDimensionsHandlerGlyphCallback;
     param.stringHeight = 0.0;
  
     ttTextForEachGlyph(context, (TTTextForEachGlyphParam*)&param, 0, 0, xScale, yScale, text, textLength, allowCacheAndScaling);
@@ -923,7 +948,7 @@ float ttGetStringWidthNarrow(TTDrawContext* context, float xScale, float yScale,
 
     textLength = UTF8ToWideStrConvert(text, wBuffer, bufferSize);
 
-    param.forEachGlyphParam.handler = (GlyphHandler)ttGetStringDimensionsHandler;
+    param.forEachGlyphParam.handler = ttGetStringDimensionsHandlerGlyphCallback;
     param.stringHeight = 0.0;
 
     ttTextForEachGlyph(context, (TTTextForEachGlyphParam*)&param, 0, 0, xScale, yScale, wBuffer, textLength, true);

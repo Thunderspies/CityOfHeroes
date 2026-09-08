@@ -487,6 +487,11 @@ void character_DumpStats(Character *pchar, char **pestr)
  * character_Destroy
  *
  */
+static void rewardtoken_DestroyCallback(void* arg0)
+{
+    rewardtoken_Destroy((RewardToken *)arg0);
+}
+
 void character_Destroy(Character *pchar, const char *context)
 {
     int ibuild,iset,i,stopHere;
@@ -588,7 +593,7 @@ void character_Destroy(Character *pchar, const char *context)
 
     eaDestroyConst(&pchar->expiredPowers);
     eaDestroyExConst(&pchar->designerStatuses, NULL);
-    eaDestroyEx(&pchar->critterRewardTokens, rewardtoken_Destroy);
+    eaDestroyEx(&pchar->critterRewardTokens, rewardtoken_DestroyCallback);
 #if SERVER
     CharacterDestroyKarmaBuckets(pchar);
 #endif
@@ -3210,6 +3215,11 @@ void charlist_Clear(CharacterList *plist)
 * character_RespecTrayReset
 *
 */
+static void trayobj_DestroyCallback(void* arg0)
+{
+    trayobj_Destroy((TrayObj *)arg0);
+}
+
 void character_RespecTrayReset(Entity * e)
 {
     int i,j;
@@ -3249,7 +3259,7 @@ void character_RespecTrayReset(Entity * e)
 
         buildMacroTrayObj(obj, macros[i]->command, macros[i]->shortName, macros[i]->iconName, macros[i]->type == kTrayItemType_MacroHideName);
     }
-    eaDestroyEx(&macros, trayobj_Destroy);
+    eaDestroyEx(&macros, trayobj_DestroyCallback);
 
 
     // fill the tray with new powers

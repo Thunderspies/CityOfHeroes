@@ -2009,7 +2009,7 @@ void missionserver_map_startArc(Entity *e, int arcid)
 }
 
 // these are passthroughs to get at s_authid() and enforce that it's from the calling client
-void missionserver_map_setKeywordsForArc(Entity *e, int arcid, MissionRating vote)    { missionserver_setKeywordsForArc_remote(NULL, e->db_id, e->access_level, arcid, s_authid(e), vote); }
+void missionserver_map_setKeywordsForArc(Entity *e, int arcid, int vote)    { missionserver_setKeywordsForArc_remote(NULL, e->db_id, e->access_level, arcid, s_authid(e), vote); }
 void missionserver_map_voteForArc(Entity *e, int arcid, MissionRating vote)    { missionserver_voteForArc_remote(NULL, e->db_id, e->access_level, arcid, s_authid(e), vote); }
 void missionserver_map_comment(Entity *e, int arcid, const char *comment)    { missionserver_comment_remote(NULL, e->db_id, arcid, s_authid(e), comment); }
 

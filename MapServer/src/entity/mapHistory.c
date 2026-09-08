@@ -47,11 +47,16 @@ int getMapID() {
 
 
 // Clear out map history of this player
+static void mapHistoryDestroyAdapter(void* arg0)
+{
+    mapHistoryDestroy((MapHistory *)arg0);
+}
+
 void mapHistoryClear(EntPlayer *pl) 
 {
     if (verify(pl && pl->mapHistory))
     {    
-        eaClearEx(&pl->mapHistory,mapHistoryDestroy);
+        eaClearEx(&pl->mapHistory, mapHistoryDestroyAdapter);
         eaClear(&pl->mapHistory);
     }
 }

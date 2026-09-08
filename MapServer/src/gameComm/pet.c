@@ -49,8 +49,9 @@ PetName* petname_Create(void)
     return MP_ALLOC(PetName);
 }
 
-void PetNameDestroy(PetName* pn) 
+void PetNameDestroy(void* pnData)
 {
+    PetName* pn = (PetName*)pnData;
     MP_FREE(PetName, pn);
 }
 
@@ -253,8 +254,10 @@ static char *getFullPowerName(BasePower *pow)
 }
 
 
-static int comparePetName(const PetName** ppet1, const PetName** ppet2 )
+static int comparePetName(const void* ppet1Data, const void* ppet2Data)
 {
+    const PetName** ppet1 = (const PetName**)ppet1Data;
+    const PetName** ppet2 = (const PetName**)ppet2Data;
     int result = strcmp((*ppet1)->pchEntityDef,(*ppet2)->pchEntityDef);
     if (result) 
         return result;

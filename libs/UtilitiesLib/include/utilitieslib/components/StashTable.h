@@ -152,7 +152,7 @@ bool                stashGetKey(cStashTable table, const void* pKeyIn, const voi
 bool                stashAddPointer(StashTable table, const void* pKey, void* pValue, bool bOverwriteIfFound);
 bool                stashAddPointerConst(cStashTable table, const void* pKey, const void* pValue, bool bOverwriteIfFound);
 bool                stashAddPointerAndGetElement(StashTable table, const void* pKey, void* pValue, bool bOverwriteIfFound, StashElement* pElement);
-bool                stashAddPointerAndGetElementConst(cStashTable table, const void* pKey, const void* pValue, bool bOverwriteIfFound, cStashElement* pElement);
+bool                stashAddPointerAndGetElementConst(StashTable table, const void* pKey, const void* pValue, bool bOverwriteIfFound, cStashElement* pElement);
 bool                stashRemovePointer(StashTable table, const void* pKey, void** ppValue);
 bool                stashFindPointer(StashTable table, const void* pKey, void** ppValue);
 bool                stashFindPointerConst(cStashTable table, const void* pKey, const void** ppValue);
@@ -175,7 +175,7 @@ bool                stashIntFindIndexByKey(cStashTable table, int iKey, U32* piI
 bool                stashIntGetKey(cStashTable table, int iKeyIn, int* piKeyOut);
 // pointer values
 bool                stashIntAddPointer(StashTable table, int iKey, void* pValue, bool bOverwriteIfFound);
-bool                stashIntAddPointerConst(cStashTable table, int iKey, const void* pValue, bool bOverwriteIfFound);
+bool                stashIntAddPointerConst(StashTable table, int iKey, const void* pValue, bool bOverwriteIfFound);
 bool                stashIntAddPointerAndGetElement(StashTable table, int iKey, void* pValue, bool bOverwriteIfFound, StashElement* pElement);
 bool                stashIntRemovePointer(StashTable table, int iKey, void** ppValue);
 bool                stashIntFindPointer(cStashTable table, int iKey, void** ppValue);
@@ -198,7 +198,7 @@ bool                stashAddressFindIndexByKey(cStashTable table, const void* pK
 bool                stashAddressGetKey(cStashTable table, const void* pKeyIn, void** ppKeyOut);
 // pointer values
 bool                stashAddressAddPointer(StashTable table, const void* pKey, void* pValue, bool bOverwriteIfFound);
-bool                stashAddressAddPointerAndGetElement(StashTable table, const void* pKey, void* pValue, bool bOverwriteIfFound, cStashElement* pElement);
+bool                stashAddressAddPointerAndGetElement(StashTable table, const void* pKey, void* pValue, bool bOverwriteIfFound, StashElement* pElement);
 bool                stashAddressRemovePointer(StashTable table, const void* pKey, void** ppValue);
 bool                stashAddressFindPointer(cStashTable table, const void* pKey, void** ppValue);
 bool                stashAddressFindPointerConst(cStashTable table, const void* pKey, const void** ppValue);
@@ -218,6 +218,34 @@ int                    stashStorageIsNotNull(cStashTable table);
 
 
 void stashTableMultiLevelAdd( StashTable table, int depth, ... );
+
+
+#ifndef STASH_TABLE_IMPL
+/* Pointer outputs may be addresses of typed object pointers, or NULL.
+* The caller must request the type stored in the table. These adapters retain
+* the raw functions and their success/miss behavior for untyped callers.
+*/
+#define stashFindPointer(table, key, out) \
+	(stashFindPointer)(table, key, (void**)(out))
+#define stashRemovePointer(table, key, out) \
+	(stashRemovePointer)(table, key, (void**)(out))
+#define stashIntFindPointer(table, key, out) \
+	(stashIntFindPointer)(table, key, (void**)(out))
+#define stashIntRemovePointer(table, key, out) \
+	(stashIntRemovePointer)(table, key, (void**)(out))
+#define stashAddressFindPointer(table, key, out) \
+	(stashAddressFindPointer)(table, key, (void**)(out))
+#define stashAddressRemovePointer(table, key, out) \
+	(stashAddressRemovePointer)(table, key, (void**)(out))
+#define stashFindPointerConst(table, key, out) \
+	(stashFindPointerConst)(table, key, (const void**)(out))
+#define stashAddressFindPointerConst(table, key, out) \
+	(stashAddressFindPointerConst)(table, key, (const void**)(out))
+#define stashGetKey(table, key, out) \
+	(stashGetKey)(table, key, (const void**)(out))
+#define stashFindKeyByIndex(table, key, out) \
+	(stashFindKeyByIndex)(table, key, (const void**)(out))
+#endif
 
 C_DECLARATIONS_END
 

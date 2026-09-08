@@ -369,8 +369,9 @@ void character_Send(Packet* pak, Character *pchar)
  *
  */
 
-static int ClearOldPowers(Character* p, StashElement elem )
+static int ClearOldPowers(void* pData, StashElement elem)
 {
+    Character* p = (Character*)pData;
     U32 uiID = stashElementGetU32Key(elem);
     if(!stashIntFindInt(p->stNewBuffs, uiID, 0) )
     {

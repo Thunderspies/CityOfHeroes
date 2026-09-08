@@ -1687,6 +1687,11 @@ static void DialogContextDestructor(DialogContext *pContext)
     SAFE_FREE(pContext);
 }
 
+static void DialogContextDestructorAdapter(void* arg0)
+{
+    DialogContextDestructor((DialogContext *)arg0);
+}
+
 void entFreeDbg(Entity *ent, const char* fileName, int fileLine)
 {
     if (!ent || ent->owner <= 0)
@@ -1775,7 +1780,7 @@ void entFreeDbg(Entity *ent, const char* fileName, int fileLine)
 
             if (ent->dialogLookup != NULL)
             {
-                stashTableDestroyEx(ent->dialogLookup, NULL, DialogContextDestructor );
+                stashTableDestroyEx(ent->dialogLookup, NULL, DialogContextDestructorAdapter);
                 ent->dialogLookup = NULL;
             }
 

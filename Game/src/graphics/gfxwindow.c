@@ -406,8 +406,10 @@ int gfxBoxIsVisible(Vec3 min, Vec3 max, Mat4 mat)
     return 0;
 }
 
-int compare_corner( const Vec2 *a, const Vec2 *b )
+int compare_corner(const void* aData, const void* bData)
 {
+    const Vec2 * a = (const Vec2 *)aData;
+    const Vec2 * b = (const Vec2 *)bData;
     return lengthVec2(*b)-lengthVec2(*a);
 }
 

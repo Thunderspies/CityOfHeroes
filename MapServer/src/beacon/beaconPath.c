@@ -1200,7 +1200,9 @@ static int beaconVisibleFromAirPos(Beacon* b, Vec3 pos, float radius){
     return 1;
 }
 
-static int __cdecl sortBeaconArrayByDistanceHelper(const Beacon** b1, const Beacon** b2){
+static int __cdecl sortBeaconArrayByDistanceHelper(const void* b1Data, const void* b2Data){
+    const Beacon** b1 = (const Beacon**)b1Data;
+    const Beacon** b2 = (const Beacon**)b2Data;
     if((*b1)->userFloat > (*b2)->userFloat)
         return 1;
     else if((*b1)->userFloat == (*b2)->userFloat)

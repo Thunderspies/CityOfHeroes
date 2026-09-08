@@ -273,8 +273,10 @@ typedef enum aiConfigEnum
 } aiConfigEnum;
 static const char* aiConfigs[]  = {"Default_Ranged", "Default_Melee"};
 
-static int __cdecl compareVillainDefNames(const VillainDef** def1, const VillainDef** def2)
+static int __cdecl compareVillainDefNames(const void* def1Data, const void* def2Data)
 {
+    const VillainDef** def1 = (const VillainDef**)def1Data;
+    const VillainDef** def2 = (const VillainDef**)def2Data;
     return stricmp((*def1)->name ? (*def1)->name : "", (*def2)->name ? (*def2)->name : "");
 }
 
@@ -354,8 +356,9 @@ static int villainDefPreProcess(VillainDef *def)
     return ret;
 }
 
-static bool villainDefsPreProcessAll(TokenizerParseInfo pti[], VillainDefList* vlist)
+static bool villainDefsPreProcessAll(ParseTable* pti, void* structptr)
 {
+    VillainDefList* vlist = (VillainDefList*)structptr;
     int i;
     bool ret = true; // assume successful
 
@@ -414,7 +417,12 @@ static void villainDefReload(const char* relpath, int when)
 
 
 
-void villainReadDefFiles(bool bNewAttribs)
+static bool villainConstructCriteriaLookupTablesCallback(ParseTable pti[], void* structptr, bool shared_memory)
+{
+    return villainConstructCriteriaLookupTables(pti, (VillainDefList*)structptr, shared_memory);
+}
+
+void villainReadDefFiles(void)
 {
     int i;
 
@@ -453,7 +461,7 @@ void villainReadDefFiles(bool bNewAttribs)
     // Entries that are already loaded cannot be unloaded unless we are sure all villains on the
     // mapserver is dead.
     ParserLoadFilesShared("SM_VillainDefs.bin", "Defs\\Villains", ".villain", "VillainDef.bin", flags, ParseVillainDefBegin,
-        &villainDefList, sizeof(villainDefList), NULL, NULL, villainDefsPreProcessAll, NULL, villainConstructCriteriaLookupTables);
+        &villainDefList, sizeof(villainDefList), NULL, NULL, villainDefsPreProcessAll, NULL, villainConstructCriteriaLookupTablesCallback);
 
     // Validate pet powers now that we've loaded all the VillainDefs
     powerdict_ValidateEntCreate(&g_PowerDictionary);

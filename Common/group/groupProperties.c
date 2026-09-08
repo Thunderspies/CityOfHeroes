@@ -140,16 +140,19 @@ StashTable ReadGroupPropertiesFromPacket(Packet* pak){
 /***************************************************
  * Disk read/write
  */
-static int getProperties(PropertyEnt ***prop, StashElement element)
+static int getProperties(void* propData, StashElement element)
 {
+    PropertyEnt *** prop = (PropertyEnt ***)propData;
     (*prop)[0] = stashElementGetPointer(element);
     if(stricmp((*prop)[0]->name_str, "SharedFrom") != 0) // skip SharedFrom, it's inferred at load time
         ++*prop;
     return 1;
 }
 
-static int __cdecl sortProperties(const PropertyEnt **p1, const PropertyEnt **p2)
+static int __cdecl sortProperties(const void* p1Data, const void* p2Data)
 {
+    const PropertyEnt ** p1 = (const PropertyEnt **)p1Data;
+    const PropertyEnt ** p2 = (const PropertyEnt **)p2Data;
     return strcmp((*p1)->name_str, (*p2)->name_str); // names will never match, since they're stash keys
 }
 

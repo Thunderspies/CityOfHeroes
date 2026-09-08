@@ -26,8 +26,10 @@ typedef struct RaidPlayer
     int defeated;                // number of times someone else defeated them
 } RaidPlayer;
 
-int compareRaidPlayers(const RaidPlayer ** a,const RaidPlayer ** b)
+int compareRaidPlayers(const void* aData, const void* bData)
 {
+    const RaidPlayer ** a = (const RaidPlayer **)aData;
+    const RaidPlayer ** b = (const RaidPlayer **)bData;
     if ((*a)->defeats!=(*b)->defeats)
         return (*b)->defeats-(*a)->defeats;        // more defeats puts you higher in the list
     if ((*a)->defeated!=(*b)->defeated)

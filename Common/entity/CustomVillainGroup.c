@@ -52,7 +52,9 @@ TokenizerParseInfo parse_CompressedCVG[] =
     {    "", 0, 0 }
 };
 
-int compareCritterGroups(const CustomVG **a, const CustomVG **b ) { return  stricmp( (*a)->displayName, (*b)->displayName ); }
+int compareCritterGroups(const void* aData, const void* bData) {
+    const CustomVG ** a = (const CustomVG **)aData;
+    const CustomVG ** b = (const CustomVG **)bData; return  stricmp( (*a)->displayName, (*b)->displayName ); }
 int CVG_isValidRank(int rank, int isCritter)
 {
     if (isCritter)

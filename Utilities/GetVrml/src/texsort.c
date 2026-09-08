@@ -44,8 +44,10 @@ int texNameAdd(char *name)
     return tex_name_count-1;
 }
 
-int cmpTex(int *a,int *b)
+int cmpTex(const void* aData, const void* bData)
 {
+    int * a = (int *)aData;
+    int * b = (int *)bData;
 int        aa=0,ba=0;
 
     if (tex_names[*a].ti)

@@ -100,6 +100,11 @@ static int kiosk_LocationRecorder(GroupDefTraverser* traverser)
  * kiosk_Load
  *
  */
+static void kiosk_DestroyAdapter(void* arg0)
+{
+    kiosk_Destroy((Kiosk *)arg0);
+}
+
 void kiosk_Load(void)
 {
     GroupDefTraverser traverser = {0};
@@ -109,7 +114,7 @@ void kiosk_Load(void)
     // If we're doing a reload, clear out old data first.
     if(g_Kiosks)
     {
-        eaClearEx(&g_Kiosks, kiosk_Destroy);
+        eaClearEx(&g_Kiosks, kiosk_DestroyAdapter);
         eaSetSize(&g_Kiosks, 0);
     }
     else

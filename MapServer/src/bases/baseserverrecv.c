@@ -634,6 +634,11 @@ void baseCreateDefault(Base *base)
 
 
 
+static void detailCleanupCallback(void* arg0)
+{
+    detailCleanup((RoomDetail *)arg0);
+}
+
 int baseReceiveEdit(Packet *pak,Entity *e)
 {
     BaseNetCmd    cmd;
@@ -788,7 +793,7 @@ int baseReceiveEdit(Packet *pak,Entity *e)
         reset = pktGetBits(pak,1);
 
         if (reset && room && playerCanModifyBase(e, &g_base) && e->pl->architectMode == kBaseEdit_Architect)
-            eaDestroyEx(&room->details, detailCleanup);
+            eaDestroyEx(&room->details, detailCleanupCallback);
 
         for(i=0;i<count;i++)
         {

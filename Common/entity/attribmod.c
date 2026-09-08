@@ -1255,6 +1255,11 @@ static void character_DropRandomToggles(Character *pchar, int iNumToDrop)
  * HandleSpecialAttrib
  *
  */
+static void damageTrackerDestroyAdapter(void* arg0)
+{
+    damageTrackerDestroy((DamageTracker*)arg0);
+}
+
 void HandleSpecialAttrib(AttribMod *pmod, Character *pchar, float f, bool *pbDisallowDefeat)
 {
     int priority = 5;
@@ -1282,7 +1287,7 @@ void HandleSpecialAttrib(AttribMod *pmod, Character *pchar, float f, bool *pbDis
             break;
 
         case kSpecialAttrib_ClearDamagers:
-            eaClearEx(&pchar->entParent->who_damaged_me, damageTrackerDestroy);
+            eaClearEx(&pchar->entParent->who_damaged_me, damageTrackerDestroyAdapter);
             break;
 
         case kSpecialAttrib_SilentKill:

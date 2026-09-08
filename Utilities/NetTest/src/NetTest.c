@@ -186,18 +186,18 @@ int delCallback(NetLink *link)
     return 1;
 }
 
-int incrLinkVersCallback(NetLink *link)
+void incrLinkVersCallback(NetLink* link)
 {
     U32 ver = link->protocolVersion+1;
     applyNetworkVersionToLink(link, ver%(getMaxNetworkVersion()+1));;
-    return 1;
+
 }
 
-int decrLinkVersCallback(NetLink *link)
+void decrLinkVersCallback(NetLink* link)
 {
     U32 ver = link->protocolVersion==0?getMaxNetworkVersion():(link->protocolVersion-1);
     applyNetworkVersionToLink(link,ver);
-    return 1;
+
 }
 
 int handleServerMsg(Packet *pak,int cmd, NetLink *link)

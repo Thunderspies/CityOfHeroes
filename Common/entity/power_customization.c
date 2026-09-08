@@ -130,8 +130,10 @@ void powerCust_initHashTable()
 
 // not quite commutative:  two nulls will return 1, not 0.  did this because it shouldn't matter and it's faster
 // nulls go at the end of the list
-int comparePowerCustomizations(const PowerCustomization** lhs, const PowerCustomization** rhs)
+int comparePowerCustomizations(const void* lhsData, const void* rhsData)
 {
+    const PowerCustomization** lhs = (const PowerCustomization**)lhsData;
+    const PowerCustomization** rhs = (const PowerCustomization**)rhsData;
     if (!lhs || !(*lhs)->power)
         return 1;
     else if (!rhs || !(*rhs)->power)
@@ -146,8 +148,10 @@ int comparePowerCustomizations(const PowerCustomization** lhs, const PowerCustom
 
 // not quite commutative:  two nulls will return 1, not 0.  did this because it shouldn't matter and it's faster
 // nulls go at the end of the list
-int searchPowerCustomizations(const BasePower** power, const PowerCustomization** cust)
+int searchPowerCustomizations(const void* powerData, const void* custData)
 {
+    const BasePower** power = (const BasePower**)powerData;
+    const PowerCustomization** cust = (const PowerCustomization**)custData;
     if (!power || !(*power))
         return 1;
     else if (!cust || !(*cust)->power)
@@ -177,15 +181,17 @@ bool PowerCustomizationMenuPostProcessInternal(PowerCustomizationMenu *menu)
 }
 
 #if CLIENT
-bool PowerCustomizationMenuPostProcessClient(ParseTable pti[], PowerCustomizationMenu *menu)
+bool PowerCustomizationMenuPostProcessClient(ParseTable* pti, void* structptr)
 {
+    PowerCustomizationMenu * menu = (PowerCustomizationMenu *)structptr;
     return PowerCustomizationMenuPostProcessInternal(menu);
 }
 #endif
 
 #if SERVER
-bool PowerCustomizationMenuPostProcessServer(ParseTable pti[], PowerCustomizationMenu *menu, bool shared_memory)
+bool PowerCustomizationMenuPostProcessServer(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    PowerCustomizationMenu * menu = (PowerCustomizationMenu *)structptr;
     return PowerCustomizationMenuPostProcessInternal(menu);
 }
 #endif

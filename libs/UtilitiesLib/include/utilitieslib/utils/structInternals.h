@@ -71,7 +71,7 @@ typedef void (*calcrate_f)(ParseTable tpi[], int column, void* structA, void* st
 typedef void (*integrate_f)(ParseTable tpi[], int column, void* valueStruct, void* rateStruct, void* destStruct, int index, F32 deltaTime);
 typedef void (*calccyclic_f)(ParseTable tpi[], int column, void* valueStruct, void* ampStruct, void* freqStruct, void* cycleStruct, void* destStruct, int index, F32 fStartTime, F32 deltaTime);
 typedef void (*applydynop_f)(ParseTable tpi[], int column, void* dstStruct, void* srcStruct, int index, DynOpType optype, const F32* values, U8 uiValuesSpecd, U32* seed);
-typedef bool (*tosimple_f)(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint);
+typedef bool (*tosimple_f)(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint);
 typedef bool (*fromsimple_f)(ParseTable tpi[], int column, void* structptr, int index, char* str);
 typedef void (*calcoffset_f)(ParseTable tpi[], int column, size_t* size);
 typedef ParseInfoFieldUsage (*interpretfield_f)(ParseTable tpi[], int column, ParseInfoField field);
@@ -186,5 +186,75 @@ int FileListIsBinUpToDate(FileList* binlist, FileList *disklist); // Returns 1 i
 int FileListLength(FileList *list);
 void FileListForEach(FileList *list, FileListCallback callback);
 FileEntry* FileListFind(FileList* list, char* path);
+
+#define DECLARE_TOKEN_HANDLERS(type) \
+    void type##_preparse(ParseTable* pti, int i, void* structptr, TokenizerHandle tok); \
+    int type##_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* structptr, int index, ParserTextCallback callback); \
+    void type##_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude); \
+    int type##_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude); \
+    int type##_readbin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum); \
+    void type##_initstruct(ParseTable tpi[], int column, void* structptr, int index); \
+    void type##_destroystruct(ParseTable tpi[], int column, void* structptr, int index); \
+    void type##_updatecrc(ParseTable tpi[], int column, void* structptr, int index); \
+    int type##_compare(ParseTable tpi[], int column, void* lhs, void* rhs, int index); \
+    size_t type##_memusage(ParseTable tpi[], int column, void* structptr, int index); \
+    void type##_copystruct(ParseTable tpi[], int column, void* dest, void* src, int index, CustomMemoryAllocator memAllocator, void* customData); \
+    void type##_copyfield(ParseTable tpi[], int column, void* dest, void* src, int index, CustomMemoryAllocator memAllocator, void* customData, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude); \
+    void type##_senddiff(Packet* pak, ParseTable tpi[], int column, void* oldstruct, void* newstruct, int index, bool sendAbsolute, bool forcePackAll, bool allowDiffs, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude); \
+    void type##_recvdiff(Packet* pak, ParseTable tpi[], int column, void* structptr, int index, int absValues, void** pktidptr); \
+    void type##_freepktids(ParseTable tpi[], int column, void** pktidptr); \
+    void type##_endianswap(ParseTable tpi[], int column, void* structptr, int index); \
+    void type##_interp(ParseTable tpi[], int column, void* structA, void* structB, void* destStruct, int index, F32 interpParam); \
+    void type##_calcrate(ParseTable tpi[], int column, void* structA, void* structB, void* destStruct, int index, F32 deltaTime); \
+    void type##_integrate(ParseTable tpi[], int column, void* valueStruct, void* rateStruct, void* destStruct, int index, F32 deltaTime); \
+    void type##_calccyclic(ParseTable tpi[], int column, void* valueStruct, void* ampStruct, void* freqStruct, void* cycleStruct, void* destStruct, int index, F32 fStartTime, F32 deltaTime); \
+    void type##_applydynop(ParseTable tpi[], int column, void* dstStruct, void* srcStruct, int index, DynOpType optype, const F32* values, U8 uiValuesSpecd, U32* seed); \
+    bool type##_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint); \
+    bool type##_fromsimple(ParseTable tpi[], int column, void* structptr, int index, char* str); \
+    void type##_calcoffset(ParseTable tpi[], int column, size_t* size); \
+    ParseInfoFieldUsage type##_interpretfield(ParseTable tpi[], int column, ParseInfoField field);
+
+DECLARE_TOKEN_HANDLERS(ignore);
+DECLARE_TOKEN_HANDLERS(end);
+DECLARE_TOKEN_HANDLERS(error);
+DECLARE_TOKEN_HANDLERS(number);
+DECLARE_TOKEN_HANDLERS(u8);
+DECLARE_TOKEN_HANDLERS(int16);
+DECLARE_TOKEN_HANDLERS(int);
+DECLARE_TOKEN_HANDLERS(int64);
+DECLARE_TOKEN_HANDLERS(float);
+DECLARE_TOKEN_HANDLERS(degrees);
+DECLARE_TOKEN_HANDLERS(string);
+DECLARE_TOKEN_HANDLERS(char);
+DECLARE_TOKEN_HANDLERS(raw);
+DECLARE_TOKEN_HANDLERS(pointer);
+DECLARE_TOKEN_HANDLERS(currentfile);
+DECLARE_TOKEN_HANDLERS(timestamp);
+DECLARE_TOKEN_HANDLERS(linenum);
+DECLARE_TOKEN_HANDLERS(usedfield);
+DECLARE_TOKEN_HANDLERS(bool);
+DECLARE_TOKEN_HANDLERS(flags);
+DECLARE_TOKEN_HANDLERS(flagarray);
+DECLARE_TOKEN_HANDLERS(boolflag);
+DECLARE_TOKEN_HANDLERS(quatpyr);
+DECLARE_TOKEN_HANDLERS(condrgb);
+DECLARE_TOKEN_HANDLERS(matpyr);
+DECLARE_TOKEN_HANDLERS(filename);
+DECLARE_TOKEN_HANDLERS(link);
+DECLARE_TOKEN_HANDLERS(reference);
+DECLARE_TOKEN_HANDLERS(functioncall);
+DECLARE_TOKEN_HANDLERS(unparsed);
+DECLARE_TOKEN_HANDLERS(struct);
+DECLARE_TOKEN_HANDLERS(stashtable);
+DECLARE_TOKEN_HANDLERS(deprecated);
+
+DECLARE_TOKEN_HANDLERS(nonarray);
+DECLARE_TOKEN_HANDLERS(fixedarray);
+DECLARE_TOKEN_HANDLERS(earray);
+
+#undef DECLARE_TOKEN_HANDLERS
+
+int InnerWriteTextToken(FILE* out, ParseTable tpi[], int column, const void* structptr, int level, int showname, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude);
+int InnerWriteTextFile(FILE* out, ParseTable tpi[], const void* structptr, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude);
 
 #endif // STRUCTINTERNALS_H

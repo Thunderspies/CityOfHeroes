@@ -101,7 +101,9 @@ static F32 camTimeStep()
     return 0 ? TIMESTEP : TIMESTEP_NOSCALE;
 }
 
-static int cameraCollisionCallback(DefTracker *tracker, CTri* triangle){
+static int cameraCollisionCallback(void* trackerData, void* triangleData){
+    DefTracker * tracker = (DefTracker *)trackerData;
+    CTri* triangle = (CTri*)triangleData;
     // Do not collide against any portals that are not water.
     if(!tracker->def->water_volume && (triangle->flags & COLL_PORTAL)){
         return 0;
@@ -365,8 +367,10 @@ typedef struct CamRay
     int hit;
 } CamRay;
 
-int camRaySort( const CamRay * f1, const CamRay * f2 )
+int camRaySort(const void* f1Data, const void* f2Data)
 {
+    const CamRay * f1 = (const CamRay *)f1Data;
+    const CamRay * f2 = (const CamRay *)f2Data;
     if( f1->camZNeededToAvoidThis < f2->camZNeededToAvoidThis ) return -1;
 
     if( f1->camZNeededToAvoidThis == f2->camZNeededToAvoidThis ) return ((f1 > f2) ? 1 : 0);
@@ -594,8 +598,10 @@ static void swapInt (int * a, int * b )
 
 static Vec3 splatVertsX[MAX_SHADOW_TRIS*3];
 
-int sortTrisByNearestZ( const Triangle * t1, const Triangle * t2 )
+int sortTrisByNearestZ(const void* t1Data, const void* t2Data)
 {
+    const Triangle * t1 = (const Triangle *)t1Data;
+    const Triangle * t2 = (const Triangle *)t2Data;
     if( (splatVertsX[ t1->index[0] ])[2] < (splatVertsX[ t2->index[0] ])[2] ) 
         return -1;
 

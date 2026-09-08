@@ -1,3 +1,4 @@
+#include "entaivars.h"
 #ifndef ENTAIBEHAVIORCOH_H
 #define ENTAIBEHAVIORCOH_H
 
@@ -12,9 +13,9 @@ typedef enum AIBCustomEntryType
     AIB_ANIMLIST = AIB_CUSTOM,
 }AIBCustomEntryType;
 
-int aiBehaviorGetActivity(Entity* e);
+AIActivity aiBehaviorGetActivity(Entity* e);
 AIPriorityManager* aiBehaviorGetPriorityManager(Entity* e, int add, int clearFinish);
-void aiBehaviorSetActivity(Entity* e, int activity);
+void aiBehaviorSetActivity(Entity* e, AIActivity activity);
 void aiBehaviorAddPLFlag(Entity* e, char* string);
 AIBehavior* aiBehaviorGetPLBehavior(Entity* e, int add);
 

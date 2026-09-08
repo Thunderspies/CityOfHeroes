@@ -159,8 +159,10 @@ void MMScrollSet_mapViewerInit(MMElementList * pList)
 // File Loading
 //------------------------------------------------------------------------------------------------------------------------
 
-int sortElements(const MMElement **a, const MMElement **b)
+int sortElements(const void* aData, const void* bData)
 {
+    const MMElement ** a = (const MMElement **)aData;
+    const MMElement ** b = (const MMElement **)bData;
     if( !(*a)->pchText || !(*a)->pchDisplayName || stricmp( (*a)->pchText, "None" ) == 0 || stricmp( (*a)->pchDisplayName, "MMSameAsBoss" ) == 0 )
         return -1;
     if( !(*b)->pchText || !(*b)->pchDisplayName || stricmp( (*b)->pchText, "None" ) == 0 || stricmp( (*b)->pchDisplayName, "MMSameAsBoss" ) == 0 )

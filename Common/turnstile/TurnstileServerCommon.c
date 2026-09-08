@@ -172,8 +172,9 @@ static void s_matchUpLinks(TurnstileMission *mission)
     }
 }
 
-bool TurnstileDefPostProcess(ParseTable pti[], TurnstileConfigDef *configDef)
+bool TurnstileDefPostProcess(ParseTable* pti, void* structptr)
 {
+    TurnstileConfigDef * configDef = (TurnstileConfigDef *)structptr;
 #if SERVER
     int i;
 
@@ -218,7 +219,7 @@ int turnstileParseTurnstileConfig(int loadFlags)
     }
     if (loadFlags & TURNSTILE_LOAD_DEF)
     {
-        if (!ParserLoadFiles(NULL, "defs/turnstile_server.def", "turnstile_server.bin", PARSER_SERVERONLY, ParseTurnstileDef, &turnstileConfigDef, NULL, NULL, (ParserLoadPreProcessFunc)TurnstileDefPostProcess))
+        if (!ParserLoadFiles(NULL, "defs/turnstile_server.def", "turnstile_server.bin", PARSER_SERVERONLY, ParseTurnstileDef, &turnstileConfigDef, NULL, NULL, TurnstileDefPostProcess))
         {
             return 0;
         }

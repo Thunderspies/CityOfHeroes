@@ -304,8 +304,10 @@ static int printStructAlloc(StashElement elem)
     return 1;
 }
 
-static int sacmp(const StructAlloc **sa1, const StructAlloc **sa2)
+static int sacmp(const void* sa1Data, const void* sa2Data)
 {
+    const StructAlloc ** sa1 = (const StructAlloc **)sa1Data;
+    const StructAlloc ** sa2 = (const StructAlloc **)sa2Data;
     if ((*sa1)->track->total_size < (*sa2)->track->total_size)
         return -1;
     return (*sa1)->track->total_size > (*sa2)->track->total_size;
@@ -423,11 +425,12 @@ FileList g_parselist = 0; // if non-zero, tokenizer will keep track of every fil
 
 ////////////////////////////////////////////////////////////////////////////////////// StructLink util functions
 
-static int makeLinkStringRecur(StructLinkOffset *parse_link,U8 **earray,void *ptr,char *link_str,size_t link_str_size)
+static int makeLinkStringRecur(StructLinkOffset *parse_link,U8 **earray,const void *ptr,char *link_str,size_t link_str_size)
 {
     int        size,i;
     char    *name;
-    char    **subarray,*str_end;
+	U8 **subarray;
+	char *str_end;
     size_t    link_str_len = strlen(link_str);
 
     str_end = link_str_len + link_str;
@@ -441,7 +444,8 @@ static int makeLinkStringRecur(StructLinkOffset *parse_link,U8 **earray,void *pt
         if (parse_link->struct_offset)
         {
             strcat_s(link_str, link_str_size, ".");
-            subarray = *(char ***)(earray[i] + parse_link->struct_offset);
+			subarray = *(U8 ***)(earray[i] +
+				parse_link->struct_offset);
             if (makeLinkStringRecur(parse_link+1,subarray,ptr,link_str, link_str_size))
                 return 1;
         }
@@ -453,14 +457,14 @@ typedef struct LinkCacheElt
 {
     union
     {
-        char ***psubarray;
+		U8 ***psubarray;
         void *value;
     };
     StashTable hashChildren;
 } LinkCacheElt;
 
 MP_DEFINE(LinkCacheElt);
-static LinkCacheElt* linkcacheelt_Create( char ***psubarray )
+static LinkCacheElt* linkcacheelt_Create( U8 ***psubarray )
 {
     LinkCacheElt *res = NULL;
 
@@ -495,7 +499,7 @@ static void *findLinkFromStringRecur(StructLinkOffset *parse_link,U8 **earray,ch
 {
     int        size,i;
     char    *name,*next_str = NULL;
-    char    ***psubarray;
+	U8 ***psubarray;
     LinkCacheElt *cachedLink = NULL;
 
     // --------------------
@@ -548,7 +552,7 @@ static void *findLinkFromStringRecur(StructLinkOffset *parse_link,U8 **earray,ch
             stashAddPointer(cachedLinks, name, cachedLink , false);
             return cachedLink->value;
         }
-        psubarray = (char ***)(earray[i] + parse_link->struct_offset);
+		psubarray = (U8 ***)(earray[i] + parse_link->struct_offset);
 
         // create the hash for this
         cachedLink = linkcacheelt_Create( psubarray );
@@ -571,7 +575,7 @@ static void s_ParserLinkFromStringBreakpoint(char const *link_str_p)
 }
 #endif
 
-char *StructLinkToString(StructLink *struct_link,void *ptr,char *link_str,size_t link_str_size)
+char *StructLinkToString(StructLink *struct_link,const void *ptr,char *link_str,size_t link_str_size)
 {
     char *tmp;
     link_str[0] = 0;
@@ -822,13 +826,19 @@ void StructReallocStringDbg(char **ppch, const char *string, const char *file, i
     }
 }
 
+void StructFreeFunctionCall(StructFunctionCall* callstruct);
+static void StructFreeFunctionCallCallback(void* arg0)
+{
+    StructFreeFunctionCall((StructFunctionCall*)arg0);
+}
+
 void StructFreeFunctionCall(StructFunctionCall* callstruct)
 {
     if (callstruct->function)
         StructFreeString(callstruct->function);
     if (callstruct->params)
     {
-        eaDestroyEx(&callstruct->params, StructFreeFunctionCall);
+        eaDestroyEx(&callstruct->params, StructFreeFunctionCallCallback);
     }
     StructFree(callstruct);
 }
@@ -1542,7 +1552,7 @@ static void WriteFloat(FILE* out, float f, int tabs, int eol, void* subtable)
     WriteString(out, define? define: str, tabs, eol);
 }
 
-static void WriteTextFunctionCalls(FILE* out, StructFunctionCall** structarray)
+static void WriteTextFunctionCalls(FILE* out, const StructFunctionCall* const* structarray)
 {
     int escaped, quoted;
     int i, n;
@@ -1574,7 +1584,7 @@ static void WriteTextFunctionCalls(FILE* out, StructFunctionCall** structarray)
         if (structarray[i]->params)
         {
             WriteString(out, "( ", 0, 0); // space in case we start with escaped string
-            WriteTextFunctionCalls(out, structarray[i]->params);
+            WriteTextFunctionCalls(out, (const StructFunctionCall* const*)structarray[i]->params);
             WriteString(out, " )", 0, 0);
         }
     }
@@ -1673,10 +1683,10 @@ static int ParseBase85(TokenizerHandle tok, const char *token, void *dst, int ds
     return ok;
 }
 
-static void WriteBase85(FILE *out, void *src, int src_size)
+static void WriteBase85(FILE *out, const void *src, int src_size)
 {
     // simple base-85 encode
-    U32 *data = src;
+    const U32 *data = src;
     int size = src_size;
     char str[6] = "";
     WriteString(out, "U", 0, 0); // ASCII 85, get it? this'll make the tokenizer skip most of the weird handling
@@ -1708,7 +1718,7 @@ static void WriteBase85(FILE *out, void *src, int src_size)
     }
 }
 
-int InnerWriteTextToken(FILE* out, ParseTable tpi[], int column, void* structptr, int level, int showname, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+int InnerWriteTextToken(FILE* out, ParseTable tpi[], int column, const void* structptr, int level, int showname, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     TOKARRAY_INFO(tpi[column].type).writetext(out, tpi, column, structptr, 0, showname, level,iOptionFlagsToMatch,iOptionFlagsToExclude);
     return 1;
@@ -2551,6 +2561,11 @@ typedef struct PLFSHeader {
 * @param structptr The read only location in memory to write the 
 *                  changes to.
 */
+static void* sharedMemoryAllocAdapter(void* arg0, size_t arg1)
+{
+    return sharedMemoryAlloc((SharedMemoryHandle *)arg0, (size_t)arg1);
+}
+
 bool ParserLoadFilesShared(const char* sharedMemoryName, const char* dir, const char* filemask, const char* persistfile, int flags, ParseTable pti[], SHARED_MEMORY_PARAM void* sm_structptr, size_t iSize, DefineContext* globaldefines, ParserLoadInfo* pli, ParserLoadPreProcessFunc preprocessor, ParserLoadPostProcessFunc postprocessor, ParserLoadFinalProcessFunc finalprocessor)
 {
     void *structptr = (void*)sm_structptr;
@@ -2642,7 +2657,7 @@ bool ParserLoadFilesShared(const char* sharedMemoryName, const char* dir, const 
 
             PERFINFO_AUTO_STOP_START("middle8", 1);
 
-            pTemp = StructCompress(pti, structptr, iSize, NULL, sharedMemoryAlloc, shared_memory);
+            pTemp = StructCompress(pti, structptr, iSize, NULL, sharedMemoryAllocAdapter, shared_memory);
 
             PERFINFO_AUTO_STOP_START("middle9", 1);
 
@@ -2729,7 +2744,7 @@ bool ParserMoveToShared(SharedMemoryHandle *shared_memory, int flags, ParseTable
     size = StructGetMemoryUsage(pti, structptr, iSize) + sizeof(PLFSHeader);
     sharedMemorySetSize(shared_memory, size);        
     memcpy(sharedMemoryAlloc(shared_memory, sizeof(PLFSHeader)), &header, sizeof(PLFSHeader));        
-    pTemp = StructCompress(pti, structptr, iSize, NULL, sharedMemoryAlloc, shared_memory);
+    pTemp = StructCompress(pti, structptr, iSize, NULL, sharedMemoryAllocAdapter, shared_memory);
 
     if (!(flags & PARSER_DONTFREE))
     {            
@@ -3375,7 +3390,7 @@ void u8_recvdiff(Packet* pak, ParseTable tpi[], int column, void* structptr, int
     }
 }
 
-bool u8_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool u8_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     int val = TokenStoreGetU8(tpi, column, structptr, index);
     sprintf_s(str, str_size, "%d", val);
@@ -3552,7 +3567,7 @@ void int16_recvdiff(Packet* pak, ParseTable tpi[], int column, void* structptr, 
     }
 }
 
-bool int16_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool int16_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     int val = TokenStoreGetInt16(tpi, column, structptr, index);
     sprintf_s(str, str_size, "%d", val);
@@ -3684,9 +3699,9 @@ int int_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* structptr
     return 0;
 }
 
-bool int_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint);
+bool int_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint);
 
-void int_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void int_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     char str[128];
     int value = TokenStoreGetInt(tpi, column, structptr, index);
@@ -3752,7 +3767,7 @@ void int_recvdiff(Packet* pak, ParseTable tpi[], int column, void* structptr, in
     }
 }
 
-bool int_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool int_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     int value = TokenStoreGetInt(tpi, column, structptr, index);
     int format = TOK_GET_FORMAT_OPTIONS(tpi[column].format);
@@ -3852,30 +3867,31 @@ bool int_tosimple(ParseTable tpi[], int column, void* structptr, int index, char
     return true;
 }
 
-bool int_fromsimple(ParseTable tpi[], int column, void* structptr, int index, const char* str)
+bool int_fromsimple(ParseTable tpi[], int column, void* structptr, int index, char* str)
 {
+    const char* input = str;
     int val;
     bool ret = false;
 
     if (TOK_GET_FORMAT_OPTIONS(tpi[column].format) == TOK_FORMAT_IP)
     {
-        val = ipFromString(str);
-        if (val || stricmp(str, "0.0.0.0")==0)
+        val = ipFromString(input);
+        if (val || stricmp(input, "0.0.0.0")==0)
             ret = true;
     }
     else if (TOK_GET_FORMAT_OPTIONS(tpi[column].format) == TOK_FORMAT_UNSIGNED)
     {
-        if (sscanf(str, "%u", &val) == 1) ret = true;
+        if (sscanf(input, "%u", &val) == 1) ret = true;
     }
     else
     {
         // do define lookup if possible
         if (tpi[column].subtable)
         {
-            const char* repl = StaticDefineIntLookup(tpi[column].subtable, str);
-            if (repl) str = repl; // then scan below
+            const char* repl = StaticDefineIntLookup(tpi[column].subtable, input);
+            if (repl) input = repl; // then scan below
         }
-        if (sscanf(str, "%d", &val) == 1) ret = true;
+        if (sscanf(input, "%d", &val) == 1) ret = true;
     }
     if (ret) TokenStoreSetInt(tpi, column, structptr, index, val);
     return ret;
@@ -3999,7 +4015,7 @@ int int64_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* structp
     return 0;
 }
 
-void int64_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void int64_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     S64 value = TokenStoreGetInt64(tpi, column, structptr, index);
     if (showname && !value && !tpi[column].param) return; // if defaulted to zero, not necessary to write field
@@ -4008,7 +4024,7 @@ void int64_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, i
     WriteInt64(out, value, 0, showname, tpi[column].subtable);
 }
 
-int int64_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum)
+int int64_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     int success = 1;
     S64 value = TokenStoreGetInt64(tpi, column, structptr, index);
@@ -4076,7 +4092,7 @@ void int64_recvdiff(Packet* pak, ParseTable tpi[], int column, void* structptr, 
     }
 }
 
-bool int64_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool int64_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     S64 val = TokenStoreGetInt64(tpi, column, structptr, index);
     sprintf_s(str, str_size, "%I64d", val);
@@ -4195,7 +4211,7 @@ int float_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* structp
     return 0;
 }
 
-void float_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void float_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     F32 value = TokenStoreGetF32(tpi, column, structptr, index);
     if (showname && (value == 0.0) && !tpi[column].param) return; // if defaulted to zero, not necessary to write field
@@ -4290,7 +4306,7 @@ void float_recvdiff(Packet* pak, ParseTable tpi[], int column, void* structptr, 
     }
 }
 
-bool float_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool float_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     F32 val = TokenStoreGetF32(tpi, column, structptr, index);
     sprintf_s(str, str_size, "%f", val);
@@ -4333,7 +4349,7 @@ void float_calcoffset(ParseTable tpi[], int column, size_t* size)
     (*size) += sizeof(F32);
 }
 
-void float_copyfield(ParseTable tpi[], int column, void* dest, void* src, int index, CustomMemoryAllocator memAllocator, void* customData, StructTypeField iOptionFlagsToMatch)
+void float_copyfield(ParseTable tpi[], int column, void* dest, void* src, int index, CustomMemoryAllocator memAllocator, void* customData, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     TokenStoreSetF32(tpi, column, dest, index, TokenStoreGetF32(tpi, column, src, index));
 }
@@ -4412,7 +4428,7 @@ int degrees_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* struc
     return 0;
 }
 
-void degrees_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void degrees_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     F32 val = DEG(TokenStoreGetF32(tpi, column, structptr, index));
     if (showname && (val == 0.0) && !tpi[column].param) return; // if defaulted to zero, not necessary to write field
@@ -4421,7 +4437,7 @@ void degrees_writetext(FILE* out, ParseTable tpi[], int column, void* structptr,
     WriteFloat(out, val, 0, showname, tpi[column].subtable);
 }
 
-bool degrees_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool degrees_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     F32 val = DEG(TokenStoreGetF32(tpi, column, structptr, index));
     sprintf_s(str, str_size, "%f", val);
@@ -4481,9 +4497,9 @@ int string_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* struct
     return 0;
 }
 
-void string_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level)
+void string_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
-    const char* str = TokenStoreGetString(tpi, column, structptr, index);
+    const char* str = TokenStoreGetStringConst(tpi, column, structptr, index);
 
     if (showname && !tpi[column].param && (!str || !str[0])) 
         return; // if defaulted to zero, not necessary to write field
@@ -4536,9 +4552,9 @@ void string_recvdiff(Packet* pak, ParseTable tpi[], int column, void* structptr,
     if (!out_of_order && structptr) TokenStoreSetString(tpi, column, structptr, index, str, NULL, NULL);
 }
 
-bool string_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool string_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
-    char* val = TokenStoreGetString(tpi, column, structptr, index);
+    const char* val = TokenStoreGetStringConst(tpi, column, structptr, index);
     if (val) strcpy_s(str, str_size, val);
     else str[0] = 0;
     return true;
@@ -4642,10 +4658,10 @@ int char_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* structpt
     return 0;
 }
 
-void char_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void char_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     char buf[TOKEN_BUFFER_LENGTH]; 
-    char *data = TokenStoreGetPointer(tpi, column, structptr, index);
+    const char*data = TokenStoreGetPointerConst(tpi, column, structptr, index);
     if (showname)
     {
         // if empty, not necessary to write field
@@ -4722,9 +4738,9 @@ int pointer_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* struc
     return 0;
 }
 
-void pointer_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void pointer_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
-    int* count = TokenStoreGetCountField(tpi, column, structptr);
+    const int* count = TokenStoreGetCountFieldConst(tpi, column, structptr);
     if (showname && !*count) return; // if empty, not necessary to write field
 
     if (showname) WriteString(out, tpi[column].name, level+1, 0);
@@ -4734,12 +4750,12 @@ void pointer_writetext(FILE* out, ParseTable tpi[], int column, void* structptr,
     if (*count)
     {
         WriteString(out, " ", 0, 0);
-        WriteBase85(out, TokenStoreGetPointer(tpi, column, structptr, index), *count);
+        WriteBase85(out, TokenStoreGetPointerConst(tpi, column, structptr, index), *count);
     }
     WriteString(out, "", 0, showname);
 }
 
-int pointer_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum)
+int pointer_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     int success = 1;
     int* count = TokenStoreGetCountField(tpi, column, structptr);
@@ -4921,9 +4937,9 @@ int raw_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* structptr
     return 0;
 }
 
-void raw_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void raw_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
-    U8 *data = TokenStoreGetPointer(tpi, column, structptr, index);
+    const U8*data = TokenStoreGetPointerConst(tpi, column, structptr, index);
     if (showname)
     {
         // if empty, not necessary to write field
@@ -4941,7 +4957,7 @@ void raw_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int
     WriteString(out, "", 0, showname);
 }
 
-int raw_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum)
+int raw_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     U32 zero = 0;
     int ok = 1;
@@ -5098,7 +5114,7 @@ int flags_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* structp
     return 0;
 }
 
-void flags_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void flags_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     U32 val = TokenStoreGetInt(tpi, column, structptr, 0);
     U32 mask = 1;
@@ -5157,7 +5173,7 @@ int flagarray_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* str
     return 0;
 }
 
-void flagarray_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void flagarray_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     U32 size = tpi[column].param;
     U32 intIndex;
@@ -5195,7 +5211,7 @@ int boolflag_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* stru
     return 0;
 }
 
-void boolflag_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void boolflag_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     if (showname && TokenStoreGetU8(tpi, column, structptr, index))
     {
@@ -5221,10 +5237,10 @@ int quatpyr_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* struc
     return 0;
 }
 
-void quatpyr_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void quatpyr_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     F32 pyr[3];
-    F32* quat = (F32*)TokenStoreGetPointer(tpi, column, structptr, 0);
+    const F32* quat = (const F32*)TokenStoreGetPointerConst(tpi, column, structptr, 0);
 
     quatToPYR(quat, pyr);
     DEGVEC3(pyr);
@@ -5354,9 +5370,9 @@ int condrgb_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* struc
     return 0;
 }
 
-void condrgb_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void condrgb_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
-    Color* c = (Color*)TokenStoreGetPointer(tpi, column, structptr, 0);
+    const Color* c = (const Color*)TokenStoreGetPointerConst(tpi, column, structptr, 0);
 
     if (c->a == 0)
         return;
@@ -5433,10 +5449,10 @@ int matpyr_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* struct
     return 0;
 }
 
-void matpyr_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void matpyr_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     F32 pyr[3];
-    Vec3* mat = (Vec3*)TokenStoreGetPointer(tpi, column, structptr, 0);
+    const Vec3* mat = (const Vec3*)TokenStoreGetPointerConst(tpi, column, structptr, 0);
 
     getMat3YPR(mat, pyr);
 //    DEGVEC3(pyr);
@@ -5449,7 +5465,7 @@ void matpyr_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, 
     WriteFloat(out, pyr[2], 0, showname, tpi[column].subtable);
 }
 
-int matpyr_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum)
+int matpyr_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     int i, ok = 1;
     Vec3    pyr;
@@ -5557,13 +5573,13 @@ int filename_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* stru
     return 0;
 }
 
-bool filename_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool filename_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
-    char* val = TokenStoreGetString(tpi, column, structptr, index);
+    const char* val = TokenStoreGetStringConst(tpi, column, structptr, index);
     if (val)
     {
-        _strlwr_s(val, strlen(val)+1);
         strcpy_s(str, str_size, val);
+        _strlwr_s(str, str_size);
     }
     else str[0] = 0;
     return true;
@@ -5625,10 +5641,10 @@ int link_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* structpt
     return 0;
 }
 
-void link_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void link_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     char buf[MAX_LINK_LEN];
-    void* link = TokenStoreGetPointer(tpi, column, structptr, index);
+    const void* link = TokenStoreGetPointerConst(tpi, column, structptr, index);
 
     if (!link) return; // links always default to zero
     if (!StructLinkToString(tpi[column].subtable, link, SAFESTR(buf)))
@@ -5722,9 +5738,9 @@ void link_recvdiff(Packet* pak, ParseTable tpi[], int column, void* structptr, i
     }
 }
 
-bool link_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool link_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
-    void* link = TokenStoreGetPointer(tpi, column, structptr, index);
+    const void* link = TokenStoreGetPointerConst(tpi, column, structptr, index);
     if (!link)
     {
         str[0] = 0;
@@ -5828,7 +5844,7 @@ int reference_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* str
     return 0;
 }
 
-void reference_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void reference_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     char buf[MAX_STRING_LENGTH];
     if (TokenStoreGetRefString(tpi, column, structptr, index, SAFESTR(buf)))
@@ -5901,7 +5917,7 @@ void reference_recvdiff(Packet* pak, ParseTable tpi[], int column, void* structp
     }
 }
 
-bool reference_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool reference_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     TokenStoreGetRefString(tpi, column, structptr, index, str, str_size);
     return true;
@@ -5964,9 +5980,9 @@ int functioncall_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* 
     return 0;
 }
 
-void functioncall_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void functioncall_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
-    StructFunctionCall** ea = *(StructFunctionCall***)TokenStoreGetEArray(tpi, column, structptr);
+    const StructFunctionCall* const* ea = *(const StructFunctionCall* const* const*)TokenStoreGetEArrayConst(tpi, column, structptr);
     if (eaSize(&ea))
     {
         if (showname) WriteString(out, tpi[column].name, level+1, 0);
@@ -5976,7 +5992,7 @@ void functioncall_writetext(FILE* out, ParseTable tpi[], int column, void* struc
     }
 }
 
-int functioncall_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum)
+int functioncall_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     StructFunctionCall** ea = *(StructFunctionCall***)TokenStoreGetEArray(tpi, column, structptr);
     return WriteBinaryFunctionCalls(file, ea, datasum);
@@ -6083,14 +6099,14 @@ int unparsed_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* stru
     return 0;
 }
 
-void unparsed_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void unparsed_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     int i, numelems = TokenStoreGetNumElems(tpi, column, structptr);
 
     for (i = 0; i < numelems; i++)
     {
         int p;
-        StructParams* paramstruct = TokenStoreGetPointer(tpi, column, structptr, i);
+        const StructParams* paramstruct = TokenStoreGetPointerConst(tpi, column, structptr, i);
         if (showname) WriteString(out, tpi[column].name, level+1, 0);
         for (p = 0; p < eaSize(&paramstruct->params); p++)
         {
@@ -6102,7 +6118,7 @@ void unparsed_writetext(FILE* out, ParseTable tpi[], int column, void* structptr
     }
 }
 
-int unparsed_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum)
+int unparsed_writebin(SimpleBufHandle file, ParseTable tpi[], int column, void* structptr, int index, int* datasum, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     StructParams* paramstruct = TokenStoreGetPointer(tpi, column, structptr, index);
     int i, size = eaSize(&paramstruct->params);
@@ -6259,13 +6275,13 @@ int struct_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* struct
     return 0;
 }
 
-void struct_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void struct_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     int i, numelems = TokenStoreGetNumElems(tpi, column, structptr);
 
     for (i = 0; i < numelems; i++)
     {
-        void* substruct = TokenStoreGetPointer(tpi, column, structptr, i);
+        const void* substruct = TokenStoreGetPointerConst(tpi, column, structptr, i);
         if (substruct)
         {
             if (showname) WriteString(out, tpi[column].name, level+1, 0);
@@ -6487,7 +6503,7 @@ void struct_calccyclic(ParseTable tpi[], int column, void* valueStruct, void* am
     StructCalcCyclic(tpi[column].subtable, subV, subA, subF, subC, subDest, fStartTime, deltaTime);
 }
 
-void struct_applydynop(ParseTable tpi[], int column, void* dstStruct, void* srcStruct, int index, DynOpType optype, F32* values, U8 uiValuesSpecd, U32* seed)
+void struct_applydynop(ParseTable tpi[], int column, void* dstStruct, void* srcStruct, int index, DynOpType optype, const F32* values, U8 uiValuesSpecd, U32* seed)
 {
     void* subDest = TokenStoreGetPointer(tpi, column, dstStruct, index);
     void* subSrc = srcStruct? TokenStoreGetPointer(tpi, column, srcStruct, index): 0;
@@ -6548,7 +6564,7 @@ int nonarray_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* stru
     return 0;
 }
 
-void nonarray_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void nonarray_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     if (TYPE_INFO(tpi[column].type).writetext)
         TYPE_INFO(tpi[column].type).writetext(out, tpi, column, structptr, index, showname, level, iOptionFlagsToMatch, iOptionFlagsToExclude);
@@ -6586,7 +6602,7 @@ void nonarray_freepktids(ParseTable tpi[], int column, void** pktidptr)
         TYPE_INFO(tpi[column].type).freepktids(tpi, column, pktidptr);
 }
 
-bool nonarray_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool nonarray_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     if (TYPE_INFO(tpi[column].type).tosimple)
         return TYPE_INFO(tpi[column].type).tosimple(tpi, column, structptr, index, str, str_size, prettyprint);
@@ -6711,7 +6727,7 @@ int fixedarray_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* st
     return done;
 }
 
-void fixedarray_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void fixedarray_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     int i, numelems = tpi[column].param;
     int type = TOK_GET_TYPE(tpi[column].type);
@@ -6808,7 +6824,7 @@ void fixedarray_freepktids(ParseTable tpi[], int column, void** pktidptr)
     SAFE_FREE(*pktidptr);
 }
 
-bool fixedarray_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool fixedarray_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     int i, len, numelems = tpi[column].param;
     str[0] = 0;
@@ -7028,7 +7044,7 @@ int earray_parse(TokenizerHandle tok, ParseTable tpi[], int column, void* struct
     return 0;
 }
 
-void earray_writetext(FILE* out, ParseTable tpi[], int column, void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
+void earray_writetext(FILE* out, ParseTable tpi[], int column, const void* structptr, int index, bool showname, int level, StructTypeField iOptionFlagsToMatch, StructTypeField iOptionFlagsToExclude)
 {
     int s, size = TokenStoreGetNumElems(tpi, column, structptr);
     int type = TOK_GET_TYPE(tpi[column].type);
@@ -7181,7 +7197,7 @@ void earray_freepktids(ParseTable tpi[], int column, void** pktidptr)
     eaDestroy((void***)pktidptr);
 }
 
-bool earray_tosimple(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size, bool prettyprint)
+bool earray_tosimple(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size, bool prettyprint)
 {
     int i, len, numelems = TokenStoreGetNumElems(tpi, column, structptr);
     str[0] = 0;

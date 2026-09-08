@@ -2124,8 +2124,10 @@ static void texWrite()
 }
 
 /*for quicksort to alphabetize tex_defs */ 
-static int cmpTexDef(const TexDef **va,const TexDef **vb)
+static int cmpTexDef(const void* vaData, const void* vbData)
 {
+    const TexDef ** va = (const TexDef **)vaData;
+    const TexDef ** vb = (const TexDef **)vbData;
 const char    *sa=0,*sb=0;
 int ret;
 

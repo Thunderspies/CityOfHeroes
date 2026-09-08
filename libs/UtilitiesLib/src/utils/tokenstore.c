@@ -211,25 +211,30 @@ char* TokenStoreSetString(ParseTable tpi[], int column, void* structptr, int ind
 
 char* TokenStoreGetString(ParseTable tpi[], int column, void* structptr, int index)
 {
-    char** pstr;
-    char*** parray;
+    return (char*)TokenStoreGetStringConst(tpi, column, structptr, index);
+}
+
+const char* TokenStoreGetStringConst(ParseTable tpi[], int column, const void* structptr, int index)
+{
+    const char* const* pstr;
+    const char* const* const* parray;
     U32 storage = TokenStoreGetStorageType(tpi[column].type);
     
     TS_REQUIRE(TOK_STORAGE_DIRECT_SINGLE | TOK_STORAGE_INDIRECT_SINGLE | TOK_STORAGE_INDIRECT_EARRAY);
 
     switch (storage) {
     case TOK_STORAGE_DIRECT_SINGLE:
-        return (char*)((intptr_t)structptr + tpi[column].storeoffset);
+        return (const char*)((intptr_t)structptr + tpi[column].storeoffset);
     case TOK_STORAGE_INDIRECT_EARRAY:
-        parray = (char***)((intptr_t)structptr + tpi[column].storeoffset);
-        if (index >= eaSize(parray))
+        parray = (const char* const* const*)((intptr_t)structptr + tpi[column].storeoffset);
+        if (index >= eaSize((cccEArrayHandle*)parray))
         {
             Errorf("internal textparser error");
             return 0;
         }
         return (*parray)[index];
     case TOK_STORAGE_INDIRECT_SINGLE:
-        pstr = (char**)((intptr_t)structptr + tpi[column].storeoffset);
+        pstr = (const char* const*)((intptr_t)structptr + tpi[column].storeoffset);
         return *pstr;
     };
     return 0;
@@ -248,7 +253,7 @@ size_t TokenStoreGetStringMemUsage(ParseTable tpi[], int column, void* structptr
         return 0; // string directly stored in struct
     case TOK_STORAGE_INDIRECT_EARRAY:
         parray = (char***)((intptr_t)structptr + tpi[column].storeoffset);
-        if (index >= eaSize(parray))
+        if (index >= eaSize((cccEArrayHandle*)parray))
         {
             Errorf("internal textparser error");
             return 0;
@@ -295,17 +300,17 @@ void TokenStoreSetInt(ParseTable tpi[], int column, void* structptr, int index, 
     };
 }
 
-int TokenStoreGetInt(ParseTable tpi[], int column, void* structptr, int index)
+int TokenStoreGetInt(ParseTable tpi[], int column, const void* structptr, int index)
 {
-    int** parray;
-    int* pint;
+    const int* const* parray;
+    const int* pint;
     U32 storage = TokenStoreGetStorageType(tpi[column].type);
 
     TS_REQUIRE(TOK_STORAGE_DIRECT_SINGLE | TOK_STORAGE_DIRECT_FIXEDARRAY | TOK_STORAGE_DIRECT_EARRAY);
 
     switch (storage) {
     case TOK_STORAGE_DIRECT_FIXEDARRAY:
-        pint = (int*)((intptr_t)structptr + tpi[column].storeoffset);
+        pint = (const int*)((intptr_t)structptr + tpi[column].storeoffset);
         if (index >= tpi[column].param)
         {
             Errorf("extra integer parameter");
@@ -313,7 +318,7 @@ int TokenStoreGetInt(ParseTable tpi[], int column, void* structptr, int index)
         }
         return pint[index];
     case TOK_STORAGE_DIRECT_EARRAY:
-        parray = (int**)((intptr_t)structptr + tpi[column].storeoffset);
+        parray = (const int* const*)((intptr_t)structptr + tpi[column].storeoffset);
         if (index >= eaiSize(parray))
         {
             Errorf("extra integer parameter");
@@ -321,7 +326,7 @@ int TokenStoreGetInt(ParseTable tpi[], int column, void* structptr, int index)
         }
         return (*parray)[index];
     case TOK_STORAGE_DIRECT_SINGLE:
-        pint = (int*)((intptr_t)structptr + tpi[column].storeoffset);
+        pint = (const int*)((intptr_t)structptr + tpi[column].storeoffset);
         return *pint;
     };
     return 0;
@@ -366,21 +371,21 @@ void TokenStoreSetInt64(ParseTable tpi[], int column, void* structptr, int index
     };
 }
 
-S64 TokenStoreGetInt64(ParseTable tpi[], int column, void* structptr, int index)
+S64 TokenStoreGetInt64(ParseTable tpi[], int column, const void* structptr, int index)
 {
-    S64* pint;
+    const S64* pint;
     U32 storage = TokenStoreGetStorageType(tpi[column].type);
 
 #ifndef _M_X64
     TS_REQUIRE(TOK_STORAGE_DIRECT_SINGLE | TOK_STORAGE_DIRECT_FIXEDARRAY);
 #else
-    void*** parray;
+    const void* const* const* parray;
     TS_REQUIRE(TOK_STORAGE_DIRECT_SINGLE | TOK_STORAGE_DIRECT_FIXEDARRAY | TOK_STORAGE_DIRECT_EARRAY);
 #endif
 
     switch (storage) {
     case TOK_STORAGE_DIRECT_FIXEDARRAY:
-        pint = (S64*)((intptr_t)structptr + tpi[column].storeoffset);
+        pint = (const S64*)((intptr_t)structptr + tpi[column].storeoffset);
         if (index > tpi[column].param)
         {
             Errorf("extra integer parameter");
@@ -389,11 +394,11 @@ S64 TokenStoreGetInt64(ParseTable tpi[], int column, void* structptr, int index)
         else
             return pint[index];
     case TOK_STORAGE_DIRECT_SINGLE:
-        pint = (S64*)((intptr_t)structptr + tpi[column].storeoffset);
+        pint = (const S64*)((intptr_t)structptr + tpi[column].storeoffset);
         return *pint;
 #ifdef _M_X64
     case TOK_STORAGE_DIRECT_EARRAY:
-        parray = (void***)((intptr_t)structptr + tpi[column].storeoffset);
+        parray = (const void* const* const*)((intptr_t)structptr + tpi[column].storeoffset);
         if (index >= eaSizeUnsafe(parray))
         {
             Errorf("extra integer parameter");
@@ -430,14 +435,14 @@ void TokenStoreSetInt16(ParseTable tpi[], int column, void* structptr, int index
 
 S16 TokenStoreGetInt16(ParseTable tpi[], int column, const void* structptr, int index)
 {
-    S16* pint;
+    const S16* pint;
     U32 storage = TokenStoreGetStorageType(tpi[column].type);
 
     TS_REQUIRE(TOK_STORAGE_DIRECT_SINGLE | TOK_STORAGE_DIRECT_FIXEDARRAY);
 
     switch (storage) {
     case TOK_STORAGE_DIRECT_FIXEDARRAY:
-        pint = (S16*)((intptr_t)structptr + tpi[column].storeoffset);
+        pint = (const S16*)((intptr_t)structptr + tpi[column].storeoffset);
         if (index >= tpi[column].param)
         {
             Errorf("extra integer parameter");
@@ -445,7 +450,7 @@ S16 TokenStoreGetInt16(ParseTable tpi[], int column, const void* structptr, int 
         }
         return pint[index];
     case TOK_STORAGE_DIRECT_SINGLE:
-        pint = (S16*)((intptr_t)structptr + tpi[column].storeoffset);
+        pint = (const S16*)((intptr_t)structptr + tpi[column].storeoffset);
         return *pint;
     };
     return 0;
@@ -473,16 +478,16 @@ void TokenStoreSetU8(ParseTable tpi[], int column, void* structptr, int index, U
     };
 }
 
-U8 TokenStoreGetU8(ParseTable tpi[], int column, void* structptr, int index)
+U8 TokenStoreGetU8(ParseTable tpi[], int column, const void* structptr, int index)
 {
-    U8* pint;
+    const U8* pint;
     U32 storage = TokenStoreGetStorageType(tpi[column].type);
 
     TS_REQUIRE(TOK_STORAGE_DIRECT_SINGLE | TOK_STORAGE_DIRECT_FIXEDARRAY);
 
     switch (storage) {
     case TOK_STORAGE_DIRECT_FIXEDARRAY:
-        pint = (U8*)((intptr_t)structptr + tpi[column].storeoffset);
+        pint = (const U8*)((intptr_t)structptr + tpi[column].storeoffset);
         if (index >= tpi[column].param)
         {
             Errorf("extra integer parameter");
@@ -490,7 +495,7 @@ U8 TokenStoreGetU8(ParseTable tpi[], int column, void* structptr, int index)
         }
         return pint[index];
     case TOK_STORAGE_DIRECT_SINGLE:
-        pint = (U8*)((intptr_t)structptr + tpi[column].storeoffset);
+        pint = (const U8*)((intptr_t)structptr + tpi[column].storeoffset);
         return *pint;
     };
     return 0;
@@ -528,17 +533,17 @@ void TokenStoreSetF32(ParseTable tpi[], int column, void* structptr, int index, 
     };
 }
 
-F32 TokenStoreGetF32(ParseTable tpi[], int column, void* structptr, int index)
+F32 TokenStoreGetF32(ParseTable tpi[], int column, const void* structptr, int index)
 {
-    F32** parray;
-    F32* pfloat;
+    const F32* const* parray;
+    const F32* pfloat;
     U32 storage = TokenStoreGetStorageType(tpi[column].type);
 
     TS_REQUIRE(TOK_STORAGE_DIRECT_SINGLE | TOK_STORAGE_DIRECT_FIXEDARRAY | TOK_STORAGE_DIRECT_EARRAY);
 
     switch (storage) {
     case TOK_STORAGE_DIRECT_FIXEDARRAY:
-        pfloat = (F32*)((intptr_t)structptr + tpi[column].storeoffset);
+        pfloat = (const F32*)((intptr_t)structptr + tpi[column].storeoffset);
         if (index >= tpi[column].param)
         {
             Errorf("extra float parameter");
@@ -546,7 +551,7 @@ F32 TokenStoreGetF32(ParseTable tpi[], int column, void* structptr, int index)
         }
         return pfloat[index];
     case TOK_STORAGE_DIRECT_EARRAY:
-        parray = (F32**)((intptr_t)structptr + tpi[column].storeoffset);
+        parray = (const F32* const*)((intptr_t)structptr + tpi[column].storeoffset);
         if (index >= eafSize(parray))
         {
             Errorf("extra float parameter");
@@ -554,7 +559,7 @@ F32 TokenStoreGetF32(ParseTable tpi[], int column, void* structptr, int index)
         }
         return (*parray)[index];
     case TOK_STORAGE_DIRECT_SINGLE:
-        pfloat = (F32*)((intptr_t)structptr + tpi[column].storeoffset);
+        pfloat = (const F32*)((intptr_t)structptr + tpi[column].storeoffset);
         return *pfloat;
     };
     return 0;
@@ -660,8 +665,13 @@ void TokenStoreFree(ParseTable tpi[], int column, void* structptr, int index)
 // get the count field used by TOK_POINTER or TOK_USEDFIELD
 int* TokenStoreGetCountField(ParseTable tpi[], int column, void* structptr)
 {
+    return (int*)TokenStoreGetCountFieldConst(tpi, column, structptr);
+}
+
+const int* TokenStoreGetCountFieldConst(ParseTable tpi[], int column, const void* structptr)
+{
     TS_REQUIRE(TOK_STORAGE_INDIRECT_SINGLE);
-    return (int*)((intptr_t)structptr + tpi[column].param);
+    return (const int*)((intptr_t)structptr + tpi[column].param);
 }
 
 void TokenStoreSetPointer(ParseTable tpi[], int column, void* structptr, int index, void* ptr)
@@ -690,21 +700,26 @@ void TokenStoreSetPointer(ParseTable tpi[], int column, void* structptr, int ind
 
 void* TokenStoreGetPointer(ParseTable tpi[], int column, void* structptr, int index)
 {
+    return (void*)TokenStoreGetPointerConst(tpi, column, structptr, index);
+}
+
+const void* TokenStoreGetPointerConst(ParseTable tpi[], int column, const void* structptr, int index)
+{
     U32 storage = TokenStoreGetStorageType(tpi[column].type);
-    void** pp;
-    void*** ea;
+    const void* const* pp;
+    const void* const* const* ea;
 
     TS_REQUIRE(TOK_STORAGE_DIRECT_SINGLE | TOK_STORAGE_DIRECT_FIXEDARRAY | TOK_STORAGE_INDIRECT_SINGLE | TOK_STORAGE_INDIRECT_EARRAY);
 
     switch (storage) {
     case TOK_STORAGE_DIRECT_SINGLE:
     case TOK_STORAGE_DIRECT_FIXEDARRAY:
-        return (void*)((intptr_t)structptr + tpi[column].storeoffset);
+        return (const void*)((intptr_t)structptr + tpi[column].storeoffset);
     case TOK_STORAGE_INDIRECT_SINGLE:
-        pp = (void**)((intptr_t)structptr + tpi[column].storeoffset);
+        pp = (const void* const*)((intptr_t)structptr + tpi[column].storeoffset);
         return *pp;
     case TOK_STORAGE_INDIRECT_EARRAY:
-        ea = (void***)((intptr_t)structptr + tpi[column].storeoffset);
+        ea = (const void* const* const*)((intptr_t)structptr + tpi[column].storeoffset);
         if (index >= eaSizeUnsafe(ea))
         {
             // fine, it's valid for clients to ask for a pointer and get NULL back
@@ -811,7 +826,7 @@ void TokenStoreCopyRef(ParseTable tpi[], int column, void* dest, void* src, int 
         RefSystem_CopyHandle(ppdest, ppsrc); // ok for ppsrc not to be ref?
 }
 
-bool TokenStoreGetRefString(ParseTable tpi[], int column, void* structptr, int index, char* str, int str_size)
+bool TokenStoreGetRefString(ParseTable tpi[], int column, const void* structptr, int index, char* str, int str_size)
 {
     void*** parray;
     void** pp;
@@ -850,20 +865,35 @@ bool TokenStoreGetRefString(ParseTable tpi[], int column, void* structptr, int i
 
 void*** TokenStoreGetEArray(ParseTable tpi[], int column, void* structptr)
 {
+    return (void***)TokenStoreGetEArrayConst(tpi, column, structptr);
+}
+
+const void* const* const* TokenStoreGetEArrayConst(ParseTable tpi[], int column, const void* structptr)
+{
     TS_REQUIRE(TOK_STORAGE_INDIRECT_EARRAY);
-    return (void***)((intptr_t)structptr + tpi[column].storeoffset);
+    return (const void* const* const*)((intptr_t)structptr + tpi[column].storeoffset);
 }
 
 int** TokenStoreGeteai(ParseTable tpi[], int column, void* structptr)
 {
+    return (int**)TokenStoreGeteaiConst(tpi, column, structptr);
+}
+
+const int* const* TokenStoreGeteaiConst(ParseTable tpi[], int column, const void* structptr)
+{
     TS_REQUIRE(TOK_STORAGE_DIRECT_EARRAY);
-    return (int**)((intptr_t)structptr + tpi[column].storeoffset);
+    return (const int* const*)((intptr_t)structptr + tpi[column].storeoffset);
 }
 
 F32** TokenStoreGeteaf(ParseTable tpi[], int column, void* structptr)
 {
+    return (F32**)TokenStoreGeteafConst(tpi, column, structptr);
+}
+
+const F32* const* TokenStoreGeteafConst(ParseTable tpi[], int column, const void* structptr)
+{
     TS_REQUIRE(TOK_STORAGE_DIRECT_EARRAY);
-    return (F32**)((intptr_t)structptr + tpi[column].storeoffset);
+    return (const F32* const*)((intptr_t)structptr + tpi[column].storeoffset);
 }
 
 size_t TokenStoreGetEArrayMemUsage(ParseTable tpi[], int column, void* structptr)
@@ -943,10 +973,10 @@ void TokenStoreDestroyEArray(ParseTable tpi[], int column, void* structptr)
     }
 }
 
-int TokenStoreGetNumElems(ParseTable tpi[], int column, void* structptr)
+int TokenStoreGetNumElems(ParseTable tpi[], int column, const void* structptr)
 {
-    int** ea32;
-    void*** ea;
+    const int* const* ea32;
+    const void* const* const* ea;
     U32 storage = TokenStoreGetStorageType(tpi[column].type);
 
     switch (storage) {
@@ -954,11 +984,11 @@ int TokenStoreGetNumElems(ParseTable tpi[], int column, void* structptr)
     case TOK_STORAGE_DIRECT_SINGLE: return 1;
     case TOK_STORAGE_INDIRECT_FIXEDARRAY: // fall
     case TOK_STORAGE_DIRECT_FIXEDARRAY:    return tpi[column].param;
-    case TOK_STORAGE_DIRECT_EARRAY: // int** or F32** - HACK - consider int** because memory layout won't differ
-        ea32 = (int**)((intptr_t)structptr + tpi[column].storeoffset);
+    case TOK_STORAGE_DIRECT_EARRAY: // const int* const* or const F32* const* - HACK - consider const int* const* because memory layout won't differ
+        ea32 = (const int* const*)((intptr_t)structptr + tpi[column].storeoffset);
         return ea32Size(ea32);
     case TOK_STORAGE_INDIRECT_EARRAY:
-        ea = (void***)((intptr_t)structptr + tpi[column].storeoffset);
+        ea = (const void* const* const*)((intptr_t)structptr + tpi[column].storeoffset);
         return eaSizeUnsafe(ea);
     }
     return 0;

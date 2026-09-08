@@ -234,8 +234,9 @@ static int s_FinalBadgesIdxHardMax;
  * badge_CreateHashes
  *
  */
-static bool badge_FinalProcess(ParseTable pti[], BadgeDefs *pdefs, bool shared_memory)
+static bool badge_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    BadgeDefs * pdefs = (BadgeDefs *)structptr;
     bool ret = true;
     int i;
     int n = eaSize(&pdefs->ppBadges);
@@ -540,8 +541,9 @@ static const char *s_PruneBadgesAttribFilename = NULL;
  * load_PruneBadges
  *
  */
-static bool load_PruneBadges(TokenizerParseInfo pti[], BadgeDefs *pdefs)
+static bool load_PruneBadges(ParseTable* pti, void* structptr)
 {
+    BadgeDefs * pdefs = (BadgeDefs *)structptr;
     StashTable hashBadgeNames = stashTableCreateWithStringKeys(128, StashDeepCopyKeys);
     int maxIdx = badge_LoadNames(hashBadgeNames, s_PruneBadgesAttribFilename);
 

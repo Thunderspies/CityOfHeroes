@@ -149,10 +149,16 @@ static MiningAccumulator* MiningAccumulatorCreateEx(const char *name)
     return pma;
 }
 
+static void MiningAccumulatorEntryDestroy(MiningAccumulatorEntry* pmae);
+static void MiningAccumulatorEntryDestroyCallback(void* arg0)
+{
+    MiningAccumulatorEntryDestroy((MiningAccumulatorEntry*)arg0);
+}
+
 static void MiningAccumulatorDestroy(MiningAccumulator* pma)
 {
     estrDestroy(&pma->name);
-    eaDestroyEx(&pma->data,MiningAccumulatorEntryDestroy);
+    eaDestroyEx(&pma->data,MiningAccumulatorEntryDestroyCallback);
     stashTableDestroy(pma->data_stash);
     eaiDestroy(&pma->merged_dbids);
     MP_FREE(MiningAccumulator, pma);

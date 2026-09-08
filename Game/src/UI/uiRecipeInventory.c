@@ -231,8 +231,10 @@ static const char *getRecipeDisplayName(const DetailRecipe *pRec)
 }
 
 
-static int compareRecipe(const DetailRecipe** a, const DetailRecipe** b)
-{  
+static int compareRecipe(const void* aData, const void* bData)
+{
+    const DetailRecipe** a = (const DetailRecipe**)aData;
+    const DetailRecipe** b = (const DetailRecipe**)bData;
 //    static char temp[256];
 //    char temp2[256];
     int result;
@@ -1106,8 +1108,10 @@ void recipeTreeFreeCallback(uiTreeNode *pNode)
 
 /////////////////////////////////////////////////////////////////////////////////
 
-static int compareTreeNodes(const uiTreeNode **a, const uiTreeNode **b)
-{  
+static int compareTreeNodes(const void* aData, const void* bData)
+{
+    const uiTreeNode ** a = (const uiTreeNode **)aData;
+    const uiTreeNode ** b = (const uiTreeNode **)bData;
     static char temp[128];
     static char temp2[128];
     int result;
@@ -1751,8 +1755,10 @@ static void recipeTreeRemoveMeritRecipes(uiTreeNode *pNode)
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 
-static int compareMeritTreeNodes(const uiTreeNode **a, const uiTreeNode **b)
-{  
+static int compareMeritTreeNodes(const void* aData, const void* bData)
+{
+    const uiTreeNode ** a = (const uiTreeNode **)aData;
+    const uiTreeNode ** b = (const uiTreeNode **)bData;
     static char temp[128];
     static char temp2[128];
     int result;
@@ -1797,8 +1803,10 @@ static void recipeMeritTreeNodeSort(uiTreeNode *pNode)
     eaQSort(pNode->children, compareMeritTreeNodes);
 }
 
-static int compareTreeRecipes(const treeRecipeDisplayState **a, const treeRecipeDisplayState **b)
-{  
+static int compareTreeRecipes(const void* aData, const void* bData)
+{
+    const treeRecipeDisplayState ** a = (const treeRecipeDisplayState **)aData;
+    const treeRecipeDisplayState ** b = (const treeRecipeDisplayState **)bData;
     static char temp[128];
     static char temp2[128];
     int result;

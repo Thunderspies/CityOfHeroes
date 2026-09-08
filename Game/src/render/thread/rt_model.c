@@ -1260,8 +1260,10 @@ int tppproc(StashElement elem)
     return 1;
 }
 
-int cmpRecords(const Record **a, const Record **b)
+int cmpRecords(const void* aData, const void* bData)
 {
+    const Record ** a = (const Record **)aData;
+    const Record ** b = (const Record **)bData;
     return (*b)->count - (*a)->count;
 }
 

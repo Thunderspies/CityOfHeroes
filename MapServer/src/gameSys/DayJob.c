@@ -82,8 +82,9 @@ SHARED_MEMORY DayJobDetailDict g_DayJobDetailDictDict;
 //
 //----------------------------------------------------------
 
-static bool dayjobdetail_FinalProcess(ParseTable pti[], DayJobDetailDict *pdict, bool shared_memory)
+static bool dayjobdetail_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    DayJobDetailDict * pdict = (DayJobDetailDict *)structptr;
     bool ret = true;
 
     // if the params are valid

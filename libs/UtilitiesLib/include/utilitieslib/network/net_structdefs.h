@@ -442,6 +442,7 @@ typedef struct NetMasterListElement{
  *                    state can be established.
  *
  */
+struct NMSock;
 typedef void NMSockCallback(struct NMSock* sock);
 typedef struct NMSock{
     SOCKET sock;

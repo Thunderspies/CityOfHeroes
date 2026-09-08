@@ -58,7 +58,7 @@ typedef enum CVG_LoadErrors
 }CVG_LoadErrors;
 
 void CVG_clearVillains(CustomVG *cvg);
-int compareCritterGroups(const CustomVG **a, const CustomVG **b );
+int compareCritterGroups(const void* aData, const void* bData);
 int CVG_isValidCVG(CustomVG *cvg, Entity *e, int fixup, int *playableErrorCode);
 int CVG_CVGExists(char *cvgName);
 int CVG_isValidRank(int rank, int isCritter);

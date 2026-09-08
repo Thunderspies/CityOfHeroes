@@ -235,8 +235,10 @@ TokenizerParseInfo ParseFxInfoList[] =
     { "", 0, 0 },
 } ;
 
-int fxInfoNameCmp(const FxInfo ** info1, const FxInfo ** info2 )
+int fxInfoNameCmp(const void* info1Data, const void* info2Data)
 {
+    const FxInfo ** info1 = (const FxInfo **)info1Data;
+    const FxInfo ** info2 = (const FxInfo **)info2Data;
     return stricmp( (*info1)->name, (*info2)->name );
 }
 
@@ -350,8 +352,9 @@ int fxVerifyAndFixFxInfo(FxInfo *fxinfo)
     return ret;
 }
 
-int fxPreloadFxInfoPreProcess(void *a, FxInfoList *fx_infolist)
+bool fxPreloadFxInfoPreProcess(ParseTable* a, void* structptr)
 {
+    FxInfoList * fx_infolist = (FxInfoList *)structptr;
     //woomer changes, check with Mark that these are OK
     char buf2[1024];
     int num_structs, i;
@@ -367,7 +370,7 @@ int fxPreloadFxInfoPreProcess(void *a, FxInfoList *fx_infolist)
         strcpy(fxinfo->name, buf2);
         ret &= fxVerifyAndFixFxInfo(fxinfo);
     }
-    qsort(fx_infolist->fxinfos, num_structs, sizeof(void*), (int (*) (const void *, const void *)) fxInfoNameCmp);
+    qsort(fx_infolist->fxinfos, num_structs, sizeof(void*), fxInfoNameCmp);
     return ret;
 }
 
@@ -382,11 +385,11 @@ void fxPreloadFxInfo()
 #ifdef SERVER
     //JE: This can only be shared on the server, the client munges too much data, and we don't care
     // about sharing this on the client anyway!
-    ParserLoadFilesShared("SM_FXinfo_SERVER", dir, filetype, persistFilename, flags, ParseFxInfoList, &fx_infolist, sizeof(fx_infolist), NULL, NULL, (ParserLoadPreProcessFunc)fxPreloadFxInfoPreProcess, NULL, NULL);
+    ParserLoadFilesShared("SM_FXinfo_SERVER", dir, filetype, persistFilename, flags, ParseFxInfoList, &fx_infolist, sizeof(fx_infolist), NULL, NULL, fxPreloadFxInfoPreProcess, NULL, NULL);
 #else
     if (game_state.fxdebug)
         flags = PARSER_FORCEREBUILD;
-    ParserLoadFiles(dir, filetype, persistFilename, flags, ParseFxInfoList, &fx_infolist, NULL, NULL, (ParserLoadPreProcessFunc)fxPreloadFxInfoPreProcess);
+    ParserLoadFiles(dir, filetype, persistFilename, flags, ParseFxInfoList, &fx_infolist, NULL, NULL, fxPreloadFxInfoPreProcess);
 #endif
 
     //loadend_printf("");
@@ -894,8 +897,10 @@ static FxInfo * fxLoadFxInfo(char fname[])
     return fxinfo;
 }
 
-int fxInfoNameCmp2(const FxInfo * info1, const FxInfo ** info2 )
+int fxInfoNameCmp2(const void* info1Data, const void* info2Data)
 {
+    const FxInfo * info1 = (const FxInfo *)info1Data;
+    const FxInfo ** info2 = (const FxInfo **)info2Data;
     return stricmp( info1->name, (*info2)->name );
 }
 
@@ -918,7 +923,7 @@ FxInfo * fxGetFxInfo(const char fx_name[])
     dummy.name = fx_name_cleaned_up;
     numinfos = eaSize(&fx_infolist.fxinfos);
     dptr = bsearch(&dummy, fx_infolist.fxinfos, numinfos,
-        sizeof(FxInfo*),(int (*) (const void *, const void *))fxInfoNameCmp2);
+        sizeof(FxInfo*),fxInfoNameCmp2);
     if( dptr )
     {
         fxinfo = *dptr;

@@ -268,9 +268,10 @@ static void FixupTimeLimits(StoryArcTimeLimit* limit)
     }
 }
 
-static int TimeLimits_CompareArcPointers(const StoryArcTimeLimit** first,
-     const StoryArcTimeLimit** second)
+static int TimeLimits_CompareArcPointers(const void* firstData, const void* secondData)
 {
+    const StoryArcTimeLimit** first = (const StoryArcTimeLimit**)firstData;
+    const StoryArcTimeLimit** second = (const StoryArcTimeLimit**)secondData;
     int retval;
 
     devassert(first);
@@ -288,9 +289,10 @@ static int TimeLimits_CompareArcPointers(const StoryArcTimeLimit** first,
     return retval;
 }
 
-static int TimeLimits_SearchArcPointers(const StoryArc** arc,
-    const StoryArcTimeLimit** limit)
+static int TimeLimits_SearchArcPointers(const void* arcData, const void* limitData)
 {
+    const StoryArc** arc = (const StoryArc**)arcData;
+    const StoryArcTimeLimit** limit = (const StoryArcTimeLimit**)limitData;
     int retval;
 
     devassert(arc);

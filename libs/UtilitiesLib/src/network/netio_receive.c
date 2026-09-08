@@ -91,7 +91,9 @@ void lnkBatchReceive(NetLink* link){
 /****************************************************************************************************
  * Single packet receiving                                                                            *
  ****************************************************************************************************/
-static int __cdecl packetCompare(const Packet** pak1, const Packet** pak2){
+static int __cdecl packetCompare(const void* pak1Data, const void* pak2Data){
+    const Packet** pak1 = (const Packet**)pak1Data;
+    const Packet** pak2 = (const Packet**)pak2Data;
     return (*pak2)->id - (*pak1)->id;
 }
 

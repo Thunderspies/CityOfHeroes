@@ -64,8 +64,11 @@ void cstoreHandleReflectUpdate(ContainerStore* cstore, int* ids, int deleting, P
     extern ContainerStore g_##Struct##Store[]; 
 
 #define CONTAINERSTRUCT_IMPL(Struct, ListId) \
+    static void* Struct##CreateCallback(U32 cid) { return Struct##Create(cid); } \
+    static void Struct##DestroyCallback(void* container) { Struct##Destroy((Struct*)container); } \
+    static void Struct##ClearCallback(void* container, U32 cid) { Struct##Clear((Struct*)container, cid); } \
     ContainerStore g_##Struct##Store[] = \
-    { 0, 0, ListId, #Struct, Struct##_desc, Struct##Create, Struct##Destroy, Struct##Clear}; \
+    { 0, 0, ListId, #Struct, Struct##_desc, Struct##CreateCallback, Struct##DestroyCallback, Struct##ClearCallback}; \
     \
     MP_DEFINE(Struct); \
     Struct* Struct##Create(U32 cid)    \

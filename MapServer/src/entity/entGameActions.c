@@ -1673,8 +1673,9 @@ void clearallOnClickCondition( Entity *e )
     }
 }
 
-void OnClickCondition_Destroy(OnClickCondition* cond)
+void OnClickCondition_Destroy(void* condData)
 {
+    OnClickCondition* cond = (OnClickCondition*)condData;
     if (cond)
     {
         free(cond->condition);

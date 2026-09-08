@@ -604,8 +604,10 @@ typedef struct FxDebugInfo
 } FxDebugInfo;
 
 
-static int cmpFxDebugInfo(const FxDebugInfo* d1, const FxDebugInfo* d2)
+static int cmpFxDebugInfo(const void* d1Data, const void* d2Data)
 {
+    const FxDebugInfo* d1 = (const FxDebugInfo*)d1Data;
+    const FxDebugInfo* d2 = (const FxDebugInfo*)d2Data;
     if( d1->count != d2->count)
         return (d2->count - d1->count);
     return strcmp((d1)->name, (d2)->name);

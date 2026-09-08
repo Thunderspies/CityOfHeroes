@@ -714,7 +714,9 @@ static void aiPriorityValidateList(const char* name, AIPriorityList* l){
 static int aiSetPriorityList(AIPriorityManager* manager, const char* listName);
 AIPriorityList* aiGetPriorityListByName(const char* name);
 
-static int comparePriorityListNames(const AIPriorityList** l1, const AIPriorityList** l2){
+static int comparePriorityListNames(const void* l1Data, const void* l2Data){
+    const AIPriorityList** l1 = (const AIPriorityList**)l1Data;
+    const AIPriorityList** l2 = (const AIPriorityList**)l2Data;
     if(!(*l1)->name)
         return -1;
 

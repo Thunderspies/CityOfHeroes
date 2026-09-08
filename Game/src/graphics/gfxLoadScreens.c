@@ -270,7 +270,7 @@ static void drawLoadingTipIfNecessary(int z)
 
 extern int glob_have_camera_pos;
 
-void showBG()
+void showBG(void)
 {
      int        bytes_to_load = max_bytes_to_load;
     F32        wd=400, y = 720;
@@ -419,7 +419,7 @@ void loadUpdate(char *msg,int num_bytes)
             in_here = 1;
             last_update = GetTickCount();
             rdrClearScreen();
-            showBG(0);
+            showBG();
             in_here = 0;
         }
     }

@@ -896,7 +896,7 @@ static void StoreAdd(EvalContext *pcontext)
 static void FetchString(EvalContext *pcontext)
 {
     const char *rhs = eval_StringPop(pcontext);
-    char *pch;
+	const char *pch;
 
     if(eval_FetchString(pcontext, rhs, &pch))
     {
@@ -956,7 +956,7 @@ static void Fetch(EvalContext *pcontext)
         }
         else
         {
-            char *pch;
+			const char *pch;
 
             if(eval_FetchString(pcontext, rhs, &pch))
             {

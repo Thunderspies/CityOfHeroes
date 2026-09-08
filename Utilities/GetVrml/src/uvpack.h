@@ -863,8 +863,10 @@ int lines_cross(F32 ax, F32 ay, F32 bx, F32 by,
 #define lineToLineCollision(p1, p2, p3, p4, dummy) \
     lines_intersect((p1)[0], (p1)[1], (p2)[0], (p2)[1], (p3)[0], (p3)[1], (p4)[0], (p4)[1])
 
-int Vec2DCmpFunc(const Vec2D **a, const Vec2D **b)
+int Vec2DCmpFunc(const void *aData, const void *bData)
 {
+    const Vec2D * const *a = (const Vec2D * const *)aData;
+    const Vec2D * const *b = (const Vec2D * const *)bData;
     return (*a)->vec[0] < (*b)->vec[0] ? -1 : ((*a)->vec[0] > (*b)->vec[0] ? 1 : 0);
 }
 

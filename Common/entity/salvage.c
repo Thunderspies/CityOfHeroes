@@ -199,8 +199,9 @@ static bool salvage_CreateTabNameHash(SalvageDictionary *pdict, bool shared_memo
 //------------------------------------------------------------
 // init the salvage table
 //----------------------------------------------------------
-bool salvage_FinalProcess(TokenizerParseInfo pti[], SalvageDictionary *pdict, bool shared_memory)
+bool salvage_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    SalvageDictionary * pdict = (SalvageDictionary *)structptr;
     bool ret = true;
     int i,j;
     int rarityCount = 0;

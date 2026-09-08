@@ -86,8 +86,10 @@ static ScriptInfoClient* FindSelectedInfo(void)
     return FindInfo(g_selectedId);
 }
 
-static int compareScriptVars(const VarInfoClient** lhs, const VarInfoClient** rhs)
+static int compareScriptVars(const void* lhsData, const void* rhsData)
 {
+    const VarInfoClient** lhs = (const VarInfoClient**)lhsData;
+    const VarInfoClient** rhs = (const VarInfoClient**)rhsData;
     if (lhs[0]->name[0] == '_' && rhs[0]->name[0] != '_')
         return -1;
     if (lhs[0]->name[0] != '_' && rhs[0]->name[0] == '_')

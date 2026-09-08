@@ -469,11 +469,18 @@ int groupdbPruneGroupDef(GroupDef *def)
     return !def->count && !def->model; // i have children or geometry, prune me
 }
 
-static int handleComp(const TrackerHandle ** a,const TrackerHandle ** b) {
+static int handleComp(const void* aData, const void* bData) {
+    const TrackerHandle ** a = (const TrackerHandle **)aData;
+    const TrackerHandle ** b = (const TrackerHandle **)bData;
     return -trackerHandleComp(*a,*b);
 }
 
 int g_deleting_trackers;
+static void trackerHandleDestroyCallback(void* arg0)
+{
+    trackerHandleDestroy((TrackerHandle *)arg0);
+}
+
 void groupdbDeleteFlaggedTrackers(void)
 {
     int i;
@@ -506,7 +513,7 @@ void groupdbDeleteFlaggedTrackers(void)
     }
     g_deleting_trackers = 0;
 
-    eaDestroyEx(&groupdbDeletedTrackers, trackerHandleDestroy);
+    eaDestroyEx(&groupdbDeletedTrackers, trackerHandleDestroyCallback);
 
     PERFINFO_AUTO_STOP();
 }

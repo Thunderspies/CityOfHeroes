@@ -1281,11 +1281,21 @@ static bool seqPreloadSeqInfoFinalProcessor(TokenizerParseInfo tpi[], SeqInfoLis
     return true;
 }
 
+static bool seqPreloadSeqInfoFinalProcessorCallback(ParseTable pti[], void* structptr, bool shared_memory)
+{
+    return seqPreloadSeqInfoFinalProcessor(pti, (SeqInfoList*)structptr, shared_memory);
+}
+
+static bool seqPreloadSeqInfoPostProcessorCallback(ParseTable pti[], void* structptr)
+{
+    return seqPreloadSeqInfoPostProcessor(pti, (SeqInfoList*)structptr);
+}
+
 void seqPreloadSeqInfos()
 {
 #if SERVER
     ParserLoadFilesShared("SM_SEQINFO", "sequencers", ".txt", "sequencers.bin", 0, ParseSeqInfoList, &seqInfoList, sizeof(seqInfoList), NULL, NULL,
-                seqPreloadSeqInfoPreProcessor, seqPreloadSeqInfoPostProcessor, seqPreloadSeqInfoFinalProcessor);
+                seqPreloadSeqInfoPreProcessor, seqPreloadSeqInfoPostProcessorCallback, seqPreloadSeqInfoFinalProcessorCallback);
 #else
     ParserLoadFiles("sequencers", ".txt", "sequencers.bin", 0, ParseSeqInfoList, &seqInfoList, NULL, NULL, seqPreloadSeqInfoPreProcessor);
     seqPreloadSeqInfoPostProcessor(ParseSeqInfoList, &seqInfoList);

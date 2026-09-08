@@ -42,8 +42,9 @@ TokenizerParseInfo ParseBodyPartBegin[] =
     { "", 0, 0 }
 };
 
-bool ParseBoneNames(TokenizerParseInfo pti[], BodyPartList* bplist)
+bool ParseBoneNames(ParseTable* pti, void* structptr)
 {
+    BodyPartList* bplist = (BodyPartList*)structptr;
     int i;
     
     // Fill in fields that were skipped by the parser.

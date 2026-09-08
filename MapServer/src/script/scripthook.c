@@ -381,7 +381,7 @@ ScriptMarker* MarkerFind(const char* name, int namedvolume)
 
 void ForEachScriptMarker(SCRIPTMARKERPROCESSOR f)
 {
-    stashForEachElement(g_scriptMarkers, (StashElementProcessor) f);
+    stashForEachElement(g_scriptMarkers, f);
 }
 
 SCRIPTMARKER GetScriptMarkerFromScriptElement(SCRIPTELEMENT elem)

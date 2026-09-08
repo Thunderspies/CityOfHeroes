@@ -507,14 +507,18 @@ void ScriptGlowieBubbleActivate(ENTITY activator, ENTITY player)
     }
 }
 
-static int PlayerRankComparator(const PlayerKarmaData **a, const PlayerKarmaData **b )
-{ 
+static int PlayerRankComparator(const void* aData, const void* bData)
+{
+    const PlayerKarmaData ** a = (const PlayerKarmaData **)aData;
+    const PlayerKarmaData ** b = (const PlayerKarmaData **)bData;
     return ((*a)->points > (*b)->points ) ? 1 : -1; 
 }
 
 #define REWARDMETHOD SKT_AVERAGE
-static int rewardComparator(const ScriptReward **a, const ScriptReward **b ) 
-{ 
+static int rewardComparator(const void* aData, const void* bData)
+{
+    const ScriptReward ** a = (const ScriptReward **)aData;
+    const ScriptReward ** b = (const ScriptReward **)bData;
     if ((*a)->numStagesRequired == (*b)->numStagesRequired)
     {
         devassert(

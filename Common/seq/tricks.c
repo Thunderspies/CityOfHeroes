@@ -878,8 +878,9 @@ static void setupTrick(TrickInfo *trick, bool shared_memory)
     }
 }
 
-static bool trickLoadPreProcess(TokenizerParseInfo pti[], TrickList *tlist)
+static bool trickLoadPreProcess(ParseTable* pti, void* structptr)
 {
+    TrickList * tlist = (TrickList *)structptr;
     int i;
     for(i=eaSize(&tlist->texopts)-1;i>=0;i--)
     {
@@ -1175,11 +1176,16 @@ static void trickStatsGather()
     printf("");
 }
 
+static bool trickLoadPostProcessCallback(ParseTable pti[], void* structptr, bool shared_memory)
+{
+    return trickLoadPostProcess(pti, (TrickList *)structptr, shared_memory);
+}
+
 void trickLoad()
 {
 #if SERVER
     // Need copy on write for trick reloading and some pointers are patched up
-    if (!ParserLoadFilesShared("SM_Tricks", "tricks", ".txt", "tricks.bin", 0, parse_trick_list, &trick_list, sizeof(trick_list), 0, NULL, trickLoadPreProcess, NULL, trickLoadPostProcess))
+    if (!ParserLoadFilesShared("SM_Tricks", "tricks", ".txt", "tricks.bin", 0, parse_trick_list, &trick_list, sizeof(trick_list), 0, NULL, trickLoadPreProcess, NULL, trickLoadPostProcessCallback))
     {
         Errorf("Trick load error\n");
     }

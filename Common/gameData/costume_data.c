@@ -900,8 +900,9 @@ bool costume_fillExtraData( ParseTable pti[], CostumeMasterList * costumeMaster,
     return true;
 }
 
-static bool costume_preprocess( ParseTable pti[], CostumeMasterList * costumeMaster )
+static bool costume_preprocess(ParseTable* pti, void* structptr)
 {
+    CostumeMasterList * costumeMaster = (CostumeMasterList *)structptr;
     char *c;
     int i, j, k, l, m, n, o=0;
 
@@ -1140,6 +1141,11 @@ static void reloadCostumesCallback(const char *relpath, int when)
 
 #elif SERVER || TEST_CLIENT
 
+static bool costume_fillExtraDataCallback(ParseTable pti[], void* structptr, bool shared_memory)
+{
+    return costume_fillExtraData(pti, (CostumeMasterList *)structptr, shared_memory);
+}
+
 void loadCostumes()
 {
     char *fileToLoad = "Menu/Costume/Localized/costume.ctm";
@@ -1149,7 +1155,7 @@ void loadCostumes()
 
     loadstart_printf("Loading Costume..." );
 
-    if (!ParserLoadFilesShared(MakeSharedMemoryName("costume.bin"), NULL, fileToLoad, "costume.bin", 0, ParseCostumeSet, &gCostumeMaster, sizeof(gCostumeMaster), NULL, NULL, costume_preprocess, NULL, costume_fillExtraData))
+    if (!ParserLoadFilesShared(MakeSharedMemoryName("costume.bin"), NULL, fileToLoad, "costume.bin", 0, ParseCostumeSet, &gCostumeMaster, sizeof(gCostumeMaster), NULL, NULL, costume_preprocess, NULL, costume_fillExtraDataCallback))
     {
         printf("Couldn't load Costume!!\n");
     }

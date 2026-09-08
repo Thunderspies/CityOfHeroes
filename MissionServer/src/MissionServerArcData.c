@@ -96,10 +96,15 @@ static HogFile* s_getArcDataHogFile(U32 arcid, int modifying)
     return hogfile;
 }
 
+static void hogFileDestroyAdapter(void* arg0)
+{
+    hogFileDestroy((HogFile *)arg0);
+}
+
 void missionserver_FlushAllArcData(void)
 {
     if (s_hogfiles)
-        stashTableClearEx(s_hogfiles, NULL, hogFileDestroy);
+        stashTableClearEx(s_hogfiles, NULL, hogFileDestroyAdapter);
 }
 #endif
 

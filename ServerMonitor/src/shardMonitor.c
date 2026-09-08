@@ -76,14 +76,19 @@ static StructOp ops[] = { // What op to perform on each of the above stats
 
 char *special_rows[] = {"MINIMUM","MAXIMUM","AVERAGE","TOTAL"};
 
+static void destroyServerStatsAdapter(void* arg0)
+{
+    destroyServerStats((ServerStats *)arg0);
+}
+
 void shardMonInit()
 {
     int i;
     shardMonLoadConfig("./ShardMonConfig.txt");
     listViewDelAllItems(lvSmShards1, NULL);
     listViewDelAllItems(lvSmShards2, NULL);
-    eaClearEx(eaServerStats, destroyServerStats);
-    eaClearEx(eaServerStatsSum, destroyServerStats);
+    eaClearEx(eaServerStats, destroyServerStatsAdapter);
+    eaClearEx(eaServerStatsSum, destroyServerStatsAdapter);
     for (i=0; i<eaSize(&shmConfig.shardList); i++) {
         ServerStats *stat = createServerStats();
         eaPush(eaServerStats, stat);

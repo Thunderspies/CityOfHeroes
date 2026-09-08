@@ -956,8 +956,9 @@ static bool DialogDefList_CreateHashes(DialogDefList *dict, bool shared_memory)
     return ret;
 }
 
-static bool DialogDefList_FinalProcess(ParseTable pti[], DialogDefList *dict, bool shared_memory)
+static bool DialogDefList_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    DialogDefList * dict = (DialogDefList *)structptr;
     return DialogDefList_CreateHashes(dict, shared_memory);
 }
 

@@ -256,15 +256,32 @@ StoryInfo* storyInfoCreate()
     return info;
 }
 
+void storyContactInfoDestroy(StoryContactInfo* info);
+static void storyContactInfoDestroyCallback(void* arg0)
+{
+    storyContactInfoDestroy((StoryContactInfo*)arg0);
+}
+
+void storyArcInfoDestroy(StoryArcInfo* info);
+static void storyArcInfoDestroyCallback(void* arg0)
+{
+    storyArcInfoDestroy((StoryArcInfo*)arg0);
+}
+
+static void storyTaskInfoDestroyCallback(void* arg0)
+{
+    storyTaskInfoDestroy((StoryTaskInfo*)arg0);
+}
+
 void storyInfoDestroy(StoryInfo* info)
 {
     int i;
     if(!info)
         return;
 
-    eaDestroyEx(&info->contactInfos, storyContactInfoDestroy);
-    eaDestroyEx(&info->storyArcs, storyArcInfoDestroy);
-    eaDestroyEx(&info->tasks, storyTaskInfoDestroy);
+    eaDestroyEx(&info->contactInfos, storyContactInfoDestroyCallback);
+    eaDestroyEx(&info->storyArcs, storyArcInfoDestroyCallback);
+    eaDestroyEx(&info->tasks, storyTaskInfoDestroyCallback);
 
     //only free souvenirClues that have uid==-1, otherwise they are pointing
     //to shared memory

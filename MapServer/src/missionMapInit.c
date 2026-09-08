@@ -102,7 +102,7 @@ static void htspInitialize(){
 }
 
 static void htspShutdown(){
-    destroyArrayEx(HashTableStackPool, (Destructor)stashTableDestroyStack);
+    destroyArrayEx(HashTableStackPool, stashTableDestroyStack);
 }
 
 static HashTableStack htspCreateHashTableStack(){
@@ -140,8 +140,13 @@ static void sasInitialize(){
     initArray(SpawnAreaStackPool, 36);
 }
 
+static void destroyArrayCallback(void* arg0)
+{
+    destroyArray((Array*)arg0);
+}
+
 static void sasShutdown(){
-    destroyArrayEx(SpawnAreaStackPool, destroyArray);
+    destroyArrayEx(SpawnAreaStackPool, destroyArrayCallback);
 }
 
 static Array* sasCreateSpawnAreaStack(){
@@ -193,13 +198,14 @@ typedef struct{
 
 MP_DEFINE(MissionMapInitContext);
 
-void MissionMapInitContextFree(MissionMapInitContext *data) {
+void MissionMapInitContextFree(void* dataData) {
+    MissionMapInitContext * data = (MissionMapInitContext *)dataData;
     MP_FREE(MissionMapInitContext, data);
 }
 
 void MissionMapInitContextShutdown(){
     // Shutdown the MissionMapInitContext
-    destroyArrayEx(MissionMapInitContextPool, (Destructor)MissionMapInitContextFree);
+    destroyArrayEx(MissionMapInitContextPool, MissionMapInitContextFree);
 
     // Shutdown the hashtable stack pool
     htspShutdown();
@@ -208,7 +214,7 @@ void MissionMapInitContextShutdown(){
     sasShutdown();
 }
 
-static MissionMapInitContext* mmicCreate(){
+static MissionMapInitContext* mmicCreate(void){
     MissionMapInitContext* context;
     static int i = 0;
 
@@ -265,6 +271,11 @@ void initMapSetup(){
     MissionMapInitContextInitialize();
 }
 
+static void destroyGroupDefTraverserCallback(void* arg0)
+{
+    destroyGroupDefTraverser((GroupDefTraverser*)arg0);
+}
+
 void initMapCleanup(){
     if(scenarioActivationList)
         destroyArray(scenarioActivationList);
@@ -273,7 +284,7 @@ void initMapCleanup(){
         destroyArray(spawnAreaActivationList);
 
     if(activationCandidates)
-        destroyArrayEx(activationCandidates, destroyGroupDefTraverser);
+        destroyArrayEx(activationCandidates, destroyGroupDefTraverserCallback);
 
     MissionMapInitContextShutdown();
 /*
@@ -445,16 +456,31 @@ int processMapInitContext(GroupDefTraverser* traverser, int groupDefAccepted){
 
 
 
-void initMapExtractActivationCandidates(){
+static void* mmicCreateCallback(void)
+{
+    return mmicCreate();
+}
+
+static void mmicDestroyCallback(void *context)
+{
+    mmicDestroy((MissionMapInitContext*)context);
+}
+
+static void mmicCopyCallback(void *src, void *dst)
+{
+    mmicCopy((MissionMapInitContext*)src, (MissionMapInitContext*)dst);
+}
+
+void initMapExtractActivationCandidates(void){
     GroupDefTraverserVContext vContext;
     MissionMapInitContext* context;
     //int i;
 
     context = mmicCreate();
     vContext.context = (void*) context;
-    vContext.createContext = (void* (*)()) mmicCreate;
-    vContext.destroyContext = (void (*)(void*)) mmicDestroy;
-    vContext.copyContext = (void (*)(void*, void*)) mmicCopy;
+    vContext.createContext = mmicCreateCallback;
+    vContext.destroyContext = mmicDestroyCallback;
+    vContext.copyContext = mmicCopyCallback;
     
     arrayPushBack(context->spawnAreaStack, globalSpawnArea);
 

@@ -75,8 +75,9 @@ cStashTable g_pnpcnames = 0;        // list of PNPCDefs, indexed by pnpc name
 SHARED_MEMORY VisionPhaseNames g_visionPhaseNames = {0};
 SHARED_MEMORY VisionPhaseNames g_exclusiveVisionPhaseNames = {0};
 
-static bool BuildPNPCVisionPhaseBitfields(ParseTable pti[], PNPCDefList* plist)
+static bool BuildPNPCVisionPhaseBitfields(ParseTable* pti, void* structptr)
 {
+    PNPCDefList* plist = (PNPCDefList*)structptr;
     int i, n = eaSize(&g_pnpcdeflist.pnpcdefs);
     const char *visionPhaseName = 0;
     int defPhaseNameIndex = 0;

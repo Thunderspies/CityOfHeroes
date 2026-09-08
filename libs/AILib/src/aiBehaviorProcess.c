@@ -115,10 +115,15 @@ void aiBehaviorDestroyAll(Entity* e, AIVarsBase* aibase, AIBehavior*** behaviors
     eaDestroy(behaviors);
 }
 
+static void aiBehaviorModDestroyCallback(void* arg0)
+{
+    aiBehaviorModDestroy((AIBehaviorMod*)arg0);
+}
+
 void aiBehaviorDestroyMods(Entity* e, AIVarsBase* aibase)
 {
-    eaDestroyEx(&aibase->behaviorMods, aiBehaviorModDestroy);
-    eaDestroyEx(&aibase->behaviorPrevMods, aiBehaviorModDestroy);
+    eaDestroyEx(&aibase->behaviorMods, aiBehaviorModDestroyCallback);
+    eaDestroyEx(&aibase->behaviorPrevMods, aiBehaviorModDestroyCallback);
 }
 
 static void aiBehaviorOnFinish(Entity* e, AIVarsBase* aibase, AIBehavior*** behaviors, AIBehavior* behavior)

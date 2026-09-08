@@ -135,6 +135,11 @@ bool sgrpstats_StatAdj(int idSgrp, char const *stat, int adjAmt )
 //------------------------------------------------------------
 // @see dbserver/statservercomm.c:sgrpstats_RelayAdjs when making changes
 //----------------------------------------------------------
+static void sgrpstatadj_DestroyAdapter(void* arg0)
+{
+    sgrpstatadj_Destroy((SgrpStatAdj *)arg0);
+}
+
 void sgrpstats_SendQueued(Packet *pak)
 {
     if( verify(pak) )
@@ -196,7 +201,7 @@ void sgrpstats_SendQueued(Packet *pak)
                 }
                 
                 // finally, clean the hash table, increment the count
-                stashTableClearEx(  hashAdjs, NULL, sgrpstatadj_Destroy );
+                stashTableClearEx(  hashAdjs, NULL, sgrpstatadj_DestroyAdapter);
                 iNumSent++;
             }
         }
@@ -284,7 +289,7 @@ void sgrpstats_FlushToSgrps()
         // ----------
         // finally, cleanup the hash table
 
-        stashTableClearEx( hashAdjs, NULL, sgrpstatadj_Destroy );
+        stashTableClearEx( hashAdjs, NULL, sgrpstatadj_DestroyAdapter);
     }
     verify(i == nIds);
     s_stats.changed = false;

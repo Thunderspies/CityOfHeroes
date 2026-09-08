@@ -327,8 +327,9 @@ TeamDamageTracker* teamDamageTrackerCreate()
  * teamDamageTrackerDestroy
  *
  */
-void teamDamageTrackerDestroy(TeamDamageTracker* t)
+void teamDamageTrackerDestroy(void* tData)
 {
+    TeamDamageTracker* t = (TeamDamageTracker*)tData;
     mpFree(mempoolTeamDamageTrackers, t);
 }
 

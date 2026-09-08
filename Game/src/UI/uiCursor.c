@@ -118,11 +118,16 @@ static void destroyHCursor(HCURSOR cursor)
     DestroyIcon(cursor);
 }
 
+static void destroyHCursorAdapter(void* arg0)
+{
+    destroyHCursor((HCURSOR)(intptr_t)arg0);
+}
+
 void destroyCursorHashTable()
 {
     if (cursorHashTable)
     {
-        stashTableDestroyEx(cursorHashTable, NULL, destroyHCursor);
+        stashTableDestroyEx(cursorHashTable, NULL, destroyHCursorAdapter);
         cursorHashTable = 0;
     }
 

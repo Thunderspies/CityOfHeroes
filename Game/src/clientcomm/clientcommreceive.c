@@ -248,6 +248,11 @@ void ContactSendTaskforceAcceptRequest(int timeLimits, int limitedLives, int pow
     END_INPUT_PACKET
 }
 
+static void ContactResponseOptionDestroyAdapter(void* arg0)
+{
+    ContactResponseOptionDestroy((ContactResponseOption*)arg0);
+}
+
 void receiveContactDialog( Packet *pak )
 {
     int i;
@@ -256,7 +261,7 @@ void receiveContactDialog( Packet *pak )
     if(!dialogContext.responseOptions)
         eaCreate(&dialogContext.responseOptions);
     else
-        eaClearEx(&dialogContext.responseOptions, ContactResponseOptionDestroy);
+        eaClearEx(&dialogContext.responseOptions, ContactResponseOptionDestroyAdapter);
 
     for(i = 0; i < dialogContext.response.responsesFilled; i++)
     {
@@ -274,7 +279,7 @@ void receiveContactDialog( Packet *pak )
 void receiveContactDialogClose( Packet *pak )
 {
     extern int gEnterTailor;
-    eaClearEx(&dialogContext.responseOptions, ContactResponseOptionDestroy);
+    eaClearEx(&dialogContext.responseOptions, ContactResponseOptionDestroyAdapter);
     cd_clear();
     if (gEnterTailor)
     {

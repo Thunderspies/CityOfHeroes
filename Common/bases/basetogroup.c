@@ -235,13 +235,18 @@ static char *findTexForPart(BaseRoom *room,RoomDecor idx)
     return texname;
 }
 
+static void deleteDefTexSwapAdapter(void* arg0)
+{
+    deleteDefTexSwap((DefTexSwap *)arg0);
+}
+
 static void setupRoomTexSwaps(BaseRoom *room)
 {
     char        *tex_name;
     int            i;
     GroupDef    *def = room->def;
 
-    eaClearEx(&def->def_tex_swaps, deleteDefTexSwap);
+    eaClearEx(&def->def_tex_swaps, deleteDefTexSwapAdapter);
     for(i=0;i<eaSize(&room->swaps);i++)
     {
         DefTexSwap *dts;
@@ -356,7 +361,7 @@ static void addDetail(BaseRoom *room,RoomDetail *detail)
             memcpy(def->color,detail->tints,sizeof(def->color));
             def->has_tint_color = 1;
         }
-        eaClearEx(&def->def_tex_swaps, deleteDefTexSwap);
+        eaClearEx(&def->def_tex_swaps, deleteDefTexSwapAdapter);
         for(i=0;i<eaSize(&detail->swaps);i++)
         {
             DefTexSwap *dts;

@@ -140,6 +140,11 @@ static int gatherSupergroups(ScheduledBaseRaid* baseraid, U32 raidid)
         eaiPush(&param_idlist, raidid);
     return 1;
 }
+static void gatherSupergroupsAdapter(void* arg0, U32 arg1)
+{
+    gatherSupergroups((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void PlayerFullUpdate(U32 sgid, U32 dbid, int add)
 {
     int i, count;
@@ -150,7 +155,7 @@ void PlayerFullUpdate(U32 sgid, U32 dbid, int add)
     param_sgid = sgid;
     if (!param_idlist) eaiCreate(&param_idlist);
     eaiSetSize(&param_idlist, 0);
-    cstoreForEach(g_ScheduledBaseRaidStore, gatherSupergroups);
+    cstoreForEach(g_ScheduledBaseRaidStore, gatherSupergroupsAdapter);
     count = eaiSize(&param_idlist);
     if (!count) return; // done
 
@@ -182,11 +187,16 @@ static int removeParticipant(ScheduledBaseRaid* baseraid, U32 raidid)
         RaidUpdate(baseraid->id, 0);
     return 1;
 }
+static void removeParticipantAdapter(void* arg0, U32 arg1)
+{
+    removeParticipant((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void PlayerLeavingSupergroup(U32 sgid, U32 dbid)
 {
     param_sgid = sgid;
     param_dbid = dbid;
-    cstoreForEach(g_ScheduledBaseRaidStore, removeParticipant);
+    cstoreForEach(g_ScheduledBaseRaidStore, removeParticipantAdapter);
 }
 
 // IN: sgid, int, time; OUT: time
@@ -215,6 +225,11 @@ static int checkTimeSlot(ScheduledBaseRaid* baseraid, U32 raidid)
     }
     return 1;
 }
+static void checkTimeSlotAdapter(void* arg0, U32 arg1)
+{
+    checkTimeSlot((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void handleRaidChallenge(Packet* pak, U32 listid, U32 cid) // instant challenges only
 {
     U32 sgid, othersg;
@@ -235,7 +250,7 @@ void handleRaidChallenge(Packet* pak, U32 listid, U32 cid) // instant challenges
     param_int = othersg;
     param_time = latest + 5 * 60;
     param_result = 0;
-    cstoreForEach(g_ScheduledBaseRaidStore, checkTimeSlot);
+    cstoreForEach(g_ScheduledBaseRaidStore, checkTimeSlotAdapter);
     if (param_result == 1)
     {
         dbContainerSendReceipt(CONTAINER_ERR_CANT_COMPLETE, "RaidNoTimeToInvite");
@@ -368,10 +383,15 @@ int supergroupDeleteIter(ScheduledBaseRaid* raid, U32 raidid)
     }
     return 1;
 }
+static void supergroupDeleteIterAdapter(void* arg0, U32 arg1)
+{
+    supergroupDeleteIter((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void handleSupergroupDelete(U32 sgid)
 {
     param_sgid = sgid;
-    cstoreForEach(g_ScheduledBaseRaidStore, supergroupDeleteIter);
+    cstoreForEach(g_ScheduledBaseRaidStore, supergroupDeleteIterAdapter);
     RaidInfoDestroy(sgid);
 }
 
@@ -385,7 +405,7 @@ void handleBaseUpdate(Packet* pak, U32 listid, U32 cid)
     param_sgid = pktGetBitsPack(pak, 1);
     if (!param_idlist) eaiCreate(&param_idlist);
     eaiSetSize(&param_idlist, 0);
-    cstoreForEach(g_ScheduledBaseRaidStore, gatherSupergroups);
+    cstoreForEach(g_ScheduledBaseRaidStore, gatherSupergroupsAdapter);
     count = eaiSize(&param_idlist);
 
     // send update, even if zero
@@ -554,10 +574,15 @@ static int checkOutdated(ScheduledBaseRaid* baseraid, U32 raidid)
         RaidDestroy(raidid);
     return 1;
 }
+static void checkOutdatedAdapter(void* arg0, U32 arg1)
+{
+    checkOutdated((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void CheckOutdatedRaids(void)
 {
     param_time = dbSecondsSince2000() - (1.25 * MAX_BASERAID_LENGTH); // get rid of it after one hour and fifteen minutes
-    cstoreForEach(g_ScheduledBaseRaidStore, checkOutdated);
+    cstoreForEach(g_ScheduledBaseRaidStore, checkOutdatedAdapter);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -669,11 +694,16 @@ static int checkForfeit(ScheduledBaseRaid* baseraid, U32 raidid)
     }
     return 1;
 }
+static void checkForfeitAdapter(void* arg0, U32 arg1)
+{
+    checkForfeit((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void CheckForfeitPlayers(void)
 {
     param_time = dbSecondsSince2000() + (5 * 60);    // forfeit players who aren't on line 5 mintues before raid begins
 
-    cstoreForEach(g_ScheduledBaseRaidStore, checkForfeit);
+    cstoreForEach(g_ScheduledBaseRaidStore, checkForfeitAdapter);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -715,13 +745,18 @@ int RaidDestroySGCallback( ScheduledBaseRaid* raid, U32 raidid )
     return 1;
 }
 
+static void RaidDestroySGCallbackAdapter(void* arg0, U32 arg1)
+{
+    RaidDestroySGCallback((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void RemoveSGsScheduledRaids(U32 sgid, int removeAttacks, bool removeDefends, bool issueRefund )
 {
     g_pmpSG = sgid;
     g_pmpRefund = issueRefund;
     g_pmpRemoveAttacks = removeAttacks;
     g_pmpRemoveDefends = removeDefends;
-    cstoreForEach( g_ScheduledBaseRaidStore, RaidDestroySGCallback );
+    cstoreForEach( g_ScheduledBaseRaidStore, RaidDestroySGCallbackAdapter);
 }
 
 //// RemoveAllScheduledRaids //////////////////////////////////////////////////////////
@@ -733,10 +768,15 @@ static int RaidDestroyCallback(ScheduledBaseRaid* raid, U32 raidid)
     return 1;
 }
 
+static void RaidDestroyCallbackAdapter(void* arg0, U32 arg1)
+{
+    RaidDestroyCallback((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void RemoveAllScheduledRaids( int issueRefund )
 {
     g_pmpAllRefund = issueRefund;
-    cstoreForEach( g_ScheduledBaseRaidStore, RaidDestroyCallback );
+    cstoreForEach( g_ScheduledBaseRaidStore, RaidDestroyCallbackAdapter);
 }
 
 //// VerifyExistingRaids //////////////////////////////////////////////////////////
@@ -751,9 +791,14 @@ static int RaidVerifyCallback(ScheduledBaseRaid* raid, U32 raidid)
     return 1;
 }
 
+static void RaidVerifyCallbackAdapter(void* arg0, U32 arg1)
+{
+    RaidVerifyCallback((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 void VerifyAllExistingRaids()
 {
-    cstoreForEach( g_ScheduledBaseRaidStore, RaidVerifyCallback );
+    cstoreForEach( g_ScheduledBaseRaidStore, RaidVerifyCallbackAdapter);
 }
 
 // *********************************************************************************
@@ -920,10 +965,15 @@ static int printraid(ScheduledBaseRaid* baseraid, U32 raidid)
         baseraid->complete_time? timerMakeDateStringFromSecondsSince2000(buf, baseraid->complete_time): "");
     return 1;
 }
+static void printraidAdapter(void* arg0, U32 arg1)
+{
+    printraid((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 static void ShowRaidList(void)
 {
     printf("All raids:\n");
-    cstoreForEach(g_ScheduledBaseRaidStore, printraid);
+    cstoreForEach(g_ScheduledBaseRaidStore, printraidAdapter);
 }
 static void DetailRaid(char* raidstr)
 {
@@ -944,6 +994,11 @@ static int deleterandom(ScheduledBaseRaid* baseraid, U32 raidid)
     }
     return 1;
 }
+static void deleterandomAdapter(void* arg0, U32 arg1)
+{
+    deleterandom((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 static void DeleteRandomRaid(void)
 {
     int count = cstoreCount(g_ScheduledBaseRaidStore);
@@ -953,7 +1008,7 @@ static void DeleteRandomRaid(void)
         return;
     }
     param_int = rand() % count;
-    cstoreForEach(g_ScheduledBaseRaidStore, deleterandom);
+    cstoreForEach(g_ScheduledBaseRaidStore, deleterandomAdapter);
 }
 
 static void RemoveRaid(char* param)

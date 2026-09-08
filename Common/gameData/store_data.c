@@ -277,8 +277,9 @@ static void StoreHashesWorkClient(void *junk)
  * IndexItems
  *
  */
-static bool StoreItemsFinalProcess(ParseTable pti[], StoreItems *sitems, bool shared_memory)
+static bool StoreItemsFinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    StoreItems * sitems = (StoreItems *)structptr;
     bool ret = true;
     int i, iCnt;
 
@@ -445,8 +446,9 @@ void CreateStores(void)
  * PostProcItems
  *
  */
-static bool PostProcItems(ParseTable pti[], StoreItems* sitems)
+static bool PostProcItems(ParseTable* pti, void* structptr)
 {
+    StoreItems* sitems = (StoreItems*)structptr;
     int i;
     int iCnt = eaSize(&g_Items.ppItems);
     for(i=0; i<iCnt; i++)

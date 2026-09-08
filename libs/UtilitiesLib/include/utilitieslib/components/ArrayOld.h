@@ -69,10 +69,10 @@ typedef void (*QueueIndexUpdate)(void* item, int index);
 
 void pqPercolateUp(Array* heap, int percTarget, QueueCompare comp, QueueIndexUpdate indexUpdate);
 void heapify(Array* queue, QueueCompare comp, QueueIndexUpdate indexUpdate);
-void pqPush(void* queue, void* item, QueueCompare comp, QueueIndexUpdate indexUpdate);
-void* pqPop(void* queue, QueueCompare comp, QueueIndexUpdate indexUpdate);
+void pqPush(Array* queue, void* item, QueueCompare comp, QueueIndexUpdate indexUpdate);
+void* pqPop(Array* queue, QueueCompare comp, QueueIndexUpdate indexUpdate);
 
-void testHeap();
+void testHeap(void);
 
 /****************************************************************************
  * Linked Array related Functions

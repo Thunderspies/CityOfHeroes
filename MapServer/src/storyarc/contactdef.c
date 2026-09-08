@@ -532,8 +532,9 @@ static int ContactPreprocess(ContactDef* def)
     return true;
 }
 
-bool ContactPreprocessAll(TokenizerParseInfo tpi[], ContactList* clist)
+bool ContactPreprocessAll(ParseTable* tpi, void* structptr)
 {
+    ContactList* clist = (ContactList*)structptr;
     int contactCursor;
     bool ret = true;
 
@@ -581,8 +582,9 @@ static int ContactGetTaskSpace(ContactDef* def)
 }
 
 // for every contact...
-bool ContactGetTaskSpaceForAll(TokenizerParseInfo tpi[], ContactList* clist)
+bool ContactGetTaskSpaceForAll(ParseTable* tpi, void* structptr)
 {
+    ContactList* clist = (ContactList*)structptr;
     int i, n = eaSize(&clist->contactdefs);
     bool ret = true;
     for (i = 0; i < n; i++)
@@ -766,16 +768,19 @@ static int ContactPostprocess(ContactDef* def, ContactHandle currHandle)
     return ret;
 }
 
-int AccessibleContactComparator(const ContactDef **lhs, const ContactDef **rhs)
+int AccessibleContactComparator(const void* lhsData, const void* rhsData)
 {
+    const ContactDef ** lhs = (const ContactDef **)lhsData;
+    const ContactDef ** rhs = (const ContactDef **)rhsData;
     // Higher values go first in the list
     return (*rhs)->accessibleContactValue - (*lhs)->accessibleContactValue;
 }
 
 // this function is for pointer-postprocessing, and will only set up references
 // If something is added to the postprocessing, make sure that you also handle it in ContactDefReloadCallback()
-bool ContactPostprocessAll(TokenizerParseInfo pti[], ContactList* clist, bool shared_memory)
+bool ContactPostprocessAll(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    ContactList* clist = (ContactList*)structptr;
     bool ret = true;
     ContactDef** contactDefs = (ContactDef**)clist->contactdefs;
     int i, size = eaSize(&contactDefs);

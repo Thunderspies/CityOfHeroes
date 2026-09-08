@@ -92,8 +92,10 @@ static int show_errors(MissionserverMapInvalidationRecord *record, char ** strin
     return 1;
 }
 
-static int compare_reports(const MissionserverMapInvalidationRecord ** r1, const MissionserverMapInvalidationRecord ** r2 )
+static int compare_reports(const void* r1Data, const void* r2Data)
 {
+    const MissionserverMapInvalidationRecord ** r1 = (const MissionserverMapInvalidationRecord **)r1Data;
+    const MissionserverMapInvalidationRecord ** r2 = (const MissionserverMapInvalidationRecord **)r2Data;
     int size1 = eaiSize(&((*r1)->arcids));
     int size2 = eaiSize(&((*r2)->arcids));
     return  size2 - size1; 

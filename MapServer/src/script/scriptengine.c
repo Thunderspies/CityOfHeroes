@@ -295,6 +295,11 @@ void NotifyScriptStopping(ScriptEnvironment* script)
     }
 }
 
+static void seFreeAdapter(void* arg0)
+{
+    seFree((char*)arg0);
+}
+
 void ScriptEnvironmentDestroy(ScriptEnvironment* script)
 {
     EncounterGroup* group = script->encounter;
@@ -330,7 +335,7 @@ void ScriptEnvironmentDestroy(ScriptEnvironment* script)
     ScriptTeamDestroyAll(script);
     EncounterStopReservingAll(script);
     EncounterReenableManualSpawnAll(script); //should come after StopReservingAll
-    stashTableClearEx(script->vars, NULL, seFree);
+    stashTableClearEx(script->vars, NULL, seFreeAdapter);
     stashTableDestroy(script->vars);
     stashTableDestroy(script->varsFlags);
     ScriptVarsTableClear(&script->initialvars);
@@ -809,9 +814,14 @@ int ScriptClosureListCall(ScriptClosureList* list, SCLC_Function func, void* par
     return ret;
 }
 
+static void ScriptClosureDestroyAdapter(void* arg0)
+{
+    ScriptClosureDestroy((ScriptClosure*)arg0);
+}
+
 void ScriptClosureListDestroy(ScriptClosureList* list)
 {
-    eaClearEx(list, ScriptClosureDestroy);
+    eaClearEx(list, ScriptClosureDestroyAdapter);
 }
 
 // *********************************************************************************

@@ -230,8 +230,10 @@ typedef struct SgLeaderInfo
     int rank;
 } SgLeaderInfo;
 
-static S32 compareSgLeaderInfo(SgLeaderInfo const **l, SgLeaderInfo const **r)
+static S32 compareSgLeaderInfo(const void* lData, const void* rData)
 {
+    SgLeaderInfo const ** l = (SgLeaderInfo const **)lData;
+    SgLeaderInfo const ** r = (SgLeaderInfo const **)rData;
     return (*l)->rank - (*r)->rank;
 }
 
@@ -689,6 +691,12 @@ static cmpOnlineInfo(const OnlinePlayerInfo **a,const OnlinePlayerInfo **b)
 }
 
 
+static cmpOnlineInfo(const OnlinePlayerInfo **a,const OnlinePlayerInfo **b);
+static int cmpOnlineInfoCallback(const void* arg0, const void* arg1)
+{
+    return cmpOnlineInfo((const OnlinePlayerInfo **)arg0, (const OnlinePlayerInfo **)arg1);
+}
+
 void handleOnlineEnts(Packet *pak)
 {
     int                    i,id, num_bytes;
@@ -808,7 +816,7 @@ void handleOnlineEnts(Packet *pak)
 
     online_player_count = eaSize(&online_players);
 
-    qsort(online_players,online_player_count,sizeof(void*),cmpOnlineInfo);
+    qsort(online_players,online_player_count,sizeof(void*),cmpOnlineInfoCallback);
 }
 
 void handleOnlineEntComments(Packet *pak)
@@ -837,7 +845,7 @@ OnlinePlayerInfo *dbGetOnlinePlayerInfo(int db_id)
 
     search.db_id = db_id;
     search_ptr = &search;
-    match = bsearch(&search_ptr,online_players,online_player_count,sizeof(void*),cmpOnlineInfo);
+    match = bsearch(&search_ptr,online_players,online_player_count,sizeof(void*),cmpOnlineInfoCallback);
 
     if( !match )
         return NULL;

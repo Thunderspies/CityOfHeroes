@@ -1267,7 +1267,7 @@ int BigNum_Test()
 0x00, 0x01
         };
         char *d = NULL; 
-        char *bts = NULL;
+		U8 *bts = NULL;
         int n;
         base64_encode(&d,bytes,ARRAY_SIZE(bytes));
         TEST(0 == strcmp(d,data));

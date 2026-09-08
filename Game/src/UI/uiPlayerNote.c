@@ -179,8 +179,9 @@ char * playerNote_getGlobalName( char * localName )
     return NULL;
 }
 
-static int playerNote_Write(FILE *file, StashElement element)
+static int playerNote_Write(void* fileData, StashElement element)
 {
+    FILE * file = (FILE *)fileData;
     PlayerNote *pNote = (PlayerNote*)stashElementGetPointer(element);
     char * alias;
     int i;

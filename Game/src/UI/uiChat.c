@@ -1968,6 +1968,16 @@ void clearChatMsgs()
     }
 }
 
+static void ChatFilterDestroyCallback(void* arg0)
+{
+    ChatFilterDestroy((ChatFilter *)arg0);
+}
+
+static void ChatChannelDestroyCallback(void* arg0)
+{
+    ChatChannelDestroy((ChatChannel *)arg0);
+}
+
 void chatCleanup()
 {
     int i;
@@ -1979,8 +1989,8 @@ void chatCleanup()
     for(i=0;i<MAX_CHAT_WINDOWS;i++)
         ChatWindowRemoveAllFilters(GetChatWindow(i));    
 
-    eaDestroyEx(&gChatFilters, ChatFilterDestroy);
-    eaDestroyEx(&gChatChannels, ChatChannelDestroy);
+    eaDestroyEx(&gChatFilters, ChatFilterDestroyCallback);
+    eaDestroyEx(&gChatChannels, ChatChannelDestroyCallback);
 
     gUserSendChannel[0] = 0;
     gbSpecialQuitToLoginCase = TRUE;

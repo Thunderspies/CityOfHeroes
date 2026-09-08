@@ -276,8 +276,10 @@ void gotoNextNPCCluster(ClientLink* client)
     client->findNextCursor = beaconGotoNPCCluster(client, client->findNextCursor);
 }
 
-static int sortEntRadius(const Entity ** a, const Entity ** b)
+static int sortEntRadius(const void* aData, const void* bData)
 {
+    const Entity ** a = (const Entity **)aData;
+    const Entity ** b = (const Entity **)bData;
     if((*a)->motion->capsule.radius < (*b)->motion->capsule.radius) return -1;
     if((*a)->motion->capsule.radius > (*b)->motion->capsule.radius) return 1;
     return 0;

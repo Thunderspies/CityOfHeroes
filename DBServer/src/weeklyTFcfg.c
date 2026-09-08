@@ -73,8 +73,10 @@ TokenizerParseInfo ParseWeeklyTFConfigList[] = {
 
 WeeklyTFCfgList wtf_list;
 
-static int wtf_comparator(const WeeklyTFCfg** a, const WeeklyTFCfg** b)
+static int wtf_comparator(const void* aData, const void* bData)
 {
+    const WeeklyTFCfg** a = (const WeeklyTFCfg**)aData;
+    const WeeklyTFCfg** b = (const WeeklyTFCfg**)bData;
     if ((*a)->epochStartTime == (*b)->epochStartTime)
         return 0;
     return ((*a)->epochStartTime > (*b)->epochStartTime) ? 1 : -1;

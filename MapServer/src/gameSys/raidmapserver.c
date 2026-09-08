@@ -457,10 +457,15 @@ int getItemOfPowerGameCallback(ItemOfPowerGame* iopGame, U32 iopGameID)
     return 1;
 }
 
+static void getItemOfPowerGameCallbackAdapter(void* arg0, U32 arg1)
+{
+    getItemOfPowerGameCallback((ItemOfPowerGame*)arg0, (U32)arg1);
+}
+
 int IsCathedralOfPainOpen()
 {
     g_ItemOfPowerGame = 0;
-    cstoreForEach(g_ItemOfPowerGameStore, getItemOfPowerGameCallback );
+    cstoreForEach(g_ItemOfPowerGameStore, getItemOfPowerGameCallbackAdapter);
 
     if( g_ItemOfPowerGame && ( g_ItemOfPowerGame->state & (IOP_GAME_CATHEDRAL_OPEN | IOP_GAME_DEBUG_ALLOW_RAIDS_AND_TRIALS) ) )
         return 1;
@@ -484,12 +489,17 @@ static int printIOP( ItemOfPower* iop, U32 iopId)
 }
 
 //Handles cmd "showIopGame"
+static void printIOPAdapter(void* arg0, U32 arg1)
+{
+    printIOP((ItemOfPower*)arg0, (U32)arg1);
+}
+
 void ShowItemOfPowerGameStatus( ClientLink* client )
 {
     char buf[200];
 
     g_ItemOfPowerGame = 0;
-    cstoreForEach(g_ItemOfPowerGameStore, getItemOfPowerGameCallback );
+    cstoreForEach(g_ItemOfPowerGameStore, getItemOfPowerGameCallbackAdapter);
 
     if( !g_ItemOfPowerGame )
     {
@@ -502,7 +512,7 @@ void ShowItemOfPowerGameStatus( ClientLink* client )
         conPrintf( client, "\nItem Of Power Game\nStarted: %s State: %s\n", buf, stringFromGameState(g_ItemOfPowerGame->state) );
         conPrintf( client, "All Items Of Power currently tracked on this server:\n");
         g_clientLinkParam = client;
-        cstoreForEach( g_ItemOfPowerStore, printIOP );
+        cstoreForEach( g_ItemOfPowerStore, printIOPAdapter);
     }
 }
 
@@ -727,12 +737,17 @@ static int scheduled_test(ScheduledBaseRaid* baseraid, U32 raidid)
 }
 
 
+static void participating_testAdapter(void* arg0, U32 arg1)
+{
+    participating_test((ScheduledBaseRaid*)arg0, (U32)arg1);
+}
+
 U32 RaidSGIsAttacking(U32 sgid)
 {
     g_attacktest = 1;
     g_thissg = sgid;
     g_parttest = g_thisdbid = g_othersg = g_raidid = 0;
-    cstoreForEach(g_ScheduledBaseRaidStore, participating_test);
+    cstoreForEach(g_ScheduledBaseRaidStore, participating_testAdapter);
     return g_raidid;
 }
 
@@ -741,7 +756,7 @@ U32 RaidSGIsDefending(U32 sgid)
     g_attacktest = 0;
     g_thissg = sgid;
     g_parttest = g_thisdbid = g_othersg = g_raidid = 0;
-    cstoreForEach(g_ScheduledBaseRaidStore, participating_test);
+    cstoreForEach(g_ScheduledBaseRaidStore, participating_testAdapter);
     return g_raidid;
 }
 
@@ -778,7 +793,7 @@ U32 RaidPlayerIsAttacking(Entity* player)
     g_parttest = 1;
     g_thisdbid = player->db_id;
     g_othersg = g_raidid = 0;
-    cstoreForEach(g_ScheduledBaseRaidStore, participating_test);
+    cstoreForEach(g_ScheduledBaseRaidStore, participating_testAdapter);
     return g_raidid;
 }
 
@@ -789,8 +804,13 @@ U32 RaidPlayerIsDefending(Entity* player)
     g_parttest = 1;
     g_thisdbid = player->db_id;
     g_othersg = g_raidid = 0;
-    cstoreForEach(g_ScheduledBaseRaidStore, participating_test);
+    cstoreForEach(g_ScheduledBaseRaidStore, participating_testAdapter);
     return g_raidid;
+}
+
+static void scheduled_testAdapter(void* arg0, U32 arg1)
+{
+    scheduled_test((ScheduledBaseRaid*)arg0, (U32)arg1);
 }
 
 U32 RaidSGIsScheduledAttacking(U32 sgid)
@@ -798,7 +818,7 @@ U32 RaidSGIsScheduledAttacking(U32 sgid)
     g_attacktest = 1;
     g_thissg = sgid;
     g_parttest = g_thisdbid = g_othersg = g_raidid = 0;
-    cstoreForEach(g_ScheduledBaseRaidStore, scheduled_test);
+    cstoreForEach(g_ScheduledBaseRaidStore, scheduled_testAdapter);
     return g_raidid;
 }
 U32 RaidSGIsScheduledDefending(U32 sgid)
@@ -806,7 +826,7 @@ U32 RaidSGIsScheduledDefending(U32 sgid)
     g_attacktest = 0;
     g_thissg = sgid;
     g_parttest = g_thisdbid = g_othersg = g_raidid = 0;
-    cstoreForEach(g_ScheduledBaseRaidStore, scheduled_test);
+    cstoreForEach(g_ScheduledBaseRaidStore, scheduled_testAdapter);
     return g_raidid;
 }
 

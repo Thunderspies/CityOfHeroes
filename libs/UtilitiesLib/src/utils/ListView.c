@@ -9,6 +9,7 @@
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/utils/textparser.h"
+#include "utilitieslib/utils/structInternals.h"
 #include "utilitieslib/utils/mathutil.h"
 #include "utilitieslib/utils/file.h"
 #include "utilitieslib/utils/tokenstore.h"
@@ -239,8 +240,6 @@ static bool getElement(const ParseTable tpi[], void *structptr, int index, intpt
     return false;
 }
 
-int InnerWriteTextToken(FILE* out, ParseTable tpi[], int column, void* structptr, int level, int showname);
-int InnerWriteTextFile(FILE* out, ParseTable pti[], void* structptr, int level);
 
 static void listViewUpdateItem(ListView *lv, bool bNewItem, int index)
 {
@@ -280,7 +279,7 @@ static void listViewUpdateItem(ListView *lv, bool bNewItem, int index)
 
     // Loop over each column
     for (iColumnNum = 0; iColumnNum < lv->iNumColumns; iColumnNum++) {
-        ParseTable *tpi=NULL;
+		const ParseTable *tpi = NULL;
         void *element;
         wchar_t *buf = NULL;
         
@@ -312,7 +311,7 @@ static void listViewUpdateItem(ListView *lv, bool bNewItem, int index)
             static int static_buf_max=0;
 
             sbBuff.idx = 0;
-            InnerWriteTextToken(fpBuff, tpi, 0, element, 0, 0);
+            InnerWriteTextToken(fpBuff, tpi, 0, element, 0, 0, 0, 0);
             addBinaryDataToStuffBuff(&sbBuff, (char*)&zero, 1); // Null terminate
             len = sbBuff.idx-1;
             dynArrayFit(&static_buf, sizeof(*static_buf), &static_buf_max, len+1);
@@ -345,7 +344,7 @@ static void listViewUpdateItem(ListView *lv, bool bNewItem, int index)
     }
 /* Tooltips (didn't seem to work)
     fpBuff = fileOpenStuffBuff(&sbBuff);
-    InnerWriteTextFile(fpBuff, lv->tpi, structptr, 0);
+    InnerWriteTextFile(fpBuff, (ParseTable*)lv->tpi, structptr, 0, 0, 0);
     fclose(fpBuff);
     buf = sbBuff.buff;
     while (*buf==' ') buf++;
@@ -477,7 +476,7 @@ void listViewDelAllItems(ListView *lv, Destructor destructor)
 static int CALLBACK listViewCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
     ListView *lv = (ListView*)lParamSort;
-    ParseTable *tpi;
+	const ParseTable *tpi;
     void *structptr1, *structptr2;
     int ret;
     int mult = 1;

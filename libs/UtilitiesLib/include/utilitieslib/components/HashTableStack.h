@@ -48,7 +48,7 @@ typedef struct Array *HashTableStack;
 // constructor/destructors
 HashTableStack createHashTableStack();
 void initHashTableStack(HashTableStack stack, unsigned int size);
-void stashTableDestroyStack(HashTableStack stack);
+void stashTableDestroyStack(void* stackData);
 void stashTableDestroyStackEx(HashTableStack stack);
 void stashTableClearStack(HashTableStack stack);
 

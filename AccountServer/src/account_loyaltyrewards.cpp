@@ -43,8 +43,9 @@ ParseTable ParseSkuPairList[]=
     { "", 0, 0 }
 };
 
-static bool load_SkuPairListPostProcess(ParseTable pti[], SkuPairList *configDef)
+static bool load_SkuPairListPostProcess(ParseTable* pti, void* structptr)
 {
+    SkuPairList * configDef = (SkuPairList *)structptr;
     int i;
     for (i = 0; i < eaSize(&configDef->skuList); i++)
     {
@@ -76,7 +77,7 @@ static void load_SkuPairList()
         return;
     }
 
-    if (!ParserLoadFiles(NULL, filename, NULL, 0, ParseSkuPairList, &g_SkuPairList, NULL, NULL, (ParserLoadPreProcessFunc)load_SkuPairListPostProcess))
+    if (!ParserLoadFiles(NULL, filename, NULL, 0, ParseSkuPairList, &g_SkuPairList, NULL, NULL, load_SkuPairListPostProcess))
     {
         Errorf("Could not load auto grant SKU list %s", filename);
         g_SkuPairList.skuList = NULL;

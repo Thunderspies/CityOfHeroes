@@ -39,13 +39,17 @@ extern AudioState g_audio_state;
 #define RANDF_IN_RANGE(low, hi)        (low + (hi - low) * ((float)rand()/(float)RAND_MAX))
 
 
-static int cmpAmbVolume(const AmbInfo *va,const AmbInfo *vb)
+static int cmpAmbVolume(const void* vaData, const void* vbData)
 {
+    const AmbInfo * va = (const AmbInfo *)vaData;
+    const AmbInfo * vb = (const AmbInfo *)vbData;
     return (int) ((vb->volume - va->volume) * 1024);
 }
 
-static int cmpAmbName(const AmbInfo *va,const AmbInfo *vb)
+static int cmpAmbName(const void* vaData, const void* vbData)
 {
+    const AmbInfo * va = (const AmbInfo *)vaData;
+    const AmbInfo * vb = (const AmbInfo *)vbData;
     return stricmp(vb->name,va->name);
 }
 

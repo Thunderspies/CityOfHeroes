@@ -221,8 +221,10 @@ static void addToRecipeTree(RecipeTreeNode *tree, char *nodeName, const DetailRe
         }
     }
 }
-static int RTNcompare(const RecipeTreeNode **a, const RecipeTreeNode **b ) 
-{ 
+static int RTNcompare(const void* aData, const void* bData)
+{
+    const RecipeTreeNode ** a = (const RecipeTreeNode **)aData;
+    const RecipeTreeNode ** b = (const RecipeTreeNode **)bData;
     return stricmp(textStd((*a)->name), textStd((*b)->name));
 }
 static void sortRecipeTree(RecipeTreeNode *node)

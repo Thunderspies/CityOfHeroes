@@ -245,6 +245,12 @@ uiTreeNode* uiTreeNewNode()
     return pNode;
 }
 
+void uiTreeFree(uiTreeNode *pRootNode);
+static void uiTreeFreeCallback(void* arg0)
+{
+    uiTreeFree((uiTreeNode *)arg0);
+}
+
 void uiTreeFree(uiTreeNode *pRootNode)
 {
     static bool recursion;
@@ -254,7 +260,7 @@ void uiTreeFree(uiTreeNode *pRootNode)
 
     // free children
     recursion = true;
-    eaDestroyEx(&pRootNode->children, uiTreeFree);
+    eaDestroyEx(&pRootNode->children, uiTreeFreeCallback);
     recursion = false;
 
     // check to see if we need to clean up this node's data

@@ -405,8 +405,10 @@ AIBehaviorAliasInfo* aiBehaviorAliasInfoFromString(const char* name)
         return NULL;
 }
 
-int cmpBehaviorTableEntry(const AIBTableEntry** l, const AIBTableEntry** r)
+int cmpBehaviorTableEntry(const void* lData, const void* rData)
 {
+    const AIBTableEntry** l = (const AIBTableEntry**)lData;
+    const AIBTableEntry** r = (const AIBTableEntry**)rData;
     const AIBTableEntry* lhs = *l;
     const AIBTableEntry* rhs = *r;
     return stricmp(lhs->name, rhs->name);
@@ -445,8 +447,9 @@ AIBCondition* aiBehaviorConditionCreate()
     return MP_ALLOC(AIBCondition);
 }
 
-void aiBehaviorDestroyCondition(AIBCondition* cond)
+void aiBehaviorDestroyCondition(void* condData)
 {
+    AIBCondition* cond = (AIBCondition*)condData;
     MP_FREE(AIBCondition, cond);
 }
 

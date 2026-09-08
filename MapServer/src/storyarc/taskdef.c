@@ -1343,8 +1343,9 @@ static int TaskSetPreprocess(StoryTaskSet* taskset)
 }
 
 // let each task do it's own preprocessing
-bool TaskSetPreprocessAll(TokenizerParseInfo pti[], StoryTaskSetList * tasksets)
+bool TaskSetPreprocessAll(ParseTable* pti, void* structptr)
 {
+    StoryTaskSetList * tasksets = (StoryTaskSetList *)structptr;
     bool ret = true;
     int set, nsets = eaSize(&tasksets->sets);
     for (set = 0; set < nsets; set++)
@@ -1415,8 +1416,9 @@ static void TaskSetPostprocess(StoryTaskSet* taskset)
 }
 
 // let each task do it's own postprocessing
-bool TaskSetPostprocessAll(TokenizerParseInfo pti[], StoryTaskSetList * tasksets, bool shared_memory)
+bool TaskSetPostprocessAll(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    StoryTaskSetList * tasksets = (StoryTaskSetList *)structptr;
     int set, nsets = eaSize(&tasksets->sets);
     for (set = 0; set < nsets; set++)
         TaskSetPostprocess(cpp_const_cast(StoryTaskSet*)(tasksets->sets[set]));

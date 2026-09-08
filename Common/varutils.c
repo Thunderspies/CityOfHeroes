@@ -213,13 +213,49 @@ void playerVarAlloc(Entity *e, EntType ent_type)
 }
 
 
+#if SERVER
+static void damageTrackerDestroyCallback(void* arg0)
+{
+    damageTrackerDestroy((DamageTracker*)arg0);
+}
+#endif
+
+static void rewardtoken_DestroyCallback(void* arg0)
+{
+    rewardtoken_Destroy((RewardToken *)arg0);
+}
+
+#if SERVER
+static void ArenaRefDestroyCallback(void* arg0)
+{
+    ArenaRefDestroy((ArenaRef*)arg0);
+}
+#endif
+
+#if SERVER
+static void mapHistoryDestroyCallback(void* arg0)
+{
+    mapHistoryDestroy((MapHistory *)arg0);
+}
+#endif
+
+static void destroySupergroupStatsCallback(void* arg0)
+{
+    destroySupergroupStats((SupergroupStats *)arg0);
+}
+
+static void powerRef_DestroyCallback(void* arg0)
+{
+    powerRef_Destroy((PowerRef*)arg0);
+}
+
 void playerVarFree( Entity *e )
 {
     int i;
 #if SERVER
     if( e->who_damaged_me )
     {
-        eaDestroyEx(&e->who_damaged_me, damageTrackerDestroy);
+        eaDestroyEx(&e->who_damaged_me, damageTrackerDestroyCallback);
     }
 
     if (e->storyInfo)
@@ -242,8 +278,8 @@ void playerVarFree( Entity *e )
     // new nice structures
     if (e->pl)
     {
-        eaDestroyEx(&e->pl->rewardTokens, rewardtoken_Destroy); //these strings don't need to be freed anymore, they are from
-        eaDestroyEx(&e->pl->activePlayerRewardTokens, rewardtoken_Destroy);
+        eaDestroyEx(&e->pl->rewardTokens, rewardtoken_DestroyCallback); //these strings don't need to be freed anymore, they are from
+        eaDestroyEx(&e->pl->activePlayerRewardTokens, rewardtoken_DestroyCallback);
 
 #if SERVER
         stat_Free(e->pl);
@@ -255,9 +291,9 @@ void playerVarFree( Entity *e )
         {
             trade_cancel( e, 0 );
         }
-        eaDestroyEx(&e->pl->arenaEvents, ArenaRefDestroy);
+        eaDestroyEx(&e->pl->arenaEvents, ArenaRefDestroyCallback);
         eaDestroyEx(&e->pl->petNames, PetNameDestroy);
-        eaDestroyEx(&e->pl->mapHistory, mapHistoryDestroy);
+        eaDestroyEx(&e->pl->mapHistory, mapHistoryDestroyCallback);
         eaDestroyEx(&e->pl->ppCertificationHistory, certificationRecord_Destroy);
         eaDestroyEx(&e->pl->completed_orders, NULL);
         eaDestroyEx(&e->pl->pending_orders, NULL);
@@ -352,7 +388,7 @@ void playerVarFree( Entity *e )
 
     if(e->sgStats)
     {
-        eaDestroyEx(&e->sgStats, destroySupergroupStats);
+        eaDestroyEx(&e->sgStats, destroySupergroupStatsCallback);
     }
 
 #if SERVER
@@ -402,27 +438,27 @@ void playerVarFree( Entity *e )
     // TODO: These really should be in a substructure.
     if(e->powerDefChange)
     {
-        eaDestroyEx(&e->powerDefChange, powerRef_Destroy);
+        eaDestroyEx(&e->powerDefChange, powerRef_DestroyCallback);
     }
 
     if(e->activeStatusChange)
     {
-        eaDestroyEx(&e->activeStatusChange, powerRef_Destroy);
+        eaDestroyEx(&e->activeStatusChange, powerRef_DestroyCallback);
     }
 
     if(e->enabledStatusChange)
     {
-        eaDestroyEx(&e->enabledStatusChange, powerRef_Destroy);
+        eaDestroyEx(&e->enabledStatusChange, powerRef_DestroyCallback);
     }
 
     if(e->usageStatusChange)
     {
-        eaDestroyEx(&e->usageStatusChange, powerRef_Destroy);
+        eaDestroyEx(&e->usageStatusChange, powerRef_DestroyCallback);
     }
 
     if(e->rechargeStatusChange)
     {
-        eaDestroyEx(&e->rechargeStatusChange, powerRef_Destroy);
+        eaDestroyEx(&e->rechargeStatusChange, powerRef_DestroyCallback);
     }
 
     if(e->inspirationStatusChange)

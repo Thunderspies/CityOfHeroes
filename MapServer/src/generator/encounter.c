@@ -603,8 +603,9 @@ void SpawnDef_ParseVisionPhaseNames(SpawnDef *spawn)
 }
 
 // set up the spawndefs to fail over to dialog vars scope
-static bool LoadSpawnDefListPostprocess(TokenizerParseInfo tpi[], SpawnDefList* slist, bool shared_memory)
+static bool LoadSpawnDefListPostprocess(ParseTable* tpi, void* structptr, bool shared_memory)
 {
+    SpawnDefList* slist = (SpawnDefList*)structptr;
     int i, n = eaSize(&slist->spawndefs);
     for (i = 0; i < n; i++)
     {
@@ -4532,8 +4533,10 @@ typedef struct GroupListSp
     int count; //number of players near this group
 } GroupListSp;
 //
-int sortGroupListSp(GroupListSp *a,GroupListSp *b)
+int sortGroupListSp(const void* aData, const void* bData)
 {
+    GroupListSp * a = (GroupListSp *)aData;
+    GroupListSp * b = (GroupListSp *)bData;
     if( a->count == b->count )
         return( a->idx > b->idx );
     return( a->count > b->count );
@@ -4596,7 +4599,7 @@ EncounterGroup* EncounterGroupByRadius(Vec3 pos, int radius, const char* layout,
                 nearbyPlayerCountList[i].idx   = i;
                 nearbyPlayerCountList[i].count = saUtilPlayerWithinDistance( groups[grouplist[i]]->mat, EG_INACTIVE_RADIUS, NULL, EG_PLAYER_VELPREDICT);
             }
-            qsort( nearbyPlayerCountList, groupListSize, sizeof(GroupListSp), (int (*) (const void *, const void *))sortGroupListSp );
+            qsort( nearbyPlayerCountList, groupListSize, sizeof(GroupListSp), sortGroupListSp );
 
             lowestPlayerCount =  nearbyPlayerCountList[0].count;
             numberOfGroupsWithLowestPlayerCount = 0;
@@ -4791,7 +4794,7 @@ int FindEncounterGroups( EncounterGroup *results[],
             nearbyPlayerCountList[i].count = saUtilPlayerWithinDistance( group->mat, EG_INACTIVE_RADIUS, NULL, EG_PLAYER_VELPREDICT);
 
         }
-        qsort( nearbyPlayerCountList, groupListSize, sizeof(GroupListSp), (int (*) (const void *, const void *))sortGroupListSp );
+        qsort( nearbyPlayerCountList, groupListSize, sizeof(GroupListSp), sortGroupListSp );
     }
 
 
@@ -5379,8 +5382,10 @@ void EncounterGetCritterNumbers(int *curcritters, int *mincritters, int *belowmi
 #define MAX_ENCOUNTERBEACONS_SENT        200
 
 Vec3 ctp_pos = {0};
-static int __cdecl closestToPlayer(const EncounterGroup** lhs, const EncounterGroup** rhs)
+static int __cdecl closestToPlayer(const void* lhsData, const void* rhsData)
 {
+    const EncounterGroup** lhs = (const EncounterGroup**)lhsData;
+    const EncounterGroup** rhs = (const EncounterGroup**)rhsData;
     F32 distl, distr;
     distl = distance3Squared(((EncounterGroup*)(*lhs))->mat[3], ctp_pos);
     distr = distance3Squared(((EncounterGroup*)(*rhs))->mat[3], ctp_pos);

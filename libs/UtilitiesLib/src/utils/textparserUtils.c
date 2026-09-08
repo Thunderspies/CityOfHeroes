@@ -1030,6 +1030,11 @@ static void freeFunc(char *str)
     free(str);
 }
 
+static void freeFuncAdapter(void* arg0)
+{
+    freeFunc((char *)arg0);
+}
+
 bool ParseInfoToDescriptor(ParseTable pti[], ParseInfoDescriptor* pid)
 {
     int count;
@@ -1039,7 +1044,7 @@ bool ParseInfoToDescriptor(ParseTable pti[], ParseInfoDescriptor* pid)
     // I could just iterate over subNames here, but I'd prefer to have the subtables in order
     ParseInfoToTableIter(pti, subtables, pid);
     count = stashGetValidElementCount(pid->subNames);
-    stashTableDestroyEx(pid->subNames,NULL,freeFunc);
+    stashTableDestroyEx(pid->subNames,NULL, freeFuncAdapter);
     stashTableDestroy(subtables);
     pid->subNames = 0;
     return count == eaSize(&pid->tables);

@@ -1081,13 +1081,17 @@ TokenizerParseInfo ParticleParseInfo[] =
 };
 
 
-int fxPartNameCmp(const ParticleSystemInfo ** info1, const ParticleSystemInfo ** info2 )
+int fxPartNameCmp(const void* info1Data, const void* info2Data)
 {
+    const ParticleSystemInfo ** info1 = (const ParticleSystemInfo **)info1Data;
+    const ParticleSystemInfo ** info2 = (const ParticleSystemInfo **)info2Data;
     return stricmp( (*info1)->name, (*info2)->name );
 }
 
-int fxPartNameCmp2(const ParticleSystemInfo * info1, const ParticleSystemInfo ** info2 )
+int fxPartNameCmp2(const void* info1Data, const void* info2Data)
 {
+    const ParticleSystemInfo * info1 = (const ParticleSystemInfo *)info1Data;
+    const ParticleSystemInfo ** info2 = (const ParticleSystemInfo **)info2Data;
     return stricmp( info1->name, (*info2)->name );
 }
 
@@ -1118,7 +1122,7 @@ void partPreloadParticles()
             if (sysInfo->velocity_jitter[0] || sysInfo->velocity_jitter[1] || sysInfo->velocity_jitter[2])
                 sysInfo->has_velocity_jitter = 1;
         }
-        qsort(particle_info.list, num_structs, sizeof(void*), (int (*) (const void *, const void *)) fxPartNameCmp);
+        qsort(particle_info.list, num_structs, sizeof(void*), fxPartNameCmp);
         // Check for duplicate part names (i.e. two systems in one file)
         if (game_state.fxdebug) {
             for (i=0; i<num_structs-1; i++) {
@@ -1328,7 +1332,7 @@ ParticleSystemInfo * partGetSystemInfo( char system_name[] )
     dummy.name = part_name_cleaned_up;
     numparticles = eaSize(&particle_info.list);
     dptr = bsearch(&dummy, particle_info.list, numparticles,
-                  sizeof(ParticleSystemInfo*),(int (*) (const void *, const void *))fxPartNameCmp2);
+                  sizeof(ParticleSystemInfo*),fxPartNameCmp2);
     if( dptr )
     {
         sysinfo = *dptr;
@@ -1613,6 +1617,11 @@ static int partCompareSysDist(ParticleSystem * sysOne, ParticleSystem * sysTwo)
         return -1;
 }
 
+static int partCompareSysDistAdapter(void* arg0, void* arg1)
+{
+    return partCompareSysDist((ParticleSystem *)arg0, (ParticleSystem *)arg1);
+}
+
 static ParticleSystem * partSortByDistance(ParticleSystem * firstsystem)
 {
     ParticleSystem * system;
@@ -1645,7 +1654,7 @@ static ParticleSystem * partSortByDistance(ParticleSystem * firstsystem)
         system->sortVal = system->camDistSqr - system->sysInfo->sortBias;
     }
 
-    newFirst = listInsertionSort(firstsystem, partCompareSysDist);
+    newFirst = listInsertionSort(firstsystem, partCompareSysDistAdapter);
 
     PERFINFO_AUTO_STOP();
 

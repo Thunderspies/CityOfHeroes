@@ -157,7 +157,7 @@ typedef struct ParseTable ParseTable;
 TokenizerParseInfo* salvageTrackedByEntParseInfo();
 TokenizerParseInfo* salvage_GetParseInfo();
 
-bool salvage_FinalProcess(TokenizerParseInfo *pti, SalvageDictionary *pdict, bool shared_memory);
+bool salvage_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory);
 
 const SalvageItem* salvage_GetItem( char const *name );
 int salvage_ValidId( int id );

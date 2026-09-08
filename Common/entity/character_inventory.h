@@ -374,6 +374,6 @@ typedef struct AttribFileDict
 TokenizerParseInfo *attribfiledict_GetParseInfo();
 AttribFileDict const* inventorytype_GetAttribs( InventoryType type );
 void load_InventoryAttribFiles( bool bNewAttribs );
-bool attribfiledict_FinalProcess(ParseTable pti[], AttribFileDict *dict, bool shared_memory);
+bool attribfiledict_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory);
 
 #endif //CHARACTER_INVENTORY_H

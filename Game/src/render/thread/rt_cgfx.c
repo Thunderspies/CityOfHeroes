@@ -285,7 +285,7 @@ void rt_cgfxClearLastError( void )
     rt_cgfxGetLastCgError
     
 ****************************************************************************/
-int rt_cgfxGetLastCgError( void )
+CGerror rt_cgfxGetLastCgError( void )
 {
     return sLastCgError;
 }

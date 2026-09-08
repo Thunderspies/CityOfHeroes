@@ -936,6 +936,12 @@ void groupDefFreeNovodex(GroupDef* def)
 #endif
 }
 
+void deleteDefTexSwap(DefTexSwap * dts);
+static void deleteDefTexSwapCallback(void* arg0)
+{
+    deleteDefTexSwap((DefTexSwap *)arg0);
+}
+
 void groupDefFree(GroupDef *def,int check_tree)
 {
     int            i;
@@ -1010,7 +1016,7 @@ void groupDefFree(GroupDef *def,int check_tree)
     if(def->properties)
         groupDefDeleteProperties(def);
 
-    eaDestroyEx(&def->def_tex_swaps, deleteDefTexSwap);
+    eaDestroyEx(&def->def_tex_swaps, deleteDefTexSwapCallback);
 
 #if CLIENT
     if (def->auto_lod_models)
@@ -1164,7 +1170,7 @@ void uncopyGroupDef(GroupDef *def)
     int i;
     if(def->has_properties)
         stashTableDestroy(def->properties);
-    eaDestroyEx(&def->def_tex_swaps, deleteDefTexSwap);
+    eaDestroyEx(&def->def_tex_swaps, deleteDefTexSwapCallback);
     for(i = 0; i < def->count; i++)
         mpFree(group_info.mat_mempool, def->entries[i].mat);
     SAFE_FREE(def->entries);

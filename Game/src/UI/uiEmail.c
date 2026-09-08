@@ -692,8 +692,10 @@ static int drawSelectLine(F32 x,F32  y,F32 z,F32 width,char *name,char *subject,
 // Email header pane
 //----------------------------------------------------------------------------------------------------
 
-static int emailHeaderFromCompare(const EmailHeader** e1, const EmailHeader** e2)
+static int emailHeaderFromCompare(const void* e1Data, const void* e2Data)
 {
+    const EmailHeader** e1 = (const EmailHeader**)e1Data;
+    const EmailHeader** e2 = (const EmailHeader**)e2Data;
     const EmailHeader* email1 = *e1;
     const EmailHeader* email2 = *e2;
 
@@ -705,8 +707,10 @@ static int emailHeaderFromCompare(const EmailHeader** e1, const EmailHeader** e2
     return stricmp(email1->sender, email2->sender);
 }
 
-static int emailHeaderSubjectCompare(const EmailHeader** e1, const EmailHeader** e2)
+static int emailHeaderSubjectCompare(const void* e1Data, const void* e2Data)
 {
+    const EmailHeader** e1 = (const EmailHeader**)e1Data;
+    const EmailHeader** e2 = (const EmailHeader**)e2Data;
     const EmailHeader* email1 = *e1;
     const EmailHeader* email2 = *e2;
 
@@ -718,8 +722,10 @@ static int emailHeaderSubjectCompare(const EmailHeader** e1, const EmailHeader**
     return stricmp(email1->subject, email2->subject);
 }
 
-static int emailHeaderDateCompare(const EmailHeader** e1, const EmailHeader** e2)
+static int emailHeaderDateCompare(const void* e1Data, const void* e2Data)
 {
+    const EmailHeader** e1 = (const EmailHeader**)e1Data;
+    const EmailHeader** e2 = (const EmailHeader**)e2Data;
     const EmailHeader* email1 = *e1;
     const EmailHeader* email2 = *e2;
 
@@ -731,8 +737,10 @@ static int emailHeaderDateCompare(const EmailHeader** e1, const EmailHeader** e2
     return email1->sent - email2->sent;
 }
 
-static int emailHeaderExpiresCompare(const EmailHeader** e1, const EmailHeader** e2)
+static int emailHeaderExpiresCompare(const void* e1Data, const void* e2Data)
 {
+    const EmailHeader** e1 = (const EmailHeader**)e1Data;
+    const EmailHeader** e2 = (const EmailHeader**)e2Data;
     const EmailHeader* email1 = *e1;
     const EmailHeader* email2 = *e2;
     int sent1 = (email1->sender[0] == '@') ? email1->sent : 0;
@@ -880,21 +888,21 @@ static void emailInitHeaderListView(UIListView** listAddr, int isPlayer)
         if (isPlayer)
         {
             uiLVHAddColumnEx(list->header, EMAIL_FROM_COLUMN, "EmailFromHeader", 10, 270, 1);
-            uiLVBindCompareFunction(list, EMAIL_FROM_COLUMN, (UIListViewItemCompare)emailHeaderFromCompare);
+            uiLVBindCompareFunction(list, EMAIL_FROM_COLUMN, emailHeaderFromCompare);
 
             uiLVHAddColumnEx(list->header, EMAIL_SUBJECT_COLUMN, "EmailSubjectHeader", 10, 500, 1);
-            uiLVBindCompareFunction(list, EMAIL_SUBJECT_COLUMN, (UIListViewItemCompare)emailHeaderSubjectCompare);
+            uiLVBindCompareFunction(list, EMAIL_SUBJECT_COLUMN, emailHeaderSubjectCompare);
 
             uiLVHAddColumn(list->header, EMAIL_DATE_COLUMN, "EmailDateHeader", 110);
-            uiLVBindCompareFunction(list, EMAIL_DATE_COLUMN, (UIListViewItemCompare)emailHeaderDateCompare);
+            uiLVBindCompareFunction(list, EMAIL_DATE_COLUMN, emailHeaderDateCompare);
 
             uiLVHAddColumn(list->header, EMAIL_EXPIRES_COLUMN, "EmailExpiresHeader", 110);
-            uiLVBindCompareFunction(list, EMAIL_EXPIRES_COLUMN, (UIListViewItemCompare)emailHeaderExpiresCompare);
+            uiLVBindCompareFunction(list, EMAIL_EXPIRES_COLUMN, emailHeaderExpiresCompare);
         }
         else
         {
             uiLVHAddColumn(list->header, EMAIL_SUBJECT_COLUMN, "EmailSubjectHeader", 500);
-            uiLVBindCompareFunction(list, EMAIL_SUBJECT_COLUMN, (UIListViewItemCompare)emailHeaderSubjectCompare);
+            uiLVBindCompareFunction(list, EMAIL_SUBJECT_COLUMN, emailHeaderSubjectCompare);
         }
 
         uiLVFinalizeSettings(list);

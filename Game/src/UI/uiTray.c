@@ -2996,8 +2996,10 @@ void clearServerTrayPriorities(void)
     eaDestroyEx(&s_serverTrayPriorities, ServerTrayItemDestroy);
 }
 
-static int cmp_ServerTrayItem(const ServerTrayItem** a, const ServerTrayItem** b)
+static int cmp_ServerTrayItem(const void* aData, const void* bData)
 {
+    const ServerTrayItem** a = (const ServerTrayItem**)aData;
+    const ServerTrayItem** b = (const ServerTrayItem**)bData;
     return (*b)->priority - (*a)->priority;
 }
 

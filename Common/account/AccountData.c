@@ -791,8 +791,10 @@ static int cmp_AccountInventory(const AccountInventory** a, const AccountInvento
     return ((*a)->sku_id.u64 > (*b)->sku_id.u64) ? 1 : -1;
 }
 
-static int find_AccountInventory(const SkuId* key, const AccountInventory** value)
+static int find_AccountInventory(const void* keyData, const void* valueData)
 {
+    const SkuId* key = (const SkuId*)keyData;
+    const AccountInventory** value = (const AccountInventory**)valueData;
     if (key->u64 == (*value)->sku_id.u64)
         return 0;
     return (key->u64 > (*value)->sku_id.u64) ? 1 : -1;
@@ -826,9 +828,15 @@ void AccountInventorySet_InitMem( AccountInventorySet* invSet )
     memset(invSet, 0, sizeof(AccountInventorySet));
 }
 
+static int cmp_AccountInventory(const AccountInventory** a, const AccountInventory** b);
+static int cmp_AccountInventoryCallback(const void* arg0, const void* arg1)
+{
+    return cmp_AccountInventory((const AccountInventory**)arg0, (const AccountInventory**)arg1);
+}
+
 void AccountInventorySet_AddAndSort( AccountInventorySet* invSet, AccountInventory* item )
 {
-    int index = (int)eaBFind(invSet->invArr, cmp_AccountInventory, item);
+    int index = (int)eaBFind(invSet->invArr, cmp_AccountInventoryCallback, item);
 
     AccountInventorySet_validate(invSet);
     eaInsert(&invSet->invArr, item, index);
@@ -837,12 +845,13 @@ void AccountInventorySet_AddAndSort( AccountInventorySet* invSet, AccountInvento
 
 void AccountInventorySet_Sort( AccountInventorySet* invSet )
 {
-    eaQSort(invSet->invArr, cmp_AccountInventory);
+    eaQSort(invSet->invArr, cmp_AccountInventoryCallback);
     AccountInventorySet_validate(invSet);
 }
 
 #ifndef ACCOUNTSERVER
-static void destroy_AccountInventory(AccountInventory* inv) {
+static void destroy_AccountInventory(void* invData) {
+    AccountInventory* inv = (AccountInventory*)invData;
     free(inv);
 }
 

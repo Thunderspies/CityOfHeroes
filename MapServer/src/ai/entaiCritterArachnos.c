@@ -243,6 +243,11 @@ void aiCritterDoArachnosDrAeon(Entity* e, AIVars* ai)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+static void damageTrackerDestroyAdapter(void* arg0)
+{
+    damageTrackerDestroy((DamageTracker*)arg0);
+}
+
 void aiCritterDoArachnosLordRecluseSTF(Entity* e, AIVars* ai)
 {
     AITeamMemberInfo* member;
@@ -276,7 +281,7 @@ void aiCritterDoArachnosLordRecluseSTF(Entity* e, AIVars* ai)
                             
                             // clear aggro
                             if (e->who_damaged_me != NULL)
-                                eaClearEx(&e->who_damaged_me, damageTrackerDestroy);
+                                eaClearEx(&e->who_damaged_me, damageTrackerDestroyAdapter);
 
                             // clear target
                             aiDiscardAttackTarget(e, "aiCritterDoArachnosLordRecluseSTF"); 

@@ -23,7 +23,7 @@ typedef struct
     const SouvenirClue** clues;
 } SouvenirClueList;
 
-static bool scVerify(TokenizerParseInfo pti[], SouvenirClueList* list);
+static bool scVerify(ParseTable* pti, void* structptr);
 
 
 //-------------------------------------------------------------
@@ -52,8 +52,9 @@ TokenizerParseInfo ParseSouvenirClueList[] =
     { "", 0, 0 }
 };
 
-static bool scPostProcess(TokenizerParseInfo pti[], SouvenirClueList* list)
+static bool scPostProcess(ParseTable* pti, void* structptr)
 {
+    SouvenirClueList* list = (SouvenirClueList*)structptr;
     // Fill in the uid of all clues.
     int i;
     for(i = 0; i < eaSize(&list->clues); i++)
@@ -82,8 +83,9 @@ void scLoad()
 
 }
 
-static bool scVerify(TokenizerParseInfo pti[], SouvenirClueList* list)
+static bool scVerify(ParseTable* pti, void* structptr)
 {
+    SouvenirClueList* list = (SouvenirClueList*)structptr;
     int i;
     const SouvenirClue** clues = list->clues;
     int noErrors = true;

@@ -450,8 +450,9 @@ static MapTeamArea teamAreas[] =
     MAP_TEAM_EVERYBODY
 };
 
-static bool MapSpecVerify(TokenizerParseInfo pti[], MapSpecList* mlist)
+static bool MapSpecVerify(ParseTable* pti, void* structptr)
 {
+    MapSpecList* mlist = (MapSpecList*)structptr;
     int errorDetected = 0;
     int i, n;
 
@@ -530,8 +531,9 @@ static bool MapSpecVerify(TokenizerParseInfo pti[], MapSpecList* mlist)
 }
 
 #ifdef SERVER
-bool MapSpecFinalProcess(ParseTable pti[], MapSpecList* mspeclist, bool shared_memory)
+bool MapSpecFinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    MapSpecList* mspeclist = (MapSpecList*)structptr;
     bool ret = true;
     int i, n;
 

@@ -342,7 +342,9 @@ void ADECL(rm_dbg)(TYPE_T **ha, int offset, int n DBG_PARMS)
 int ADECL(find_dbg)(TYPE_T **ha, TYPE_T *b, ADECL(cmp_fp) *cmp, void *ctxt DBG_PARMS)
 {
     int i;
-    for( i = 0; i < ADECL(size_dbg)(ha DBG_PARMS_CALL); ++i)
+	for (i = 0;
+		i < ADECL(size_dbg)((TYPE_T const *const *)ha DBG_PARMS_CALL);
+		++i)
     {
         TYPE_T *a = (*ha)+i;
         if(cmp)
@@ -361,7 +363,9 @@ void ADECL(foreach_ctxt_dbg)(TYPE_T **ha, ADECL(foreach_ctxt_fp) *fp, void *ctxt
     int i;
     if(!fp)
         return;
-    for( i = 0; i < ADECL(size_dbg)(ha DBG_PARMS_CALL); ++i)
+	for (i = 0;
+		i < ADECL(size_dbg)((TYPE_T const *const *)ha DBG_PARMS_CALL);
+		++i)
         fp(&(*ha)[i],ctxt);
 }
 
@@ -370,7 +374,9 @@ void ADECL(foreach_dbg)(TYPE_T **ha, ADECL(foreach_fp) *fp DBG_PARMS)
     int i;
     if(!fp)
         return;
-    for( i = 0; i < ADECL(size_dbg)(ha DBG_PARMS_CALL); ++i)
+	for (i = 0;
+		i < ADECL(size_dbg)((TYPE_T const *const *)ha DBG_PARMS_CALL);
+		++i)
         fp(&(*ha)[i]);
 }
 

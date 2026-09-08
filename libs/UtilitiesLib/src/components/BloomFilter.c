@@ -85,7 +85,9 @@ static bool bloomFindKeys(BloomFilter* bf, U32 uiKey, eBFProcess eInstructions)
     bool bFoundIt = true;
     while (1)
     {
-        U32 uiHashResult = burtlehash2(&uiKey, 1, uiBFSeedArray[uiSeedIndex++]);
+		ub4 key = uiKey;
+		U32 uiHashResult = burtlehash2(&key, 1,
+			uiBFSeedArray[uiSeedIndex++]);
         U8 uiShifts = 0;
         U8 uiBitsLeftInHash = 32;
         while ( uiBitsLeftInHash > bf->uiMaskSizeLog2 )

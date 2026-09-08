@@ -206,11 +206,17 @@ Xaction* Xaction_Create()
     return res;
 }
 
+void XactCmd_Destroy( XactCmd *hItem );
+static void XactCmd_DestroyCallback(void* arg0)
+{
+    XactCmd_Destroy((XactCmd *)arg0);
+}
+
 void Xaction_Destroy( Xaction *xact )
 {
     if(xact)
     {
-        eaDestroyEx(&xact->cmds,XactCmd_Destroy);
+        eaDestroyEx(&xact->cmds,XactCmd_DestroyCallback);
         MP_FREE(Xaction, xact);
     }
 }

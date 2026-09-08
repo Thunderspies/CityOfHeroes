@@ -1909,7 +1909,7 @@ int x_fclose(FileWrapper *fw)
 
     //ZeroArray(fw->name);
     if (fw->nameptr_needs_freeing) {
-        SAFE_FREE((char*)fw->nameptr);
+		SAFE_FREE(fw->nameptr);
     }
     fw->nameptr = NULL;
     fw->nameptr_needs_freeing = 0;
@@ -1923,7 +1923,7 @@ int x_fclose(FileWrapper *fw)
             ret = gzclose(fptr);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fclose:pig_fclose", 1);
-            ret = pig_fclose(fptr);
+            ret = pig_fclose((PigFileHandle *)fptr);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fclose:addBinaryDataToStuffBuff", 1);
             addBinaryDataToStuffBuff((StuffBuff*)fptr, (char*)&zero, 1);
@@ -1950,7 +1950,7 @@ int x_fgetc(FileWrapper *fw)
             ret = gzgetc((gzFile)fw->fptr);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fgetc:pig_fgetc", 1);
-            ret = pig_fgetc(fw->fptr);
+            ret = pig_fgetc((PigFileHandle *)fw->fptr);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fgetc:assert", 1);
             assert(!"StuffBuffFiles are write-only");
@@ -2007,7 +2007,7 @@ S64 x_fseek(FileWrapper *fw, S64 dist,int whence)
             ret = gzseek(fw->fptr,(long)dist,whence);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fseek:pig_fseek", 1);
-            ret = pig_fseek(fw->fptr,(long)dist,whence);
+            ret = pig_fseek((PigFileHandle *)fw->fptr,(long)dist,whence);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fseek:assert", 1);
             assert(!"StuffBuffFiles are write-only");
@@ -2066,7 +2066,7 @@ int x_getc(FileWrapper *fw)
             ret = gzgetc((gzFile)fw->fptr);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_getc:pig_getc", 1);
-            ret = pig_getc(fw->fptr);
+            ret = pig_getc((PigFileHandle *)fw->fptr);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_getc:stuffbuff_getc", 1);
             ret = stuffbuff_getc(fw->fptr);
@@ -2092,7 +2092,7 @@ S64 x_ftell(FileWrapper *fw)
             ret = gztell(fw->fptr);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_ftell:pig_ftell", 1);
-            ret = pig_ftell(fw->fptr);
+            ret = pig_ftell((PigFileHandle *)fw->fptr);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_ftell:stuffBuff", 1);
             ret = ((StuffBuff*)fw->fptr)->idx;
@@ -2127,7 +2127,7 @@ intptr_t x_fread(void *buf,size_t size1,size_t size2,FileWrapper *fw)
             ret = gzread(fw->fptr, buf, (unsigned int)(size1*size2)) / size1;
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fread:pig_fread", 1);
-            ret = pig_fread(fw->fptr, buf, (long)(size1*size2)) / size1;
+            ret = pig_fread((PigFileHandle *)fw->fptr, buf, (long)(size1*size2)) / size1;
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fread:stuffbuff_fread", 1);
             ret = stuffbuff_fread(fw->fptr, buf, (int)(size1*size2)) / size1;
@@ -2187,7 +2187,7 @@ char *x_fgets(char *buf,int len,FileWrapper *fw)
             ret = gzgets(fw->fptr,buf,len);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fgets:pig_fgets", 1);
-            ret = pig_fgets(fw->fptr,buf,len);
+            ret = pig_fgets((PigFileHandle *)fw->fptr,buf,len);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fgets:assert", 1);
             assert(!"StuffBuffFiles are write-only");
@@ -2481,7 +2481,7 @@ FileWrapper *fileWrap(void *real_file_pointer)
 int fileGetSize(FileWrapper* fw){
     switch (fw->iomode) {
     xcase IO_PIG:
-        return pig_filelength(fw->fptr);
+        return pig_filelength((PigFileHandle *)fw->fptr);
     xcase IO_WINIO:
         return GetFileSize(fw->fptr, NULL);
     xcase IO_CRT:
@@ -2966,13 +2966,13 @@ __time32_t fileLastChanged(const char *refname)
 
 void *fileLockRealPointer(FileWrapper *fw) { // This implements support for Pig files, and must be followed by an unlock when done
     if (fw->iomode==IO_PIG)
-        return pig_lockRealPointer(fw->fptr);
+        return pig_lockRealPointer((PigFileHandle *)fw->fptr);
     return fileRealPointer(fw);
 }
 
 void fileUnlockRealPointer(FileWrapper *fw) {
     if (fw->iomode==IO_PIG)
-        pig_unlockRealPointer(fw->fptr);
+        pig_unlockRealPointer((PigFileHandle *)fw->fptr);
 }
 
 #ifndef FINAL
@@ -3055,7 +3055,7 @@ void fileFreeOldZippedBuffers(void)
 void fileFreeZippedBuffer(FileWrapper *fw)
 {
     if (fw->iomode == IO_PIG) {
-        pig_freeBuffer(fw->fptr);
+        pig_freeBuffer((PigFileHandle *)fw->fptr);
     }
 }
 

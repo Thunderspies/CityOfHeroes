@@ -662,8 +662,9 @@ static void load_ProficiencyDictionary( SHARED_MEMORY_PARAM ProficiencyDictionar
 }
 
 #if SERVER 
-static bool salvageTracked_FinalProcess(TokenizerParseInfo pti[], SalvageTrackedByEntList *salvageTrackedList, bool shared_memory)
+static bool salvageTracked_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    SalvageTrackedByEntList * salvageTrackedList = (SalvageTrackedByEntList *)structptr;
     int i;
     for (i = 0; i < eaSize(&salvageTrackedList->ppTrackedSalvage); ++i)
     {
@@ -688,15 +689,17 @@ static void load_SalvageTrackedList(SHARED_MEMORY_PARAM SalvageTrackedByEntList 
 }
 #endif
 
-static bool load_BoostSetDictionary_DataProcess(ParseTable pti[], BoostSetDictionary *bdict)
+static bool load_BoostSetDictionary_DataProcess(ParseTable* pti, void* structptr)
 {
+    BoostSetDictionary * bdict = (BoostSetDictionary *)structptr;
     boostset_Validate(bdict, "defs/boostsets/boostsets.def");
     return 1;
 }
 
 static SharedMemoryHandle *s_powers_handle = NULL;
-static bool load_BoostSetDictionary_FinalProcess(ParseTable pti[], BoostSetDictionary *bdict, bool shared_memory)
+static bool load_BoostSetDictionary_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    BoostSetDictionary * bdict = (BoostSetDictionary *)structptr;
     bool ret;
 
     if (s_powers_handle)
@@ -766,8 +769,9 @@ static void load_PowerDictionary_Callback(SharedMemoryHandle *powers_handle, boo
 * load_CharacterClasses_DataProcess
 *
 */
-static bool load_CharacterClasses_DataProcess(TokenizerParseInfo pti[], CharacterClasses *p)
+static bool load_CharacterClasses_DataProcess(ParseTable* pti, void* structptr)
 {
+    CharacterClasses * p = (CharacterClasses *)structptr;
     classes_Repack(p, &g_PowerDictionary);
     return 1;
 }
@@ -776,8 +780,9 @@ static bool load_CharacterClasses_DataProcess(TokenizerParseInfo pti[], Characte
 * load_CharacterClasses_FinalProcess
 *
 */
-static bool load_CharacterClasses_FinalProcess(TokenizerParseInfo pti[], CharacterClasses *p, bool shared_memory)
+static bool load_CharacterClasses_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    CharacterClasses * p = (CharacterClasses *)structptr;
     return classes_Finalize(p, shared_memory);
 }
 
@@ -887,8 +892,9 @@ static void load_CustomCritterMods(SHARED_MEMORY_PARAM PCC_CritterRewardMods *p,
         Errorf( pchFilename, "Experience scaling is exponential or negative." );
 }
 
-static bool load_PowerConversionTable_FinalProcess(ParseTable pti[], PowerSetConversionTable *p, bool shared_memory)
+static bool load_PowerConversionTable_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    PowerSetConversionTable * p = (PowerSetConversionTable *)structptr;
     bool ret = true;
     int i;
 
@@ -1062,8 +1068,9 @@ static void load_InventorySizes(SHARED_MEMORY_PARAM InventorySizes *p, char *pch
 
 }
 
-static bool load_InventoryLoyaltyBonusSizes_FinalProcess(ParseTable pti[], InventoryLoyaltyBonusSizes *p, bool shared_memory)
+static bool load_InventoryLoyaltyBonusSizes_FinalProcess(ParseTable* pti, void* structptr, bool shared_memory)
 {
+    InventoryLoyaltyBonusSizes * p = (InventoryLoyaltyBonusSizes *)structptr;
     bool ret = true;
     int i;
 

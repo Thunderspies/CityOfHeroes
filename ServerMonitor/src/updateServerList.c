@@ -124,6 +124,11 @@ static void setDefaultStatValues(UpdateServerStats *stat)
     stat->listCounter = sStatListCounter;
 }
 
+static void destroyUpdateServerStatsAdapter(void* arg0)
+{
+    destroyUpdateServerStats((UpdateServerStats *)arg0);
+}
+
 static void updateServerListInit()
 {
     int i;
@@ -138,7 +143,7 @@ static void updateServerListInit()
     shardMonLoadConfig("./UpdateServerListConfig.txt");
     listViewDelAllItems(lvUpdateServers, NULL);
 
-    eaClearEx(eaUpdateServerStats, destroyUpdateServerStats);
+    eaClearEx(eaUpdateServerStats, destroyUpdateServerStatsAdapter);
     for (i=0; i<eaSize(&shmConfig.shardList); i++)
     {
         UpdateServerStats *stat = createUpdateServerStats();

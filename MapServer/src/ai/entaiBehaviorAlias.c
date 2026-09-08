@@ -115,13 +115,18 @@ void aiBehaviorProcessAliases(void)
     g_TestingBehaviorAliases = false;
 }
 
+static void aiBehaviorAliasInfoDestroyAdapter(void* arg0)
+{
+    aiBehaviorAliasInfoDestroy((AIBehaviorAliasInfo*)arg0);
+}
+
 static void aiBehaviorReloadAliasCallback(const char* relpath, int when)
 {
     fileWaitForExclusiveAccess(relpath);
     errorLogFileIsBeingReloaded(relpath);
     if(ParserReloadFile(relpath, parseAllBehaviorAliases, sizeof(AIBehaviorAlias), &allAliases, NULL, NULL))
     {
-        eaClearEx(&BehaviorAliasList, aiBehaviorAliasInfoDestroy);
+        eaClearEx(&BehaviorAliasList, aiBehaviorAliasInfoDestroyAdapter);
         aiBehaviorRebuildLookupTable();
     }
     else
