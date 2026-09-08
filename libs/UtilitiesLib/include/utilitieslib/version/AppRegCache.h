@@ -4,7 +4,7 @@
 
 #include <stddef.h>
 
-char app_registry_name[128];
+extern char app_registry_name[128];
 
 
 void        regSetAppName(const char* appName);

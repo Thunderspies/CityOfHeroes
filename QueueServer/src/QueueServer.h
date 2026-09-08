@@ -32,6 +32,3 @@ typedef struct QueueServerState
     U32                    isAccountServerActive:1;
 
 } QueueServerState;
-
-QueueServerState g_queueServerState;
-

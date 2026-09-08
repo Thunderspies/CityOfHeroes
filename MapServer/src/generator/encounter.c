@@ -402,8 +402,8 @@ SHARED_MEMORY SpawnDefList g_spawndeflist;
 SHARED_MEMORY DialogFileList g_dialogfilelist;
 extern Array hashStackSpawnAreaDefs;    // entry to villain .dta system
 
-void DoGroupZDrops(EncounterGroup* group);
-void DoZDrops(EncounterPoint *point);
+static void DoGroupZDrops(EncounterGroup* group);
+static void DoZDrops(EncounterPoint *point);
 
 static int CorrectSpawnRadius(int spawnradius)
 {

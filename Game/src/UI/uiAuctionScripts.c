@@ -20,7 +20,7 @@
 #define AUCSCRIPT_VALUEMIN        100
 #define AUCSCRIPT_VALUEMAX        1000000
 
-AuctionItem **ppLocalInventory;
+static AuctionItem **ppLocalInventory;
 
 void addItemToLocalInventory(char * pchIdent, int id, int status, int amtStored, int infStored, int amtOther, int infPrice )
 {

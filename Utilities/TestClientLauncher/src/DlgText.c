@@ -21,6 +21,8 @@
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/utils/StringUtil.h>
 #include "tchar.h"
+
+BatchModeData batchmode;
 #undef fopen
 
 #pragma comment (lib, "comctl32.lib")

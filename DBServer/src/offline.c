@@ -299,7 +299,7 @@ FILE* prepareIndexFile( tDataFileSpec* fileSpec, long offset, int origin /*e.g.,
     return *ppFile;
 }
 
-void deletedPlayers_InitDataFileSpec( tDataFileSpec* fileSpec, 
+static void deletedPlayers_InitDataFileSpec( tDataFileSpec* fileSpec,
                                 const char* dateMMYYYY /* or NULL for the current month */ )
 {
     fileSpec->storageClass = kStorageClass_DeletedCharacters;
@@ -332,7 +332,7 @@ void deletedPlayers_InitDataFileSpec( tDataFileSpec* fileSpec,
     }
 }
 
-void prepareOpenFileInfo( tDataFileSpec* fileSpec, tStorageIndex** ppIndex, int* pFileInfoOfs )
+static void prepareOpenFileInfo( tDataFileSpec* fileSpec, tStorageIndex** ppIndex, int* pFileInfoOfs )
 {
     //    Called a lot, so keep this logic brief!
     //
@@ -425,7 +425,7 @@ void prepareOpenFileInfo( tDataFileSpec* fileSpec, tStorageIndex** ppIndex, int*
     if ( pFileInfoOfs )    *pFileInfoOfs    = fileDataOfs;
 }
 
-tDataFileKey offlinedPlayers_InitActiveFileInfo( void )
+static tDataFileKey offlinedPlayers_InitActiveFileInfo( void )
 {
     tDataFileKey fileKey;
     tStorageIndex* pIndex;
@@ -494,7 +494,7 @@ FILE* prepareDataFile( tDataFileSpec* fileSpec, long offset, int origin /*e.g., 
     return openFileInfo->filePtr;
 }
 
-bool patchIndexRecord( tDataFileSpec* fileSpec, OfflinePlayer* p, tOfflineObjStatus status )
+static bool patchIndexRecord( tDataFileSpec* fileSpec, OfflinePlayer* p, tOfflineObjStatus status )
 {
     bool success = true;
     size_t recSize;
@@ -600,7 +600,7 @@ void releaseAllDataFilePtrs( void )
     }
 }
 
-void openDataAppendFile( tStorageClass storageClass, int* p_file_size, FILE** p_file_ptr, tDataFileKey* p_data_fileKey )
+static void openDataAppendFile( tStorageClass storageClass, int* p_file_size, FILE** p_file_ptr, tDataFileKey* p_data_fileKey )
 {
     int fileSz = 0;
     FILE* data_append = NULL;
@@ -658,7 +658,7 @@ void openDataAppendFile( tStorageClass storageClass, int* p_file_size, FILE** p_
     if ( p_data_fileKey )    *p_data_fileKey    = spec.dataFileKey;
 }
 
-bool readIndexStringRec( FILE* dataFile, 
+static bool readIndexStringRec( FILE* dataFile,
             char* buffer, size_t buffSz, int* fldOffsets, int nFldOffsetsSz, 
             size_t* p_string_size, int* p_num_fields )
 {
@@ -746,7 +746,7 @@ int offlinePlayerMoveOffline(int id)
     return !! addPlayerToOfflineStore(id, kOfflineObjStatus_OFFLINE, &spec, true,true);
 }
 
-bool addPlayerToOfflineStore(int id, tOfflineObjStatus status, 
+static bool addPlayerToOfflineStore(int id, tOfflineObjStatus status,
                                     tDataFileSpec* fileSpec,
                                     bool bUpdateIdxCache, bool bUnloadContainer)
 {
@@ -767,7 +767,7 @@ bool addPlayerToOfflineStore(int id, tOfflineObjStatus status,
     return false;
 }
 
-bool copyEntityContainerToStorage(int id, tOfflineObjStatus status, 
+static bool copyEntityContainerToStorage(int id, tOfflineObjStatus status,
                                     tDataFileSpec* fileSpec,
                                     EntCon** ppEnt, OfflinePlayer* pNewPlayerData )
 {
@@ -814,7 +814,7 @@ bool copyEntityContainerToStorage(int id, tOfflineObjStatus status,
     return writePlayerDataToDataFiles(fileSpec->storageClass,pNewPlayerData, containerGetText(ent_con), status );
 }
 
-bool writePlayerDataToDataFiles(tStorageClass storageClass, OfflinePlayer* pNewPlayerData, 
+static bool writePlayerDataToDataFiles(tStorageClass storageClass, OfflinePlayer* pNewPlayerData,
                                     const char* szRawData, tOfflineObjStatus status  )
 {
     tDataFileSpec spec;
@@ -869,18 +869,18 @@ bool writePlayerDataToDataFiles(tStorageClass storageClass, OfflinePlayer* pNewP
     return true;
 }
 
-void unloadPlayerData( int id )
+static void unloadPlayerData( int id )
 {
     containerUnload(dbListPtr(CONTAINER_ENTS),id);
     deletePlayer(id,false,0,0,0);
 }
 
-void storedData_CreateIndexCache( tDataFileSpec* fileSpec )
+static void storedData_CreateIndexCache( tDataFileSpec* fileSpec )
 {
     prepareOpenFileInfo( fileSpec, NULL, NULL );
 }
 
-void storedData_DestroyIndexCache( tStorageIndex* pIndex )
+static void storedData_DestroyIndexCache( tStorageIndex* pIndex )
 {
     if (pIndex->playerArrayCache || pIndex->authNameTable)
     {
@@ -926,7 +926,7 @@ OfflinePlayerArray* storedData_PlayerArrayFromAuthId( tDataFileSpec* fileSpec, c
     return NULL;
 }
 
-int storedData_PlayerArrayOfsFromDbId(OfflinePlayerArray* arr, int db_id)
+static int storedData_PlayerArrayOfsFromDbId(OfflinePlayerArray* arr, int db_id)
 {
     //
     // Note: We're search a listing for a specific auth_id, so a sequential
@@ -943,7 +943,7 @@ int storedData_PlayerArrayOfsFromDbId(OfflinePlayerArray* arr, int db_id)
     return -1;
 }
 
-int storedData_PlayerArrayOfsFromName(OfflinePlayerArray* arr, tOfflineObjStatus objStatus, char* charName, int seqNbr)
+static int storedData_PlayerArrayOfsFromName(OfflinePlayerArray* arr, tOfflineObjStatus objStatus, char* charName, int seqNbr)
 {
     //
     // The 1-based sequence number allows the caller to choose a specific item within
@@ -974,7 +974,7 @@ int storedData_PlayerArrayOfsFromName(OfflinePlayerArray* arr, tOfflineObjStatus
     return itemIndex;
 }
 
-bool storedData_PlayerArrayAndOfsFromAuthAndId(tDataFileSpec* fileSpec, const tAuthSpec* authSpec, int db_id, OfflinePlayerArray** ppList, int* pIndex)
+static bool storedData_PlayerArrayAndOfsFromAuthAndId(tDataFileSpec* fileSpec, const tAuthSpec* authSpec, int db_id, OfflinePlayerArray** ppList, int* pIndex)
 {
     int charIndex = -1;
     OfflinePlayerArray* pList = NULL;
@@ -990,7 +990,7 @@ bool storedData_PlayerArrayAndOfsFromAuthAndId(tDataFileSpec* fileSpec, const tA
     return (( pList != NULL ) && ( charIndex != -1 ));
 }
 
-bool storedData_PlayerArrayAndOfsFromAuthAndName(tDataFileSpec* fileSpec, tOfflineObjStatus objStatus, const tAuthSpec* authSpec, char* charName, int seqNbr, OfflinePlayerArray** ppList, int* pIndex)
+static bool storedData_PlayerArrayAndOfsFromAuthAndName(tDataFileSpec* fileSpec, tOfflineObjStatus objStatus, const tAuthSpec* authSpec, char* charName, int seqNbr, OfflinePlayerArray** ppList, int* pIndex)
 {
     int charIndex = -1;
     OfflinePlayerArray* pList = NULL;
@@ -1028,7 +1028,7 @@ OfflinePlayer* storedData_StoredPlayerFromAuthAndName(tDataFileSpec* fileSpec, t
     return NULL;
 }
 
-void storedData_FreePlayerArray(OfflinePlayerArray** ppList)
+static void storedData_FreePlayerArray(OfflinePlayerArray** ppList)
 {
     int i;
     for ( i=0; i < (*ppList)->numItems; i++ )
@@ -1040,7 +1040,7 @@ void storedData_FreePlayerArray(OfflinePlayerArray** ppList)
     free( *ppList );
 }
 
-void storedData_AddToPlayerArray( tDataFileSpec* fileSpec, OfflinePlayer* p)
+static void storedData_AddToPlayerArray( tDataFileSpec* fileSpec, OfflinePlayer* p)
 {
     int charIndex = -1;
     OfflinePlayerArray* pList = NULL;
@@ -1132,7 +1132,7 @@ int offlinePlayerList(int auth_id,char *auth_name,OfflinePlayer *list,int max_li
     return toIdx;
 }
 
-void storageIndexLoadFromDisk( tDataFileSpec* spec )
+static void storageIndexLoadFromDisk( tDataFileSpec* spec )
 {
     char            *s,*s_next,*mem,*args[100];
     int                i,count,del_count=0;
@@ -1213,7 +1213,7 @@ void storageIndexLoadFromDisk( tDataFileSpec* spec )
     free(mem);
 }
 
-void storageIndexRelease( tOfflineDataStore* pStore, int nIndexOfs )
+static void storageIndexRelease( tOfflineDataStore* pStore, int nIndexOfs )
 {
     int i;
     tStorageIndex* pIndex = pStore->storageIndexArr[nIndexOfs];
@@ -1446,7 +1446,7 @@ static char *lockOfflinedCharacter(char *str)
     return str;
 }
 
-int restoreFromOfflineStorage( tStorageClass storageClass, OfflinePlayer *offlinePlayer, const tAuthSpec* authSpec )
+static int restoreFromOfflineStorage( tStorageClass storageClass, OfflinePlayer *offlinePlayer, const tAuthSpec* authSpec )
 {
     int                data_size;
     char            *data,*new_data,old_name[200]="",new_name[200]="";
@@ -1724,7 +1724,7 @@ void offlineUnusedPlayers()
     loadend_printf("");
 }
 
-U32 fldValueFromLineList( ContainerTemplate *tplt, LineList* lineList, const char* fldName, U32 defaultVal )
+static U32 fldValueFromLineList( ContainerTemplate *tplt, LineList* lineList, const char* fldName, U32 defaultVal )
 {
     U32 val = defaultVal;
     char fldBuffer[512];
@@ -1743,7 +1743,7 @@ U32 fldValueFromLineList( ContainerTemplate *tplt, LineList* lineList, const cha
     return val;
 }
 
-void fldStrFromLineList( ContainerTemplate *tplt, LineList* lineList, const char* fldName, char* buffer, size_t strSz )
+static void fldStrFromLineList( ContainerTemplate *tplt, LineList* lineList, const char* fldName, char* buffer, size_t strSz )
 {
     char fldBuffer[512];
     buffer[0] = '\0';

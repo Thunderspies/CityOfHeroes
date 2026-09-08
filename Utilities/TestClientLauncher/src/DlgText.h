@@ -43,7 +43,7 @@ typedef struct BatchModeData {
     TCHAR *logfile;
 } BatchModeData;
 
-BatchModeData batchmode;
+extern BatchModeData batchmode;
 
 
 typedef struct {

@@ -588,7 +588,7 @@ static void setArbEnvReg3( tShaderParamSpec* pSpec, const GLfloat *vec3Arr, GLui
 
 static void PrepareSamplerForCurrentShader( tShaderParamSpec* pSpec, CGparameter param );
 
-INLINEDBG void doDisableClientState( GLenum array );
+static INLINEDBG void doDisableClientState( GLClientStateType array );
 
 void WCW_ResetState( void )
 {
@@ -1934,7 +1934,7 @@ void WCW_TexLODBias(int texindex, F32 newbias)
     }
 }
 
-INLINEDBG void doEnableClientState(GLClientStateType array)
+static INLINEDBG void doEnableClientState(GLClientStateType array)
 {
     if (rdr_caps.chip & ARBVP)
     {
@@ -1982,7 +1982,7 @@ INLINEDBG void doEnableClientState(GLClientStateType array)
     }
 }
 
-INLINEDBG void doDisableClientState( GLClientStateType array )
+static INLINEDBG void doDisableClientState( GLClientStateType array )
 {
     if (rdr_caps.chip & ARBVP)
     {
@@ -2507,7 +2507,7 @@ void WCW_SetCgShaderParamArray3fv(tShaderProgramType target, ShaderParamId id, c
         setNamedParamValue( pSpec, vec3Arr, nNumVec3s, kFloatsInVec3 );
 }
 
-void setFragmentProgramConstColor( GLuint index, const GLfloat* vec4 )
+static void setFragmentProgramConstColor( GLuint index, const GLfloat* vec4 )
 {
     #define kNumEnvParamsDefined 2
     assert( index < kNumEnvParamsDefined );
@@ -2535,7 +2535,7 @@ void setFragmentProgramConstColor( GLuint index, const GLfloat* vec4 )
     }
 }
 
-void GrowParamHandleCache( GLuint nNewElements )
+static void GrowParamHandleCache( GLuint nNewElements )
 {
     // Add more elements
     size_t oldBytes = ( sShaderParamHandleCache.nArraySize * sizeof(tShaderParamHandleCacheEntry) );
@@ -2551,7 +2551,7 @@ void GrowParamHandleCache( GLuint nNewElements )
     sShaderParamHandleCache.nArraySize = nNewElements;
 }
 
-int AddParamHandleCacheKey( const char* szParamName, tShaderProgramType pgmType )
+static int AddParamHandleCacheKey( const char* szParamName, tShaderProgramType pgmType )
 {
     tShaderParamHandleCacheEntry* pEntry;
 
@@ -3044,7 +3044,7 @@ void WCW_CacheParamHandlesForShaderParam( CGprogram program, int nParamNmCacheId
 }
 
 #if RT_SUPPORT_ARB_SHADER_PATH
-void setArbRegOBSOLETE( tShaderParamSpec* pSpec, const GLfloat *vec4Arr, GLuint nNumVec4s )
+static void setArbRegOBSOLETE( tShaderParamSpec* pSpec, const GLfloat *vec4Arr, GLuint nNumVec4s )
 {
     //    For ARB registers, the dataKey1 value is an ARB program.local[] variable index
     //    (i.e., it should match the C0...C255 semantic binding in the shader).
@@ -3085,7 +3085,7 @@ void setArbRegOBSOLETE( tShaderParamSpec* pSpec, const GLfloat *vec4Arr, GLuint 
 }
 #endif
 
-void setArbEnvReg( tShaderParamSpec* pSpec, const GLfloat *vec4Arr, GLuint nNumVec4s )
+static void setArbEnvReg( tShaderParamSpec* pSpec, const GLfloat *vec4Arr, GLuint nNumVec4s )
 {
     //    For ARB registers, the dataKey1 value is an ARB program.env[] variable index
     //    (i.e., it should match the ENV0...ENV96 semantic binding in the shader).
@@ -3127,7 +3127,7 @@ void setArbEnvReg( tShaderParamSpec* pSpec, const GLfloat *vec4Arr, GLuint nNumV
 
 // @todo probably better to not even support this and just use full 4 float wide
 // values that will go to constants (e.g., we can't use EXT_gpu_program_parameters here)
-void setArbEnvReg3( tShaderParamSpec* pSpec, const GLfloat *vec3Arr, GLuint nNumVec3s )
+static void setArbEnvReg3( tShaderParamSpec* pSpec, const GLfloat *vec3Arr, GLuint nNumVec3s )
 {
     //    For ARB registers, the dataKey1 value is an ARB program.env[] variable index
     //    (i.e., it should match the ENV0...ENV96 semantic binding in the shader).
@@ -3164,7 +3164,7 @@ void setArbEnvReg3( tShaderParamSpec* pSpec, const GLfloat *vec3Arr, GLuint nNum
     }
 }
 
-void setNamedParamValue( tShaderParamSpec* pSpec, const GLfloat *floatArr, GLuint nRows, GLuint nCols )
+static void setNamedParamValue( tShaderParamSpec* pSpec, const GLfloat *floatArr, GLuint nRows, GLuint nCols )
 {
     CGparameter* paramHdlList = NULL;
     GLuint nParamHdlListSz = 0;

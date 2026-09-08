@@ -5,7 +5,7 @@
 #include <utilitieslib/utils/timing.h>
 #include "ChatAdminUtils.h"
 
-BOOL CALLBACK GetStringDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+static BOOL CALLBACK GetStringDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK GetYesNoDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 

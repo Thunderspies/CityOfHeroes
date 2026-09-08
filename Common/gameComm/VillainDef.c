@@ -754,7 +754,7 @@ static void villainFlagError(int* minionSpread, int* compareSpread, int minMinio
     }
 }
 
-void villainCheckRequirements()
+static void villainCheckRequirements()
 {
     int i;
     if (isProductionMode())

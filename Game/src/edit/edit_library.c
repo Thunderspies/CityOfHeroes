@@ -20,6 +20,7 @@
 #include "edit/edit_drawlines.h"
 #include "Menu.h"
 #include "edit/edit_cmd_file.h"
+#include "edit/edit_cmd_select.h"
 #include "edit_cmd_group.h"
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/components/MRUList.h>
@@ -279,7 +280,6 @@ void commandMenuClickFunc(MenuEntry * me,ClickInfo * ci) {
     if (value==2)    {
         char * s;
         int val;
-        extern int editGetCmdValue(name);
 
         val=editGetCmdValue(name);
         s=strstr(me->name, " ON");
@@ -1706,7 +1706,6 @@ void thrashEditor() {
         thrashState=1;
     } else
     if (thrashState==1) {
-        extern editCmdPaste();
         if (editIsWaitingForServer())
             thrashState=0;
         else {

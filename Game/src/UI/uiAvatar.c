@@ -18,6 +18,7 @@
 #include "entity/entity.h"
 #include "graphics/gfxwindow.h"        // gfx_window
 #include "UI/sprite/sprite_base.h"
+#include "game.h" // for changeShellCamera
 
 //----------------------------------------------------------------------------------------------
 
@@ -86,8 +87,6 @@ void moveAvatar( AvatarMode mode )
 
     switch ( mode )
     {
-        // externed because these live in main
-        extern void changeShellCamera( float x, float y, float z );
 
     case AVATAR_DEFAULT_MALE:
         {

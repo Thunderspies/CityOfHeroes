@@ -15,6 +15,7 @@ typedef enum
 void parseArgs(int argc,char **argv);
 
 // these are in the order they will typically be called
+void changeShellCamera( float x, float y, float z );
 void parseArgsForCovFlag(int argc, char **argv);
 int getProjectKey(int argc, char **argv);
 S32 game_runningCohClientCount(void);

@@ -26,7 +26,7 @@
 #include "utilitieslib/utils/fileWatch.h"
 #include "utilitieslib/components/SharedMemory.h"
 
-void FolderCacheAddPig(FolderCache *fc, PigFile *pigfile, int virtual_location);
+static void FolderCacheAddPig(FolderCache *fc, PigFile *pigfile, int virtual_location);
 
 typedef struct FolderCacheCallbackInfo{
     struct FolderCacheCallbackInfo *next;
@@ -1092,13 +1092,13 @@ FolderNode *FolderCacheFileSystemOverride(FolderCache *fc, char *relpath)
 
 static char *ignorePrefixArray[MAX_IGNORE_PREFIXES] = {0};
 static int numIgnorePrefixes = 0;
-extern char* g_StdAdditionalFilePrefixes[] = 
+const char* g_StdAdditionalFilePrefixes[] =
 {
     "v_",
     "d_",
     ""
 };
-extern char* g_StdIgnorePrefixes[] = 
+static const char* g_StdIgnorePrefixes[] =
 {
     "d_",    // development only data
     ""
@@ -1112,7 +1112,7 @@ char ** FolderCacheGetIgnoredPrefixes(int *num)
 
 void FolderCacheIgnoreStdPrefixes(void)
 {
-    char** prefix = g_StdIgnorePrefixes;
+    const char** prefix = g_StdIgnorePrefixes;
     while (**prefix)
     {
         FolderCacheAddIgnorePrefix(*prefix);

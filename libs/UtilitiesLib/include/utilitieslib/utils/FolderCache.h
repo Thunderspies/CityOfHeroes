@@ -153,7 +153,7 @@ void FolderCacheSetNoDisableOnBufferOverruns(int value);
 FolderNode *FolderCacheQuery(FolderCache *fc, const char *relpath);
 char *FolderCacheGetRealPath(FolderCache *fc, FolderNode *node, char *buffer, size_t buffer_size); // pass a buffer to fill
 
-extern char* g_StdAdditionalFilePrefixes[];    // standard known prefixes for the textparser to additionally load
+extern const char* g_StdAdditionalFilePrefixes[];    // standard known prefixes for the textparser to additionally load
 void FolderCacheIgnoreStdPrefixes(void);
 void FolderCacheAddIgnorePrefix(const char *prefix);
 void FolderCacheRemoveIgnorePrefix(const char *prefix);

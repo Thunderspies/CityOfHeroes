@@ -6,6 +6,8 @@
 typedef struct Command Command;
 typedef struct UIBox UIBox;
 
+extern int g_isBindingKey;
+
 void ParseCommandList();
 
 

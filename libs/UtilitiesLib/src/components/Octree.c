@@ -128,7 +128,7 @@ static INLINEDBG OctreeCell *octreeAllocCell(Octree *octree)
     return mpAlloc(octree->cells_mempool);
 }
 
-INLINEDBG OctreeIdxList *octreeAllocIdxList(Octree *octree)
+static INLINEDBG OctreeIdxList *octreeAllocIdxList(Octree *octree)
 {
     return mpAlloc(octree->idxlist_mempool);
 }
@@ -549,7 +549,7 @@ static int octreeSplitPlanes(Octree *octree,OctreeCell *cell,Vec3 ppos,F32 size,
     return 0;
 }
 
-INLINEDBG int octreeSplitPlanesRoot(Octree *octree,OctreeCell *cell,Vec3 ppos,F32 size,OctreeFindState *state)
+static INLINEDBG int octreeSplitPlanesRoot(Octree *octree,OctreeCell *cell,Vec3 ppos,F32 size,OctreeFindState *state)
 {
     int retCode;
 
@@ -655,7 +655,7 @@ static void octreeSplitPlanesFrustum(Octree *octree,OctreeCell *cell,Vec3 ppos,F
     }
 }
 
-INLINEDBG void octreeSplitPlanesFrustumRoot(Octree *octree,OctreeCell *cell,Vec3 ppos,F32 size,F32 radius,OctreeFindState *state,int clipped)
+static INLINEDBG void octreeSplitPlanesFrustumRoot(Octree *octree,OctreeCell *cell,Vec3 ppos,F32 size,F32 radius,OctreeFindState *state,int clipped)
 {
     PERFINFO_AUTO_START("octreeSplitPlanesFrustum",1);
     octreeSplitPlanesFrustum(octree, cell, ppos, size, radius, state, clipped);

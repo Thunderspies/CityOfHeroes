@@ -1055,7 +1055,6 @@ static TTDrawContext* getDebugFont(){
     static TTDrawContext* debugFont = NULL;
 
     if(!debugFont){
-        extern TTFontManager* fontManager;
         TTCompositeFont* font = createTTCompositeFont();
 
         debugFont = createTTDrawContext();
@@ -1772,7 +1771,7 @@ static void displayEntDebugInfoText()
     }
 }
 
-static char* getCommaSeparatedInt(__int64 x){
+static char* entDebugGetCommaSeparatedInt(__int64 x){
     static int curBuffer = 0;
     static char bufferArray[10][50];
     char* buffer = bufferArray[curBuffer = (curBuffer + 1) % 10];
@@ -2180,17 +2179,17 @@ static void displayPerformanceInfoHelper( PerformanceInfo* info, int* y, int lev
         {
             STR_COMBINE_BEGIN(buffer);
             STR_COMBINE_CAT("^4");
-            STR_COMBINE_CAT(getCommaSeparatedInt(info->opCountInt));
+            STR_COMBINE_CAT(entDebugGetCommaSeparatedInt(info->opCountInt));
             STR_COMBINE_CAT("^t100t\t");
-            STR_COMBINE_CAT(getCommaSeparatedInt(info->opCountInt ? info->totalTime / info->opCountInt : 0));
+            STR_COMBINE_CAT(entDebugGetCommaSeparatedInt(info->opCountInt ? info->totalTime / info->opCountInt : 0));
             STR_COMBINE_CAT("^t100t\t");
             STR_COMBINE_CAT(getCommaSeparatedFloat(recentCount ? ((float) recentRuns) / recentCount : 0.0f, 2));
             STR_COMBINE_CAT("^t100t\t");
-            STR_COMBINE_CAT(getCommaSeparatedInt(recentCount ? recentCycles / recentCount : 0));
+            STR_COMBINE_CAT(entDebugGetCommaSeparatedInt(recentCount ? recentCycles / recentCount : 0));
             if(debug_state.showMaxCPUCycles)
             {
                 STR_COMBINE_CAT("^t100t\t^0(^s^4");
-                STR_COMBINE_CAT(getCommaSeparatedInt(info->maxTime));
+                STR_COMBINE_CAT(entDebugGetCommaSeparatedInt(info->maxTime));
                 STR_COMBINE_CAT("^0^n)");
             }
             STR_COMBINE_END();
@@ -2276,7 +2275,7 @@ static void displayPerformanceInfoZoomed(__int64 cpuSpeed)
 
     if(debug_state.perfInfoZoomedHilight > 0 && debug_state.perfInfoZoomedHilight <= size){
         PerformanceInfoHistory* hist = info->history + (info->historyPos + debug_state.perfInfoZoomedHilight) % size;
-        sprintf(tempString, "Line: ^4%d\nCycles: ^4%s\nCount: ^4%s^dx", debug_state.perfInfoZoomedHilight, getCommaSeparatedInt(hist->cycles), getCommaSeparatedInt(hist->count));
+        sprintf(tempString, "Line: ^4%d\nCycles: ^4%s\nCount: ^4%s^dx", debug_state.perfInfoZoomedHilight, entDebugGetCommaSeparatedInt(hist->cycles), entDebugGetCommaSeparatedInt(hist->count));
         drawFilledBox4(0, 0, 300, 140, 0x80000000, 0x80000000, 0xa0000000, 0xa0000000);
         printDebugString(tempString, 10, 100, 1.5, 15, -1, colorIndex, 255, NULL);
     }
@@ -2399,7 +2398,7 @@ static void displayPerformanceInfoZoomed(__int64 cpuSpeed)
                     drawFilledBox4(w - 150, y + i * line / 10, w, y + i * line / 10 + 1, 0xff6666, ((alpha) << 24) | 0xffffff, 0xffffff, ((alpha / 2) << 24) | 0xff6666);
             }
 
-            strcpy(buffer, getCommaSeparatedInt(cur_order));
+            strcpy(buffer, entDebugGetCommaSeparatedInt(cur_order));
 
             printDebugString(buffer, 0, 0, 1, 0, -1, -1, 0, wh);
             

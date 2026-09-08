@@ -12,9 +12,9 @@ S32                    detachedCam_input_state;
 CameraInfo*            detachedCam_info;
 S32                    detachedCam_move_state[6];
 
-void rotateDetachedCamera(F32 pitch, F32 yaw, F32 roll);
-void setDetatchedCamera(int axis, F32 angle);
-int detachedCamCmdParse(char *str, int x, int y);
+static void rotateDetachedCamera(F32 pitch, F32 yaw, F32 roll);
+static void setDetatchedCamera(int axis, F32 angle);
+static int detachedCamCmdParse(char *str, int x, int y);
 
 enum
 {
@@ -119,7 +119,7 @@ void toggleDetachedCamControls(bool on, CameraInfo *ci)
     return;
 }
 
-int detachedCamCmdParse(char *str, int x, int y)
+static int detachedCamCmdParse(char *str, int x, int y)
 {
     Cmd            *cmd;
     CmdContext    output = {0};

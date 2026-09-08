@@ -70,7 +70,7 @@
 int debug_fxgeo_count;
 extern FxEngine fx_engine;
 
-void fxGeoUpdateAnimationColoring(FxGeo *fxgeo, F32 age);
+static void fxGeoUpdateAnimationColoring(FxGeo *fxgeo, F32 age);
 
 extern TokenizerParseInfo ParseFxBhvr[];
 

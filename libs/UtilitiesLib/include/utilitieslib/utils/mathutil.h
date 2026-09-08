@@ -426,7 +426,7 @@ F32 qcos(F32 theta);
 int finiteVec3(const Vec3 y); 
 int finiteVec4(const Vec4 y); 
 float distance3( const Vec3 a, const Vec3 b );
-float distance3Squared( const Vec3 a, const Vec3 b );
+static float distance3Squared( const Vec3 a, const Vec3 b );
 float distance3XZ( const Vec3 a, const Vec3 b );
 float distance3SquaredXZ( const Vec3 a, const Vec3 b );
 void getScale(const Mat3 mat, Vec3 scale ); // doesn't change the matrix
@@ -435,8 +435,8 @@ void normalMat3(Mat3 mat); // just normalizes the matrix
 void setNearSameVec3Tolerance(F32 tol);
 int nearSameDVec2(const DVec2 a,const DVec2 b);
 //void copyMat3(const Mat3 a,Mat3 b); // inlined
-void copyMat4(const Mat4 a,Mat4 b);
-void copyMat44(const Mat44 mIn,Mat44 mOut);
+static void copyMat4(const Mat4 a,Mat4 b);
+static void copyMat44(const Mat44 mIn,Mat44 mOut);
 void transposeMat3(Mat3 uv);
 int invertMat3Copy(const Mat3 a, Mat3 b);
 void invertMat4Copy(const Mat4 mat,Mat4 inv);
@@ -462,8 +462,8 @@ void mulMat3(const Mat3 m1,const Mat3 m2,Mat3 mOut);
 void mulMat4(const Mat4 m1,const Mat4 m2,Mat4 mOut);
 void mulMat44(const Mat44 m1,const Mat44 m2,Mat44 mOut);
 void mulVecMat3Transpose(const Vec3 vIn,const Mat3 mIn,Vec3 vOut);
-void mulVecMat3(const Vec3 vIn,const Mat3 mIn,Vec3 vOut);
-void mulVecMat4(const Vec3 vIn,const Mat4 mIn,Vec3 vOut);
+static void mulVecMat3(const Vec3 vIn,const Mat3 mIn,Vec3 vOut);
+static void mulVecMat4(const Vec3 vIn,const Mat4 mIn,Vec3 vOut);
 void mulVecMat4Transpose(const Vec3 vIn, const Mat4 mIn, Vec3 vOut);
 //F32 normalVec3(Vec3 v); // inlined
 F32 normalVec3XZ(Vec3 v);
@@ -483,7 +483,7 @@ void createMat3_1_YPR(Vec3 mat1,const F32 *pyr);
 void createMat3_2_YPR(Vec3 mat2,const F32 *pyr);
 void getMat3PYR(const Mat3 mat,F32 *pyr);
 void getMat3YPR(const Mat3 mat,F32 *pyr);
-void mat43to44(const Mat4 in,Mat44 out);
+static void mat43to44(const Mat4 in,Mat44 out);
 
 
 void getRandomPointOnLimitedSphereSurface(F32* theta, F32* phi, F32 phiDeflectionFromNorthPole);

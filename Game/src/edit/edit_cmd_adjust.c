@@ -31,6 +31,8 @@
 #include "group/groupfileload.h"
 #include "edit_cubemap.h"
 
+static EditCmdBoxScaleInfo boxScaleInfo;
+
 void getFogDist()
 {
     F32            *fogdist;

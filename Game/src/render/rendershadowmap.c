@@ -1074,7 +1074,7 @@ void rdrShadowMapDebug2D(void)
 }
 
 
-bool shadowViewportPreCallback(ViewportInfo *viewport)
+static bool shadowViewportPreCallback(ViewportInfo *viewport)
 {
     shadowMap * map = (shadowMap*)viewport->callbackData;
     // freezing shadows lets us fly camera around to check them out without
@@ -1089,7 +1089,7 @@ bool shadowViewportPreCallback(ViewportInfo *viewport)
     return true;
 }
 
-bool shadowViewportPostCallback(ViewportInfo *viewport)
+static bool shadowViewportPostCallback(ViewportInfo *viewport)
 {
     shadowMap * map = (shadowMap*)viewport->callbackData;
     gfx_state.writeDepthOnly = 0;
@@ -1663,7 +1663,7 @@ static void gfxRenderViewport_shadowmap(ViewportInfo *viewport)
     gfx_state.current_viewport_info = NULL;
 }
 
-bool shadowViewportCustomRenderCallback(ViewportInfo *viewport)
+static bool shadowViewportCustomRenderCallback(ViewportInfo *viewport)
 {
     if (game_state.shadowDebugFlags&kUseCustomRenderLoop)
     {

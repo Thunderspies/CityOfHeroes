@@ -64,6 +64,8 @@ static int lastHoveredPower = -1;
 static int sSwitchedSet = 0;
 static int sPrimaryPowersetChanged = 0;
 static int sCurrentPowerSet = -1;
+static const BasePowerSet * g_pPrimaryPowerSet;
+static const BasePowerSet * g_pSecondaryPowerSet;
 static bool g_pSecondaryPowerSetValid = false;
 
 static HybridElement powerTabs[] = 

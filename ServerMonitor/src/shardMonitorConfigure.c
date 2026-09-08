@@ -28,7 +28,7 @@ TokenizerParseInfo shardMonitorConfigInfo[] = {
     { 0 }
 };
 
-BOOL CALLBACK shardMonConfigureDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+static BOOL CALLBACK shardMonConfigureDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 ShardMonitorConfig shmConfig = {0};
 ListView *lvShmConfigure = NULL;

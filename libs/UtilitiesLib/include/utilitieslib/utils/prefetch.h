@@ -8,12 +8,12 @@
 
 #include <intrin.h>
 
-__forceinline void Prefetch(const void* mem)
+static __forceinline void Prefetch(const void* mem)
 {
     _mm_prefetch(mem, _MM_HINT_T0);
 }
 
-__forceinline void PrefetchNTA(const void* mem)
+static __forceinline void PrefetchNTA(const void* mem)
 {
     _mm_prefetch(mem, _MM_HINT_NTA);
 }
@@ -23,7 +23,7 @@ __forceinline void PrefetchNTA(const void* mem)
 // NOTE: These are for X86 only
 
 // Normal prefetch.  On P4, should fetch 128bytes
-__forceinline void Prefetch(const void * mem)
+static __forceinline void Prefetch(const void * mem)
 {
     __asm mov ecx, mem
     __asm prefetcht0 [ecx];
@@ -33,7 +33,7 @@ __forceinline void Prefetch(const void * mem)
 // This is to try and not pollute the cache
 // (access a small amount of data without changing it and
 // don't need any of the other data near it)
-__forceinline void PrefetchNTA(const void * mem)
+static __forceinline void PrefetchNTA(const void * mem)
 {
     __asm mov ecx, mem
     __asm prefetchnta [ecx];

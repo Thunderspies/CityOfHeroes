@@ -232,10 +232,6 @@ PowerCustomizationList * powerCustList_current( Entity * e )
 
     return e->pl->powerCustomizationLists[e->pl->current_powerCust];
 }
-static bool isNullOrNone(const char *str)
-{
-    return !str || !str[0] || stricmp(str,"None")==0;
-}
 
 PowerCustomization* powerCust_FindPowerCustomization(PowerCustomizationList* powerCustList, const BasePower *power)
 {

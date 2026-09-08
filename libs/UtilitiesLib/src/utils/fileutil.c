@@ -344,7 +344,7 @@ makeLongPathName_safe(char * anyPath, char *sout, int sout_size) //accepts both 
 
 // for communication to DateCheckCallback
 const char* g_filemask;
-__time32_t g_lasttime;
+static __time32_t g_lasttime;
 
 // store latest time in g_lasttime
 static FileScanAction DateCheckCallback(char* dir, struct _finddata32_t* data)

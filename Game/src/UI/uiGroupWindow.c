@@ -128,10 +128,9 @@ static int gShowBuffs = FALSE;
 static int gViewFlags = 0;
 
 
-//typedef char MapName[256];
-//MapName teamMapNames[MAX_TEAM_MEMBERS] = {0};
-//MapName levelingpactMapNames[MAX_LEVELINGPACT_MEMBERS] = {0};
-//MapName leagueMapNames[MAX_LEAGUE_MEMBERS] = {0};
+MapName teamMapNames[MAX_TEAM_MEMBERS] = {0};
+MapName levelingpactMapNames[MAX_LEVELINGPACT_MEMBERS] = {0};
+MapName leagueMapNames[MAX_LEAGUE_MEMBERS] = {0};
 
 //-----------------------------------------------------------------------------------------------
 // Icon cache ///////////////////////////////////////////////////////////////////////////////////

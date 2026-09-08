@@ -56,7 +56,5 @@ typedef struct EditCmdBoxScaleInfo {
     Mat4 mat;
 } EditCmdBoxScaleInfo;
 
-EditCmdBoxScaleInfo boxScaleInfo;
-
 // End mkproto
 #endif

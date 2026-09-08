@@ -1113,7 +1113,7 @@ static void clientAuthTick()
     }
 }
 
-void sendCatalogUpdatesToShard(AccountServerShard *shard )
+static void sendCatalogUpdatesToShard(AccountServerShard *shard )
 {
     Packet *pak = pktCreateEx(&shard->link, ACCOUNT_SVR_PRODUCT_CATALOG_UPDATE);
     accountCatalog_AddAcctServerCatalogToPacket( pak );
@@ -1141,7 +1141,7 @@ static void handleClientLogoutAccount(AccountServerShard *shard, Packet *pak_in)
 }
 
 // ACCOUNT_CLIENT_GET_PLAYNC_AUTH_KEY
-void handleGetPlayNCAuthKey(AccountServerShard *shard, Packet *packet_in)
+static void handleGetPlayNCAuthKey(AccountServerShard *shard, Packet *packet_in)
 {
     U32 auth_id;
     int request_key;
@@ -1180,7 +1180,7 @@ void handleGetPlayNCAuthKey(AccountServerShard *shard, Packet *packet_in)
     pktSend(&packet_out,&shard->link);
 }
 
-void handleMarkSaved(AccountServerShard *shard, Packet *pak_in)
+static void handleMarkSaved(AccountServerShard *shard, Packet *pak_in)
 {
     U32 auth_id = pktGetBitsAuto(pak_in);
 
@@ -1198,7 +1198,7 @@ void handleMarkSaved(AccountServerShard *shard, Packet *pak_in)
     }
 }
 
-void handleRecoverUnsaved(AccountServerShard *shard, Packet *pak_in)
+static void handleRecoverUnsaved(AccountServerShard *shard, Packet *pak_in)
 {
     U32 auth_id = pktGetBitsAuto(pak_in);
     U32 ent_id = pktGetBitsAuto(pak_in);
@@ -1446,7 +1446,7 @@ static BOOL s_CtrlHandler(DWORD fdwCtrlType)
     return FALSE;
 }
 
-void reloadConfig(void)
+static void reloadConfig(void)
 {
     int i;
 

@@ -129,8 +129,6 @@ static float scriptUIDrawDetachedTimer(ScriptUIClientWidget* widget, float x, fl
     char *tooltip;
     int timeLeft;
     char *timerString;
-    // Helper function that takes a number of seconds left and turns it into a string
-    extern char* calcTimerString(int seconds, int forceShowHours);
 
     endTime = atoi(widget->varList[0]);
     timerText = widget->varList[1];

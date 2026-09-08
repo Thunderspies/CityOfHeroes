@@ -12,29 +12,29 @@
 
 extern int quick_vscprintf(char *format,const char *args);
 
-INLINEDBG char* estrToStr(EString* str)
+static INLINEDBG char* estrToStr(EString* str)
 {
     return str->str;
 }
 
-INLINEDBG EString* estrFromStr(char* str)
+static INLINEDBG EString* estrFromStr(char* str)
 {
     return (EString*)(str - EStrHeaderSize);
 }
 
-INLINEDBG const EString* cestrFromStr(const char* str)
+static INLINEDBG const EString* cestrFromStr(const char* str)
 {
     return (const EString*)(str - EStrHeaderSize);
 }
 
 // Returns the size of the entire EString object.
-INLINEDBG int estrObjSize(EString* str)
+static INLINEDBG int estrObjSize(EString* str)
 {
     return str->bufferCapacity + EStrHeaderSize + EStrTerminatorSize;
 }
 
 // Returns the size of the EString object that must be copied to move the object.
-INLINEDBG int estrObjDataSize(const EString* str)
+static INLINEDBG int estrObjDataSize(const EString* str)
 {
     return str->stringLength + EStrHeaderSize + EStrTerminatorSize;
 }
@@ -80,7 +80,7 @@ static EStrMemoryAllocator EStrHeapAllocator =
     estrHeapDeallocate
 };
 
-INLINEDBG EStrMemoryAllocator* estrGetAllocator(void)
+static INLINEDBG EStrMemoryAllocator* estrGetAllocator(void)
 {
     return &EStrHeapAllocator;    
 }

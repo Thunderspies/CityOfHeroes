@@ -5,8 +5,6 @@ void resetPowerMenu();
 void powerMenu();
 
 typedef struct BasePowerSet BasePowerSet;
-const BasePowerSet * g_pPrimaryPowerSet;
-const BasePowerSet * g_pSecondaryPowerSet;
 
 void makeValidCharacter();
 

@@ -208,7 +208,7 @@ static SMFBlock *smfAuthorImage = 0;
 static SMFBlock *smfAuthorBio = 0;
 
 static SMFBlock *smfSearchDescription = 0;
-void updateMissionSearchLine( MissionSearchLine *pLine );
+static void updateMissionSearchLine( MissionSearchLine *pLine );
 
 //this is necessary because we want to send the actual characters, not the smf
 static void s_prepareArcForSend(PlayerCreatedStoryArc *arc)

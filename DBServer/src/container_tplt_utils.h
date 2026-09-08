@@ -11,7 +11,7 @@ typedef void* HSTMT;
 #define MAX_QUERY_RESULTS 2048
 #define CONTAINER_TEXT_INITIAL_SIZE 8192
 
-enum ContainerFieldType
+typedef enum ContainerFieldType
 {
     CFTYPE_NULL,
 

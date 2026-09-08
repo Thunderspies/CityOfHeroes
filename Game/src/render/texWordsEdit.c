@@ -1613,7 +1613,7 @@ void texWordsEdit_fileCheckin(char *fileName)
     texWordsEdit_undoReset();
 }
 
-void texWordsEdit_create(char *path)
+static void texWordsEdit_create(char *path)
 {
     if (!tweditor_state.texWord) {
         char textureName[MAX_PATH], *s;

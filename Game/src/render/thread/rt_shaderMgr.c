@@ -379,7 +379,7 @@ const char* getShaderFileBaseDir(tShaderPathRootType pathRootType)
     return sShaderDirectory[pathRootType];
 }
 
-void fixTrailingSlash( char* buffer, size_t buffSz, char trailingSlash /* or 0 to remove */ )
+static void fixTrailingSlash( char* buffer, size_t buffSz, char trailingSlash /* or 0 to remove */ )
 {
     char* p;
     size_t stringLen = strlen(buffer);
@@ -421,7 +421,7 @@ void shaderMgr_SetOverrideShaderDir( void )
     strcpy_s( shaderMgrOverrideShaderDir, ARRAY_SIZE(shaderMgrOverrideShaderDir), overrideDir );
 }
 
-bool LoadShaderProgram(U32 compileFlags, char *filename, tShaderProgramType target, tCgShaderProfile profile, int *prog)
+static bool LoadShaderProgram(U32 compileFlags, char *filename, tShaderProgramType target, tCgShaderProfile profile, int *prog)
 {
     bool ret=true;
     ValidateShaderProgramTypeConstant( target );
@@ -1362,7 +1362,7 @@ static char *expandMacros(char *line)
 
 static int shader_numDefines=0;
 static char *shader_defines[64] = {0};
-void addDefine(char *define)
+static void addDefine(char *define)
 {
     int i;
     assert(shader_numDefines < ARRAY_SIZE(shader_defines));
@@ -1377,7 +1377,7 @@ void addDefine(char *define)
     shader_defines[shader_numDefines++] = strdup(define);
 }
 
-bool hasDefine(char *define)
+static bool hasDefine(char *define)
 {
     int i;
     assert(shader_numDefines < ARRAY_SIZE(shader_defines));
@@ -1409,7 +1409,7 @@ void removeDefine( char *define )
     }
 }
 
-void addDefineSet(char *defineSet)
+static void addDefineSet(char *defineSet)
 {
     // Handles a space-separated list
     char define[128];
@@ -1435,7 +1435,7 @@ void addDefineSet(char *defineSet)
     }
 }
 
-void setShaderOptimizationLevel( tShaderBuildDescriptor* pBuildDescriptor, tShaderOptimizationLevel nLevel )
+static void setShaderOptimizationLevel( tShaderBuildDescriptor* pBuildDescriptor, tShaderOptimizationLevel nLevel )
 {
 #if RT_SUPPORT_ARB_SHADER_PATH
     if (rt_cgGetCgShaderMode())
@@ -1975,7 +1975,7 @@ void shaderMgr_MakeFullShaderSrcPath( const char* cohRelativePathNameFS, char* b
     makeCgShaderSrcFullPathFS( cohRelativePathNameFS, buffer, buffSz );
 }
 
-tShaderPathRootType makeCgShaderSrcFullPathFS( const char* cohRelativePathNameFS, char* buffer, int buffSz )
+static tShaderPathRootType makeCgShaderSrcFullPathFS( const char* cohRelativePathNameFS, char* buffer, int buffSz )
 {
     tShaderPathRootType foundType = kShaderPathRoot_NONE;
     tShaderPathRootType pathTypeList[4];
@@ -2021,7 +2021,7 @@ tShaderPathRootType makeCgShaderSrcFullPathFS( const char* cohRelativePathNameFS
     return foundType;
 }
 
-void getShaderProgramFileTextCG( const char* shaderSrcFullPath, char** ppProgramText, int* pSourceTextLen )
+static void getShaderProgramFileTextCG( const char* shaderSrcFullPath, char** ppProgramText, int* pSourceTextLen )
 {
     // Load the program into memory
     PERFINFO_AUTO_START("fileAlloc", 1);
@@ -2034,7 +2034,7 @@ void getShaderProgramFileTextCG( const char* shaderSrcFullPath, char** ppProgram
 }
 
 #if RT_SUPPORT_ARB_SHADER_PATH
-void getShaderProgramFileTextARB_OBSOLETE( const char* filename, char** ppProgramText, bool* pFromCache /* or NULL */)
+static void getShaderProgramFileTextARB_OBSOLETE( const char* filename, char** ppProgramText, bool* pFromCache /* or NULL */)
 {
     bool bFromCache = false;
     // Look for already pre-processed version in cache
@@ -2233,7 +2233,7 @@ static CGprogram loadCgErrorShader( tShaderProgramType target, U32 compileFlags,
 
 // This loads a program and compiles it, replaces ATI/NV/FP specific lines where necessary
 // returns true on success
-bool loadProgram(U32 compileFlags, char* filename, tShaderProgramType target, 
+static bool loadProgram(U32 compileFlags, char* filename, tShaderProgramType target,
                     tCgShaderProfile profile, 
                     GLuint programHandle)
 {
@@ -2253,7 +2253,7 @@ bool loadProgram(U32 compileFlags, char* filename, tShaderProgramType target,
 }
 
 // returns true on success
-bool loadProgramCG(U32 compileFlags, char* cohRelativeSrcPath, tShaderProgramType target, 
+static bool loadProgramCG(U32 compileFlags, char* cohRelativeSrcPath, tShaderProgramType target,
                         tCgShaderProfile profile, GLuint programHandle)
 {
     extern char reloading_shader[MAX_PATH];
@@ -2344,7 +2344,7 @@ bool loadProgramCG(U32 compileFlags, char* cohRelativeSrcPath, tShaderProgramTyp
 // returns true on success
 // The ARB shader path is DEPRECATED
 #if RT_SUPPORT_ARB_SHADER_PATH
-bool loadProgramARB_OBSOLETE(U32 compileFlags, char* filename, tShaderProgramType target, tCgShaderProfile profile, GLuint programHandle)
+static bool loadProgramARB_OBSOLETE(U32 compileFlags, char* filename, tShaderProgramType target, tCgShaderProfile profile, GLuint programHandle)
 {
     extern char reloading_shader[MAX_PATH];
     char*  programText;
@@ -2455,7 +2455,7 @@ bool loadProgramARB_OBSOLETE(U32 compileFlags, char* filename, tShaderProgramTyp
 }
 #endif
 
-void prepareARBProgram( tShaderProgramType target, U32 compileFlags, char* filename, char* path, char** pProgramText )
+static void prepareARBProgram( tShaderProgramType target, U32 compileFlags, char* filename, char* path, char** pProgramText )
 {
     shaderPreProcessIncludes(pProgramText, path, filename);
     PERFINFO_AUTO_STOP_START("shaderPreProcessMacros", 1);
@@ -2465,7 +2465,7 @@ void prepareARBProgram( tShaderProgramType target, U32 compileFlags, char* filen
     PERFINFO_AUTO_STOP();
 }
 
-void prepareShaderProfileOption(tCgShaderProfile profile,
+static void prepareShaderProfileOption(tCgShaderProfile profile,
                                 tShaderBuildDescriptor* pBuildDescriptor )
 {
     const char* szProfileDescr = "";
@@ -2504,7 +2504,7 @@ void prepareShaderProfileOption(tCgShaderProfile profile,
     }
 }
 
-CGprogram prepareCgProgram( 
+static CGprogram prepareCgProgram(
                 tShaderProgramType target,
                 tCgShaderProfile profile,
                 U32 compileFlags,
@@ -2591,7 +2591,7 @@ CGprogram prepareCgProgram(
 }
 
 // Allocates memory for the string
-void addStringToCmdLineArgs( tShaderBuildDescriptor* pBuildDescriptor, const char* szStr )
+static void addStringToCmdLineArgs( tShaderBuildDescriptor* pBuildDescriptor, const char* szStr )
 {
     dynArrayFit( 
         (void**)&pBuildDescriptor->compilerCmdLineArgs, 
@@ -2603,7 +2603,7 @@ void addStringToCmdLineArgs( tShaderBuildDescriptor* pBuildDescriptor, const cha
 }
 
 // Allocates memory for the string
-void addStringToBuildHints( tShaderBuildDescriptor* pBuildDescriptor, const char* szName, const char* szValue )
+static void addStringToBuildHints( tShaderBuildDescriptor* pBuildDescriptor, const char* szName, const char* szValue )
 {
     char* nameValueStr = NULL;
     if (( szName != NULL ) && ( szValue != NULL ))
@@ -2621,7 +2621,7 @@ void addStringToBuildHints( tShaderBuildDescriptor* pBuildDescriptor, const char
     pBuildDescriptor->buildHints[pBuildDescriptor->buildHintsNum++] = nameValueStr;
 }
 
-void initShaderBuildDescriptor(  
+static void initShaderBuildDescriptor(
                 GLuint programHdl,    // OpenGL shader "name"
                 const char* cohRelativeFilePath,
                 tShaderProgramType target,
@@ -2769,13 +2769,13 @@ void initShaderBuildDescriptor(
 
 }
 
-void updateBuildDescriptorContentMd5( tShaderBuildDescriptor* pBuildDescriptor, 
+static void updateBuildDescriptorContentMd5( tShaderBuildDescriptor* pBuildDescriptor,
                                         const char* cgSourceText, int cgSourceTextLen )
 {
     computeBufferMD5( cgSourceText, cgSourceTextLen, pBuildDescriptor->srcFileMD5 );
 }
 
-void releaseShaderBuildDescriptorMem( tShaderBuildDescriptor* pBuildDescriptor )
+static void releaseShaderBuildDescriptorMem( tShaderBuildDescriptor* pBuildDescriptor )
 {
     int i;
     if ( pBuildDescriptor->buildHintsNum != 0 )
@@ -2800,7 +2800,7 @@ void releaseShaderBuildDescriptorMem( tShaderBuildDescriptor* pBuildDescriptor )
     }
 }
 
-int createBuildDescriptorDescrText( tShaderBuildDescriptor* pBuildDescriptor )
+static int createBuildDescriptorDescrText( tShaderBuildDescriptor* pBuildDescriptor )
 {
     //
     //    The "descriptor text" is a concatenation of the compiler build hints
@@ -2866,20 +2866,20 @@ int createBuildDescriptorDescrText( tShaderBuildDescriptor* pBuildDescriptor )
     return ( bOverflow ) ? 0 : (int)( ARRAY_SIZE(pBuildDescriptor->descriptorText) - buffLeft );
 }
 
-void computeBuildKey( tShaderBuildDescriptor* pBuildDescriptor )
+static void computeBuildKey( tShaderBuildDescriptor* pBuildDescriptor )
 {
     int buffUsed = createBuildDescriptorDescrText( pBuildDescriptor );
     computeBufferMD5( pBuildDescriptor->descriptorText, buffUsed, pBuildDescriptor->shaderKey );
 }
 
-void computeBufferMD5( const U8* buffer, const int buffLen, U32 md5Key[4] /*OUT*/ )
+static void computeBufferMD5( const U8* buffer, const int buffLen, U32 md5Key[4] /*OUT*/ )
 {
     cryptMD5Init();
     cryptMD5Update( (U8*)buffer, buffLen );
     cryptMD5Final(md5Key);
 }
 
-bool getPreBakedShaderText( const char* szCgShaderSrcFullPath, tShaderBuildDescriptor* pBuildDescriptor, char** pCompiledPgmText /*OUT*/ )
+static bool getPreBakedShaderText( const char* szCgShaderSrcFullPath, tShaderBuildDescriptor* pBuildDescriptor, char** pCompiledPgmText /*OUT*/ )
 {
     if (( pBuildDescriptor->binFileNameIN[0] == '\0' ) ||
         ( isBinFileStale( pBuildDescriptor )))
@@ -2893,21 +2893,21 @@ bool getPreBakedShaderText( const char* szCgShaderSrcFullPath, tShaderBuildDescr
     return ( *pCompiledPgmText != NULL );
 }
 
-void makeMd5KeyString( U32 key[4], char* strBuffer33, size_t buffSz /* at least 33 */ )
+static void makeMd5KeyString( U32 key[4], char* strBuffer33, size_t buffSz /* at least 33 */ )
 {
     assert( buffSz >= ( 8 * 4 + 1 ) );
     sprintf_s( strBuffer33, buffSz, "%08x%08x%08x%08x", 
                 key[0], key[1], key[2], key[3] );    
 }
 
-void makeMd5KeyStringFromContent( const char* szContent, size_t contentLen, char* keyStrBuff33, size_t keyStrBuffSz )
+static void makeMd5KeyStringFromContent( const char* szContent, size_t contentLen, char* keyStrBuff33, size_t keyStrBuffSz )
 {
     U32 key[4];
     computeBufferMD5( (U8*)szContent, (int)contentLen, key );
     makeMd5KeyString( key, keyStrBuff33, keyStrBuffSz );
 }
 
-tShaderPathRootType makePreBakedShaderFileInputPathBS( const char* cohRelativeSrcFilePathFS, U32 shaderKey[4], 
+static tShaderPathRootType makePreBakedShaderFileInputPathBS( const char* cohRelativeSrcFilePathFS, U32 shaderKey[4],
                                     char* buffer, int bufferSz )
 {
     // In theory, we could get the bin file from an override directory and write
@@ -2916,7 +2916,7 @@ tShaderPathRootType makePreBakedShaderFileInputPathBS( const char* cohRelativeSr
     return makePreBakedShaderFileOutputPathBS( cohRelativeSrcFilePathFS, shaderKey, buffer, bufferSz );
 }
 
-tShaderPathRootType makePreBakedShaderFileOutputPathBS( const char* cohRelativeSrcFilePathFS, U32 shaderKey[4], 
+static tShaderPathRootType makePreBakedShaderFileOutputPathBS( const char* cohRelativeSrcFilePathFS, U32 shaderKey[4],
                                     char* buffer, int bufferSz )
 {
     tShaderPathRootType rootType = kPathRoot_GlobalAppDataPath;
@@ -2942,7 +2942,7 @@ tShaderPathRootType makePreBakedShaderFileOutputPathBS( const char* cohRelativeS
     return rootType;
 }
 
-bool makePreBakeDirectory( const char* szDir )
+static bool makePreBakeDirectory( const char* szDir )
 {
     char pathBuffer[2048];
     char* p;
@@ -2982,7 +2982,7 @@ bool makePreBakeDirectory( const char* szDir )
     return true;
 }
 
-void storePreBakedShader( tShaderBuildDescriptor* pBuildDescriptor, const char* compiledPgmText )
+static void storePreBakedShader( tShaderBuildDescriptor* pBuildDescriptor, const char* compiledPgmText )
 {
     FILE* fWorkFile = NULL;
     char* pLastSlash = strrchr( pBuildDescriptor->binFileNameOUT, '\\' );
@@ -3047,7 +3047,7 @@ static void clearPreBakedShadersRecursive( const char* startDir )
     }
 }
 
-void makeStandardizedFilePathMd5KeyString( const char* szPathStr, char* strBuffer33, size_t buffSz /* at least 33 */ )
+static void makeStandardizedFilePathMd5KeyString( const char* szPathStr, char* strBuffer33, size_t buffSz /* at least 33 */ )
 {
     //
     // Rather than depend on the caller to send a standard format, make a copy
@@ -3075,7 +3075,7 @@ void makeStandardizedFilePathMd5KeyString( const char* szPathStr, char* strBuffe
     makeMd5KeyString( key, strBuffer33, buffSz );
 }
 
-void getCgShaderCacheRootDirBS(char* pathBuff, size_t buffSz)
+static void getCgShaderCacheRootDirBS(char* pathBuff, size_t buffSz)
 {
     char srcDirMd5KeyStr[33];
     const char* shaderBaseDir = getShaderFileBaseDir( kPathRoot_GlobalAppDataPath );
@@ -3139,7 +3139,7 @@ const char* findContentMd5Field( const char* szInfoFileText )
     return szMd5;
 }
 
-bool isBinFileStale( tShaderBuildDescriptor* pBuildDescriptor )
+static bool isBinFileStale( tShaderBuildDescriptor* pBuildDescriptor )
 {
     bool bIsStale = true;
     char infoFilePath[_MAX_PATH];
@@ -3162,7 +3162,7 @@ bool isBinFileStale( tShaderBuildDescriptor* pBuildDescriptor )
     return bIsStale;
 }
 
-bool isIncludeFileStale( const char* fileNameNoDirPath /* ex: foo.cg */, 
+static bool isIncludeFileStale( const char* fileNameNoDirPath /* ex: foo.cg */,
                     const char* srcDirFullPath, const char* szBinDirFullPath )
 {
     // In the case of an include file, there is no binary file in the bin
@@ -3207,7 +3207,7 @@ bool isIncludeFileStale( const char* fileNameNoDirPath /* ex: foo.cg */,
     return bIsStale;
 }
 
-FileScanAction checkIncludeFile_CB(char* dir, struct _finddata32_t* data)
+static FileScanAction checkIncludeFile_CB(char* dir, struct _finddata32_t* data)
 {
     if ((!( data->attrib & _A_SUBDIR )) && ( strEndsWith( data->name, ".cgh" )))
     {
@@ -3230,7 +3230,7 @@ FileScanAction checkIncludeFile_CB(char* dir, struct _finddata32_t* data)
     return FSA_EXPLORE_DIRECTORY;
 }
 
-FileScanAction rebuildIncludeFileInfo_CB(char* dir, struct _finddata32_t* data)
+static FileScanAction rebuildIncludeFileInfo_CB(char* dir, struct _finddata32_t* data)
 {
     if ((!( data->attrib & _A_SUBDIR )) && ( strEndsWith( data->name, ".cgh" )))
     {
@@ -3275,7 +3275,7 @@ FileScanAction rebuildIncludeFileInfo_CB(char* dir, struct _finddata32_t* data)
     return FSA_EXPLORE_DIRECTORY;
 }
 
-void initIncludeFileSearchCookie( const char* szSrcFileDir, const char* szBinFileDir )
+static void initIncludeFileSearchCookie( const char* szSrcFileDir, const char* szBinFileDir )
 {
     strcpy_s( s_IncludeFileSearchCookie.szSrcFileDir, 
                 ARRAY_SIZE(s_IncludeFileSearchCookie.szSrcFileDir),
@@ -3286,14 +3286,14 @@ void initIncludeFileSearchCookie( const char* szSrcFileDir, const char* szBinFil
     s_IncludeFileSearchCookie.bFoundStale = false;
 }
 
-bool checkForStaleIncludeFiles( const char* szSrcFileDir, const char* szBinFileDir )
+static bool checkForStaleIncludeFiles( const char* szSrcFileDir, const char* szBinFileDir )
 {
     initIncludeFileSearchCookie( szSrcFileDir, szBinFileDir );
     fileScanAllDataDirs(szSrcFileDir, checkIncludeFile_CB);
     return s_IncludeFileSearchCookie.bFoundStale;
 }
 
-void rebuildIncludeFileInfo( const char* szSrcDir, const char* szCacheDir )
+static void rebuildIncludeFileInfo( const char* szSrcDir, const char* szCacheDir )
 {
     initIncludeFileSearchCookie( szSrcDir, szCacheDir );
     fileScanAllDataDirs(szSrcDir, rebuildIncludeFileInfo_CB);

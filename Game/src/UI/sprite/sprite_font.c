@@ -110,9 +110,6 @@ TTCompositeFont* editorCFont;
 TTCompositeFont* gameHybrid;
 TTCompositeFont* gameHybridBold;
 
-// Font manager
-TTFontManager* fontManager;
-
 /*
  * True type font stuff
  *****************************************************/

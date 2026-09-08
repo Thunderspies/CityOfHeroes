@@ -46,9 +46,6 @@ typedef struct {
     MapPiece ** pieces;
 } MapSetGenerator;
 
-MapSetGenerator ** g_generators;
-char ** g_excludes;    // list of pieces to not use
-
 typedef struct MGNode {
     MapPiece * piece;
     struct MGNode * adjacent[MAX_PORTALS];    //max number of portals for a room, can be increased with no problem
@@ -89,8 +86,6 @@ typedef struct {
     int minObjectiveDepth;
     int roomsPerFloor;
 } MissionSetRules;
-
-MissionSetRules ** g_rules;
 
 typedef struct {
     int halls;

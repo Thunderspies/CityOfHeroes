@@ -54,11 +54,6 @@ U32 getMatchingIpType(U32 ip_list[2],U32 client_ip)
         return ip_list[0];
 }
 
-static char *linkIpStr(NetLink *link)
-{
-    return makeIpStr(link->addr.sin_addr.S_un.S_addr);
-}
-
 void sendLoginInfoToGameClient(EntCon *ent_con,int login_cookie)
 {
     Packet    *pak_out = 0;

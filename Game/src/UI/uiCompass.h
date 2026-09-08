@@ -156,6 +156,8 @@ extern int scriptUIUpdated;
 //--------------------------------------------------------------------------------------------
 void scriptUIAddToolTip(ScriptUIClientWidget* widget, double x, double y, double width, double height, char* message);
 
+char* calcTimerString(int seconds, int forceShowHours);
+
 #define ARCHITECT_NAV_WD 100
 
 #endif

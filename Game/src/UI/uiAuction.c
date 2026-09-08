@@ -1261,7 +1261,7 @@ void displayAuctionItemIcon( AuctionItem * pItem, F32 cx, F32 cy, F32 z, F32 sc 
     }
 }
 
-AuctionItem **ppLocalInventory;
+static AuctionItem **ppLocalInventory;
 static int local_idx = -1;
 static int my_category = 0;
 void addItemToLocalInventory(char * pchIdent, int id, int status, int amtCancelled, int amtStored, int infStored, int amtOther, int infPrice, bool bMergedBid, int make_current )

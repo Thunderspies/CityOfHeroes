@@ -1,4 +1,5 @@
 #include "uiLoadPowerCust.h"
+#include "entity/costume.h"
 #include "UI/uiGame.h"                //    for start_menu
 #include "UI/uiUtilMenu.h"            //    for drawBackground
 #include "UI/uiUtil.h"                //    for colors/others
@@ -37,8 +38,8 @@ static SMFBlock SM_fileListItem;
 static SMFBlock SM_powerCustListItem;
 static const BasePowerSet * sSelectedPowerSet;
 static const BasePower * sSelectedPower;
-extern const Vec3 ZOOMED_OUT_POSITION;
-extern const Vec3 ZOOMED_IN_POSITION;
+static const Vec3 ZOOMED_OUT_POSITION = {0.7015, 2.6, 20.5};
+static const Vec3 ZOOMED_IN_POSITION = {0.7015f, 2.6f, 13.5f};
 
 typedef enum PowerCustFilerEnum
 {
@@ -76,10 +77,6 @@ static TextAttribs gTextAttr =
     /* piOutline     */  (int *)0,
     /* piShadow      */  (int *)0,
 };
-static bool isNullOrNone(const char *str)
-{
-    return !str || !str[0] || stricmp(str,"None")==0;
-}
 static void freeLoadPowerCustListItem(PowerCustListItem *item)
 {
     if (item)
@@ -429,7 +426,6 @@ static void drawPowerCustomizationApplicableList(float x, float y, float z, floa
     }
 }
 
-static const Vec3 ZOOMED_OUT_POSITION = {0.7015, 2.6, 20.5};
 extern int gZoomedInForPowers;
 static void drawPowerCustomizationAvatarFrame(float x, float y, const BasePower *currentPower)
 {

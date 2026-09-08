@@ -770,7 +770,7 @@ static ParseInfoTable* ParseInfoToTable(ParseTable pti[], StashTable subNames)
     return table;
 }
 
-INLINEDBG bool TPIHasTPIInfoColumn(ParseTable table[])
+static INLINEDBG bool TPIHasTPIInfoColumn(ParseTable table[])
 {
     if (table[0].type & TOK_PARSETABLE_INFO)
     {

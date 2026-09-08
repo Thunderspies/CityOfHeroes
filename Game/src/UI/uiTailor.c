@@ -256,7 +256,7 @@ void tailor_RevertAll(Entity *e)
 }
 
 // should only be called after costume is reset and cleared
-void tailor_MarkOrigins(void)
+static void tailor_MarkOrigins(void)
 {
     int i, j, k;
     const CostumeOriginSet *cset = costume_get_current_origin_set();

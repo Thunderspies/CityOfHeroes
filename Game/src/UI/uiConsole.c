@@ -44,7 +44,7 @@ typedef struct
 
 Console    *curr_con;
 
-int conEnterMode(int enter);
+static int conEnterMode(int enter);
 
 MRUList *conGetMRUList(void)
 {

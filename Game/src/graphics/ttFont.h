@@ -4,6 +4,8 @@
 #include "graphics/truetype/ttFontDraw.h"
 #include "graphics/truetype/ttFontManager.h"
 
+extern TTFontManager* fontManager;
+
 
 //------------------------------------------------------------------------------
 // TrueType test functions

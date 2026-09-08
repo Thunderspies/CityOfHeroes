@@ -6,6 +6,13 @@
 // adjust if necessary
 #define ATI_MAX_BONES 20
 
+extern int fsColorBlendDual;
+extern int fsAddGlow;
+extern int fsAlphaDetail;
+extern int fsMultiply;
+extern int fsBumpMultiply;
+extern int fsBumpColorBlend;
+
 void atiFShaderBumpVertDiffuse(void);
 void atiFShaderBumpMultiply(void);
 void atiFSColorBlendDual(void);

@@ -14,7 +14,7 @@ void updateCustomPower(const BasePower *power);
 void resetCustomPower(const BasePower *power);
 void updateCustomPowerSet(const BasePowerSet *power);
 typedef struct PowerCustomizationList PowerCustomizationList;
-PowerCustomizationList *gCopyOfPowerCustList;
+extern PowerCustomizationList *gCopyOfPowerCustList;
 char * powerCustExt();
 char * powerCustPath();
 int powerCustCantEnterCode(void);

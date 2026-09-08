@@ -456,7 +456,7 @@ static int WinningMapSide(int want_random_winner)
     return g_winningmapside;
 }
 
-void ArenaMapAdvanceAllPlayersToFinishPhase();
+static void ArenaMapAdvanceAllPlayersToFinishPhase();
 
 void ArenaEndEvent(char* floaterstr, int winningside)
 {

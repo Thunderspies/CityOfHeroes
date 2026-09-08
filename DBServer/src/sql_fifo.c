@@ -148,6 +148,7 @@ extern void handlePlayerContainerLoaded(NetLink *link, int container_id, GameCli
 extern void handlePlayerContainerUpdated(int container_id);
 static void * runQueueEntry(void * data, void * user);
 static void processQueueEntry(SqlQueueEntry * entry);
+static void sqlReadContainerLoadComplete(SqlQueueEntry * entry);
 
 static void s_fifo_flush(void)
 {
@@ -514,7 +515,6 @@ static void sqlReadContainerNotify(SqlDelayedContainerCallback * notify, int lis
     
     // If this is the last entry in the wait list, handle the delayed load
     if (notify->waiting_for == 0) {
-        static void sqlReadContainerLoadComplete(SqlQueueEntry * entry);
         sqlReadContainerLoadComplete(&notify->entry);
         MP_FREE(SqlDelayedContainerCallback, notify);
     }

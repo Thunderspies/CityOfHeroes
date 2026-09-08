@@ -84,7 +84,7 @@ static int initedBackgroundLoader;
 HANDLE background_loader_handle = NULL;
 DWORD background_loader_threadID = 0;
 
-void modelSetTexOptCtriFlags(Model *model, Vec3 *verts, int *tris);
+static void modelSetTexOptCtriFlags(Model *model, Vec3 *verts, int *tris);
 
 typedef struct ModelSearchData {
     const char*    name;

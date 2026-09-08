@@ -99,7 +99,7 @@ typedef enum
 
 ACButtonResult drawAcceptCancelButton(ACButton grayButtons, float screenScaleX, float screenScaleY);
 
-int gHelpOverlay;
+extern int gHelpOverlay;
 
 void setupUIColors(void);
 typedef struct NonLinearMenu NonLinearMenu;

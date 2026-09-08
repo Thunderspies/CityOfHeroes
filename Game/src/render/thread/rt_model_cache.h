@@ -68,8 +68,8 @@ typedef struct VBO
 #ifdef RT_PRIVATE
 void modelConvertRgbBufferDirect(ConvertRgb *c);
 void createVboDirect(U8 *data);
-int modelBindBuffer(VBO *vbo);
-void modelBindDefaultBuffer(void);
+static INLINEDBG int modelBindBuffer(VBO *vbo);
+static INLINEDBG void modelBindDefaultBuffer(void);
 void modelFreeVboDirect(VBO **vbo_p);
 
 #include "render/thread/rt_init.h"

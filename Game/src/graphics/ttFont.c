@@ -83,7 +83,6 @@ void ttDrawTest(){
 #endif
 
 static TTDrawContext* ttGetTestFont(){
-    extern TTFontManager* fontManager;
     static TTDrawContext* drawContext = NULL;
 
     if(!fontManager)

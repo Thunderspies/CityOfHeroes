@@ -1104,11 +1104,11 @@ static char forceCreationTeam[] = ".Temp.ForceCreation.Team";
 ///////////////////////////////////////////////////////////////////////////////////////
 // And a couyple of forward declarations
 //
-void InitCounter(ScriptCounter *counter);
-void InitTimer(ScriptStage *stage, ScriptTimer *timer);
-void CheckGurney(TEAM team);
-void UpdateGurney(TEAM team, STRING gurney);
-void SetPlacedWaypoints(ENTITY player);
+static void InitCounter(ScriptCounter *counter);
+static void InitTimer(ScriptStage *stage, ScriptTimer *timer);
+static void CheckGurney(TEAM team);
+static void UpdateGurney(TEAM team, STRING gurney);
+static void SetPlacedWaypoints(ENTITY player);
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Dump a formatted message to everyone's console

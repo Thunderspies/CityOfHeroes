@@ -25,7 +25,7 @@ char* getSGRaidInfoString(void);
 
 char* getSGName(U32 sgid);    // dictionary built when we receive raid info
 
-SupergroupRaidInfo** g_raidinfos;
+extern SupergroupRaidInfo** g_raidinfos;
 void receiveSGRaidInfo(Packet* pak);
 
 void raidClientTick(void);

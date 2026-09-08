@@ -18,6 +18,10 @@
 // the zlib version of fscanf is not working, so this file specifically does not include file.h
 #undef fopen
 
+static MapSetGenerator ** g_generators;
+static MissionSetRules ** g_rules;
+static char** g_excludes;    // list of pieces to not use
+
 MapPiece * loadPiece(FILE * fin) {
     MapPiece * mp=malloc(sizeof(MapPiece));
     char token[64];

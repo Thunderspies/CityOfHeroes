@@ -22,7 +22,7 @@ void ChatAdminReset();
 extern HINSTANCE g_hInst;    // instance handle
 extern bool g_ChatDebug;            // print text commands sent to/from chatserver
 extern bool g_bShowChatTimestamps;
-HWND g_hDlgMain;
+extern HWND g_hDlgMain;
 
 enum {
     MSG_PRIVATE,

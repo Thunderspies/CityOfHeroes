@@ -152,7 +152,6 @@ ChildInfo ***children = &children_data;
 PipeServer pipe_server = NULL;
 ListView *lvChildInfo = NULL;
 
-extern BatchModeData batchmode;
 
 void sendMessageToSlaveLauncher(ChildInfo *cisl, char *command, char *buf)
 {

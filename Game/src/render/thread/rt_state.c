@@ -362,13 +362,6 @@ void modelBlendState(BlendModeType type, int force_set)
     }
     else if (rdr_caps.chip & R200)        // USE ATI 'register combiner' programs on Radeon 8500
     {
-        extern int fsColorBlendDual;
-        extern int fsAddGlow;
-        extern int fsAlphaDetail;
-        extern int fsMultiply;
-        extern int fsBumpMultiply;
-        extern int fsBumpColorBlend;
-
         if (num != BLENDMODE_MODULATE)
         {
             WCW_Fog(1);

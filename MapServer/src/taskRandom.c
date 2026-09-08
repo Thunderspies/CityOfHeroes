@@ -172,7 +172,7 @@ static void getRandomVillainGroup(const Entity * player,VillainGroupEnum * vge,i
 }
 
 //  calling this function resets the saSeed
-static void getRandomMapSet(const Entity * player,MapSetEnum * mse,char ** filename,int level,int seed) {
+void getRandomMapSet(const Entity * player,MapSetEnum * mse,char ** filename,int level,int seed) {
     MapSetSelection ** maps=0;
     int roll;
     if (mse==NULL && filename==NULL)
@@ -332,7 +332,7 @@ void randomAddGroupVarsScope(ScriptVarsTable * svt, const Entity * player, Villa
     }
 }
 
-static void randomAddMapVarsScope(ScriptVarsTable * svt, const Entity * player, MapSetEnum mse) {
+void randomAddMapVarsScope(ScriptVarsTable * svt, const Entity * player, MapSetEnum mse) {
     int i;
     MapSetSelectionList selectionList = getMapSetSelectionList(player);
     if (mse==0)

@@ -2142,7 +2142,7 @@ void account_handleProductCatalog(GameClientLink *client)
     }
 }
 
-void account_sendCatalogUpdateToMapCB( NetLink* link, void* userData )
+static void account_sendCatalogUpdateToMapCB( NetLink* link, void* userData )
 {
     ClientRebroadcastCookie* pCookie = (ClientRebroadcastCookie*)userData;
 
@@ -2153,7 +2153,7 @@ void account_sendCatalogUpdateToMapCB( NetLink* link, void* userData )
     account_sendCatalogUpdateToMap( link, pCookie->pak_in );
 }
 
-void account_sendCatalogUpdateToMap( NetLink* link, Packet* pak_in )
+static void account_sendCatalogUpdateToMap( NetLink* link, Packet* pak_in )
 {
     //
     //    RCV: ACCOUNT_SVR_PRODUCT_CATALOG_UPDATE
@@ -2177,12 +2177,12 @@ void account_sendCatalogUpdateToNewMap(NetLink *link)
     }
 }
 
-void account_sendCatalogUpdateToClientCB( NetLink* link, GameClientLink *gameClientOrNULL, bool direct, U32 auth_id, int dbId, void* userData )
+static void account_sendCatalogUpdateToClientCB( NetLink* link, GameClientLink *gameClientOrNULL, bool direct, U32 auth_id, int dbId, void* userData )
 {
     account_sendCatalogUpdateToClient( link, gameClientOrNULL, auth_id, dbId, NULL );
 }
 
-void account_sendCatalogUpdateToClient( NetLink* link, GameClientLink *gameClientOrNULL, U32 auth_id, int dbId, Packet* pak_in )
+static void account_sendCatalogUpdateToClient( NetLink* link, GameClientLink *gameClientOrNULL, U32 auth_id, int dbId, Packet* pak_in )
 {
     if ( link )
     { 

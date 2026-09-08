@@ -1,4 +1,5 @@
 #include "UI/uiTabControl.h"
+#include "UI/uiGame.h"
 #include <utilitieslib/components/earray.h>
 #include "assert.h"
 #include "graphics/textureatlas.h"
@@ -593,7 +594,6 @@ uiTabData uiTabControlGetLast(uiTabControl * tc)
 enum {LEFT,MID,RIGHT};
 #define ARROW_SPACING    10
 
-extern collisions_off_for_rest_of_frame;
 
 static bool hasDragHoveredLongEnough(int tabIndex, uiTabControl * tc, CBox* pBox, U32 milliseconds)
 {

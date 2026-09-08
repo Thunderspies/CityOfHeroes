@@ -201,7 +201,7 @@ void gfxWindowReshapeForHeadShot( int fovMagic )
     gfxWindowReshapeForViewport(NULL, fovMagic);
 }
 
-void gfxWindowReshapeOrthographic(F32 left, F32 right, F32 bottom, F32 top, F32 znear, F32 zfar, const Mat4 skewmat)
+static void gfxWindowReshapeOrthographic(F32 left, F32 right, F32 bottom, F32 top, F32 znear, F32 zfar, const Mat4 skewmat)
 {
     Mat4 ident = {0};
     Mat44 a, b;

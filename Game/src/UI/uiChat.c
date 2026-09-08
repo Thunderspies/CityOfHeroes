@@ -3,6 +3,7 @@
 //-----------------------------------------------------------------------------------
 
 #include <limits.h>
+#include "UI/uiKeymapping.h"
 #include "uiIME.h"
 #include "player/player.h"
 #include "entity/entPlayer.h"
@@ -2511,7 +2512,6 @@ void uiChatSendToCurrentChannel(char *pch)
 //
 //
 
-extern g_isBindingKey; //from uiKeymapping
 
 
 int okToInput(int scanCode)

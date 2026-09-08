@@ -1000,7 +1000,7 @@ static INLINEDBG void addViewSortNode_Water(Model *waterModel, const Mat4 mat)
 
 
 #define MAX_REFLECTION_QUADS_PER_MODEL 40
-INLINEDBG U32 processReflectors(Model *model, const Mat4 mat, const Vec3 * reflection_quads_verts, int num_reflection_quads, Vec4 **reflection_planes)
+static INLINEDBG U32 processReflectors(Model *model, const Mat4 mat, const Vec3 * reflection_quads_verts, int num_reflection_quads, Vec4 **reflection_planes)
 {
     Vec3 quad_verts[MAX_REFLECTION_QUADS_PER_MODEL*4 + 4];
     Vec3 quad_verts_ws[MAX_REFLECTION_QUADS_PER_MODEL*4 + 4];

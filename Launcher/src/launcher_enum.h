@@ -16,7 +16,7 @@ typedef enum LauncherEnabledServer
     kLauncherEnabledServer_All = (kLauncherEnabledServer_Stat | kLauncherEnabledServer_Map | kLauncherEnabledServer_None),
 } LauncherEnabledServer;
 
-_inline bool enabledserver_Valid( LauncherEnabledServer e )
+static _inline bool enabledserver_Valid( LauncherEnabledServer e )
 {
     return e == kLauncherEnabledServer_None || (e & kLauncherEnabledServer_All);
 }

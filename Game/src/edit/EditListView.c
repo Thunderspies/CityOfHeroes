@@ -19,6 +19,9 @@
 #include "UI/sprite/sprite_text.h"
 #include "graphics/textureatlas.h"
 
+#define MAX_EDIT_LIST_VIEWS 16
+static EditListView *masterELVList[MAX_EDIT_LIST_VIEWS];
+
 EditListView * newELV(int x,int y,int width,int height) {
     EditListView * lv = (EditListView *)calloc(1, sizeof(EditListView));
     int i;
@@ -368,7 +371,6 @@ static TTDrawContext* getDebugFont(){
     static TTDrawContext* debugFont = NULL;
 
     if(!debugFont){
-        extern TTFontManager* fontManager;
         TTCompositeFont* font = createTTCompositeFont();
 
         debugFont = createTTDrawContext();

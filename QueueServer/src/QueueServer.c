@@ -21,6 +21,8 @@
 
 #include "ClientLogin/clientcommLogin.h"
 
+static QueueServerState g_queueServerState;
+
 
 #define QUEUESERVER_TICK_FREQ            1        // ticks/sec
 #define QUEUESERVER_PLAYER_UPDATE_FREQ    10

@@ -34,8 +34,8 @@ typedef struct SearchOption
 SearchOption * lfg_getSearchOption( int lfg );
 void league_updateTabCount();
 typedef char MapName[256];
-MapName teamMapNames[MAX_TEAM_MEMBERS];
-MapName levelingpactMapNames[MAX_LEVELINGPACT_MEMBERS];
-MapName leagueMapNames[MAX_LEAGUE_MEMBERS];
+extern MapName teamMapNames[MAX_TEAM_MEMBERS];
+extern MapName levelingpactMapNames[MAX_LEVELINGPACT_MEMBERS];
+extern MapName leagueMapNames[MAX_LEAGUE_MEMBERS];
 
 #endif

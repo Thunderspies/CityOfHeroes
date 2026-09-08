@@ -300,7 +300,7 @@ typedef struct RewardItem
     int remove;
 } RewardItem;
 
-enum RewardTableFlags
+typedef enum RewardTableFlags
 {
     kRewardTableFlags_AtCritterLevel = 1  // When rewarding the table, consider the player's levels to be the same as the critter level.
 } RewardTableFlags;
@@ -348,7 +348,6 @@ typedef struct RewardChoiceSet
 }RewardChoiceSet;
 
 
-StaticDefineInt rewardIncarnatePointsSubtypes[];
 
 //------------------------------------------------------------------------
 // Shared Reward interface

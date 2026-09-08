@@ -2796,7 +2796,7 @@ CmdList game_cmdlist =
 
 void BugReport(const char * desc, int mode); // used by /bug, /cbug and /bugqa
 void BugReportInternal(const char * msg, int userSubmitted);
-void jpeg_screenshot(char *title);
+static void jpeg_screenshot(char *title);
 
 
 static access_override;
@@ -3618,7 +3618,6 @@ int cmdGameParse(char *str, int x, int y)
         }
         xcase CMD_CLEAR_TT_CACHE:
         {
-            extern TTFontManager* fontManager;
             ttFMClearCache(fontManager);
         }
 //#define USE_VTUNE //JE: Do *not* check code in with this enabled, it requires VTuneAPI.dll, which we do not (can not?) include with our patches

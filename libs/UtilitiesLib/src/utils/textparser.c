@@ -2137,7 +2137,6 @@ void* lf_structptr;
 int lf_loadedok, lf_ignoreempty;
 DefineContext* lf_globaldefines;
 int lf_loadedonefile;
-__time32_t g_lasttime;
 int lf_forcebincreate = 0;
 FileList lf_filedates = 0;            // a list of the top-level files I should load w/ dates
 
@@ -2264,7 +2263,7 @@ SimpleBufHandle ParserIsPersistNewer(const char* dir, const char* filemask, cons
         fileScanAllDataDirs(dir, DateCheckCallback);
     else if (filemask)
     {
-        char** prefix;
+        const char** prefix;
 
         // load basic file
         FileListInsert(&lf_filedates, filemask, 0);
@@ -2480,7 +2479,7 @@ bool ParserLoadFiles(const char* dir, const char* filemask, const char* persistf
         ParserLoadFile(filemask, lf_ignoreempty);
 
         if (!(flags & PARSER_EXACTFILE)) {
-            char** prefix;
+            const char** prefix;
             // load each of the optional versions
             prefix = g_StdAdditionalFilePrefixes;
             while (**prefix)

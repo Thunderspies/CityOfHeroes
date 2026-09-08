@@ -119,8 +119,8 @@ typedef enum
 } SRCreationState;
 SRCreationState srCreationState;
 
-void srFlashField(SRFields field);
-int srFieldDeselecting(int field);
+static void srFlashField(SRFields field);
+static int srFieldDeselecting(int field);
 
 void srClearText(void)
 {

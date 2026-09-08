@@ -9,7 +9,7 @@
 static DWORD dwValue;
 static char cpValue[128];
 
-BOOL CALLBACK ShardMonConfigureNewShardDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+static BOOL CALLBACK ShardMonConfigureNewShardDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 int shardMonConfigureNewShard(HINSTANCE hinst, HWND hwnd, char *name, U32 *ip)
 {

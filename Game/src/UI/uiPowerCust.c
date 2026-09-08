@@ -69,12 +69,13 @@
 #define BULLET_WD 25
 #define MAX_POWERSETS 9
 
-const Vec3 ZOOMED_OUT_POSITION = {0.7015f, 2.6f, 20.5f};
-const Vec3 ZOOMED_IN_POSITION = {0.7015f, 2.6f, 13.5f};
+static const Vec3 ZOOMED_OUT_POSITION = {0.7015f, 2.6f, 20.5f};
+static const Vec3 ZOOMED_IN_POSITION = {0.7015f, 2.6f, 13.5f};
 static const int CATEGORIES[] = {kCategory_Primary, kCategory_Secondary};
 static const int NUM_CATEGORIES = ARRAY_SIZE(CATEGORIES);
 static int s_outOfDate;
 static int costumeButtonColor, costumeTextColor1, costumeTextColor2, costumeFrameBackColor1, costumeFrameBackColor2;
+PowerCustomizationList *gCopyOfPowerCustList = NULL;
 
 typedef enum PowerCustSet
 {

@@ -194,7 +194,7 @@ void npcLoadChatter(void)
 {
     char pchPath[MAX_PATH];
     char pch[MAX_PATH];
-    char **ppchPrefix;
+    const char **ppchPrefix;
 
     if(!g_hashMapsToChat)
         g_hashMapsToChat = stashTableCreateWithStringKeys(20, StashDeepCopyKeys);

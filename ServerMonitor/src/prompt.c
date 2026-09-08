@@ -12,7 +12,7 @@ static enum {
     PROMPT_MODE_INT,
 } mode;
 
-BOOL CALLBACK GetValueDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+static BOOL CALLBACK GetValueDlgProc (HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 DWORD promptGetValue(HINSTANCE hinst, HWND hwnd, char *sName, DWORD dwDefaultValue) // Calls a dialog, and asks for sName
 {

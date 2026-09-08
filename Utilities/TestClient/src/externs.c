@@ -2,6 +2,7 @@
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/ConvertUtf.h>
 #include <utilitieslib/utils/StringUtil.h>
+#include <utilitieslib/utils/LineDist.h>
 #include "entity/Proficiency.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -74,11 +75,21 @@
 #include "UI/uiNet.h"
 #include "UI/uiClipper.h"
 #include "UI/sprite/sprite_base.h"
+#include "UI/Hybrid/uiRegister.h"
+#include "UI/uiUtilMenu.h"
+#include "UI/uiTailor.h"
+#include "UI/uiGroupWindow.h"
 
 
 // Include for redirecting chat to the launcher
 #include "chatter.h"
 //extern void sendChatToLauncher(const char *fmt, ...);
+
+// State owned by UI modules in Game, and by these stubs in TestClient.
+MapName teamMapNames[MAX_TEAM_MEMBERS];
+MapName leagueMapNames[MAX_LEAGUE_MEMBERS];
+Costume *gTailoredCostume;
+int gHelpOverlay;
 
 int globMapLoadedLastTick = 0;
 char gLastPrivate[32];

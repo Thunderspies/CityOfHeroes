@@ -1053,7 +1053,7 @@ static bool stashFindKeyByIndexInternal(const StashTableImp* pTable, U32 uiIndex
     return true;
 }
 
-bool stashAddValueInternal(StashTableImp* pTable, StashKey key, U32 uiKeyLengthInBytes, StashValue value, bool bOverwriteIfFound);
+static bool stashAddValueInternal(StashTableImp* pTable, StashKey key, U32 uiKeyLengthInBytes, StashValue value, bool bOverwriteIfFound);
 
 static void stashTableResize(StashTableImp* pTable)
 {

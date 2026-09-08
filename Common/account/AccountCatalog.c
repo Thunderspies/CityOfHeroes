@@ -167,7 +167,7 @@ static void catalogLazyUpdate(void);
 static const AccountProduct* getCatalogProduct(SkuId sku_id);
 static const AccountProduct* getCatalogProductEvenIfUnready(SkuId sku_id);
 
-void initCatalogCache(void)
+static void initCatalogCache(void)
 {
     s_ProductCatalog.catalog = NULL;
     s_ProductCatalog.skuIdIndex = NULL;

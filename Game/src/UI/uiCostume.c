@@ -1942,7 +1942,7 @@ bool regionsetIsRestricted( const CostumeRegionSet *rset, int *good_bsets)
     return false;
 }
 
-bool costume_isOtherRestrictedPieceSelectedExcludingRegionset(const char *currentPart, const char *restriction, const CostumeRegionSet * rset);
+static bool costume_isOtherRestrictedPieceSelectedExcludingRegionset(const char *currentPart, const char *restriction, const CostumeRegionSet * rset);
 
 static bool bonesetIsRestrictedEx( const CostumeBoneSet *bset, int bSkipChecksAgainstCurrentRegionset, int mustHaveStoreProduct )
 {

@@ -20,6 +20,9 @@
 #include "group/groupfileload.h"
 #include <utilitieslib/assert/assert.h>
 
+// Trackers that must be updated after the edit cache finishes moving them.
+static DefTracker **frozenTrackers;
+
 int tracker_count;
 
 #if CLIENT

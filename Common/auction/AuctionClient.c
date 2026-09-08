@@ -658,10 +658,10 @@ static void s_handleFixedPricePurchase(Entity *e, AuctionItem *pItem, int id)
     }
 }
 
-bool VerifyAddInvItem(Entity *e, XactCmd *cmd, AuctionInvItem *itm, AuctionItem *pItem, INT64 infStoredOverflowCheat);
-bool VerifyChangeInvStatus(Entity *e, XactCmd *cmd, AuctionInvItem *itm, AuctionItem *pItem);
-bool VerifyRemAmtStored(Entity *e, XactCmd *cmd, AuctionInvItem *itm, AuctionItem *pItem);
-bool VerifyRemInfStored(Entity *e, XactCmd *cmd, AuctionInvItem *itm, AuctionItem *pItem);
+static bool VerifyAddInvItem(Entity *e, XactCmd *cmd, AuctionInvItem *itm, AuctionItem *pItem, INT64 infStoredOverflowCheat);
+static bool VerifyChangeInvStatus(Entity *e, XactCmd *cmd, AuctionInvItem *itm, AuctionItem *pItem);
+static bool VerifyRemAmtStored(Entity *e, XactCmd *cmd, AuctionInvItem *itm, AuctionItem *pItem);
+static bool VerifyRemInfStored(Entity *e, XactCmd *cmd, AuctionInvItem *itm, AuctionItem *pItem);
 
 void ent_AddAuctionInvItemXact(Entity *e, char * pchIdentifier, int index, int amt, int price, AuctionInvItemStatus auc_status, int id)
 {

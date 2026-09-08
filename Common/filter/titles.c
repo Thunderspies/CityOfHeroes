@@ -17,8 +17,7 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/file.h>
 #include "auth/authUserData.h"
-
-StaticDefineInt ParseGender[];
+#include "language/commonLangUtil.h"
 
 StaticDefineInt ParseYesNo[] = {
     DEFINE_INT

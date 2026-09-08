@@ -23,8 +23,8 @@
 
 int g_disableScheduledEvents = 0;                    // starting new scheduled events is disabled
 
-INLINEDBG int ScheduleHandleToIndex(int handle) { return handle - 1; }
-INLINEDBG int ScheduleIndexToHandle(int index) { return index + 1; }
+static INLINEDBG int ScheduleHandleToIndex(int handle) { return handle - 1; }
+static INLINEDBG int ScheduleIndexToHandle(int index) { return index + 1; }
 
 typedef struct Schedules {
     ScheduledEvent** events;

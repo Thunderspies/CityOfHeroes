@@ -52,7 +52,7 @@ extern int gTailorStanceBits;
 #define TAILOR_STATE_TWOHAND_LARGE    seqGetStateNumberFromName("2HLARGE")
 typedef struct Costume Costume;
 void setSeqFromStanceBits(int stance);
-Costume *gTailoredCostume;
+extern Costume *gTailoredCostume;
 int tailorPriceOptions_getStartingState();
 int tailorPriceOptions_getNextState();
 char *tailorPriceOptions_getButtonText();

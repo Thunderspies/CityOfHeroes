@@ -90,8 +90,8 @@ void aiBehaviorSetAllVars(Entity* e, AIVarsBase* aibase, AIBehavior*** behaviors
 #define ABS_TIME_SINCE(x) ((x) ? (unsigned int)(getABS_TIMECallback() - (x)) : UINT_MAX)
 
 extern StashTable BehaviorSystemHashTable;
-AIBTableEntry** BehaviorSystemTableList;
-AIBTableEntry** BehaviorSystemDebugAliasList;
+extern AIBTableEntry** BehaviorSystemTableList;
+extern AIBTableEntry** BehaviorSystemDebugAliasList;
 
 extern bool specialBehaviorInfoInitialized;
 extern AIBehaviorInfo* combatBehaviorInfo;

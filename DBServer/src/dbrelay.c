@@ -11,7 +11,7 @@
 #include "clientcomm.h"
 #include "accountservercomm.h"
 
-void handleAsyncRelay(int ent_id, char *msg, int preferred_lockid, bool account_read_attempted);
+static void handleAsyncRelay(int ent_id, char *msg, int preferred_lockid, bool account_read_attempted);
 
 typedef struct {
     int ent_id;

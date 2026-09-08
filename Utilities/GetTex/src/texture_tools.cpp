@@ -156,7 +156,7 @@ void textureTools_Start( void )
     g_ClientOptionPasses = 1;
 }
 
-void addSecondPass( void )
+static void addSecondPass( void )
 {
     // We only provide for, at most, two passes in this version.
     if ( g_ClientOptionPasses == 1 )
@@ -169,7 +169,7 @@ void addSecondPass( void )
     }
 }
 
-void replaceExtension( char* filePathBuffer, size_t filePathBufferSz, const char* szExt )
+static void replaceExtension( char* filePathBuffer, size_t filePathBufferSz, const char* szExt )
 {
     char* p = strrchr( filePathBuffer, '.' );
     if ( p == NULL )
@@ -193,7 +193,7 @@ bool textureTools_AddOption( tGetTexOpt optType, const char* argData )
     return handleArg( &g_ClientOptions[0], optType, argData );
 }
 
-bool handleArg( tClientOptions* pOpts, tGetTexOpt optType, const char* argData )
+static bool handleArg( tClientOptions* pOpts, tGetTexOpt optType, const char* argData )
 {
     switch ( optType )
     {
@@ -289,7 +289,7 @@ bool handleArg( tClientOptions* pOpts, tGetTexOpt optType, const char* argData )
     return ( getLastErrorString() == NULL );
 }
 
-bool setupAdditionalPasses( void )
+static bool setupAdditionalPasses( void )
 {
     bool bOK = true;
     if (( g_ClientOptions[0].swizzle_for_dxt5nm ) &&
@@ -301,7 +301,7 @@ bool setupAdditionalPasses( void )
     return bOK;
 }
 
-bool setupAdditionalPass_HeightMaps( void )
+static bool setupAdditionalPass_HeightMaps( void )
 {
     // Make a second pass by copying g_ClientOptions[0].
     addSecondPass();
@@ -407,12 +407,12 @@ char* allocDdsImageData( tClientOptions* opts, int* pWidth, int* pHeight )
     return data;
 }
 
-void releaseImageData( char* data )
+static void releaseImageData( char* data )
 {
     free( data );
 }
 
-void swizzleDdsTextureForDxt5nmWithSpec( U8* data, tDDS_ImageInfo* pImageInfo, tDDS_MipMapInfo mipMapsInfo[], DWORD mipMapCount )
+static void swizzleDdsTextureForDxt5nmWithSpec( U8* data, tDDS_ImageInfo* pImageInfo, tDDS_MipMapInfo mipMapsInfo[], DWORD mipMapCount )
 {
     if ( pImageInfo->compressionTypeFOURCC == 'RGBA' )
     {
@@ -470,7 +470,7 @@ static inline void vec3ToColor( const Vec3 vecVal, U8& r, U8& g, U8& b )
     b = (char)( 255.0f * (( vecVal[2] + 1.0f ) / 2.0f ));
 }
 
-void swizzleRgbaTextureDataForDxtnmWithSpecular( U8* data, 
+static void swizzleRgbaTextureDataForDxtnmWithSpecular( U8* data,
                 DWORD imageWidth, DWORD imageHeight, DWORD bytesPerPixel /* must be 4! */,                
                 DWORD rOfs,        // Offset of red element within the pixel
                 DWORD gOfs,     // Offset of green element within the pixel
@@ -520,7 +520,7 @@ void swizzleRgbaTextureDataForDxtnmWithSpecular( U8* data,
     }
 }
 
-bool processClientRequest( tClientOptions* opts )
+static bool processClientRequest( tClientOptions* opts )
 {
     static const unsigned int kStandardTgaFlags = ( kTgaReadOpt_DontSwapToRGBA | tTgaReadOpt_AlphaToZeroOnEmptyImage );
 
@@ -636,7 +636,7 @@ char*& getLastErrorString( void )
     return g_last_error;
 }
 
-void setLastErrorString( const char* szStr )
+static void setLastErrorString( const char* szStr )
 {
     delete [] getLastErrorString();
     getLastErrorString() = NULL;

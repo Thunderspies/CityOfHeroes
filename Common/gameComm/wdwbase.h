@@ -159,7 +159,9 @@ typedef enum WindowName
 
 #define MAX_CUSTOM_WINDOW_COUNT 25
 // These windows will now be saved to server ever so they can exist outside the window count range
+C_DECLARATIONS_BEGIN
 extern int custom_window_count;
+C_DECLARATIONS_END
 
 typedef enum WindowDisplayMode
 {

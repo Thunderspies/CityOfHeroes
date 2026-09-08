@@ -89,7 +89,7 @@ int trayWindow();
 int trayWindowSingle();
 void trayslot_Display( Entity *e, int i, int current_tray, int curTrayType, float x, float y, float z, float scale, int color, int window );
 
-int gMacroOnstack;
+extern int gMacroOnstack;
 
 #define BOX_SIDE    40.f
 #define TRAY_YOFF    5

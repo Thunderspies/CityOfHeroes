@@ -1198,7 +1198,7 @@ static void NMMessageScanElement(NetMasterListElement *element, bool ignoreIfHas
 *
 *     @deprecated -AB: don't use :12/08/05
 */
-void NMMessageScanForAllLinks(void){
+static void NMMessageScanForAllLinks(void){
     int i;
     for(i = 0; i < netMasterList.elementList->size; i++){
         NetMasterListElement* element;

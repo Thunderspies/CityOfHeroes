@@ -2,8 +2,8 @@
 #define UIREGISTER_H
 
 #include "entity/entity.h"
-int gWaitingToEnterGame;
-int gLoggingIn;
+extern int gWaitingToEnterGame;
+extern int gLoggingIn;
 
 void resetRegisterMenu();
 void registerMenuEnterCode();

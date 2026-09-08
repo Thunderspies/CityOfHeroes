@@ -76,7 +76,7 @@ void bsWriteStringAligned(BitStream *bs, const char *str);
 char* bsReadStringAndLength(BitStream* bs, int *pLen);
 char* bsReadStringAligned(BitStream *bs);
 
-_inline char* bsReadString(BitStream *bs)
+static _inline char* bsReadString(BitStream *bs)
 {
     int temp;
 
@@ -119,7 +119,7 @@ void bsTypedWriteString(BitStream* bs, const char* str);
 void bsTypedWriteStringAligned(BitStream *bs, const char *str);
 char* bsTypedReadStringAndLength(BitStream* bs, int *pLen);
 char* bsTypedReadStringAligned(BitStream *bs);
-_inline char *bsTypedReadString(BitStream *bs)
+static _inline char *bsTypedReadString(BitStream *bs)
 {
     int temp;
     return bsTypedReadStringAndLength(bs, &temp);

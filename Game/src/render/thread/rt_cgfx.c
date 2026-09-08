@@ -262,7 +262,7 @@ tCgFxError rt_cgfxInit( void )
     
     Cg error callback.
 ****************************************************************************/
-void OnCgErrorCB( void )
+static void OnCgErrorCB( void )
 {
     sLastCgError = cgGetError();
     if ( sLastCgError != CG_NO_ERROR )
@@ -360,7 +360,7 @@ void rt_cgfxReloadEffect( const char* szCgFxRelPath )
     cgfx_NotifyCgFxClientsOfEffectLoad
     
 ****************************************************************************/
-void cgfx_NotifyCgFxClientsOfEffectLoad( const char* szEffectName )
+static void cgfx_NotifyCgFxClientsOfEffectLoad( const char* szEffectName )
 {
     // SSAO
     rdrHandleEffectReloadDirect( szEffectName );
@@ -372,7 +372,7 @@ void cgfx_NotifyCgFxClientsOfEffectLoad( const char* szEffectName )
     UpdateOpenGLStateStack
     
 ****************************************************************************/
-void UpdateOpenGLStateStack( bool bPush )
+static void UpdateOpenGLStateStack( bool bPush )
 {
     static int snStackSize = 0;
     if ( bPush )
@@ -395,7 +395,7 @@ void UpdateOpenGLStateStack( bool bPush )
     cgfx_GetPassByIndex
     
 ****************************************************************************/
-CGpass cgfx_GetPassByIndex( CGtechnique technique, int nIndex )
+static CGpass cgfx_GetPassByIndex( CGtechnique technique, int nIndex )
 {
     int passI = 0;
     tCgFxError nError = kCgFxError_NONE;
@@ -417,7 +417,7 @@ CGpass cgfx_GetPassByIndex( CGtechnique technique, int nIndex )
     
     Makes the Cg program active.
 ****************************************************************************/
-tCgFxError cgfx_EnablePass( CGpass pass )
+static tCgFxError cgfx_EnablePass( CGpass pass )
 {
     cgSetPassState(pass);
     return CheckForCgError( "cgfx_EnablePass", NULL );
@@ -427,7 +427,7 @@ tCgFxError cgfx_EnablePass( CGpass pass )
     cgfx_DisablePass
     
 ****************************************************************************/
-void cgfx_DisablePass( CGpass pass )
+static void cgfx_DisablePass( CGpass pass )
 {
     cgResetPassState( pass );
     PopOpenGLStateStack();
@@ -451,7 +451,7 @@ void cgfx_DisablePass( CGpass pass )
     
     Make this effect current.
 ****************************************************************************/
-tCgFxError    cgfx_SetEffect( const char* szEffectNm )
+static tCgFxError    cgfx_SetEffect( const char* szEffectNm )
 {
     tCgEffectSpec* pEffectSpec = cgfx_FindEffectByName( szEffectNm );
     if ( pEffectSpec == NULL )
@@ -474,7 +474,7 @@ tCgFxError    cgfx_SetEffect( const char* szEffectNm )
     
     Query CG error state.
 ****************************************************************************/
-tCgFxError CheckForCgError(const char *situation, const char** ppErrStr )
+static tCgFxError CheckForCgError(const char *situation, const char** ppErrStr )
 {
     tCgFxError nLocalErrorCode = kCgFxError_NONE;
     if ( sLastCgError != CG_NO_ERROR ) 
@@ -532,7 +532,7 @@ tCgFxError rt_cgfxCompileProgram( CGprogram prog )
     ReviewShaderCompileResults
 
 ****************************************************************************/
-tCgFxError ReviewShaderCompileResults( const char* szProgramName, CGprogram prog )
+static tCgFxError ReviewShaderCompileResults( const char* szProgramName, CGprogram prog )
 {
     tCgFxError nRslt = kCgFxError_NONE;
     bool bWarnings = false;
@@ -556,7 +556,7 @@ tCgFxError ReviewShaderCompileResults( const char* szProgramName, CGprogram prog
     CheckAndReportCgErrors
 
 ****************************************************************************/
-void CheckAndReportCgErrors( const char* szProgramName, 
+static void CheckAndReportCgErrors( const char* szProgramName,
                                     const char* szActionDescr /*e.g., "compiling" */, 
                                     CGprogram prog, tCgFxError* pRslt, bool* pWarnings  )
 {
@@ -612,7 +612,7 @@ void CheckAndReportCgErrors( const char* szProgramName,
     SaveProgramAssembly
 
 ****************************************************************************/
-void SaveProgramAssembly( const char* szProgramName, CGprogram pgm )
+static void SaveProgramAssembly( const char* szProgramName, CGprogram pgm )
 {
     char path[1024];
     FILE * f;
@@ -635,7 +635,7 @@ void SaveProgramAssembly( const char* szProgramName, CGprogram pgm )
 
     Prepare the effect for use.    Handles lazy initialization.
 ****************************************************************************/
-tCgFxError cgfx_InitEffect( tCgEffectSpec* pEffectSpec )
+static tCgFxError cgfx_InitEffect( tCgEffectSpec* pEffectSpec )
 {
     tCgFxError nError = kCgFxError_NONE;
     
@@ -676,7 +676,7 @@ tCgFxError cgfx_InitEffect( tCgEffectSpec* pEffectSpec )
     cgfx_PreCompilePrograms
 
 ****************************************************************************/
-tCgFxError cgfx_PreCompilePrograms( CGtechnique technique )
+static tCgFxError cgfx_PreCompilePrograms( CGtechnique technique )
 {
     tCgFxError nError = kCgFxError_NONE;
     CGeffect effect = cgGetTechniqueEffect(technique);
@@ -728,7 +728,7 @@ tCgFxError cgfx_PreCompilePrograms( CGtechnique technique )
     cgfx_InitEffectHandle
 
 ****************************************************************************/
-tCgFxError cgfx_InitEffectHandle( tCgEffectSpec* pEffectSpec, const char** args /* compile args or NULL */  )
+static tCgFxError cgfx_InitEffectHandle( tCgEffectSpec* pEffectSpec, const char** args /* compile args or NULL */  )
 {
     tCgFxError nError = kCgFxError_NONE;
     
@@ -800,7 +800,7 @@ tCgFxError cgfx_InitEffectHandle( tCgEffectSpec* pEffectSpec, const char** args 
     cgfx_DeInitEffectHandle
     
 ****************************************************************************/
-void cgfx_DeInitEffectHandle( tCgEffectSpec* pSpec )
+static void cgfx_DeInitEffectHandle( tCgEffectSpec* pSpec )
 {
     if ( pSpec->hEffect != NULL )
     {
@@ -814,7 +814,7 @@ void cgfx_DeInitEffectHandle( tCgEffectSpec* pSpec )
     cgfx_DeInitEffect
     
 ****************************************************************************/
-void cgfx_DeInitEffect( tCgEffectSpec* pSpec )
+static void cgfx_DeInitEffect( tCgEffectSpec* pSpec )
 {
     // NOTE: See also, cgfx_DestroyEffectSpecPtr(), which also releases allocated
     // memory in the data struct...
@@ -863,7 +863,7 @@ tCgEffectSpec* cgfx_FindEffectByName( const char* szEffectNm )
 
     "foo" --> "c:/game/data/shaders/cgfx/foo.cgfx"
 ****************************************************************************/
-void cgfx_EffectNameToCgfxFullPath( const char* szName, char* pathBuff, size_t nBuffSz )
+static void cgfx_EffectNameToCgfxFullPath( const char* szName, char* pathBuff, size_t nBuffSz )
 {
     char partialPath[_MAX_PATH];
     sprintf_s( partialPath, ARRAY_SIZE(partialPath), "%s/%s.cgfx",
@@ -877,7 +877,7 @@ void cgfx_EffectNameToCgfxFullPath( const char* szName, char* pathBuff, size_t n
     
     "shaders/cgfx/foo.cgfx" --> "foo"
 ****************************************************************************/
-void cgfx_RelativePathToEffectName( const char* szRelPath, char* nameBuff, size_t nBuffSz )
+static void cgfx_RelativePathToEffectName( const char* szRelPath, char* nameBuff, size_t nBuffSz )
 {
     size_t basePathSz = strlen(RT_CGFX_SHADER_PATH_BASE);
     const char* pSrc = szRelPath;
@@ -910,7 +910,7 @@ void cgfx_RelativePathToEffectName( const char* szRelPath, char* nameBuff, size_
     cgfx_InitEffectCache
     
 ****************************************************************************/
-void cgfx_InitEffectCache( void )
+static void cgfx_InitEffectCache( void )
 {
     assert( sEffectCache == NULL );
     sEffectCache = stashTableCreateWithStringKeys( 
@@ -924,7 +924,7 @@ void cgfx_InitEffectCache( void )
     
     Remove and release cached effects.
 ****************************************************************************/
-void cgfx_KillEffectCache( void )
+static void cgfx_KillEffectCache( void )
 {
     if ( sEffectCache != NULL )
     {
@@ -947,7 +947,7 @@ void cgfx_KillEffectCache( void )
     cgfx_DestroyEffectSpecPtr
     
 ****************************************************************************/
-void cgfx_DestroyEffectSpecPtr( tCgEffectSpec** ppSpec )
+static void cgfx_DestroyEffectSpecPtr( tCgEffectSpec** ppSpec )
 {
     cgfx_DeInitEffect( *ppSpec );
     if ( (*ppSpec)->szEffectNm != NULL )
@@ -1298,7 +1298,7 @@ void rt_cgSetCgShaderMode( tCgShaderMode shaderMode )
     CgProgramIdTable_Init
     
 ****************************************************************************/
-void CgProgramIdTable_Init( void )
+static void CgProgramIdTable_Init( void )
 {
     CgProgramIdTable_Resize( kShaderPgmType_FRAGMENT,   kCgProgramIdTableInitialSz );
     CgProgramIdTable_Resize( kShaderPgmType_VERTEX,   kCgProgramIdTableInitialSz );
@@ -1330,7 +1330,7 @@ void CgProgramIdTable_Init( void )
     CgProgramIdTable_OnReset
     
 ****************************************************************************/
-void CgProgramIdTable_OnReset()
+static void CgProgramIdTable_OnReset()
 {
     CgProgramIdTable_ReleaseMem();
     CgProgramIdTable_Init();
@@ -1340,7 +1340,7 @@ void CgProgramIdTable_OnReset()
     CgProgramIdTable_ReleaseMem
     
 ****************************************************************************/
-void CgProgramIdTable_ReleaseMem( void )
+static void CgProgramIdTable_ReleaseMem( void )
 {
     GLuint i;
     if ( sCGProgramTable.shaderSpecs != NULL )
@@ -1380,7 +1380,7 @@ void CgProgramIdTable_ReleaseMem( void )
     CgProgramIdTable_ReleaseComboShaderHandles
     
 ****************************************************************************/
-void CgProgramIdTable_ReleaseComboShaderHandles( void )
+static void CgProgramIdTable_ReleaseComboShaderHandles( void )
 {
     GLuint i;
     for ( i=0; i < sCGProgramTable.fragmentShaderVertCombosNum; i++ )
@@ -1394,7 +1394,7 @@ void CgProgramIdTable_ReleaseComboShaderHandles( void )
     CgProgramIdTable_Resize
     
 ****************************************************************************/
-void CgProgramIdTable_Resize( tShaderProgramType target, GLuint nNewNumItems )
+static void CgProgramIdTable_Resize( tShaderProgramType target, GLuint nNewNumItems )
 {
     GLuint nGrowReq = ( nNewNumItems - sCGProgramTable.shaderSpecNumUsed );
     StructList_Resize(
@@ -1471,7 +1471,7 @@ void rt_cgResetComboShaderHandles( void )
     Returns zero in *pIndex if this is not an array-format name.
     Only knows about two dimensional arrays. (Do we need more??)
 ****************************************************************************/
-void ParseRawCgParamName( const char* szRaw, char* buffer, size_t buffSz, int* pIndex )
+static void ParseRawCgParamName( const char* szRaw, char* buffer, size_t buffSz, int* pIndex )
 {
     int nParamArrayIndex = 0;
     const char* szParamNm = szRaw;
@@ -1683,7 +1683,7 @@ tComboShaderHandleState* ComboShaderHandleState_Find( GLuint vertPgmID, GLuint f
     ComboShaderHandleState_CatalogCgParams
     
 ****************************************************************************/
-void ComboShaderHandleState_CatalogCgParams( tComboShaderHandleState* pHandleState, GLuint vertexPmId, GLuint fragmentPgmId )
+static void ComboShaderHandleState_CatalogCgParams( tComboShaderHandleState* pHandleState, GLuint vertexPmId, GLuint fragmentPgmId )
 {
     int nLastCacheKey = -1;
     tCgParamCacheSpec* pLastParamSpec = NULL;
@@ -1921,7 +1921,7 @@ void rt_cgResetProgram(tShaderProgramType target)
     DisableProgramIdForTarget
     
 ****************************************************************************/
-void DisableProgramIdForTarget( tShaderProgramType target, tCgShaderProfile profile )
+static void DisableProgramIdForTarget( tShaderProgramType target, tCgShaderProfile profile )
 {
     rdrSetMarker(__FUNCTION__ "( target=%s, profile=%d ) queued.\n", SHADER_DBG_PGM_TYPE_STR(target), profile );
     sCGProgramTable.lastProfileEnableRequest[target] = 0;    // enable profile 0 means, disable whatever is set
@@ -2008,7 +2008,7 @@ void ShaderPrep_BindCgProgram_Deferred(tShaderProgramType target, GLuint pgmId )
     ShaderPrep_BindCgProgram_Immediate
     
 ****************************************************************************/
-void ShaderPrep_BindCgProgram_Immediate(tShaderProgramType target, GLuint pgmId )
+static void ShaderPrep_BindCgProgram_Immediate(tShaderProgramType target, GLuint pgmId )
 {
     rdrSetMarker(__FUNCTION__"( %s, %d ) bound.\n", SHADER_DBG_PGM_TYPE_STR( target ), pgmId );
     sCGProgramTable.lastShaderBindRequest[target] = pgmId;
@@ -2224,7 +2224,7 @@ void ShaderPrep_BindSelectedShadersAsCombo( void )
     ShaderPrep_BindSelectedShader
     
 ****************************************************************************/
-void ShaderPrep_BindSelectedShader( tShaderProgramType nPgmTypeI )
+static void ShaderPrep_BindSelectedShader( tShaderProgramType nPgmTypeI )
 {
     GLuint nCurrPgmID;
     GLuint nPrevPgmID;
@@ -2329,7 +2329,7 @@ CGprogram rt_cgGetActiveProgram()
     ShaderPrep_EnableSelectedProfiles
     
 ****************************************************************************/
-void ShaderPrep_EnableSelectedProfiles( void )
+static void ShaderPrep_EnableSelectedProfiles( void )
 {
     int pgmTypeI;
     SHADER_DBG_PRINTF( "ShaderPrep_EnableSelectedProfiles(). Profile requests: Vertex=%d, Fragment=%d.\n",
@@ -2345,7 +2345,7 @@ void ShaderPrep_EnableSelectedProfiles( void )
     ShaderPrep_EnableSelectedProfile
     
 ****************************************************************************/
-void ShaderPrep_EnableSelectedProfile( tShaderProgramType pgmTypeI )
+static void ShaderPrep_EnableSelectedProfile( tShaderProgramType pgmTypeI )
 {
     if (( sCGProgramTable.lastProfileEnableRequest[pgmTypeI] != sCGProgramTable.enabledProfile[pgmTypeI] ))
     {
@@ -2465,7 +2465,7 @@ void rt_cgSetFloatParam( CGparameter param,
     CgShaderSpecList_ReleaseMem
     
 ****************************************************************************/
-void CgShaderSpecList_ReleaseMem( tCgShaderSpec* pPgmTblItem )
+static void CgShaderSpecList_ReleaseMem( tCgShaderSpec* pPgmTblItem )
 {
     if ( pPgmTblItem->srcPgm != NULL )
     {
@@ -2479,7 +2479,7 @@ void CgShaderSpecList_ReleaseMem( tCgShaderSpec* pPgmTblItem )
     ComboShaderHandleState_ResizeParamList
     
 ****************************************************************************/
-void ComboShaderHandleState_ResizeParamList( tComboShaderHandleState* pHandleState, GLuint nNewSize )
+static void ComboShaderHandleState_ResizeParamList( tComboShaderHandleState* pHandleState, GLuint nNewSize )
 {
     static const int kGrowSz = 4;
     StructList_Resize( 
@@ -2494,7 +2494,7 @@ void ComboShaderHandleState_ResizeParamList( tComboShaderHandleState* pHandleSta
     ComboShaderHandleState_ReleaseMem
     
 ****************************************************************************/
-void ComboShaderHandleState_ReleaseMem( tComboShaderHandleState* pHandleState )
+static void ComboShaderHandleState_ReleaseMem( tComboShaderHandleState* pHandleState )
 {
     if (( pHandleState->pgm != NULL ) &&
         ( VALID_SHADER_PGM( pHandleState->srcFragmentPgmId ) ) &&
@@ -2523,7 +2523,7 @@ void ComboShaderHandleState_ReleaseMem( tComboShaderHandleState* pHandleState )
     CgProgramTable_ResizeFragmentShaderCombos
     
 ****************************************************************************/
-void CgProgramTable_ResizeFragmentShaderCombos( GLuint nNewSize )
+static void CgProgramTable_ResizeFragmentShaderCombos( GLuint nNewSize )
 {
     static const int kGrowSz = 4;
     StructList_Resize( 
@@ -2538,7 +2538,7 @@ void CgProgramTable_ResizeFragmentShaderCombos( GLuint nNewSize )
     FragmentShaderVertCombos_ReleaseMem
     
 ****************************************************************************/
-void FragmentShaderVertCombos_ReleaseMem( tFragmentShaderVertCombos* pComboInfo )
+static void FragmentShaderVertCombos_ReleaseMem( tFragmentShaderVertCombos* pComboInfo )
 {
     if ( pComboInfo->handleStates != NULL )
     {
@@ -2558,7 +2558,7 @@ void FragmentShaderVertCombos_ReleaseMem( tFragmentShaderVertCombos* pComboInfo 
     CgParamCacheSpec_Resize
     
 ****************************************************************************/
-void CgParamCacheSpec_ParamHdlList_Resize( tCgParamCacheSpec* pSpec, GLuint nNewSize )
+static void CgParamCacheSpec_ParamHdlList_Resize( tCgParamCacheSpec* pSpec, GLuint nNewSize )
 {
     static const int kGrowSz = 4;
     StructList_Resize( 
@@ -2573,7 +2573,7 @@ void CgParamCacheSpec_ParamHdlList_Resize( tCgParamCacheSpec* pSpec, GLuint nNew
     StructList_Resize
     
 ****************************************************************************/
-bool StructList_Resize( void** ppList, size_t nListItemStructSz, GLuint* pnArrSz, GLuint nNewSize, GLuint nGrowSz )
+static bool StructList_Resize( void** ppList, size_t nListItemStructSz, GLuint* pnArrSz, GLuint nNewSize, GLuint nGrowSz )
 {
     if ( nNewSize > *pnArrSz )
     {
@@ -2598,7 +2598,7 @@ bool StructList_Resize( void** ppList, size_t nListItemStructSz, GLuint* pnArrSz
     CgParamCacheSpec_ParamHdlList_ReleaseMem
     
 ****************************************************************************/
-void CgParamCacheSpec_ParamHdlList_ReleaseMem( tCgParamCacheSpec* pSpec )
+static void CgParamCacheSpec_ParamHdlList_ReleaseMem( tCgParamCacheSpec* pSpec )
 {
     if ( pSpec->paramHdlList != NULL )
     {
@@ -2612,7 +2612,7 @@ void CgParamCacheSpec_ParamHdlList_ReleaseMem( tCgParamCacheSpec* pSpec )
     ReviewShaderLoadResults
 
 ****************************************************************************/
-tCgFxError ReviewShaderLoadResults( const char* szProgramName, CGprogram prog )
+static tCgFxError ReviewShaderLoadResults( const char* szProgramName, CGprogram prog )
 {
     tCgFxError nRslt = kCgFxError_NONE;
     bool bWarnings = false;
@@ -2637,7 +2637,7 @@ tCgFxError ReviewShaderLoadResults( const char* szProgramName, CGprogram prog )
     ReviewShaderBindResults
 
 ****************************************************************************/
-tCgFxError ReviewShaderBindResults( const char* szProgramName, CGprogram prog )
+static tCgFxError ReviewShaderBindResults( const char* szProgramName, CGprogram prog )
 {
     tCgFxError nRslt = kCgFxError_NONE;
     bool bWarnings = false;
@@ -2650,7 +2650,7 @@ tCgFxError ReviewShaderBindResults( const char* szProgramName, CGprogram prog )
     ReviewProfileEnableResults
 
 ****************************************************************************/
-tCgFxError ReviewProfileEnableResults( const char* szProgramName, CGprogram prog )
+static tCgFxError ReviewProfileEnableResults( const char* szProgramName, CGprogram prog )
 {
     tCgFxError nRslt = kCgFxError_NONE;
     bool bWarnings = false;
@@ -2665,7 +2665,7 @@ tCgFxError ReviewProfileEnableResults( const char* szProgramName, CGprogram prog
 
     Asserts false on failure.    
 ****************************************************************************/
-bool ValidateCgProfileConstant( tCgShaderProfile profile )
+static bool ValidateCgProfileConstant( tCgShaderProfile profile )
 {
     int i;
     for ( i=0; i < ARRAY_SIZE(sShaderProfileTbl); i++ )

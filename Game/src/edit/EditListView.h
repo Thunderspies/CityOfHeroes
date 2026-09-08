@@ -95,8 +95,6 @@ void hideELV(EditListView *);
 void handleELV(EditListView *);
 void displayELV(EditListView *);
 
-#define MAX_EDIT_LIST_VIEWS 16
-EditListView * masterELVList[MAX_EDIT_LIST_VIEWS];
 void hideAllELV();
 void handleAllELV();
 void displayAllELV();

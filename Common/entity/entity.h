@@ -436,10 +436,12 @@ typedef struct EntityInfo
 
 // The arrays of Entity pointers and other big arrays of crap.
 
+C_DECLARATIONS_BEGIN
 extern Entity*                    entities[];
 extern U8                        entity_state[];
 extern int                        entities_max;
 extern EntityInfo                entinfo[];
+C_DECLARATIONS_END
 
 #define SET_ENTINFO_BY_ID(id)    (entinfo[id])
 #define SET_ENTINFO(e)            SET_ENTINFO_BY_ID((e)->owner)

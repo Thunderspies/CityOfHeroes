@@ -220,7 +220,7 @@ static MissionServerSubstringSearch *substrs_tail[CACHEREFRESH_COUNT] = {0};
 static int quotedCacheRefreshCategories[CACHEREFRESH_COUNT-1] = {500, 50, 10, 2};    //number of hits to get into each of the following categories
 static MissionServerQuotedSearch *quoted_head[CACHEREFRESH_COUNT] = {0};
 static MissionServerQuotedSearch *quoted_tail[CACHEREFRESH_COUNT] = {0};
-void s_performSubstrSearch(char *s, int **tokenArcIds);
+static void s_performSubstrSearch(char *s, int **tokenArcIds);
 #define CACHE_COMPOSED 1 
 #define CACHE_SUBSTR 2
 #define CACHE_QUOTED 3

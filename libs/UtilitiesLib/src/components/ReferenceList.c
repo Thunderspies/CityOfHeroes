@@ -85,7 +85,7 @@ Reference referenceListAddElement(ReferenceList rlist, void *data)
     return node->ref.ref;
 }
 
-INLINEDBG ReferenceNode *referenceListFindNodeByRef(ReferenceList rlist, ReferenceImp ref)
+static INLINEDBG ReferenceNode *referenceListFindNodeByRef(ReferenceList rlist, ReferenceImp ref)
 {
 #if 0
     if (ref.arrayIndex >= eaSize(&rlist->chunkTable)) {

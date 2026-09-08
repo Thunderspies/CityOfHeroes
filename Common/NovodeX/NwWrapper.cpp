@@ -95,18 +95,18 @@ extern "C"{
 
 // -------------------------------------------------------------------------------------------------------------------
 
-void nwDeleteAllScenes( );
+static void nwDeleteAllScenes( );
 static NxActor* getActorFromGuid(NxActorGuid uiActorGuid);
 static void nwEndAllThreads();
 
 
 // Only need queues for client
 #ifdef CLIENT
-void processMaterialDescQueue(int iSceneNum, bool bCreateMaterial );
-void processActorCreationQueue(int iSceneNum, bool bCreateActor);
-void processActorDeletionQueue(int iSceneNum);
+static void processMaterialDescQueue(int iSceneNum, bool bCreateMaterial );
+static void processActorCreationQueue(int iSceneNum, bool bCreateActor);
+static void processActorDeletionQueue(int iSceneNum);
 void processForceQueue(int iSceneNum);
-void removeActor( NxActor* pActor, int iSceneNum );
+static void removeActor( NxActor* pActor, int iSceneNum );
 static void  nwDebugRender(const NxDebugRenderable* pDebugData);
 static void processActorFunctionOneParamQueue(bool bCallFunction);
 static void nwDestroyActorFunctionQueues( );

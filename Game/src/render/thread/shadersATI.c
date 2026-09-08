@@ -10,12 +10,12 @@
     // Fragment shaders
     //
 
-    extern int fsColorBlendDual = -1;
-    extern int fsAddGlow = -1;
-    extern int fsAlphaDetail = -1;
-    extern int fsMultiply = -1;
-    extern int fsBumpMultiply = -1;
-    extern int fsBumpColorBlend = -1;
+    int fsColorBlendDual = -1;
+    int fsAddGlow = -1;
+    int fsAlphaDetail = -1;
+    int fsMultiply = -1;
+    int fsBumpMultiply = -1;
+    int fsBumpColorBlend = -1;
 
 
     // NOTE:

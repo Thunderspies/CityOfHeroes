@@ -116,10 +116,6 @@ static void pak() {
     }
 }
 
-static int strEndsWith(const char *ref, const char *ending) {
-    return stricmp(ending, ref+strlen(ref)-strlen(ending))==0;
-}
-
 static void checksum(U8 *data,int count,U32 *checksum)
 {
     cryptMD5Update(data,count);

@@ -9,7 +9,7 @@
 typedef struct RoomDetail RoomDetail;
 typedef struct Detail Detail;
 
-RoomDetail **g_ppDetailInv;
+extern RoomDetail **g_ppDetailInv;
 
 
 RoomDetail * baseinv_Add(const Detail *info);

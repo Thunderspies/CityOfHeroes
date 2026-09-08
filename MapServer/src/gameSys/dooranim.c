@@ -52,7 +52,7 @@
 
 #define MAX_DOOROPEN_WAIT                11.0    // seconds to wait for door animation
 
-void DoorAnimStartClientAnim(Entity* player);
+static void DoorAnimStartClientAnim(Entity* player);
 
 /////////////////////////////////////////////////////////////// points necessary for door animations
 

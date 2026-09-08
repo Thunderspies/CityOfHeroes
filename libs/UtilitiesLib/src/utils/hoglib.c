@@ -435,14 +435,14 @@ STATIC_ASSERT(sizeof(HogOpJournalAction)==sizeof(U32)); // endianSwapping down b
 // End In memory format
 
 
-int hogFileModifyDoDeleteInternal(HogFile *handle, HogFileMod *mod);
-int hogFileModifyDoAddInternal(HogFile *handle, HogFileMod *mod);
-int hogFileModifyDoUpdateInternal(HogFile *handle, HogFileMod *mod);
-int hogFileModifyDoMoveInternal(HogFile *handle, HogFileMod *mod);
-int hogFileModifyDoFileListResizeInternal(HogFile *handle, HogFileMod *mod);
-int hogFileModifyDoDataListFlushInternal(HogFile *handle, HogFileMod *mod);
-int hogFileAddDataListMod(HogFile *handle, DataListJournal *dlj);
-void hogThreadHasWork(HogFile *handle);
+static int hogFileModifyDoDeleteInternal(HogFile *handle, HogFileMod *mod);
+static int hogFileModifyDoAddInternal(HogFile *handle, HogFileMod *mod);
+static int hogFileModifyDoUpdateInternal(HogFile *handle, HogFileMod *mod);
+static int hogFileModifyDoMoveInternal(HogFile *handle, HogFileMod *mod);
+static int hogFileModifyDoFileListResizeInternal(HogFile *handle, HogFileMod *mod);
+static int hogFileModifyDoDataListFlushInternal(HogFile *handle, HogFileMod *mod);
+static int hogFileAddDataListMod(HogFile *handle, DataListJournal *dlj);
+static void hogThreadHasWork(HogFile *handle);
 
 PigErrLevel    hog_err_level = PIGERR_ASSERT;
 
@@ -3785,7 +3785,7 @@ static int hogFileModifyDoFileListResize(HogFile *handle, HogFileMod *mod)
     return 0;
 }
 
-int hogFileModifyDoDataListFlushInternal(HogFile *handle, HogFileMod *mod)
+static int hogFileModifyDoDataListFlushInternal(HogFile *handle, HogFileMod *mod)
 {
     DLJournalHeader header;
     int ret;

@@ -16,8 +16,6 @@ typedef const struct StashTableImp *cStashTable;
 void load_AllDefs(void);
 void load_AllDefsReload(void);
 
-void load_CharacterClasses(SHARED_MEMORY_PARAM CharacterClasses *p, char *pchFilename, bool newattribs);
-void load_CharacterOrigins(SHARED_MEMORY_PARAM CharacterOrigins *p, char *pchFilename, bool newattribs);
 #endif /* #ifndef LOAD_DEF_H__ */
 
 /* End of File */

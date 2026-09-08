@@ -4,23 +4,6 @@
 #include "script/scriptutil.h"
 #include <utilitieslib/utils/timing.h>
 
-//TO DO waypoints?
-//TO DO waypoints?
-//Pick a random selection of minions to say something
-static void MinionSays( TEAM team, STRING says )
-{
-    int numEnts;
-    ENTITY minion;
-
-    if( team && says )
-    {
-        numEnts = NumEntitiesInTeam(team);
-        minion = GetEntityFromTeam(team, RandomNumber(1, numEnts) );
-        if( numEnts )
-            Say( minion, says, 0 );
-    }
-}
-
 static void UpdateUI()
 {
     int i;
