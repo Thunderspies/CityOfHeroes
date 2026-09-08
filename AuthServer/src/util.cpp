@@ -1,5 +1,3 @@
-#include "arda2/core/corFirst.h"
-
 #include "util.h"
 #include "Config.h"
 #include "Log.h"

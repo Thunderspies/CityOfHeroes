@@ -557,17 +557,6 @@ void mgUpdate(int grid, MegaGridNode* node, const Vec3 posF32){
     PERFINFO_AUTO_STOP();
 }
 
-#ifndef _M_X64
-static void __fastcall copyPointers(void* dest, void* source, int count){
-    __asm {
-        mov esi,[source]
-        mov edi,[dest]
-        mov ecx,count
-        rep movsd
-    }
-}
-#endif
-
 int mgGetNodesInRange(int grid, const Vec3 posF32, void** nodeArray, int maxCount){
     MegaGridCell* cell = &megaGrid[grid].rootCell;
     int pos[3];
