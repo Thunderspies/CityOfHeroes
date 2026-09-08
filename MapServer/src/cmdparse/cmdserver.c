@@ -6671,10 +6671,10 @@ static void serverExecCmd(Cmd *cmd, ClientLink *client, char *source_str, Entity
             }
             xcase SCMD_BADGE_STAT_SHOW:
             {
-                char *restrict = NULL;
-                strdup_alloca(restrict, tmp_str);
+                char *restriction = NULL;
+                strdup_alloca(restriction, tmp_str);
 
-                csrBadgeStatsShow(client, restrict);
+                csrBadgeStatsShow(client, restriction);
             }
             xcase SCMD_BADGE_GRANT:
             {

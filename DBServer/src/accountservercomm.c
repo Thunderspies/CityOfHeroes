@@ -302,13 +302,13 @@ const char *total_used_count_restrict = "WHERE AuthId=%d";
 
 static int putCharacterGetUsedSlots(const char *restrict_format, U32 auth_id)
 {
-    char restrict[100];
+    char restriction[100];
     int row_count;
     ColumnInfo *field_ptrs[4];
     char *rows;
 
-    sprintf(restrict, restrict_format, auth_id);
-    rows = sqlReadColumnsSlow(ent_list->tplt->tables,0,"ContainerId, Name",restrict, &row_count, field_ptrs);
+    sprintf(restriction, restrict_format, auth_id);
+    rows = sqlReadColumnsSlow(ent_list->tplt->tables,0,"ContainerId, Name",restriction, &row_count, field_ptrs);
     if (!rows)
         return 0;
 
@@ -334,12 +334,12 @@ static void s_AccountSqlCb(Packet *pak, U8 *cols, int col_count, ColumnInfo **fi
         {
             int bonus_slots = data->generic_integer_one;
             int auth_id = data->auth_id;
-            char *restrict = NULL;
-            estrPrintf(&restrict, unlocked_used_count_restrict, auth_id);
+            char *restriction = NULL;
+            estrPrintf(&restriction, unlocked_used_count_restrict, auth_id);
             sqlFifoBarrier();
-            sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restrict,s_AccountSqlCb,
+            sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restriction,s_AccountSqlCb,
                                 s_AccountSqlCbData(ACCOUNTSQLCB_CHARCOUNT2,kOrderIdInvalid,0,NULL,auth_id,bonus_slots,col_count),pak,0);
-            estrDestroy(&restrict);
+            estrDestroy(&restriction);
         }
         xcase ACCOUNTSQLCB_CHARCOUNT2:
         {
@@ -424,11 +424,11 @@ static void s_AccountSqlCb(Packet *pak, U8 *cols, int col_count, ColumnInfo **fi
         xcase ACCOUNTSQLCB_CHARRENAME_VALID1:
             if(col_count > 0)
             {
-                char *restrict = NULL;
-                estrPrintf(&restrict,"WHERE ContainerId=%d",data->dbid);
-                sqlReadColumnsAsync(ent_list->tplt->tables,0,"DbFlags",restrict,s_AccountSqlCb,
+                char *restriction = NULL;
+                estrPrintf(&restriction,"WHERE ContainerId=%d",data->dbid);
+                sqlReadColumnsAsync(ent_list->tplt->tables,0,"DbFlags",restriction,s_AccountSqlCb,
                                     s_AccountSqlCbData(ACCOUNTSQLCB_CHARRENAME_VALID2,kOrderIdInvalid,data->dbid,NULL,0,0,0),pak,data->dbid);
-                estrDestroy(&restrict);
+                estrDestroy(&restriction);
             }
             else // character not found or locked
             {
@@ -659,18 +659,18 @@ static void s_handleShardXferPacket(NetLink *acc_link, Packet *pak_in)
             }
             else // the character isn't loaded, run a query instead
             {
-                char *restrict = NULL;
-                estrPrintf(&restrict,"WHERE ContainerId=%d",dbid);
-                sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restrict,s_AccountSqlCb,
+                char *restriction = NULL;
+                estrPrintf(&restriction,"WHERE ContainerId=%d",dbid);
+                sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restriction,s_AccountSqlCb,
                                     s_AccountSqlCbData(ACCOUNTSQLCB_SHARDXFER_VALIDATE,kOrderIdInvalid,0,NULL,0,0,0),pak_out,dbid);
-                estrDestroy(&restrict);
+                estrDestroy(&restriction);
             }
         }
 
         xcase SHARDXFER_VALIDATE_DST:
         {
             Packet *pak_out;
-            char *restrict;
+            char *restriction;
 
             U32 auth_id = pktGetBitsAuto(pak_in);
             int vip = pktGetBits(pak_in, 1);
@@ -680,11 +680,11 @@ static void s_handleShardXferPacket(NetLink *acc_link, Packet *pak_in)
             pktSendBitsAuto2(pak_out,order_id.u64[1]);
             pktSendBitsAuto(pak_out, SHARDXFER_VALIDATE_DST);
 
-            restrict = NULL;
-            estrPrintf(&restrict,"WHERE ContainerId=%d",auth_id);
-            sqlReadColumnsAsync(shardaccounts_list->tplt->tables,0,"SlotCount",restrict,s_AccountSqlCb,
+            restriction = NULL;
+            estrPrintf(&restriction,"WHERE ContainerId=%d",auth_id);
+            sqlReadColumnsAsync(shardaccounts_list->tplt->tables,0,"SlotCount",restriction,s_AccountSqlCb,
                                 s_AccountSqlCbData(ACCOUNTSQLCB_SHARDXFER_VALIDATE_DST,kOrderIdInvalid,0,NULL,auth_id,vip,0),pak_out,auth_id);
-            estrDestroy(&restrict);
+            estrDestroy(&restriction);
         }
 
         xcase SHARDXFER_FULFILL_COPY_SRC:
@@ -729,7 +729,7 @@ static void s_handleShardXferPacket(NetLink *acc_link, Packet *pak_in)
             }
             else // the character isn't loaded, run a query instead
             {
-                char *restrict = NULL;
+                char *restriction = NULL;
 
                 // This should never trip, because for that to happen, someone would have to be doing a visitor shard
                 // transfer while offline.  That's not supposed to be possible, since being online is a pre-requisite
@@ -743,10 +743,10 @@ static void s_handleShardXferPacket(NetLink *acc_link, Packet *pak_in)
                     pktSendBool(pak_out,1);                                    // success
     
                     // check if the container exists, we may be recovering or the order may be unfulfillable
-                    estrPrintf(&restrict,"WHERE ContainerId=%d",dbid);
-                    sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restrict,s_AccountSqlCb,
+                    estrPrintf(&restriction,"WHERE ContainerId=%d",dbid);
+                    sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restriction,s_AccountSqlCb,
                                     s_AccountSqlCbData(ACCOUNTSQLCB_SHARDXFER_COPY_SRC,order_id,dbid,NULL,0,0,0),pak_out,dbid);
-                    estrDestroy(&restrict);
+                    estrDestroy(&restriction);
                 }
                 else
                 {
@@ -769,7 +769,7 @@ static void s_handleShardXferPacket(NetLink *acc_link, Packet *pak_in)
         xcase SHARDXFER_FULFILL_COPY_DST:
         {
             char *container_txt = pktGetString(pak_in);
-            char *restrict = NULL;
+            char *restriction = NULL;
 
             Packet *pak_out = pktCreateEx(acc_link,ACCOUNT_CLIENT_SHARDXFER);
             pktSendBitsAuto2(pak_out,order_id.u64[0]);
@@ -777,11 +777,11 @@ static void s_handleShardXferPacket(NetLink *acc_link, Packet *pak_in)
             pktSendBitsAuto(pak_out,SHARDXFER_FULFILL_COPY_DST);
 
             // check if a character has already been created for this OrderId
-            estrPrintf(&restrict,"WHERE AccSvrLock='%s'",orderIdAsString(isProductionMode()?order_id:kOrderIdInvalid));
+            estrPrintf(&restriction,"WHERE AccSvrLock='%s'",orderIdAsString(isProductionMode()?order_id:kOrderIdInvalid));
             sqlFifoBarrier();
-            sqlReadColumnsAsync(&(ent_list->tplt->tables[1]),0,"ContainerId",restrict,s_AccountSqlCb,
+            sqlReadColumnsAsync(&(ent_list->tplt->tables[1]),0,"ContainerId",restriction,s_AccountSqlCb,
                                 s_AccountSqlCbData(ACCOUNTSQLCB_SHARDXFER_COPY_DST,order_id,0,container_txt,0,0,0),pak_out,0);
-            estrDestroy(&restrict);
+            estrDestroy(&restriction);
         }
 
         xcase SHARDXFER_FULFILL_COMMIT_SRC:
@@ -824,7 +824,7 @@ static void s_handleShardXferPacket(NetLink *acc_link, Packet *pak_in)
 
         xcase SHARDXFER_FULFILL_COMMIT_RECOVERY:
         {
-            char *restrict = NULL;
+            char *restriction = NULL;
             U32 auth_id = pktGetBitsAuto(pak_in);
 
             Packet *pak_out = pktCreateEx(acc_link,ACCOUNT_CLIENT_SHARDXFER);
@@ -833,11 +833,11 @@ static void s_handleShardXferPacket(NetLink *acc_link, Packet *pak_in)
             pktSendBitsAuto(pak_out,SHARDXFER_FULFILL_COMMIT_RECOVERY);
 
             // make sure a character was created with this OrderId
-            estrPrintf(&restrict,"WHERE AccSvrLock='%s'",orderIdAsString(order_id));
+            estrPrintf(&restriction,"WHERE AccSvrLock='%s'",orderIdAsString(order_id));
             sqlFifoBarrier();
-            sqlReadColumnsAsync(&(ent_list->tplt->tables[1]),0,"ContainerId",restrict,s_AccountSqlCb,
+            sqlReadColumnsAsync(&(ent_list->tplt->tables[1]),0,"ContainerId",restriction,s_AccountSqlCb,
                                 s_AccountSqlCbData(ACCOUNTSQLCB_SHARDXFER_RECOVER,order_id,0,NULL,auth_id,0,0),pak_out,0);
-            estrDestroy(&restrict);
+            estrDestroy(&restriction);
         }
 
         xcase SHARDXFER_FULFILL_XFER_JUMP:
@@ -892,12 +892,12 @@ static void sendAllAccountData(Packet *pak)
 
 static void startCharCountFetch(U32 auth_id, int bonus_slots, Packet *pak_out)
 {
-    char *restrict = NULL;
-    estrPrintf(&restrict, total_used_count_restrict, auth_id);    
+    char *restriction = NULL;
+    estrPrintf(&restriction, total_used_count_restrict, auth_id);
     sqlFifoBarrier();
-    sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restrict,s_AccountSqlCb,
+    sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restriction,s_AccountSqlCb,
         s_AccountSqlCbData(ACCOUNTSQLCB_CHARCOUNT1,kOrderIdInvalid,0,NULL,auth_id,bonus_slots,0),pak_out,0);
-    estrDestroy(&restrict);
+    estrDestroy(&restriction);
 }
 
 static void onVipUpdateCharCount(VipSqlCbData *data)
@@ -1148,7 +1148,7 @@ static int accountMsgCallback(Packet *pak_in,int cmd,NetLink *acc_link)
         {
             int dbid = pktGetBitsAuto(pak_in);
             bool confirm = containerPtr(ent_list, dbid) != NULL;
-            char *restrict = NULL;
+            char *restriction = NULL;
 
             Packet *pak_out = pktCreateEx(acc_link, ACCOUNT_CLIENT_RENAME);
             pktSendBitsAuto2(pak_out, order_id.u64[0]);
@@ -1157,10 +1157,10 @@ static int accountMsgCallback(Packet *pak_in,int cmd,NetLink *acc_link)
 
             if(!confirm)
             {
-                estrPrintf(&restrict,"WHERE ContainerId=%d AND AccSvrLock IS NULL",dbid);
-                sqlReadColumnsAsync(&(ent_list->tplt->tables[1]),0,"AccSvrLock",restrict,s_AccountSqlCb,
+                estrPrintf(&restriction,"WHERE ContainerId=%d AND AccSvrLock IS NULL",dbid);
+                sqlReadColumnsAsync(&(ent_list->tplt->tables[1]),0,"AccSvrLock",restriction,s_AccountSqlCb,
                                     s_AccountSqlCbData(ACCOUNTSQLCB_CHARRENAME_VALID1,kOrderIdInvalid,dbid,NULL,0,0,0),pak_out,dbid);
-                estrDestroy(&restrict);
+                estrDestroy(&restriction);
             }
             else
             {
@@ -1179,7 +1179,7 @@ static int accountMsgCallback(Packet *pak_in,int cmd,NetLink *acc_link)
             }
             else // the character isn't loaded, run a query instead
             {
-                char *restrict = NULL;
+                char *restriction = NULL;
 
                 Packet *pak_out = pktCreateEx(acc_link, ACCOUNT_CLIENT_RENAME);
                 pktSendBitsAuto2(pak_out, order_id.u64[0]);
@@ -1187,10 +1187,10 @@ static int accountMsgCallback(Packet *pak_in,int cmd,NetLink *acc_link)
                 pktSendBool(pak_out,false); // fulfilling
 
                 // check if the container exists, the order may be unfulfillable
-                estrPrintf(&restrict,"WHERE ContainerId=%d",dbid);
-                sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restrict,s_AccountSqlCb,
+                estrPrintf(&restriction,"WHERE ContainerId=%d",dbid);
+                sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restriction,s_AccountSqlCb,
                     s_AccountSqlCbData(ACCOUNTSQLCB_CHARRENAME_FULFILL,order_id,dbid,NULL,0,0,0),pak_out,dbid);
-                estrDestroy(&restrict);
+                estrDestroy(&restriction);
             }
         }
     }
@@ -1237,7 +1237,7 @@ static int accountMsgCallback(Packet *pak_in,int cmd,NetLink *acc_link)
         {
             int dbid = pktGetBitsAuto(pak_in);
             bool confirm = containerPtr(ent_list, dbid) != NULL;
-            char *restrict = NULL;
+            char *restriction = NULL;
 
             Packet *pak_out = pktCreateEx(acc_link, ACCOUNT_CLIENT_RESPEC);
             pktSendBitsAuto2(pak_out, order_id.u64[0]);
@@ -1246,10 +1246,10 @@ static int accountMsgCallback(Packet *pak_in,int cmd,NetLink *acc_link)
 
             if(!confirm)
             {
-                estrPrintf(&restrict,"WHERE ContainerId=%d AND AccSvrLock IS NULL",dbid);
-                sqlReadColumnsAsync(&(ent_list->tplt->tables[1]),0,"AccSvrLock",restrict,s_AccountSqlCb,
+                estrPrintf(&restriction,"WHERE ContainerId=%d AND AccSvrLock IS NULL",dbid);
+                sqlReadColumnsAsync(&(ent_list->tplt->tables[1]),0,"AccSvrLock",restriction,s_AccountSqlCb,
                     s_AccountSqlCbData(ACCOUNTSQLCB_CHARRESPEC_VALID,kOrderIdInvalid,dbid,NULL,0,0,0),pak_out,dbid);
-                estrDestroy(&restrict);
+                estrDestroy(&restriction);
             }
             else
             {
@@ -1268,7 +1268,7 @@ static int accountMsgCallback(Packet *pak_in,int cmd,NetLink *acc_link)
             }
             else // the character isn't loaded, run a query instead
             {
-                char *restrict = NULL;
+                char *restriction = NULL;
 
                 Packet *pak_out = pktCreateEx(acc_link, ACCOUNT_CLIENT_RESPEC);
                 pktSendBitsAuto2(pak_out, order_id.u64[0]);
@@ -1276,10 +1276,10 @@ static int accountMsgCallback(Packet *pak_in,int cmd,NetLink *acc_link)
                 pktSendBool(pak_out,false); // fulfilling
 
                 // check if the container exists, the order may be unfulfillable
-                estrPrintf(&restrict,"WHERE ContainerId=%d",dbid);
-                sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restrict,s_AccountSqlCb,
+                estrPrintf(&restriction,"WHERE ContainerId=%d",dbid);
+                sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restriction,s_AccountSqlCb,
                     s_AccountSqlCbData(ACCOUNTSQLCB_CHARRESPEC_FULFILL,order_id,dbid,NULL,0,0,0),pak_out,dbid);
-                estrDestroy(&restrict);
+                estrDestroy(&restriction);
             }
         }
     }

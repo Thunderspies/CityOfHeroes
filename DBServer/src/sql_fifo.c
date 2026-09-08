@@ -81,7 +81,7 @@ typedef __declspec(align(EXPECTED_WORST_CACHE_LINE_SIZE)) struct
             TableInfo *table;
             char *limit;
             char *col_names;
-            char *restrict;
+            char *restriction;
             ReadColumnCallback callback;
             void *callbackData;
             ColumnInfo **field_ptrs;
@@ -394,14 +394,14 @@ char *sqlReadColumnsSlow(TableInfo *table, char *limit, char *col_names, char *w
 *       made before this function to force all previous writes
 *       to complete first.
 */
-void sqlReadColumnsAsyncWithDebugDelay(TableInfo *table, char *limit, char *col_names, char *restrict, ReadColumnCallback callback, void * callbackData, Packet *pak, int container_id, int debugDelayMS)
+void sqlReadColumnsAsyncWithDebugDelay(TableInfo *table, char *limit, char *col_names, char *restriction, ReadColumnCallback callback, void * callbackData, Packet *pak, int container_id, int debugDelayMS)
 {
     SqlQueueEntry *entry = getQueueEntry();
     entry->cmd = SQLCMD_READCOLUMNS;
     entry->readcolumns.table = table;
     entry->readcolumns.limit = strdup(limit);
     entry->readcolumns.col_names = strdup(col_names);
-    entry->readcolumns.restrict = strdup(restrict);
+    entry->readcolumns.restriction = strdup(restriction);
     entry->readcolumns.callback = callback;
     entry->readcolumns.callbackData = callbackData;
     entry->readcolumns.field_ptrs = calloc(MAX_FIELD_PTRS, sizeof(ColumnInfo *));
@@ -412,9 +412,9 @@ void sqlReadColumnsAsyncWithDebugDelay(TableInfo *table, char *limit, char *col_
     pushQueueEntry(pickQueue(container_id), entry);
 }
 
-void sqlReadColumnsAsync(TableInfo *table, char *limit, char *col_names, char *restrict, ReadColumnCallback callback, void * callbackData, Packet *pak, int container_id)
+void sqlReadColumnsAsync(TableInfo *table, char *limit, char *col_names, char *restriction, ReadColumnCallback callback, void * callbackData, Packet *pak, int container_id)
 {
-    sqlReadColumnsAsyncWithDebugDelay(table, limit, col_names, restrict, callback, callbackData, pak, container_id, 0);
+    sqlReadColumnsAsyncWithDebugDelay(table, limit, col_names, restriction, callback, callbackData, pak, container_id, 0);
 }
 
 void sqlDeleteRowAsync(char *table, int container_id)
@@ -717,7 +717,7 @@ static void * runQueueEntry(void * data, void * user)
         }
         case SQLCMD_READCOLUMNS:
         {            
-            entry->readcolumns.cols = sqlReadColumnsInternal(entry->readcolumns.table, entry->readcolumns.limit, entry->readcolumns.col_names, entry->readcolumns.restrict,
+            entry->readcolumns.cols = sqlReadColumnsInternal(entry->readcolumns.table, entry->readcolumns.limit, entry->readcolumns.col_names, entry->readcolumns.restriction,
                 &entry->readcolumns.col_count, entry->readcolumns.field_ptrs, worker->conn, entry->readcolumns.debugDelayMS);
             break;
         }
@@ -790,7 +790,7 @@ static void processQueueEntry(SqlQueueEntry * entry)
         {
             free(entry->readcolumns.limit);
             free(entry->readcolumns.col_names);
-            free(entry->readcolumns.restrict);
+            free(entry->readcolumns.restriction);
 
             
             if ((entry->readcolumns.packet && linkValid(entry->readcolumns.link, entry->readcolumns.link_UID)) ||

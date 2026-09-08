@@ -349,7 +349,7 @@ void handleSendPetition(char *authname, char *name, U32 ss2000, const char *summ
 int putCharacterVerifyFreeSlot(char *str)
 {
     char authName[100];
-    char restrict[100];
+    char restriction[100];
     int row_count;
     ColumnInfo *field_ptrs[4];
     char *rows;
@@ -357,8 +357,8 @@ int putCharacterVerifyFreeSlot(char *str)
     if (!findFieldText(str, "AuthName", authName))
         return 0;
 
-    sprintf(restrict, "WHERE AuthName='%s'", authName);
-    rows = sqlReadColumnsSlow(ent_list->tplt->tables,0,"ContainerId, Name",restrict, &row_count, field_ptrs);
+    sprintf(restriction, "WHERE AuthName='%s'", authName);
+    rows = sqlReadColumnsSlow(ent_list->tplt->tables,0,"ContainerId, Name",restriction, &row_count, field_ptrs);
     if (!rows)
         return 1;
     if (row_count >= MAX_PLAYER_SLOTS) {
@@ -2345,7 +2345,7 @@ static void sqlReqCustomDataCallback(Packet *pak_out,U8 *cols,int row_count,Colu
 
 void handleReqCustomData(Packet *pak,NetLink *link)
 {
-    char        *columns,*table_name,*restrict,*limit;
+    char        *columns,*table_name,*restriction,*limit;
     int            list_type;
     DbList        *db_list;
     TableInfo    *table;
@@ -2354,7 +2354,7 @@ void handleReqCustomData(Packet *pak,NetLink *link)
     cb            = pktGetBits(pak,32);
     db_id        = pktGetBitsPack(pak,1);
     strdup_alloca(limit,pktGetString(pak));
-    strdup_alloca(restrict,pktGetString(pak));
+    strdup_alloca(restriction,pktGetString(pak));
     strdup_alloca(columns,pktGetString(pak));
     list_type    = pktGetBitsPack(pak,1);
     strdup_alloca(table_name,pktGetString(pak));
@@ -2373,7 +2373,7 @@ void handleReqCustomData(Packet *pak,NetLink *link)
         if (!db_id)
             sqlFifoBarrier();
 
-        sqlReadColumnsAsync(table,limit,columns,restrict,sqlReqCustomDataCallback,0,pak_out,db_id);
+        sqlReadColumnsAsync(table,limit,columns,restriction,sqlReqCustomDataCallback,0,pak_out,db_id);
     }
 }
 
@@ -2624,19 +2624,19 @@ void handleReqSgChannelInvite(Packet *pak,NetLink *link)
 
     if(table)
     {
-        char restrict[200];
+        char restriction[200];
         Packet    *pak_out = pktCreateEx(link,DBSERVER_SG_CHANNEL_INVITE);
 
-        sprintf(restrict,"Where SuperGroupsId = %d and ContainerId != %d",sg_id,db_id);
+        sprintf(restriction,"Where SuperGroupsId = %d and ContainerId != %d",sg_id,db_id);
         
         // if rank is 0, then actual value in DB is "NULL", which doesn't work well with '>='
         if(min_rank > 0)    
-            strcatf(restrict, " and Rank >= %d", min_rank);
+            strcatf(restriction, " and Rank >= %d", min_rank);
 
         pktSendBitsPack(pak_out,1,auth_id);
         pktSendBitsPack(pak_out,1,db_id);
         pktSendString(pak_out,channel);
-        sqlReadColumnsAsync(table,"","AuthName, AuthId",restrict,sqlReqCustomDataCallback,0,pak_out,db_id);
+        sqlReadColumnsAsync(table,"","AuthName, AuthId",restriction,sqlReqCustomDataCallback,0,pak_out,db_id);
     }
 
     free(channel);

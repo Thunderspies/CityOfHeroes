@@ -459,10 +459,10 @@ void updateVip(void (*onVipUpdateCallback)(VipSqlCbData*), GameClientLink *clien
 
     if (shardaccount_con->was_vip != vip)
     {
-        char *restrict = NULL;
-        estrPrintf(&restrict,"WHERE AuthId=%d AND IsSlotLocked IS NULL",shardaccount_con->id);
-        sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restrict,s_VipChangedSqlCb,vip_data,0,0);
-        estrDestroy(&restrict);
+        char *restriction = NULL;
+        estrPrintf(&restriction,"WHERE AuthId=%d AND IsSlotLocked IS NULL",shardaccount_con->id);
+        sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restriction,s_VipChangedSqlCb,vip_data,0,0);
+        estrDestroy(&restriction);
     }
     else
     {
@@ -474,7 +474,7 @@ void updateVip(void (*onVipUpdateCallback)(VipSqlCbData*), GameClientLink *clien
 
 void getEnts_sendPlayers(GameClientLink *client, ShardAccountCon* shardaccount_con)
 {
-    char restrict[100];
+    char restriction[100];
 
     Packet *pak = dbClient_createPacket(DBGAMESERVER_SEND_PLAYERS, client);
     pktSendBitsAuto(pak, shardaccount_con->id);
@@ -484,10 +484,10 @@ void getEnts_sendPlayers(GameClientLink *client, ShardAccountCon* shardaccount_c
     pktSendBits(pak, 1, server_cfg.isVIPServer);
     pktSendBitsPack(pak,1,getNumPlayerSlotsVIP());
 
-    sprintf_s(restrict, ARRAY_SIZE_CHECKED(restrict), "WHERE AuthId=%d", client->auth_id);
+    sprintf_s(restriction, ARRAY_SIZE_CHECKED(restriction), "WHERE AuthId=%d", client->auth_id);
     sqlFifoBarrier();
     sqlReadColumnsAsyncWithDebugDelay(dbListPtr(CONTAINER_ENTS)->tplt->tables,0,
-        SEND_PLAYERS_COLUMNS,restrict,sqlGetPlayersCallback,NULL,pak,0,server_cfg.debugSendPlayersDelayMS);
+        SEND_PLAYERS_COLUMNS,restriction,sqlGetPlayersCallback,NULL,pak,0,server_cfg.debugSendPlayersDelayMS);
 }
 
 static void onVipUpdateLogin(VipSqlCbData *data)
@@ -602,12 +602,12 @@ static void sendAppearance(Packet * pak, int container_id, int currentCostume)
 {
     DbList        *ent_list = dbListPtr(CONTAINER_ENTS);
     TableInfo    *table;
-    char        restrict[400];
+    char        restriction[400];
 
     table = tpltFindTable(ent_list->tplt, "Appearance");
-    sprintf(restrict,"WHERE ContainerId = %d AND SubId = %d", container_id, currentCostume); // use first set of scales for each char
+    sprintf(restriction,"WHERE ContainerId = %d AND SubId = %d", container_id, currentCostume); // use first set of scales for each char
     sqlReadColumnsAsync(table,0,"BodyType, ColorSkin, BodyScale, BoneScale, HeadScale, ShoulderScale, ChestScale, WaistScale, HipScale, LegScale, ConvertedScale, HeadScales, BrowScales, CheekScales, ChinScales, CraniumScales, JawScales, NoseScales",
-                        restrict,handleSqlAppearanceCallback,(void*)(intptr_t)container_id, pak, container_id);
+                        restriction,handleSqlAppearanceCallback,(void*)(intptr_t)container_id, pak, container_id);
 }
 
 
@@ -703,13 +703,13 @@ static void sendCostume(Packet *pak, int container_id, int currentCostume)
 {
     DbList        *ent_list = dbListPtr(CONTAINER_ENTS);
     TableInfo    *table;
-    char        restrict[400];
+    char        restriction[400];
 
     table = tpltFindTable(ent_list->tplt, "CostumeParts");
-    sprintf(restrict,"WHERE ContainerId = %d AND SubId >= %d AND SubId < %d", container_id, 
+    sprintf(restriction,"WHERE ContainerId = %d AND SubId >= %d AND SubId < %d", container_id,
         currentCostume*TOTAL_COSTUME_PARTS, (currentCostume+1)*TOTAL_COSTUME_PARTS);
     sqlReadColumnsAsync(table,0,"Geom, Tex1, Tex2, Name, FxName, Color1, Color2, Color3, Color4, SubId",
-                        restrict,handleSqlCostumeCallback,(void*)(intptr_t)container_id, pak, container_id);
+                        restriction,handleSqlCostumeCallback,(void*)(intptr_t)container_id, pak, container_id);
 }
 
 static void handleSqlCurrentCostumeCallback(Packet *pak,U8 *ent,int col_count,ColumnInfo **field_ptrs,void *data)
@@ -730,7 +730,7 @@ static void sendCurrentCostume(GameClientLink *client, int slot_idx)
     DbList        *ent_list = dbListPtr(CONTAINER_ENTS);
     int            container_id;
     TableInfo    *table;
-    char        restrict[400];
+    char        restriction[400];
 
     if (slot_idx < 0 || slot_idx >= MAX_PLAYER_SLOTS )
     {
@@ -759,8 +759,8 @@ static void sendCurrentCostume(GameClientLink *client, int slot_idx)
     pktSendBitsPack(pak, 1, slot_idx);
 
     table = tpltFindTable(ent_list->tplt, "Ents");
-    sprintf(restrict,"WHERE ContainerId = %d", container_id);
-    sqlReadColumnsAsync(table,0, "CurrentCostume", restrict, handleSqlCurrentCostumeCallback, (void*)(intptr_t)container_id, pak, container_id);
+    sprintf(restriction,"WHERE ContainerId = %d", container_id);
+    sqlReadColumnsAsync(table,0, "CurrentCostume", restriction, handleSqlCurrentCostumeCallback, (void*)(intptr_t)container_id, pak, container_id);
 }
 
 static void handleSqlCurrentPowersetNamesCallback(Packet *pak, U8 *ent, int col_count, ColumnInfo **field_ptrs, void *data)
@@ -791,7 +791,7 @@ static void sendCurrentPowersetNames(GameClientLink *client, int slot_idx)
     DbList        *ent_list = dbListPtr(CONTAINER_ENTS);
     int            container_id;
     TableInfo    *table;
-    char        restrict[400];
+    char        restriction[400];
 
     if (slot_idx < 0 || slot_idx >= MAX_PLAYER_SLOTS )
     {
@@ -811,8 +811,8 @@ static void sendCurrentPowersetNames(GameClientLink *client, int slot_idx)
     pktSendBitsPack(pak, 1, slot_idx);
 
     table = tpltFindTable(ent_list->tplt, "Ents2");
-    sprintf(restrict,"WHERE ContainerId = %d", container_id);
-    sqlReadColumnsAsync(table,0, "originalPrimary, originalSecondary", restrict, handleSqlCurrentPowersetNamesCallback, (void*)(intptr_t)container_id, pak, container_id);
+    sprintf(restriction,"WHERE ContainerId = %d", container_id);
+    sqlReadColumnsAsync(table,0, "originalPrimary, originalSecondary", restriction, handleSqlCurrentPowersetNamesCallback, (void*)(intptr_t)container_id, pak, container_id);
 }
 
 static int s_skipQueue(GameClientLink *client)

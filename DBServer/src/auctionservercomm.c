@@ -181,7 +181,7 @@ static int auctionMsgCallback(Packet *pak_in,int cmd,NetLink *auc_link)
 
         if(!auction_state.sqlcb_link && eaSize(&auction_state.links) == 1)
         {
-            char *restrict = NULL;
+            char *restriction = NULL;
             int days_active;
 
             if(!server_cfg.auction_last_login_delay)
@@ -195,10 +195,10 @@ static int auctionMsgCallback(Packet *pak_in,int cmd,NetLink *auc_link)
             days_active = server_cfg.auction_last_login_delay;
             auction_state.sqlcb_link = auc_link;
 
-            estrPrintf(&restrict,"WHERE LastActive > DATEADD(d, -%i, GETDATE())", days_active);
-            sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restrict,sqlAuctionGetActiveCallback,0,pak_out,0);
+            estrPrintf(&restriction,"WHERE LastActive > DATEADD(d, -%i, GETDATE())", days_active);
+            sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restriction,sqlAuctionGetActiveCallback,0,pak_out,0);
 
-            estrDestroy(&restrict);
+            estrDestroy(&restriction);
         }
         else
         {

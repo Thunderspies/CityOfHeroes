@@ -99,7 +99,7 @@ static void UpdateCache(int min_container_id, U32 min_timestamp)
     int row_count = 0;
     char *cols = NULL;
     ColumnInfo    *field_ptrs[200];    // 150 for all the stages, plus sundry
-    char restrict[200];
+    char restriction[200];
     int idx = 0;
     int count = 0;
     int stage = 0;
@@ -108,16 +108,16 @@ static void UpdateCache(int min_container_id, U32 min_timestamp)
     int attr;
 
     if (min_container_id && min_timestamp)
-        sprintf(restrict, "WHERE ContainerID > %d AND TimeStamp > %u", min_container_id, min_timestamp);
+        sprintf(restriction, "WHERE ContainerID > %d AND TimeStamp > %u", min_container_id, min_timestamp);
     else if (min_container_id)
-        sprintf(restrict, "WHERE ContainerID > %d", min_container_id);
+        sprintf(restriction, "WHERE ContainerID > %d", min_container_id);
     else if (min_timestamp)
-        sprintf(restrict, "WHERE TimeStamp > %u", min_timestamp);
+        sprintf(restriction, "WHERE TimeStamp > %u", min_timestamp);
     else
-        restrict[0] = '\0';
+        restriction[0] = '\0';
 
 
-    cols = sqlReadColumnsSlow(eventhistory_list->tplt->tables,"",all_columns,restrict,&row_count,field_ptrs);
+    cols = sqlReadColumnsSlow(eventhistory_list->tplt->tables,"",all_columns,restriction,&row_count,field_ptrs);
 
     for (count = 0; count < row_count; count++)
     {
