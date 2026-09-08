@@ -9,6 +9,9 @@
 #include "../../include/arda2/core/corFirst.h"
 #include "../../include/arda2/timer/timTimer.h"
 #include <time.h>
+#if defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX)
+#include <intrin.h>
+#endif
 
 #if CORE_SYSTEM_PS3
 #include <sys/timer.h>
@@ -92,12 +95,16 @@ uint64 timTimer::GetSystemTimerValue()
     uint64 counter;
 
 #if USE_CPU_COUNTER
+#if defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX)
+    counter = __rdtsc();
+#else
     __asm
     {
         rdtsc
         mov [dword ptr counter], eax
         mov [dword ptr counter+4], edx
     }
+#endif
 #else
     QueryPerformanceCounter((LARGE_INTEGER *)&counter);
 #endif

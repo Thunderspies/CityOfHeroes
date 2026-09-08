@@ -76,7 +76,7 @@ typedef struct PerformanceInfo {
 
 #if defined(_XBOX)
     #define GET_CPU_TICKS_64(x) x = __mftb();
-#elif defined (_WIN64)
+#elif defined (_WIN64) || (defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX))
     #define GET_CPU_TICKS_64(x) x = __rdtsc();
 #else
     #define GET_CPU_TICKS_64(x){                                        \

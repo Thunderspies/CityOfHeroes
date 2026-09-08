@@ -4,7 +4,7 @@
 #ifndef _PREFETCH_H
 #define _PREFETCH_H
 
-#if defined(_M_X64)
+#if defined(_M_X64) || (defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX))
 
 #include <intrin.h>
 

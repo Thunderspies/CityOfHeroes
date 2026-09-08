@@ -3062,6 +3062,8 @@ static void serverExecCmd(Cmd *cmd, ClientLink *client, char *source_str, Entity
         xcase SCMD_SERVER_BREAK:
 #ifdef _M_X64
             DebugBreak();
+#elif defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX)
+            __debugbreak();
 #else
             __asm int 3        // break!
 #endif

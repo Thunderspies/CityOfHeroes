@@ -5,7 +5,7 @@
 #include "utilitieslib/utils/wininclude.h"
 #include "utilitieslib/utils/SuperAssert.h"
 
-#if _MSC_VER < 1400 // don't have intrinsic
+#if defined(_MSC_VER) && _MSC_VER < 1400 // don't have intrinsic
 void __cpuid(int CPUInfo[4], int param)
 {
     int CPUInfo2[4];

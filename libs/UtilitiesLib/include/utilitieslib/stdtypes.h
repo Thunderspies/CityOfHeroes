@@ -817,7 +817,7 @@ void do_auto_runs(void);
 // #define AUTO_TEST_GROUP(...) typedef int happyLongDummyMeaninglessNameThatMeansNothingLoopDeLoop
 // #define AUTO_TEST_BLOCK(...) typedef int happyLongDummyMeaninglessNameThatMeansNothingLoopDeLoop
 
-#ifdef _M_X64
+#if defined(_M_X64) || (defined(__GNUC__) && defined(_WIN32) && defined(__i386__) && !defined(_XBOX))
 #    define _DbgBreak() __debugbreak()
 #else
 #    define _DbgBreak() __asm { int 3 }
