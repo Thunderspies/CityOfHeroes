@@ -5,7 +5,7 @@
 #include "PreComp.h"
 #include "md5.h"
 #include "cryptlib/sha.h"
-#include "cryptlib/adler32.h"
+#include <adler32.h>
 
 using namespace std;
 using namespace CryptoPP;
@@ -417,8 +417,8 @@ char CAccount::CheckPassword( const char *name, char *dbpwdLineage2, char *dbpwd
                           _tolower(salt_str[i]);
                   }
   
-                  CRC.Update((byte*)salt_str, static_cast<unsigned int>(salt_len));
-                  CRC.Final((byte*)&salt);
+                  CRC.Update((CryptoPP::byte*)salt_str, static_cast<unsigned int>(salt_len));
+                  CRC.Final((CryptoPP::byte*)&salt);
 
                   CDBConn dbconn(g_linDB);
                 SQLLEN cbPwd = ENC_PWD_LEN;

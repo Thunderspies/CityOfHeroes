@@ -18,9 +18,9 @@ AccountDB accountdb;
 
 BOOL SendSocket(in_addr , const char *format, ...);
 
-#include "cryptlib/osrng.h"
-#include "cryptlib/rng.h"
-#include "cryptlib/rsa.h"
+#include <osrng.h>
+#include <rng.h>
+#include <rsa.h>
 
 using namespace CryptoPP;
 using CryptoPP::InvertibleRSAFunction;
@@ -54,7 +54,7 @@ void DecryptRSAText(char*ciphertextstr, int bufferLen)
     }
 
     // Decryption
-    CryptoPP::SecByteBlock ciphertext((byte*)ciphertextstr, bufferLen);
+    CryptoPP::SecByteBlock ciphertext((CryptoPP::byte*)ciphertextstr, bufferLen);
 
     // Now that there is a concrete object, we can check sizes
     assert(0 != decryptor->FixedCiphertextLength());
@@ -654,16 +654,16 @@ const char *CSocketServerEx::IP()
 
 void CSocketServerEx::OnCreate()
 {
-    static byte *modBuffer = NULL;
-    static byte *expBuffer = NULL;
+    static CryptoPP::byte *modBuffer = NULL;
+    static CryptoPP::byte *expBuffer = NULL;
     static int modByteCount;
     static int expByteCount;
 
     if (!modBuffer) {
         modByteCount = static_cast<int>(RSA_Params->GetModulus().MinEncodedSize());
         expByteCount = static_cast<int>(RSA_Params->GetPublicExponent().MinEncodedSize());
-        modBuffer = new byte[modByteCount];
-        expBuffer = new byte[expByteCount];
+        modBuffer = new CryptoPP::byte[modByteCount];
+        expBuffer = new CryptoPP::byte[expByteCount];
         RSA_Params->GetModulus().Encode(modBuffer, modByteCount);
         RSA_Params->GetPublicExponent().Encode(expBuffer, expByteCount);
     }

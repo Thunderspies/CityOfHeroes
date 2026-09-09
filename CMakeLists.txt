@@ -41,6 +41,7 @@ if(WIN32)
 	endif()
 	enable_language(RC)
 	include(dependencies/Zlib)
+	include(dependencies/CryptoPP)
 	add_subdirectory(libs/crashrpt)
 endif()
 

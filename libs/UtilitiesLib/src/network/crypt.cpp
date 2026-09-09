@@ -4,19 +4,19 @@
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 
-#include "cryptlib/cryptlib.h"
-#include "cryptlib/rng.h"
-#include "cryptlib/dh.h"
-#include "cryptlib/hmac.h"
-#include "cryptlib/md5.h"
-#include "cryptlib/adler32.h"
-#include "cryptlib/sha.h"
-#include "cryptlib/rsa.h"
-#include "cryptlib/filters.h"
-#include "cryptlib/files.h"
-#include "cryptlib/modes.h"
-#include "cryptlib/hex.h"
-#include "cryptlib/aes.h"
+#include <cryptlib.h>
+#include <rng.h>
+#include <dh.h>
+#include <hmac.h>
+#include <md5.h>
+#include <adler32.h>
+#include <sha.h>
+#include <rsa.h>
+#include <filters.h>
+#include <files.h>
+#include <modes.h>
+#include <hex.h>
+#include <aes.h>
 #include "utilitieslib/stdtypes.h"
 #include "utilitieslib/utils/timing.h"
 #include "utilitieslib/utils/SuperAssert.h"
@@ -142,7 +142,7 @@ void cryptAdler32Init()
     if (!adler32) {
         adler32 = new Adler32;
     }
-    adler32->Reset();
+    adler32->Restart();
 }
 
 void cryptAdler32Update(const U8 *data, int len)

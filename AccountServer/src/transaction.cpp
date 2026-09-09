@@ -12,10 +12,10 @@
 #include <utilitieslib/utils/log.h>
 #include <utilitieslib/utils/timing.h>
 
-#include <cryptlib/sha.h>
-#include <cryptlib/hmac.h>
-#include <cryptlib/md5.h>
-#include <cryptlib/hex.h>
+#include <sha.h>
+#include <hmac.h>
+#include <md5.h>
+#include <hex.h>
 
 MP_DEFINE(MicroTransaction);
 MP_DEFINE(GameTransaction);
