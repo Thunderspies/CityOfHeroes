@@ -1506,7 +1506,8 @@ void timerFree(U32 timer)
     timerInfos[timer].in_use = 0;
 }
 
-FORCEINLINE static void timerMakeDateString_s_ex(char *datestr, size_t datestr_size, char *format)
+static COH_FORCEINLINE void timerMakeDateString_s_ex(char *datestr,
+	size_t datestr_size, char *format)
 {
 #if _WIN32 || defined(_XBOX)
     SYSTEMTIME    sys_time;

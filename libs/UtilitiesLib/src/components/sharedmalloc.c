@@ -1563,14 +1563,14 @@ static void* allocateSharedPage(size_t size)
 }
 
 /* Win32 MMAP via VirtualAlloc */
-static FORCEINLINE void* win32mmap(size_t size) {
+static COH_FORCEINLINE void* win32mmap(size_t size) {
 //  void* ptr = VirtualAlloc(0, size, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
     void* ptr = allocateSharedPage(size);
     return (ptr != 0)? ptr: MFAIL;
 }
 
 /* For direct MMAP, use MEM_TOP_DOWN to minimize interference */
-static FORCEINLINE void* win32direct_mmap(size_t size) {
+static COH_FORCEINLINE void* win32direct_mmap(size_t size) {
 //  void* ptr = VirtualAlloc(0, size, MEM_RESERVE|MEM_COMMIT|MEM_TOP_DOWN,
 //                           PAGE_READWRITE);
     void* ptr = allocateSharedPage(size);
@@ -1578,7 +1578,7 @@ static FORCEINLINE void* win32direct_mmap(size_t size) {
 }
 
 /* This function supports releasing coalesed segments */
-static FORCEINLINE int win32munmap(void* ptr, size_t size) {
+static COH_FORCEINLINE int win32munmap(void* ptr, size_t size) {
 //  MEMORY_BASIC_INFORMATION minfo;
 //  char* cptr = (char*)ptr;
 //  while (size) {
@@ -1729,7 +1729,7 @@ struct pthread_mlock_t {
 
 static MLOCK_T malloc_global_mutex = { 0, 0, 0};
 
-static FORCEINLINE int pthread_acquire_lock (MLOCK_T *sl) {
+static COH_FORCEINLINE int pthread_acquire_lock (MLOCK_T *sl) {
   int spins = 0;
   volatile unsigned int* lp = &sl->l;
   for (;;) {
@@ -1769,7 +1769,7 @@ static FORCEINLINE int pthread_acquire_lock (MLOCK_T *sl) {
   }
 }
 
-static FORCEINLINE void pthread_release_lock (MLOCK_T *sl) {
+static COH_FORCEINLINE void pthread_release_lock (MLOCK_T *sl) {
   volatile unsigned int* lp = &sl->l;
   assert(*lp != 0);
   assert(sl->threadid == CURRENT_THREAD);
@@ -1784,7 +1784,7 @@ static FORCEINLINE void pthread_release_lock (MLOCK_T *sl) {
   }
 }
 
-static FORCEINLINE int pthread_try_lock (MLOCK_T *sl) {
+static COH_FORCEINLINE int pthread_try_lock (MLOCK_T *sl) {
   volatile unsigned int* lp = &sl->l;
   if (*lp != 0) {
     if (sl->threadid == CURRENT_THREAD) {
@@ -1829,7 +1829,7 @@ struct win32_mlock_t {
 
 static MLOCK_T malloc_global_mutex = { 0, 0, 0};
 
-static FORCEINLINE int win32_acquire_lock (MLOCK_T *sl) {
+static COH_FORCEINLINE int win32_acquire_lock (MLOCK_T *sl) {
   int spins = 0;
   for (;;) {
     if (sl->l != 0) {
@@ -1851,7 +1851,7 @@ static FORCEINLINE int win32_acquire_lock (MLOCK_T *sl) {
   }
 }
 
-static FORCEINLINE void win32_release_lock (MLOCK_T *sl) {
+static COH_FORCEINLINE void win32_release_lock (MLOCK_T *sl) {
   assert(sl->threadid == CURRENT_THREAD);
   assert(sl->l != 0);
   if (--sl->c == 0) {
@@ -1860,7 +1860,7 @@ static FORCEINLINE void win32_release_lock (MLOCK_T *sl) {
   }
 }
 
-static FORCEINLINE int win32_try_lock (MLOCK_T *sl) {
+static COH_FORCEINLINE int win32_try_lock (MLOCK_T *sl) {
   if (sl->l != 0) {
     if (sl->threadid == CURRENT_THREAD) {
       ++sl->c;

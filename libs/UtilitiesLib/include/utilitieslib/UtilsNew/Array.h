@@ -156,7 +156,7 @@ STATIC_ASSERT(!(sizeof(ArrayHack)%sizeof(void*))); // alignment
 #define as_push(as)    (as_dopush((void**)(as), sizeof(**as)), as_top(as))
 #define as_pop(as)    (as_head(as)->count--)
 #define as_popall(as) ((*as) ? as_head(as)->count = 0 : 0)
-static __forceinline void as_dopush(void **pas, size_t size)
+static COH_FORCEINLINE void as_dopush(void **pas, size_t size)
 {
     ArrayHack *ah = *pas ? as_head(pas) : calloc(1, sizeof(ArrayHack));
     if(ah->count == ah->capacity)

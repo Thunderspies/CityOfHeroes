@@ -15,7 +15,7 @@
 
 typedef void (*function_call)();
 
-__declspec(thread) CallInfo *gthread_metacall_stack;
+COH_THREAD_LOCAL CallInfo *gthread_metacall_stack;
 CallInfo g_metacall_null = {0};
 
 static StashTable s_calllookup[CALLTYPE_COUNT]; // FIXME: thread safety
@@ -23,7 +23,7 @@ static Cmd *s_legacycmds = NULL; // not thread-safe, not updated as commands cha
 static vprintf_call s_remote_printf_messager;
 static vprintf_call s_remote_handler_messager;
 
-FORCEINLINE static int s_stripUnderscores(const char *cmd, char **buffer)
+static COH_FORCEINLINE int s_stripUnderscores(const char *cmd, char **buffer)
 {
     const char *s;
 

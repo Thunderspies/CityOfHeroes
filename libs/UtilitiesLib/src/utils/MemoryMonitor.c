@@ -1158,7 +1158,8 @@ static void printMemorySizeInfo()
     consoleSetDefaultColor();
 }
 
-FORCEINLINE static void memMonitorStats_ex(char **output)    //if there's output, then we're writing to a file
+// If output is supplied, collect the report for a file.
+static COH_FORCEINLINE void memMonitorStats_ex(char **output)
 {
     COORD coord = {0};
     OutputHandler handler = (output)?estrConcatHandler:defaultHandler;

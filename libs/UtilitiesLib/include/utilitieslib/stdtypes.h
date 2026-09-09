@@ -12,6 +12,7 @@
 #    define C_DECLARATIONS_END
 #endif
 
+#include "compiler.h"
 #include <stddef.h>
 #include <stdarg.h>
 #include <string.h>
@@ -55,7 +56,7 @@
 #if defined(FULLDEBUG)
 #define INLINEDBG
 #elif defined(_DEBUG)
-#define INLINEDBG __forceinline
+#define INLINEDBG COH_FORCEINLINE
 #else
 #define INLINEDBG __inline
 #endif
@@ -192,7 +193,7 @@ typedef ptrdiff_t ssize_t;
     // TODO: We could put the memory actually into shared memory, but we need to handle locking correctly first
     //#pragma section("shared_memory", read, write, shared) 
     #pragma section("shared_memory", read, write)
-    #define SHARED_MEMORY __declspec(allocate("shared_memory")) const
+#define SHARED_MEMORY COH_SECTION("shared_memory") const
     #define SHARED_MEMORY_PARAM const
 
     #if defined(SERVER)
@@ -226,13 +227,30 @@ typedef ptrdiff_t ssize_t;
 void DebuggerPrint(const char * msg);
 
 #ifdef FULLDEBUG
-    #define TODO() do { static bool once=true; if(once) { __nop(); } else { DebuggerPrint(__FILE__ "(" STRINGIFY(__LINE__) "): TODO\n"); once=false; }} while(0,0)
+#define TODO() do { \
+	static bool once = true; \
+	if (once) { \
+		COH_NOP(); \
+	} else { \
+		DebuggerPrint(__FILE__ "(" STRINGIFY(__LINE__) "): TODO\n"); \
+		once = false; \
+	} \
+} while (0, 0)
 #else
     #define TODO() do {} while(0,0)
 #endif
 
 #ifndef FINAL
-    #define NEEDS_REVIEW() do { static bool once=true; if(!once) { __nop(); } else { DebuggerPrint(__FILE__ "(" STRINGIFY(__LINE__) "): NEEDS_REVIEW\n"); once=false; }} while(0,0)
+#define NEEDS_REVIEW() do { \
+	static bool once = true; \
+	if (!once) { \
+		COH_NOP(); \
+	} else { \
+		DebuggerPrint(__FILE__ "(" STRINGIFY(__LINE__) ")" \
+			": NEEDS_REVIEW\n"); \
+		once = false; \
+	} \
+} while (0, 0)
 #else
     // force compile error in FINAL to force fixing of these issues
     #define NEEDS_REVIEW() do { typedef char __NEEDS_REVIEW__[-1]; } while(0,0)
@@ -245,7 +263,7 @@ void DebuggerPrint(const char * msg);
 #define xcase                                    break;case
 #define xdefault                                break;default
 
-#define THREADSAFE_STATIC __declspec(thread) static
+#define THREADSAFE_STATIC static COH_THREAD_LOCAL
 #ifdef ENABLE_LEAK_DETECTION
     #define THREADSAFE_STATIC_MARK(var) GC_add_roots(&(var), (void*)(((uintptr_t)&(var)) + sizeof(var)))
 #else

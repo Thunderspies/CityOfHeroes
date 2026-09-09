@@ -99,12 +99,22 @@ void setAssertShardTime(int shardTime);
     int isCrashed(void);
     
     #if BREAK_INSTEAD_OF_ASSERT
-        #define failmsgf(exp, msg, ...) (printf(msg?msg:"",__VA_ARGS__), __debugbreak(), __assume(exp), 0)
+#define failmsgf(exp, msg, ...) \
+	(printf(msg ? msg : "", __VA_ARGS__), __debugbreak(), \
+	 COH_ASSUME(exp), 0)
     #else
-        #define failmsgf(exp, msg, ...) (superassertf(#exp, msg, __FILE__, __LINE__, __VA_ARGS__) ? FORCE_CRASH : 0, __assume(exp), 0)
+#define failmsgf(exp, msg, ...) \
+	(superassertf(#exp, msg, __FILE__, __LINE__, __VA_ARGS__) ? \
+	 FORCE_CRASH : 0, COH_ASSUME(exp), 0)
     #endif
 
-    #define assertmsgf(exp, msg, ...) do { if((exp)) { __nop(); } else { failmsgf(exp, msg, __VA_ARGS__); } } while(0)
+#define assertmsgf(exp, msg, ...) do { \
+	if ((exp)) { \
+		COH_NOP(); \
+	} else { \
+		failmsgf(exp, msg, __VA_ARGS__); \
+	} \
+} while (0)
     #define assertmsg(exp, msg)    assertmsgf(exp, msg) 
     #if defined(assert)
     #undef assert

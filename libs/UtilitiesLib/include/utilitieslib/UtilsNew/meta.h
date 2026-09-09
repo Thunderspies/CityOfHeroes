@@ -134,7 +134,7 @@ void meta_printf(FORMAT fmt, ...);
 
 #include "utilitieslib/UtilsNew/Array.h"
 
-extern __declspec(thread) CallInfo *gthread_metacall_stack;
+extern COH_THREAD_LOCAL CallInfo *gthread_metacall_stack;
 extern CallInfo g_metacall_null;
 
 #define meta_getCallInfo()    (as_size(&gthread_metacall_stack) ? as_top(&gthread_metacall_stack) : &g_metacall_null)

@@ -36,11 +36,6 @@
 
 #include "utilitieslib/components/TriCube/pcube.h"
 
-#ifndef __cplusplus
-#define inline
-#endif
-
-
 #define TEST_AGAINST_PARALLEL_PLANES(posbit, negbit, value, limit)    \
     if (mask & (posbit|negbit)) {                    \
         register real temp = value;                \

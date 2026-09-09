@@ -97,11 +97,13 @@ typedef struct PerformanceInfo {
     #define PERFINFO_RUN(x)
 #else
     #define PERFINFO_RUN_CONDITIONS (timing_state.runperfinfo && PERFINFO_IS_GOOD_THREAD)
-    #define PERFINFO_RUN(x) {                                   \
-        if(!(PERFINFO_RUN_CONDITIONS)) { __nop(); } else {      \
-            x                                               \
-        }                                                   \
-    }
+#define PERFINFO_RUN(x) { \
+	if (!(PERFINFO_RUN_CONDITIONS)) { \
+		COH_NOP(); \
+	} else { \
+		x \
+	} \
+}
 #endif
 
 //- TIMER CORE CRAP -------------------------------------------------------------------------------

@@ -616,7 +616,7 @@ static INLINEDBG F32 rule30FloatPct()
 }
 
 /* quick F32 between -1.0 and 1.0 
-__forceinline F32 qfrand()
+COH_FORCEINLINE F32 qfrand()
 {
     int s;
     s = (0x3f800000 | ( 0x007fffff & qsirand() ) );
