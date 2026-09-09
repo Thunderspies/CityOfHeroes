@@ -106,7 +106,7 @@ protected:
     static proClass *s_class;\
     friend class proClassNative;\
 };\
-Property_##c##_##p##Ref  regProperty_##c##_##p##;\
+Property_##c##_##p##Ref  regProperty_##c##_##p;\
 const std::string Property_##c##_##p##Ref::s_name = #p;\
 PRO_REGISTER_CLASS(Property_##c##_##p##Ref,proPropertyFunction)
 
@@ -115,7 +115,7 @@ PRO_REGISTER_CLASS(Property_##c##_##p##Ref,proPropertyFunction)
 #define REG_PROPERTY_FUNCTION0( c, p, func, returnType)\
 returnType Property_##c##_##p##Delegate(proObject *obj)\
 {\
-    return ((##c##*)obj)->func();\
+	return ((c*)obj)->func();\
 }\
 class Property_##c##_##p##Ref : public proPropertyFunctionNative\
 {\
@@ -130,7 +130,7 @@ public:\
 #define REG_PROPERTY_FUNCTION1( c, p, func, returnType, arg0Type )\
 returnType Property_##c##_##p##Delegate(proObject *obj, arg0Type arg0)\
 {\
-    return ((##c##*)obj)->func(arg0);\
+	return ((c*)obj)->func(arg0);\
 }\
 class Property_##c##_##p##Ref : public proPropertyFunctionNative\
 {\
@@ -145,7 +145,7 @@ public:\
 #define REG_PROPERTY_FUNCTION2( c, p, func, returnType, arg0Type, arg1Type )\
 returnType Property_##c##_##p##Delegate(proObject *obj, arg0Type arg0, arg1Type arg1)\
 {\
-    return ((##c##*)obj)->func(arg0, arg1);\
+	return ((c*)obj)->func(arg0, arg1);\
 }\
 class Property_##c##_##p##Ref : public proPropertyFunctionNative\
 {\
@@ -160,7 +160,7 @@ public:\
 #define REG_PROPERTY_FUNCTION3( c, p, func, returnType, arg0Type, arg1Type, arg2Type )\
 returnType Property_##c##_##p##Delegate(proObject *obj, arg0Type arg0, arg1Type arg1, arg2Type arg2)\
 {\
-    return ((##c##*)obj)->func(arg0, arg1, arg2);\
+	return ((c*)obj)->func(arg0, arg1, arg2);\
 }\
 class Property_##c##_##p##Ref : public proPropertyFunctionNative\
 {\
@@ -175,7 +175,7 @@ public:\
 #define REG_PROPERTY_FUNCTION4( c, p, func, returnType, arg0Type, arg1Type, arg2Type, arg3Type )\
 returnType Property_##c##_##p##Delegate(proObject *obj, arg0Type arg0, arg1Type arg1, arg2Type arg2, arg3Type arg3)\
 {\
-    return ((##c##*)obj)->func(arg0, arg1, arg2, arg3);\
+	return ((c*)obj)->func(arg0, arg1, arg2, arg3);\
 }\
 class Property_##c##_##p##Ref : public proPropertyFunctionNative\
 {\

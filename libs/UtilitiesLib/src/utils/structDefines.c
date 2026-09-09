@@ -217,7 +217,14 @@ int StaticDefineIntLookupInt(StaticDefineInt* list, const char* key)
                     {
                         xcase DM_INT:        return list->value;
                         xcase DM_STRING:    return atoi((char*)list->value);
-                        xdefault:            FatalErrorf(__FUNCTION__": unsupported type marker %d", curtype);
+						xdefault:
+							FatalErrorf(
+								"%s: "
+								"unsupported "
+								"type marker "
+								"%d",
+								__func__,
+								curtype);
                     }
                 }
 

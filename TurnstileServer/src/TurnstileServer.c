@@ -421,7 +421,10 @@ static void turnstileServer_stop(void)
 // Somewhat experimental, dump status to a string for http rendering
 static void turnstileServer_http(char **str)
 {
-#define sendline(fmt, ...)    Str_catf(str, fmt"\n", __VA_ARGS__)
+#define sendline(...) do { \
+	Str_catf(str, __VA_ARGS__); \
+	Str_catf(str, "\n"); \
+} while (0)
 #define rowclass            ((row++)&1)
 
     int i;
@@ -432,7 +435,7 @@ static void turnstileServer_http(char **str)
     TurnstileMission *mission;
 
     sendline("<table>");
-    sendline("<tr class=rowt><th colspan=3>TurnstileServer summary.&nbsp;&nbsp;&nbsp;%d players queued.&nbsp;&nbsp;&nbsp;Average wait time: %s");
+    sendline("<tr class=rowt><th colspan=3>TurnstileServer summary.");
     sendline("<tr class=rowh><th>Mission<th>Available<th>Avg. wait");
 
     n = eaSize(&turnstileConfigDef.missions);

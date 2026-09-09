@@ -100,11 +100,11 @@ void setAssertShardTime(int shardTime);
     
     #if BREAK_INSTEAD_OF_ASSERT
 #define failmsgf(exp, msg, ...) \
-	(printf(msg ? msg : "", __VA_ARGS__), __debugbreak(), \
+	(printf(msg ? msg : "", ##__VA_ARGS__), __debugbreak(), \
 	 COH_ASSUME(exp), 0)
     #else
 #define failmsgf(exp, msg, ...) \
-	(superassertf(#exp, msg, __FILE__, __LINE__, __VA_ARGS__) ? \
+	(superassertf(#exp, msg, __FILE__, __LINE__, ##__VA_ARGS__) ? \
 	 FORCE_CRASH : 0, COH_ASSUME(exp), 0)
     #endif
 
@@ -112,7 +112,7 @@ void setAssertShardTime(int shardTime);
 	if ((exp)) { \
 		COH_NOP(); \
 	} else { \
-		failmsgf(exp, msg, __VA_ARGS__); \
+		failmsgf(exp, msg, ##__VA_ARGS__); \
 	} \
 } while (0)
     #define assertmsg(exp, msg)    assertmsgf(exp, msg) 
@@ -121,7 +121,11 @@ void setAssertShardTime(int shardTime);
     #endif // undef assert
     #define assert(exp)    assertmsg(exp, 0)
 
-    #define devassertmsg(exp, msg, ...) ((exp) || (assertIsDevelopmentMode() ? failmsgf(exp, msg, __VA_ARGS__) : (AssertErrorf(__FILE__, __LINE__, "devassert (%s:%d): %s; "msg, __FILE__, __LINE__, #exp, __VA_ARGS__),0)))
+#define devassertmsg(exp, msg, ...) \
+	((exp) || (assertIsDevelopmentMode() ? \
+	 failmsgf(exp, msg, ##__VA_ARGS__) : \
+	 (AssertErrorf(__FILE__, __LINE__, "devassert (%s:%d): %s; " msg, \
+	 __FILE__, __LINE__, #exp, ##__VA_ARGS__), 0)))
     #define devassert(exp) devassertmsg(exp, "")
 
     #define onlydevassert(exp) (assertIsDevelopmentMode() && devassert(exp))

@@ -644,7 +644,8 @@ static ParseInfoTable* ParseInfoToTable(ParseTable pti[], StashTable subNames)
     // set up the table
     table = ParserAllocStruct(sizeof(*table));
     stashAddressFindPointer(subNames, pti, &tablename);
-    devassertmsg(tablename, "Internal parse error in "__FUNCTION__); // should be in hash already
+	// The table should already be in the hash.
+	devassertmsg(tablename, "Internal parse error in %s", __func__);
     if (tablename)
         table->name = StructAllocString(tablename);
 
@@ -676,7 +677,13 @@ static ParseInfoTable* ParseInfoToTable(ParseTable pti[], StashTable subNames)
         if (pti[i].type & TOK_REDUNDANTNAME)
         {
             int alias = ParseInfoFindAliasedField(pti, i);
-            devassertmsg(alias > 0 && pti[alias].name && pti[alias].name[0], "Couldn't find aliased field for redundant token in "__FUNCTION__);
+			devassertmsg(
+				alias > 0 &&
+				pti[alias].name &&
+				pti[alias].name[0],
+				"Couldn't find aliased field for redundant "
+				"token in %s",
+				__func__);
             if (alias > 0)
             {
                 ParseInfoPushOption(elem, "REDUNDANTNAME", pti[alias].name);
@@ -738,7 +745,11 @@ static ParseInfoTable* ParseInfoToTable(ParseTable pti[], StashTable subNames)
         {
             char* subname = 0;
             stashAddressFindPointer(subNames, pti[i].subtable, &subname);
-            devassertmsg(subname, "Internal parse error in "__FUNCTION__); // should be in hash already
+			// The table should already be in the hash.
+			devassertmsg(
+				subname,
+				"Internal parse error in %s",
+				__func__);
             if (subname)
                 ParseInfoPushOption(elem, "SUBTABLE", subname);
         } break;
@@ -835,7 +846,10 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
             {
                 if (!param) 
                 {
-                    Errorf("Name not given parameter in " __FUNCTION__);
+					Errorf(
+						"Name not given parameter in "
+						"%s",
+						__func__);
                 }
                 else
                 {
@@ -852,19 +866,29 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
             {
                 // putting the name in storeoffset right now, it will be fixed up later in this function
                 if (!param)
-                    Errorf("REDUNDANTNAME not given parameter in " __FUNCTION__);
+					Errorf(
+						"REDUNDANTNAME not given "
+						"parameter in %s",
+						__func__);
                 tpi[i].type |= TOK_REDUNDANTNAME;
                 tpi[i].storeoffset = (size_t)param;
             }
             else if (stricmp(option, "FLOAT_ROUNDING")==0)
             {
                 if (!param)
-                    Errorf("FLOAT_ROUNDING missing parameter in " __FUNCTION__);
+					Errorf(
+						"FLOAT_ROUNDING missing "
+						"parameter in %s",
+						__func__);
                 else
                 {
                     int rounding = StaticDefineIntGetInt(ParseFloatRounding, param);
                     if (!rounding)
-                        Errorf("Invalid param %s to FLOAT_ROUNDING in " __FUNCTION__, param);
+						Errorf(
+							"Invalid param %s to "
+							"FLOAT_ROUNDING in %s",
+							param,
+							__func__);
                     else
                         tpi[i].type |= TOK_FLOAT_ROUNDING(rounding);
                 }
@@ -872,7 +896,10 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
             else if (stricmp(option, "MINBITS")==0)
             {
                 if (!param)
-                    Errorf("MINBITS missing parameter in " __FUNCTION__);
+					Errorf(
+						"MINBITS missing parameter in "
+						"%s",
+						__func__);
                 else
                 {
                     tpi[i].type |= TOK_MINBITS(atoi(param));
@@ -889,11 +916,20 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
                     usage != EmbeddedStringLength &&
                     usage != SizeOfRawField)
                 {
-                    Errorf("Invalid option %s passed to "__FUNCTION__".  You may need to state the correct type first", option);
+					Errorf(
+						"Invalid option %s passed to "
+						"%s.  You may need to state "
+						"the correct type first",
+						option,
+						__func__);
                 }
                 else if (!param)
                 {
-                    Errorf("No param given to option %s in "__FUNCTION__, option);
+					Errorf(
+						"No param given to option %s "
+						"in %s",
+						option,
+						__func__);
                 }
                 else
                 {
@@ -905,11 +941,20 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
                 int usage = TYPE_INFO(tpi[i].type).interpretfield(tpi, i, ParamField);
                 if (usage != PointerToDefaultString)
                 {
-                    Errorf("Invalid option %s passed to "__FUNCTION__".  You may need to state the correct type first", option);
+					Errorf(
+						"Invalid option %s passed to "
+						"%s.  You may need to state "
+						"the correct type first",
+						option,
+						__func__);
                 }
                 else if (!param)
                 {
-                    Errorf("No param given to option %s in "__FUNCTION__, option);
+					Errorf(
+						"No param given to option %s "
+						"in %s",
+						option,
+						__func__);
                 }
                 else
                 {
@@ -921,7 +966,12 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
                 int usage = TYPE_INFO(tpi[i].type).interpretfield(tpi, i, SubtableField);
                 if (usage != PointerToDictionaryName)
                 {
-                    Errorf("Invalid option %s passed to "__FUNCTION__".  You may need to state the correct type first", option);
+					Errorf(
+						"Invalid option %s passed to "
+						"%s.  You may need to state "
+						"the correct type first",
+						option,
+						__func__);
                 }
                 else
                 {
@@ -933,7 +983,12 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
                 int usage = TYPE_INFO(tpi[i].type).interpretfield(tpi, i, SubtableField);
                 if (usage != StaticDefineList)
                 {
-                    Errorf("Invalid option %s passed to "__FUNCTION__".  You may need to state the correct type first", option);
+					Errorf(
+						"Invalid option %s passed to "
+						"%s.  You may need to state "
+						"the correct type first",
+						option,
+						__func__);
                 }
                 else
                 {
@@ -944,25 +999,40 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
             {
                 if (TOK_GET_TYPE(tpi[i].type) != TOK_STRUCT_X)
                 {
-                    Errorf("Option SUBTABLE passed to an invalid field type in "__FUNCTION__".  You may need to state the correct type first");
+					Errorf(
+						"Option SUBTABLE passed to an "
+						"invalid field type in %s.  "
+						"You may need to state the "
+						"correct type first",
+						__func__);
                 }
                 else
                 {
                     // putting the name in subtable right now, it will be fixed up later in this function
                     if (!param)
-                        Errorf("SUBTABLE not given parameter in " __FUNCTION__);
+						Errorf(
+							"SUBTABLE not given "
+							"parameter in %s",
+							__func__);
                     tpi[i].subtable = param;
                 }
             }
             else if (stricmp(option, "FORMAT")==0)
             {
                 if (!param)
-                    Errorf("FORMAT missing parameter in " __FUNCTION__);
+					Errorf(
+						"FORMAT missing parameter in "
+						"%s",
+						__func__);
                 else
                 {
                     int format = StaticDefineIntGetInt(ParseFormatOptions, param);
                     if (!format)
-                        Errorf("Invalid param %s to FORMAT in " __FUNCTION__, param);
+						Errorf(
+							"Invalid param %s to "
+							"FORMAT in %s",
+							param,
+							__func__);
                     else
                         tpi[i].format |= format;
                 }
@@ -970,12 +1040,19 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
             else if (stricmp(option, "FORMAT_RAW")==0)
             {
                 if (!param)
-                    Errorf("FORMAT_RAW missing parameter in " __FUNCTION__);
+					Errorf(
+						"FORMAT_RAW missing parameter "
+						"in %s",
+						__func__);
                 else
                 {
                     int format = atoi(param);
                     if (!format || TOK_GET_FORMAT_OPTIONS(format) != format)
-                        Errorf("Invalid param %s to FORMAT_RAW in " __FUNCTION__, param);
+						Errorf(
+							"Invalid param %s to "
+							"FORMAT_RAW in %s",
+							param,
+							__func__);
                     else
                         tpi[i].format |= format;
                 }
@@ -983,12 +1060,19 @@ ParseTable* ParseInfoFromTable(ParseInfoTable* table)
             else if (stricmp(option, "LVWIDTH")==0)
             {
                 if (!param)
-                    Errorf("LVWIDTH missing parameter in "__FUNCTION__);
+					Errorf(
+						"LVWIDTH missing parameter in "
+						"%s",
+						__func__);
                 else
                 {
                     int width = atoi(param);
                     if (!width)
-                        Errorf("Invalid param %s to LVWIDTH in "__FUNCTION__, param);
+						Errorf(
+							"Invalid param %s to "
+							"LVWIDTH in %s",
+							param,
+							__func__);
                     else
                         tpi[i].format |= TOK_FORMAT_LVWIDTH(width);
                 }
@@ -1061,7 +1145,10 @@ bool ParseInfoFixupSubtablePointers(ParseTable pti[], StashTable subAddresses)
         {
             if (!pti[i].subtable)
             {
-                Errorf("Missing subtable from TOK_STRUCT in " __FUNCTION__);
+				Errorf(
+					"Missing subtable from TOK_STRUCT in "
+					"%s",
+					__func__);
                 ret = false;
             }
             else if (!stashFindPointer(subAddresses, pti[i].subtable, &subtable)) // subtable is a string right now
@@ -1130,7 +1217,7 @@ bool ParseInfoFromDescriptor(ParseTable*** eapti, int* size, ParseInfoDescriptor
     // the following require the root to be the first table
     if (ret && !stashFindPointer(pid->subAddresses, PARSEINFO_ROOTNAME, &roottable))
     {
-        Errorf("Could not find root parse table in "__FUNCTION__);
+		Errorf("Could not find root parse table in %s", __func__);
         ret = false;
     }
     if (ret) for (i = 0; i < eaSize(eapti); i++)

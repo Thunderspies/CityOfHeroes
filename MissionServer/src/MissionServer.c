@@ -4489,7 +4489,10 @@ void missionserver_stop(void)
 
 void missionserver_http(char **str)
 {
-#define sendline(fmt, ...)    Str_catf(str, fmt"\n", __VA_ARGS__)
+#define sendline(...) do { \
+	Str_catf(str, __VA_ARGS__); \
+	Str_catf(str, "\n"); \
+} while (0)
 #define rowclass            ((row++)&1)
 
     int i;

@@ -49,7 +49,7 @@ STATIC_ASSERT(!(sizeof(ArrayHdr)%sizeof(void*))); // alignment
 #define ADECL3(FUNC,PREFIX) PREFIX ## _ ## FUNC
 #define ADECL2(FUNC,PREFIX) ADECL3(FUNC,PREFIX)
 #define ADECL(FUNC) ADECL2(FUNC,TYPE_FUNC_PREFIX)
-#define S_ADECL(FUNC) ADECL(FUNC) ## _s
+#define S_ADECL(FUNC) ADECL(FUNC ## _s)
 
 
 // *************************************************************************

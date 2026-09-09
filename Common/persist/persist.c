@@ -1529,7 +1529,10 @@ int persist_Panic(void)
 #include <utilitieslib/UtilsNew/Str.h>
 #include <utilitieslib/components/EString.h> // required for ParserWriteText
 #include <utilitieslib/utils/textparserUtils.h>
-#define sendline(fmt, ...)    Str_catf(str, fmt"\n", __VA_ARGS__)
+#define sendline(...) do { \
+	Str_catf(str, __VA_ARGS__); \
+	Str_catf(str, "\n"); \
+} while (0)
 #define rowclass            ((row++)&1)
 
 static void s_persist_http_info(char **str, PersistInfo *info, char **keys, char **values, int count, char *fragment);

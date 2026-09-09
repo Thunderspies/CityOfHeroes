@@ -257,18 +257,28 @@ void _rdrBeginMarker(const char * name, ...);
 void _rdrEndMarker(void);
 void _rdrSetMarker(const char * msg, ...);
 
-#define rdrBeginMarker(_name, ...) do { if(!markersEnabled) { __nop(); } else { _rdrBeginMarker(_name, __VA_ARGS__); } } while(0)
+#define rdrBeginMarker(...) do { \
+	if (!markersEnabled) \
+		__nop(); \
+	else \
+		_rdrBeginMarker(__VA_ARGS__); \
+} while (0)
 #define rdrEndMarker() do { if(!markersEnabled) { __nop(); } else { _rdrEndMarker(); } } while(0)
-#define rdrSetMarker(_msg, ...) do { if(!markersEnabled) { __nop(); } else { _rdrSetMarker(_msg, __VA_ARGS__); } } while(0)
+#define rdrSetMarker(...) do { \
+	if (!markersEnabled) \
+		__nop(); \
+	else \
+		_rdrSetMarker(__VA_ARGS__); \
+} while (0)
 
 #else
 
 #define rdrBeginMarkerFrame() do {} while(0)
 #define rdrBeginMarkerThreadFrame(_enable) do {} while(0)
 
-#define rdrBeginMarker(_name, ...) do {} while(0)
+#define rdrBeginMarker(...) do {} while(0)
 #define rdrEndMarker() do {} while(0)
-#define rdrSetMarker(_msg, ...) do {} while(0)
+#define rdrSetMarker(...) do {} while(0)
 
 #endif
 

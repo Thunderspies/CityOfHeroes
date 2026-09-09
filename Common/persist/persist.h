@@ -124,11 +124,22 @@ typedef struct PersistSettings
 #define plCount(type)                            persist_Count(#type)
 #define plCountSafe(type)                        persist_CountSafe(#type)
 #define plGetAll(type)                            (type**)persist_GetAll(#type)
-#define plFind(type, ...)                        (type*)persist_Find(#type, __VA_ARGS__)
-#define plFindOrAdd(type, ...)                    (type*)persist_FindOrAdd(#type, __VA_ARGS__)
-#define plAdd(type, ...)                        (type*)persist_Add(#type, __VA_ARGS__)
-#define plNew(type, ...)                        (type*)persist_New(#type, __VA_ARGS__)
-#define plFindAndDelete(type, ...)                persist_FindAndDestroy(#type, __VA_ARGS__)
+// C11 uses the conforming preprocessor; MSVC C++17 retains comma elision.
+#if defined(_MSC_VER) && _MSVC_TRADITIONAL
+#define PERSIST_OPTIONAL_ARGS(...) , __VA_ARGS__
+#else
+#define PERSIST_OPTIONAL_ARGS(...) __VA_OPT__(,) __VA_ARGS__
+#endif
+#define plFind(type, ...) \
+	(type*)persist_Find(#type PERSIST_OPTIONAL_ARGS(__VA_ARGS__))
+#define plFindOrAdd(type, ...) \
+	(type*)persist_FindOrAdd(#type PERSIST_OPTIONAL_ARGS(__VA_ARGS__))
+#define plAdd(type, ...) \
+	(type*)persist_Add(#type PERSIST_OPTIONAL_ARGS(__VA_ARGS__))
+#define plNew(type, ...) \
+	(type*)persist_New(#type PERSIST_OPTIONAL_ARGS(__VA_ARGS__))
+#define plFindAndDelete(type, ...) \
+	persist_FindAndDestroy(#type PERSIST_OPTIONAL_ARGS(__VA_ARGS__))
 #define plDelete(type, structptr)                persist_RemoveAndDestroy(#type, 0 ? (type*)(0) : (structptr))
 #define plDeleteList(type, structptrs, count)    persist_RemoveAndDestroyList(#type, 0 ? (type**)(0) : (structptrs), count)
 #define plDirty(type, structptr)                persist_Dirty(#type, 0 ? (type*)(0) : (structptr), NULL)

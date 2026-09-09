@@ -19,9 +19,11 @@ typedef char* Str;
 #define Str_temp()                                    Str_temp_dbg(malloc_stack(1024), 1024 DBG_PARMS_INIT)
 #define Str_clear(hstr)                                Str_clear_dbg(hstr DBG_PARMS_INIT)
 #define Str_len(hstr)                                Str_len_dbg(hstr DBG_PARMS_INIT)
-#define Str_printf(hstr, format, ...)                Str_printf_dbg(hstr DBG_PARMS_INIT, format, __VA_ARGS__)
+#define Str_printf(hstr, ...) \
+	Str_printf_dbg(hstr DBG_PARMS_INIT, __VA_ARGS__)
 #define Str_vprintf(hstr, format, args)                Str_vprintf_dbg(hstr DBG_PARMS_INIT, format, args)
-#define Str_catf(hstr, format, ...)                    Str_catf_dbg(hstr DBG_PARMS_INIT, format, __VA_ARGS__)
+#define Str_catf(hstr, ...) \
+	Str_catf_dbg(hstr DBG_PARMS_INIT, __VA_ARGS__)
 #define Str_vcatf(hstr, format, args)                Str_vcatf_dbg(hstr DBG_PARMS_INIT, format, args)
 
 #define Str_catprintable(hstr, src)                    Str_catprintable_dbg(hstr, src, ' ' DBG_PARMS_INIT)

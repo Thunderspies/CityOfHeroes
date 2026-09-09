@@ -371,7 +371,7 @@ void ClampMax(Character *p, CharacterAttribSet *pset)
     }
 
 #define CLAMP_MAX(attr) \
-    CLAMPF32_IN_PLACE(&pattr->##attr, pattrMin->##attr, pattrMax->##attr)
+	CLAMPF32_IN_PLACE(&pattr->attr, pattrMin->attr, pattrMax->attr)
 
     // START Generic('CLAMP_MAX')
     CLAMP_MAX(fDamageType[0]);
@@ -582,7 +582,7 @@ void ClampStrength(Character *p, CharacterAttributes *pattrStr)
     const CharacterAttributes *pattrStrMax = &p->pclass->pattrStrengthMax[p->iCombatLevel];
 
 #define CLAMP_STRENGTH(attr) \
-    CLAMPF32_IN_PLACE(&pattrStr->##attr, pattrStrMin->##attr, pattrStrMax->##attr)
+	CLAMPF32_IN_PLACE(&pattrStr->attr, pattrStrMin->attr, pattrStrMax->attr)
 
     // START Generic('CLAMP_STRENGTH')
     CLAMP_STRENGTH(fDamageType[0]);
@@ -1006,7 +1006,7 @@ void ClampCur(Character *p)
     const CharacterAttributes *pattrMax = &p->attrMax;
 
 #define CLAMP_CUR(attr) \
-    CLAMPF32_IN_PLACE(&pattr->##attr, pattrMin->##attr, pattrMax->##attr)
+	CLAMPF32_IN_PLACE(&pattr->attr, pattrMin->attr, pattrMax->attr)
 
     // START Generic('CLAMP_CUR')
     CLAMP_CUR(fDamageType[0]);

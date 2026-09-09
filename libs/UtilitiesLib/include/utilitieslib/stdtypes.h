@@ -399,11 +399,16 @@ int quick_vsnprintf(char *buffer, size_t buf_size, size_t maxlen,const char *for
 #define _vsnprintf_s    quick_vsnprintf
 
 // TODO: remove sprintf_unsafe and strcatf_unsafe
-#define sprintf(buffer, format, ...)                sprintf_s(buffer, ARRAY_SIZE_CHECKED(buffer), format, __VA_ARGS__)
-#define sprintf_unsafe(buffer, format, ...)            sprintf_s(buffer, 0x7fffffff, format, __VA_ARGS__)
-#define strcatf(buffer, format, ...)                strcatf_s(buffer, ARRAY_SIZE_CHECKED(buffer), format, __VA_ARGS__)
-#define strcatf_unsafe(buffer, format, ...)            strcatf_s(buffer, 0x7fffffff, format, __VA_ARGS__)
-#define snprintf(buffer, maxlen, format, ...)        snprintf_s(buffer, ARRAY_SIZE_CHECKED(buffer), maxlen, format, __VA_ARGS__)
+#define sprintf(buffer, ...) \
+	sprintf_s(buffer, ARRAY_SIZE_CHECKED(buffer), __VA_ARGS__)
+#define sprintf_unsafe(buffer, ...) \
+	sprintf_s(buffer, 0x7fffffff, __VA_ARGS__)
+#define strcatf(buffer, ...) \
+	strcatf_s(buffer, ARRAY_SIZE_CHECKED(buffer), __VA_ARGS__)
+#define strcatf_unsafe(buffer, ...) \
+	strcatf_s(buffer, 0x7fffffff, __VA_ARGS__)
+#define snprintf(buffer, maxlen, ...) \
+	snprintf_s(buffer, ARRAY_SIZE_CHECKED(buffer), maxlen, __VA_ARGS__)
 #define vsprintf(buffer, format, argptr)            vsprintf_s(buffer, ARRAY_SIZE_CHECKED(buffer), format, argptr)
 #define vsnprintf(buffer, maxlen, format, argptr)    vsnprintf_s(buffer, ARRAY_SIZE_CHECKED(buffer), maxlen, format, argptr)
 #define _vsnprintf(buffer, maxlen, format, argptr)    _vsnprintf_s(buffer, ARRAY_SIZE_CHECKED(buffer), maxlen, format, argptr)

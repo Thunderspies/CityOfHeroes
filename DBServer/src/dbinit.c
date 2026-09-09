@@ -723,7 +723,7 @@ void dbDelink()
     extern int crashmap_sock;
     int i;
 #define closesocket(sock) {\
-        printf_stderr("Closing %s...\n", ##sock); \
+		printf_stderr("Closing %s...\n", #sock); \
         closesocket(sock); \
         printf_stderr("done\r\n");\
     }
@@ -732,7 +732,7 @@ void dbDelink()
     if (netlink) { \
         closesocket(((NetLink*)netlink)->socket); \
     } else { \
-        OutputDebugStringf("Error: %s is null (i=%d)", ##netlink, i); \
+		OutputDebugStringf("Error: %s is null (i=%d)", #netlink, i); \
     }
 
     closesocket(net_links.listen_sock);
