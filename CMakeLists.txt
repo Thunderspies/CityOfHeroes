@@ -43,6 +43,7 @@ if(WIN32)
 	include(dependencies/Zlib)
 	include(dependencies/CryptoPP)
 	add_subdirectory(libs/crashrpt)
+	add_subdirectory(libs/UtilitiesLib)
 endif()
 
 cox_add_project(Common Common)

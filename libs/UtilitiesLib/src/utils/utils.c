@@ -2277,11 +2277,11 @@ int isHexChar(char h)
 }
 
 void writeConsole(OutputLevel level, const char *format, ...) {
-#ifndef _DEBUG
+#if !defined(_DEBUG) && !defined(_OPTDEBUG)
     if (level == OUTPUT_DEBUG) {
         return;
     }
-#endif // _DEBUG
+#endif // _DEBUG || _OPTDEBUG
 
     if (level == OUTPUT_VERBOSE && errorGetVerboseLevel() == 0) {
         return;
