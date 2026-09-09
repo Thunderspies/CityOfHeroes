@@ -4,6 +4,10 @@
 #include "excpt.h"
 #include "utilitieslib/utils/wininclude.h"
 #include "utilitieslib/utils/SuperAssert.h"
+#ifdef __GNUC__
+#include <cpuid.h>
+#undef __cpuid
+#endif
 
 #if defined(_MSC_VER) && _MSC_VER < 1400 // don't have intrinsic
 void __cpuid(int CPUInfo[4], int param)
@@ -36,6 +40,12 @@ unsigned int HTSupported(void)
 {
     int CPUInfo[4];
     int vendor_id[4] = {0}; 
+#ifdef __GNUC__
+	if (__get_cpuid_max(0, NULL) < 1)
+		return 0;
+	__cpuid(vendor_id, 0);
+	__cpuid(CPUInfo, 1);
+#else
     __try {            // verify cpuid instruction is supported
         __cpuid(vendor_id,0); // vendor id string (only check HT on Intel)
         __cpuid(CPUInfo, 1); // capabilities        
@@ -45,6 +55,8 @@ unsigned int HTSupported(void)
         // is not supported
     }
     
+#endif
+
     //  Check to see if this is a Pentium 4 or later processor
     if (((CPUInfo[0] & FAMILY_ID) ==  PENTIUM4_ID) || (CPUInfo[0] & EXT_FAMILY_ID))
         if (vendor_id[1] == 'uneG') 

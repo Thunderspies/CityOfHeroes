@@ -187,6 +187,20 @@ void setAssertShardTime(int shardTime);
     { exit(1); return 1; }
 #endif
 
+#ifdef __MINGW32__
+/* Install this process's crash-reporting filter once, safely across threads.
+ * Initialize reporting with memCheckInit during startup before calling this.
+* Unhandled faults use assertExcept/reportException; attached debuggers retain
+* Windows' normal exception dispatch. Later SetUnhandledExceptionFilter calls
+* can replace this handler. This does not emulate local SEH recovery/unwinding.
+*/
+void assertInstallExceptionHandler(void);
+#undef EXCEPTION_HANDLER_BEGIN
+#undef EXCEPTION_HANDLER_END
+#define EXCEPTION_HANDLER_BEGIN { assertInstallExceptionHandler();
+#define EXCEPTION_HANDLER_END }
+#endif
+
 #ifdef __cplusplus
 }
 #endif

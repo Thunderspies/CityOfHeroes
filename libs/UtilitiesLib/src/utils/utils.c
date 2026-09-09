@@ -2202,6 +2202,32 @@ typedef struct tagTHREADNAME_INFO
 
 void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName)
 {
+#ifdef __MINGW32__
+	typedef HRESULT (WINAPI *SetDescription)(HANDLE, PCWSTR);
+	SetDescription setDescription = (SetDescription)GetProcAddress(
+		GetModuleHandleA("kernel32.dll"), "SetThreadDescription");
+	if (!setDescription || !szThreadName)
+		return;
+	int count = MultiByteToWideChar(CP_UTF8, 0, szThreadName, -1, NULL, 0);
+	if (!count)
+		return;
+	WCHAR *name = malloc(count * sizeof(*name));
+	if (!name)
+		return;
+	if (MultiByteToWideChar(CP_UTF8, 0, szThreadName, -1, name, count)) {
+		BOOL current = dwThreadID == (DWORD)-1 ||
+			dwThreadID == GetCurrentThreadId();
+		HANDLE thread = current ? GetCurrentThread() :
+			OpenThread(THREAD_SET_LIMITED_INFORMATION, FALSE,
+				dwThreadID);
+		if (thread) {
+			setDescription(thread, name);
+			if (!current)
+				CloseHandle(thread);
+		}
+	}
+	free(name);
+#else
     THREADNAME_INFO info;
     info.dwType = 0x1000;
     info.szName = szThreadName;
@@ -2215,6 +2241,7 @@ void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName)
     __except(EXCEPTION_CONTINUE_EXECUTION)
     {
     }
+#endif
 }
 
 uintptr_t x_beginthreadex(void *security, unsigned stack_size,

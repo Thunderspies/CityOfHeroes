@@ -1751,9 +1751,16 @@ static void msPrintParam(    const char* messageID,
                 
                 if(keyString)
                 {
-                    __try{
-                        validString = !IsBadStringPtrA(keyString, 1*1024*1024); // scan up to 1MB of memory
-                    }__except(validString = 0, EXCEPTION_EXECUTE_HANDLER){}
+#ifdef _MSC_VER
+					__try {
+#endif
+						validString =
+						!IsBadStringPtrA(keyString,
+							1024 * 1024);
+#ifdef _MSC_VER
+					} __except(validString = 0,
+						EXCEPTION_EXECUTE_HANDLER) {}
+#endif
                 }
                 
                 if(validString)

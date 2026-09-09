@@ -16,6 +16,39 @@
 #include "utilitieslib/network/netio.h"
 #include "utilitieslib/utils/log.h"
 
+#ifdef __MINGW32__
+static LPTOP_LEVEL_EXCEPTION_FILTER previousExceptionFilter;
+
+static LONG WINAPI assertUnhandledException(EXCEPTION_POINTERS *info)
+{
+#ifdef DISABLE_ASSERTIONS
+	LONG action = reportException(
+		info->ExceptionRecord->ExceptionCode, info);
+#else
+	LONG action = assertExcept(info->ExceptionRecord->ExceptionCode, info);
+#endif
+	if (action == EXCEPTION_EXECUTE_HANDLER)
+		exit(1);
+	if (action == EXCEPTION_CONTINUE_SEARCH && previousExceptionFilter)
+		return previousExceptionFilter(info);
+	return action;
+}
+
+static BOOL CALLBACK installExceptionFilter(INIT_ONCE *once, void *param,
+	void **context)
+{
+	previousExceptionFilter =
+		SetUnhandledExceptionFilter(assertUnhandledException);
+	return TRUE;
+}
+
+void assertInstallExceptionHandler(void)
+{
+	static INIT_ONCE once = INIT_ONCE_STATIC_INIT;
+	InitOnceExecuteOnce(&once, installExceptionFilter, NULL, NULL);
+}
+#endif
+
 extern char g_pigErrorBuffer[2048];    // piglib.c
 
 #if USE_NEW_TIMING_CODE
@@ -2182,6 +2215,15 @@ void assertWriteFullDumpSimple(PEXCEPTION_POINTERS info)
 
     if(!info)
     {
+#ifdef __MINGW32__
+		CONTEXT context;
+		EXCEPTION_RECORD record = {0};
+		EXCEPTION_POINTERS captured = {&record, &context};
+		RtlCaptureContext(&context);
+		record.ExceptionCode = EXCEPTION_BREAKPOINT;
+		record.ExceptionAddress = (void *)(uintptr_t)context.Eip;
+		assertWriteMiniDump(moduleFilename, &captured);
+#else
         __try 
         {
             // Raise dummy exception to get proper exception information.
@@ -2192,6 +2234,7 @@ void assertWriteFullDumpSimple(PEXCEPTION_POINTERS info)
         {
             // Pass through to the zipper
         }
+#endif
     }
     else
         assertWriteMiniDump(moduleFilename, info);
@@ -2241,6 +2284,15 @@ void assertWriteMiniDumpSimple(PEXCEPTION_POINTERS info)
 
     if(!info)
     {
+#ifdef __MINGW32__
+		CONTEXT context;
+		EXCEPTION_RECORD record = {0};
+		EXCEPTION_POINTERS captured = {&record, &context};
+		RtlCaptureContext(&context);
+		record.ExceptionCode = EXCEPTION_BREAKPOINT;
+		record.ExceptionAddress = (void *)(uintptr_t)context.Eip;
+		assertWriteMiniDump(moduleFilename, &captured);
+#else
         __try 
         {
             // Raise dummy exception to get proper exception information.
@@ -2251,6 +2303,7 @@ void assertWriteMiniDumpSimple(PEXCEPTION_POINTERS info)
         {
             // Pass through to the zipper
         }
+#endif
     }
     else
         assertWriteMiniDump(moduleFilename, info);
@@ -2341,7 +2394,7 @@ int reportException(unsigned int code, PEXCEPTION_POINTERS info)
 }
 #endif
 
-#if defined(_DEBUG) && _MSC_VER < 1400
+#if defined(_MSC_VER) && defined(_DEBUG) && _MSC_VER < 1400
 // Override the CRT abort function for other libraries
 void abort(void)
 {
