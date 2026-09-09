@@ -1,0 +1,36 @@
+name: CMake Win32
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2025-vs2026
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [OptDebug]
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Configure
+        run: >-
+          cmake --preset vs2026
+          -DCOX_BUILD_UTILITIES_TESTS=ON -DCOX_BUILD_PIG_TESTS=ON
+          -DCOX_BUILD_CODEC_TESTS=ON
+          -DCOX_BUILD_DEV_TOOLS=ON -DCOX_BUILD_ART_TOOLS=ON
+
+      - name: Build
+        run: >-
+          cmake --build out/build/vs2026
+          --config ${{ matrix.configuration }} --parallel
+
+      - name: Test utilities and codecs
+        run: >-
+          ctest --test-dir out/build/vs2026
+          -C ${{ matrix.configuration }} --output-on-failure
