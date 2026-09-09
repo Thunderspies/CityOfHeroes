@@ -1,8 +1,9 @@
+#include "GenerationIO.h"
 #include "pch.h"
 #include <cstdio>
 #include <string.h>
-#include <windows.h>
-#include <shlwapi.h>
+#include "Platform.h"
+
 #include "strutils.h"
 
 
@@ -329,7 +330,8 @@ void RemoveSuffixIfThere(char *pMainString, char const* pSuffix)
 {
     int iSuffixLen = (int)strlen(pSuffix);
 
-    if (_stricmp(pMainString + strlen(pMainString) - iSuffixLen, pSuffix) == 0)
+	if (CompareNoCase(pMainString + strlen(pMainString) - iSuffixLen,
+		pSuffix) == 0)
     {
         pMainString[strlen(pMainString) - iSuffixLen] = 0;
     }
@@ -502,7 +504,7 @@ void ForceIncludeFile(FILE *pOuterFile, char *pFileNameToInclude)
 {
     fprintf(pOuterFile, "//\n//\n//Beginning forced include of all contents of file %s\n//\n//\n//\n", pFileNameToInclude);
 
-    FILE *pInnerFile = fopen(pFileNameToInclude, "rt");
+    FILE *pInnerFile = OpenInput(pFileNameToInclude, "rt");
 
     if (!pInnerFile)
     {
@@ -526,7 +528,7 @@ void ForceIncludeFile(FILE *pOuterFile, char *pFileNameToInclude)
             }
         } while (1);
 
-        fclose(pInnerFile);
+        CloseFile(pInnerFile);
     }
 
     fprintf(pOuterFile, "//\n//\n//Ending forced include of all contents of file %s\n//\n//\n//\n", pFileNameToInclude);
@@ -708,7 +710,12 @@ void TruncateStringAtSuffixIfPresent(char *pString, char *pSuffix)
 
 char* strstri(const char* str1, const char* str2)
 {
-    return StrStrIA(str1, str2);
+	auto end = str1 + strlen(str1);
+	auto found = std::search(str1, end, str2, str2 + strlen(str2),
+		[](char a, char b) {
+			return MakeCharLowercase(a) == MakeCharLowercase(b);
+		});
+	return found == end && *str2 ? nullptr : const_cast<char *>(found);
 }
 
 bool isNonWholeNumberFloatLiteral(char *pString)

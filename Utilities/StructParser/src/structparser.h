@@ -3,7 +3,7 @@
 
 #include <cstdio>
 #include "tokenizer.h"
-#include "windows.h"
+#include "Platform.h"
 #include "SourceParserBaseClass.h"
 
 
@@ -305,9 +305,7 @@ public:
 
 public:
     virtual void SetProjectPathAndName(char const* srcPath, char const* commonPath, char const* projectName);
-    virtual bool LoadStoredData(bool bForceReset);
 
-    virtual void ResetSourceFile(char const* pSourceFileName);
 
     virtual bool WriteOutData(void);
 
@@ -316,10 +314,8 @@ public:
     //note that iWhichMagicWord can be MAGICWORD_BEGINING_OF_FILE or MAGICWORD_END_OF_FILE
     virtual void FoundMagicWord(char const* pSourceFileName, Tokenizer *pTokenizer, int iWhichMagicWord, char const* pMagicWordString);
 
-    //returns number of dependencies found
-    virtual int ProcessDataSingleFile(char const* pSourceFileName, char* pDependencies[MAX_DEPENDENCIES_SINGLE_FILE]);
+    virtual void ProcessDataSingleFile(char const* pSourceFileName);
 
-    virtual bool DoesFileNeedUpdating(char const* pFileName);
 
 private:
     typedef struct
@@ -494,7 +490,8 @@ private:
 
     void DeleteStruct(int iStructIndex);
 
-    void FindDependenciesInStruct(char const* pSourceFileName, STRUCT_DEF *pStruct, int *piNumDependencies, char *pDependencies[MAX_DEPENDENCIES_SINGLE_FILE]);
+    // Validate cross-file container and inheritance references after fixup.
+	void ValidateReferences(STRUCT_DEF *pStruct);
 
     void ResetMacros(void);
 

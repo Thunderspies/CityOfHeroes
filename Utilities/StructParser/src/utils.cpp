@@ -1,13 +1,18 @@
+#include "GenerationIO.h"
 #include "pch.h"
-#include <cstdio>
 #include "tokenizer.h"
+#include "utils.h"
 
-
-FILE *fopen_nofail(const char *pFileName, const char *pModes)
+FILE *fopen_nofail(const char *name, const char *mode)
 {
-    FILE *pRetVal = fopen(pFileName, pModes);
+	auto file = strchr(mode, 'w') ? OpenOutput(name) :
+		OpenInput(name, mode);
+	Tokenizer::StaticAssertf(file != nullptr,
+		"Couldn't open file %s(%s)", name, mode);
+	return file;
+}
 
-    Tokenizer::StaticAssertf(pRetVal != NULL, "Couldn't open file %s(%s)", pFileName, pModes);
-
-    return pRetVal;
+bool FileExists(const char *path)
+{
+	return std::filesystem::is_regular_file(path);
 }

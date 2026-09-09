@@ -1,3 +1,4 @@
+#include "GenerationIO.h"
 #include "pch.h"
 #include "LateLinkManager.h"
 #include "strutils.h"
@@ -9,7 +10,6 @@
 
 LateLinkManager::LateLinkManager()
 {
-    m_bSomethingChanged = false;
     m_iNumLateLinks = 0;
     m_LateLinkFileName[0] = 0;
     m_ProjectName[0] = 0;
@@ -37,129 +37,20 @@ char const* LateLinkManager::GetMagicWord(int iWhichMagicWord)
 }
 
 
-enum
-{
-    RW_PARSABLE = RW_COUNT,
-};
 
-static char const* sLateLinkReservedWords[] =
-{
-    "PARSABLE",
-    NULL
-};
 
 void LateLinkManager::SetProjectPathAndName(char const* srcPath, char const* commonPath, char const* projectName)
 {
     strcpy(m_ProjectName, projectName);
 
-    sprintf(m_LateLinkFileName, "%s\\AutoGen\\%s_latelink_autogen.c", srcPath, projectName);
-}
-
-bool LateLinkManager::DoesFileNeedUpdating(char const* pFileName)
-{
-    return false;
+	SetAutoGenPath(m_LateLinkFileName, srcPath,
+		std::string(projectName) + "_latelink_autogen.c");
 }
 
 
-bool LateLinkManager::LoadStoredData(bool bForceReset)
-{
-    if (bForceReset)
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    Tokenizer tokenizer;
-
-    if (!tokenizer.LoadFromFile(m_LateLinkFileName))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    if (!tokenizer.IsStringAtVeryEndOfBuffer("#endif"))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    tokenizer.SetExtraReservedWords(sLateLinkReservedWords);
-
-    Token token;
-    enumTokenType eType;
-
-    do
-    {
-        eType = tokenizer.GetNextToken(&token);
-        Tokenizer::StaticAssert(eType != TOKEN_NONE, "LATELINK data corruption");
-    } while (!(eType == TOKEN_RESERVEDWORD && token.iVal == RW_PARSABLE));
-
-    tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of autruns");
-
-    m_iNumLateLinks = token.iVal;
-
-    int iLateLinkNum;
-    int iArgNum;
-
-    for (iLateLinkNum = 0; iLateLinkNum < m_iNumLateLinks; iLateLinkNum++)
-    {
-        LATE_LINK_STRUCT *pLateLink = &m_LateLinks[iLateLinkNum];
-    
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Expected eLateLinkType value");
-        pLateLink->eLateLinkType = (enumLateLinkType)token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, LATELINK_NAME_LENGTH, "Expected latelink func name");
-        strcpy(pLateLink->funcName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, LATELINK_NAME_LENGTH, "Expected latelink ret type");
-        strcpy(pLateLink->retType, token.sVal);
-
-        for (iArgNum = 0; iArgNum < MAX_LATELINK_ARGS; iArgNum++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, LATELINK_NAME_LENGTH, "Expected arg type");
-            strcpy(pLateLink->argTypes[iArgNum], token.sVal);
-        }
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_PATH, "Expected latelink source file");
-        strcpy(pLateLink->sourceFileName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Expected line num");
-        pLateLink->iSourceLineNum = token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Expected index in file");
-        pLateLink->iIndexInFile = token.iVal;
-
-    
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, FULL_TYPE_STRING_LENGTH, "Expected latelink full type string");
-        strcpy(pLateLink->fullTypeString, token.sVal);
-    }
-
-    m_bSomethingChanged = false;
-
-    return true;
-}
 
 
-void LateLinkManager::ResetSourceFile(char const* pSourceFileName)
-{
-    int i = 0;
 
-
-    while (i < m_iNumLateLinks)
-    {
-        if (AreFilenamesEqual(m_LateLinks[i].sourceFileName, pSourceFileName))
-        {
-            memcpy(&m_LateLinks[i], &m_LateLinks[m_iNumLateLinks - 1], sizeof(LATE_LINK_STRUCT));
-            m_iNumLateLinks--;
-
-            m_bSomethingChanged = true;
-        }
-        else
-        {
-            i++;
-        }
-    }
-}
 
 void LateLinkManager::WriteInternalLateLinkArgList(FILE *pOutFile, LATE_LINK_STRUCT *pLateLink)
 {
@@ -283,10 +174,6 @@ int LateLinkManager::LateLinkComparator(const void *p1, const void *p2)
 
 bool LateLinkManager::WriteOutData(void)
 {
-    if (!m_bSomethingChanged)
-    {
-        return false;
-    }
 
     qsort(m_LateLinks, m_iNumLateLinks, sizeof(LATE_LINK_STRUCT), LateLinkComparator);
 
@@ -423,30 +310,9 @@ bool LateLinkManager::WriteOutData(void)
     }
 
 
-    fprintf(pOutFile, "\n\n\n#if 0\nPARSABLE\n");
-
-    fprintf(pOutFile, "%d\n", m_iNumLateLinks);
-
-    for (iLateLinkNum = 0; iLateLinkNum < m_iNumLateLinks; iLateLinkNum++)
-    {
-        LATE_LINK_STRUCT *pLateLink = &m_LateLinks[iLateLinkNum];
-        
-        fprintf(pOutFile, "%d \"%s\" \"%s\" ",
-            pLateLink->eLateLinkType, pLateLink->funcName, pLateLink->retType);
-
-        for(iArgNum = 0; iArgNum < MAX_LATELINK_ARGS; iArgNum++)
-        {
-            fprintf(pOutFile, " \"%s\" ", pLateLink->argTypes[iArgNum]);
-        }
-
-        fprintf(pOutFile, " \"%s\" %d %d \"%s\" \n", pLateLink->sourceFileName, pLateLink->iSourceLineNum, pLateLink->iIndexInFile, pLateLink->fullTypeString);
-    }
 
 
-
-    fprintf(pOutFile, "#endif\n");
-
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
     return true;
 }
@@ -486,7 +352,6 @@ void LateLinkManager::FoundMagicWord(char const* pSourceFileName, Tokenizer *pTo
 
     LATE_LINK_STRUCT *pLateLink = &m_LateLinks[m_iNumLateLinks++];
 
-    m_bSomethingChanged = true;
 
     memset(pLateLink, 0, sizeof(LATE_LINK_STRUCT));
 
@@ -579,12 +444,7 @@ void LateLinkManager::FoundMagicWord(char const* pSourceFileName, Tokenizer *pTo
 
 
 
-//returns number of dependencies found
-int LateLinkManager::ProcessDataSingleFile(char const* pSourceFileName, char* pDependencies[MAX_DEPENDENCIES_SINGLE_FILE])
-{
 
-    return 0;
-}
 
 #define MAX_ASTERISKS 10
 

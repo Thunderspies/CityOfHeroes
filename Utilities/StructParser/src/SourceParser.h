@@ -3,8 +3,8 @@
 
 #include "tokenizer.h"
 
-#include "FileListLoader.h"
-#include "FileListWriter.h"
+#include "ParserLimits.h"
+
 
 #include "IdentifierDictionary.h"
 #include "SourceParserBaseClass.h"
@@ -19,13 +19,10 @@
 
 #define MAX_MAGIC_WORDS_PER_BASE_SOURCE_PARSER 12
 
-#define MAX_DEPENDENT_LIBRARIES 32
-
 #define MAX_WIKI_PROJECTS 64
 #define MAX_WIKI_CATEGORIES 256
 
 typedef class AutoRunManager AutoRunManager;
-
 
 
 class SourceParser
@@ -34,37 +31,32 @@ public:
     SourceParser();
     ~SourceParser();
 
-    int ParseSource(
-        std::filesystem::path const& prjPath,
-        std::filesystem::path const& srcDir,
-        std::filesystem::path const& commonDir,
-        std::filesystem::path const& outDir,
-        std::filesystem::path const& intDir,
-        std::string const& platform,
-        std::string const& configuration,
-        std::filesystem::path const& slnPath
-    );
-
-    void NukeCObjFile(char *pFileName);
+	/* Load variables before generation. Records discovery candidates and
+	 * includes, including absent candidates. Paths must be absolute.
+	 * Fresh instances only; filesystem errors throw, syntax errors exit.
+	 */
+	void LoadConfiguration(std::filesystem::path const& projectDir);
+	// Borrowed dependency paths remain valid for this instance's lifetime.
+	auto const& ConfigurationDependencies() const
+	{
+		return m_configurationDependencies;
+	}
+	/* Generate a complete target using previously loaded configuration.
+	 * Input paths must be absolute; all directories must exist. Only .c/.h
+	 * inputs are scanned, in manifest order. Uses global output tracking;
+	 * not thread-safe. Returns zero; errors throw or terminate the process.
+	 */
+	int ParseSource(std::string const& targetName,
+		std::filesystem::path const& srcDir,
+		std::filesystem::path const& commonDir, bool isExecutable,
+		std::vector<std::filesystem::path> const& sourceFiles);
 
     char const* GetShortProjectName() { return m_shortenedPrjFileName.c_str(); }
     char const* GetSoureDir() { return m_srcDir.c_str(); }
     IdentifierDictionary *GetDictionary() { return &m_IdentifierDictionary; }
 
-    void SetExtraDataFlagForFile(char *pFileName, int iFlag);
-
-    int GetNumLibraries(void) { return m_iNumDependentLibraries; }
-    char *GetNthLibraryName(int n) { return m_DependentLibraryNames[n]; }
-    char *GetNthLibraryFullPath(int n) { return m_DependentLibraryFullPaths[n]; }
-    bool IsNthLibraryXBoxExcluded(int n) { return m_bExcludeLibrariesFromXBOX[n]; }
 
     AutoRunManager *GetAutoRunManager() { return m_pAutoRunManager; }
-
-    //returns true if the project is the game client, or a lib that is linked only into the game client
-    bool ProjectIsClientOrClientOnlyLib(void);
-
-    //returns true if the projet is the game server, or a lib that is linked only into the game server
-    bool ProjectIsGameServerOrGameServerOnlyLib(void);
 
     //returns true if the project is an executable as opposed to a library
     bool ProjectIsExecutable(void) { return m_bIsAnExecutable; }
@@ -85,8 +77,6 @@ private://structs
 
 
 private:
-    FileListLoader *m_pFileListLoader;
-    FileListWriter *m_pFileListWriter;
 
     IdentifierDictionary m_IdentifierDictionary;
 
@@ -96,92 +86,35 @@ private:
 
     int m_iNumProjectFiles;
     char m_ProjectFiles[MAX_FILES_IN_PROJECT][MAX_PATH];
-    bool m_bFilesNeedToBeUpdated[MAX_FILES_IN_PROJECT];
 
-    int m_iNumDependencies[MAX_FILES_IN_PROJECT];
-    int m_iDependencies[MAX_FILES_IN_PROJECT][MAX_DEPENDENCIES_SINGLE_FILE];
 
-    int m_iExtraDataPerFile[MAX_FILES_IN_PROJECT];
-
-    std::filesystem::path m_prjPath;
     std::string m_shortenedPrjFileName;
 
-    std::string m_intDir;
-    std::string m_outDir;
     std::string m_srcDir;
     std::string m_commonDir;
-    std::string m_prjDir;
-    std::string m_prjFileName;
-    std::filesystem::path m_slnPath;
 
-    int m_iNumDependentLibraries;
-    char m_DependentLibraryNames[MAX_DEPENDENT_LIBRARIES][MAX_PATH];
-    char m_DependentLibraryFullPaths[MAX_DEPENDENT_LIBRARIES][MAX_PATH];
-    bool m_bExcludeLibrariesFromXBOX[MAX_DEPENDENT_LIBRARIES];
-
-
-    //esnure that the project contains the two master autogen files
-    bool m_FoundAutoGenFile1;
-    bool m_FoundAutoGenFile2;
-
-    char m_AutoGenFile1Name[MAX_PATH];
-    char m_AutoGenFile2Name[MAX_PATH];
-
-    char m_SpecialAutoRunFuncName[MAX_PATH];
 
     //whether the project we're working on is an executable vs. a library
     bool m_bIsAnExecutable;
 
-    //---------------stuff used to do command-line compilation of auto-generated C files
-
-    //stuff passed in on the command line
-    std::string m_platform;
-    std::string m_configuration;
-
-    //stuff ripped out of vcproj file
-    char m_AdditionalIncludeDirs[TOKENIZER_MAX_STRING_LENGTH];
-    char m_PreprocessorDefines[TOKENIZER_MAX_STRING_LENGTH];
-
-    //stuff used to check whether we need to C file compiling
-    bool m_bCleanBuildHappened;
-    bool m_bProjectFileChanged;
 
     SourceParserVar *m_pFirstVar;
+	std::vector<std::filesystem::path> m_configurationDependencies;
+	std::vector<std::filesystem::path> m_configStack;
 
 private:
-    void AddProjectFiles(std::vector<std::string> const& attributes);
-    void ProcessProjectFile();
-    bool NeedToUpdateFile(char *pFileName, int iExtraData,  bool bForceUpdateUnlessFileDoesntExist);
+	void AddProjectFiles(
+		std::vector<std::filesystem::path> const& files);
     void ScanSourceFile(char *pSourceFile);
     
-    void LoadSavedDependenciesAndRemoveObsoleteFiles(void);
 
-    //returns true if at least one file was set to udpate that was previously not set to update
-    //
-    //find all need-to-update files which have dependencies, and set all the other
-    //files they are dependent on to be need-to-update, and recurse. 
-    bool ProcessAllLoadedDependencies();
-    void ClearAllDependenciesForUpdatingFiles(void);
-    void AddDependency(int iFile1, int iFile2);
-    void ProcessAllFiles_ReadAll();
-    void ProcessAllFiles();
     int FindProjectFileIndex(char *pFileName);
-    void DestroyLegacyMasterFiles(bool bBuildAll);
     void MakeAutoGenDirectory();
-    void ProcessSolutionFile();
-    void CheckForRequiredFiles(const char *pFileName);
-    bool IsLibraryXBoxExcluded(char *pLibName);
-    bool DidCleanBuildJustHappen();
-    void CleanOutAllAutoGenFiles();
-    bool IsQuickExitPossible();
-    void CreateCleanBuildMarkerFile();
     void CreateParsers(void);
-    int GetSVNVersion(char *pFileName);
     bool MakeSpecialAutoRunFunction(void);
 
     void AddVariableValue(char *pVarName, char *pValue);
     void SetVariablesFromTokenizer(Tokenizer *pTokenizer, char *pStartingDirectory);
-    void FindVariablesFileAndLoadVariables(void);
 };
 
 
@@ -189,5 +122,5 @@ private:
 extern int gVerbose;
 #define TRACE(...)  {if (gVerbose) {printf(__VA_ARGS__); fflush(stdout);}}
 
-#define GENERATE_FAKE_DEPENDENCIES 1
+#define GENERATE_FAKE_DEPENDENCIES 0
 #endif

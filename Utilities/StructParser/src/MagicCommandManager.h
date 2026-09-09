@@ -6,7 +6,7 @@
 
 #include <cstdio>
 #include "tokenizer.h"
-#include "windows.h"
+#include "Platform.h"
 #include "SourceParserBaseClass.h"
 
 #define MAX_EXPRESSION_LISTS 64
@@ -36,9 +36,7 @@ public:
 
 public:
     virtual void SetProjectPathAndName(char const* srcPath, char const* commonPath, char const* projectName);
-    virtual bool LoadStoredData(bool bForceReset);
 
-    virtual void ResetSourceFile(char const* pSourceFileName);
 
     virtual bool WriteOutData(void);
 
@@ -47,12 +45,9 @@ public:
     //note that iWhichMagicWord can be MAGICWORD_BEGINING_OF_FILE or MAGICWORD_END_OF_FILE
     virtual void FoundMagicWord(char const* pSourceFileName, Tokenizer *pTokenizer, int iWhichMagicWord, char const* pMagicWordString);
 
-    //returns number of dependencies found
-    virtual int ProcessDataSingleFile(char const* pSourceFileName, char* pDependencies[MAX_DEPENDENCIES_SINGLE_FILE]);
+    virtual void ProcessDataSingleFile(char const* pSourceFileName);
 
-    virtual bool DoesFileNeedUpdating(char const* pFileName);
 
-    virtual char *GetAutoGenCFileName(void) { return m_MagicCommandFileName; }
 
 private:
     
@@ -271,7 +266,6 @@ private:
     char m_MagicCommandFileName[MAX_PATH];
     char m_ShortMagicCommandFileName[MAX_PATH];
 
-    bool m_bSomethingChanged;
 
     char m_ProjectName[MAX_PATH];
 

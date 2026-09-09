@@ -1,0 +1,112 @@
+{
+	"version": 5,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 24,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "mingw",
+			"displayName": "MinGW Win32",
+			"generator": "Ninja Multi-Config",
+			"binaryDir": "${sourceDir}/out/build/${presetName}",
+			"toolchainFile":
+			"${sourceDir}/cmake/toolchains/mingw-w64-i686.cmake",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			},
+			"cacheVariables": {
+				"CMAKE_CONFIGURATION_TYPES": "Debug;Release;OptDebug",
+				"CPM_SOURCE_CACHE": {
+					"type": "PATH",
+					"value": "${sourceDir}/out/build/CPM"
+				}
+			}
+		},
+		{
+			"name": "vs2026",
+			"displayName": "Visual Studio 2026 Win32",
+			"description": "Requires Visual Studio 2026 and CMake 4.2 or newer.",
+			"generator": "Visual Studio 18 2026",
+			"architecture": "Win32",
+			"binaryDir": "${sourceDir}/out/build/${presetName}",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			},
+			"cacheVariables": {
+				"CMAKE_CONFIGURATION_TYPES": "Debug;Release;OptDebug",
+				"CPM_SOURCE_CACHE": {
+					"type": "PATH",
+					"value": "${sourceDir}/out/build/CPM"
+				}
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "mingw-debug",
+			"configurePreset": "mingw",
+			"configuration": "Debug",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			}
+		},
+		{
+			"name": "mingw-release",
+			"configurePreset": "mingw",
+			"configuration": "Release",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			}
+		},
+		{
+			"name": "mingw-optdebug",
+			"configurePreset": "mingw",
+			"configuration": "OptDebug",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			}
+		},
+		{
+			"name": "vs2026-debug",
+			"configurePreset": "vs2026",
+			"configuration": "Debug",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			}
+		},
+		{
+			"name": "vs2026-release",
+			"configurePreset": "vs2026",
+			"configuration": "Release",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			}
+		},
+		{
+			"name": "vs2026-optdebug",
+			"configurePreset": "vs2026",
+			"configuration": "OptDebug",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			}
+		}
+	]
+}

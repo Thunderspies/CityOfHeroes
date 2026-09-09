@@ -1,3 +1,4 @@
+#include "GenerationIO.h"
 #include "pch.h"
 #include "AutoTestManager.h"
 #include "strutils.h"
@@ -15,7 +16,6 @@ typedef enum
 
 AutoTestManager::AutoTestManager()
 {
-    m_bSomethingChanged = false;
     m_iNumAutoTests = 0;
     m_AutoTestFileName[0] = 0;
     m_pMostRecentGroup = NULL;
@@ -54,129 +54,14 @@ char const* AutoTestManager::GetMagicWord(int iWhichMagicWord)
 }
 
 
-enum
-{
-    RW_PARSABLE = RW_COUNT,
-};
-
-static char const* sAutoTestReservedWords[] =
-{
-    "PARSABLE",
-    NULL
-};
-
 void AutoTestManager::SetProjectPathAndName(char const* srcPath, char const* commonPath, char const* projectName)
 {
     strcpy(m_ProjectName, projectName);
-    sprintf(m_AutoTestFileName, "%s\\AutoGen\\%s_AutoTest.c", srcPath, projectName);
+	SetAutoGenPath(m_AutoTestFileName, srcPath,
+		std::string(projectName) + "_AutoTest.c");
 
 }
 
-bool AutoTestManager::DoesFileNeedUpdating(char const* pFileName)
-{
-    HANDLE hFile;
-
-    char atestFileName[MAX_PATH];
-
-    GetAtestFileName(atestFileName, pFileName);
-
-    hFile = CreateFileA(atestFileName, GENERIC_READ, FILE_SHARE_READ,
-        NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-    if (hFile == INVALID_HANDLE_VALUE)
-    {
-        return true;
-    }
-    
-    CloseHandle(hFile);
-    
-    return false;
-}
-
-bool AutoTestManager::LoadStoredData(bool bForceReset)
-{
-    if (bForceReset)
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    Tokenizer tokenizer;
-
-    if (!tokenizer.LoadFromFile(m_AutoTestFileName))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    if (!tokenizer.IsStringAtVeryEndOfBuffer("#endif"))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    tokenizer.SetExtraReservedWords(sAutoTestReservedWords);
-
-    tokenizer.SetCSourceStyleStrings(true);
-
-    Token token;
-    enumTokenType eType;
-
-    do
-    {
-        eType = tokenizer.GetNextToken(&token);
-        Tokenizer::StaticAssert(eType != TOKEN_NONE, "AutoTest data corruption");
-    } while (!(eType == TOKEN_RESERVEDWORD && token.iVal == RW_PARSABLE));
-
-    tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of autoTests");
-
-    m_iNumAutoTests = token.iVal;
-
-    int iAutoTestNum;
-
-    for (iAutoTestNum = 0; iAutoTestNum < m_iNumAutoTests; iAutoTestNum++)
-    {
-        AUTO_TEST_STRUCT *pAutoTest = &m_AutoTests[iAutoTestNum];
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_AUTOTEST_COMMAND_LENGTH, "Didn't find AutoTest group name");
-        strcpy(pAutoTest->groupName, token.sVal);
-    
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_AUTOTEST_COMMAND_LENGTH, "Didn't find AutoTest function name");
-        strcpy(pAutoTest->functionName, token.sVal);
-    
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_AUTOTEST_COMMAND_LENGTH, "Didn't find AutoTest parent name");
-        strcpy(pAutoTest->parentName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_AUTOTEST_COMMAND_LENGTH, "Didn't find AutoTest setup name");
-        strcpy(pAutoTest->setupName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_AUTOTEST_COMMAND_LENGTH, "Didn't find AutoTest teardown name");
-        strcpy(pAutoTest->teardownName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_PATH, "Didn't find AutoTest source file");
-        strcpy(pAutoTest->sourceFileName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find AutoTest source file line num");
-        pAutoTest->iSourceLineNum = token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, 0, "Didn't find AutoTest assert string");
-        if (token.iVal)
-        {
-            pAutoTest->pAutoAssertString = new char[token.iVal + 1];
-            strcpy(pAutoTest->pAutoAssertString, token.sVal);
-        }
-        else
-        {
-            pAutoTest->pAutoAssertString = NULL;
-        }
-
-
-    }
-
-    m_bSomethingChanged = false;
-
-    return true;
-}
 
 void AutoTestManager::GetAtestFileName(char outName[MAX_PATH], char const* pInName)
 {
@@ -194,36 +79,12 @@ void AutoTestManager::GetAtestFileName(char outName[MAX_PATH], char const* pInNa
         }
     }
 
-    sprintf(outName, "%s\\AutoGen%s_atest.c", m_pParent->GetSoureDir(), workName);
+	SetAutoGenPath(outName, m_pParent->GetSoureDir(),
+		std::string(workName) + "_atest.c");
 
 
 }
 
-void AutoTestManager::ResetSourceFile(char const* pSourceFileName)
-{
-    int i = 0;
-
-
-    while (i < m_iNumAutoTests)
-    {
-        if (AreFilenamesEqual(m_AutoTests[i].sourceFileName, pSourceFileName))
-        {
-            memcpy(&m_AutoTests[i], &m_AutoTests[m_iNumAutoTests - 1], sizeof(AUTO_TEST_STRUCT));
-            m_iNumAutoTests--;
-
-            m_bSomethingChanged = true;
-        }
-        else
-        {
-            i++;
-        }
-    }
-
-    char fileName[MAX_PATH];
-    GetAtestFileName(fileName, pSourceFileName);
-
-    DeleteFileA(fileName);
-}
 
 void AutoTestManager::RecurseOutputTestRegister(FILE *pOutFile, AUTO_TEST_STRUCT *pTest, int iRecurseDepth)
 {
@@ -271,7 +132,6 @@ void AutoTestManager::RecurseOutputTestRegister(FILE *pOutFile, AUTO_TEST_STRUCT
 }
 
 
-
 int AutoTestManager::AutoTestComparator(const void *p1, const void *p2)
 {
     return strcmp(((AUTO_TEST_STRUCT*)p1)->functionName, ((AUTO_TEST_STRUCT*)p2)->functionName);
@@ -279,10 +139,6 @@ int AutoTestManager::AutoTestComparator(const void *p1, const void *p2)
 
 bool AutoTestManager::WriteOutData(void)
 {
-    if (!m_bSomethingChanged)
-    {
-        return false;
-    }
 
     qsort(m_AutoTests, m_iNumAutoTests, sizeof(AUTO_TEST_STRUCT), AutoTestComparator);
 
@@ -343,23 +199,7 @@ bool AutoTestManager::WriteOutData(void)
     }
 
 
-
-    fprintf(pOutFile, "\n\n\n#if 0\nPARSABLE\n");
-
-    fprintf(pOutFile, "%d\n", m_iNumAutoTests);
-
-    for (iAutoTestNum = 0; iAutoTestNum < m_iNumAutoTests; iAutoTestNum++)
-    {
-        AUTO_TEST_STRUCT *pAutoTest = &m_AutoTests[iAutoTestNum];
-        
-        fprintf(pOutFile, "\"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" %d \"%s\" \n", pAutoTest->groupName, pAutoTest->functionName, 
-            pAutoTest->parentName, pAutoTest->setupName, pAutoTest->teardownName, pAutoTest->sourceFileName, pAutoTest->iSourceLineNum,
-            pAutoTest->pAutoAssertString ? pAutoTest->pAutoAssertString : "");
-    }
-
-    fprintf(pOutFile, "#endif\n");
-
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
 
     int iNumFileNames = 0;
@@ -397,7 +237,6 @@ bool AutoTestManager::WriteOutData(void)
 
     for (i=0; i < iNumFileNames; i++)
     {
-        m_pParent->SetExtraDataFlagForFile(fileNames[i], 1 << m_iIndexInParent);
         CreateAtestFile(fileNames[i]);
     }
 
@@ -405,9 +244,6 @@ bool AutoTestManager::WriteOutData(void)
 
 }
     
-
-
-
 
 
 void AutoTestManager::FoundMagicWord(char const* pSourceFileName, Tokenizer *pTokenizer, int iWhichMagicWord, char const* pMagicWordString)
@@ -503,7 +339,6 @@ void AutoTestManager::FoundMagicWordAutoTest(char const* pSourceFileName, Tokeni
     pTokenizer->AssertNextTokenTypeAndGet(&token, TOKEN_RESERVEDWORD, RW_VOID, "Expected (void) after autotest func name");
     pTokenizer->AssertNextTokenTypeAndGet(&token, TOKEN_RESERVEDWORD, RW_RIGHTPARENS, "Expected (void) after autotest func name");
 
-    m_bSomethingChanged = true;
     
 }
 
@@ -571,7 +406,6 @@ void AutoTestManager::FoundMagicWordAutoTestChild(char const* pSourceFileName, T
     pTokenizer->AssertNextTokenTypeAndGet(&token, TOKEN_RESERVEDWORD, RW_VOID, "Expected (void) after autotest func name");
     pTokenizer->AssertNextTokenTypeAndGet(&token, TOKEN_RESERVEDWORD, RW_RIGHTPARENS, "Expected (void) after autotest func name");
 
-    m_bSomethingChanged = true;
     
 }
 
@@ -637,7 +471,6 @@ void AutoTestManager::FoundMagicWordAutoTestGroup(char const* pSourceFileName, T
 
     pTokenizer->AssertNextTokenTypeAndGet(&token, TOKEN_RESERVEDWORD, RW_SEMICOLON, "Expected ; after AUTO_TEST_CHILD()");
     
-    m_bSomethingChanged = true;
 
     m_pMostRecentGroup = pAutoTest;
 
@@ -717,7 +550,6 @@ void AutoTestManager::FoundMagicWordAutoTestBlock(char const* pSourceFileName, T
 
     pTokenizer->AssertNextTokenTypeAndGet(&token, TOKEN_RESERVEDWORD, RW_SEMICOLON, "Expected ; after AUTO_TEST_BLOCK()");
 }
-
 
 
 void AutoTestManager::PrependParentGroupNames(AUTO_TEST_STRUCT *pAutoTest)
@@ -816,14 +648,7 @@ void AutoTestManager::CreateAtestFile(char const* pFileName)
         }
     }
 
-    fclose(pFile);
+    CloseFile(pFile);
 
 
-}
-
-
-//returns number of dependencies found
-int AutoTestManager::ProcessDataSingleFile(char const* pSourceFileName, char* pDependencies[MAX_DEPENDENCIES_SINGLE_FILE])
-{
-    return 0;
 }

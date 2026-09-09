@@ -1,3 +1,4 @@
+#include "GenerationIO.h"
 #include "pch.h"
 #include "AutoRunManager.h"
 #include "strutils.h"
@@ -8,7 +9,6 @@
 
 AutoRunManager::AutoRunManager()
 {
-    m_bSomethingChanged = false;
     m_iNumAutoRuns = 0;
     m_AutoRunFileName[0] = 0;
     m_ShortAutoRunFileName[0] = 0;    
@@ -43,120 +43,19 @@ char const* AutoRunManager::GetMagicWord(int iWhichMagicWord)
 }
 
 
-enum
-{
-    RW_PARSABLE = RW_COUNT,
-};
-
-static char const* sAutoRunReservedWords[] =
-{
-    "PARSABLE",
-    nullptr
-};
-
 void AutoRunManager::SetProjectPathAndName(char const* srcPath, char const* commonPath, char const* projectName)
 {
     strcpy(m_ProjectName, projectName);
 
     sprintf(m_ShortAutoRunFileName, "%s_autorun_autogen", projectName);
-    sprintf(m_AutoRunFileName, "%s\\AutoGen\\%s.cpp", srcPath, m_ShortAutoRunFileName);
+	SetAutoGenPath(m_AutoRunFileName, srcPath,
+		std::string(m_ShortAutoRunFileName) + ".cpp");
 
-    sprintf(m_AutoRunExtraFuncFileName, "%s\\AutoGen\\%s_autorun_extrafunc_autogen.c", srcPath, projectName);
+	SetAutoGenPath(m_AutoRunExtraFuncFileName, srcPath,
+		std::string(projectName) + "_autorun_extrafunc_autogen.c");
 
 }
 
-bool AutoRunManager::DoesFileNeedUpdating(char const* pFileName)
-{
-    return false;
-}
-
-
-bool AutoRunManager::LoadStoredData(bool bForceReset)
-{
-    if (bForceReset)
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    Tokenizer tokenizer;
-
-    if (!tokenizer.LoadFromFile(m_AutoRunFileName))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    if (!tokenizer.IsStringAtVeryEndOfBuffer("#endif"))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    tokenizer.SetExtraReservedWords(sAutoRunReservedWords);
-
-    Token token;
-    enumTokenType eType;
-
-    do
-    {
-        eType = tokenizer.GetNextToken(&token);
-        Tokenizer::StaticAssert(eType != TOKEN_NONE, "AUTORUN data corruption");
-    } while (!(eType == TOKEN_RESERVEDWORD && token.iVal == RW_PARSABLE));
-
-    tokenizer.SetCSourceStyleStrings(true);
-
-    tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of autruns");
-
-    m_iNumAutoRuns = token.iVal;
-
-    int iAutoRunNum;
-
-    for (iAutoRunNum = 0; iAutoRunNum < m_iNumAutoRuns; iAutoRunNum++)
-    {
-        AUTO_RUN_STRUCT *pAutoRun = &m_AutoRuns[iAutoRunNum];
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_AUTORUN_COMMAND_LENGTH, "Didn't find autorun function name");
-        strcpy(pAutoRun->functionName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_PATH, "Didn't find autorun source file");
-        strcpy(pAutoRun->sourceFileName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find autorun order");
-        pAutoRun->iOrder = token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, 0, "Didn't find autorun declarations");
-
-        if (token.sVal[0])
-        {
-            char temp[TOKENIZER_MAX_STRING_LENGTH];
-            RemoveCStyleEscaping(temp, token.sVal);
-            pAutoRun->pDeclarations = STRDUP(temp);
-        }
-        else
-        {
-            pAutoRun->pDeclarations = NULL;
-        }
-    
-        
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, 0, "Didn't find autorun code");
-
-        if (token.sVal[0])
-        {
-            char temp[TOKENIZER_MAX_STRING_LENGTH];
-            RemoveCStyleEscaping(temp, token.sVal);
-            pAutoRun->pCode = STRDUP(temp);
-        }
-        else
-        {
-            pAutoRun->pCode = NULL;
-        }
-    }
-
-    m_bSomethingChanged = false;
-
-    return true;
-}
 
 void AutoRunManager::DeleteAutoRun(AUTO_RUN_STRUCT *pAutoRun)
 {
@@ -184,7 +83,6 @@ void AutoRunManager::ResetSourceFile(char const* pSourceFileName)
             memcpy(&m_AutoRuns[i], &m_AutoRuns[m_iNumAutoRuns - 1], sizeof(AUTO_RUN_STRUCT));
             m_iNumAutoRuns--;
 
-            m_bSomethingChanged = true;
         }
         else
         {
@@ -219,10 +117,6 @@ void AutoRunManager::WriteOutAnonAutoRunIncludes(FILE *pOutFile)
 
 bool AutoRunManager::WriteOutData(void)
 {
-    if (!m_bSomethingChanged)
-    {
-        return false;
-    }
 
     qsort(m_AutoRuns, m_iNumAutoRuns, sizeof(AUTO_RUN_STRUCT), AutoRunComparator);
 
@@ -242,15 +136,7 @@ bool AutoRunManager::WriteOutData(void)
         fprintf(pOutFile, "extern void %s(void);\n", pAutoRun->functionName);
     }
 
-    int iLibNum, iOrderNum;
-
-    for (iLibNum = 0; iLibNum < m_pParent->GetNumLibraries(); iLibNum++)
-    {
-        for (iOrderNum = 0; iOrderNum < AUTORUN_ORDER_COUNT; iOrderNum++)
-        {
-            fprintf(pOutFile, "void doAutoRuns_%s_%d(void);\n", m_pParent->GetNthLibraryName(iLibNum), iOrderNum);
-        }
-    }
+	int iOrderNum;
 
     for (iOrderNum = 0; iOrderNum < AUTORUN_ORDER_COUNT; iOrderNum++)
     {
@@ -259,21 +145,6 @@ bool AutoRunManager::WriteOutData(void)
 
         fprintf(pOutFile, "\tstatic int once = 0;\n\tif (once) return;\n\tonce = 1;\n");
 
-
-        for (iLibNum = 0; iLibNum < m_pParent->GetNumLibraries(); iLibNum++)
-        {    
-            if (m_pParent->IsNthLibraryXBoxExcluded(iLibNum))
-            {
-                fprintf(pOutFile, "\t#ifndef _XBOX\n");
-            }
-
-            fprintf(pOutFile, "\tdoAutoRuns_%s_%d();\n", m_pParent->GetNthLibraryName(iLibNum), iOrderNum);        
-    
-            if (m_pParent->IsNthLibraryXBoxExcluded(iLibNum))
-            {
-                fprintf(pOutFile, "\t#endif\n");
-            }
-        }
 
         for (iAutoRunNum = 0; iAutoRunNum < m_iNumAutoRuns; iAutoRunNum++)
         {
@@ -309,50 +180,9 @@ bool AutoRunManager::WriteOutData(void)
             m_pParent->GetShortProjectName());
     }
 
-    fprintf(pOutFile, "};\n\n\n#if 0\nPARSABLE\n");
-    
-    fprintf(pOutFile, "%d\n", m_iNumAutoRuns);
+    fprintf(pOutFile, "};\n");
 
-    for (iAutoRunNum = 0; iAutoRunNum < m_iNumAutoRuns; iAutoRunNum++)
-    {
-        AUTO_RUN_STRUCT *pAutoRun = &m_AutoRuns[iAutoRunNum];
-        
-        fprintf(pOutFile, "\"%s\" \"%s\" %d ", pAutoRun->functionName, pAutoRun->sourceFileName, pAutoRun->iOrder);
-
-        if (pAutoRun->pDeclarations)
-        {
-            char temp[TOKENIZER_MAX_STRING_LENGTH + 1000];
-
-            AddCStyleEscaping(temp, pAutoRun->pDeclarations, TOKENIZER_MAX_STRING_LENGTH + 999);
-
-            fprintf(pOutFile, "\"%s\" ", temp);
-        }
-        else
-        {
-            fprintf(pOutFile, "\"\" ");
-        }
-
-        if (pAutoRun->pCode)
-        {
-            char temp[TOKENIZER_MAX_STRING_LENGTH + 1000];
-
-            AddCStyleEscaping(temp, pAutoRun->pCode, TOKENIZER_MAX_STRING_LENGTH + 999);
-
-            fprintf(pOutFile, "\"%s\" ", temp);
-        }
-        else
-        {
-            fprintf(pOutFile, "\"\" ");
-        }
-
-        fprintf(pOutFile, "\n");
-
-
-    }
-
-    fprintf(pOutFile, "#endif\n");
-
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
     pOutFile = fopen_nofail(m_AutoRunExtraFuncFileName, "wt");
 
@@ -379,7 +209,7 @@ bool AutoRunManager::WriteOutData(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
     return true;
 }
@@ -438,12 +268,10 @@ void AutoRunManager::FoundMagicWord(char const* pSourceFileName, Tokenizer *pTok
     }
 
 
-
     pTokenizer->Assert(m_iNumAutoRuns < MAX_AUTORUNS, "Too many autoruns");
 
     AUTO_RUN_STRUCT *pAutoRun = &m_AutoRuns[m_iNumAutoRuns++];
 
-    m_bSomethingChanged = true;
 
     strcpy(pAutoRun->sourceFileName, pSourceFileName);
 
@@ -467,11 +295,6 @@ void AutoRunManager::FoundMagicWord(char const* pSourceFileName, Tokenizer *pTok
         return;
 
     }
-
-
-
-
-
 
 
     pTokenizer->AssertNextTokenTypeAndGet(&token, TOKEN_RESERVEDWORD, RW_SEMICOLON, "Didn't find ; after AUTO_RUN");
@@ -504,7 +327,7 @@ void AutoRunManager::AddAutoRunWithBody(char const* pFuncName, char const* pSour
     
         fflush(stdout);
 
-        Sleep(100);
+
         exit(1);
     }
 
@@ -534,7 +357,6 @@ void AutoRunManager::AddAutoRunWithBody(char const* pFuncName, char const* pSour
         pAutoRun->pDeclarations = pAutoRun->pCode = NULL;
     }
 
-    m_bSomethingChanged = true;
 
 }
 
@@ -563,7 +385,7 @@ void AutoRunManager::AddAutoRunSpecial(char const* pFuncName, char const* pSourc
     
         fflush(stdout);
 
-        Sleep(100);
+
         exit(1);
     }
 
@@ -574,14 +396,5 @@ void AutoRunManager::AddAutoRunSpecial(char const* pFuncName, char const* pSourc
     pAutoRun->iOrder = iOrder;
     pAutoRun->pDeclarations = pAutoRun->pCode = NULL;
 
-    m_bSomethingChanged = true;
 
-
-
-}
-
-//returns number of dependencies found
-int AutoRunManager::ProcessDataSingleFile(char const* pSourceFileName, char* pDependencies[MAX_DEPENDENCIES_SINGLE_FILE])
-{
-    return 0;
 }

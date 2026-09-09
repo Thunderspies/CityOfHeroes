@@ -1,3 +1,4 @@
+#include "GenerationIO.h"
 // StructParser.cpp : Defines the entry point for the console application.
 //
 
@@ -6,11 +7,11 @@
 #include "assert.h"
 #include "tokenizer.h"
 #include "structparser.h"
-#include "windows.h"
+#include "Platform.h"
 #include "IdentifierDictionary.h"
 #include "MagicCommandManager.h"
 #include "strutils.h"
-#include "FileListLoader.h"
+#include "ParserLimits.h"
 #include "SourceParser.h"
 #include "AutoRunManager.h"
 
@@ -59,7 +60,6 @@
 #define MAX_NOT_STRINGS 8
 
 
-char gFileEndString[] = "END_OF_FILE";
 
 static char const* sFloatNameList[] =
 {
@@ -104,7 +104,7 @@ void FieldAssert(STRUCT_FIELD_DESC *pField, bool bCondition, char const* pErrorM
     {
         printf("%s(%d) : error S0000 : (StructParser) %s\n", pField->fileName, pField->iLineNum, pErrorMessage);
         fflush(stdout);
-        Sleep(100);
+
         exit(1);
     }
 }
@@ -208,43 +208,6 @@ StructParser::StructParser()
     m_ProjectName[0] = 0;
 }
 
-bool StructParser::DoesFileNeedUpdating(char const* pFileName)
-{
-    HANDLE hFile;
-
-    char templateFileName[MAX_PATH];
-    char templateHeaderFileName[MAX_PATH];
-
-    TemplateFileNameFromSourceFileName(templateFileName, templateHeaderFileName, pFileName);
-
-
-    hFile = CreateFileA(templateFileName, GENERIC_READ, FILE_SHARE_READ,
-        NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-    if (hFile == INVALID_HANDLE_VALUE)
-    {
-        return true;
-    }
-    else 
-    {
-        CloseHandle(hFile);
-    }
-
-    hFile = CreateFileA(templateHeaderFileName, GENERIC_READ, FILE_SHARE_READ,
-        NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-    if (hFile == INVALID_HANDLE_VALUE)
-    {
-        return true;
-    }
-    else 
-    {
-        CloseHandle(hFile);
-    }
-
-
-    return false;
-}
 
 void StructParser::DeleteStruct(int iIndex)
 {
@@ -4121,10 +4084,6 @@ bool StructParser::IsCharName(char *pString)
 
 
 
-bool StructParser::LoadStoredData(bool bForceReset)
-{
-    return true;
-}
 void StructParser::SetProjectPathAndName(char const* srcPath, char const* commonPath, char const* projectName)
 {
 }
@@ -4145,40 +4104,12 @@ void StructParser::TemplateFileNameFromSourceFileName(char* pTemplateName, char*
         }
     }
 
-    sprintf(pTemplateName, "%s\\AutoGen%s_ast.c", m_pParent->GetSoureDir(), workName);
-    sprintf(pTemplateHeaderName, "%s\\AutoGen%s_ast.h", m_pParent->GetSoureDir(), workName);
+	SetAutoGenPath(pTemplateName, m_pParent->GetSoureDir(),
+		std::string(workName) + "_ast.c");
+	SetAutoGenPath(pTemplateHeaderName, m_pParent->GetSoureDir(),
+		std::string(workName) + "_ast.h");
 }
 
-void StructParser::ResetSourceFile(char const* pSourceFileName)
-{
-    char templateFileName[MAX_PATH];
-    char templateHeaderFileName[MAX_PATH];
-
-    TemplateFileNameFromSourceFileName(templateFileName, templateHeaderFileName, pSourceFileName);
-
-    DeleteFileA(templateFileName);
-    DeleteFileA(templateHeaderFileName);
-
-        int i = 0;
-
-    while (i < m_iNumStructs)
-    {
-        if (AreFilenamesEqual(m_pStructs[i]->sourceFileName, pSourceFileName))
-        {
-            DeleteStruct(i);
-
-            memmove(&m_pStructs[i], &m_pStructs[i + 1], (m_iNumStructs - i - 1) * sizeof(void*));
-            m_iNumStructs--;
-
-        }
-        else
-        {
-            i++;
-        }
-    }
-
-
-}
 
 bool StructParser::WriteOutData(void)
 {
@@ -4232,7 +4163,6 @@ bool StructParser::WriteOutData(void)
 
     for (i=0; i < iNumFileNames; i++)
     {
-        m_pParent->SetExtraDataFlagForFile(fileNames[i], 1 << m_iIndexInParent);
         WriteOutDataSingleFile(fileNames[i]);
     }
 
@@ -4305,7 +4235,10 @@ void StructParser::DumpNonConstCopy(FILE *pFile, STRUCT_DEF *pStruct)
                     char simpleSourceFileName[MAX_PATH];
                     strcpy(simpleSourceFileName, GetFileNameWithoutDirectories(sourceFileName));
                     TruncateStringAtLastOccurrence(simpleSourceFileName, '.');
-                    fprintf(pFile, "#include \"AutoGen\\%s_h_ast.h\"\n", simpleSourceFileName);
+					fprintf(pFile,
+						"#include \"AutoGen/"
+						"%s_h_ast.h\"\n",
+						simpleSourceFileName);
                 }
                 else
                 {
@@ -4447,26 +4380,21 @@ void StructParser::WriteOutDataSingleFile(char *pFileName)
 
     char templateFileName[MAX_PATH];
     char templateHeaderFileName[MAX_PATH];
-    char tmpFileName[MAX_PATH];
-    char tmpHeaderFileName[MAX_PATH];
 
     TemplateFileNameFromSourceFileName(templateFileName, templateHeaderFileName, pFileName);
 
-    // Write to a temp file and if the contents differ, update the real file (in order to support IncrediBuild better)
-    sprintf(tmpFileName, "%s.tmp", templateFileName);
-    sprintf(tmpHeaderFileName, "%s.tmp", templateHeaderFileName);
 
     FILE *pMainFile = NULL;
     FILE *pHeaderFile = NULL;
     
-    pMainFile = fopen_nofail(tmpFileName, "wt");
+    pMainFile = fopen_nofail(templateFileName, "wt");
     fprintf(pMainFile, "#include <utilitieslib/utils/textparser.h>\n\n");
 
 #if GENERATE_FAKE_DEPENDENCIES
     fprintf(pMainFile, "//#ifed-out include to fool incredibuild dependencies\n#if 0\n#include \"%s\"\n#endif\n\n", pFileName);
 #endif
 
-    pHeaderFile = fopen_nofail(tmpHeaderFileName, "wt");
+    pHeaderFile = fopen_nofail(templateHeaderFileName, "wt");
     WriteHeaderFileStart(pHeaderFile, pFileName);
 
     for (i=0; i < m_iNumEnums; i++)
@@ -4495,13 +4423,11 @@ void StructParser::WriteOutDataSingleFile(char *pFileName)
         }
     }
 
-    fclose(pMainFile);
+    CloseFile(pMainFile);
 
     WriteHeaderFileEnd(pHeaderFile, pFileName);
-    fclose(pHeaderFile);
+    CloseFile(pHeaderFile);
 
-    Tokenizer::StaticAssertf(MoveFileExA(tmpFileName, templateFileName, MOVEFILE_REPLACE_EXISTING) != 0, "Could not replace %s with %s", templateFileName, tmpFileName);
-    Tokenizer::StaticAssertf(MoveFileExA(tmpHeaderFileName, templateHeaderFileName, MOVEFILE_REPLACE_EXISTING) != 0, "Could not replace %s with %s", templateHeaderFileName, tmpHeaderFileName);
 }
 
 bool StructParser::StructHasWikiComments(STRUCT_DEF *pStruct)
@@ -4806,8 +4732,7 @@ void StructParser::DumpEnumPrototype(FILE *pFile, ENUM_DEF *pEnum)
 
 }
 
-//returns number of dependencies found
-int StructParser::ProcessDataSingleFile(char const* pSourceFileName, char* pDependencies[MAX_DEPENDENCIES_SINGLE_FILE])
+void StructParser::ProcessDataSingleFile(char const* pSourceFileName)
 {
     int i;
 
@@ -4817,97 +4742,31 @@ int StructParser::ProcessDataSingleFile(char const* pSourceFileName, char* pDepe
         {
             FixupFieldTypes(m_pStructs[i]);
             CheckOverallStructValidity_PostFixup(m_pStructs[i]);
+			ValidateReferences(m_pStructs[i]);
         }
     }
 
-    int iNumDependencies = 0;
-
-    for (i=0; i < m_iNumStructs; i++)
-    {
-        if (AreFilenamesEqual(m_pStructs[i]->sourceFileName, pSourceFileName))
-        {
-            
-            FindDependenciesInStruct(pSourceFileName, m_pStructs[i], &iNumDependencies, pDependencies);
-            
-        }
-    }
-
-    return iNumDependencies;
 }
 
-void StructParser::FindDependenciesInStruct(char const* pSourceFileName, STRUCT_DEF *pStruct, int *piNumDependencies, char *pDependencies[MAX_DEPENDENCIES_SINGLE_FILE])
+void StructParser::ValidateReferences(STRUCT_DEF *pStruct)
 {
-    int i;
-    
-
-    if (pStruct->structNameIInheritFrom[0])
-    {
-        FieldAssert(pStruct->pStructFields[0], pStruct->pStructFields[0]->pStructSourceFileName != NULL,
-            "Unrecognized struct name for POLYCHILDTYPE");
-        if (!AreFilenamesEqual(pStruct->pStructFields[0]->pStructSourceFileName, pSourceFileName))
-        {
-            FieldAssert(pStruct->pStructFields[0], *piNumDependencies < MAX_DEPENDENCIES_SINGLE_FILE, "Too many dependencies");
-            pDependencies[*piNumDependencies] = pStruct->pStructFields[0]->pStructSourceFileName;
-            (*piNumDependencies)++;
-        }
-    }
-
-    for (i=0; i < pStruct->iNumFields; i++)
-    {
-        STRUCT_FIELD_DESC *pField = pStruct->pStructFields[i];
-
-        if (pField->eDataType == DATATYPE_INT && pField->subTableName[0] && (StructHasWikiComments(pStruct) || pStruct->pMainWikiComment))
-        {
-            char *pEnumFile;
-
-            if (m_pParent->GetDictionary()->FindIdentifierAndGetSourceFilePointer(pField->typeName, &pEnumFile) == IDENTIFIER_ENUM)
-            {
-                if (!AreFilenamesEqual(pSourceFileName, pEnumFile))
-                {
-                    FieldAssert(pField, *piNumDependencies < MAX_DEPENDENCIES_SINGLE_FILE, "Too many dependencies");
-                    pDependencies[*piNumDependencies] = pEnumFile;
-                    (*piNumDependencies)++;
-                }
-            }
-        } 
-        else if (pField->eDataType == DATATYPE_STRUCT && pField->bFlatEmbedded
-            || pField->eDataType == DATATYPE_STRUCT && (StructHasWikiComments(pStruct) || pStruct->pMainWikiComment)
-
-//all of a container's structs cause dependencies in case they switch to/from being a container                
-            || pField->eDataType == DATATYPE_STRUCT && pStruct->bIsContainer)
-        {
-
-            //this is so that we can always tell whether the structs in a container are themselves containers
-            if (pField->eDataType == DATATYPE_STRUCT && pStruct->bIsContainer)
-            {
-                FieldAssert(pField, pField->pStructSourceFileName != NULL
-                    || pField->bFoundForceContainer
-                    || pField->bFoundForceNotContainer, "Containers may only contain structs which are defined in this project, or have FORCE_CONTAINER or FORCE_NOT_CONTAINER");
-            }
-
-            if (pField->pStructSourceFileName)
-            {
-                if (!AreFilenamesEqual(pField->pStructSourceFileName, pSourceFileName))
-                {
-                    FieldAssert(pField, *piNumDependencies < MAX_DEPENDENCIES_SINGLE_FILE, "Too many dependencies");
-                    pDependencies[*piNumDependencies] = pField->pStructSourceFileName;
-                    (*piNumDependencies)++;
-                }
-            }
-        }
-        else if (pField->eDataType == DATATYPE_STRUCT_POLY)
-        {
-            if (pField->pStructSourceFileName)
-            {
-                if (!AreFilenamesEqual(pField->pStructSourceFileName, pSourceFileName))
-                {
-                    FieldAssert(pField, *piNumDependencies < MAX_DEPENDENCIES_SINGLE_FILE, "Too many dependencies");
-                    pDependencies[*piNumDependencies] = pField->pStructSourceFileName;
-                    (*piNumDependencies)++;
-                }
-            }
-        }
-    }
+	if (pStruct->structNameIInheritFrom[0]) {
+		FieldAssert(pStruct->pStructFields[0],
+			pStruct->pStructFields[0]->pStructSourceFileName
+				!= NULL,
+			"Unrecognized struct name for POLYCHILDTYPE");
+	}
+	for (int i = 0; i < pStruct->iNumFields; ++i) {
+		auto field = pStruct->pStructFields[i];
+		if (field->eDataType == DATATYPE_STRUCT &&
+		    pStruct->bIsContainer)
+			FieldAssert(field,
+				field->pStructSourceFileName != NULL ||
+				field->bFoundForceContainer ||
+				field->bFoundForceNotContainer,
+				"Containers need locally defined structs, "
+				"or FORCE_CONTAINER or FORCE_NOT_CONTAINER");
+	}
 }
 
 void StructParser::ResetMacros(void)

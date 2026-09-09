@@ -7,7 +7,7 @@
 #if defined(FULLDEBUG)
     #define INLINEDBG
 #elif defined(_DEBUG)
-    #define INLINEDBG __forceinline
+    #define INLINEDBG inline
 #else
     #define INLINEDBG __inline
 #endif

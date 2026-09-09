@@ -2,7 +2,7 @@
 #define _TOKENIZER_H_
 
 #include "assert.h"
-#include "windows.h"
+#include "Platform.h"
 #include "strutils.h"
 
 
@@ -118,7 +118,6 @@ public:
 
     void SetCSourceStyleStrings(bool bSet) { m_bCSourceStyleStrings = bSet; }
 
-    bool IsStringAtVeryEndOfBuffer(char const* pString);
 
     int GetLastStringLength() { return m_LastStringLength; }; //returns the length of the last string token found (to avoid wasted time)
 

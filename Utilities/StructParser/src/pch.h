@@ -7,6 +7,6 @@
 
 
 #include <iostream>
-#include <tchar.h>
+#include "Platform.h"
 
 // TODO: reference additional headers your program requires here

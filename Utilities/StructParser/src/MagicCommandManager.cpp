@@ -1,3 +1,4 @@
+#include "GenerationIO.h"
 #include "pch.h"
 #include "MagicCommandManager.h"
 #include "strutils.h"
@@ -115,7 +116,7 @@ void MagicCommandManager::CommandAssert(MAGIC_COMMAND_STRUCT *pField, bool bCond
     {
         printf("%s(%d) : error S0000 : (StructParser) %s\n", pField->sourceFileName, pField->iLineNum, pErrorMessage);
         fflush(stdout);
-        Sleep(100);
+
         exit(1);
     }
 }
@@ -147,7 +148,6 @@ char const* MagicCommandManager::GetMagicWord(int iWhichMagicWord)
 
 MagicCommandManager::MagicCommandManager()
 {
-    m_bSomethingChanged = false;
     m_iNumMagicCommands = 0;
     m_iNumMagicCommandVars = 0;
     m_MagicCommandFileName[0] = 0;
@@ -161,315 +161,54 @@ MagicCommandManager::~MagicCommandManager()
 {
 }
 
-enum
-{
-    RW_PARSABLE = RW_COUNT,
-};
 
-static char const* sMagicCommandReservedWords[] =
-{
-    "PARSABLE",
-    NULL
-};
 
 void MagicCommandManager::SetProjectPathAndName(char const* srcPath, char const* commonPath, char const* projectName)
 {
     strcpy(m_ProjectName, projectName);
 
     sprintf(m_ShortMagicCommandFileName, "%s_commands_autogen", projectName);
-    sprintf(m_MagicCommandFileName, "%s\\AutoGen\\%s.c", srcPath, m_ShortMagicCommandFileName);
-    sprintf(m_TestClientFunctionsFileName, "%s\\AutoGen\\%s_CommandFuncs.c", srcPath, m_ShortMagicCommandFileName);
-    sprintf(m_TestClientFunctionsHeaderName, "%s\\AutoGen\\%s_CommandFuncs.h", srcPath, m_ShortMagicCommandFileName);
+	SetAutoGenPath(m_MagicCommandFileName, srcPath,
+		std::string(m_ShortMagicCommandFileName) + ".c");
+	SetAutoGenPath(m_TestClientFunctionsFileName, srcPath,
+		std::string(m_ShortMagicCommandFileName) + "_CommandFuncs.c");
+	SetAutoGenPath(m_TestClientFunctionsHeaderName, srcPath,
+		std::string(m_ShortMagicCommandFileName) + "_CommandFuncs.h");
 
-    sprintf(m_RemoteFunctionsFileName, "%s\\AutoGen\\%s_autogen_RemoteFuncs.c", commonPath, projectName);
-    sprintf(m_RemoteFunctionsHeaderName, "%s\\AutoGen\\%s_autogen_RemoteFuncs.h", commonPath, projectName);
-    sprintf(m_SlowFunctionsFileName, "%s\\AutoGen\\%s_autogen_SlowFuncs.c", commonPath, projectName);
-    sprintf(m_SlowFunctionsHeaderName, "%s\\AutoGen\\%s_autogen_SlowFuncs.h", commonPath, projectName);
+	SetAutoGenPath(m_RemoteFunctionsFileName, commonPath,
+		std::string(projectName) + "_autogen_RemoteFuncs.c");
+	SetAutoGenPath(m_RemoteFunctionsHeaderName, commonPath,
+		std::string(projectName) + "_autogen_RemoteFuncs.h");
+	SetAutoGenPath(m_SlowFunctionsFileName, commonPath,
+		std::string(projectName) + "_autogen_SlowFuncs.c");
+	SetAutoGenPath(m_SlowFunctionsHeaderName, commonPath,
+		std::string(projectName) + "_autogen_SlowFuncs.h");
 
-    sprintf(m_QueuedFunctionsFileName, "%s\\AutoGen\\%s_autogen_QueuedFuncs.c", srcPath, projectName);
-    sprintf(m_QueuedFunctionsHeaderName, "%s\\AutoGen\\%s_autogen_QueuedFuncs.h", srcPath, projectName);
+	SetAutoGenPath(m_QueuedFunctionsFileName, srcPath,
+		std::string(projectName) + "_autogen_QueuedFuncs.c");
+	SetAutoGenPath(m_QueuedFunctionsHeaderName, srcPath,
+		std::string(projectName) + "_autogen_QueuedFuncs.h");
 
-    sprintf(m_ServerWrappersFileName, "%s\\AutoGen\\%s_autogen_ServerCmdWrappers.c", commonPath, projectName);
-    sprintf(m_ServerWrappersHeaderFileName, "%s\\AutoGen\\%s_autogen_ServerCmdWrappers.h", commonPath, projectName);
+	SetAutoGenPath(m_ServerWrappersFileName, commonPath,
+		std::string(projectName) + "_autogen_ServerCmdWrappers.c");
+	SetAutoGenPath(m_ServerWrappersHeaderFileName, commonPath,
+		std::string(projectName) + "_autogen_ServerCmdWrappers.h");
     
-    sprintf(m_ClientWrappersFileName, "%s\\AutoGen\\%s_autogen_ClientCmdWrappers.c", commonPath, projectName);
-    sprintf(m_ClientWrappersHeaderFileName, "%s\\AutoGen\\%s_autogen_ClientCmdWrappers.h", commonPath, projectName);
-
-    sprintf(m_ClientToTestClientWrappersFileName, "%s\\AutoGen\\%s_autogen_TestClientCmds.c", srcPath, projectName);
-    sprintf(m_ClientToTestClientWrappersHeaderFileName, "%s\\AutoGen\\%s_autogen_TestClientCmds.h", srcPath, projectName);
-}
-
-bool MagicCommandManager::DoesFileNeedUpdating(char const* pFileName)
-{
-    return false;
-}
-
-
-bool MagicCommandManager::LoadStoredData(bool bForceReset)
-{
-    if (bForceReset)
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    Tokenizer tokenizer;
-
-    if (!tokenizer.LoadFromFile(m_MagicCommandFileName))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    if (!tokenizer.IsStringAtVeryEndOfBuffer("#endif"))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    tokenizer.SetExtraReservedWords(sMagicCommandReservedWords);
-    tokenizer.SetCSourceStyleStrings(true);
-
-    Token token;
-    enumTokenType eType;
-
-    do
-    {
-        eType = tokenizer.GetNextToken(&token);
-        Tokenizer::StaticAssert(eType != TOKEN_NONE, "AUTOCOMMAND file corruption");
-    } while (!(eType == TOKEN_RESERVEDWORD && token.iVal == RW_PARSABLE));
-
-    tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of magic commands");
-
-    m_iNumMagicCommands = token.iVal;
-
-    int iCommandNum;
-    int i;
-
-    for (iCommandNum = 0; iCommandNum < m_iNumMagicCommands; iCommandNum++)
-    {
-        MAGIC_COMMAND_STRUCT *pCommand = &m_MagicCommands[iCommandNum];
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find magic command flags");
-        pCommand->iCommandFlags = token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find magic command function name");
-        strcpy(pCommand->functionName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find magic command command name");
-        strcpy(pCommand->commandName, token.sVal);
-
-        strcpy(pCommand->safeCommandName, token.sVal);
-        MakeStringAllAlphaNum(pCommand->safeCommandName);
-
-        for (i=0; i < MAX_COMMAND_ALIASES; i++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find magic command alias");
-            strcpy(pCommand->commandAliases[i], token.sVal);
-        }
-
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find magic command access level");
-        pCommand->iAccessLevel = token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, 64, "Didn't find serverSpecificAccessLevel ser vername");
-        strcpy(pCommand->serverSpecificAccessLevel_ServerName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find serverSpecificAccessLevel");
-        pCommand->iServerSpecificAccessLevel = token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_PATH, "Didn't find magic command source file");
-        strcpy(pCommand->sourceFileName, token.sVal);
-    
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find magic command line num");
-        pCommand->iLineNum = token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, TOKENIZER_MAX_STRING_LENGTH, "Didn't find magic command comment");
-        RemoveCStyleEscaping(pCommand->comment, token.sVal);
-
-        for (i=0; i < MAX_COMMAND_SETS; i++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find magic command set name");
-            strcpy(pCommand->commandSets[i], token.sVal);
-        }
-
-        for (i=0; i < MAX_COMMAND_CATEGORIES; i++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find magic command category name");
-            strcpy(pCommand->commandCategories[i], token.sVal);
-        }
-    
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find who I'm the error function for");
-        strcpy(pCommand->commandWhichThisIsTheErrorFunctionFor, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find return arg type");
-        pCommand->eReturnType = (enumMagicCommandArgType)token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMAND_ARGTYPE_NAME_LENGTH, "Didn't find return type name");
-        strcpy(pCommand->returnTypeName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find queue name");
-        strcpy(pCommand->queueName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of defines");
-
-        pCommand->iNumDefines = token.iVal;
-        int i;
-        for (i=0; i < pCommand->iNumDefines; i++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find command IFDEF");
-            strcpy(pCommand->defines[i], token.sVal);
-        }
-
-
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of arguments");
-        
-        pCommand->iNumArgs = token.iVal;
-
-
-        for (i=0; i < pCommand->iNumArgs; i++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find int for arg type");
-            pCommand->argTypes[i] = (enumMagicCommandArgType)(token.iVal);
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMAND_ARGTYPE_NAME_LENGTH, "Didn't find arg type name");
-            strcpy(pCommand->argTypeNames[i], token.sVal);
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMAND_ARGNAME_LENGTH, "Didn't find arg name");
-            strcpy(pCommand->argNames[i], token.sVal);
-    
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find namelist type");
-            strcpy(pCommand->argNameListTypeNames[i], token.sVal);
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find namelist data pointer");
-            strcpy(pCommand->argNameListDataPointerNames[i], token.sVal);
-    
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find namelist data pointer-was-string");
-            pCommand->argNameListDataPointerWasString[i] = (bool)(token.iVal == 1);
-        }
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of expression tags");
-        
-        pCommand->iNumExpressionTags = token.iVal;
-
-        for (i=0; i < MAX_COMMAND_SETS; i++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find expression tag");
-            strcpy(pCommand->expressionTag[i], token.sVal);
-        }
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find expression static checking function");
-        strcpy(pCommand->expressionStaticCheckFunc, token.sVal);
-
-        for (i=0; i < pCommand->iNumArgs; i++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, 0, "Didn't find string for static check param type");
-            strcpy(pCommand->expressionStaticCheckParamTypes[i], token.sVal);
-        }
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find the expression function cost");
-        pCommand->iExpressionCost = token.iVal;
-    }
-    
-    tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of magic command variables");
-    m_iNumMagicCommandVars = token.iVal;
-
-    int iVarNum;
-    for (iVarNum = 0; iVarNum < m_iNumMagicCommandVars; iVarNum++)
-    {
-        MAGIC_COMMANDVAR_STRUCT *pCommandVar = &m_MagicCommandVars[iVarNum];
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find magic command var flags");
-        pCommandVar->iCommandFlags = token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find magic command var name");
-        strcpy(pCommandVar->varCommandName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_PATH, "Didn't find magic command var source file name");
-        strcpy(pCommandVar->sourceFileName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find magic command var type");
-        pCommandVar->eVarType = (enumMagicCommandArgType)token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find magic command var access level");
-        pCommandVar->iAccessLevel = (enumMagicCommandArgType)token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, 64, "Didn't find serverSpecificAccessLevel ser vername");
-        strcpy(pCommandVar->serverSpecificAccessLevel_ServerName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find serverSpecificAccessLevel");
-        pCommandVar->iServerSpecificAccessLevel = token.iVal;
-
-        for (i=0; i < MAX_COMMAND_SETS; i++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find magic command var set");
-            strcpy(pCommandVar->commandSets[i], token.sVal);
-        }
-
-        for (i=0; i < MAX_COMMAND_CATEGORIES; i++)
-        {
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find magic command var category");
-            strcpy(pCommandVar->commandCategories[i], token.sVal);
-        }
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, TOKENIZER_MAX_STRING_LENGTH, "Didn't find magic command var comment");
-        RemoveCStyleEscaping(pCommandVar->comment, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_MAGICCOMMANDNAMELENGTH, "Didn't find magic command callback func");
-        strcpy(pCommandVar->callbackFunc, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find magic command maxvalue");
-        pCommandVar->iMaxValue = (enumMagicCommandArgType)token.iVal;
-
-
-    }
-
-
-
-
-
-    m_bSomethingChanged = false;
-
-    return true;
+	SetAutoGenPath(m_ClientWrappersFileName, commonPath,
+		std::string(projectName) + "_autogen_ClientCmdWrappers.c");
+	SetAutoGenPath(m_ClientWrappersHeaderFileName, commonPath,
+		std::string(projectName) + "_autogen_ClientCmdWrappers.h");
+
+	SetAutoGenPath(m_ClientToTestClientWrappersFileName, srcPath,
+		std::string(projectName) + "_autogen_TestClientCmds.c");
+	SetAutoGenPath(m_ClientToTestClientWrappersHeaderFileName, srcPath,
+		std::string(projectName) + "_autogen_TestClientCmds.h");
 }
 
 
-void MagicCommandManager::ResetSourceFile(char const* pSourceFileName)
-{
-    int i = 0;
 
-    while (i < m_iNumMagicCommands)
-    {
-        if (AreFilenamesEqual(m_MagicCommands[i].sourceFileName, pSourceFileName))
-        {
-            memcpy(&m_MagicCommands[i], &m_MagicCommands[m_iNumMagicCommands - 1], sizeof(MAGIC_COMMAND_STRUCT));
-            m_iNumMagicCommands--;
 
-            m_bSomethingChanged = true;
-        }
-        else
-        {
-            i++;
-        }
-    }
 
-    i = 0;
-    while (i < m_iNumMagicCommandVars)
-    {
-        if (AreFilenamesEqual(m_MagicCommandVars[i].sourceFileName, pSourceFileName))
-        {
-            memcpy(&m_MagicCommandVars[i], &m_MagicCommandVars[m_iNumMagicCommandVars - 1], sizeof(MAGIC_COMMANDVAR_STRUCT));
-            m_iNumMagicCommandVars--;
-
-            m_bSomethingChanged = true;
-        }
-        else
-        {
-            i++;
-        }
-    }
-}
 
 char const* MagicCommandManager::GetReturnValueMultiValTypeName(enumMagicCommandArgType eArgType)
 {
@@ -1040,10 +779,6 @@ bool MagicCommandManager::WriteOutData(void)
     bool bAtLeastOneSlowCommand = false;
     bool bAtLeastOneExpressionListCommand = false;
 
-    if (!m_bSomethingChanged)
-    {
-        return false;
-    }
 
     qsort(m_MagicCommands, m_iNumMagicCommands, sizeof(MAGIC_COMMAND_STRUCT), MagicCommandComparator);
     qsort(m_MagicCommandVars, m_iNumMagicCommandVars, sizeof(MAGIC_COMMANDVAR_STRUCT), MagicCommandVarComparator);
@@ -1582,113 +1317,9 @@ bool MagicCommandManager::WriteOutData(void)
     WriteOutExpressionListStuff(pOutFile);
 
 
-    fprintf(pOutFile, "\n\n\n#if 0\nPARSABLE\n");
-
-    fprintf(pOutFile, "%d\n", m_iNumMagicCommands);
-
-    for (iCommandNum = 0; iCommandNum < m_iNumMagicCommands; iCommandNum++)
-    {
-        MAGIC_COMMAND_STRUCT *pCommand = &m_MagicCommands[iCommandNum];
-        
-        Token commentToken;
-
-        AddCStyleEscaping(commentToken.sVal, pCommand->comment, TOKENIZER_MAX_STRING_LENGTH);
-
-        fprintf(pOutFile, " %d ", pCommand->iCommandFlags);
-
-        fprintf(pOutFile, "\"%s\" \"%s\" ", 
-            pCommand->functionName, pCommand->commandName);    
-        
-        for (i=0; i < MAX_COMMAND_ALIASES; i++)
-        {
-            fprintf(pOutFile, " \"%s\" ", pCommand->commandAliases[i]);
-        }
-
-        fprintf(pOutFile, "%d \"%s\" %d \"%s\" %d \"%s\" ",
-            pCommand->iAccessLevel, pCommand->serverSpecificAccessLevel_ServerName, pCommand->iServerSpecificAccessLevel,
-            pCommand->sourceFileName, pCommand->iLineNum, commentToken.sVal);
-
-        for (i=0; i < MAX_COMMAND_SETS; i++)
-        {
-            fprintf(pOutFile, " \"%s\" ", pCommand->commandSets[i]);
-        }
-
-        for (i=0; i < MAX_COMMAND_CATEGORIES; i++)
-        {
-            fprintf(pOutFile, " \"%s\" ", pCommand->commandCategories[i]);
-        }
-
-        fprintf(pOutFile, " \"%s\" %d \"%s\" \"%s\" %d ",
-            pCommand->commandWhichThisIsTheErrorFunctionFor,
-            pCommand->eReturnType, pCommand->returnTypeName, pCommand->queueName, pCommand->iNumDefines);
-
-        
-        for (i=0; i < pCommand->iNumDefines; i++)
-        {
-            fprintf(pOutFile, "\"%s\"\n", pCommand->defines[i]);
-        }
-
-        fprintf(pOutFile, "%d\n", pCommand->iNumArgs);
-
-        for (i=0; i < pCommand->iNumArgs; i++)
-        {
-            fprintf(pOutFile, "%d \"%s\" \"%s\" \"%s\" \"%s\" %d\n", pCommand->argTypes[i], pCommand->argTypeNames[i], pCommand->argNames[i],
-                pCommand->argNameListTypeNames[i], pCommand->argNameListDataPointerNames[i], pCommand->argNameListDataPointerWasString[i]);
-        }
-
-        fprintf(pOutFile, "%d ", pCommand->iNumExpressionTags);
-        
-        for (i=0; i < MAX_COMMAND_SETS; i++)
-        {
-            fprintf(pOutFile, " \"%s\" ", pCommand->expressionTag[i]);
-        }
-
-        fprintf(pOutFile, "\n \"%s\" \n", pCommand->expressionStaticCheckFunc);
-
-        for (i=0; i < pCommand->iNumArgs; i++)
-        {
-            fprintf(pOutFile, "\"%s\" ", pCommand->expressionStaticCheckParamTypes[i]);
-        }
-
-        fprintf(pOutFile, "%d\n", pCommand->iExpressionCost);
-    }
-
-    fprintf(pOutFile, "%d\n", m_iNumMagicCommandVars);
-
-    for (iVarNum = 0; iVarNum < m_iNumMagicCommandVars; iVarNum++)
-    {
-        MAGIC_COMMANDVAR_STRUCT *pCommandVar = &m_MagicCommandVars[iVarNum];
-
-        Token commentToken;
-
-        fprintf(pOutFile, " %d ", pCommandVar->iCommandFlags);
 
 
-        AddCStyleEscaping(commentToken.sVal, pCommandVar->comment, TOKENIZER_MAX_STRING_LENGTH);
-
-        fprintf(pOutFile, "\"%s\" \"%s\" %d %d \"%s\" %d ",
-            pCommandVar->varCommandName, pCommandVar->sourceFileName,
-            pCommandVar->eVarType, pCommandVar->iAccessLevel, pCommandVar->serverSpecificAccessLevel_ServerName, pCommandVar->iServerSpecificAccessLevel);
-        
-        for (i=0; i < MAX_COMMAND_SETS; i++)
-        {
-            fprintf(pOutFile, " \"%s\" ", pCommandVar->commandSets[i]);
-        }
-
-        for (i=0; i < MAX_COMMAND_CATEGORIES; i++)
-        {
-            fprintf(pOutFile, " \"%s\" ", pCommandVar->commandCategories[i]);
-        }
-
-        fprintf(pOutFile, " \"%s\" \"%s\" %d\n", commentToken.sVal,
-            pCommandVar->callbackFunc,pCommandVar->iMaxValue);
-
-    }
-
-
-    fprintf(pOutFile, "#endif\n");
-
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
     WriteOutFilesForTestClient();
     WriteOutQueuedCommands();
@@ -2328,7 +1959,6 @@ void MagicCommandManager::FoundCommandVarMagicWord(char const* pSourceFileName, 
     
 
 
-    m_bSomethingChanged = true;
 
     pTokenizer->GetSurroundingSlashedCommentBlock(&token);
     if (token.sVal[0])
@@ -2578,7 +2208,6 @@ void MagicCommandManager::FoundCommandMagicWord(char const* pSourceFileName, Tok
         pCommand->iCommandFlags |= COMMAND_FLAG_QUEUED;
     }
 
-    m_bSomethingChanged = true;
 
     strcpy(pCommand->sourceFileName, pSourceFileName);
     pCommand->iLineNum = pTokenizer->GetCurLineNum();
@@ -2939,7 +2568,8 @@ void MagicCommandManager::FoundCommandMagicWord(char const* pSourceFileName, Tok
         }
 
         pTokenizer->StringifyToken(&token);
-        sprintf_s(pCommand->returnTypeName, sizeof(pCommand->returnTypeName), "%s", token.sVal);
+		snprintf(pCommand->returnTypeName,
+			sizeof(pCommand->returnTypeName), "%s", token.sVal);
 
         //skip over any number of *s after function type
         eType = pTokenizer->CheckNextToken(&token);
@@ -3171,7 +2801,8 @@ void MagicCommandManager::FoundCommandMagicWord(char const* pSourceFileName, Tok
                 
 
             pCommand->argTypes[pCommand->iNumArgs] = GetArgTypeFromArgTypeName(forceTypeName[0] ? forceTypeName : token.sVal);
-            sprintf_s(pCommand->argTypeNames[pCommand->iNumArgs], sizeof(pCommand->argTypeNames[pCommand->iNumArgs]),
+			snprintf(pCommand->argTypeNames[pCommand->iNumArgs],
+				sizeof(pCommand->argTypeNames[0]),
                 "%s", forceTypeName[0] ? forceTypeName : token.sVal);
 
             pTokenizer->Assert(pCommand->argTypes[pCommand->iNumArgs] != ARGTYPE_NONE, "Unknown arg type for magic command");
@@ -3777,8 +3408,7 @@ MagicCommandManager::enumMagicCommandArgType MagicCommandManager::GetArgTypeFrom
 
 
 
-//returns number of dependencies found
-int MagicCommandManager::ProcessDataSingleFile(char const* pSourceFileName, char* pDependencies[MAX_DEPENDENCIES_SINGLE_FILE])
+void MagicCommandManager::ProcessDataSingleFile(char const* pSourceFileName)
 {
     int iCommandNum;
 
@@ -3822,7 +3452,7 @@ int MagicCommandManager::ProcessDataSingleFile(char const* pSourceFileName, char
 
 
 
-    return 0;
+
 }
 
 
@@ -4270,7 +3900,7 @@ void MagicCommandManager::WriteOutFilesForTestClient(void)
 
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
     pOutFile = fopen_nofail(m_TestClientFunctionsHeaderName, "wt");
 
@@ -4303,7 +3933,7 @@ void MagicCommandManager::WriteOutFilesForTestClient(void)
         WriteOutPrototypesForTestClient(pOutFile, &command, iPrefixLen);
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 }
     
 
@@ -4595,7 +4225,7 @@ void MagicCommandManager::WriteOutRemoteCommands(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
 
     pOutFile = fopen_nofail(m_RemoteFunctionsHeaderName, "wt");
@@ -4616,7 +4246,7 @@ void MagicCommandManager::WriteOutRemoteCommands(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
 
 
@@ -4641,7 +4271,7 @@ void MagicCommandManager::WriteOutRemoteCommands(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
     pOutFile = fopen_nofail(m_SlowFunctionsHeaderName, "wt");
 
@@ -4665,7 +4295,7 @@ void MagicCommandManager::WriteOutRemoteCommands(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
 
 }
@@ -4971,7 +4601,7 @@ void MagicCommandManager::WriteOutQueuedCommands(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
 
     pOutFile = fopen_nofail(m_QueuedFunctionsHeaderName, "wt");
@@ -4991,7 +4621,7 @@ void MagicCommandManager::WriteOutQueuedCommands(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
 
 
@@ -5333,7 +4963,7 @@ void MagicCommandManager::WriteOutClientWrappers(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
 
     pOutFile = fopen_nofail(m_ClientWrappersHeaderFileName, "wt");
@@ -5351,7 +4981,7 @@ void MagicCommandManager::WriteOutClientWrappers(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 }
 
 
@@ -5428,7 +5058,7 @@ void MagicCommandManager::WriteOutServerWrappers(void)
         }    
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
 
     pOutFile = fopen_nofail(m_ServerWrappersHeaderFileName, "wt");
@@ -5447,7 +5077,7 @@ void MagicCommandManager::WriteOutServerWrappers(void)
         }
     }
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 }
 
 
@@ -5478,7 +5108,7 @@ void MagicCommandManager::WriteOutClientToTestClientWrappers(void)
 
     fprintf(pOutFile, "\n#endif\n\n");
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
 
     pOutFile = fopen_nofail(m_ClientToTestClientWrappersHeaderFileName, "wt");
@@ -5508,7 +5138,7 @@ void MagicCommandManager::WriteOutClientToTestClientWrappers(void)
     fprintf(pOutFile, "\n#endif\n\n");
     
 
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 }
 
 
@@ -5536,12 +5166,12 @@ bool MagicCommandManager::CommandIsInCategory(MAGIC_COMMAND_STRUCT *pCommand, ch
 {
     int i;
 
-    if (_stricmp(pCategoryName, "all") == 0)
+    if (CompareNoCase(pCategoryName, "all") == 0)
     {
         return (pCommand->iCommandFlags & COMMAND_FLAG_HIDE) == 0;
     }
 
-    if (_stricmp(pCategoryName, "hidden") == 0)
+    if (CompareNoCase(pCategoryName, "hidden") == 0)
     {
         return (pCommand->iCommandFlags & COMMAND_FLAG_HIDE) != 0;
     }
@@ -5572,12 +5202,12 @@ bool MagicCommandManager::CommandVarIsInCategory(MAGIC_COMMANDVAR_STRUCT *pComma
 {
     int i;
 
-    if (_stricmp(pCategoryName, "all") == 0)
+    if (CompareNoCase(pCategoryName, "all") == 0)
     {
         return (pCommandVar->iCommandFlags & COMMAND_FLAG_HIDE) == 0;
     }
 
-    if (_stricmp(pCategoryName, "hidden") == 0)
+    if (CompareNoCase(pCategoryName, "hidden") == 0)
     {
         return (pCommandVar->iCommandFlags & COMMAND_FLAG_HIDE) != 0;
     }

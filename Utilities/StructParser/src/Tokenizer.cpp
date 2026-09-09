@@ -1,9 +1,11 @@
+#include <climits>
+#include "GenerationIO.h"
 #include "pch.h"
 #include <cstdio>
 #include "tokenizer.h"
 #include "assert.h"
 #include "string.h"
-#include "windows.h"
+#include "Platform.h"
 #include "strutils.h"
 
 
@@ -140,35 +142,25 @@ bool Tokenizer::LoadFromFile(char const* pFileName)
 
     Reset();
 
-    pInFile = fopen(pFileName, "rb");
+    pInFile = OpenInput(pFileName, "rb");
     
-    if (!pInFile)
-    {
-        Sleep(100);
-
-        pInFile = fopen(pFileName, "rb");
-        {
-            if (!pInFile)
-            {
-                return false;
-            }
-        }
-    }
-    
-
-    fseek(pInFile, 0, SEEK_END);
-
-    int iFileSize = ftell(pInFile);
-
-    fseek(pInFile, 0, SEEK_SET);
+	if (!pInFile)
+		return false;
+	StaticAssert(strlen(pFileName) < MAX_PATH, "Input path is too long");
+	StaticAssert(fseek(pInFile, 0, SEEK_END) == 0, "Cannot seek input");
+	auto size = ftell(pInFile);
+	StaticAssert(size >= 0 && size < INT_MAX, "Invalid input size");
+	int iFileSize = static_cast<int>(size);
+	StaticAssert(fseek(pInFile, 0, SEEK_SET) == 0, "Cannot rewind input");
 
     m_pBufferStart = new char[iFileSize + 1];
 
     Tokenizer::StaticAssert(m_pBufferStart != NULL, "new failed");
 
-    fread(m_pBufferStart, iFileSize, 1, pInFile);
+	StaticAssert(fread(m_pBufferStart, 1, iFileSize, pInFile) ==
+		static_cast<size_t>(iFileSize), "Cannot read complete input");
 
-    fclose(pInFile);
+    CloseFile(pInFile);
 
     m_pBufferStart[iFileSize] = 0;
 
@@ -707,19 +699,6 @@ void Tokenizer::AssertGetIdentifier(char const* pIdentToGet)
 
 
 
-bool Tokenizer::IsStringAtVeryEndOfBuffer(char const* pString)
-{
-    int len = (int)strlen(pString);
-
-    char *pTemp = m_pBufferEnd;
-
-    while (!IsAlphaNum(*pTemp))
-    {
-        pTemp--;
-    }
-
-    return (strncmp(pString, pTemp - len + 1, len) == 0);
-}
 
 
 void Tokenizer::Assertf(bool bExpression, char const* pErrorString, ...)
@@ -760,7 +739,7 @@ void Tokenizer::Assert(bool bExpression, char const* pErrorString)
     
         fflush(stdout);
 
-        Sleep(100);
+
 
         exit(1);
     }
@@ -775,7 +754,7 @@ void Tokenizer::StaticAssert(bool bExpression, char const* pErrorString)
     
         fflush(stdout);
 
-        Sleep(100);
+
 
         exit(1);
     }

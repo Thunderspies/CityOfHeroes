@@ -2,7 +2,7 @@
 #define _IDENTIFIERDICTIONARY_H_
 
 #include "tokenizer.h"
-#include "windows.h"
+#include "Platform.h"
 
 
 typedef enum
@@ -22,13 +22,10 @@ public:
     IdentifierDictionary();
     ~IdentifierDictionary();
 
-    bool SetFileNameAndLoad(char const* pProjPath, char const* pProjFileName);
 
-    void DeleteAllFromFile(char const* pSourceFileName);
 
     void AddIdentifier(char const* pIdentifierName, char const* pSourceFileName, enumIdentifierType eType);
 
-    void WriteOutFile();
 
     enumIdentifierType FindIdentifier(char const* pIdentifierName);
     enumIdentifierType FindIdentifierAndGetSourceFile(char const* pIdentifierName, char* pOutSourceFileName);
@@ -48,11 +45,9 @@ private:
         struct IdentifierDictionaryNode *pNext;
     } IdentifierDictionaryNode;
 
-    char m_DictionaryFileName[MAX_PATH];
 
     IdentifierDictionaryNode *m_pFirst;
 
-    bool m_bSomethingHasChanged;
 
     enumIdentifierType m_eCurIteratorType;
     IdentifierDictionaryNode *m_pNextIteratorNode;

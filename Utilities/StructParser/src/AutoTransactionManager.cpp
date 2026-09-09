@@ -1,3 +1,4 @@
+#include "GenerationIO.h"
 #include "pch.h"
 #include "AutoTransactionManager.h"
 #include "strutils.h"
@@ -19,7 +20,6 @@ static char const* sAutoTransSafeSimpleFunctionNames[] =
 
 AutoTransactionManager::AutoTransactionManager()
 {
-    m_bSomethingChanged = false;
     m_iNumFuncs = 0;
     m_iNumHelperFuncs = 0;
     m_ShortAutoTransactionFileName[0] = 0;
@@ -88,10 +88,6 @@ void AutoTransactionManager::FreeMagicArg(HelperFuncArg *pArg)
     delete(pArg);
 }
 
-bool AutoTransactionManager::DoesFileNeedUpdating(char const* pFileName)
-{
-    return false;
-}
 void AutoTransactionManager::FreeAutoTransactionFunc(AutoTransactionFunc *pFunc)
 {
     int i;
@@ -125,25 +121,19 @@ void AutoTransactionManager::FreeArgLockingAndRecursingStuff(ArgStruct *pArg)
 
 
 
-enum
-{
-    RW_PARSABLE = RW_COUNT,
-};
 
-static char const* sAutoTransactionReservedWords[] =
-{
-    "PARSABLE",
-    NULL
-};
 
 void AutoTransactionManager::SetProjectPathAndName(char const* srcPath, char const* commonPath, char const* projectName)
 {
     strcpy(m_ProjectName, projectName);
 
     sprintf(m_ShortAutoTransactionFileName, "%s_autotransactions_autogen", projectName);
-    sprintf(m_AutoTransactionFileName, "%s\\AutoGen\\%s.c", srcPath, m_ShortAutoTransactionFileName);
-    sprintf(m_AutoTransactionWrapperHeaderFileName, "%s\\AutoGen\\%s_wrappers.h", commonPath, m_ShortAutoTransactionFileName);
-    sprintf(m_AutoTransactionWrapperSourceFileName, "%s\\AutoGen\\%s_wrappers.c", commonPath, m_ShortAutoTransactionFileName);
+	SetAutoGenPath(m_AutoTransactionFileName, srcPath,
+		std::string(m_ShortAutoTransactionFileName) + ".c");
+	SetAutoGenPath(m_AutoTransactionWrapperHeaderFileName, commonPath,
+		std::string(m_ShortAutoTransactionFileName) + "_wrappers.h");
+	SetAutoGenPath(m_AutoTransactionWrapperSourceFileName, commonPath,
+		std::string(m_ShortAutoTransactionFileName) + "_wrappers.c");
 
 
 }
@@ -251,258 +241,7 @@ void AutoTransactionManager::AddRecurseFunctionToArg(ArgStruct *pArg, int iArgNu
     
 }
 
-bool AutoTransactionManager::LoadStoredData(bool bForceReset)
-{
-    int i;
 
-    if (bForceReset)
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    Tokenizer tokenizer;
-
-    if (!tokenizer.LoadFromFile(m_AutoTransactionFileName))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    if (!tokenizer.IsStringAtVeryEndOfBuffer("#endif"))
-    {
-        m_bSomethingChanged = true;
-        return false;
-    }
-
-    tokenizer.SetExtraReservedWords(sAutoTransactionReservedWords);
-
-    Token token;
-    enumTokenType eType;
-
-    do
-    {
-        eType = tokenizer.GetNextToken(&token);
-        Tokenizer::StaticAssert(eType != TOKEN_NONE, "AUTOTRANS file corruption");
-    } while (!(eType == TOKEN_RESERVEDWORD && token.iVal == RW_PARSABLE));
-
-    tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of auto transactions");
-
-    m_iNumFuncs = token.iVal;
-
-    int iFuncNum;
-
-    for (iFuncNum = 0; iFuncNum < m_iNumFuncs; iFuncNum++)
-    {
-        AutoTransactionFunc *pFunc = &m_Funcs[iFuncNum];
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_NAME_LENGTH, "Didn't find auto transaction function name");
-        strcpy(pFunc->functionName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_PATH, "Didn't find auto transaction source file");
-        strcpy(pFunc->sourceFileName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find auto transaction line num");
-        pFunc->iSourceFileLineNum = token.iVal;
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of arguments");
-        
-        pFunc->iNumArgs = token.iVal;
-
-        int iArgNum;
-
-        for (iArgNum=0; iArgNum < pFunc->iNumArgs; iArgNum++)
-        {
-            ArgStruct *pArg = &pFunc->args[iArgNum];
-
-            pArg->pFirstFieldToLock = NULL;
-            pArg->pFirstRecursingFunction = NULL;
-
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find arg type");
-            pArg->eArgType = (enumAutoTransArgType)token.iVal;
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find isPointer");
-            pArg->bIsPointer = (token.iVal == 1);
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find isEArray");
-            pArg->bIsEArray = (token.iVal == 1);
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find FoundNonContainer");
-            pArg->bFoundNonContainer = (token.iVal == 1);
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_NAME_LENGTH, "Didn't find arg type name");
-            strcpy(pArg->argTypeName, token.sVal);
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_NAME_LENGTH, "Didn't find arg name");
-            strcpy(pArg->argName, token.sVal);
-        
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find num fields");
-            int iNumFieldsToLock = token.iVal;
-                
-            for (i=0; i < iNumFieldsToLock; i++)
-            {
-                char fieldName[MAX_NAME_LENGTH] = "";
-                char indexString[MAX_NAME_LENGTH] = "";
-                enumAutoTransFieldToLockType eFTLType;
-                int iIndexNum = 0;
-
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_NAME_LENGTH, "Didn't find field to lock name");
-                strcpy(fieldName, token.sVal);
-                
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find FTL type");
-                eFTLType = (enumAutoTransFieldToLockType)token.iVal;
-
-                switch (eFTLType)
-                {
-                case ATR_FTL_INDEXED_LITERAL_STRING:
-                    tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_NAME_LENGTH, "Didn't find field to lock index name");
-                    strcpy(indexString, token.sVal);
-                    break;
-
-                case ATR_FTL_NORMAL:
-                    break;
-
-                default:
-                    tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find field to lock int");
-                    iIndexNum = token.iVal;
-                }
-
-                AddFieldToLockToArg(pArg, fieldName, eFTLType, iIndexNum, indexString);
-            }
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find num recurse functions");
-            int iNumRecurseFunctions = token.iVal;
-                
-            for (i=0; i < iNumRecurseFunctions; i++)
-            {
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find argNum");
-                int iArgNum = token.iVal;
-                
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_NAME_LENGTH, "Didn't find recursing func name");
-                char funcName[MAX_NAME_LENGTH];
-                strcpy(funcName, token.sVal);
-    
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find bIsATRRecurse");
-                bool bIsATRRecurse = token.iVal != 0;
-
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_NAME_LENGTH, "Didn't find recursing field string");
-                char fieldString[MAX_NAME_LENGTH];
-                strcpy(fieldString, token.sVal);
-    
-
-
-                AddRecurseFunctionToArg(pArg, iArgNum, funcName, bIsATRRecurse, fieldString);
-            }
-        }
-    }
-
-    tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of helper funcs");
-
-    m_iNumHelperFuncs = token.iVal;
-    tokenizer.Assert(m_iNumHelperFuncs <= MAX_AUTO_TRANSACTION_HELPER_FUNCS, "Too many helper functions");
-    int iHelperFuncNum;
-
-    for (iHelperFuncNum = 0; iHelperFuncNum < m_iNumHelperFuncs; iHelperFuncNum++)
-    {
-        HelperFunc *pHelperFunc = &m_HelperFuncs[iHelperFuncNum];
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_PATH, "Didn't find source file");
-        strcpy(pHelperFunc->sourceFileName, token.sVal);
-
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, MAX_NAME_LENGTH, "Didn't find helper func name");
-        strcpy(pHelperFunc->functionName, token.sVal);
-
-        tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find num magic args");
-        pHelperFunc->iNumMagicArgs = token.iVal;
-        tokenizer.Assert(pHelperFunc->iNumMagicArgs <= MAX_MAGIC_ARGS_PER_HELPER_FUNC, "Too many magic args");
-
-        int iMagicArgNum;
-
-        for (iMagicArgNum = 0; iMagicArgNum < pHelperFunc->iNumMagicArgs; iMagicArgNum++)
-        {
-            HelperFuncArg *pMagicArg = pHelperFunc->pMagicArgs[iMagicArgNum] = new HelperFuncArg;
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find arg index");
-            pMagicArg->iArgIndex = token.iVal;
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of field references");
-            pMagicArg->iNumFieldReferences = token.iVal;
-
-            int iFieldRefNum;
-
-            for (iFieldRefNum = 0; iFieldRefNum < pMagicArg->iNumFieldReferences; iFieldRefNum++)
-            {
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, 0, "Didn't find field reference in magic arg");
-                pMagicArg->pFieldReferences[iFieldRefNum] = STRDUP(token.sVal);
-            }
-
-            tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find number of potential helper recursions");
-            pMagicArg->iNumPotentialHelperRecursions = token.iVal;
-
-            int iPotentialRecursionNum;
-
-            for (iPotentialRecursionNum = 0; iPotentialRecursionNum < pMagicArg->iNumPotentialHelperRecursions; iPotentialRecursionNum++)
-            {
-                PotentialHelperFuncRecursion *pPotentialRecursion = pMagicArg->pPotentialRecursions[iPotentialRecursionNum] = new PotentialHelperFuncRecursion;
-
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, 0, "Didn't find func name for potential recursion");
-                pPotentialRecursion->pFuncName = STRDUP(token.sVal);
-
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_INT, 0, "Didn't find potential recursion arg num");
-                pPotentialRecursion->iArgNum = token.iVal;
-
-                tokenizer.AssertNextTokenTypeAndGet(&token, TOKEN_STRING, 0, "Didn't find field string for potential recursion");
-                pPotentialRecursion->pFieldString = STRDUP(token.sVal);
-            }
-        }
-    }
-
-
-    m_bSomethingChanged = false;
-
-    return true;
-}
-
-void AutoTransactionManager::ResetSourceFile(char const* pSourceFileName)
-{
-    int i = 0;
-
-    while (i < m_iNumFuncs)
-    {
-        if (AreFilenamesEqual(m_Funcs[i].sourceFileName, pSourceFileName))
-        {
-            FreeAutoTransactionFunc(&m_Funcs[i]);
-            memcpy(&m_Funcs[i], &m_Funcs[m_iNumFuncs - 1], sizeof(AutoTransactionFunc));
-            m_iNumFuncs--;
-
-            m_bSomethingChanged = true;
-        }
-        else
-        {
-            i++;
-        }
-    }
-
-    i = 0;
-
-    while (i < m_iNumHelperFuncs)
-    {
-        if (AreFilenamesEqual(m_HelperFuncs[i].sourceFileName, pSourceFileName))
-        {
-            FreeHelperFunc(&m_HelperFuncs[i]);
-            memcpy(&m_HelperFuncs[i], &m_HelperFuncs[m_iNumHelperFuncs - 1], sizeof(HelperFunc));
-            m_iNumHelperFuncs--;
-
-            m_bSomethingChanged = true;
-        }
-        else
-        {
-            i++;
-        }
-    }
-}
 
 void AutoTransactionManager::FuncAssert(AutoTransactionFunc *pFunc, bool bExpression, char const* pErrorString)
 {
@@ -510,7 +249,7 @@ void AutoTransactionManager::FuncAssert(AutoTransactionFunc *pFunc, bool bExpres
     {
         printf("%s(%d) : error S0000 : (StructParser) %s\n", pFunc->sourceFileName, pFunc->iSourceFileLineNum, pErrorString);
         fflush(stdout);
-        Sleep(100);
+
         exit(1);
     }
 }
@@ -726,10 +465,6 @@ bool AutoTransactionManager::WriteOutData(void)
 {
     int iFuncNum, iHelperFuncNum, i;
 
-    if (!m_bSomethingChanged)
-    {
-        return false;
-    }
 
     qsort(m_Funcs, m_iNumFuncs, sizeof(AutoTransactionFunc), AutoTransactionComparator);
 
@@ -1068,126 +803,9 @@ bool AutoTransactionManager::WriteOutData(void)
 
 
 
-    fprintf(pOutFile, "\n\n\n#if 0\nPARSABLE\n");
-
-    fprintf(pOutFile, "%d\n", m_iNumFuncs);
-
-    for (iFuncNum = 0; iFuncNum < m_iNumFuncs; iFuncNum++)
-    {
-        AutoTransactionFunc *pFunc = &m_Funcs[iFuncNum];
-        
-        fprintf(pOutFile, "\"%s\"\n\"%s\"\n%d\n%d\n", 
-            pFunc->functionName, pFunc->sourceFileName, pFunc->iSourceFileLineNum, pFunc->iNumArgs);
-
-        int iArgNum;
-
-        for (iArgNum=0; iArgNum < pFunc->iNumArgs; iArgNum++)
-        {
-            ArgStruct *pArg = &pFunc->args[iArgNum];
-
-            fprintf(pOutFile, "%d %d %d %d \"%s\" \"%s\"\n",
-                pArg->eArgType, pArg->bIsPointer, pArg->bIsEArray, pArg->bFoundNonContainer, pArg->argTypeName, pArg->argName);
-
-            int iCount = 0;
-
-            FieldToLock *pField = pArg->pFirstFieldToLock;
-
-            while (pField)
-            {
-                iCount++;
-                pField = pField->pNext;
-            }
-
-            fprintf(pOutFile, "%d\n", iCount);
-
-            pField = pArg->pFirstFieldToLock;
-
-            while (pField)
-            {
-                fprintf(pOutFile, "\"%s\" %d\n", pField->fieldName, pField->eFieldType);
-
-                switch (pField->eFieldType)
-                {
-                case ATR_FTL_NORMAL:
-                    break;
-
-                case ATR_FTL_INDEXED_LITERAL_STRING:
-                    fprintf(pOutFile, "\"%s\"\n", pField->indexString);
-                    break;
-
-                default:
-                    fprintf(pOutFile, "%d\n", pField->iIndexNum);
-                    break;
-                }
-
-                pField = pField->pNext;
-            }
 
 
-            iCount = 0;
-            RecursingFunction *pRecursingFunc = pArg->pFirstRecursingFunction;
-
-            while (pRecursingFunc)
-            {
-                iCount++;
-                pRecursingFunc = pRecursingFunc->pNext;
-            }
-
-            fprintf(pOutFile, "%d\n", iCount);
-
-            pRecursingFunc = pArg->pFirstRecursingFunction;
-
-            while (pRecursingFunc)
-            {
-                fprintf(pOutFile, "%d \"%s\" %d \"%s\"\n", pRecursingFunc->iArgNum, pRecursingFunc->functionName,
-                    pRecursingFunc->bIsRecursingATRFunction, pRecursingFunc->fieldString);
-                pRecursingFunc = pRecursingFunc->pNext;
-            }
-        }
-    }
-
-    fprintf(pOutFile, "%d\n", m_iNumHelperFuncs);
-
-
-    for (iHelperFuncNum = 0; iHelperFuncNum < m_iNumHelperFuncs; iHelperFuncNum++)
-    {
-        HelperFunc *pHelperFunc = &m_HelperFuncs[iHelperFuncNum];
-
-        fprintf(pOutFile, "\"%s\" \"%s\" %d\n", pHelperFunc->sourceFileName, pHelperFunc->functionName, pHelperFunc->iNumMagicArgs);
-
-        int iMagicArgNum;
-
-        for (iMagicArgNum = 0; iMagicArgNum < pHelperFunc->iNumMagicArgs; iMagicArgNum++)
-        {
-            HelperFuncArg *pMagicArg = pHelperFunc->pMagicArgs[iMagicArgNum];
-
-            fprintf(pOutFile, "%d %d\n", pMagicArg->iArgIndex, pMagicArg->iNumFieldReferences);
-
-            int iFieldRefNum;
-
-            for (iFieldRefNum = 0; iFieldRefNum < pMagicArg->iNumFieldReferences; iFieldRefNum++)
-            {
-                fprintf(pOutFile, "\"%s\"\n", pMagicArg->pFieldReferences[iFieldRefNum]);
-            }
-
-            fprintf(pOutFile, "%d\n", pMagicArg->iNumPotentialHelperRecursions);
-
-            int iPotHelperNum;
-            for (iPotHelperNum = 0; iPotHelperNum < pMagicArg->iNumPotentialHelperRecursions; iPotHelperNum++)
-            {
-                fprintf(pOutFile, "\"%s\" %d \"%s\"\n",
-                    pMagicArg->pPotentialRecursions[iPotHelperNum]->pFuncName,
-                    pMagicArg->pPotentialRecursions[iPotHelperNum]->iArgNum,
-                    pMagicArg->pPotentialRecursions[iPotHelperNum]->pFieldString);
-            }
-        }
-    }
-
-
-
-    fprintf(pOutFile, "#endif\n");
-
-    fclose(pOutFile);
+    CloseFile(pOutFile);
 
     if (m_iNumFuncs)
     {
@@ -1209,7 +827,7 @@ bool AutoTransactionManager::WriteOutData(void)
             fprintf(pOutFile, ";\n");
         }
 
-        fclose(pOutFile);
+        CloseFile(pOutFile);
             
 
         pOutFile = fopen_nofail(m_AutoTransactionWrapperSourceFileName, "wt");
@@ -1283,7 +901,7 @@ bool AutoTransactionManager::WriteOutData(void)
             fprintf(pOutFile, "\n\tiRetVal = objRequestAutoTransaction(pReturnVal, eServerTypeToRunOn, pATRString);\n");
             fprintf(pOutFile, "\testrDestroy(&pATRString);\n\treturn iRetVal;\n}\n\n");
         }
-        fclose(pOutFile);
+        CloseFile(pOutFile);
     }
 
 
@@ -1752,7 +1370,6 @@ void AutoTransactionManager::FoundAutoTransHelperMagicWord(char const* pSourceFi
         }
     }
 
-    m_bSomethingChanged = true;
 }
 
 
@@ -1781,7 +1398,6 @@ void AutoTransactionManager::FoundAutoTransMagicWord(char const* pSourceFileName
 
     AutoTransactionFunc *pFunc = &m_Funcs[m_iNumFuncs++];
 
-    m_bSomethingChanged = true;
 
 
     pFunc->iNumArgs = 0;
@@ -2360,11 +1976,7 @@ void AutoTransactionManager::CheckArgTypeValidity(ArgStruct *pArg, Tokenizer *pT
     pTokenizer->Assert(0, errorString);
 }
 
-//returns number of dependencies found
-int AutoTransactionManager::ProcessDataSingleFile(char const* pSourceFileName, char* pDependencies[MAX_DEPENDENCIES_SINGLE_FILE])
-{
-    return 0;
-}
+
 
 void AutoTransactionManager::AddPotentialHelperFuncRecurseToHelperFuncMagicArg(Tokenizer *pTokenizer, HelperFuncArg *pArg,
     char const* pFuncName, int iArgNum, char const* pFieldString)
