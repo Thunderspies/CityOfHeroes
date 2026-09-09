@@ -7,7 +7,7 @@
 #include "utilitieslib/network/net_link.h"
 #include "utilitieslib/network/net_linklist.h"
 #include "utilitieslib/network/crypt.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include "utilitieslib/utils/endian.h"
 
 #include <stdio.h>

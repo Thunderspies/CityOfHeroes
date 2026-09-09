@@ -22,7 +22,7 @@
 #include "gridcoll/ctri.h"
 #include <utilitieslib/components/genericlist.h>
 #include <utilitieslib/components/StashTable.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include <utilitieslib/utils/memcheck.h>
 #include "render/tex.h"
 #include "seq/tricks.h"

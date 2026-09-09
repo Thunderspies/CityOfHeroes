@@ -4,7 +4,7 @@
 #include "utilitieslib/network/netio_core.h"
 #include "utilitieslib/network/net_socket.h"
 #include "utilitieslib/network/net_linklist.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 
 #include "utilitieslib/assert/assert.h"
 #include <stdio.h>

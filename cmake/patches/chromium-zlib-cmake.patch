@@ -1,0 +1,91 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,86 @@
++cmake_minimum_required(VERSION 3.24)
++project(chromium_zlib VERSION 1.2.11 LANGUAGES C)
++
++add_library(chromium_zlib STATIC
++	adler32.c
++	compress.c
++	cpu_features.c
++	crc32.c
++	deflate.c
++	gzclose.c
++	gzlib.c
++	gzread.c
++	gzwrite.c
++	infback.c
++	inffast.c
++	inftrees.c
++	trees.c
++	uncompr.c
++	zutil.c
++)
++add_library(ZLIB::ZLIB ALIAS chromium_zlib)
++set_target_properties(chromium_zlib PROPERTIES
++	C_STANDARD 11
++	C_STANDARD_REQUIRED YES
++	C_EXTENSIONS NO
++)
++target_include_directories(chromium_zlib PUBLIC
++	"${CMAKE_CURRENT_SOURCE_DIR}"
++)
++target_compile_definitions(chromium_zlib
++	PUBLIC CHROMIUM_ZLIB_NO_CHROMECONF
++	PRIVATE ZLIB_IMPLEMENTATION
++)
++
++# Mirror BUILD.gn's x86 runtime-dispatched SIMD and optimized inflate path.
++if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|amd64|i.86|x86)$")
++	target_sources(chromium_zlib PRIVATE
++		adler32_simd.c
++		crc32_simd.c
++		crc_folding.c
++		fill_window_sse.c
++		contrib/optimizations/inffast_chunk.c
++		contrib/optimizations/inflate.c
++	)
++	target_compile_definitions(chromium_zlib PRIVATE
++		ADLER32_SIMD_SSSE3
++		INFLATE_CHUNK_SIMD_SSE2
++		CRC32_SIMD_SSE42_PCLMUL
++		DEFLATE_FILL_WINDOW_SSE2
++	)
++	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
++		target_compile_definitions(chromium_zlib PRIVATE
++			INFLATE_CHUNK_READ_64LE
++		)
++	endif()
++	if(WIN32)
++		target_compile_definitions(chromium_zlib PRIVATE X86_WINDOWS)
++	else()
++		target_compile_definitions(chromium_zlib PRIVATE X86_NOT_WINDOWS)
++		find_package(Threads REQUIRED)
++		target_link_libraries(chromium_zlib PRIVATE Threads::Threads)
++	endif()
++	if(NOT MSVC)
++		set_source_files_properties(adler32_simd.c PROPERTIES
++			COMPILE_OPTIONS "-mssse3"
++		)
++		set_source_files_properties(
++			crc32_simd.c crc_folding.c fill_window_sse.c
++			PROPERTIES COMPILE_OPTIONS "-msse4.2;-mpclmul"
++		)
++		set_source_files_properties(
++			contrib/optimizations/inffast_chunk.c
++			contrib/optimizations/inflate.c
++			PROPERTIES COMPILE_OPTIONS "-msse2"
++		)
++	endif()
++else()
++	target_sources(chromium_zlib PRIVATE inflate.c)
++	target_compile_definitions(chromium_zlib PRIVATE CPU_NO_SIMD)
++endif()
++
++if(MSVC)
++	target_compile_definitions(chromium_zlib PRIVATE
++		_CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_DEPRECATE
++	)
++endif()

@@ -40,7 +40,7 @@
 #include "utilitieslib/utils/mathutil.h"
 #include <share.h>
 #include "utilitieslib/UtilsNew/lock.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 
 #ifdef FW_TRACK_ALLOCATION
 #include "Stackwalk.h"

@@ -39,7 +39,7 @@
 #include "missionServerMapTest.h"
 #include "filter/validate_name.h"
 #include "door.h"
-#include "zlib.h"
+#include <zlib.h>
 
 
 typedef struct PlayerArc

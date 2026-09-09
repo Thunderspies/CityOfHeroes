@@ -2,7 +2,7 @@
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/utils.h>
 #include "string.h"
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include <utilitieslib/network/crypt.h>
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/assert/assert.h>

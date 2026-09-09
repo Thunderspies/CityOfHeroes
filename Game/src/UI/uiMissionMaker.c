@@ -82,7 +82,7 @@
 #include "uiHelpButton.h"
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/language/AppLocale.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 
 #include "AutoGen/playerCreatedStoryarcValidate_h_ast.h"
 #include "AutoGen/uiMissionMakerScrollSet_h_ast.h"

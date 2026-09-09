@@ -17,7 +17,7 @@
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/components/SharedMemory.h"
 #include "utilitieslib/utils/error.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include "utilitieslib/network/crypt.h"
 #include "utilitieslib/utils/timing.h"
 #include "utilitieslib/utils/hoglib.h"

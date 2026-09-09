@@ -2,7 +2,7 @@
 #include "utilitieslib/utils/mathutil.h"
 #include "utilitieslib/network/netcomp.h"
 #include "utilitieslib/network/netio.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include <stdio.h>
 
 
@@ -296,7 +296,7 @@ void pktSendZippedAlready(Packet *pak,int numbytes,int zipbytes,void *zipdata)
 void pktSendZipped(Packet *pak,int numbytes,void *data)
 {
     U8        *zip_data;
-    U32        zip_size;
+	uLongf zip_size;
     int        ret;
 
     zip_size = (U32)(numbytes*1.0125+12); // 1% + 12 bigger, so says the zlib docs
@@ -332,7 +332,9 @@ U8 *pktGetZipped(Packet *pak,U32 *numbytes_p)
     zip_data = pktGetZippedInfo(pak,&zip_size,&numbytes);
     data = malloc(numbytes+1);
     data[numbytes] = 0;
-    uncompress(data,&numbytes,zip_data,zip_size);
+	uLongf output_size = numbytes;
+	uncompress(data, &output_size, zip_data, zip_size);
+	numbytes = output_size;
     free(zip_data);
     if (numbytes_p)
         *numbytes_p = numbytes;

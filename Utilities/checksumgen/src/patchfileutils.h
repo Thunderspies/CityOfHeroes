@@ -4,7 +4,7 @@
 #include <utilitieslib/stdtypes.h>
 #include <utilitieslib/utils/piglib.h>
 #include <utilitieslib/utils/piglib_internal.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 
 typedef struct StashTableImp *StashTable;
 typedef const struct StashTableImp *cStashTable;

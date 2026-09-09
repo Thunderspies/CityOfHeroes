@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "utilitieslib/components/BitStream.h"
 #include "utilitieslib/stdtypes.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include "utilitieslib/utils/error.h"
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/utils/timing.h"
@@ -934,7 +934,7 @@ static int bsZUncompress(void* outbuf, U32* outsize, void* inbuf, U32 insize)
 void bsUnCompress(BitStream *bs, int useTypedBits, void *zstream_void) {
     char *dest;
     unsigned long byteLength;
-    unsigned long destLen, oldDestLen;
+	U32 destLen, oldDestLen;
     int ret;
     int firstBitsPack;
     unsigned long debug_byte_length = 0;

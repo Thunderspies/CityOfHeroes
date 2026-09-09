@@ -13,7 +13,7 @@
 #include "utilitieslib/components/HashFunctions.h"
 #include "utilitieslib/components/EString.h"
 #include "utilitieslib/utils/mathutil.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/components/MemoryPool.h"
 #include "utilitieslib/utils/FolderCache.h"
@@ -1213,7 +1213,7 @@ static unsigned __stdcall logBackgroundWriter( LPVOID lpParam )
                 if (msg->zipped)
                 {
                     U32        zip_size = ((U32 *)msg->str)[0];
-                    U32        raw_size = ((U32 *)msg->str)[1];
+					uLongf raw_size = ((U32 *)msg->str)[1];
 
                     dynArrayFit(&str,1,&str_max,raw_size+1);
                     uncompress(str,&raw_size,msg->str+8,zip_size);

@@ -7,7 +7,7 @@
 #include "dbdispatch.h"
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/strings_opt.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include <utilitieslib/network/netcomp.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "dbserver/servercfg.h"

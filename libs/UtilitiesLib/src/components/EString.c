@@ -9,7 +9,7 @@
 #include <string.h>
 #include "utilitieslib/utils/StringUtil.h"
 #include "utilitieslib/utils/mathutil.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 
 extern int quick_vscprintf(char *format,const char *args);
 
@@ -523,7 +523,8 @@ void estrRemove(char** str, int index, int count)
 
 void estrPackData(char **str, const void *src, int srclen)
 {
-    int dstlen = estrReserveCapacity(str, compressBound(srclen)+4)-4; // leave room for an S32
+	// Leave room for an S32.
+	uLongf dstlen = estrReserveCapacity(str, compressBound(srclen) + 4) - 4;
     *(S32*)(*str) = (S32)srclen;
     compress(*str+4, &dstlen, src, srclen);
     estrSetLengthNoMemset(str, dstlen+4);
@@ -533,7 +534,7 @@ void estrUnpackStr(char **str, const char * const *src)
 {
     if(estrLength(src))
     {
-        int dstlen = *(S32*)(*src);
+		uLongf dstlen = *(S32*)(*src);
         estrSetLengthNoMemset(str, dstlen);
         uncompress(*str, &dstlen, *src+4, estrLength(src)-4);
     }

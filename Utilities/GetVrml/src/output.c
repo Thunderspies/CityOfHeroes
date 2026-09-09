@@ -17,7 +17,7 @@
 #include <io.h>
 #include <sys/stat.h>
 #include "seq/animtrackanimate.h"
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include "seq/tricks.h"
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/file.h>

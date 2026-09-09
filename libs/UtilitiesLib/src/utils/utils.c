@@ -31,7 +31,7 @@
 #include "utilitieslib/components/EString.h"
 #include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/network/netio.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include "utilitieslib/utils/sysutil.h"
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/osdependent.h"
@@ -1687,7 +1687,7 @@ char *incrementName(unsigned char *name, unsigned int maxlen)
 void *zipData(const void *src,U32 src_len,U32 *zip_size_p)
 {
     U8        *zip_data;
-    U32        zip_size;
+	uLongf zip_size;
 
     zip_size = (U32)(src_len*1.0125+12); // 1% + 12 bigger, so says the zlib docs
     zip_data = malloc(zip_size);
@@ -2025,7 +2025,8 @@ const char* unescapeAndUnpack(const char *data)
     static U32 s_buf_len;
 
     const char *zipped;
-    U32 origsize, packsize;
+	uLongf origsize;
+	U32 packsize;
     int ret;
 
     if (!data || !data[0])

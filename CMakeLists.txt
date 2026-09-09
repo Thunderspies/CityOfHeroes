@@ -40,6 +40,7 @@ if(WIN32)
 		message(FATAL_ERROR "CoX supports only 32-bit Windows builds")
 	endif()
 	enable_language(RC)
+	include(dependencies/Zlib)
 	add_subdirectory(libs/crashrpt)
 endif()
 

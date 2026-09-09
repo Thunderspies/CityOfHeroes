@@ -19,7 +19,7 @@
 #include <utilitieslib/components/SharedMemory.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/network/bindiff.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include <utilitieslib/network/crypt.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "filechecksum.h"

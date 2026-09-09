@@ -10,7 +10,7 @@
 #include "utilitieslib/network/net_masterlist.h"
 #include "utilitieslib/network/netio.h"
 #include "utilitieslib/components/Queue.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 
 #include <stdio.h>
 #include "utilitieslib/assert/assert.h"

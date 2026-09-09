@@ -1,0 +1,44 @@
+diff --git a/contrib/minizip/CMakeLists.txt b/contrib/minizip/CMakeLists.txt
+new file mode 100644
+--- /dev/null
++++ b/contrib/minizip/CMakeLists.txt
+@@ -0,0 +1,39 @@
++cmake_minimum_required(VERSION 3.24)
++project(minizip VERSION 1.1 LANGUAGES C)
++
++add_library(minizip_static STATIC
++	ioapi.c
++	mztools.c
++	unzip.c
++	zip.c
++)
++add_library(Minizip::Minizip ALIAS minizip_static)
++if(WIN32)
++	target_sources(minizip_static PRIVATE iowin32.c)
++	target_compile_definitions(minizip_static PRIVATE UNICODE _UNICODE)
++endif()
++
++# Keep the classic and fork header layouts without changing upstream files.
++set(include_dir "${CMAKE_CURRENT_BINARY_DIR}/include")
++foreach(header ioapi.h iowin32.h mztools.h unzip.h zip.h)
++	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${header}"
++		"${include_dir}/minizip/${header}" COPYONLY)
++endforeach()
++target_include_directories(minizip_static PUBLIC
++	"${include_dir}" "${include_dir}/minizip"
++)
++target_link_libraries(minizip_static PUBLIC ZLIB::ZLIB)
++
++# Upstream retains NOUNCRYPT in unzip.c and enables zip.c encryption.
++# Bzip2, tools, and a second zlib library are not part of the fork manifest.
++set_target_properties(minizip_static PROPERTIES
++	C_STANDARD 11
++	C_STANDARD_REQUIRED YES
++	C_EXTENSIONS NO
++	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
++)
++if(MSVC)
++	target_compile_definitions(minizip_static PRIVATE
++		_CRT_SECURE_NO_WARNINGS
++	)
++endif()

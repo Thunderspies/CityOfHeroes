@@ -19,7 +19,7 @@
 #include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/utils.h>
 #include "entity/RewardToken.h"
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include "entity/character_eval.h"
 
 #ifndef TEST_CLIENT

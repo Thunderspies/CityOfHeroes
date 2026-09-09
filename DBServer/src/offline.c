@@ -6,7 +6,7 @@
 #include "clientcomm.h"
 #include "sql_fifo.h"
 #include "sql_fifo.h"
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include "namecache.h"
 #include <utilitieslib/utils/error.h>
 #include "dbserver/servercfg.h"

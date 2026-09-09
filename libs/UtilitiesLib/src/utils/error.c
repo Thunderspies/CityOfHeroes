@@ -14,7 +14,7 @@
 #include "utilitieslib/components/HashFunctions.h"
 #include "utilitieslib/components/EString.h"
 #include "utilitieslib/utils/mathutil.h"
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/components/MemoryPool.h"
 #include "utilitieslib/utils/FolderCache.h"
