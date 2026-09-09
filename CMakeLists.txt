@@ -48,6 +48,7 @@ if(WIN32)
 	include(dependencies/CryptoPP)
 	add_subdirectory(libs/crashrpt)
 	add_subdirectory(libs/UtilitiesLib)
+	add_subdirectory(Utilities/pig)
 endif()
 
 cox_add_project(Common Common)

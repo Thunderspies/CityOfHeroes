@@ -3,6 +3,7 @@
 *     All Rights Reserved
 *     Confidential Property of Cryptic Studios
 ***************************************************************************/
+#include "utilitieslib/utils/memcheck.h"
 #include "utilitieslib/assert/assert.h"
 #define WIN32_LEAN_AND_MEAN
 
@@ -23,13 +24,10 @@
 #include <sys/utime.h>
 #include "utilitieslib/components/SharedMemory.h"
 #include "utilitieslib/network/crypt.h"
-#include "zlib/zlib.h"
 #include "utilitieslib/utils/winfiletime.h"
 #include "utilitieslib/utils/hoglib.h"
 #include "utilitieslib/utils/MemoryMonitor.h"
 #include "utilitieslib/components/StashTable.h"
-#include "patchtest.h"
-#include "heavyTest.h"
 #include "utilitieslib/utils/mathutil.h"
 #include <sys/stat.h>
 #include "utilitieslib/utils/fileutil.h"
@@ -1223,7 +1221,6 @@ static void nocrashCallback(char* errMsg)
 
 int main(int argc, char **argv)
 {
-    _CrtMemState g_memstate={0};
     char out[MAX_PATH], fn[MAX_PATH];
     int ret;
     char *valid_commands = "-ctxg23aBdhlipuvyzfw";
@@ -1368,7 +1365,6 @@ int main(int argc, char **argv)
 
     for (loopcount=0; loopcount<loops; loopcount++) {
         //U64 after, before = memMonitorBytesAlloced();
-        //_CrtMemCheckpoint(&g_memstate);
 
         for (i=3; i<argc; i++) {
             char *s = argv[i];
@@ -1386,10 +1382,6 @@ int main(int argc, char **argv)
             } else if (stricmp(s, "--nodata")==0) {
                 extern int hog_mode_no_data;
                 hog_mode_no_data = 1;
-            } else if (stricmp(s, "--patchtest")==0) {
-                return doPatchTest();
-            } else if (stricmp(s, "--heavytest")==0) {
-                return doHeavyTest();
             }
         }
 
@@ -1462,7 +1454,6 @@ int main(int argc, char **argv)
                 printf("pig: You must specify one main mode\n");
                 return -1;
         }
-        //_CrtMemDumpAllObjectsSince(&g_memstate);
         //after = memMonitorBytesAlloced();
         //printf("Memory before: %I64d after: %I64d\n", before, after);
         //memMonitorDisplayStats();
