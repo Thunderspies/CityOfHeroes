@@ -14,6 +14,25 @@ if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 endif()
 
+if(MSVC)
+	add_compile_options(
+		$<$<OR:$<COMPILE_LANGUAGE:C>,$<COMPILE_LANGUAGE:CXX>>:/fp:precise>)
+endif()
+
+# Run this mandatory check before other targets, even with testing disabled.
+add_executable(cox_precise_floating_point_test EXCLUDE_FROM_ALL
+	cmake/tests/precise_floating_point.cpp)
+target_compile_features(cox_precise_floating_point_test PRIVATE cxx_std_17)
+if(MINGW)
+	# Keep the check runnable without compiler runtime DLL copies.
+	target_link_options(cox_precise_floating_point_test PRIVATE -static)
+endif()
+add_custom_target(verify_precise_floating_point ALL
+	COMMAND cox_precise_floating_point_test
+	DEPENDS cox_precise_floating_point_test
+	COMMENT "Verifying precise floating-point behavior"
+	VERBATIM)
+
 add_subdirectory(Utilities/StructParser)
 
 if(WIN32)
@@ -26,3 +45,26 @@ endif()
 cox_add_project(Common Common)
 
 
+# Require verification for explicit target builds as well as the default build.
+function(cox_require_precise_floating_point directory)
+	get_property(targets DIRECTORY "${directory}" PROPERTY BUILDSYSTEM_TARGETS)
+	foreach(target IN LISTS targets)
+		if(target STREQUAL "cox_precise_floating_point_test" OR
+		   target STREQUAL "verify_precise_floating_point")
+			continue()
+		endif()
+
+		get_target_property(imported "${target}" IMPORTED)
+		get_target_property(target_type "${target}" TYPE)
+		if(NOT imported AND NOT target_type STREQUAL "INTERFACE_LIBRARY")
+			add_dependencies("${target}" verify_precise_floating_point)
+		endif()
+	endforeach()
+
+	get_property(subdirectories DIRECTORY "${directory}" PROPERTY SUBDIRECTORIES)
+	foreach(subdirectory IN LISTS subdirectories)
+		cox_require_precise_floating_point("${subdirectory}")
+	endforeach()
+endfunction()
+
+cox_require_precise_floating_point("${CMAKE_CURRENT_SOURCE_DIR}")

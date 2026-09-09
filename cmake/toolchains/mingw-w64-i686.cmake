@@ -7,6 +7,10 @@ set(CMAKE_C_COMPILER "${_mingw_prefix}-gcc")
 set(CMAKE_CXX_COMPILER "${_mingw_prefix}-g++")
 set(CMAKE_RC_COMPILER "${_mingw_prefix}-windres")
 
+# Run cross-compiled build checks and CTest tests through Wine by default.
+set(CMAKE_CROSSCOMPILING_EMULATOR wine CACHE STRING
+	"Emulator used to run Windows executables on the build host")
+
 if(NOT CMAKE_FIND_ROOT_PATH)
 	execute_process(
 		COMMAND "${CMAKE_C_COMPILER}" -print-sysroot
