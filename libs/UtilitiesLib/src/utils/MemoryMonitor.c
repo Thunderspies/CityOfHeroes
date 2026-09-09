@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "utilitieslib/components/StashTable.h"
 #include <stdlib.h>
-#include <crtdbg.h>
+#include "utilitieslib/crt.h"
 #include "utilitieslib/components/earray.h"
 #include <math.h>
 
@@ -495,7 +495,7 @@ static void updateMemoryAllocation(intptr_t deltaBytes, S32 isFree)
     }
 }
 
-#include <crtdbg.h>
+#include "utilitieslib/crt.h"
 
 static _CRT_ALLOC_HOOK next_hook_func = NULL;
 

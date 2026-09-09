@@ -180,7 +180,7 @@ F32 getFragmentation()
 int doPatchTest(void)
 {
     extern int hog_mode_no_data;
-    extern int g_inside_pool_malloc;
+    extern volatile LONG g_inside_pool_malloc;
     F32 *fragmentations=NULL;
     int i;
     int count, start;

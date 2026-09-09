@@ -13,6 +13,7 @@
 #endif
 
 #include "compiler.h"
+#include "crt.h"
 #include <stddef.h>
 #include <stdarg.h>
 #include <string.h>

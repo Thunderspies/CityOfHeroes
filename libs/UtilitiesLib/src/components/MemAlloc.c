@@ -17,7 +17,7 @@
 
 #ifdef ENABLE_LEAK_DETECTION
 #pragma comment(lib, "../3rdparty/gc-7.2alpha6/gc.lib")
-#else
+#elif !defined(_DEBUG)
 #define ENABLE_SMALL_ALLOC
 #endif
 
@@ -53,7 +53,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-volatile int g_inside_pool_malloc = 0;
+volatile LONG g_inside_pool_malloc = 0;
 
 void assertOnAllocError(const char* filename, int linenumber, const char* format, ...){
     char buffer[300];
@@ -83,6 +83,9 @@ void* tls_zero_malloc(size_t size)
 #undef _realloc_dbg
 #undef _strdup_dbg
 #undef _free_dbg
+#undef _aligned_malloc_dbg
+#undef _aligned_realloc_dbg
+#undef _aligned_free_dbg
 
 #ifdef ENABLE_LEAK_DETECTION
 #define _malloc_dbg(_Size, _BlockType, _Filename, _LineNumber) GC_debug_malloc(_Size, _Filename, _LineNumber)
@@ -90,6 +93,15 @@ void* tls_zero_malloc(size_t size)
 #define _realloc_dbg(_Memory, _NewSize, _BlockType, _Filename, _LineNumber) GC_debug_realloc(_Memory, _NewSize, _Filename, _LineNumber)
 #define _strdup_dbg(_Str, _BlockType, _Filename, _LineNumber) GC_debug_strdup(_Str, _Filename, _LineNumber)
 #define _free_dbg(_Memory, _BlockType) GC_debug_free(_Memory)
+#elif defined(__MINGW32__)
+#define _malloc_dbg(_Size, _BlockType, _Filename, _LineNumber) malloc(_Size)
+#define _calloc_dbg(_NumOfElements, _SizeOfElements, _BlockType, _Filename, _LineNumber) calloc((_NumOfElements), (_SizeOfElements))
+#define _realloc_dbg(_Memory, _NewSize, _BlockType, _Filename, _LineNumber) realloc((_Memory), (_NewSize))
+#define _strdup_dbg(_Str, _BlockType, _Filename, _LineNumber) _strdup(_Str)
+#define _free_dbg(_Memory, _BlockType) free(_Memory)
+#define _aligned_malloc_dbg(_Size, _Alignment, _Filename, _LineNumber) _aligned_malloc((_Size), (_Alignment))
+#define _aligned_realloc_dbg(_Memory, _NewSize, _Alignment, _Filename, _LineNumber) _aligned_realloc((_Memory), (_NewSize), (_Alignment))
+#define _aligned_free_dbg(_Memory) _aligned_free(_Memory)
 #endif
 
 #ifdef ENABLE_SMALL_ALLOC
@@ -585,7 +597,9 @@ void* malloc_timed(size_t size, int blockType, const char *filename, int linenum
         result = (void*)_malloc_dbg(size, blockType, filename, linenumber);
         memtrack_alloc(result,size);
     }
+#ifdef ENABLE_SMALL_ALLOC
     InterlockedDecrement(&g_inside_pool_malloc);
+#endif
     if(!result){
         assertOnAllocError(filename, linenumber, "malloc failed to allocate %d bytes", size);
     }
@@ -642,7 +656,9 @@ void* calloc_timed(size_t num, size_t size, int blockType, const char *filename,
         result = (void*)_calloc_dbg(num, size, blockType, filename, linenumber);
         memtrack_alloc(result,num*size);
     }
+#ifdef ENABLE_SMALL_ALLOC
     InterlockedDecrement(&g_inside_pool_malloc);
+#endif
     if(!result){
         assertOnAllocError(filename, linenumber, "calloc failed to allocate %d bytes", size * num);
     }

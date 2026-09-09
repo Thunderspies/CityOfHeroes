@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <crtdbg.h>
+#include "utilitieslib/crt.h"
 #include "utilitieslib/components/ArrayOld.h"
 #include "utilitieslib/utils/MemoryMonitor.h"
 #include "utilitieslib/utils/Breakpoint.h"
@@ -1152,4 +1152,3 @@ void mpForEachAllocation(MemoryPool pool, MemoryPoolForEachAllocationFunc func, 
     if (fromHeap)
         free(list);
 }
-

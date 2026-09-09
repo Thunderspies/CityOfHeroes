@@ -7,11 +7,7 @@
 
 #if defined(_WIN32)
 #    include <stdlib.h>
-#    undef _malloc_dbg
-#    undef _calloc_dbg
-#    undef _realloc_dbg
-#    undef _free_dbg
-#    include <crtdbg.h>
+#    include "../crt.h"
 #    include <stdio.h>
 #    include <string.h>
 #    include <direct.h>

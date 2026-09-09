@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <crtdbg.h>
+#include "utilitieslib/crt.h"
 #include "utilitieslib/components/MemoryPool.h"
 #include "utilitieslib/components/MemoryBank.h"
 #include "utilitieslib/components/ArrayOld.h"

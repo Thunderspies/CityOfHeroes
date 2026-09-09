@@ -3,7 +3,7 @@
 #if MEMTRACK_BUILD
 
 #include "utilitieslib/assert/assert.h"
-#include <crtdbg.h>
+#include "utilitieslib/crt.h"
 #include <stdio.h>
 #include <time.h>
 #include "utilitieslib/utils/wininclude.h"
