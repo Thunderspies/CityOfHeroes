@@ -32,8 +32,6 @@
 #define MATCH_FOURCC_PTR(_dword_ptr_,_fourcc_code_)        MATCH_FOURCC(*((DWORD*)(_dword_ptr_)),_fourcc_code_)
 
 #if 0
-    //#include <rpcsal.h>
-    #include <sal.h>
 
     #include "../../../../3rdparty/DirectX/Include/ddraw.h"
     #include "../../../../3rdparty/DirectX/Include/d3d10shader.h"

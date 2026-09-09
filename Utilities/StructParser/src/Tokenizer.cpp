@@ -361,53 +361,11 @@ enumTokenType Tokenizer::MustGetNextToken(Token *pToken, char const* pErrorStrin
 
 char const* pSimpleInvisibleTokens[] =
 {
-    "NN_STR_MAKE",                
-    "OPT_STR_MAKE",        
-    "NN_STR_GOOD",                
-    "OPT_STR_GOOD",    
     "FORMAT_STR",            
-    "NN_STR_FREE",                
-    "OPT_STR_FREE",            
-    "PTR_PRE_NOTVALID",            
-    "PTR_POST_NOTVALID",            
-    "PTR_PRE_VALID",            
-    "PTR_POST_VALID",                
-    "NN_PTR_MAKE",                  
-    "OPT_PTR_MAKE",                  
-    "NN_PTR_GOOD",                      
-    "OPT_PTR_GOOD",                  
-    "NN_PTR_FREE",                      
-    "OPT_PTR_FREE",        
     NULL
 };
 
-char const* pInvisibleTokensWithParensAndInt[] =
-{
-    "OPT_PTR_FREE_COUNT",         
-    "OPT_PTR_FREE_BYTES",         
-    "NN_PTR_FREE_COUNT",          
-    "NN_PTR_FREE_BYTES",          
-    "OPT_PTR_GOOD_COUNT",          
-    "OPT_PTR_GOOD_BYTES",          
-    "NN_PTR_GOOD_COUNT",          
-    "NN_PTR_GOOD_BYTES",          
-    "OPT_PTR_MAKE_COUNT",         
-    "OPT_PTR_MAKE_BYTES", 
-    "NN_PTR_MAKE_COUNT",      
-    "NN_PTR_MAKE_BYTES",      
-    "PTR_POST_VALID_COUNT",        
-    "PTR_POST_VALID_BYTES",        
-    "PTR_PRE_VALID_COUNT",
-    "PTR_PRE_VALID_BYTES",    
-    NULL
-};
-
-
-
-
-
-
-//given a token, returns true, and skips any "dangling" invisible tokens, if it's invisible
+// Given a token, returns true if it is invisible.
 bool Tokenizer::CheckIfTokenIsInvisibleAndSkipRemainder(enumTokenType eType, Token *pToken)
 {
     if (eType != TOKEN_IDENTIFIER)
@@ -420,17 +378,6 @@ bool Tokenizer::CheckIfTokenIsInvisibleAndSkipRemainder(enumTokenType eType, Tok
         return true;
     }
 
-    if (StringIsInList(pToken->sVal, pInvisibleTokensWithParensAndInt))
-    {
-        enumTokenType eTempType;
-        Token tempToken;
-        eTempType = GetNextToken_internal(&tempToken);
-        Assert(eTempType == TOKEN_RESERVEDWORD && tempToken.iVal == RW_LEFTPARENS, "Expected (");
-        GetSpecialStringTokenWithParenthesesMatching(&tempToken);
-        
-
-        return true;
-    }
     return false;
 }
 

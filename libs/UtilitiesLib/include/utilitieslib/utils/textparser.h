@@ -291,7 +291,7 @@ typedef struct StructLink    // defines a link to another object in a different 
 // Memory is handled a bit differently than malloc
 
 
-NN_PTR_MAKE void*    StructAlloc_dbg(ParseTable pti[], ParseTableInfo *optPtr, const char *file, int line);
+void*    StructAlloc_dbg(ParseTable pti[], ParseTableInfo *optPtr, const char *file, int line);
 #define StructAlloc(pti) StructAlloc_dbg(pti, NULL, __FILE__, __LINE__)
 #define StructAllocIfNull(pti,s) if(!s) s = StructAlloc_dbg(pti, NULL MEM_DBG_PARMS_INIT)
 
@@ -304,7 +304,7 @@ void    StructInitFields(ParseTable pti[], void* structptr); // as above but doe
 
 // StructCreate allocates the memory for a structure, and initializes it.
 // By default, use this by default to create textparser structures.
-NN_PTR_MAKE void*   StructCreate_dbg(ParseTable pti[], const char *file, int line);
+void*   StructCreate_dbg(ParseTable pti[], const char *file, int line);
 #define StructCreate(pti) StructCreate_dbg(pti, __FILE__, __LINE__)
 
 void    StructFree(void* structptr);    // release memory for a structure

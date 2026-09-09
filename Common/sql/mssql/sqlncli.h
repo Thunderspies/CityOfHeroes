@@ -22,11 +22,6 @@
 #define __REQUIRED_RPCNDR_H_VERSION__ 475
 #endif
 
-/* verify that the <rpcsal.h> version is high enough to compile this file*/
-#ifndef __REQUIRED_RPCSAL_H_VERSION__
-#define __REQUIRED_RPCSAL_H_VERSION__ 100
-#endif
-
 #include "rpc.h"
 #include "rpcndr.h"
 
@@ -548,7 +543,7 @@ EXTERN_C const IID IID_ICommandWithParameters;
             ICommandWithParameters * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             ICommandWithParameters * This);
@@ -836,7 +831,7 @@ EXTERN_C const IID IID_IUMSInitialize;
             IUMSInitialize * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IUMSInitialize * This);
@@ -937,7 +932,7 @@ EXTERN_C const IID IID_ISQLServerErrorInfo;
             ISQLServerErrorInfo * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             ISQLServerErrorInfo * This);
@@ -1021,7 +1016,7 @@ EXTERN_C const IID IID_IRowsetFastLoad;
             IRowsetFastLoad * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IRowsetFastLoad * This);
@@ -1227,7 +1222,7 @@ EXTERN_C const IID IID_ISchemaLock;
             ISchemaLock * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             ISchemaLock * This);
@@ -1346,7 +1341,7 @@ EXTERN_C const IID IID_IBCPSession;
             IBCPSession * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IBCPSession * This);
@@ -1497,7 +1492,7 @@ EXTERN_C const IID IID_ISSAbort;
             ISSAbort * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             ISSAbort * This);
@@ -1607,7 +1602,7 @@ EXTERN_C const IID IID_ISSCommandWithParameters;
             ISSCommandWithParameters * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             ISSCommandWithParameters * This);
@@ -1732,7 +1727,7 @@ EXTERN_C const IID IID_IDBAsynchStatus;
             IDBAsynchStatus * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IDBAsynchStatus * This);
@@ -1856,7 +1851,7 @@ EXTERN_C const IID IID_ISSAsynchStatus;
             ISSAsynchStatus * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             ISSAsynchStatus * This);

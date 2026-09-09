@@ -60,79 +60,7 @@
 #define INLINEDBG __inline
 #endif
 
-/*********** For use with STRINGS  ***************/
-#define NN_STR_MAKE                    __checkReturn __notnull __post __nullterminated __post __valid
-#define OPT_STR_MAKE                __checkReturn __maybenull __post __nullterminated __post __valid
-
-#define NN_STR_GOOD                    __notnull   __pre __valid __pre __nullterminated __post __nullterminated __post __valid
-#define OPT_STR_GOOD                __maybenull __pre __valid __pre __nullterminated __post __nullterminated __post __valid
-
-#define NN_STR_FREE                    __notnull   __post __notvalid
-#define OPT_STR_FREE                __maybenull __post __notvalid
-
-/*********** For use with NON-STRINGS  ***************/
-#define PTR_PRE_NOTVALID            __pre __deref __notvalid
-#define PTR_POST_NOTVALID            __post __notvalid __post __deref __notvalid
-
-#define PTR_PRE_VALID                __pre __valid __pre __deref __valid
-#define PTR_PRE_VALID_COUNT(x)        __pre __valid __pre __deref __pre __elem_readableTo(x) __pre __elem_writableTo(x)
-#define PTR_PRE_VALID_BYTES(x)        __pre __valid __pre __deref __pre __byte_readableTo(x) __pre __byte_writableTo(x)
-
-#define PTR_POST_VALID                __post __valid
-#define PTR_POST_VALID_COUNT(x)        PTR_POST_VALID __post __elem_readableTo(x) __post __elem_writableTo(x)
-#define PTR_POST_VALID_BYTES(x)        PTR_POST_VALID __post __byte_readableTo(x) __post __byte_writableTo(x)
-
-
-#define NN_PTR_MAKE                      __checkReturn __notnull PTR_PRE_NOTVALID PTR_POST_VALID
-#define NN_PTR_MAKE_COUNT(x)          __checkReturn __notnull __in_ecount(x) PTR_PRE_NOTVALID PTR_POST_VALID_COUNT(x)
-#define NN_PTR_MAKE_BYTES(x)          __checkReturn __notnull __in_bcount(x) PTR_PRE_NOTVALID PTR_POST_VALID_BYTES(x)
-
-#define OPT_PTR_MAKE                  __checkReturn __maybenull PTR_PRE_NOTVALID PTR_POST_VALID
-#define OPT_PTR_MAKE_COUNT(x)         __checkReturn __maybenull __in_ecount_opt(x) PTR_PRE_NOTVALID PTR_POST_VALID_COUNT(x)
-#define OPT_PTR_MAKE_BYTES(x)         __checkReturn __maybenull __in_bcount_opt(x) PTR_PRE_NOTVALID PTR_POST_VALID_BYTES(x)
-
-#define NN_PTR_GOOD                      __notnull PTR_PRE_VALID PTR_POST_VALID
-#define NN_PTR_GOOD_COUNT(x)          __notnull __in_ecount(x) PTR_PRE_VALID_COUNT(x) PTR_POST_VALID
-#define NN_PTR_GOOD_BYTES(x)          __notnull __in_bcount(x) PTR_PRE_VALID_BYTES(x) PTR_POST_VALID
-
-#define OPT_PTR_GOOD                  __maybenull PTR_PRE_VALID PTR_POST_VALID
-#define OPT_PTR_GOOD_COUNT(x)          __maybenull __in_ecount_opt(x) PTR_PRE_VALID_COUNT(x) PTR_POST_VALID
-#define OPT_PTR_GOOD_BYTES(x)          __maybenull __in_bcount_opt(x) PTR_PRE_VALID_BYTES(x) PTR_POST_VALID
-
-#define NN_PTR_FREE                      __notnull PTR_PRE_VALID PTR_POST_NOTVALID
-#define NN_PTR_FREE_COUNT(x)          __notnull __in_ecount(x) PTR_PRE_VALID_COUNT(x) PTR_POST_NOTVALID
-#define NN_PTR_FREE_BYTES(x)          __notnull __in_bcount(x) PTR_PRE_VALID_BYTES(x) PTR_POST_NOTVALID
-
-#define OPT_PTR_FREE                  __maybenull PTR_PRE_VALID PTR_POST_NOTVALID
-#define OPT_PTR_FREE_COUNT(x)         __maybenull __in_ecount_opt(x) PTR_PRE_VALID_COUNT(x) PTR_POST_NOTVALID
-#define OPT_PTR_FREE_BYTES(x)         __maybenull __in_bcount_opt(x) PTR_PRE_VALID_BYTES(x) PTR_POST_NOTVALID
-
-
-/*********** For use with Pointer Pointers such as EArrayHandles ***************/
-#define PTR_OPT_PTR_MAKE            __pre __notnull __pre __deref __maybenull __post __deref __notnull __post __elem_readableTo(1) __post __deref __elem_readableTo(1)
-#define PTR_OPT_PTR_GOOD            __pre __notnull __pre __deref __notnull __pre __deref __valid __exceptthat __deref __maybenull
-#define PTR_OPT_PTR_FREE            __pre __notnull __pre __deref __maybenull __post __deref __null
-
-#define PTR_NN_PTR_MAKE                __pre __notnull __pre __deref __notnull __post __deref __notnull __post __elem_readableTo(1) __post __deref __elem_readableTo(1)
-#define PTR_NN_PTR_GOOD                __pre __notnull __pre __deref __notnull __pre __deref __valid
-#define PTR_NN_PTR_FREE                __pre __notnull __pre __deref __notnull __post __deref __null
-
-#define PTR_OPT_STR_GOOD            __pre __notnull __pre __deref __notnull __pre __deref __valid __exceptthat __deref __maybenull __pre __deref __nullterminated
-
-#define PTR_NN_PTR_MAKE_COUNT(x)    __pre __notnull __pre __deref __notnull __post __deref __elem_readableTo(x) __post __deref __elem_writableTo(x)
-#define PTR_OPT_PTR_MAKE_COUNT(x)    __pre __notnull __pre __deref __maybenull __post __deref __elem_readableTo(x) __post __deref __elem_writableTo(x) __exceptthat __deref __maybenull
-
-/*********** Elsewhat ***************/
 #define NORETURN                    __declspec(noreturn) void
-
-// Note: *both* of these get hit during the preprocessor, once for /analyze, once for the compiler!
-// Note: This is just for analysis, *not* the optimizer's __assume directive
-#ifdef _PREFAST_
-#    define ANALYSIS_ASSUME(expr)                (__analysis_assume(expr))
-#else
-#    define ANALYSIS_ASSUME(expr)                (0)
-#endif
-
 
 C_DECLARATIONS_BEGIN
 
@@ -170,8 +98,6 @@ C_DECLARATIONS_BEGIN
 //#pragma warning (disable:4389) // signed/unsigned mismatch (in inequalities)
 //#pragma warning (disable:4701) // potentially uninitialized local variable X used
 
-#include <sal.h>
-//#define FORMAT [SA_FormatString(Style="printf")] const char *
 #define FORMAT const char *
 #if !defined(_LIB) && !SECURE_STRINGS
     // disable /analyze warnings, so we can at least get printf parameter checking

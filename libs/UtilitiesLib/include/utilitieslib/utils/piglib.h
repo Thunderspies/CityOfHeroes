@@ -103,7 +103,7 @@ U32 PigFileGetFileTimestamp(PigFilePtr handle, int index);
 U32 PigFileGetFileSize(PigFilePtr handle, int index);
 bool PigFileGetChecksum(PigFile *handle, int index, U32 *checksum);
 bool PigFileIsZipped(PigFilePtr handle, int index); // Returns whether or not a file is zipped (used by wrapper to determine buffering rules)
-U32 PigFileGetZippedFileSize(__deref PigFilePtr handle, int index);
+U32 PigFileGetZippedFileSize(PigFilePtr handle, int index);
 const U8 *PigFileGetHeaderData(PigFilePtr handle, int index, U32 *header_size); // Warning: pointer returned is volatile, and may be invalid after any hog file changes
 
 typedef struct PigFileDescriptor {

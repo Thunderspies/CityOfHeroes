@@ -126,8 +126,6 @@ void meta_handleRemote(NetLink *link, Packet *pak_in, int forward_id, int access
 
 void meta_pktSendRoute(Packet *pak_out);
 #ifndef FORMAT
-#include <sal.h>
-//#define FORMAT    [SA_FormatString(Style="printf")] const char *
 #define FORMAT const char*
 #endif
 void meta_printf(FORMAT fmt, ...);

@@ -36,7 +36,6 @@
 #   endif
 #   define WIN32_LEAN_AND_MEAN
 #   include <winsock2.h>
-#   include <sal.h> // for source annotations
 #   include <windows.h>
 #endif
 #define _CRT_RAND_S
@@ -193,18 +192,6 @@ NCINLINE BOOL bit_tst(S32 *mem,S32 offset) { return (mem[offset >> 5] & (1 << (o
 
 // ----------------------------------------
 // App verifier flags
-
-/*********** For use with STRINGS  ***************/
-#define NN_STR_MAKE                    __checkReturn __notnull __post __nullterminated __post __valid
-#define OPT_STR_MAKE                __checkReturn __maybenull __post __nullterminated __post __valid
-
-#define NN_STR_GOOD                    __notnull   __pre __valid __pre __nullterminated __post __nullterminated __post __valid
-#define OPT_STR_GOOD                __maybenull __pre __valid __pre __nullterminated __post __nullterminated __post __valid
-
-#define NN_STR_FREE                    __notnull   __post __notvalid
-#define OPT_STR_FREE                __maybenull __post __notvalid
-
-//#define FORMAT                        [SA_FormatString(Style="printf")] const char *
 
 #define NORETURN                    __declspec(noreturn) void
 

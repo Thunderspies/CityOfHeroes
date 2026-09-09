@@ -264,82 +264,82 @@ typedef MultiVal**        MultiValArray;
 //        NOTE:  These can be turned INLINE or into DEFINES as needed for speed
 
 // Allocate and construct a blank MultiVal
-NN_PTR_MAKE MultiVal*    MultiValCreate(void);
+MultiVal*    MultiValCreate(void);
 
 // Reconstruct a MultiVal (for stack/non "created" multivals)
-void        MultiValConstruct(NN_PTR_MAKE MultiVal* val, int type, int count);
+void        MultiValConstruct(MultiVal* val, int type, int count);
 
 // Fills the multival with the availible data
-void        MultiValFill(NN_PTR_GOOD MultiVal* dst, void *data);
+void        MultiValFill(MultiVal* dst, void *data);
 
 //Dup a MultiVal, creating a new instance.  Copy internal data using allocator if specified
 
 // Create a duplicate of a MultiVal
-NN_PTR_MAKE MultiVal*    MultiValDup(NN_PTR_GOOD CMultiVal* val);
+MultiVal*    MultiValDup(CMultiVal* val);
 
-NN_PTR_MAKE CMultiVal*    MulitValDupWith(NN_PTR_GOOD CMultiVal* val, CustomMemoryAllocator fp, void* cookie);
+CMultiVal*    MulitValDupWith(CMultiVal* val, CustomMemoryAllocator fp, void* cookie);
 
 //Copy a MultiVal to an existing location.  Copy internal data using allocator if specified
 
 // Copies to Destination, from source
-void        MultiValCopy(NN_PTR_GOOD MultiVal* dst, NN_PTR_GOOD CMultiVal* src);
+void        MultiValCopy(MultiVal* dst, CMultiVal* src);
 
 // Copies to Destination, from source and forces the dst to be MULTI_FREE (if remotely applicable)
-void        MultiValDeepCopy(NN_PTR_GOOD MultiVal* dst, NN_PTR_GOOD CMultiVal* src);
+void        MultiValDeepCopy(MultiVal* dst, CMultiVal* src);
 
-void        MultiValCopyWith(NN_PTR_GOOD MultiVal* dst, NN_PTR_GOOD CMultiVal* src, CustomMemoryAllocator fp, void* cookie, int deepCopy);
+void        MultiValCopyWith(MultiVal* dst, CMultiVal* src, CustomMemoryAllocator fp, void* cookie, int deepCopy);
 
 //Clean out a MultiVal, and Release it if it's destroyed
 
 // Frees a MultVal
-void        MultiValDestroy(NN_PTR_FREE MultiVal* val);
+void        MultiValDestroy(MultiVal* val);
 
 // Sets a MultiVal to the default state
-void        MultiValClear(NN_PTR_GOOD MultiVal* val);
+void        MultiValClear(MultiVal* val);
 
 // MultiVal Query Routines
 
 //    Returns information about this multival
-void        MultiValInfo(NN_PTR_GOOD CMultiVal* src, MultiInfo* info);
+void        MultiValInfo(CMultiVal* src, MultiInfo* info);
 
 //    Returns information about this type, ptrs & size are invalid
 void        MultiValTypeInfo(MultiValType t, MultiInfo* info);
 
 //  MultiVal Get and Set Routines
 //        NOTE:  These functions assume the DST is a valid MultiVal of ANY type, and all copies are DEEP
-void        MultiValSetInt(NN_PTR_GOOD MultiVal* dst, S64 val);
-void        MultiValSetFloat(NN_PTR_GOOD MultiVal* dst, F64 val);
-void        MultiValSetString(NN_PTR_GOOD MultiVal* dst, NN_STR_GOOD const char* str);            
-void        MultiValSetStringLen(NN_PTR_GOOD MultiVal* dst, NN_PTR_GOOD_BYTES(len) const char* str, int len);            
-void        MultiValSetPointer(NN_PTR_GOOD MultiVal* dst, const void* ptr, int len);        
-void        MultiValSetVec3(NN_PTR_GOOD MultiVal* dst, const Vec3* val);            
-void        MultiValSetVec4(NN_PTR_GOOD MultiVal* dst, const Vec4* val);            
-void        MultiValSetMat4(NN_PTR_GOOD MultiVal* dst, const Mat4 val);
-void        MultiValSetQuat(NN_PTR_GOOD MultiVal* dst, const Quat* val);
-void        MultiValSetIntArray(NN_PTR_GOOD MultiVal* dst, int** eiArray);
-void        MultiValSetFloatArray(NN_PTR_GOOD MultiVal* dst, float** efArray);
-void        MultiValSetEntityArray(NN_PTR_GOOD MultiVal* dst, Entity** eeArray);
+void        MultiValSetInt(MultiVal* dst, S64 val);
+void        MultiValSetFloat(MultiVal* dst, F64 val);
+void        MultiValSetString(MultiVal* dst, const char* str);
+void        MultiValSetStringLen(MultiVal* dst, const char* str, int len);
+void        MultiValSetPointer(MultiVal* dst, const void* ptr, int len);
+void        MultiValSetVec3(MultiVal* dst, const Vec3* val);
+void        MultiValSetVec4(MultiVal* dst, const Vec4* val);
+void        MultiValSetMat4(MultiVal* dst, const Mat4 val);
+void        MultiValSetQuat(MultiVal* dst, const Quat* val);
+void        MultiValSetIntArray(MultiVal* dst, int** eiArray);
+void        MultiValSetFloatArray(MultiVal* dst, float** efArray);
+void        MultiValSetEntityArray(MultiVal* dst, Entity** eeArray);
 
 //        NOTE:  These functions assume the DST is a valid MultiVal of ANY type, and all copies are SHALLOW
 
 // Shallow copy
-void        MultiValReferenceString(NN_PTR_GOOD MultiVal* dst, const char *str);
+void        MultiValReferenceString(MultiVal* dst, const char *str);
 // Shallow copy
-void        MultiValReferencePointer(NN_PTR_GOOD MultiVal* dst, void* ptr);
+void        MultiValReferencePointer(MultiVal* dst, void* ptr);
 // Shallow copy
-void        MultiValReferenceVec3(NN_PTR_GOOD MultiVal* dst, const Vec3* val);
+void        MultiValReferenceVec3(MultiVal* dst, const Vec3* val);
 // Shallow copy
-void        MultiValReferenceVec4(NN_PTR_GOOD MultiVal* dst, const Vec4* val);
+void        MultiValReferenceVec4(MultiVal* dst, const Vec4* val);
 // Shallow copy
-void        MultiValReferenceMat4(NN_PTR_GOOD MultiVal* dst, const Mat4* val);
+void        MultiValReferenceMat4(MultiVal* dst, const Mat4* val);
 // Shallow copy
-void        MultiValReferenceQuat(NN_PTR_GOOD MultiVal* dst, const Quat* val);
+void        MultiValReferenceQuat(MultiVal* dst, const Quat* val);
 // Shallow copy
-void        MultiValReferenceIntArray(NN_PTR_GOOD MultiVal* dst, int** eIntArray);
+void        MultiValReferenceIntArray(MultiVal* dst, int** eIntArray);
 // Shallow copy
-void        MultiValReferenceFloatArray(NN_PTR_GOOD MultiVal* dst, float** eFloatArray);
+void        MultiValReferenceFloatArray(MultiVal* dst, float** eFloatArray);
 // Shallow Copy
-void        MultiValReferenceEntityArray(NN_PTR_GOOD MultiVal* dst, Entity*** eeArray);
+void        MultiValReferenceEntityArray(MultiVal* dst, Entity*** eeArray);
 
 
 //        MultiVal Access Routines
@@ -348,39 +348,39 @@ void        MultiValReferenceEntityArray(NN_PTR_GOOD MultiVal* dst, Entity*** ee
 #define        MultiValGetAscii    MultiValGetString
 
 // Convert FLT, INT, STR, and ID to INT
-S64            MultiValGetInt(NN_PTR_GOOD CMultiVal* src, bool* tst);
+S64            MultiValGetInt(CMultiVal* src, bool* tst);
 
 // Convert FLT, INT, STR, and ID to FLT
-F64            MultiValGetFloat(NN_PTR_GOOD CMultiVal* src, bool* tst);
+F64            MultiValGetFloat(CMultiVal* src, bool* tst);
 
 // Return char* for ID or STR
-const char* MultiValGetString(NN_PTR_GOOD CMultiVal* src, bool* tst);
+const char* MultiValGetString(CMultiVal* src, bool* tst);
 
-Vec3*        MultiValGetVec3(NN_PTR_GOOD CMultiVal* src, bool* tst);            
-Vec4*        MultiValGetVec4(NN_PTR_GOOD CMultiVal* src, bool* tst);            
-Mat4*        MultiValGetMat4(NN_PTR_GOOD CMultiVal* src, bool* tst);        
-Quat*        MultiValGetQuat(NN_PTR_GOOD CMultiVal* src, bool* tst);        
-void*        MultiValGetPointer(NN_PTR_GOOD CMultiVal* src, bool* tst);
-int**        MultiValGetIntArray(NN_PTR_GOOD CMultiVal* src, bool* tst);
-float**        MultiValGetFloatArray(NN_PTR_GOOD CMultiVal* src, bool *tst);        
-Entity***    MultiValGetEntityArray(NN_PTR_GOOD CMultiVal* dst, bool *tst);    
+Vec3*        MultiValGetVec3(CMultiVal* src, bool* tst);
+Vec4*        MultiValGetVec4(CMultiVal* src, bool* tst);
+Mat4*        MultiValGetMat4(CMultiVal* src, bool* tst);
+Quat*        MultiValGetQuat(CMultiVal* src, bool* tst);
+void*        MultiValGetPointer(CMultiVal* src, bool* tst);
+int**        MultiValGetIntArray(CMultiVal* src, bool* tst);
+float**        MultiValGetFloatArray(CMultiVal* src, bool *tst);
+Entity***    MultiValGetEntityArray(CMultiVal* dst, bool *tst);
 
 //    MultiVal Test Routines
 
 // Returns true if the data type matches for this MultiVal
-bool        MultiValIsDataType(NN_PTR_GOOD CMultiVal* src, MMType type);
+bool        MultiValIsDataType(CMultiVal* src, MMType type);
 
 // Returns true if type is FLOAT or INT
-bool        MultiValIsNumber(NN_PTR_GOOD CMultiVal* src);
+bool        MultiValIsNumber(CMultiVal* src);
 
 // Returns true if type is STRING or IDENTIFIER
-bool        MultiValIsAscii(NN_PTR_GOOD CMultiVal* src);
+bool        MultiValIsAscii(CMultiVal* src);
 
 // Returns true if type is some operator
-bool        MultiValIsOp(NN_PTR_GOOD CMultiVal* src);
+bool        MultiValIsOp(CMultiVal* src);
 
 // Returns true if type is NONE
-bool        MultiValIsEmpty(NN_PTR_GOOD CMultiVal* src);
+bool        MultiValIsEmpty(CMultiVal* src);
 
 // EArray Manipulation Routines
 
@@ -399,7 +399,7 @@ void            MultiValArrayDestroy(MultiValArray* array);
 const char* MultiValTypeToReadableString(MultiValType t);
 
 // Appends a "reasonable" text representation to the estring
-char*        MultiValPrint(NN_PTR_GOOD CMultiVal* val);
+char*        MultiValPrint(CMultiVal* val);
 
 /******************  End of Standard MultiVal Manipulators ******************/
 

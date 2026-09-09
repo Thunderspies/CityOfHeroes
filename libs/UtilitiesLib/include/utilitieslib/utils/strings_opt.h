@@ -14,9 +14,9 @@ C_DECLARATIONS_BEGIN
 #define SAFE_ATOI(S) ((S)?atoi(S):0)
 #define SAFE_ATOF(S) ((S)?atof(S):0)
 
-double opt_atof(NN_STR_GOOD const char *s);
+double opt_atof(const char *s);
 long __cdecl opt_atol(const char *nptr);
-S64 opt_atol64(NN_STR_GOOD const char *nptr);
+S64 opt_atol64(const char *nptr);
 
 int opt_strnicmp(const char *first, const char *last, size_t count);
 int opt_stricmp(const char * first, const char *second);
