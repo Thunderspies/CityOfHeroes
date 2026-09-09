@@ -334,7 +334,7 @@ S32 fwStat(const char* fileName, struct _stat32* statInfo){
     adjustFileName(fileName, fileNameAdjusted);
 
     // Folder isn't tracked by FileWatcher, or FileWatcher isn't running.
-#if _MSC_VER < 1400    
+#if defined(_MSC_VER) && _MSC_VER < 1400
     return _stat(fileNameAdjusted, (struct _stat*)statInfo);
 #else
     return _stat32(fileNameAdjusted, statInfo);

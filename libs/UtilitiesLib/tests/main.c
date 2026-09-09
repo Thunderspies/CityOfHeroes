@@ -6,6 +6,7 @@
 #include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/utils/cpu_count.h"
 #include "utilitieslib/utils/utils.h"
+#include "utilitieslib/utils/fileWatch.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/components/EString.h"
 #include "utilitieslib/components/StashTable.h"
@@ -197,6 +198,25 @@ static int check_allocation(void)
 	return 0;
 }
 
+static int check_file_stat(void)
+{
+	struct {
+		struct _stat32 info;
+		unsigned char guard[64];
+	} result;
+	char path[MAX_PATH];
+	DWORD length = GetModuleFileNameA(NULL, path, sizeof(path));
+	CHECK(length > 0 && length < sizeof(path));
+	memset(&result, 0xa5, sizeof(result));
+	CHECK(fwStat(path, &result.info) == 0);
+	for (size_t i = 0; i < sizeof(result.guard); ++i)
+		CHECK(result.guard[i] == 0xa5);
+	CHECK((result.info.st_mode & _S_IFREG) != 0);
+	CHECK(result.info.st_size > 0);
+	CHECK(fwStat(path, NULL) == 0);
+	return 0;
+}
+
 static int check_dump(void)
 {
 #ifndef DISABLE_ASSERTIONS
@@ -273,6 +293,7 @@ int main(int argc, char **argv)
 		return 2;
 	}
 	CHECK(sizeof(void *) == 4);
+	CHECK(check_file_stat() == 0);
 	CHECK(check_tls() == 0);
 	CHECK(check_arrays() == 0);
 	CHECK(check_stash() == 0);
