@@ -1319,9 +1319,13 @@ int mcmp(const void *a, const void *b, size_t size)
 
 void* loadCrashRptDll()
 {
+#ifdef CRASHRPT_STUB
+	return NULL;
+#else
     HMODULE hDll = 0;
     LPCSTR dllName = "CrashRpt.dll";
     return LoadLibraryA(dllName);
+#endif
 }
 
 char *printUnit_s(char *buf, size_t buf_size, S64 val)
