@@ -10,6 +10,17 @@ endif()
 add_test(NAME UtilitiesLibIntegration COMMAND UtilitiesLibTests)
 set_tests_properties(UtilitiesLibIntegration PROPERTIES TIMEOUT 120)
 
+add_executable(TokenizerTests tokenizer.c)
+set_target_properties(TokenizerTests PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON)
+target_link_libraries(TokenizerTests PRIVATE UtilitiesLib)
+if(MINGW)
+	target_link_options(TokenizerTests PRIVATE -static)
+endif()
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/tokenizer-fixtures")
+add_test(NAME TokenizerLineEndings COMMAND TokenizerTests)
+set_tests_properties(TokenizerLineEndings PROPERTIES
+	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/tokenizer-fixtures" TIMEOUT 30)
+
 add_executable(DevelopmentModeTests development_mode.c)
 set_target_properties(DevelopmentModeTests PROPERTIES
 	C_STANDARD 11 C_STANDARD_REQUIRED ON)

@@ -409,7 +409,7 @@ int tokenize_line_safe(char *buf,char *args[],int max_args,char **next_line_ptr)
                     next_line = 0;
                 else
                 {
-                    if (s[-1] == '\r')
+                    if (s > buf && s[-1] == '\r')
                         s[-1] = 0;
                     if (s[0]=='\r' && s[1] == '\n') {
                         *s=0;
