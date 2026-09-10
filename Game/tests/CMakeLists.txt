@@ -1,6 +1,16 @@
 include(dependencies/Glew)
 include(dependencies/Jpeg)
 include(dependencies/JpegCompressor)
+include(dependencies/Vorbis)
+
+add_executable(GameOggTests ogg.c)
+cox_target_defaults(GameOggTests)
+target_compile_definitions(GameOggTests PRIVATE CLIENT)
+target_include_directories(GameOggTests PRIVATE ../src)
+target_link_libraries(GameOggTests PRIVATE
+	Common UtilitiesLib Vorbis::vorbisfile Vorbis::vorbisenc)
+add_test(NAME GameOggIntegration COMMAND GameOggTests)
+set_tests_properties(GameOggIntegration PROPERTIES TIMEOUT 30)
 
 add_executable(GameJpegTests jpeg.cpp ../src/graphics/jpeg.cpp)
 cox_target_defaults(GameJpegTests)

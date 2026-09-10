@@ -3,9 +3,10 @@
 #include "stdlib.h"
 #include "memory.h"
 #include "assert.h"
+#include <limits.h>
 #include <utilitieslib/utils/timing.h>
+#include <utilitieslib/utils/SuperAssert.h>
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/utils/strings_opt.h>
 #include <utilitieslib/utils/wininclude.h>
 #include <utilitieslib/utils/utils.h>
@@ -19,6 +20,7 @@ typedef struct
     int        length;
 } MemFile;
 
+// Upstream codecs own their allocations; only decoder lifecycle is tracked.
 typedef struct OggState OggState;
 
 typedef struct OggState
@@ -28,9 +30,6 @@ typedef struct OggState
     S32                current_section;
     S32                in_use;
     
-    S32                pool_memory_used;
-    S32                heap_memory_used;
-    
     struct {
         OggState*    next;
         OggState*    prev;
@@ -39,386 +38,48 @@ typedef struct OggState
     char            name[128];
 } OggState;
 
-OggState*    curOggState;
-
 OggState*    oggStateList;
 
 S32            oggStatesInUse;
 
-#define USE_OGG_MEMPOOLS 1
-
-#define OGG_ALLOC_FILEINFO        const char* fileName, int line
-
-#if USE_OGG_MEMPOOLS
-typedef struct OggMemPool
-{
-    S32            chunkSize;
-    S32            chunkCount;
-    MemoryPool    memPool;
-    char*        name;
-    S32            maxAlloced;
-} OggMemPool;
-
-static OggMemPool oggMemPools[] = {
-    { 1        * 128,    100    },
-    { 5        * 128,    100    },
-    { 1        * 1024,    50    },
-    { 10    * 1024, 10    },
-    { 50    * 1024, 10    },
-    { 100    * 1024, 5    },
-    { 200    * 1024, 2    },
-    { 300    * 1024, 2    },
-    { 400    * 1024, 1    },
-    { 500    * 1024, 1    },
-    { 1000    * 1024, 1    },
-    { 0 },
-};
-
-static struct {
-    U32        usedSize;
-    U32        usedSizeMax;
-    
-    U32        usedPoolSize;
-    U32        usedPoolSizeMax;
-
-    U32        usedHeapSize;
-    U32        usedHeapSizeMax;
-} oggMemInfo;
-
-
-static OggMemPool* getOggMemPool(S32 size)
-{
-    OggMemPool* pool = oggMemPools;
-    
-    for(; pool->chunkSize; pool++)
-    {
-        if(size <= pool->chunkSize || !pool->chunkSize)
-        {
-            if(!pool->memPool && pool->chunkSize){
-                char buffer[100];
-                
-                STR_COMBINE_BEGIN(buffer);
-                STR_COMBINE_CAT("oggPool(");
-                STR_COMBINE_CAT_D(pool->chunkSize);
-                STR_COMBINE_CAT("b)");
-                STR_COMBINE_END();
-                
-                pool->name = strdup(buffer);
-                pool->memPool = createMemoryPoolNamed(pool->name, __FILE__, __LINE__);
-                initMemoryPool(pool->memPool, pool->chunkSize + sizeof(S32), pool->chunkCount);
-                mpSetMode(pool->memPool, 0);
-            }
-            
-            return pool;
-        }
-    }
-    
-    assert(0);
-    
-    return NULL;
-}
-
-
-
-static void* addOggMemoryHeader(S32* mem, S32 size)
-{
-    *mem = size;
-    return ++mem;
-}
-
-static void checkAllocationSizes(){
-    U32 oggHeapSize = 0;
-    U32 oggPoolSize = 0;
-    OggState* cur;
-    
-    if(isProductionMode()){
-        return;
-    }
-    
-    for(cur = oggStateList; cur; cur = cur->sibling.next){
-        assert(cur->in_use);
-        oggPoolSize += cur->pool_memory_used;
-        oggHeapSize += cur->heap_memory_used;
-    }
-    
-    assert(oggPoolSize == oggMemInfo.usedPoolSize);
-    assert(oggHeapSize == oggMemInfo.usedHeapSize);
-}
-
-static void* allocSizeFromPool(OggMemPool* pool, S32 size, S32 zeroMemory)
-{
-    void* mem;
-    
-    assert(size >= 0);
-    
-    oggMemInfo.usedSize += size;
-    
-    if(oggMemInfo.usedSize > oggMemInfo.usedSizeMax)
-    {
-        oggMemInfo.usedSizeMax = oggMemInfo.usedSize;
-    }
-
-    devassert(curOggState);
-
-    if(pool->chunkSize)
-    {
-        // Allocate from a MemoryPool.
-        
-        mem = mpAlloc(pool->memPool);
-        
-        oggMemInfo.usedPoolSize += pool->chunkSize;
-        
-        if(oggMemInfo.usedPoolSize > oggMemInfo.usedPoolSizeMax)
-        {
-            oggMemInfo.usedPoolSizeMax = oggMemInfo.usedPoolSize;
-        }
-
-        if(curOggState)
-        {
-            curOggState->pool_memory_used += pool->chunkSize;
-        }
-    }
-    else
-    {
-        // Allocate from the heap.
-        
-        mem = malloc(size + sizeof(S32));
-        
-        oggMemInfo.usedHeapSize += size;
-
-        if(oggMemInfo.usedHeapSize > oggMemInfo.usedHeapSizeMax)
-        {
-            oggMemInfo.usedHeapSizeMax = oggMemInfo.usedHeapSize;
-        }
-        
-        if(curOggState)
-        {
-            curOggState->heap_memory_used += size;
-        }
-    }
-
-    mem = addOggMemoryHeader(mem, size);
-    
-    if(zeroMemory){
-        memset(mem, 0, size);
-    }
-
-    return mem;    
-}
-
-static void freeMemoryFromPool(OggMemPool* pool, S32* mem)
-{
-    U32 size = mem[-1];
-    
-    devassert(size <= oggMemInfo.usedSize);
-    
-    oggMemInfo.usedSize -= size;
-    
-    devassert(curOggState);
-
-    if(pool->chunkSize)
-    {
-        // Free from a MemoryPool.
-        
-        mpFree(pool->memPool, mem - 1);
-        
-        devassert(pool->chunkSize <= (S32)oggMemInfo.usedPoolSize);
-
-        oggMemInfo.usedPoolSize -= pool->chunkSize;
-
-        if(curOggState)
-        {
-            devassert(pool->chunkSize <= curOggState->pool_memory_used);
-            
-            curOggState->pool_memory_used -= pool->chunkSize;
-        }
-    }
-    else
-    {
-        // Free from the heap.
-        
-        free(mem - 1);
-
-        devassert(size <= oggMemInfo.usedHeapSize);
-
-        oggMemInfo.usedHeapSize -= size;
-
-        if(curOggState)
-        {
-            devassert((S32)size <= curOggState->heap_memory_used);
-            
-            curOggState->heap_memory_used -= size;
-        }
-    }
-}
-
-static int oggHeapEntranceCount;
-
-static void enterOggHeap()
-{
-    assert(InterlockedIncrement(&oggHeapEntranceCount) == 1);
-}
-
-static void leaveOggHeap()
-{
-    assert(InterlockedDecrement(&oggHeapEntranceCount) == 0);
-}    
-
-static void* allocateOggMemory(S32 size, S32 zeroMemory)
-{
-    OggMemPool* pool;
-    void* memory;
-    
-    enterOggHeap();
-    
-    pool = getOggMemPool(size);
-    
-    memory = allocSizeFromPool(pool, size, zeroMemory);
-    
-    leaveOggHeap();
-    
-    return memory;
-}
-
-void* cryptic_ogg_malloc(S32 size, OGG_ALLOC_FILEINFO)
-{
-    return allocateOggMemory(size, 0);
-}
-
-void* cryptic_ogg_calloc(S32 num, S32 size, OGG_ALLOC_FILEINFO)
-{
-    return allocateOggMemory(num * size, 1);
-}
-
-void* cryptic_ogg_realloc(void* userData, S32 newSize, OGG_ALLOC_FILEINFO)
-{
-    OggMemPool* oldPool;
-    OggMemPool* newPool;
-    void*        newMemory;
-    S32            oldSize;
-    
-    if(!userData)
-    {
-        return cryptic_ogg_malloc(newSize, fileName, line);
-    }
-    
-    enterOggHeap();
-    
-    oldSize = *((S32*)userData - 1);
-    oldPool = getOggMemPool(oldSize);
-    newPool = getOggMemPool(newSize);
-    
-    if(oldPool == newPool)
-    {
-        leaveOggHeap();
-        return userData;
-    }
-    
-    newMemory = allocSizeFromPool(newPool, newSize, 0);
-    
-    memcpy(newMemory, userData, min(oldSize, newSize));
-    
-    freeMemoryFromPool(oldPool, userData);
-    
-    leaveOggHeap();
-    
-    return newMemory;
-}
-
-void cryptic_ogg_free(void* userData, OGG_ALLOC_FILEINFO)
-{
-    OggMemPool* pool;
-    
-    if(!userData)
-    {
-        return;
-    }
-    
-    enterOggHeap();
-    
-    pool = getOggMemPool(*((S32*)userData - 1));
-
-    freeMemoryFromPool(pool, userData);
-    
-    leaveOggHeap();
-}
-#else
-void* cryptic_ogg_malloc(S32 size, OGG_ALLOC_FILEINFO)
-{
-    #if 0
-        // MS: Debugging code to find memory leak.
-        
-        char* slash;
-        
-        if((slash = strrchr(fileName, '\\')) && !stricmp(slash + 1, "sharedbook.c"))
-        {
-            int x = 10;
-        }
-    #endif
-        
-    return _malloc_dbg(size, 1, fileName, line);
-}
-
-void* cryptic_ogg_calloc(S32 num, S32 size, OGG_ALLOC_FILEINFO)
-{
-    return _calloc_dbg(num, size, 1, fileName, line);
-}
-
-void* cryptic_ogg_realloc(void* userData, S32 newSize, OGG_ALLOC_FILEINFO)
-{
-    return _realloc_dbg(userData, newSize, 1, fileName, line);
-}
-
-void cryptic_ogg_free(void* userData, OGG_ALLOC_FILEINFO)
-{
-    _free_dbg(userData, 1);
-}
-#endif
-
-static void setCurOggState(OggState* oggState)
-{
-    curOggState = oggState;
-}
-
-static void clearCurOggState()
-{
-    setCurOggState(NULL);
-}
-
-
 static size_t readbytes(void *dst, size_t struct_size, size_t num_structs, void* mfData)
 {
     MemFile * mf = (MemFile *)mfData;
-    size_t        t,amt;
+    size_t available, amt;
 
+    if (!mf || !dst || !mf->mem || !struct_size ||
+        mf->curr < 0 || mf->length < mf->curr)
+        return 0;
+
+    // Bound the item count before multiplying, as required by fread semantics.
+    available = (size_t)(mf->length - mf->curr) / struct_size;
+    if (num_structs > available)
+        num_structs = available;
     amt = num_structs * struct_size;
-    t = mf->length - mf->curr;
-    if (t < amt)
-        amt = t;
     memcpy(dst,mf->mem + mf->curr,amt);
 
-    mf->curr += amt;
-    if (struct_size != 1)
-        return amt / struct_size;
-    return amt;
+    mf->curr += (int)amt;
+    return num_structs;
 }
 
  
 static int seekbytes(void *v_mf,ogg_int64_t amt,int whence)
 {
     MemFile *mf = v_mf;
-    if (whence == SEEK_SET)
-        mf->curr = amt;
-    if (whence == SEEK_CUR)
-        mf->curr += amt;
-    if (mf->curr >= mf->length)
-        mf->curr = mf->length;
-    if (whence == SEEK_END)
-    {
-        mf->curr = mf->length-amt;
-        if (mf->curr < 0)
-            mf->curr = 0;
+    ogg_int64_t base;
+
+    if (!mf || mf->curr < 0 || mf->length < mf->curr)
+        return -1;
+    switch (whence) {
+    case SEEK_SET: base = 0; break;
+    case SEEK_CUR: base = mf->curr; break;
+    case SEEK_END: base = mf->length; break;
+    default: return -1;
     }
+    // Check the offset before adding so even signed 64-bit extremes are safe.
+    if (amt < -base || amt > (ogg_int64_t)mf->length - base)
+        return -1;
+    mf->curr = (int)(base + amt);
     return 0;
 }
 
@@ -450,8 +111,6 @@ static void oggListAdd(OggState* ogg)
     
     ogg->sibling.next = oggStateList;
     oggStateList = ogg;
-
-    checkAllocationSizes();
 }
 
 static void oggListRemove(OggState* ogg)
@@ -473,8 +132,6 @@ static void oggListRemove(OggState* ogg)
     }
     
     ZeroStruct(&ogg->sibling);
-
-    checkAllocationSizes();
 }
 
 
@@ -483,43 +140,57 @@ static int oggInitDecoder(DecodeState *decode)
 {
     OggState    *ogg;
     vorbis_info *vi;
+    ogg_int64_t samples;
+
+    if (!decode)
+        return 0;
+    decode->frequency = decode->num_channels = decode->pcm_len = 0;
+    decode->decode_count = 0;
 
     PERFINFO_AUTO_START("oggInitDecoder", 1);
-        ogg = decode->codec_state = realloc(decode->codec_state,sizeof(*ogg));
+        // Callers reset before init; this allocation may hold old PCM state.
+        ogg = realloc(decode->codec_state,sizeof(*ogg));
+        if (!ogg) {
+            PERFINFO_AUTO_STOP();
+            return 0;
+        }
+        decode->codec_state = ogg;
         ZeroStruct(ogg);
+        if (!decode->info || !decode->info->data || decode->info->length <= 0) {
+            PERFINFO_AUTO_STOP();
+            return 0;
+        }
         ogg->mf.mem = decode->info->data;
         ogg->mf.length = decode->info->length;
         
         Strncpyt(ogg->name, decode->info->name);
         
         PERFINFO_AUTO_START("ov_open_callbacks", 1);
-            setCurOggState(ogg);
             if (ov_open_callbacks(&ogg->mf, &ogg->vf, NULL, 0, callbacks) < 0)
             {
-                clearCurOggState();
                 PERFINFO_AUTO_STOP();
                 PERFINFO_AUTO_STOP();
                 return 0;
             }
-            clearCurOggState();
         PERFINFO_AUTO_STOP();
 
-        oggStatesInUse++;
-        
-        ogg->in_use = 1;
-
-        oggListAdd(ogg);
-        
-        setCurOggState(ogg);
         vi = ov_info(&ogg->vf,-1);
-        clearCurOggState();
+        samples = ov_pcm_total(&ogg->vf,-1);
+        if (!vi || vi->rate <= 0 || vi->rate > INT_MAX ||
+            vi->channels <= 0 || vi->channels > INT_MAX / 2 || samples < 0 ||
+            samples > INT_MAX / (vi->channels * 2)) {
+            ov_clear(&ogg->vf);
+            PERFINFO_AUTO_STOP();
+            return 0;
+        }
 
-        decode->frequency = vi->rate;
+        decode->frequency = (int)vi->rate;
         decode->num_channels = vi->channels;
+        decode->pcm_len = (int)(decode->num_channels * 2 * samples);
 
-        setCurOggState(ogg);
-        decode->pcm_len = decode->num_channels * 2 * ov_pcm_total(&ogg->vf,-1);
-        clearCurOggState();
+        oggStatesInUse++;
+        ogg->in_use = 1;
+        oggListAdd(ogg);
     PERFINFO_AUTO_STOP();
     
     return 1;
@@ -566,11 +237,21 @@ void handleOggCrash(DecodeState* decode){
 int oggDecode(DecodeState *decode)
 {
     SoundFileInfo    infoLocal;
-    OggState*        ogg = decode->codec_state;
+    OggState*        ogg;
     int                accumulator = 0;
-    
-    if (!devassert(ogg->in_use))
+
+    if (!decode)
         return -1;
+    ogg = decode->codec_state;
+    decode->decode_count = 0;
+    if (!ogg || !decode->frequency || !ogg->in_use || !decode->info ||
+        decode->decode_len < 0 ||
+        (decode->decode_len > 0 && !decode->decode_buffer)) {
+        decode->decode_count = -1;
+        return -1;
+    }
+    if (!decode->decode_len)
+        return 0;
     
     infoLocal = *decode->info;
 
@@ -610,11 +291,9 @@ int oggDecode(DecodeState *decode)
             
             PERFINFO_AUTO_START("ov_read", 1);
             
-                setCurOggState(ogg);
                 __try{
                     bytes=ov_read(&ogg->vf,decode->decode_buffer + decode->decode_count,decode->decode_len - decode->decode_count,0,2,1,&ogg->current_section);
                 }__except(wouldCrash = 1, EXCEPTION_EXECUTE_HANDLER){}
-                clearCurOggState();
                 
                 if(wouldCrash){
                     handleOggCrash(decode);
@@ -623,6 +302,11 @@ int oggDecode(DecodeState *decode)
                 }
 
             PERFINFO_AUTO_STOP();
+
+            if (bytes == OV_HOLE)
+                continue;
+            if (bytes < 0)
+                decode->decode_count = -1;
             
             if (bytes > 0)
             {
@@ -670,19 +354,23 @@ int oggDecode(DecodeState *decode)
 
 void oggResetDecoder(DecodeState *decode)
 {
-    OggState    *ogg = decode->codec_state;
+    OggState *ogg;
 
-    if (!ogg || !ogg->in_use)
+    if (!decode)
+        return;
+    decode->frequency = decode->num_channels = decode->pcm_len = 0;
+    decode->decode_count = 0;
+    // An unsuccessful realloc can leave a smaller PCM allocation here. Only
+    // live list members are owned by Vorbis and safe to inspect as OggState.
+    for (ogg = oggStateList; ogg && ogg != decode->codec_state;
+        ogg = ogg->sibling.next) {}
+    if (!ogg)
         return;
 
     PERFINFO_AUTO_START("oggResetDecoder", 1);
-        setCurOggState(ogg);
         ov_clear(&ogg->vf);
-        clearCurOggState();
     PERFINFO_AUTO_STOP();
         
-    devassert(!ogg->heap_memory_used);
-    devassert(!ogg->pool_memory_used);
     
     devassert(oggStatesInUse > 0);
     oggStatesInUse--;
@@ -694,41 +382,56 @@ void oggResetDecoder(DecodeState *decode)
 
 void oggRewindDecoder(DecodeState *decode)
 {
-    OggState    *ogg = decode->codec_state;
+    OggState    *ogg = decode ? decode->codec_state : NULL;
+    int result;
+
+    if (!ogg || !decode->frequency || !ogg->in_use)
+        return;
 
     PERFINFO_AUTO_START("oggRewindDecoder", 1);
-        setCurOggState(ogg);
-        ov_raw_seek(&ogg->vf,0);
-        clearCurOggState();
+        result = ov_raw_seek(&ogg->vf,0);
     PERFINFO_AUTO_STOP();
+    if (result)
+        oggResetDecoder(decode);
+    decode->decode_count = result ? -1 : 0;
 }
 
 bool oggToPcm(SoundFileInfo *info)
 {
     DecodeState    decode;
-    assert(!info->pcm_data);
+    bool success = false;
+
+    if (!info || info->pcm_data)
+        return false;
 
     PERFINFO_AUTO_START("oggToPcm", 1);
         ZeroStruct(&decode);
         decode.info = info;
-        oggInitDecoder(&decode);
-        decode.decode_buffer = calloc(decode.pcm_len, 1);
+        if (!oggInitDecoder(&decode) || decode.pcm_len <= 0)
+            goto cleanup;
+        decode.decode_buffer = malloc(decode.pcm_len);
 
         if(decode.decode_buffer) {
             decode.decode_len = decode.pcm_len;
-            oggDecode(&decode);
-            info->pcm_len = decode.pcm_len;
-            info->pcm_data = decode.decode_buffer;
-            info->frequency = decode.frequency;
-            info->num_channels = decode.num_channels;
+            // Streamed prefixes are playable, but a PCM cache must be complete.
+            if (oggDecode(&decode) == decode.pcm_len) {
+                info->pcm_len = decode.pcm_len;
+                info->pcm_data = decode.decode_buffer;
+                info->frequency = decode.frequency;
+                info->num_channels = decode.num_channels;
+                decode.decode_buffer = NULL;
+                success = true;
+            }
         }
 
+cleanup:
         oggResetDecoder(&decode);
+        SAFE_FREE(decode.decode_buffer);
         SAFE_FREE(decode.codec_state);
 
     PERFINFO_AUTO_STOP();
 
-    return (info->pcm_data != NULL);
+    return success;
 }
 
 int pcmInitDecoder(DecodeState *decode)

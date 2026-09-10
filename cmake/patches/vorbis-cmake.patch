@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,2 +1,2 @@
+-cmake_minimum_required(VERSION 2.8.12)
++cmake_minimum_required(VERSION 3.24)
+ project(vorbis)
+@@ -56,2 +56,4 @@
+ # Find ogg dependency
+-find_package(Ogg REQUIRED)
++if(NOT TARGET Ogg::ogg)
++	find_package(Ogg REQUIRED)
++endif()
