@@ -2629,18 +2629,14 @@ void msSaveMessageStore(MessageStore *store)
     while (cursor && *cursor)
     {
         int len;
-        char *end = strchr(cursor, '\r');
+        char *end = strchr(cursor, '\n');
         if (!end) {
             end = cursor + strlen(cursor)-1;
-        } else {
-            if (end[1]=='\n') {
-                end++;
-            }
         }
         len = end - cursor + 1;
 //        while (strchr("\r \t\n", *cursor)) // Skip these characters
 //            cursor++;
-        if (cursor[0]=='\r' || cursor[0]=='#') {
+        if (cursor[0]=='\r' || cursor[0]=='\n' || cursor[0]=='#') {
             // Comment or empty line, pass-through
             fwrite(cursor, 1, len, fout);
             if (cursor[len-1]!='\n') {
@@ -2666,9 +2662,9 @@ void msSaveMessageStore(MessageStore *store)
                         msGetMessageIsNew(store, textMessage)))
                 {
                     if (strchr(strTableGetConstString(store->messages,textMessage->messageIndex), '\"')) {
-                        fprintf(fout, "\"%s\", <<%s>>\r\n", textMessage->messageID, strTableGetConstString(store->messages,textMessage->messageIndex));
+                        fprintf(fout, "\"%s\", <<%s>>\n", textMessage->messageID, strTableGetConstString(store->messages,textMessage->messageIndex));
                     } else {
-                        fprintf(fout, "\"%s\", \"%s\"\r\n", textMessage->messageID, strTableGetConstString(store->messages,textMessage->messageIndex));
+                        fprintf(fout, "\"%s\", \"%s\"\n", textMessage->messageID, strTableGetConstString(store->messages,textMessage->messageIndex));
                     }
                     msSetMessageIsModified(store, textMessage, 0);
                     msSetMessageIsNew(store, textMessage, 0);
@@ -2685,12 +2681,12 @@ void msSaveMessageStore(MessageStore *store)
         TextMessage *textMessage = stashElementGetPointer(elem);
         if (msGetMessageIsNew(store, textMessage)) {
             // Append
-            fprintf(fout, "%s\r\n", msGetMessageComment(store, textMessage));
+            fprintf(fout, "%s\n", msGetMessageComment(store, textMessage));
 
             if (strchr(strTableGetConstString(store->messages, textMessage->messageIndex), '\"')) {
-                fprintf(fout, "\"%s\", <<%s>>\r\n", textMessage->messageID, strTableGetConstString(store->messages, textMessage->messageIndex));
+                fprintf(fout, "\"%s\", <<%s>>\n", textMessage->messageID, strTableGetConstString(store->messages, textMessage->messageIndex));
             } else {
-                fprintf(fout, "\"%s\", \"%s\"\r\n", textMessage->messageID, strTableGetConstString(store->messages, textMessage->messageIndex));
+                fprintf(fout, "\"%s\", \"%s\"\n", textMessage->messageID, strTableGetConstString(store->messages, textMessage->messageIndex));
             }
             msSetMessageIsNew(store, textMessage, 0);
         }

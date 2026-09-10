@@ -85,6 +85,36 @@ static int check_messages(const char* message_eol, const char* type_eol)
 	return 0;
 }
 
+static int check_message_save(const char* eol)
+{
+	char filename[MAX_PATH], input[1024], output[1024], expected[1024];
+	DWORD bytes;
+	MessageStore* store = NULL;
+	CHECK(GetFullPathNameA("messages.ms", sizeof(filename), filename, NULL) > 0);
+	snprintf(input, sizeof(input), "\xef\xbb\xbf# keep comment%s%s\"Keep\", \"original\"%s\"Edit\", \"old\"%s",
+		eol, eol, eol, eol);
+	HANDLE file = CreateFileA(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	CHECK(file != INVALID_HANDLE_VALUE);
+	CHECK(WriteFile(file, input, (DWORD)strlen(input), &bytes, NULL) && bytes == strlen(input));
+	CloseHandle(file);
+	char* files[] = {filename, NULL, NULL};
+	LoadMessageStore(&store, files, NULL, 0, NULL, NULL, NULL, MSLOAD_EXTENDED);
+	CHECK(msContainsKey(store, "Keep") && msContainsKey(store, "Edit"));
+	msUpdateMessage(store, "Edit", "updated", "");
+	msSaveMessageStore(store);
+	file = CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	CHECK(file != INVALID_HANDLE_VALUE);
+	CHECK(ReadFile(file, output, sizeof(output) - 1, &bytes, NULL));
+	output[bytes] = 0;
+	CloseHandle(file);
+	snprintf(expected, sizeof(expected), "\xef\xbb\xbf# keep comment%s%s\"Keep\", \"original\"%s\"Edit\", \"updated\"\n",
+		eol, eol, eol);
+	CHECK(strcmp(output, expected) == 0);
+	destroyMessageStore(store);
+	CHECK(DeleteFileA(filename));
+	return 0;
+}
+
 int main(void)
 {
 	memCheckInit();
@@ -98,6 +128,7 @@ int main(void)
 		CHECK(check_textparser(endings[i]) == 0);
 		for (int j = 0; j < ARRAY_SIZE(type_endings); ++j)
 			CHECK(check_messages(endings[i], type_endings[j]) == 0);
+		CHECK(check_message_save(endings[i]) == 0);
 	}
 	puts("Tokenizer and MessageStore line-ending checks passed");
 	return 0;
