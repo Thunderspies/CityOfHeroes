@@ -66,6 +66,7 @@ if(WIN32)
 endif()
 
 cox_add_project(Common Common)
+cox_add_project(ServerLib libs/ServerLib)
 
 if(COX_BUILD_CODEC_TESTS)
 	if(NOT COX_MSVC_WIN32)
