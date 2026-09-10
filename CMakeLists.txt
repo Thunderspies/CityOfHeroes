@@ -82,6 +82,7 @@ cox_add_project(MissionServer MissionServer)
 cox_add_project(QueueServer QueueServer)
 cox_add_project(RaidServer RaidServer)
 cox_add_project(ServerMonitor ServerMonitor)
+cox_add_project(ShardMonitor ShardMonitor)
 cox_add_project(GetVrml Utilities/GetVrml GROUP ART_TOOLS)
 
 if(COX_BUILD_CODEC_TESTS)
