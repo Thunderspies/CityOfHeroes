@@ -89,6 +89,7 @@ cox_add_project(DbQuery Utilities/DBQuery)
 cox_add_project(RemoteDebuggerer Utilities/RemoteDebugger)
 cox_add_project(TestClient Utilities/TestClient)
 cox_add_project(TestClientLauncher Utilities/TestClientLauncher)
+cox_add_project(checksumgen Utilities/checksumgen)
 cox_add_project(GetVrml Utilities/GetVrml GROUP ART_TOOLS)
 
 if(COX_BUILD_CODEC_TESTS)
