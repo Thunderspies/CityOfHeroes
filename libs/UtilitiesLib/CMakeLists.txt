@@ -1,3 +1,5 @@
+include(dependencies/SparseHash)
+
 set(UtilitiesLib_SOURCE_FILES
 	src/components/ArrayOld.c
 	src/components/AssociationList.c
@@ -405,6 +407,8 @@ target_link_libraries(UtilitiesLib PUBLIC
 	iphlpapi ws2_32 winmm psapi pdh version comctl32 ole32 shell32 advapi32
 	user32 gdi32 comdlg32 uuid
 )
+target_link_libraries(UtilitiesLib PRIVATE SparseHash::SparseHash)
+
 include(StructParser)
 StructParse(UtilitiesLib)
 

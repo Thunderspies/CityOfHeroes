@@ -276,6 +276,7 @@ int main(int argc, char **argv)
 	CHECK(check_tls() == 0);
 	CHECK(check_arrays() == 0);
 	CHECK(check_stash() == 0);
+	CHECK(check_nchash() == 0);
 	CHECK(check_strings() == 0);
 	CHECK(check_allocation() == 0);
 	CHECK(check_dump() == 0);

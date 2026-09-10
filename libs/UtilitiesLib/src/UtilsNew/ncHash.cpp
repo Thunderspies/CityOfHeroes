@@ -20,7 +20,15 @@
 #include "utilitieslib/UtilsNew/ncHash.h"
 #pragma warning(push)
 #pragma warning(disable:6308)
-#include "google_sparsehash/src/google/dense_hash_map"
+#if defined(_MSC_VER) && !defined(__clang__)
+// SparseHash 2.0.4 uses GCC-only unused annotations in its headers.
+#pragma push_macro("__attribute__")
+#define __attribute__(...)
+#endif
+#include <sparsehash/dense_hash_map>
+#if defined(_MSC_VER) && !defined(__clang__)
+#pragma pop_macro("__attribute__")
+#endif
 #pragma warning(pop)
 
 #pragma warning(disable:4312) // cast from int to ptr

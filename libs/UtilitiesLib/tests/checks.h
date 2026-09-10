@@ -16,6 +16,8 @@ extern "C" {
 #endif
 /* Check C++ allocation and typed containers; return 0 on success. */
 int check_cpp_allocation(void);
+/* Check ncHash key ownership and container behavior; return 0 on success. */
+int check_nchash(void);
 #ifdef __cplusplus
 }
 #endif

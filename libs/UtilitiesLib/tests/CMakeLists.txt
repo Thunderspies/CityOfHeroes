@@ -1,4 +1,4 @@
-add_executable(UtilitiesLibTests main.c allocation.cpp)
+add_executable(UtilitiesLibTests main.c allocation.cpp nchash.c)
 set_target_properties(UtilitiesLibTests PROPERTIES
 	C_STANDARD 11 C_STANDARD_REQUIRED ON
 	CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
