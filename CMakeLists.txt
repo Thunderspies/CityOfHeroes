@@ -107,6 +107,7 @@ cox_add_project(assertdlg Utilities/assertdlg GROUP DEV_TOOLS)
 cox_add_project(dumpandpack Utilities/dumpandpack GROUP DEV_TOOLS)
 cox_add_project(dumpstk Utilities/dumpstk GROUP DEV_TOOLS)
 cox_add_project(logfilter Utilities/logfilter GROUP DEV_TOOLS)
+cox_add_project(memtrack Utilities/memtrack_analysis GROUP DEV_TOOLS)
 cox_add_project(GetVrml Utilities/GetVrml GROUP ART_TOOLS)
 
 if(COX_BUILD_CODEC_TESTS)
