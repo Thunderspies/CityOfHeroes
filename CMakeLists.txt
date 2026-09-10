@@ -74,6 +74,7 @@ cox_add_project(AccountServer AccountServer)
 cox_add_project(AuctionServer AuctionServer)
 cox_add_project(ChatAdmin ChatAdmin)
 cox_add_project(ChatServer ChatServer)
+cox_add_project(CmdRelay CmdRelay)
 
 if(COX_BUILD_CODEC_TESTS)
 	if(NOT COX_MSVC_WIN32)
