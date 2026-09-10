@@ -38,8 +38,7 @@
 #include "texloaddesc.h"
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/components/SharedMemory.h>
-#include <GL/gl.h>
-#include <GL/glext.h>
+#include <GL/glew.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/winutil.h>

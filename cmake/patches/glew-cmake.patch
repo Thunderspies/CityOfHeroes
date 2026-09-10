@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,9 @@
++cmake_minimum_required(VERSION 3.24)
++project(glew VERSION 2.1.0 LANGUAGES C)
++
++find_package(OpenGL REQUIRED)
++add_library(glew STATIC src/glew.c)
++add_library(GLEW::GLEW ALIAS glew)
++target_include_directories(glew PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
++target_compile_definitions(glew PUBLIC GLEW_STATIC)
++target_link_libraries(glew PUBLIC OpenGL::GL)
