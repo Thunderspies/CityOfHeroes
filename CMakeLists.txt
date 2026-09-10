@@ -53,6 +53,7 @@ if(WIN32)
 	if(COX_MSVC_WIN32)
 		include(dependencies/Lua)
 		include(dependencies/PhysX)
+		add_subdirectory(libs/AILib)
 	endif()
 endif()
 
