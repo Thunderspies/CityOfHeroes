@@ -133,7 +133,7 @@ fail_exit:
  * You may also wish to include "jerror.h".
  */
 
-#include <jpeg/jpeglib.h>
+#include <jpeglib.h>
 
 /*
  * <setjmp.h> is used for the optional error recovery mechanism shown in
