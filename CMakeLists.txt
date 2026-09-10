@@ -52,6 +52,7 @@ if(WIN32)
 	add_subdirectory(Utilities/pig)
 	if(COX_MSVC_WIN32)
 		include(dependencies/Lua)
+		include(dependencies/PhysX)
 	endif()
 endif()
 

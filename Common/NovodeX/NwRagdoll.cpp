@@ -1,3 +1,7 @@
+#if !BEACONIZER
+// Parse PhysX allocator methods before CRT debug macros redefine malloc/free.
+#include <NxPhysics.h>
+#endif
 #include "NovodeX/NwWrapper.h"
 
 #if NOVODEX
