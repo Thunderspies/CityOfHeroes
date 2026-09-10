@@ -1026,6 +1026,14 @@ if(COX_BUILD_MAPSERVER)
 	cox_stage_physx(MapServer)
 endif()
 
+if(COX_BUILD_BEACONSERVER)
+	include(BeaconServer.cmake)
+endif()
+
 # Both executables consume one logical parser's source-tree outputs.
 include(StructParser)
-StructParse(MapServer)
+if(COX_BUILD_MAPSERVER)
+	StructParse(MapServer)
+else()
+	StructParse(BeaconServer NAME MapServer)
+endif()
