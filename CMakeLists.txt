@@ -77,6 +77,7 @@ cox_add_project(ChatServer ChatServer)
 cox_add_project(CmdRelay CmdRelay)
 cox_add_project(DbServer DBServer)
 cox_add_project(Launcher Launcher)
+cox_add_project(MissionServer MissionServer)
 
 if(COX_BUILD_CODEC_TESTS)
 	if(NOT COX_MSVC_WIN32)
