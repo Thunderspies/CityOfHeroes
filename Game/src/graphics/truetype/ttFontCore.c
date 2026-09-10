@@ -1,7 +1,7 @@
 #include "graphics/truetype/ttFontCore.h"
 #include "ft2build.h"
 #include <freetype/freetype.h>
-#include <freetype/ftmodule.h>
+#include <freetype/ftmodapi.h>
 
 #include <utilitieslib/utils/file.h>    // for fileOpen()
 #include <utilitieslib/assert/assert.h>
