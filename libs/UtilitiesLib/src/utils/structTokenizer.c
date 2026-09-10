@@ -550,8 +550,8 @@ const char* TokenizerPeek(TokenizerHandle tokenizer, int ignorelinebreak, int ig
                 LoadBuffer(tok, tok->context->curoffset + tok->offsetinbuffer);
             }
 
-            // advance real quick looking for an eol
-            i = tok->offsetinbuffer+2;
+            // A '#' comment can end immediately after its one-character marker.
+            i = tok->offsetinbuffer+1;
             while (i < tok->lengthofbuffer && tok->buffer[i] != '\n') i++;
             i++; // past eol
             if (i >= tok->lengthofbuffer) LoadBuffer(tok, tok->context->curoffset + i);

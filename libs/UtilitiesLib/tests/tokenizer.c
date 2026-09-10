@@ -4,6 +4,8 @@
 #include "utilitieslib/utils/memcheck.h"
 #include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/utils/utils.h"
+#include "utilitieslib/utils/structTokenizer.h"
+#include "utilitieslib/utils/textparser.h"
 #include "checks.h"
 
 #undef fprintf
@@ -30,6 +32,33 @@ static int check_line_tokenizer(void)
 	return 0;
 }
 
+typedef struct ParserFixture {
+	int first;
+	int second;
+} ParserFixture;
+
+static ParseTable fixture_parse[] = {
+	{"First", TOK_INT(ParserFixture, first, 0)},
+	{"Second", TOK_INT(ParserFixture, second, 0)},
+	{"", 0}
+};
+
+static int check_textparser(const char* eol)
+{
+	char input[256];
+	ParserFixture fixture = {0};
+	snprintf(input, sizeof(input), " \t%s#%sFirst \t7%s// comment%s\tSecond 9",
+		eol, eol, eol, eol);
+	CHECK(ParserReadText(input, -1, fixture_parse, &fixture));
+	CHECK(fixture.first == 7 && fixture.second == 9);
+	TokenizerHandle tok = TokenizerCreateString(input, -1);
+	const char* token = TokenizerGet(tok, 1, 1);
+	CHECK(token && strcmp(token, "First") == 0);
+	CHECK(TokenizerGetCurLine(tok) == 3);
+	TokenizerDestroy(tok);
+	return 0;
+}
+
 int main(void)
 {
 	memCheckInit();
@@ -37,6 +66,9 @@ int main(void)
 	setAssertUnitTesting(true);
 	setAssertMode(ASSERTMODE_EXIT | ASSERTMODE_STDERR);
 	CHECK(check_line_tokenizer() == 0);
-	puts("Tokenizer line-ending checks passed");
+	const char* endings[] = {"\n", "\r\n"};
+	for (int i = 0; i < ARRAY_SIZE(endings); ++i)
+		CHECK(check_textparser(endings[i]) == 0);
+	puts("Tokenizer and TextParser line-ending checks passed");
 	return 0;
 }
