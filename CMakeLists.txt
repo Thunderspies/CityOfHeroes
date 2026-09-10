@@ -79,6 +79,7 @@ cox_add_project(DbServer DBServer)
 cox_add_project(Launcher Launcher)
 cox_add_project(MissionServer MissionServer)
 cox_add_project(QueueServer QueueServer)
+cox_add_project(RaidServer RaidServer)
 
 if(COX_BUILD_CODEC_TESTS)
 	if(NOT COX_MSVC_WIN32)
