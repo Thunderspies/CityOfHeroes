@@ -86,6 +86,7 @@ cox_add_project(ShardMonitor ShardMonitor)
 cox_add_project(StatServer StatServer)
 cox_add_project(TurnstileServer TurnstileServer)
 cox_add_project(DbQuery Utilities/DBQuery)
+cox_add_project(RemoteDebuggerer Utilities/RemoteDebugger)
 cox_add_project(GetVrml Utilities/GetVrml GROUP ART_TOOLS)
 
 if(COX_BUILD_CODEC_TESTS)
