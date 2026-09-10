@@ -94,6 +94,7 @@ cox_add_project(ChatClient Utilities/ChatClient GROUP DEV_TOOLS)
 cox_add_project(FtpGrabber Utilities/FtpGrabber GROUP DEV_TOOLS)
 cox_add_project(LWCpipetest Utilities/LWC_pipe_test GROUP DEV_TOOLS)
 cox_add_project(LogParser Utilities/LogParser3 GROUP DEV_TOOLS)
+cox_add_project(LogParserMon Utilities/LogParserMon GROUP DEV_TOOLS)
 cox_add_project(GetVrml Utilities/GetVrml GROUP ART_TOOLS)
 
 if(COX_BUILD_CODEC_TESTS)
