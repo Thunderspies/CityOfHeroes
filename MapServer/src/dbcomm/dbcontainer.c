@@ -724,6 +724,8 @@ void dbWriteTemplate(char *dir,char *fname,char *data)
         sprintf(dirslash,"%s/",dir);
 
     sprintf(dirpath,"%sserver/db/templates/%s",dirslash,fname);
+	fileLocateWrite(dirpath, dirpath);
+	mkdirtree(dirpath);
     file = fileOpen(dirpath, "wt" );
     if (!file)
         FatalErrorf("Can't open %s for writing!",dirpath);
@@ -742,6 +744,8 @@ void dbWriteSchema(char *dir,char *fname,char *data)
         sprintf(dirslash,"%s/",dir);
 
     sprintf(dirpath,"%sserver/db/schemas/%s",dirslash,fname);
+	fileLocateWrite(dirpath, dirpath);
+	mkdirtree(dirpath);
     file = fileOpen(dirpath, "wt" );
     if (!file)
         FatalErrorf("Can't open %s for writing!",dirpath);
@@ -762,6 +766,8 @@ void dbWriteAttributes(char *dir, char *fname, char *data)
 
     sprintf(dirpath,"%sserver/db/templates/%s", dirslash, fname);
     mem = fileAlloc(dirpath, 0);
+	fileLocateWrite(dirpath, dirpath);
+	mkdirtree(dirpath);
     file = fileOpen(dirpath, "wt" );
     if(!file)
         FatalErrorf("Failed to open attribute file %s for writing", fname);
