@@ -6,10 +6,12 @@
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/utils/structTokenizer.h"
 #include "utilitieslib/utils/textparser.h"
+#include "utilitieslib/language/MessageStore.h"
 #include "checks.h"
 
 #undef fprintf
 #undef snprintf
+extern void destroyMessageStore(MessageStore* store);
 
 static int check_line_tokenizer(void)
 {
@@ -59,6 +61,30 @@ static int check_textparser(const char* eol)
 	return 0;
 }
 
+static int check_messages(const char* message_eol, const char* type_eol)
+{
+	char messages[1024], types[512], output[128], multiline[128];
+	MessageStore* store = NULL;
+	snprintf(messages, sizeof(messages),
+		"%s# comment%s\"First\" \"Value {Value}\"%s%s"
+		"// comment%s\"Multiline\" <<line one%sline two>>%s"
+		"\"Last\" \"Last {Value}\"",
+		message_eol, message_eol, message_eol, message_eol,
+		message_eol, message_eol, message_eol);
+	snprintf(types, sizeof(types), "%s#%s\"First\" {Value, %%d}%s%s \t%s\"Last\" {Value, %%d}",
+		type_eol, type_eol, type_eol, type_eol, type_eol);
+	LoadMessageStoreFromMem(&store, messages, types);
+	CHECK(msContainsKey(store, "First") && msContainsKey(store, "Last"));
+	msPrintf(store, output, sizeof(output), "First", 17);
+	CHECK(strcmp(output, "Value 17") == 0);
+	msPrintf(store, output, sizeof(output), "Last", 29);
+	CHECK(strcmp(output, "Last 29") == 0);
+	snprintf(multiline, sizeof(multiline), "line one%sline two", message_eol);
+	CHECK(strcmp(msGetUnformattedMessageConst(store, "Multiline"), multiline) == 0);
+	destroyMessageStore(store);
+	return 0;
+}
+
 int main(void)
 {
 	memCheckInit();
@@ -67,8 +93,12 @@ int main(void)
 	setAssertMode(ASSERTMODE_EXIT | ASSERTMODE_STDERR);
 	CHECK(check_line_tokenizer() == 0);
 	const char* endings[] = {"\n", "\r\n"};
-	for (int i = 0; i < ARRAY_SIZE(endings); ++i)
+	const char* type_endings[] = {"\n", "\r\n", "\r"};
+	for (int i = 0; i < ARRAY_SIZE(endings); ++i) {
 		CHECK(check_textparser(endings[i]) == 0);
-	puts("Tokenizer and TextParser line-ending checks passed");
+		for (int j = 0; j < ARRAY_SIZE(type_endings); ++j)
+			CHECK(check_messages(endings[i], type_endings[j]) == 0);
+	}
+	puts("Tokenizer and MessageStore line-ending checks passed");
 	return 0;
 }

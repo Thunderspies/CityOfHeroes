@@ -1108,17 +1108,16 @@ static int loadMessageData(    MessageStore* store, MessageStoreLoadFlags flags,
             clearStuffBuff(&helpMessage);
         }
 
-        // Look for the end of this line. EOLs must contain an \r. \n
-        // is optional.
-        pchEOL = strchr(pchCur, '\r');
+        // LF terminates both LF and CRLF lines.
+        pchEOL = strchr(pchCur, '\n');
         if(pchEOL)
         {
             pchNextLine = pchEOL+1;
             while(*pchNextLine=='\r' || *pchNextLine=='\n')
             {
-                pchNextLine++;
-                if(*pchNextLine=='\r')
+                if(*pchNextLine=='\n')
                     lineCount++;
+                pchNextLine++;
             }
         }
         else
@@ -1136,7 +1135,7 @@ static int loadMessageData(    MessageStore* store, MessageStoreLoadFlags flags,
             // Skip comment lines
             goto nextline;
         }
-        else if(pchCur[0]=='\r')
+        else if(pchCur[0]=='\r' || pchCur[0]=='\n')
         {
             // Blank line
             goto nextline;
@@ -1294,14 +1293,14 @@ static int loadMessageData(    MessageStore* store, MessageStoreLoadFlags flags,
                 // Fix up the line count
                 while(pchCur<pchEnd)
                 {
-                    if(*pchCur=='\r')
+                    if(*pchCur=='\n')
                         lineCount++;
                     pchCur++;
                 }
                 
                 // Skip to the end of the line
                 pchNextLine = NULL;
-                pchEOL = strchr(pchCur, '\r');
+                pchEOL = strchr(pchCur, '\n');
                 if(pchEOL)
                 {
                     pchNextLine = pchEOL;
@@ -1397,39 +1396,57 @@ static void addTextMessageDefNameIndex(TextMessage* textMessage, int index)
     }
 }
 
+static const char* msGetNextTypeLine(const char* curr, const char* end, char* lineBuffer, size_t lineBufferSize)
+{
+    size_t len = 0;
+
+    while(curr + len < end && curr[len] != '\r' && curr[len] != '\n')
+    {
+        len++;
+    }
+
+    assert(len < lineBufferSize);
+    memcpy(lineBuffer, curr, len);
+    lineBuffer[len] = 0;
+
+    curr += len;
+    while(curr < end && (*curr == '\r' || *curr == '\n'))
+    {
+        curr++;
+    }
+
+    return curr;
+}
+
 static int loadMessageTypeData(    MessageStore* store, MessageStoreLoadFlags flags,
                                 char* messageTypeData, const char *messageTypeFilename )
 {
     char lineBuffer[1024];
     char* parseCursor;
     int lineCount = 0;
-    intptr_t len;
     char* messageID;
     char* variableName;
     char* variableType;
-    char* curr;
+    const char* curr;
+    const char* next;
     TextMessage* textMessage, *v_textMessage, *p_textMessage, *l_textMessage;
-    char * end;
+    const char* end;
     
     if(!messageTypeData)
         return 0;
 
     end=messageTypeData+strlen(messageTypeData);
-    for(curr = messageTypeData;(curr<end) && (len = strcspn(curr,"\n"));curr += len+1)
+    for(curr = messageTypeData; curr < end; curr = next)
     {
         char v_messageID[1024];
         char p_messageID[1024];
         char l_messageID[1024];
 
-        assert(len < ARRAY_SIZE(lineBuffer));
-        memcpy(lineBuffer, curr, len);
-        lineBuffer[len] = 0;
-        if (lineBuffer[len-1] == '\r')
-            lineBuffer[len-1] = 0;
+        next = msGetNextTypeLine(curr, end, lineBuffer, ARRAY_SIZE(lineBuffer));
         lineCount++;
         parseCursor = lineBuffer;
         
-        if(lineBuffer[0] == '#') // at least TRY to get rid of commented out strings
+        if(!lineBuffer[0] || lineBuffer[0] == '#') // at least TRY to get rid of commented out strings
             continue;
         
         // Assume that every line always starts with a quoted string.
