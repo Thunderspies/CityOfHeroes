@@ -1,5 +1,8 @@
+#include <limits.h>
+#include <memory>
+#include <new>
+#include <jpgd.h>
 #include <utilitieslib/stdtypes.h>
-#include <jpgdlib/jpegdecoder.h>
 
 extern "C" {
 #include "graphics/jpeg.h"
@@ -10,93 +13,69 @@ extern "C" {
 }
 
 extern "C" {
-void* cryptic_jpeg_malloc(int size)
+int jpegLoad(char *mem, int size, TexReadInfo *info)
 {
-    return calloc(size, 1);
-}
+	if (!mem || size <= 0 || !info)
+		return 0;
 
-void cryptic_jpeg_free(void* mem)
-{
-    free(mem);
-}
+	jpgd::jpeg_decoder_mem_stream input((const jpgd::uint8 *)mem, size);
 
-int jpegLoad(char *mem,int size,TexReadInfo *info)
-{
-    int success = 0;
-    int lines_decoded = 0;
-    uchar* Pbuf = NULL;
+	std::unique_ptr<jpgd::jpeg_decoder> decoder(
+		new (std::nothrow) jpgd::jpeg_decoder(&input, 0));
+	if (!decoder || decoder->get_error_code() != 0 ||
+	    decoder->get_num_components() != 3)
+		return 0;
 
-    Pjpeg_decoder_file_stream Pinput_stream = new jpeg_decoder_file_stream();
-    Pinput_stream->set_mem_ptr(mem,size);
-    Pjpeg_decoder Pd = new jpeg_decoder(Pinput_stream, 0);
+	int width = decoder->get_width();
+	int height = decoder->get_height();
+	if (width <= 0 || height <= 0 || width > INT_MAX / 3)
+		return 0;
+	int stride = width * 3;
+	if (height > INT_MAX / stride)
+		return 0;
+	int size_bytes = stride * height;
 
-    if (Pd->get_error_code() != 0)
-    {
-        printf("Error: Decoder failed! Error status: %i\n", Pd->get_error_code());
-        delete Pd;
-        delete Pinput_stream;
-        return 0;
-    }
+	if (decoder->begin_decoding() != jpgd::JPGD_SUCCESS)
+		return 0;
+	int src_bpp = decoder->get_bytes_per_pixel();
+	if (src_bpp != 3 && src_bpp != 4)
+		return 0;
 
-    if (Pd->get_num_components() != 3)
-    {
-        goto fail_exit;
-    }
+	auto free_pixels = [](U8 *pixels) { free(pixels); };
+	std::unique_ptr<U8, decltype(free_pixels)> pixels(
+		(U8 *)malloc(size_bytes), free_pixels);
+	if (!pixels)
+		return 0;
 
-    if (Pd->begin())
-    {
-        goto fail_exit;
-    }
+	for (int row = 0; row < height; row++) {
+		const void *scanline = NULL;
+		jpgd::uint scanline_length = 0;
+		if (decoder->decode(&scanline, &scanline_length) !=
+		    jpgd::JPGD_SUCCESS || !scanline ||
+		    scanline_length < (size_t)width * src_bpp)
+			return 0;
 
-    Pbuf = (uchar *)calloc(Pd->get_width() * 3 * Pd->get_height(), 1);
-    if (!Pbuf)
-    {
-        goto fail_exit;
-    }
+		const U8 *src = (const U8 *)scanline;
+		U8 *dst = pixels.get() + row * stride;
+		for (int x = 0; x < width; x++, src += src_bpp, dst += 3) {
+			dst[0] = src[0];
+			dst[1] = src[1];
+			dst[2] = src[2];
+		}
+	}
 
-    for ( ; ; )
-    {
-        void *Pscan_line_ofs;
-        uint scan_line_len;
+	const void *scanline = NULL;
+	jpgd::uint scanline_length = 0;
+	if (decoder->decode(&scanline, &scanline_length) != jpgd::JPGD_DONE ||
+	    decoder->get_error_code() != 0)
+		return 0;
 
-        if (Pd->decode(&Pscan_line_ofs, &scan_line_len))
-        {
-            break;
-        }
-
-        uchar *Psb = (uchar *)Pscan_line_ofs;
-        uchar *Pdb = &Pbuf[lines_decoded * Pd->get_width() * 3];
-        int src_bpp = Pd->get_bytes_per_pixel();
-
-        for (int x = Pd->get_width(); x > 0; x--, Psb += src_bpp, Pdb += 3)
-        {
-            Pdb[0] = Psb[0];
-            Pdb[1] = Psb[1];
-            Pdb[2] = Psb[2];
-        }
-        lines_decoded++;
-    }
-    if (Pd->get_error_code())
-    {
-        goto fail_exit;
-    }
-
-#if 0
-    printf("Lines decoded: %i\n", lines_decoded);
-    printf("Input file size:  %i\n", Pinput_stream->get_size());
-    printf("Input bytes actually read: %i\n", Pd->get_total_bytes_read());
-#endif
-
-    success = 1;
-    info->width        = Pd->get_width();
-    info->height    = Pd->get_height();
-    info->data        = Pbuf;
-    info->format    = GL_RGB8;
-    info->size        = info->width * info->height * 3;
-fail_exit:
-  delete Pd;
-  delete Pinput_stream;    // JS: This does not close the file handle anymore.
-  return success;
+	info->width = width;
+	info->height = height;
+	info->data = pixels.release();
+	info->format = GL_RGB8;
+	info->size = size_bytes;
+	return 1;
 }
 
 

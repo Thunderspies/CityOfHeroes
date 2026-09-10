@@ -16,7 +16,8 @@ set(BUILD_TESTING OFF)
 set(BUILD_SHARED_LIBS OFF)
 option(COX_BUILD_UTILITIES_TESTS "Build UtilitiesLib integration checks" OFF)
 option(COX_BUILD_PIG_TESTS "Build Pig command-line tests" OFF)
-if(COX_BUILD_UTILITIES_TESTS OR COX_BUILD_PIG_TESTS)
+option(COX_BUILD_CODEC_TESTS "Build Game codec integration checks" OFF)
+if(COX_BUILD_UTILITIES_TESTS OR COX_BUILD_PIG_TESTS OR COX_BUILD_CODEC_TESTS)
 	enable_testing()
 endif()
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -66,6 +67,12 @@ endif()
 
 cox_add_project(Common Common)
 
+if(COX_BUILD_CODEC_TESTS)
+	if(NOT COX_MSVC_WIN32)
+		message(FATAL_ERROR "Game codec checks require MSVC Win32")
+	endif()
+	add_subdirectory(Game/tests)
+endif()
 
 # Require verification for explicit target builds as well as the default build.
 function(cox_require_precise_floating_point directory)
