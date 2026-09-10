@@ -109,6 +109,7 @@ cox_add_project(dumpstk Utilities/dumpstk GROUP DEV_TOOLS)
 cox_add_project(logfilter Utilities/logfilter GROUP DEV_TOOLS)
 cox_add_project(memtrack Utilities/memtrack_analysis GROUP DEV_TOOLS)
 cox_add_project(publink Utilities/publink GROUP DEV_TOOLS)
+cox_add_project(GetAnimation Utilities/GetAnimation GROUP ART_TOOLS)
 cox_add_project(GetVrml Utilities/GetVrml GROUP ART_TOOLS)
 
 if(COX_BUILD_CODEC_TESTS)
