@@ -70,6 +70,7 @@ cox_add_project(ServerLib libs/ServerLib)
 cox_add_project(cryptLib libs/cryptLib)
 cox_add_project(AuthServer AuthServer)
 cox_add_project(ArenaServer ArenaServer)
+cox_add_project(AccountServer AccountServer)
 
 if(COX_BUILD_CODEC_TESTS)
 	if(NOT COX_MSVC_WIN32)
