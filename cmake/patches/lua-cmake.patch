@@ -1,0 +1,48 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,43 @@
++cmake_minimum_required(VERSION 3.24)
++project(lua51 VERSION 5.1.5 LANGUAGES C)
++
++# Build the Lua runtime only; lua.c, luac.c and print.c belong to the CLI.
++add_library(lua51 STATIC
++	src/lapi.c
++	src/lauxlib.c
++	src/lbaselib.c
++	src/lcode.c
++	src/ldblib.c
++	src/ldebug.c
++	src/ldo.c
++	src/ldump.c
++	src/lfunc.c
++	src/lgc.c
++	src/linit.c
++	src/liolib.c
++	src/llex.c
++	src/lmathlib.c
++	src/lmem.c
++	src/loadlib.c
++	src/lobject.c
++	src/lopcodes.c
++	src/loslib.c
++	src/lparser.c
++	src/lstate.c
++	src/lstring.c
++	src/lstrlib.c
++	src/ltable.c
++	src/ltablib.c
++	src/ltm.c
++	src/lundump.c
++	src/lvm.c
++	src/lzio.c
++)
++add_library(Lua::Lua ALIAS lua51)
++target_include_directories(lua51 PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
++set_target_properties(lua51 PROPERTIES
++	C_STANDARD 11 C_STANDARD_REQUIRED ON
++	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
++if(MSVC)
++	target_compile_definitions(lua51 PRIVATE _CRT_SECURE_NO_WARNINGS)
++endif()

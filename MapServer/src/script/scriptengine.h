@@ -19,7 +19,7 @@
 #include <utilitieslib/utils/textparser.h>
 #include "gameData/store.h"
 
-#include <lua/lua.h>
+#include <lua.h>
 
 #define FORCE_SCRIPT_TICK (-1.0f)
 
