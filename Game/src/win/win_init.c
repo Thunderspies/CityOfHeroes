@@ -253,7 +253,7 @@ void RegisterSplashWindow()
     }
     else
     {
-        splashwc.hIcon         = LoadImageA(glob_hinstance, MAKEINTRESOURCEA(IDI_OUROBOROS), IMAGE_ICON, 
+        splashwc.hIcon         = LoadImageA(glob_hinstance, MAKEINTRESOURCEA(IDI_STATESMAN), IMAGE_ICON,
             GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0);
     }
     splashwc.hCursor       = 0;
@@ -2073,9 +2073,9 @@ void winRegisterClass(HINSTANCE hInstance)
     }
     else
     {
-        wc.hIcon = LoadImageA(hInstance, MAKEINTRESOURCEA(IDI_OUROBOROS), IMAGE_ICON, 
+        wc.hIcon = LoadImageA(hInstance, MAKEINTRESOURCEA(IDI_STATESMAN), IMAGE_ICON,
             GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0);
-        wc.hIconSm = LoadImageA(hInstance, MAKEINTRESOURCEA(IDI_OUROBOROS), IMAGE_ICON,
+        wc.hIconSm = LoadImageA(hInstance, MAKEINTRESOURCEA(IDI_STATESMAN), IMAGE_ICON,
             GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
     }
     wc.hCursor       = 0;//LoadCursor( NULL, IDC_ARROW );

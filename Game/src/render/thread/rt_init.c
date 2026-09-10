@@ -19,16 +19,6 @@
 #include "rt_report.h"
 
 
-#if defined _M_IX86
-#pragma comment(lib, "../../../3rdparty/cg/lib/cg.lib")
-#pragma comment(lib, "../../../3rdparty/cg/lib/cgGL.lib")
-#elif defined _M_X64
-#pragma comment(lib, "../../../3rdparty/cg/lib.x64/cg.lib")
-#pragma comment(lib, "../../../3rdparty/cg/lib.x64/cgGL.lib")
-#else
-#error Unsupported arcitecture
-#endif // Architecture
-
 RenderCaps    rdr_caps;
 
 void rdrInitDirect(void)

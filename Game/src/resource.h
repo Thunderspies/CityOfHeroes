@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
-#define IDI_OUROBOROS                   102
 #define IDD_ENTERTEXT                   103
 #define IDB_LOGO                        104
 #define IDI_STATESMAN                   105
