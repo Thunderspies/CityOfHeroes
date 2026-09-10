@@ -103,6 +103,7 @@ cox_add_project(LogParserMon Utilities/LogParserMon GROUP DEV_TOOLS)
 cox_add_project(NetTest Utilities/NetTest GROUP DEV_TOOLS)
 cox_add_project(OGLextextractor Utilities/OGL_ext_extractor GROUP DEV_TOOLS)
 cox_add_project(rewardcrittertally Utilities/RewardCritterTally GROUP DEV_TOOLS)
+cox_add_project(assertdlg Utilities/assertdlg GROUP DEV_TOOLS)
 cox_add_project(GetVrml Utilities/GetVrml GROUP ART_TOOLS)
 
 if(COX_BUILD_CODEC_TESTS)
