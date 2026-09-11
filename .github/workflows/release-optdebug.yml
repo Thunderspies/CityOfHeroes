@@ -1,0 +1,173 @@
+name: Prepare OptDebug release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: optdebug-release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    outputs:
+      release_id: ${{ steps.release.outputs.release_id }}
+      commit: ${{ steps.release.outputs.commit }}
+      tag_object: ${{ steps.release.outputs.tag_object }}
+    steps:
+      - name: Ensure draft release and resolve tag
+        id: release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git check-ref-format "refs/tags/$RELEASE_TAG"
+
+          encoded_tag=$(jq -rn --arg tag "$RELEASE_TAG" '$tag | @uri')
+          object=$(gh api "repos/$GH_REPO/git/ref/tags/$encoded_tag" \
+            --jq .object)
+          tag_object=$(jq -r .sha <<< "$object")
+          while [[ $(jq -r .type <<< "$object") == tag ]]; do
+            sha=$(jq -r .sha <<< "$object")
+            object=$(gh api "repos/$GH_REPO/git/tags/$sha" --jq .object)
+          done
+          commit=$(jq -r .sha <<< "$object")
+          if [[ $(jq -r .type <<< "$object") != commit ||
+                ! "$commit" =~ ^[0-9a-f]{40}$ ]]; then
+            echo '::error::The release tag must resolve to a commit.'
+            exit 1
+          fi
+
+          if ! release=$(gh release view --repo "$GH_REPO" \
+            --json databaseId,isDraft,tagName \
+            2>/dev/null -- "$RELEASE_TAG"); then
+            gh release create --repo "$GH_REPO" --draft --verify-tag \
+              --title "$RELEASE_TAG" "$RELEASE_TAG"
+            release=$(gh release view --repo "$GH_REPO" \
+              --json databaseId,isDraft,tagName -- "$RELEASE_TAG")
+          fi
+          if ! jq -e --arg tag "$RELEASE_TAG" \
+            '.isDraft and .tagName == $tag' <<< "$release" >/dev/null; then
+            echo '::error::The tag already has a non-draft release.'
+            exit 1
+          fi
+          release_id=$(jq -r .databaseId <<< "$release")
+          printf 'release_id=%s\ncommit=%s\ntag_object=%s\n' \
+            "$release_id" "$commit" "$tag_object" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: validate
+    runs-on: windows-2025-vs2026
+    outputs:
+      artifact_id: ${{ steps.assets.outputs.artifact-id }}
+    steps:
+      # actions/checkout v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ needs.validate.outputs.commit }}
+          persist-credentials: false
+
+      - name: Configure
+        run: cmake --preset vs2026
+
+      - name: Build OptDebug
+        run: >-
+          cmake --build --preset vs2026-optdebug --parallel
+          --target DbServer MapServer Game pig
+
+      - name: Package release files
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_COMMIT: ${{ needs.validate.outputs.commit }}
+        run: >-
+          ./.github/scripts/package-optdebug.ps1
+          -ReleaseTag $env:RELEASE_TAG -Commit $env:RELEASE_COMMIT
+
+      - name: Store release files
+        id: assets
+        # actions/upload-artifact v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: optdebug-release-assets-${{ github.run_attempt }}
+          path: |
+            out/release/CoX-OptDebug-Win32.zip
+            out/release/CoX-OptDebug-Win32-symbols.zip
+            out/release/CoX-OptDebug-Win32-SHA256SUMS.txt
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+
+  upload:
+    needs: [validate, build]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download release files
+        # actions/download-artifact v8.0.1
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          artifact-ids: ${{ needs.build.outputs.artifact_id }}
+          merge-multiple: true
+          path: release-assets
+
+      - name: Verify and attach files to draft
+        shell: bash
+        working-directory: release-assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_ID: ${{ needs.validate.outputs.release_id }}
+          RELEASE_COMMIT: ${{ needs.validate.outputs.commit }}
+          TAG_OBJECT: ${{ needs.validate.outputs.tag_object }}
+        run: |
+          set -euo pipefail
+          assets=(
+            CoX-OptDebug-Win32.zip
+            CoX-OptDebug-Win32-symbols.zip
+            CoX-OptDebug-Win32-SHA256SUMS.txt
+          )
+          for asset in "${assets[@]}"; do
+            test -s "$asset"
+          done
+          sha256sum --check --strict CoX-OptDebug-Win32-SHA256SUMS.txt
+
+          release=$(gh release view --repo "$GH_REPO" \
+            --json databaseId,isDraft,tagName,url -- "$RELEASE_TAG")
+          if ! jq -e --arg tag "$RELEASE_TAG" --arg id "$RELEASE_ID" \
+            '.isDraft and .tagName == $tag and
+             (.databaseId | tostring) == $id' \
+            <<< "$release" >/dev/null; then
+            echo '::error::The release was replaced or is no longer a draft.'
+            exit 1
+          fi
+          encoded_tag=$(jq -rn --arg tag "$RELEASE_TAG" '$tag | @uri')
+          current_object=$(gh api \
+            "repos/$GH_REPO/git/ref/tags/$encoded_tag" --jq .object.sha)
+          # An unchanged tag object also preserves annotated tags' commits.
+          if [[ "$current_object" != "$TAG_OBJECT" ]]; then
+            echo '::error::The release tag changed during the build.'
+            exit 1
+          fi
+
+          gh release upload --repo "$GH_REPO" --clobber \
+            -- "$RELEASE_TAG" "${assets[@]}"
+          {
+            printf 'OptDebug files attached to draft: %s\n\n' \
+              "$(jq -r .url <<< "$release")"
+            printf 'Built commit: `%s`\n\n' "$RELEASE_COMMIT"
+            printf -- '- `%s`\n' "${assets[@]}"
+            printf '\nInspect the files, then publish the draft release.\n'
+          } >> "$GITHUB_STEP_SUMMARY"
