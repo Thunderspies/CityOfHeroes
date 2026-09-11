@@ -204,6 +204,7 @@ U32 g_mission_hop_time = 30; // seconds on mission then hop
 bool g_verbose_client;
 char g_achPasswordTC[32];
 bool dontpause = false;
+int testClientFakeAuth = 0;
 
 void gameStateInit() {
     strcpy(game_state.cs_address, connserver);
@@ -397,6 +398,8 @@ void checkArgs(int argc, char **argv) {
             printf("Will attempt to resume character %s...\n",character_name);
         } else if (CMDEQ("-justlogin")) {
             g_testMode = TEST_LOGIN;
+        } else if (CMDEQ("-fakeauth")) {
+            testClientFakeAuth = 1;
         } else if (CMDEQ("-selfversion")) {
             useLauncherVersion = 0;
         } else if (CMDEQ("-version")) {
@@ -491,6 +494,10 @@ void checkArgs(int argc, char **argv) {
                 processCmd(buf,1);
             }
         }
+    }
+    if (testClientFakeAuth && (!connserver[0] || game_state.auth_address[0])) {
+        printf("-fakeauth requires -db (or -cs) and cannot be combined with -auth.\n");
+        exit(1);
     }
     if (ask_user) {
         g_testMode &= ~(TEST_LEVELUP | TEST_EMAIL);
@@ -1422,8 +1429,16 @@ int main(int argc, char **argv)
                     if(db_info.players)
                     {
                         simulateCharacterCreate(ask_user, 0);
-                        strcpy(character_name, playerPtr()->name);
-                        loadend_printf("commReqScene(1)?");
+                        if (!playerPtr() || player_being_created || !commConnected()) {
+                            printf("Character creation did not reach the MapServer.\n");
+                            setConsoleTitle("ERROR");
+                            statusUpdate("ERROR");
+                            err = 1;
+                            loadend_printf("failed");
+                        } else {
+                            strcpy(character_name, playerPtr()->name);
+                            loadend_printf("done");
+                        }
                     }
                     else
                     {

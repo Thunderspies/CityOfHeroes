@@ -363,7 +363,13 @@ int checkForCharacterCreate()
 
 #if defined TEST_CLIENT
 
-        if (inventoryClient_GetAcctAuthoritativeState() == ACCOUNT_SERVER_UP)
+        if (testClientFakeAuth)
+        {
+            // The directly connected DBServer must also allow fake authentication.
+            // Local smoke tests do not need AccountServer slot redemption.
+            printf("Creating character with fake auth; skipping AccountServer slot redemption.\n");
+        }
+        else if (inventoryClient_GetAcctAuthoritativeState() == ACCOUNT_SERVER_UP)
         {
             //Redeem a slot (if allowed) if there are no unlocked slots
             if (getTotalServerSlots() - getSlotUnlockedPlayerCount() < 1)

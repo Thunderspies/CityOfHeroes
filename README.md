@@ -84,3 +84,15 @@ start CityOfHeroes.exe -db 127.0.0.1 -localmapserver 1 -notimeout 1 -noaudio 1
 
 This will enable logging in with a fake account and any password. Creating or
 selecting any character will send them straight to Atlas Park (map ID 1).
+
+For a headless smoke test, build `TestClient` and run it from the data repository:
+
+```text
+TestClient.exe -db 127.0.0.1 -server 127.0.0.1 -localmapserver -fakeauth -authname SmokeTest -dontpause -hideconsole -nosharedmemory -nolevel -disconnect
+```
+
+`-fakeauth` skips TestClient's AccountServer slot-redemption requirement for
+character creation. DBServer must have `UseFakeAuth 1`; the switch requires
+`-db` (or `-cs`) and cannot be combined with `-auth`. `-disconnect` exits after
+connecting to the map; omit it to keep the test client connected. Run unattended
+tests with an external timeout.

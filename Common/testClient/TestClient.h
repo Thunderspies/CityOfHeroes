@@ -29,6 +29,7 @@ typedef enum TestClientStage {
 
 
 #ifdef TEST_CLIENT
+extern int testClientFakeAuth;
 void testRandomDisconnect(TestClientStage stage, char *stagename, char *file, int line);
 #    define testClientRandomDisconnect(a) \
     { \
