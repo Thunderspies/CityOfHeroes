@@ -14,7 +14,7 @@
 #include "entity/LoadDefCommon.h"
 #include <utilitieslib/network/netcomp.h>
 #include <utilitieslib/components/StashTable.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "entity/character_eval.h"
 #if CLIENT
 #include "entity/power_customization_client.h"
@@ -205,7 +205,7 @@ void loadPowerCustomizations()
         printf("Couldn't load Power Customization Data!!\n");
     }
     TODO(); // this never did anything meaningful, need to hook it up??
-    //FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "menu/PowerCustomization/*.ctm", reloadPowerCustCallback);
+    //FolderCacheSetCallback(FILE_CHANGE_UPDATE, "menu/PowerCustomization/*.ctm", reloadPowerCustCallback);
 
     if (!ParserLoadFiles(NULL, "Defs/powercustomizationmenu.def", "powercustomizationmenu.bin", 0, 
         ParsePowerCustomizationMenu, &gPowerCustomizationMenu, NULL, NULL, PowerCustomizationMenuPostProcessClient))

@@ -7,7 +7,7 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/SuperAssert.h>
 #include "clientError.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "clientcomm/autoResumeInfo.h"
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/textparser.h>
@@ -15,7 +15,6 @@
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/version/AppRegCache.h>
 #include <utilitieslib/utils/RegistryReader.h>
-#include <utilitieslib/utils/piglib.h>
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/utils/genericDialog.h>
 #include <utilitieslib/network/crypt.h>
@@ -23,12 +22,12 @@
 #include <utilitieslib/utils/RegistryReader.h>
 #include <utilitieslib/AppVersionDefines.h> // CHECKSUMFILE_VERSION
 #include <sys/stat.h>
+#include <stdint.h>
 #include <utilitieslib/utils/winfiletime.h>
 #include "win/win_init.h"
 #include <utilitieslib/language/AppLocale.h>
 #include <utilitieslib/utils/osdependent.h>
 
-extern void *extractFromFS(const char *name, U32 *count);
 extern HWND hlogo;
 
 typedef struct
@@ -104,6 +103,40 @@ exit:
         cf = NULL;
     }
     return cf;
+}
+
+// The launcher checksum is a native file, not an asset in a pigg archive.
+static char *ReadChecksumFile(const char *path)
+{
+    FILE *file = fopen(path, "rb~");
+    S64 length;
+    size_t size;
+    char *data = NULL;
+
+    if (!file)
+        return NULL;
+    if (fseek(file, 0, SEEK_END) != 0)
+        goto exit;
+    length = ftell(file);
+    if (length < 0 || (U64)length >= (U64)SIZE_MAX)
+        goto exit;
+    size = (size_t)length;
+    if (fseek(file, 0, SEEK_SET) != 0)
+        goto exit;
+    data = malloc(size + 1);
+    if (!data)
+        goto exit;
+    if ((size_t)fread(data, 1, size, file) != size)
+    {
+        free(data);
+        data = NULL;
+        goto exit;
+    }
+    data[size] = 0;
+
+exit:
+    fclose(file);
+    return data;
 }
 
 static int getFileSize(const char* path)
@@ -266,7 +299,7 @@ bool game_validateChecksums(bool bForceFullVerify, bool *pCancelled)
     printf("Validating files against checksum file: \"%s\"\n", checksumFileName);
 
     // read the checksum file
-    data = extractFromFS(checksumFileName, &len);
+    data = ReadChecksumFile(checksumFileName);
     if( !data ) {
         printf("Failed to open \"%s\" file for calculating checksum!\n", checksumFileName);
         bSuccess = false; // set to true if we want to make checksum verification optional

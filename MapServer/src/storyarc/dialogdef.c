@@ -23,8 +23,9 @@
 #include "TeamReward.h"
 #include "comm_game.h"
 #include "entity/character_tick.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
+
 
 // *********************************************************************************
 //  Load and parse mission defs
@@ -980,11 +981,18 @@ static void DialogDefList_ReloadCallback(const char* relpath, int when)
     }
 }
 
+static void DialogDefList_ReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	DialogDefList_ReloadCallback(change->entry.path, change->kind);
+}
+
+
 static void DialogDefList_SetupCallbacks()
 {
     if (!isDevelopmentMode())
         return;
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "scripts.loc/*.dialogdef", DialogDefList_ReloadCallback);
+    fileSystemSubscribe(NULL, "scripts.loc/*.dialogdef", FILE_CHANGE_UPDATE, DialogDefList_ReloadCallbackFileChanged, NULL);
 }
 
 void DialogDefList_Load(void)

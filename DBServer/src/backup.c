@@ -12,12 +12,49 @@
 #include "dbserver/servercfg.h"
 #include "container_tplt_utils.h"
 #include "container_merge.h"
-#include <utilitieslib/utils/hoglib.h>
+#include <piggle/piggle.h>
 #include "clientcomm.h"
 #include "namecache.h"
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/log.h>
+
+static pg_context *backup_context;
+
+static pg_source *openBackupArchive(const char *path)
+{
+	pg_source *source = NULL;
+	pg_source_options options = { PG_HOGG10, PG_WRITE, PG_CHECKSUM_LOGICAL };
+	pg_error error;
+	pg_status status;
+	if (!backup_context && pg_context_open(&backup_context, &error) != PG_OK)
+		return NULL;
+	status = pg_source_open(backup_context, path, &options, &source, &error);
+	if (status == PG_RECOVERY_REQUIRED) {
+		status = pg_source_recover(backup_context, path, &error);
+		if (status == PG_OK)
+			status = pg_source_open(backup_context, path, &options, &source, &error);
+	}
+	if (status == PG_NOT_FOUND) {
+		pg_archive_builder *builder = NULL;
+		status = pg_archive_builder_create(backup_context, path, PG_HOGG10,
+			0, &builder, &error);
+		if (status == PG_OK) status = pg_archive_builder_finish(builder, &error);
+		if (builder) pg_archive_builder_close(&builder, NULL);
+		if (status == PG_OK)
+			status = pg_source_open(backup_context, path, &options, &source, &error);
+	}
+	if (status != PG_OK) Errorf("Cannot open backup %s: %s", path, error.message);
+	return source;
+}
+
+static int backupContains(pg_source *source, const char *name)
+{
+	pg_file *file = NULL;
+	int found = source && pg_source_find(source, name, &file, NULL) == PG_OK;
+	pg_file_close(&file, NULL);
+	return found;
+}
 
 typedef struct BackupHeader 
 {
@@ -37,7 +74,7 @@ typedef struct BackupHeader
 
 typedef struct HogDate
 {
-    HogFile * file;
+    pg_source * file;
     int date;
 }HogDate;
 
@@ -187,7 +224,7 @@ static char *backupDataFileName(int date)
     return data_name;
 }
 
-static HogFile * getDataHogFileByDate( int date )
+static pg_source * getBackupArchiveByDate( int date )
 {
     int i, time = timerDayFromSecondsSince2000(date);
     for( i = eaSize(&file_list)-1; i>=0; i-- )
@@ -209,7 +246,7 @@ bool backupSaveContainer( AnyContainer * con, U32 timestamp )
     char * str, extra_info[256], filenamebuf[256];
     BackupHeader * bh;
     DbContainer * container = (DbContainer*)con;
-    HogFile * hog;
+    pg_source * hog;
     int size;
     if ( server_cfg.disableContainerBackups )
         return 0;
@@ -239,17 +276,33 @@ bool backupSaveContainer( AnyContainer * con, U32 timestamp )
     str = strdup(containerGetText(container));
     size = (int)strlen(str)+1;
 
-    hog = getDataHogFileByDate( bh->date );
+    hog = getBackupArchiveByDate( bh->date );
     if( !hog )
     {
         HogDate * hd = malloc(sizeof(HogDate));
-        hd->file = hog = hogFileReadOrCreate(backupDataFileName(bh->date),0);
-        hd->date = timerDayFromSecondsSince2000(bh->date);
-        eaPush(&file_list,hd);
+        hd->file = hog = openBackupArchive(backupDataFileName(bh->date));
+        if (hog) {
+            hd->date = timerDayFromSecondsSince2000(bh->date);
+            eaPush(&file_list,hd);
+        } else free(hd);
         if(st_SavedSupergroups) stashTableClear(st_SavedSupergroups); // New day!
     }
     sprintf( filenamebuf, "%i_%i_%i", bh->id, bh->type, bh->date );
-    hogFileModifyUpdateNamed( hog, filenamebuf, str, size, bh->date );
+    {
+        pg_entry_options options = {0};
+        pg_status status;
+        options.mtime = bh->date;
+        status = hog ? pg_source_write_all(hog, filenamebuf, str, size,
+            &options, NULL) : PG_IO;
+        free(str);
+        if (status != PG_OK) {
+            Errorf("Could not save container backup %s (Piggle status %d)", filenamebuf, status);
+            if (container->type == CONTAINER_SUPERGROUPS)
+                stashIntRemoveInt(st_SavedSupergroups, container->id, NULL);
+            free(bh);
+            return false;
+        }
+    }
 
     if( container->type == CONTAINER_ENTS)
     {
@@ -287,20 +340,24 @@ bool backupSaveContainer( AnyContainer * con, U32 timestamp )
 
 static char *getBackup(BackupHeader *bh)
 {
-    int        file_idx, size;
+    int size;
+    pg_buffer buffer = {0};
     char    *data,filenamebuf[256];
-    HogFile *hog;
+    pg_source *hog;
 
-    hog = getDataHogFileByDate(bh->date);
+    hog = getBackupArchiveByDate(bh->date);
     if( !hog )
         return 0;
     
     sprintf( filenamebuf, "%i_%i_%i", bh->id, bh->type, bh->date );
-    file_idx = hogFileFind( hog, filenamebuf );
-    if( file_idx < 0 )
-        return 0;
-
-    data = hogFileExtract( hog, file_idx, &size );
+    if (pg_source_read_all_alloc(hog, filenamebuf, INT_MAX - 1, &buffer,
+        NULL) != PG_OK) return NULL;
+    size = (int)buffer.size;
+    data = malloc(size + 1);
+    if (!data) { pg_buffer_free(&buffer); return NULL; }
+    memcpy(data, buffer.data, size);
+    data[size] = 0;
+    pg_buffer_free(&buffer);
 
     if( bh->type == CONTAINER_ENTS )
         tpltUpdateData(&data, &size, "TeamupsId 0\nTaskforcesId 0\n", dbListPtr(CONTAINER_ENTS)->tplt);
@@ -421,7 +478,7 @@ void backupLoadIndexFiles(void)
                 HogDate * hd = malloc(sizeof(HogDate));
                 char *s,*args[100],*fileStart;
                 int count;
-                hd->file = hogFileReadOrCreate(backupDataFileName(time),NULL);
+                hd->file = openBackupArchive(backupDataFileName(time));
                 hd->date = timerDayFromSecondsSince2000(time);
                 eaPush(&file_list, hd);
 
@@ -447,7 +504,7 @@ void backupLoadIndexFiles(void)
 
                     // if file doesn't exist for entry we must've crashed and gotten out of sync
                     sprintf( filenamebuf, "%i_%i_%i", bh->id, bh->type, bh->date );
-                    if( hogFileFind(hd->file,filenamebuf) >= 0 ) 
+                    if( backupContains(hd->file, filenamebuf) )
                     {
                         int arrayIndex = eaPush(&backup_header,bh);
                         s_indexBackupHeader(bh);
@@ -487,7 +544,7 @@ void backupUnloadIndexFiles(void)
     while( eaSize(&file_list) )
     {
         HogDate * rem = eaRemove(&file_list,0);
-        hogFileDestroy( rem->file );
+        pg_source_close(&rem->file, NULL);
         SAFE_FREE(rem);
     }
 

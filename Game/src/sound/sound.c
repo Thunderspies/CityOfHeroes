@@ -17,7 +17,7 @@
 #include "graphics/font.h"
 #include "UI/uiGame.h"
 #include <utilitieslib/components/earray.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <dsound.h>
 #include "player/player.h"
 #include "entity/entity.h"
@@ -28,6 +28,7 @@
 #include "graphics/vistray.h"
 #include "graphics/gfxLoadScreens.h"
 #include "LWC.h"
+
 
 enum 
 {
@@ -1457,6 +1458,13 @@ static void noteChangedSounds(const char *relpath, int when)
     }
 }
 
+static void noteChangedSoundsFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	noteChangedSounds(change->entry.path, change->kind);
+}
+
+
 static bool LoadSoundDefs()
 {
     int count, i;
@@ -1538,7 +1546,7 @@ void sndInit()
     
     writeConsole(OUTPUT_DEBUG, "Loading sounds");
     fileScanAllDataDirs("sound", soundLoadCallback);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "sound/*", noteChangedSounds);
+    fileSystemSubscribe(NULL, "sound/*", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), noteChangedSoundsFileChanged, NULL);
     LoadSoundDefs();
     sndPlayingThreadStart();
     writeConsole(OUTPUT_DEBUG, "Loaded sounds");

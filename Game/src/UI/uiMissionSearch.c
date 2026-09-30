@@ -13,7 +13,7 @@
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "entity/CustomVillainGroup.h"
 #include "entity/CustomVillainGroup_Client.h"
 #include "entity/PCC_Critter.h"
@@ -63,6 +63,7 @@
 #include "clientcomm/clientcomm.h"
 #include "entity/character_level.h"
 #include <utilitieslib/utils/timing.h>
+
 
 #define MISSIONSEARCH_STARHEIGHT        18.f
 #define MISSIONSEARCH_PANEBUTTON_HT        20
@@ -1843,19 +1844,26 @@ void missionsearch_myArcsChanged(const char *relpath, int when)
     tab->local_loaded = 0; // do a reload.  we could reload the changed file here, but this is easier
 }
 
+static void missionsearch_myArcsChangedFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	missionsearch_myArcsChanged(change->entry.path, change->kind);
+}
+
+
 static void missionsearch_InitMyArcs(void)
 {
     char reloadpath[MAX_PATH];
-    FolderCache *fc;
+    FileSystem *fc;
 
     sprintf(reloadpath, "%s/", missionMakerPath());
     mkdirtree(reloadpath);
 
-    fc = FolderCacheCreate();
-    FolderCacheAddFolder(fc, missionMakerPath(), 0);
-    FolderCacheQuery(fc, NULL);
+    fc = fileSystemCreate();
+    fileSystemAddSource(fc, missionMakerPath(), 0);
+    fileSystemDispatch();
     sprintf(reloadpath, "*%s", missionMakerExt());
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, reloadpath, missionsearch_myArcsChanged);
+    fileSystemSubscribe(NULL, reloadpath, (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), missionsearch_myArcsChangedFileChanged, NULL);
 }
 
 static void s_deleteArcDialog(MissionSearchLine *line)

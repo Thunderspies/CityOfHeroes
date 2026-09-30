@@ -112,7 +112,7 @@
 #include "UI/uiDialog.h"
 #include "gameData/costume_data.h"
 #include "arena/arenagame.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "UI/uiFriend.h"
 #include "chatdb.h"
 #include "UI/uiChannel.h"

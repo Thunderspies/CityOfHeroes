@@ -15,7 +15,7 @@
 #include "win/win_init.h"
 #include "render/thread/wcw_statemgmt.h"
 #include "graphics/gfxwindow.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "cmdparse/cmdgame.h"
 #include "graphics/gfx.h"
@@ -40,6 +40,7 @@
 #include <utilitieslib/version/AppRegCache.h>
 #include "graphics/gfxLoadScreens.h"
 #include <utilitieslib/utils/cpu_count.h>
+
 
 #define lsprintf if (game_state.texWordVerbose) loadstart_printf
 #define leprintf if (game_state.texWordVerbose) loadend_printf
@@ -623,6 +624,13 @@ static void reloadTexWordCallback(const char *relpath, int when){
     texWordsNeedsReload = true;
 }
 
+static void reloadTexWordCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadTexWordCallback(change->entry.path, change->kind);
+}
+
+
 void texWordsCheckReload(void) {
     if (texWordsNeedsReload && isDevelopmentMode()) {
         if (numTexWordsInThread==0) {
@@ -734,7 +742,7 @@ void texWordsLoad(char *localeName)
 
     if (!inited) {
         // Add callback for re-loading texWord files
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "texts/*.texword", reloadTexWordCallback);
+        fileSystemSubscribe(NULL, "texts/*.texword", FILE_CHANGE_UPDATE, reloadTexWordCallbackFileChanged, NULL);
         inited = 1;
     }
     override[0] = 0;

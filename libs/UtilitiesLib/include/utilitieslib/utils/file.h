@@ -11,14 +11,29 @@ C_DECLARATIONS_BEGIN
 
 #include <stdio.h>
 #include <io.h>
+#include <sys/stat.h>
 #include "../stdtypes.h"
 #include "memcheck.h"
+#include "FileSystem.h"
 
 
 #define sfread fread
 #define fileClose fclose
 
 typedef struct FileWrapper FileWrapper;
+
+/* Process asset group, initialized by fileLoadDataDirs on the main thread.
+ * Borrowed; independent tool groups use fileSystemCreate instead. */
+extern FileSystem *file_system;
+
+/* Add a copied native patch-directory path before fileLoadDataDirs. Its
+ * archives follow the base archives in priority. Returns zero on success. */
+int fileAddArchiveDirectory(const char *path);
+
+/* Main-thread archive discovery filter. NULL accepts all archive basenames.
+ * The callback borrows the name through return; true includes the archive. */
+typedef bool (*FileArchiveFilter)(const char *name);
+void fileSetArchiveFilter(FileArchiveFilter filter);
 #define FILE FileWrapper
 #undef getc
 #undef ferror
@@ -78,14 +93,6 @@ typedef enum{
 } FileScanAction;
 typedef FileScanAction (*FileScanProcessor)(char* dir, struct _finddata32_t* data);
 
-typedef struct FileScanContext FileScanContext;
-typedef FileScanAction (*FileScanProcessorEx)(FileScanContext* context);
-struct FileScanContext{
-    FileScanProcessorEx processor;
-    char* dir;
-    struct _finddata32_t* fileInfo;
-    void* userData;
-};
 typedef int (*FileProcessCallback)(int bytes_processed, int total); // Return 0 to cancel reading/writing
 
 typedef struct StuffBuff StuffBuff;
@@ -141,7 +148,6 @@ char **fileScanDir(char *dir,int *count_ptr);
 char **fileScanDirFolders(char *dir, int *count_ptr, FileScanFolders folders);
 void fileScanDirFreeNames(char **names,int count);
 void fileScanDirRecurseEx(const char* dir, FileScanProcessor processor);
-void fileScanDirRecurseContext(const char* dir, FileScanContext* context);
 FileScanAction printAllFileNames(char* dir, struct _finddata32_t* data); // Sample FileScanProcessor
 int printPercentage(int bytes_read, int total); // Sample FileProcessCallback
 void *fileAllocEx_dbg(const char *fname,int *lenp, const char* mode, FileProcessCallback callback MEM_DBG_PARMS);
@@ -159,6 +165,9 @@ bool fileMoveToBackup(char *fn);
 void fileOpenWithEditor(const char *localfname);
         
 
+/* Native stat relative to the process directory, without asset resolution.
+ * out may be NULL for an existence probe. Returns 0 or -1 with CRT errno. */
+int fileStat(const char *path, struct _stat32 *out);
 intptr_t fileSize(const char *fname);
 S64 fileSize64(const char *fname); // Slow!  Does not use FileWatcher.
 int fileExists(const char *fname);
@@ -169,8 +178,6 @@ int filePathBeginsWith(const char* fullPath, const char* prefix);
 U64 fileGetFreeDiskSpace(const char* fullPath);
 void fileAllPathsAbsolute(bool newvalue);
 int fileIsAbsolutePath(const char *path);
-void fileFreeOldZippedBuffers(void); // Frees buffers on handles that haven't been accessed in a long time
-void fileFreeZippedBuffer(FileWrapper *fw); // Frees a buffer, if there is one, on a zipped pigged file handle
 
 #ifndef FINAL
 int fileIsUsingDevData(void);
@@ -212,8 +219,6 @@ FileWrapper *fileWrap(void *real_file_pointer);
 FILE *fileGetStdout();
 void *fileRealPointer(FileWrapper *fw);
 
-void *fileLockRealPointer(FileWrapper *fw); // This implements support for Pig files, and must be followed by an unlock when done
-void fileUnlockRealPointer(FileWrapper *fw);
 
 int fileTruncate(FileWrapper *fw, U64 newsize); // Returns 0 on success
 

@@ -18,7 +18,7 @@
 #include "svr/gloophook.h"
 #include "dbcomm/dbmapxfer.h"
 #include <utilitieslib/network/net_link.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "dbcomm/dbquery.h"
 #include "entity/friends.h"
 #include "container/containerEmail.h"

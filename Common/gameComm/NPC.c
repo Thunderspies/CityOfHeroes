@@ -16,7 +16,7 @@
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/components/SharedMemory.h>
 #include <string.h>
 
@@ -148,6 +148,7 @@ bool npcDefsReadFilesPostProcess(ParseTable pti[], NPCDefList * npclist)
 #include "gameData/BodyPart.h"
 #include "entity/costume_client.h"
 #include "cmdparse/cmdgame.h"
+
 int npcReadDefFilesVerifyTextures(void)
 {
     int NPCCursor;
@@ -272,6 +273,13 @@ static void reloadVillainCostumesCallback(const char *relpath, int when)
     }
 }
 
+static void reloadVillainCostumesCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadVillainCostumesCallback(change->entry.path, change->kind);
+}
+
+
 static bool npcDefsFinalProcessCallback(ParseTable pti[], void* structptr, bool shared_memory)
 {
     return npcDefsFinalProcess(pti, (NPCDefList *)structptr, shared_memory);
@@ -300,7 +308,7 @@ void npcReadDefFiles()
     npcReadDefFilesVerifyTextures();
 #endif
 
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "Defs/*.nd", reloadVillainCostumesCallback);
+    fileSystemSubscribe(NULL, "Defs/*.nd", FILE_CHANGE_UPDATE, reloadVillainCostumesCallbackFileChanged, NULL);
 
 }
 

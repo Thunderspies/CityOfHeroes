@@ -3,7 +3,7 @@
 #include "utilitieslib/components/StringTable.h"
 #include <string.h>
 #include <sys/stat.h>
-#include "utilitieslib/utils/FolderCache.h"
+#include "utilitieslib/utils/FileSystem.h"
 #include "utilitieslib/assert/assert.h"
 #include "utilitieslib/utils/utils.h"
 #include <fcntl.h>
@@ -15,272 +15,78 @@
 void fileLoadDataDirs(int forceReload);
 
 
-//////////////////////////////////////////////////////////////////////////
-// Old version of fileScanAllDataDirs, only used when FolderCache is disabled
-//  (shouldn't actually ever be used anymore)
-
-// FIXME!!!
-// Probably not such a great idea to grab an extern this way.
-extern StringTable gameDataDirs;
-
-static StashTable processedFiles = 0;
-static char* curRootPath;
-static int curRootPathLength;
-static FileScanProcessor scanAllDataDirsProcessor;
-static char* scanTargetDir;
-
-char * fileGetcwd(char * _DstBuf, int _SizeInBytes)
+char *fileGetcwd(char *buffer, int size)
 {
-    return _getcwd( _DstBuf, _SizeInBytes );
-}
-
-static void old_fileScanAllDataDirsRecurseHelper(char* relRootPath){
-    struct _finddata32_t fileinfo;
-    int    handle,test;
-    char buffer[1024];
-    FileScanAction action = FSA_EXPLORE_DIRECTORY;
-
-    sprintf_s(SAFESTR(buffer), "%s/*", relRootPath);
-    
-    for(test = handle = _findfirst32(buffer, &fileinfo);test >= 0; test = _findnext32(handle, &fileinfo)){
-        if(fileinfo.name[0] == '.')
-            continue;
-
-        if(FolderCacheMatchesIgnorePrefixAnywhere(fileinfo.name))
-            continue;
-        
-        // Check if the file has already been processed before.
-        //    Construct the relative path name to the file.
-        sprintf_s(SAFESTR(buffer), "%s/%s", relRootPath + curRootPathLength, fileinfo.name);
-        
-        if(fileinfo.attrib & _A_SUBDIR){
-            // Send directories to the processor directory without caching the name.
-            // We do not want to prevent duplicate directories from being explored,
-            // only duplicate files.
-            action = scanAllDataDirsProcessor(relRootPath, &fileinfo);
-        } else {
-            //    Check if the path exists in the table of processed files.
-            if(!stashFindPointerReturnPointer(processedFiles, buffer)){
-                // The file has not been processed.  
-                // Process it and then add it to the processed files table.
-                action = scanAllDataDirsProcessor(relRootPath, &fileinfo);
-
-                stashAddInt(processedFiles, buffer, 1, false);
-            }
-        }
-
-        
-
-        if(    action & FSA_EXPLORE_DIRECTORY && 
-            fileinfo.attrib & _A_SUBDIR){
-
-            sprintf_s(SAFESTR(buffer), "%s/%s", relRootPath, fileinfo.name);
-            old_fileScanAllDataDirsRecurseHelper(buffer);
-        }
-
-        if(action & FSA_STOP)
-            break;
-
-        
-    }
-    _findclose(handle);
-}
-
-static int old_fileScanAllDataDirsHelper(char* rootPath){
-    char buffer[1024];
-
-    sprintf_s(SAFESTR(buffer), "%s/%s", rootPath, scanTargetDir);
-    curRootPath = buffer;
-    curRootPathLength = (int)strlen(buffer);
-    old_fileScanAllDataDirsRecurseHelper(buffer);
-
-    // Always continue through the string table.
-    return 1;
-}
-
-
-void old_fileScanAllDataDirs(char* dir, FileScanProcessor processor){
-    FileScanProcessor old = scanAllDataDirsProcessor; // Push on the stack
-    scanTargetDir = dir;
-
-    //TODO: make this just scan the FolderCache
-
-    // Create or clear the cache of files that has been seen by the
-    // directory scanner.
-    if(!processedFiles){
-        processedFiles = stashTableCreateWithStringKeys(32, StashDeepCopyKeys);
-    }else{
-        stashTableClear(processedFiles);
-    }
-    
-    scanAllDataDirsProcessor = processor;
-
-    // Scan all known data directories.
-    strTableForEachString(gameDataDirs, old_fileScanAllDataDirsHelper);
-    scanAllDataDirsProcessor = old; // Pop off the stack
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////
-// New (folder cache) version
-
-extern FolderCache *folder_cache;
-static int devel_dynamic=0;
-
-// Converts a FolderNode into a _finddata32_t in order to work with the old style of fileScanAllDataDirs
-static int fileScanAllDataDirsHelper(const char *dir, FolderNode *node, void *userdata) {
-    struct _finddata32_t fileInfo;
-    char filename[MAX_PATH];
-    FileScanProcessor proc = (FileScanProcessor)userdata;
-    FileScanAction action = FSA_EXPLORE_DIRECTORY;
-
-    // check for ignore prefixes (such as v_ and d_)
-    if (FolderCacheMatchesIgnorePrefixAnywhere(dir))
-        return FSA_NO_EXPLORE_DIRECTORY;
-
-    if (node->is_dir) {
-        fileInfo.attrib = _A_SUBDIR;
-    } else {
-        if (devel_dynamic && !node->seen_in_fs) // This should catch files only in pigs when doing the development_dynamic mode
-            return FSA_NO_EXPLORE_DIRECTORY;
-        fileInfo.attrib = _A_NORMAL;
-    }
-
-    strcpy(filename, dir);    
-    strcpy(fileInfo.name, getFileName(filename));
-    fileInfo.size = (int)node->size;
-    fileInfo.time_access = fileInfo.time_create = fileInfo.time_write = node->timestamp;
-
-    action = proc(getDirectoryName(filename), &fileInfo);
-
-    return action;
+	return _getcwd(buffer, size);
 }
 
 int quickload = 0;
 
-static CRITICAL_SECTION fileScanAllDataDirs_critsec;
-static bool fileScanAllDataDirs_critsec_inited=false;
-
-static char *good_dirs = "texture_library tricks fx sound sequencers object_library"; // Well-behaved directories that do not look outside if their own folder
-static char *quickload_dirs = "texture_library";
-
-void fileScanAllDataDirs(const char* _dir, FileScanProcessor processor){
-    FolderNode *node;
-    char dir[MAX_PATH];
-    bool doing_quickload=false;
-
-    if (!fileScanAllDataDirs_critsec_inited) {
-        // to protect devel_dynamic global
-        InitializeCriticalSection(&fileScanAllDataDirs_critsec);
-        fileScanAllDataDirs_critsec_inited = true;
-    }
-    EnterCriticalSection(&fileScanAllDataDirs_critsec);
-
-    if (fileDataDir()==NULL) 
-        fileLoadDataDirs(0);
-
-    strcpy(dir, _dir);
-
-    if (fileIsAbsolutePath(dir))
-    {
-        if(!processedFiles){
-            processedFiles = stashTableCreateWithStringKeys(32, StashDeepCopyKeys);
-        }else{
-            stashTableClear(processedFiles);
-        }
-        scanAllDataDirsProcessor = processor;
-        curRootPath = dir;
-        curRootPathLength = (int)strlen(dir);
-        old_fileScanAllDataDirsRecurseHelper(dir);
-        LeaveCriticalSection(&fileScanAllDataDirs_critsec);
-        return;
-    }
-
-    // This just scans the FolderCache
-    if (!folder_cache || !folder_cache->root) {
-        // This should only happen in utils, not in the game/mapserver!
-        //printf("Warning, no FolderCache, using file system to scan '%s' instead.\n", dir);
-        old_fileScanAllDataDirs(dir, processor);
-        LeaveCriticalSection(&fileScanAllDataDirs_critsec);
-        return;
-    }
-    forwardSlashes(dir);
-    if (dir[strlen(dir)-1]=='/') {
-        dir[strlen(dir)-1]='\0';
-    }
-    if (quickload && strstr(quickload_dirs, _dir)!=0) {
-        // Do not scan the tree, just rely on the pigs!
-        FolderCacheModePush(FOLDER_CACHE_MODE_I_LIKE_PIGS);
-        doing_quickload = true;
-    } else {
-        // Scan the directory so that the whole tree is in RAM
-        // Truncate to the parent folder (so we don't scan the same folders more than once
-        char *relpath = dir, *s, path[MAX_PATH];
-        while (relpath[0]=='/') relpath++;
-        strcpy(path, relpath);
-        relpath = path;
-        if (!strStartsWith(relpath, "lightmaps")) {
-            if (s=strchr(relpath, '/')) {
-                *s=0;
-            }
-        }
-        FolderCacheRequestTree(folder_cache, relpath); // If we're in dynamic mode, this will load the tree!
-    }
-    if (FolderCacheGetMode()==FOLDER_CACHE_MODE_DEVELOPMENT_DYNAMIC)
-        devel_dynamic = 1;
-    if (!doing_quickload && strstr(good_dirs, _dir)!=0) {
-        FolderCacheModePush(FOLDER_CACHE_MODE_DEVELOPMENT); // Another hack for dynamic mode
-    }
-    node = FolderNodeFind(folder_cache->root, dir);
-    //printf("scanning '%s'", dir);
-    // This will happen if we're running  ParserLoadFiles on a folder that's been .bined and the source folder doesn't exist (i.e. production version)
-    if (!node) {
-        //assert(!"Someone passed a bad path to fileScanallDataDirs, it doesn't exist (check your Game Data Dir)!");
-        if (FolderCacheGetMode()==FOLDER_CACHE_MODE_DEVELOPMENT_DYNAMIC ||
-            FolderCacheGetMode()==FOLDER_CACHE_MODE_DEVELOPMENT)
-        {
-            printf("Warning: Someone passed a bad path (%s) to fileScanallDataDirs, it doesn't exist (check your Game Data Dir)!", _dir);
-        }
-        // Restore old modes
-        if (!doing_quickload && strstr(good_dirs, _dir)!=0)
-            FolderCacheModePop();
-        if (doing_quickload)
-            FolderCacheModePop();
-        LeaveCriticalSection(&fileScanAllDataDirs_critsec);
-        return;
-    }
-    if (!node->contents) {
-        // Scanning a folder with nothing in it?
-    } else {
-        FolderNodeRecurseEx(node->contents, fileScanAllDataDirsHelper, processor, dir);
-    }
-    devel_dynamic = 0;
-    // Restore old modes
-    if (!doing_quickload && strstr(good_dirs, _dir)!=0)
-        FolderCacheModePop();
-    if (doing_quickload)
-        FolderCacheModePop();
-    LeaveCriticalSection(&fileScanAllDataDirs_critsec);
+static int fileWalkAssets(const char *prefix, FileScanProcessor processor,
+	int archive_fast)
+{
+	FileListing *listing = fileSystemList(file_system, prefix, archive_fast);
+	int stop = 0;
+	if (!listing) return 0;
+	for (size_t i = 0; i < listing->count && !stop; i++) {
+		const FileSystemEntry *entry = &listing->entries[i];
+		struct _finddata32_t data = { 0 };
+		char parent[MAX_PATH];
+		FileScanAction action;
+		strcpy(parent, entry->path);
+		getDirectoryName(parent);
+		strcpy(data.name, entry->name);
+		data.size = entry->size;
+		data.time_access = data.time_create = data.time_write = entry->mtime;
+		data.attrib = entry->kind == PG_ENTRY_DIRECTORY ? _A_SUBDIR : _A_NORMAL;
+		action = processor(parent, &data);
+		if (action & FSA_STOP) stop = 1;
+		else if ((action & FSA_EXPLORE_DIRECTORY) &&
+			entry->kind == PG_ENTRY_DIRECTORY)
+			stop = fileWalkAssets(entry->path, processor, archive_fast);
+	}
+	fileListingFree(&listing);
+	return stop;
 }
 
-
-
-
-
-
+void fileScanAllDataDirs(const char *dir, FileScanProcessor processor)
+{
+	if (fileIsAbsolutePath(dir)) {
+		fileScanDirRecurseEx(dir, processor);
+		return;
+	}
+	if (!file_system) fileLoadDataDirs(0);
+	int archive_fast = quickload &&
+		!strnicmp(dir, "texture_library", strlen("texture_library"));
+	/* Share one discovery across subfolder scans, as the original dynamic
+	 * folder cache did. Lightmaps retain their narrower per-map scope. */
+	const char *relative = dir;
+	while (*relative == '/' || *relative == '\\' ||
+		(relative[0] == '.' && (relative[1] == '/' || relative[1] == '\\')))
+		relative += *relative == '.' ? 2 : 1;
+	char *subtree = _strdup(relative);
+	if (subtree) {
+		char *slash = strpbrk(subtree, "/\\");
+		if (slash && (slash - subtree != 9 || strnicmp(subtree, "lightmaps", 9)))
+			*slash = 0;
+		fileSystemCacheTree(file_system, subtree, archive_fast);
+		free(subtree);
+	}
+	fileWalkAssets(dir, processor, archive_fast);
+}
 
 static char *  //returns the long format of file/folder name alone (not the preceeding path)
 makeLongName(char *anyName, char *name, size_t name_size)//accepts full path, can be long or short
 {
-    struct _finddata32_t fileinfo;
-    //static char name[MAX_PATH];
-    intptr_t handle = _findfirst32(anyName,&fileinfo);
+    char full[MAX_PATH];
+    DWORD length = GetLongPathNameA(anyName, full, sizeof(full));
 
-    if(handle>0)
+    if (length && length < sizeof(full))
     {
-        strcpy_s(name, name_size, fileinfo.name);
-        _findclose(handle);
+        const char *base = strrchr(full, '\\');
+        const char *slash = strrchr(full, '/');
+        if (!base || (slash && slash > base)) base = slash;
+        strcpy_s(name, name_size, base ? base + 1 : full);
         return name;
         /*If you want to convert long names to short ones, 
         you can return fd.cAlternateFileName */

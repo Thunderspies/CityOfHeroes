@@ -25,7 +25,7 @@ connection plan:
 #include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/version/AppVersion.h>
 #include <utilitieslib/components/SharedHeap.h>
 #include "launcher_enum.h"
@@ -443,8 +443,8 @@ int main(int argc,char **argv)
     consoleInit(110, 128, 0);
     setWindowIconColoredLetter(compatibleGetConsoleWindow(), 'L', 0x8080ff);
 
-    FolderCacheChooseMode();
-    FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+    fileSystemChooseMode();
+    fileSystemSetMode(FILE_MODE_LOOSE);
 
     if (fileIsUsingDevData()) {
         bsAssertOnErrors(true);

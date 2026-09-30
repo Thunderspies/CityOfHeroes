@@ -7,7 +7,7 @@
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/strings_opt.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "edit/Menu.h"
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/components/earray.h>

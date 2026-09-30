@@ -43,7 +43,7 @@
 #include "utilitieslib/components/SharedMemory.h"
 #include "utilitieslib/components/SharedHeap.h"
 #include "utilitieslib/utils/sysutil.h"
-#include "utilitieslib/utils/FolderCache.h"
+#include "utilitieslib/utils/FileSystem.h"
 #include "utilitieslib/utils/mathutil.h"
 #include "utilitieslib/components/EString.h"
 #include "utilitieslib/utils/rand.h"
@@ -2273,14 +2273,14 @@ SimpleBufHandle ParserIsPersistNewer(const char* dir, const char* filemask, cons
         fileScanAllDataDirs(dir, DateCheckCallback);
     else if (filemask)
     {
-        const char** prefix;
+        const char *const *prefix;
 
         // load basic file
         FileListInsert(&lf_filedates, filemask, 0);
 
         // load each of the optional versions
         haveFalseFiles = 1;    // I need to check later if these actually exist
-        prefix = g_StdAdditionalFilePrefixes;
+        prefix = file_standard_prefixes;
         while (**prefix)
         {
             char* withPrefix = addFilePrefix(filemask, *prefix);
@@ -2489,9 +2489,9 @@ bool ParserLoadFiles(const char* dir, const char* filemask, const char* persistf
         ParserLoadFile(filemask, lf_ignoreempty);
 
         if (!(flags & PARSER_EXACTFILE)) {
-            const char** prefix;
+            const char *const *prefix;
             // load each of the optional versions
-            prefix = g_StdAdditionalFilePrefixes;
+            prefix = file_standard_prefixes;
             while (**prefix)
             {
                 char* withPrefix = addFilePrefix(filemask, *prefix);

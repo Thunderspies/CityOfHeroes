@@ -53,7 +53,7 @@
 #include "offline.h"
 #include "loadBalancing.h"
 #include "serverAutoStart.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "beaconservercomm.h"
 #include "dbcomm/staticMapInfo.h"
 #include <utilitieslib/components/StashTable.h>
@@ -404,7 +404,7 @@ void msgScan()
 
     updateDbServerTitle();
     checkExitRequest();
-    FolderCacheDoCallbacks();
+    fileSystemDispatch();
     mpCompactPools();
 }
 
@@ -1772,7 +1772,7 @@ int main(int argc,char **argv)
     timeBeginPeriod(1);
 
     logSetMsgQueueSize(32 * 1024 * 1024);
-    FolderCacheChooseMode();
+    fileSystemChooseMode();
 
     if (fileIsUsingDevData()) {
         bsAssertOnErrors(true);

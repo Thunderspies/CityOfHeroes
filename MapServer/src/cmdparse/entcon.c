@@ -48,7 +48,7 @@
 #include <utilitieslib/utils/error.h>
 #include "seq/seqstate.h"
 #include <utilitieslib/components/StashTable.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "ailib/aiBehaviorPublic.h"
 
 static StashTable commandTable = 0;
@@ -292,7 +292,7 @@ static void entconSpawnVillain(Entity* e, char* params){
     if(!result)
         return;
 
-    FolderCacheDoCallbacks(); //This function is only used for testing, so this should be fine here
+    fileSystemDispatch(); //This function is only used for testing, so this should be fine here
 
     if(cur_client->defaultSpawnLevel < 1){
         defaultSpawnLevel = cur_client->entity->pchar->iCombatLevel + 1;

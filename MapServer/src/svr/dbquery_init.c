@@ -5,7 +5,7 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/fpmacros.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/network/sock.h>
 #include <utilitieslib/utils/file.h>
@@ -107,7 +107,7 @@ static void startupInfo(int argc,char **argv)
 
 static void sysInit() // non game-specific initializations
 {
-    FolderCacheExclude(FOLDER_CACHE_EXCLUDE_FOLDER, "texture_library"); // currently accepts only one of these
+    fileSystemExclude("texture_library", 0); // currently accepts only one of these
     fileDataDir();
     loadend_printf("Caching directory tree and misc startup...");
 
@@ -146,7 +146,7 @@ static void parseArgs1(int argc,char **argv)
         }
         else if (strcmp(argv[i], "-nopigs")==0)
         {
-            FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+            fileSystemSetMode(FILE_MODE_LOOSE);
         }
         else if (strcmp(argv[i], "-silent")==0)
         {
@@ -157,7 +157,7 @@ static void parseArgs1(int argc,char **argv)
         {
             // We want these two options by default for -dbquery to make them fast!
             handled = 0;
-            FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+            fileSystemSetMode(FILE_MODE_LOOSE);
             server_state.noEncryption = 1;
             server_state.silent = 1;
         }
@@ -282,12 +282,12 @@ int __cdecl main(int argc,char **argv)
 
     startup_timer = timerAlloc();
 
-    // Do not perform any file io until FolderCacheChooseMode() has been called.
+    // Do not perform any file io until fileSystemChooseMode() has been called.
     //        Otherwise, the game will fail to find all of its data files.
-    FolderCacheChooseMode();
-    FolderCacheEnableCallbacks(0);
+    fileSystemChooseMode();
+    fileSystemCallbacksEnabled(0);
 
-    FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+    fileSystemSetMode(FILE_MODE_LOOSE);
     server_state.noEncryption = 1;
     server_state.silent = 1;
 

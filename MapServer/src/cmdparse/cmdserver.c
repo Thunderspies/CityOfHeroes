@@ -196,6 +196,8 @@
 #include <utilitieslib/network/crypt.h>
 #include "group/groupfileload.h"
 
+#include <utilitieslib/utils/FileSystem.h>
+
 ServerState server_state = {0};
 
 static int status_server_id;
@@ -11398,6 +11400,13 @@ static void cmdCfgReloadCallback(const char *relPath, int when)
     cmdCfgLoad();
 }
 
+static void cmdCfgReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	cmdCfgReloadCallback(change->entry.path, change->kind);
+}
+
+
 typedef struct CmdConfigLine
 {
     char *command;
@@ -11445,7 +11454,7 @@ void cmdCfgLoad()
     StructClear(ParseCmdConfig, &config);
 
     if (!loaded_once) {
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE|FOLDER_CACHE_CALLBACK_CAN_USE_SHARED_MEM, relFilename, cmdCfgReloadCallback);
+        fileSystemSubscribe(NULL, relFilename, FILE_CHANGE_UPDATE|FILE_CHANGE_SHARED, cmdCfgReloadCallbackFileChanged, NULL);
     }
 
     loaded_once = true;

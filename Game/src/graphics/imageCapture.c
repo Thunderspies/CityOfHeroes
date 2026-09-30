@@ -45,7 +45,7 @@
 #include "graphics/textureatlas.h"
 #include "player/player.h"
 #include "graphics/sun.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "seq/gfxtree.h"
 #include "gameComm/Npc.h"        // For NPC structure definition

@@ -24,6 +24,7 @@
 #include <utilitieslib/components/StringCache.h>
 #include "account/AccountCatalog.h"
 
+
 #if CLIENT
     #include "cmdparse/cmdgame.h"
     #include "UI/uiCostume.h"
@@ -32,7 +33,8 @@
     #include "UI/uiSupercostume.h"
     #include "imageServer.h"
     #include "entity/costume_client.h"
-    #include <utilitieslib/utils/FolderCache.h>
+    #include <utilitieslib/utils/FileSystem.h>
+static void reloadCostumesCallbackFileChanged(const FileChange *change, void *user);
     #include <utilitieslib/utils/fileutil.h>
     #include "UI/uiGame.h"
     #include "seq/tricks.h"
@@ -1079,7 +1081,7 @@ void loadCostumes()
     costume_fillExtraData( NULL, &gCostumeMaster, false );
     costumeVerifyTextures( NULL, &gCostumeMaster );
 
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "menu/Costume/*.ctm", reloadCostumesCallback);
+    fileSystemSubscribe(NULL, "menu/Costume/*.ctm", FILE_CHANGE_UPDATE, reloadCostumesCallbackFileChanged, NULL);
     writeConsole(OUTPUT_INFO, "Loaded costume bins");
 }
 
@@ -1137,6 +1139,13 @@ static void reloadCostumesCallback(const char *relpath, int when)
     reloadCostumes();
     game_state.editnpc = enpcsave;
 }
+
+static void reloadCostumesCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadCostumesCallback(change->entry.path, change->kind);
+}
+
 
 
 #elif SERVER || TEST_CLIENT

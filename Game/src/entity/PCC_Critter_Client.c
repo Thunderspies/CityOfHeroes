@@ -22,15 +22,16 @@
 #include "UI/uiCostume.h"
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/error.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/components/StringCache.h>            //    for allocaddstring
 #include "entity/powers.h"
 #include "entity/CustomVillainGroup.h"
 #include "entity/CustomVillainGroup_Client.h"
 #include "gameData/BodyPart.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "UI/uiMissionMakerScrollSet.h"        //    for update custom critter list
+
 
 static char *pcc_origin = "Villain_Origin";
 static char *pcc_class = "Class_Lt_Grunt";
@@ -321,19 +322,26 @@ static void reloadPCCFiles( const char *relPath, int reloadWhen)
     updateCustomCritterList(&missionMaker);
     populateCVGSS();
 }
+
+static void reloadPCCFilesFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadPCCFiles(change->entry.path, change->kind);
+}
+
 void initPCCFolderCache()
 {
     char reloadpath[MAX_PATH];
-    FolderCache *fc;
+    FileSystem *fc;
 
     sprintf(reloadpath, "%s/", getCustomCritterDir());
     mkdirtree(reloadpath);
 
-    fc = FolderCacheCreate();
-    FolderCacheAddFolder(fc, getCustomCritterDir(), 0);
-    FolderCacheQuery(fc, NULL);
+    fc = fileSystemCreate();
+    fileSystemAddSource(fc, getCustomCritterDir(), 0);
+    fileSystemDispatch();
     sprintf(reloadpath, "*%s", ".critter");
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, reloadpath, reloadPCCFiles);
+    fileSystemSubscribe(NULL, reloadpath, (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), reloadPCCFilesFileChanged, NULL);
 }
 Entity *createPCC_Entity()
 {

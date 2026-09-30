@@ -19,7 +19,7 @@
 #include "utilitieslib/utils/ConsoleDebug.h"
 #include "utilitieslib/utils/memcheck.h"
 #include "utilitieslib/utils/MemoryMonitor.h"
-#include "utilitieslib/utils/FolderCache.h"
+#include "utilitieslib/utils/FileSystem.h"
 
 #include "utilitieslib/utils/wininclude.h"
 #include "utilitieslib/utils/winutil.h"
@@ -117,11 +117,11 @@ int main(int argc,char **argv)
 
     if (g_serverlibconfig.flags & kServerLibLikePiggs)
     {
-        FolderCacheChooseMode();
+        fileSystemChooseMode();
     }
     else
     {
-        FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+        fileSystemSetMode(FILE_MODE_LOOSE);
     }
     preloadDLLs(0);
 

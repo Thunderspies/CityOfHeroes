@@ -2,8 +2,8 @@
 #define _PATCHFILEUTILS_H
 
 #include <utilitieslib/stdtypes.h>
-#include <utilitieslib/utils/piglib.h>
-#include <utilitieslib/utils/piglib_internal.h>
+#include <piggle/piggle.h>
+#include <utilitieslib/utils/file.h>
 #include <zlib.h>
 
 typedef struct StashTableImp *StashTable;
@@ -12,11 +12,12 @@ typedef const struct StashTableImp *cStashTable;
 typedef struct
 {
     char    *name;
-    PigFile    pig;
+    pg_source *source;
 } PigEntry;
 
 typedef struct
 {
+    pg_context *context;
     StashTable pig_entry_hashes;
     PigEntry *pig_entries;
     int pig_entry_count,pig_entry_max;
@@ -43,7 +44,8 @@ typedef void (*FatalAlertCallback)(char *);
 char **getDirFiles(const char *dir,int *count);
 char **getDirPatches(const char *dir,int *count);
 void freeDirFiles(char **fnames,int count);
-extern void *extractFromFS(const char *name, U32 *count);
+/* Native verified read; owned malloc buffer with extra NUL, count excludes it. */
+void *loadNativeFile(const char *name, U32 *count);
 char **getImageDirs(char *dir,int *count_p);
 char *getRootPathFromImage(const char *image_dir,char *path);
 U8 *loadFileData(PigCache *cache,char *image_dir,char *fname,char *pigname,U32 *size,int get_compressed);
@@ -65,7 +67,8 @@ void fileMsgAlert(char const *fmt, ...);
 void msgAlertUpdater(char const *fmt, ...);
 int removeEmptyDirs(char *fname);
 void removeDirAll(char *dir);
-PigFileHeader *getPfh(PigCache *cache,char *image_dir,char *fname,char *pigname);
+/* Stored length of a compressed member; zero for absent/uncompressed entries. */
+U32 compressedFileSize(PigCache *cache,char *image_dir,char *fname,char *pigname);
 U32 safeFileSize(char *fname);
 int makeUserDir(char *dir);
 void setFatalAlertCallback(FatalAlertCallback callback);

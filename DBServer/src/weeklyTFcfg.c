@@ -2,13 +2,14 @@
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/components/EString.h>
 #include "dbrelay.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/utils.h>
 #include "dbinit.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/tokenstore.h>
 #include <utilitieslib/utils/file.h>
+
 
 static int weekly_TF_reload = 0;
 
@@ -50,6 +51,13 @@ static void WeeklyTFReloadCallback(const char *relPath, int when)
     if (map_list)
         WeeklyTF_UpdateServers(WeeklyTFCfg_getCurrentWeek(1)); // this shouldn't trigger WeeklyTF_UpdateServers inside itself
 }
+
+static void WeeklyTFReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	WeeklyTFReloadCallback(change->entry.path, change->kind);
+}
+
 
 TokenizerParseInfo ParseDateTime[] = {
     { ".",                    TOK_STRUCTPARAM | TOK_STRING(DateTime,dateStr, 0), },
@@ -148,7 +156,7 @@ void WeeklyTFCfgLoad()
     
     
     if (!loaded_once) {
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE|FOLDER_CACHE_CALLBACK_CAN_USE_SHARED_MEM, "server/db/WeeklyTF.cfg", WeeklyTFReloadCallback);
+        fileSystemSubscribe(NULL, "server/db/WeeklyTF.cfg", FILE_CHANGE_UPDATE|FILE_CHANGE_SHARED, WeeklyTFReloadCallbackFileChanged, NULL);
     }
 
     loaded_once = true;

@@ -20,13 +20,13 @@
 #include "gameComm/wdwbase.h"
 #include "clientError.h"
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/utils.h>
 #include "UI/sprite/sprite_text.h"
 #include "render/thread/rt_queue.h"
 #include "render/renderprim.h"
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "render/tex.h"
 #include <utilitieslib/version/AppRegCache.h>
 #include "group/groupscene.h"
@@ -56,6 +56,7 @@
 #include "graphics/gfxDebug.h"
 #include <utilitieslib/language/AppLocale.h>
 #include <utilitieslib/version/AppVersion.h>
+
 
 #pragma warning(disable:4996)
 
@@ -1106,9 +1107,38 @@ void rdrGetPixelDepth(F32 x, F32 y, F32 * depthbuf)
     PERFINFO_AUTO_STOP();
 }
 
-void setCgShaderPathCallback( const char* shaderDirectory )
+/* Attach and prepare custom sources before the render thread sees them. */
+void setCgShaderPathCallback(const char *path)
 {
-    rdrQueue(DRAWCMD_SETCGPATH,(char*)shaderDirectory,shaderDirectory?(strlen(shaderDirectory)+1):0);
+	char root[MAX_PATH], input[MAX_PATH];
+	DWORD length;
+	if (!path || !*path) {
+		rdrQueue(DRAWCMD_SETCGPATH, NULL, 0);
+		return;
+	}
+	if (*path == '.') {
+		length = GetModuleFileNameA(NULL, input, sizeof(input));
+		if (!length || length >= sizeof(input)) goto invalid;
+		char *slash = strrchr(input, '\\');
+		if (!slash) slash = strrchr(input, '/');
+		if (!slash) goto invalid;
+		slash[1] = 0;
+		if (strcat_s(input, sizeof(input), path)) goto invalid;
+	} else {
+		if (strcpy_s(input, sizeof(input), path)) goto invalid;
+	}
+	length = GetFullPathNameA(input, sizeof(root), root, NULL);
+	if (!length || length >= sizeof(root)) goto invalid;
+	forwardSlashes(root);
+	fileAddGameDataDir(root);
+	if (fileSystemPrepareTree(file_system, "shaders", 0) != PG_OK) {
+		Errorf("Unable to prepare custom shader source %s", root);
+		return;
+	}
+	rdrQueue(DRAWCMD_SETCGPATH, root, strlen(root) + 1);
+	return;
+invalid:
+	Errorf("Invalid custom shader source path %s", path);
 }
 
 void setCgShaderMode( unsigned int shaderMode )
@@ -1166,6 +1196,11 @@ void setUseDXT5nmNormals( unsigned int useDXT5nmNormals )
 
 void reloadShaderCallback(const char *relpath, int when)
 {
+	if (fileSystemPrepareTree(file_system, "shaders", 0) != PG_OK) {
+		Errorf("Unable to prepare shaders for reload");
+		return;
+	}
+
     // Show loading screen
     gfxShowLoadingScreen();
 
@@ -1178,8 +1213,19 @@ void reloadShaderCallback(const char *relpath, int when)
 
 void rebuildCachedShadersCallback(const char *relpath, int when)
 {
+	if (fileSystemPrepareTree(file_system, "shaders", 0) != PG_OK) {
+		Errorf("Unable to prepare shaders for cache rebuild");
+		return;
+	}
     rdrQueue(DRAWCMD_REBUILDCACHEDSHADERS,(char*)relpath,relpath?(strlen(relpath)+1):0);
 }
+
+static void rebuildCachedShadersCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	rebuildCachedShadersCallback(change->entry.path, change->kind);
+}
+
 
 static int isOldDriver() {
     static const double OLD_DRIVER_TIME_SECS = 60.0 * 60 * 24 * 30.437 * 18; // 18 months
@@ -1675,7 +1721,7 @@ void rdrSetChipOptions()
         setAssertExtraInfo2(specBuf);
     }
     // Add callback for re-loading shaders
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "shaders/*", rebuildCachedShadersCallback);
+    fileSystemSubscribe(NULL, "shaders/*", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), rebuildCachedShadersCallbackFileChanged, NULL);
 }
 
 U32 gFrameNum = 0;
