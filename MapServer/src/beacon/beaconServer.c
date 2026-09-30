@@ -3151,7 +3151,7 @@ static void beaconServerStartup(BeaconizerType beaconizerType,
 
     // Enable folder cache callbacks so that getting latest version at runtime will work properly.
 
-    FolderCacheEnableCallbacks(1);
+    fileSystemCallbacksEnabled(1);
 
     if(    !beacon_server.isMasterServer &&
         !beacon_server.isRequestServer)

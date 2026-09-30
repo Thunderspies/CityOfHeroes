@@ -20,7 +20,7 @@
 #include "render/renderUtil.h"
 #include "win/win_init.h"
 #include "graphics/gfxwindow.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "cmdparse/cmdgame.h"
 #include "graphics/gfx.h"
 #include "graphics/gfxLoadScreens.h"
@@ -3752,7 +3752,7 @@ void texWordsEditor(int fromEditor)
     }
     uigameDemoForceMenu();
     game_state.game_mode = SHOW_GAME;
-    FolderCacheEnableCallbacks(1);
+    fileSystemCallbacksEnabled(1);
     showBgReset();
     cmdAccessOverride(10);
 
@@ -3781,7 +3781,7 @@ void texWordsEditor(int fromEditor)
     while (!tweditor_state.requestQuit)
     {
         autoTimerTickBegin();
-        FolderCacheDoCallbacks(); // Check for directory changes
+        fileSystemDispatch(); // Check for directory changes
         texCheckThreadLoader();
         inpUpdate();                // Mouse and keyboard input meant as commands, mostly
         windowProcessMessages();    // Keyboard input for chat and other windows messages, mostly.

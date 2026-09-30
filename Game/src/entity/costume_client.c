@@ -32,7 +32,8 @@
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/error.h>
 #include "entity/LoadDefCommon.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
+
 
 StashTable g_hashCostumeRewards;
 StashTable g_hashArchitectCostumeRewards;
@@ -175,13 +176,20 @@ static void RebuildChestGeoLinkList(const char *relpath, int when)
     }
 }
 
+static void RebuildChestGeoLinkListFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	RebuildChestGeoLinkList(change->entry.path, change->kind);
+}
+
+
 void load_ChestGeoLinkList(void)
 {
     const char *pchFilename = "defs/chestGeoLink.def";
     const char *pchBinFilename = MakeBinFilename(pchFilename);
 
     ParserLoadFiles(0,pchFilename, pchBinFilename, 0, ParseChestGeoLinkList, &gChestGeoLinkList, NULL, NULL, NULL);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, pchFilename, RebuildChestGeoLinkList);
+    fileSystemSubscribe(NULL, pchFilename, FILE_CHANGE_UPDATE, RebuildChestGeoLinkListFileChanged, NULL);
 }
  
 const char ** getChestGeoLink( Entity *e )

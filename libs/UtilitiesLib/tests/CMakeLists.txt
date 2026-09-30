@@ -10,6 +10,19 @@ endif()
 add_test(NAME UtilitiesLibIntegration COMMAND UtilitiesLibTests)
 set_tests_properties(UtilitiesLibIntegration PROPERTIES TIMEOUT 120)
 
+add_executable(FileSystemTests file_system.c)
+set_target_properties(FileSystemTests PROPERTIES
+	C_STANDARD 11 C_STANDARD_REQUIRED ON)
+target_link_libraries(FileSystemTests PRIVATE UtilitiesLib)
+if(MINGW)
+	target_link_options(FileSystemTests PRIVATE -static)
+endif()
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/file-system-fixtures")
+add_test(NAME FileSystemIntegration COMMAND FileSystemTests)
+set_tests_properties(FileSystemIntegration PROPERTIES
+	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/file-system-fixtures"
+	TIMEOUT 60)
+
 add_executable(TokenizerTests tokenizer.c)
 set_target_properties(TokenizerTests PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON)
 target_link_libraries(TokenizerTests PRIVATE UtilitiesLib)
@@ -42,3 +55,16 @@ foreach(mode loose packaged)
 		PASS_REGULAR_EXPRESSION "$<IF:$<CONFIG:Debug,OptDebug>,COX_DEVELOPMENT_LOG,Development mode checks passed>"
 		FAIL_REGULAR_EXPRESSION "$<$<NOT:$<CONFIG:Debug,OptDebug>>:COX_DEVELOPMENT_LOG>")
 endforeach()
+
+add_executable(FileWrapperPiggleTests file_wrapper_piggle.c)
+set_target_properties(FileWrapperPiggleTests PROPERTIES
+	C_STANDARD 11 C_STANDARD_REQUIRED ON)
+target_link_libraries(FileWrapperPiggleTests PRIVATE UtilitiesLib)
+if(MINGW)
+	target_link_options(FileWrapperPiggleTests PRIVATE -static)
+endif()
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/file-wrapper-fixtures")
+add_test(NAME FileWrapperPiggle COMMAND FileWrapperPiggleTests)
+set_tests_properties(FileWrapperPiggle PROPERTIES
+	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/file-wrapper-fixtures"
+	TIMEOUT 30)

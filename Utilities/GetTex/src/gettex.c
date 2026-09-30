@@ -30,7 +30,7 @@
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <conio.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "render/tex.h"
 #include <utilitieslib/utils/fileutil.h>
 #include "render/dd.h"
@@ -113,8 +113,8 @@ static char                nvdxt_path[MAX_PATH];
 static char                dxtex_path[MAX_PATH];
 static char                cjpeg_path[MAX_PATH];
 static int                reprocessing_on_the_fly=0;
-static FolderCache*        fctexlib = NULL;
-static FolderCache**    fcbtexlibs_OtherBranches = NULL; // mEArrayHandle. For catching accidental changes to the wrong branch.
+static FileSystem*        fctexlib = NULL;
+static FileSystem**    fcbtexlibs_OtherBranches = NULL; // mEArrayHandle. For catching accidental changes to the wrong branch.
 static int                scan_world=1;
 static int                scan_character=1;
 static int                scan_other=1;
@@ -919,25 +919,26 @@ tex_defs        all textures changed since oldest_time (the last time textures.r
 */
 static void getFileNames(char *fname)
 {
-    struct _finddata_t fileinfo;
-    int        handle,test,len;
+    FileListing *listing;
+	char selected[MAX_PATH] = "";
+    int len;
     char    buf[1200];
 
     if (strnicmp(fname + strlen(fname) - 4, ".tga", 4)==0) {
         // just one file!
-        strcpy(buf, fname);
+        strcpy(selected, getFileName(fname));
         forwardSlashes(fname);
         (*strrchr(fname, '/'))=0;
-    } else {
-        sprintf(buf,"%s/*",fname);
     }
-    for(test = handle = _findfirst(buf,&fileinfo);test >= 0;test = _findnext(handle,&fileinfo))
-    {
-        if (fileinfo.name[0] == '.' || fileinfo.name[0] == '_')
+    listing = fileSystemListNative(fname);
+	for (size_t i = 0; listing && i < listing->count; i++) {
+		const FileSystemEntry *entry = &listing->entries[i];
+		if (*selected && stricmp(selected, entry->name)) continue;
+        if (entry->name[0] == '.' || entry->name[0] == '_')
             continue;
-        if (strchr(fileinfo.name,' '))
+        if (strchr(entry->name,' '))
             continue;
-        sprintf(buf,"%s/%s",fname,fileinfo.name);
+        sprintf(buf,"%s/%s",fname,entry->name);
         len = (int)strlen(buf);
         if (len > 4 && stricmp(buf + len - 4,".tga")==0)
         {
@@ -945,10 +946,10 @@ static void getFileNames(char *fname)
             td->name = strdup(buf);
             eaPush(&tex_defs, td);
         }
-        if (fileinfo.attrib & _A_SUBDIR)
+        if (entry->kind == PG_ENTRY_DIRECTORY)
             getFileNames(buf);
     }
-    _findclose(handle);
+    fileListingFree(&listing);
 }
 
 
@@ -2299,7 +2300,10 @@ static void reprocessTex(const char *fullpath, int print_errors)
     releaseGettexLock();
 }
 
-static void reprocessOnTheFly(FolderCache* fc, FolderNode* node, const char *relpath, int when) {
+static void reprocessOnTheFly(const FileChange *change, void *user) {
+    FileSystem *fc = change->system;
+    const char *relpath = change->entry.path;
+    (void)user;
     char fullpath[MAX_PATH];
 
     if (strstr(relpath, "/_") || relpath[0]=='_') {
@@ -2321,13 +2325,13 @@ static void reprocessOnTheFly(FolderCache* fc, FolderNode* node, const char *rel
                 // multiple copies of GetTex.exe currently active.
                 knownBranch = true;
                 if ( ProcessCount("gettex.exe") == 1 ) {
-                    Errorf("ERROR: TGA file \"%s\"\n  saved into %s, but we are monitoring %s, NOT processing.\n", relpath, fc->gamedatadirs[0], fctexlib->gamedatadirs[0]);
+                    Errorf("ERROR: TGA file \"%s\"\n  saved into %s, but we are monitoring %s, NOT processing.\n", relpath, change->entry.native_path, tgaPath);
                 }
                 break;
             }
         }
         if ( ! knownBranch ) {
-            Errorf("ERROR: TGA file \"%s\"\n  saved into unknown location: \"%s\", NOT processing.\n", relpath, fc->gamedatadirs[0]);
+            Errorf("ERROR: TGA file \"%s\"\n  saved into unknown location: \"%s\", NOT processing.\n", relpath, change->entry.native_path);
         }
     }
 }
@@ -2420,24 +2424,23 @@ static bool checkOtherBranches( const char* watchPath )
     //
     //    Returns true if we set up some other locations to watch.
     //
-    struct _finddata_t    fileInfo = { 0 };
-    intptr_t            dirHandle;
-    bool                moreDirs = false;
+    FileListing *listing;
     char                watchDir[32];
     char                otherTgaPath[MAX_PATH]; // A path TGAs shouldn't be saved to
     bool                addedCaches = false;
 
     getBranchRoot( watchPath, watchDir, _countof(watchDir) );
     
-    dirHandle = _findfirst( "c:\\game*", &fileInfo );
-    moreDirs = ( dirHandle != -1 );
-    while ( moreDirs ) {
-        if (( fileInfo.attrib & _A_SUBDIR ) == _A_SUBDIR ) {
+    listing = fileSystemListNative("c:/");
+    for (size_t i = 0; listing && i < listing->count; i++) {
+        const FileSystemEntry *entry = &listing->entries[i];
+        if (entry->kind == PG_ENTRY_DIRECTORY &&
+            !strnicmp(entry->name, "game", 4)) {
             char testDir[32];
-            if (( getBranchRoot( fileInfo.name, testDir, _countof(testDir) ) ) &&
+            if (( getBranchRoot( entry->name, testDir, _countof(testDir) ) ) &&
                 ( strcmp( testDir, watchDir ) != 0 ))  {
                 // We found a branch folder other than the one we're actively watching.
-                FolderCache* newCache = FolderCacheCreate();
+                FileSystem* newCache = fileSystemCreate();
                 if ( fcbtexlibs_OtherBranches == NULL ) {
                     eaCreate( &fcbtexlibs_OtherBranches );
                 }
@@ -2445,14 +2448,13 @@ static bool checkOtherBranches( const char* watchPath )
                 sprintf_s( otherTgaPath, _countof(otherTgaPath), "%s%s",
                     testDir, ( watchPath + strlen(watchDir) ) );
                 forwardSlashes( otherTgaPath );
-                FolderCacheAddFolder(newCache, otherTgaPath, 0);
-                FolderCacheQuery(newCache, NULL);
+                fileSystemAddSource(newCache, otherTgaPath, 0);
+                fileSystemDispatch();
                 addedCaches = true;
             }
         }
-        moreDirs = ( _findnext( dirHandle, &fileInfo ) == 0 );
     }
-    _findclose(dirHandle);
+    fileListingFree(&listing);
     return addedCaches;
 }
 
@@ -2462,15 +2464,15 @@ void getTexMonitor(char *tgaPath) {
     bool bDoBadWatch=false;
     //folder_cache_debug = 2;
 
-    fctexlib = FolderCacheCreate();
-    //FolderCacheSetMode(FOLDER_CACHE_MODE_I_LIKE_PIGS);
+    fctexlib = fileSystemCreate();
+    //fileSystemSetMode(FILE_MODE_HYBRID);
     strcpy(path, tgaPath);
     forwardSlashes(path);
     if (!strEndsWith(path, "/"))
         strcat(path, "/");
     loadstart_printf("Caching %s... ", path);
-    FolderCacheAddFolder(fctexlib, path, 0);
-    FolderCacheQuery(fctexlib, NULL);
+    fileSystemAddSource(fctexlib, path, 0);
+    fileSystemDispatch();
     loadend_printf("done.");
 
     // Check to see if they have other branches, and try to ensure
@@ -2484,9 +2486,9 @@ void getTexMonitor(char *tgaPath) {
     reprocessing_on_the_fly = 1;
 
     trickSetReloadCallback(trickReloaded);
-    FolderCacheSetCallbackEx(FOLDER_CACHE_CALLBACK_UPDATE, "*.tga", reprocessOnTheFly);
+    fileSystemSubscribe(NULL, "*.tga", FILE_CHANGE_UPDATE, reprocessOnTheFly, NULL);
     while (true) {
-        FolderCacheDoCallbacks();
+        fileSystemDispatch();
         checkTrickReload();
         checkLODInfoReload();
         Sleep(200);
@@ -2607,7 +2609,7 @@ int main(int argc,char **argv)
     sharedMemorySetMode(SMM_DISABLED);
     setAssertMode((!IsDebuggerPresent()? ASSERTMODE_MINIDUMP : 0) |
         ASSERTMODE_DEBUGBUTTONS);
-    FolderCacheSetManualCallbackMode(1);
+
 
     for(i=1;i<argc;i++)
     {
@@ -2745,9 +2747,9 @@ int main(int argc,char **argv)
     #endif
 
     if (no_pig) {
-        FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+        fileSystemSetMode(FILE_MODE_LOOSE);
     } else {
-        FolderCacheSetMode(FOLDER_CACHE_MODE_DEVELOPMENT_DYNAMIC);
+        fileSystemSetMode(FILE_MODE_DYNAMIC);
     }
 
     if (!no_prompt)
@@ -2817,7 +2819,7 @@ int main(int argc,char **argv)
     checkDataDirOutputDirConsistency();
 
     //loadstart_printf("Caching directory tree... ");
-    //FolderCacheExclude(FOLDER_CACHE_ONLY_FOLDER, "texture_library"); // doesn't work in MODE_DEVELOPMENT, need tricks too!
+    //fileSystemExclude("texture_library", 1); // doesn't work in MODE_DEVELOPMENT, need tricks too!
     //fileDataDir();
     //loadend_printf("done.");
 

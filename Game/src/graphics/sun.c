@@ -24,7 +24,7 @@
 #include <utilitieslib/components/earray.h>
 #include "assert.h"
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/utils.h>
 #include "graphics/font.h"
 #include <utilitieslib/utils/fileutil.h>

@@ -10,7 +10,7 @@
 #include <utilitieslib/utils/textparser.h>
 #include "seq/seqload.h"
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "graphics/FX/fxcapes.h"
 #include <utilitieslib/components/StringCache.h>
 #include "graphics/FX/particle.h"
@@ -204,6 +204,12 @@ static void reloadWindCallback(const char *relpath, int when) {
     fxCapeInitWindInfo(NULL, NULL);
 }
 
+static void reloadWindCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadWindCallback(change->entry.path, change->kind);
+}
+
 
 bool loadClothWindInfoPreprocessor(TokenizerParseInfo pti[], void* structptr)
 {
@@ -248,7 +254,7 @@ void loadClothWindInfo()
 
     if (!inited) {
         // Add callback for re-loading
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "cloth/WindInfo.txt", reloadWindCallback);
+        fileSystemSubscribe(NULL, "cloth/WindInfo.txt", FILE_CHANGE_UPDATE, reloadWindCallbackFileChanged, NULL);
         inited = true;
     }
 }
@@ -578,6 +584,12 @@ static void reloadColInfoCallback(const char *relpath, int when) {
     clothColReload = 2;
 }
 
+static void reloadColInfoCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadColInfoCallback(change->entry.path, change->kind);
+}
+
 
 bool loadClothColInfoPreprocessor(TokenizerParseInfo pti[], void* structptr)
 {
@@ -660,7 +672,7 @@ void loadClothColInfo()
 
     if (!inited) {
         // Add callback for re-loading
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "cloth/*.txt", reloadColInfoCallback);
+        fileSystemSubscribe(NULL, "cloth/*.txt", FILE_CHANGE_UPDATE, reloadColInfoCallbackFileChanged, NULL);
         inited = true;
     }
 }

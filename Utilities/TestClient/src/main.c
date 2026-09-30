@@ -47,7 +47,7 @@
 #include "chatter.h"
 #include "testClient/TestClient.h"
 #include <utilitieslib/utils/error.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/network/net_version.h>
 #include "packetFlood.h"
 #include "entity/character_level.h"
@@ -484,7 +484,7 @@ void checkArgs(int argc, char **argv) {
         } else if (CMDEQ("-cod")) {
             game_state.cod = 1;
             printf("Using development data (d_).\n");
-            FolderCacheRemoveIgnorePrefix("d_");
+            fileSystemIgnoreRemove("d_");
         } else {
             if (isNumeric(argv[i])) {
                 test_client_num = atoi(argv[i]);
@@ -1189,15 +1189,15 @@ int main(int argc, char **argv)
         loadstart_printf("Misc startup...\n");
 
         // cov and dev file ignore
-        //FolderCacheAddIgnorePrefix("v_");
-        FolderCacheAddIgnorePrefix("d_");
+        //fileSystemIgnoreAdd("v_");
+        fileSystemIgnoreAdd("d_");
 
         authUserSetHeroAccess((U32*)db_info.auth_user_data,1); // for development debugging
         authUserSetVillainAccess((U32*)db_info.auth_user_data,1); // for development debugging
         authUserSetRogueAccess((U32*)db_info.auth_user_data,1);    // for development debugging
 
         checkArgs(argc, argv);
-        FolderCacheChooseMode();
+        fileSystemChooseMode();
         FatalErrorfSetCallback(fatalErrorCallback);
         ErrorfSetCallback(errorCallback);
         disableRtlHeapChecking(NULL);

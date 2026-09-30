@@ -25,7 +25,7 @@
 #include "entity/LoadDefCommon.h"
 #include <utilitieslib/components/SharedMemory.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 
 #include <utilitieslib/language/MessageStore.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
@@ -2594,6 +2594,12 @@ static void powerDefReload(const char* relpath, int when)
     }
 }
 
+static void powerDefReloadFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	powerDefReload(change->entry.path, change->kind);
+}
+
 
 /**********************************************************************func*
 * powerAnimReload
@@ -2642,6 +2648,12 @@ static void powerAnimReload(const char* relpath, int when)
     }
     eaDestroyEx(&reloadFiles,NULL);
 
+}
+
+static void powerAnimReloadFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	powerAnimReload(change->entry.path, change->kind);
 }
 
 
@@ -2754,8 +2766,8 @@ void load_PowerDictionary(SHARED_MEMORY_PARAM PowerDictionary *ppow, char *pchFi
     {
         char fullpath[512];
         sprintf(fullpath,"%s*.powers",pchFilename);
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, fullpath, powerDefReload);
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "menu/Powers/AnimFX/*.pfx", powerAnimReload);
+        fileSystemSubscribe(NULL, fullpath, FILE_CHANGE_UPDATE, powerDefReloadFileChanged, NULL);
+        fileSystemSubscribe(NULL, "menu/Powers/AnimFX/*.pfx", FILE_CHANGE_UPDATE, powerAnimReloadFileChanged, NULL);
     }
 }
 

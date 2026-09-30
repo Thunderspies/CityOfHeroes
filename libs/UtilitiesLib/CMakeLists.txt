@@ -1,4 +1,5 @@
 include(dependencies/SparseHash)
+include(dependencies/Piggle)
 
 set(UtilitiesLib_SOURCE_FILES
 	src/components/ArrayOld.c
@@ -10,7 +11,6 @@ set(UtilitiesLib_SOURCE_FILES
 	src/components/BitStream.c
 	src/components/BloomFilter.c
 	src/components/datalist.c
-	src/components/datapool.c
 	src/components/earray.c
 	src/components/EString.c
 	src/components/FilespecMap.c
@@ -102,19 +102,14 @@ set(UtilitiesLib_SOURCE_FILES
 	src/utils/cpu_count.c
 	src/utils/dds.c
 	src/utils/DebugState.c
-	src/utils/DirMonitor.c
 	src/utils/dobbs_hash.c
 	src/utils/endian.c
 	src/utils/error.c
 	src/utils/eval.c
 	src/utils/file.c
+	src/utils/FileSystem.c
 	src/utils/fileutil.c
-	src/utils/fileWatch.c
-	src/utils/FolderCache.c
-	src/utils/FolderCacheNode.c
 	src/utils/genericDialog.c
-	src/utils/hoglib.c
-	src/utils/hogutil.c
 	src/utils/LineDist.c
 	src/utils/ListView.c
 	src/utils/log.c
@@ -126,9 +121,6 @@ set(UtilitiesLib_SOURCE_FILES
 	src/utils/memtrack.c
 	src/utils/mutex.c
 	src/utils/osdependent.c
-	src/utils/PigDir.c
-	src/utils/PigFileWrapper.c
-	src/utils/piglib.c
 	src/utils/process_util.c
 	src/utils/qsortG.c
 	src/utils/Quat.c
@@ -179,7 +171,6 @@ set(UtilitiesLib_HEADER_FILES
 	include/utilitieslib/components/BitStream.h
 	include/utilitieslib/components/BloomFilter.h
 	include/utilitieslib/components/datalist.h
-	include/utilitieslib/components/datapool.h
 	include/utilitieslib/components/earray.h
 	include/utilitieslib/components/EString.h
 	include/utilitieslib/components/FilespecMap.h
@@ -294,20 +285,16 @@ set(UtilitiesLib_HEADER_FILES
 	include/utilitieslib/utils/cpu_count.h
 	include/utilitieslib/utils/dds.h
 	include/utilitieslib/utils/DebugState.h
-	include/utilitieslib/utils/DirMonitor.h
 	include/utilitieslib/utils/dobbs_hash.h
 	include/utilitieslib/utils/endian.h
 	include/utilitieslib/utils/error.h
 	include/utilitieslib/utils/eval.h
 	include/utilitieslib/utils/fastmath.h
+	include/utilitieslib/utils/FileSystem.h
 	include/utilitieslib/utils/file.h
 	include/utilitieslib/utils/fileutil.h
-	include/utilitieslib/utils/fileWatch.h
-	include/utilitieslib/utils/FolderCache.h
 	include/utilitieslib/utils/fpmacros.h
 	include/utilitieslib/utils/genericDialog.h
-	include/utilitieslib/utils/hoglib.h
-	include/utilitieslib/utils/hogutil.h
 	include/utilitieslib/utils/LineDist.h
 	include/utilitieslib/utils/ListView.h
 	include/utilitieslib/utils/log.h
@@ -320,10 +307,6 @@ set(UtilitiesLib_HEADER_FILES
 	include/utilitieslib/utils/memtrack.h
 	include/utilitieslib/utils/mutex.h
 	include/utilitieslib/utils/osdependent.h
-	include/utilitieslib/utils/PigDir.h
-	include/utilitieslib/utils/PigFileWrapper.h
-	include/utilitieslib/utils/piglib.h
-	include/utilitieslib/utils/piglib_internal.h
 	include/utilitieslib/utils/prefetch.h
 	include/utilitieslib/utils/process_util.h
 	include/utilitieslib/utils/qsortG.h
@@ -403,7 +386,7 @@ if(MSVC)
 		$<$<CONFIG:Release,OptDebug>:/Gy;/Oi>)
 endif()
 target_link_libraries(UtilitiesLib PUBLIC
-	ZLIB::ZLIB cryptopp::cryptopp CrashRpt
+	ZLIB::ZLIB cryptopp::cryptopp CrashRpt piggle::piggle
 	iphlpapi ws2_32 winmm psapi pdh version comctl32 ole32 shell32 advapi32
 	user32 gdi32 comdlg32 uuid
 )

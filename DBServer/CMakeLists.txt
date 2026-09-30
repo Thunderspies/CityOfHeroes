@@ -169,7 +169,7 @@ cox_target_defaults(DbServer)
 target_include_directories(DbServer PRIVATE
 	src ../MapServer/src ../Launcher/src)
 target_link_libraries(DbServer PRIVATE
-	Common UtilitiesLib cryptopp::cryptopp ZLIB::ZLIB odbc32)
+	Common UtilitiesLib cryptopp::cryptopp ZLIB::ZLIB odbc32 shlwapi)
 target_compile_definitions(DbServer PRIVATE
 	DBSERVER _CONSOLE _MBCS _CRT_SECURE_NO_DEPRECATE)
 target_compile_options(DbServer PRIVATE

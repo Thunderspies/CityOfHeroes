@@ -10,7 +10,6 @@
 #include "patchfileutils.h"
 #include <utilitieslib/utils/error.h>
 #include "filechecksum.h"
-#include <utilitieslib/utils/piglib.h>
 #include "patchutils.h"
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/components/StashTable.h>
@@ -207,15 +206,15 @@ char *checksumMakeString(ImageCheck *image,char *build_name,int full_manifest)
         addStringToStuffBuff(&sb,"\ttime %u\n",(U32)file->timestamp);
         if (full_manifest && file->pig_name)
         {
-            PigFileHeader    *pfh;
+            U32 packed_size;
 
             addStringToStuffBuff(&sb,"\tfull %-8u  %08x %08x %08x %08x\n",(U32)file->full.size,hash[0],hash[1],hash[2],hash[3]);
             //addStringToStuffBuff(&sb,"\tfull %-8u  %08x\n",(U32)file->full.size,hash[0]);
             if (file->pig_name)
             {
-                pfh = getPfh(&cache, image->fname,file->name,file->pig_name);
-                if (pfh && pfh->pack_size)
-                    addStringToStuffBuff(&sb,"\tpack %-8u\n",(U32)pfh->pack_size);
+                packed_size = compressedFileSize(&cache, image->fname,file->name,file->pig_name);
+                if (packed_size)
+                    addStringToStuffBuff(&sb,"\tpack %-8u\n",packed_size);
             }
         }
         else
@@ -369,54 +368,70 @@ FileCheck *checksumAddFile(ImageCheck *image,const char *fname,char *pig_name, i
     return file;
 }
 
-int checksumOpenPigs(ImageCheck *image,char *image_dir,int validate_piggs)
+int checksumOpenPigs(ImageCheck *image, char *image_dir, int validate_piggs)
 {
-    int                i,pig_status,ret=1;
-    FileCheck        *file;
-    U32                j;
-    char            *pig_name,fname[MAX_PATH];
-    PigFileHeader    *head;
-    const char        *filename;
-    PigFile            pig = {0};
-
-    if (image->pigs_opened)
-        return ret;
-    for(i=0;i<image->file_count;i++)
-    {
-        file = image->files[i];
-        if (!strEndsWith(file->name,".pigg"))
-            continue;
-        sprintf(fname,"%s/%s",image_dir,file->name);
-        if (PigFileRead(&pig,fname) != 0) {
-            ret = 0;
-            continue;
-        }
-        if(validate_piggs) {
-            printf(" Validate %s..\n", fname);
-            if(!PigFileValidate(&pig)) {
-                printf("Validation failed for %s\n", fname);
-                ret = 0;
-            }
-        }
-        pig_name = file->name;
-        pig_status = file->full_status;
-        for (j=0; j<pig.header.num_files; j++)
-        {
-            head        = &pig.file_headers[j];
-            filename    = DataPoolGetString(&pig.string_pool, head->name_id);
-            file = checksumAddFile(image,filename,pig_name,1);
-            file->full.size = head->size;
-            file->pig_name = strdup(pig_name);
-            file->timestamp = head->timestamp;
-            file->full_status = pig_status;
-            if (head->pack_size)
-                file->is_compressed = 1;
-            memcpy(file->full.values,head->checksum,sizeof(file->full.values));
-        }
-        PigFileDestroy(&pig);
-    }
-    image->pigs_opened = 1;
-    return ret;
+	pg_context *context = NULL;
+	int result = 1;
+	const int archive_count = image->file_count;
+	if (image->pigs_opened) return 1;
+	if (pg_context_open(&context, NULL) != PG_OK) return 0;
+	for (int i = 0; i < archive_count; i++) {
+		FileCheck *archive = image->files[i];
+		pg_source *source = NULL;
+		pg_cursor *cursor = NULL;
+		pg_file *selected = NULL;
+		pg_status status;
+		char path[MAX_PATH];
+		if (!strEndsWith(archive->name, ".pigg") &&
+			!strEndsWith(archive->name, ".hogg")) continue;
+		sprintf(path, "%s/%s", image_dir, archive->name);
+		status = pg_source_open(context, path, NULL, &source, NULL);
+		if (status != PG_OK) { result = 0; continue; }
+		if (validate_piggs && pg_source_validate(source, NULL) != PG_OK) result = 0;
+		status = pg_source_files(source, NULL, &cursor, NULL);
+		if (status != PG_OK) { result = 0; pg_source_close(&source, NULL); continue; }
+		while ((status = pg_cursor_next(cursor, &selected, NULL)) == PG_OK) {
+			pg_file_info info;
+			FileCheck *file;
+			pg_file_inspect(selected, &info, NULL);
+			if (info.logical_size > UINT32_MAX) {
+				result = 0;
+				pg_file_close(&selected, NULL);
+				continue;
+			}
+			file = checksumAddFile(image, info.canonical_name, archive->name, 1);
+			file->full.size = info.logical_size;
+			file->pig_name = strdup(archive->name);
+			file->timestamp = info.mtime;
+			file->full_status = archive->full_status;
+			file->is_compressed = info.encoding == PG_ZLIB;
+			if (info.digest_kind == PG_DIGEST_MD5 &&
+				info.checksum_domain == PG_CHECKSUM_LOGICAL)
+				memcpy(file->full.values, info.digest, sizeof(file->full.values));
+			else {
+				pg_reader *reader = NULL;
+				unsigned char buffer[65536];
+				size_t bytes;
+				pg_status read_status = pg_reader_open(selected, PG_READ_LOGICAL,
+					&reader, NULL);
+				cryptMD5Init();
+				while (read_status == PG_OK) {
+					read_status = pg_reader_read(reader, buffer, sizeof(buffer), &bytes, NULL);
+					if (read_status == PG_OK) cryptMD5Update(buffer, bytes);
+				}
+				if (reader) pg_reader_close(&reader, NULL);
+				if (read_status != PG_END) { result = 0; file->full_status = 0; }
+				else cryptMD5Final(file->full.values);
+			}
+			pg_file_close(&selected, NULL);
+		}
+		if (status != PG_END) result = 0;
+		pg_cursor_close(&cursor, NULL);
+		pg_source_close(&source, NULL);
+	}
+	pg_context_close(&context, NULL);
+	image->pigs_opened = 1;
+	return result;
 }
 
 int checksumLoadFromMem(char *mem,ImageCheck *image, int outputErrors)
@@ -515,7 +530,7 @@ int checksumLoad(char *checksum_name,ImageCheck *image)
     char    *mem;
     int        len,ret;
 
-    mem = extractFromFS(checksum_name,&len);
+    mem = loadNativeFile(checksum_name,&len);
     ret = checksumLoadFromMem(mem,image,1);
     if (!ret)
         free(mem);

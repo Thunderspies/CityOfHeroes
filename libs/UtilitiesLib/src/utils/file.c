@@ -21,9 +21,7 @@
 #include "utilitieslib/utils/wininclude.h"
 #include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/utils/fileutil.h"
-#include "utilitieslib/utils/piglib.h"
-#include "utilitieslib/utils/PigFileWrapper.h"
-#include "utilitieslib/utils/FolderCache.h"
+#include "utilitieslib/utils/FileSystem.h"
 #include "utilitieslib/utils/timing.h"
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/components/EString.h"
@@ -34,7 +32,6 @@
 #include "utilitieslib/utils/memlog.h"
 #include "utilitieslib/utils/StringUtil.h"
 #include "utilitieslib/components/earray.h"
-#include "utilitieslib/utils/fileWatch.h"
 #include "utilitieslib/utils/file.h"
 #include "utilitieslib/components/StringCache.h"
 #include "utilitieslib/utils/mathutil.h"
@@ -52,10 +49,69 @@ static int loadedGameDataDirs = 0;
 static int addSearchPath = 1;
 static char* mainGameDataDir = NULL;
 static char *piggDir = "./piggs";
-FolderCache *folder_cache=NULL;
+FileSystem *file_system = NULL;
 char *gameDataDirOverride = NULL;
 
 static int file_disable_winio=0;
+
+static char **archive_directories;
+static char **attached_archives;
+static FileArchiveFilter archive_filter;
+
+void fileSetArchiveFilter(FileArchiveFilter filter)
+{
+	archive_filter = filter;
+}
+
+int fileAddArchiveDirectory(const char *path)
+{
+	if (!path || loadedGameDataDirs) return -1;
+	eaPush(&archive_directories, strdup(path));
+	fileAddSearchPath(path);
+	return 0;
+}
+
+static int attach_archives(const char *directory)
+{
+	FileListing *listing = fileSystemListNative(directory);
+	int added = 0;
+	if (!listing) return 0;
+	for (size_t i = 0; i < listing->count; i++) {
+		const FileSystemEntry *entry = &listing->entries[i];
+		int exists = 0;
+		pg_status status;
+		if (entry->kind != PG_ENTRY_FILE ||
+			(!strEndsWith(entry->name, ".pigg") &&
+			 !strEndsWith(entry->name, ".hogg"))) continue;
+		if (archive_filter && !archive_filter(entry->name)) continue;
+		for (int j = 0; j < eaSize(&attached_archives); j++)
+			if (!stricmp(attached_archives[j], entry->native_path)) exists = 1;
+		if (exists) continue;
+		status = fileSystemAddSource(file_system, entry->native_path,
+			eaSize(&attached_archives));
+		if (status != PG_OK) {
+			Errorf("Cannot load archive %s (Piggle status %d)",
+				entry->native_path, status);
+			continue;
+		}
+		eaPush(&attached_archives, strdup(entry->native_path));
+		added++;
+	}
+	fileListingFree(&listing);
+	return added;
+}
+
+static int attach_all_archives(void)
+{
+	int added;
+	if (fileSystemGetMode() == FILE_MODE_LOOSE) return 0;
+	added = attach_archives(filePiggDir());
+	if (!added && stricmp(filePiggDir(), "./piggs"))
+		added += attach_archives("./piggs");
+	for (int i = 0; i < eaSize(&archive_directories); i++)
+		added += attach_archives(archive_directories[i]);
+	return added;
+}
 
 // Vista by default disallows writing to the root of the C: drive, so we reroute
 // all such file accesses to one of our own folders.
@@ -123,8 +179,8 @@ void fileAddGameDataDir( const char* aPath )
     if ( ! fileIsInsideGameDataDir( aPath ) )
     {
         int dirCount = strTableGetStringCount(gameDataDirs);
-        strTableAddString( gameDataDirs, aPath );
-        FolderCacheAddFolder(folder_cache, aPath, dirCount );
+		if (fileSystemAddSource(file_system, aPath, dirCount) == PG_OK)
+			strTableAddString(gameDataDirs, aPath);
     }
 }
 
@@ -385,9 +441,11 @@ void fileLoadDataDirs(int forceReload)
 
     assert(!loadedGameDataDirs);
 
-    if (!folder_cache) {
-        folder_cache = FolderCacheCreate();
+    if (forceReload) {
+        fileSystemDestroy(&file_system);
+        eaDestroyEx(&attached_archives, NULL);
     }
+    if (!file_system) file_system = fileSystemCreate();
 
     if (gameDataDirOverride)
     {
@@ -469,22 +527,22 @@ void fileLoadDataDirs(int forceReload)
             // first entries in gamedatadir.txt
             if (verbose)
                 printf("Using %s as data dir\n", strTableGetString(gameDataDirs, i));
-            FolderCacheAddFolder(folder_cache, strTableGetString(gameDataDirs, i), dirCount-1-i);
+            fileSystemAddSource(file_system, strTableGetString(gameDataDirs, i), dirCount-1-i);
         }
     }
 
     loadedGameDataDirs = 1;
 
-    FolderCacheAddAllPigs(folder_cache);
+    attach_all_archives();
 
     // Initialize various file related code (non-thread safe inits)
-    initPigFileHandles();
+
 }
 
 // fpe 4/23/2011 -- New function to load piggs on the fly as they are downloaded (after game has launched) for lightweight client.
 int fileCheckForNewPiggs()
 {
-    return FolderCacheAddNewPigs(folder_cache);
+    return attach_all_archives();
 }
 
 // New scheme: ignore c:\gamedatadir.txt and just using the current directory
@@ -785,27 +843,17 @@ char *fileLocateRead_s(const char *fname, char *dest, size_t dest_size) // Was f
     else
     {
         // filename is a relative path
-        FolderNode * node;
-
-        PERFINFO_AUTO_START("FolderCacheQuery", 1);
-            node = FolderCacheQuery(folder_cache, fname);
-        PERFINFO_AUTO_STOP();
-
-        if (node==NULL) { // not found in filesystem or pigs
+        FileSystemEntry entry;
+        char *resolved = dest ? dest : temp;
+        size_t capacity = dest ? dest_size : sizeof(temp);
+        if (fileSystemQuery(file_system, fname, &entry, resolved, capacity) != PG_OK) {
             filelocateread_return_spot = 4;
             dest = NULL;
-        }
-        else if (dest) {
+        } else if (dest) {
             filelocateread_return_spot = 5;
-            PERFINFO_AUTO_START("FolderCacheGetRealPath1", 1);
-                FolderCacheGetRealPath(folder_cache, node, dest, dest_size);
-            PERFINFO_AUTO_STOP();
-        }
-        else{
+        } else {
             filelocateread_return_spot = 6;
-            PERFINFO_AUTO_START("FolderCacheGetRealPath2", 1);
-                dest = strdup(FolderCacheGetRealPath(folder_cache, node, SAFESTR(temp)));
-            PERFINFO_AUTO_STOP();
+            dest = strdup(resolved);
         }
     }
     PERFINFO_AUTO_STOP();
@@ -1268,44 +1316,27 @@ typedef struct FileScanData {
     FileScanFolders        scan_folders;
 } FileScanData;
 
-static void fileScanDirRecurse(char *dir,FileScanData* data)
+static void fileScanDirRecurse(char *dir, FileScanData *data)
 {
-    WIN32_FIND_DATAA wfd;
-    U32                handle;
-    S32                good;
-    char            buf[1200];
-
-     strcpy(buf,dir);
-    strcat(buf,"/*");
-
-    for(good = fwFindFirstFile(&handle, buf, &wfd); good; good = fwFindNextFile(handle, &wfd))
-    {
-        if( wfd.cFileName[0] == '.'
-            ||
-            !(data->scan_folders & FSF_UNDERSCORED) &&
-            wfd.cFileName[0] == '_')
-        {
-            continue;
-        }
-        if (wfd.dwFileAttributes & (FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM) && (data->scan_folders & FSF_NOHIDDEN))
-            continue;
-
-        STR_COMBINE_SSS(buf, dir, strchr("\\/", dir[strlen(dir)-1])==0?"/":"", wfd.cFileName);
-
-        if ((data->scan_folders & FSF_FILES) && !(wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ||
-                (data->scan_folders & FSF_FOLDERS) && (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-        {
-            // Add to the list
-            data->names = realloc(data->names,(data->count+1) * sizeof(data->names[0]));
-            data->names[data->count] = strdup(buf);
-            data->count++;
-        }
-        if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-        {
-            fileScanDirRecurse(buf,data);
-        }
-    }
-    fwFindClose(handle);
+	FileListing *listing = fileSystemListNative(dir);
+	if (!listing) return;
+	for (size_t i = 0; i < listing->count; i++) {
+		const FileSystemEntry *entry = &listing->entries[i];
+		const char *name = getFileName(entry->native_path);
+		int directory = entry->kind == PG_ENTRY_DIRECTORY;
+		if (*name == '.' || (*name == '_' &&
+			!(data->scan_folders & FSF_UNDERSCORED))) continue;
+		if ((data->scan_folders & FSF_NOHIDDEN) &&
+			(entry->attributes & (PG_ENTRY_HIDDEN | PG_ENTRY_SYSTEM))) continue;
+		if ((directory && (data->scan_folders & FSF_FOLDERS)) ||
+			(!directory && (data->scan_folders & FSF_FILES))) {
+			data->names = realloc(data->names,
+				(data->count + 1) * sizeof(*data->names));
+			data->names[data->count++] = strdup(entry->native_path);
+		}
+		if (directory) fileScanDirRecurse((char *)entry->native_path, data);
+	}
+	fileListingFree(&listing);
 }
 
 /*given a directory, it returns an string array of the full path to each of the files in that directory,
@@ -1376,134 +1407,48 @@ void fileScanDirFreeNames(char **names,int count)
  *
  *
  */
-void fileScanDirRecurseEx(const char* dir, FileScanProcessor processor){
-    WIN32_FIND_DATAA wfd;
-    U32                handle;
-    S32                good;
-    char             buffer[1024];
-    char             dir2[1024];
-    FileScanAction    action;
-
-    assert(fileIsAbsolutePath(dir) && "Only works on absolute paths!  This function is only to be used in utilities, not in the game code, use fileScanAllDataDirs isntead");
-
-    strcpy(dir2, dir);
-    strcpy(buffer, dir);
-    strcat(buffer, "/*");
-
-    for(good = fwFindFirstFile(&handle, buffer, &wfd); good; good = fwFindNextFile(handle, &wfd)){
-        struct _finddata32_t fd;
-
-        if(wfd.cFileName[0] == '.')
-            continue;
-
-        strcpy(fd.name, wfd.cFileName);
-
-        fd.size = wfd.nFileSizeLow;
-        _FileTimeToUnixTime(&wfd.ftLastWriteTime, &fd.time_write, FALSE);
-        fd.time_write = statTimeFromUTC(fd.time_write);
-        fd.attrib = (wfd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN ? _A_HIDDEN : 0) |
-                    (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ? _A_SUBDIR : 0) |
-                    (wfd.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM ? _A_SYSTEM : 0) |
-                    (wfd.dwFileAttributes & FILE_ATTRIBUTE_READONLY ? _A_RDONLY : _A_NORMAL) |
-                    0;
-
-        action = processor(dir2, &fd);
-
-        if(    action & FSA_EXPLORE_DIRECTORY &&
-            wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-        {
-
-            STR_COMBINE_SSS(buffer, dir2, "/", wfd.cFileName);
-
-            fileScanDirRecurseEx(buffer, processor);
-        }
-
-        if(action & FSA_STOP)
-            break;
-    }
-    fwFindClose(handle);
+static int fileWalkNative(const char *directory, FileScanProcessor processor)
+{
+	FileListing *listing = fileSystemListNative(directory);
+	char parent[MAX_PATH];
+	int stop = 0;
+	if (!listing) return 0;
+	strcpy(parent, directory);
+	for (size_t i = 0; i < listing->count && !stop; i++) {
+		const FileSystemEntry *entry = &listing->entries[i];
+		struct _finddata32_t data = { 0 };
+		FileScanAction action;
+		const char *name = getFileName(entry->native_path);
+		if (*name == '.') continue;
+		strcpy(data.name, name);
+		data.size = entry->size;
+		data.time_write = statTimeFromUTC((__time32_t)entry->mtime);
+		data.attrib = (entry->kind == PG_ENTRY_DIRECTORY ? _A_SUBDIR : 0) |
+			(entry->attributes & PG_ENTRY_HIDDEN ? _A_HIDDEN : 0) |
+			(entry->attributes & PG_ENTRY_SYSTEM ? _A_SYSTEM : 0) |
+			(entry->attributes & PG_ENTRY_READ_ONLY ? _A_RDONLY : 0);
+		action = processor(parent, &data);
+		if (action & FSA_STOP) stop = 1;
+		else if ((action & FSA_EXPLORE_DIRECTORY) &&
+			entry->kind == PG_ENTRY_DIRECTORY)
+			stop = fileWalkNative(entry->native_path, processor);
+	}
+	fileListingFree(&listing);
+	return stop;
 }
 
+void fileScanDirRecurseEx(const char *dir, FileScanProcessor processor)
+{
+	assert(fileIsAbsolutePath(dir));
+	fileWalkNative(dir, processor);
+}
 
 FileScanAction printAllFileNames(char* dir, struct _finddata32_t* data){
     printf("%s/%s\n", dir, data->name);
     return FSA_EXPLORE_DIRECTORY;
 }
 
-void fileScanDirRecurseContext(const char* dir, FileScanContext* context){
-    WIN32_FIND_DATAA wfd;
-    U32                handle;
-    S32                good;
-    char            buffer[1024];
-    char            dir2[1024];
 
-    assert(fileIsAbsolutePath(dir) && "Only works on absolute paths!  This function is only to be used in utilities, not in the game code, use fileScanAllDataDirs isntead");
-
-    strcpy(dir2, dir);
-    strcpy(buffer, dir);
-    if (fileExists(buffer)) {
-        // If this is a file, let it find it!
-        char *z = max(strrchr(dir2, '/'), strrchr(dir2, '\\'));
-        if (z) {
-            *++z=0;
-        }
-    } else {
-        // Only add a wildcard if this is a folder passed in.
-        if (strchr(buffer, '*')!=0) {
-            // Already has a wildcard
-            // fix up dir2
-            char *z = max(strrchr(dir2, '/'), strrchr(dir2, '\\'));
-            if (z) {
-                *++z=0;
-            }
-        } else {
-            strcat(buffer, "/*");
-        }
-    }
-
-    for(good = fwFindFirstFile(&handle, buffer, &wfd); good; good = fwFindNextFile(handle, &wfd)){
-        struct _finddata32_t    fd;
-        FileScanAction        action;
-
-        if(    wfd.cFileName[0] == '.' &&
-            (    !wfd.cFileName[1] ||
-                wfd.cFileName[1] == '.'))
-        {
-            continue;
-        }
-
-        //for(test = handle = _findfirst32(buffer, &fileinfo); test >= 0; test = _findnext32(handle, &fileinfo)){
-        //    if(fileinfo.name[0] == '.' && (fileinfo.name[1] == '\0' || fileinfo.name[1] == '.'))
-        //        continue;
-
-        strcpy(fd.name, wfd.cFileName);
-
-        fd.size = wfd.nFileSizeLow;
-        _FileTimeToUnixTime(&wfd.ftLastWriteTime, &fd.time_write, FALSE);
-        fd.time_write = statTimeFromUTC(fd.time_write);
-        fd.attrib = (wfd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN ? _A_HIDDEN : 0) |
-                    (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ? _A_SUBDIR : 0) |
-                    (wfd.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM ? _A_SYSTEM : 0) |
-                    (wfd.dwFileAttributes & FILE_ATTRIBUTE_READONLY ? _A_RDONLY : _A_NORMAL) |
-                    0;
-
-        context->dir = dir2;
-        context->fileInfo = &fd;
-        action = context->processor(context);
-
-        if(    action & FSA_EXPLORE_DIRECTORY &&
-            wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-        {
-            STR_COMBINE_SSS(buffer, dir2, "/", fd.name);
-
-            fileScanDirRecurseContext(buffer, context);
-        }
-
-        if(action & FSA_STOP)
-            break;
-    }
-    fwFindClose(handle);
-}
 
 #undef getc
 #undef fgetc
@@ -1630,6 +1575,117 @@ void* fopenf(const char *name, const char *how, ...)
 }
 
 
+/* Small stdio lookahead belongs to FileWrapper. Piggle owns decompression,
+ * validation and seek checkpoints; no complete decompressed-file cache. */
+typedef struct ArchiveStream {
+	pg_reader *reader;
+	uint64_t size;
+	uint64_t position;
+	size_t begin, end;
+	pg_status error;
+	unsigned char buffer[4096];
+} ArchiveStream;
+
+static ArchiveStream *archive_stream_open(const char *path)
+{
+	ArchiveStream *stream = calloc(1, sizeof(*stream));
+	pg_reader_info info;
+	if (!stream) return NULL;
+	if (fileSystemOpenPath(path, &stream->reader) != PG_OK) {
+		free(stream);
+		return NULL;
+	}
+	pg_reader_inspect(stream->reader, &info, NULL);
+	stream->size = info.size;
+	return stream;
+}
+
+static int archive_stream_close(ArchiveStream *stream)
+{
+	pg_status status = pg_reader_close(&stream->reader, NULL);
+	free(stream);
+	return status == PG_OK ? 0 : EOF;
+}
+
+static size_t archive_stream_read(ArchiveStream *stream, void *buffer, size_t size)
+{
+	size_t total = 0, count;
+	unsigned char *out = buffer;
+	if (stream->error) return 0;
+	count = MIN(size, stream->end - stream->begin);
+	if (count) {
+		memcpy(out, stream->buffer + stream->begin, count);
+		stream->begin += count;
+		stream->position += count;
+		total += count;
+	}
+	while (total < size) {
+		pg_status status = pg_reader_read(stream->reader, out + total,
+			size - total, &count, NULL);
+		if (status != PG_OK && status != PG_END) {
+			stream->error = status;
+			break;
+		}
+		total += count;
+		stream->position += count;
+		if (status == PG_END) break;
+	}
+	return total;
+}
+
+static int archive_stream_getc(ArchiveStream *stream)
+{
+	if (stream->error) return EOF;
+	if (stream->begin == stream->end) {
+		pg_status status;
+		stream->begin = stream->end = 0;
+		status = pg_reader_read(stream->reader, stream->buffer,
+			sizeof(stream->buffer), &stream->end, NULL);
+		if (status != PG_OK) {
+			if (status != PG_END) stream->error = status;
+			return EOF;
+		}
+	}
+	stream->position++;
+	return stream->buffer[stream->begin++];
+}
+
+static int archive_stream_seek(ArchiveStream *stream, S64 distance, int origin)
+{
+	S64 base, position;
+	pg_status status;
+	if (origin == SEEK_SET) base = 0;
+	else if (origin == SEEK_CUR) base = stream->position;
+	else if (origin == SEEK_END) base = stream->size;
+	else return -1;
+	if (distance > 0 && base > INT64_MAX - distance) position = stream->size;
+	else if (distance < -base) position = 0;
+	else position = base + distance;
+	if (position < 0) position = 0;
+	if ((uint64_t)position > stream->size) position = stream->size;
+	status = pg_reader_seek(stream->reader, position, NULL);
+	if (status != PG_OK) { stream->error = status; return -1; }
+	stream->begin = stream->end = 0;
+	stream->position = position;
+	return 0;
+}
+
+static char *archive_stream_gets(ArchiveStream *stream, char *buffer, int size)
+{
+	int used = 0, ch;
+	if (size <= 0) return NULL;
+	if (size == 1) { buffer[0] = 0; return buffer; }
+	while (used < size - 1 && (ch = archive_stream_getc(stream)) != EOF) {
+		if (ch == '\n' && used && buffer[used - 1] == '\r') used--;
+		buffer[used++] = (char)ch;
+		if (ch == '\n') break;
+	}
+	buffer[used] = 0;
+	return used ? buffer : NULL;
+}
+
+/* Open archive-qualified names directly with Piggle. Transfer the
+ * reader to FileWrapper; preserve stream seek and text-line behavior. */
 void *x_fopen(const char *_name,const char *how)
 {
     IOMode        iomode=IO_CRT;
@@ -1638,7 +1694,6 @@ void *x_fopen(const char *_name,const char *how)
     char*        modeCursor;
     static int    maxStreamSet = 0;
     char        name[MAX_PATH];
-    PigFileDescriptor pfd;
     bool        no_winio=false;
     int            retries;
     bool        retry;
@@ -1726,17 +1781,7 @@ void *x_fopen(const char *_name,const char *how)
             //   happen in the code that calls fopen without calling fileLocate first)
             // check to see if the path has two ':'s, and if so, we will open from a pig file
             if (is_pigged_path(name)) {
-                FolderNode * node;
                 iomode = IO_PIG;
-                strcpy(name, strrchr(name, ':')+2); // remove the path to the pigg...
-                PERFINFO_AUTO_START("FolderCacheQuery", 1);
-                    node = FolderCacheQuery(folder_cache, name);
-                PERFINFO_AUTO_STOP();
-                assert(node);
-                assert(node->virtual_location<0);
-                assert(node->file_index>=0);
-                pfd = PigSetGetFileInfo(VIRTUAL_LOCATION_TO_PIG_INDEX(node->virtual_location), node->file_index, name);
-                assert(pfd.parent);
 
 //                printf("found pigged path, pig file\n");
             } else {
@@ -1776,7 +1821,7 @@ void *x_fopen(const char *_name,const char *how)
             xcase IO_PIG:
                 PERFINFO_AUTO_START("x_fopen:pig_fopen_pfd", 1);
                 //printf("opening pigged file\n");
-                fw->fptr = pig_fopen_pfd(&pfd, fopenMode);
+                fw->fptr = archive_stream_open(name);
             xcase IO_STRING:
                 PERFINFO_AUTO_START("x_fopen:StuffBuff", 1);
                 fw->fptr = *(StuffBuff**)&_name[8];
@@ -1923,7 +1968,7 @@ int x_fclose(FileWrapper *fw)
             ret = gzclose(fptr);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fclose:pig_fclose", 1);
-            ret = pig_fclose((PigFileHandle *)fptr);
+            ret = archive_stream_close((ArchiveStream *)fptr);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fclose:addBinaryDataToStuffBuff", 1);
             addBinaryDataToStuffBuff((StuffBuff*)fptr, (char*)&zero, 1);
@@ -1950,7 +1995,7 @@ int x_fgetc(FileWrapper *fw)
             ret = gzgetc((gzFile)fw->fptr);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fgetc:pig_fgetc", 1);
-            ret = pig_fgetc((PigFileHandle *)fw->fptr);
+            ret = archive_stream_getc((ArchiveStream *)fw->fptr);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fgetc:assert", 1);
             assert(!"StuffBuffFiles are write-only");
@@ -2007,7 +2052,7 @@ S64 x_fseek(FileWrapper *fw, S64 dist,int whence)
             ret = gzseek(fw->fptr,(long)dist,whence);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fseek:pig_fseek", 1);
-            ret = pig_fseek((PigFileHandle *)fw->fptr,(long)dist,whence);
+            ret = archive_stream_seek((ArchiveStream *)fw->fptr,dist,whence);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fseek:assert", 1);
             assert(!"StuffBuffFiles are write-only");
@@ -2066,7 +2111,7 @@ int x_getc(FileWrapper *fw)
             ret = gzgetc((gzFile)fw->fptr);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_getc:pig_getc", 1);
-            ret = pig_getc((PigFileHandle *)fw->fptr);
+            ret = archive_stream_getc((ArchiveStream *)fw->fptr);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_getc:stuffbuff_getc", 1);
             ret = stuffbuff_getc(fw->fptr);
@@ -2092,7 +2137,7 @@ S64 x_ftell(FileWrapper *fw)
             ret = gztell(fw->fptr);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_ftell:pig_ftell", 1);
-            ret = pig_ftell((PigFileHandle *)fw->fptr);
+            ret = ((ArchiveStream *)fw->fptr)->position;
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_ftell:stuffBuff", 1);
             ret = ((StuffBuff*)fw->fptr)->idx;
@@ -2127,7 +2172,7 @@ intptr_t x_fread(void *buf,size_t size1,size_t size2,FileWrapper *fw)
             ret = gzread(fw->fptr, buf, (unsigned int)(size1*size2)) / size1;
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fread:pig_fread", 1);
-            ret = pig_fread((PigFileHandle *)fw->fptr, buf, (long)(size1*size2)) / size1;
+            ret = archive_stream_read((ArchiveStream *)fw->fptr, buf, size1*size2) / size1;
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fread:stuffbuff_fread", 1);
             ret = stuffbuff_fread(fw->fptr, buf, (int)(size1*size2)) / size1;
@@ -2187,7 +2232,7 @@ char *x_fgets(char *buf,int len,FileWrapper *fw)
             ret = gzgets(fw->fptr,buf,len);
         xcase IO_PIG:
             PERFINFO_AUTO_START("x_fgets:pig_fgets", 1);
-            ret = pig_fgets((PigFileHandle *)fw->fptr,buf,len);
+            ret = archive_stream_gets((ArchiveStream *)fw->fptr,buf,len);
         xcase IO_STRING:
             PERFINFO_AUTO_START("x_fgets:assert", 1);
             assert(!"StuffBuffFiles are write-only");
@@ -2330,6 +2375,7 @@ int x_ferror(FileWrapper* fw)
         xcase IO_WINIO:
             return 0; // No way to check?  Or handles are never in an error state
         xcase IO_PIG:
+            return ((ArchiveStream *)fw->fptr)->error != PG_OK;
         case IO_STRING:
         default:
             return 0;
@@ -2481,7 +2527,8 @@ FileWrapper *fileWrap(void *real_file_pointer)
 int fileGetSize(FileWrapper* fw){
     switch (fw->iomode) {
     xcase IO_PIG:
-        return pig_filelength((PigFileHandle *)fw->fptr);
+        return (((ArchiveStream *)fw->fptr)->size > INT_MAX ? -1 :
+            (int)((ArchiveStream *)fw->fptr)->size);
     xcase IO_WINIO:
         return GetFileSize(fw->fptr, NULL);
     xcase IO_CRT:
@@ -2515,9 +2562,8 @@ int fileMakeLocalBackup(const char *_fname, int time_to_keep) {
     char fname[MAX_PATH];
     char dir[MAX_PATH];
     int backup_num=0;
-    struct _finddata32_t fileinfo;
-    int i;
-    long handle;
+    FileListing *listing;
+    int matched = 0;
 
     if (!_fname)
         return 0;
@@ -2538,30 +2584,20 @@ int fileMakeLocalBackup(const char *_fname, int time_to_keep) {
     strcpy(dir, backupPathBase);
     *(strrchr(dir, '/')+1)=0; // truncate before the file name
     mkdirtree(dir);
-    sprintf_s(SAFESTR(backupPath), "%s*", backupPathBase);
-    handle = _findfirst32(backupPath, &fileinfo);
-    backup_num=0;
-    if (handle==-1) {
-        // Error or no file currently exists
-        // will default to backup_num of 0, that's OK
-    } else {
-        // 1 or more files already exist
-        do {
-            // check to see if the backup number on this file is newer than backup_num
-            i = atoi(strrchr(fileinfo.name, '.')+1);
-            if (i>backup_num)
-                backup_num = i;
-            // check to see if file is old
-            if (time_to_keep!=-1 && (fileinfo.time_write < time(NULL) - time_to_keep)) {
-                // old file!  Delete it!
-                sprintf_s(SAFESTR(temp), "%s%s", dir, fileinfo.name);
-                remove(temp);
-            }
-        } while( _findnext32( handle, &fileinfo ) == 0 );
-        backup_num++;
-        _findclose(handle);
-
-    }
+	listing = fileSystemListNative(dir);
+	for (size_t i = 0; listing && i < listing->count; i++) {
+		const FileSystemEntry *entry = &listing->entries[i];
+		const char *prefix = getFileName(backupPathBase);
+		int version;
+		if (strnicmp(entry->name, prefix, strlen(prefix))) continue;
+		matched = 1;
+		version = atoi(strrchr(entry->name, '.') + 1);
+		if (version > backup_num) backup_num = version;
+		if (time_to_keep != -1 && entry->mtime < time(NULL) - time_to_keep)
+			remove(entry->native_path);
+	}
+	fileListingFree(&listing);
+	if (matched) backup_num++;
     sprintf_s(SAFESTR(backupPath), "%s%d", backupPathBase, backup_num);
     return fileCopy(fileLocateWrite(fname, temp), backupPath);
 }
@@ -2713,6 +2749,12 @@ S64 fileSize64(const char *fname)  // Slow!  Does not use FileWatcher.
     return status.st_size;
 }
 
+int fileStat(const char *path, struct _stat32 *out)
+{
+	struct _stat32 temporary;
+	return _stat32(path, out ? out : &temporary);
+}
+
 intptr_t fileSize(const char *fname){
     struct _stat32 status;
 
@@ -2722,11 +2764,10 @@ intptr_t fileSize(const char *fname){
     assert(!is_pigged_path(fname)); // expects /bin/tricks.bin, instead of ./piggs/bin.pigg:/bin/tricks.bin, for example
 
     if (!fileIsAbsolutePath(fname)) { // Relative path
-        FolderNode *ret = FolderCacheQuery(folder_cache, fname);
-        if (ret) {
-            return ret->size;
-        }
-        return -1;
+        FileSystemEntry entry;
+        intptr_t size = fileSystemQuery(file_system, fname, &entry, NULL, 0) == PG_OK &&
+            entry.size <= INTPTR_MAX ? entry.size : -1;
+        return size;
     }
 
 #ifdef _XBOX
@@ -2738,7 +2779,7 @@ intptr_t fileSize(const char *fname){
 #endif
 
     // Absolute path:
-    if( !fwStat(fname, &status) &&
+    if( !fileStat(fname, &status) &&
         status.st_mode & _S_IFREG)
     {
         return status.st_size;
@@ -2757,22 +2798,17 @@ int fileExists(const char *fname){
     if (!fileIsAbsolutePath(fname))
     {
         int            exists=0;
-        FolderNode *ret;
+        FileSystemEntry entry;
 
         if (!loadedGameDataDirs)
             fileLoadDataDirs(0); // Don't do this outside of the if statement to allow fileAutoDataDir to work
 
-        ret = FolderCacheQuery(folder_cache, fname);
-        if (ret)
-        {
-            if (!ret->is_dir)
-                exists = 1;
-            //FolderNodeDestroy(ret);
-        }
+        exists = fileSystemQuery(file_system, fname, &entry, NULL, 0) == PG_OK &&
+            entry.kind == PG_ENTRY_FILE;
         return exists;
     }
 
-    if (FolderCacheMatchesIgnorePrefixAnywhere(fname)) // Just in case we get a non-absolute path in the game/mapserver
+    if (fileSystemIgnored(fname)) // Just in case we get a non-absolute path in the game/mapserver
         return 0;
 
 #ifdef _XBOX
@@ -2783,7 +2819,7 @@ int fileExists(const char *fname){
     }
 #endif
 
-    if(!fwStat(fname, &status)){
+    if(!fileStat(fname, &status)){
         if(status.st_mode & _S_IFREG)
             return 1;
     }
@@ -2826,15 +2862,17 @@ int dirExists(const char *dirname){
         *s = 0;
 
     if (loadedGameDataDirs && !fileIsAbsolutePath(buf)) {
-        FolderNode *ret = FolderCacheQuery(folder_cache, buf);
-        return ret && ret->is_dir;
+        FileSystemEntry entry;
+        int exists = fileSystemQuery(file_system, buf, &entry, NULL, 0) == PG_OK &&
+            entry.kind == PG_ENTRY_DIRECTORY;
+        return exists;
     }
 
 #ifdef _XBOX
     backSlashes(buf);
 #endif
 
-    if(!fwStat(buf, &status)){
+    if(!fileStat(buf, &status)){
         if(status.st_mode & _S_IFDIR)
             return 1;
     }
@@ -2916,7 +2954,8 @@ bool fileDatesEqual(__time32_t date1, __time32_t date2, bool bAllowDSTError)
 
 __time32_t fileLastChanged(const char *refname)
 {
-    FolderNode *node;
+    FileSystemEntry entry;
+    __time32_t timestamp;
     char temp[MAX_PATH];
 
     if (!refname || !refname[0])
@@ -2950,29 +2989,16 @@ __time32_t fileLastChanged(const char *refname)
         struct _stat32 sbuf;
         __time32_t ret;
         PERFINFO_AUTO_START("fwStat", 1);
-        fwStat(refname, &sbuf);
+        fileStat(refname, &sbuf);
         ret = statTimeToUTC(sbuf.st_mtime);
         PERFINFO_AUTO_STOP();
         PERFINFO_AUTO_STOP();
         return ret;
     }
-    node = FolderCacheQuery(folder_cache, refname);
-
+    timestamp = fileSystemQuery(file_system, refname, &entry, NULL, 0) == PG_OK ?
+        entry.mtime : 0;
     PERFINFO_AUTO_STOP();
-
-    if (!node) return 0;
-    return node->timestamp;
-}
-
-void *fileLockRealPointer(FileWrapper *fw) { // This implements support for Pig files, and must be followed by an unlock when done
-    if (fw->iomode==IO_PIG)
-        return pig_lockRealPointer((PigFileHandle *)fw->fptr);
-    return fileRealPointer(fw);
-}
-
-void fileUnlockRealPointer(FileWrapper *fw) {
-    if (fw->iomode==IO_PIG)
-        pig_unlockRealPointer((PigFileHandle *)fw->fptr);
+    return timestamp;
 }
 
 #ifndef FINAL
@@ -3047,26 +3073,13 @@ U64 fileGetFreeDiskSpace(const char* fullPath)
     return freeBytesAvailableToUser.QuadPart;
 }
 
-void fileFreeOldZippedBuffers(void)
-{
-    pig_freeOldBuffers();
-}
-
-void fileFreeZippedBuffer(FileWrapper *fw)
-{
-    if (fw->iomode == IO_PIG) {
-        pig_freeBuffer((PigFileHandle *)fw->fptr);
-    }
-}
-
 #ifndef _XBOX
 void fileSetDataDirHack( char * path )
 {
-    FolderCacheSetMode( FOLDER_CACHE_MODE_FILESYSTEM_ONLY );
-
-    eaClear( &folder_cache->gamedatadirs );
-    eaSetSize( &folder_cache->gamedatadirs,0 );
-    eaPush( &folder_cache->gamedatadirs, path );
+    fileSystemSetMode(FILE_MODE_LOOSE);
+    fileSystemDestroy(&file_system);
+    file_system = fileSystemCreate();
+    fileSystemAddSource(file_system, path, 0);
 }
 #endif
 

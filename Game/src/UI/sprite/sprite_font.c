@@ -642,11 +642,6 @@ void loadFonts()
 
     // Free less-often used, large fallback fonts, unless we're in a locale that needs them immediately
     if (getCurrentLocale() == 0 || getCurrentLocale() == 5 || getCurrentLocale() == 6) {
-        if (ttMingLiu) fileFreeZippedBuffer(ttMingLiu->stream->descriptor.pointer);
-        if (ttGulim) fileFreeZippedBuffer(ttGulim->stream->descriptor.pointer);
-        if (ttDotum) fileFreeZippedBuffer(ttDotum->stream->descriptor.pointer);
-        if (ttAsiaPFB) fileFreeZippedBuffer(ttAsiaPFB->stream->descriptor.pointer);
-        if (ttYGO230) fileFreeZippedBuffer(ttYGO230->stream->descriptor.pointer);
     }
 }
 

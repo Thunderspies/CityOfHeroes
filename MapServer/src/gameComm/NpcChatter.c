@@ -5,7 +5,7 @@
  ***************************************************************************/
 #include <string.h>
 #include <utilitieslib/utils/strings_opt.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/components/StashTable.h>
 
 #include <utilitieslib/components/earray.h>
@@ -194,7 +194,7 @@ void npcLoadChatter(void)
 {
     char pchPath[MAX_PATH];
     char pch[MAX_PATH];
-    const char **ppchPrefix;
+    const char *const *ppchPrefix;
 
     if(!g_hashMapsToChat)
         g_hashMapsToChat = stashTableCreateWithStringKeys(20, StashDeepCopyKeys);
@@ -208,8 +208,8 @@ void npcLoadChatter(void)
     ReadChatterFile(pch);
 
     // load each of the optional versions
-    ppchPrefix = g_StdAdditionalFilePrefixes;
-    while(**ppchPrefix)
+    ppchPrefix = file_standard_prefixes;
+    while(*ppchPrefix && **ppchPrefix)
     {
         char *pchPrefixName = addFilePrefix(pch, *ppchPrefix);
         if (fileExists(pchPrefixName))

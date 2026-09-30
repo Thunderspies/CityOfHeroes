@@ -399,7 +399,7 @@ int ClickToSourceDisplay(F32 x, F32 y, F32 z, F32 yShift, int color, const char*
 #include "seq/seq.h"
 #include "seq/seqtype.h"
 #include "entity/costume.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 
 int WriteAnObject( const char * libraryPieceName )
 {
@@ -458,7 +458,7 @@ int WriteAnObject( const char * libraryPieceName )
     }
 
     //Now try to find it again (You definitely should now (Autoreload should immediately find it if it wasn't there before)
-    FolderCacheDoCallbacks();
+    fileSystemDispatch();
     costumeDef = npcFindByName( libraryPieceName, &idx );
     if( !costumeDef || !idx )
     {
@@ -534,7 +534,7 @@ int WriteAnObject( const char * libraryPieceName )
     }
 
     //Now try again to get enttpe file (should always succeed)
-    FolderCacheDoCallbacks();
+    fileSystemDispatch();
     entTypeDef = seqTypeFind( entTypeFileName );
     if( !entTypeDef )
     {

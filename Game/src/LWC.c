@@ -12,7 +12,6 @@
 #include "player/player.h"
 #include "entity/entity.h"
 #include "entity/entPlayer.h"
-#include <utilitieslib/utils/piglib.h>
 #include <utilitieslib/utils/utils.h>
 #include "UI/Hybrid/uiWebStoreFrame.h"
 #include "clientcomm/clientcomm.h"
@@ -128,7 +127,7 @@ void LWC_Enable()
     s_Enabled = true;
     LWC_SetThrottled(false); // default to full speed, we will throttle if mapserver/dbserver connection
 
-    PigFileSetFilter(LWC_PiggFilterCB);
+    fileSetArchiveFilter(LWC_PiggFilterCB);
 
     LWC_InitPipe();
 
@@ -179,7 +178,7 @@ static void LWC_Disable()
     }
 
 
-    PigFileSetFilter(NULL);
+    fileSetArchiveFilter(NULL);
     s_Enabled = false;
 }
 

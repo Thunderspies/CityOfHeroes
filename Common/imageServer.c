@@ -6,13 +6,13 @@
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/timing.h>
 #include "player/player.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "entity/entclient.h"
 #include "entity/costume_client.h"
 #include <utilitieslib/utils/tga.h>
 #include "graphics/seqgraphics.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "render/tex.h"
 #include "graphics/textureatlas.h"
 #include "game.h"
@@ -35,6 +35,7 @@
 #include "cmdparse/cmdgame.h"
 #include "render/thread/rt_init.h"
 #include "render/thread/rt_queue.h"
+
 #endif
 
 #define COSTUME_STRING_LEN 512
@@ -856,6 +857,13 @@ static void serverImageCallback(const char *relPath, int when)
     timerStart(s_timer);
 }
 
+static void serverImageCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	serverImageCallback(change->entry.path, change->kind);
+}
+
+
 static FileScanAction imageServerProcessor(char *dir, struct _finddata32_t* data)
 {
     char fullpath[MAX_PATH];
@@ -870,7 +878,7 @@ static FileScanAction imageServerProcessor(char *dir, struct _finddata32_t* data
 
 void imageserver_Go()
 {
-    static FolderCache * fcImageServer = 0;
+    static FileSystem * fcImageServer = 0;
     static int startedUp = 0;
 
     if( startedUp!=5 )
@@ -894,13 +902,13 @@ void imageserver_Go()
         {
             char folderToMonitor[1024];
 
-            fcImageServer = FolderCacheCreate();
+            fcImageServer = fileSystemCreate();
 
             sprintf( folderToMonitor, "%s/", game_state.imageServerSource );
-            FolderCacheAddFolder(fcImageServer, folderToMonitor, 0);
-            FolderCacheQuery(fcImageServer, NULL);
+            fileSystemAddSource(fcImageServer, folderToMonitor, 0);
+            fileSystemDispatch();
 
-            FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "*.csv", serverImageCallback);
+            fileSystemSubscribe(NULL, "*.csv", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), serverImageCallbackFileChanged, NULL);
             printf( "###Image Server Mode! Now monitoring for .csv files in %s\n", game_state.imageServerSource);
 
         }
@@ -918,7 +926,7 @@ void imageserver_Go()
             fileScanDirRecurseEx(game_state.imageServerSource, imageServerProcessor);
             timerStart(s_timer);
         }
-        FolderCacheQuery(fcImageServer, ""); // Just to get Update
+        fileSystemDispatch(); // Just to get Update
         Sleep(1);
     }
 }

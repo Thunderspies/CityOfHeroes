@@ -18,7 +18,7 @@
 #include <utilitieslib/network/sock.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/sysutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/winutil.h>
 #include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/network/net_masterlist.h>
@@ -1568,7 +1568,7 @@ int main(int argc,char **argv)
     SetConsoleCtrlHandler((PHANDLER_ROUTINE) s_CtrlHandler, TRUE); // add to list
 
     setWindowIconColoredLetter(compatibleGetConsoleWindow(), '%', 0xffff00);
-    FolderCacheChooseMode();
+    fileSystemChooseMode();
     preloadDLLs(0);
 
     if (fileIsUsingDevData()) { 

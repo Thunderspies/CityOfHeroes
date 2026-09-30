@@ -29,7 +29,7 @@
 #include "entity/Supergroup.h"
 #include "entity/SgrpServer.h"
 #include "gameComm/svr_chat.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "cmdparse/cmdserver.h"
 #include "entity/TaskforceParams.h"
@@ -43,6 +43,7 @@
 #include "entity/character_animfx.h"
 #include "entity/motion.h"
 #include "entity/character_eval.h"
+
 // story arc probabilities
 #define SA_CHANCE_GIVEFIRSTARC        50    // percentage chance a player will be put on an arc if he doesn't have one
 #define SA_CHANCE_GIVESECONDARC        27    // percentage chance a player will be put on an arc if already on one
@@ -445,11 +446,18 @@ static void StoryArcReloadCallback(const char* relpath, int when)
     }
 }
 
+static void StoryArcReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	StoryArcReloadCallback(change->entry.path, change->kind);
+}
+
+
 static void StoryArcSetupCallbacks()
 {
     if (!isDevelopmentMode())
         return;
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "scripts.loc/*.storyarc", StoryArcReloadCallback);
+    fileSystemSubscribe(NULL, "scripts.loc/*.storyarc", FILE_CHANGE_UPDATE, StoryArcReloadCallbackFileChanged, NULL);
 }
 
 void StoryArcPreload()

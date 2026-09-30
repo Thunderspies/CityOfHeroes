@@ -11,11 +11,12 @@
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/components/MemoryPool.h>
 #include <utilitieslib/components/StashTable.h>
 #include "gameComm/VillainDef.h"
 #include <utilitieslib/components/SharedMemory.h>
+
 
 typedef struct AIBehaviorAlias{
     char* aliasStr;
@@ -133,6 +134,13 @@ static void aiBehaviorReloadAliasCallback(const char* relpath, int when)
         Errorf("Error reloading Behavior Aliases (%s)", relpath);
 }
 
+static void aiBehaviorReloadAliasCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	aiBehaviorReloadAliasCallback(change->entry.path, change->kind);
+}
+
+
 void aiBehaviorLoadAliases()
 {
     g_TestingBehaviorAliases = true;
@@ -144,5 +152,5 @@ void aiBehaviorLoadAliases()
 
     // set up callback
     if(isDevelopmentMode())
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "AIScript/*.bal", aiBehaviorReloadAliasCallback);
+        fileSystemSubscribe(NULL, "AIScript/*.bal", FILE_CHANGE_UPDATE, aiBehaviorReloadAliasCallbackFileChanged, NULL);
 }

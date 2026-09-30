@@ -47,7 +47,7 @@
 #endif
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/components/EString.h>
 
 GroupInfo            group_info,*group_ptr;
@@ -1242,11 +1242,18 @@ static void texNamesUpdate(const char *relpath, int when)
         removeTexName(fileName);
 }
 
+static void texNamesUpdateFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	texNamesUpdate(change->entry.path, change->kind);
+}
+
+
 static void initializeTexNames()
 {
     s_texNames = stashTableCreateWithStringKeys(1000, StashDeepCopyKeys);
     fileScanAllDataDirs("texture_library", texNamesProcessor);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "texture_library/*.texture", texNamesUpdate);
+    fileSystemSubscribe(NULL, "texture_library/*.texture", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), texNamesUpdateFileChanged, NULL);
 }
 
 // Minimaps can be implicitly attached to defs by name. If the group changes its name the attachment
@@ -1617,6 +1624,7 @@ void groupInit()
 
 #if SERVER
 #include "cmdparse/cmdserver.h"
+
 #endif
 
 void groupLoadLibs()

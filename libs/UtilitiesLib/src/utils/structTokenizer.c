@@ -18,7 +18,8 @@
 #include "utilitieslib/utils/textparser.h"
 #include "utilitieslib/utils/strings_opt.h"
 #include "utilitieslib/utils/utils.h"
-#include "utilitieslib/utils/FolderCache.h"
+#include "utilitieslib/utils/FileSystem.h"
+#include "utilitieslib/utils/wininclude.h"
 
 // NOTE: in future, if more flexibility is required, we can
 // separate INCLUDE handling to a layer above tokenizer.
@@ -599,7 +600,7 @@ const char* TokenizerPeek(TokenizerHandle tokenizer, int ignorelinebreak, int ig
             // open new file
             tok->context->curoffset += tok->offsetinbuffer;
             forwardSlashes(filename); // required for prefix match
-            if (FolderCacheMatchesIgnorePrefixAnywhere(filename))  // ignore this include file
+            if (fileSystemIgnored(filename))  // ignore this include file
             {
                 // still need to note this file in my parse list, weird but otherwise I
                 // won't notice its absence and require a reparse later

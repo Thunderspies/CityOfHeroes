@@ -6,7 +6,7 @@
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/error.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "cmdparse/cmdgame.h"
 
 #include "UI/uiUtil.h"
@@ -28,6 +28,7 @@
 #include "graphics/ttFontUtil.h"
 #include "graphics/textureatlas.h"
 #include "UI/uiScrollBar.h"
+
 
 typedef struct CustomWindowItem
 {
@@ -247,6 +248,13 @@ static void reloadCustomWindowsCallback(const char *relpath, int when)
     createWdwFromDefs();
 }
 
+static void reloadCustomWindowsCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadCustomWindowsCallback(change->entry.path, change->kind);
+}
+
+
 static ContextMenu * s_CustomButtonContext = 0;
 
 static void customButtoncallback_setName(CustomWindowItem * pDialogCWB)
@@ -344,7 +352,7 @@ void loadCustomWindows()
     }
 
     createWdwFromDefs();
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "*.window", reloadCustomWindowsCallback);
+    fileSystemSubscribe(NULL, "*.window", FILE_CHANGE_UPDATE, reloadCustomWindowsCallbackFileChanged, NULL);
 }
 
 void insertCustomWindowButton(CustomWindow *pCW, char *pchName, char *pchCommand, void * current_element )

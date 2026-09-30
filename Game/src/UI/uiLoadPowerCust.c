@@ -13,7 +13,7 @@
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/components/EString.h>
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "UI/uiPowerCust.h"
 #include <utilitieslib/components/earray.h>
 #include "formatter/smf_util.h"
@@ -33,6 +33,7 @@
 #include "UI/uiDialog.h"
 #include "UI/uiAvatar.h"
 #include "UI/Hybrid/uiHybridMenu.h"
+
 
 static SMFBlock SM_fileListItem;
 static SMFBlock SM_powerCustListItem;
@@ -157,19 +158,26 @@ static void reloadPowerCustFiles( const char *relPath, int reloadWhen)
 {
     loadPowerCustFromFiles();
 }
+
+static void reloadPowerCustFilesFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadPowerCustFiles(change->entry.path, change->kind);
+}
+
 void initPowerCustFolderCache()
 {
     char reloadpath[MAX_PATH];
-    FolderCache *fc;
+    FileSystem *fc;
 
     sprintf(reloadpath, "%s/", powerCustPath());
     mkdirtree(reloadpath);
 
-    fc = FolderCacheCreate();
-    FolderCacheAddFolder(fc, powerCustPath(), 0);
-    FolderCacheQuery(fc, NULL);
+    fc = fileSystemCreate();
+    fileSystemAddSource(fc, powerCustPath(), 0);
+    fileSystemDispatch();
     sprintf(reloadpath, "*%s", ".powerCust");
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, reloadpath, reloadPowerCustFiles);
+    fileSystemSubscribe(NULL, reloadpath, (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), reloadPowerCustFilesFileChanged, NULL);
 }
 static int init = 0;
 static void loadPowerCust_exit(int saveChanges)

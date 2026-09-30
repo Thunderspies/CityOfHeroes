@@ -15,8 +15,7 @@
 #include <utilitieslib/utils/utils.h>
 #include "tree.h"
 #include <utilitieslib/assert/assert.h>
-#include <utilitieslib/utils/piglib.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/components/StashTable.h>
@@ -35,6 +34,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <utilitieslib/components/earray.h>
+
 
 GlobalState global_state;
 
@@ -57,8 +57,8 @@ int force_ReLOD_Always = 1; // per jay, always answers yes so just force it
 //'extension' and records fname_count.  if just a 'extension' file is given, it just writes that into fnames
 static void getFileNames(char * fname, char** fnames, int * cur_fname_count, char * extension )
 {
-    struct _finddata_t fileinfo;
-    int        handle,test,len, extlen;
+    FileListing *listing;
+    int len, extlen;
     char    buf[1200];
 
     len = strlen(fname);
@@ -66,20 +66,21 @@ static void getFileNames(char * fname, char** fnames, int * cur_fname_count, cha
 
     if (fname[strlen(fname)-1]=='/')
         fname[strlen(fname)-1]='\0';
-    sprintf(buf,"%s/*",fname);
-    for(test = handle = _findfirst(buf,&fileinfo);test >= 0;test = _findnext(handle,&fileinfo))
-    {
-        if (fileinfo.name[0] == '.' || fileinfo.name[0] == '_')
+    listing = fileSystemListNative(fname);
+	for (size_t entry_index = 0; listing && entry_index < listing->count; entry_index++)
+	{
+		const FileSystemEntry *entry = &listing->entries[entry_index];
+        if (entry->name[0] == '.' || entry->name[0] == '_')
             continue;
-        sprintf(buf, "%s/%s", fname, fileinfo.name);
+        sprintf(buf, "%s/%s", fname, entry->name);
         len = strlen(buf);
         if ( len > extlen && ( strcmpi(buf + len - extlen, extension ) == 0 ) )
             fnames[(*cur_fname_count)++] = strdup(buf);
-        if (fileinfo.attrib & _A_SUBDIR)
+        if (entry->kind == PG_ENTRY_DIRECTORY)
             getFileNames(buf, fnames, cur_fname_count, extension);
         assert(*cur_fname_count < MAX_FNAMES);
     }
-    _findclose(handle);
+    fileListingFree(&listing);
 }
 
 
@@ -929,30 +930,31 @@ static char    **names=0;
 
 char **fileGetFlatListOfAllFilesInADirectoryRecur(char *dir,int *count_ptr)
 {
-struct _finddata_t fileinfo;
-int        handle,test;
+FileListing *listing;
+
 char    buf[1200];
 
     fileLocateWrite(dir, buf);
-    strcat(buf,"/*");
 
-    for(test = handle = _findfirst(buf,&fileinfo);test >= 0;test = _findnext(handle,&fileinfo))
-    {
-        if (fileinfo.name[0] == '.' || fileinfo.name[0] == '_')
+    listing = fileSystemListNative(buf);
+	for (size_t entry_index = 0; listing && entry_index < listing->count; entry_index++)
+	{
+		const FileSystemEntry *entry = &listing->entries[entry_index];
+        if (entry->name[0] == '.' || entry->name[0] == '_')
             continue;
-        sprintf(buf,"%s/%s",dir,fileinfo.name);
+        sprintf(buf,"%s/%s",dir,entry->name);
         names = realloc(names,(*count_ptr+1) * sizeof(names[0]));
         names[*count_ptr] = malloc(strlen(buf)+1);
         strcpy(names[*count_ptr],buf);
         (*count_ptr)++;
 
-        if (fileinfo.attrib & _A_SUBDIR)
+        if (entry->kind == PG_ENTRY_DIRECTORY)
         {
             fileGetFlatListOfAllFilesInADirectoryRecur(buf,count_ptr);
         }
         
     }
-    _findclose(handle);
+    fileListingFree(&listing);
     return names;
 }
 
@@ -1027,6 +1029,13 @@ static void reprocessOnTheFly(const char *relpath, int when)
     printf("\n");
 }
 
+static void reprocessOnTheFlyFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reprocessOnTheFly(change->entry.path, change->kind);
+}
+
+
 static void trickReloaded(const char *relpath)
 {
     VrmlList *vl;
@@ -1066,7 +1075,7 @@ static void lodReloaded(const char *relpath)
 
 void getVrmlMonitor(char *folder, int _targetlibrary)
 {
-    FolderCache *fcvrmllib = FolderCacheCreate();
+    FileSystem *fcvrmllib = fileSystemCreate();
     char path[MAX_PATH];
 
     targetlibrary = _targetlibrary;
@@ -1077,8 +1086,8 @@ void getVrmlMonitor(char *folder, int _targetlibrary)
         strcat(path, "/");
     strcpy(basePath,path);
     loadstart_printf("\nCaching %s...", path);
-    FolderCacheAddFolder(fcvrmllib, path, 0);
-    FolderCacheQuery(fcvrmllib, NULL);
+    fileSystemAddSource(fcvrmllib, path, 0);
+    fileSystemDispatch();
     loadend_printf("");
 
     consoleSetFGColor(COLOR_GREEN | COLOR_BRIGHT);
@@ -1087,9 +1096,9 @@ void getVrmlMonitor(char *folder, int _targetlibrary)
 
     trickSetReloadCallback(trickReloaded);
     lodinfoSetReloadCallback(lodReloaded);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "*.wrl", reprocessOnTheFly);
+    fileSystemSubscribe(NULL, "*.wrl", FILE_CHANGE_UPDATE, reprocessOnTheFlyFileChanged, NULL);
     while (true) {
-        FolderCacheDoCallbacks();
+        fileSystemDispatch();
         checkTrickReload();
         checkLODInfoReload();
         Sleep(200);
@@ -1153,7 +1162,7 @@ int main(int argc,char **argv)
 
     sharedMemorySetMode(SMM_DISABLED);
     setAssertMode(ASSERTMODE_DEBUGBUTTONS);
-    FolderCacheSetManualCallbackMode(1);
+
     setNearSameVec3Tolerance(0.0005); // Default (0.03) is way too high!
 
     consoleInit(220, 500, 0);
@@ -1209,11 +1218,11 @@ int main(int argc,char **argv)
     if(checkForArg(argc, argv, "-f") || checkForArg(argc, argv, "-force"))  // accept -force or -f, since gettex uses -force
         g_force_rebuild = force_rebuild = 1;
     if (checkForArg(argc, argv, "-nopig"))
-        FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+        fileSystemSetMode(FILE_MODE_LOOSE);
     else if(checkForArg(argc, argv, "-onlypig"))
-        FolderCacheSetMode(FOLDER_CACHE_MODE_PIGS_ONLY);
+        fileSystemSetMode(FILE_MODE_ARCHIVES);
     else
-        FolderCacheSetMode(FOLDER_CACHE_MODE_DEVELOPMENT_DYNAMIC);
+        fileSystemSetMode(FILE_MODE_DYNAMIC);
     if (checkForArg(argc, argv, "-nolod"))
         no_lods = 1;
     if (checkForArg(argc, argv, "-nomeshmend"))

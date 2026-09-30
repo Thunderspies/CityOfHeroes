@@ -16,7 +16,7 @@
 #include <zlib.h>
 #include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/components/MemoryPool.h"
-#include "utilitieslib/utils/FolderCache.h"
+#include "utilitieslib/utils/FileSystem.h"
 #include "utilitieslib/utils/sysutil.h"
 #include "utilitieslib/utils/textparser.h"
 #include "utilitieslib/components/earray.h"

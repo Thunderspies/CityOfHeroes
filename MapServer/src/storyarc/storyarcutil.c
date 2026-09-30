@@ -40,7 +40,7 @@
 #include "entity/character_base.h"
 #include "entity/origins.h"
 #include "entity/teamCommon.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/language/AppLocale.h>
 #include "language/commonLangUtil.h"
@@ -51,6 +51,7 @@
 #include "entity/Supergroup.h"
 #include "auth/authUserData.h"
 #include <utilitieslib/utils/log.h>
+
 
 #define SCRIPTS_DIR_SUBSTR SCRIPTS_DIR "/"
 
@@ -350,6 +351,13 @@ static void saUtilReloadCallback(const char* relpath, int when)
     saUtilPreload();
 }
 
+static void saUtilReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	saUtilReloadCallback(change->entry.path, change->kind);
+}
+
+
 static void saUtilSetupCallback(char* directory)
 {
     char fullpath[MAX_PATH];
@@ -357,7 +365,7 @@ static void saUtilSetupCallback(char* directory)
         return;
     sprintf(fullpath, "%s/*.ms", mmsGetRealMessageFilename(directory, getCurrentLocale()));
     forwardSlashes(fullpath);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, fullpath+1, saUtilReloadCallback);
+    fileSystemSubscribe(NULL, fullpath+1, FILE_CHANGE_UPDATE, saUtilReloadCallbackFileChanged, NULL);
 }
 
 

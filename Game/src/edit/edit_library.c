@@ -25,7 +25,7 @@
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/components/MRUList.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "filter/validate_name.h"
 #include "MissionControl.h"
 #include "edit/edit_library.h"
@@ -39,7 +39,6 @@
 #include "clientcomm/clientcomm.h"
 #include "MissionControl.h"
 //#include "kmeans.h"
-#include <utilitieslib/utils/PigDir.h>
 #include <utilitieslib/utils/tga.h>
 //end dbgstuff
 
@@ -1028,6 +1027,12 @@ void createFavoritesMenuCallback(const char *relpath, int when) {
         recreateFavoritesMenu=1;
 }
 
+static void createFavoritesMenuCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	createFavoritesMenuCallback(change->entry.path, change->kind);
+}
+
 static int libraryMenuColorCallback(MenuEntry *entry, void *data)
 {
     return libraryMenuColorFunc(entry, (ClickInfo*)data);
@@ -1058,10 +1063,10 @@ void libUpdateList()
         }
         createFavoritesMenu();
         if (dirExists("c:/palettes")) {
-            FolderCache * fc=FolderCacheCreate();
-            FolderCacheAddFolder(fc,"C:/palettes/",0);
-            FolderCacheQuery(fc,NULL);
-            FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "*.txt", createFavoritesMenuCallback);
+            FileSystem * fc=fileSystemCreate();
+            fileSystemAddSource(fc,"C:/palettes/",0);
+            fileSystemDispatch();
+            fileSystemSubscribe(NULL, "*.txt", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), createFavoritesMenuCallbackFileChanged, NULL);
         }
     }
 
@@ -1768,6 +1773,12 @@ static void noteChangedProperties(const char *relpath, int when) {
     reloadPropertiesDef=1;
 }
 
+static void noteChangedPropertiesFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	noteChangedProperties(change->entry.path, change->kind);
+}
+
 static int compareStringForQSort(const void* aData, const void* bData) {
     const PropertyDef ** a = (const PropertyDef **)aData;
     const PropertyDef ** b = (const PropertyDef **)bData;
@@ -1859,7 +1870,7 @@ int        i,focus;
 
         ParserLoadFiles(NULL, "defs/properties.def", NULL,
             0, ParsePropertyDefList, &g_propertyDefList, NULL,NULL,NULL);
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "defs/properties.def", noteChangedProperties);
+        fileSystemSubscribe(NULL, "defs/properties.def", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), noteChangedPropertiesFileChanged, NULL);
         {
             PropertyDef * pdef=ParserAllocStruct(sizeof(PropertyDef));
             memset(pdef,0,sizeof(PropertyDef));

@@ -39,7 +39,7 @@
 #include "gameData/costume_data.h" // for loadCostume
 #include "gameData/menudef.h"  // for load_MenuDefs
 #include "cmdparse/cmdgame.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "UI/uiLogin.h"
 #include <utilitieslib/language/AppLocale.h>
 #include "language/langClientUtil.h"
@@ -103,7 +103,6 @@
 #include "editorUI.h"
 #include "group/group.h"
 #include <utilitieslib/utils/mutex.h>
-#include <utilitieslib/utils/fileWatch.h>
 #include "graphics/FX/fxdebris.h"
 #include "UI/uiWindows.h"
 #include "seq/AutoLOD.h"
@@ -953,6 +952,7 @@ void checkOddball()
 
 #include "UI/uiUtil.h"
 #include "UI/sprite/sprite_text.h"
+
 void checkLogoutProgress()
 {
     Entity *p = playerPtr();
@@ -1261,7 +1261,7 @@ void parseArgs0(int argc, char **argv)
         if (CHECKARG("-cod"))
         {
             printf("Using development data (d_).\n");
-            FolderCacheRemoveIgnorePrefix("d_");
+            fileSystemIgnoreRemove("d_");
         }
         else if (CHECKARG("-renderthread"))
         {
@@ -1296,7 +1296,7 @@ void parseArgs0(int argc, char **argv)
             if (i == argc-1 || argv[i+1][0]!='0')
             {
                 game_state.safemode = 1;
-                FolderCacheDisallowOverrides();
+                fileSystemDisallowOverrides();
             }
         }
         else if (CHECKARG("-hidetrans"))
@@ -1306,7 +1306,7 @@ void parseArgs0(int argc, char **argv)
         else if (CHECKARG("-nooverride"))
         {
             if (i == argc-1 || argv[i+1][0]!='0')
-                FolderCacheDisallowOverrides();
+                fileSystemDisallowOverrides();
         }
         else if (CHECKARG("-verbose"))
         {
@@ -1386,7 +1386,7 @@ void parseArgs0(int argc, char **argv)
             if (i+1 < argc && argv[i+1])
             {
                 forwardSlashes(argv[i+1]);
-                PigSetAddPatchDir(unquote(argv[i+1]));
+                fileAddArchiveDirectory(unquote(argv[i+1]));
 
                 argv[i+1][0] = 0;
                 ++i;
@@ -1518,7 +1518,7 @@ void parseArgsForConsole(int argc, char** argv) {
 
 void startHiddenConsole()
 {
-    if (isDevelopmentMode() && !consoleStarted) // Must be after FolderCacheChooseMode
+    if (isDevelopmentMode() && !consoleStarted) // Must be after fileSystemChooseMode
     {
         // Create and hide
         newConsoleWindow();
@@ -1622,9 +1622,9 @@ void game_beforeParseArgs(int doLogging)
     else
         SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
 
-    FolderCacheChooseMode();
-    FolderCacheEnableCallbacks(0);
-    FolderCacheSetManualCallbackMode(1);
+    fileSystemChooseMode();
+    fileSystemCallbacksEnabled(0);
+
     sharedMemorySetMode(SMM_DISABLED);
     if (isGuiDisabled()) {
         bsAssertOnErrors(true);
@@ -1689,6 +1689,9 @@ void game_beforeParseArgs(int doLogging)
     determineIfSSEAvailable();
 
     game_setProgressString("INIT: Before renderThreadStart", "CrashPromptSafeMode", PROGRESSDIALOGTYPE_SAFEMODE);
+	(void)fileDataDir();
+	pg_status shader_status = fileSystemPrepareTree(file_system, "shaders", 0);
+	assert(shader_status == PG_OK);
     renderThreadStart();
     game_setProgressString("INIT: After renderThreadStart", NULL, PROGRESSDIALOGTYPE_OK);
 
@@ -1818,7 +1821,7 @@ int game_loadSoundsTricksFonts(int argc, char **argv)
     //TO DO move up more to be next to gfxApplySettings to reduce confustion
     maximize = game_state.maximized;  //this here because windowResize clears out maximize
 
-    if (!game_state.texWordEdit && FolderCacheGetMode() != FOLDER_CACHE_MODE_DEVELOPMENT_DYNAMIC) { // these don't get loaded/used for the texWordEditor
+    if (!game_state.texWordEdit && fileSystemGetMode() != FILE_MODE_DYNAMIC) { // these don't get loaded/used for the texWordEditor
         cacheRelevantFolders();
         writeConsole(OUTPUT_INFO, "Cached relevant folders");
 
@@ -2107,6 +2110,13 @@ void someFilesHaveChanged(const char *relpath, int when)
     }    
 }
 
+static void someFilesHaveChangedFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	someFilesHaveChanged(change->entry.path, change->kind);
+}
+
+
 void checkForStartupExec()
 {
     if (game_state.startupExec[0]) {
@@ -2134,11 +2144,11 @@ void game_beforeLoop(int isCostumeCreator, int timer)
 
     texDynamicUnload(1);
 
-    FolderCacheEnableCallbacks(1);
-    FolderCacheQuery(NULL, NULL);
+    fileSystemCallbacksEnabled(1);
+    fileSystemDispatch();
 
     //Don't try to do any more file change checks until something actually changes in the data dir
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "*", someFilesHaveChanged);
+    fileSystemSubscribe(NULL, "*", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), someFilesHaveChangedFileChanged, NULL);
     global_state.no_file_change_check = 1;
     global_state.global_frame_count = 1;
 
@@ -2347,8 +2357,7 @@ int game_mainLoop(int timer)
         PERFINFO_AUTO_START("others", 1);
             PERFINFO_AUTO_START("FolderCacheQuery", 1);
             
-                FolderCacheDoCallbacks(); // Check for directory changes
-                fileFreeOldZippedBuffers();
+                fileSystemDispatch(); // Check for directory changes
             
             PERFINFO_AUTO_STOP_START("checkOddball", 1);
                 

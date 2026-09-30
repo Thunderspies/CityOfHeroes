@@ -16,9 +16,10 @@
 #include <utilitieslib/language/MessageStore.h>
 #include "language/commonLangUtil.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "auth/authUserData.h"
+
 
 MultiMessageStore* svrMenuMessages;
 MessageStore*    cmdMessages;
@@ -161,6 +162,13 @@ static void reloadTextCallback(const char *relpath, int when)
     loadServerMessageStores();
 }
 
+static void reloadTextCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadTextCallback(change->entry.path, change->kind);
+}
+
+
 void loadServerMessageStores(void)
 {
     static int inited = 0;
@@ -212,8 +220,8 @@ void loadServerMessageStores(void)
     {
         inited = 1;
         sprintf(cmdpath, "texts/%s/*.ms", locGetName(locale));
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, cmdpath, reloadTextCallback);
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "texts/*.types", reloadTextCallback);
+        fileSystemSubscribe(NULL, cmdpath, FILE_CHANGE_UPDATE, reloadTextCallbackFileChanged, NULL);
+        fileSystemSubscribe(NULL, "texts/*.types", FILE_CHANGE_UPDATE, reloadTextCallbackFileChanged, NULL);
     }
 
 }

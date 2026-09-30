@@ -14,7 +14,7 @@
 #include "gameComm/VillainDef.h"
 #include <utilitieslib/utils/error.h>
 #include "fxinfo.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "seq/seqtype.h"
 #include "cmdparse/cmdcommon.h"
@@ -42,15 +42,22 @@
 #endif
 
 
+static FileScanAction cacheFolderEntry(char *directory, struct _finddata32_t *entry)
+{
+	(void)directory;
+	(void)entry;
+	return FSA_EXPLORE_DIRECTORY;
+}
+
 void cacheRelevantFolders() {
     writeConsole(OUTPUT_DEBUG, "Caching relevant folders");
-    FolderCacheRequestTree(folder_cache, "Defs"); // If we're in dynamic mode, this will load this tree for faster file access
-    FolderCacheRequestTree(folder_cache, "Menu");
+    fileScanAllDataDirs("Defs", cacheFolderEntry); // If we're in dynamic mode, this will load this tree for faster file access
+    fileScanAllDataDirs("Menu", cacheFolderEntry);
     if (!quickload) {
-        FolderCacheRequestTree(folder_cache, "player_library/animations/male");
-        FolderCacheRequestTree(folder_cache, "player_library/animations/huge");
-        FolderCacheRequestTree(folder_cache, "player_library/animations/fem");
-        FolderCacheRequestTree(folder_cache, "player_library/animations/Vahzilok");
+        fileScanAllDataDirs("player_library/animations/male", cacheFolderEntry);
+        fileScanAllDataDirs("player_library/animations/huge", cacheFolderEntry);
+        fileScanAllDataDirs("player_library/animations/fem", cacheFolderEntry);
+        fileScanAllDataDirs("player_library/animations/Vahzilok", cacheFolderEntry);
     }
 }
 

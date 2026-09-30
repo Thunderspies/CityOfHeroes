@@ -43,12 +43,14 @@
 #include "AppVersion.h"
 #include "comm_game.h"
 #include "fileutil.h"
-#include "FolderCache.h"
+#include <utilitieslib/utils/FileSystem.h>
 #include "SharedMemory.h"
 #include "StashTable.h"
 #include "costume_data.h"
 #include "BodyPart.h"
 #include "SharedHeap.h"
+
+#include <utilitieslib/utils/FileSystem.h>
 
 
 //---------------------------------------------------------------------------------------------------------------
@@ -414,6 +416,13 @@ static void villainDefReload(const char* relpath, int when)
 	}
 }
 
+static void villainDefReloadFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	villainDefReload(change->entry.path, change->kind);
+}
+
+
 
 
 void villainReadDefFiles(bool bNewAttribs)
@@ -469,7 +478,7 @@ void villainReadDefFiles(bool bNewAttribs)
 	// Set up callbacks for reloading in dev mode
 	if (!isDevelopmentMode())
 		return;
-	FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "Defs/Villains/*.villain", villainDefReload);
+	fileSystemSubscribe(NULL, "Defs/Villains/*.villain", FILE_CHANGE_UPDATE, villainDefReloadFileChanged, NULL);
 };
 
 

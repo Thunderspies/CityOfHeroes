@@ -1,0 +1,9 @@
+include_guard(GLOBAL)
+include(CPM)
+
+CPMAddPackage(
+	NAME piggle
+	GITHUB_REPOSITORY Thunderspies/Piggle
+	GIT_TAG 28ce68b4dc4e715649c3b8acf0502f6926797cf4 # v1.0.0
+	OPTIONS "PIGGLE_BUILD_CLI OFF" "BUILD_TESTING OFF"
+)

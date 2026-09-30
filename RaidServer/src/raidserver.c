@@ -17,7 +17,7 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/sysutil.h>
 #include "dbserver/servercfg.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/ConsoleDebug.h>
 #include <utilitieslib/language/AppLocale.h>
 #include <utilitieslib/utils/MemoryMonitor.h>
@@ -1117,7 +1117,7 @@ int        i,timer;
 
     setWindowIconColoredLetter(compatibleGetConsoleWindow(), 'R', 0x8080ff);
 
-    FolderCacheChooseMode();
+    fileSystemChooseMode();
 
     preloadDLLs(0);
 

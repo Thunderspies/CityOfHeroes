@@ -26,7 +26,7 @@
 #include "process_skelx.h"
 #include "seq/animtrack.h"
 #include "cmdparse/cmdcommon.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/sysutil.h>
@@ -67,20 +67,20 @@ static char    **names=0;
 
 char **fileGetDirsRecurse(char *dir,int *count_ptr)
 {
-    struct _finddata_t fileinfo;
-    int        handle,test;
+    FileListing *listing;
+
     char    buf[1200];
 
     fileLocateWrite(dir, buf);
 
-    strcat(buf,"/*");
-
-    for(test = handle = _findfirst(buf,&fileinfo);test >= 0;test = _findnext(handle,&fileinfo))
-    {
-        if (fileinfo.name[0] == '.' || fileinfo.name[0] == '_')
+    listing = fileSystemListNative(buf);
+	for (size_t entry_index = 0; listing && entry_index < listing->count; entry_index++)
+	{
+		const FileSystemEntry *entry = &listing->entries[entry_index];
+        if (entry->name[0] == '.' || entry->name[0] == '_')
             continue;
-        sprintf(buf,"%s/%s",dir,fileinfo.name);
-        if (fileinfo.attrib & _A_SUBDIR)
+        sprintf(buf,"%s/%s",dir,entry->name);
+        if (entry->kind == PG_ENTRY_DIRECTORY)
         {
             names = realloc(names,(*count_ptr+1) * sizeof(names[0]));
             names[*count_ptr] = malloc(strlen(buf)+1);
@@ -90,7 +90,7 @@ char **fileGetDirsRecurse(char *dir,int *count_ptr)
         }
         
     }
-    _findclose(handle);
+    fileListingFree(&listing);
     return names;
 }
 
@@ -761,6 +761,12 @@ static void reprocessOnTheFly(const char *relpath, int when)
     printf("--------------------------------------------------------------------------\n" );
 }
 
+static void reprocessOnTheFlyFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reprocessOnTheFly(change->entry.path, change->kind);
+}
+
 static void reprocessSkeletonOnTheFly(const char *relpath, int when)
 {
     char fullpath[MAX_PATH];
@@ -800,33 +806,39 @@ static void reprocessSkeletonOnTheFly(const char *relpath, int when)
     printf("--------------------------------------------------------------------------\n" );
 }
 
+static void reprocessSkeletonOnTheFlyFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reprocessSkeletonOnTheFly(change->entry.path, change->kind);
+}
+
 void getAnimMonitor(char *folder)
 {
-    FolderCache *fc_anim_lib = FolderCacheCreate();
+    FileSystem *fc_anim_lib = fileSystemCreate();
     char path[MAX_PATH];
 
     //folder_cache_debug = 2;
 
-    //FolderCacheSetMode(FOLDER_CACHE_MODE_I_LIKE_PIGS);
+    //fileSystemSetMode(FILE_MODE_HYBRID);
     strcpy(path, folder);
     forwardSlashes(path);
     if (!strEndsWith(path, "/"))
         strcat(path, "/");
     strcpy(basePath,path);
     loadstart_printf("\nCaching %s...", path);
-    FolderCacheAddFolder(fc_anim_lib, path, 0);
-    FolderCacheQuery(fc_anim_lib, NULL);
+    fileSystemAddSource(fc_anim_lib, path, 0);
+    fileSystemDispatch();
     loadend_printf("");
 
     consoleSetFGColor(COLOR_GREEN | COLOR_BRIGHT);
     printf("Now monitoring for changes in .ANIMX and .SKELX files.\n");
     consoleSetDefaultColor();
 
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "*.animx", reprocessOnTheFly);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "*.skelx", reprocessSkeletonOnTheFly);
+    fileSystemSubscribe(NULL, "*.animx", FILE_CHANGE_UPDATE, reprocessOnTheFlyFileChanged, NULL);
+    fileSystemSubscribe(NULL, "*.skelx", FILE_CHANGE_UPDATE, reprocessSkeletonOnTheFlyFileChanged, NULL);
     while(true)
     {
-        FolderCacheDoCallbacks();
+        fileSystemDispatch();
         Sleep(200);
     }
 }
@@ -980,7 +992,7 @@ int main(int argc,char **argv)
     sharedMemorySetMode(SMM_DISABLED);
     setAssertMode((!IsDebuggerPresent()? ASSERTMODE_MINIDUMP : 0) |
         ASSERTMODE_DEBUGBUTTONS);
-    FolderCacheSetManualCallbackMode(1);
+
 
     _getcwd(cwd, 128);
 
@@ -1061,11 +1073,11 @@ int main(int argc,char **argv)
 
     if (no_pig)
     {
-        FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+        fileSystemSetMode(FILE_MODE_LOOSE);
     }
     else
     {
-        FolderCacheSetMode(FOLDER_CACHE_MODE_DEVELOPMENT_DYNAMIC);
+        fileSystemSetMode(FILE_MODE_DYNAMIC);
     }
 
     fileAutoDataDir(true);

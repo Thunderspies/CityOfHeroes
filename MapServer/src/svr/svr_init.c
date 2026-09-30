@@ -52,7 +52,7 @@
 #include "storyarc/storyarcinterface.h"
 #include "language/langServerUtil.h"
 #include "entity/load_def.h" // for load_AllDefs
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/utils/sysutil.h>        // for getExecutableName()
 #include "group/groupfilelib.h"
@@ -75,7 +75,6 @@
 #include "dbcomm/staticMapInfo.h"            // for staticMapInfosReload()
 #include "gridcoll/gridcache.h"
 #include <utilitieslib/utils/wininclude.h>
-#include <utilitieslib/utils/DirMonitor.h>
 #include "dbcomm/characterTransfer.h"
 #include "dbcomm/characterInfo.h"
 #include "player/badges_server.h"
@@ -302,7 +301,7 @@ static void setRuntimePriority(void)
 
 static void sysInit() // non game-specific initializations
 {
-    FolderCacheExclude(FOLDER_CACHE_EXCLUDE_FOLDER, "texture_library"); // currently accepts only one of these
+    fileSystemExclude("texture_library", 0); // currently accepts only one of these
 
     if(beaconizerIsStarting() != 1){
         // File system completely disabled for beacon clients.
@@ -619,7 +618,7 @@ static void parseArgs1(int argc,char **argv)
         else if (strcmp(argv[i], "-nopigs")==0)
         {
             printf("Not using piggs due to -nopiggs\n");
-            FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+            fileSystemSetMode(FILE_MODE_LOOSE);
         }
         else if (strcmp(argv[i], "-silent")==0)
         {
@@ -631,7 +630,7 @@ static void parseArgs1(int argc,char **argv)
         {
             // We want these two options by default for -dbquery to make them fast!
             handled = 0;
-            FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+            fileSystemSetMode(FILE_MODE_LOOSE);
             server_state.noEncryption = 1;
             server_state.silent = 1;
         }
@@ -648,7 +647,7 @@ static void parseArgs1(int argc,char **argv)
         else if(strcmp(argv[i], "-tsr2")==0 ||
                 strcmp(argv[i], "-tsr3")==0 )
         {
-            // This used to be doing FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY); (-nopigs), 
+            // This used to be doing fileSystemSetMode(FILE_MODE_LOOSE); (-nopigs),
             //  but that makes it slow, but it was probably for a good reason, but I'm taking
             //  it out for now.
             handled = 0;
@@ -657,7 +656,7 @@ static void parseArgs1(int argc,char **argv)
         {
             // Disable encryption/Networking Startup on these commands
             handled = 0;
-            FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+            fileSystemSetMode(FILE_MODE_LOOSE);
             server_state.noEncryption = 1;
         }
         else if (strcmp(argv[i], "-svrconfig")==0)
@@ -669,7 +668,7 @@ static void parseArgs1(int argc,char **argv)
         else if (stricmp(argv[i], "-cod")==0)
         {
             printf("Using Development data (d_).\n");
-            FolderCacheRemoveIgnorePrefix("d_");
+            fileSystemIgnoreRemove("d_");
             server_state.cod = 1;
         }
         else if (stricmp(argv[i], "-hidetrans")==0)
@@ -1961,7 +1960,7 @@ int __cdecl main(int argc,char **argv)
 
     if(!beaconizerIsStarting())
     {
-        FolderCacheIgnoreStdPrefixes();
+        fileSystemIgnoreStandard();
     }
     else
     {
@@ -1970,18 +1969,17 @@ int __cdecl main(int argc,char **argv)
         serverErrorfSetNeverShowDialog();
     }
     
-    // Do not perform any file io until FolderCacheChooseMode() has been called.
+    // Do not perform any file io until fileSystemChooseMode() has been called.
     //        Otherwise, the game will fail to find all of its data files.
-    FolderCacheChooseMode();
-    FolderCacheEnableCallbacks(0);
-    FolderCacheSetManualCallbackMode(1);
+    fileSystemChooseMode();
+    fileSystemCallbacksEnabled(0);
+
     if (isDevelopmentMode()) {
         bsAssertOnErrors(true);
         disableRtlHeapChecking(NULL);
     } else {
         // Only tell the DbServer to auto-delink us if we're in production mode
         setAssertCallback(dbDelinkMeWrapper);
-        dirMonSetBufferSize(4096); // Don't use much memory for the DirMonitor, not much should ever need be reloaded anyway!
     }
     // Set the assert mode, if we're launched by a launcher we probably get our assert mode overridden by the DbServer
     // In production mode on the servers we want to save all minidumps timestamped, or possibly full dumps
@@ -1992,7 +1990,7 @@ int __cdecl main(int argc,char **argv)
     newConsoleWindow();
     if(beaconizerIsStarting())
     {
-        FolderCacheSetMode(FOLDER_CACHE_MODE_FILESYSTEM_ONLY);
+        fileSystemSetMode(FILE_MODE_LOOSE);
         sharedMemorySetMode(SMM_DISABLED);
         sharedHeapTurnOff("disabled");
     }
@@ -2158,7 +2156,7 @@ int __cdecl main(int argc,char **argv)
 
     // This needs to stay above the groupLoadMakeAllBin call, since the folder cache needs
     // to get updated when files change that might get loaded in the next group load
-    FolderCacheEnableCallbacks(1);
+    fileSystemCallbacksEnabled(1);
 
     // if we're creating bin files exit on completion
     if( server_state.map_stats || server_state.map_minimaps)

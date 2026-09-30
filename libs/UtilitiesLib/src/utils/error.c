@@ -17,7 +17,7 @@
 #include <zlib.h>
 #include "utilitieslib/components/StashTable.h"
 #include "utilitieslib/components/MemoryPool.h"
-#include "utilitieslib/utils/FolderCache.h"
+#include "utilitieslib/utils/FileSystem.h"
 #include "utilitieslib/utils/sysutil.h"
 #include "utilitieslib/utils/textparser.h"
 #include "utilitieslib/components/earray.h"
@@ -599,20 +599,11 @@ void loadend_printf(const char* fmt, ...)
 static char *errorLogFile = "errorLogLastRun";
 void errorLogStart(void)
 {
-    int num;
-    char str[128] = "";
-    char **ignored;
     char fullpath[MAX_PATH];
     sprintf_s(SAFESTR(fullpath), "%s%s.log", getLogDir(), errorLogFile);
     if (fileSize(fullpath) > 200000) {
         // Reset the log every 200K
         fileForceRemove(fullpath);
-    }
-    ignored = FolderCacheGetIgnoredPrefixes(&num);
-    for (; num; num--) {
-        strcat(str, ignored[num-1]);
-        if (num>1)
-            strcat(str, ",");
     }
     writeConsole(OUTPUT_INFO, "Initialized error log %s", fullpath);
 }

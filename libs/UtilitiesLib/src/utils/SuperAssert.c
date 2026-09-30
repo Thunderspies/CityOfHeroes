@@ -49,7 +49,6 @@ void assertInstallExceptionHandler(void)
 }
 #endif
 
-extern char g_pigErrorBuffer[2048];    // piglib.c
 
 #if USE_NEW_TIMING_CODE
     void autoTimerDisableRecursion(S32 increment);
@@ -213,12 +212,7 @@ static void addExtraInfo(char *assertbuf, int n)
         }
     }
 
-    /*
-    * Pigg errors
-    */
-    strncat_s( assertbuf, n, "Pigg Error Buffer: ", _TRUNCATE);
-    strncat_s( assertbuf, n, g_pigErrorBuffer, _TRUNCATE);
-    strncat_s( assertbuf, n, newline, _TRUNCATE );
+
 }
 
 static void fillAssertBuffer(unsigned int code, PEXCEPTION_POINTERS info, DWORD dLastError, char *cWindowsErrorMessage)

@@ -1,10 +1,11 @@
 #include "characterTransfer.h"
 #include <stdio.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/wininclude.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/timing.h>
+
 
 extern CharacterTransfer characterTransfer = { "C:\\characterTransfer", "mapserver.exe", "mapserver.exe" };
 
@@ -110,6 +111,13 @@ static void characterTransferCallback(const char *relPath, int when)
     }
 }
 
+static void characterTransferCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	characterTransferCallback(change->entry.path, change->kind);
+}
+
+
 static FileScanAction characterTransferProcessor(char *dir, struct _finddata32_t* data)
 {
     char fullpath[MAX_PATH];
@@ -124,7 +132,7 @@ static FileScanAction characterTransferProcessor(char *dir, struct _finddata32_t
 
 void characterTransferMonitor()
 {
-    static FolderCache * fcCharacterTransfer = 0;
+    static FileSystem * fcCharacterTransfer = 0;
     char filesToMonitor[1024];
     int timer;
 
@@ -133,10 +141,10 @@ void characterTransferMonitor()
     fileScanDirRecurseEx(characterTransfer.rootPath, characterTransferProcessor);
 
     sprintf( filesToMonitor, "*.csv" ); // , characterTransfer.rootPath );
-    fcCharacterTransfer = FolderCacheCreate();
-    FolderCacheAddFolder(fcCharacterTransfer, characterTransfer.rootPath, 0);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE|FOLDER_CACHE_CALLBACK_CAN_USE_SHARED_MEM, filesToMonitor, characterTransferCallback);
-    FolderCacheEnableCallbacks(1);
+    fcCharacterTransfer = fileSystemCreate();
+    fileSystemAddSource(fcCharacterTransfer, characterTransfer.rootPath, 0);
+    fileSystemSubscribe(NULL, filesToMonitor, FILE_CHANGE_UPDATE|FILE_CHANGE_SHARED, characterTransferCallbackFileChanged, NULL);
+    fileSystemCallbacksEnabled(1);
 
     printf("###Monitoring for new requests in %s\\%s...\n", characterTransfer.rootPath, filesToMonitor);
     timer = timerAlloc();
@@ -148,7 +156,7 @@ void characterTransferMonitor()
             fileScanDirRecurseEx(characterTransfer.rootPath, characterTransferProcessor);
             timerStart(timer);
         }
-        FolderCacheQuery(fcCharacterTransfer, ""); // Just to get Update
+        fileSystemDispatch(); // Just to get Update
         Sleep(1);
     }
 }

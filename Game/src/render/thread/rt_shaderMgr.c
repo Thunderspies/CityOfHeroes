@@ -241,81 +241,14 @@ static void GenPrograms(tShaderProgramType target, int *prog)
     }
 }
 
-void shaderMgr_SetCgShaderPath( const char* szPath )
+void shaderMgr_SetCgShaderPath(const char *path)
 {
-    char* shaderPathBuffer = sShaderDirectory[kPathRoot_Custom];
-
-    if (( szPath == NULL ) || ( *szPath == '\0' ))
-    {
-        // if no path sent, just reset.
-        shaderPathBuffer[0] = '\0';
-        return;
-    }
-    
-    // If the path relative? If so, make it relative to the 
-    // app's directory ("bin").
-    if ( *szPath == '.' )
-    {
-        int i;
-        int nPathsToPluck = 1;    // 1 for the module file name
-        const char* szPathAdj = szPath;
-        char* p;
-        GetModuleFileNameA(NULL,sShaderDirectory[kPathRoot_Custom],ARRAY_SIZE(sShaderDirectory[kPathRoot_Custom]));
-
-        // Handle the single dot prefix: "." by itself or "./blah"        
-        if ( szPathAdj[1] == '\0' )
-        {
-            szPathAdj++;
-        }
-        else if (( szPathAdj[1] == '\\' ) || ( szPathAdj[1] == '/' ))
-        {
-            szPathAdj += 2;
-        }
-        
-        // Handle the ".." prefix
-        while (( szPathAdj[0] == '.' ) &&
-               ( szPathAdj[1] == '.' ))
-        {
-            nPathsToPluck++;
-            if ( szPathAdj[2] != '\0' )
-                szPathAdj += 3;    // pass the "..\"
-            else
-                szPathAdj += 2;    // pass the ".."
-        }
-        
-        p = ( sShaderDirectory[kPathRoot_Custom] + strlen(sShaderDirectory[kPathRoot_Custom]) );
-        for ( i=0; i < nPathsToPluck; i++ )
-        {
-            // back up to the next path boundary
-            while (( p != sShaderDirectory[kPathRoot_Custom] ) && ( *p != '/' ) && ( *p != '\\' ))
-            {
-                p--;
-            }
-            if ( p != sShaderDirectory[kPathRoot_Custom] ) p--;
-        }
-        if ( *szPathAdj != '\0' )
-        {
-            *(++p) = '/';
-            strncpy_s( p+1, ( ARRAY_SIZE(sShaderDirectory[kPathRoot_Custom]) - strlen(sShaderDirectory[kPathRoot_Custom]) ), szPathAdj, _TRUNCATE );
-        }
-        else
-        {
-            *(++p) = '\0';
-        }
-        for ( p = sShaderDirectory[kPathRoot_Custom]; *p != '\0'; p++ )
-        {
-            if ( *p == '\\' ) *p = '/';
-        }
-    }
-    else
-    {
-        strncpy_s( sShaderDirectory[kPathRoot_Custom], ARRAY_SIZE(sShaderDirectory[kPathRoot_Custom]), szPath, _TRUNCATE );
-    }
-    
-    // Make sure this folder is monitored for changes by the FolderCache system
-    fileAddGameDataDir( sShaderDirectory[kPathRoot_Custom] );
-
-    strcat(sShaderDirectory[kPathRoot_Custom], "/"); // postpend slash now required for downstream stuff
+	char *buffer = sShaderDirectory[kPathRoot_Custom];
+	buffer[0] = 0;
+	if (!path || !*path) return;
+	strncpy_s(buffer, sizeof(sShaderDirectory[kPathRoot_Custom]),
+		path, _TRUNCATE);
+	strcat_s(buffer, sizeof(sShaderDirectory[kPathRoot_Custom]), "/");
 }
 
 const char* getCurrentShaderFileBaseDirARB_OBSOLETE(void)
@@ -3023,33 +2956,15 @@ static void storePreBakedShader( tShaderBuildDescriptor* pBuildDescriptor, const
 
 static void clearPreBakedShadersRecursive( const char* startDir )
 {
-    struct _finddata_t fileInfo = { 0 };
-    char searchPath[_MAX_PATH];
-    intptr_t searchHandle = -1;
-    
-    sprintf_s( searchPath, ARRAY_SIZE(searchPath), "%s\\*.*", startDir );
-    if (( searchHandle = _findfirst( searchPath, &fileInfo ) ) != -1 )
-    {
-        do
-        {
-            if ( fileInfo.name[0] != '.' )
-            {
-                if ( fileInfo.attrib & _A_SUBDIR )
-                {
-                    char nextDir[_MAX_PATH];
-                    sprintf_s( nextDir, ARRAY_SIZE(nextDir), "%s\\%s", startDir, fileInfo.name );
-                    clearPreBakedShadersRecursive( nextDir );
-                }
-                else if ( strstr( fileInfo.name, ".cg" ) != NULL )
-                {
-                    char nameToNuke[_MAX_PATH];
-                    sprintf_s( nameToNuke, ARRAY_SIZE(nameToNuke), "%s\\%s", startDir, fileInfo.name );
-                    remove( nameToNuke );
-                }
-            }
-        } while ( _findnext( searchHandle, &fileInfo ) == 0 );
-        _findclose( searchHandle );
-    }
+	FileListing *listing = fileSystemListNative(startDir);
+	for (size_t i = 0; listing && i < listing->count; i++) {
+		const FileSystemEntry *entry = &listing->entries[i];
+		if (entry->name[0] == '.') continue;
+		if (entry->kind == PG_ENTRY_DIRECTORY)
+			clearPreBakedShadersRecursive(entry->native_path);
+		else if (strstr(entry->name, ".cg")) remove(entry->native_path);
+	}
+	fileListingFree(&listing);
 }
 
 static void makeStandardizedFilePathMd5KeyString( const char* szPathStr, char* strBuffer33, size_t buffSz /* at least 33 */ )

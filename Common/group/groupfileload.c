@@ -18,7 +18,7 @@
 #include "group/groupgrid.h"
 #include "group/groupdyn.h"
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "seq/anim.h"
 #include <float.h>
 #include "NovodeX/NwWrapper.h"

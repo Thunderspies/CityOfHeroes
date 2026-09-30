@@ -42,7 +42,7 @@
 #include "graphics/gfx.h"
 #include "graphics/gfxSettings.h"
 #include "UI/uiConsole.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "entity/netfx.h"
 #include "render/tex.h"
 #include "render/texUnload.h"
@@ -2233,7 +2233,7 @@ void demoPlay()
     frame_total_timer = timerAlloc();
     control_state.predict = 0;
     global_state.client_abs = play_abs_time;
-    FolderCacheEnableCallbacks(1);
+    fileSystemCallbacksEnabled(1);
 
     engine_update(); 
     last_play_abs_time = play_abs_time = abstime_start;
@@ -2244,7 +2244,7 @@ void demoPlay()
         
         timerTickBegin();
 
-        FolderCacheDoCallbacks(); // Check for directory changes
+        fileSystemDispatch(); // Check for directory changes
 
         if(inpEdge(INP_ESCAPE))
         {
@@ -2294,7 +2294,7 @@ void demoPlay()
         
         autoTimerTickBegin();
 
-        FolderCacheDoCallbacks(); // Check for directory changes
+        fileSystemDispatch(); // Check for directory changes
 
         if(!editMode() && inpEdge(INP_ESCAPE))
         {

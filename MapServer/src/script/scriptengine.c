@@ -16,9 +16,10 @@
 #include "dbcomm/staticMapInfo.h"
 #include "container/mapgroup.h"
 #include "entity/entity.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "dbcomm/logcomm.h"
+
 
 int    g_scriptCombatLevel = 0;
 int    g_scriptMinCombatLevel = 0;
@@ -98,11 +99,18 @@ static void ScriptDefReloadCallback(const char* relpath, int when)
     }
 }
 
+static void ScriptDefReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	ScriptDefReloadCallback(change->entry.path, change->kind);
+}
+
+
 static void ScriptDefSetupCallbacks()
 {
     if (!isDevelopmentMode())
         return;
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "scripts.loc/*.scriptdef", ScriptDefReloadCallback);
+    fileSystemSubscribe(NULL, "scripts.loc/*.scriptdef", FILE_CHANGE_UPDATE, ScriptDefReloadCallbackFileChanged, NULL);
 }
 
 void ScriptDefLoad(void)

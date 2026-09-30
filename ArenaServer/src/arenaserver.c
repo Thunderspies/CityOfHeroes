@@ -21,7 +21,7 @@
 #include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "dbcomm/dbcomm.h"
 #include "container/containerArena.h"
 #include <utilitieslib/components/earray.h>
@@ -745,7 +745,7 @@ int        i,timer;
 
     setWindowIconColoredLetter(compatibleGetConsoleWindow(), 'A', 0x8080ff);
 
-    FolderCacheChooseMode();
+    fileSystemChooseMode();
 
     preloadDLLs(0);
 

@@ -8,8 +8,9 @@
 #include "UI/uiMissionMakerScrollSet.h"        //    for update custom critter list
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/language/MessageStoreUtil.h>                //    for textStd
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "UI/uiCustomVillainGroupWindow.h"
+
 
 extern MMScrollSet missionMaker;
 
@@ -255,19 +256,26 @@ static void reloadCVGFiles( const char *relPath, int reloadWhen)
     updateCustomCritterList(&missionMaker);
     populateCVGSS();
 }
+
+static void reloadCVGFilesFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadCVGFiles(change->entry.path, change->kind);
+}
+
 void initCVGFolderCache()
 {
     char reloadpath[MAX_PATH];
-    FolderCache *fc;
+    FileSystem *fc;
 
     sprintf(reloadpath, "%s/", getCustomVillainGroupDir());
     mkdirtree(reloadpath);
 
-    fc = FolderCacheCreate();
-    FolderCacheAddFolder(fc, getCustomVillainGroupDir(), 0);
-    FolderCacheQuery(fc, NULL);
+    fc = fileSystemCreate();
+    fileSystemAddSource(fc, getCustomVillainGroupDir(), 0);
+    fileSystemDispatch();
     sprintf(reloadpath, "*%s", ".cvg");
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, reloadpath, reloadCVGFiles);
+    fileSystemSubscribe(NULL, reloadpath, (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), reloadCVGFilesFileChanged, NULL);
 }
 
 

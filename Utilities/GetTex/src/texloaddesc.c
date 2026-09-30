@@ -14,7 +14,8 @@
 #include <fcntl.h>
 #include <share.h>
 #include <utilitieslib/utils/wininclude.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
+
 
 
 TexInf    *tex_infs = NULL;
@@ -176,6 +177,13 @@ static void texChanged(const char *relpath, int when)
     releaseGettexLock();
 }
 
+static void texChangedFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	texChanged(change->entry.path, change->kind);
+}
+
+
 
 
 void texLoadAllInfo(int reloadcallback)
@@ -183,7 +191,7 @@ void texLoadAllInfo(int reloadcallback)
     texLoadDesc("texture_library/");
     if (reloadcallback) {
         // Yes for GetVrml, no for GetTex
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "texture_library/*.texture", texChanged);
+        fileSystemSubscribe(NULL, "texture_library/*.texture", FILE_CHANGE_UPDATE, texChangedFileChanged, NULL);
     }
 }
 

@@ -63,7 +63,7 @@
 #include "cmdparse/cmdserver.h"
 #include "gridcoll/gridfind.h"
 #include <utilitieslib/components/StringTable.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "group/groupgrid.h"
 #include "player/badges_server.h"
@@ -720,6 +720,12 @@ static void SpawnDefReloadCallback(const char* relpath, int when)
     }
 }
 
+static void SpawnDefReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	SpawnDefReloadCallback(change->entry.path, change->kind);
+}
+
 // Search for a recently reloaded dialog def that still needs to be preprocessed
 // Different search because the def has not yet been processed
 static DialogFile* DialogFileFindUnprocessed(const char* relpath)
@@ -752,12 +758,18 @@ static void SpawnDefDialogReloadCallback(const char* relpath, int when)
     }
 }
 
+static void SpawnDefDialogReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	SpawnDefDialogReloadCallback(change->entry.path, change->kind);
+}
+
 static void SpawnDefSetupCallbacks()
 {
     if (!isDevelopmentMode())
         return;
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "scripts.loc/*.dialog2", SpawnDefDialogReloadCallback);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "scripts.loc/*.spawndef", SpawnDefReloadCallback);
+    fileSystemSubscribe(NULL, "scripts.loc/*.dialog2", FILE_CHANGE_UPDATE, SpawnDefDialogReloadCallbackFileChanged, NULL);
+    fileSystemSubscribe(NULL, "scripts.loc/*.spawndef", FILE_CHANGE_UPDATE, SpawnDefReloadCallbackFileChanged, NULL);
 }
 
 // called once on startup

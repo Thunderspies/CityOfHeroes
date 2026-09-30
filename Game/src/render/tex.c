@@ -24,7 +24,7 @@
 #include "graphics/sun.h"
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/strings_opt.h>
 #include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/utils/memlog.h>
@@ -41,6 +41,7 @@
 #include <utilitieslib/utils/osdependent.h>
 #include <utilitieslib/utils/osdependent.h>
 #include "LWC.h"
+
 
 static const char TEXTURE_MEMMONITOR_NAME[] = "OpenGL Textures";
 
@@ -1616,6 +1617,13 @@ static void reloadTextureCallback(const char *relpath, int when) {
     }
 }
 
+static void reloadTextureCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadTextureCallback(change->entry.path, change->kind);
+}
+
+
 static void texCreateCompositeTextureFromBasic(BasicTexture *basicBind)
 {
     StashElement    element;
@@ -1678,7 +1686,7 @@ int texLoadHeaders(void)
     texScanForTexHeaders(true);
 
     // Add callback for re-loading textures
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "texture_library/*.texture", reloadTextureCallback);
+    fileSystemSubscribe(NULL, "texture_library/*.texture", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), reloadTextureCallbackFileChanged, NULL);
 
     writeConsole(OUTPUT_INFO, "Loaded texture headers");
     

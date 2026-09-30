@@ -5,7 +5,6 @@
 #include "bases/bases.h"
 #include "bases/basedata.h"
 #include <utilitieslib/components/StashTable.h>
-#include <utilitieslib/utils/fileWatch.h>
 #include <utilitieslib/utils/log.h>
 
 // Client-To-Server Messages.
@@ -626,8 +625,7 @@ S32 beaconCreateNewExe(const char* path, U8* data, U32 size){
 }
 
 S32 beaconDeleteOldExes(const char* exeName, S32* attemptCount){
-    intptr_t p;
-    struct _finddata_t info;
+    FileListing *listing;
     S32 deletedFiles = 0;
     char buffer[1000];
     
@@ -635,12 +633,11 @@ S32 beaconDeleteOldExes(const char* exeName, S32* attemptCount){
         attemptCount[0] = 0;
     }
 
-    sprintf(buffer, "c:/beaconizer/beaconcopy*");
-    
-    p = _findfirst(buffer, &info);
-    
-    if(p != -1){
-        do{
+	listing = fileSystemListNative("c:/beaconizer");
+	if (listing) {
+		for (size_t i = 0; i < listing->count; i++) {
+			const FileSystemEntry *entry = &listing->entries[i];
+			if (strnicmp(entry->name, "beaconcopy", 10)) continue;
             const char* fileName;
             strcpy(buffer, exeName);
             fileName = getFileName(buffer);
@@ -651,7 +648,7 @@ S32 beaconDeleteOldExes(const char* exeName, S32* attemptCount){
             
             // Delete the file.
             
-            sprintf(buffer, "c:/beaconizer/%s/%s", info.name, exeName);
+            sprintf(buffer, "c:/beaconizer/%s/%s", entry->name, exeName);
             beaconPrintf(COLOR_RED, "Deleting: %s\n", buffer);
             
             if(!DeleteFileA(buffer)){
@@ -663,7 +660,7 @@ S32 beaconDeleteOldExes(const char* exeName, S32* attemptCount){
 
             // Delete the folder.
             
-            sprintf(buffer, "c:/beaconizer/%s", info.name);
+            sprintf(buffer, "c:/beaconizer/%s", entry->name);
             beaconPrintf(COLOR_RED, "Deleting: %s\n", buffer);
 
             if(!RemoveDirectoryA(buffer)){
@@ -672,23 +669,22 @@ S32 beaconDeleteOldExes(const char* exeName, S32* attemptCount){
                 beaconPrintf(COLOR_GREEN, "  DONE!!!\n");
                 deletedFiles++;
             }
-        }while(!_findnext(p, &info));
-        
-        _findclose(p);
+        }
     }
     
-    sprintf(buffer, "c:/beaconizer/beacon*.exe");
-    
-    p = _findfirst(buffer, &info);
-    
-    if(p != -1){
-        do{
-            if(    stricmp(info.name, "BeaconServer.exe") &&
-                stricmp(info.name, "BeaconClient.exe"))
+	fileListingFree(&listing);
+	listing = fileSystemListNative("c:/beaconizer");
+	if (listing) {
+		for (size_t i = 0; i < listing->count; i++) {
+			const FileSystemEntry *entry = &listing->entries[i];
+			if (strnicmp(entry->name, "beacon", 6) ||
+				!strEndsWith(entry->name, ".exe")) continue;
+            if(    stricmp(entry->name, "BeaconServer.exe") &&
+                stricmp(entry->name, "BeaconClient.exe"))
             {
                 // Delete the file.
                 
-                sprintf(buffer, "c:/beaconizer/%s", info.name);
+                sprintf(buffer, "c:/beaconizer/%s", entry->name);
                 beaconPrintf(COLOR_RED, "Deleting: %s\n", buffer);
                 
                 if(!DeleteFileA(buffer)){
@@ -698,9 +694,10 @@ S32 beaconDeleteOldExes(const char* exeName, S32* attemptCount){
                     deletedFiles++;
                 }
             }
-        }while(!_findnext(p, &info));
+        }
     }
     
+    fileListingFree(&listing);
     return deletedFiles;
 }
 

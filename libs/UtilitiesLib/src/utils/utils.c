@@ -148,8 +148,7 @@ void mkdirtree(char const* in_path)
 void rmdirtree(char *path)
 {
     char    buf[1000],*s;
-    struct _finddata32_t finddata;
-    long hfile;
+    FileListing *listing;
     forwardSlashes(path);
 
     strcpy(buf,path);
@@ -161,17 +160,9 @@ void rmdirtree(char *path)
             break;
         *s = 0;
         // Verify the directory is empty (it won't be if this is a mount point
-        strcat(buf, "/*.*");
-        hfile = _findfirst32(buf, &finddata);
-        *strrchr(buf, '/')=0;
-        if (hfile!=-1L) {
-            do {
-                if (!(strcmp(finddata.name, ".")==0||strcmp(finddata.name, "..")==0)) {
-                    empty=0;
-                }
-            } while( _findnext32( hfile, &finddata) == 0 );
-            _findclose(hfile);
-        }
+        listing = fileSystemListNative(buf);
+        empty = listing && listing->count == 0;
+        fileListingFree(&listing);
         if (empty) {
             _rmdir(buf);
         } else {
@@ -184,7 +175,7 @@ void rmdirtree(char *path)
  *    The worker function of rmdirtreeExInternal().  This function recursively
  *    deletes contents of the given path.
  */
-static void rmdirtreeExInternal(char* path, int forceRemove)
+static void rmdirtreeExInternal(const char* path, int forceRemove)
 {
     struct stat status;
 
@@ -203,25 +194,10 @@ static void rmdirtreeExInternal(char* path, int forceRemove)
     // Recursively process all items in the directory.
     if(status.st_mode & _S_IFDIR)
     {
-        char buffer[MAX_PATH];
-        int handle;
-        struct _finddata32_t finddata;
-
-
-        concatpath(path, "*.*", buffer);
-
-        handle = _findfirst32(buffer, &finddata);
-        if(handle != -1) 
-        {
-            do
-            {
-                if (strcmp(finddata.name, ".")==0 || strcmp(finddata.name, "..")==0)
-                    continue;
-                concatpath(path, finddata.name, buffer);
-                rmdirtreeExInternal(buffer, forceRemove);
-            } while(_findnext32(handle, &finddata) == 0);
-            _findclose(handle);
-        }
+		FileListing *listing = fileSystemListNative(path);
+		for (size_t i = 0; listing && i < listing->count; i++)
+			rmdirtreeExInternal(listing->entries[i].native_path, forceRemove);
+		fileListingFree(&listing);
 
         _rmdir(path);
     }

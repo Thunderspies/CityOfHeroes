@@ -20,7 +20,7 @@
 #include "gloophook.h"
 #include "dbcomm/dbmapxfer.h"
 #include <utilitieslib/network/net_link.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "dbcomm/dbquery.h"
 #include "entity/friends.h"
 #include "container/containerEmail.h"
@@ -2001,8 +2001,8 @@ static void svrTickTop()
         sharedHeapLazySync();
     PERFINFO_AUTO_STOP();
 
-    PERFINFO_AUTO_START("FolderCacheDoCallbacks", 1);
-        FolderCacheDoCallbacks();
+    PERFINFO_AUTO_START("fileSystemDispatch", 1);
+        fileSystemDispatch();
     PERFINFO_AUTO_STOP();
 
     PERFINFO_AUTO_START("mpCompactPools", 1);
