@@ -6,7 +6,7 @@
 #include "utilitieslib/utils/SuperAssert.h"
 #include "utilitieslib/utils/cpu_count.h"
 #include "utilitieslib/utils/utils.h"
-#include "utilitieslib/utils/fileWatch.h"
+#include "utilitieslib/utils/file.h"
 #include "utilitieslib/components/earray.h"
 #include "utilitieslib/components/EString.h"
 #include "utilitieslib/components/StashTable.h"
@@ -17,6 +17,7 @@
 
 /* Fault probes also exercise threads outside the project wrapper. */
 #undef CreateThread
+#undef fprintf
 
 static COH_THREAD_LOCAL int thread_value = 7;
 
@@ -208,12 +209,12 @@ static int check_file_stat(void)
 	DWORD length = GetModuleFileNameA(NULL, path, sizeof(path));
 	CHECK(length > 0 && length < sizeof(path));
 	memset(&result, 0xa5, sizeof(result));
-	CHECK(fwStat(path, &result.info) == 0);
+	CHECK(fileStat(path, &result.info) == 0);
 	for (size_t i = 0; i < sizeof(result.guard); ++i)
 		CHECK(result.guard[i] == 0xa5);
 	CHECK((result.info.st_mode & _S_IFREG) != 0);
 	CHECK(result.info.st_size > 0);
-	CHECK(fwStat(path, NULL) == 0);
+	CHECK(fileStat(path, NULL) == 0);
 	return 0;
 }
 

@@ -7,7 +7,7 @@
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/timing.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 
 #include "seq/AutoLOD.h"
 #include "seq/anim.h"
@@ -17,6 +17,7 @@
 #if CLIENT
 #include "clientError.h"
 #include "group/groupfilelib.h"
+
 #endif
 
 
@@ -140,6 +141,13 @@ static void reloadLODInfoProcessor(const char *relpath, int when)
 {
     eaPush(&lodinfo_reloads, strdup(relpath));
 }
+
+static void reloadLODInfoProcessorFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadLODInfoProcessor(change->entry.path, change->kind);
+}
+
 
 static LodReloadCallback lodReloadCallback = 0;
 
@@ -276,7 +284,7 @@ void lodinfoLoad(void)
 
     lodinfoLoadPostProcess();
 
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "lods/*.txt", reloadLODInfoProcessor);
+    fileSystemSubscribe(NULL, "lods/*.txt", FILE_CHANGE_UPDATE, reloadLODInfoProcessorFileChanged, NULL);
 }
 
 void lodinfoLoadPostProcess(void)

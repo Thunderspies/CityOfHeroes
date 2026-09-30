@@ -2,7 +2,7 @@
 #include "language/langClientUtil.h"
 #include <utilitieslib/language/AppLocale.h>
 #include <utilitieslib/utils/mathutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "language/commonLangUtil.h"
@@ -11,6 +11,7 @@
 #include "auth/authUserData.h"
 #include <utilitieslib/utils/osdependent.h>
 #include <utilitieslib/utils/utils.h>
+
 
 MessageStore* cmdMessages;
 MessageStore* texWordsMessages;
@@ -32,6 +33,13 @@ static void reloadTextCallback(const char *relpath, int when)
     } while (loop && count<25);
     reloadClientMessageStores(getCurrentLocale());
 }
+
+static void reloadTextCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadTextCallback(change->entry.path, change->kind);
+}
+
 
 #define estr_print(dst,src) estrPrintf(&dst,"texts\\%s\\%s", loc_name, src)
 #define push_estr(ea,str) { char *temp_str = NULL; estr_print(temp_str, str); eaPush(&ea, temp_str); }
@@ -152,8 +160,8 @@ void reloadClientMessageStores(int localeID) {
         char localePath[2000];
         inited = true;
         sprintf(localePath, "texts/%s/*.ms", loc_name);
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, localePath, reloadTextCallback);
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "texts/*.types", reloadTextCallback);
+        fileSystemSubscribe(NULL, localePath, FILE_CHANGE_UPDATE, reloadTextCallbackFileChanged, NULL);
+        fileSystemSubscribe(NULL, "texts/*.types", FILE_CHANGE_UPDATE, reloadTextCallbackFileChanged, NULL);
     }
 }
 

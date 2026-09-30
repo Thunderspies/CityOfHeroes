@@ -4,7 +4,7 @@
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/assert/assert.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/file.h>
@@ -19,6 +19,7 @@
 #include "clientError.h"
 #include "graphics/groupMiniTrackers.h"
 #include "render/thread/rt_queue.h"
+
 #endif
 
 #define DEFAULT_MAX_HEIGHT 900
@@ -100,6 +101,13 @@ static void reloadSceneCallback(const char *relpath, int when) {
 #endif
     }
 }
+
+static void reloadSceneCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadSceneCallback(change->entry.path, change->kind);
+}
+
 
 static sceneGraphicsCustomizations(void)
 {
@@ -208,7 +216,7 @@ void sceneLoad(char *fname)
 
     if (!inited) {
         // Add callback for re-loading scenes
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "scenes/*.txt", reloadSceneCallback);
+        fileSystemSubscribe(NULL, "scenes/*.txt", FILE_CHANGE_UPDATE, reloadSceneCallbackFileChanged, NULL);
         inited = 1;
     }
     

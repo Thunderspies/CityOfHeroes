@@ -11,7 +11,7 @@
 #include <utilitieslib/components/SharedMemory.h>
 #include <utilitieslib/components/SharedHeap.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/timing.h>
 #include "group/groupfileload.h"
 #include "seq/seqstate.h"
@@ -1017,11 +1017,23 @@ static void reloadTrickProcessorDummyCheck(const char *relpath, int when)
     }
 }
 
+static void reloadTrickProcessorDummyCheckFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadTrickProcessorDummyCheck(change->entry.path, change->kind);
+}
+
 char **eaTrickReloads=NULL;
 
 static void reloadTrickProcessor(const char *relpath, int when)
 {
     eaPush(&eaTrickReloads, strdup(relpath));
+}
+
+static void reloadTrickProcessorFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadTrickProcessor(change->entry.path, change->kind);
 }
 
 int gLODReloadCount = 0;
@@ -1197,8 +1209,8 @@ void trickLoad()
     trickLoadPostProcess(NULL, &trick_list, false);
 #endif
 
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "tricks/*.txt", reloadTrickProcessor);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "tricks/*", reloadTrickProcessorDummyCheck);
+    fileSystemSubscribe(NULL, "tricks/*.txt", FILE_CHANGE_UPDATE, reloadTrickProcessorFileChanged, NULL);
+    fileSystemSubscribe(NULL, "tricks/*", FILE_CHANGE_UPDATE, reloadTrickProcessorDummyCheckFileChanged, NULL);
 
     if (0) {
         trickStatsGather();

@@ -54,8 +54,9 @@
 #include "UI/uiSupercostume.h"
 #include "auth/authUserData.h"
 #include "entity/LoadDefCommon.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
+
 
 extern int gLoadRandomPresetCostume;
 extern int pccCritterRank;
@@ -1081,13 +1082,20 @@ static void GenderRebuildAnimList(const char *relpath, int when)
         initAnimComboBox(1);
     }
 }
+
+static void GenderRebuildAnimListFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	GenderRebuildAnimList(change->entry.path, change->kind);
+}
+
 void load_MenuAnimations()
 {
     const char *pchFilename = "defs/menuAnimations.def";
     const char *pchBinFilename = MakeBinFilename(pchFilename);
 
     ParserLoadFiles(0,pchFilename, pchBinFilename, 0, ParseDemoAnimList, &gAnimList, NULL, NULL, NULL);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, pchFilename, GenderRebuildAnimList);
+    fileSystemSubscribe(NULL, pchFilename, FILE_CHANGE_UPDATE, GenderRebuildAnimListFileChanged, NULL);
 }
 
 void setAnim( int i, int* flashBits )

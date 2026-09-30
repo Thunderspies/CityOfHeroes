@@ -17,7 +17,7 @@
 #include "player/badges_server.h"
 #include "entity/entPlayer.h"
 #include "entity/entity.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "language/commonLangUtil.h"
 #include "storyarc/pnpcCommon.h"
@@ -34,6 +34,7 @@
 #include "dbcomm/dbcomm.h"
 #include "dbcomm/staticMapInfo.h"
 #include "dialogdef.h"
+
 
 #if SERVER
     #include "cmdparse/cmdserver.h"
@@ -917,11 +918,18 @@ static void ContactDefReloadCallback(const char* relpath, int when)
     }
 }
 
+static void ContactDefReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	ContactDefReloadCallback(change->entry.path, change->kind);
+}
+
+
 static void ContactSetupCallbacks()
 {
     if (!isDevelopmentMode())
         return;
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "scripts.loc/*.contact", ContactDefReloadCallback);
+    fileSystemSubscribe(NULL, "scripts.loc/*.contact", FILE_CHANGE_UPDATE, ContactDefReloadCallbackFileChanged, NULL);
 }
 
 /**

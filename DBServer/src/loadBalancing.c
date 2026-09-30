@@ -4,10 +4,11 @@
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/file.h>
 #include "serverAutoStart.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/tokenstore.h>
 #include <utilitieslib/utils/log.h>
 #include "dbserver/servercfg.h"
+
 
 LoadBalanceConfig load_balance_config;
 
@@ -179,6 +180,13 @@ static void loadBalanceReloadCallback(const char *relPath, int when)
     load_balance_reload = 1;
 }
 
+static void loadBalanceReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	loadBalanceReloadCallback(change->entry.path, change->kind);
+}
+
+
 void loadBalanceCheckReload()
 {
     if (load_balance_reload) {
@@ -348,7 +356,7 @@ bool loadBalanceConfigLoad()
 
     if (!loaded_once) 
     {
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE|FOLDER_CACHE_CALLBACK_CAN_USE_SHARED_MEM, "server/db/loadBalance*.cfg", loadBalanceReloadCallback);
+        fileSystemSubscribe(NULL, "server/db/loadBalance*.cfg", FILE_CHANGE_UPDATE|FILE_CHANGE_SHARED, loadBalanceReloadCallbackFileChanged, NULL);
     }
 
     loaded_once = true;

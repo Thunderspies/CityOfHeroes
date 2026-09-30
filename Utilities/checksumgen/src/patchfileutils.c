@@ -126,7 +126,7 @@ void safeCopyFile(char *src,char *dst)
 
     if (stricmp(src,dst)==0)
         return;
-    mem = extractFromFS(src,&size);
+    mem = loadNativeFile(src,&size);
     if (!mem)
         msgAlertFatal("ErrOpenFile",src);
     safeWriteFile(dst,"wb",mem,size);
@@ -212,65 +212,65 @@ U32 safeFileSize(char *fname)
 
 static void getFileNames(const char *fname)
 {
-    struct _finddata_t fileinfo;
-    int        handle,test;
-    char    buf[MAX_PATH];
+    FileListing *listing;
 
-    sprintf(buf,"%s/*",fname);
-    for(test = handle = _findfirst(buf,&fileinfo);test >= 0;test = _findnext(handle,&fileinfo))
-    {
-        if (fileinfo.name[0] == '.'
-            || stricmp(fileinfo.name,"updater.lock")==0
-            || strEndsWith(fileinfo.name,".patch")
-            || strEndsWith(fileinfo.name,".checksum")
-            || strEndsWith(fileinfo.name,".majorpatch"))
+    char    buf[MAX_PATH];
+    listing = fileSystemListNative(fname);
+	for (size_t entry_index = 0; listing && entry_index < listing->count; entry_index++)
+	{
+		const FileSystemEntry *entry = &listing->entries[entry_index];
+        if (entry->name[0] == '.'
+            || stricmp(entry->name,"updater.lock")==0
+            || strEndsWith(entry->name,".patch")
+            || strEndsWith(entry->name,".checksum")
+            || strEndsWith(entry->name,".majorpatch"))
             continue;
-        sprintf(buf, "%s/%s", fname, fileinfo.name);
-        if (fileinfo.attrib & _A_SUBDIR)
+        sprintf(buf, "%s/%s", fname, entry->name);
+        if (entry->kind == PG_ENTRY_DIRECTORY)
             getFileNames(buf);
         else
             dynArrayAddp(&file_names,&file_count,&file_max,strdup(buf));
     }
-    _findclose(handle);
+    fileListingFree(&listing);
 }
 
 static void getPatchFileNames(const char *fname)
 {
-    struct _finddata_t fileinfo;
-    int        handle,test;
-    char    buf[MAX_PATH];
+    FileListing *listing;
 
-    sprintf(buf,"%s/*",fname);
-    for(test = handle = _findfirst(buf,&fileinfo);test >= 0;test = _findnext(handle,&fileinfo))
-    {
-        if (fileinfo.name[0] == '.')
+    char    buf[MAX_PATH];
+    listing = fileSystemListNative(fname);
+	for (size_t entry_index = 0; listing && entry_index < listing->count; entry_index++)
+	{
+		const FileSystemEntry *entry = &listing->entries[entry_index];
+        if (entry->name[0] == '.')
             continue;
-        sprintf(buf, "%s/%s", fname, fileinfo.name);
-        if (fileinfo.attrib & _A_SUBDIR)
+        sprintf(buf, "%s/%s", fname, entry->name);
+        if (entry->kind == PG_ENTRY_DIRECTORY)
         {
             getPatchFileNames(buf);
             continue;
         }
-        if (!strEndsWith(fileinfo.name,".patch"))
+        if (!strEndsWith(entry->name,".patch"))
             continue;
         dynArrayAddp(&file_names,&file_count,&file_max,strdup(buf));
     }
-    _findclose(handle);
+    fileListingFree(&listing);
 }
 
 int removeEmptyDirs(char *fname)
 {
-    struct _finddata_t fileinfo;
-    int        handle,test,count=0;
+    FileListing *listing;
+    int count=0;
     char    buf[MAX_PATH];
-
-    sprintf(buf,"%s/*",fname);
-    for(test = handle = _findfirst(buf,&fileinfo);test >= 0;test = _findnext(handle,&fileinfo))
-    {
-        if (fileinfo.name[0] == '.')
+    listing = fileSystemListNative(fname);
+	for (size_t entry_index = 0; listing && entry_index < listing->count; entry_index++)
+	{
+		const FileSystemEntry *entry = &listing->entries[entry_index];
+        if (entry->name[0] == '.')
             continue;
-        sprintf(buf, "%s/%s", fname, fileinfo.name);
-        if (fileinfo.attrib & _A_SUBDIR)
+        sprintf(buf, "%s/%s", fname, entry->name);
+        if (entry->kind == PG_ENTRY_DIRECTORY)
         {
             file_count = removeEmptyDirs(buf);
             if (!file_count)
@@ -280,7 +280,7 @@ int removeEmptyDirs(char *fname)
         else
             count++;
     }
-    _findclose(handle);
+    fileListingFree(&listing);
     return count;
 }
 
@@ -441,76 +441,106 @@ char *getRootPathFromImage(const char *image_dir,char *path)
     return path;
 }
 
-static PigEntry *pigCacheFindOrAdd(PigCache *cache,char *image_dir,char *pigname)
+static PigEntry *pigCacheFindOrAdd(PigCache *cache, char *image_dir, char *pigname)
 {
-    char        actual_name[MAX_PATH];
-    PigEntry    *entry;
-    int            idx;
-
-    sprintf(actual_name,"%s/%s",image_dir,pigname);
-    if (!cache->pig_entry_hashes)
-        cache->pig_entry_hashes = stashTableCreateWithStringKeys(100,StashDeepCopyKeys);
-    if (!stashFindInt(cache->pig_entry_hashes,actual_name,&idx))
-    {
-        idx = cache->pig_entry_count;
-        stashAddInt(cache->pig_entry_hashes,actual_name,idx, false);
-        entry = dynArrayAdd(&cache->pig_entries,sizeof(cache->pig_entries[0]),&cache->pig_entry_count,&cache->pig_entry_max,1);
-        entry->name = strdup(actual_name);
-        if (PigFileRead(&entry->pig,actual_name) != 0)
-            return 0;
-    }
-    return &cache->pig_entries[idx];
+	char path[MAX_PATH];
+	int index;
+	PigEntry *entry;
+	sprintf(path, "%s/%s", image_dir, pigname);
+	if (!cache->context && pg_context_open(&cache->context, NULL) != PG_OK)
+		return NULL;
+	if (!cache->pig_entry_hashes)
+		cache->pig_entry_hashes = stashTableCreateWithStringKeys(100, StashDeepCopyKeys);
+	if (stashFindInt(cache->pig_entry_hashes, path, &index))
+		return &cache->pig_entries[index];
+	index = cache->pig_entry_count;
+	entry = dynArrayAdd(&cache->pig_entries, sizeof(*entry),
+		&cache->pig_entry_count, &cache->pig_entry_max, 1);
+	entry->name = strdup(path);
+	if (pg_source_open(cache->context, path, NULL, &entry->source, NULL) != PG_OK) {
+		free(entry->name);
+		cache->pig_entry_count--;
+		return NULL;
+	}
+	stashAddInt(cache->pig_entry_hashes, path, index, false);
+	return entry;
 }
 
-PigFileHeader *getPfh(PigCache *cache,char *image_dir,char *fname,char *pigname)
+U32 compressedFileSize(PigCache *cache, char *image_dir, char *name, char *archive)
 {
-    PigEntry        *entry;
-    PigFileHeader    *pfh=0;
-
-    if (!pigname)
-        return 0;
-    entry = pigCacheFindOrAdd(cache,image_dir,pigname);
-    if (entry)
-        pfh = PigFileFind(&entry->pig, fname);
-    return pfh;
+	PigEntry *entry;
+	pg_file *file = NULL;
+	pg_file_info info;
+	U32 size = 0;
+	if (!archive) return 0;
+	entry = pigCacheFindOrAdd(cache, image_dir, archive);
+	if (entry && pg_source_find(entry->source, name, &file, NULL) == PG_OK) {
+		pg_file_inspect(file, &info, NULL);
+		if (info.encoding == PG_ZLIB && info.stored_size <= UINT32_MAX)
+			size = (U32)info.stored_size;
+		pg_file_close(&file, NULL);
+	}
+	return size;
 }
 
-U8 *loadFileData(PigCache *cache,char *image_dir,char *fname,char *pigname,U32 *size,int get_compressed)
+static U8 *readArchiveBytes(pg_reader *reader, U32 *size)
 {
-    char        actual_name[MAX_PATH];
-    PigEntry    *entry;
+	pg_reader_info info;
+	pg_status status = pg_reader_inspect(reader, &info, NULL);
+	U8 *data = NULL;
+	size_t total = 0, bytes;
+	if (status != PG_OK || info.size >= UINT32_MAX) goto cleanup;
+	data = malloc((size_t)info.size + 1);
+	if (!data) goto cleanup;
+	do {
+		status = pg_reader_read(reader, data + total,
+			(size_t)info.size + 1 - total, &bytes, NULL);
+		total += bytes;
+	} while (status == PG_OK);
+	if (status != PG_END) { free(data); data = NULL; }
+	else { data[total] = 0; if (size) *size = (U32)total; }
+ cleanup:
+	pg_reader_close(&reader, NULL);
+	return data;
+}
 
-    if (!pigname)
-    {
-        if (get_compressed)
-            return 0;
-        sprintf(actual_name,"%s/%s",image_dir,fname);
-        return extractFromFS(actual_name, size);
-    }
-    entry = pigCacheFindOrAdd(cache,image_dir,pigname);
-    if (!entry)
-        return 0;
-    if (get_compressed)
-        return PigFileExtractCompressed(&entry->pig,fname,size);
-    return PigFileExtract(&entry->pig,fname,size);
+void *loadNativeFile(const char *name, U32 *size)
+{
+	pg_reader *reader = NULL;
+	if (size) *size = 0;
+	if (fileSystemOpenPath(name, &reader) != PG_OK) return NULL;
+	return readArchiveBytes(reader, size);
+}
+
+U8 *loadFileData(PigCache *cache, char *image_dir, char *name, char *archive,
+	U32 *size, int compressed)
+{
+	char path[MAX_PATH];
+	PigEntry *entry;
+	pg_reader *reader = NULL;
+	if (size) *size = 0;
+	if (!archive) {
+		if (compressed) return NULL;
+		sprintf(path, "%s/%s", image_dir, name);
+		return loadNativeFile(path, size);
+	}
+	entry = pigCacheFindOrAdd(cache, image_dir, archive);
+	if (!entry || pg_reader_open_source(entry->source, name,
+		compressed ? PG_READ_STORED : PG_READ_LOGICAL, &reader, NULL) != PG_OK)
+		return NULL;
+	return readArchiveBytes(reader, size);
 }
 
 void closeOpenPigs(PigCache *cache)
 {
-    int        i;
-
-    for(i=0;i<cache->pig_entry_count;i++)
-    {
-        PigFileDestroy(&cache->pig_entries[i].pig);
-        free(cache->pig_entries[i].name);
-        memset(&cache->pig_entries[i].pig,0,sizeof(cache->pig_entries[i].pig));
-    }
-    if (cache->pig_entry_hashes)
-        stashTableDestroy(cache->pig_entry_hashes);
-    cache->pig_entry_hashes = 0;
-    cache->pig_entry_count = cache->pig_entry_max = 0;
-    free(cache->pig_entries);
-    cache->pig_entries = 0;
+	for (int i = 0; i < cache->pig_entry_count; i++) {
+		pg_source_close(&cache->pig_entries[i].source, NULL);
+		free(cache->pig_entries[i].name);
+	}
+	if (cache->pig_entry_hashes) stashTableDestroy(cache->pig_entry_hashes);
+	free(cache->pig_entries);
+	if (cache->context) pg_context_close(&cache->context, NULL);
+	memset(cache, 0, sizeof(*cache));
 }
 
 static void gzStreamInit(GzStream *gz,FILE *file)

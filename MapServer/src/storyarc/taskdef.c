@@ -13,10 +13,11 @@
 #include "storyarcprivate.h"
 #include "Reward.h"
 #include "dbcomm/staticMapInfo.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include "svr/svr_player.h" // for reloading tasksets
 #include "entity/character_eval.h"
+
 
 // *********************************************************************************
 //  Parse definitions
@@ -1469,11 +1470,18 @@ static void TaskSetReloadCallback(const char* relpath, int when)
     }
 }
 
+static void TaskSetReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	TaskSetReloadCallback(change->entry.path, change->kind);
+}
+
+
 static void TaskSetSetupCallbacks()
 {
     if (!isDevelopmentMode())
         return;
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "scripts.loc/*.taskset", TaskSetReloadCallback);
+    fileSystemSubscribe(NULL, "scripts.loc/*.taskset", FILE_CHANGE_UPDATE, TaskSetReloadCallbackFileChanged, NULL);
 }
 
 void TaskSetPreload()

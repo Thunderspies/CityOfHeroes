@@ -10,7 +10,7 @@
 #include "win/win_init.h"
 #include <utilitieslib/utils/fpmacros.h>
 #include "clientError.h"
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "clientcomm/autoResumeInfo.h"
 #include "cmdparse/cmdgame.h"
 #include <utilitieslib/utils/textparser.h>
@@ -190,8 +190,8 @@ int main(int argc, char **argv)
     //writeConsole(OUTPUT_INFO, "CityOfHeroes client count: %d", game_runningCohClientCount());
 
     // cov and dev file ignore
-    FolderCacheIgnoreStdPrefixes();
-    //    FolderCacheAddIgnorePrefix("server/"); // Server data files do not exist on the client, hide them in dev mode!
+    fileSystemIgnoreStandard();
+    //    fileSystemIgnoreAdd("server/"); // Server data files do not exist on the client, hide them in dev mode!
 
     // Do this before parseArgs0 where -lwc is processed, and before any data is loaded
     LWC_Init();
@@ -299,7 +299,7 @@ int main(int argc, char **argv)
     game_loadData(0);
 
     // init sound in development mode and in create-bins mode
-    if (game_state.create_bins || FolderCacheGetMode() == FOLDER_CACHE_MODE_DEVELOPMENT_DYNAMIC)
+    if (game_state.create_bins || fileSystemGetMode() == FILE_MODE_DYNAMIC)
         sndInit();
 
     // exit before main loop and graphics stuff if we're just creating binaries

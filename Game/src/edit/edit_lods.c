@@ -6,7 +6,7 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/RegistryReader.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "editorUI.h"
 #include "edit/edit_select.h"
 #include "seq/anim.h"
@@ -247,13 +247,70 @@ static void editLODsApplyStateMachine(void)
     }
 }
 
+/* The editor owns a stable, geometry-only menu snapshot while the modal
+ * browser is open. Filesystem changes take effect on its next opening. */
+typedef struct GeometryMenu {
+	struct GeometryMenu *next;
+	struct GeometryMenu *contents;
+	char *name;
+	int is_dir;
+} GeometryMenu;
+static GeometryMenu *geometry_menu;
+
+static void freeGeometryMenu(GeometryMenu *node)
+{
+	while (node) {
+		GeometryMenu *next = node->next;
+		freeGeometryMenu(node->contents);
+		free(node->name);
+		free(node);
+		node = next;
+	}
+}
+
+static GeometryMenu *geometryChildren(const char *path)
+{
+	FileListing *listing = fileSystemList(file_system, path, 0);
+	GeometryMenu *head = NULL, **tail = &head;
+	if (!listing) return NULL;
+	for (size_t i = 0; i < listing->count; i++) {
+		const FileSystemEntry *entry = &listing->entries[i];
+		GeometryMenu *children = NULL, *node;
+		if (entry->kind == PG_ENTRY_DIRECTORY) {
+			children = geometryChildren(entry->path);
+			if (!children) continue;
+		} else if (!strEndsWith(entry->name, ".geo")) continue;
+		node = calloc(1, sizeof(*node));
+		node->name = strdup(entry->name);
+		node->is_dir = entry->kind == PG_ENTRY_DIRECTORY;
+		node->contents = children;
+		*tail = node;
+		tail = &node->next;
+	}
+	fileListingFree(&listing);
+	return head;
+}
+
+static GeometryMenu *geometryRoot(void)
+{
+	if (!geometry_menu) {
+		geometry_menu = calloc(1, sizeof(*geometry_menu));
+		geometry_menu->name = strdup("object_library");
+		geometry_menu->is_dir = 1;
+		geometry_menu->contents = geometryChildren("object_library");
+	}
+	return geometry_menu;
+}
+
 static int browse_ui_id=-1;
 static void browseDestroyWindow(void)
 {
     editorUIDestroyWindow(browse_ui_id);
+    freeGeometryMenu(geometry_menu);
+    geometry_menu = NULL;
 }
 
-static int isOkNode(FolderNode *node)
+static int isOkNode(GeometryMenu *node)
 {
     if (strEndsWith(node->name, ".geo"))
         return 1;
@@ -276,7 +333,7 @@ static int findPath(const char *path, TreeElementAddress *elem)
 {
     int i, firsttime = 1;
     char pathstr[MAX_PATH], *str=pathstr, *s;
-    FolderNode *node = FolderNodeFind(folder_cache->root, "object_library");
+    GeometryMenu *node = geometryRoot();
 
     strcpy(pathstr, path);
     forwardSlashes(pathstr);
@@ -364,7 +421,7 @@ static int findPath(const char *path, TreeElementAddress *elem)
 static int findObject(char *namebuf, char *path, const TreeElementAddress *elem)
 {
     int i, j, child_count=0;
-    FolderNode *node = FolderNodeFind(folder_cache->root, "object_library");
+    GeometryMenu *node = geometryRoot();
     
     path[0]=0;
 

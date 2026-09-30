@@ -13,7 +13,7 @@
 #include "storyarc/storyarcinterface.h"
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "dbcomm/dbcomm.h"
 
 #include <utilitieslib/utils/strings_opt.h>
@@ -874,11 +874,18 @@ static void spawnAreaReloadCallback(const char* relpath, int when)
     }
 }
 
+static void spawnAreaReloadCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	spawnAreaReloadCallback(change->entry.path, change->kind);
+}
+
+
 static void spawnAreaSetupCallbacks()
 {
     if (!isDevelopmentMode())
         return;
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "server/SpawnArea/*.txt", spawnAreaReloadCallback);
+    fileSystemSubscribe(NULL, "server/SpawnArea/*.txt", FILE_CHANGE_UPDATE, spawnAreaReloadCallbackFileChanged, NULL);
 }
 
 /*
@@ -901,6 +908,7 @@ void entgenDisableOrphanGenerators(int disable){
 #include "entgen.h"        // For randomizedGenerators
 #include "group/grouputil.h"    // For GroupDefTraverser
 #include "gridcoll/gridcoll.h"    // For collgrid() in snapGenToGround()
+
 
 //static Array spawnAreaStack;    // Holds all spawn areas that are currently being initialized.
 Array generators = {0, 0, 0};

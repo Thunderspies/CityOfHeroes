@@ -6,7 +6,7 @@
 
 #include "seq/modelReload.h"
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include "seq/anim.h"
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/assert/assert.h>
@@ -402,12 +402,24 @@ static void reloadPlayerLibraryGeoCallback(const char *relpath, int when)
     errorLogFileIsBeingReloaded(relpath);
     addRequest(relpath, MRT_PLAYERLIBRARY);
 }
+
+static void reloadPlayerLibraryGeoCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadPlayerLibraryGeoCallback(change->entry.path, change->kind);
+}
 static void reloadPlayerLibraryAnimCallback(const char *relpath, int when)
 {
     if (strstr(relpath, "/_")) return;
     fileWaitForExclusiveAccess(relpath);
     errorLogFileIsBeingReloaded(relpath);
     addRequest(relpath, MRT_PLAYERANIM);
+}
+
+static void reloadPlayerLibraryAnimCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadPlayerLibraryAnimCallback(change->entry.path, change->kind);
 }
 static void reloadObjectLibraryCallback(const char *relpath, int when)
 {
@@ -417,6 +429,12 @@ static void reloadObjectLibraryCallback(const char *relpath, int when)
     addRequest(relpath, MRT_OBJECTLIBRARY);
 }
 
+static void reloadObjectLibraryCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	reloadObjectLibraryCallback(change->entry.path, change->kind);
+}
+
 
 void modelInitReload(void)
 {
@@ -424,12 +442,12 @@ void modelInitReload(void)
     modelReload_inited = true;
 
     // Add callback for re-loading objects
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "object_library/*.geo", reloadObjectLibraryCallback);
+    fileSystemSubscribe(NULL, "object_library/*.geo", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), reloadObjectLibraryCallbackFileChanged, NULL);
 #ifdef CLIENT
-    // fpe removed, no longer used FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "object_library/*.geolm",reloadObjectLibraryCallback);
+    // fpe removed, no longer used FolderCacheSetCallback((FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), "object_library/*.geolm",reloadObjectLibraryCallback);
 #endif
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "player_library/*.geo", reloadPlayerLibraryGeoCallback);
-    FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE_AND_DELETE, "player_library/*.anim",reloadPlayerLibraryAnimCallback);
+    fileSystemSubscribe(NULL, "player_library/*.geo", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), reloadPlayerLibraryGeoCallbackFileChanged, NULL);
+    fileSystemSubscribe(NULL, "player_library/*.anim", (FILE_CHANGE_UPDATE | FILE_CHANGE_DELETE), reloadPlayerLibraryAnimCallbackFileChanged, NULL);
 }
 
 static FILE* getvrml_lock_handle=NULL;

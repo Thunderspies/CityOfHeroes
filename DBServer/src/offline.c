@@ -1,6 +1,8 @@
 #include "offline.h"
 #include "container.h"
 #include <utilitieslib/utils/file.h>
+#include <utilitieslib/utils/wininclude.h>
+#include <shlwapi.h>
 #include "comm_backend.h"
 #include <utilitieslib/utils/utils.h>
 #include "clientcomm.h"
@@ -1997,8 +1999,7 @@ static void fldStrFromLineList( ContainerTemplate *tplt, LineList* lineList, con
 
     void offlineProcessDeletionLogFiles( const char* szLogFileSpec /* can include wildcards */ )
     {
-        struct _finddata_t findInfo = { 0 };
-        intptr_t findDataHdl;
+        FileListing *listing;
         char* lastPathNameSegment;
         char fullPath[2048];
         
@@ -2015,15 +2016,16 @@ static void fldStrFromLineList( ContainerTemplate *tplt, LineList* lineList, con
             //
             // Handle wildcards
             //
-            size_t spaceForFileName = (( ARRAY_SIZE(fullPath) - strlen(fullPath) ) -  1 ); 
-            bool bMoreFiles = (( findDataHdl = _findfirst( szLogFileSpec, &findInfo )) != -1 );
-            while ( bMoreFiles )
-            {
-                strncpy_s( lastPathNameSegment, spaceForFileName, findInfo.name, _TRUNCATE );
-                offlineProcessOneDeletionLogFile( fullPath );
-                bMoreFiles = ( _findnext( findDataHdl, &findInfo ) == 0 );
-            }
-            _findclose( findDataHdl );
+			char pattern[MAX_PATH];
+			strcpy(pattern, lastPathNameSegment);
+			*lastPathNameSegment = 0;
+			listing = fileSystemListNative(*fullPath ? fullPath : ".");
+			for (size_t i = 0; listing && i < listing->count; i++) {
+				const FileSystemEntry *entry = &listing->entries[i];
+				if (PathMatchSpecA(entry->name, pattern))
+					offlineProcessOneDeletionLogFile(entry->native_path);
+			}
+			fileListingFree(&listing);
         }
         else
         {

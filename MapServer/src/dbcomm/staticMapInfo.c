@@ -7,7 +7,7 @@
 #include <limits.h>
 #include "dbcomm.h"
 #include <utilitieslib/utils/utils.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/components/SharedMemory.h>
 #include <utilitieslib/components/StashTable.h>
@@ -392,7 +392,7 @@ static bool staticMapInfosVerify(TokenizerParseInfo pti[], void* structptr)
         if (isDevelopmentMode() && !server_state.create_bins)
         {
             char* fileName = fileLocateRead_s(mapInfo->name, NULL, 0);
-            if(!fileName && !strstr(mapInfo->name, "/_") && !FolderCacheMatchesIgnorePrefixAnywhere(mapInfo->name))
+            if(!fileName && !strstr(mapInfo->name, "/_") && !fileSystemIgnored(mapInfo->name))
             {
                 ErrorFilenamef(MAPS_DB_FILENAME, "Unable to locate map file %s\n", mapInfo->name);
                 errorDetected = 1;

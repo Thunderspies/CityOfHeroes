@@ -6,7 +6,7 @@
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/utils/ConsoleDebug.h>
 #include <utilitieslib/components/EString.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/utils/fileutil.h>
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/components/MemoryPool.h>
@@ -840,6 +840,12 @@ static void CharacterInfoCallback(const char *relPath, int when)
     printf("Done.\n");
 }
 
+static void CharacterInfoCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	CharacterInfoCallback(change->entry.path, change->kind);
+}
+
 /**********************************************************************func*
  * CharacterInfoProcessor
  *
@@ -863,7 +869,7 @@ static FileScanAction CharacterInfoProcessor(char *dir, struct _finddata32_t *da
  */
 static void CharacterInfoFileMonitor(bool full_scan)
 {
-    static FolderCache *fcCharacterInfoSettings = 0;
+    static FileSystem *fcCharacterInfoSettings = 0;
     char fullpath[MAX_PATH];
     sprintf(fullpath, "%s", g_CharacterInfoSettings.achRequestPath);
 
@@ -881,10 +887,10 @@ static void CharacterInfoFileMonitor(bool full_scan)
 
         fileScanDirRecurseEx(fullpath, CharacterInfoProcessor);
 
-        fcCharacterInfoSettings = FolderCacheCreate();
-        FolderCacheAddFolder(fcCharacterInfoSettings, fullpath, 0);
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE|FOLDER_CACHE_CALLBACK_CAN_USE_SHARED_MEM, "*.csv", CharacterInfoCallback);
-        FolderCacheEnableCallbacks(1);
+        fcCharacterInfoSettings = fileSystemCreate();
+        fileSystemAddSource(fcCharacterInfoSettings, fullpath, 0);
+        fileSystemSubscribe(NULL, "*.csv", FILE_CHANGE_UPDATE|FILE_CHANGE_SHARED, CharacterInfoCallbackFileChanged, NULL);
+        fileSystemCallbacksEnabled(1);
 
         printf("  Done.\n");
     }
@@ -897,7 +903,7 @@ static void CharacterInfoFileMonitor(bool full_scan)
     }
     else
     {
-        FolderCacheQuery(fcCharacterInfoSettings, ""); // Just to get Update
+        fileSystemDispatch(); // Just to get Update
     }
 }
 
@@ -1422,6 +1428,12 @@ static void AccountBanCallback(const char *relPath, int when)
     printf("Done.\n");
 }
 
+static void AccountBanCallbackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	AccountBanCallback(change->entry.path, change->kind);
+}
+
 static FileScanAction AccountBanProcessor(char *dir, struct _finddata32_t *data)
 {
     char fullpath[MAX_PATH];
@@ -1441,7 +1453,7 @@ static FileScanAction AccountBanProcessor(char *dir, struct _finddata32_t *data)
 //----------------------------------------
 static void AccountBanMonitor(bool full_scan)
 {
-    static FolderCache *fcAccountBanSettings = 0;
+    static FileSystem *fcAccountBanSettings = 0;
     char fullpath[MAX_PATH];
     bool scanned = false;
 
@@ -1468,10 +1480,10 @@ static void AccountBanMonitor(bool full_scan)
         fileScanDirRecurseEx(fullpath, AccountBanProcessor);
         scanned = true;
 
-        fcAccountBanSettings = FolderCacheCreate();
-        FolderCacheAddFolder(fcAccountBanSettings, fullpath, 0);
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE|FOLDER_CACHE_CALLBACK_CAN_USE_SHARED_MEM, "*.ban", AccountBanCallback);
-        FolderCacheEnableCallbacks(1);
+        fcAccountBanSettings = fileSystemCreate();
+        fileSystemAddSource(fcAccountBanSettings, fullpath, 0);
+        fileSystemSubscribe(NULL, "*.ban", FILE_CHANGE_UPDATE|FILE_CHANGE_SHARED, AccountBanCallbackFileChanged, NULL);
+        fileSystemCallbacksEnabled(1);
 
         printf("  Done.\n");
     }
@@ -1525,7 +1537,7 @@ static void AccountBanMonitor(bool full_scan)
     }
     else
     {
-        FolderCacheQuery(fcAccountBanSettings, ""); // Just to get Update
+        fileSystemDispatch(); // Just to get Update
     }
 }
 

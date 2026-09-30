@@ -28,7 +28,7 @@
 #include <utilitieslib/network/crypt.h>
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/utils/winutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/network/sock.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "persist/persist.h"

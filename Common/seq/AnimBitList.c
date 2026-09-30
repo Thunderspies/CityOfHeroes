@@ -2,7 +2,7 @@
 #include <utilitieslib/components/earray.h>
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/fileutil.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/textparser.h>
 #include <utilitieslib/assert/assert.h>
@@ -77,6 +77,13 @@ static void alReloadCallBack(const char* relpath, int when)
         Errorf("Reload error for Behavior Aliases");
 }
 
+static void alReloadCallBackFileChanged(const FileChange *change, void *user)
+{
+	(void)user;
+	alReloadCallBack(change->entry.path, change->kind);
+}
+
+
 void loadAnimLists()
 {
     ParserLoadFiles("sequencers/AnimLists", ".al", "animlists.bin", 0, parseAllAnimLists, &allLists, NULL, NULL, NULL);
@@ -87,7 +94,7 @@ void loadAnimLists()
 
     // set up callback
     if(isDevelopmentMode())
-        FolderCacheSetCallback(FOLDER_CACHE_CALLBACK_UPDATE, "sequencers/AnimLists/*.al", alReloadCallBack);
+        fileSystemSubscribe(NULL, "sequencers/AnimLists/*.al", FILE_CHANGE_UPDATE, alReloadCallBackFileChanged, NULL);
 }
 
 void alForEachAnimList(StashElementProcessor proc)
@@ -136,6 +143,7 @@ char* alGetVariable(char* name, char* varStr)
 
 #include "entity/entity.h"
 #include "seq/seq.h"
+
 
 //This is different than AnimLists -- just being var replacement and no Bits, but it's not bad here.
 char * entTypeVarReplacement( char * varName, const SeqType * type )

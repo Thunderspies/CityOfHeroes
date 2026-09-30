@@ -31,7 +31,7 @@
 #include <utilitieslib/utils/MemoryMonitor.h>
 #include <utilitieslib/assert/assert.h>
 #include <utilitieslib/utils/file.h>
-#include <utilitieslib/utils/FolderCache.h>
+#include <utilitieslib/utils/FileSystem.h>
 #include <utilitieslib/version/AppVersion.h>
 #include "dbcomm/dbcomm.h"
 #include "container/containerArena.h"
@@ -771,7 +771,7 @@ int main(int argc,char **argv)
 
     setWindowIconColoredLetter(compatibleGetConsoleWindow(), 'S', 0x8080ff);
 
-    FolderCacheChooseMode();
+    fileSystemChooseMode();
 
     preloadDLLs(0);
 

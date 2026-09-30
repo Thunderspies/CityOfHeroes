@@ -3,8 +3,7 @@
 #include "MissionServerArcData.h"
 
 #include <utilitieslib/network/crypt.h>
-#include <utilitieslib/utils/piglib.h>
-#include <utilitieslib/utils/hoglib.h>
+#include <piggle/piggle.h>
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/utils.h>
@@ -34,6 +33,82 @@ static U32 s_checksum(U8 *data, int size)
     }
 }
 
+static pg_context *arc_context;
+
+static const char *arcArchiveName(pg_source *source)
+{
+	pg_source_info info;
+	return pg_source_inspect(source, &info, NULL) == PG_OK ? info.native_path : "<unavailable>";
+}
+
+static pg_source *openArcArchive(const char *path)
+{
+	pg_source *source = NULL;
+	pg_source_options options = { PG_HOGG10, PG_WRITE, PG_CHECKSUM_STORED };
+	pg_error error;
+	pg_status status;
+	if (!arc_context && pg_context_open(&arc_context, &error) != PG_OK)
+		FatalErrorf("Cannot initialize arc archives: %s", error.message);
+	status = pg_source_open(arc_context, path, &options, &source, &error);
+	if (status == PG_RECOVERY_REQUIRED) {
+		status = pg_source_recover(arc_context, path, &error);
+		if (status == PG_OK)
+			status = pg_source_open(arc_context, path, &options, &source, &error);
+	}
+	if (status == PG_NOT_FOUND) {
+		pg_archive_builder *builder = NULL;
+		pg_archive_options create = { PG_HOGG10, 0, PG_CHECKSUM_STORED };
+		status = pg_archive_builder_create_options(arc_context, path, &create,
+			&builder, &error);
+		if (status == PG_OK) status = pg_archive_builder_finish(builder, &error);
+		if (builder) pg_archive_builder_close(&builder, NULL);
+		if (status == PG_OK)
+			status = pg_source_open(arc_context, path, &options, &source, &error);
+	}
+	if (status != PG_OK) FatalErrorf("Cannot open arc archive %s: %s", path, error.message);
+	return source;
+}
+
+static size_t arcArchiveCount(pg_source *source)
+{
+	pg_cursor *cursor = NULL;
+	pg_file *file = NULL;
+	pg_status status = pg_source_files(source, NULL, &cursor, NULL);
+	size_t count = 0;
+	if (status != PG_OK) FatalErrorf("Cannot enumerate %s", arcArchiveName(source));
+	while ((status = pg_cursor_next(cursor, &file, NULL)) == PG_OK) {
+		count++;
+		pg_file_close(&file, NULL);
+	}
+	pg_cursor_close(&cursor, NULL);
+	if (status != PG_END) FatalErrorf("Cannot enumerate %s", arcArchiveName(source));
+	return count;
+}
+
+static U8 *readArcStored(pg_file *file, U32 *count)
+{
+	pg_file_info info;
+	pg_reader *reader = NULL;
+	pg_status status;
+	U8 *data;
+	size_t total = 0, bytes;
+	*count = 0;
+	if (!file || pg_file_inspect(file, &info, NULL) != PG_OK ||
+		info.stored_size > INT_MAX) return NULL;
+	data = malloc((size_t)info.stored_size + 1);
+	if (!data) return NULL;
+	status = pg_reader_open(file, PG_READ_STORED, &reader, NULL);
+	while (status == PG_OK) {
+		status = pg_reader_read(reader, data + total,
+			(size_t)info.stored_size + 1 - total, &bytes, NULL);
+		total += bytes;
+	}
+	if (reader) pg_reader_close(&reader, NULL);
+	if (status != PG_END) { free(data); return NULL; }
+	*count = (U32)total;
+	return data;
+}
+
 static void s_backupHogg(const char *hogname)
 {
     #if MISSIONSERVER_BACKUP_HOGGS
@@ -49,9 +124,9 @@ static void s_backupHogg(const char *hogname)
     #endif
 }
 
-static HogFile* s_loadArcDataHogFile(U32 firstarc, int modifying)
+static pg_source* s_loadArcDataHogFile(U32 firstarc, int modifying)
 {
-    HogFile *hogfile;
+    pg_source *hogfile;
 
     char hogname[MAX_PATH];
     sprintf(hogname, "%s/arcdata_%d-%d.hogg", g_missionServerState.dir, firstarc, firstarc+ARCS_PER_HOGG(firstarc)-1);
@@ -60,14 +135,14 @@ static HogFile* s_loadArcDataHogFile(U32 firstarc, int modifying)
         s_backupHogg(hogname);
 
     mkdirtree(hogname);
-    hogfile = hogFileReadOrCreate(hogname, NULL);
+    hogfile = openArcArchive(hogname);
     if(!hogfile)
         FatalErrorf("Could not open or create %s", hogname);
     return hogfile;
 }
 
 #if MISSIONSERVER_CLOSE_HOGGS
-static HogFile* s_getArcDataHogFile(U32 arcid, int modifying)
+static pg_source* s_getArcDataHogFile(U32 arcid, int modifying)
 {
     return s_loadArcDataHogFile(FIRSTARCID(arcid), modifying);
 }
@@ -79,9 +154,9 @@ void missionserver_FlushAllArcData(void)
 #else
 static StashTable s_hogfiles;
 
-static HogFile* s_getArcDataHogFile(U32 arcid, int modifying)
+static pg_source* s_getArcDataHogFile(U32 arcid, int modifying)
 {
-    HogFile *hogfile;
+    pg_source *hogfile;
     int firstarc = FIRSTARCID(arcid);
 
     if(!s_hogfiles)
@@ -96,19 +171,20 @@ static HogFile* s_getArcDataHogFile(U32 arcid, int modifying)
     return hogfile;
 }
 
-static void hogFileDestroyAdapter(void* arg0)
+static void closeArcArchiveAdapter(void* arg0)
 {
-    hogFileDestroy((HogFile *)arg0);
+    pg_source *source = arg0;
+    pg_source_close(&source, NULL);
 }
 
 void missionserver_FlushAllArcData(void)
 {
     if (s_hogfiles)
-        stashTableClearEx(s_hogfiles, NULL, hogFileDestroyAdapter);
+        stashTableClearEx(s_hogfiles, NULL, closeArcArchiveAdapter);
 }
 #endif
 
-static HogFileIndex s_getArcDataHogFileIndex(HogFile *hogfile, U32 arcid, char *arcname, size_t arcname_size)
+static pg_file * s_getArcDataHogFileIndex(pg_source *hogfile, U32 arcid, char *arcname, size_t arcname_size)
 {
     char buf[MAX_PATH];
     if(!arcname)
@@ -117,51 +193,57 @@ static HogFileIndex s_getArcDataHogFileIndex(HogFile *hogfile, U32 arcid, char *
         arcname_size = ARRAY_SIZE(buf);
     }
     sprintf_s(arcname, arcname_size, "arcdata_%d.txt", arcid);
-    return hogFileFind(hogfile, arcname);
+    pg_file *file = NULL;
+    pg_source_find(hogfile, arcname, &file, NULL);
+    return file;
 }
 
 int missionserver_FindArcData(MissionServerArc *arc)
 {
-    HogFile *hogfile = s_getArcDataHogFile(arc->id, 0);
-    HogFileIndex hogfileindex = s_getArcDataHogFileIndex(hogfile, arc->id, NULL, 0);
+    pg_source *hogfile = s_getArcDataHogFile(arc->id, 0);
+    pg_file * hogfileindex = s_getArcDataHogFileIndex(hogfile, arc->id, NULL, 0);
     if(MISSIONSERVER_CLOSE_HOGGS)
-        hogFileDestroy(hogfile);
-    return hogfileindex != HOG_INVALID_INDEX;
+        pg_source_close(&hogfile, NULL);
+    {
+        int found = hogfileindex != NULL;
+        pg_file_close(&hogfileindex, NULL);
+        return found;
+    }
 }
 
-static void s_writeArcToHogg(MissionServerArc *arc, const char *arcname, 
-                              HogFile *hogfile, HogFileIndex hogfileindex)
+static void s_writeArcToHogg(MissionServerArc *arc, const char *arcname,
+	pg_source *source, pg_file *existing)
 {
-    // this requires a HogFileIndex, so the caller can deal with logging
-    int result;
-    NewPigEntry entry = {0};
-    entry.fname = strdup(arcname);
-    entry.data = malloc(arc->zsize);
-    memcpy(entry.data, arc->data, arc->zsize);
-    entry.size = arc->size;
-    entry.pack_size = arc->zsize;
-    entry.dont_pack = 0;
-    entry.must_pack = 1;
-    entry.checksum[0] = s_checksum(arc->data, arc->zsize); // this is a hack, the checksum is on the zipped data!
-    entry.timestamp = 0;
-
-    if(hogfileindex == HOG_INVALID_INDEX)
-    {
-        if(result = hogFileModifyAdd2(hogfile, &entry))
-            FatalErrorf("hog error %d when adding arc %d to %s", result, arc->id, hogFileGetArchiveFileName(hogfile));
-    }
-    else
-    {
-        if(result = hogFileModifyUpdate2(hogfile, hogfileindex, &entry, false))
-            FatalErrorf("hog error %d when updating arc %d in %s", result, arc->id, hogFileGetArchiveFileName(hogfile));
-    }
+	pg_write_options options;
+	pg_writer *writer = NULL;
+	pg_status status;
+	pg_error error;
+	size_t bytes;
+	U32 digest = s_checksum(arc->data, arc->zsize);
+	pg_write_options_init(&options, arc->size);
+	options.input_size = arc->zsize;
+	options.encoding = PG_ZLIB;
+	options.entry.compression = PG_COMPRESS_FORCE;
+	options.entry.digest_kind = PG_DIGEST_MD5_32;
+	options.entry.expected_digest_domain = PG_CHECKSUM_STORED;
+	memcpy(options.entry.expected_digest, &digest, sizeof(digest));
+	status = existing ? pg_writer_open_file(existing, &options, &writer, &error) :
+		pg_writer_open_source(source, arcname, &options, &writer, &error);
+	if (status == PG_OK)
+		status = pg_writer_write(writer, arc->data, arc->zsize, &bytes, &error);
+	if (status == PG_OK) status = pg_writer_finish(writer, &error);
+	if (writer) pg_writer_close(&writer, NULL);
+	pg_file_close(&existing, NULL);
+	if (status != PG_OK)
+		FatalErrorf("Cannot write arc %d to %s: %s", arc->id,
+			arcArchiveName(source), error.message);
 }
 
 void missionserver_UpdateArcData(MissionServerArc *arc, U8 *data)
 {
     char arcname[MAX_PATH];
-    HogFile *hogfile = s_getArcDataHogFile(arc->id, 1);
-    HogFileIndex hogfileindex = s_getArcDataHogFileIndex(hogfile, arc->id, SAFESTR(arcname));
+    pg_source *hogfile = s_getArcDataHogFile(arc->id, 1);
+    pg_file * hogfileindex = s_getArcDataHogFileIndex(hogfile, arc->id, SAFESTR(arcname));
 
     assert(data);
     SAFE_FREE(arc->data);
@@ -170,33 +252,36 @@ void missionserver_UpdateArcData(MissionServerArc *arc, U8 *data)
     s_writeArcToHogg(arc, arcname, hogfile, hogfileindex);
 
     #if MISSIONSERVER_CLOSE_HOGGS
-        hogFileDestroy(hogfile);
+        pg_source_close(&hogfile, NULL);
     #endif
 }
 
-HogFile* missionserver_LoadArcDataInternal(MissionServerArc *arc, int *changed)
+pg_source* missionserver_LoadArcDataInternal(MissionServerArc *arc, int *changed)
 {
     U32 count;
-    HogFile *hogfile = s_getArcDataHogFile(arc->id, 0);
-    HogFileIndex hogfileindex = s_getArcDataHogFileIndex(hogfile, arc->id, NULL, 0);
+    pg_source *hogfile = s_getArcDataHogFile(arc->id, 0);
+    pg_file * hogfileindex = s_getArcDataHogFileIndex(hogfile, arc->id, NULL, 0);
 
-    arc->data = hogFileExtractCompressed(hogfile, hogfileindex, &count);
+    arc->data = readArcStored(hogfileindex, &count);
+    pg_file_close(&hogfileindex, NULL);
     if(!arc->data)
     {
         if(!g_missionServerState.forceLoadDb)
-            FatalErrorf("failed to extract arc %d in %s", arc->id, hogFileGetArchiveFileName(hogfile));
+            FatalErrorf("failed to extract arc %d in %s", arc->id, arcArchiveName(hogfile));
         else
         {
             LOG( LOG_MISSIONSERVER, LOG_LEVEL_VERBOSE, 0, "Arc %d not found in hogg!  Removing.", arc->id);
             if(changed)
                 *changed = 1;
+            if (MISSIONSERVER_CLOSE_HOGGS)
+                pg_source_close(&hogfile, NULL);
             return NULL;
         }
     }
     if(count != arc->zsize)
     {
         if(!g_missionServerState.forceLoadDb)
-            FatalErrorf("read wrong number of bytes %d when reading arc %d in %s", count, arc->id, hogFileGetArchiveFileName(hogfile));
+            FatalErrorf("read wrong number of bytes %d when reading arc %d in %s", count, arc->id, arcArchiveName(hogfile));
         else
         {
             LOG( LOG_MISSIONSERVER, LOG_LEVEL_VERBOSE, 0, "discrepancy in arc %d (%d bytes expected, %d found).  Changing expectations.", arc->id, arc->zsize, count);
@@ -206,9 +291,7 @@ HogFile* missionserver_LoadArcDataInternal(MissionServerArc *arc, int *changed)
         }
     }
 
-    // this is a hack, we've stored the checksum of the zipped data!
-    if(hogFileGetFileChecksum(hogfile, hogfileindex) != s_checksum(arc->data, arc->zsize))
-        FatalErrorf("bad checksum when reading arc %d in %s", arc->id, hogFileGetArchiveFileName(hogfile));
+    // Piggle verifies the stored-byte checksum through EOF before publishing data.
 
     return hogfile;
 }
@@ -233,7 +316,6 @@ void missionserver_LoadAllArcData(MissionServerArc **arcs, int count)
 #if MISSIONSERVER_LOADALL_HOGGS
     int i, percent = -1;
     char *buf = Str_temp();
-    HogFile *lasthog = NULL;
     for(i = 0; i < count; i++)
     {
         if(i*100/count != percent) // by time would probably be better :P
@@ -245,7 +327,7 @@ void missionserver_LoadAllArcData(MissionServerArc **arcs, int count)
         if(!arcs[i]->unpublished)
         {
             int changed = 0;
-            HogFile *hogfile = missionserver_LoadArcDataInternal(arcs[i], &changed);
+            pg_source *hogfile = missionserver_LoadArcDataInternal(arcs[i], &changed);
             if(changed)
             {
                 eaPush(&s_arcdata_changedArcs, arcs[i]);
@@ -257,19 +339,11 @@ void missionserver_LoadAllArcData(MissionServerArc **arcs, int count)
                 eaPush(&s_arcdata_missingArcs, arcs[i]);
             }
             #if MISSIONSERVER_CLOSE_HOGGS
-                if(hogfile && lasthog && hogfile != lasthog)
-                {
-                    hogFileDestroy(lasthog);
-                    lasthog = hogfile;
-                }
+                if (hogfile) pg_source_close(&hogfile, NULL);
             #endif
         }
     }
 
-    #if MISSIONSERVER_CLOSE_HOGGS
-        if(lasthog)
-            hogFileDestroy(lasthog);
-    #endif
     Str_destroy(&buf);
 #endif
 }
@@ -278,16 +352,16 @@ void missionserver_RestoreArcData(MissionServerArc *arc)
 {
     if(!arc->data)
     {
-        HogFile *hogfile = missionserver_LoadArcDataInternal(arc, NULL);
+        pg_source *hogfile = missionserver_LoadArcDataInternal(arc, NULL);
         #if MISSIONSERVER_CLOSE_HOGGS
-            hogFileDestroy(hogfile);
+            pg_source_close(&hogfile, NULL);
         #endif
     }
 }
 
-static HogFile *s_hogfile_archive;
+static pg_source *s_hogfile_archive;
 
-static HogFile* s_getArchiveHogg(void)
+static pg_source* s_getArchiveHogg(void)
 {
     static int reentry = 0;
     reentry++;
@@ -300,12 +374,12 @@ static HogFile* s_getArchiveHogg(void)
         s_backupHogg(hogname);
 
         mkdirtree(hogname);
-        s_hogfile_archive = hogFileReadOrCreate(hogname, NULL);
+        s_hogfile_archive = openArcArchive(hogname);
         if(!s_hogfile_archive)
             FatalErrorf("Could not open or create %s", hogname);
     }
 
-    if(hogFileGetNumFiles(s_hogfile_archive) >= ARCS_PER_HOGG(INT_MAX))
+    if(arcArchiveCount(s_hogfile_archive) >= ARCS_PER_HOGG(INT_MAX))
     {
         char hogname[MAX_PATH];
         char bakname[MAX_PATH];
@@ -314,8 +388,8 @@ static HogFile* s_getArchiveHogg(void)
         int retry = 0;
         assert(reentry == 1); // can reenter once, after the hogg fills, don't overwrite anything
 
-        strcpy(hogname, hogFileGetArchiveFileName(s_hogfile_archive));
-        hogFileDestroy(s_hogfile_archive);
+        strcpy(hogname, arcArchiveName(s_hogfile_archive));
+        pg_source_close(&s_hogfile_archive, NULL);
         s_hogfile_archive = NULL;
 
         timess2000 = timerSecondsSince2000();
@@ -346,35 +420,36 @@ void missionserver_ArchiveArcData(MissionServerArc *arc)
     int result;
     char arcname[MAX_PATH];
 
-    HogFile *hogfile;
-    HogFileIndex hogfileindex;
+    pg_source *hogfile;
+    pg_file * hogfileindex;
 
     // make sure we've loaded the old data
     if(!arc->data)
-        missionserver_LoadArcDataInternal(arc, NULL);
+        missionserver_RestoreArcData(arc);
     assert(arc->data);
 
     // first put the data in the backup hogg
     hogfile = s_getArchiveHogg();
     hogfileindex = s_getArcDataHogFileIndex(hogfile, arc->id, SAFESTR(arcname));
-    if(hogfileindex != HOG_INVALID_INDEX)
+    if(hogfileindex != NULL)
         LOG( LOG_MISSIONSERVER, LOG_LEVEL_VERBOSE, 0, "Warning: found an archived arc with the same id (%d) while archiving, overwriting.", arc->id);
     s_writeArcToHogg(arc, arcname, hogfile, hogfileindex);
 
     // then remove it from the live hogg
     hogfile = s_getArcDataHogFile(arc->id, 1);
     hogfileindex = s_getArcDataHogFileIndex(hogfile, arc->id, SAFESTR(arcname));
-    if(hogfileindex != HOG_INVALID_INDEX)
+    if(hogfileindex != NULL)
     {
-        if(result = hogFileModifyDelete(hogfile, hogfileindex))
-            LOG( LOG_MISSIONSERVER, LOG_LEVEL_VERBOSE, 0, "Warning: hog error %d when deleting arc %d from %s, ignoring", result, arc->id, hogFileGetArchiveFileName(hogfile));
+        if((result = pg_file_delete(hogfileindex, NULL)) != PG_OK)
+            LOG( LOG_MISSIONSERVER, LOG_LEVEL_VERBOSE, 0, "Warning: hog error %d when deleting arc %d from %s, ignoring", result, arc->id, arcArchiveName(hogfile));
     }
     else
     {
-        LOG( LOG_MISSIONSERVER, LOG_LEVEL_VERBOSE, 0, "Warning: could not find arc %d in %s for deletion, ignoring.", arc->id, hogFileGetArchiveFileName(hogfile));
+        LOG( LOG_MISSIONSERVER, LOG_LEVEL_VERBOSE, 0, "Warning: could not find arc %d in %s for deletion, ignoring.", arc->id, arcArchiveName(hogfile));
     }
+    pg_file_close(&hogfileindex, NULL);
     #if MISSIONSERVER_CLOSE_HOGGS
-        hogFileDestroy(hogfile);
+        pg_source_close(&hogfile, NULL);
     #endif
 
     // then let it go free
@@ -385,7 +460,7 @@ void missionserver_CloseArcDataArchive(void)
 {
     if(s_hogfile_archive)
     {
-        hogFileDestroy(s_hogfile_archive);
+        pg_source_close(&s_hogfile_archive, NULL);
         s_hogfile_archive = NULL;
     }
 }
@@ -398,9 +473,9 @@ U8* missionserver_GetArcData(MissionServerArc *arc)
 
     if(!arc->data)
     {
-        HogFile *hogfile = missionserver_LoadArcDataInternal(arc, NULL);
+        pg_source *hogfile = missionserver_LoadArcDataInternal(arc, NULL);
         #if MISSIONSERVER_CLOSE_HOGGS
-            hogFileDestroy(hogfile);
+            pg_source_close(&hogfile, NULL);
         #endif
     }
 

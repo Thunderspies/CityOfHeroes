@@ -4,7 +4,6 @@
 #include <utilitieslib/utils/utils.h>
 #include <utilitieslib/utils/wininclude.h>
 #include <assert.h>
-#include <utilitieslib/utils/piglib.h>
 #include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,7 +44,6 @@ static void Usage()
 int main(int argc,char **argv)
 {
     int        i,run_server=1,patch_to_latest=0,rebuild_if_bad=0;
-    extern    CRITICAL_SECTION PigCritSec;
     int        errCode = 0;
     char    *execname;
 
@@ -96,7 +94,6 @@ int main(int argc,char **argv)
     if(errCode == 0) {
         printf("Initializing...");
         fileDisableAutoDataDir();
-        InitializeCriticalSection(&PigCritSec);
         sharedMemorySetMode(SMM_DISABLED);
         cryptInit(); // takes a few secs to init
         printf("done\n");
