@@ -10,6 +10,7 @@
 #include <utilitieslib/utils/error.h>
 #include <utilitieslib/utils/wininclude.h>
 #include "sql/sqlconn.h"
+#include "storage/database.h"
 #include <utilitieslib/utils/log.h>
 #include <utilitieslib/utils/SuperAssert.h>
 
@@ -41,18 +42,11 @@ ContainerFieldInfo g_containerfieldinfo[] =
 };
 STATIC_ASSERT(ARRAY_SIZE(g_containerfieldinfo) == CFTYPE_COUNT);
 
-static char * g_containerfieldtypes[][CFTYPE_COUNT] = {
-    {NULL}, // DBPROV_UNKNOWN
-    {NULL, "tinyint", "smallint", "int", "real", "nvarchar", "varchar", "datetime", "varbinary(max)", "nvarchar(max)", "varchar(max)", "text", "image"}, // DBPROV_MSSQL
-    {NULL, "int2", "int2", "int4", "float4", "varchar", "varchar", "timestamp", "bytea", "text", "text", "text", "bytea"}, // DBPROV_POSTGRESQL
-};
-STATIC_ASSERT(ARRAY_SIZE(g_containerfieldtypes) == DBPROV_COUNT);
-
 static int field_must_start_with_cr=1;
 
 char * getContainerFieldType(enum ContainerFieldType field_type)
 {
-    return g_containerfieldtypes[gDatabaseProvider][field_type];
+    return (char *)dbStorageTypeName(gDatabaseProvider, field_type);
 }
 
 void setFieldRequiresCR(int yes)
@@ -152,7 +146,7 @@ int dataType(char *str, int *column_size, int *num_bytes, char **sql_type_name)
         {
             *column_size = 0;
             *num_bytes = g_containerfieldinfo[type].access_size;
-            *sql_type_name = g_containerfieldtypes[gDatabaseProvider][type];
+            *sql_type_name = getContainerFieldType(type);
         }
     }
 

@@ -181,6 +181,7 @@ set(MapServer_SOURCES
 	../Common/varutils.c
 	../DBServer/src/container_diff.c
 	../DBServer/src/container_tplt_utils.c
+	../DBServer/src/storage/database_dialect.c
 	src/ai/entai.c
 	src/ai/entaiBehaviorAlias.c
 	src/ai/entaiBehaviorCoh.c

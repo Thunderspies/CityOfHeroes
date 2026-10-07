@@ -162,6 +162,13 @@ list(APPEND DbServer_GENERATED
 set_source_files_properties(${DbServer_GENERATED} PROPERTIES
 	GENERATED TRUE HEADER_FILE_ONLY TRUE)
 
+add_library(DbServerStorage STATIC src/storage/database.c src/storage/database.h
+	src/storage/database_odbc.c src/storage/database_dialect.c)
+cox_target_defaults(DbServerStorage)
+target_include_directories(DbServerStorage PUBLIC src)
+target_link_libraries(DbServerStorage PUBLIC Common UtilitiesLib odbc32)
+target_compile_definitions(DbServerStorage PRIVATE DBSERVER)
+
 add_executable(DbServer
 	${DbServer_SOURCES} ${DbServer_HEADERS} ${DbServer_GENERATED})
 source_group(TREE "${PROJECT_SOURCE_DIR}" FILES
@@ -170,7 +177,7 @@ cox_target_defaults(DbServer)
 target_include_directories(DbServer PRIVATE
 	src ../MapServer/src ../Launcher/src)
 target_link_libraries(DbServer PRIVATE
-	Common UtilitiesLib cryptopp::cryptopp ZLIB::ZLIB odbc32 shlwapi)
+	Common UtilitiesLib DbServerStorage cryptopp::cryptopp ZLIB::ZLIB odbc32 shlwapi)
 target_compile_definitions(DbServer PRIVATE
 	DBSERVER _CONSOLE _MBCS _CRT_SECURE_NO_DEPRECATE)
 target_compile_options(DbServer PRIVATE
@@ -187,4 +194,8 @@ if(COX_BUILD_DBSERVER_TESTS)
 	cox_target_defaults(ContainerQueryTests)
 	target_link_libraries(ContainerQueryTests PRIVATE Common UtilitiesLib)
 	add_test(NAME ContainerQueryTests COMMAND ContainerQueryTests)
+	add_executable(DatabaseDialectTests src/storage/database_dialect_test.c)
+	cox_target_defaults(DatabaseDialectTests)
+	target_link_libraries(DatabaseDialectTests PRIVATE DbServerStorage)
+	add_test(NAME DatabaseDialectTests COMMAND DatabaseDialectTests)
 endif()
