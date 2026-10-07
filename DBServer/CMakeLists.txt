@@ -1,4 +1,5 @@
 set(DbServer_SOURCES
+	../Common/container/container_query.c
 	../Common/account/AccountCatalog.c
 	../Common/account/AccountData.c
 	../Common/account/AccountTypes.cpp
@@ -180,3 +181,10 @@ target_link_options(DbServer PRIVATE /LARGEADDRESSAWARE
 include(StructParser)
 StructParse(DbServer)
 cox_stage_executable_alias(DbServer LogServer)
+
+if(COX_BUILD_DBSERVER_TESTS)
+	add_executable(ContainerQueryTests src/storage/container_query_test.c ../Common/container/container_query.c)
+	cox_target_defaults(ContainerQueryTests)
+	target_link_libraries(ContainerQueryTests PRIVATE Common UtilitiesLib)
+	add_test(NAME ContainerQueryTests COMMAND ContainerQueryTests)
+endif()

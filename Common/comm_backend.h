@@ -165,7 +165,7 @@ enum
     DBSERVER_MAP_XFER_READY,
     DBSERVER_MAP_XFER_OK,
     DBSERVER_MAP_XFER_FAIL,
-    DBSERVER_CUSTOM_DATA,
+    DBSERVER_STORAGE_RESPONSE,
     DBSERVER_CLEAR_PNAME_CACHE_ENTRY,
     DBSERVER_TEAM_LEFT_MISSION,
     DBSERVER_RELAY_CMD_RESPONSE,
@@ -275,8 +275,8 @@ enum
     DBCLIENT_REQ_ONLINE_ENT_COMMENTS,            // 28
     DBCLIENT_READY_FOR_PLAYERS,                    // 29
     DBCLIENT_PLAYER_KICKED,                        // 30
-    DBCLIENT_REQ_CUSTOM_DATA,                    // 31
-    DBCLIENT_EXECUTE_SQL,                        // 32
+    DBCLIENT_STORAGE_REQUEST,                    // 31
+    DBCLIENT_ADMIN_NATIVE_SQL,                        // 32
     DBCLIENT_DISCONNECT_MAPSERVER,                // 33
     DBCLIENT_PLAYER_RENAME,                        // 34
     DBCLIENT_RELAY_CMD_BYENT,                    // 35
