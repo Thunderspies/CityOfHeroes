@@ -649,7 +649,7 @@ void dbReqCustomData(int list_id,char *table,char *limit,char *search,char *colu
 {
     Packet    *pak;
 
-    pak = pktCreateEx(&db_comm_link,DBCLIENT_REQ_CUSTOM_DATA);
+    pak = pktCreateEx(&db_comm_link,DBCLIENT_STORAGE_REQUEST);
 #if defined(_M_X64)
     #pragma message("The line below needs to be proper ported to 64 bit compatible code")
 #endif
@@ -980,9 +980,9 @@ static handleReceiveZMQstatus(Packet *pak)
 }
 
 
-void dbExecuteSql(char *sql_command)
+void dbExecuteAdministrativeNativeSql(char *sql_command)
 {
-    Packet *pak = pktCreateEx(&db_comm_link,DBCLIENT_EXECUTE_SQL);
+    Packet *pak = pktCreateEx(&db_comm_link,DBCLIENT_ADMIN_NATIVE_SQL);
 
     pktSendString(pak,sql_command);
     pktSend(&pak,&db_comm_link);
@@ -1168,7 +1168,7 @@ int dbMessageCallback(Packet *pak,int cmd,NetLink *link)
             handleOnlineEnts(pak);
         xcase DBSERVER_ONLINE_ENT_COMMENTS:
             handleOnlineEntComments(pak);
-        xcase DBSERVER_CUSTOM_DATA:
+        xcase DBSERVER_STORAGE_RESPONSE:
             handleCustomData(pak);
         xcase DBSERVER_CLEAR_PNAME_CACHE_ENTRY:
             handleClearPnameCacheEntry(pak);

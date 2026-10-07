@@ -2364,7 +2364,7 @@ void handleReqCustomData(Packet *pak,NetLink *link)
 
     if(table)
     {
-        Packet        *pak_out = pktCreateEx(link,DBSERVER_CUSTOM_DATA);
+        Packet        *pak_out = pktCreateEx(link,DBSERVER_STORAGE_RESPONSE);
 
         pktSendBits(pak_out,32,cb);
         pktSendBitsPack(pak_out,1,db_id);
@@ -2642,7 +2642,7 @@ void handleReqSgChannelInvite(Packet *pak,NetLink *link)
     free(channel);
 }
 
-static void handleExecuteSql(Packet *pak)
+static void handleAdministrativeNativeSql(Packet *pak)
 {
     int sql_len;
     char *sql_command = pktGetStringAndLength(pak, &sql_len);
@@ -3047,10 +3047,10 @@ int dbHandleClientMsg(Packet *pak,int cmd, NetLink *link)
             handleReqAllOnlineComments(link);
         xcase DBCLIENT_PLAYER_KICKED:
             handlePlayerKicked(pak);
-        xcase DBCLIENT_REQ_CUSTOM_DATA:
+        xcase DBCLIENT_STORAGE_REQUEST:
             handleReqCustomData(pak,link);            //***ASYNC SQL READ
-        xcase DBCLIENT_EXECUTE_SQL:
-            handleExecuteSql(pak);
+        xcase DBCLIENT_ADMIN_NATIVE_SQL:
+            handleAdministrativeNativeSql(pak);
         xcase DBCLIENT_DISCONNECT_MAPSERVER:
             handleDisconnectMapserver(pak);
         xcase DBCLIENT_PLAYER_RENAME:
