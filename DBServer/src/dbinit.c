@@ -73,6 +73,15 @@
 #include <utilitieslib/components/earray.h>
 #include "account/AccountCatalog.h"
 #include "overloadProtection.h"
+#include "storage/database.h"
+
+static DbStorage *databaseStorage;
+DbStorage *dbGetStorage(void) { return databaseStorage; }
+void dbDestroyStorage(void)
+{
+    if (databaseStorage) databaseStorage->ops->destroy(databaseStorage);
+    databaseStorage = NULL;
+}
 
 #pragma comment(lib,"winmm.lib") // timeBeginPeriod
 
@@ -1094,6 +1103,8 @@ void dbInit(int start_static)
 
     odbcInitialSetup();
     queryDatabaseVersion();
+    databaseStorage = dbStorageCreateOdbc();
+    if (!databaseStorage) FatalErrorf("Cannot allocate database provider");
 
     printf_stderr("%s SQL server %d connected\n", timerGetTimeString(), gDatabaseVersion);
     sqlFifoInit();

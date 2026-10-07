@@ -154,6 +154,7 @@ static void s_fifo_flush(void)
 {
     printf_stderr("Flushing SQL fifo\n");
     sqlFifoShutdown();
+    dbDestroyStorage();
     sqlConnShutdown();
 }
 
