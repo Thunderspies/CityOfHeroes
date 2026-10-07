@@ -18,6 +18,7 @@
 #include <utilitieslib/network/net_packetutil.h>
 #include <utilitieslib/network/net_packet.h>
 #include "container_sql.h"
+#include "storage/database.h"
 #include <utilitieslib/utils/timing.h>
 #include <utilitieslib/network/net_structdefs.h>
 #include "auction/Auction.h"
@@ -195,7 +196,8 @@ static int auctionMsgCallback(Packet *pak_in,int cmd,NetLink *auc_link)
             days_active = server_cfg.auction_last_login_delay;
             auction_state.sqlcb_link = auc_link;
 
-            estrPrintf(&restriction,"WHERE LastActive > DATEADD(d, -%i, GETDATE())", days_active);
+            estrPrintf(&restriction,"WHERE LastActive > ");
+            dbStorageAppendDaysAgo(gDatabaseProvider, &restriction, days_active);
             sqlReadColumnsAsync(ent_list->tplt->tables,0,"ContainerId",restriction,sqlAuctionGetActiveCallback,0,pak_out,0);
 
             estrDestroy(&restriction);

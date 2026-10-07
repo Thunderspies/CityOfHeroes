@@ -162,6 +162,15 @@ list(APPEND DbServer_GENERATED
 set_source_files_properties(${DbServer_GENERATED} PROPERTIES
 	GENERATED TRUE HEADER_FILE_ONLY TRUE)
 
+include(dependencies/SQLite)
+add_library(DbServerStorage STATIC src/storage/database.c src/storage/database.h
+	src/storage/database_odbc.c src/storage/database_dialect.c src/storage/database_sqlite.c
+	src/storage/database_sqlite_schema.c)
+cox_target_defaults(DbServerStorage)
+target_include_directories(DbServerStorage PUBLIC src)
+target_link_libraries(DbServerStorage PUBLIC Common UtilitiesLib odbc32 SQLite::SQLite3)
+target_compile_definitions(DbServerStorage PRIVATE DBSERVER)
+
 add_executable(DbServer
 	${DbServer_SOURCES} ${DbServer_HEADERS} ${DbServer_GENERATED})
 source_group(TREE "${PROJECT_SOURCE_DIR}" FILES
@@ -170,7 +179,7 @@ cox_target_defaults(DbServer)
 target_include_directories(DbServer PRIVATE
 	src ../MapServer/src ../Launcher/src)
 target_link_libraries(DbServer PRIVATE
-	Common UtilitiesLib cryptopp::cryptopp ZLIB::ZLIB odbc32 shlwapi)
+	Common UtilitiesLib DbServerStorage cryptopp::cryptopp ZLIB::ZLIB odbc32 shlwapi)
 target_compile_definitions(DbServer PRIVATE
 	DBSERVER _CONSOLE _MBCS _CRT_SECURE_NO_DEPRECATE)
 target_compile_options(DbServer PRIVATE
@@ -183,8 +192,28 @@ StructParse(DbServer)
 cox_stage_executable_alias(DbServer LogServer)
 
 if(COX_BUILD_DBSERVER_TESTS)
+	target_sources(DbServer PRIVATE src/storage/container_sqlite_test.c)
+	target_compile_definitions(DbServer PRIVATE COX_BUILD_DBSERVER_TESTS)
+	add_test(NAME ContainerSqliteTests COMMAND DbServer --storage-tests)
 	add_executable(ContainerQueryTests src/storage/container_query_test.c ../Common/container/container_query.c)
 	cox_target_defaults(ContainerQueryTests)
 	target_link_libraries(ContainerQueryTests PRIVATE Common UtilitiesLib)
 	add_test(NAME ContainerQueryTests COMMAND ContainerQueryTests)
+	add_executable(DatabaseDialectTests src/storage/database_dialect_test.c)
+	cox_target_defaults(DatabaseDialectTests)
+	target_link_libraries(DatabaseDialectTests PRIVATE DbServerStorage)
+	add_test(NAME DatabaseDialectTests COMMAND DatabaseDialectTests)
+	add_executable(DatabaseSqliteTests src/storage/database_sqlite_test.c)
+	cox_target_defaults(DatabaseSqliteTests)
+	target_link_libraries(DatabaseSqliteTests PRIVATE DbServerStorage)
+	add_test(NAME DatabaseSqliteTests COMMAND DatabaseSqliteTests)
+	set(COX_SQLITE_GAME_DATA_ROOT "" CACHE PATH "Optional complete game data root for the SQLite restart smoke test")
+	if(COX_SQLITE_GAME_DATA_ROOT)
+		find_package(Python3 REQUIRED COMPONENTS Interpreter)
+		add_test(NAME SqliteLocalRestartSmoke COMMAND ${Python3_EXECUTABLE}
+			${CMAKE_CURRENT_SOURCE_DIR}/tests/sqlite_local_smoke.py
+			--bin $<TARGET_FILE_DIR:DbServer> --data-root ${COX_SQLITE_GAME_DATA_ROOT}
+			--output ${CMAKE_BINARY_DIR}/sqlite-runtime)
+		set_tests_properties(SqliteLocalRestartSmoke PROPERTIES RUN_SERIAL TRUE TIMEOUT 3600 LABELS integration)
+	endif()
 endif()

@@ -12,6 +12,7 @@
 #include "testClientInclude.h"
 #include "tchar.h"
 #include <utilitieslib/utils/StringUtil.h>
+#include <utilitieslib/utils/sysutil.h>
 
 HWND    hwnd;
 static HDC        hDC;
@@ -211,7 +212,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 {
     char *s;
     char    *argv[128];
-    char delim[] = " \t";
     char buf[1024] = "";
     int        argc;
     FILE    *file;
@@ -247,8 +247,14 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     }
     strcat(buf," ");
     strcat(buf,WideToUTF8StrTempConvert(lpCmdLine,NULL));
-    for(s = strtok(buf,delim),argc=1;s && argc<ARRAY_SIZE(argv);argc++,s = strtok(0,delim))
-        argv[argc] = s;
+    argc = 1 + tokenize_line_safe(buf, argv + 1, ARRAY_SIZE(argv) - 1, NULL);
+    if (argc > ARRAY_SIZE(argv)) return 1;
+    for (int i = 1; i < argc; ++i) if (!stricmp(argv[i], "-persistencetest")) {
+        setGuiDisable(true);
+        setvbuf(stdout, NULL, _IONBF, 0);
+        setvbuf(stderr, NULL, _IONBF, 0);
+        break;
+    }
     newConsoleWindow();
     return main(argc,argv);
 }

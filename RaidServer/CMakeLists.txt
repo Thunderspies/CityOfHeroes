@@ -16,6 +16,7 @@ set(RaidServer_SOURCES
 	../Common/gameData/raidstruct.c
 	../DBServer/src/container_diff.c
 	../DBServer/src/container_tplt_utils.c
+	../DBServer/src/storage/database_dialect.c
 	../MapServer/src/container/containerSupergroup.c
 	../MapServer/src/dbcomm/dbcomm.c
 	../MapServer/src/dbcomm/dbcontainer.c

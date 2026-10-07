@@ -1,4 +1,6 @@
 #include "sql_fifo.h"
+#include "storage/database.h"
+#include <utilitieslib/components/Queue.h>
 #include <utilitieslib/utils/mathutil.h>
 #include <utilitieslib/network/netio.h>
 #include <utilitieslib/utils/error.h>
@@ -131,6 +133,8 @@ typedef __declspec(align(EXPECTED_WORST_CACHE_LINE_SIZE)) struct sqlFifoWorker
 
 struct sqlFifoGlobals
 {
+    Queue local_queue;
+    bool executing;
     int in_flight;
     int max_in_flight;
     bool running;
@@ -154,6 +158,7 @@ static void s_fifo_flush(void)
 {
     printf_stderr("Flushing SQL fifo\n");
     sqlFifoShutdown();
+    dbDestroyStorage();
     sqlConnShutdown();
 }
 
@@ -165,15 +170,18 @@ void sqlFifoInit(void)
     assert(!atexit(s_fifo_flush));
 
     sqlfifo.running = true;
-    sqlfifo.use_transactions = true;
+    sqlfifo.use_transactions = gDatabaseProvider != DBPROV_SQLITE;
 
-    sql_task_init(NUM_SQL_WORKERS, SQL_QUEUE_SIZES);
-    for (i=0; i<NUM_SQL_WORKERS; i++) {
-        sqlFifoWorker * worker = &sqlfifo.workers[i];
-        worker->conn = (SqlConn)(i+1);
-        sql_task_set_callback(i, runQueueEntry, worker);
+    if (gDatabaseProvider == DBPROV_SQLITE) sqlfifo.local_queue = createQueue();
+    else {
+        sql_task_init(NUM_SQL_WORKERS, SQL_QUEUE_SIZES);
+        for (i=0; i<NUM_SQL_WORKERS; i++) {
+            sqlFifoWorker * worker = &sqlfifo.workers[i];
+            worker->conn = (SqlConn)(i+1);
+            sql_task_set_callback(i, runQueueEntry, worker);
+        }
+        sql_task_freeze();
     }
-    sql_task_freeze();
 
     // Enough room for input + in progress + output
     MP_CREATE(SqlQueueEntry, SQL_QUEUE_ENTRIES);
@@ -209,14 +217,14 @@ void sqlFifoShutdown(void)
         stashTableDestroy(s_writes_pending[i]);
     }
 
-    sql_task_thaw();
-    sql_task_shutdown();
+    if (sqlfifo.local_queue) { destroyQueue(sqlfifo.local_queue); sqlfifo.local_queue = NULL; }
+    else { sql_task_thaw(); sql_task_shutdown(); }
     sqlfifo.running = false;
 }
 
 void sqlFifoEnableTransacted(int enable)
 {
-    sqlfifo.use_transactions = enable;
+    sqlfifo.use_transactions = gDatabaseProvider != DBPROV_SQLITE && enable;
 }
 
 int sqlFifoWorstQueueDepth()
@@ -243,9 +251,10 @@ static SqlQueueEntry * getQueueEntry(void)
 }
 
 static void pushQueueEntry(unsigned queue, SqlQueueEntry *entry) {
-    sql_task_push(queue, entry);
+    if (sqlfifo.local_queue) { if (!qEnqueue(sqlfifo.local_queue, entry)) FatalErrorf("SQLite FIFO allocation failed"); }
+    else sql_task_push(queue, entry);
 
-    if (!sqlfifo.in_flight)
+    if (!sqlfifo.in_flight && !sqlfifo.local_queue)
         sql_task_thaw();
 
     sqlfifo.in_flight++;
@@ -270,14 +279,32 @@ static unsigned pickQueue(unsigned container_id) {
 
 void sqlFifoFinish(void)
 {
+    if (!sqlfifo.running || sqlfifo.executing) return;
+    if (sqlfifo.local_queue) { while (sqlfifo.in_flight) sqlFifoTick(); return; }
     // wait for the queue to empty
     while (sqlfifo.in_flight)
         processQueueEntry(sql_task_pop());
 }
 
+void sqlFifoFlushBeforeForeground(void)
+{
+    if (gDatabaseProvider == DBPROV_SQLITE && !sqlfifo.executing) sqlFifoFinish();
+}
+
 void sqlFifoTick(void)
 {
     SqlQueueEntry * entry;
+
+    if (!sqlfifo.running || sqlfifo.executing) return;
+    if (sqlfifo.local_queue) {
+        while ((entry = qDequeue(sqlfifo.local_queue))) {
+            sqlfifo.executing = true;
+            runQueueEntry(entry, &sqlfifo.workers[0]);
+            sqlfifo.executing = false;
+            processQueueEntry(entry);
+        }
+        return;
+    }
 
     while((entry = sql_task_trypop()))
         processQueueEntry(entry);
@@ -290,9 +317,10 @@ void sqlFifoTick(void)
 void sqlFifoBarrier(void)
 {
     unsigned i;
+    if (!sqlfifo.running) return;
 
     // insert a barrier in the SQL queue for each worker
-    for (i=0; i<NUM_SQL_WORKERS; i++) {
+    for (i=0; i<(sqlfifo.local_queue ? 1U : NUM_SQL_WORKERS); i++) {
         SqlQueueEntry * entry = getQueueEntry();
         entry->cmd = SQLCMD_BARRIER;
         pushQueueEntry(i, entry);
@@ -702,7 +730,7 @@ static void * runQueueEntry(void * data, void * user)
     {
         case SQLCMD_BARRIER:
         {
-            sql_task_worker_barrier();
+            if (!sqlfifo.local_queue) sql_task_worker_barrier();
             break;
         }
         case SQLCMD_CONTAINERUPDATE:
@@ -729,7 +757,17 @@ static void * runQueueEntry(void * data, void * user)
         case SQLCMD_EXEC:
         {
             char * buf = entry->exec.large_buf ? entry->exec.large_buf : entry->exec.short_buf;
-            sqlConnExecDirectMany(buf, entry->exec.str_len, worker->conn, entry->exec.is_utf8);
+            if (sqlfifo.local_queue) {
+                DbStorageError error = {0};
+                DbStorageConnection *connection = dbGetStorage()->ops->connection(dbGetStorage(), SQLCONN_FOREGROUND);
+                if (connection->ops->transaction(connection, true, false, &error) != DB_STORAGE_OK)
+                    FatalErrorf("SQLite native batch begin failed: %s", error.message);
+                if (dbStorageExecuteNative(connection, buf, &error) != DB_STORAGE_OK ||
+                    connection->ops->transaction(connection, false, true, &error) != DB_STORAGE_OK) {
+                    connection->ops->transaction(connection, false, false, NULL);
+                    FatalErrorf("SQLite native batch failed: %s\nSQL: %s", error.message, buf);
+                }
+            } else sqlConnExecDirectMany(buf, entry->exec.str_len, worker->conn, entry->exec.is_utf8);
             break;
         }
         default:
@@ -755,7 +793,7 @@ static void processQueueEntry(SqlQueueEntry * entry)
     static int recursing = 0;
 
     sqlfifo.in_flight--;
-    if (!sqlfifo.in_flight)
+    if (!sqlfifo.in_flight && !sqlfifo.local_queue)
         sql_task_freeze();
 
     recursing++;
