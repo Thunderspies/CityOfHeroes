@@ -2213,6 +2213,7 @@ int __cdecl main(int argc,char **argv)
 
     printfColor(COLOR_RED|COLOR_GREEN|COLOR_BLUE | COLOR_BRIGHT, "Server ready.");
     printf(" (took %f seconds)\n",timerElapsed(startup_timer));
+    fflush(fileGetStdout()); // Publish readiness when stdout is redirected by local test harnesses.
 
     // If we are spawned from a launcher notify it that we are ready for players.
     // This lets the launcher update it's metrics on starting maps for load balancing

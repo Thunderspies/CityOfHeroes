@@ -77,6 +77,7 @@ jobs:
           cmake --preset vs2026
           -DCOX_BUILD_UTILITIES_TESTS=ON
           -DCOX_BUILD_CODEC_TESTS=ON
+          -DCOX_BUILD_DBSERVER_TESTS=ON
           -DCOX_BUILD_DEV_TOOLS=ON -DCOX_BUILD_ART_TOOLS=ON
 
       - name: Build
@@ -84,7 +85,7 @@ jobs:
           cmake --build out/build/vs2026
           --config ${{ matrix.configuration }} --parallel
 
-      - name: Test utilities and codecs
+      - name: Test utilities, codecs, and storage
         run: >-
           ctest --test-dir out/build/vs2026
           -C ${{ matrix.configuration }} --output-on-failure
