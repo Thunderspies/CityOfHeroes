@@ -629,7 +629,7 @@ void emailDeleteMessage(Entity * e,int message_id)
 
         idx += sprintf(sql_command+idx,recip_clear_state,message_id,e->db_id);
         idx += sprintf(sql_command+idx,email_del,message_id);
-        dbExecuteSql(sql_command);
+        dbExecuteAdministrativeNativeSql(sql_command);
     }
 }
 

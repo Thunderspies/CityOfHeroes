@@ -95,7 +95,8 @@ void contactLauncher(void);
 void dbPlayerKicked(int player_id,int banned);
 void dbReqArenaAddress(int syncronous);
 void dbReqCustomData(int list_id,char *table,char *limit,char *search,char *columns,DbCustomDataCallback cb,int db_id);
-void dbExecuteSql(char *sql_command);
+// Administrative escape hatch: SQL uses the selected provider's native dialect.
+void dbExecuteAdministrativeNativeSql(char *sql_command);
 void dbReqSgChannelInvite(Entity * e, char * channel, int min_rank);
 void dbOfflineCharacter(ClientLink* client, char* dbIdStrOrCharName);
 void dbOfflineCharacter_HandleRslt(Packet *pak);
