@@ -73,6 +73,15 @@
 #include <utilitieslib/components/earray.h>
 #include "account/AccountCatalog.h"
 #include "overloadProtection.h"
+#include "storage/database.h"
+
+static DbStorage *databaseStorage;
+DbStorage *dbGetStorage(void) { return databaseStorage; }
+void dbDestroyStorage(void)
+{
+    if (databaseStorage) databaseStorage->ops->destroy(databaseStorage);
+    databaseStorage = NULL;
+}
 
 #pragma comment(lib,"winmm.lib") // timeBeginPeriod
 
@@ -300,7 +309,8 @@ void updateDbServerTitle()
     {
         latency_msec = dbGetCurrMaxLatency(&slowest_cmd) * 1000;
         sql_queue_depth = sqlFifoWorstQueueDepth();
-        sqlConnGetTimes(&sql_throughput, &sql_avg_lat_usec, &sql_worst_lat_usec, &sql_fore_idle_ratio, &sql_back_idle_ratio);
+        if (gDatabaseProvider != DBPROV_SQLITE)
+            sqlConnGetTimes(&sql_throughput, &sql_avg_lat_usec, &sql_worst_lat_usec, &sql_fore_idle_ratio, &sql_back_idle_ratio);
         db_tick_len = dbTickLength();
         overloadProtection_SetSQLStatus(sql_queue_depth);
         timerStart(timer);
@@ -361,6 +371,7 @@ static void sendSqlKeepAlive(void)
         return;
 
     last = now;
+    if (gDatabaseProvider == DBPROV_SQLITE) return;
     sqlConnExecDirect(keepalive, sizeof(keepalive)-1, SQLCONN_FOREGROUND, false);
 
     for (i=0; i<SQLCONN_MAX-1; i++)
@@ -1081,21 +1092,38 @@ void dbInit(int start_static)
     if (gDatabaseProvider == DBPROV_UNKNOWN)
         FatalErrorf("No SqlDbProvider set");
 
-    assert(sqlConnInit(SQLCONN_MAX));
-    sqlConnSetLogin(server_cfg.sql_login);
-    if (!sqlConnDatabaseConnect(server_cfg.sql_db_name, "DBSERVER"))
-    {
-        sqlCheckDdl(DDL_ADD);
-        if (sqlConnDatabaseConnect(NULL, "DBSERVER_INIT"))
-            sqlExecDdl(DDL_ADD, server_cfg.sql_init, SQL_NTS);
+    if (gDatabaseProvider == DBPROV_SQLITE) {
+        DbStorageError error = {0};
+        char path[MAX_PATH];
+        if (!_fullpath(path, server_cfg.sql_db_name, sizeof(path)))
+            FatalErrorf("Cannot resolve SQLite path '%s'", server_cfg.sql_db_name);
+        if (!makeDirectoriesForFile(path))
+            FatalErrorf("Cannot create SQLite parent directory for '%s'", path);
+        databaseStorage = dbStorageCreateSqlite(path, &error);
+        if (!databaseStorage) FatalErrorf("Unable to open SQLite database '%s': %s", server_cfg.sql_db_name, error.message);
+        gDatabaseVersion = dbStorageSqliteVersion();
+        printf_stderr("%s SQLite %d connected to %s\n", timerGetTimeString(), gDatabaseVersion, server_cfg.sql_db_name);
+        if (databaseStorage->ops->transaction(databaseStorage->ops->connection(databaseStorage, SQLCONN_FOREGROUND), true, false, &error) != DB_STORAGE_OK)
+            FatalErrorf("Unable to begin SQLite startup: %s", error.message);
+    } else {
+        assert(sqlConnInit(SQLCONN_MAX));
+        sqlConnSetLogin(server_cfg.sql_login);
         if (!sqlConnDatabaseConnect(server_cfg.sql_db_name, "DBSERVER"))
-            FatalErrorf("Giving up.\n");
+        {
+            sqlCheckDdl(DDL_ADD);
+            if (sqlConnDatabaseConnect(NULL, "DBSERVER_INIT"))
+                sqlExecDdl(DDL_ADD, server_cfg.sql_init, SQL_NTS);
+            if (!sqlConnDatabaseConnect(server_cfg.sql_db_name, "DBSERVER"))
+                FatalErrorf("Giving up.\n");
+        }
+
+        odbcInitialSetup();
+        queryDatabaseVersion();
+        databaseStorage = dbStorageCreateOdbc();
+        if (!databaseStorage) FatalErrorf("Cannot allocate database provider");
+
+        printf_stderr("%s SQL server %d connected\n", timerGetTimeString(), gDatabaseVersion);
     }
-
-    odbcInitialSetup();
-    queryDatabaseVersion();
-
-    printf_stderr("%s SQL server %d connected\n", timerGetTimeString(), gDatabaseVersion);
     sqlFifoInit();
 
     loadstart_printf("Loading templates...");
@@ -1219,6 +1247,12 @@ void dbInit(int start_static)
     loadend_printf("");
     
     repairAuthId();
+    if (gDatabaseProvider == DBPROV_SQLITE) {
+        DbStorageError error = {0};
+        sqlFifoFinish();
+        if (databaseStorage->ops->transaction(databaseStorage->ops->connection(databaseStorage, SQLCONN_FOREGROUND), false, true, &error) != DB_STORAGE_OK)
+            FatalErrorf("Unable to commit SQLite startup: %s", error.message);
+    }
 
 #if defined(DO_STUPID_DATABASE_TESTS)
     testDataBaseTypes(testdatabasetypes_list);
@@ -1762,6 +1796,24 @@ int main(int argc,char **argv)
     int        i,start_static=0,flat_to_sql=0,is_log_server=0,init_encryption = 1;
 
     memCheckInit();
+    for (i = 1; i < argc; ++i) if (!stricmp(argv[i], "-nogui")) setGuiDisable(true);
+
+#ifdef COX_BUILD_DBSERVER_TESTS
+    if (argc == 2 && !strcmp(argv[1], "--storage-tests")) {
+        extern int dbStorageContainerTests(DbStorage **storage, const char *path);
+        char directory[MAX_PATH], path[MAX_PATH];
+        DbStorageError error = {0};
+        int result;
+        setAssertMode(ASSERTMODE_STDERR | ASSERTMODE_EXIT);
+        GetTempPathA(sizeof(directory), directory);
+        if (!GetTempFileNameA(directory, "cox", 0, path)) return 1;
+        databaseStorage = dbStorageCreateSqlite(path, &error);
+        if (!databaseStorage) { printf_stderr("%s\n", error.message); return 1; }
+        result = dbStorageContainerTests(&databaseStorage, path);
+        sqlFifoShutdown(); dbDestroyStorage(); DeleteFileA(path);
+        return result;
+    }
+#endif
 
     EXCEPTION_HANDLER_BEGIN
     
@@ -1785,6 +1837,7 @@ int main(int argc,char **argv)
             ASSERTMODE_DATEDMINIDUMPS | ASSERTMODE_ZIPPED);
     }
     setAssertCallback(dbserverAsserCallback);
+    if (isGuiDisabled()) setAssertMode(ASSERTMODE_STDERR | ASSERTMODE_EXIT);
     startupInfo(argc, argv);
 
     if (strstri(argv[0],"logserver"))
@@ -1870,6 +1923,10 @@ int main(int argc,char **argv)
         }
         else if (stricmp(argv[i],"-verbose")==0)
             errorSetVerboseLevel(1);
+        else if (stricmp(argv[i],"-nogui")==0)
+        {
+            // Handled before initialization so redirected diagnostics stay usable.
+        }
         else if (stricmp(argv[i], "-productionmode")==0)
         {
             // already handled above

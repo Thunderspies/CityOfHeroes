@@ -1,3 +1,6 @@
+#include "storage/database.h"
+#include "sql_fifo.h"
+#include "dbinit.h"
 /***************************************************************************
  *     Copyright (c) 2004-2006, Cryptic Studios
  *     All Rights Reserved
@@ -625,7 +628,9 @@ static void MergeIntoTops(U32 uName, StatCategory eCat, StatPeriod ePer, int iDb
 void stat_ReadTable(void)
 {
     StuffBuff sb;
-    HSTMT stmt;
+    HSTMT stmt = NULL;
+    DbStorageStatement *sqliteStatement = NULL;
+    DbStorageError storageError = {0};
     char *pchBuff;
     SQLLEN *plenIndicator;
     char pchLastMonth[80];
@@ -689,6 +694,11 @@ void stat_ReadTable(void)
     // Allocate the row buffer.
     pchBuff = calloc(iLen, 1);
 
+    if (gDatabaseProvider == DBPROV_SQLITE) {
+        sqlFifoFinish();
+        sqliteStatement = dbGetStorage()->ops->prepare(dbGetStorage()->ops->connection(dbGetStorage(), SQLCONN_FOREGROUND), sb.buff, strlen(sb.buff), &storageError);
+        if (!sqliteStatement) FatalErrorf("SQLite stats query failed: %s", storageError.message);
+    } else {
     stmt = sqlConnStmtAlloc(SQLCONN_FOREGROUND);
 
     // Bind all the columns to their spot in the row buffer.
@@ -710,6 +720,7 @@ void stat_ReadTable(void)
         return;
     }
 
+    }
     for(count=0;;count++)
     {
         int iName = -1;
@@ -717,6 +728,21 @@ void stat_ReadTable(void)
         int uLastActive = 0;
 
         memset(pchBuff, 0, iLen);
+        if (sqliteStatement) {
+            DbStorageResult result = sqliteStatement->ops->step(sqliteStatement, &storageError);
+            if (result == DB_STORAGE_DONE) break;
+            if (result != DB_STORAGE_ROW) FatalErrorf("SQLite stats read failed: %s", storageError.message);
+            for (idx = 0, col = 0; col < ARRAY_SIZE(cols); ++col) {
+                ContainerValue value = dbStorageColumn(sqliteStatement, col);
+                plenIndicator[col] = value.type == CONTAINER_VALUE_NULL ? SQL_NULL_DATA : cols[col].iSize;
+                if (value.type == CONTAINER_VALUE_INT) *(int *)(pchBuff + idx) = (int)*(const S64 *)value.data;
+                else if (col == STATS_LASTACTIVE_COL && value.type == CONTAINER_VALUE_TEXT) {
+                    SQL_TIMESTAMP_STRUCT *stamp = (SQL_TIMESTAMP_STRUCT *)(pchBuff + idx);
+                    sscanf(value.data, "%hd-%hu-%hu %hu:%hu:%hu", &stamp->year, &stamp->month, &stamp->day, &stamp->hour, &stamp->minute, &stamp->second);
+                }
+                idx += cols[col].iSize;
+            }
+        } else {
         retcode = _sqlConnStmtFetch(stmt, SQLCONN_FOREGROUND);
         if (SQL_SHOW_ERROR(retcode))
             sqlConnStmtPrintError(stmt, sb.buff);
@@ -724,6 +750,7 @@ void stat_ReadTable(void)
         if (!SQL_SUCCEEDED(retcode))
             break;
 
+        }
         for(idx=0, col=0 ;col<ARRAY_SIZE(cols); col++)
         {
             if(col==STATS_NAME_COL)
@@ -754,7 +781,8 @@ void stat_ReadTable(void)
 
     }
 
-    sqlConnStmtFree(stmt);
+    if (sqliteStatement) sqliteStatement->ops->finalize(sqliteStatement);
+    else sqlConnStmtFree(stmt);
 
     free(pchBuff);
     free(plenIndicator);
