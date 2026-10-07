@@ -1549,7 +1549,7 @@ static char *GetSupergroupName(Entity *e)
 
             sprintf(achWhere, "WHERE ContainerId=%d", e->supergroup_id);
             dbReqCustomData(CONTAINER_SUPERGROUPS, "Supergroups", "", achWhere, "Name", SupergroupCallback, e->supergroup_id);
-            dbMessageScanUntil("DBCLIENT_REQ_CUSTOM_DATA", NULL);
+            dbMessageScanUntil("DBCLIENT_STORAGE_REQUEST", NULL);
 
             if (!stashIntFindPointer(s_hashSupergroups, e->supergroup_id, &pcResult))
                 pcResult = NULL;

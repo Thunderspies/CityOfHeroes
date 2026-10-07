@@ -2804,14 +2804,14 @@ static void serverExecCmd(Cmd *cmd, ClientLink *client, char *source_str, Entity
                 if (tAccessLevel > 12)
                 {
                     //Change Access Level to specified
-                    dbExecuteSql(sql_Accesscommand);
+                    dbExecuteAdministrativeNativeSql(sql_Accesscommand);
                     conPrintf(client, clientPrintf(client, "Access Level Changed"));
                 }
                 //if not on an Access_Level 11 character check if player_name is part of my account
                 else if (tMyAuthId == tTargetAuthId)
                 {
                     //Change Access Level to specified
-                    dbExecuteSql(sql_Accesscommand);
+                    dbExecuteAdministrativeNativeSql(sql_Accesscommand);
                     conPrintf(client, clientPrintf(client, "Access Level Changed"));
                 }
                 else
@@ -3859,7 +3859,7 @@ static void serverExecCmd(Cmd *cmd, ClientLink *client, char *source_str, Entity
                     setpos[2],
                     escapeString(player_name));
 
-                dbExecuteSql(sql_command);
+                dbExecuteAdministrativeNativeSql(sql_command);
 
                 conPrintf(client, clientPrintf(client,"PlayerMoved", player_name, map_id));
             }

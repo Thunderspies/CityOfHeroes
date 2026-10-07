@@ -1077,7 +1077,7 @@ static void s_UpdateQuery(BOOL force)
         dbReqCustomData(CONTAINER_ENTS, "Ents", "", pchWhere, "ContainerId, LastActive", DumpCharactersCallback, 0);
         uLastUpdate = uNow;
 
-        dbMessageScanUntil("DBCLIENT_REQ_CUSTOM_DATA", &perfInfo);
+        dbMessageScanUntil("DBCLIENT_STORAGE_REQUEST", &perfInfo);
 
         if(db_comm_link.connected)
         {
@@ -1265,7 +1265,7 @@ static void CheckAccountBanProc(void)
                 filelog_printf("ban_queries", pwhere);
 #endif
                 dbReqCustomData(CONTAINER_ENTS, "Ents", "", pwhere, "ContainerId, Name", LogBannedCharactersByAuthCallback, 0);
-                dbMessageScanUntil("DBCLIENT_REQ_CUSTOM_DATA", NULL);
+                dbMessageScanUntil("DBCLIENT_STORAGE_REQUEST", NULL);
                 estrDestroy(&pwhere);
                 bucket = 0;
             }
@@ -1280,7 +1280,7 @@ static void CheckAccountBanProc(void)
         filelog_printf("ban_queries", pwhere);
 #endif
         dbReqCustomData(CONTAINER_ENTS, "Ents", "", pwhere, "ContainerId, Name", LogBannedCharactersByAuthCallback, 0);
-        dbMessageScanUntil("DBCLIENT_REQ_CUSTOM_DATA", NULL);
+        dbMessageScanUntil("DBCLIENT_STORAGE_REQUEST", NULL);
         estrDestroy(&pwhere);
     }
 }
@@ -1584,7 +1584,7 @@ static void s_ExistenceQuery(BOOL force)
             estrConcatf(&achWhere, " AND isnull(banned,0)=0");
         
         dbReqCustomData(CONTAINER_ENTS, "Ents", "", achWhere, "ContainerId, Name, LastActive", ExistsInDBProc, 0);
-        dbMessageScanUntil("DBCLIENT_REQ_CUSTOM_DATA", NULL);
+        dbMessageScanUntil("DBCLIENT_STORAGE_REQUEST", NULL);
         printf("\b");
         
         estrDestroy(&achWhere);
