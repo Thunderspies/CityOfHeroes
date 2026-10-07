@@ -35,6 +35,9 @@ void getStaticMapList();
 int registerDbClient(Packet *pak,NetLink *link);
 void dbNetInit();
 void dbInit(int start_static); // pass INT_MAX for start_static to start them all
+struct DbStorage;
+struct DbStorage *dbGetStorage(void);
+void dbDestroyStorage(void);
 int main(int argc,char **argv);
 void checkExitRequest(void);
 NetLink *dbLinkFromLockId(int lock_id);
