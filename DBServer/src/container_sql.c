@@ -1,4 +1,7 @@
+#include <ctype.h>
+#include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <utilitieslib/utils/wininclude.h>
 #include "sql/sqlinclude.h"
 #include <utilitieslib/utils/utils.h>
@@ -14,6 +17,7 @@
 #include "dbserver/servercfg.h"
 #include "sql_fifo.h"
 #include "dbinit.h"
+#include "storage/database.h"
 #include <utilitieslib/utils/ConvertUtf.h>
 #include <utilitieslib/components/EString.h>
 #include <utilitieslib/components/StashTable.h>
@@ -103,19 +107,24 @@ bool sqlCreateTable(char *name, TableType table_type)
 
     switch(table_type) {
         xcase TT_ATTRIBUTE:
-            buf_len = sprintf(buf, "CREATE TABLE dbo.%s (Id INTEGER NOT NULL PRIMARY KEY);", name);
+            buf_len = sprintf(buf, gDatabaseProvider == DBPROV_SQLITE ? "CREATE TABLE %s (Id INTEGER NOT NULL PRIMARY KEY);" : "CREATE TABLE dbo.%s (Id INTEGER NOT NULL PRIMARY KEY);", name);
         xcase TT_CONTAINER:
             switch (gDatabaseProvider) {
                 xcase DBPROV_MSSQL:
                     buf_len = sprintf(buf, "CREATE TABLE dbo.%s (ContainerId INTEGER NOT NULL IDENTITY(1,1) PRIMARY KEY, Active INTEGER);", name);
                 xcase DBPROV_POSTGRESQL:
                     buf_len = sprintf(buf, "CREATE TABLE dbo.%s (ContainerId SERIAL NOT NULL PRIMARY KEY, Active INTEGER);", name);
+                xcase DBPROV_SQLITE:
+                    buf_len = sprintf(buf, "CREATE TABLE %s (ContainerId INTEGER PRIMARY KEY AUTOINCREMENT, Active INTEGER);", name);
                 DBPROV_XDEFAULT();
             }
-        xcase TT_SUBCONTAINER: 
-            buf_len = sprintf(buf, "CREATE TABLE dbo.%s (ContainerId INTEGER NOT NULL, SubId INTEGER NOT NULL);"
-                        "ALTER TABLE dbo.%s ADD CONSTRAINT PK_%s PRIMARY KEY (ContainerId, SubId);",
-                        name, name, name);
+        xcase TT_SUBCONTAINER:
+            if (gDatabaseProvider == DBPROV_SQLITE)
+                buf_len = sprintf(buf, "CREATE TABLE %s (ContainerId INTEGER NOT NULL, SubId INTEGER NOT NULL, PRIMARY KEY (ContainerId, SubId));", name);
+            else
+                buf_len = sprintf(buf, "CREATE TABLE dbo.%s (ContainerId INTEGER NOT NULL, SubId INTEGER NOT NULL);"
+                            "ALTER TABLE dbo.%s ADD CONSTRAINT PK_%s PRIMARY KEY (ContainerId, SubId);",
+                            name, name, name);
         xdefault:
             FatalErrorf("Cannot create unknown table type for %s", name);
     }
@@ -133,6 +142,8 @@ bool sqlCreateTable(char *name, TableType table_type)
 
 bool sqlAddField(char *table, char *name, char *type)
 {
+    if (gDatabaseProvider == DBPROV_SQLITE)
+        return sqlExecDdlf(DDL_ADD, "ALTER TABLE %s ADD %s %s;", table, name, type);
     return sqlExecDdlf(DDL_ADD, "ALTER TABLE dbo.%s ADD %s %s;", table, name, type);
 }
 
@@ -164,7 +175,52 @@ bool sqlDeleteField(char *table, char *name, char *type)
 bool sqlExecDdl(DdlType ddl_type, char *str, int str_len)
 {
     sqlCheckDdl(ddl_type);
+    if (gDatabaseProvider == DBPROV_SQLITE)
+    {
+        DbStorageError error = {0};
+        DbStorage *storage = dbGetStorage();
+        DbStorageResult result = dbStorageExecuteNative(storage->ops->connection(storage, SQLCONN_FOREGROUND), str, &error);
+        if (result != DB_STORAGE_OK)
+            Errorf("SQLite DDL failed: %s\nSQL: %s", error.message, str);
+        return result == DB_STORAGE_OK;
+    }
     return SQL_SUCCEEDED(sqlConnExecDirectMany(str, str_len, SQLCONN_FOREGROUND, true));
+}
+
+static const char *skipSqlWhitespace(const char *text)
+{
+    while (isspace((unsigned char)*text))
+        ++text;
+    return text;
+}
+
+static bool parseSqliteSelectModifier(const char *modifier, bool *distinct, int *limit)
+{
+    char *end;
+    long parsedLimit;
+
+    *distinct = false;
+    *limit = 0;
+    modifier = skipSqlWhitespace(modifier);
+    if (!*modifier)
+        return true;
+    if (_strnicmp(modifier, "distinct", 8) == 0 && !*skipSqlWhitespace(modifier + 8))
+    {
+        *distinct = true;
+        return true;
+    }
+    if (_strnicmp(modifier, "top", 3) == 0 && isspace((unsigned char)modifier[3]))
+        modifier = skipSqlWhitespace(modifier + 3);
+    else if (_strnicmp(modifier, "limit", 5) == 0 && isspace((unsigned char)modifier[5]))
+        modifier = skipSqlWhitespace(modifier + 5);
+    else
+        return false;
+
+    parsedLimit = strtol(modifier, &end, 10);
+    if (end == modifier || parsedLimit <= 0 || parsedLimit > INT_MAX || *skipSqlWhitespace(end))
+        return false;
+    *limit = (int)parsedLimit;
+    return true;
 }
 
 /** 
@@ -199,6 +255,9 @@ void sqlAddForeignKeyConstraintAsync(char *table, char *key, char *foreign_table
     char buf[SHORT_SQL_STRING];
     int buf_len;
 
+    // SQLite keys are created and validated with the complete table template.
+    if (gDatabaseProvider == DBPROV_SQLITE)
+        return;
     switch (gDatabaseProvider) {
         xcase DBPROV_MSSQL:
             buf_len = sprintf(buf, "IF NOT EXISTS (SELECT constraint_name FROM information_schema.table_constraints WHERE constraint_name = 'FK_%s_%s_%s') ALTER TABLE dbo.%s ADD CONSTRAINT FK_%s_%s_%s FOREIGN KEY (%s) REFERENCES %s;", table, key, foreign_table, table, table, key, foreign_table, key, foreign_table);
@@ -217,6 +276,9 @@ void sqlRemoveForeignKeyConstraintAsync(char *table, char *key, char *foreign_ta
     char buf[SHORT_SQL_STRING];
     int buf_len;
 
+    // A changed SQLite key is rejected by schema validation before startup.
+    if (gDatabaseProvider == DBPROV_SQLITE)
+        return;
     switch (gDatabaseProvider) {
         xcase DBPROV_MSSQL:
             buf_len = sprintf(buf, "IF EXISTS (SELECT constraint_name FROM information_schema.table_constraints WHERE constraint_name = 'FK_%s_%s_%s') ALTER TABLE dbo.%s DROP CONSTRAINT FK_%s_%s_%s;", table, key, foreign_table, table, table, key, foreign_table);
@@ -247,6 +309,8 @@ void sqlAddIndexAsync(char *index, char *table, char *fields)
             buf_len = sprintf(buf, "IF NOT EXISTS (SELECT sys.indexes.name FROM sys.indexes JOIN sys.objects on sys.indexes.object_id=sys.objects.object_id WHERE sys.indexes.name = N'%s' and sys.objects.name=N'%s') CREATE INDEX %s ON dbo.%s (%s);", index, table, index, table, fields);
         xcase DBPROV_POSTGRESQL:
             buf_len = sprintf(buf, "DO $$BEGIN IF NOT EXISTS (SELECT relname FROM pg_catalog.pg_class JOIN pg_catalog.pg_index ON pg_catalog.pg_class.oid = pg_catalog.pg_index.indexrelid WHERE relname = '%s' AND indrelid = '%s'::regclass::oid) THEN CREATE INDEX %s ON dbo.%s (%s); END IF; END$$;", strlwrdupa(index), strlwrdupa(table), index, table, fields);
+        xcase DBPROV_SQLITE:
+            buf_len = sprintf(buf, "CREATE INDEX IF NOT EXISTS %s_%s ON %s (%s);", table, index, table, fields);
         DBPROV_XDEFAULT();
     }
 
@@ -270,6 +334,8 @@ void sqlRemoveIndexAsync(char *index, char *table)
             buf_len = sprintf(buf, "IF EXISTS (SELECT sys.indexes.name FROM sys.indexes JOIN sys.objects on sys.indexes.object_id=sys.objects.object_id WHERE sys.indexes.name = N'%s' and sys.objects.name=N'%s') DROP INDEX %s ON dbo.%s;", index, table, index, table);
         xcase DBPROV_POSTGRESQL:
             buf_len = sprintf(buf, "DO $$BEGIN IF EXISTS (SELECT relname FROM pg_catalog.pg_class JOIN pg_catalog.pg_index ON pg_catalog.pg_class.oid = pg_catalog.pg_index.indexrelid WHERE relname = '%s' AND indrelid = '%s'::regclass::oid) THEN DROP INDEX %s ON dbo.%s; END IF; END$$;", strlwrdupa(index), strlwrdupa(table), index, table);
+        xcase DBPROV_SQLITE:
+            buf_len = sprintf(buf, "DROP INDEX IF EXISTS %s_%s;", table, index);
         DBPROV_XDEFAULT();
     }
 
@@ -282,7 +348,15 @@ void sqlDeleteRowInternal(char *table, int container_id, SqlConn conn)
     int buf_len;
 
     buf_len = sprintf(buf,"DELETE FROM dbo.%s WHERE ContainerId = %d;", table, container_id);
-    sqlConnExecDirect(buf, buf_len, conn, false);
+    if (gDatabaseProvider == DBPROV_SQLITE)
+    {
+        DbStorageError error = {0};
+        DbStorage *storage = dbGetStorage();
+        if (dbStorageExecuteNative(storage->ops->connection(storage, conn), buf, &error) != DB_STORAGE_OK)
+            FatalErrorf("Unable to delete SQLite container row: %s\n%s", error.message, buf);
+    }
+    else
+        sqlConnExecDirect(buf, buf_len, conn, false);
 }
 
 void sqlDeleteContainer(ContainerTemplate *tplt, int container_id)
@@ -292,6 +366,14 @@ void sqlDeleteContainer(ContainerTemplate *tplt, int container_id)
 
     if (!tplt || tplt->dont_write_to_sql)
         return;
+
+    if (gDatabaseProvider == DBPROV_SQLITE) {
+        char *sql = NULL;
+        for (i = tplt->table_count - 1; i >= 0; --i)
+            estrConcatf(&sql, "DELETE FROM \"%s\" WHERE ContainerId=%d;", tplt->tables[i].name, container_id);
+        sqlExecAsync(sql, estrLength(&sql));
+        estrDestroy(&sql); return;
+    }
 
     for(i=tplt->table_count-1;i>=0;i--)
     {
@@ -467,6 +549,142 @@ static void sqlContainerUpdateRows(ContainerTemplate *tplt, int *container_id, L
     }
 }
 
+static bool sqliteExecuteStatement(DbStorageConnection *connection, const char *query, ContainerValue *values, int valueCount, DbStorageError *error)
+{
+    DbStorageStatement *statement = connection->ops->prepare(connection, query, strlen(query), error);
+    DbStorageResult result;
+    int i;
+    if (!statement) return false;
+    for (i = 0; i < valueCount; ++i) if (dbStorageBind(statement, i + 1, values[i], error) != DB_STORAGE_OK) {
+        connection->ops->finalize(statement); return false;
+    }
+    result = connection->ops->execute(statement, error);
+    connection->ops->finalize(statement);
+    return result == DB_STORAGE_DONE;
+}
+
+static ContainerValue sqliteLineValue(LineList *diff, LineTracker *line, ColumnInfo *column, S64 *integerValue, double *floatValue)
+{
+    ContainerValue value = { CONTAINER_VALUE_NULL, NULL, 0 };
+
+    switch (column->data_type)
+    {
+        xcase CFTYPE_INT:
+        case CFTYPE_SHORT:
+        case CFTYPE_BYTE:
+            if (line->ival)
+            {
+                *integerValue = line->ival;
+                value.type = CONTAINER_VALUE_INT;
+                value.data = integerValue;
+                value.size = sizeof(*integerValue);
+            }
+        xcase CFTYPE_FLOAT:
+            *floatValue = line->fval;
+            value.type = CONTAINER_VALUE_FLOAT;
+            value.data = floatValue;
+            value.size = sizeof(*floatValue);
+        xdefault:
+            value.type = column->data_type == CFTYPE_DATETIME ? CONTAINER_VALUE_DATETIME : column->data_type == CFTYPE_BINARY_MAX || column->data_type == CFTYPE_BLOB ? CONTAINER_VALUE_BLOB : CONTAINER_VALUE_TEXT;
+            value.data = diff->text + line->str_idx;
+            value.size = line->size;
+    }
+    return value;
+}
+
+static void sqlContainerUpdateSqlite(ContainerTemplate *tplt, int container_id, LineList *diff, SqlConn conn)
+{
+    DbStorage *storage = dbGetStorage();
+    DbStorageConnection *connection = storage->ops->connection(storage, conn);
+    DbStorageError error = {0};
+    ContainerValue values[MAX_QUERY_RESULTS];
+    S64 integerValues[MAX_QUERY_RESULTS];
+    double floatValues[MAX_QUERY_RESULTS];
+    S64 sqliteContainerId = container_id;
+    int i;
+
+    if (storage->ops->transaction(connection, true, false, &error) != DB_STORAGE_OK)
+        FatalErrorf("Unable to begin SQLite container update: %s", error.message);
+
+    for (i = 0; i < diff->cmd_count; ++i)
+    {
+        RowAddDel *command = &diff->row_cmds[i];
+        SlotInfo *slot = &tplt->slots[command->idx];
+        char query[512];
+        int valueCount = 1;
+
+        values[0].type = CONTAINER_VALUE_INT;
+        values[0].data = &sqliteContainerId;
+        values[0].size = sizeof(sqliteContainerId);
+        if (slot->table->table_type == TT_SUBCONTAINER)
+        {
+            integerValues[1] = slot->sub_id;
+            values[1].type = CONTAINER_VALUE_INT;
+            values[1].data = &integerValues[1];
+            values[1].size = sizeof(integerValues[1]);
+            valueCount = 2;
+        }
+
+        if (command->add && slot->table->table_type == TT_CONTAINER)
+            sprintf(query, "INSERT INTO \"%s\" (ContainerId) VALUES (?);", slot->table->name);
+        else if (command->add)
+            sprintf(query, "INSERT INTO \"%s\" (ContainerId, SubId) VALUES (?, ?);", slot->table->name);
+        else if (slot->table->table_type == TT_CONTAINER)
+            sprintf(query, "DELETE FROM \"%s\" WHERE ContainerId = ?;", slot->table->name);
+        else
+            sprintf(query, "DELETE FROM \"%s\" WHERE ContainerId = ? AND SubId = ?;", slot->table->name);
+        if (!sqliteExecuteStatement(connection, query, values, valueCount, &error)) goto rollback;
+    }
+
+    for (i = 0; i < diff->count; )
+    {
+        LineTracker *firstLine = &diff->lines[i];
+        SlotInfo *firstSlot = &tplt->slots[firstLine->idx];
+        char *query = NULL;
+        int valueCount = 0;
+
+        estrPrintf(&query, "UPDATE \"%s\" SET ", firstSlot->table->name);
+        for (; i < diff->count; ++i)
+        {
+            LineTracker *line = &diff->lines[i];
+            SlotInfo *slot = &tplt->slots[line->idx];
+            ColumnInfo *column;
+            if (slot->table != firstSlot->table || slot->sub_id != firstSlot->sub_id)
+                break;
+            column = &slot->table->columns[slot->idx];
+            if (valueCount >= MAX_QUERY_RESULTS - 2) break;
+            estrConcatf(&query, "%s\"%s\" = ?", valueCount ? ", " : "", column->name);
+            values[valueCount] = sqliteLineValue(diff, line, column, &integerValues[valueCount], &floatValues[valueCount]);
+            ++valueCount;
+        }
+        estrConcatStaticCharArray(&query, " WHERE ContainerId = ?");
+        integerValues[valueCount] = container_id;
+        values[valueCount].type = CONTAINER_VALUE_INT;
+        values[valueCount].data = &integerValues[valueCount];
+        values[valueCount].size = sizeof(integerValues[valueCount]);
+        ++valueCount;
+        if (firstSlot->table->array_count)
+        {
+            estrConcatStaticCharArray(&query, " AND SubId = ?");
+            integerValues[valueCount] = firstSlot->sub_id;
+            values[valueCount].type = CONTAINER_VALUE_INT;
+            values[valueCount].data = &integerValues[valueCount];
+            values[valueCount].size = sizeof(integerValues[valueCount]);
+            ++valueCount;
+        }
+        estrConcatStaticCharArray(&query, ";");
+        if (!sqliteExecuteStatement(connection, query, values, valueCount, &error)) { estrDestroy(&query); goto rollback; }
+        estrDestroy(&query);
+    }
+
+    if (storage->ops->transaction(connection, false, true, &error) != DB_STORAGE_OK)
+        goto rollback;
+    return;
+rollback:
+    storage->ops->transaction(connection, false, false, NULL);
+    FatalErrorf("SQLite container update rolled back: %s", error.message);
+}
+
 /**
 * @note Need an use array of temporary buffers in order to do this (string classes
 * will move the memory on a reallocation).
@@ -477,6 +695,12 @@ void sqlContainerUpdateInternal(ContainerTemplate *tplt, int container_id, LineL
     static sqlBindTemp** bind_temps[SQLCONN_MAX] = {0,};
     unsigned bind = 0;
     HSTMT stmt;
+
+    if (gDatabaseProvider == DBPROV_SQLITE)
+    {
+        sqlContainerUpdateSqlite(tplt, container_id, diff, conn);
+        return;
+    }
 
     stmt = sqlConnStmtAlloc(conn);
 
@@ -810,12 +1034,151 @@ static int readRow(HSTMT stmt, ContainerTemplate *tplt, TableInfo *table, LineLi
     return found;
 }
 
+static int readSqliteRow(DbStorageStatement *statement, ContainerTemplate *tplt, TableInfo *table, LineList *list, int read_reserved)
+{
+    int sub_id = -1;
+    int col;
+    int initialCount = list->count;
+
+    if (table->array_count)
+    {
+        for (col = 0; col < table->num_columns; ++col)
+        {
+            if (table->columns[col].is_sub_id_field)
+            {
+                ContainerValue value = dbStorageColumn(statement, col);
+                if (value.type == CONTAINER_VALUE_INT)
+                    sub_id = (int)*(const S64 *)value.data;
+                break;
+            }
+        }
+        if (sub_id < 0 || sub_id >= table->array_count)
+            return 0;
+    }
+
+    for (col = 0; col < table->num_columns; ++col)
+    {
+        ColumnInfo *field = &table->columns[col];
+        ContainerValue value = dbStorageColumn(statement, col);
+        LineTracker *line;
+        int cmd_idx;
+        int line_count;
+
+        if (value.type == CONTAINER_VALUE_NULL || (field->reserved_word && !read_reserved) || field->is_sub_id_field)
+            continue;
+
+        if (read_reserved)
+        {
+            char table_field[256];
+            if (field->reserved_word || sub_id < 0)
+                strcpy(table_field, field->name);
+            else
+                sprintf(table_field, "%s[%d].%s", table->name, sub_id, field->name);
+            if (!stashFindInt(tplt->all_hashes, table_field, &cmd_idx))
+                continue;
+        }
+        else
+        {
+            cmd_idx = table->all_hash_first_idx + col;
+            if (sub_id >= 0)
+                cmd_idx += sub_id * table->num_columns;
+        }
+
+        line_count = list->count;
+        line = dynArrayAdd(&list->lines, sizeof(list->lines[0]), &line_count, &list->max_lines, 1);
+        line->is_str = 0;
+        line->idx = cmd_idx;
+
+        switch (field->data_type)
+        {
+            xcase CFTYPE_INT:
+            case CFTYPE_SHORT:
+            case CFTYPE_BYTE:
+                line->ival = value.type == CONTAINER_VALUE_INT ? (int)*(const S64 *)value.data : atoi(value.data);
+                if (!line->ival || (field->attr && (line->ival < 1 || line->ival >= eaSize(&field->attr->names))))
+                    continue;
+            xcase CFTYPE_FLOAT:
+                if (value.type == CONTAINER_VALUE_FLOAT)
+                    line->fval = (float)*(const double *)value.data;
+                else if (value.type == CONTAINER_VALUE_INT)
+                    line->fval = (float)*(const S64 *)value.data;
+                else
+                    line->fval = (float)atof(value.data);
+                if (!line->fval)
+                    continue;
+            xcase CFTYPE_BINARY_MAX:
+#if ACTUALLY_STORE_BINARY_AS_BINARY
+                if (!addMemToLine(list, line, (char *)value.data, (int)value.size))
+                    continue;
+#else
+                if (!addStrToLine(list, line, (char *)value.data, (int)value.size))
+                    continue;
+#endif
+            xcase CFTYPE_UNICODESTRING:
+            case CFTYPE_UNICODESTRING_MAX:
+            case CFTYPE_ANSISTRING:
+            case CFTYPE_ANSISTRING_MAX:
+            case CFTYPE_TEXTBLOB:
+            case CFTYPE_BLOB:
+                if (!addStrToLine(list, line, (char *)value.data, (int)value.size))
+                    continue;
+            xcase CFTYPE_DATETIME:
+            {
+                int year;
+                if (sscanf(value.data, "%d", &year) != 1 || year < 2001 || year > 2100 ||
+                    !addStrToLine(list, line, (char *)value.data, (int)value.size))
+                    continue;
+            }
+            xdefault:
+                assertmsgf(0, "unhandled SQLite line type %d", field->data_type);
+        }
+        list->count = line_count;
+    }
+
+    if (list->count == initialCount)
+    {
+        LineTracker *line = dynArrayAdd(&list->lines, sizeof(list->lines[0]), &list->count, &list->max_lines, 1);
+        line->str_idx = FAKE_STR_IDX;
+        line->is_str = 1;
+        line->size = 0;
+        line->idx = table->all_hash_first_idx;
+        if (sub_id >= 0)
+            line->idx += sub_id * table->num_columns;
+    }
+    return 1;
+}
+
 static int sqlTableRead(ContainerTemplate *tplt, TableInfo *table, int container_id, LineList *list, SqlConn conn)
 {
     HSTMT        stmt;
     RETCODE        retcode;
     int            found=0;
     int            multi_count=0;
+
+    if (gDatabaseProvider == DBPROV_SQLITE)
+    {
+        DbStorage *storage = dbGetStorage();
+        DbStorageConnection *connection = storage->ops->connection(storage, conn);
+        DbStorageError error = {0};
+        DbStorageStatement *statement;
+        DbStorageResult result;
+        ContainerValue id = { CONTAINER_VALUE_INT, NULL, sizeof(S64) };
+        S64 sqliteContainerId = container_id;
+        char *query = NULL;
+
+        id.data = &sqliteContainerId;
+        estrPrintf(&query, "SELECT * FROM \"%s\" WHERE ContainerId = ?;", table->name);
+        statement = storage->ops->prepare(connection, query, estrLength(&query), &error);
+        if (!statement || dbStorageBind(statement, 1, id, &error) != DB_STORAGE_OK)
+            FatalErrorf("Unable to prepare SQLite container read: %s\n%s", error.message, query);
+        while ((result = storage->ops->step(statement, &error)) == DB_STORAGE_ROW)
+            found |= readSqliteRow(statement, tplt, table, list, 0);
+        storage->ops->finalize(statement);
+        if (result == DB_STORAGE_ERROR || result == DB_STORAGE_RETRY)
+            FatalErrorf("Unable to execute SQLite container read: %s\n%s", error.message, query);
+        estrDestroy(&query);
+        return found;
+    }
 
     stmt = sqlTableSelect(table, &glob_container_id[conn], conn);
     glob_container_id[conn] = container_id;
@@ -902,6 +1265,7 @@ int sqlTableReadMulti(ContainerTemplate *tplt, TableInfo *table, int container_i
 
 char *sqlContainerRead(ContainerTemplate *tplt, int container_id, SqlConn conn)
 {
+    if (conn == SQLCONN_FOREGROUND) sqlFifoFlushBeforeForeground();
     static LineList lists[SQLCONN_MAX];
     static void *mem_buf[SQLCONN_MAX];
     static int mem_max[SQLCONN_MAX];
@@ -936,6 +1300,78 @@ char *sqlContainerRead(ContainerTemplate *tplt, int container_id, SqlConn conn)
 */ 
 int sqlGetSingleValue(char *cmd, int cmd_len, BindList * bind_list, SqlConn conn)
 {
+    if (conn == SQLCONN_FOREGROUND) sqlFifoFlushBeforeForeground();
+    if (gDatabaseProvider == DBPROV_SQLITE)
+    {
+        DbStorage *storage = dbGetStorage();
+        DbStorageConnection *connection = storage->ops->connection(storage, conn);
+        DbStorageError error = {0};
+        DbStorageStatement *statement;
+        DbStorageResult result;
+        char *sqliteCommand = NULL;
+        int count = 0;
+        int bind = 1;
+
+        estrConcatFixedWidth(&sqliteCommand, cmd, cmd_len == SQL_NTS ? (int)strlen(cmd) : cmd_len);
+        statement = storage->ops->prepare(connection, sqliteCommand, estrLength(&sqliteCommand), &error);
+        if (!statement)
+            FatalErrorf("Unable to prepare SQLite query: %s\n%s", error.message, sqliteCommand);
+        while (bind_list && bind_list->data_type)
+        {
+            ContainerValue value = { CONTAINER_VALUE_NULL, NULL, 0 };
+            S64 integerValue;
+            double floatValue;
+
+            if (bind_list->data)
+            {
+                switch (bind_list->data_type)
+                {
+                    xcase CFTYPE_BYTE:
+                        integerValue = *(const U8 *)bind_list->data;
+                        value.type = CONTAINER_VALUE_INT;
+                        value.data = &integerValue;
+                        value.size = sizeof(integerValue);
+                    xcase CFTYPE_SHORT:
+                        integerValue = *(const S16 *)bind_list->data;
+                        value.type = CONTAINER_VALUE_INT;
+                        value.data = &integerValue;
+                        value.size = sizeof(integerValue);
+                    xcase CFTYPE_INT:
+                        integerValue = *(const S32 *)bind_list->data;
+                        value.type = CONTAINER_VALUE_INT;
+                        value.data = &integerValue;
+                        value.size = sizeof(integerValue);
+                    xcase CFTYPE_FLOAT:
+                        floatValue = *(const float *)bind_list->data;
+                        value.type = CONTAINER_VALUE_FLOAT;
+                        value.data = &floatValue;
+                        value.size = sizeof(floatValue);
+                    xdefault:
+                        value.type = CONTAINER_VALUE_TEXT;
+                        value.data = bind_list->data;
+                        value.size = strlen(bind_list->data);
+                }
+            }
+            if (dbStorageBind(statement, bind++, value, &error) != DB_STORAGE_OK)
+                FatalErrorf("Unable to bind SQLite query: %s", error.message);
+            ++bind_list;
+        }
+        result = storage->ops->step(statement, &error);
+        if (result == DB_STORAGE_ROW)
+        {
+            ContainerValue value = dbStorageColumn(statement, 0);
+            if (value.type == CONTAINER_VALUE_INT)
+                count = (int)*(const S64 *)value.data;
+            else if (value.type == CONTAINER_VALUE_FLOAT)
+                count = (int)*(const double *)value.data;
+        }
+        else if (result != DB_STORAGE_DONE)
+            FatalErrorf("Unable to execute SQLite query: %s\n%s", error.message, sqliteCommand);
+        storage->ops->finalize(statement);
+        estrDestroy(&sqliteCommand);
+        return count;
+    }
+
     HSTMT stmt;
     SQLRETURN retcode;
     int count = 0;
@@ -964,6 +1400,7 @@ int sqlGetSingleValue(char *cmd, int cmd_len, BindList * bind_list, SqlConn conn
 
 char *sqlReadColumnsInternal(TableInfo *table, char *limit, char *col_names, char *where, int *count_ptr, ColumnInfo **field_ptrs, SqlConn conn, int debugDelayMS)
 {
+    if (conn == SQLCONN_FOREGROUND) sqlFifoFlushBeforeForeground();
     int col_count;
     int i;
     int retcode;
@@ -1014,10 +1451,21 @@ char *sqlReadColumnsInternal(TableInfo *table, char *limit, char *col_names, cha
             estrPrintf(&cmd_buf[conn], "SELECT %s dbo.%s.%s FROM dbo.%s %s;", limit, table->name, col_names, table->name, where);
         xcase DBPROV_POSTGRESQL:
             estrPrintf(&cmd_buf[conn], "SELECT dbo.%s.%s FROM dbo.%s %s %s;", table->name, col_names, table->name, where, limit);
+        xcase DBPROV_SQLITE:
+        {
+            bool distinct;
+            int rowLimit;
+            if (!parseSqliteSelectModifier(limit, &distinct, &rowLimit))
+                FatalErrorf("Unsupported SQLite SELECT modifier: %s", limit);
+            estrPrintf(&cmd_buf[conn], "SELECT %s%s FROM \"%s\" %s", distinct ? "DISTINCT " : "", col_names, table->name, where);
+            if (rowLimit)
+                estrConcatf(&cmd_buf[conn], " LIMIT %d", rowLimit);
+            estrConcatChar(&cmd_buf[conn], ';');
+        }
         DBPROV_XDEFAULT();
     }
 
-    stmt = sqlConnStmtAlloc(conn);
+    stmt = gDatabaseProvider == DBPROV_SQLITE ? NULL : sqlConnStmtAlloc(conn);
 
     for(i = 0; i < col_count; i++)
     {
@@ -1030,7 +1478,10 @@ char *sqlReadColumnsInternal(TableInfo *table, char *limit, char *col_names, cha
                 // this doesn't work because i don't have a good way to pass the data around and ensure that the it will be freed
                 assert(!CFTYPE_IS_DYNAMIC(field->data_type));
 
-                s_bindField(stmt, field, i, &rec_size, conn);
+                if (gDatabaseProvider == DBPROV_SQLITE)
+                    rec_size += field->num_bytes;
+                else
+                    s_bindField(stmt, field, i, &rec_size, conn);
 
                 field_ptrs[i] = field;
                 break;
@@ -1045,6 +1496,63 @@ char *sqlReadColumnsInternal(TableInfo *table, char *limit, char *col_names, cha
     assert(rec_size <= MAX_QUERY_SIZE);
 
     field_ptrs[i] = 0;
+
+    if (gDatabaseProvider == DBPROV_SQLITE)
+    {
+        DbStorage *storage = dbGetStorage();
+        DbStorageConnection *connection = storage->ops->connection(storage, conn);
+        DbStorageError error = {0};
+        DbStorageStatement *statement = storage->ops->prepare(connection, cmd_buf[conn], estrLength(&cmd_buf[conn]), &error);
+        DbStorageResult result;
+
+        if (!statement)
+            FatalErrorf("Unable to prepare SQLite query: %s\n%s", error.message, cmd_buf[conn]);
+        while ((result = storage->ops->step(statement, &error)) == DB_STORAGE_ROW)
+        {
+            char *record;
+            int offset = 0;
+
+            dynArrayFit(&dyn_mem, 1, &dyn_mem_max, (count + 1) * rec_size);
+            record = dyn_mem + count * rec_size;
+            memset(record, 0, rec_size);
+            for (i = 0; i < col_count; ++i)
+            {
+                ColumnInfo *field = field_ptrs[i];
+                ContainerValue value = dbStorageColumn(statement, i);
+                char *destination = record + offset;
+
+                if (value.type != CONTAINER_VALUE_NULL)
+                {
+                    switch (field->data_type)
+                    {
+                        xcase CFTYPE_BYTE: *(U8 *)destination = (U8)*(const S64 *)value.data;
+                        xcase CFTYPE_SHORT: *(S16 *)destination = (S16)*(const S64 *)value.data;
+                        xcase CFTYPE_INT: *(S32 *)destination = (S32)*(const S64 *)value.data;
+                        xcase CFTYPE_FLOAT:
+                            *(float *)destination = value.type == CONTAINER_VALUE_FLOAT ? (float)*(const double *)value.data : (float)*(const S64 *)value.data;
+                        xcase CFTYPE_ANSISTRING:
+                            memcpy(destination, value.data, MIN(value.size, (size_t)field->num_bytes - 1));
+                        xcase CFTYPE_UNICODESTRING:
+                            MultiByteToWideChar(CP_UTF8, 0, value.data, (int)value.size, (WCHAR *)destination, field->num_bytes / sizeof(WCHAR) - 1);
+                        xcase CFTYPE_DATETIME:
+                        {
+                            SQL_TIMESTAMP_STRUCT *timestamp = (SQL_TIMESTAMP_STRUCT *)destination;
+                            sscanf(value.data, "%hd-%hu-%hu %hu:%hu:%hu", &timestamp->year, &timestamp->month, &timestamp->day,
+                                &timestamp->hour, &timestamp->minute, &timestamp->second);
+                        }
+                        xdefault: assertmsgf(0, "Unsupported fixed SQLite result type %d", field->data_type);
+                    }
+                }
+                offset += field->num_bytes;
+            }
+            ++count;
+        }
+        storage->ops->finalize(statement);
+        if (result != DB_STORAGE_DONE)
+            FatalErrorf("Unable to execute SQLite query: %s\n%s", error.message, cmd_buf[conn]);
+        *count_ptr = count;
+        return dyn_mem;
+    }
 
     retcode = sqlConnStmtExecDirect(stmt, cmd_buf[conn], estrLength(&cmd_buf[conn]), conn, true);
     if (!SQL_SUCCEEDED(retcode))
@@ -1120,6 +1628,58 @@ int sqlGetTableInfo(char *table_name,ColumnInfo **columns_ptr)
 
     SQLINTEGER char_octet_length;
     SQLLEN char_octet_length_bytes;
+
+    if (gDatabaseProvider == DBPROV_SQLITE)
+    {
+        char query[512];
+        DbStorage *storage = dbGetStorage();
+        DbStorageConnection *connection = storage->ops->connection(storage, SQLCONN_FOREGROUND);
+        DbStorageError error = {0};
+        DbStorageStatement *statement;
+
+        sprintf(query, "PRAGMA table_info(\"%s\")", table_name);
+        statement = storage->ops->prepare(connection, query, strlen(query), &error);
+        if (!statement)
+            FatalErrorf("Unable to inspect SQLite table %s: %s", table_name, error.message);
+        DbStorageResult result;
+        for (count = 0; (result = storage->ops->step(statement, &error)) == DB_STORAGE_ROW; ++count)
+        {
+            ContainerValue nameValue = dbStorageColumn(statement, 1);
+            ContainerValue typeValue = dbStorageColumn(statement, 2);
+            const char *typeName = typeValue.data;
+            columns = realloc(columns, (count + 1) * sizeof(*columns));
+            memset(&columns[count], 0, sizeof(columns[count]));
+            snprintf(columns[count].name, sizeof(columns[count].name), "%.*s", (int)nameValue.size, (const char *)nameValue.data);
+            snprintf(columns[count].data_type_name, sizeof(columns[count].data_type_name), "%.*s", (int)typeValue.size, typeName);
+            if (!stricmp(typeName, "INTEGER") || !stricmp(typeName, "INT1") || !stricmp(typeName, "INT2")) {
+                columns[count].data_type = !stricmp(typeName, "INT1") ? CFTYPE_BYTE : !stricmp(typeName, "INT2") ? CFTYPE_SHORT : CFTYPE_INT;
+                columns[count].num_bytes = g_containerfieldinfo[columns[count].data_type].access_size;
+            } else if (!stricmp(typeName, "REAL")) {
+                columns[count].data_type = CFTYPE_FLOAT; columns[count].num_bytes = 4;
+            } else if (!stricmp(typeName, "BLOB")) {
+                columns[count].data_type = CFTYPE_BINARY_MAX; columns[count].num_bytes = -1;
+            } else if (!stricmp(typeName, "DTEXT")) {
+                columns[count].data_type = CFTYPE_DATETIME; columns[count].num_bytes = sizeof(SQL_TIMESTAMP_STRUCT);
+            } else if (!stricmp(typeName, "TEXT") || !stricmp(typeName, "UTEXT")) {
+                columns[count].data_type = *typeName == 'U' ? CFTYPE_UNICODESTRING_MAX : CFTYPE_ANSISTRING_MAX;
+                columns[count].num_bytes = -1;
+            } else if (!_strnicmp(typeName, "TEXT(", 5) || !_strnicmp(typeName, "UTEXT(", 6)) {
+                bool unicode = toupper((unsigned char)*typeName) == 'U';
+                char *end;
+                long width = strtol(typeName + (unicode ? 6 : 5), &end, 10);
+                if (width <= 0 || width >= INT_MAX / 2 || *end != ')' || end[1])
+                    FatalErrorf("Unknown SQLite type '%s' in '%s'", typeName, table_name);
+                columns[count].data_type = unicode ? CFTYPE_UNICODESTRING : CFTYPE_ANSISTRING;
+                columns[count].column_size = (int)width;
+                columns[count].num_bytes = ((int)width + 1) * (unicode ? 2 : 1);
+            } else FatalErrorf("Unknown SQLite type '%s' for '%s.%s'", typeName, table_name, columns[count].name);
+        }
+        storage->ops->finalize(statement);
+        if (result != DB_STORAGE_DONE)
+            FatalErrorf("Unable to inspect SQLite table %s: %s", table_name, error.message);
+        *columns_ptr = columns;
+        return count;
+    }
 
     stmt = sqlConnStmtAlloc(SQLCONN_FOREGROUND);
 
@@ -1222,6 +1782,8 @@ int sqlGetTableInfo(char *table_name,ColumnInfo **columns_ptr)
 
 void sqlDropForeignKeysForTable(char *table_name)
 {
+    if (gDatabaseProvider == DBPROV_SQLITE)
+        return;
     SQLLEN    pktable_schem_ind,pktable_name_ind,pkcolumn_name_ind,
             fktable_schem_ind,fktable_name_ind,fkcolumn_name_ind,
             fkey_name_ind,pkey_name_ind,update_ind,delete_ind;
@@ -1290,7 +1852,7 @@ int sqlDropTable(char *table)
     int cmd_len;
 
     sqlDropForeignKeysForTable(table);
-    cmd_len = sprintf(cmd, "DROP TABLE dbo.%s;",table);
+    cmd_len = gDatabaseProvider == DBPROV_SQLITE ? sprintf(cmd, "DROP TABLE %s;", table) : sprintf(cmd, "DROP TABLE dbo.%s;",table);
     if (stricmp(table,"Attributes")==0)
         FatalErrorf("ATTRIBUTE TABLE DROP BUG!!! call Paragon immediately!");
     return sqlExecDdl(DDL_REBUILDTABLE, cmd, cmd_len) != -1;
@@ -1318,6 +1880,32 @@ char **sqlReadTableNames(int *countp)
     char * schema_name = "dbo";
 
     TODO(); // Code cleanup needed to improve clarity for future audits
+
+    if (gDatabaseProvider == DBPROV_SQLITE)
+    {
+        DbStorage *storage = dbGetStorage();
+        DbStorageConnection *connection = storage->ops->connection(storage, SQLCONN_FOREGROUND);
+        DbStorageError error = {0};
+        const char query[] = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
+        DbStorageStatement *statement = storage->ops->prepare(connection, query, sizeof(query) - 1, &error);
+        DbStorageResult result;
+
+        if (!statement)
+            FatalErrorf("Unable to query SQLite table names: %s", error.message);
+        while ((result = storage->ops->step(statement, &error)) == DB_STORAGE_ROW)
+        {
+            ContainerValue value = dbStorageColumn(statement, 0);
+            char *name = malloc(value.size + 1);
+            memcpy(name, value.data, value.size);
+            name[value.size] = 0;
+            dynArrayAddp(&table_names, &table_count, &table_max, name);
+        }
+        storage->ops->finalize(statement);
+        if (result != DB_STORAGE_DONE)
+            FatalErrorf("Unable to query SQLite table names: %s", error.message);
+        *countp = table_count;
+        return table_names;
+    }
 
     stmt = sqlConnStmtAlloc(SQLCONN_FOREGROUND);
 

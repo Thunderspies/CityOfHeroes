@@ -1715,7 +1715,8 @@ void offlineUnusedPlayers()
     {
         int buf_len = sprintf(buf, "DELETE FROM dbo.Offline WHERE ContainerId <= %d;", max_auth_container);
         sqlFifoFinish();
-        sqlConnExecDirect(buf, buf_len, SQLCONN_FOREGROUND, false);
+        sqlExecAsync(buf, buf_len);
+        sqlFifoFinish();
         printf("\n");
     }
 

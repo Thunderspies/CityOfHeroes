@@ -8,6 +8,7 @@
 typedef struct StashTableImp *StashTable;
 typedef const struct StashTableImp *cStashTable;
 typedef struct LineList LineList;
+struct DbList;
 
 typedef enum DdlType
 {

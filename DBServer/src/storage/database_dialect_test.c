@@ -12,6 +12,11 @@ int main(void)
     CHECK(!strcmp(dbStorageQualifiedTable(DBPROV_POSTGRESQL, "Ents", table, sizeof(table)), "dbo.Ents"));
     CHECK(!strcmp(dbStorageTypeName(DBPROV_MSSQL, CFTYPE_BYTE), "tinyint"));
     CHECK(!strcmp(dbStorageTypeName(DBPROV_POSTGRESQL, CFTYPE_BYTE), "int2"));
+    CHECK(!strcmp(dbStorageQualifiedTable(DBPROV_SQLITE, "Ents", table, sizeof(table)), "Ents"));
+    CHECK(!strcmp(dbStorageTypeName(DBPROV_SQLITE, CFTYPE_BYTE), "INT1"));
+    CHECK(!strcmp(dbStorageTypeName(DBPROV_SQLITE, CFTYPE_SHORT), "INT2"));
+    CHECK(!strcmp(dbStorageTypeName(DBPROV_SQLITE, CFTYPE_UNICODESTRING), "UTEXT"));
+    CHECK(!strcmp(dbStorageCoalesceFunction(DBPROV_SQLITE), "COALESCE"));
     CHECK(dbStorageTypeName(DBPROV_MSSQL, CFTYPE_NULL) == NULL);
     CHECK(dbStorageTypeName(DBPROV_MSSQL, CFTYPE_COUNT) == NULL);
     CHECK(!strcmp(dbStorageCoalesceFunction(DBPROV_MSSQL), "ISNULL"));

@@ -14,7 +14,12 @@ dependencies include:
 
 https://www.microsoft.com/en-us/sql-server/sql-server-downloads
 
-The character database is stored in SQL Server. Any version of SQL Server seems
+Local development defaults to the bundled SQLite backend and needs no database
+service or ODBC driver. Copy the checked-in `data/server/db/servers.cfg` into
+your game data checkout and follow the [SQLite setup guide](DBServer/doc/sqlite-storage.md).
+SQL Server remains available for existing deployments; its dependencies follow.
+
+The character database can be stored in SQL Server. Any version of SQL Server seems
 to work. LocalDB is a lighter version of SQL Server that is recommended for
 local testing and private use. Instructions to install and administrate SQL
 Server is outside the scope of this guide.

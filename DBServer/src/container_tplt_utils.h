@@ -83,6 +83,7 @@ typedef enum DatabaseProvider {
     DBPROV_UNKNOWN=0,
     DBPROV_MSSQL,
     DBPROV_POSTGRESQL,
+    DBPROV_SQLITE,
     DBPROV_COUNT
 } DatabaseProvider;
 

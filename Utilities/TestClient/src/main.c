@@ -77,6 +77,7 @@
 #include "player/inventory_client.h"
 #include "entity/character_eval.h"
 #include "entity/character_combat_eval.h"
+#include <utilitieslib/utils/file.h>
 
 char *flag_names[] = {
     "",
@@ -180,6 +181,11 @@ TestMode2 g_testMode2 = 0;
 TestMode g_testMode = TEST_LOGIN | TEST_RESUME_CHAR | TEST_CREATE_CHAR | TEST_STAY_CONNECTED | TEST_TEAMACCEPT | TEST_FOLLOW | TEST_SUPERGROUPACCEPT | TEST_LEVELUP;
 TestMode2 g_testMode2 = TEST2_LEAGUE_ACCEPT;
 #endif
+
+/* Opt-in local storage smoke test. Verify mode never creates a missing hero. */
+static int persistenceMode;
+static char persistenceReport[MAX_PATH];
+#define PERSISTENCE_INFLUENCE 7654321
 
 // Do we or do we not parse chat starting with @ into commands
 int gbParseChatToCommand=0;
@@ -396,6 +402,13 @@ void checkArgs(int argc, char **argv) {
             strncpy(character_name,argv[++i], sizeof(character_name));
             g_testMode |= TEST_RESUME_CHAR;
             printf("Will attempt to resume character %s...\n",character_name);
+        } else if (CMDEQ("-persistencetest")) {
+            if (++i >= argc) exit(1);
+            persistenceMode = !stricmp(argv[i], "create") ? 1 : !stricmp(argv[i], "verify") ? 2 : 0;
+            if (!persistenceMode) exit(1);
+        } else if (CMDEQ("-testreport")) {
+            if (++i >= argc || strlen(argv[i]) >= sizeof(persistenceReport)) exit(1);
+            strcpy(persistenceReport, argv[i]);
         } else if (CMDEQ("-justlogin")) {
             g_testMode = TEST_LOGIN;
         } else if (CMDEQ("-fakeauth")) {
@@ -501,6 +514,14 @@ void checkArgs(int argc, char **argv) {
     }
     if (ask_user) {
         g_testMode &= ~(TEST_LEVELUP | TEST_EMAIL);
+    }
+    if (persistenceMode) {
+        if (!testClientFakeAuth || !persistenceReport[0] || (persistenceMode == 2 && !character_name[0])) {
+            printf_stderr("Persistence test requires fakeauth, a report path, and a character for verify.\n"); exit(1);
+        }
+        g_testMode = TEST_LOGIN | TEST_STAY_CONNECTED | (persistenceMode == 1 ? TEST_CREATE_CHAR : TEST_RESUME_CHAR);
+        g_testMode2 = 0; g_testModeAccount = 0; g_testModeMission = 0;
+        dontpause = true; ask_user = 0;
     }
 }
 
@@ -941,6 +962,8 @@ void fixUpEntities(void)
 void mainloop() {
     extern int glob_have_camera_pos;
     int framecount=0;
+    DWORD persistenceStart = GetTickCount(), saveTime = 0;
+    bool changedInfluence = false;
     for(;;) // the official infinite loop
     {
         //heapValidateAll();
@@ -954,6 +977,31 @@ void mainloop() {
         entNetUpdate();
         entClientProcess();
         fixUpEntities();
+
+        if (persistenceMode) {
+            Entity *hero = playerPtr();
+            if (GetTickCount() - persistenceStart > 120000 || !commConnected()) {
+                printf_stderr("Persistence test lost connection or timed out.\n"); exit(1);
+            }
+            if (hero && hero->pchar) {
+                if (persistenceMode == 1 && !changedInfluence) {
+                    commAddInput("influence 7654321"); changedInfluence = true;
+                }
+                if (hero->pchar->iInfluencePoints == PERSISTENCE_INFLUENCE) {
+                    if (!saveTime) { commAddInput("entsave"); saveTime = GetTickCount(); }
+                    if (GetTickCount() - saveTime >= 5000) {
+                        FILE *report = fopen(persistenceReport, "w");
+                        if (!report) { printf_stderr("Cannot write persistence report.\n"); exit(1); }
+                        fprintf(report, "name=%s\ndbid=%d\ninfluence=%d\n", hero->name, hero->db_id, hero->pchar->iInfluencePoints);
+                        if (fclose(report)) exit(1);
+                        printf("Persistence test passed for %s (%d).\n", hero->name, hero->db_id);
+                        commDisconnect(); exit(0);
+                    }
+                } else if (persistenceMode == 2 && framecount > 150) {
+                    printf_stderr("Persisted influence differs: %d\n", hero->pchar->iInfluencePoints); exit(1);
+                }
+            }
+        }
 
         calcNetworkStats();
 
@@ -1113,6 +1161,11 @@ int main(int argc, char **argv)
     cryptInit();
 
     setAssertMode( (!IsDebuggerPresent()? ASSERTMODE_THROWEXCEPTION : 0) | ASSERTMODE_DEBUGBUTTONS);
+    for (int i = 1; i < argc; ++i) if (!stricmp(argv[i], "-persistencetest")) {
+        setAssertMode(ASSERTMODE_STDERR | ASSERTMODE_EXIT);
+        dontpause = true;
+        break;
+    }
     _CrtSetReportHook(CrtReportingFunction);
     __try {
         if (!"stack corruption") {
@@ -1222,7 +1275,7 @@ int main(int argc, char **argv)
         setConsoleTitle("Loading...");
         statusUpdate("Loading");
 
-        SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
+        SetPriorityClass(GetCurrentProcess(), persistenceMode ? NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS);
 
         srand( timerCpuTicks64() );
         gameStateInit();
@@ -1342,6 +1395,9 @@ int main(int argc, char **argv)
                     statusUpdate("Running");
                     return 0;
                 }
+            }
+            if (persistenceMode == 2 && gPlayerNumber < 0) {
+                printf_stderr("Persisted character was not returned by DBServer.\n"); err = 1;
             }
 
             if (ask_user && !err) {

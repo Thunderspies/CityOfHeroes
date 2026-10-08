@@ -20,6 +20,9 @@ void sqlFifoShutdown(void);
 
 void sqlFifoTick(void);
 void sqlFifoFinish(void);
+/* Drain earlier SQLite work before a foreground operation; suppressed while
+ * executing a queue item, so deferred callbacks cannot run inside a statement. */
+void sqlFifoFlushBeforeForeground(void);
 void sqlFifoBarrier(void);
 int sqlFifoWorstQueueDepth(void);
 void sqlFifoEnableTransacted(int enable);

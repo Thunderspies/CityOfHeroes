@@ -701,6 +701,8 @@ AnyContainer *containerAlloc(DbList *list,int idx)
                         cmd_len = sprintf(cmd, "SELECT IDENT_CURRENT('%s');", list->tplt->tables->name);
                     xcase DBPROV_POSTGRESQL:
                         cmd_len = sprintf(cmd, "SELECT setval(pg_get_serial_sequence('dbo.%s', 'containerid'), nextval(pg_get_serial_sequence('dbo.%s', 'containerid')), false);", list->tplt->tables->name, list->tplt->tables->name);
+                    xcase DBPROV_SQLITE:
+                        cmd_len = sprintf(cmd, "SELECT COALESCE((SELECT seq FROM sqlite_sequence WHERE name = '%s'), 0);", list->tplt->tables->name);
                     DBPROV_XDEFAULT();
                 }
 

@@ -19,6 +19,9 @@
 #include <utilitieslib/utils/genericDialog.h>
 #include <utilitieslib/utils/mathutil.h>
 #include "sql/sqlinclude.h" // for MS SQL 2005 HACK
+#include "dbinit.h"
+#include "storage/database.h"
+#include "storage/database_sqlite_schema.h"
 
 typedef struct
 {
@@ -358,6 +361,38 @@ static bool verifyTableColumns(TableInfo *table)
 
 static bool updateTable(TableInfo *table)
 {
+    if (gDatabaseProvider == DBPROV_SQLITE) {
+        DbStorage *storage = dbGetStorage();
+        DbStorageConnection *connection = storage->ops->connection(storage, SQLCONN_FOREGROUND);
+        DbStorageError error = {0};
+        DbStorageForeignKey *keys = calloc(foreign_key_count ? foreign_key_count : 1, sizeof(*keys));
+        BindList binds[] = {{CFTYPE_ANSISTRING, table->name}, {CFTYPE_NULL, NULL}};
+        int keyCount = 0, i, k;
+        if (!keys) FatalErrorf("SQLite foreign-key allocation failed");
+        if (sqlGetSingleValue("SELECT COUNT(*) FROM pragma_table_info(?)", SQL_NTS, binds, SQLCONN_FOREGROUND) < table->num_columns)
+            sqlCheckDdl(DDL_ADD);
+        for (i = 0; i < foreign_key_count; ++i) if (!stricmp(foreign_keys[i].table, table->name)) {
+            for (k = 0; k < keyCount; ++k) if (!stricmp(keys[k].column, foreign_keys[i].key) && !stricmp(keys[k].table, foreign_keys[i].foreign_table)) break;
+            if (k < keyCount) continue;
+            keys[keyCount].column = foreign_keys[i].key;
+            keys[keyCount].table = foreign_keys[i].foreign_table;
+            keys[keyCount++].target = strstri(foreign_keys[i].foreign_table, "Attributes") ? "Id" : "ContainerId";
+        }
+        if (!dbStorageSqliteEnsureTable(connection, table, keys, keyCount, &error)) {
+            free(keys); FatalErrorf("%s", error.message); return false;
+        }
+        free(keys);
+        for (i = 0; i < table->num_columns; ++i) {
+            ColumnInfo *field = &table->columns[i];
+            field->exists_in_sql = 1;
+            if (field->indexed) {
+                char index[256];
+                sprintf(index, "%s_ind", field->name);
+                sqlAddIndexAsync(index, table->name, field->name);
+            }
+        }
+        return true;
+    }
     int i;
     int old_count;
     ColumnInfo * field_descs = NULL;
@@ -657,6 +692,8 @@ void tpltDropUnreferencedTables(void)
 
         if (!stashFindInt(referenced_tables, names[i], &index))
         {
+            if (gDatabaseProvider == DBPROV_SQLITE)
+                FatalErrorf("Incompatible SQLite schema: table %s is no longer referenced. Stop servers and reset the disposable database.", names[i]);
             printf("Dropping unreferenced table: %s\n",names[i]);
             sqlDropTable(names[i]);
         }
@@ -773,6 +810,51 @@ static int verifyAttributesTable(const char *tablename, AttributeList * attr)
 
     hashColumnNames(&table);
     updateTable(&table);
+
+    if (gDatabaseProvider == DBPROV_SQLITE) {
+        DbStorageConnection *connection = dbGetStorage()->ops->connection(dbGetStorage(), SQLCONN_FOREGROUND);
+        DbStorageError error = {0};
+        DbStorageStatement *statement;
+        DbStorageResult result;
+        char query[512];
+        int size = eaSize(&attr->names);
+        bool *seen = calloc(size, sizeof(bool)), *repair = calloc(size, sizeof(bool));
+        if (!seen || !repair) FatalErrorf("SQLite attribute allocation failed");
+        sprintf(query, "SELECT Id, Name FROM \"%s\" ORDER BY Id", tablename);
+        statement = connection->ops->prepare(connection, query, strlen(query), &error);
+        if (!statement) FatalErrorf("SQLite attributes: %s", error.message);
+        while ((result = connection->ops->step(statement, &error)) == DB_STORAGE_ROW) {
+            ContainerValue id = dbStorageColumn(statement, 0), value = dbStorageColumn(statement, 1);
+            int index = id.type == CONTAINER_VALUE_INT ? (int)*(const S64 *)id.data : -1;
+            char name[MAX_ATTRIBNAME_LEN];
+            if (index < 1 || index >= size || !attr->names[index] || value.size >= sizeof(name))
+                FatalErrorf("Incompatible SQLite attributes in %s. Reset the disposable database.", tablename);
+            memcpy(name, value.data ? value.data : "", value.size); name[value.size] = 0;
+            seen[index] = true;
+            if (stricmp(name, attr->names[index])) {
+                forwardSlashes(name);
+                if (*name && stricmp(name, attr->names[index]))
+                    FatalErrorf("Incompatible SQLite attribute %s.%d. Reset the disposable database.", tablename, index);
+                repair[index] = true;
+            }
+        }
+        connection->ops->finalize(statement);
+        if (result != DB_STORAGE_DONE) FatalErrorf("SQLite attributes: %s", error.message);
+        for (i = 1; i < size; ++i) if (attr->names[i] && (!seen[i] || repair[i])) {
+            S64 id = i;
+            ContainerValue idValue = {CONTAINER_VALUE_INT, &id, sizeof(id)};
+            ContainerValue nameValue = {CONTAINER_VALUE_TEXT, attr->names[i], strlen(attr->names[i])};
+            sqlCheckDdl(DDL_ATTRIBUTES);
+            sprintf(query, "INSERT INTO \"%s\"(Id,Name) VALUES(?,?) ON CONFLICT(Id) DO UPDATE SET Name=excluded.Name", tablename);
+            statement = connection->ops->prepare(connection, query, strlen(query), &error);
+            if (!statement || dbStorageBind(statement, 1, idValue, &error) != DB_STORAGE_OK ||
+                dbStorageBind(statement, 2, nameValue, &error) != DB_STORAGE_OK || connection->ops->execute(statement, &error) != DB_STORAGE_DONE)
+                FatalErrorf("SQLite attribute %s.%d: %s", tablename, i, error.message);
+            connection->ops->finalize(statement);
+        }
+        free(seen); free(repair); stashTableDestroy(table.name_hashes);
+        return size - 1;
+    }
 
 retry:
     cols = sqlReadColumnsSlow(&table, 0, "Id, Name", "ORDER BY Id", &col_count, field_ptrs);
@@ -972,6 +1054,11 @@ void tpltDeleteAll(ContainerTemplate *tplt, char *null_field, bool renumber)
                 estrPrintf(&buf, "DELETE FROM dbo.%s USING dbo.%s WHERE %s.ContainerID = %s.ContainerID", sub, master, master, sub);
                 if (null_field)
                     estrConcatf(&buf, " AND %s.%s IS NULL", master, null_field);
+            xcase DBPROV_SQLITE:
+                estrPrintf(&buf, "DELETE FROM \"%s\" WHERE ContainerID IN (SELECT ContainerID FROM \"%s\"", sub, master);
+                if (null_field)
+                    estrConcatf(&buf, " WHERE %s IS NULL", null_field);
+                estrConcatChar(&buf, ')');
             DBPROV_XDEFAULT();
         }
 
@@ -996,6 +1083,8 @@ void tpltDeleteAll(ContainerTemplate *tplt, char *null_field, bool renumber)
                 estrPrintf(&buf, "DBCC CHECKIDENT('%s', RESEED, 0) WITH NO_INFOMSGS;", master);
             xcase DBPROV_POSTGRESQL:
                 estrPrintf(&buf, "ALTER SEQUENCE dbo.%s_containerid_seq RESTART;", master);
+            xcase DBPROV_SQLITE:
+                estrPrintf(&buf, "DELETE FROM sqlite_sequence WHERE name='%s';", master);
             DBPROV_XDEFAULT();
         }
         
