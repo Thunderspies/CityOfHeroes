@@ -96,13 +96,20 @@ def main():
         if character:
             arguments += ["-character", character]
         process, out, err = launch("TestClient.exe", arguments, "client-" + mode)
-        try:
-            result = process.wait(timeout=args.timeout)
-        except subprocess.TimeoutExpired:
-            raise RuntimeError(f"TestClient timed out; see {out} and {err}")
+        deadline = time.monotonic() + args.timeout
+        while process.poll() is None:
+            if db.poll() is not None or game.poll() is not None:
+                raise RuntimeError(f"A server exited during TestClient {mode}; see server logs in {fixture}")
+            if time.monotonic() >= deadline:
+                raise RuntimeError(f"TestClient timed out; see {out} and {err}")
+            time.sleep(0.5)
+        result = process.returncode
         if result or not report.is_file():
             raise RuntimeError(f"TestClient {mode} failed ({result}); see {out} and {err}")
-        return dict(line.split("=", 1) for line in report.read_text(encoding="utf-8").splitlines())
+        fields = dict(line.split("=", 1) for line in report.read_text(encoding="utf-8").splitlines())
+        if mode == "verify" and fields.pop("legacy_mail", None) != "passed":
+            raise RuntimeError("Legacy mail compatibility commands were not verified")
+        return fields
 
     def snapshot(hero):
         with sqlite3.connect(f"file:{database.as_posix()}?mode=ro", uri=True) as connection:
@@ -116,7 +123,10 @@ def main():
             children = {table: connection.execute(f'SELECT COUNT(*) FROM "{table}" WHERE ContainerId=?', (int(hero["dbid"]),)).fetchone()[0] for table in tables}
             if not any(children.values()):
                 raise RuntimeError("Character has no persisted subtable rows")
-            return {"hero": row, "children": children}
+            inventory = {table: connection.execute(f'SELECT * FROM "{table}" WHERE ContainerId=? ORDER BY SubId',
+                (int(hero["dbid"]),)).fetchall() for table in tables
+                if table.startswith(("Inv", "Boosts", "Inspirations", "Gmail"))}
+            return {"hero": row, "children": children, "inventory": inventory}
 
     def stop(process):
         if process.poll() is None:
@@ -126,6 +136,11 @@ def main():
             except subprocess.TimeoutExpired:
                 process.kill(); process.wait(timeout=15)
 
+    def legacy_rows():
+        with sqlite3.connect(f"file:{database.as_posix()}?mode=ro", uri=True) as connection:
+            return {table: connection.execute(f'SELECT * FROM "{table}" ORDER BY ContainerId').fetchall()
+                    for table in ("Email", "Recipients")}
+
     try:
         print("Starting fresh SQLite shard", flush=True)
         db, game = start_servers(1)
@@ -134,6 +149,14 @@ def main():
         (fixture / "before.json").write_text(json.dumps(before, indent=2), encoding="utf-8")
         # Abrupt termination also verifies committed WAL recovery.
         stop(game); stop(db)
+        # Existing local-mail rows must survive retirement of their runtime paths.
+        with sqlite3.connect(database) as connection:
+            connection.execute("PRAGMA foreign_keys=ON")
+            connection.execute("INSERT INTO Email(ContainerId,Subject,Msg) VALUES(1,?,?)",
+                               ("Legacy smoke", "Retained legacy message"))
+            connection.execute("INSERT INTO Recipients(ContainerId,SubId,Recipient,State) VALUES(1,0,?,1)",
+                               (int(created["dbid"]),))
+        old_mail = legacy_rows()
         print("Restarting DBServer and MapServer; resuming saved hero", flush=True)
         db, game = start_servers(2)
         restored = snapshot(created)
@@ -147,8 +170,12 @@ def main():
             raise RuntimeError("Character identity changed on resume; compare before.json and after.json")
         if any(after["children"][table] < count for table, count in before["children"].items()):
             raise RuntimeError("Persisted child rows disappeared on resume; compare before.json and after.json")
-        (fixture / "result.json").write_text(json.dumps({"passed": True, **after}, indent=2), encoding="utf-8")
-        print(f"PASS: {created['name']} ({created['dbid']}) survived server restart", flush=True)
+        if before["inventory"] != after["inventory"]:
+            raise RuntimeError("Rejected legacy mail changed inventory or pending global-mail state")
+        if old_mail != legacy_rows():
+            raise RuntimeError("Legacy commands or server startup changed existing local-mail rows")
+        (fixture / "result.json").write_text(json.dumps({"passed": True, "legacy_mail": "passed", **after}, indent=2), encoding="utf-8")
+        print(f"PASS: {created['name']} ({created['dbid']}) survived server restart and legacy mail commands", flush=True)
     finally:
         for process in reversed(processes):
             stop(process)

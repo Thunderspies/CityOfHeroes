@@ -78,7 +78,6 @@ typedef struct CustomNPCCostume    CustomNPCCostume;
 typedef struct Power            Power;
 typedef struct PowerInfo        PowerInfo;
 typedef struct VillainDef        VillainDef;
-typedef struct EmailInfo        EmailInfo;
 typedef struct SeqInst            SeqInst;
 typedef struct StaticMapInfo    StaticMapInfo;
 typedef struct Packet            Packet;

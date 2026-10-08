@@ -364,6 +364,7 @@ static void emailFreeHeader(EmailHeader *header)
 }
 
 void emailSetNewMessageStatus(int status,char *msg) {
+    testClientRecordEmailStatus(status);
     if (!status) {
         printf("Email not sent, because these recipients do not exist:\n%s\n",msg);
     }

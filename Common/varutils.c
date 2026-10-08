@@ -28,7 +28,6 @@
 
 #ifdef SERVER
     #include "entity/entGameActions.h"
-    #include "container/containerEmail.h"
     #include "storyarc/storyarcinterface.h"
     #include "gameComm/trading.h"
     #include "entity/keybinds.h"
@@ -193,8 +192,6 @@ void playerVarAlloc(Entity *e, EntType ent_type)
         // init story arc structure
         e->storyInfo = storyInfoCreate();
 
-        e->email_info = emailAllocInfo();
-
         stat_Init(e->pl);
     }
 
@@ -262,10 +259,6 @@ void playerVarFree( Entity *e )
     {
         storyInfoDestroy(e->storyInfo);
         e->storyInfo = NULL;
-    }
-    if (e->email_info) {
-        emailFreeInfo(e->email_info);
-        e->email_info = NULL;
     }
 #endif
 

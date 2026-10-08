@@ -185,7 +185,17 @@ TestMode2 g_testMode2 = TEST2_LEAGUE_ACCEPT;
 /* Opt-in local storage smoke test. Verify mode never creates a missing hero. */
 static int persistenceMode;
 static char persistenceReport[MAX_PATH];
+static bool persistenceMailCommandsSent;
+static int persistenceMailRejected, persistenceMailAccepted;
 #define PERSISTENCE_INFLUENCE 7654321
+
+void testClientRecordEmailStatus(int status)
+{
+    if (persistenceMode && persistenceMailCommandsSent) {
+        if (status) ++persistenceMailAccepted;
+        else ++persistenceMailRejected;
+    }
+}
 
 // Do we or do we not parse chat starting with @ into commands
 int gbParseChatToCommand=0;
@@ -988,11 +998,33 @@ void mainloop() {
                     commAddInput("influence 7654321"); changedInfluence = true;
                 }
                 if (hero->pchar->iInfluencePoints == PERSISTENCE_INFLUENCE) {
+                    if (persistenceMode == 2 && !persistenceMailCommandsSent) {
+                        char command[1024];
+                        persistenceMailCommandsSent = true;
+                        commAddInput("emaildelete 1");
+                        commAddInput("emaildelete 0");
+                        commAddInput("emaildelete -1");
+                        commAddInput("emaildelete -2147483648");
+                        commAddInput("emailheaders");
+                        commAddInput("emailread 1");
+                        sprintf(command, "emailsend \"%s\" \"Legacy smoke\" Rejected local mail", hero->name);
+                        commAddInput(command);
+                        sprintf(command, "emailsend \"@SQLiteSmoke, %s\" \"Legacy smoke\" Rejected mixed recipients", hero->name);
+                        commAddInput(command);
+                        commAddInput("emailsend \"\" \"Legacy smoke\" Rejected empty recipients");
+                        sprintf(command, "emailsendattachment \"%s\" \"Legacy smoke\" 1234 0 0 Rejected local attachment", hero->name);
+                        commAddInput(command);
+                    }
+                    if (persistenceMode == 2 && (persistenceMailAccepted || persistenceMailRejected > 4)) {
+                        printf_stderr("Legacy mail was accepted or produced unexpected send statuses.\n"); exit(1);
+                    }
+                    if (persistenceMode == 2 && persistenceMailRejected != 4) continue;
                     if (!saveTime) { commAddInput("entsave"); saveTime = GetTickCount(); }
                     if (GetTickCount() - saveTime >= 5000) {
                         FILE *report = fopen(persistenceReport, "w");
                         if (!report) { printf_stderr("Cannot write persistence report.\n"); exit(1); }
                         fprintf(report, "name=%s\ndbid=%d\ninfluence=%d\n", hero->name, hero->db_id, hero->pchar->iInfluencePoints);
+                        if (persistenceMode == 2) fprintf(report, "legacy_mail=passed\n");
                         if (fclose(report)) exit(1);
                         printf("Persistence test passed for %s (%d).\n", hero->name, hero->db_id);
                         commDisconnect(); exit(0);

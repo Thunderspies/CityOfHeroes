@@ -75,6 +75,7 @@ void statusUpdate(const char *fmt, ...);
 void sendMessageToLauncher(const char *fmt, ...);
 void processCmd(char *buf, int quiet);
 int error_exit(int allow_debug);
+void testClientRecordEmailStatus(int status);
 
 // This test client's pipe
 typedef struct PipeClient_t *PipeClient;
