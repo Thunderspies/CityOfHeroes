@@ -50,6 +50,11 @@ when copying it while running; prefer copying only after shutdown.
 
 Container persistence and the ordinary login/MapServer column requests are
 supported, including DISTINCT, TOP/LIMIT, ordering, joins, and null predicates.
+Mail delivery uses ChatServer global handles. Legacy local-mail commands return
+an empty inbox or do nothing; they no longer read or mutate the local database.
+Existing Email/Recipients tables and template metadata are retained for
+compatibility. Character-name recipients are rejected before mail is sent or
+influence and attachments are deducted.
 The adapter translates bare `dbo.` qualifiers and `ISNULL()` tokens while
 preserving quoted text and comments. Native admin SQL must use SQLite syntax;
 SQL Server procedures, DBCC commands, schema rebuild tools, and full offline
@@ -75,7 +80,10 @@ python DBServer/tests/sqlite_local_smoke.py --bin out/build/vs2026/bin/OptDebug 
 The script copies the game data into a unique fixture, creates a hero through
 TestClient, changes influence through MapServer, saves it, stops both servers,
 restarts them, and resumes the same hero. It checks identity, influence, child
-rows, and foreign-key integrity and writes `result.json` only on success. Its
+rows, and foreign-key integrity and writes `result.json` only on success. It also
+issues retired local-mail commands and rejects character-name, mixed, and empty
+recipient lists, checking that influence, inventory, pending global-mail state,
+and existing local-mail rows remain unchanged. Its
 servers are stopped on success or failure; logs and the fixture remain for
 inspection. Run with no other local shard listening on the standard ports.
 For another run, `--reuse-fixture <printed-fixture-path>` skips the asset copy

@@ -44,15 +44,9 @@ void dealWithBroadcast(int container,int *members,int count,char *msg,int msg_ty
     msg_text++;
     len = msg_text - msg;
 
+    // Ignore reserved broadcasts from the retired local-mail system.
     if (strnicmp(msg,DBMSG_EMAIL_MSG,len)==0)
-    {
-        for(i=0; i<count; i++ )
-        {
-            e = entFromDbIdEvenSleeping(members[i]);
-            if (e)
-                emailSendNewHeader( e->db_id, msg_text, senderID );
-        }
-    }
+        return;
     if (strnicmp(msg,DBMSG_MAPLIST_REFRESH,len)==0)
     {
         for(i=0; i<count; i++ )

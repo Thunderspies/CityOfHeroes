@@ -2087,8 +2087,6 @@ void svrTick()
                 playerEntCheckDisconnect();
             PERFINFO_AUTO_STOP_START("dbFlushLogs", 1);
                 logFlush(0);
-            PERFINFO_AUTO_STOP_START("emailCheckNewHeaders", 1);
-                emailCheckNewHeaders();
             PERFINFO_AUTO_STOP_START("svrTickMaintenance", 1);
                 svrTickMaintenance();
             PERFINFO_AUTO_STOP_START("svrDebugHook", 1);

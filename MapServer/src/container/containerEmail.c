@@ -7,7 +7,6 @@
 #include "svr/svr_player.h"
 #include "svr/svr_base.h"
 #include "comm_game.h"
-#include "containerbroadcast.h"
 #include "gameComm/svr_chat.h"
 #include <utilitieslib/components/StashTable.h>
 #include "dbcomm/dbnamecache.h"
@@ -16,6 +15,8 @@
 #include <utilitieslib/components/EString.h>
 #include "language/langServerUtil.h"
 #include "entity/entPlayer.h"
+#include "entity/chatSettings.h"
+#include <limits.h>
 #include "entity/friends.h"
 #include "entity/SgrpServer.h"
 #include "script/script.h"
@@ -32,12 +33,6 @@
 #include "gameSys/arenamap.h"
 #include "dbcomm/logcomm.h"
 
-struct EmailInfo
-{
-    int        id;
-    char    *message;
-};
-
 #define MAX_RECIPIENTS 100
 #define MAX_SUBJECT 80
 #define MAX_BODY 3900
@@ -46,6 +41,8 @@ struct EmailInfo
 
 #define PENDING_XACT_RETRY_TIME        30
 
+// Retain schema descriptors for existing databases and template generation only.
+// Runtime mail is delivered by ChatServer.
 typedef struct
 {
     int        recipient;
@@ -65,22 +62,6 @@ typedef struct
     int            influence;
     char        attachment[MAX_PATH];
 } Email;
-
-typedef struct
-{
-    int        sender_id;
-    int        sender_auth_id;
-    U32        date;
-    int        message_id;
-    char    subject[MAX_SUBJECT*2];
-    int        ids[MAX_RECIPIENTS];
-    int        count;
-    int        influence;
-    char    attachment[MAX_PATH];
-} NewHeader;
-
-static NewHeader    **new_headers;
-static int            new_header_count,new_header_max;
 
 LineDesc recipient_line_desc[] =
 {
@@ -117,19 +98,6 @@ StructDesc email_desc[] =
 };
 
 
-MP_DEFINE(EmailInfo);
-
-EmailInfo *emailAllocInfo()
-{
-    MP_CREATE(EmailInfo, 16);
-    return MP_ALLOC(EmailInfo);
-}
-
-void emailFreeInfo(EmailInfo *email_info)
-{
-    MP_FREE(EmailInfo, email_info);
-}
-
 char *emailTemplate()
 {
     return dbContainerTemplate(email_desc);
@@ -140,33 +108,6 @@ char *emailSchema()
     return dbContainerSchema(email_desc, "Email");
 }
 
-
-void emailSend(int sender_id, int auth_id, char *subject,char *message,int *db_ids,int count,int *container_id_ptr, int influence, char * pchAttachment)
-{
-    /*Email    email;
-    char    *str;
-    int        i;
-    U32        cookie;
-
-    memset(&email,0,sizeof(email));
-    for(i=0;i<count;i++)
-    {
-        email.recipients[i].recipient = db_ids[i];
-        email.recipients[i].state = 1;
-    }
-    Strncpyt(email.msg,message);
-    Strncpyt(email.subject,subject);
-    Strncpyt(email.attachment,pchAttachment?pchAttachment:"");
-    email.sent = dbSecondsSince2000();
-    email.sender = sender_id;
-    email.sender_auth = auth_id;
-    email.influence = influence;
-
-    str = dbContainerPackage(email_desc,(char*)&email);
-    cookie = dbSetDataCallback(container_id_ptr);
-    dbAsyncContainerUpdate(CONTAINER_EMAIL,-1,CONTAINER_CMD_CREATE,str,cookie);
-    free(str);*/
-}
 
 static void emailUpdateAccountStats(Entity *e, U32 lastEmailTime, U32 lastNumEmailsSent)
 {
@@ -270,144 +211,72 @@ void checkPendingTransactions(Entity *e)
 
 } 
 
-char *emailSendToNames(int sender_id, int auth_id,char *subject,char *message,char *args[], int count, int influence, char * pchAttachment)
+static char *emailValidateRecipients(Entity *e, char *args[], int count)
 {
-    static    char        *bad_names = 0;
-    static    int            err_count,err_max;
-    int                    i,db_ids[MAX_RECIPIENTS],unique_count=0,id,unique_global_count=0;
-    StashTable    dup_recips;
-    NewHeader            *header;
- 
-    err_count = 0;
-    dup_recips = stashTableCreateInt(4);
+    int i;
+    if (count <= 0)
+        return localizedPrintf(e, "EmailFormatError");
     if (count > MAX_RECIPIENTS)
+        return localizedPrintf(e, "EmailTooManyRecip", count - MAX_RECIPIENTS);
+
+    // Validate every recipient before starting a global-mail transaction.
+    for (i = 0; i < count; ++i)
     {
-        return localizedPrintf(0, "EmailTooManyRecip", count - MAX_RECIPIENTS);
+        const char *handle = getHandleFromString(args[i]);
+        if (!handle)
+            return localizedPrintf(e, "EmailFormatError");
+        if (strlen(handle) > MAX_PLAYERNAME)
+            return localizedPrintf(e, "EmailRecipientTooLongError");
     }
+    return NULL;
+}
 
-    for(i=0;i<count;i++)
+static char *emailSendToHandles(Entity *e, char *subject, char *message, char *args[], int count, int influence, char *pchAttachment)
+{
+    int i;
+    if (!chatServerRunning())
+        return localizedPrintf(e, "NotConnectedToChatServer");
+    if (!e->pl)
+        return localizedPrintf(e, "EmailFormatError");
+
+    for (i = 0; i < count; ++i)
     {
-        if(*args[i] == '@' )
+        const char *handle = getHandleFromString(args[i]);
+        if (e->pl->gmail_pending_state != ENT_GMAIL_NONE ||
+            *e->pl->gmail_pending_inventory != 0 || e->pl->gmail_pending_banked_influence > 0)
         {
-            Entity * e = entFromDbId(sender_id);
-
-            if( !chatServerRunning() )
-            {
-                return localizedPrintf(0, "NotConnectedToChatServer");
-            }
-            else
-            {
-                const char * str = getHandleFromString(args[i]);
-                if( e && e->pl && str ) 
-                {
-                    int strlength = (int)strlen(str);
-                    if (strlength > MAX_PLAYERNAME)    //    in chatClient, it loses the e-mail if it is longer than MAX_PLAYERNAME
-                    {
-                        return localizedPrintf(e,"EmailRecipientTooLongError");
-                    } 
-                    else if (e->pl->gmail_pending_state != ENT_GMAIL_NONE || 
-                                *e->pl->gmail_pending_inventory != 0 || e->pl->gmail_pending_banked_influence > 0)
-                    {
-                        checkPendingTransactions(e);
-                        return localizedPrintf(e,"GmailOutstandingPendingTransaction");
-                    } else {
-                        char * subj = strdup( escapeString(subject) );
-                        if( influence || (pchAttachment && *pchAttachment) )
-                            shardCommSendf(e, 1, "gmailxactrequest \"%s\" \"%s\" \"%s\" \"%i %i %s\"", str, subj, escapeString(message), e->pl->playerType, influence, pchAttachment );
-                        else 
-                            shardCommSendf(e, 1, "gmailxactrequest \"%s\" \"%s\" \"%s\" \"%i\"", str, subj, escapeString(message), e->pl->playerType);
-                            
-                        // log transaction for attachment emails to ensure deliver
-                        if (e->pl)
-                        {
-                            e->pl->gmail_pending_mail_id = 0;
-                            e->pl->gmail_pending_xact_id = 0;
-                            e->pl->gmail_pending_state = ENT_GMAIL_SEND_XACT_REQUEST;
-                            e->pl->gmail_pending_influence = influence;
-                            e->pl->gmail_pending_requestTime = timerSecondsSince2000();
-                            strcpy_s(e->pl->gmail_pending_subject, MAX_GMAIL_SUBJECT, subj);
-                            strcpy_s(e->pl->gmail_pending_to, 32, str);
-                            strcpy_s(e->pl->gmail_pending_attachment, 255, pchAttachment);
-
-                            if (e->pl->gmail_pending_body)
-                                estrDestroy(&e->pl->gmail_pending_body);
-                            e->pl->gmail_pending_body = estrCloneCharString(escapeString(message));
-
-                            // flush to DB
-                            e->auctionPersistFlag = true;
-                        }
-                        free(subj);
-                    }
-                }
-                else
-                    return localizedPrintf(e,"EmailFormatError");
-            }
+            checkPendingTransactions(e);
+            return localizedPrintf(e, "GmailOutstandingPendingTransaction");
         }
         else
         {
-            id = dbPlayerIdFromName(args[i]);
-            if (id <= 0)
-            {
-                if (err_count)
-                    estrConcatf(&bad_names, ", %s", args[i] );
-                else
-                    estrConcatCharString(&bad_names, args[i]);
+            char *subj = strdup(escapeString(subject));
+            if (influence || (pchAttachment && *pchAttachment))
+                shardCommSendf(e, 1, "gmailxactrequest \"%s\" \"%s\" \"%s\" \"%i %i %s\"", handle, subj,
+                    escapeString(message), e->pl->playerType, influence, pchAttachment);
+            else
+                shardCommSendf(e, 1, "gmailxactrequest \"%s\" \"%s\" \"%s\" \"%i\"", handle, subj,
+                    escapeString(message), e->pl->playerType);
 
-                err_count++;
-                continue;
-            }
+            // log transaction for attachment emails to ensure deliver
+            e->pl->gmail_pending_mail_id = 0;
+            e->pl->gmail_pending_xact_id = 0;
+            e->pl->gmail_pending_state = ENT_GMAIL_SEND_XACT_REQUEST;
+            e->pl->gmail_pending_influence = influence;
+            e->pl->gmail_pending_requestTime = timerSecondsSince2000();
+            strcpy_s(e->pl->gmail_pending_subject, MAX_GMAIL_SUBJECT, subj);
+            strcpy_s(e->pl->gmail_pending_to, 32, handle);
+            strcpy_s(e->pl->gmail_pending_attachment, 255, pchAttachment);
+            if (e->pl->gmail_pending_body)
+                estrDestroy(&e->pl->gmail_pending_body);
+            e->pl->gmail_pending_body = estrCloneCharString(escapeString(message));
 
-            if (stashIntAddInt(dup_recips, id, id, false))
-            {
-                db_ids[unique_count++] = id;
-            }
+            // flush to DB
+            e->auctionPersistFlag = true;
+            free(subj);
         }
     }
-
-    stashTableDestroy(dup_recips);
-    if (err_count)
-        return localizedPrintf(0, "EmailMissingRecipeints", bad_names );
-
-    if( unique_count )
-    {
-        header = calloc(sizeof(NewHeader),1);
-        dynArrayAddp(&new_headers,&new_header_count,&new_header_max,header);
-        header->sender_id    = sender_id;
-        header->sender_auth_id    = auth_id;
-        header->date        = dbSecondsSince2000();
-        header->count        = unique_count;
-        header->influence    = influence;
-        Strncpyt(header->attachment , pchAttachment);
-        assert(unique_count <= ARRAY_SIZE(db_ids));
-        memcpy(header->ids,db_ids,sizeof(int) * unique_count);
-        Strncpyt(header->subject,subject);
-        emailSend(sender_id,auth_id,subject,message,db_ids,unique_count,&header->message_id, influence, pchAttachment);
-    }
-
-    return 0;
-}
-
-void createEmailFromDbServer( Packet * pak )
-{
-    char *name, *namebuff, *title, *message;
-    int author_auth_id, commenter_auth_id;
-
-    strdup_alloca(name,  pktGetString(pak));
-    strdup_alloca(title, pktGetString(pak));
-    
-    author_auth_id = pktGetBitsAuto(pak);
-    commenter_auth_id = pktGetBitsAuto(pak);
-
-    strdup_alloca(message, pktGetString(pak));
-
-    if( authIdFromName(name) != author_auth_id )
-        return; // author must've been re-named
-
-
-    estrCreate(&namebuff);
-    estrConcatf(&namebuff, "\"%s\"", name );
-    emailSendToNames(0, commenter_auth_id, localizedPrintf(0,"ArchitectFeedback", title), message, &namebuff, 1, 0, 0);
-    estrDestroy(&namebuff);
+    return NULL;
 }
 
 void createSystemEmail( Entity *e, char* senderName, char* subject, char* msg, int influence, char *attachment, int delaytime )
@@ -415,222 +284,29 @@ void createSystemEmail( Entity *e, char* senderName, char* subject, char* msg, i
     shardCommSendf(e, 0, "SystemGmail \"%s\" \"%s\" \"%s\" \"%i %i %s\" \"%i\"", senderName, subject, msg, e->pl->playerType, influence, attachment, delaytime );
 }
 
-void emailCheckNewHeaders()
-{
-    int            i;
-    char        buf[1000];
-    NewHeader    *header;
-
-    for(i=new_header_count-1;i>=0;i--)
-    {
-        header = new_headers[i];
-        if (header->message_id > 0)
-        {
-            sprintf(buf,"%s%d %d \"%s\" %d %i \"%s\"",DBMSG_EMAIL_MSG,header->message_id, header->sender_auth_id, escapeString(header->subject),header->date, header->influence, header->attachment);
-            dbBroadcastMsg(    CONTAINER_ENTS, header->ids, INFO_ADMIN_COM, header->sender_id, header->count, buf);
-            memmove(&new_headers[i],&new_headers[i+1],(--new_header_count - i) * sizeof(NewHeader*));
-            free(header);
-        }
-    }
-}
-
-void emailSendNewHeader(int db_id,char *str,int sender_id)
-{
-    char    *args[10];
-    int auth;
-    int redacted = 0;
-    Entity    *e = entFromDbIdEvenSleeping(db_id);
-
-    if (!e)
-        return;
-    tokenize_line(str,args,0);
-
-    auth = atoi(args[1]); 
-
-    if( e->pl->disableEmail || 
-        isIgnored(e,sender_id) || 
-        (auth && isIgnoredAuth(e, auth)) || 
-        (!auth && e->pl->ArchitectBlockComments) ||
-        (e->pl->friendSgEmailOnly && !(isFriend(e, sender_id) || sgroup_IsMember(e, sender_id)) ))
-    {
-        emailDeleteMessage(e,atoi(args[0]));
-        return;
-    }
-
-    START_PACKET( pak_out, e, SERVER_SEND_EMAIL_HEADERS )
-    pktSendBitsPack(pak_out,1,0); // delta update
-    pktSendBitsPack(pak_out,1,1); // 1 update
-    pktSendBits( pak_out, 1, 1 );
-
-    pktSendBits(pak_out,32,atoi(args[0]));
-    pktSendBits( pak_out, 1, redacted );
-
-    if( !sender_id )
-    {
-        pktSendBits(pak_out,32,0);
-        pktSendString(pak_out,localizedPrintf(0,"EmailFromSystem"));
-    }
-    else
-    {
-        pktSendBits(pak_out,32,auth);
-        pktSendString(pak_out,dbPlayerNameFromId(sender_id));
-    }
-    pktSendString(pak_out,args[2]);
-    pktSendBits(pak_out,32,atoi(args[3]));
-    END_PACKET
-}
-
-static void emailHeaders_cb(Packet *pak,int db_id,int count)
-{
-    int        i,message_id,sent,sender_id,auth_id, redacted = 0;
-    char    subject[MAX_SUBJECT*2];
-    Entity    *e = entFromDbId(db_id);
-    if (!e)
-        return;
-
-    START_PACKET( pak_out, e, SERVER_SEND_EMAIL_HEADERS )
-    pktSendBitsPack(pak_out,1,1); // full update, not delta
-    pktSendBitsPack(pak_out,1,count);
-    for(i=0;i<count;i++)
-    {
-        message_id    = pktGetBitsPack(pak,1);
-        Strncpyt(subject,pktGetString(pak));
-        sender_id    = pktGetBitsPack(pak,1);
-        auth_id      = pktGetBitsPack(pak,1);
-        sent        = pktGetBits(pak,32);
-
-        if( e->pl->disableEmail || 
-            isIgnored(e,sender_id) || 
-            (auth_id && isIgnoredAuth(e, auth_id)) || 
-            (!auth_id && e->pl->ArchitectBlockComments) ||    
-            (e->pl->friendSgEmailOnly && !(isFriend(e, sender_id) || sgroup_IsMember(e, sender_id))))
-        {
-            emailDeleteMessage(e, message_id);
-            pktSendBits( pak_out, 1, 0 );
-            continue;
-        }
-        else
-        {
-            pktSendBits( pak_out, 1, 1 );
-        }
-
-        pktSendBits(pak_out,32,message_id);
-        pktSendBits( pak_out, 1, redacted ); // redacted bit
-
-        if( !sender_id )
-        {
-            pktSendBits(pak_out,32,0);
-            pktSendString(pak_out,localizedPrintf(0,"EmailFromSystem"));
-        }
-        else
-        {
-            pktSendBits(pak_out,32,auth_id);
-            pktSendString(pak_out,dbPlayerNameFromId(sender_id));
-        }
-
-        if( redacted )
-            pktSendString(pak_out, localizedPrintf(0,"EmailSubjectRedacted"));
-        else
-            pktSendString(pak_out,subject);
-
-        pktSendBits(pak_out,32,sent);
-    }
-    END_PACKET
-}
-
-static void emailMessage_cb(Packet *pak,int db_id,int count)
-{
-    Entity    *e;
-
-    if (!count)
-        return;
-    e = entFromDbId(db_id);
-    if (!e)
-        return;
-    free(e->email_info->message);
-    e->email_info->id        = pktGetBitsPack(pak,1);
-    e->email_info->message    = strdup(pktGetString(pak));
-}
-
-static void emailRecipient_cb(Packet *pak,int db_id,int count)
-{
-    int        i,recipient,deleted,msg_id;
-    Entity    *e = entFromDbId(db_id);
-
-    if (!e || !e->email_info->message)
-        return;
-    if (!count)
-        goto done;
-
-    START_PACKET( pak_out, e, SERVER_SEND_EMAIL_MESSAGE )
-    pktSendBits(pak_out,32,e->email_info->id);
-    pktSendString(pak_out,e->email_info->message);
-    pktSendBitsPack(pak_out,1,count);
-    for(i=0;i<count;i++)
-    {
-        msg_id        = pktGetBitsPack(pak,1);
-        recipient    = pktGetBitsPack(pak,1);
-        deleted        = pktGetBitsPack(pak,1);
-        assert(msg_id == e->email_info->id);
-        if( !recipient )
-            pktSendString(pak_out,localizedPrintf(0,"EmailFromSystem"));
-        else
-            pktSendString(pak_out,dbPlayerNameFromId(recipient));
-    }
-    END_PACKET
-done:
-    free(e->email_info->message);
-    e->email_info->message = 0;
-}
-
 void emailGetHeaders(int db_id)
 {
-    char search[1000];
+    Entity *e = entFromDbId(db_id);
+    if (!e)
+        return;
 
-    sprintf(search,"INNER JOIN Recipients ON Email.ContainerId = Recipients.ContainerId WHERE Recipients.recipient = %d AND Recipients.State > 0",db_id);
-    dbReqCustomData(CONTAINER_EMAIL,"Email",0,search,"ContainerId, Subject, Sender, SenderAuth, Sent ",emailHeaders_cb,db_id);
+    // Old clients still request local mail; return an empty legacy inbox.
+    START_PACKET(pak_out, e, SERVER_SEND_EMAIL_HEADERS)
+    pktSendBitsPack(pak_out, 1, 1); // full update
+    pktSendBitsPack(pak_out, 1, 0); // no legacy messages
+    END_PACKET
 }
 
-void emailGetMessage(int db_id,int message_id)
+void emailGetMessage(int db_id, int message_id)
 {
-    char search[1000];
-
-    sprintf(search,"INNER JOIN Recipients ON Email.ContainerId = Recipients.ContainerId WHERE Email.ContainerId = %d AND Recipients.recipient = %d AND Recipients.State > 0",message_id,db_id);
-    dbReqCustomData(CONTAINER_EMAIL,"Email",0,search,"ContainerId, Msg",emailMessage_cb,db_id);
-    sprintf(search,"WHERE ContainerId = %d",message_id);
-    dbReqCustomData(CONTAINER_EMAIL,"Recipients",0,search,"ContainerId, Recipient, State",emailRecipient_cb,db_id);
+    // Reserved compatibility command. Legacy messages are no longer read.
 }
 
-void emailDeleteMessage(Entity * e,int message_id)
+void emailDeleteMessage(Entity *e, int message_id)
 {
-    if( message_id < 0 ) // global mail ids are negative clientside to prevent collision with old email
-        shardCommSendf(e, 1, "GmailDelete %i", -message_id );
-    else
-    {
-        int        idx=0;
-        char    sql_command[1000];
-        char    *recip_clear_state =    "Update Recipients\n"
-                                        "set State = 0\n"
-                                        "where ContainerId = %d\n"
-                                        "And Recipient = %d\n\n",
-
-                *email_del    =             "DECLARE @id AS Integer DECLARE @result AS Integer\n"
-                                        "SET @id = %d\n"
-                                        "SET @result = ISNULL((SELECT COUNT(*) As Expr1\n"
-                                        "FROM Recipients\n"
-                                        "GROUP BY State, ContainerId\n"
-                                        "HAVING (ContainerId = @id) AND Not (State = 0)), 0)\n"
-                                        "IF @result = 0 BEGIN\n"
-                                        "DELETE FROM Recipients\n"
-                                        "WHERE ContainerId = @id\n"
-                                        "DELETE FROM Email\n"
-                                        "WHERE ContainerId = @id \n"
-                                        "END\n";
-
-        idx += sprintf(sql_command+idx,recip_clear_state,message_id,e->db_id);
-        idx += sprintf(sql_command+idx,email_del,message_id);
-        dbExecuteAdministrativeNativeSql(sql_command);
-    }
+    // Preserve the negative client-side IDs used for ChatServer global mail.
+    if (e && message_id < 0 && message_id > INT_MIN)
+        shardCommSendf(e, 1, "GmailDelete %i", -message_id);
 }
 
 static void tokenizeRecipients(char *args[], int *count, char *recips)
@@ -648,8 +324,22 @@ static void tokenizeRecipients(char *args[], int *count, char *recips)
 
 void emailHandleSendCmd(struct Entity* e, char* subj, char* recips, char* body, int influence, int type, int idx, struct ClientLink* client)
 {
+    int count, iCol = 0, iRow = 0;
+    char *args[MAX_RECIPIENTS], *err_buf;
+
     if (!e)
         return;
+
+    tokenizeRecipients(args, &count, recips);
+    err_buf = emailValidateRecipients(e, args, count);
+    if (err_buf)
+    {
+        START_PACKET(pak, e, SERVER_SEND_EMAIL_MESSAGE_STATUS)
+        pktSendBitsPack(pak, 1, 0);
+        pktSendString(pak, err_buf);
+        END_PACKET
+        return;
+    }
 
     if (entIsTrial(e))
     {
@@ -672,8 +362,6 @@ void emailHandleSendCmd(struct Entity* e, char* subj, char* recips, char* body, 
     }
     else
     {
-        int count, iCol=0, iRow=0;
-        char *args[MAX_RECIPIENTS], *err_buf;
         U32 now = SecondsSince2000();
         U32 today = timerDayFromSecondsSince2000(now);
         U32 lastEmailTime = client->entity->pl->lastEmailTime;
@@ -699,8 +387,6 @@ void emailHandleSendCmd(struct Entity* e, char* subj, char* recips, char* body, 
             return;
         }
 
-        tokenizeRecipients(args, &count, recips);
-
         if (validHistory && (emailsSentToday + count > MAX_EMAILS_PER_DAY))
         {
             chatSendToPlayer(client->entity->db_id, clientPrintf(client, "TooManyEmailsToday", MAX_EMAILS_PER_DAY), INFO_SVR_COM, 0 );
@@ -713,11 +399,6 @@ void emailHandleSendCmd(struct Entity* e, char* subj, char* recips, char* body, 
             if( count > 1 )
             {
                 chatSendToPlayer(client->entity->db_id, clientPrintf(client, "EmailAttachmentsOnlyGetOneSender"), INFO_SVR_COM, 0 );
-                return;
-            }
-            if( *args[0] != '@' )
-            {
-                chatSendToPlayer(client->entity->db_id, clientPrintf(client, "EmailAttachmentsOnlyAllowedForGlobal"), INFO_SVR_COM, 0 );
                 return;
             }
         }
@@ -833,7 +514,7 @@ void emailHandleSendCmd(struct Entity* e, char* subj, char* recips, char* body, 
                 return; // unrecognized type
         }
 
-        err_buf = emailSendToNames(e->db_id, e->auth_id, subj, body, args, count, influence, pchAttachment?pchAttachment:"");
+        err_buf = emailSendToHandles(e, subj, body, args, count, influence, pchAttachment?pchAttachment:"");
         START_PACKET( pak, e, SERVER_SEND_EMAIL_MESSAGE_STATUS );
         if (err_buf)
         {

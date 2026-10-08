@@ -133,7 +133,6 @@
     int                        numFramesWithoutChange;
     U8                        fakeRagdollFramesSent;// Fake ragdoll has been sent
 
-    EmailInfo                *email_info;
     MissionObjectiveInfo    *missionObjective;        // Is this entity a mission objective?
     MissionObjectiveInfo    *interactingObjective;    // Is this entity interacting with a mission objective?
 
