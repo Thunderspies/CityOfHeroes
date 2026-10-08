@@ -308,7 +308,12 @@ static int s_handleMissionPacket(Packet *pak_in, int cmd, NetLink *missionlink)
         }
 
         xcase MISSION_SERVER_COMMENT:
-            handleMissionServerEmail(pak_in);
+            // Legacy email notification only; MissionServer retains the comment.
+            pktGetString(pak_in); // author
+            pktGetString(pak_in); // title
+            pktGetBitsAuto(pak_in); // author id
+            pktGetBitsAuto(pak_in); // commenter id
+            pktGetString(pak_in); // comment
 
         xcase MISSION_SERVER_INVENTORY:
         {
@@ -701,25 +706,3 @@ void missionserver_db_buyItem(int mapid, Packet *pak_in, NetLink *link)
         pktSend(&pak_out, link);
     }
 }
-
-void handleMissionServerEmail( Packet * pak_in )
-{
-    MapCon    *map;
-    int i;
-
-    for(i=0;i<map_list->num_alloced;i++)
-    {
-        map = (MapCon *) map_list->containers[i];
-        if( map->is_static && map->active)
-        {
-            Packet    *pak_out = pktCreateEx(map->link,DBSERVER_CREATE_EMAIL);
-            pktSendGetString(pak_out,pak_in); // author
-            pktSendGetString(pak_out,pak_in); // title
-            pktSendGetBitsAuto(pak_out,pak_in); // author id
-            pktSendGetBitsAuto(pak_out,pak_in); // commenter id
-            pktSendGetString(pak_out,pak_in); // comment
-            pktSend(&pak_out,map->link);
-            return;
-        }
-    }
-};

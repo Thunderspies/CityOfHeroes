@@ -2015,7 +2015,12 @@ int dbMessageCallback(Packet *pak,int cmd,NetLink *link)
         xcase DBSERVER_MESSAGEENTITY:
             s_mapserver_MessageEntity(pak);
         xcase DBSERVER_CREATE_EMAIL:
-            createEmailFromDbServer(pak);
+            // Reserved legacy-mail packet from an older DBServer.
+            pktGetString(pak); // author
+            pktGetString(pak); // title
+            pktGetBitsAuto(pak); // author id
+            pktGetBitsAuto(pak); // commenter id
+            pktGetString(pak); // comment
         xcase DBSERVER_MISSIONSERVER_ALLARCS:
             missionServerMapTest_ReceiveAllArcs(pak);
         xcase DBSERVER_EVENT_WAIT_TIMES:
