@@ -64,6 +64,9 @@ char *dbStorageNormalizeSqlite(const char *sql)
             while (isalnum((unsigned char)sql[i]) || sql[i] == '_') ++i;
             next = i;
             while (isspace((unsigned char)sql[next])) ++next;
+            /* SQL Server's Unicode literal introducer is redundant for UTF-8 SQLite text. */
+            if (i - start == 1 && (sql[start] == 'N' || sql[start] == 'n') && sql[i] == '\'')
+                continue;
             if (i - start == 3 && !_strnicmp(sql + start, "dbo", 3) && sql[next] == '.') {
                 i = next + 1; continue;
             }

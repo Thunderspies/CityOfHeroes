@@ -47,6 +47,8 @@ int main(void)
     statement->ops->finalize(statement);
     normalized = dbStorageNormalizeSqlite("SELECT ISNULL(dbo.T.Id,0), 'dbo.ISNULL(x)', \"dbo.Name\" -- dbo.T\n/* ISNULL dbo.T */");
     CHECK(normalized && !strcmp(normalized, "SELECT COALESCE(T.Id,0), 'dbo.ISNULL(x)', \"dbo.Name\" -- dbo.T\n/* ISNULL dbo.T */")); free(normalized);
+    normalized = dbStorageNormalizeSqlite("SELECT N'O''Brien dbo.ISNULL(x)', n'caf\xc3\xa9', 'N''quoted', \"N'literal\", N_column -- N'comment'\n/* n'comment' */");
+    CHECK(normalized && !strcmp(normalized, "SELECT 'O''Brien dbo.ISNULL(x)', 'caf\xc3\xa9', 'N''quoted', \"N'literal\", N_column -- N'comment'\n/* n'comment' */")); free(normalized);
     CHECK(!connection->ops->prepare(connection, "SELECT 1; SELECT 2", strlen("SELECT 1; SELECT 2"), &error));
     CHECK(!connection->ops->prepare(connection, "broken SQL", strlen("broken SQL"), &error));
     CHECK(!connection->ops->prepare(connection, "", strlen(""), &error));

@@ -149,10 +149,16 @@ static int pushContainer(int list_id, char *condata)
                     authId = ( entInfo ) ? entInfo->authId : 0;
                     sqlFifoBarrier();
                     sprintf(cmd,"UPDATE dbo.Ents SET DbFlags = ISNULL(DbFlags,0) | 4096 WHERE ContainerId = %d;",id); // DBFLAG_RENAMEABLE
-                    sqlConnExecDirect(cmd, SQL_NTS, SQLCONN_FOREGROUND, false);
+                    if (gDatabaseProvider == DBPROV_SQLITE) {
+                        sqlExecAsyncEx(cmd, SQL_NTS, id, false);
+                        sqlFifoFinish();
+                    } else sqlConnExecDirect(cmd, SQL_NTS, SQLCONN_FOREGROUND, false);
                     sqlFifoBarrier();
                     sprintf(cmd,"UPDATE dbo.Ents SET Name = N'%s' WHERE ContainerId = %d;", new_name, id);
-                    sqlConnExecDirect(cmd, SQL_NTS, SQLCONN_FOREGROUND, true);
+                    if (gDatabaseProvider == DBPROV_SQLITE) {
+                        sqlExecAsyncEx(cmd, SQL_NTS, id, true);
+                        sqlFifoFinish();
+                    } else sqlConnExecDirect(cmd, SQL_NTS, SQLCONN_FOREGROUND, true);
                     sqlFifoBarrier();
                     playerNameDelete(old_name, id);    
                     playerNameCreate(new_name, id, authId);
@@ -467,7 +473,10 @@ void fixImport(int argc,char **argv)
     sqlFifoFinish();
 
     // For whatever reason, if a base UserID is null, that is handled differently than 0
-    sqlConnExecDirect("UPDATE Base SET UserId = 0 WHERE UserId is NULL;", SQL_NTS, SQLCONN_FOREGROUND, false);
+    if (gDatabaseProvider == DBPROV_SQLITE) {
+        sqlExecAsync("UPDATE Base SET UserId = 0 WHERE UserId is NULL;", SQL_NTS);
+        sqlFifoFinish();
+    } else sqlConnExecDirect("UPDATE Base SET UserId = 0 WHERE UserId is NULL;", SQL_NTS, SQLCONN_FOREGROUND, false);
 
     fflush(mappingfile);    
     fflush(brokenfile);

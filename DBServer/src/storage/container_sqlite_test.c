@@ -8,6 +8,7 @@
 #include "container_merge.h"
 #include "sql_fifo.h"
 #include "dbserver/servercfg.h"
+#include "dbimport.h"
 #include <utilitieslib/components/StashTable.h>
 #include <utilitieslib/utils/wininclude.h>
 #include <stdio.h>
@@ -85,6 +86,32 @@ int dbStorageContainerTests(DbStorage **storage, const char *path)
     CHECK(((WCHAR *)(fixed + 7))[0] == 'd');
     CHECK(((SQL_TIMESTAMP_STRUCT *)(fixed + 7 + 130))->year == 2026);
     free(fixed);
+    /* Built-in admin and import SQL retains MSSQL literals on the wire. */
+    CHECK(dbStorageExecuteNative(connection,
+        "CREATE TABLE Ents(ContainerId INTEGER PRIMARY KEY, Name UTEXT(32), DbFlags INTEGER, AccessLevel INTEGER, Active INTEGER,"
+        "MapId INTEGER, StaticMapId INTEGER, PosX REAL, PosY REAL, PosZ REAL);"
+        "INSERT INTO Ents(ContainerId,Name) VALUES(42,'Audit O''Brien \xc3\xa9');"
+        "CREATE TABLE Base(ContainerId INTEGER PRIMARY KEY, UserId INTEGER);"
+        "INSERT INTO Base VALUES(1,NULL),(2,7)", &error) == DB_STORAGE_OK);
+    sqlExecAsync("UPDATE dbo.ents SET AccessLevel=9 WHERE name=N'Audit O''Brien \xc3\xa9' AND active IS NULL;", SQL_NTS);
+    sqlExecAsync("UPDATE dbo.ents SET mapid=29,staticmapid=29,posX=1.25,posY=2,posZ=3 WHERE name=N'Audit O''Brien \xc3\xa9' AND active IS NULL;", SQL_NTS);
+    sqlExecAsyncEx("UPDATE dbo.Ents SET DbFlags=ISNULL(DbFlags,0)|4096 WHERE ContainerId=42;", SQL_NTS, 42, false);
+    sqlExecAsyncEx("UPDATE dbo.Ents SET Name=N'Renamed O''Brien \xc3\xa9' WHERE ContainerId=42;", SQL_NTS, 42, true);
+    {
+        char directory[MAX_PATH], files[3][MAX_PATH];
+        char *arguments[3];
+        CHECK(GetTempPathA(sizeof(directory), directory));
+        for (i = 0; i < 3; ++i) {
+            CHECK(GetTempFileNameA(directory, "imp", 0, files[i]));
+            arguments[i] = files[i];
+        }
+        fixImport(3, arguments);
+        for (i = 0; i < 3; ++i) CHECK(DeleteFileA(files[i]));
+    }
+    CHECK(sqlGetSingleValue("SELECT COUNT(*) FROM Ents WHERE ContainerId=42 AND Name=N'Renamed O''Brien \xc3\xa9' AND DbFlags=4096"
+        " AND AccessLevel=9 AND MapId=29 AND StaticMapId=29 AND PosX=1.25 AND PosY=2 AND PosZ=3", SQL_NTS, NULL, 0) == 1);
+    CHECK(sqlGetSingleValue("SELECT UserId FROM Base WHERE ContainerId=1", SQL_NTS, NULL, 0) == 0);
+    CHECK(sqlGetSingleValue("SELECT UserId FROM Base WHERE ContainerId=2", SQL_NTS, NULL, 0) == 7);
     sqlFifoShutdown(); (*storage)->ops->destroy(*storage);
     *storage = dbStorageCreateSqlite(path, &error); CHECK(*storage);
     sqlFifoInit();
