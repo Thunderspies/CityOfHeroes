@@ -32,6 +32,7 @@
 #include <utilitieslib/utils/utils.h>
 #include "UI/uiEmail.h"
 #include "testUtil.h"
+#include "testClientInclude.h"
 #include <utilitieslib/utils/error.h>
 #include "player/player.h"
 #include "entity/powers.h"
@@ -98,7 +99,6 @@ U32 g_timeLastAttack = 0;
 U32 g_timeLastPower = 0;
 char gMapName[256] = {0};
 char world_name[MAX_PATH];
-int            email_header_count;
 GameState game_state;
 ControlState control_state;
 ServerVisibleState server_visible_state;
@@ -1263,3 +1263,11 @@ void uiSalvage_ReceiveSalvageImmediateUseResp( const char* salvageName, U32 flag
 void setHeroVillainEventChannel(int isHero){};
 
 void playerStartForcedFollow(Packet *pak) {}
+
+// Mail send status is still used by global mail and the opt-in storage smoke.
+void emailSetNewMessageStatus(int status, char *msg)
+{
+    testClientRecordEmailStatus(status);
+    if (!status)
+        printf("Email not sent: %s\n", msg);
+}

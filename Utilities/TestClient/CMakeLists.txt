@@ -132,7 +132,6 @@ set(TestClient_SOURCES
 	src/testClientCmdParse.c
 	src/testConnections.c
 	src/testContact.c
-	src/testEmail.c
 	src/testFollow.c
 	src/testMissions.c
 	src/testMissionSearch.c
@@ -287,7 +286,6 @@ set(TestClient_HEADERS
 	src/testClientInclude.h
 	src/testConnections.h
 	src/testContact.h
-	src/testEmail.h
 	src/testFollow.h
 	src/testMissions.h
 	src/testMissionSearch.h
