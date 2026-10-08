@@ -236,6 +236,10 @@ void serverCfgLoad()
                 gDatabaseProvider = DBPROV_MSSQL;
             } else if (stricmp(s2, "postgresql") == 0) {
                 gDatabaseProvider = DBPROV_POSTGRESQL;
+            } else if (stricmp(s2, "sqlite") == 0) {
+                gDatabaseProvider = DBPROV_SQLITE;
+            } else {
+                FatalErrorf("Unknown SqlDbProvider: %s", s2);
             }
         }
 #endif

@@ -3,10 +3,10 @@ include(CPM)
 
 CPMAddPackage(
 	NAME sqlite
-	VERSION 3.6.23.1
-	URL https://sqlite.org/sqlite-amalgamation-3_6_23_1.zip
+	VERSION 3.53.4
+	URL https://www.sqlite.org/2026/sqlite-amalgamation-3530400.zip
 	URL_HASH
-		SHA256=f7301fe96cda9f2daee36b21cc6f6ca865062e9320dfb29201f0c76472895165
+		SHA3_256=628a44cfe82c66aed1ccbbe85a562d2e33ebe64b3288981ed76285612227934e
 	DOWNLOAD_ONLY YES
 )
 
