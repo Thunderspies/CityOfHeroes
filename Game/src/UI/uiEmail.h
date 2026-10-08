@@ -3,8 +3,8 @@
 
 typedef enum EmailType
 {
-    kEmail_Local,
-    kEmail_Global,
+    // Value 0 is reserved for retired local mail.
+    kEmail_Global = 1,
     kEmail_Certification,
     kEmail_Count,
 }EmailType;
@@ -19,8 +19,6 @@ typedef enum MailViewMode
 
 void emailHeaderListPrepareUpdate();
 void emailResetHeaders(int quit_to_login);
-void emailAddHeader(U64 message_id,int auth_id,char *sender,char *subject,int sent, int refundable, int influence, char * attachment );
-void emailCacheMessage(U64 message_id, EmailType type, char *recip_buf,char *msg);
 int  emailWindow();
 int  emailComposeWindow();
 void emailSetNewMessageStatus(int status,char *msg);

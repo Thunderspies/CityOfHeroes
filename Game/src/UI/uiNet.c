@@ -1806,62 +1806,32 @@ void level_increaseLevel()
 
 void receiveEmailHeaders(Packet *pak)
 {
-    int        i,count,full_update,message_id,sent, auth_id,redacted;
-    char    *sender,*subject;
-
-     full_update = pktGetBitsPack(pak,1);
-    emailHeaderListPrepareUpdate();
-
-    count = pktGetBitsPack(pak,1);
-    for(i=0;i<count;i++)
+    int i, count;
+    // Consume reserved packets from older servers without adding local mail.
+    pktGetBitsPack(pak, 1); // full update
+    count = pktGetBitsPack(pak, 1);
+    for (i = 0; i < count; ++i)
     {
-        if( pktGetBits( pak, 1 ) )
+        if (pktGetBits(pak, 1))
         {
-            message_id    = pktGetBits(pak,32);
-            redacted    = pktGetBits(pak, 1);
-            auth_id        = pktGetBits(pak,32);
-            sender        = strdup(unescapeString(pktGetString(pak)));
-            subject        = strdup(smf_DecodeAllCharactersGet((char*)unescapeString(pktGetString(pak))));
-            sent        = pktGetBits(pak,32);
-            emailAddHeader(message_id,auth_id,sender,subject,sent,redacted,0,0);
-            if (!full_update)
-                addSystemChatMsg(textStd("NewMail",sender), INFO_SVR_COM, 0 );
+            pktGetBits(pak, 32); // message id
+            pktGetBits(pak, 1); // redacted
+            pktGetBits(pak, 32); // auth id
+            pktGetString(pak); // sender
+            pktGetString(pak); // subject
+            pktGetBits(pak, 32); // sent
         }
-    }
-
-    if( full_update )
-    {
-        if( count == 1 )
-            addSystemChatMsg(textStd("EmailCountOne"), INFO_SVR_COM, 0 );
-        else if( count > 1 )
-            addSystemChatMsg(textStd("EmailCount", count), INFO_SVR_COM, 0 );
     }
 }
 
 void receiveEmailMessage(Packet *pak)
 {
-    int        i,count,recip_count=0,recip_max=0;
-    U64        message_id;
-    char    *msg,*recipient;
-    char    *s,*recip_buf=0;
-
-    message_id    = pktGetBits(pak,32);
-    msg = strdup(unescapeString(pktGetString(pak)));
-    count = pktGetBitsPack(pak,1);
-    for(i=0;i<count;i++)
-    {
-        if (recip_count)
-        {
-            recip_buf[recip_count-2] = ';';
-            recip_buf[recip_count-1] = ' ';
-        }
-        recipient = (char *)unescapeString(pktGetString(pak));
-        s = dynArrayAdd(&recip_buf,1,&recip_count,&recip_max,strlen(recipient)+2);
-        strcpy(s,recipient);
-    }
-    emailCacheMessage(message_id, kEmail_Local, recip_buf,msg);
-    free(msg);
-    free(recip_buf);
+    int i, count;
+    pktGetBits(pak, 32); // message id
+    pktGetString(pak); // body
+    count = pktGetBitsPack(pak, 1);
+    for (i = 0; i < count; ++i)
+        pktGetString(pak); // recipient
 }
 
 void receiveEmailMessageStatus(Packet *pak)

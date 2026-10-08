@@ -129,7 +129,6 @@ static TextAttribs s_tEmailText =
 #define MAX_EMAIL_LENGTH 960    // However, Commands are only allocated 1000 bytes. Leave some room for escaped characters and error returns.
 #define BODY_OVERHEAD 300
 
-static int g_email_window_open;
 
 static TrayObj g_attachment;
 
@@ -326,7 +325,6 @@ void emailResetHeaders(int quit_to_login)
     uiLVClear(certVoucherEmailListView);
     if (quit_to_login)
     {
-        g_email_window_open = 0;
         s_claimAllMode = 0;
         s_prevCertCount = 0;
     }
@@ -335,7 +333,6 @@ void emailResetHeaders(int quit_to_login)
 static EmailMessage *emailPrepareCacheMessage(U64* message_id, EmailType type)
 {
     EmailMessage    *email;
-    char            buf[100];
 
     if (!message_hashes[type])
         message_hashes[type] = stashTableCreateFixedSize(4, sizeof(U64));
@@ -346,11 +343,6 @@ static EmailMessage *emailPrepareCacheMessage(U64* message_id, EmailType type)
     email = (EmailMessage*)calloc(sizeof(*email),1);
     stashAddPointer(message_hashes[type], message_id, email, false);
 
-    if( type == kEmail_Local )
-    {
-        sprintf(buf,"emailread %d",*message_id);
-        cmdParse(buf);
-    }
     return email;
 }
 
@@ -615,50 +607,6 @@ void updateCertifications(int fromMap)
     s_prevCertCount = currentCount;
     if (fromMap && !s_force_claim_delay)
         s_claim_delay = 0;
-}
-
-
-void emailAddHeader(U64 message_id, int auth_id, char *sender,char *subject,int sent, int refundable, int influence, char * attachment)
-{
-    EmailHeader    *header;
-
-    header = emailHeaderGet(message_id, kEmail_Local, MVM_MAIL);
-    header->message_id    = message_id;
-    header->auth_id     = auth_id;
-    header->sender        = sender;
-    header->sent        = sent;
-    header->refundable    = refundable;
-    header->influence    = influence;
-    header->attachment    = attachment;
-    header->type = kEmail_Local;
-    
-    if( !optionGet(kUO_AllowProfanity)  )
-        ReplaceAnyWordProfane(subject);
-    header->subject        = subject;
-}
-
-void emailCacheMessage(U64 message_id, EmailType type, char *recip_buf,char *msg)
-{
-    EmailMessage *email;
-    EmailHeader    *header = NULL;
-    int i;
-    for( i =0; i < eaSize(&g_ppHeader[MVM_MAIL]); i++ )
-    {
-        if( g_ppHeader[MVM_MAIL][i]->message_id == message_id && type == g_ppHeader[MVM_MAIL][i]->type )
-        {
-            header = g_ppHeader[MVM_MAIL][i];
-            break;
-        }
-    }
-
-    if (!header || !message_hashes[type] || !stashFindPointer(message_hashes[type], &header->message_id, (void**)&email))
-        return;
-    if (email->body)
-        free(email->body);
-    email->body = strdup(msg);
-    if (email->recipients)
-        free(email->recipients);
-    email->recipients = strdup(recip_buf);
 }
 
 
@@ -1509,7 +1457,7 @@ static void emailHandleButtonCommands(EmailButtonCommands command)
                 else if( header->type == kEmail_Global && (header->influence || header->attachment && *header->attachment) )
                     sprintf(buf, "gmail_return %d", msgUID);
                 else
-                    sprintf(buf, "emaildelete %d", (header->type==kEmail_Global)?-msgUID:msgUID);
+                    sprintf(buf, "emaildelete %d", -msgUID);
             }
             cmdParse(buf);
 
@@ -1547,12 +1495,6 @@ int emailWindow()
     int        color, bcolor;
     #define HDR_X (10+PIX3)
     UIBox drawArea, headerDrawArea, messageDrawArea, buttonDrawArea;
-
-    if (!g_email_window_open)
-    {
-        g_email_window_open = 1;
-        cmdParse("emailheaders");
-    }
 
     CreateEditsIfNoneExist();
 
@@ -1630,7 +1572,7 @@ static int stringEmpty(char *str)
 }
 
 // convert email syntax to programmer friendly syntax
-// " the dude ; killtron" -> "\"the dude\" \"killtron\""
+// " @the dude ; @killtron" -> "\"@the dude\" \"@killtron\""
 int fixupRecipients(char *str,char *buf)
 {
     int count = 0;
@@ -1639,21 +1581,16 @@ int fixupRecipients(char *str,char *buf)
     buf[0] = 0;
     for(;*str;str+=end+start)
     {
-        // This macro takes an argument, which it does not use, but it is
-        // the standard way the player name length is specified - not chat
-        // handle length, which is below.
-        size_t maxname = MAX_PLAYER_NAME_LEN(0);
+        size_t maxname = MAX_PLAYERNAME + 1; // includes the global handle marker
 
         start = strspn(str,",; \"");
         end = strcspn(str+start,";,\"");
 
-        while (str[start+end-1] == ' ' && end)
+        while (end && str[start+end-1] == ' ')
             end--;
 
-        // The global chat handle marker shouldn't count against the valid
-        // name length.
-        if (str[start] == '@')
-            maxname = MAX_PLAYERNAME + 1;
+        if (end && (str[start] != '@' || end == 1))
+            return -2; // local character-name recipients are retired
 
         if (end > maxname)
             return -1;
@@ -2070,6 +2007,11 @@ static void emailComposeHandleSendButton()
 
     recip_cnt = fixupRecipients(recips, recip_buf);
 
+    if (recip_cnt == -2)
+    {
+        dialogStd(DIALOG_OK,"EmailFormatError", NULL, NULL,0,0,1);
+        goto Cleanup;
+    }
     if (recip_cnt < 0)
     {
         dialogStd(DIALOG_OK,"EmailRecipientTooLongError", NULL, NULL,0,0,1);

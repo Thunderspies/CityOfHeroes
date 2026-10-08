@@ -21,7 +21,7 @@ typedef enum {
     TEST_CHATNPC        = 1<<18,
     TEST_NOIGNORE        = 1<<19,
     TEST_MISSIONS        = 1<<20,
-    TEST_EMAIL            = 1<<21,
+    // Bit 21 is reserved for the retired legacy email mode.
     TEST_ARENA_FIGHTER    = 1<<22,
     TEST_ARENA_KILLBOT    = 1<<23,
     TEST_ARENA_CREATOR    = 1<<24,
