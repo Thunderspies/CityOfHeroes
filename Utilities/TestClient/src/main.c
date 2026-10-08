@@ -1,5 +1,4 @@
 #include "testClientInclude.h"
-#include "testEmail.h"
 #include "testTeam.h"
 #include "testFollow.h"
 #include "testUtil.h"
@@ -16,6 +15,7 @@
 #include <utilitieslib/network/sock.h>
 #include "UI/uiLogin.h"
 #include "UI/uiEditText.h"
+#include "UI/uiNet.h"
 #include "gameData/costume_data.h"
 #include "gameData/BodyPart.h"
 #include "gameData/randomCharCreate.h"
@@ -101,7 +101,7 @@ char *flag_names[] = {
     "CHATNPC",
     "NOIGNORE",
     "MISSIONS",
-    "EMAIL",
+    "", // reserved legacy email mode
     "ARENAFIGHTER",        //bot that will go into arena events
     "KILLBOT",            //nextplayers around, sets health to 1 and attacks opponents
     "EVENTCREATOR",        //creates events rather than joining
@@ -195,6 +195,46 @@ void testClientRecordEmailStatus(int status)
         if (status) ++persistenceMailAccepted;
         else ++persistenceMailRejected;
     }
+}
+
+static void persistenceCheckLegacyMailPackets(void)
+{
+    Packet *pak;
+    int fullUpdate;
+    const U32 marker = 0x12345678;
+    for (fullUpdate = 0; fullUpdate <= 1; ++fullUpdate) {
+        pak = pktCreate();
+        pktSendBitsPack(pak, 1, fullUpdate);
+        pktSendBitsPack(pak, 1, 2);
+        pktSendBits(pak, 1, 0); // filtered-out header
+        pktSendBits(pak, 1, 1); // present header
+        pktSendBits(pak, 32, 1); // legacy id
+        pktSendBits(pak, 1, 1); // redacted
+        pktSendBits(pak, 32, 42); // sender auth
+        pktSendString(pak, "Legacy sender");
+        pktSendString(pak, "Legacy subject");
+        pktSendBits(pak, 32, 100); // sent
+        pktSendBits(pak, 32, marker);
+        bsChangeMode(&pak->stream, Read);
+        receiveEmailHeaders(pak);
+        if (pktGetBits(pak, 32) != marker || !bsEnded(&pak->stream)) {
+            printf_stderr("Legacy header packet was not consumed correctly.\n"); exit(1);
+        }
+        pktFree(pak);
+    }
+    pak = pktCreate();
+    pktSendBits(pak, 32, 1);
+    pktSendString(pak, "Retained legacy body");
+    pktSendBitsPack(pak, 1, 2);
+    pktSendString(pak, "First recipient");
+    pktSendString(pak, "Second recipient");
+    pktSendBits(pak, 32, marker);
+    bsChangeMode(&pak->stream, Read);
+    receiveEmailMessage(pak);
+    if (pktGetBits(pak, 32) != marker || !bsEnded(&pak->stream)) {
+        printf_stderr("Legacy body packet was not consumed correctly.\n"); exit(1);
+    }
+    pktFree(pak);
 }
 
 // Do we or do we not parse chat starting with @ into commands
@@ -523,7 +563,7 @@ void checkArgs(int argc, char **argv) {
         exit(1);
     }
     if (ask_user) {
-        g_testMode &= ~(TEST_LEVELUP | TEST_EMAIL);
+        g_testMode &= ~TEST_LEVELUP;
     }
     if (persistenceMode) {
         if (!testClientFakeAuth || !persistenceReport[0] || (persistenceMode == 2 && !character_name[0])) {
@@ -906,8 +946,6 @@ int handleKey() {
     xcase 'c':
         ticks_until_move=0;
         cyclicStaticMapTransfer();
-    xcase 'e':
-        checkEmail(1);
     xcase 'j':
         doJump();
     xcase 'l':
@@ -1000,6 +1038,7 @@ void mainloop() {
                 if (hero->pchar->iInfluencePoints == PERSISTENCE_INFLUENCE) {
                     if (persistenceMode == 2 && !persistenceMailCommandsSent) {
                         char command[1024];
+                        persistenceCheckLegacyMailPackets();
                         persistenceMailCommandsSent = true;
                         commAddInput("emaildelete 1");
                         commAddInput("emaildelete 0");
@@ -1052,7 +1091,6 @@ void mainloop() {
         checkLeague();
         checkTurnstileJoin();
         checkSuperGroup();
-        checkEmail(0);
 
         g_verbose_client = (g_testMode2 & TEST2_VERBOSE) != 0;
 
