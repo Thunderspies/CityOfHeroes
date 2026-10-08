@@ -177,6 +177,8 @@ int allContainerIds(int** ilist, int* ilist_max, int list_id, int limit)
                 sprintf(limit_str, "top %d", limit);
             xcase DBPROV_POSTGRESQL:
                 sprintf(limit_str, "limit %d", limit);
+            xcase DBPROV_SQLITE:
+                sprintf(limit_str, "limit %d", limit);
             DBPROV_XDEFAULT();
         }
     }

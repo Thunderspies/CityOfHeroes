@@ -12,7 +12,8 @@ typedef struct DbStorage DbStorage;
 typedef struct DbStorageConnection DbStorageConnection;
 typedef struct DbStorageStatement DbStorageStatement;
 
-/* Prepare/bind errors return ERROR; step returns ROW or DONE. Native execution
+/* Prepare/bind errors return ERROR; step returns ROW or DONE. Execute may return
+ * OK for an ODBC result cursor or ROW for SQLite's first result row. Native execution
  * and transactions return OK. RETRY means a bounded lock wait expired. */
 typedef enum DbStorageResult {
     DB_STORAGE_OK, DB_STORAGE_ROW, DB_STORAGE_DONE, DB_STORAGE_RETRY, DB_STORAGE_ERROR
@@ -58,6 +59,10 @@ struct DbStorageStatement { const DbStorageOps *ops; };
 
 /* The ODBC adapter borrows existing sqlConn connections; sqlConn owns shutdown. */
 DbStorage *dbStorageCreateOdbc(void);
+/* One file-backed connection, serialized by DBServer's main-thread FIFO. */
+DbStorage *dbStorageCreateSqlite(const char *path, DbStorageError *error);
+int dbStorageSqliteVersion(void);
+char *dbStorageNormalizeSqlite(const char *sql);
 DbStorageResult dbStorageBind(DbStorageStatement *statement, int index, ContainerValue value, DbStorageError *error);
 ContainerValue dbStorageColumn(DbStorageStatement *statement, int index);
 /* Native execution does not implicitly create a transaction. */
