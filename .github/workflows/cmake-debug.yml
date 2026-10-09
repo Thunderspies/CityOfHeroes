@@ -1,15 +1,69 @@
 name: CMake Win32
 
 on:
-  push:
   pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: >-
+    ${{ github.workflow }}-${{ github.event_name }}-${{
+    github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  build:
+  changes:
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: read
+    outputs:
+      build_required: ${{ steps.filter.outputs.build_required }}
+    steps:
+      - name: Decide whether to build
+        id: filter
+        # actions/github-script v9.0.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+        with:
+          retries: 3
+          script: |
+            if (context.eventName === 'workflow_dispatch') {
+              core.setOutput('build_required', true);
+              core.info('Manual run: building and testing OptDebug.');
+              return;
+            }
+
+            const pull = context.payload.pull_request;
+            const params = {
+              ...context.repo,
+              pull_number: pull.number
+            };
+            const files = await github.paginate(
+              github.rest.pulls.listFiles, {...params, per_page: 100});
+            const {data: current} = await github.rest.pulls.get(params);
+            // Never skip a build using an incomplete or stale file list.
+            const incomplete = files.length === 0 || files.length >= 3000 ||
+              files.length !== current.changed_files ||
+              current.head.sha !== pull.head.sha ||
+              current.base.sha !== pull.base.sha;
+            const ignored = path => typeof path === 'string' && (
+              /\.md$/i.test(path) || /(^|\/)docs?\//.test(path) ||
+              path.startsWith('data/') ||
+              path.startsWith('Assets/DBSchemas/') || path === '.gitignore');
+            const required = incomplete || files.some(file =>
+              !ignored(file.filename) ||
+              (file.status === 'renamed' && !ignored(file.previous_filename)));
+            core.setOutput('build_required', required);
+            const reason = incomplete ? 'File list could not be verified.' :
+              required ? 'Changes require a build.' :
+              'Only documentation and runtime files changed.';
+            core.info(reason);
+            await core.summary.addRaw(reason).write();
+
+  compile:
+    needs: changes
+    if: needs.changes.outputs.build_required == 'true'
     runs-on: windows-2025-vs2026
     strategy:
       fail-fast: false
@@ -34,3 +88,35 @@ jobs:
         run: >-
           ctest --test-dir out/build/vs2026
           -C ${{ matrix.configuration }} --output-on-failure
+
+  build:
+    # Preserve the required check name even when the Windows job is skipped.
+    name: build (OptDebug)
+    needs: [changes, compile]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check build result
+        shell: bash
+        env:
+          DETECTION_RESULT: ${{ needs.changes.result }}
+          BUILD_REQUIRED: ${{ needs.changes.outputs.build_required }}
+          BUILD_RESULT: ${{ needs.compile.result }}
+        run: |
+          if [[ "$DETECTION_RESULT" != success ]]; then
+            echo '::error::Build change detection did not succeed.'
+            exit 1
+          fi
+          case "$BUILD_REQUIRED:$BUILD_RESULT" in
+            true:success)
+              echo 'OptDebug build and tests passed.' >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            false:skipped)
+              echo 'Build skipped: documentation and runtime files only.' \
+                >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            *)
+              echo '::error::The required build did not complete successfully.'
+              exit 1
+              ;;
+          esac
