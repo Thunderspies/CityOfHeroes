@@ -1097,6 +1097,9 @@ if(COX_BUILD_UTILITIES_TESTS)
 	endfunction()
 	set(costume_db "${CMAKE_CURRENT_SOURCE_DIR}/src/entity/costume_db.c")
 	set(container_db "${CMAKE_CURRENT_SOURCE_DIR}/src/container/containerloadsave.c")
+	cox_extract_costume_test("${container_db}"
+		"// Validate the current build before unpackEntPowers indexes its arrays."
+		"checkEntBadges(e,\"unpackEnt0\");" build_initialization.inc)
 	cox_extract_costume_test(
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/container/containerSupergroup.c"
 		"LineDesc sg_task_line_desc[]" "static StructDesc sg_task_desc[]"
