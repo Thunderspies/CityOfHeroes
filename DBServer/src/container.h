@@ -226,7 +226,6 @@ typedef struct MapCon
     char    status[16]; // Used by ServerMonitor to store whether this is a crashed or stuck mapserver
 
     U8        shutdown;    // Tell this mapserver to shutdown immediately on connection, used if a team abandons a mapserver before it starts up
-    int        deprecated;
 } MapCon;
 
 // Launcher
