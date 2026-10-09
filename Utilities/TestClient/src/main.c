@@ -261,6 +261,7 @@ bool g_verbose_client;
 char g_achPasswordTC[32];
 bool dontpause = false;
 int testClientFakeAuth = 0;
+static bool restore_offline = false;
 
 void gameStateInit() {
     strcpy(game_state.cs_address, connserver);
@@ -463,6 +464,8 @@ void checkArgs(int argc, char **argv) {
             g_testMode = TEST_LOGIN;
         } else if (CMDEQ("-fakeauth")) {
             testClientFakeAuth = 1;
+        } else if (CMDEQ("-restoreoffline")) {
+			restore_offline = true;
         } else if (CMDEQ("-selfversion")) {
             useLauncherVersion = 0;
         } else if (CMDEQ("-version")) {
@@ -1515,6 +1518,27 @@ int main(int argc, char **argv)
 
             if (!err && (firstEmptySlot>gPlayerNumber || firstEmptySlot==-1) && (g_testMode & TEST_RESUME_CHAR) && (gPlayerNumber>=0)) {
                 // Resume a character
+				if (restore_offline &&
+					db_info.players[gPlayerNumber].slot_lock == SLOT_LOCK_OFFLINE) {
+					int restored_db_id = db_info.players[gPlayerNumber].db_id;
+					dbMakePlayerOnline(gPlayerNumber);
+					if (dbWaitForStartOrQueue(60) != DBGAMESERVER_SEND_PLAYERS) {
+						sendMessageToLauncher("RestoreError: %s", dbGetError());
+						error_exit(0);
+					}
+					for (gPlayerNumber = 0;
+						gPlayerNumber < db_info.player_count; gPlayerNumber++) {
+						if (db_info.players[gPlayerNumber].db_id == restored_db_id)
+							break;
+					}
+					if (gPlayerNumber == db_info.player_count ||
+						db_info.players[gPlayerNumber].slot_lock == SLOT_LOCK_OFFLINE) {
+						sendMessageToLauncher("RestoreError: character unavailable");
+						error_exit(0);
+					}
+					sendMessageToLauncher("Restored: %s",
+						db_info.players[gPlayerNumber].name);
+				}
                 loadstart_printf("Resuming character in slot %d...",gPlayerNumber);
                 if(!choosePlayerWrapper( gPlayerNumber, 0 )) {
                     printf("Error calling choosePlayerWrapper/resuming character:\n%s\n", dbGetError());

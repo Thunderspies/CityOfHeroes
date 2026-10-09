@@ -118,10 +118,9 @@ typedef enum {
     kIndexTextFld_COUNT
 } tIndexTextFlds;
 
-// backward compatibility...
-#define kVersion1IndexFlds    8
 #define kCurrentIndexFlds    kIndexTextFld_COUNT
-#define VALID_INDEX_REC_FLD_COUNT(_nFldCount_)    (((_nFldCount_)==kVersion1IndexFlds)||((_nFldCount_)==kCurrentIndexFlds))
+#define VALID_INDEX_REC_FLD_COUNT(_nFldCount_) \
+	((_nFldCount_) == kCurrentIndexFlds)
 
 static void                  storageIndexLoadFromDisk( tDataFileSpec* spec );
 static void                    storageIndexRelease( tOfflineDataStore* pStore, int nIndexOfs );
@@ -538,6 +537,9 @@ static bool patchIndexRecord( tDataFileSpec* fileSpec, OfflinePlayer* p, tOfflin
             fldOffsets, kCurrentIndexFlds, &recSize, &fldCount )) ||
         ( ! VALID_INDEX_REC_FLD_COUNT(fldCount) ))
     {
+		LOG(LOG_OFFLINE, LOG_LEVEL_IMPORTANT, LOG_CONSOLE,
+			"Cannot patch invalid offline index record at offset %u",
+			p->idxfile_pos);
         return false;
     }
     
@@ -1180,6 +1182,9 @@ static void storageIndexLoadFromDisk( tDataFileSpec* spec )
         OfflinePlayer player;
         if (! VALID_INDEX_REC_FLD_COUNT(count))
         {
+			LOG(LOG_OFFLINE, LOG_LEVEL_IMPORTANT, LOG_CONSOLE,
+				"Invalid offline index field count %d; expected %d",
+				count, kCurrentIndexFlds);
             i--;
             continue;
         }
@@ -1195,19 +1200,10 @@ static void storageIndexLoadFromDisk( tDataFileSpec* spec )
         player.origin    = atoi(args[kIndexTextFld_origin]);
         player.archetype= atoi(args[kIndexTextFld_archetype]);
         
-        // Older records may not have all of these fields
-        player.storage_status    = 
-                ( count > kIndexTextFld_storageStatus ) ?  
-                    atoi(args[kIndexTextFld_storageStatus]) : 
-                    kOfflineObjStatus_OFFLINE;
-        player.dateStored =
-                ( count > kIndexTextFld_dateStored ) ?
-                    atoi(args[kIndexTextFld_dateStored]) :
-                    0;
-        strcpy_s(player.auth_name,ARRAY_SIZE(player.auth_name),
-                ( count > kIndexTextFld_AuthName ) ?
-                    args[kIndexTextFld_AuthName] :
-                    "" );
+		player.storage_status = atoi(args[kIndexTextFld_storageStatus]);
+		player.dateStored = atoi(args[kIndexTextFld_dateStored]);
+		strcpy_s(player.auth_name, ARRAY_SIZE(player.auth_name),
+			args[kIndexTextFld_AuthName]);
         
         player.idxfile_pos = s - mem;
         storedData_AddToPlayerArray(spec,&player);
