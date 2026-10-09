@@ -122,7 +122,6 @@
 #include "UI/uiOptions.h"
 #include "storyarc/playerCreatedStoryarc.h"
 #include "storyarc/playerCreatedStoryarcClient.h"
-#include "uiLevelingpact.h"
 #include "UI/uiMissionReview.h"
 #include "UI/uiClue.h"
 #include "UI/uiMissionSearch.h"
@@ -898,12 +897,6 @@ void receiveCombatMessage(Packet *pak)
     }
 }
 
-void levelingpactListUiUpdate()
-{
-#ifndef TEST_CLIENT
-    levelingpactListPrepareUpdate();
-#endif
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -41,7 +41,7 @@ static bool meetsPutFilter(const char *s)
 // Used for removing non-transferable attributes
 bool dbQueryGetFilter(const char *line)
 {
-    static char *beginnings[] = {"supergroupsid ", "teamupsid ", "taskforcesid ", "Friends[", "BuddyDbId", "BuddyType", "Ents2[0].LevelingPactsId", "Ents2[0].LeagueId"
+    static char *beginnings[] = {"supergroupsid ", "teamupsid ", "taskforcesid ", "Friends[", "BuddyDbId", "BuddyType", "Ents2[0].LeagueId"
     };
     int i;
     // Look for things we don't want copied

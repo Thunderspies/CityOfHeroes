@@ -280,9 +280,6 @@ static bool prepareShardXfer(char **container_txt, Entity *e, int type, int home
             else if (prefixof(ent_in, "SupergroupsId "))
                     // Transfer SupergroupID to HomeSGID cache, and then clear SupergroupID
                 estrConcatf(container_txt,"SupergroupsId 0\nEnts2[0].HomeSGID %s\n", &ent_in[strlen("SupergroupsId ")]);
-            else if (prefixof(ent_in, "Ents2[0].LevelingPactsId"))
-                    // Repeat the above for the leveling pact ID
-                estrConcatf(container_txt,"Ents2[0].LevelingPactsId 0\nEnts2[0].HomeLPID %s\n", &ent_in[strlen("Ents2[0].LevelingPactsId ")]);
             else if(dbQueryGetFilter(ent_in)) // don't bother keeping these lines around
                 ;    // estrConcatf(container_txt,"// %s\n",ent_in);
             else

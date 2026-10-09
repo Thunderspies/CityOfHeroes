@@ -70,7 +70,7 @@ typedef enum
     CONTAINER_SERVERAPPS,
     CONTAINER_SGRAIDINFO,
     CONTAINER_MININGACCUMULATOR,
-    CONTAINER_LEVELINGPACTS,    
+    CONTAINER_RESERVED_24, // Retired container slot; never register or reuse.
     CONTAINER_RAIDS,            // 25
     CONTAINER_LEAGUES,
     CONTAINER_EVENTHISTORY,
@@ -80,24 +80,21 @@ typedef enum
     // if any containers get above 31, adjust DbList.owner_notify_mask
     MAX_CONTAINER_TYPES
 } ContainerType;
-#define CONTAINER_IS_VALID(c) ((c) >= 1 && (c) < MAX_CONTAINER_TYPES && (c) != CONTAINER_LEVELINGPACTS)
+#define CONTAINER_IS_VALID(c) ((c) >= 1 && (c) < MAX_CONTAINER_TYPES && (c) != CONTAINER_RESERVED_24)
 
 #define CONTAINER_IS_GROUP(c)            (    c == CONTAINER_TEAMUPS ||        \
                                             c == CONTAINER_SUPERGROUPS ||    \
                                             c == CONTAINER_TASKFORCES ||    \
                                             c == CONTAINER_MAPGROUPS ||        \
                                             c == CONTAINER_RAIDS ||            \
-                                            c == CONTAINER_LEAGUES ||            \
-                                            c == CONTAINER_LEVELINGPACTS )
+                                            c == CONTAINER_LEAGUES )
 
 #define CONTAINER_IS_STATSERVER_GROUP(c) (    c == CONTAINER_SUPERGROUPS ||    \
                                             c == CONTAINER_RAIDS ||            \
-                                            c == CONTAINER_LEAGUES ||        \
-                                            c == CONTAINER_LEVELINGPACTS )
+                                            c == CONTAINER_LEAGUES )
 
 #define CONTAINER_IS_STATSERVER_OWNED(c) (    c == CONTAINER_RAIDS ||            \
-                                            c == CONTAINER_LEAGUES ||        \
-                                            c == CONTAINER_LEVELINGPACTS )
+                                            c == CONTAINER_LEAGUES )
 
 
 typedef enum ContainerCmd
@@ -208,7 +205,7 @@ enum
     DBSERVER_MISSIONSERVER_ARCDATA,
     DBSERVER_MISSIONSERVER_INVENTORY,
     DBSERVER_MISSIONSERVER_CLAIM_TICKETS,
-    DBSERVER_SEND_STATSERVER_INACTIVE_ACCOUNT,
+    DBSERVER_RESERVED_INACTIVE_ACCOUNT,
     DBSERVER_MESSAGEENTITY,
     DBSERVER_CREATE_EMAIL,
     DBSERVER_MISSIONSERVER_ITEM_BOUGHT,
@@ -334,7 +331,7 @@ enum
     DBCLIENT_MISSIONSERVER_ARCDATA,                // 87
     DBCLIENT_MISSIONSERVER_INVENTORY,            // 88
     DBCLIENT_MISSIONSERVER_CLAIM_TICKETS,        // 89
-    DBCLIENT_ACCOUNTSERVER_GET_ACTIVE_ACCOUNT,    // 90
+    DBCLIENT_RESERVED_ACTIVE_ACCOUNT,    // 90
     DBCLIENT_MISSIONSERVER_BUY_ITEM,            // 91
     DBCLIENT_MISSIONSERVER_SETKEYWORDSFORARC,    // 92
     DBCLIENT_MISSIONSERVER_ALLARCS,                // 93

@@ -24,7 +24,6 @@ void chatSendToArena( Entity *e, const char *msg, int type);
 
 // server-wide channels
 void chatSendToSupergroup( Entity *e, const char *msg, int type);
-void chatSendToLevelingpact(Entity *e, const char *msg, int type);
 void chatSendToAlliance( Entity *e, const char *msg);
 void chatSendToLeague( Entity *e, const char *msg, int type);
 void chatSendToTeamup( Entity *e, const char *msg, int type);

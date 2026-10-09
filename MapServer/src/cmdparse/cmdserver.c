@@ -481,8 +481,6 @@ Cmd server_cmds[] =
                         "get info on <teamup>" },
     { 1, "raidwho",        SCMD_RAIDWHO,{{CMDINT(tmp_int)}},CMDF_HIDEVARS,
                         "get info on <raid>" },
-    { 1, "levelingpactwho",    SCMD_LEVELINGPACTWHO,{{CMDINT(tmp_int)}},CMDF_HIDEVARS,
-                        "get info on <levelingpact>" },
     { 0, "who",            SCMD_WHO,{{CMDSENTENCE(player_name)}},CMDF_HIDEVARS,
                         "get info on <player>" },
     { 0, "whoall",        SCMD_WHOALL,{{0}},CMDF_HIDEVARS,
@@ -1310,14 +1308,6 @@ Cmd server_cmds[] =
                             "Sets the level the given power was bought at to the given value. [cat] [set] [pow] [level]" },
     { 4, "influence_add",    SCMD_INFLUENCE_ADD, {{CMDINT(tmp_int)}}, CMDF_HIDEVARS,
                             "Adds the given influence." },
-    { 3, "cs_pactmember_inf_add",    SCMD_PACTMEMBER_INFLUENCE_ADD, {{CMDINT(tmp_int)}}, CMDF_HIDEVARS,
-                            "Adds the given influence or infamy." },
-    { 9, "pactmember_inf_add",    SCMD_PACTMEMBER_INFLUENCE_ADD, {{CMDINT(tmp_int)}}, CMDF_HIDEVARS,
-                            "Adds the given influence or infamy." },
-    { 9, "pactmember_experience_get",    SCMD_PACTMEMBER_EXPERIENCE_GET, {{CMDINT(tmp_int)}}, CMDF_HIDEVARS,
-                            "<internal> adds player's full xp to a pact" },
-    { 9, "levelingpact_exit",    SCMD_LEVELINGPACT_EXIT, {{CMDINT(tmp_int)}, {CMDINT(tmp_int2)}}, CMDF_HIDEVARS,
-                            "Adds the given experience and updates the level time of a member of a leveling pact even if the pact has already been dissolved." },
     { 3, "sg_influence_add",    SCMD_SG_INFLUENCE_ADD, {{CMDINT(tmp_int)}}, CMDF_HIDEVARS,
                             "Adds the given influence to player's supergroup." },
     { 9, "power_color_p1",    SCMD_POWER_COLOR_P1, {{CMDINT(tmp_int)}, {CMDINT(tmp_int2)}, {CMDINT(tmp_int3)}}, CMDF_HIDEVARS,
@@ -3260,7 +3250,6 @@ static void serverExecCmd(Cmd *cmd, ClientLink *client, char *source_str, Entity
             csrSupergroupWho(client,group_name);
         xcase SCMD_TEAMUPWHO:
          case SCMD_RAIDWHO:
-         case SCMD_LEVELINGPACTWHO:
             csrGroupWho(client, cmd->name, tmp_int);
         xcase SCMD_TMSG:
             chatSendToTeamup( client->entity,tmp_str, 0);
@@ -5170,11 +5159,6 @@ static void serverExecCmd(Cmd *cmd, ClientLink *client, char *source_str, Entity
                 }
                 e->pl->csrModified = true;
                 conPrintf(client, clientPrintf(client,"LevelupXP", e->pchar->iExperiencePoints));
-                //does not work on leveling-pacted characters
-                if(e->levelingpact)
-                {
-                    conPrintf(client, clientPrintf(client,"LevelupXPInLPact"));
-                }
             }
             else
             {
@@ -5321,38 +5305,6 @@ static void serverExecCmd(Cmd *cmd, ClientLink *client, char *source_str, Entity
                     e->pchar->iInfluencePoints += tmp_int;
                 }
             }
-        xcase SCMD_LEVELINGPACT_EXIT:
-            if(e && e->pchar && e->pl && tmp_int>0)
-            {
-                int oldLevel = character_CalcExperienceLevel(e->pchar);
-                int iXPShouldBe = tmp_int / MAX(2, tmp_int2);
-                int iXPReceived = character_IncreaseExperienceNoDebt(e->pchar, iXPShouldBe);
-                devassert(tmp_int2 >= 2);
-                if(iXPReceived < 0)
-                    dbLog("LevelingPactExit", e, "SCMD_LEVELINGPACT_EXIT: negative xp %d",iXPReceived);
-                else
-                    stat_AddXPReceived(e, iXPReceived);
-                if(iXPReceived > 0) // don't mention fallout from rounding errors
-                {
-                    //sendInfoBox(e, INFO_REWARD, "ExperienceYouReceivedLevelingPact", iXPReceived);
-                    if(character_CalcExperienceLevelByExp(iXPShouldBe) > oldLevel)
-                        levelupApply(e, oldLevel);
-                }
-            }
-        xcase SCMD_PACTMEMBER_INFLUENCE_ADD:
-            if(e && e->pchar)
-            {
-                //influence first
-                ent_AdjInfluence(e, tmp_int, "drop");
-                stat_AddInfluenceReceived(e->pl, tmp_int);
-                badge_RecordInfluence(e, tmp_int);
-            }
-
-        xcase SCMD_PACTMEMBER_EXPERIENCE_GET:
-            // this command takes the pact id as a parameter to avoid any timing issues (perhaps excessively)
-            if(e && e->pchar)
-                SgrpStat_SendPassthru(e->db_id, 0, "statserver_levelingpact_csrstart %d %d %d", tmp_int, e->pchar->iExperiencePoints, e->total_time + SecondsSince2000()- e->last_login);
-
         xcase SCMD_PRESTIGE:
             if(e && e->supergroup)
             {

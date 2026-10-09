@@ -26,7 +26,6 @@ static int containerReservedField(char *name)
         || RESERVED("StaticMapId")
         || RESERVED("MapId")
         || RESERVED("Active")
-        || RESERVED("Ents2[0].LevelingPactsId")
         || RESERVED("Ents2[0].LeaguesId"))
         return 1;
     else

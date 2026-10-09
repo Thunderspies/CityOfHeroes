@@ -7,7 +7,6 @@ typedef struct League League;
 typedef struct Supergroup Supergroup;
 typedef struct SupergroupStats SupergroupStats;
 typedef struct TaskForce TaskForce;
-typedef struct LevelingPact LevelingPact;
 typedef struct Entity Entity;
 
 void destroyTeamMembersContents(TeamMembers* members);
@@ -24,9 +23,6 @@ TaskForce *createTaskForce(void);
 void destroyTaskForce(TaskForce *taskforce);
 void clearTaskForce(TaskForce *taskforce);
 
-LevelingPact *createLevelingpact(void);
-void destroyLevelingpact(LevelingPact *levelingpact);
-void clearLevelingpact(LevelingPact * levelingpact);
 
 League *createLeague(void);
 int league_IsMember( Entity *e, int db_id );

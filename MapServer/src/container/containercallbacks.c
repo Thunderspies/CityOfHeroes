@@ -227,8 +227,6 @@ static U32 containerHandleEntity(ContainerInfo *ci)
     }
 //     if(!teamGetLatest(e, CONTAINER_RAIDS))
 //         e->raid_id = 0;
-    if(!teamGetLatest(e, CONTAINER_LEVELINGPACTS))
-        e->levelingpact_id = 0;
     if(!teamGetLatest(e, CONTAINER_LEAGUES))
     {
         e->league_id = 0;
@@ -596,18 +594,6 @@ void containerHandleGroup(ContainerInfo *ci,ContainerType type)
 //                 unpackRaid(e,container_data,send_to_client);
 //                 members = &e->raid->members;
 
-            xcase CONTAINER_LEVELINGPACTS:
-                e->levelingpact_id = ci->id;
-                unpackLevelingPact(e,container_data,send_to_client);
-                //check the version.  If the version is out of date, we have to request an update.
-                if(e->levelingpact->version < LEVELINGPACT_VERSION)
-                {
-                    U32 isVillain = SAFE_MEMBER2(e, pchar, playerTypeByLocation) == kPlayerType_Villain;
-                    SgrpStat_SendPassthru(e->db_id, 0, "statserver_levelingpact_updateversion %d %d", e->db_id, isVillain);
-                }
-
-                members = &e->levelingpact->members;
-
             xcase CONTAINER_LEAGUES:
                 e->league_id = ci->id;
                 unpackLeague(e,container_data);
@@ -625,14 +611,6 @@ void containerHandleGroup(ContainerInfo *ci,ContainerType type)
             if (type == CONTAINER_TEAMUPS)
                 shardCommStatus(e);
 
-            if(type == CONTAINER_LEVELINGPACTS)
-            {
-                e->levelingpact_update = 1;
-                if(e->pl)    //make sure that the badges know what's going on.
-                {
-                    MarkModifiedBadges(g_hashBadgeStatUsage, e->pl->aiBadges, "*char");
-                }
-            }
         }
     }
     free(container_data);
@@ -845,48 +823,6 @@ void containerHandleGroup(ContainerInfo *ci,ContainerType type)
                 e->revokeBadTipsOnTeamupLoad = 0;
                 // BEWARE:  The above call can possibly make e->teamup NULL!
                 // As of this writing, nothing else can happen within this function after this call.
-            }
-        }
-    }
-    else if (type == CONTAINER_LEVELINGPACTS)
-    {
-        int j;
-        EArray32 *ea = _alloca(EARRAY32_HEADER_SIZE + sizeof(int)*ci->member_count); // hack until i make temporary earrays
-        int *memberids = (int*)ea->values;
-        ea->count = 0;
-        ea->size = ci->member_count;
-        ea->flags = EARRAY_FLAG_CUSTOMALLOC;
-
-        for(i=0;i<ci->member_count;i++) 
-        {
-            e = entFromDbId(ci->members[i]);
-
-            if(e && e->owned && e->levelingpact) // ent may have been removed from teamup above
-            {
-                int sortedidx; 
-                int oldLevel = character_CalcExperienceLevel(e->pchar);
-                int iXPShouldBe = ((e->levelingpact->count)?e->levelingpact->experience/e->levelingpact->count:0);
-                int iXPReceived = character_IncreaseExperienceNoDebt(e->pchar, iXPShouldBe);
-                int totalTimeToLevel = ((e->levelingpact->count)?e->levelingpact->timeLogged/e->levelingpact->count:0);
-                e->last_levelingpact_time = totalTimeToLevel;
-                stat_AddXPReceived(e, iXPReceived);
-                if(iXPReceived > 0) // don't mention fallout from rounding errors
-                {
-                    //sendInfoBox(e, INFO_REWARD, "ExperienceYouReceivedLevelingPact", iXPReceived);
-                    if(character_CalcExperienceLevelByExp(iXPShouldBe) > oldLevel)
-                        levelupApply(e, oldLevel);
-                }
-                if(!eaiSize(&memberids))
-                    for(j = 0; j < ci->member_count; j++)
-                        eaiSortedPush(&memberids, ci->members[j]);
-                sortedidx = eaiFind(&memberids, e->db_id);
-                if(    devassert(AINRANGE(sortedidx, e->levelingpact->influence)) &&
-                    e->levelingpact->influence[sortedidx] )
-                {
-                    SgrpStat_SendPassthru(e->db_id, 0, "statserver_levelingpact_getinfluence %d", e->db_id);
-                }
-                //Right now we don't need this to be updated every time we get xp.  Maybe sometime in the future.
-                //e->levelingpact_update = 1;
             }
         }
     }

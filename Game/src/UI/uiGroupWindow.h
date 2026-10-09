@@ -35,7 +35,6 @@ SearchOption * lfg_getSearchOption( int lfg );
 void league_updateTabCount();
 typedef char MapName[256];
 extern MapName teamMapNames[MAX_TEAM_MEMBERS];
-extern MapName levelingpactMapNames[MAX_LEVELINGPACT_MEMBERS];
 extern MapName leagueMapNames[MAX_LEAGUE_MEMBERS];
 
 #endif

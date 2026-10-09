@@ -1781,7 +1781,6 @@ void entFinishUpdate()
             e->collision_update = 0;
             e->draw_update = 0;
             e->send_on_odd_send_update = 0;
-            e->levelingpact_update = 0;
             e->helper_status_update = 0;
             e->name_update = 0;
 
@@ -1964,7 +1963,6 @@ static int determineNeedToSend(int i) {
         e->status_effects_update ||
         e->pvp_update ||
         e->petinfo_update ||
-        e->levelingpact_update ||
         e->helper_status_update ||
         e->name_update ||
 #ifdef RAGDOLL
@@ -3036,37 +3034,6 @@ static void INLINEDBG entSendAfk(Packet *pak, Entity *e, int send_afk_string)
     }
 }
 
-static void INLINEDBG entSendLevelingpactInfo(Packet *pak, Entity *e, int update)
-{
-    int i;
-    //send whether or not there's an update
-    pktSendBits(pak, 1, (update)?1:0);
-
-    if(!update)
-        return;    //leave if there's nothing to update.
-
-    //if we're just updating that the leveling pact has stopped existing, send that
-    if(!e->levelingpact)
-    {
-        pktSendBitsAuto(pak, (int)0);    //id.
-        return;
-    }
-    
-    //send the id of the leveling pact.
-    pktSendBitsAuto(pak, e->levelingpact_id);
-
-    // send down how many members of the pact we will send
-    //this should always be the number of members
-    pktSendBitsAuto( pak, e->levelingpact->members.count); 
-
-    for( i = 0; i < e->levelingpact->members.count; i++ )
-    {
-        // send their db_id
-        pktSendBitsAuto( pak, e->levelingpact->members.ids[i]);
-
-        pktSendString( pak, e->levelingpact->members.names[i] );
-    }
-}
 
 static void INLINEDBG entSendOtherSupergroupInfo(Packet *pak, Entity *e, int update, int sendingSelf)
 {
@@ -3312,7 +3279,6 @@ static void sendEntity(int idx, Entity* e, int inPhase)
     int            updated_powerCust;
     int            send_status_effects;
     int            team_update;
-    int            levelingpact_update;
     int            draw_update;
     int            pvp_update;
     int            petinfo_update;
@@ -3354,7 +3320,6 @@ static void sendEntity(int idx, Entity* e, int inPhase)
         send_afk_string = e->pl && e->pl->send_afk_string;
         supergroup_update = e->supergroup_update;
         team_update = e->team_update;
-        levelingpact_update = (e->levelingpact_update && sendingSelf);
         draw_update = e->draw_update;
         collision_update = e->collision_update;
         pvp_update = e->pvp_update;
@@ -3391,7 +3356,6 @@ static void sendEntity(int idx, Entity* e, int inPhase)
             send_afk_string = 1;
             supergroup_update = 1;
             team_update = 1;
-            levelingpact_update = 1;
             draw_update = 1;
             collision_update = 1;
             pvp_update = 1;
@@ -3518,7 +3482,6 @@ static void sendEntity(int idx, Entity* e, int inPhase)
                         send_afk_string ||
                         team_update ||
                         e->tf_params_update ||
-                        levelingpact_update ||
                         draw_update ||
                         collision_update ||
                         send_on_odd_send_update ||
@@ -3767,9 +3730,7 @@ static void sendEntity(int idx, Entity* e, int inPhase)
         entSendOtherSupergroupInfo(pak, e, supergroup_update, sendingSelf);
         COUNT(supergroup_update); // 100% = NO
 
-        entSendLevelingpactInfo(pak, e, levelingpact_update);
         
-        COUNT(levelingpact_update);
 
         // Send logout information.
         entSendLogoutUpdate(pak, e, logout_update);

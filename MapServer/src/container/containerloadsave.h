@@ -23,7 +23,6 @@ char *taskForceTemplate();
 char *packageTaskForce(Entity *ent);
 void unpackTaskForce(Entity *e,char *mem,int send_to_client);
 void unpackMapTaskForce(int dbid, char *mem);
-void unpackLevelingPact(Entity *e, char *mem, int send_to_client);
 void containerWriteTemplates(char *dir);
 char *packagePetition(Entity *e, PetitionCategory cat, const char *summary, const char *msg);
 

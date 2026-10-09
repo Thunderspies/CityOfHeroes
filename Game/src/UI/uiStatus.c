@@ -45,7 +45,6 @@
 #include "bases/baseedit.h"
 #include "graphics/ttFontUtil.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "uiLevelingpact.h"
 
 #define BAR_HT          10
 #define BAR_HT_2        15
@@ -1379,7 +1378,6 @@ int statusWindow()
 		contextMenu_addVariableText(gXpcm, statuscm_endAdapter, NULL);
 		contextMenu_addVariableTextVisible(gXpcm, rageVisible, NULL, statuscm_rageAdapter, NULL);
 		contextMenu_addVariableText(gXpcm, statuscm_xpAdapter, NULL);
-		contextMenu_addCode(gXpcm, levelingpact_IsInPact, 0, levelingpact_openWindow, 0, "LevelingpactTip", 0);
 		contextMenu_addVariableText(gXpcm, statuscm_debtAdapter, NULL);
 		contextMenu_addVariableText(gXpcm, statuscm_restAdapter, NULL);
 	}

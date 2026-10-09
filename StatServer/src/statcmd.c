@@ -351,16 +351,6 @@ static void s_SendSgrpInfo(int idEntSrc, Supergroup *sg, int idSgrp)
         estrDestroy(&resp); 
     }
 }
-void lpactstats_removeInactive(Packet *pak)
-{
-    int size = pktGetBitsAuto(pak);
-    int i;
-    for(i = 0; i < size; i++)
-    {
-        int dbid = pktGetBitsAuto(pak);
-        stat_LevelingPactRemoveInactive(dbid);
-    }
-}
 
 void sgrpstatserver_ReceiveCmd(Packet *pak)
 {
@@ -482,14 +472,6 @@ void sgrpstatserver_ReceiveCmd(Packet *pak)
                 Supergroup *sg = stat_sgrpFromIdSgrp( state->idSgrp, true );
                 s_SendSgrpInfo(idEntSrc, sg, state->idSgrp);
             }
-            xcase SGRPSTATCMD_LEVELINGPACT_ADDXP:
-                stat_LevelingPactAddXP(state->ints[0], state->ints[1], state->ints[2]);
-            xcase SGRPSTATCMD_LEVELINGPACT_ADDINFLUENCE:
-                stat_LevelingPactAddInf(state->ints[0], state->ints[1], state->ints[2]);
-            xcase SGRPSTATCMD_LEVELINGPACT_GETINFLUENCE:
-                stat_LevelingPactGetInf(state->ints[0]);
-            xcase SGRPSTATCMD_LEVELINGPACT_UPDATEVERSION:
-                stat_levelingPactUpdateVersion(state->ints[0], state->ints[1]);
             xcase STATCMD_LEAGUE_JOIN:
                 stat_LeagueJoin(state->ints[0], state->ints[1], state->ints[2], state->strs[0], state->ints[3], state->ints[4]);
             xcase STATCMD_LEAGUE_JOIN_TURNSTILE:

@@ -63,7 +63,6 @@
 #include "entity/character_combat.h"
 #include "entity/character_mods.h"
 #include "gameSys/DayJob.h"
-#include "cmdparse/cmdstatserver.h"    //required for leveling pact stat server communication
 #include "storyarc/playerCreatedStoryarcServer.h"
 #include <stdlib.h>
 #include <string.h>
@@ -3745,20 +3744,6 @@ bool rewardApply(RewardAccumulator* reward, Entity* e, bool bGivePowers, bool bH
                     e->pchar->iExperienceRest = 0;
             }
 
-            //if we're in a leveling pact and still eligible to receive xp
-            if(e->levelingpact_id && iXPReceived > 0 && iPreviousExpLevel < MAX_PLAYER_SECURITY_LEVEL-1)//minue one because iPreviousExpLevel appears to be 0 based
-            {
-                // forward the xp to the statserver
-                SgrpStat_SendPassthru(e->db_id,0, "statserver_levelingpact_addxp %d %d %d", e->levelingpact_id, iXPReceived, stat_TimeSinceXpReceived(e));
-                if(e->levelingpact && e->levelingpact->count)
-                {
-                    if(e->levelingpact->experience/e->levelingpact->count == e->pchar->iExperiencePoints)
-                        sendInfoBox(e, INFO_REWARD, "ExperienceYouReceivedLevelingPact", iXPReceived);
-                    else
-                        sendInfoBox(e, INFO_REWARD, "ExperienceNotReceivedLevelingPact", iXPReceived);
-                }
-                iXPReceived = 0;            
-            }
 
             if( source == REWARDSOURCE_DEBUG )
                 pDebug->experience += iXPReceived;
@@ -3790,18 +3775,6 @@ bool rewardApply(RewardAccumulator* reward, Entity* e, bool bGivePowers, bool bH
 
         if(iInfluence)
         {
-            if(e->levelingpact_id && e->levelingpact)
-            {
-                int myInfluence = ceil(iInfluence/(F32)(e->levelingpact->members.count));
-                int pactInfluence = iInfluence - myInfluence;
-                U32 isVillain = SAFE_MEMBER2(e,pchar,playerTypeByLocation) == kPlayerType_Villain;
-                // forward the influence to the statserver
-                if(pactInfluence > 0)
-                    SgrpStat_SendPassthru(e->db_id,0, "statserver_levelingpact_addinf %d %d %d", e->db_id, pactInfluence, isVillain);
-
-                // give the rest to the player
-                iInfluence = myInfluence;
-            }
 
             if( source == REWARDSOURCE_DEBUG )
                 pDebug->influence += iInfluence;

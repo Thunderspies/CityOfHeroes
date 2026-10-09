@@ -230,57 +230,6 @@ void chatSendToSupergroup( Entity *e, const char *msg, int type)
     }
 }
 
-void chatSendToLevelingpact( Entity *e, const char *msg, int type)
-{
-    // Trial accounts only get team, local, friend and limited tells.
-    if(entIsTrial(e))
-        return;
-
-    if(type != INFO_SVR_COM)
-    {
-        chatRateLimiter(e);
-        if(chatBanned(e,msg))
-            return;
-    }
-
-    if( !msg || msg[0] == 0 )
-    {
-        chatSendToPlayer(e->db_id, localizedPrintf(e,"incorrectFormat",
-            "levelingpactChatString", "messageString", "emptyString", "levelingpactChatSynonyms"), INFO_USER_ERROR, 0);
-        return;
-    }
-
-    if( OnArenaMap() )
-    {
-        if(ArenaMapIsParticipant(e))
-            chatSendToPlayer( e->db_id, localizedPrintf(e,"NotAllowedInArena"), INFO_USER_ERROR, 0 );
-        else
-            chatSendToPlayer( e->db_id, localizedPrintf(e,"ObserverCannotSpeak"), INFO_USER_ERROR, 0 );
-        return;
-    }
-
-    if( !e->levelingpact_id )
-    {
-        chatSendToPlayer(e->db_id, localizedPrintf(e,"LevelingPactNotAMember"), INFO_USER_ERROR, e->db_id);
-    }
-    else
-    {
-        if(e->db_id != -1)
-        {
-            if( type == INFO_LEVELINGPACT_COM )
-            {
-                char buf[CHAT_TEMP_BUFFER_LENTH];
-                sprintf( buf, "%s: %s", e->name, msg );
-                LOG_ENT( e, LOG_CHAT, LOG_LEVEL_IMPORTANT, 0, "%s%s", "[levelingpact]", msg );
-                sendEntsMsg(CONTAINER_LEVELINGPACTS, e->levelingpact_id, INFO_LEVELINGPACT_COM, e->db_id, "%s%s", DBMSG_CHAT_MSG, buf);
-            }
-            else
-            {
-                sendEntsMsg(CONTAINER_LEVELINGPACTS, e->levelingpact_id, type, e->db_id, "%s%s", DBMSG_CHAT_MSG, msg);
-            }
-        }
-    }
-}
 
 //
 //
@@ -1411,10 +1360,6 @@ void recvChatMsg( Entity *e, Packet *pak )
 
         case INFO_SUPERGROUP_COM:
              chatSendToSupergroup( e, msg, INFO_SUPERGROUP_COM );
-        break;
-
-        case INFO_LEVELINGPACT_COM:
-            chatSendToLevelingpact(e, msg, INFO_LEVELINGPACT_COM);
         break;
 
         case INFO_ALLIANCE_OWN_COM:

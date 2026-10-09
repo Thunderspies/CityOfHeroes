@@ -64,7 +64,6 @@ static void setDefaultChannels( int * bitfield, int default_type, int isOnBlueSi
             BitFieldSet( bitfield, SYSTEM_CHANNEL_BITFIELD_SIZE, INFO_ADMIN_COM, 1 );
             BitFieldSet( bitfield, SYSTEM_CHANNEL_BITFIELD_SIZE, INFO_EMOTE, 1 );
             BitFieldSet( bitfield, SYSTEM_CHANNEL_BITFIELD_SIZE, INFO_GMTELL, 1 );
-            BitFieldSet( bitfield, SYSTEM_CHANNEL_BITFIELD_SIZE, INFO_LEVELINGPACT_COM, 1);
             BitFieldSet( bitfield, SYSTEM_CHANNEL_BITFIELD_SIZE, INFO_LEAGUE_COM, 1);
         }
         xcase channelDefault_Help:

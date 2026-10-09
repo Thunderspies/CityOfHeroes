@@ -2069,11 +2069,6 @@ int IsEntityOnArchitect(ENTITY entity)
     return EntityHasRewardToken(entity, "OnArchitect");
 }
 
-int GetLevelingPact(ENTITY entity)
-{
-    Entity * e = EntTeamInternalEx(entity, 0, NULL, 0, 1);
-    return e ? e->levelingpact_id : 0;
-}
 
 STRING GetOrigin(ENTITY entity)
 {

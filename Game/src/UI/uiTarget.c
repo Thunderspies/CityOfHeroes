@@ -66,7 +66,6 @@
 #include "UI/uiOptions.h"
 #include "bases/bases.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "uiLevelingpact.h"
 #include "entity/character_target.h"
 #include "UI/uiPopHelp.h"
 

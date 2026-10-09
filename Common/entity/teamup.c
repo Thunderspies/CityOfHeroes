@@ -209,30 +209,6 @@ void clearTaskForce(TaskForce *taskforce)
     memset(taskforce, 0, sizeof(TaskForce));
 }
 
-MP_DEFINE(LevelingPact);
-
-LevelingPact *createLevelingpact()
-{
-    MP_CREATE(LevelingPact, DEFAULT_SIZE);
-    return MP_ALLOC(LevelingPact);
-}
-
-void destroyLevelingpact(LevelingPact *levelingpact)
-{
-    if (!levelingpact)
-        return;
-
-    destroyTeamMembersContents(&levelingpact->members);
-
-    MP_FREE(LevelingPact, levelingpact);
-}
-
-void clearLevelingPact(LevelingPact *levelingpact)
-{
-    destroyTeamMembersContents(&levelingpact->members);
-    memset(levelingpact, 0, sizeof(LevelingPact));
-}
-
 MP_DEFINE(League);
 
 League *createLeague(void)

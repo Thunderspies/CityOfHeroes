@@ -129,7 +129,6 @@ static int gViewFlags = 0;
 
 
 MapName teamMapNames[MAX_TEAM_MEMBERS] = {0};
-MapName levelingpactMapNames[MAX_LEVELINGPACT_MEMBERS] = {0};
 MapName leagueMapNames[MAX_LEAGUE_MEMBERS] = {0};
 
 //-----------------------------------------------------------------------------------------------

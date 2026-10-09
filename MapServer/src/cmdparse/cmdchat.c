@@ -145,8 +145,6 @@ Cmd chat_cmds[] =
     "Send message to super group channel." },
     { 0, "sg", CMD_CHAT_SUPERGROUP, {{ CMDSENTENCE( tmp_str_cmd )}}, CMDF_HIDEVARS | CMDF_RETURNONERROR,
     "Send message to super group channel." },
-    { 0, "lp", CMD_CHAT_LEVELINGPACT, {{ CMDSENTENCE( tmp_str_cmd )}}, CMDF_HIDEVARS | CMDF_RETURNONERROR,
-    "Send message to leveling pact channel." },
 
     { 0, "coalition", CMD_CHAT_ALLIANCE, {{ CMDSENTENCE( tmp_str_cmd )}}, CMDF_HIDEVARS | CMDF_RETURNONERROR,
     "Send message to coalition channel." },
@@ -235,17 +233,8 @@ Cmd chat_cmds[] =
     { 0, "unfriend", CMD_REMOVE_FRIEND, {{ CMDSENTENCE( tmp_str_cmd )}}, CMDF_HIDEVARS | CMDF_RETURNONERROR,
     "Remove player from friend list." },
 
-    // leveling pacts
     //-------------------------------------------------------------------
-    { 0, "unlevelingpact_real",    CMD_LEVELINGPACT_QUIT, {{ 0 }}, CMDF_HIDEPRINT|CMDF_HIDEVARS|CMDF_RETURNONERROR,
-    "Leave your leveling pact." },
 
-    { 4, "levelingpact_set_experience", CMD_LEVELINGPACT_CSR_SET_EXPERIENCE, {{ CMDSTR( player_name_cmd )},{ PARSETYPE_S32, &tmp_int }}, CMDF_RETURNONERROR,
-    "Set the total experience that a leveling pact shares." },
-    { 4, "levelingpact_set_influence",    CMD_LEVELINGPACT_CSR_SET_INFLUENCE, {{ CMDSTR( player_name_cmd )},{ PARSETYPE_S32, &tmp_int }}, CMDF_RETURNONERROR,
-    "Set the total influence that a leveling pact shares." },
-    { 4, "levelingpact_info",    CMD_LEVELINGPACT_CSR_INFO, {{ CMDSTR( player_name_cmd )}}, CMDF_RETURNONERROR,
-    "Set the total influence that a leveling pact shares." },
 
     // team
     //-------------------------------------------------------------------
@@ -1134,144 +1123,6 @@ static void league_acceptOfferOrRelay(ClientLink *client, Entity *inviter, int i
 
 
 
-void LevelingPactQuit(Entity *e)
-{
-    if(e && e->owned && e->pchar)
-    {
-        if(e->levelingpact)
-        {
-            int *members = &e->db_id;
-            int memberCount = 1;
-
-            // this will likely result in the player missing some xp, recent gains by the pact will be ignored
-            // the statserver will correct the pact's experience and member count
-
-            if(!dbContainerAddDelMembers(CONTAINER_LEVELINGPACTS, 0, 0, e->levelingpact_id, memberCount, members, NULL))
-            {
-                //this can happen if two quit requests are sent before the first one can get resolved by the dbserver.
-                dbLog("levelingpact", e, "Warning: could not quit leveling pact %d", e->levelingpact_id);
-                chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactCouldNotQuit"), INFO_USER_ERROR, 0);
-            }
-        }
-        else
-        {
-            chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactNotAMember"), INFO_USER_ERROR, 0);
-        }
-    }
-}
-
-
-//leveling pact CSR functions
-void LevelingPactSetExperience(Entity *e, char *name, int xp)
-{
-    int memberId;
-    Entity *member;
-    if(!name || !e)
-    {
-        return;
-    }
-
-    memberId = dbPlayerIdFromName(name);
-    member = entFromDbId(memberId);
-
-    if(!member || !member->levelingpact )
-    {
-        chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactCSRNotAMember"), INFO_USER_ERROR, 0);
-        return;
-    }
-    xp -= member->levelingpact->experience;
-    
-    {
-        SgrpStat_SendPassthru(e->db_id,0,"statserver_levelingpact_addxp %d %d %d",
-            member->levelingpact_id,xp, stat_TimeSinceXpReceived(e));    
-    }
-    chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactCSRSetXP"), INFO_USER_ERROR, 0);
-}
-
-// void LevelingPactRemoveMember(Entity *e, char *name)
-// {
-//     Entity *memberToKick;
-//     int dbid;
-//     if(!e)
-//     {
-//         return;
-//     }
-//     dbid = dbPlayerIdFromName(name);
-//     memberToKick = entFromDbId(dbid);
-//     
-// 
-//     if(memberToKick)
-//     {
-//         if(memberToKick->levelingpact)
-//         {
-//             SgrpStat_SendPassthru(0,0, "statserver_levelingpact_quit %d", dbid);
-//             chatSendToPlayer(dbid, localizedPrintf(memberToKick, "LevelingPactPactSevered"), INFO_USER_ERROR, 0);
-//         }
-//         else
-//         {
-//             chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactCSRNotAMember"), INFO_USER_ERROR, 0);
-//         }
-//     }
-// }
-
-void LevelingPactSetInfluence(Entity *e, char *name, int influence)
-{
-    int memberId;
-    Entity *member;
-    if(!name || !e)
-    {
-        return;
-    }
-
-    memberId = dbPlayerIdFromName(name);
-    member = entFromDbId(memberId);
-
-    if(!member || !member->levelingpact )
-    {
-        chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactCSRNotAMember"), INFO_USER_ERROR, 0);
-        return;
-    }
-
-    {
-        U32 isVillain = SAFE_MEMBER2(e,pchar,playerTypeByLocation) == kPlayerType_Villain;
-        SgrpStat_SendPassthru(e->db_id,0, "statserver_levelingpact_csr_add_inf %d %d %d",
-            member->levelingpact_id,influence, isVillain);
-    }
-    chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactCSRSetInfluence"), INFO_USER_ERROR, 0);
-
-}
-
-void LevelingPactInfo(Entity *e, char *name, ClientLink *client)
-{
-    int memberId;
-    int i;
-    Entity *member;
-    if(!name || !e)
-    {
-        return;
-    }
-
-    memberId = dbPlayerIdFromName(name);
-    member = entFromDbId(memberId);
-
-    if(!member || !member->levelingpact )
-    {
-        chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactCSRNotAMember"), INFO_USER_ERROR, 0);
-        return;
-    }
-
-    conPrintf(client, "LevelingPact %i\n", member->levelingpact_id);
-    conPrintf(client, "    Experience: %i\n", member->levelingpact->experience);
-    for(i = 0; i < member->levelingpact->members.count; i++)
-    {
-        conPrintf(client, "    MEMBER: %s (%i)\n", member->levelingpact->members.names[i], member->levelingpact->members.ids[i]);
-    }
-}
-
-//-------------------------------------------------------------------------------------------------------------------------------
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//-------------------------------------------------------------------------------------------------------------------------------
-
 void chatCommand( Cmd * cmd, ClientLink *client, char* str )
 {
     char tmp_str[1024];
@@ -1378,12 +1229,6 @@ void chatCommand( Cmd * cmd, ClientLink *client, char* str )
             {
                 if( e )
                     chatSendToSupergroup( e, tmp_str, INFO_SUPERGROUP_COM );
-            } break;
-
-        case CMD_CHAT_LEVELINGPACT:
-            {
-                if( e )
-                    chatSendToLevelingpact( e, tmp_str, INFO_LEVELINGPACT_COM );
             } break;
 
         case CMD_CHAT_ALLIANCE:
@@ -1501,14 +1346,6 @@ void chatCommand( Cmd * cmd, ClientLink *client, char* str )
                     displayFriends( e );
             } break;
 
-
-        // LEVELING PACTS
-        //----------------------------------------------------------------------
-        xcase CMD_LEVELINGPACT_QUIT:    LevelingPactQuit(e);
-        xcase CMD_LEVELINGPACT_CSR_SET_EXPERIENCE:    LevelingPactSetExperience(e, player_name, stack_tmp_int);
-        xcase CMD_LEVELINGPACT_CSR_SET_INFLUENCE:    LevelingPactSetInfluence(e, player_name, stack_tmp_int);
-        xcase CMD_LEVELINGPACT_CSR_INFO:    LevelingPactInfo(e, player_name, client);
-        break;
 
         // TEAMUPS
         //------------------------------------------------------------------------------------------------

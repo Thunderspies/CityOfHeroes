@@ -107,7 +107,6 @@
 #include <utilitieslib/utils/file.h>
 #include <utilitieslib/utils/sysutil.h>
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "uiLevelingpact.h"
 #include "render/renderstats.h"
 
 static int windows_initialized = FALSE;

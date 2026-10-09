@@ -666,7 +666,6 @@ static void statDebugHook()
                     break;
                 case 'c':
                     printf("disconnecting from dbserver and clients..\n");
-                    stat_LevelingPactReset();
                     stat_LeagueReset();
                     clearNetLink(&db_comm_link);
                     UpdateStatTitle();
@@ -859,7 +858,6 @@ int main(int argc,char **argv)
     loadend_printf("");
 
     loadstart_printf("Connecting to dbserver (%s)...", db_state.server_name);
-    stat_LevelingPactReset();
     stat_LeagueReset();
     StatDbConnect();
     loadend_printf("done");
@@ -903,7 +901,6 @@ int main(int argc,char **argv)
                 sgrpstats_FlushToSgrps();
             }
 
-            stat_LevelingPactUpdateTick(0);
             stat_LeagueUpdateTick();
 
             // see if any sgrp badges should be awarded

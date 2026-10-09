@@ -165,8 +165,6 @@ static void playerWho(Packet *pak_in,char **buf)
     }
     if (e->raid_id)
         estrConcatf(buf,"Raid: %d\n", e->raid_id);
-    if (e->levelingpact_id)
-        estrConcatf(buf,"LevelingPact: %d\n", e->levelingpact_id);
     {
         MapCon    *map = containerPtr(dbListPtr(CONTAINER_MAPS),e->map_id);
         char    mapname[128] = "??Bad Id??";
@@ -299,8 +297,6 @@ void handleWho(Packet *pak_in, NetLink *link)
         groupWho(CONTAINER_TEAMUPS, pak_in, &s_out);
     else if(stricmp(s_in, "raidwho")==0)
         groupWho(CONTAINER_RAIDS, pak_in, &s_out);
-    else if(stricmp(s_in, "levelingpactwho")==0)
-        groupWho(CONTAINER_LEVELINGPACTS, pak_in, &s_out);
     else if(stricmp(s_in, "leaguewho")==0)
         groupWho(CONTAINER_LEAGUES, pak_in, &s_out);
 

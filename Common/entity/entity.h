@@ -21,7 +21,6 @@ typedef struct Supergroup Supergroup;
 typedef struct Teamup Teamup;
 typedef struct League League;
 typedef struct TaskForce TaskForce;
-typedef struct LevelingPact LevelingPact;
 typedef U32 NwEmissaryDataGuid; // typedef'd in NwWrapper.h
 
 typedef enum SayCondition
@@ -238,7 +237,6 @@ typedef struct Entity
     int                        supergroup_id;        // dbserver's id for my supergroup
     int                        taskforce_id;        // dbserver's id for my taskforce
     int                        raid_id;
-    int                        levelingpact_id;
     U32                        auth_id;            // login userid of account holder
     char                    auth_name[32];      // login handle of account holder
     int                     static_map_id;
@@ -249,8 +247,6 @@ typedef struct Entity
     U32                     total_time;         // total amount of time entity has been online for all logins
     U32                     on_since;           // time entity logged in
     U32                     last_time;          // time entity was last saved
-    U32                     last_xp;            // time entity last received xp
-    U32                     last_levelingpact_time;    // last total time the entity has received from its levelingpact.
     U32                        last_login;            // time entity last logged into game - no persisted
     U32                     login_count;        // total number of logins for entity
     AccessLevel                access_level;       // Settable only by dbserver/sql. used to control access to customer service / debug features
@@ -265,7 +261,6 @@ typedef struct Entity
     Teamup                    *teamup;
     TaskForce                *taskforce;
     League                    *league;
-    LevelingPact            *levelingpact;
     MissionInventory        *mission_inventory;
 
     // Shared network stuff

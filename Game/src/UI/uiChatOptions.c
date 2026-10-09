@@ -108,7 +108,6 @@ SystemChannel gSystemChannels[] =
     { "PrivateFilter",        INFO_PRIVATE_COM,        FALSE,    {INFO_PRIVATE_COM, INFO_PRIVATE_NOREPLY_COM,} },
     { "LFGFilter",            INFO_LOOKING_FOR_GROUP,    TRUE,    {INFO_LOOKING_FOR_GROUP,} },
     { "TeamFilter",            INFO_TEAM_COM,            TRUE,    {INFO_TEAM_COM,} },
-    { "LevelingPactFilter",    INFO_LEVELINGPACT_COM,    TRUE,    {INFO_LEVELINGPACT_COM,} },
     { "SuperGroupFilter",    INFO_SUPERGROUP_COM,    TRUE,    {INFO_SUPERGROUP_COM,} },
     { "LocalFilter",        INFO_NEARBY_COM,        TRUE,    {INFO_NEARBY_COM,} },
     { "BroadcastFilter",    INFO_SHOUT_COM,            TRUE,    {INFO_SHOUT_COM,} },

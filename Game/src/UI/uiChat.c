@@ -85,7 +85,6 @@
 #include "arena/arenagame.h"
 #include "comm_game.h"
 #include "filter/validate_name.h"
-#include "uiLevelingpact.h"
 #include "filter/profanity.h"
 #include "bases/baseedit.h"
 #include <utilitieslib/utils/log.h>
@@ -150,7 +149,6 @@ static int s_text_colors[][8] =
     { INFO_PET_COM,                CLR_WHITE,            CLR_BLUE,            CLR_WHITE,            0,                0x333333ff,            0,                    0x666666ff,            },
     { INFO_PRIVATE_COM,            CLR_YELLOW,            CLR_YELLOW,            CLR_YELLOW,            0,                0x333333ff,            0,                    0x666666ff,            },
     { INFO_TEAM_COM,            0x88ff88ff,            0x00aa00ff,            0x88ff88ff,            0,                0x333333ff,            0,                    0x666666ff,            },
-    { INFO_LEVELINGPACT_COM,    0xf3f8a4ff,            0xf130c8ff,            0xff6633ff,            0,                0x333333ff,            0,                    0x666666ff,            },
     { INFO_SUPERGROUP_COM,        CLR_PARAGON,        CLR_PARAGON,        CLR_PARAGON,        0,                0x333333ff,            0,                    0x666666ff,            },
     { INFO_NEARBY_COM,            CLR_WHITE,            CLR_WHITE,            CLR_WHITE,            0,                0x333333ff,            0,                    0x666666ff,            },
     { INFO_SHOUT_COM,            0xbbbbbbff,            0xbbbbbbff,            0xbbbbbbff,            0,                0x333333ff,            0,                    0x666666ff,            },
@@ -209,7 +207,7 @@ enum
     CHAT_TIP_FRIEND,
     CHAT_TIP_TEAM,
     CHAT_TIP_SUPER,
-    CHAT_TIP_LPACT,
+    CHAT_TIP_LEAGUE,
     CHAT_TIP_REQ,
     CHAT_TIP_ALLIANCE,
     CHAT_TIP_TAB,
@@ -962,7 +960,6 @@ char * getChannelName(int type)
         xcase INFO_PRIVATE_NOREPLY_COM:    return textStd("chatPrivate");
         xcase INFO_TEAM_COM:            return textStd("chatTeam");
         xcase INFO_SUPERGROUP_COM:        return textStd("chatSuperGroup");
-        xcase INFO_LEVELINGPACT_COM:    return textStd("chatLevelingpact");
         xcase INFO_ALLIANCE_OWN_COM:    return textStd("chatAlliance");
         xcase INFO_ALLIANCE_ALLY_COM:    return textStd("chatAlliance");
         xcase INFO_SHOUT_COM:            return textStd("chatBroadcast");
@@ -1051,7 +1048,7 @@ static int isPlayerChannel( int channel )
              channel == INFO_ALLIANCE_ALLY_COM || channel == INFO_ARENA_GLOBAL || channel == INFO_ARCHITECT_GLOBAL ||
              channel == INFO_HELP ||    channel == INFO_EMOTE || channel == INFO_ARENA || 
              channel == INFO_PET_SAYS || channel == INFO_GMTELL || 
-             channel == INFO_LEVELINGPACT_COM || channel == INFO_PRIVATE_NOREPLY_COM ||
+             channel == INFO_PRIVATE_NOREPLY_COM ||
              channel == INFO_LEAGUE_COM || channel == INFO_LOOKING_FOR_GROUP;
 }
 
@@ -2423,9 +2420,6 @@ void uiChatSendToCurrentChannel(char *pch)
         case INFO_SUPERGROUP_COM:
             strcpy( buffer, "sg ");
             break;
-        case INFO_LEVELINGPACT_COM:
-            strcpy(buffer, "lp ");
-            break;
         case INFO_REQUEST_COM:
             strcpy( buffer, "req ");
             break;
@@ -2605,8 +2599,6 @@ void chatChannelSet(char * ch )
             e->pl->chatSendChannel= INFO_TEAM_COM;
         if( ch[0] == 's' || ch[0] == 'S' )
             e->pl->chatSendChannel= INFO_SUPERGROUP_COM;
-        if( ch[0] == 'p' || ch[0] == 'P' )
-            e->pl->chatSendChannel= INFO_LEVELINGPACT_COM;
         if( ch[0] == 'f' || ch[0] == 'F' )
             e->pl->chatSendChannel= INFO_FRIEND_COM;
         if( ch[0] == 'a' || ch[0] == 'A' )
@@ -2676,14 +2668,7 @@ static void chatChannelSelector( int x, int y, int z, float scale, int clr )
     hit |= drawSelectorButton(&x, y, z, scale, clr, e, CHAT_TIP_LOCAL,    INFO_NEARBY_COM,        "LocalFilter",        "chat_channel_sm_local.tga",    "chat_channel_lg_local.tga" );
     hit |= drawSelectorButton(&x, y, z, scale, clr, e, CHAT_TIP_BROAD,    INFO_SHOUT_COM,            "BroadcastFilter",    "chat_channel_sm_broad.tga",    "chat_channel_lg_broad.tga" );
     hit |= drawSelectorButton(&x, y, z, scale, clr, e, CHAT_TIP_TEAM,    INFO_TEAM_COM,            "TeamFilter",        "chat_channel_sm_team.tga",        "chat_channel_lg_team.tga" );
-    if(levelingpact_IsInPact(NULL))
-        hit |= drawSelectorButton(&x, y, z, scale, clr, e, CHAT_TIP_LPACT,    INFO_LEVELINGPACT_COM,    "LevelingPactFilter",        "chat_channel_sm_pactlevel.tga",        "chat_channel_lg_pactlevel.tga" );
-    else if(SAFE_MEMBER2(e, pl,chatSendChannel) == INFO_LEVELINGPACT_COM)
-    {
-        e->pl->chatSendChannel = INFO_NEARBY_COM;
-        sendChatChannel( e->pl->chatSendChannel, "" );
-    }
-    hit |= drawSelectorButton(&x, y, z, scale, clr, e, CHAT_TIP_LPACT,    INFO_LEAGUE_COM,        "LeagueFilter",        "chat_channel_sm_league.tga",    "chat_channel_lg_league.tga"    );
+    hit |= drawSelectorButton(&x, y, z, scale, clr, e, CHAT_TIP_LEAGUE,    INFO_LEAGUE_COM,        "LeagueFilter",        "chat_channel_sm_league.tga",    "chat_channel_lg_league.tga"    );
     hit |= drawSelectorButton(&x, y, z, scale, clr, e, CHAT_TIP_SUPER,    INFO_SUPERGROUP_COM,    "SupergroupFilter",    "chat_channel_sm_super.tga",    "chat_channel_lg_super.tga"        );
     hit |= drawSelectorButton(&x, y, z, scale, clr, e, CHAT_TIP_REQ,    INFO_REQUEST_COM,        "RequestFilter",    "chat_channel_sm_request.tga",    "chat_channel_lg_request.tga"    );
      hit |= drawSelectorButton(&x, y, z, scale, clr, e, CHAT_TIP_FRIEND, INFO_FRIEND_COM,        "FriendFilter",        "chat_channel_sm_friend.tga",    "chat_channel_lg_friend.tga"    );
@@ -2734,8 +2719,6 @@ static int chatCurrentChannel( float x, float y, float z, float sc, int color )
             name = "TeamColon";
         xcase INFO_SUPERGROUP_COM:
             name = "SupergroupColon";
-        xcase INFO_LEVELINGPACT_COM:
-            name = "LevelingpactColon";
         xcase INFO_ALLIANCE_OWN_COM:
         case INFO_ALLIANCE_ALLY_COM:
             name = "AllianceSend";
@@ -3225,10 +3208,7 @@ static void addChatChannelsToCM(ContextMenu *cm)
     int i = 0;
     while (chatChannels[i].cm_text)
     {
-        if (chatChannels[i].info_com == INFO_LEVELINGPACT_COM)
-            contextMenu_addCheckBox( cm, levelingpact_IsInPact, NULL, chatcm_setChannel, &chatChannels[i].info_com, chatChannels[i].cm_text );
-        else
-            contextMenu_addCheckBox( cm, chatcm_isChannel, &chatChannels[i].info_com, chatcm_setChannel, &chatChannels[i].info_com, chatChannels[i].cm_text );
+        contextMenu_addCheckBox( cm, chatcm_isChannel, &chatChannels[i].info_com, chatcm_setChannel, &chatChannels[i].info_com, chatChannels[i].cm_text );
         i++;
     }
 }
