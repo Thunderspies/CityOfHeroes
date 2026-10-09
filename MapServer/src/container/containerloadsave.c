@@ -4172,10 +4172,6 @@ static void s_unpackEntInventory(Entity *e, DBEntInv *dbinv)
 
 static void fixUnpackedCostume(Entity *e)
 {
-    // backwards compat for capes
-    if(e->pl->capesUnlocked)
-        rewardtoken_Award(&e->pl->rewardTokens, "Back_Regular_Cape", 1);
-
     // backwards compat for auras
     if(e->pl->glowieUnlocked)
         rewardtoken_Award(&e->pl->rewardTokens, "Auras_Common", 1);
