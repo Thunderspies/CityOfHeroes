@@ -222,7 +222,6 @@ typedef struct Teamup
     U32                    keyclues;
     int                    kheldianCount;        // NOTE: mapserver disconnects can cause this to be inaccurate
     U32                    lastambushtime;
-    int                    deprecated;
     TeamupTaskSelect    taskSelect;
     int                    teamSwapLock;
 

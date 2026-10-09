@@ -4679,9 +4679,6 @@ LineDesc teamup_line_desc[] =
     {{ PACKTYPE_STR_UTF8,            SIZEOF2(Teamup, mission_status),    "Status",        OFFSET(Teamup, mission_status)                    },
         "String that describes the current status of the teams mission"},
 
-    {{ PACKTYPE_INT,            SIZE_INT32,                            "SidkickCount",    OFFSET(Teamup, deprecated)                },
-        "The number of sidekick/exemplar pairs on the team"},
-
     {{ PACKTYPE_INT,            SIZE_INT32,                            "KeyClues",        OFFSET(Teamup, keyclues)                        },
         "Bitfield - Tracks which clues have been sent to the team"},
 
