@@ -1906,8 +1906,6 @@ LineDesc ent2_line_desc[] =
 
     {{ PACKTYPE_CONREF, CONTAINER_RAIDS,            "RaidsId",            OFFSET(Entity,raid_id),            INOUT(0,0),    LINEDESCFLAG_INDEXEDCOLUMN    },
         "Internal id - Identifies which raid group the character is in."},
-    {{ PACKTYPE_CONREF, CONTAINER_LEVELINGPACTS,    "LevelingPactsId",    OFFSET(Entity,levelingpact_id),    INOUT(0,0),    LINEDESCFLAG_INDEXEDCOLUMN | LINEDESCFLAG_READONLY    },
-        "Internal id - Identifies which leveling pact the character is in."},
 
     {{ PACKTYPE_INT, SIZE_INT32,                            "PendingArchitectTickets",    OFFSET2_PTR(Entity, pl, EntPlayer, pendingArchitectTickets), },
         "The count of pending architect tickets the character has earned"},
@@ -2037,8 +2035,6 @@ LineDesc ent2_line_desc[] =
         "secondsSince2000 at which the character started the visit.  Used to ensure they go back home eventually"},
     {{ PACKTYPE_INT, SIZE_INT32,                            "HomeSGID",                OFFSET2_PTR(Entity, pl,    EntPlayer, homeSGID),            },
         "Supergroup ID on home shard, only relevant when visiting"},
-    {{ PACKTYPE_INT, SIZE_INT32,                            "HomeLPID",                OFFSET2_PTR(Entity, pl,    EntPlayer, homeLPID),            },
-        "Leveling Pact ID on home shard, only relevant when visiting"},
     {{ PACKTYPE_STR_UTF8, SIZEOF2(EntPlayer,shardVisitorData), "ShardVisitorData",    OFFSET2_PTR(Entity, pl, EntPlayer, shardVisitorData),    },
         "Data used during shard visitor transfer.  Includes such things as league identifier, target map, target location"},
     {{ PACKTYPE_INT, SIZE_INT32,                            "RemoteShard",            OFFSET2_PTR(Entity, pl,    EntPlayer, remoteShard),        },
@@ -5376,25 +5372,6 @@ void unpackMapTaskForce(int dbid, char *mem)
     s_unpackTaskForce(&g_ArchitectTaskForce, dbid, mem, 0);
 }
 
-void unpackLevelingPact(Entity *e, char *mem, int send_to_client)
-{
-    if(!e->levelingpact)
-        e->levelingpact = calloc(1, sizeof(*e->levelingpact));
-    else
-        e->levelingpact->experience = 0;
-
-    if(isDevelopmentMode())
-    {
-        FILE* f = fopen("c:\\levelingpact_fromdbserver.txt", "wb");
-        if(f)
-        {
-            fwrite(mem, 1, strlen(mem), f);
-            fclose(f);
-        }
-    }
-
-    dbContainerUnpack(levelingpact_desc, mem, (char*)e->levelingpact);
-}
 
 #define MAX_PETITION_MSG    1024
 #define MAX_SUMMARY            128
@@ -5546,7 +5523,6 @@ void containerWriteTemplates(char *dir)
     dbWriteTemplate(dir,"offline.template",dbContainerTemplate(offline_desc));
     dbWriteTemplate(dir,"miningaccumulator.template",MiningAccumulatorTemplate());
 //     dbWriteTemplate(dir,"raids.template",dbContainerTemplate(raid_desc));
-    dbWriteTemplate(dir,"levelingpacts.template",dbContainerTemplate(levelingpact_desc));
     dbWriteTemplate(dir,"leagues.template",dbContainerTemplate(league_desc));
     dbWriteTemplate(dir,"eventhistory.template",dbContainerTemplate(eventhistory_desc));
     dbWriteTemplate(dir,"autocommands.template",dbContainerTemplate(autocommand_desc));
@@ -5572,7 +5548,6 @@ void containerWriteTemplates(char *dir)
     dbWriteSchema(dir,"offline.schema.html",dbContainerSchema(offline_desc, "Offline"));
     dbWriteSchema(dir,"miningaccumulator.schema.html",MiningAccumulatorSchema());
 //     dbWriteSchema(dir,"raids.schema.html",dbContainerSchema(raid_desc, "Raids"));
-    dbWriteSchema(dir,"levelingpacts.schema.html",dbContainerSchema(levelingpact_desc, "LevelingPacts"));
     dbWriteSchema(dir,"leagues.schema.html",dbContainerSchema(league_desc, "Leagues"));
     dbWriteSchema(dir,"eventhistory.schema.html",dbContainerSchema(eventhistory_desc, "EventHistory"));
     dbWriteSchema(dir,"autocommands.schema.html",dbContainerSchema(autocommand_desc, "AutoCommands"));

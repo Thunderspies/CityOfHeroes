@@ -90,7 +90,7 @@ NetLinkList                net_links;
 static StashTable lock_id_hashes;
 
 DbList    *testdatabasetypes_list, *map_list, *ent_list, *doors_list;
-DbList    *teamups_list, *supergroups_list, *taskforces_list, *levelingpacts_list, *league_list;
+DbList    *teamups_list, *supergroups_list, *taskforces_list, *league_list;
 DbList    *email_list, *petitions_list, *crashedmap_list, *mapgroups_list, *arenaevent_list, *arenaplayer_list, *baseraid_list, *base_list, *stat_sgrp_list, *itemofpowergame_list, *itemofpower_list, *offline_list, *sgraidinfo_list, *mineacc_list;
 DbList    *launcher_list, *serverapp_list, *eventhistory_list, *autocommands_list, *shardaccounts_list;
 char    my_hostname[256];
@@ -703,8 +703,6 @@ void containerServerNotify(int list_id, U32 cid, U32 dbid, int add)
                 containerServerNotify(CONTAINER_TASKFORCES, entcon->taskforce_id, cid, add);
             if (entcon->raid_id)
                 containerServerNotify(CONTAINER_RAIDS, entcon->raid_id, cid, add);
-            if (entcon->levelingpact_id)
-                containerServerNotify(CONTAINER_LEVELINGPACTS, entcon->levelingpact_id, cid, add);
             if (entcon->league_id)
                 containerServerNotify(CONTAINER_LEAGUES, entcon->league_id, cid, add);
         }
@@ -968,7 +966,6 @@ SpecialColumn ent_cmds[] =
     { "SupergroupsId",                CFTYPE_INT,                OFFSETOF(EntCon,supergroup_id),        CMD_MEMBER,    CONTAINER_SUPERGROUPS    },
     { "TaskforcesId",                CFTYPE_INT,                OFFSETOF(EntCon,taskforce_id),        CMD_MEMBER,    CONTAINER_TASKFORCES    },
     { "Ents2[0].RaidsId",            CFTYPE_INT,                OFFSETOF(EntCon,raid_id),            CMD_MEMBER,    CONTAINER_RAIDS            }, // TODO() delete me
-    { "Ents2[0].LevelingPactsId",    CFTYPE_INT,                OFFSETOF(EntCon,levelingpact_id),    CMD_MEMBER,    CONTAINER_LEVELINGPACTS    },
     { "Ents2[0].LeaguesId",            CFTYPE_INT,                OFFSETOF(EntCon,league_id),            CMD_MEMBER, CONTAINER_LEAGUES        },
     { "StaticMapId",                CFTYPE_INT,                OFFSETOF(EntCon,static_map_id),        CMD_SETIFNULL,                        },
     { "MapId",                        CFTYPE_INT,                OFFSETOF(EntCon,map_id),            CMD_SETIFNULL,                        },
@@ -1152,7 +1149,6 @@ void dbInit(int start_static)
     launcher_list = containerListRegister(CONTAINER_LAUNCHERS,"launchers",sizeof(LauncherCon),launcherStatusCb,0,0);
     serverapp_list = containerListRegister(CONTAINER_SERVERAPPS,"ServerApps",sizeof(ServerAppCon),serverAppStatusCb,0,0);
     mineacc_list = containerListRegister(CONTAINER_MININGACCUMULATOR,"MiningAccumulator",sizeof(DbContainer),0,0,0);
-    levelingpacts_list = containerListRegister(CONTAINER_LEVELINGPACTS,"LevelingPacts",sizeof(GroupCon),groupStatusCb,0,0);
     league_list = containerListRegister(CONTAINER_LEAGUES,"Leagues",sizeof(GroupCon),groupStatusCb,0,0);
     eventhistory_list = containerListRegister(CONTAINER_EVENTHISTORY,"EventHistory",sizeof(DbContainer),dbEventHistory_StatusCb,dbEventHistory_UpdateCb,0);
     autocommands_list = containerListRegister(CONTAINER_AUTOCOMMANDS,"AutoCommands",sizeof(DbContainer),0,0,0);
@@ -1161,7 +1157,6 @@ void dbInit(int start_static)
     tpltAddMembership(ent_list->id,teamups_list->tplt);
     tpltAddMembership(ent_list->id,supergroups_list->tplt);
     tpltAddMembership(ent_list->id,taskforces_list->tplt);
-    tpltAddMembership(ent_list->id,levelingpacts_list->tplt);
     tpltAddMembership(ent_list->id,league_list->tplt);
     tpltAddMembership(map_list->id,mapgroups_list->tplt);
 
@@ -1184,7 +1179,6 @@ void dbInit(int start_static)
     } 
     tpltRegisterForeignKeyConstraint("Ents","TaskforcesId","Taskforces");
     tpltRegisterForeignKeyConstraint("Ents","SupergroupsId","Supergroups");
-    tpltRegisterForeignKeyConstraint("Ents2","LevelingPactsId","LevelingPacts");
     tpltRegisterForeignKeyConstraint("Base","SupergroupId","Supergroups");
     //tpltRegisterForeignKeyConstraint("Maps","MapGroupsId","MapGroups"); 
 
@@ -1207,7 +1201,6 @@ void dbInit(int start_static)
     tpltUpdateSqlcolumns(offline_list->tplt);
     tpltUpdateSqlcolumns(sgraidinfo_list->tplt);
     tpltUpdateSqlcolumns(mineacc_list->tplt);
-    tpltUpdateSqlcolumns(levelingpacts_list->tplt);
     tpltUpdateSqlcolumns(league_list->tplt);
     tpltUpdateSqlcolumns(eventhistory_list->tplt);
     tpltUpdateSqlcolumns(autocommands_list->tplt);
@@ -1236,7 +1229,6 @@ void dbInit(int start_static)
     tpltDeleteAll(testdatabasetypes_list->tplt, NULL, true);
     tpltDeleteAll(teamups_list->tplt, NULL, true);
     tpltDeleteAll(league_list->tplt, NULL, true);
-    tpltDeleteAll(levelingpacts_list->tplt, "Count", false);
     tpltDeleteAll(ent_list->tplt, "AuthName", false); // get rid of incomplete characters
     tpltDeleteAll(base_list->tplt, "UserId IS NULL AND SupergroupId", false); // ah, sql injection, my old nemesis
 

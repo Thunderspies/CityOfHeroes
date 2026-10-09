@@ -163,7 +163,6 @@
 #include "UI/uiMissionMakerScrollSet.h"
 #include <utilitieslib/utils/osdependent.h>
 #include "storyarc/playerCreatedStoryarcClient.h"
-#include "uiLevelingpact.h"
 #include "UI/uiMissionSearch.h"
 #include "UI/uiClue.h"
 #include "UI/uiMissionMaker.h"
@@ -699,7 +698,6 @@ enum
     CMD_TEST_MISSIONMAKERCONTACTCOSTUME,
     CMD_MISSIONMAKER_NAV,
     CMD_MISSIONMAKER_NAV2,
-    CMD_LEVELINGPACT_QUIT,
     CMD_ARCHITECTSAVETEST,
     CMD_ARCHITECTSAVEEXIT,
     CMD_ARCHITECTFIXERRORS,
@@ -2105,8 +2103,6 @@ Cmd game_cmds[] =
                         "Select Pet." },
     { 0, "pet_select_name",        CMD_PET_SELECT_NAME, {{ CMDSENTENCE(tmp_str) }}, CMDF_HIDEVARS,
                         "Select Pet." },
-    { 0, "unlevelingpact",        CMD_LEVELINGPACT_QUIT, {{ 0 }}, CMDF_HIDEVARS,
-    "Bring up the dialog for quitting a leveling pact." },
     // Power and inspiration execution
     { 0, "powexec_name",    CMD_POWEXEC_NAME, {{ CMDSENTENCE(tmp_str)}}, CMDF_HIDEVARS,
                         "Executes a power with the given name." },
@@ -4650,8 +4646,6 @@ int cmdGameParse(char *str, int x, int y)
             pet_select( tmp_int );
         xcase CMD_PET_SELECT_NAME:
             pet_selectName( tmp_str );
-        xcase CMD_LEVELINGPACT_QUIT:
-            levelingpact_quitWindow(NULL);
         xcase CMD_SOUVENIRCLUE_PRINT:
             scPrintAll();
 

@@ -595,7 +595,6 @@ typedef struct EntPlayer
     U32                remoteShard;                // Remote shard when visiting.
     U32                visitStartTime;                // secondsSince2000 at which the character started the visit.  Used to ensure they go back home eventually.
     U32                homeSGID;                    // SupergroupID on home shard
-    U32                homeLPID;                    // Leveling pact ID on home shard
 
     int                desiredTeamNumber;            // Team number I want to be on in end game raid league
                                                 //   if this is -2, I'm not waiting to be invited to a turnstile event

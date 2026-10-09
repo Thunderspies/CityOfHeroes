@@ -21,9 +21,6 @@ typedef char MemberName[64];
 #define TF_NAME_LEN                    64
 #define MAX_TASKFORCE_PARAMETERS    32
 #define MAX_RAID_MEMBERS            MAX_TEAM_MEMBERS
-#define MAX_LEVELINGPACT_MEMBERS    2
-#define LEVELINGPACT_MAXLEVEL        5
-#define LEVELINGPACT_VERSION        1 //update this every time you need old pacts due to a change in the structure.
 #define MAX_LEAGUE_TEAMS            6
 #define MAX_LEAGUE_MEMBERS            (MAX_LEAGUE_TEAMS * MAX_TEAM_MEMBERS)
 
@@ -34,10 +31,10 @@ typedef struct TeamMembers
     int                count;
     int                rotors[3];        // used for round-robin rewarding.
     int                *onMapserver;    // client side variable
-    int                *mapIds;        // I think this is only used for LevelingPacts ARM
+    int                *mapIds;        // Map location of each member.
     int                *ids;
     MemberName        *names;
-    int                *oldmapIds;        // I think this is only used for LevelingPacts ARM
+    int                *oldmapIds;        // Previously sent map location of each member.
 } TeamMembers;
 
 typedef enum TaskForceParameter
@@ -229,22 +226,6 @@ typedef struct Teamup
 
 #endif
 } Teamup;
-
-typedef struct LevelingPact
-{
-#if STATSERVER
-    int            dbid;
-    int            *memberids;
-    int            requestSent;
-#endif
-    int version;
-    TeamMembers    members;
-    int            count; // this is necessary if, for instance, a member is deleted while the statserver isn't connected
-    U32            experience;
-    U32            timeLogged; //this is how much time the members have been logged in looking for xp.
-    U32            influence[MAX_LEVELINGPACT_MEMBERS];
-    U32            deprecatedInfamy[MAX_LEVELINGPACT_MEMBERS];    // can't remove from the database, but no longer used
-} LevelingPact;
 
 typedef struct League
 {

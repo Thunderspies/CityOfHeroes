@@ -382,13 +382,6 @@ void stat_AddRaceTime(EntPlayer *pl, int time, const char* racetype)
  * stat_AddXPReceived
  *
  */
-int stat_TimeSinceXpReceived(Entity *e)
-{
-    int timeNow = SecondsSince2000();
-    int dt = (e->last_xp)?MAX(timeNow - e->last_xp, 0):((timeNow-e->on_since)+e->total_time);
-    e->last_xp = timeNow;
-    return dt;
-}
 
 void stat_AddXPReceived(Entity *e, int iXP)
 {

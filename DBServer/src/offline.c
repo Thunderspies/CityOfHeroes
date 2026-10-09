@@ -1281,8 +1281,7 @@ char *storedData_GetPlayer(tStorageClass storageClass, OfflinePlayer *p)
         //
         char groupMods[] =
                 "SupergroupsId 0\n"
-                "TaskforcesId 0\n"
-                "Ents2[0].LevelingPactsId 0\n";
+                "TaskforcesId 0\n";
     
         zipdata = malloc(zipsize);
         fread(zipdata,zipsize,1,file);

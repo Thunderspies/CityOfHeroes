@@ -79,7 +79,6 @@ const char *msgType(INFO_BOX_MSGS msg)
         xcase INFO_PRIVATE_NOREPLY_COM: return "[private] ";
         xcase INFO_TEAM_COM: return "[team] ";
         xcase INFO_SUPERGROUP_COM: return "[supergroup] ";
-        xcase INFO_LEVELINGPACT_COM: return "[levelingpact] ";
         xcase INFO_NEARBY_COM: return "[local] ";
         xcase INFO_SHOUT_COM: return "[broadcast] ";
         xcase INFO_REQUEST_COM: return "[request] ";

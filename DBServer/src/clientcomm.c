@@ -2207,7 +2207,6 @@ bool deletePlayer(int db_id, bool log, char *player_name, char *ipstr, char *acc
     containerRemoveMember(dbListPtr(CONTAINER_SUPERGROUPS),container->supergroup_id,db_id,0,CONTAINERADDREM_FLAG_NOTIFYSERVERS);
     containerRemoveMember(dbListPtr(CONTAINER_TASKFORCES),container->taskforce_id,db_id,0,CONTAINERADDREM_FLAG_NOTIFYSERVERS);
     containerRemoveMember(dbListPtr(CONTAINER_RAIDS),container->raid_id,db_id,0,CONTAINERADDREM_FLAG_NOTIFYSERVERS);
-    containerRemoveMember(dbListPtr(CONTAINER_LEVELINGPACTS),container->levelingpact_id,db_id,0,CONTAINERADDREM_FLAG_NOTIFYSERVERS);
     if (container->league_id)
     {
         NetLink *linkStat = statLink();

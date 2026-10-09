@@ -2596,72 +2596,6 @@ static int entReceiveAllyID(Packet *pak, Entity *e, bool oo_packet)
 
 
 
-static int entReceiveLevelingpactInfo(Packet *pak, Entity *e, bool oo_packet)
-{
-    int levelingpactId;
-    int memberCount;
-    int i;
-    bool applyUpdate = !oo_packet && e && e->pchar;
-
-    if(pktGetBits(pak, 1))
-    {
-        levelingpactId = pktGetBitsAuto(pak);
-        if(levelingpactId == 0)
-        {
-            if(applyUpdate)
-            {
-                e->levelingpact_id = 0;
-                if(e->levelingpact)
-                {
-                    levelingpactListUiUpdate();
-                    destroyLevelingpact(e->levelingpact);
-                    e->levelingpact = 0;
-                }
-            }
-            return 1;
-        }
-
-        memberCount = pktGetBitsAuto(pak);
-        if(memberCount < 0 || memberCount > MAX_LEVELINGPACT_MEMBERS)
-        {
-            assert(!"You are on a team with more than max members, something has gone wrong, or you cheat.");
-            applyUpdate = false;
-        }
-
-        if(applyUpdate)
-        {
-            e->levelingpact_id = levelingpactId;
-            // if we're in a leveling pact
-            if(!e->levelingpact)
-            {
-                levelingpactListUiUpdate();
-                e->levelingpact = createLevelingpact();
-                e->levelingpact->members.ids = calloc(MAX_LEVELINGPACT_MEMBERS, sizeof(int));
-                e->levelingpact->members.onMapserver = calloc(MAX_LEVELINGPACT_MEMBERS, sizeof(int));
-                e->levelingpact->members.names = calloc(MAX_LEVELINGPACT_MEMBERS, sizeof(MemberName));
-                e->levelingpact->members.mapIds = calloc(MAX_LEVELINGPACT_MEMBERS, sizeof(int));
-            }
-            e->levelingpact->members.count = memberCount;
-            e->levelingpact->count = memberCount;
-        }
-
-        // Consume ignored updates without changing the newer local pact state.
-        for(i = 0; i < memberCount; i++)
-        {
-            int memberId = pktGetBitsAuto(pak);
-            const char *memberName = pktGetString(pak);
-            if(applyUpdate)
-            {
-                e->levelingpact->members.ids[i] = memberId;
-                e->levelingpact->members.onMapserver[i] = FALSE;
-                strncpyt(e->levelingpact->members.names[i], memberName,
-                    sizeof(e->levelingpact->members.names[i]));
-            }
-        }
-        return 1;
-    }
-    return 0;
-}
 
 static int entReceivePvP(Packet *pak, Entity *e, bool oo_packet)
 {
@@ -3450,9 +3384,6 @@ static int entReceive(Packet *pak,int idx,int odd_send)
                     UPDATE_PACKET_ID(e->pkt_id_supergroup);
             STOP_BIT_COUNT(pak);
 
-            START_BIT_COUNT(pak, "entReceiveLevelingpactInfo");
-            entReceiveLevelingpactInfo(pak, e, stream_oo_packet);
-            STOP_BIT_COUNT(pak);
 
             // Put data that is only valid for players here (i.e. afk, logout_update)
 

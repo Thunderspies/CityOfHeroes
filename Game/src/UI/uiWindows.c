@@ -62,7 +62,6 @@
 
 #include <utilitieslib/language/MessageStoreUtil.h>
 #include "graphics/truetype/ttFontDraw.h"
-#include "uiLevelingpact.h"
 #include "UI/Hybrid/uiWebStoreFrame.h"
 #include "player/inventory_client.h"
 #include "graphics/gfxLoadScreens.h"

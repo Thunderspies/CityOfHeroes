@@ -41,22 +41,18 @@
 #include <utilitieslib/utils/mathutil.h>
 #include "entity/character_target.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
-#include "uiLevelingpact.h"
 #include "entity/teamCommon.h"
 
 static int friendListRebuildRequired = 0;
 static int globalFriendListRebuildRequired = 0;
 static int globalIgnoreListRebuildRequired = 0;
-static int levelingpactListRebuildRequired = 0;
 
 static int oldFriendSelectionDBID = 0;
-static int levelingpactSelectionDBID = 0;
 static char oldGlobalFriendSelectionHandle[128];
 static char oldGlobalIgnoreSelectionHandle[128];
 static char comboSelectionTitle[128] = {0};
 
 static UIListView* friendListView;
-static UIListView *levelingpactListView;
 static UIListView * globalFriendListView;
 static UIListView * globalIgnoreListView;
 static UIListView * channelView[MAX_WATCHING];
@@ -91,14 +87,6 @@ void friendListPrepareUpdate()
     globalFriendListRebuildRequired = 1;
 }
 
-void levelingpactListPrepareUpdate()
-{
-    if(levelingpactListView && levelingpactListView->selectedItem)
-        levelingpactSelectionDBID = ((Friend*)levelingpactListView->selectedItem)->dbid;
-
-    levelingpactListRebuildRequired = 1;
-    channelListRebuildRequired = 1;
-}
 
 void globalIgnoreListPrepareUpdate()
 {
@@ -315,67 +303,6 @@ UIBox friendListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void*
     return box;
 }
 
-UIBox levelingpactListViewDisplayItem(UIListView* list, PointFloatXYZ rowOrigin, void* userSettings, void* itemData, int itemIndex)
-{
-    Friend* item = (Friend*)itemData;
-    UIBox box;
-    PointFloatXYZ pen = rowOrigin;
-    UIColumnHeaderIterator columnIterator; 
-    int color;
-
-    box.origin.x = rowOrigin.x;
-    box.origin.y = rowOrigin.y;
-
-    uiCHIGetIterator(list->header, &columnIterator);
-
-    rowOrigin.z+=1;
-
-    if(item == list->selectedItem)
-    {
-        color = CLR_WHITE;
-    }
-    else
-    {
-        color = CLR_CONSTRUCT(99, 225, 252, 255);
-    }
-
-    font_color(color, color);
-
-    // Iterate through each of the columns.
-    for(;uiCHIGetNextColumn(&columnIterator, list->scale);)
-    {
-        UIColumnHeader* column = columnIterator.column;
-        UIBox clipBox;
-        pen.x = rowOrigin.x + columnIterator.columnStartOffset*list->scale;
-
-        clipBox.origin.x = pen.x;
-        clipBox.origin.y = pen.y;
-        clipBox.height = 20*list->scale;
-
-        if( columnIterator.columnIndex >= eaSize(&columnIterator.header->columns )-1 )
-            clipBox.width = 1000;
-        else
-            clipBox.width = columnIterator.currentWidth;
-
-        clipperPushRestrict(&clipBox);
-        // Decide what to draw on on which column.
-        if(stricmp(column->name, FRIEND_NAME_COLUMN) == 0)
-        {
-            // Draw the friend name.
-            int rgba[4] = {color, color, color, color };
-            printBasic(font_grp, pen.x, pen.y+18*list->scale, rowOrigin.z, list->scale, list->scale, 0, item->name, strlen(item->name), rgba );
-        }
-        
-        clipperPop();
-    }
-
-    box.height = 0;
-    box.width = list->header->width;
-
-    // Returning the bounding box of the item does not do anything right now.
-    // See uiListView.c for more details.
-    return box;
-}
 
 
 
@@ -592,7 +519,6 @@ int oldFriendWindow(float x, float y, float z, float wd, float ht, float scale, 
 
 
 GlobalFriend ** gGlobalFriends = 0;
-Friend levelingPactMembers[MAX_LEVELINGPACT_MEMBERS] = {0};
 bool gGlobalFriendMaximized = 0;
 // to have minimized/maximized friend list modes, we'll keep two header structures & swap as necessary
 UIListViewHeader * gGlobalMinHeader = 0;
@@ -1133,46 +1059,7 @@ static void addGlobalFriend(void * data)
 }
 
 // Context menu item visiblity function.
-// Allows the item to be displayed if the selected target is a leveling pact member.
-static int entityIsLevelingpactMember(int dbid)
-{
-    int i;
-    Entity *e = playerPtr();
-    if(!dbid)
-        return 0;
-    for( i = 0; i < e->levelingpact->count; i++ )
-    {
-        if( dbid == e->levelingpact->members.ids[i] )
-            return 1;
-    }
-
-    return 0;
-}
-
-int isLevelingpactMember(void* foo)
-{
-    int dbid;
-
-    dbid = targetGetDBID();
-    if(!dbid)
-        return CM_HIDE;
-
-    if(entityIsLevelingpactMember(dbid))
-        return CM_AVAILABLE;
-    else
-        return CM_HIDE;
-}
-
-
-// Context menu item visiblity function.
 // Allows the item to be displayed if the selected target is not a friend.
-int isNotLevelingpactMember(void *foo)
-{
-    if( isLevelingpactMember(NULL) == CM_AVAILABLE )
-        return CM_HIDE;
-    else
-        return CM_AVAILABLE;        
-}
 
 
 
@@ -1741,204 +1628,6 @@ int chatUserHandleCompare(const ChatUser** c1, const ChatUser** c2)
     return stricmp((*c1)->handle, (*c2)->handle); 
 }
 
-int levelingpactWindow(float x, float y, float z, float wd, float ht, float scale, int color, int bcolor, void * data)
-{
-    Entity *e = playerPtr();
-    PointFloatXYZ pen;
-    UIBox windowDrawArea;
-    UIBox listViewDrawArea;
-    static ScrollBar sb = {WDW_FRIENDS,0};
-
-    wdwGetWindow(WDW_FRIENDS)->loc.draggable_frame = RESIZABLE;
-
-
-    font(&game_12);
-    font_color(CLR_WHITE, CLR_WHITE);
-    // Do everything common windows are supposed to do.
-    //    if ( !window_getDims( WDW_FRIENDS, &x, &y, &z, &wd, &ht, &scale, &color, &bcolor ))
-    //        return 0;
-
-    // Draw the base friends list frame.
-    //    drawFrame( PIX3, R10, x, y, z, wd, ht, scale, color, bcolor );
-
-    // Where in the window can we draw?
-    windowDrawArea.x = x;
-    windowDrawArea.y = y;
-    windowDrawArea.width = wd;
-    windowDrawArea.height = ht;
-    uiBoxAlter(&windowDrawArea, UIBAT_SHRINK, UIBAD_ALL, PIX3*scale);
-
-    listViewDrawArea = windowDrawArea;
-    uiBoxAlter(&listViewDrawArea, UIBAT_SHRINK, UIBAD_BOTTOM, FRIEND_REMOVE_AREA*scale);
-
-    // The list view will be drawn inside the listViewDrawArea and above the window frame.
-    pen.x = listViewDrawArea.x;
-    pen.y = listViewDrawArea.y;
-    pen.z = z+1;                    // Draw on top of the frame
-
-    // Do nothing if the friendlist is empty.
-    if( SAFE_MEMBER2(e,levelingpact,count) == 0 )
-    {
-        int fontHeight = ttGetFontHeight(font_grp, scale, scale);
-        clipperPushRestrict(&windowDrawArea);
-        cprnt( pen.x + wd/2, pen.y+fontHeight, pen.z, scale, scale, "LevelingPactNotAMember" );
-        clipperPop();
-        return 0;
-    }
-
-    // Draw and handle all scroll bar functionaltiy if the friendlist is larger than the window.
-    // This is seperate from the list view because the scroll bar is always outside the draw area
-    // of the list view.
-    if(levelingpactListView)
-    {
-        int fullDrawHeight = uiLVGetFullDrawHeight(levelingpactListView);
-        int currentHeight = uiLVGetHeight(levelingpactListView);
-        if(levelingpactListView)
-        {
-            if(fullDrawHeight > currentHeight)
-            {
-                doScrollBar( &sb, currentHeight, fullDrawHeight, wd, PIX3+R10*scale, z+2, 0, &windowDrawArea  );
-                levelingpactListView->scrollOffset = sb.offset;
-            }
-            else
-            {
-                levelingpactListView->scrollOffset = 0;
-            }
-        }
-    }
-
-    // Make sure the list view is initialized.
-    if(!levelingpactListView)
-    {
-
-        levelingpactListView = uiLVCreate();
-
-        uiLVHAddColumnEx(levelingpactListView->header, FRIEND_NAME_COLUMN, "levelingPactName", 10, 270, 1);
-        uiLVBindCompareFunction(levelingpactListView, FRIEND_NAME_COLUMN, friendNameCompare);
-
-        //uiLVHAddColumn(levelingpactListView->header, FRIEND_STATUS_COLUMN, "friendStatus", 0);
-        //uiLVBindCompareFunction(levelingpactListView, FRIEND_STATUS_COLUMN, friendStatusCompare);
-
-        uiLVFinalizeSettings(levelingpactListView);
-
-        levelingpactListView->displayItem = levelingpactListViewDisplayItem;
-
-        uiLVEnableMouseOver(levelingpactListView, 1);
-        uiLVEnableSelection(levelingpactListView, 1);
-    }
-
-    // How tall and wide is the list view supposed to be?
-    uiLVSetDrawColor(levelingpactListView, window_GetColor(WDW_FRIENDS));
-    uiLVSetHeight(levelingpactListView, listViewDrawArea.height);
-    uiLVHFinalizeSettings(levelingpactListView->header);
-    uiLVHSetWidth(levelingpactListView->header, listViewDrawArea.width);
-    uiLVSetScale( levelingpactListView, scale );
-    // Rebuild the entire friends list if required.
-    if(levelingpactListView && levelingpactListRebuildRequired)
-    {
-        int i;
-
-        uiLVClear(levelingpactListView);
-        for(i = 0; i < e->levelingpact->count; i++)
-        {
-            levelingPactMembers[i].dbid = e->levelingpact->members.ids[i];
-            //BUG: We actually need to find out whether or not they're online
-            levelingPactMembers[i].online = e->levelingpact->members.onMapserver[i];
-            levelingPactMembers[i].map_id = e->levelingpact->members.mapIds[i];
-            levelingPactMembers[i].name = e->levelingpact->members.names[i];
-            uiLVAddItem(levelingpactListView, &levelingPactMembers[i]);
-            if(e->levelingpact->members.ids[i] == levelingpactSelectionDBID)
-                uiLVSelectItem(levelingpactListView, i);
-        }
-
-        uiLVSortBySelectedColumn(levelingpactListView);
-
-        levelingpactListRebuildRequired = 0;
-    }
-
-    // Disable mouse over on window resize.
-    {
-        Wdw* levelingpactWindow = wdwGetWindow(WDW_FRIENDS);
-        if(levelingpactWindow->drag_mode)
-            uiLVEnableMouseOver(levelingpactListView, 0);
-        else
-            uiLVEnableMouseOver(levelingpactListView, 1);
-    }
-
-    // Draw the list and clip everything to inside the proper drawing area of the list view.
-    clipperPushRestrict(&listViewDrawArea);
-    uiLVDisplay(levelingpactListView, pen);
-    clipperPop();
-
-    // Handle list view input.
-    uiLVHandleInput(levelingpactListView, pen);
-
-    // Did the user pick someone from the friends list?
-    if(levelingpactListView->newlySelectedItem && levelingpactListView->selectedItem)
-    {
-        // Which entity was selected?
-        Friend* item = levelingpactListView->selectedItem;
-        Entity* player = entFromDbId(item->dbid);
-
-        if(player)
-        {
-            //still checking to make sure the target is a friend?
-            if(player != playerPtr() && character_TargetIsFriend(playerPtr()->pchar, player->pchar))
-            {
-                targetSelect(player);
-            }
-        }
-        else
-        {
-            targetSelect2(item->dbid, item->name);
-        }
-
-        levelingpactListView->newlySelectedItem = 0;
-    }
-
-    // If the target is a friend...
-    if(entityIsLevelingpactMember(targetGetDBID()))
-    {
-        int i;
-        if(current_target)
-        {
-            for( i = 0; i < eaSizeUnsafe(&levelingpactListView->items); i++ )
-            {
-                Friend *item = levelingpactListView->items[i];
-                if(item->dbid == current_target->db_id)
-                    levelingpactListView->selectedItem = item;
-            }
-        }
-    }
-    else
-        levelingpactListView->selectedItem = 0;
-
-    if(levelingpactListView->selectedItem)
-    {
-        int index;
-
-        index = eaFind(&levelingpactListView->items, levelingpactListView->selectedItem);
-        if(index != -1 && uiMouseCollision(levelingpactListView->itemWindows[index]) && mouseRightClick())
-        {    
-            if(current_target)
-                contextMenuForTarget(current_target);
-            else
-                contextMenuForOffMap();
-        }
-    }
-
-    // Clip and draw the leave pact button
-    listViewDrawArea.y += listViewDrawArea.height;
-    listViewDrawArea.height = FRIEND_REMOVE_AREA*scale;
-    clipperPushRestrict(&listViewDrawArea);
-    if(D_MOUSEHIT == drawStdButton(x + wd/2, y + ht - (20+PIX3)*scale, z, 100*scale, 26*scale, window_GetColor(WDW_FRIENDS), "LevelingPactLeaveBtn", scale, !((int)levelingpact_IsInPact(NULL))))
-    {
-        levelingpact_quitWindow(NULL);
-    }
-    clipperPop();
-
-    return 0;
-}
 
 int globalIgnoreWindow(float x, float y, float z, float wd, float ht, float scale, int color, int bcolor, void * data)
 {
@@ -2196,7 +1885,6 @@ typedef struct TabFunctionData
 TabFunctionData oldFriend = { oldFriendWindow, 0 };
 TabFunctionData newFriend = { newFriendWindow, 0 };
 TabFunctionData globalIgnore = { globalIgnoreWindow, 0 };
-TabFunctionData levelingpact = { levelingpactWindow, 0};
 
 TabFunctionData chatMembers[MAX_WATCHING] = {    
                                                 { channelWindow, 0 }, //0
@@ -2286,8 +1974,6 @@ int friendWindow()
             comboboxSharedElement_add( &cce, NULL, textStd("GlobalFriendTab"), textStd("GlobalFriendTab"), 0, (void*) &newFriend );
             comboboxSharedElement_add( &cce, NULL, textStd("GlobalIgnoreTab"), textStd("GlobalIgnoreTab"), 0, (void*) &globalIgnore );
         }
-        if(e && e->levelingpact_id)
-            comboboxSharedElement_add( &cce, NULL, textStd("LevelingpactTab"), textStd("LevelingpactTab"), 0, (void*) &levelingpact );
 
 
         // make sure the right channel tabs exist
@@ -2328,7 +2014,7 @@ int friendWindow()
      drawFrame( PIX3, R10, x, y, z, wd, ht, scale, color, bcolor );
 
     
-     if(UsingChatServer() || (e && e->levelingpact_id))
+     if(UsingChatServer())
     {
         TabFunctionData * tabfuncdata;
 

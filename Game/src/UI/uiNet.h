@@ -313,7 +313,6 @@ void receiveFlashbackEligibilityResponse(Packet *pak);
 void receiveFlashbackConfirmResponse(Packet *pak);
 
 void receiveTaskforceTimeLimits(Packet *pak);
-void levelingpactListUiUpdate();
 
 typedef struct PlayerCreatedStoryArc PlayerCreatedStoryArc;
 void sendTestStoryArc(PlayerCreatedStoryArc *pArc);

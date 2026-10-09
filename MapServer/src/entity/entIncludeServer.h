@@ -293,7 +293,6 @@
     U8                        general_update            : 1;// Set this flag and the entity will be sent (used for fields that are always sent)
     U8                        logout_update            : 2;
     U8                        supergroup_update        : 1;
-    U8                        levelingpact_update        : 1;//has anything in the leveling pact changed?
     U8                        power_modes_update        : 1;// Used to determine if power modes need to be sent.
 
     U8                        send_xlucency            : 1;// Whether or not xlucency has changed

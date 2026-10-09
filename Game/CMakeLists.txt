@@ -388,7 +388,6 @@ set(Game_SOURCES
 	src/storyarc/playerCreatedStoryarcClient.c
 	src/storyarc/storyarcClient.c
 	src/storyarc/zowieClient.c
-	src/uiLevelingpact.c
 	src/uiTextLink.c
 	src/UI/Hybrid/uiArchetype.c
 	src/UI/Hybrid/uiBody.c
@@ -969,7 +968,6 @@ set(Game_HEADERS
 	src/storyarc/playerCreatedStoryarcClient.h
 	src/storyarc/storyarcClient.h
 	src/storyarc/zowieClient.h
-	src/uiLevelingpact.h
 	src/UI/Hybrid/uiArchetype.h
 	src/UI/Hybrid/uiBody.h
 	src/UI/Hybrid/uiCostumes.h

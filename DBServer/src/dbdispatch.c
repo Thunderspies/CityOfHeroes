@@ -2472,17 +2472,8 @@ void handleSendStatserverCmd(Packet *pak, NetLink *link)
     else if(idEntSrc > 0)
     {
         char response[512] = {0};
-        if(strStartsWith(cmd, "statserver_levelingpact"))
-        {
-            //channel, message, params
-            sprintf( response, "cmdrelay_dbid %d\n" 
-                "svr_sgstat_localized_message %d \"%s\" \"%s\"", idEntSrc, INFO_USER_ERROR, "LevelingPactStatDown", " ");
-        }
-        else
-        {
-            sprintf( response, "server_sgstat_cmd %d\n" 
-                "svr_sgstat_conprintf_response %d \"statserver not connected\"", idEntSrc, idEntSrc);
-        }
+        sprintf( response, "server_sgstat_cmd %d\n"
+            "svr_sgstat_conprintf_response %d \"statserver not connected\"", idEntSrc, idEntSrc);
         sendToEnt(link->userData, idEntSrc, false, response);
     }
 }

@@ -303,7 +303,6 @@ static TupleNNNN s_aMsgColors[] =
     { INFO_PET_COM,            0x000000ff, 0xffffffff, 0x000000ff },
     { INFO_PRIVATE_COM,     0x000000ff, 0xddddddff, 0x000000ff },
     { INFO_TEAM_COM,        0x000000ff, 0xddddddff, 0x000000ff },
-    { INFO_LEVELINGPACT_COM,0x000000ff, 0xddddddff, 0x000000ff },
     { INFO_SUPERGROUP_COM,  0x000000ff, 0xffffffff, 0x000000ff },
     { INFO_ALLIANCE_OWN_COM, 0x000000ff, 0xffffffff, 0x000000ff },
     { INFO_ALLIANCE_ALLY_COM,0x000000ff, 0xffffffff, 0x000000ff },
@@ -392,7 +391,6 @@ static void addFloaterMsg(char *pch, TextParams *textparams, int type, float dur
         //       Maybe there is a better way.
         if(type==INFO_PRIVATE_COM
             || type==INFO_TEAM_COM
-            || type==INFO_LEVELINGPACT_COM
             || type==INFO_SUPERGROUP_COM
             || type==INFO_ALLIANCE_OWN_COM
             || type==INFO_ALLIANCE_ALLY_COM

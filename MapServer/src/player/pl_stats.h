@@ -41,7 +41,6 @@ void stat_AddDamageGiven(EntPlayer *pl, int damage);
 void stat_AddRaceTime(EntPlayer *pl, int time, const char* racetype);
     //Records best times for you to run this race
 
-int stat_TimeSinceXpReceived(Entity *e);
     //Gets the amount of time that has passed since the last call.
 
 void stat_AddXPReceived(Entity *e, int iXP);

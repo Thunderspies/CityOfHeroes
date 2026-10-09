@@ -118,7 +118,6 @@ static void initDock()
     contextMenu_addCheckBox( dockContext, dockwindow_isOpen, &windowNums[WDW_LEAGUE],        dockwindow_open, &windowNums[WDW_LEAGUE],        "CMLeagueWindow"    );
     contextMenu_addCheckBox( dockContext, dockwindow_isOpen, &windowNums[WDW_TURNSTILE],    dockwindow_open, &windowNums[WDW_TURNSTILE],    "CMLFGWindow"    );
     contextMenu_addCheckBox( dockContext, dockwindow_isOpen, &windowNums[WDW_SUPERGROUP],    dockwindow_open, &windowNums[WDW_SUPERGROUP],    "CMSuperWindow" );
-//    contextMenu_addCheckBox( dockContext, dockwindow_isOpen, &windowNums[WDW_LEVELINGPACT], dockwindow_open, &windowNums[WDW_LEVELINGPACT], "CMLevelingpactWindow");
     contextMenu_addCheckBox( dockContext, dockwindow_isOpen, &windowNums[WDW_EMAIL],        dockwindow_open, &windowNums[WDW_EMAIL],        "CMEmailWindow" );
 
     contextMenu_addDivider( dockContext );

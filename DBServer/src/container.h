@@ -116,7 +116,6 @@ typedef struct EntCon
     int        supergroup_id;
     int        taskforce_id;
     int        raid_id;
-    int        levelingpact_id;
     int        league_id;
 
     // search parameters for online player info

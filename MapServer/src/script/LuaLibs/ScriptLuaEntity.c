@@ -216,12 +216,6 @@ static int l_IsEntityOnArchitect (lua_State *L) {
     return 1;
 }
 
-//NUMBER GetLevelingPact(ENTITY entity)
-static int l_GetLevelingPact (lua_State *L) {
-    ENTITY entity = luaL_checkstring(L, 1);
-    lua_pushnumber(L, GetLevelingPact(entity));
-    return 1;
-}
 
 //STRING GetOrigin(ENTITY entity)
 static int l_GetOrigin (lua_State *L) {
@@ -429,7 +423,6 @@ const luaL_Reg scriptEntityLib [] =
     {"GetAccessLevel",            l_GetAccessLevel},
     {"HasClue",                    l_HasClue},
     {"HasSouvenirClue",            l_HasSouvenirClue},
-    {"GetLevelingPact",            l_GetLevelingPact},
     {"GetOrigin",                l_GetOrigin},
     {"GetClass",                l_GetClass},
     {"GetGender",                l_GetGender},

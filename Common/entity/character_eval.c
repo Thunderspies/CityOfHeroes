@@ -93,7 +93,6 @@ void chareval_EntityFetchHelper(EvalContext *pcontext, Entity *e, const char *rh
     #define PARAMLIST            \
         ELEM(InTaskforce)        \
         ELEM(level)                \
-        ELEM(levelingpact)        \
         ELEM(accesslevel)        \
         ELEM(combatlevel)        \
         ELEM(securitylevel)        \
@@ -181,7 +180,6 @@ void chareval_EntityFetchHelper(EvalContext *pcontext, Entity *e, const char *rh
 
             CASE(InTaskforce):        eval_IntPush(pcontext, SAFE_MEMBER2(e, pl, taskforce_mode));
             CASE(level):            eval_IntPush(pcontext, SAFE_MEMBER2(e, pchar, iLevel + 1));
-            CASE(levelingpact):        eval_IntPush(pcontext, SAFE_MEMBER(e, levelingpact_id));
             CASE(accesslevel):        eval_IntPush(pcontext, SAFE_MEMBER(e, access_level));
             CASE(combatlevel):        eval_IntPush(pcontext, SAFE_MEMBER2(e, pchar, iCombatLevel + 1));
             CASE(securitylevel):    eval_IntPush(pcontext, SAFE_MEMBER2(e, pchar, iBuildLevels[e->pchar->iCurBuild] + 1));

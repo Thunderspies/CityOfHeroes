@@ -989,7 +989,6 @@ void dbExecuteAdministrativeNativeSql(char *sql_command)
 }
 
 void sgrpstatserver_ReceiveCmd(Packet *pak);
-void lpactstats_removeInactive(Packet *pak);
 void miningdata_Receive(Packet *pak);
 
 #if defined(SERVER) && !defined(DBQUERY)
@@ -2060,8 +2059,6 @@ int dbMessageCallback(Packet *pak,int cmd,NetLink *link)
              sgrpstatserver_ReceiveCmd(pak);
         xcase DBSERVER_MININGDATA_RELAY:
              miningdata_Receive(pak);
-        xcase DBSERVER_SEND_STATSERVER_INACTIVE_ACCOUNT:
-             lpactstats_removeInactive(pak);
 #endif
 
  #if RAIDSERVER

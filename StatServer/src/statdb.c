@@ -392,22 +392,6 @@ U32 stat_dealWithContainer(ContainerInfo *ci,int type)
         free(container_data);
         res = true;
     }
-    else if(type == CONTAINER_LEVELINGPACTS)
-    {
-        if(ci->delete_me)
-        {
-            stat_LevelingPactDeleteMe(ci->id);
-            // i don't think this ever actually happens... but just in case
-        }
-        else
-        {
-            char *container_data = estrTemp();
-            estrPrintCharString(&container_data, ci->data);
-            stat_LevelingPactUnpack(ci->data, ci->id, ci->members, ci->member_count);
-            estrDestroy(&container_data);
-        }
-        res = true;
-    }
     else if(type == CONTAINER_LEAGUES)
     {
         if (ci->delete_me)
@@ -652,14 +636,6 @@ void dealWithNotify(U32 list_id, U32 cid, U32 dbid, int add)
         }
     } // CONTAINER_SUPERGROUPS
 
-    xcase CONTAINER_LEVELINGPACTS:
-        if(!dbid) // notification for the leveling pact itself
-        {
-            if(!add)
-                stat_LevelingPactDeleteMe(cid);
-            // else creating a new pact
-        }
-        // else notification of a member logging in or out
     xcase CONTAINER_LEAGUES:
         if(!dbid)
         {

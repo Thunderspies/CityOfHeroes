@@ -87,7 +87,6 @@ int IsEntityActive(ENTITY entity);
 int IsEntityOnTaskforce(ENTITY entity);
 int IsEntityOnFlashback(ENTITY entity);
 int IsEntityOnArchitect(ENTITY entity);
-NUMBER GetLevelingPact(ENTITY entity);
 STRING GetOrigin(ENTITY entity);
 STRING GetClass(ENTITY entity);
 STRING GetGender(ENTITY entity);

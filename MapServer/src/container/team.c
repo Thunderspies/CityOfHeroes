@@ -45,7 +45,6 @@ int teamGetIdFromEnt(Entity *e,ContainerType team_type)
         xcase CONTAINER_SUPERGROUPS:    return e->supergroup_id;
         xcase CONTAINER_TASKFORCES:        return e->taskforce_id;
         xcase CONTAINER_RAIDS:            return e->raid_id;
-        xcase CONTAINER_LEVELINGPACTS:    return e->levelingpact_id;
         xcase CONTAINER_LEAGUES:        return e->league_id;
     }
     devassertmsg(0, "unknown group container %d", team_type);
@@ -60,7 +59,6 @@ TeamMembers *teamMembers(Entity *e,ContainerType team_type)
         xcase CONTAINER_SUPERGROUPS:    return e->supergroup ? &e->supergroup->members : NULL;
         xcase CONTAINER_TASKFORCES:        return e->taskforce ? &e->taskforce->members : NULL;
 //        xcase CONTAINER_RAIDS:            return e->raid ? &e->raid->members : NULL;
-        xcase CONTAINER_LEVELINGPACTS:    return e->levelingpact ? &e->levelingpact->members : NULL;
         xcase CONTAINER_LEAGUES:        return e->league ? &e->league->members : NULL;
     }
     devassertmsg(0, "unknown group container %d", team_type);
@@ -75,7 +73,6 @@ int teamMaxMembers(ContainerType team_type)
         xcase CONTAINER_SUPERGROUPS:    return MAX_SUPER_GROUP_MEMBERS;
         xcase CONTAINER_TASKFORCES:        return MAX_TASKFORCE_MEMBERS;
         xcase CONTAINER_RAIDS:            return MAX_RAID_MEMBERS;
-        xcase CONTAINER_LEVELINGPACTS:    return MAX_LEVELINGPACT_MEMBERS;
         xcase CONTAINER_LEAGUES:        return MAX_LEAGUE_MEMBERS;
     }
     devassertmsg(0, "unknown group container %d", team_type);
@@ -736,21 +733,6 @@ void teamHandleRemoveMembership(Entity *e,ContainerType type,int containerDelete
             e->taskforce = 0;
         }
         e->taskforce_id = 0;
-    }
-    else if(type == CONTAINER_LEVELINGPACTS)
-    {
-        // there's probably a small window here where the player could miss out
-        // on some xp, but since they're leaving anyway, who cares?
-        SAFE_FREE(e->levelingpact);
-        e->levelingpact_id = 0;
-        e->levelingpact_update = 1;
-        if(e->pl)
-        {
-                MarkModifiedBadges(g_hashBadgeStatUsage, e->pl->aiBadges, "*char");
-
-                //BitFieldSet(e->pl->aiBadgesOwned, BADGE_ENT_BITFIELD_SIZE, pdef->iIdx, 0);
-
-        }
     }
     else if(type == CONTAINER_LEAGUES)
     {

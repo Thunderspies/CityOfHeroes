@@ -68,7 +68,6 @@ void addToGlobalFriendsList(void* useless);
 void channelWindowOpen( void * unused );
 void selectChannelWindow(char * channel);
 
-void levelingpactListPrepareUpdate(void);
 
 #define FRIEND_NAME_COLUMN            "FriendName"
 #define FRIEND_STATUS_COLUMN        "Status"
