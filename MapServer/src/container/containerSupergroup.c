@@ -384,9 +384,6 @@ LineDesc sg_task_line_desc[] =
     {{ PACKTYPE_INT,        SIZE_INT32,            "SubtaskSuccess",OFFSET(StoryTaskInfo, subtaskSuccess) },
         "Bitfield - Marks whether each subtask within a compound task has been completed"},
 
-    {{ PACKTYPE_INT,        SIZE_INT32,            "Notoriety",    OFFSET(StoryTaskInfo, old_notoriety)},
-        "deprecated"},
-
     {{ PACKTYPE_INT,        SIZE_INT32,            "SkillLevel",    OFFSET(StoryTaskInfo, skillLevel)},
         "The skill level that this task was spawned at"},
 
