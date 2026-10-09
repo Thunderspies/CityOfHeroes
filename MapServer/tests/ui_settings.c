@@ -2,8 +2,35 @@
 #include "container/dbcontainerpack.h"
 #include "entity/entity.h"
 #include "entity/entPlayer.h"
+#include "entity/character_base.h"
 #include "gameComm/trayCommon.h"
 #include "ui_settings.inc"
+
+static int invalid_builds;
+void dbLog(const char *name, Entity *e, const char *format, ...)
+{
+	invalid_builds++;
+}
+
+static int checkBuildInitialization(Entity *e)
+{
+	for (int build = -1; build <= MAX_BUILD_NUM; build++) {
+		e->pchar->iCurBuild = build;
+		e->pchar->iActiveBuild = -1;
+		for (int i = 0; i < MAX_BUILD_NUM; i++)
+			e->pchar->iBuildLevels[i] = i + 10;
+		invalid_builds = 0;
+		#include "build_initialization.inc"
+		int invalid = build < 0 || build >= MAX_BUILD_NUM;
+		int expected = invalid ? 0 : build;
+		if (e->pchar->iCurBuild != expected ||
+			e->pchar->iActiveBuild != expected || invalid_builds != invalid)
+			return 0;
+		for (int i = 0; i < MAX_BUILD_NUM; i++)
+			if (e->pchar->iBuildLevels[i] != i + 10) return 0;
+	}
+	return 1;
+}
 
 static int checkOptions(Entity *e, uiSetting *settings, int count, int pattern)
 {
@@ -37,8 +64,9 @@ int main(void)
 {
 	Entity *e = calloc(1, sizeof(*e));
 	e->pl = calloc(1, sizeof(*e->pl));
+	e->pchar = calloc(1, sizeof(*e->pchar));
 	e->pl->tray = calloc(1, sizeof(*e->pl->tray));
-	int valid = 1;
+	int valid = checkBuildInitialization(e);
 	for (int pattern = 0; pattern < 3; pattern++) {
 		valid &= checkOptions(e, uiSettings, ARRAY_SIZE(uiSettings), pattern);
 		valid &= checkOptions(e, uiSettings2, ARRAY_SIZE(uiSettings2), pattern);
@@ -47,6 +75,7 @@ int main(void)
 	}
 	free(e->pl->tray);
 	free(e->pl);
+	free(e->pchar);
 	free(e);
 	puts(valid ? "Current UI options passed" : "Current UI options failed");
 	return valid ? 0 : 1;
