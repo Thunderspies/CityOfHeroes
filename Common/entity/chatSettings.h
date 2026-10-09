@@ -39,7 +39,6 @@ typedef struct ChatTabSettings{
 
     char name[MAX_TAB_NAME_LEN+1];
 
-    int systemBF; // deprecated
 
     U32    systemChannels[SYSTEM_CHANNEL_BITFIELD_SIZE];    
 
