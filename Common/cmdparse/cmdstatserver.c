@@ -47,7 +47,6 @@ Cmd client_sgstat_cmds[] =
     { 2, "sgrp_info", SGRPSTATCMD_SGRP_INFO,{0},0,"print info about your supergroup." },
     { 2, "sgrp_info_name", SGRPSTATCMD_SGRP_INFO_NAME,{TMP_STR},0,"print info about the named supergroup." },
     { 2, "sgrp_info_id", SGRPSTATCMD_SGRP_INFO_ID,{ID_SGRP},0,"print info about your supergroup." },
-    { 9, "statserver_levelingpact_join", SGRPSTATCMD_LEVELINGPACT_JOIN, {TMP_INT,TMP_INT2,TMP_INT3,TMP_INT4,TMP_STR, TMP_INT5} },
     { 9, "statserver_levelingpact_addxp", SGRPSTATCMD_LEVELINGPACT_ADDXP, {TMP_INT,TMP_INT2, TMP_INT3} },
     { 9, "statserver_levelingpact_addinf", SGRPSTATCMD_LEVELINGPACT_ADDINFLUENCE, {TMP_INT,TMP_INT2, TMP_INT3} },
     { 9, "statserver_levelingpact_getinfluence", SGRPSTATCMD_LEVELINGPACT_GETINFLUENCE, {TMP_INT} },

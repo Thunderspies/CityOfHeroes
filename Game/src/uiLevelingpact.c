@@ -28,62 +28,8 @@
 #include "UI/uiDialog.h"
 #include "UI/uiFriend.h"
 
-void levelingpact_OfferMembership(void *foo)
-{
-    char buf[256];
-    // double check that they can
-    if( levelingpact_CanOfferMembership(foo))
-    {
-        if( current_target )
-            sprintf( buf, "levelingpact %s", current_target->name );
-        else if ( gSelectedDBID )
-            sprintf( buf, "levelingpact %s", gSelectedName );
-        else
-        {
-            addSystemChatMsg( textStd("NoTargetError"), INFO_USER_ERROR, 0 );
-            return;
-        }
-
-        // Force up the team window
-        levelingpact_openWindow(NULL);
-
-        cmdParse( buf );
-    }
-}
 
 
-int levelingpact_CanOfferMembership(void *foo)
-{
-    Entity *e = playerPtr();
-    TaskStatus* activetask = PlayerGetActiveTask();
-    Entity *pInvitee = NULL;
-    int alreadyInPact = 0;
-    int i;
-
-    //get the invitee
-    if (current_target)
-        pInvitee = current_target;
-    else
-        pInvitee = entFromDbId(gSelectedDBID);
-
-    //is this person already in a pact
-    for(i = 0; e->levelingpact && i < e->levelingpact->count && !alreadyInPact; i++)
-    {
-        if(SAFE_MEMBER2(e, levelingpact, members.ids[i]) == SAFE_MEMBER(pInvitee, db_id))
-            alreadyInPact = 1;
-    }
-
-
-    if( !pInvitee ||
-        ENTTYPE(pInvitee) != ENTTYPE_PLAYER || //not a player
-        (character_CalcExperienceLevel(e->pchar) > (LEVELINGPACT_MAXLEVEL-1) ||    //level too high, NOTE: index starting at 0 here.
-        character_CalcExperienceLevel(pInvitee->pchar) > (LEVELINGPACT_MAXLEVEL-1) )          )
-        return CM_HIDE;
-    else if(alreadyInPact)
-        return CM_VISIBLE;
-    else
-        return CM_AVAILABLE;
-}
 
 int levelingpact_IsInPact(void *foo)
 {

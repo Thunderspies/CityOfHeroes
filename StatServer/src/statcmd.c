@@ -482,8 +482,6 @@ void sgrpstatserver_ReceiveCmd(Packet *pak)
                 Supergroup *sg = stat_sgrpFromIdSgrp( state->idSgrp, true );
                 s_SendSgrpInfo(idEntSrc, sg, state->idSgrp);
             }
-            xcase SGRPSTATCMD_LEVELINGPACT_JOIN:
-                stat_LevelingPactJoin(state->ints[0], state->ints[1], state->ints[2], state->ints[3], state->strs[0], state->ints[4]);
             xcase SGRPSTATCMD_LEVELINGPACT_ADDXP:
                 stat_LevelingPactAddXP(state->ints[0], state->ints[1], state->ints[2]);
             xcase SGRPSTATCMD_LEVELINGPACT_ADDINFLUENCE:

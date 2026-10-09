@@ -206,6 +206,11 @@ void handleContainerReq(Packet *pak,NetLink *link)
 
     user_data    = pktGetBitsPack(pak,1);
     list_id        = pktGetBitsPack(pak,1);
+    if (!CONTAINER_IS_VALID(list_id))
+    {
+        sendFail(link, 0, CONTAINER_ERR_DOESNT_EXIST, "Invalid container type: %d", list_id);
+        return;
+    }
     cmd            = pktGetBitsPack(pak,1);
     count        = pktGetBitsPack(pak,1);
 
@@ -562,6 +567,11 @@ void handleContainerSet(Packet *pak,NetLink *link)
     static        char tpltSortDiffErrorMessage[1024];
 
     list_id        = pktGetBitsPack(pak,1);
+    if (!CONTAINER_IS_VALID(list_id))
+    {
+        sendFail(link, 0, CONTAINER_ERR_DOESNT_EXIST, "Invalid container type: %d", list_id);
+        return;
+    }
     cmd            = pktGetBitsPack(pak,1);
     callback_id    = pktGetBitsPack(pak,1);
     count        = pktGetBitsPack(pak,1);
@@ -887,6 +897,11 @@ void handleContainerReflect(Packet* pak, NetLink* link)
         eaiCreate(&ids);
 
     list_id = pktGetBitsPack(pak, 1);
+    if (!CONTAINER_IS_VALID(list_id))
+    {
+        sendFail(link, 0, CONTAINER_ERR_DOESNT_EXIST, "Invalid container type: %d", list_id);
+        return;
+    }
     cmd = pktGetBitsPack(pak, 1);
     containerReflectGet(pak, &reflect_in);
 
@@ -1286,6 +1301,11 @@ void handleAddDelGroupMembers(Packet *pak, NetLink *link)
     static int max_members;
 
     list_id    = pktGetBitsPack(pak,1);
+    if (!CONTAINER_IS_VALID(list_id))
+    {
+        sendFail(link, 0, CONTAINER_ERR_DOESNT_EXIST, "Invalid container type: %d", list_id);
+        return;
+    }
     add        = pktGetBitsPack(pak,1);
     id        = pktGetBitsPack(pak,1);
     notdiff    = pktGetBits(pak,1);

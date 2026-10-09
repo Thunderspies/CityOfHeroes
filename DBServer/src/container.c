@@ -241,6 +241,11 @@ static void setSpecialColumn(SpecialColumn *col, DbContainer *container, uintptr
                 *((int*)addr) = atoi(buf);
             if (col->cmd == CMD_MEMBER)
             {
+                if (!CONTAINER_IS_VALID(col->member_of))
+                {
+                    *((int*)addr) = 0;
+                    return;
+                }
                 DbList    *group_list;
                 int        member_id;
 
@@ -405,6 +410,9 @@ void unsetSpecialColumns(DbList *list,DbContainer *container)
 
 AnyContainer *containerUpdate(DbList *list,int id,char *diff_orig,int update_sql)
 {
+    if (!list || (list->id != CONTAINER_TESTDATABASETYPES && !CONTAINER_IS_VALID(list->id)))
+        return NULL;
+
     THREADSAFE_STATIC struct
     {
         LineList    list;
@@ -499,6 +507,9 @@ AnyContainer *containerUpdate_notdiff(DbList *list,int id,char *str)
 
 AnyContainer *containerLoadCached(DbList *list,int id,char **cache_data)
 {
+    if (!list || (list->id != CONTAINER_TESTDATABASETYPES && !CONTAINER_IS_VALID(list->id)))
+        return NULL;
+
     void        *mem = 0;
     DbContainer    *container;
 
@@ -682,6 +693,9 @@ static int getFreeIdx(DbList *list)
 
 AnyContainer *containerAlloc(DbList *list,int idx)
 {
+    if (!list || (list->id != CONTAINER_TESTDATABASETYPES && !CONTAINER_IS_VALID(list->id)))
+        return NULL;
+
     int            make_new=0;
     DbContainer    *container;
     #define MIN_ENTRIES 100
@@ -1079,6 +1093,9 @@ void containerSetMemberState(DbList *list,int id,int member_id,int loaded)
 
 void containerAddMember(DbList *list, int id, int member_id, int flags)
 {
+    if (!list || (list->id != CONTAINER_TESTDATABASETYPES && !CONTAINER_IS_VALID(list->id)))
+        return;
+
     int i, num_alloced, idx;
     DbList *member_list = dbListPtr(list->tplt->member_id);
 

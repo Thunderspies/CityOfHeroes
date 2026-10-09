@@ -1340,7 +1340,6 @@ static int handleGameCmd(Packet *pak, int cmd)
 
             _Ch(SERVER_CONFIRM_SG_PROMOTE,                receiveConfirmSGPromote);
             
-            _Ch(SERVER_LEVELINGPACT_INVITE,                receiveLevelingPactInvite);
             _Ch(SERVER_ARCHITECT_COMPLETE,                receiveArchitectComplete);
             _Ch(SERVER_ARCHITECT_SOUVENIR,                receiveArchitectSouvenir);
             _Ch(SERVER_ARCHITECT_INVENTORY,                receiveArchitectInventory);

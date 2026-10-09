@@ -237,21 +237,9 @@ Cmd chat_cmds[] =
 
     // leveling pacts
     //-------------------------------------------------------------------
-    { 9, "debug_enable_levelingpack", CMD_DEBUG_LEVELINGPACT_ENABLE, {{ PARSETYPE_S32, &tmp_int    }}, CMDF_HIDEVARS|CMDF_RETURNONERROR,
-        "Enable leveling pacts" },
-    { 0, "levelingpact",    CMD_LEVELINGPACT_INVITE, {{ CMDSENTENCE( player_name_cmd )}}, CMDF_HIDEVARS|CMDF_RETURNONERROR,
-    "Invite player to join your leveling pact." },
-    { 0, "levelingpact_accept", CMD_LEVELINGPACT_ACCEPT, {{ PARSETYPE_S32, &tmp_int }}, CMDF_HIDEPRINT|CMDF_HIDEVARS|CMDF_RETURNONERROR,
-    "Accept an invitation into a leveling pact." },
-    { 0, "levelingpact_decline", CMD_LEVELINGPACT_DECLINE, {{ PARSETYPE_S32, &tmp_int },{ CMDSTR( tmp_str_cmd )}}, CMDF_HIDEPRINT|CMDF_HIDEVARS|CMDF_RETURNONERROR,
-    "Decline an invitation into a leveling pact." },
     { 0, "unlevelingpact_real",    CMD_LEVELINGPACT_QUIT, {{ 0 }}, CMDF_HIDEPRINT|CMDF_HIDEVARS|CMDF_RETURNONERROR,
     "Leave your leveling pact." },
 
-    { 3, "levelingpact_add_no_xp",    CMD_LEVELINGPACT_CSR_ADD_MEMBER, {{ CMDSTR( player_name_cmd )}, {CMDSTR(tmp_str_cmd)}}, CMDF_RETURNONERROR,
-    "Forcibly join two players in a leveling pact by name." },
-    { 3, "levelingpact_add",    CMD_LEVELINGPACT_CSR_ADD_MEMBER_XP, {{ CMDSTR( player_name_cmd )}, {CMDSTR(tmp_str_cmd)}, {PARSETYPE_S32, &tmp_int}}, CMDF_RETURNONERROR,
-    "Forcibly join two players in a leveling pact by name." },
     { 4, "levelingpact_set_experience", CMD_LEVELINGPACT_CSR_SET_EXPERIENCE, {{ CMDSTR( player_name_cmd )},{ PARSETYPE_S32, &tmp_int }}, CMDF_RETURNONERROR,
     "Set the total experience that a leveling pact shares." },
     { 4, "levelingpact_set_influence",    CMD_LEVELINGPACT_CSR_SET_INFLUENCE, {{ CMDSTR( player_name_cmd )},{ PARSETYPE_S32, &tmp_int }}, CMDF_RETURNONERROR,
@@ -1142,214 +1130,9 @@ static void league_acceptOfferOrRelay(ClientLink *client, Entity *inviter, int i
 //-------------------------------------------------------------------------------------------------------------------------------
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //-------------------------------------------------------------------------------------------------------------------------------
-static int s_levelingPacts_enabled;
-void LevelingPactEnable(int leveling_pact_status)
-{
-    s_levelingPacts_enabled = leveling_pact_status;
-}
-void LevelingPactInvite(Entity *e, char *invitee_name)
-{
-    char *msg = NULL;
-    int invitee_dbid = 0;
-    Entity *invitee = NULL;
 
-    if(!e || !e->owned || !e->pl || !e->pchar)
-        return;
 
-    // this case turns on/off level pack creation
-    if (!s_levelingPacts_enabled)
-    {
-        msg = localizedPrintf(e, "LevelingPactSuspended");
-    }
-    else if(!invitee_name || !invitee_name[0])
-    {
-        msg = localizedPrintf(e, "incorrectFormat", "levelingpactString", "playerNameString", "emptyString", "levelingpactSynonyms");
-    }
-    else if(e->db_id == invitee_dbid ||
-            !(invitee_dbid = dbPlayerIdFromName(invitee_name)) ||
-            !(invitee = entFromDbId(invitee_dbid)) ||
-            !invitee->pl || !invitee->pchar ||
-            invitee->logout_timer ||
-            !invitee->owned ||
-            (invitee->pl->hidden & (1<<HIDE_INVITE)) )
-    {
-        msg = localizedPrintf(e, "playerNotOnMap", invitee_name);
-    }
-    else if (db_state.base_map_id == 41) // Destroyed Galaxy City mapmove number
-    {
-        msg = localizedPrintf(e, "LevelingPactNotHere");
-    }
-    else if(invitee->levelingpact)
-    {
-        msg = localizedPrintf(e, "LevelingPactAlreadyIn", invitee_name);
-    }
-    else if(e->levelingpact && e->levelingpact->members.count >= MAX_LEVELINGPACT_MEMBERS) // statserver will reconfirm this
-    {
-        msg = localizedPrintf(e, "LevelingPactTooManyMembers");
-    }
-    else if(eaiFind(&invitee->pl->levelingpact_invites, e->db_id) >= 0)
-    {
-        msg = localizedPrintf(e, "LevelingPactAlreadyRequested", invitee_name);
-    }
-    else if(character_CalcExperienceLevel(e->pchar) > (LEVELINGPACT_MAXLEVEL-1) ||
-            character_CalcExperienceLevel(invitee->pchar) > (LEVELINGPACT_MAXLEVEL-1) )
-    {
-        char buf[16];
-        sprintf(buf, "%d", LEVELINGPACT_MAXLEVEL);
-        msg = localizedPrintf(e, "LevelingPactLevelTooHigh", buf);
-    }
-    else if ( entIsTrial(e))
-    {
-        msg = localizedPrintf( e, "LevelingPactTrialInviter" );
-    }
-    else if ( entIsTrial(invitee))
-    {
-        msg = localizedPrintf( e, "LevelingPactTrialInvitee" );
-    }
-    else if(isIgnored(invitee, e->db_id))
-    {
-        msg = localizedPrintf(e, "CouldNotActionPlayerReason", "InviteString", invitee_name, "PlayerHasIgnoredYou");
-    }
 
-    if(msg)
-    {
-        // something's awry, let the player know
-        chatSendToPlayer(e->db_id, msg, INFO_USER_ERROR, 0);
-    }
-    else
-    {
-        // all is well, send the invite
-        eaiPush(&invitee->pl->levelingpact_invites, e->db_id);
-        chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactInvited", invitee_name), INFO_SVR_COM, 0);
-
-        START_PACKET(pak_out, invitee, SERVER_LEVELINGPACT_INVITE)
-        pktSendBitsAuto(pak_out, e->db_id);
-        pktSendString(pak_out, e->name);
-        END_PACKET
-    }
-}
-
-void LevelingPactBefriend(Entity *inviter, Entity *accepter)
-{
-    if(!inviter || !accepter)
-        return;
-
-    if(inviter->levelingpact)
-    {
-        int i;
-        char *accepterName, *memberName;
-        Entity *pactMember;
-        accepterName = dbPlayerNameFromId(accepter->db_id);
-        for(i = 0; i < inviter->levelingpact->count; i++)
-        {
-            //this will fail if the pact member isn't on the same map.  We should probably change it if we ever add more than one 
-            //member per pact.
-            pactMember = entFromDbId(inviter->levelingpact->members.ids[i]);
-            if(pactMember)
-            {
-                if( pactMember->db_id != accepter->db_id )
-                {
-                    memberName = dbPlayerNameFromId(pactMember->db_id);
-                    addFriend( accepter, memberName );
-                    addFriend( pactMember, accepterName );
-                }
-            }
-        }
-    }
-    else //if( !isFriend( e, pactMember->db_id ) )
-    {
-        char *accepterName, *inviterName;
-        accepterName = dbPlayerNameFromId(accepter->db_id);
-        inviterName = dbPlayerNameFromId(inviter->db_id);
-        addFriend( accepter, inviterName );
-        addFriend( inviter, accepterName );
-    }
-}
-
-void LevelingPactAccept(Entity *e, int inviter_dbid)
-{
-    char *msg = NULL;
-    Entity *inviter = NULL;
-
-    if(!e || !e->owned || !e->pl || !e->pchar)
-        return;
-
-    if(eaiFindAndRemoveFast(&e->pl->levelingpact_invites, inviter_dbid) < 0)
-    {
-        dbLog("cheater", e, "tried to accept an invite to %d's leveling pact, but wasn't invited", inviter_dbid);
-        if((inviter = entFromDbId(inviter_dbid)))
-        msg = localizedPrintf(e, "playerNotOnMap", entGetName(inviter) );
-    }
-    else if(e->levelingpact)
-    {
-        msg = localizedPrintf(e, "LevelingPactAlreadyInSelf");
-    }
-    else if(!(inviter = entFromDbId(inviter_dbid)) ||
-            !inviter->pl || !inviter->pchar ||
-            inviter->logout_timer ||
-            !inviter->owned ||
-            (inviter->pl->hidden & (1<<HIDE_INVITE)))
-    {
-        if(dbPlayerNameFromId(inviter_dbid))
-            msg = localizedPrintf(e, "playerNotOnMap", dbPlayerNameFromId(inviter_dbid) );
-        //we have to quit if there is no inviter since we'd otherwise try to create a
-        //pact with a non-existent inviter.  This will crash the mapserver.
-        else
-            msg = localizedPrintf(e, "PlayerNotInZone");
-    }
-    else if(inviter->levelingpact && inviter->levelingpact->members.count >= MAX_LEVELINGPACT_MEMBERS) // statserver will reconfirm this
-    {
-        msg = localizedPrintf(e, "LevelingPactTooManyMembers");
-    }
-    else if(character_CalcExperienceLevel(e->pchar) > (LEVELINGPACT_MAXLEVEL-1) ||
-            character_CalcExperienceLevel(inviter->pchar) > (LEVELINGPACT_MAXLEVEL-1) )
-    {
-        char buf[16];
-        sprintf(buf, "%d", LEVELINGPACT_MAXLEVEL);
-        msg = localizedPrintf(e, "LevelingPactLevelTooHigh", buf);
-    }
-    else if(isIgnored(inviter, e->db_id))
-    {
-        msg = localizedPrintf(e, "CouldNotActionPlayerReason", "JoinString", inviter->name, "PlayerHasIgnoredYou");
-    }
-    else if ( entIsTrial(e))
-    {
-        msg =  localizedPrintf( e, "LevelingPactTrialInvitee" );
-    }
-    else if ( entIsTrial(inviter))
-    {
-        msg =  localizedPrintf( e, "LevelingPactTrialInviter" );
-    }
-
-    if(msg)
-    {
-        // something's awry, let the player know
-        chatSendToPlayer(e->db_id, msg, INFO_USER_ERROR, 0);
-    }
-    else
-    {
-        SgrpStat_SendPassthru(e->db_id,0, "statserver_levelingpact_join %d %d %d %d \"%s\" 0",
-            inviter->db_id, inviter->pchar->iExperiencePoints,
-            e->db_id, e->pchar->iExperiencePoints, e->name);
-        
-        if(!inviter)
-            inviter = entFromDbId(inviter_dbid);
-
-        //invite everyone as friends.
-        LevelingPactBefriend(inviter,e);
-    }
-}
-
-void LevelingPactDecline(Entity *e, int inviter_dbid, char *msg)
-{
-    if(e && e->owned && e->pl &&
-        eaiFindAndRemoveFast(&e->pl->levelingpact_invites, inviter_dbid) >= 0)
-    {
-        if(!eaiSize(&e->pl->levelingpact_invites))
-            eaiDestroy(&e->pl->levelingpact_invites);
-        chatSendToPlayer(inviter_dbid, localizedPrintf(e, "LevelingPactDeclines", msg), INFO_USER_ERROR, 0);
-    }
-}
 
 void LevelingPactQuit(Entity *e)
 {
@@ -1379,38 +1162,6 @@ void LevelingPactQuit(Entity *e)
 
 
 //leveling pact CSR functions
-void LevelingPactAddMember(Entity *e, char *name1, char *name2, int exp)
-{
-    int dbid1, dbid2;
-    int failure = 0;
-
-    if(!name1 || !name2 || !e || !e->owned || exp < 0)
-        failure = 1;
-
-    if(!failure)
-    {
-        //this means this command won't work on entities that aren't on line.
-        dbid1 = dbPlayerIdFromName(name1);
-        dbid2 = dbPlayerIdFromName(name2);
-
-        if(!dbid1 || !dbid2 || dbid1 < 0 || dbid2 < 0)
-        {
-            chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactInvalidName"), INFO_USER_ERROR, 0);
-            failure = 1;
-        }
-        else if(dbid1 == dbid2)
-        {
-            chatSendToPlayer(e->db_id, localizedPrintf(e, "LevelingPactDuplicatePact"), INFO_USER_ERROR, 0);
-            failure =1;
-        }
-    }
-
-    if(!failure)
-    {
-        SgrpStat_SendPassthru(e->db_id, 0, "statserver_levelingpact_join %d %d %d %d \"%s\" %d",
-                                        dbid1, exp, dbid2, exp, "", e->db_id);
-    }
-}
 void LevelingPactSetExperience(Entity *e, char *name, int xp)
 {
     int memberId;
@@ -1753,22 +1504,7 @@ void chatCommand( Cmd * cmd, ClientLink *client, char* str )
 
         // LEVELING PACTS
         //----------------------------------------------------------------------
-        xcase CMD_DEBUG_LEVELINGPACT_ENABLE: 
-            {
-                LevelingPactEnable(stack_tmp_int);
-                if (e)
-                {
-                    char buf[30];
-                    sprintf(buf, "Leveling pact status:%s", stack_tmp_int ? "on" : "off");
-                    chatSendToPlayer(e->db_id, buf, INFO_SVR_COM, 0);
-                }
-            }
-        xcase CMD_LEVELINGPACT_INVITE:    LevelingPactInvite(e, player_name);
-        xcase CMD_LEVELINGPACT_ACCEPT:    LevelingPactAccept(e, stack_tmp_int);
-        xcase CMD_LEVELINGPACT_DECLINE:    LevelingPactDecline(e, stack_tmp_int, tmp_str);
         xcase CMD_LEVELINGPACT_QUIT:    LevelingPactQuit(e);
-        xcase CMD_LEVELINGPACT_CSR_ADD_MEMBER:        LevelingPactAddMember(e, player_name, tmp_str, 0);
-        xcase CMD_LEVELINGPACT_CSR_ADD_MEMBER_XP:    LevelingPactAddMember(e, player_name, tmp_str, stack_tmp_int);
         xcase CMD_LEVELINGPACT_CSR_SET_EXPERIENCE:    LevelingPactSetExperience(e, player_name, stack_tmp_int);
         xcase CMD_LEVELINGPACT_CSR_SET_INFLUENCE:    LevelingPactSetInfluence(e, player_name, stack_tmp_int);
         xcase CMD_LEVELINGPACT_CSR_INFO:    LevelingPactInfo(e, player_name, client);
