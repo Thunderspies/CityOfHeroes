@@ -1169,3 +1169,17 @@ if(COX_BUILD_UTILITIES_TESTS)
  target_link_libraries(CostumePacketTests PRIVATE UtilitiesLib)
  add_test(NAME CostumePacket COMMAND CostumePacketTests)
 endif()
+
+if(COX_BUILD_UTILITIES_TESTS)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/src/entity/entserver.c"
+  "// stragglers" "sendChatSettings(pak, e);" entity_settings_send.inc)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/../Game/src/entity/entrecv.c"
+  "START_BIT_COUNT(pak, \"lfg\");" "START_BIT_COUNT(pak, \"receiveChatSettings\");"
+  entity_settings_receive.inc)
+ add_executable(EntitySettingsPacketTests tests/entity_settings_packet.c)
+ cox_target_defaults(EntitySettingsPacketTests)
+ target_include_directories(EntitySettingsPacketTests PRIVATE
+  ../Common "${CMAKE_CURRENT_BINARY_DIR}")
+ target_link_libraries(EntitySettingsPacketTests PRIVATE UtilitiesLib)
+ add_test(NAME EntitySettingsPacket COMMAND EntitySettingsPacketTests)
+endif()
