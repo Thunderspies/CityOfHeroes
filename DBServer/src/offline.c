@@ -1279,44 +1279,10 @@ char *storedData_GetPlayer(tStorageClass storageClass, OfflinePlayer *p)
         //  It's very possible that this group no longer exists now, in which case
         //  onlining the character will fail.
         //
-        //    The other adjustment is needed to make sure that the database
-        //    information obtained from the data file matches the current auth ID
-        //    and name. In 04/2011 we modified the auth information and assigned
-        //    new IDs. Rather than change multiple gig 'o bytes of stored offline
-        //    and deleted player information, we modified the index files only.
-        //    Now, when/if the old data is read we do a fixup.
-        //
-        const char* kStandardSwapText = 
+        char groupMods[] =
                 "SupergroupsId 0\n"
                 "TaskforcesId 0\n"
                 "Ents2[0].LevelingPactsId 0\n";
-        char templateMods[512];
-        const char* newAuthName = p->auth_name;
-        
-        if (( newAuthName == NULL ) || ( *newAuthName == '\0' ))
-        {
-            newAuthName = pnameFindById( p->auth_id );
-        }
-        if (( newAuthName != NULL ) && ( *newAuthName != '\0' ))
-        {
-            sprintf_s( templateMods, ARRAY_SIZE(templateMods),
-                    "AuthId %d\n"
-                    "AuthName \"%s\"\n"
-                    "%s",
-                p->auth_id,
-                newAuthName,
-                kStandardSwapText
-             );        
-        }
-        else
-        {
-            sprintf_s( templateMods, ARRAY_SIZE(templateMods),
-                    "AuthId %d\n"
-                    "%s",
-                p->auth_id,
-                kStandardSwapText
-             );
-        }
     
         zipdata = malloc(zipsize);
         fread(zipdata,zipsize,1,file);
@@ -1326,7 +1292,7 @@ char *storedData_GetPlayer(tStorageClass storageClass, OfflinePlayer *p)
         free(zipdata);
         data[data_size-1] = 0;
         tpltFixOfflineData(&data, &data_size, dbListPtr(CONTAINER_ENTS)->tplt);
-        tpltUpdateData(&data, &data_size, templateMods, dbListPtr(CONTAINER_ENTS)->tplt);
+        tpltUpdateData(&data, &data_size, groupMods, dbListPtr(CONTAINER_ENTS)->tplt);
         prepareDataFile(&spec,-1,0);
     }
     return data;
@@ -1511,9 +1477,8 @@ static int restoreFromOfflineStorage( tStorageClass storageClass, OfflinePlayer 
     } else {
         char new_auth_text[512] = "";
 
-        // In 04/2011 we modified the auth information and assigned new IDs.
-        // Rather than change multiple gig 'o bytes of stored offline and
-        // deleted player information, we modified the index files only.
+		// Restoration writes ownership from the requested current account.
+		// This also handles an account rename since the character was stored.
 
         snprintf(new_auth_text, ARRAY_SIZE(new_auth_text), "AuthId %d\nAuthName \"%s\"\n", authSpec->auth_id, authSpec->auth_name_p);
         tpltUpdateData(&data, &data_size, new_auth_text, list->tplt);
@@ -1693,7 +1658,7 @@ void offlineUnusedPlayers()
         buf_len = sprintf(buf, "WHERE AuthId = %d AND (Level < %d OR Level IS NULL)", auth_id, protect_level-1);
         cols = sqlReadColumnsSlow(list->tplt->tables, NULL, "ContainerId", buf, &row_count, field_ptrs);
         spec.storageClass    = kStorageClass_OfflineCharacters;
-        spec.dataFileKey    = sDataFileStore[kStorageClass_OfflineCharacters].activeStorageIndex->activeFileInfo->id;
+		spec.dataFileKey = offlinedPlayers_InitActiveFileInfo();
         for(idx=0, i=0; i<row_count; i++)
         {
             db_id = *(int *)(&cols[idx]);
