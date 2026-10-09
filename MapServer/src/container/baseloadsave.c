@@ -18,7 +18,6 @@ typedef struct DBBase {
     int supergroupid;
     int userid;
     char *ziptext;
-    char *oldtext; // deprecated
 } DBBase;
 
 LineDesc base_line_desc[] =
@@ -31,9 +30,6 @@ LineDesc base_line_desc[] =
 
     {{ PACKTYPE_CONREF, CONTAINER_SUPERGROUPS,    "SupergroupId",    OFFSET(DBBase, supergroupid),    INOUT(0,0), LINEDESCFLAG_INDEXEDCOLUMN    },
         "DB ID - The Supergroup ID who owns the base, or zero if it's a personal hideout"},
-
-    {{ PACKTYPE_TEXTBLOB, 0,                    "Data",            OFFSET(DBBase, oldtext)                                        },
-        "Compressed base data (old format)"},
 
     {{ PACKTYPE_LARGE_ESTRING_BINARY, 0,        "ZipData",        OFFSET(DBBase, ziptext)                                        },
         "Compressed base data"},
@@ -141,21 +137,6 @@ static void s_loadBase(int id, int *supergroupid, int *userid, char **text)
 {
     memset(&s_requested_base, 0, sizeof(s_requested_base));
     dbSyncContainerRequestCustom(CONTAINER_BASE, id, CONTAINER_CMD_TEMPLOAD, s_processBase);
-
-    if(s_requested_base.oldtext)
-    {
-        // this is ugly, but it keeps the rest of the function nice
-        char *text = estrTemp();
-
-        if(!s_requested_base.ziptext)
-            estrPackStr2(&s_requested_base.ziptext, unescapeAndUnpack(s_requested_base.oldtext));
-        // else we already have new data in there somehow, just delete the old data
-        SAFE_FREE(s_requested_base.oldtext);
-
-        estrUnpackStr(&text, &s_requested_base.ziptext);
-        s_saveBase(id, s_requested_base.supergroupid, s_requested_base.userid, text);
-        estrDestroy(&text);
-    }
 
     if(supergroupid)
         *supergroupid = s_requested_base.supergroupid;
