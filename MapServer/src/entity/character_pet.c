@@ -296,39 +296,6 @@ static int comparePetName(const void* ppet1Data, const void* ppet2Data)
     else return (*ppet1)->petNumber-(*ppet2)->petNumber;
 }
 
-// Deprecated
-char* deprecated_getNewPetNameByPower(const char *powerName, const char *entDefName, Entity *e) {
-    int petCount, nameCount, i, foundUnused = -1;
-    assert(e->pl != NULL);
-
-    petCount = e->petList_size;
-    nameCount = eaSize(&e->pl->petNames);
-
-    // Look for the start of the petnames devoted to this power
-    for (i = 0; i < nameCount; i++) {
-        if (strcmp(e->pl->petNames[i]->DEPRECATED_pchPowerName,powerName) == 0) {
-            int j, found = 0;
-            for (j = 0; j < petCount; j++) {
-                Entity *pet = erGetEnt(e->petList[j]);
-                if (pet && pet->petName && pet->pchar->attrCur.fHitPoints > 0.f && 
-                    strcmp(e->pl->petNames[i]->petName,pet->petName) == 0) //found alive match
-                {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) { //this name is free to be used
-                strcpy(e->pl->petNames[i]->DEPRECATED_pchPowerName, "");    //    clear out deprecated name
-                strcpy(e->pl->petNames[i]->pchEntityDef, entDefName);        //    use the entity def name from now on
-                return e->pl->petNames[i]->petName;
-            }
-        }
-    }
-
-    // If we've gotten here, no petnames left for this power, return null
-    return NULL;
-}
-
 // return the appropriate name for a new pet
 char* getNewPetName(const char *entDefName, Entity *e) {
     int petCount, nameCount, i, foundUnused = -1;
@@ -362,7 +329,6 @@ char* getNewPetName(const char *entDefName, Entity *e) {
                 }
             }
             if (!found) { //this name is free to be used
-                strcpy(e->pl->petNames[i]->DEPRECATED_pchPowerName, "");    //    clear out deprecated name if any
                 return e->pl->petNames[i]->petName;
             }
             i++;
@@ -549,12 +515,6 @@ void character_CreatePet(Character *p, AttribMod *pmod)
         if (eOwner && ENTTYPE(eOwner) == ENTTYPE_PLAYER) {
             const char *entDefName = (pPet->villainDef && pPet->villainDef->name) ? pPet->villainDef->name : "none";
             tmp = getNewPetName(entDefName, eOwner);
-            if (!tmp)
-            {
-                char *pname = getFullPowerName(pPet->pchar->ppowCreatedMe);
-                tmp = deprecated_getNewPetNameByPower(pname, entDefName, eOwner);
-                free(pname);
-            }
         }
 
         if (tmp)

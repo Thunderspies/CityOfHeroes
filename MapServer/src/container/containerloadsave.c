@@ -176,9 +176,6 @@ LineDesc testdatabasetypes_schema_desc[] =
 
 LineDesc petname_line_desc[] =
 {
-    {{ PACKTYPE_STR_ASCII,     MAX_NAME_LEN,                    "PowerName",OFFSET(PetName, DEPRECATED_pchPowerName ),    },
-        {"The internal name of the power that creates the pet"}},
-
     {{ PACKTYPE_INT,     SIZE_INT32,                        "PetNumber",OFFSET(PetName, petNumber ),       },
         "The 0-based index of the pet. For instance, for a first level Mastermind power<br>"
         "this could be 0-2"},
