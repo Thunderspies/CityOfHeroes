@@ -378,9 +378,6 @@ LineDesc sg_task_line_desc[] =
     {{ PACKTYPE_INT,        SIZE_INT32,            "VillainCount2",OFFSET(StoryTaskInfo, curKillCount2)},
         "Current number of villains killed for kill tasks, a second count for tracking a second villain group"},
 
-    {{ PACKTYPE_STR_ASCII,        SIZEOF2(StoryTaskInfo, deliveryTargetName),    "DeliveryTargetName",OFFSET(StoryTaskInfo, deliveryTargetName)},
-        "Deprecated: no longer used"},
-
     {{ PACKTYPE_INT,        SIZE_INT32,            "NextVisitLocation", OFFSET(StoryTaskInfo, nextLocation) },
         "Index of the next location to visit(only for visit location tasks)"},
 
