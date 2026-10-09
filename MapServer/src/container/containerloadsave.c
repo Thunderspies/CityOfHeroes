@@ -2011,9 +2011,6 @@ LineDesc ent2_line_desc[] =
         "   0 = Influence<br>"
         "   1 = Infamy"},
 
-    {{ PACKTYPE_INT, SIZE_INT32,                            "InfluenceEscrow",OFFSET2_PTR(Entity, pchar, Character, iInfluenceEscrow),        },
-        "Total Influence (not Infamy or Information) available. Copied to Influence if InfluenceType is 0"},
-
     {{ PACKTYPE_INT, SIZE_INT8,                            "AutoAcceptAbove",OFFSET2_PTR(Entity, pl, EntPlayer, autoAcceptTeamAbove),        },
         "The how far above their current level will be auto accepted by the player"},
     {{ PACKTYPE_INT, SIZE_INT8,                            "AutoAcceptBelow",OFFSET2_PTR(Entity, pl, EntPlayer, autoAcceptTeamBelow),        },
@@ -4293,11 +4290,6 @@ void unpackEnt( Entity *e, char *buff )
     log = unpackEntPowers(e, &s_dbpows, eRestoreAttrib, "Unpack");
     // @testing -AB: see if we can detect corruption  :07/19/06
     checkEntBadges(e,"unpackEnt_afterpowers");
-
-    // This column is deprecated and nobody on Live should ever have anything
-    // in it. For the Going Rogue beta this means we're deleting money for
-    // some people, but that was going to happen anyway.
-    e->pchar->iInfluenceEscrow = 0;
 
     unpackEntStats(e, &dbstats);
     unpackCostumes(e, &dbcostumes);

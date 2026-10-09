@@ -190,7 +190,6 @@ typedef struct Character
     int iInfluencePoints;
         // How much money the character has.
 
-    int iInfluenceEscrow;
         // Deprecated, should always be zero now that we're using a single currency
 
     int iInfluenceApt;
