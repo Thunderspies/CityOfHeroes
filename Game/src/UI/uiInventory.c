@@ -45,7 +45,6 @@
 typedef enum UiInvType
 {
     UiInvType_Salvage,
-    UiInvType_Concept,
     UiInvType_Recipe,
     UiInvType_Count
 } UiInvType;
@@ -144,7 +143,6 @@ int inventoryWindow()
         } infos[UiInvType_Count] =
             {
                 { "UiInventoryTypeSalvage", WDW_SALVAGE },
-                { "UiInventoryTypeConcept", WDW_CONCEPTINV },
                 { "UiInventoryTypeRecipe", WDW_RECIPEINV },
             };
         STATIC_INFUNC_ASSERT(ARRAY_SIZE(infos) == UiInvType_Count);

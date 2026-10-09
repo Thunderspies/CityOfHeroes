@@ -26,6 +26,7 @@ int window_IsPacketWindow(int idx)
     case WDW_DEPRECATED_1:
     case WDW_UNUSED_1:
     case WDW_DEPRECATED_2:
+    case WDW_CONCEPTINV:
     case WDW_INVENT:
     case WDW_WEB_STORE:
     case WDW_MAIN_STORE_ACCESS:

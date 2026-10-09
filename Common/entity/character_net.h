@@ -17,7 +17,6 @@ typedef struct Boost Boost;
 typedef struct PowerDictionary PowerDictionary;
 typedef struct SalvageInventoryItem SalvageInventoryItem;
 typedef struct Character Character;
-typedef struct ConceptItem ConceptItem;
 typedef struct PowerRef PowerRef;
 
 void basepower_Send(Packet *pak, const BasePower *ppow);
@@ -29,8 +28,6 @@ Power *SafeGetPowerByIdx(Character *p, int ibuild, int iset, int ipow);
 void character_SendBoosts(Packet *pak, Character *pchar);
 void character_SendPowers(Packet *pak, Character *pchar);
 
-ConceptItem* conceptitem_Receive(ConceptItem *resItem, Packet *pak);
-void conceptitem_Send(ConceptItem *p, Packet *pak);
 
 void character_inventory_Send(Character *p, Packet *pak, InventoryType type, int idx);
 void character_inventory_Receive(Character *p, Packet *pak );

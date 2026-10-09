@@ -120,7 +120,6 @@
 #include "render/renderperf.h"
 #include "group/groupfileload.h"
 #include "seq/anim.h"
-#include "entity/Concept.h"
 #include "UI/uiInfo.h"
 #include "render/model.h"
 #include "graphics/textureatlas.h"
@@ -590,10 +589,8 @@ enum
     CMD_TRAY_STICKY_ALT2,
     CMD_TRAY_CLEAR,
     CMD_SALVAGEDEFS_LIST,
-    CMD_CONCEPTDEFS_LIST,
     CMD_RECIPEDEFS_LIST,
     CMD_SALVAGEINV_LIST,
-    CMD_CONCEPTINV_LIST,
     CMD_RECIPEINV_LIST,
     CMD_DETAILINV_LIST,
     CMD_SALVAGE_REVERSE_ENGINEER,
@@ -2295,13 +2292,11 @@ Cmd game_cmds[] =
     { 9, "resetseps",    CMD_RESET_SEPS, {{0}}, 0, "Reset separation of icons on mini map." },
 
     { 9, "ls_salvagedefs", CMD_SALVAGEDEFS_LIST, {{0}}, 0, "List the salvage defs." },
-    { 9, "ls_conceptdefs", CMD_CONCEPTDEFS_LIST, {{0}}, 0, "List the concept defs." },
     { 9, "ls_recipedefs", CMD_RECIPEDEFS_LIST, {{0}}, 0, "List the recipe defs." },
     { 9, "ls_salvage", CMD_SALVAGEINV_LIST, {{0}}, 0, "List the player's salvage." },
     // Reverse engineering is an old, deprecated system. This command gets
     // typoed for "rw_salvage" sometimes, so it's better just to disable it.
 //    { 9, "re_salvage", CMD_SALVAGE_REVERSE_ENGINEER, {{ CMDINT(tmp_int) }}, 0, "reverse engineer the the salvage item <index>." },
-    { 9, "ls_concept", CMD_CONCEPTINV_LIST, {{0}}, 0, "List the player's concepts." },
     { 9, "ls_recipe", CMD_RECIPEINV_LIST, {{0}}, 0, "List the player's recipes." },
     { 9, "ls_detail", CMD_DETAILINV_LIST, {{0}}, 0, "List the player's salvage." },
     { 9, "uiinventory_show", CMD_UIINVENTORY_VISIBILITY, {{ CMDINT(tmp_int) }}, 0, "select the recipe for hardening by index." },
@@ -4960,18 +4955,6 @@ int cmdGameParse(char *str, int x, int y)
                 }
             }
         }
-        xcase CMD_CONCEPTDEFS_LIST:
-        {
-            int i;
-            for( i = 1; conceptdef_ValidId(i) ; ++i )
-            {
-                ConceptDef const *s = conceptdef_GetById( i );
-                if(s)
-                {
-                    conPrintf("%d:%s;", i, s->name);
-                }
-            }
-        }
         xcase CMD_RECIPEDEFS_LIST:
         {
             int i;
@@ -5000,21 +4983,6 @@ int cmdGameParse(char *str, int x, int y)
                     }
                 }
             }
-        }
-        xcase CMD_CONCEPTINV_LIST:
-         {
-             Entity * e = playerPtr();
-             if( e && e->pchar )
-             {
-                 int i;
-                 conPrintf("Inventory Items: ----------------------------------------\n");
-
-                 for( i = 0; i < eaSize( &e->pchar->conceptInv ); ++i )
-                 {
-                     conPrintf("%d  %s: %d vars<%.2f,%.2f,%.2f,%.2f>", i, e->pchar->conceptInv[i]->concept?e->pchar->conceptInv[i]->concept->def->name : "<null>", e->pchar->conceptInv[i]->amount, e->pchar->conceptInv[i]->concept->afVars[0],e->pchar->conceptInv[i]->concept->afVars[1],e->pchar->conceptInv[i]->concept->afVars[2],e->pchar->conceptInv[i]->concept->afVars[3]);
-                 }
-                 conPrintf("------------------------------------------------------------\n");
-             }
         }
         xcase CMD_RECIPEINV_LIST:
          {

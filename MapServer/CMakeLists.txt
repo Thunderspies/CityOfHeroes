@@ -1206,3 +1206,22 @@ if(COX_BUILD_UTILITIES_TESTS)
  target_link_libraries(WindowPacketTests PRIVATE UtilitiesLib)
  add_test(NAME WindowPacket COMMAND WindowPacketTests)
 endif()
+
+if(COX_BUILD_UTILITIES_TESTS)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/../Common/entity/character_net.c"
+  "// Generic inventory" "// end Generic inventory" inventory_packet.inc)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/src/player/inventory_server.c"
+  "void entity_SendInvUpdate(" "bool inventoryServer_BuyProduct(" inventory_delta_send.inc)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/../Game/src/player/inventory_client.c"
+  "void entity_ReceiveInvUpdate(" "bool inventoryClient_BuyProduct(" inventory_delta_receive.inc)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/../Common/entity/character_inventory.c"
+  "const InventoryType inventoryPacketTypes" "static int s_FindConceptByDef(" inventory_packet_types.inc)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/../Common/entity/character_inventory.c"
+  "static bool s_PrepInvToSetItem(" "static void genericinv_SetItem(" inventory_prepare.inc)
+ add_executable(InventoryPacketTests tests/inventory_packet.c)
+ cox_target_defaults(InventoryPacketTests)
+ target_compile_definitions(InventoryPacketTests PRIVATE SERVER _CONSOLE)
+ target_include_directories(InventoryPacketTests PRIVATE src ../Common "${CMAKE_CURRENT_BINARY_DIR}")
+ target_link_libraries(InventoryPacketTests PRIVATE UtilitiesLib)
+ add_test(NAME InventoryPacket COMMAND InventoryPacketTests)
+endif()

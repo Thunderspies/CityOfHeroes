@@ -5,7 +5,6 @@
  ***************************************************************************/
 #include "entity/powers.h"
 #include "uiRecipeInv.h"
-#include "uiConceptInv.h"
 #include "UI/uiCursor.h"
 #include "uiGrowBig.h"
 #include <utilitieslib/utils/error.h>
@@ -55,6 +54,61 @@
 
 // ------------------------------------------------------------
 // 
+
+typedef struct uiAttribModGroup
+{
+    char *pchName;
+    char *pogName;
+} uiAttribModGroup;
+
+static uiAttribModGroup s_grps[] =
+{
+    {"Var_Taunt_Duration","E_POG_TAUNT_DURATION"},
+    {"Var_Stun_Duration","E_POG_STUN_DURATION"},
+    {"Var_Slow_Movement","E_POG_SLOW_MOVEMENT"},
+    {"Var_Sleep_Duration","E_POG_SLEEP_DURATION"},
+    {"Var_Run_Speed","E_POG_RUN_SPEED"},
+    {"Var_Recovery","E_POG_RECOVERY"},
+    {"Var_Recharge_Time","E_POG_RECHARGE_TIME"},
+    {"Var_Range_Increase","E_POG_RANGE_INCREASE"},
+    {"Var_Radius","E_POG_RADIUS"},
+    {"Var_Leap_Height","E_POG_LEAP_HEIGHT"},
+    {"Var_Knockback_Distance","E_POG_KNOCKBACK_DISTANCE"},
+    {"Var_Jump_Distance","E_POG_JUMP_DISTANCE"},
+    {"Var_Interrupt_Times","E_POG_INTERRUPT_TIMES"},
+    {"Var_Intagibility_Duration","E_POG_INTAGIBILITY_DURATION"},
+    {"Var_Immobilization_Duration","E_POG_IMMOBILIZATION_DURATION"},
+    {"Var_Hold_Duration","E_POG_HOLD_DURATION"},
+    {"Var_Heal","E_POG_HEAL"},
+    {"Var_Fly_Speed","E_POG_FLY_SPEED"},
+    {"Var_Fear_Duration","E_POG_FEAR_DURATION"},
+    {"Var_End_Drain","E_POG_END_DRAIN"},
+    {"Var_End_Discount","E_POG_END_DISCOUNT"},
+    {"Var_Debuff_To_Hit","E_POG_DEBUFF_TO_HIT"},
+    {"Var_Debuff_Defense","E_POG_DEBUFF_DEFENSE"},
+    {"Var_Debuff_Damage","E_POG_DEBUFF_DAMAGE"},
+    {"Var_Damage_Resist","E_POG_DAMAGE_RESIST"},
+    {"Var_Damage","E_POG_DAMAGE"},
+    {"Var_Confusion_Duration","E_POG_CONFUSION_DURATION"},
+    {"Var_Cone_Range","E_POG_CONE_RANGE"},
+    {"Var_Buff_To_Hit","E_POG_BUFF_TO_HIT"},
+    {"Var_Buff_Defense","E_POG_BUFF_DEFENSE"},
+    {"Var_Buff_Damage","E_POG_BUFF_DAMAGE"},
+    {"Var_Accuracy","E_POG_ACCURACY"},
+};
+
+static uiAttribModGroup* uiAttribModGroup_GetByStr(char const *str)
+{
+    int i;
+    for( i = 0; i < ARRAY_SIZE( s_grps ); ++i )
+    {
+        if( 0 == stricmp(str, s_grps[i].pchName) )
+        {
+            return s_grps+i;
+        }
+    }
+    return NULL;
+}
 
 // recipe->recipe->ppVars[0]->pchName
 #define AM_NAME(RECIPE) RECIPE->pchName
