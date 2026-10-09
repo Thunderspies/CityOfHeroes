@@ -1415,14 +1415,8 @@ static bool entConAuthUserDataIsEmpty(EntCon *ent_con)
 
 static void updateAuthUserData(GameClientLink *client,EntCon *ent_con)
 {
-    int i;
     char *hex_str;
     char auth_user_data_hex[AUTH_BYTES * 2 + 1024];
-    char auth_user_data_orig_hex[AUTH_BYTES * 2 + 1024];
-    unsigned char auth_user_data[AUTH_BYTES];
-    unsigned char auth_user_data_orig[AUTH_BYTES];
-    U32 *auth_words;
-    U32 *auth_words_orig;
     char old_hex[AUTH_BYTES * 2 + 1024] = "unset";
 
     // Don't replace existing auth data with the default if there is no
@@ -1439,62 +1433,6 @@ static void updateAuthUserData(GameClientLink *client,EntCon *ent_con)
         {
             LOG_OLD( "%s 0x%s updating entity %d %s", ent_con->account, hex_str, ent_con->id, ent_con->ent_name);
             containerUpdate(dbListPtr(CONTAINER_ENTS),ent_con->id,auth_user_data_hex,TRUE);
-        }
-    }
-
-    // If we determine that this change is also needed when there's an auth server, just remove this test
-    if (server_cfg.fake_auth)
-    {
-        strcpy(auth_user_data_hex, "unset");
-        strcpy(auth_user_data_orig_hex, "unset");
-        findFieldTplt(dbListPtr(CONTAINER_ENTS)->tplt, &ent_con->line_list, "Ents2[0].AuthUserDataEx", auth_user_data_hex);
-        findFieldTplt(dbListPtr(CONTAINER_ENTS)->tplt, &ent_con->line_list, "AuthUserData", auth_user_data_orig_hex);
-        if (stricmp(auth_user_data_hex, "unset" ) != 0 && stricmp(auth_user_data_orig_hex, "unset" ) != 0)
-        {
-            // This seems extremely inefficient, however it'll only ever do work in the case of an error.
-            // Pad out a short string to the expected length
-            while (strlen(auth_user_data_hex) < AUTH_BYTES * 2)
-            {
-                strcat(auth_user_data_hex, "0");
-            }
-            // and truncate a long one
-            auth_user_data_hex[AUTH_BYTES * 2] = 0;
-
-            memcpy(auth_user_data, hexStrToBinStr(auth_user_data_hex, AUTH_BYTES * 2), AUTH_BYTES);
-
-            while (strlen(auth_user_data_orig_hex) < AUTH_BYTES_ORIG * 2)
-            {
-                strcat(auth_user_data_orig_hex, "0");
-            }
-            auth_user_data_orig_hex[AUTH_BYTES_ORIG * 2] = 0;
-
-            // This memcpy is technically unnecessary.  However since I will be changing the binary data, I prefer to do
-            // the changes in a local buffer
-            memcpy(auth_user_data_orig, hexStrToBinStr(auth_user_data_orig_hex, AUTH_BYTES_ORIG * 2), AUTH_BYTES_ORIG);
-
-            auth_words = (U32 *) auth_user_data;
-            auth_words_orig = (U32 *) auth_user_data_orig;
-            for (i = 0; i < AUTH_DWORDS_ORIG; i++)
-            {
-                *auth_words |= *auth_words_orig;
-                // zero out the original data, so that if someone uses "AuthUserDatSet xyzzy 0" to clear an auth bit
-                // it'll stay clear
-                *auth_words_orig = 0;
-
-                auth_words++;
-                auth_words_orig++;
-            }
-
-            hex_str = binStrToHexStr(auth_user_data, AUTH_BYTES);
-            sprintf(auth_user_data_hex, "Ents2[0].AuthUserDataEx \"%s\"\n", hex_str);
-
-            containerUpdate(dbListPtr(CONTAINER_ENTS), ent_con->id, auth_user_data_hex, TRUE);
-
-            // And write back the zeroed out original data.
-            hex_str = binStrToHexStr(auth_user_data_orig, AUTH_BYTES_ORIG);
-            sprintf(auth_user_data_orig_hex, "AuthUserData \"%s\"\n", hex_str);
-
-            containerUpdate(dbListPtr(CONTAINER_ENTS), ent_con->id, auth_user_data_orig_hex, TRUE);
         }
     }
 
