@@ -1158,3 +1158,14 @@ if(COX_BUILD_UTILITIES_TESTS)
 	target_link_libraries(BasePersistenceTests PRIVATE UtilitiesLib ZLIB::ZLIB)
 	add_test(NAME BasePersistence COMMAND BasePersistenceTests)
 endif()
+
+if(COX_BUILD_UTILITIES_TESTS)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/../Common/entity/costume.c"
+  "int num_colors_lookup[]" "int costume_change(" costume_packet.inc)
+ add_executable(CostumePacketTests tests/costume_packet.c)
+ cox_target_defaults(CostumePacketTests)
+ target_include_directories(CostumePacketTests PRIVATE
+  ../Common "${CMAKE_CURRENT_BINARY_DIR}")
+ target_link_libraries(CostumePacketTests PRIVATE UtilitiesLib)
+ add_test(NAME CostumePacket COMMAND CostumePacketTests)
+endif()

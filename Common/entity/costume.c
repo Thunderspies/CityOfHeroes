@@ -1437,7 +1437,7 @@ int costume_receive(Packet *pak, Costume* costume)
 
     costume->appearance.bodytype            = pktGetBitsPack(pak, 6);
     costume->appearance.colorSkin.integer    = pktGetBits(pak, 32);
-    costume->appearance.convertedScale        = pktGetBits(pak,1);
+    costume->appearance.convertedScale        = 1;
     costume->appearance.currentSuperColorSet = pktGetBits(pak, 3);
     hasExtraInfo                            = pktGetBits( pak, 1 );
 
@@ -1540,7 +1540,6 @@ void costume_send(Packet* pak, Costume * costume, int send_names)
 
     pktSendBitsPack(pak, 6, costume->appearance.bodytype);
     pktSendBits(pak, 32, costume->appearance.colorSkin.integer);
-    pktSendBits(pak, 1, costume->appearance.convertedScale );
     pktSendBits(pak, 3, costume->appearance.currentSuperColorSet);
 
     sendExtraInfo = send_names;
