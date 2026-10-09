@@ -1083,6 +1083,58 @@ if(COX_BUILD_UTILITIES_TESTS)
 endif()
 
 if(COX_BUILD_UTILITIES_TESTS)
+	function(cox_extract_costume_test source first last output)
+		set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${source}")
+		file(READ "${source}" code)
+		string(FIND "${code}" "${first}" first_pos)
+		string(FIND "${code}" "${last}" last_pos)
+		if(first_pos LESS 0 OR last_pos LESS first_pos)
+			message(FATAL_ERROR "Cannot locate costume persistence test section")
+		endif()
+		math(EXPR length "${last_pos} - ${first_pos}")
+		string(SUBSTRING "${code}" ${first_pos} ${length} code)
+		file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/${output}" "${code}")
+	endfunction()
+	set(costume_db "${CMAKE_CURRENT_SOURCE_DIR}/src/entity/costume_db.c")
+	set(container_db "${CMAKE_CURRENT_SOURCE_DIR}/src/container/containerloadsave.c")
+	cox_extract_costume_test(
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/container/containerSupergroup.c"
+		"LineDesc sg_task_line_desc[]" "static StructDesc sg_task_desc[]"
+		sg_task_persistence.inc)
+	cox_extract_costume_test("${container_db}" "LineDesc appearance_line_desc[]"
+		"// FameString list description" costume_descriptors.inc)
+	cox_extract_costume_test("${costume_db}" "void packageAppearances("
+		"void unpackCostumes(" costume_pack.inc)
+	cox_extract_costume_test("${costume_db}" "void unpackAppearance("
+		"/* End of File */" costume_unpack.inc)
+	cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/../Common/entity/costume.c"
+		"static int compressScale(" "// Temp home for bodyName()" costume_scales.inc)
+	add_executable(CostumePersistenceTests tests/costume_persistence.c
+		../Common/container/dbcontainerpack.c)
+	cox_target_defaults(CostumePersistenceTests)
+	target_include_directories(CostumePersistenceTests PRIVATE
+		src ../Common ../Game/src "${CMAKE_CURRENT_BINARY_DIR}")
+	target_compile_definitions(CostumePersistenceTests PRIVATE SERVER _CONSOLE)
+	target_link_libraries(CostumePersistenceTests PRIVATE UtilitiesLib)
+	add_test(NAME CostumePersistence COMMAND CostumePersistenceTests)
+	cox_extract_costume_test("${container_db}" "LineDesc petname_line_desc[]"
+		"StructDesc petname_desc[]" pet_names.inc)
+	cox_extract_costume_test("${container_db}"
+		"LineDesc chat_settings_tab_line_desc[]"
+		"StructDesc chat_settings_tab_desc[]" chat_tabs.inc)
+	cox_extract_costume_test("${container_db}"
+		"static LineDesc reward_token_line_desc[]"
+		"StructDesc player_reward_token_desc[]" reward_tokens.inc)
+	add_executable(CurrentSettingsPersistenceTests tests/current_settings.c
+		../Common/container/dbcontainerpack.c)
+	cox_target_defaults(CurrentSettingsPersistenceTests)
+	target_include_directories(CurrentSettingsPersistenceTests PRIVATE
+		src ../Common "${CMAKE_CURRENT_BINARY_DIR}")
+	target_link_libraries(CurrentSettingsPersistenceTests PRIVATE UtilitiesLib)
+	add_test(NAME CurrentSettingsPersistence COMMAND CurrentSettingsPersistenceTests)
+endif()
+
+if(COX_BUILD_UTILITIES_TESTS)
 	set(base_source "${CMAKE_CURRENT_SOURCE_DIR}/src/container/baseloadsave.c")
 	set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${base_source}")
 	file(READ "${base_source}" base_code)
