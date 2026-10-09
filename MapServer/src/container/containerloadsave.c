@@ -793,10 +793,6 @@ LineDesc appearance_line_desc[] =
     {{ PACKTYPE_FLOAT,        SIZE_FLOAT32,                "LegScale",        OFFSET(Appearance, fLegScale),            },
         "The basic scales of the various overall body parts"},
 
-    {{ PACKTYPE_INT,     SIZE_INT32,         "ConvertedScale", OFFSET(Appearance, convertedScale),    },
-        "Chacters made before body scaling had to be converted to new system.  If this is set, that conversion<br>"
-        "has happened."},
-
     {{ PACKTYPE_INT,     SIZE_INT32,         "HeadScales",        OFFSET(Appearance, compressedScales[0]),    },
         "The scales for the head shape. These are vec3's compressed into integer format."},
     {{ PACKTYPE_INT,     SIZE_INT32,         "BrowScales",        OFFSET(Appearance, compressedScales[1]),    },

@@ -184,7 +184,7 @@ void unpackAppearance( Entity *e, DBAppearance * dba )
 		e->pl->costume[i]->appearance.bodytype = dba->appearance[i].bodytype;
 		e->pl->costume[i]->appearance.colorSkin = dba->appearance[i].colorSkin;
 
-        e->pl->costume[i]->appearance.convertedScale    = dba->appearance[i].convertedScale;
+		e->pl->costume[i]->appearance.convertedScale = 1;
 
         for(k=0;k<MAX_BODY_SCALES;k++)
         {
@@ -205,8 +205,6 @@ void unpackAppearance( Entity *e, DBAppearance * dba )
         e->pl->costume[i]->appearance.currentSuperColorSet = dba->appearance[i].currentSuperColorSet;
 
 
-        if(    !e->pl->costume[i]->appearance.convertedScale )
-            costume_retrofitBoneScale( e->pl->costume[i] );
     }
 }
 
