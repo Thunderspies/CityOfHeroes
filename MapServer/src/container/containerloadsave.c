@@ -4221,115 +4221,6 @@ static void fixMultiBuilds(Entity *e)
     e->pchar->iActiveBuild = e->pchar->iCurBuild;
 }
 
-static void fixTraySlots(Entity *e)
-{
-    int k, l;
-    int needFixup;
-    int clearFullTray = 0;
-    Tray *tray;
-    TrayObj *obj;
-    PowerSet *pset;
-    Power *pow;
-    // Detect a bad tray by looking for a primary power in slot 2.  Pre-I13, this is where primaries lived.
-    // Post-I13, primaries are in slot 4, i.e, g_numSharedPowersets + 1.  +1 to skip inherents which precede primaries
-    // Post-I18, primaries are in a way later slot (after Incarnate powersets), so I took out the magic number and put in g_numSharedPowersets + 1
-    // Post-I19, primaries are in an even later slot (after a second Inherent powerset), so I took out the last remaining magic number and put in g_numAutomaticSpecificPowersets.
-
-    if (!e || !e->pl || !e->pl->tray)
-    {
-        return;
-    }
-
-    tray = e->pl->tray;
-
-    // I do a metric boat-load of pointer checks in here.  None of them should ever fail, but I'd much rather check and fail gracefully
-    // as opposed to crashing / asserting the mapserver.  That would be a "bad thing" (tm).  Players just love it when they can crash
-    // mapservers.  The net result of a failure in here is that we can't clean up the mess, so we just destroy the player's tray completely.
-    if (e->pchar && eaSize(&e->pchar->ppBuildPowerSets[0]) > (g_numSharedPowersets + g_numAutomaticSpecificPowersets))
-    {
-        needFixup = 0;
-        // Only scan the first build's worth of tray data.  If we have an error, it has to be here
-        resetTrayIterator(tray, 0, kTrayCategory_PlayerControlled);
-        while (getNextTrayObjFromIterator(&obj))
-        {
-            if (obj && obj->type == kTrayItemType_Power && obj->iset == 2)
-            {
-                // Got a candidate.
-                if (obj->pchPowerSetName 
-                    && e->pchar->ppBuildPowerSets[0][g_numSharedPowersets + g_numAutomaticSpecificPowersets]
-                    && e->pchar->ppBuildPowerSets[0][g_numSharedPowersets + g_numAutomaticSpecificPowersets]->psetBase
-                    && e->pchar->ppBuildPowerSets[0][g_numSharedPowersets + g_numAutomaticSpecificPowersets]->psetBase->pchName)
-                {                        
-                    if (strcmp(obj->pchPowerSetName, e->pchar->ppBuildPowerSets[0][g_numSharedPowersets + g_numAutomaticSpecificPowersets]->psetBase->pchName) == 0)
-                    {
-                        needFixup = 1;
-                        break;
-                    }
-                }
-            }
-        }
-        if (needFixup)
-        {
-            resetTrayIterator(tray, 0, kTrayCategory_PlayerControlled);
-            while (getNextTrayObjFromIterator(&obj))
-            {
-                if (obj && obj->type == kTrayItemType_Power)
-                {
-                    for (k = eaSize(&e->pchar->ppBuildPowerSets[0]) - 1; k >= 0; k--)
-                    {
-                        pset = e->pchar->ppBuildPowerSets[0][k];
-                        for (l = eaSize(&pset->ppPowers) - 1; l >= 0; l--)
-                        {
-                            pow = pset->ppPowers[l];
-                            // Sanity check pointers
-                            if (pow && pow->ppowBase && pow->ppowBase->psetParent && pow->ppowBase->psetParent->pcatParent &&
-                                pow->ppowBase->pchName && pow->ppowBase->psetParent->pchName && pow->ppowBase->psetParent->pcatParent->pchName)
-                            {
-                                if (stricmp(obj->pchPowerSetName, pow->ppowBase->psetParent->pchName) == 0 &&
-                                    stricmp(obj->pchCategory, pow->ppowBase->psetParent->pcatParent->pchName) == 0)
-                                {
-                                    // Given the comment immediately below, do I actually need to do this test?
-                                    if (stricmp(obj->pchPowerName, pow->ppowBase->pchName) == 0)
-                                    {
-                                        // Only need to change the iset, since the power number within the powerset won't have changed
-                                        obj->iset = k;
-                                        k = -1;
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                            else
-                            {
-                                clearFullTray = 1;
-                                k = -1;
-                                // break out of the whole mess of nested loops
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        clearFullTray = 1;
-    }
-
-    if (clearFullTray)
-    {
-        resetTrayIterator(tray, -1, kTrayCategory_PlayerControlled);
-        while (getNextTrayObjFromIterator(&obj))
-        {
-            destroyCurrentTrayObjViaIterator();
-        }
-    }
-}
-
 // MAK - an entity should be zero'ed before calling this function - essentially, entities
 // can only be loaded on logins and be correct
 void unpackEnt( Entity *e, char *buff )
@@ -4516,7 +4407,6 @@ void unpackEnt( Entity *e, char *buff )
     fixUnpackedCostume(e);
 
     // Fix up tray slots for I13 multiple builds.
-    fixTraySlots(e);
 
     // --------------------
     // log any pieces of the container
