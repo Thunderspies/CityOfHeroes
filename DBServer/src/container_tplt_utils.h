@@ -30,7 +30,6 @@ typedef enum ContainerFieldType
     CFTYPE_ANSISTRING_MAX,
 
     // Deprecated types
-    CFTYPE_TEXTBLOB,
     CFTYPE_BLOB,
     CFTYPE_COUNT
 } ContainerFieldType;
@@ -38,7 +37,7 @@ typedef enum ContainerFieldType
 #define FIRST_QUOTED_TYPE CFTYPE_UNICODESTRING
 
 #define CFTYPE_IS_ARRAY(_e) ((_e) == CFTYPE_UNICODESTRING || (_e) == CFTYPE_ANSISTRING)
-#define CFTYPE_IS_LEGACY(_e) ((_e) == CFTYPE_TEXTBLOB || (_e) == CFTYPE_BLOB)
+#define CFTYPE_IS_LEGACY(_e) ((_e) == CFTYPE_BLOB)
 #define CFTYPE_IS_DYNAMIC(_e) ((_e) == CFTYPE_BINARY_MAX || (_e) == CFTYPE_UNICODESTRING_MAX || (_e) == CFTYPE_ANSISTRING_MAX || CFTYPE_IS_LEGACY(_e))
 
 typedef struct

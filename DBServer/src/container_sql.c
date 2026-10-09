@@ -469,22 +469,6 @@ static void sqlContainerUpdateRows(ContainerTemplate *tplt, int *container_id, L
             if (slot->sub_id != last_slot->sub_id || table != last_slot->table)
                 break;
 
-            TODO(); // Rip out this deprecated funcionality
-            if (col->data_type == CFTYPE_TEXTBLOB) {                
-                char *s = diff->text + line->str_idx;
-                if(*s)
-                {
-                    char *hexbuf = _alloca(strlen(s)*2+1);
-                    binStrToHexStr2(s,hexbuf);
-                    estrConcatf(estr,"%s='HEXX%s',",col->name,hexbuf);
-                }
-                else
-                {
-                    estrConcatf(estr,"%s=NULL,",col->name);
-                }
-                continue;
-            }
-
             estrConcatf(estr, "%s=?,", col->name);
             switch(col->data_type)
             {
@@ -749,13 +733,6 @@ static void* s_getField(HSTMT stmt, ColumnInfo *field, int column_idx, int *data
 
     switch(field->data_type)
     {
-        case CFTYPE_TEXTBLOB:
-        {
-            data = s_getDataAtExec(stmt, field, column_idx, results, original_command, conn);
-            if (strncmp(data, "HEXX", 4)==0)
-                hexStrToBinStr2(data + 4, data);
-            return data;
-        }
         case CFTYPE_BLOB:
         case CFTYPE_BINARY_MAX:
         case CFTYPE_UNICODESTRING_MAX:
@@ -985,7 +962,6 @@ static int readRow(HSTMT stmt, ContainerTemplate *tplt, TableInfo *table, LineLi
 
             xcase CFTYPE_ANSISTRING:
              case CFTYPE_ANSISTRING_MAX:
-             case CFTYPE_TEXTBLOB:
              case CFTYPE_BLOB:
                 if(!addStrToLine(list, line, data, results[col]))
                     continue;
@@ -1118,7 +1094,6 @@ static int readSqliteRow(DbStorageStatement *statement, ContainerTemplate *tplt,
             case CFTYPE_UNICODESTRING_MAX:
             case CFTYPE_ANSISTRING:
             case CFTYPE_ANSISTRING_MAX:
-            case CFTYPE_TEXTBLOB:
             case CFTYPE_BLOB:
                 if (!addStrToLine(list, line, (char *)value.data, (int)value.size))
                     continue;

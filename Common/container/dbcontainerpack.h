@@ -71,8 +71,6 @@ typedef enum ContainerPackType
     PACKTYPE_LARGE_ESTRING_UTF8, // Largey Unicode string in an EString
     PACKTYPE_LARGE_ESTRING_ASCII, // Large Ascii string in an EString
 
-    // Deprecated
-    PACKTYPE_TEXTBLOB,        // never use this, there's no actual handling for it.  use PACKTYPE_LARGE_ESTRING_BINARY instead.
 } ContainerPackType;
 
 //---------------------------------------------------------------------------------

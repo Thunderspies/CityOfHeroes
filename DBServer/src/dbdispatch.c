@@ -2312,7 +2312,6 @@ static void sqlReqCustomDataCallback(Packet *pak_out,U8 *cols,int row_count,Colu
                         utf16ToUtf8(&cols[idx], field_ptrs[j]->num_bytes);
                         pktSendString(pak_out,&cols[idx]);
                     xcase CFTYPE_ANSISTRING:
-                    case CFTYPE_TEXTBLOB:
                         pktSendString(pak_out,&cols[idx]);
                     xcase CFTYPE_BINARY_MAX:
                     case CFTYPE_UNICODESTRING_MAX:

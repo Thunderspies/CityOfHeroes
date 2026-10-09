@@ -324,7 +324,7 @@ static bool verifyTableColumns(TableInfo *table)
         }
 
         // Don't validate deprecated types
-        if (new_field->data_type == CFTYPE_TEXTBLOB || new_field->data_type == CFTYPE_BLOB)
+        if (new_field->data_type == CFTYPE_BLOB)
             continue;
 
         assert(new_field->num_bytes >= field->num_bytes);

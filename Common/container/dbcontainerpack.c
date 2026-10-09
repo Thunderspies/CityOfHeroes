@@ -276,11 +276,6 @@ void lineToStruct(char* mem, StructDesc* structDesc, char* table, char* field, c
                         unescapeDataToBuffer(*sptr, val, &len);
                         estrSetLengthNoMemset(sptr, len);
                     }
-                    xcase PACKTYPE_TEXTBLOB:
-                    {
-                        char **sptr = getAddr(mem,structDesc,desc,idx);
-                        *sptr = strdup(val);
-                    }
                     xcase PACKTYPE_FLOAT:
                     {
                         F32 *fptr = getAddr(mem,structDesc,desc,idx);
@@ -464,17 +459,6 @@ void structToLine(StuffBuff* sb, char* mem, char* table, StructDesc* structDesc,
                     addSingleStringToStuffBuff( sb, "\"\n");
                 }
             }
-            xcase PACKTYPE_TEXTBLOB:
-            {
-                char **sptr = getAddr(mem, structDesc, desc, idx);
-                if(sptr && *sptr && **sptr)
-                {
-                    addSingleStringToStuffBuff( sb, buf);
-                    addSingleStringToStuffBuff( sb, " \"");
-                    addEscapedDataToStuffBuff(sb, *sptr, (int)strlen(*sptr));
-                    addSingleStringToStuffBuff( sb, "\"\n");
-                }
-            }
             xcase PACKTYPE_LARGE_ESTRING_BINARY:
             case PACKTYPE_LARGE_ESTRING_UTF8:
             case PACKTYPE_LARGE_ESTRING_ASCII:
@@ -629,11 +613,6 @@ static void structLineType(char *buf, size_t bufsz, char *table, LineDesc *desc)
         {
             assert(desc->size == 0);
             snprintf_s(buf, bufsz, bufsz, "datetime");
-        }
-        xcase PACKTYPE_TEXTBLOB:
-        {
-            assert(desc->size == 0);
-            snprintf_s(buf, bufsz, bufsz, "textblob");
         }
         xdefault:
         {

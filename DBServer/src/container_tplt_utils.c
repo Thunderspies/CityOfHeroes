@@ -37,7 +37,6 @@ ContainerFieldInfo g_containerfieldinfo[] =
     { -1,            SQL_C_BINARY,           SQL_VARBINARY,       }, // CFTYPE_BINARY_MAX
     { -1,            SQL_C_WCHAR,            SQL_WVARCHAR,        }, // CFTYPE_UNICODESTRING_MAX
     { -1,            SQL_C_CHAR,             SQL_VARCHAR,         }, // CFTYPE_ANSISTRING_MAX
-    { -1,            SQL_C_CHAR,             SQL_LONGVARCHAR,     }, // CFTYPE_TEXTBLOB
     { -1,            SQL_C_BINARY,           SQL_LONGVARBINARY,   }, // CFTYPE_BLOB
 };
 STATIC_ASSERT(ARRAY_SIZE(g_containerfieldinfo) == CFTYPE_COUNT);
@@ -114,8 +113,6 @@ int dataType(char *str, int *column_size, int *num_bytes, char **sql_type_name)
         type = CFTYPE_UNICODESTRING_MAX;
     } else if (stricmp(type_name, "ansistring(max)")==0) {
         type = CFTYPE_ANSISTRING_MAX;
-    } else if (stricmp(type_name, "textblob")==0) {
-        type = CFTYPE_TEXTBLOB;
     } else {
         FatalErrorf("Unknown data type: %s\n", type_name);
     }
