@@ -1304,7 +1304,6 @@ void sendCharacterToClient( Packet *pak, Entity *e)
     pktSendBits( pak, 10, e->pl->hidden );
     pktSendBits( pak, 1, e->pl->supergroup_mode );
     pktSendBits( pak, 1, e->pl->hide_supergroup_emblem );
-    pktSendBits( pak, 1, e->pl->skillsUnlocked );
     pktSendBits( pak, 1, e->pl->teambuff_display );
     pktSendBits( pak, 32, e->pl->dock_mode );
     pktSendBits( pak, 32, e->pl->inspiration_mode);

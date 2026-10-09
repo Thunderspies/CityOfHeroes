@@ -4418,9 +4418,6 @@ void receiveCharacterFromServer( Packet *pak, Entity *e )
         costume_Apply(e);
     STOP_BIT_COUNT(pak);
 
-    START_BIT_COUNT(pak, "skills");
-        e->pl->skillsUnlocked = pktGetBits( pak, 1);
-    STOP_BIT_COUNT(pak);
 
     START_BIT_COUNT(pak, "receiveTeamBuffMode");
         receiveTeamBuffMode( pak );

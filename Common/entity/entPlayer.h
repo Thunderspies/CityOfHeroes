@@ -467,7 +467,6 @@ typedef struct EntPlayer
     int                    pvpSwitch;            // true if the player is interested in PvP content
     int                    bIsGanker;            // true if the player has a sub-ganker reputation
 
-    int                    skillsUnlocked;            // true if player has visited the teacher for the first time.
 
     U32                    lastClientStatePktId;    // id of last client state packet (to avoid OO packets)
 

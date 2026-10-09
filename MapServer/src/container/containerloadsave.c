@@ -1811,8 +1811,6 @@ LineDesc ent2_line_desc[] =
     {{ PACKTYPE_INT, SIZE_INT16,                            "VillainGurneyMapId",    OFFSET(Entity,villain_gurney_map_id),       },
         "The last static map with a villain hospital"},
 
-    {{ PACKTYPE_INT, SIZE_INT8,                            "SkillsUnlocked",        {INDIRECTION(Entity, pl, 1), INDIRECTION(EntPlayer, skillsUnlocked, 0)},       },
-        "Unused - If true, then the skills system is unlocked (Invention system)"},
 
     {{ PACKTYPE_FLOAT, SIZE_FLOAT32,                                "Rage",                    {INDIRECTION(Entity, pchar, 1), INDIRECTION(Character, attrCur.fRage, 0)}  },
         "The character's current Rage"},
