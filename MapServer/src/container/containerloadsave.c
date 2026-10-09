@@ -4172,10 +4172,6 @@ static void s_unpackEntInventory(Entity *e, DBEntInv *dbinv)
 
 static void fixUnpackedCostume(Entity *e)
 {
-    // hacky fix for dual valentine costume keys
-    if(rewardtoken_IdxFromName(&e->pl->rewardTokens, "Event_Valentine_Heart_Pattern") >= 0)
-        rewardtoken_Award(&e->pl->rewardTokens, "Event_Valentine_Pattern", 1);
-
     // make sure they have all the appropriate keys for their powers
     costumeAwardPowersetParts(e, 1, 0);
 
