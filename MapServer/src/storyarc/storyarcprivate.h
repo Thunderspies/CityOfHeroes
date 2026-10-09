@@ -1063,7 +1063,6 @@ typedef struct StoryTaskInfo
     //  consequently, each of these fields will just be looked up dynamically as required.
     //
     //  these will be removed from the database after Update 3 is stable
-    char            deliveryTargetName[MAX_SA_NAME_LEN];    
 
     
 } StoryTaskInfo;

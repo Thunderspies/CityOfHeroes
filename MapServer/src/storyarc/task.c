@@ -585,7 +585,6 @@ static int SubTaskInstantiate(Entity* player, StoryInfo* info, StoryTaskInfo* ta
     task->doorPos[0] = task->doorPos[1] = task->doorPos[2] = 0;
     task->curKillCount = 0;
     task->curKillCount2 = 0;
-    task->deliveryTargetName[0] = 0;
     task->nextLocation = 0;
 
     // set the timeout for this subtask
@@ -654,7 +653,6 @@ static int SubTaskInstantiate(Entity* player, StoryInfo* info, StoryTaskInfo* ta
                 ErrorFilenamef(task->def->filename, "Delivery target not given for task");
                 return 0;
             }
-            strcpy_s(SAFESTR(task->deliveryTargetName), ScriptVarsLookup(&task->def->vs, task->def->deliveryTargetNames[0], task->seed)); // remove later
             break;
         }
 
