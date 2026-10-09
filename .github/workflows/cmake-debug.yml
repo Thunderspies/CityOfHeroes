@@ -2,6 +2,7 @@ name: CMake Win32
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
 
 permissions:
@@ -15,6 +16,7 @@ concurrency:
 
 jobs:
   changes:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-24.04
     permissions:
       pull-requests: read
@@ -94,7 +96,9 @@ jobs:
     # Preserve the required check name even when the Windows job is skipped.
     name: build (OptDebug)
     needs: [changes, compile]
-    if: ${{ always() }}
+    if: >-
+      ${{ always() && (github.event_name != 'pull_request' ||
+      !github.event.pull_request.draft) }}
     runs-on: ubuntu-24.04
     steps:
       - name: Check build result
