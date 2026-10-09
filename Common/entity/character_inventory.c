@@ -483,8 +483,11 @@ static bool s_PrepInvToSetItem(Character *p, GenericInvItem ***invRef, Inventory
 
         // prep the status change
 #if SERVER
-        eaiPush( &p->invStatusChange.type, type);
-        eaiPush( &p->invStatusChange.idx, idx);
+        if (inventorytype_IsPacketType(type))
+        {
+            eaiPush( &p->invStatusChange.type, type);
+            eaiPush( &p->invStatusChange.idx, idx);
+        }
 #endif
         res = true;
     }
@@ -1671,6 +1674,23 @@ void character_SetInvTotalSize(Character *p, InventoryType type, int size)
 //------------------------------------------------------------
 //  check validity of type
 //----------------------------------------------------------
+const InventoryType inventoryPacketTypes[INVENTORY_PACKET_TYPE_COUNT] =
+{
+    kInventoryType_Salvage,
+    kInventoryType_Recipe,
+    kInventoryType_BaseDetail,
+    kInventoryType_StoredSalvage,
+};
+
+bool inventorytype_IsPacketType(InventoryType t)
+{
+    int i;
+    for (i = 0; i < INVENTORY_PACKET_TYPE_COUNT; ++i)
+        if (inventoryPacketTypes[i] == t)
+            return true;
+    return false;
+}
+
 bool  inventorytype_Valid(InventoryType t)
 {
     return INRANGE( t, 0, kInventoryType_Count );

@@ -33,7 +33,6 @@
 #include "entity/entity.h"
 #include "gameComm/VillainDef.h"
 #include "entity/salvage.h"
-#include "entity/Concept.h"
 
 
 /**********************************************************************func*
@@ -250,58 +249,6 @@ void salvageinv_ReverseEngineer_Receive(Packet *pak, Character *pchar)
 #define GENERICINV_AMOUNT_PACKBITS 5
 
 //------------------------------------------------------------
-//  Receive an item.
-// See character_inventory_Receive as well which duplicates
-// some of this functionality
-// Net: always sends data
-//----------------------------------------------------------
-void conceptitem_Send(ConceptItem *p, Packet *pak)
-{
-    int i;
-    int id = 0;
-    F32 afVars[ARRAY_SIZE( p->afVars )] = {0} ; 
-    
-    if( verify( p && p->def && pak ))
-    {
-        id = p->def->id;
-        CopyStructs(afVars, p->afVars, ARRAY_SIZE( p->afVars ));
-    }
-    
-    // send the id
-    pktSendBitsPack( pak, GENERICINV_ID_PACKBITS, id );
-    
-    // send the afVars
-    for( i = 0; i < ARRAY_SIZE( afVars ); ++i ) 
-    {
-        // note: could be optimized to just the valid vars for the conceptdef
-        pktSendF32(pak, afVars[i]);
-    }
-    
-}
-
-//------------------------------------------------------------
-//  Receive an item.
-// See character_inventory_Receive as well which duplicates
-// some of this functionality
-// Net: fully consumes data, even on error
-//----------------------------------------------------------
-ConceptItem* conceptitem_Receive(ConceptItem *resItem, Packet *pak)
-{
-    int id = pktGetBitsPack( pak, GENERICINV_ID_PACKBITS );
-    F32 afVars[TYPE_ARRAY_SIZE( ConceptItem, afVars )];
-    int i;
-
-    // get the vars
-    for( i = 0; i < ARRAY_SIZE(afVars); ++i ) 
-    {
-        afVars[i] = pktGetF32(pak);
-    }
-
-    resItem = conceptitem_Init( resItem, id, afVars );
-    return resItem;
-}
-
-//------------------------------------------------------------
 //  Send the generic inventory item
 // param type: the type into the Character of the generic inventory item list
 // Net: always sends bits. id of zero assumed to mean invalid
@@ -310,28 +257,14 @@ void character_inventory_Send(Character *p, Packet *pak, InventoryType type, int
 {
     int id = 0;
     int amount = 0;
+    assert(inventorytype_IsPacketType(type));
+    if (!inventorytype_IsPacketType(type))
+        return;
     character_GetInvInfo(p, &id, &amount, NULL, type, idx);
-
-    // always send the type, index, and amount
-    pktSendBitsPack( pak, GENERICINV_TYPE_PACKBITS, type );
-    pktSendBitsPack( pak, GENERICINV_IDX_PACKBITS, idx );
-    pktSendBitsPack( pak, GENERICINV_AMOUNT_PACKBITS, amount );
-
-    // --------------------
-    // type specific extra data
-
-    switch ( type )
-    {
-    case kInventoryType_Concept:
-        {
-            conceptitem_Send(  verify( EAINRANGE( idx, p->conceptInv) && p->conceptInv[idx] ) ? p->conceptInv[idx]->concept : NULL, pak );
-        }
-        break;
-    default:
-        // just send the id
-        pktSendBitsPack( pak, GENERICINV_ID_PACKBITS, id); 
-        break;
-    };
+    pktSendBitsPack(pak, GENERICINV_TYPE_PACKBITS, type);
+    pktSendBitsPack(pak, GENERICINV_IDX_PACKBITS, idx);
+    pktSendBitsPack(pak, GENERICINV_AMOUNT_PACKBITS, amount);
+    pktSendBitsPack(pak, GENERICINV_ID_PACKBITS, id);
 }
 
 
@@ -339,35 +272,14 @@ void character_inventory_Send(Character *p, Packet *pak, InventoryType type, int
 //  receive inventory packets
 // Net: fully consumes data on error
 //----------------------------------------------------------
-void character_inventory_Receive(Character *p, Packet *pak )
+void character_inventory_Receive(Character *p, Packet *pak)
 {
-    // always get the type index and amount
-    int type = pktGetBitsPack( pak, GENERICINV_TYPE_PACKBITS );
-    int idx = pktGetBitsPack( pak, GENERICINV_IDX_PACKBITS );
-    int amount = pktGetBitsPack( pak, GENERICINV_AMOUNT_PACKBITS );
-    int id = pktGetBitsPack( pak, GENERICINV_ID_PACKBITS );
-
-    switch ( type )
-    {
-    case kInventoryType_Concept:
-    {
-        F32 afVars[TYPE_ARRAY_SIZE( ConceptItem, afVars )];
-        int i;
-
-        // get the vars
-        for( i = 0; i < ARRAY_SIZE(afVars); ++i ) 
-        {
-            afVars[i] = pktGetF32(pak);
-        }
-
-        character_SetConcept(p, id, afVars, idx, amount );
-    }
-    break;
-    default:
-    {
-        character_SetInventory(p, type, id, idx, amount, __FUNCTION__ );
-    }
-    };
+    int type = pktGetBitsPack(pak, GENERICINV_TYPE_PACKBITS);
+    int idx = pktGetBitsPack(pak, GENERICINV_IDX_PACKBITS);
+    int amount = pktGetBitsPack(pak, GENERICINV_AMOUNT_PACKBITS);
+    int id = pktGetBitsPack(pak, GENERICINV_ID_PACKBITS);
+    if (p && inventorytype_IsPacketType(type))
+        character_SetInventory(p, type, id, idx, amount, __FUNCTION__);
 }
 
 //------------------------------------------------------------
@@ -378,14 +290,15 @@ void character_SendInventorySizes(Character *pchar, Packet *pak )
     verify (pak);
     if( pchar && pchar->entParent && pchar->entParent->pl)  // only players have inventories we really care about
     {
-        int type;
-        int count = kInventoryType_Count;
+        int packetIndex;
+        int count = INVENTORY_PACKET_TYPE_COUNT;
 
         pktSendBitsPack( pak, 1, 1 );
         pktSendBitsPack( pak, 3, count );
 
-        for( type = 0; type < count ; ++type )
+        for (packetIndex = 0; packetIndex < count; ++packetIndex)
         {
+            InventoryType type = inventoryPacketTypes[packetIndex];
             int size = character_GetInvSize( pchar, type );
             int totalSize = character_GetInvTotalSize( pchar, type );
 
@@ -413,13 +326,14 @@ void character_SendInventories(Character *pchar, Packet *pak )
 {
     if( verify( pak && pchar ))
     {
-        int type;
-        int count = kInventoryType_Count;
+        int packetIndex;
+        int count = INVENTORY_PACKET_TYPE_COUNT;
 
          pktSendBitsPack( pak, 3, count );
         
-        for( type = 0; type < count ; ++type )
+        for (packetIndex = 0; packetIndex < count; ++packetIndex)
         {
+            InventoryType type = inventoryPacketTypes[packetIndex];
             int i;
             int size = character_GetInvSize( pchar, type );
             int totalSize = character_GetInvTotalSize( pchar, type );
@@ -446,19 +360,23 @@ void character_ReceiveInventorySizes(Character *pchar, Packet *pak )
 {
     if( verify( pak ))
     {
-        int type;
+        int packetIndex;
         int valid = pktGetBitsPack( pak, 1 );
 
         if (valid)
         {
-            int count = pktGetBitsPack( pak, 3 );
+           int count = pktGetBitsPack( pak, 3 );
+        assert(count == INVENTORY_PACKET_TYPE_COUNT);
 
-            for( type = 0; type < count; ++type ) 
+            for (packetIndex = 0; packetIndex < count; ++packetIndex)
             {
+                InventoryType type = packetIndex < INVENTORY_PACKET_TYPE_COUNT
+                    ? inventoryPacketTypes[packetIndex] : kInventoryType_Count;
                 int totalSize = pktGetBitsPack( pak, INV_COUNT_PACKBITS);
                 int size = pktGetBitsPack( pak, INV_COUNT_PACKBITS);
 
-                character_SetInvTotalSize(pchar, type, totalSize);
+                if (pchar && inventorytype_IsPacketType(type))
+                    character_SetInvTotalSize(pchar, type, totalSize);
             }
 
             //! @todo pchar can be NULL.  How does this occur?  Should we prevent that from occurring?
@@ -479,27 +397,36 @@ void character_ReceiveInventorySizes(Character *pchar, Packet *pak )
 //----------------------------------------------------------
 void character_ReceiveInventories(Character *pchar, Packet *pak)
 {
-    if( verify( pak && pchar ))
+    if( verify( pak ))
     {
-        int type;
-         int count = pktGetBitsPack( pak, 3 );
+        int packetIndex;
+        int count = pktGetBitsPack( pak, 3 );
+        assert(count == INVENTORY_PACKET_TYPE_COUNT);
 
-        for( type = 0; type < count; ++type ) 
+        for (packetIndex = 0; packetIndex < count; ++packetIndex)
         {
+            InventoryType type = packetIndex < INVENTORY_PACKET_TYPE_COUNT
+                ? inventoryPacketTypes[packetIndex] : kInventoryType_Count;
             int totalSize = pktGetBitsPack( pak, INV_COUNT_PACKBITS);
             int size = pktGetBitsPack( pak, INV_COUNT_PACKBITS);
             int i;
 
-            character_ClearInventory(pchar, type, "character_ReceiveInventories");
-
-            character_SetInvTotalSize(pchar, type, totalSize);
+            if (pchar && inventorytype_IsPacketType(type))
+            {
+                character_ClearInventory(pchar, type, "character_ReceiveInventories");
+                character_SetInvTotalSize(pchar, type, totalSize);
+            }
             for( i = 0; i < size; ++i ) 
             {
                 character_inventory_Receive(pchar, pak);
             }
         }
 
-        pchar->auctionInvTotalSlots = pktGetBitsPack( pak, INV_COUNT_PACKBITS);
+        {
+            int auctionSlots = pktGetBitsPack(pak, INV_COUNT_PACKBITS);
+            if (pchar)
+                pchar->auctionInvTotalSlots = auctionSlots;
+        }
     }
 }
 

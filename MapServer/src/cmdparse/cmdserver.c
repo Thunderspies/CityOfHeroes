@@ -12,7 +12,6 @@
 #include "player/BadgeStats.h"
 #include "container/mapgroup.h"
 #include "entity/SgrpStats.h"
-#include "entity/Concept.h"
 #include <string.h>
 #include <time.h>
 #include <utilitieslib/assert/assert.h>
@@ -120,7 +119,6 @@
 #include "dbcomm/dbnamecache.h"
 #include "entity/salvage.h"
 #include "entity/Proficiency.h"
-#include "entity/Concept.h"
 #include "dbghelper.h"
 #include <utilitieslib/utils/eval.h>
 #include "bases/bases.h"
@@ -1574,10 +1572,6 @@ Cmd server_cmds[] =
                             "Comment. Ignores rest of the line."},
     { 4, "rw_salvage",            SCMD_SALVAGE_GRANT, {{ CMDSTR(tmp_str)},{CMDINT(tmp_int)}}, CMDF_HIDEVARS,
                             "Give your entity one of the specified salvage items"},
-    { 9, "rw_conceptitem",            SCMD_REWARD_CONCEPTITEM, {{ CMDSTR(tmp_str)},{CMDINT(tmp_int) },{ PARSETYPE_FLOAT, &tmp_f32s[0] },{ PARSETYPE_FLOAT, &tmp_f32s[1] },{ PARSETYPE_FLOAT, &tmp_f32s[2] },{ PARSETYPE_FLOAT, &tmp_f32s[3] }}, CMDF_HIDEVARS,
-                            "Give your entity a conceptitem with given values:\n<name> <amount> <var0> <var1> <var2> <var3>"},
-    { 9, "rw_conceptdef",            SCMD_REWARD_CONCEPTDEF, {{CMDSTR(tmp_str)},{ CMDINT(tmp_int) }}, CMDF_HIDEVARS,
-                            "Give your entity a conceptdef with rolled values:\n<name>"},
     { 4, "rw_recipe",SCMD_REWARD_RECIPE, {{ CMDSTR(tmp_str)}}, CMDF_HIDEVARS,
                             "Give your entity one of the specified recipe items"},
     { 9, "rw_recipex",SCMD_REWARD_RECIPE_ALL, {{0}}, CMDF_HIDEVARS,
@@ -4990,38 +4984,6 @@ static void serverExecCmd(Cmd *cmd, ClientLink *client, char *source_str, Entity
                 rewardFindDefAndApplyToEnt(e, rewardTables, villaingroup, level, true, source, NULL);
                 eaDestroy(&rewardTables);
                 relayCommandEnd(&e, &online);
-            }
-        }
-        xcase SCMD_REWARD_CONCEPTITEM:
-        {
-            const ConceptDef *si = conceptdef_Get( tmp_str );
-            if(!e)
-                break;
-
-            if( si )
-            {
-                character_AdjustConcept(e->pchar, si->id, tmp_f32s, tmp_int);
-                conPrintf(client, "Awarding concept %s", tmp_str );
-            }
-            else
-            {
-                conPrintf(client, "concept %s not found", tmp_str );
-            }
-        }
-        xcase SCMD_REWARD_CONCEPTDEF:
-        {
-            const ConceptDef *si = conceptdef_Get( tmp_str );
-            if(!e)
-                break;
-
-            if( si )
-            {
-                character_AddRollConcept( e->pchar, si->id, tmp_int );
-                conPrintf(client, "Awarding concept %s", tmp_str );
-            }
-            else
-            {
-                conPrintf(client, "concept %s not found", tmp_str );
             }
         }
         xcase SCMD_REWARD_RECIPE:

@@ -425,7 +425,6 @@ static WindowMap s_aNonUserWindows[] =
     { "arenaJoin",            WDW_ARENA_JOIN, },
     { "renderStats",        WDW_RENDER_STATS, },
     { "inventory",            WDW_INVENTORY, },
-    { "conceptinv",            WDW_CONCEPTINV, },
     { "recipeinv",            WDW_RECIPEINV, },
     { "baseprops",            WDW_BASE_PROPS,     },
     { "baseinv",            WDW_BASE_INVENTORY, },

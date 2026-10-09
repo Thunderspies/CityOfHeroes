@@ -13,7 +13,7 @@ static void sendWindows(Packet *pak, Entity *e)
 static int retired(int id)
 {
  return id == WDW_DEPRECATED_1 || id == WDW_UNUSED_1 || id == WDW_DEPRECATED_2
-  || id == WDW_INVENT || id == WDW_WEB_STORE || id == WDW_MAIN_STORE_ACCESS;
+  || id == WDW_CONCEPTINV || id == WDW_INVENT || id == WDW_WEB_STORE || id == WDW_MAIN_STORE_ACCESS;
 }
 int main(void)
 {

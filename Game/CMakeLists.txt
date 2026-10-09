@@ -442,7 +442,6 @@ set(Game_SOURCES
 	src/UI/uiComboBox.c
 	src/UI/uiComment.c
 	src/UI/uiCompass.c
-	src/UI/uiConceptInv.c
 	src/UI/uiConsole.c
 	src/UI/uiContact.c
 	src/UI/uiContactDialog.c
@@ -1023,7 +1022,6 @@ set(Game_HEADERS
 	src/UI/uiComboBox.h
 	src/UI/uiComment.h
 	src/UI/uiCompass.h
-	src/UI/uiConceptInv.h
 	src/UI/uiConsole.h
 	src/UI/uiContact.h
 	src/UI/uiContactDialog.h

@@ -39,7 +39,7 @@ typedef struct DetailCategoryDict DetailCategoryDict;
 typedef enum InventoryType
 { 
      kInventoryType_Salvage,
-    kInventoryType_Concept,
+    kInventoryType_Concept, // retired; retained for non-packet inventory layout
      kInventoryType_Recipe,
     kInventoryType_BaseDetail,
     kInventoryType_StoredSalvage, // personal invention storage
@@ -51,6 +51,11 @@ typedef enum InventoryType
 #define DB_MAX_FIELDS 1024
 #define CONCEPT_MAX_PER_ROW ((DB_MAX_FIELDS)/(CONCEPT_NUM_FIELDS))
 #define CONCEPT_MAX_ROWS 20
+
+// Entity packets carry only these current categories. Stored enum IDs stay stable.
+enum { INVENTORY_PACKET_TYPE_COUNT = 4 };
+extern const InventoryType inventoryPacketTypes[INVENTORY_PACKET_TYPE_COUNT];
+bool inventorytype_IsPacketType(InventoryType t);
 
 bool inventorytype_Valid(InventoryType t);
 char *inventorytype_StrFromType(InventoryType t);
