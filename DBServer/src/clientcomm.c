@@ -553,7 +553,7 @@ static void handleSqlAppearanceCallback(Packet *pak,U8 *appearance,int col_count
     int container_id = (int)(intptr_t)data;
     if(col_count)
     {    
-        int i,val,idx=0,idxfld=0;
+        int i,idx=0,idxfld=0;
         int currentBodyType;
         int skinColor;
 
@@ -577,9 +577,8 @@ static void handleSqlAppearanceCallback(Packet *pak,U8 *appearance,int col_count
             pktSendF32(pak, scale);
         }
 
-        val = *(int *)(&appearance[idx]);
-        idx += field_ptrs[idxfld++]->num_bytes;
-        pktSendBits(pak,1,val);
+		// Database appearances always use the current scaling format.
+		pktSendBits(pak,1,1);
 
         for(i=0;i<NUM_3D_BODY_SCALES;i++)
         {
@@ -606,7 +605,7 @@ static void sendAppearance(Packet * pak, int container_id, int currentCostume)
 
     table = tpltFindTable(ent_list->tplt, "Appearance");
     sprintf(restriction,"WHERE ContainerId = %d AND SubId = %d", container_id, currentCostume); // use first set of scales for each char
-    sqlReadColumnsAsync(table,0,"BodyType, ColorSkin, BodyScale, BoneScale, HeadScale, ShoulderScale, ChestScale, WaistScale, HipScale, LegScale, ConvertedScale, HeadScales, BrowScales, CheekScales, ChinScales, CraniumScales, JawScales, NoseScales",
+    sqlReadColumnsAsync(table,0,"BodyType, ColorSkin, BodyScale, BoneScale, HeadScale, ShoulderScale, ChestScale, WaistScale, HipScale, LegScale, HeadScales, BrowScales, CheekScales, ChinScales, CraniumScales, JawScales, NoseScales",
                         restriction,handleSqlAppearanceCallback,(void*)(intptr_t)container_id, pak, container_id);
 }
 
