@@ -2602,71 +2602,63 @@ static int entReceiveLevelingpactInfo(Packet *pak, Entity *e, bool oo_packet)
     int levelingpactId;
     int memberCount;
     int i;
+    bool applyUpdate = !oo_packet && e && e->pchar;
 
     if(pktGetBits(pak, 1))
     {
         levelingpactId = pktGetBitsAuto(pak);
-        if (!oo_packet && e && e->pchar) {
-            e->levelingpact_id = levelingpactId;
-        }
-
         if(levelingpactId == 0)
         {
-            if(e->levelingpact)
+            if(applyUpdate)
             {
-                levelingpactListUiUpdate();
-                destroyLevelingpact(e->levelingpact);
-                e->levelingpact = 0;
+                e->levelingpact_id = 0;
+                if(e->levelingpact)
+                {
+                    levelingpactListUiUpdate();
+                    destroyLevelingpact(e->levelingpact);
+                    e->levelingpact = 0;
+                }
             }
             return 1;
         }
 
-
-        // if we're in a leveling pact
-        if ( e && !e->levelingpact )
-        {
-            levelingpactListUiUpdate();
-            e->levelingpact = createLevelingpact();
-            e->levelingpact->members.ids            = calloc( MAX_LEVELINGPACT_MEMBERS, sizeof(int) );
-            e->levelingpact->members.onMapserver    = calloc( MAX_LEVELINGPACT_MEMBERS, sizeof(int) );
-            e->levelingpact->members.names            = calloc( MAX_LEVELINGPACT_MEMBERS, sizeof(MemberName) );
-            e->levelingpact->members.mapIds            = calloc( MAX_LEVELINGPACT_MEMBERS, sizeof(int) );
-        }
-
-
         memberCount = pktGetBitsAuto(pak);
-        if (!oo_packet && e && e->pchar) 
+        if(memberCount < 0 || memberCount > MAX_LEVELINGPACT_MEMBERS)
         {
-            e->levelingpact->members.count  = memberCount;
-            e->levelingpact->count = e->levelingpact->members.count;
-
-
-            if (e->levelingpact->members.count > MAX_LEVELINGPACT_MEMBERS)
-            {
-                assert(!"You are on a team with more than max members, something has gone wrong, or you cheat.");
-            }
-
-            for( i = 0; i < e->levelingpact->members.count; i++ )
-            {
-                e->levelingpact->members.ids[i] = pktGetBitsAuto(pak);
-                e->levelingpact->members.onMapserver[i] = FALSE;
-
-                if( pktGetBits(pak, 1) )
-                {
-                    strcpy( e->levelingpact->members.names[i], pktGetString( pak ));
-                }
-                else
-                {
-                    Entity *pactMember = entFromDbId(e->levelingpact->members.ids[i]) ;
-                    if(pactMember)
-                    {
-                        strcpy( e->levelingpact->members.names[i], pactMember->name);
-                    }
-                    e->levelingpact->members.onMapserver[i] = TRUE;
-                }
-            }
+            assert(!"You are on a team with more than max members, something has gone wrong, or you cheat.");
+            applyUpdate = false;
         }
 
+        if(applyUpdate)
+        {
+            e->levelingpact_id = levelingpactId;
+            // if we're in a leveling pact
+            if(!e->levelingpact)
+            {
+                levelingpactListUiUpdate();
+                e->levelingpact = createLevelingpact();
+                e->levelingpact->members.ids = calloc(MAX_LEVELINGPACT_MEMBERS, sizeof(int));
+                e->levelingpact->members.onMapserver = calloc(MAX_LEVELINGPACT_MEMBERS, sizeof(int));
+                e->levelingpact->members.names = calloc(MAX_LEVELINGPACT_MEMBERS, sizeof(MemberName));
+                e->levelingpact->members.mapIds = calloc(MAX_LEVELINGPACT_MEMBERS, sizeof(int));
+            }
+            e->levelingpact->members.count = memberCount;
+            e->levelingpact->count = memberCount;
+        }
+
+        // Consume ignored updates without changing the newer local pact state.
+        for(i = 0; i < memberCount; i++)
+        {
+            int memberId = pktGetBitsAuto(pak);
+            const char *memberName = pktGetString(pak);
+            if(applyUpdate)
+            {
+                e->levelingpact->members.ids[i] = memberId;
+                e->levelingpact->members.onMapserver[i] = FALSE;
+                strncpyt(e->levelingpact->members.names[i], memberName,
+                    sizeof(e->levelingpact->members.names[i]));
+            }
+        }
         return 1;
     }
     return 0;

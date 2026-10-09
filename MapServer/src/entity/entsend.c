@@ -3065,11 +3065,6 @@ static void INLINEDBG entSendLevelingpactInfo(Packet *pak, Entity *e, int update
         // send their db_id
         pktSendBitsAuto( pak, e->levelingpact->members.ids[i]);
 
-        //We're now always sending the names for the leveling pact because it because there's not an easy way for the
-        //mapserver to track when the client needs an update and when they don't.  If you want to stop sending them,
-        //send a 0 here instead of a 1.
-            //pktSendBits( pak, 1, 0 );
-        pktSendBits( pak, 1, 1 );
         pktSendString( pak, e->levelingpact->members.names[i] );
     }
 }

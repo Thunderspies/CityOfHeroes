@@ -1183,3 +1183,17 @@ if(COX_BUILD_UTILITIES_TESTS)
  target_link_libraries(EntitySettingsPacketTests PRIVATE UtilitiesLib)
  add_test(NAME EntitySettingsPacket COMMAND EntitySettingsPacketTests)
 endif()
+
+if(COX_BUILD_UTILITIES_TESTS)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/src/entity/entsend.c"
+  "static void INLINEDBG entSendLevelingpactInfo("
+  "static void INLINEDBG entSendOtherSupergroupInfo(" pact_send.inc)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/../Game/src/entity/entrecv.c"
+  "static int entReceiveLevelingpactInfo(" "static int entReceivePvP(" pact_receive.inc)
+ add_executable(LevelingPactPacketTests tests/levelingpact_packet.c)
+ cox_target_defaults(LevelingPactPacketTests)
+ target_include_directories(LevelingPactPacketTests PRIVATE
+  ../Common "${CMAKE_CURRENT_BINARY_DIR}")
+ target_link_libraries(LevelingPactPacketTests PRIVATE UtilitiesLib)
+ add_test(NAME LevelingPactPacket COMMAND LevelingPactPacketTests)
+endif()
