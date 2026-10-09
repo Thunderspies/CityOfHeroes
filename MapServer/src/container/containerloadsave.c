@@ -2185,9 +2185,6 @@ LineDesc ent2_line_desc[] =
     {{ PACKTYPE_INT, SIZE_INT8,                                "HideOpenSalvageWarning",    OFFSET2_PTR(Entity, pl, EntPlayer, hideOpenSalvageWarning),    },
         "Option to hide the open salvage warning dialog."},    
 
-    {{ PACKTYPE_FLOAT,  SIZE_FLOAT32,                        "Absorb",            OFFSET2_PTR(Entity, pl,    EntPlayer, deprecated ),  },
-        "Deprecated"},
-
     {{ PACKTYPE_INT,  SIZE_INT8,                            "hideStorePiecesState",        OFFSET2_PTR(Entity, pl, EntPlayer, hideStorePiecesState),    },
         "State of Hide Store Pieces in Tailor"},
 
