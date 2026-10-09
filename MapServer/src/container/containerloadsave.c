@@ -2084,9 +2084,6 @@ LineDesc ent2_line_desc[] =
      {{ PACKTYPE_INT, SIZE_INT32,                            "CurrentRazerTray",    OFFSET3_PTR2(Entity, pl, EntPlayer, tray, Tray, current_trays[3] ),        },
         "The index of the Razer tray"},
 
-    {{ PACKTYPE_INT, SIZE_INT32,                            "RequiresGoingRogueOrTrial",    OFFSET2_PTR(Entity, pl,    EntPlayer,    deprecated),        },
-        "" },
-
     {{ PACKTYPE_INT, SIZE_INT32,                            "HomeDBID",                OFFSET2_PTR(Entity, pl,    EntPlayer, homeDBID),            },
         "dbid on home shard, only relevant when visiting"},
     {{ PACKTYPE_INT, SIZE_INT32,                            "HomeShard",            OFFSET2_PTR(Entity, pl,    EntPlayer, homeShard),            },
