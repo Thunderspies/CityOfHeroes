@@ -66,7 +66,6 @@ void genderBoneScale(        float x, float y, float screenScaleX, float screenS
 void genderLegScale(        float x, float y, float screenScaleX, float screenScaleY, float uiscale, int costume);
 void genderChestScale(        float x, float y, float screenScaleX, float screenScaleY, float uiscale, int costume);
 void genderWaistScale(        float x, float y, float screenScaleX, float screenScaleY, float uiscale, int costume);
-void genderHeadScale(        float x, float y, float screenScaleX, float screenScaleY, float uiscale, int costume);
 void genderHipScale(        float x, float y, float screenScaleX, float screenScaleY, float uiscale, int costume);
 void genderShoulderScale(    float x, float y, float screenScaleX, float screenScaleY, float uiScale, int costume);
 void genderArmScale(        float x, float y, float screenScaleX, float screenScaleY, float uiscale, int costume);
