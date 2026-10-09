@@ -38,7 +38,6 @@
 #include "cmdparse/cmdgame.h"
 #include "graphics/textureatlas.h"
 #include <utilitieslib/utils/mathutil.h>
-#include "entity/Invention.h"
 
 #include <utilitieslib/utils/strings_opt.h>
 
@@ -138,24 +137,19 @@ int inventoryWindow()
         int txtColor = CLR_BLUE;
         int cntBtns = UiInvType_Count;
         int dispx, dispy;
-        Character *pchar = playerPtr()->pchar;
         struct InvInfo
         {
             char *str;
             int idWdw;
-        } infos[UiInvType_Count+1] = 
+        } infos[UiInvType_Count] =
             {
                 { "UiInventoryTypeSalvage", WDW_SALVAGE },
                 { "UiInventoryTypeConcept", WDW_CONCEPTINV },
                 { "UiInventoryTypeRecipe", WDW_RECIPEINV },
-                { "UiInventoryTypeInvent", WDW_INVENT }
             };
-        STATIC_INFUNC_ASSERT(ARRAY_SIZE(infos) == UiInvType_Count+1);
+        STATIC_INFUNC_ASSERT(ARRAY_SIZE(infos) == UiInvType_Count);
         
-        if( character_IsInventing(pchar) )
-        {
-            cntBtns++;
-        }
+
         
         dispx = x + PIX3*sc;
         dispy = y + PIX3*sc;

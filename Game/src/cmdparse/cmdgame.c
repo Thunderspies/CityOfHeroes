@@ -5,7 +5,6 @@
 #include "bases/DetailRecipe.h"
 #include "entity/character_workshop.h"
 #include "entity/RewardItemType.h"
-#include "entity/Invention.h"
 #include <stdio.h>
 #include <utilitieslib/stdtypes.h>
 #include "string.h"
@@ -598,14 +597,7 @@ enum
     CMD_RECIPEINV_LIST,
     CMD_DETAILINV_LIST,
     CMD_SALVAGE_REVERSE_ENGINEER,
-    CMD_INVENT_SELECT_RECIPE,
-    CMD_INVENT_SLOT_CONCEPT,
-    CMD_INVENT_UNSLOT,
-    CMD_INVENT_HARDEN,
-    CMD_INVENT_FINALIZE,
-    CMD_INVENT_CANCEL,
     CMD_ENHANCEMENT_LIST,
-    CMD_INVENTION_LIST,
     CMD_UIINVENTORY_VISIBILITY,
     CMD_VERSION,
     CMD_ATLAS_DISPLAY_NEXT,
@@ -2312,14 +2304,7 @@ Cmd game_cmds[] =
     { 9, "ls_concept", CMD_CONCEPTINV_LIST, {{0}}, 0, "List the player's concepts." },
     { 9, "ls_recipe", CMD_RECIPEINV_LIST, {{0}}, 0, "List the player's recipes." },
     { 9, "ls_detail", CMD_DETAILINV_LIST, {{0}}, 0, "List the player's salvage." },
-    { 9, "invent_recipe", CMD_INVENT_SELECT_RECIPE, {{ CMDINT(tmp_int) }, { CMDINT(tmp_int2) }}, 0, "select the recipe for hardening by index.\n <inv index> <level to invent at>" },
-    { 9, "ls_invent", CMD_INVENTION_LIST, {{0}}, 0, "select the recipe for hardening by index." },
     { 9, "uiinventory_show", CMD_UIINVENTORY_VISIBILITY, {{ CMDINT(tmp_int) }}, 0, "select the recipe for hardening by index." },
-    { 9, "slot_invent", CMD_INVENT_SLOT_CONCEPT, {{ CMDINT(tmp_int) },{CMDINT(tmp_int2)}}, 0, "slot the concept item <conceptindex> into slot <slotindex>." },
-    { 9, "unslot_invent", CMD_INVENT_UNSLOT, {{CMDINT(tmp_int)}}, 0, "unslot slot <slotindex>." },
-    { 9, "harden_invent", CMD_INVENT_HARDEN, {{ CMDINT(tmp_int) }}, 0, "harden the slotted concept in this recipe by <slot idx>." },
-    { 9, "fin_invent", CMD_INVENT_FINALIZE, {{0}}, 0, "finish inventing" },
-    { 9, "cancel_invent", CMD_INVENT_CANCEL, {{0}}, 0, "cancel inventing" },
     { 9, "ls_boost", CMD_ENHANCEMENT_LIST, {{ CMDINT(tmp_int) }}, 0, "show the vars of an ehancement." },
     { 9, "pickPets", CMD_ARENA_MANAGEPETS,  {{0}}, 0,
                         "Show UI for Managing your pet army" },
@@ -5077,169 +5062,6 @@ int cmdGameParse(char *str, int x, int y)
             {
                 conPrintf("no pchar or no entity for reverse engineer");
             }
-        }
-        xcase CMD_INVENT_SELECT_RECIPE:
-        {
-            Entity *e = playerPtr();
-            if( e && e->pchar )
-            {
-                // todo: make sure character has room in inventory for boost.
-                if( character_InventingStart( e->pchar, tmp_int ) )
-                {
-                    invent_SendSelectrecipe( tmp_int, tmp_int2 - 1 );
-                    conPrintf("selecting recipe %s\n", e->pchar->invention->recipe->name );
-                }
-                else
-                {
-                    conPrintf("couldn't select recipe %d\n", tmp_int );
-                }
-            }
-            else
-            {
-                conPrintf("no pchar or no entity for slotting.\n");
-            }
-        }
-        xcase CMD_INVENT_SLOT_CONCEPT:
-        {
-            Entity *e = playerPtr();
-
-            if( !EAINRANGE( tmp_int, e->pchar->conceptInv ) || !e->pchar->conceptInv[tmp_int])
-            {
-                conPrintf("%d not a valid concept index", tmp_int);
-            }
-            else if( !AINRANGE( tmp_int2, e->pchar->invention->slots ))
-            {
-                conPrintf("%d not a valid slot index", tmp_int2 );
-            }
-            else
-            {
-                invent_SendSlotconcept( tmp_int2, tmp_int );
-                conPrintf("slotted.");
-            }
-        }
-        xcase CMD_INVENT_UNSLOT:
-        {
-            Entity *e = playerPtr();
-
-            if(!character_IsInventing(e->pchar))
-            {
-                conPrintf("character not inventing.");
-            }
-            if( !AINRANGE( tmp_int, e->pchar->invention->slots ))
-            {
-                conPrintf("%d not a valid slot index", tmp_int );
-            }
-            else if( e->pchar->invention->slots[tmp_int].state != kSlotState_Slotted )
-            {
-                conPrintf("Slot %d is not slotted with a concept. its state is %s", tmp_int, slotstate_Str(e->pchar->invention->slots[tmp_int].state));
-            }
-            else
-            {
-                invent_SendUnSlot( tmp_int );
-                conPrintf("slotted.");
-            }
-        }
-        xcase CMD_INVENT_HARDEN:
-        {
-            Entity *e = playerPtr();
-            if( e && e->pchar )
-            {
-                if( !INRANGE0( tmp_int, ARRAY_SIZE( e->pchar->invention->slots ) ))
-                {
-                    conPrintf("%d is out of range.", tmp_int);
-                }
-                else if( e->pchar->invention->slots[tmp_int].state != kSlotState_Slotted)
-                {
-                    conPrintf("slot %d has no concepts ready to be hardened.", tmp_int);
-                }
-                {
-                    // if the harden worked
-                    invent_SendHardenslot(tmp_int);
-                    conPrintf("hardened slot %d", tmp_int);
-                }
-            }
-            else
-            {
-                conPrintf("no pchar or no entity for slotting");
-            }
-        }
-        xcase CMD_INVENT_FINALIZE:
-        {
-            Entity *e = playerPtr();
-            if( e && e->pchar )
-            {
-                invent_SendFinalize();
-            }
-            else
-            {
-                conPrintf("no pchar or no entity");
-            }
-        }
-        xcase CMD_INVENT_CANCEL:
-        {
-            Entity *e = playerPtr();
-            if( e && e->pchar )
-            {
-                invent_SendCancel();
-            }
-            else
-            {
-                conPrintf("no pchar or no entity");
-            }
-        }
-        xcase CMD_INVENTION_LIST:
-        {
-            Entity *e = playerPtr();
-            if( e && e->pchar && e->pchar->invention )
-            {
-                Invention *inv = e->pchar->invention;
-                conPrintf("invention state is '%s'", inventionstate_Str(inv->state));
-                if(inv->state == kInventionState_Invent )
-                {
-                    int i;
-
-                    // --------------------
-                    // boost
-
-                    if( verify( INRANGE0( inv->boostInvIdx, CHAR_BOOST_MAX) ))
-                    {
-                        int i;
-                        Boost *b = e->pchar->aBoosts[inv->boostInvIdx];
-
-                        // vars
-                        conPrintf("\tafVars: <%.2f,%.2f,%.2f,%.2f>",b->afVars[0],b->afVars[1],b->afVars[2],b->afVars[3]);
-
-                        // level
-
-                        // powerup slots
-                        conPrintf("\tPowerup Slots:");
-                        for( i = 0; powerupslot_Valid( &b->aPowerupSlots[i] ); ++i )
-                        {
-                            conPrintf("\t\t%d: powerup %s type %s", i, b->aPowerupSlots[i].reward.name, rewarditemtype_Str(b->aPowerupSlots[i].reward.type));
-                        }
-                    }
-
-                    // --------------------
-                    // slots
-
-                    for( i = 0; AINRANGE( i, inv->slots ); ++i )
-                    {
-                        int j;
-                        InventionSlot *slot = inv->slots + i;
-                        conPrintf("\t%d slot: '%s'", i, slotstate_Str( slot->state ));
-                        for( j = 0; j < eaSize(&slot->concepts); ++j )
-                        {
-                            ConceptItem *cpt = slot->concepts[j];
-                            conPrintf("\t\t%d: %s",j, (cpt && cpt->def) ? cpt->def->name : "<null>");
-                        }
-                    }
-                }
-            }
-            else
-            {
-                conPrintf("no invention.");
-            }
-
         }
         xcase CMD_UIINVENTORY_VISIBILITY:
          {

@@ -1,7 +1,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "entity/character_workshop.h"
-#include "entity/Invention.h"
 #include <string.h>
 #include "entserver.h"
 #include "entity/entPlayer.h"
@@ -4519,9 +4518,6 @@ void entSendUpdate(NetLink *link,Entity *player_ent,int re_predict,int full_upda
 
         // send the changed inventory
         entity_SendInvUpdate( player_ent, pak );
-
-        // send any invention updates
-        entity_SendInventionUpdate( player_ent, pak );
 
         // send workshop updates
 //        character_SendWorkshopUpdate( player_ent->pchar, pak );

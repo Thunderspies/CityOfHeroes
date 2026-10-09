@@ -10,7 +10,6 @@
 #include "bases/DetailRecipe.h"
 
 
-#include "entity/Invention.h"
 #include <stdlib.h>
 
 #include <utilitieslib/components/earray.h>
@@ -3281,52 +3280,6 @@ void crafting_reverseengineer_send(int inv_idx )
 {
     START_INPUT_PACKET(pak, CLIENTINP_CRAFTING_REVERSE_ENGINEER );
     salvageinv_ReverseEngineer_Send( pak, inv_idx );
-    END_INPUT_PACKET;
-}
-
-//------------------------------------------------------------
-//  select a recipe from inventory to use in invention,
-// to be invented at the passed level (i.e. a level 20 boost)
-//----------------------------------------------------------
-void invent_SendSelectrecipe(int recipeInvIdx, int inventionlevel)
-{
-    START_INPUT_PACKET(pak, CLIENTINP_INVENT_SELECTRECIPE);
-    pktSendBitsPack( pak, INVENTION_RECIPEINVIDX_PACKBITS, recipeInvIdx);
-    pktSendBitsPack( pak, INVENTION_INVENTIONLEVEL_PACKBITS, inventionlevel); 
-    END_INPUT_PACKET;
-}
-
-void invent_SendSlotconcept(int slotIdx, int conceptInvIdx)
-{
-    START_INPUT_PACKET(pak, CLIENTINP_INVENT_SLOTCONCEPT);
-    pktSendBitsPack( pak, INVENTION_SLOTIDX_PACKBITS, slotIdx);
-    pktSendBitsPack( pak, INVENTION_CONCEPTINVIDX_PACKBITS, conceptInvIdx);
-    END_INPUT_PACKET;
-}
-
-void invent_SendUnSlot(int slotIdx)
-{
-    START_INPUT_PACKET(pak, CLIENTINP_INVENT_UNSLOT);
-    pktSendBitsPack( pak, INVENTION_SLOTIDX_PACKBITS, slotIdx);
-    END_INPUT_PACKET;
-}
-
-void invent_SendHardenslot(int slotIdx)
-{
-    START_INPUT_PACKET(pak, CLIENTINP_INVENT_HARDENSLOT);
-    pktSendBitsPack( pak, INVENTION_SLOTIDX_PACKBITS, slotIdx); 
-    END_INPUT_PACKET;
-}
-
-void invent_SendFinalize()
-{
-    START_INPUT_PACKET(pak, CLIENTINP_INVENT_FINALIZE);
-    END_INPUT_PACKET;
-}
-
-void invent_SendCancel()
-{
-    START_INPUT_PACKET(pak, CLIENTINP_INVENT_CANCEL);
     END_INPUT_PACKET;
 }
 

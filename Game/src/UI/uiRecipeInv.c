@@ -51,7 +51,6 @@
 #include "UI/uiContextMenu.h"
 #include "UI/uiNet.h"
 #include "entity/RewardSlot.h"
-#include "entity/Invention.h"
 #include "gameComm/trayCommon.h"
 
 // ------------------------------------------------------------
@@ -469,197 +468,7 @@ UIBox uiinvent_drawGraphBar( UIBox *box_bar,
 // NOTE: a little quirky since it helps DnD, doesn't display
 // the amount in inventory, just the item itself.
 //----------------------------------------------------------
-static void s_RecipeItem_Display(RecipeInventoryItem *itm, U32 ixInvCurRecipe, F32 x, F32 y, F32 z, F32 sc)
-{
-    /* Removed due to changes in Invention system - VD 
 
-    if( verify( itm && itm->recipe ))
-    {
-        DetailRecipe *recipe = itm->recipe;
-        F32 wd = (ITEM_WD) * sc;
-        F32 ht = (ITEM_HT) * sc;
-        AtlasTex *icon = NULL;
-        int color = DARK_GREY;
-        int bgcolor = DARK_GREY;
-        F32 ty = y + PIX3*2*sc;
-        F32 tx = x + PIX3*2*sc;
-        F32 z_icon = z + ARRAY_SIZE( s_state.growbig.items ) + 10;
-        F32 z_amount = z_icon + 1;
-        int i;
-        bool canInteract = true;
-        int zmod = ARRAY_SIZE(s_state.growbig.items);
-        F32 overScale = uigrowbig_GetScale( &s_state.growbig, itm, &zmod );
-        Character *pchar = playerPtr()->pchar;
-        CBox boxFrame;
-        BuildCBox( &boxFrame, tx, ty, wd, ht); // always square
-        
-        // --------------------
-        // draw the frame
-
-        // test for over for interaction
-        if( mouseCollision(&boxFrame) )
-        {
-            color = CLR_GREY;
-            //bgcolor = CLR_GREY;
-        }
-
-
-        drawFlatFrame( PIX2, R10, tx, ty, z, wd, ht, sc, color, bgcolor );
-
-        // --------------------
-        // draw the icon
-        
-        {
-            F32 sc_icon;
-            icon = atlasLoadTexture( itm->recipe->ui.pchIconName );
-            sc_icon = ((F32)ICON_WD)/icon->width*overScale*sc;
-            display_sprite( icon, tx, ty, z + 1, sc, sc, CLR_WHITE ); 
-        }
-        
-        // --------------------
-        // draw the graph
-
-        {
-            F32 y_graph = ty + PIX3*sc; 
-            F32 x_graph = tx + (ITEM_WD - GRAPH_WD - PIX3)*sc; 
-            int colorfg = CLR_MOUSEOVER_FOREGROUND;
-            int colorbg = CLR_MOUSEOVER_BACKGROUND;
-            F32 wd_graph = GRAPH_WD*sc;
-            F32 ht_graph = GRAPH_HT*sc;
-            TTDrawContext *fnt = &game_9;
-            F32 htDesc = 0.f;
-            int wdBorder = PIX2;
-
-            {
-                CBox dimsFnt = {0};
-                str_dims(fnt, sc, sc, TRUE, &dimsFnt, "TestStr");
-                htDesc = dimsFnt.bottom - dimsFnt.top + PIX3*sc;
-            }
-
-            drawFlatFrame(wdBorder, R10, x_graph, y_graph, z + 1, wd_graph, ht_graph, sc, colorfg, colorbg );
-
-            // draw the zero line in the graph
-            {
-                F32 x_zero = x_graph + wdBorder*sc;
-                F32 y_zero = y_graph + ht_graph/2;
-                F32 wd_zero = wd_graph - wdBorder*sc*2;
-                F32 ht_zero = 1.f;
-                UIBox bxZero = {x_zero, y_zero, wd_zero, ht_zero};
-                AtlasTex *txWhite = atlasLoadTexture("white.tga");
-                clipperPushRestrict(&bxZero);
-                if(txWhite)
-                {
-                    F32 sc_zero = wd_zero/txWhite->width;
-                    display_sprite( txWhite, x_zero, y_zero, z_icon+1, sc_zero, sc_zero, CLR_WHITE );
-                }
-                clipperPop();
-            }
-            
-            for( i = 0; i < eaSize(&itm->recipe->recipe->ppVars); ++i ) 
-            {
-                PowerVar *pv = itm->recipe->recipe->ppVars[i];
-                uiAttribModGroup *grp = uiAttribModGroup_GetByStr(pv->pchName);
-                
-                if( verify( grp ))
-                {
-                    icon = atlasLoadTexture(grp->pogName);
-                    
-                    // draw the icon
-                    if( verify(icon) ) 
-                    {
-                        F32 x_bar = x_graph + (ICON_WD*i)*sc + PIX3*sc*2;
-                        F32 y_bar = y_graph + PIX3*sc*2;
-                        F32 ht_bar = ht_graph - htDesc - PIX3*sc*3;
-                        UIBox box_bar = 
-                            {
-                                x_bar,
-                                y_bar,
-                                GRAPH_ITM_WD*sc,
-                                ht_bar
-                            } ;
-                                
-                        UIBox bxDrawn = uiinvent_drawGraphBar( &box_bar, 
-                                               pv->fMin, pv->fMax - pv->fMin,
-                                               -5.f, 5.f,
-                                               z_icon-zmod,
-                                               grp->pogName,
-                                               CLR_WHITE );
-                        
-                        // --------------------
-                        // print the values            
-                                                
-                        // max and min and name
-                        {
-                            F32 x_off = bxDrawn.x + GRAPH_ITM_WD*.5f;
-                            F32 dy_off = 0.f;
-                            F32 htFnt;
-
-                            {
-                                CBox cbDims = {0};
-                                str_dims(fnt, sc, sc, TRUE, &cbDims, "00.00" );
-                                htFnt = cbDims.bottom - cbDims.top;
-                            }
-
-                            // in case they get too smushed
-                            if( bxDrawn.height < htFnt)
-                            {
-                                dy_off = htFnt;// + PIX3*2*sc;
-                            }
-                            else
-                            {
-                                dy_off = htFnt/2;
-                            }
-
-                            font( &game_9 );
-                            font_color(0x00deffff, 0x00deffff);
-                            cprnt( x_off, bxDrawn.y + dy_off, z_icon - zmod + 1, sc, sc, "%.2f", pv->fMax );
-                            cprnt( x_off, bxDrawn.y + bxDrawn.height + dy_off, z_icon - zmod + 1, sc, sc, "%.2f", pv->fMin );
-
-                            // name
-                            cprnt( x_off, y_graph + ht_graph - PIX3*sc, z_icon - zmod + 1, sc, sc, grp->pchName);
-                        }                        
-
-                    }
-                }
-            }
-        }
-
-        // --------------------
-        // interaction
-
-        // draw the 'invent' button
-        if( !character_IsInventing( pchar ) )
-        {
-            UIBox bxBtn;
-            
-            // get the dims
-            drawTextButton( NULL, 0, 0, 0, sc, 0, 0, 0, 0, &bxBtn );
-            
-            bxBtn.x = tx;
-            bxBtn.y = ty + ht - bxBtn.height;
-            
-            if( D_MOUSEHIT == drawTextButton( "RecipeInvInvent", bxBtn.x, bxBtn.y, z+1, sc, color, bgcolor, CLR_WHITE, TRUE, &bxBtn ))
-            {
-                if(character_InventingStart( pchar, ixInvCurRecipe ))
-                {
-                    // open the invention window
-                    window_setMode( WDW_INVENT, WINDOW_GROWING);
-                }
-            }
-        }
-    }
-    */
-}
-
-// static void s_trayobj_displayCb(TrayObj *obj, F32 x, F32 y, F32 z, F32 sc)
-// {
-//     if( verify( obj 
-//                 && EAINRANGE( obj->conceptInv.invIdx, s_state.ppItems )
-//                 && s_state.ppItems[obj->conceptInv.invIdx] ))
-//     {
-//         s_RecipeItem_Display( s_state.ppItems[obj->conceptInv.invIdx], x, y, z, sc);
-//     }
-// }
 
 static const char* recipe_display(RecipeInventoryItem *itm, int ixInvCurRecipe, Character *pchar, RecipeWindowState *state, float x, float y, float z, float sc )
 {
@@ -683,7 +492,6 @@ static const char* recipe_display(RecipeInventoryItem *itm, int ixInvCurRecipe, 
     // --------------------
     // draw the icon
 
-    s_RecipeItem_Display(itm, ixInvCurRecipe, x, y, z, sc);
 
     // --------------------
     // print the amount

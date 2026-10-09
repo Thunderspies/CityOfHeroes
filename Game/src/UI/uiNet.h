@@ -198,15 +198,7 @@ extern int gSentMoTD;
 void ScriptUIReceive(Packet * pak);
 void ScriptUIReceiveUpdate(Packet * pak);
 
-//void character_InventionSend(Character *p);
 void crafting_reverseengineer_send(int inv_idx);
-void invent_SendSelectrecipe(int recipeInvIdx, int inventionlevel);
-void invent_SendSlotconcept(int slotIdx, int conceptInvIdx);
-void invent_SendUnSlot(int slotIdx);
-void invent_SendHardenslot(int slotIdx);
-void invent_SendHardenslot(int slotIdx);
-void invent_SendFinalize();
-void invent_SendCancel();
 
 void sendPetCommand( int svr_id, int stance, int action, Vec3 vec );
 void sendPetSay( int svr_id, char * msg );

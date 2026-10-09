@@ -69,7 +69,6 @@ set(Game_SOURCES
 	../Common/entity/entworldcoll.c
 	../Common/entity/friendCommon.c
 	../Common/entity/incarnate.c
-	../Common/entity/Invention.c
 	../Common/entity/LoadDefCommon.c
 	../Common/entity/load_def.c
 	../Common/entity/motion.c
@@ -478,7 +477,6 @@ set(Game_SOURCES
 	src/UI/uiInfo.c
 	src/UI/uiInput.c
 	src/UI/uiInspiration.c
-	src/UI/uiInvent.c
 	src/UI/uiInventory.c
 	src/UI/uiKeybind.c
 	src/UI/uiKeymapping.c
@@ -638,7 +636,6 @@ set(Game_HEADERS
 	../Common/entity/entworldcoll.h
 	../Common/entity/friendCommon.h
 	../Common/entity/incarnate.h
-	../Common/entity/Invention.h
 	../Common/entity/LoadDefCommon.h
 	../Common/entity/load_def.h
 	../Common/entity/motion.h
@@ -1062,7 +1059,6 @@ set(Game_HEADERS
 	src/UI/uiInfo.h
 	src/UI/uiInput.h
 	src/UI/uiInspiration.h
-	src/UI/uiInvent.h
 	src/UI/uiInventory.h
 	src/UI/uiKeybind.h
 	src/UI/uiKeymapping.h

@@ -40,7 +40,6 @@ typedef struct ConceptInventoryItem ConceptInventoryItem;
 typedef struct RecipeInventoryItem RecipeInventoryItem;
 typedef struct ConceptItem ConceptItem;
 typedef struct PowerupSlot PowerupSlot;
-typedef struct Invention Invention; 
 typedef struct DetailInventoryItem DetailInventoryItem;
 typedef struct Workshop Workshop;
 typedef struct uiEnhancement uiEnhancement;
@@ -569,7 +568,6 @@ typedef struct Character
     CharacterKarmaContainer karmaContainer;
 #endif
 
-    Invention *invention;
 
     const BasePower ** expiredPowers;
 

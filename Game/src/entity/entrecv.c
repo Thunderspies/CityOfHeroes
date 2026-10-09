@@ -72,7 +72,6 @@
 #include "UI/uiTarget.h"
 #include "seq/seq.h"
 #include "gameComm/itemselect.h"
-#include "entity/Invention.h"
 #include "NovodeX/NwRagdoll.h"
 #include "entity/character_net.h"
 #include "entity/powers.h"
@@ -3821,10 +3820,6 @@ void entReceiveUpdate(Packet *pak,int full_update)
                 entity_ReceiveInvUpdate(player, pak);
             STOP_BIT_COUNT(pak);
 
-
-            START_BIT_COUNT(pak, "ReceiveInventionUpdate")
-                entity_ReceiveInventionUpdate(player, pak);
-            STOP_BIT_COUNT(pak);
 
             START_BIT_COUNT(pak, "ReceiveWorkshopUpdate")
                 strncpy( player->pl->workshopInteracting, pktGetString(pak), 32);

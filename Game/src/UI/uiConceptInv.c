@@ -50,7 +50,6 @@
 #include "UI/uiContextMenu.h"
 #include "UI/uiNet.h"
 #include "entity/RewardSlot.h"
-#include "entity/Invention.h"
 #include "gameComm/trayCommon.h"
 #include <utilitieslib/language/MessageStoreUtil.h>
 
@@ -302,18 +301,7 @@ static int s_itemSort(const void* item1, const void* item2, void const *context)
     return res*(flip?-1:1);
 }
 
-static int s_canSlotSort(void const *item1, void const *item2, void const *context)
-{
-    int res = 0;
-    ConceptInventoryItem const *lhs = *(ConceptInventoryItem**)item1;
-    ConceptInventoryItem const *rhs = *(ConceptInventoryItem**)item2;
-    Character *pchar = (Character*)context;
 
-    bool bCAlhs = basepower_CanApplyConcept( pchar->invention->recipe->recipe, lhs->concept->def);
-    bool bCArhs = basepower_CanApplyConcept( pchar->invention->recipe->recipe, rhs->concept->def);
-
-    return bCArhs - bCAlhs;
-}
 
 
 // ------------------------------------------------------------
@@ -326,7 +314,6 @@ typedef struct ConceptWindowState
     struct InvSyncVars
     {
         int lastInvSize;
-        bool isInventing;
     } invSync;
     uiAttribModGroup *curTab;
     ContextMenu * rmenu;
@@ -387,11 +374,7 @@ static void s_initTabState(TabState *tabstate, ConceptSortType sort)
         stableSort( s_state.ppItems, eaSize(&s_state.ppItems), sizeof(*s_state.ppItems), 
                     (void*)tabstate->sortby, s_itemSort);
 
-        // special third case, if inventing
-        if(character_IsInventing( pchar ))
-        {
-            stableSort( s_state.ppItems, eaSize(&s_state.ppItems), sizeof(*s_state.ppItems), pchar, s_canSlotSort);
-        }
+
     }
 }
 
@@ -703,18 +686,8 @@ static ConceptDisplayInfo concept_display(ConceptInventoryItem *itm, int itm_idx
     tx = x + PIX3*2*sc;
     
     // --------------------
-    // if we're inventing, you can't interact with this concept unless its usable
     
-    if(character_IsInventing( pchar ))
-    {
-        canInteract = basepower_CanApplyConcept( pchar->invention->recipe->recipe, itm->concept->def);
-        // also change the color
 
-        if( !canInteract)
-        {
-            color = DARK_GREY;
-        }
-    }
     
     // --------------------
     // draw the icon and amount
@@ -839,8 +812,6 @@ int conceptinvWindow()
         // inventory size change
         doSync = s_state.invSync.lastInvSize != eaSize(&pchar->conceptInv);
         
-        // inventing state change
-        doSync = doSync || (s_state.invSync.isInventing != character_IsInventing(pchar));
         
         // some item in inventory is no longer valid
         for( i = eaSize( &s_state.ppItems ) - 1; i >= 0 && !doSync; --i)
@@ -856,7 +827,6 @@ int conceptinvWindow()
         }
 
         // update sync state
-        s_state.invSync.isInventing = character_IsInventing(pchar);
     }
 
     // ----------------------------------------
