@@ -4263,6 +4263,8 @@ void receiveCharacterFromServer( Packet *pak, Entity *e )
             int win;
             WdwBase wdw = {0};
 
+            if (!window_IsPacketWindow(i))
+                continue;
             receiveWindowIdx(pak, &win);
             receiveWindow(pak, &wdw);
 
@@ -4278,7 +4280,7 @@ void receiveCharacterFromServer( Packet *pak, Entity *e )
             }
 
             #ifndef TEST_CLIENT
-                if(win>=0 && win<MAX_WINDOW_COUNT)
+                if(window_IsPacketWindow(win))
                 {
                     WdwBase *pwin;
                     Wdw *window = wdwGetWindow(win);

@@ -1270,7 +1270,8 @@ void sendCharacterToClient( Packet *pak, Entity *e)
     assert(e->pl->winLocs != NULL);
     for(k=0; k<MAX_WINDOW_COUNT; k++)
     {
-        sendWindow(pak, &e->pl->winLocs[k], k);
+        if (window_IsPacketWindow(k))
+            sendWindow(pak, &e->pl->winLocs[k], k);
     }
 
     pktSendBitsAuto( pak, eaSize(&e->pl->rewardTokens) );
