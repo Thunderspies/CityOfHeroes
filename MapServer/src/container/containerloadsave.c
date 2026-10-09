@@ -2385,9 +2385,6 @@ LineDesc ent_line_desc[] =
     {{ PACKTYPE_INT, SIZE_INT32,                            "TitleSpecialExpires",    OFFSET2_PTR(Entity, pl,            EntPlayer, titleSpecialExpires),        },
         "The number of seconds which the character keeps the special title."},
 
-    {{ PACKTYPE_BIN_STR, 16,                                "AuthUserData",            OFFSET2_PTR(Entity, pl,            EntPlayer, old_auth_user_data),        },
-        "A copy of the auth user data from the Auth server."},
-
     {{ PACKTYPE_INT, SIZE_INT32,                            "UiSettings",            OFFSET2_PTR(Entity, pl,            EntPlayer, uiSettings),                    },
         "Bitfield - Misc UI settings (set in the options screen)"},
 
@@ -3941,7 +3938,7 @@ static void s_logEntContainer(Entity *e, LogLevel logLevel, char *category, char
         char *fieldVal;
         static char *fields[] =
             {
-                "AuthUserData",
+				"Ents2[0].AuthUserDataEx",
                 "Badges[0].Owned"
             };
 

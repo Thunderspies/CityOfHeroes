@@ -425,7 +425,6 @@ typedef struct EntPlayer
     char                costumeFxSpecial[128];
     U32                    costumeFxSpecialExpires;    // seconds since 2000 when the FX expires. 0 for never.
 
-    U32                    old_auth_user_data[AUTH_DWORDS_ORIG];        // Deprecated, but has to be kept around
     U32                    auth_user_data[AUTH_DWORDS];    // stuff auth server knows about the user's account (where the game was bought, prestige powers, etc.)
     int                    account_inv_loaded;            // is the account inventory loaded from the account server
     AccountInventorySet    account_inventory;        // account inventory
