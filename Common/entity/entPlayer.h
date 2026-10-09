@@ -325,7 +325,6 @@ typedef struct EntPlayer
     int recipeHideUnOwnedBench;
     int recipeHideMissingPartsBench;
     
-    int deprecated;
     unsigned int mapOptions;        // bitfield
     unsigned int mapOptions2;        // bitfield
     unsigned int mapOptionRevision;

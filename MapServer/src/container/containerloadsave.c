@@ -1726,14 +1726,6 @@ LineDesc ent2_line_desc[] =
     {{ PACKTYPE_INT, SIZE_INT32,                            "MapOptions",            OFFSET2_PTR(Entity, pl,            EntPlayer, mapOptions),                    },
         "Bitfield - Map display options"},
 
-    {{ PACKTYPE_INT,    SIZE_INT32,                            "Notoriety",        OFFSET2_PTR(Entity, pl,    EntPlayer,    deprecated),                    },
-        "The character's notoriety (difficulty) level<br>"
-        "   0 = Heroic/Villainous<br>"
-        "   1 = Tenacious/Malicious<br>"
-        "   2 = Rugged/Vicious<br>"
-        "   3 = Unyielding/Ruthless<br>"
-        "   4 = Invincible/Relentless"},
-
     {{ PACKTYPE_INT,    SIZE_INT32,                            "ChatBubbleTextColor",    OFFSET2_PTR(Entity, pl,            EntPlayer, chatBubbleTextColor),        },
         "Color - Color of text in character's chat bubble (set in options)"},
 
