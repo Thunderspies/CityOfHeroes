@@ -1152,38 +1152,6 @@ StructDesc tf_contact_desc[] =
 };
 
 //---------------------------------------------------------------------------------
-// Story Clue list description
-// CURRENTLY UNUSED AND DEPRECATED, BUT THERE ARE ALREADY DATABASE TABLES
-//---------------------------------------------------------------------------------
-LineDesc    storyclue_line_desc[] =
-{
-    {{ PACKTYPE_INT,    SIZE_INT32,        "sahandle",        OFFSET(StoryClueInfo, sahandle.context)},
-        "The ID of the story arc definition."},
-
-    {{ PACKTYPE_INT,    SIZE_INT32,        "clueIndex",    OFFSET(StoryClueInfo, clueIndex)},
-        "The index into the StoryArc's list of clues that this StoryClueInfo describes."},
-
-    {{ PACKTYPE_ATTR,    MAX_ATTRIBNAME_LEN,    "varName",        OFFSET(StoryClueInfo, varName)},
-        "The name of the dynamically-determined var."},
-
-    {{ PACKTYPE_ATTR,    MAX_ATTRIBNAME_LEN,    "varValue",        OFFSET(StoryClueInfo, varValue)},
-        "The value of the dynamically-determined var."},
-
-    { 0 },
-};
-
-// StructDesc storyclue_desc[] =
-// {
-//     sizeof(StoryClueInfo),
-//     {AT_EARRAY, OFFSET2_PTR(Entity, storyInfo, StoryInfo, storyArcClueInfo)},
-//     storyclue_line_desc,
-// 
-//     "Story Clue Info contains dynamically determined var data for the clue text."
-// };
-
-
-
-//---------------------------------------------------------------------------------
 // Story Arc description
 //---------------------------------------------------------------------------------
 LineDesc storyarc_line_desc[] =
@@ -2491,8 +2459,6 @@ LineDesc ent_line_desc[] =
     // Story arc stuff
     { PACKTYPE_SUB, CONTACTS_PER_PLAYER,        "Contacts",            (intptr_t)contact_desc        },
     { PACKTYPE_SUB,    STORYARCS_PER_PLAYER,        "StoryArcs",        (intptr_t)storyarc_desc        },
-//    { PACKTYPE_EARRAY, (int)StoryClueInfoCreate, "StoryClues",        (int)storyclue_desc        },
-// StoryClueInfo is currently unused and deprecated, but if we resurrect it, it should go here
     { PACKTYPE_SUB,    TASKS_PER_PLAYER,            "Tasks",            (intptr_t)task_desc            },
     { PACKTYPE_SUB, SOUVENIRCLUES_PER_PLAYER,    "SouvenirClues",    (intptr_t)souvenirClue_desc    },
     { PACKTYPE_SUB, 1,                            "NewspaperHistory",    (intptr_t)newspaper_history_desc    },
