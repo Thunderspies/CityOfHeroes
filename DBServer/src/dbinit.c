@@ -990,7 +990,6 @@ SpecialColumn ent_cmds[] =
     { "Ents2[0].PlayerSubType",        CFTYPE_BYTE,            OFFSETOF(EntCon,playerSubType),                                            },
     { "Ents2[0].PraetorianProgress",CFTYPE_BYTE,            OFFSETOF(EntCon,praetorianProgress),                                    },
     { "Ents2[0].InfluenceType",        CFTYPE_BYTE,            OFFSETOF(EntCon,playerTypeByLocation),                                    },
-//    { "Ents2[0].RequiresGoingRogueOrTrial",    CFTYPE_BYTE,    OFFSETOF(EntCon,requiresGoingRogueOrTrial),                                },
     { "CompletedOrders[%d].OrderId0",    CFTYPE_INT,            OFFSETOF(OrderId,u32[0]),    CMD_ARRAY,    OFFSETOF(EntCon,completedOrders), NULL, alloc_order    },
     { "CompletedOrders[%d].OrderId1",    CFTYPE_INT,            OFFSETOF(OrderId,u32[1]),    CMD_ARRAY,    OFFSETOF(EntCon,completedOrders), NULL, alloc_order    },
     { "CompletedOrders[%d].OrderId2",    CFTYPE_INT,            OFFSETOF(OrderId,u32[2]),    CMD_ARRAY,    OFFSETOF(EntCon,completedOrders), NULL, alloc_order    },
