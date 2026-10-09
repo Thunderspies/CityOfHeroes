@@ -163,7 +163,9 @@ void inventory_Template(StuffBuff *psb)
                     
                     for(i = 0; i < RECIPESPLIT_NUM_COLS; ++i ) 
                     {
-                        addStringToStuffBuff( psb, "InvRecipeInvention[%i].c%iType \"attribute\"\n", numRows, i);
+						addStringToStuffBuff(psb,
+							"InvRecipeInvention[%i].c%iType \"int4\" attribute\n",
+							numRows, i);
                         addStringToStuffBuff( psb, "InvRecipeInvention[%i].c%iAmount \"int4\"\n", numRows, i);
                     }
                 }
