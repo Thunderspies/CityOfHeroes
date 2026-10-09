@@ -132,7 +132,6 @@ static int colorTintablePartsBitField = 0;
 #define genderWaistScale()
 #define genderShoulderScale()
 #define genderChestScale()
-#define genderHeadScale()
 #define genderBoneScale()
 #define combobox_display()
 #define setAnim()

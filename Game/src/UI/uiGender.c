@@ -707,7 +707,6 @@ static void genderSetScalesFromSpecifiedAppearance(Entity *e, const Appearance *
     sBodyConfig.scales.bone        = appearance->fBoneScale;
     sBodyConfig.scales.shoulder = reverseAdjustScale( appearance->fShoulderScale,e->seq->type->shoulderScaleRange, appearance->fBoneScale ); 
     sBodyConfig.scales.chest    = reverseAdjustScale( appearance->fChestScale,e->seq->type->chestScaleRange, appearance->fBoneScale ); 
-    sBodyConfig.scales.head        = reverseAdjustScale( appearance->fHeadScale,e->seq->type->headScaleRange, appearance->fBoneScale ); 
     sBodyConfig.scales.hip        = reverseAdjustScale( appearance->fHipScale,e->seq->type->hipScaleRange, appearance->fBoneScale ); 
     sBodyConfig.scales.waist    = reverseAdjustScale( appearance->fWaistScale,e->seq->type->waistScaleRange, appearance->fBoneScale ); 
     sBodyConfig.scales.leg        = ( appearance->fLegScale  > 0.0)
@@ -847,32 +846,6 @@ void genderHipScale(float x, float y, float screenScaleX, float screenScaleY, fl
         mutable_costume->appearance.fHipScale = adjusted;
     }
 }
-
-void genderHeadScale(float x, float y, float screenScaleX, float screenScaleY, float uiscale, int costume)
-{
-    F32 * pScale = &sBodyConfig.scales.head;
-    Entity *e = playerPtr();
-    F32 range = e->seq->type->headScaleRange;
-
-    font( &game_12 );
-    font_color( uiColors.standard.text, uiColors.standard.text2 );
-
-    if( costume )
-    {
-        if( uiscale == 1.f )
-            *pScale = costumeDrawSlider(x, y, *pScale, SLIDER_CHARACTER_HEAD_SCALE, "Head", e->costume->appearance.fHeadScale, range, uiscale, screenScaleX, screenScaleY);
-        else
-            costumeDrawSlider(x, y, *pScale, SLIDER_CHARACTER_HEAD_SCALE, "Head", e->costume->appearance.fHeadScale, range, uiscale, screenScaleX, screenScaleY);
-    }
-    else
-        *pScale = drawGenderSlider(x, y, screenScaleX, screenScaleY, *pScale, SLIDER_CHARACTER_HEAD_SCALE, "Head", "Max Head", true, e->costume->appearance.fHeadScale, range);
-
-    {
-        Costume* mutable_costume = costume_as_mutable_cast(e->costume);
-        mutable_costume->appearance.fHeadScale = adjustScale(*pScale, range);
-    }
-}
-
 
 void genderWaistScale(float x, float y, float screenScaleX, float screenScaleY, float uiscale, int costume)
 {
@@ -1143,7 +1116,6 @@ static void genderBuild(float screenScaleX, float screenScaleY)
  
       genderBuildSelect( x+(40*screenScaleX), y+(5*screenScaleY), screenScaleX, screenScaleY );
        genderBoneScale(        x+slider_off, y + (SPACING * i++), screenScaleX, screenScaleY, 1.f, 0);
-    //genderHeadScale(        x+slider_off, y + (SPACING * i++), screenScaleX, screenScaleY, 1.f, 0);
     genderShoulderScale(    x+slider_off, y + (SPACING * i++), screenScaleX, screenScaleY, 1.f, 0);
     if(game_state.editnpc)
         genderArmScale(        x+slider_off, y + (SPACING * i++), screenScaleX, screenScaleY, 1.f, 0);

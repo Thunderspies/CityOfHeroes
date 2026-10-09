@@ -314,9 +314,6 @@ int simulateCharacterCreate(int askuser, int connectionless)
             float start;
             float fBoneScale = mutable_costume->appearance.fBoneScale;
             
-            start = (((fBoneScale+1)*(2-1.0))/2)-1; // headScaleRange = 1.0
-            mutable_costume->appearance.fHeadScale = randFloat(start, start + 1.0 );
-
             start = (((fBoneScale+1)*(2-1.0))/2)-1; // shoulderScaleRange = 1.0
             mutable_costume->appearance.fShoulderScale = randFloat(start, start + 1.0 );
 

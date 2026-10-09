@@ -36,6 +36,7 @@ static int checkCostume(int names, int parts)
  Packet packets[2] = {0};
  input.parts = sourceParts;
  output.parts = destParts;
+ output.appearance.fHeadScale = 0.5f;
  input.appearance.bodytype = kBodyType_Female;
  input.appearance.colorSkin.integer = 0x12345678;
  input.appearance.currentSuperColorSet = 5;
@@ -59,6 +60,7 @@ static int checkCostume(int names, int parts)
   initBitStream(&packets[marker].stream, bytes[marker], sizeof(bytes[marker]),
    Write, 0, NULL);
   input.appearance.convertedScale = marker;
+  input.appearance.fHeadScale = marker ? 0.75f : -0.75f;
   costume_send(&packets[marker], &input, names);
   pktSendBits(&packets[marker], 32, 0xabcddcba);
  }
@@ -67,12 +69,13 @@ static int checkCostume(int names, int parts)
  bsChangeMode(&packets[0].stream, Read);
  CHECK(costume_receive(&packets[0], &output));
  CHECK(output.appearance.convertedScale == 1);
+ CHECK(output.appearance.fHeadScale == 0.0f);
  CHECK(output.appearance.bodytype == input.appearance.bodytype);
  CHECK(output.appearance.colorSkin.integer == input.appearance.colorSkin.integer);
  CHECK(output.appearance.currentSuperColorSet == 5);
  CHECK(output.appearance.iNumParts == parts);
  for (int i = 0; i < MAX_BODY_SCALES; ++i)
-  CHECK(fabsf(output.appearance.fScales[i] - input.appearance.fScales[i])
+  if (i != kBodyScale_Head) CHECK(fabsf(output.appearance.fScales[i] - input.appearance.fScales[i])
    <= (names || i == 0 ? 0.0f : 2.0f / 63.0f));
  for (int i = 0; i < NUM_SG_COLOR_SLOTS; ++i) {
   CHECK(output.appearance.superColorsPrimaryU[i].SGBitSetLow == 0x12345678 + i);

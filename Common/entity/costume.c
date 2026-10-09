@@ -1459,6 +1459,10 @@ int costume_receive(Packet *pak, Costume* costume)
 
 
     for(i=0;i<MAX_BODY_SCALES;i++) {
+        if (i == kBodyScale_Head) {
+            costume->appearance.fScales[i] = 0.0f;
+            continue;
+        }
         if (i==0 || hasExtraInfo) {
             costume->appearance.fScales[i]    = pktGetF32(pak);
         } else {
@@ -1562,6 +1566,8 @@ void costume_send(Packet* pak, Costume * costume, int send_names)
     }
 
     for(i=0;i<MAX_BODY_SCALES;i++) {
+        if (i == kBodyScale_Head)
+            continue;
         if (i==0 || sendExtraInfo) {
             pktSendF32(pak, costume->appearance.fScales[i]);
         } else {
