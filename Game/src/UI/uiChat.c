@@ -711,71 +711,30 @@ static void loadEntityChatSettings(Entity * e, int full_update)
     eaDestroy(&unusedFilters);
 }
 
-static void playerSeenLegacyUINote(int keepNew)
+void receiveChatSettingsFromServer(Packet *pak, Entity *e)
 {
-    optionSet(kUO_UseOldTeamUI, !keepNew, 1);
-    START_INPUT_PACKET( pak, CLIENTINP_LEGACYTEAMUI_NOTE );
-    END_INPUT_PACKET
-}
-static void playerSeenLegacyUINoteKeep(void *data)
-{
-    playerSeenLegacyUINote(1);
-}
-static void playerSeenLegacyUINoteLegacy(void *data)
-{
-    playerSeenLegacyUINote(0);
-}
-void receiveChatSettingsFromServer(Packet * pak, Entity * e)
-{
+    bool localizeDefaults;
     assert(e);
-    
     receiveChatSettings(pak, e);
+    localizeDefaults = !(e->pl->chat_settings.options & CSFlags_DoNotLocalize);
 
-    // localize names (if initial default settings)
-    if( !(e->pl->chat_settings.options & CSFlags_DoNotLocalize))
+    // Localize fresh default names once, then save the current settings.
+    if (localizeDefaults)
     {
         int i;
-
-        // need to localize default names
-        for(i=0;i<MAX_CHAT_TABS;i++)
+        for (i = 0; i < MAX_CHAT_TABS; ++i)
         {
             char buf[2000];
-            ChatTabSettings * tabs = &e->pl->chat_settings.tabs[i];
-            if(tabs->name[i])
+            ChatTabSettings *tab = &e->pl->chat_settings.tabs[i];
+            if (tab->name[0])
             {
-                msPrintf(menuMessages, SAFESTR(buf), tabs->name);
-                strncpyt(tabs->name, buf, SIZEOF2(ChatTabSettings, name));
+                msPrintf(menuMessages, SAFESTR(buf), tab->name);
+                strncpyt(tab->name, buf, SIZEOF2(ChatTabSettings, name));
             }
         }
     }
-
-    if ( !(e->pl->chat_settings.options & CSFlags_AddedLegacyUINote))
-    {
-        dialogStd(DIALOG_TWO_RESPONSE, "NotifyLegacyTeamUILocation", "KeepNewTeamUI", 
-            "UseOldTeamUI", playerSeenLegacyUINoteKeep, playerSeenLegacyUINoteLegacy, 0 );
-    }
-
-    if( e->pl->helpChatAdded )
-    {
-        int i;
-        // need to localize default names
-        for(i=0;i<MAX_CHAT_TABS;i++)
-        {
-            char buf[2000];
-            ChatTabSettings * tabs = &e->pl->chat_settings.tabs[i];
-            if(stricmp( "DefaultHelpChat", tabs->name)==0)
-            {
-                msPrintf(menuMessages, SAFESTR(buf), tabs->name);
-                strncpyt(tabs->name, buf, SIZEOF2(ChatTabSettings, name));
-            }
-        }
-    }
-
     loadEntityChatSettings(e, 1);
-
-    // the very first time that we get our chat settings, immediately save the
-    // localized names to the dbserver
-     if( !(e->pl->chat_settings.options & CSFlags_DoNotLocalize) || e->pl->helpChatAdded )
+    if (localizeDefaults)
         sendChatSettingsToServer();
 }
 

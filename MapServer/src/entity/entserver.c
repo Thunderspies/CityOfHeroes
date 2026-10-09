@@ -1636,6 +1636,7 @@ bool receiveCharacterFromClient( Packet *pak, Entity *e )
 
     // do after getting class
     costumeValidateCostumes(e);
+    chatSettings_InitDefaults(e);
 
     return bRet;
 }

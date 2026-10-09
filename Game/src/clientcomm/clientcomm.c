@@ -1192,7 +1192,6 @@ static int handleGameCmd(Packet *pak, int cmd)
             _Ch(SERVER_ENABLE_CONTROL_LOG,                handleEnableControlLog)
 
             _Ch(SERVER_VISITED_MAP_CELLS,                receiveVisitMapCells)
-            _Ch(SERVER_ALL_STATIC_MAP_CELLS,            receiveStaticMapCells)
             _Ch(SERVER_RESEND_WAYPOINT_REQUEST,            receiveResendWaypointRequest);
             _Ch(SERVER_UPDATE_WAYPOINT,                    receiveWaypointUpdate)
             _Ch(SERVER_SET_WAYPOINT,                    ServerWaypointReceive)

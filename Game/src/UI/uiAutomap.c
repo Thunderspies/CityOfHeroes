@@ -1628,15 +1628,7 @@ void automap_addStaticMapCell(VisitedStaticMap *vsm, int db_id, int map_id, int 
     eaPush(&vsm->staticMaps, vm);
     automap_updateStaticMap(vm);
 }
-void automap_clearStaticMaps(VisitedStaticMap *vsm)
-{
-    int i;
-    for (i = eaSize(&vsm->staticMaps)-1; i >= 0; --i)
-    {
-        StructDestroy(ParseVisitedMaps, vsm->staticMaps[i]);
-    }
-    eaDestroy(&vsm->staticMaps);
-}
+
 
 void drawMapZones( float x, float y, float z, float scale, int text, UISkin skin )
 {

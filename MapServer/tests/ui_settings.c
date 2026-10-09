@@ -36,6 +36,7 @@ static int checkOptions(Entity *e, uiSetting *settings, int count, int pattern)
 {
 	int expected[32];
 	for (int i = 0; i < count; i++) {
+		if (!settings[i].indirection[0].fieldName) continue;
 		int *value = siApplyMultipleIndirections((char *)e,
 			settings[i].indirection, MAX_INDIRECTIONS);
 		expected[i] = pattern == 0 ? 0 : pattern == 1 ? 1 : i % 2;
@@ -43,12 +44,14 @@ static int checkOptions(Entity *e, uiSetting *settings, int count, int pattern)
 	}
 	packageUISettings(e);
 	for (int i = 0; i < count; i++) {
+		if (!settings[i].indirection[0].fieldName) continue;
 		int *value = siApplyMultipleIndirections((char *)e,
 			settings[i].indirection, MAX_INDIRECTIONS);
 		*value = !expected[i];
 	}
 	unpackUISettings(e);
 	for (int i = 0; i < count; i++) {
+		if (!settings[i].indirection[0].fieldName) continue;
 		int *value = siApplyMultipleIndirections((char *)e,
 			settings[i].indirection, MAX_INDIRECTIONS);
 		if (*value != expected[i]) {
@@ -60,13 +63,26 @@ static int checkOptions(Entity *e, uiSetting *settings, int count, int pattern)
 	return 1;
 }
 
+static int checkCurrentPreferenceBits(Entity *e)
+{
+    unsigned int expected = (1u << 21) | (1u << 24) | (1u << 28);
+    e->pl->uiSettings2 = expected | (1u << 20);
+    unpackUISettings(e);
+    if (!e->pl->hideDeleteSalvagePrompt || !e->pl->hideDeleteRecipePrompt ||
+        !e->pl->is_a_spammer || e->pl->declineSuperGroupInvite ||
+        e->pl->declineTradeInvite || e->pl->webHideBadges ||
+        e->pl->webHideFriends || e->pl->hideCoopPrompt)
+        return 0;
+    packageUISettings(e);
+    return (unsigned int)e->pl->uiSettings2 == expected;
+}
 int main(void)
 {
 	Entity *e = calloc(1, sizeof(*e));
 	e->pl = calloc(1, sizeof(*e->pl));
 	e->pchar = calloc(1, sizeof(*e->pchar));
 	e->pl->tray = calloc(1, sizeof(*e->pl->tray));
-	int valid = checkBuildInitialization(e);
+	int valid = checkBuildInitialization(e) && checkCurrentPreferenceBits(e);
 	for (int pattern = 0; pattern < 3; pattern++) {
 		valid &= checkOptions(e, uiSettings, ARRAY_SIZE(uiSettings), pattern);
 		valid &= checkOptions(e, uiSettings2, ARRAY_SIZE(uiSettings2), pattern);

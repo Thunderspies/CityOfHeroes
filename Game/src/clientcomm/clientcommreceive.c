@@ -979,28 +979,7 @@ void receiveVisitMapCells(Packet *pak)
     }
 }
 
-void receiveStaticMapCells(Packet *pak)
-{
-    int        i;
-    int db_id = pktGetBitsAuto(pak);
-    int numMaps = pktGetBitsAuto(pak);
-    VisitedStaticMap *vsm = automap_getMapStruct(db_id);
-    automap_clearStaticMaps(vsm);
-    for (i= 0; i < numMaps; ++i)
-    {
-        int map_id = pktGetBitsAuto(pak);
-        if (map_id)
-        {
-            int opaque_fog = pktGetBits(pak, 1);
-            int cell_array_size = (MAX_MAPVISIT_CELLS+31)/32;
-            U32 cell_array[4*(MAX_MAPVISIT_CELLS+31)/32];
-            int j;
-            for (j = 0; j < cell_array_size; j++)
-                cell_array[j] = pktGetBits(pak, 32);
-            automap_addStaticMapCell(vsm, db_id, map_id, opaque_fog, cell_array_size, cell_array);
-        }
-    }
-}
+
 void receiveResendWaypointRequest(Packet* pak)
 {
     // Nothing to receive, just update waypoint request.

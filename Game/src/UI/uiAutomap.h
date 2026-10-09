@@ -82,7 +82,6 @@ typedef struct VisitedStaticMap
 VisitedStaticMap *automap_getMapStruct(int db_id);
 void automap_addStaticMapCell(VisitedStaticMap *vsm, int db_id, int map_id, int opaque_fog, int num_cells, U32 *cell_array);
 void automap_updateStaticMap(VisitedMap *vm);
-void automap_clearStaticMaps(VisitedStaticMap *vsm);
 void automap_drawMap(int height, int width, int floor, int flags);
 int automap_getSectionCount();
 void drawMap( char * map_name, int type );
