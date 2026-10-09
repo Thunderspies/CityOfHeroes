@@ -1031,7 +1031,6 @@ typedef struct StoryTaskInfo
     int                spawnGiven;                                // has the task replaced a random encounter?
     int                level;                                    // what level was this task spawned at?
     int                skillLevel;                                // what skill level was this task spawned at?
-    int                old_notoriety;                                // deprecated
 
     StoryDifficulty difficulty;                            // what are my current difficulty settings
 
