@@ -569,7 +569,10 @@ static ContainerValue sqliteLineValue(LineList *diff, LineTracker *line, ColumnI
             value.data = floatValue;
             value.size = sizeof(*floatValue);
         xdefault:
-            value.type = column->data_type == CFTYPE_DATETIME ? CONTAINER_VALUE_DATETIME : column->data_type == CFTYPE_BINARY_MAX || column->data_type == CFTYPE_BLOB ? CONTAINER_VALUE_BLOB : CONTAINER_VALUE_TEXT;
+            value.type = column->data_type == CFTYPE_DATETIME ?
+                CONTAINER_VALUE_DATETIME :
+                column->data_type == CFTYPE_BINARY_MAX ?
+                CONTAINER_VALUE_BLOB : CONTAINER_VALUE_TEXT;
             value.data = diff->text + line->str_idx;
             value.size = line->size;
     }
@@ -733,7 +736,6 @@ static void* s_getField(HSTMT stmt, ColumnInfo *field, int column_idx, int *data
 
     switch(field->data_type)
     {
-        case CFTYPE_BLOB:
         case CFTYPE_BINARY_MAX:
         case CFTYPE_UNICODESTRING_MAX:
         case CFTYPE_ANSISTRING_MAX:
@@ -962,7 +964,6 @@ static int readRow(HSTMT stmt, ContainerTemplate *tplt, TableInfo *table, LineLi
 
             xcase CFTYPE_ANSISTRING:
              case CFTYPE_ANSISTRING_MAX:
-             case CFTYPE_BLOB:
                 if(!addStrToLine(list, line, data, results[col]))
                     continue;
 
@@ -1094,7 +1095,6 @@ static int readSqliteRow(DbStorageStatement *statement, ContainerTemplate *tplt,
             case CFTYPE_UNICODESTRING_MAX:
             case CFTYPE_ANSISTRING:
             case CFTYPE_ANSISTRING_MAX:
-            case CFTYPE_BLOB:
                 if (!addStrToLine(list, line, (char *)value.data, (int)value.size))
                     continue;
             xcase CFTYPE_DATETIME:
@@ -1727,12 +1727,7 @@ int sqlGetTableInfo(char *table_name,ColumnInfo **columns_ptr)
         if (i == CFTYPE_COUNT)
             FatalErrorf("Unknown type '%s' (%d) for column '%s' in '%s'", type_name, data_type, column_name, table_name);
 
-        if (CFTYPE_IS_LEGACY(columns[count].data_type))
-        {
-            columns[count].num_bytes = -1;
-            strcpy(columns[count].data_type_name, type_name);
-        }
-        else if (CFTYPE_IS_DYNAMIC(columns[count].data_type))
+        if (CFTYPE_IS_DYNAMIC(columns[count].data_type))
         {
             columns[count].num_bytes = -1;
             sprintf(columns[count].data_type_name, "%s(max)", type_name);

@@ -323,10 +323,6 @@ static bool verifyTableColumns(TableInfo *table)
             continue;
         }
 
-        // Don't validate deprecated types
-        if (new_field->data_type == CFTYPE_BLOB)
-            continue;
-
         assert(new_field->num_bytes >= field->num_bytes);
         assert(new_field->column_size == field->column_size);
     }

@@ -10,9 +10,9 @@ const char *dbStorageQualifiedTable(DatabaseProvider provider, const char *table
 
 const char *dbStorageTypeName(DatabaseProvider provider, ContainerFieldType type)
 {
-    static const char *mssql[CFTYPE_COUNT] = {NULL, "tinyint", "smallint", "int", "real", "nvarchar", "varchar", "datetime", "varbinary(max)", "nvarchar(max)", "varchar(max)", "image"};
-    static const char *postgresql[CFTYPE_COUNT] = {NULL, "int2", "int2", "int4", "float4", "varchar", "varchar", "timestamp", "bytea", "text", "text", "bytea"};
-    static const char *sqlite[CFTYPE_COUNT] = {NULL, "INT1", "INT2", "INTEGER", "REAL", "UTEXT", "TEXT", "DTEXT", "BLOB", "UTEXT", "TEXT", "BLOB"};
+    static const char *mssql[CFTYPE_COUNT] = {NULL, "tinyint", "smallint", "int", "real", "nvarchar", "varchar", "datetime", "varbinary(max)", "nvarchar(max)", "varchar(max)"};
+    static const char *postgresql[CFTYPE_COUNT] = {NULL, "int2", "int2", "int4", "float4", "varchar", "varchar", "timestamp", "bytea", "text", "text"};
+    static const char *sqlite[CFTYPE_COUNT] = {NULL, "INT1", "INT2", "INTEGER", "REAL", "UTEXT", "TEXT", "DTEXT", "BLOB", "UTEXT", "TEXT"};
     if (type <= CFTYPE_NULL || type >= CFTYPE_COUNT) return NULL;
     if (provider == DBPROV_SQLITE) return sqlite[type];
     return provider == DBPROV_POSTGRESQL ? postgresql[type] : mssql[type];

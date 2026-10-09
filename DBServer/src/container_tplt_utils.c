@@ -37,7 +37,6 @@ ContainerFieldInfo g_containerfieldinfo[] =
     { -1,            SQL_C_BINARY,           SQL_VARBINARY,       }, // CFTYPE_BINARY_MAX
     { -1,            SQL_C_WCHAR,            SQL_WVARCHAR,        }, // CFTYPE_UNICODESTRING_MAX
     { -1,            SQL_C_CHAR,             SQL_VARCHAR,         }, // CFTYPE_ANSISTRING_MAX
-    { -1,            SQL_C_BINARY,           SQL_LONGVARBINARY,   }, // CFTYPE_BLOB
 };
 STATIC_ASSERT(ARRAY_SIZE(g_containerfieldinfo) == CFTYPE_COUNT);
 
