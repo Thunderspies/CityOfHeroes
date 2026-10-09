@@ -440,9 +440,6 @@ LineDesc chat_settings_tab_line_desc[] =
         "The name of the tab"},
 
     // Deprecated
-    {{ PACKTYPE_INT,     SIZE_INT32,                        "SystemChannels",    OFFSET(ChatTabSettings, systemBF),            },
-        "Bitfield - the set of system channels to display in the tab - Deprecated"},
-
     {{ PACKTYPE_INT,     SIZE_INT32,                        "UserChannels",        OFFSET(ChatTabSettings, userBF),            },
         "Bitfield - the set of user channels to display in the tab"},
 

@@ -281,9 +281,6 @@ void unpackChatSettings(Entity *e)
     for(i=0;i<MAX_CHAT_TABS;i++)
     {
         ChatTabSettings * tab = &settings->tabs[i];
-        if(tab->systemBF)
-            BitFieldOr(&tab->systemBF, tab->systemChannels, 1);
-        tab->systemBF = 0;
         BitFieldOr(tab->systemChannels, settings->systemChannels, SYSTEM_CHANNEL_BITFIELD_SIZE);
     }
 }
