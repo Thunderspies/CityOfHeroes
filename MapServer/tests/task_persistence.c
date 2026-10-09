@@ -16,12 +16,15 @@ const char *TaskFileName(TaskHandle handle)
 }
 
 #include "task_persistence.inc"
+#define sgTaskGetHandle TaskGetHandle
+#define sgTaskFileName TaskFileName
+#include "sg_task_persistence.inc"
 
 static StructDesc description = {
 	sizeof(StoryTaskInfo), {AT_NOT_ARRAY, {{0}}}, task_line_desc
 };
 
-int main(void)
+static int checkTaskPersistence(StructDesc *desc, int supergroup)
 {
 	StoryTaskInfo original = {0}, loaded = {0};
 	original.sahandle.context = 41;
@@ -49,7 +52,8 @@ int main(void)
 	original.nextLocation = 3;
 	original.subtaskSuccess[0] = 5;
 	original.teamCompleted = 1;
-	original.completeSideObjectives = 7;
+	original.completeSideObjectives = supergroup ? 0 : 7;
+	original.skillLevel = 10;
 	original.difficulty.levelAdjust = -1;
 	original.difficulty.teamSize = 4;
 	original.difficulty.alwaysAV = 1;
@@ -58,18 +62,31 @@ int main(void)
 	original.failOnTimeout = 1;
 	original.timezero = 200000;
 
-	char *template = dbContainerTemplate(&description);
+	char *template = dbContainerTemplate(desc);
 	int valid = !strstr(template, "MysteryInvestigation") &&
+		!strstr(template, "VillainType") &&
+		!strstr(template, "DeliveryTargetName") &&
+		!strstr(template, "Notoriety") &&
 		strstr(template, "ID \"int4\" attribute");
 	free(template);
 	for (int i = 0; i < 2; i++) {
-		char *record = dbContainerPackage(&description, &original);
+		char *record = dbContainerPackage(desc, &original);
 		memset(&loaded, 0, sizeof(loaded));
-		dbContainerUnpack(&description, record, &loaded);
+		dbContainerUnpack(desc, record, &loaded);
 		valid &= !memcmp(&original, &loaded, sizeof(original));
 		free(record);
 		original = loaded;
 	}
+	return valid;
+}
+
+int main(void)
+{
+	StructDesc supergroup = {
+		sizeof(StoryTaskInfo), {AT_NOT_ARRAY, {{0}}}, sg_task_line_desc
+	};
+	int valid = checkTaskPersistence(&description, 0) &
+		checkTaskPersistence(&supergroup, 1);
 	puts(valid ? "Task persistence passed" : "Task persistence failed");
 	return valid ? 0 : 1;
 }
