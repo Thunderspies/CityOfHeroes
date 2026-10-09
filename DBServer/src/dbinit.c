@@ -1053,7 +1053,6 @@ SpecialColumn map_cmds[] =
     { "MapGroupsId",    CFTYPE_INT,            OFFSETOF(MapCon,mapgroup_id),    CMD_MEMBER,    CONTAINER_MAPGROUPS    },
     { "DontAutoStart",    CFTYPE_INT,            OFFSETOF(MapCon,dontAutoStart)                                    },
     { "Transient",        CFTYPE_INT,            OFFSETOF(MapCon,transient)                                        },
-    { "NewPlayerSpawn",    CFTYPE_INT,            OFFSETOF(MapCon,deprecated)                                        },
     { "IntroZone",        CFTYPE_INT,            OFFSETOF(MapCon,introZone)                                        },
     { "BaseMapID",        CFTYPE_INT,            OFFSETOF(MapCon,base_map_id)                                    },
     { "SafePlayersLow",    CFTYPE_INT,            OFFSETOF(MapCon,safePlayersLow)                                    },
