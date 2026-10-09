@@ -59,6 +59,17 @@ cmake --build --preset vs2026-release
 
 The executables will be in the out/ folder.
 
+## Continuous integration
+
+CMake CI automatically builds and tests OptDebug for pull requests. Changes
+limited to Markdown, `doc/` or `docs/` directories, `data/`, `Assets/DBSchemas/`,
+or the root `.gitignore` skip the Windows build. A lightweight check still
+reports the result so documentation and runtime-only pull requests can merge.
+New PR updates cancel older CI runs for that PR.
+
+Branch pushes do not run CMake CI. Use the workflow's **Run workflow** button
+for a full manual build. Pushing a `v*` tag still prepares an OptDebug release.
+
 # Usage
 
 The [data repo](https://github.com/Thunderspies/i24) has all the other
