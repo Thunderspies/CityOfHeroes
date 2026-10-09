@@ -547,7 +547,6 @@ typedef struct EntPlayer
     U32            lastSGModeChange;                // dbSecondsSince2000
     U32            timeInSGMode;                    // seconds
                                                                            
-    int         chatBeta;
                                                 
     int            arena_paid;                        // id of the last arena paid for
     int            arena_paid_amount;                // amount of last payment

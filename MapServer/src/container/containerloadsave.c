@@ -1814,9 +1814,6 @@ LineDesc ent2_line_desc[] =
     {{ PACKTYPE_INT,    SIZE_INT32,                            "DividerLfgMap",        OFFSET2_PTR(Entity, pl,            EntPlayer, divLfgMap),            },
         "Width of map column in search window"},
 
-    {{ PACKTYPE_INT, SIZE_INT8,                            "ChatBeta",                OFFSET2_PTR(Entity, pl,            EntPlayer, chatBeta),            },
-        "Obsolete, unused"},
-
     {{ PACKTYPE_INT,    SIZE_INT32,                            "LfgFlags",                OFFSET2_PTR(Entity, pl,            EntPlayer, lfg),                },
         "Bitfield - What kind of groups the character is looking to join<br>"
         "   1 = Any<br>"
