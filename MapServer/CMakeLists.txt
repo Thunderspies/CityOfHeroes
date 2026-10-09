@@ -63,7 +63,6 @@ set(MapServer_SOURCES
 	../Common/entity/entworldcoll.c
 	../Common/entity/friendCommon.c
 	../Common/entity/incarnate.c
-	../Common/entity/Invention.c
 	../Common/entity/load_def.c
 	../Common/entity/LoadDefCommon.c
 	../Common/entity/motion.c
@@ -605,7 +604,6 @@ set(MapServer_HEADERS
 	../Common/entity/friendCommon.h
 	../Common/entity/gametypes.h
 	../Common/entity/incarnate.h
-	../Common/entity/Invention.h
 	../Common/entity/load_def.h
 	../Common/entity/LoadDefCommon.h
 	../Common/entity/motion.h

@@ -97,7 +97,6 @@
 #include "cmdparse/cmdserver.h"
 #include "group/group.h"
 #include "bases/baseserverrecv.h"
-#include "entity/Invention.h"
 #include "gameSys/petarena.h"
 #include "gameComm/pet.h"
 #include "gameSys/raidmapserver.h"
@@ -980,12 +979,6 @@ const char* getClientInpCmdName(int cmd)
 
         // crafting helpers
         SET_NAME(CLIENTINP_CRAFTING_REVERSE_ENGINEER);
-        SET_NAME(CLIENTINP_INVENT_SELECTRECIPE);
-        SET_NAME(CLIENTINP_INVENT_SLOTCONCEPT);
-        SET_NAME(CLIENTINP_INVENT_UNSLOT);
-        SET_NAME(CLIENTINP_INVENT_HARDENSLOT);
-        SET_NAME(CLIENTINP_INVENT_FINALIZE);
-        SET_NAME(CLIENTINP_INVENT_CANCEL);
 
         // detail creation
         SET_NAME(CLIENTINP_WORKSHOP_CREATE);
@@ -2890,30 +2883,6 @@ int parseClientInput( Packet *pak, ClientLink *client )
              {
                  salvageinv_ReverseEngineer_Receive( pak, e->pchar );
              }
-             xcase CLIENTINP_INVENT_SELECTRECIPE:
-             {
-                character_InventReceiveRecipeSelection( e->pchar, pak );
-             }
-             xcase CLIENTINP_INVENT_SLOTCONCEPT:
-             {
-                character_InventReceiveSlotConcept( e->pchar, pak );
-             }
-             xcase CLIENTINP_INVENT_UNSLOT:
-             {
-                character_InventReceiveUnSlot( e->pchar, pak );
-             }
-             xcase CLIENTINP_INVENT_HARDENSLOT:
-             {
-                character_InventReceiveHardenSlot( e->pchar, pak );
-             }
-             xcase CLIENTINP_INVENT_FINALIZE:
-             {
-                character_InventReceiveFinalize( e->pchar, pak );
-             }                 
-             xcase CLIENTINP_INVENT_CANCEL:
-             {
-                character_InventReceiveCancel( e->pchar, pak );
-             }    
             xcase CLIENTINP_WORKSHOP_CREATE:
              {
                 character_WorkshopReceiveDetailRecipeBuild( e->pchar, pak );

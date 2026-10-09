@@ -428,7 +428,6 @@ static WindowMap s_aNonUserWindows[] =
     { "inventory",            WDW_INVENTORY, },
     { "conceptinv",            WDW_CONCEPTINV, },
     { "recipeinv",            WDW_RECIPEINV, },
-    { "invent",                WDW_INVENT, },
     { "baseprops",            WDW_BASE_PROPS,     },
     { "baseinv",            WDW_BASE_INVENTORY, },
     { "baseroom",            WDW_BASE_ROOM,      },

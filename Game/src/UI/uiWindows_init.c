@@ -1,7 +1,6 @@
 
 #include "gameComm/wdwbase.h"
 #include "uiBaseStorage.h"
-#include "uiInvent.h"
 #include "uiRecipeInv.h"
 #include "uiSalvage.h"
 #include "UI/uiStoredSalvage.h"
@@ -286,7 +285,6 @@ WindowDefault window_defaults[] =
     { WDW_STOREDSALVAGE,            kWdwAnchor_Left,    kWdwAnchor_Top, 150,  150,  250, 300, storedSalvageWindow,        ALWAYS_CLOSED,  R10, 1, {{0}}, { RESIZABLE, 300, 400, 1600, 1800 }, },
     { WDW_CONCEPTINV,                kWdwAnchor_Left,    kWdwAnchor_Top, 200,  200,  250, 300, conceptinvWindow,     ALWAYS_CLOSED,  R10, 1, {{0}}, { RESIZABLE, 200, 150, 550, 750 }, },
     { WDW_RECIPEINV,                kWdwAnchor_Left,    kWdwAnchor_Top, 250,  250,  250, 300, recipeinvWindow,      ALWAYS_CLOSED,  R10, 1, {{0}}, { RESIZABLE, 200, 150, 550, 750 }, },
-    { WDW_INVENT,                    kWdwAnchor_Left,    kWdwAnchor_Top, 300,  300,  250, 300, inventWindow,         ALWAYS_CLOSED,  R10, 1, {{0}}, { RESIZABLE, 200, 150, 550, 750 }, },
     { WDW_OPTIONS,                    kWdwAnchor_Left,    kWdwAnchor_Top, 0,    100,  580, 400, optionsWindow,        ALWAYS_CLOSED,  R10, 1, {{0}}, { RESIZABLE, 200, 580, 1600, 1800 }, },
     { WDW_SGRAID_LIST,                kWdwAnchor_Center,    kWdwAnchor_Middle, 0,  0,   480, 300, sgRaidListWindow,       ALWAYS_CLOSED,  R10, 0, {{0}}, { VERTONLY,  100, 480, 800, 480 }, }, 
     { WDW_ARENA_GLADIATOR_PICKER,    kWdwAnchor_Center,    kWdwAnchor_Middle, 0,  0,750,550, arenaGladiatorPickerWindow, ALWAYS_CLOSED, R10, 0, {{0}},{ RESIZABLE, 200, 400, 1600, 1800 }, },

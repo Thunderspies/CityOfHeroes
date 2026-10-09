@@ -41,7 +41,6 @@ set(TestClient_SOURCES
 	../../Common/entity/entStrings.c
 	../../Common/entity/friendCommon.c
 	../../Common/entity/incarnate.c
-	../../Common/entity/Invention.c
 	../../Common/entity/LoadDefCommon.c
 	../../Common/entity/load_def.c
 	../../Common/entity/origins.c
@@ -185,7 +184,6 @@ set(TestClient_HEADERS
 	../../Common/entity/entVarUpdate.h
 	../../Common/entity/friendCommon.h
 	../../Common/entity/incarnate.h
-	../../Common/entity/Invention.h
 	../../Common/entity/LoadDefCommon.h
 	../../Common/entity/load_def.h
 	../../Common/entity/origins.h
