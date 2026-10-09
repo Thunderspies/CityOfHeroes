@@ -14,6 +14,7 @@
 #include "entity/entity.h"
 #include "gameData/BodyPart.h"
 #include "entity/powers.h"
+#include "dbcomm/logcomm.h"
 
 void packageCostumes( Entity * e, StuffBuff *psb, StructDesc *desc)
 {
@@ -209,47 +210,6 @@ void unpackAppearance( Entity *e, DBAppearance * dba )
     }
 }
 
-#define MAX_I16_POWER_CUST_POWERS 300
-static void correctCostumeIndexFromLegacyDBCust(DBPowerCustomizationList *dbpowers, int numCostumes)
-{
-    int currentStatus = 0;
-    int i;
-    for (i = 0; i < numCostumes*MAX_POWERS; ++i)
-    {
-        if (dbpowers->powerCustomization[i].slotId)
-        {
-            return;    //    we are up to date with new packing method.    early exit
-        }
-    }
-    for (i = 1; i < numCostumes; ++i)
-    {
-        //    check the first power at one of these offset to try to find what state we are in
-        //    if the costume has added power customization, it will always have the full complement of powers stored, regardless if they are default or not
-        if (dbpowers->powerCustomization[i*MAX_I16_POWER_CUST_POWERS].powerName)
-        {
-            currentStatus = 0;    //    prei16
-            break;
-        }
-        if (dbpowers->powerCustomization[i*MAX_POWERS].powerName)
-        {
-            currentStatus = 1;    //    posti16
-            break;
-        }
-    }
-    for (i = 0; i < numCostumes; ++i)
-    {
-        int j;
-        int maxpowers = currentStatus ? MAX_POWERS : MAX_I16_POWER_CUST_POWERS;
-        for (j = 0; j < maxpowers; ++j)
-        {
-            if (dbpowers->powerCustomization[(i*maxpowers)+j].powerName)
-            {
-                dbpowers->powerCustomization[(i*maxpowers)+j].slotId = i+1;
-            }
-        }
-    }
-}
-
 void unpackPowerCustomizations( Entity * e, DBPowerCustomizationList *dbpowers)
 {
     int i;
@@ -268,7 +228,6 @@ void unpackPowerCustomizations( Entity * e, DBPowerCustomizationList *dbpowers)
 #ifndef _M_X64
     STATIC_INFUNC_ASSERT(sizeof(PowerCustomization) == 20)
 #endif
-    correctCostumeIndexFromLegacyDBCust(dbpowers, numCostumes);
     for( i = 0; i < numCostumes; i++ )
     {
         if (e->pl->powerCustomizationLists[i] == NULL)        e->pl->powerCustomizationLists[i] = StructAllocRaw(sizeof(PowerCustomizationList));
@@ -278,12 +237,22 @@ void unpackPowerCustomizations( Entity * e, DBPowerCustomizationList *dbpowers)
     {
         if (&dbpowers->powerCustomization[i] && dbpowers->powerCustomization[i].powerName)
         {
-            devassert(dbpowers->powerCustomization[i].slotId);    //    power didn't go into a slot. how did this happen?
-            if (dbpowers->powerCustomization[i].slotId && dbpowers->powerCustomization[i].slotId <= numCostumes)
+			if (dbpowers->powerCustomization[i].slotId <= 0 ||
+				dbpowers->powerCustomization[i].slotId > numCostumes) {
+				dbLog("InvalidPowerCustomization", e, "Invalid slot ID %d",
+					dbpowers->powerCustomization[i].slotId);
+				continue;
+			}
+            if (dbpowers->powerCustomization[i].slotId <= numCostumes)
             {
                 int powerIndex;
                 int costumeIndex = dbpowers->powerCustomization[i].slotId-1;
                 powerIndex = currentPowerIndex[costumeIndex];
+				if (powerIndex >= MAX_POWERS) {
+					dbLog("InvalidPowerCustomization", e,
+						"Too many powers in slot %d", costumeIndex + 1);
+					continue;
+				}
                 initializePowerCustomizationPower(&dbpowers->powerCustomization[i], e->pl->powerCustomizationLists[costumeIndex]->powerCustomizations[powerIndex]);
                 if (!e->pl->powerCustomizationLists[costumeIndex]->powerCustomizations[powerIndex]->power)
                 {
