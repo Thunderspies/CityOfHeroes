@@ -175,32 +175,20 @@ void unpackAppearance( Entity *e, DBAppearance * dba )
     {
         decompressAppearanceScales(&dba->appearance[i]);
 
-        // OLD CHARACTERS FIX
-        // appearance[0].bodytype -> BodyType
-        // appearance[0].colorSkin -> ColorSkin
-        // Don't overwrite these from the Appearances data
         if( !e->pl->costume[i] )
         {
             e->pl->costume[i] = costume_create(GetBodyPartCount());
         }
 
-        if (i > 0)
-        {
-            e->pl->costume[i]->appearance.bodytype        = dba->appearance[i].bodytype;
-            e->pl->costume[i]->appearance.colorSkin        = dba->appearance[i].colorSkin;
-        }
+		e->pl->costume[i]->appearance.bodytype = dba->appearance[i].bodytype;
+		e->pl->costume[i]->appearance.colorSkin = dba->appearance[i].colorSkin;
 
         e->pl->costume[i]->appearance.convertedScale    = dba->appearance[i].convertedScale;
 
         for(k=0;k<MAX_BODY_SCALES;k++)
         {
-            // OLD CHARACTERS FIX
-            // appearance[0].fScales[0] -> BodyScale
-            // appearance[0].fScales[1] -> BoneScale
-            // Don't overwrite these from the Appearances data
-
-            if (i > 0 || k > 1)
-                e->pl->costume[i]->appearance.fScales[k] = dba->appearance[i].fScales[k];
+			e->pl->costume[i]->appearance.fScales[k] =
+				dba->appearance[i].fScales[k];
         }
 
         for(k=0;k<NUM_SG_COLOR_SLOTS;k++)
