@@ -1027,6 +1027,27 @@ if(COX_BUILD_MAPSERVER)
 	cox_stage_physx(MapServer)
 endif()
 
+if(COX_BUILD_UTILITIES_TESTS)
+	# Compile the production UI section against the real entity structures.
+	set(ui_source "${CMAKE_CURRENT_SOURCE_DIR}/src/container/containerloadsave.c")
+	set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${ui_source}")
+	file(READ "${ui_source}" ui_code)
+	string(FIND "${ui_code}" "typedef struct uiSetting" ui_start)
+	string(FIND "${ui_code}" "// Return 1 on success" ui_end)
+	if(ui_start LESS 0 OR ui_end LESS ui_start)
+		message(FATAL_ERROR "Cannot locate production UI serializer section")
+	endif()
+	math(EXPR ui_length "${ui_end} - ${ui_start}")
+	string(SUBSTRING "${ui_code}" ${ui_start} ${ui_length} ui_code)
+	file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/ui_settings.inc" "${ui_code}")
+	add_executable(ContainerUISettingsTests tests/ui_settings.c
+		../Common/container/dbcontainerpack.c)
+	cox_configure_map_server(ContainerUISettingsTests)
+	target_include_directories(ContainerUISettingsTests PRIVATE
+		"${CMAKE_CURRENT_BINARY_DIR}")
+	add_test(NAME ContainerUISettings COMMAND ContainerUISettingsTests)
+endif()
+
 if(COX_BUILD_BEACONSERVER)
 	include(BeaconServer.cmake)
 endif()
