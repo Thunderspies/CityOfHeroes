@@ -1067,7 +1067,6 @@ typedef struct StoryTaskInfo
     char            villainType2[MAX_SA_NAME_LEN];            // villain group or villain name to kill
     char            deliveryTargetName[MAX_SA_NAME_LEN];    
 
-    char deprecatedStr[MAX_SA_NAME_LEN]; // used for deprecated database columns
     
 } StoryTaskInfo;
 

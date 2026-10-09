@@ -1368,10 +1368,6 @@ LineDesc task_line_desc[] =
         "it true, don't downgrade AV to EB, otherwise always do"},
     {{ PACKTYPE_INT,        SIZE_INT32,            "DowngradeBoss",    OFFSET2(StoryTaskInfo, difficulty, StoryDifficulty, dontReduceBoss )},
         "if true, no bosses while solo"},
-    {{ PACKTYPE_STR_ASCII,        SIZEOF2(StoryTaskInfo, deprecatedStr),    "MysteryInvestigation_VarType",    OFFSET(StoryTaskInfo, deprecatedStr), },
-        "DEPRECATED."},
-    {{ PACKTYPE_STR_ASCII,        SIZEOF2(StoryTaskInfo, deprecatedStr),    "MysteryInvestigation_VarValue",    OFFSET(StoryTaskInfo, deprecatedStr), },
-        "DEPRECATED."},
 
     {{ PACKTYPE_INT,        SIZE_INT32,            "TimerType",    OFFSET(StoryTaskInfo, timerType)},
         "The type of timer used on the task.  1 is count up, -1 is count down."},
