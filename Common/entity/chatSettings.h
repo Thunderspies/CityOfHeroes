@@ -80,16 +80,10 @@ typedef enum {
     CSFlags_DoNotLocalize            = (1 << 0),        // set to one after player has had a chance to localize their tab names
     CSFlags_DoNotPromptRenameHandle = (1 << 1),        // do not prompt user to rename their chat handle on login (if they can rename)
     CSFlags_ActiveChatWindowIdx        = (1 << 2) | (1 << 3) | (1 << 4),    // store index 0-4 as 3 bits
-    CSFlags_AddedCombat                = (1 << 5),
     CSFlags_BottomDividerSelected    = (1 << 6),
-    CSFlags_AddedArchitect            = (1 << 7),
-    CSFlags_AddedLeague                = (1 << 8),
-    CSFlags_AddedLookingForGroup    = (1 << 9),
-    CSFlags_AddedLegacyUINote        = (1 << 10),
-    CSFlags_MovedVisitedMaps        = (1 << 11),
-    CSFlags_ClearMARTYHistory        = (1 << 12),
-    // Primary Minimzed Flag takes up 11 MSG bits (21-31)
 
+    CSFlags_PacketMask = CSFlags_DoNotLocalize | CSFlags_DoNotPromptRenameHandle
+        | CSFlags_ActiveChatWindowIdx | CSFlags_BottomDividerSelected,
 }CSFlags_Type;
 
 
@@ -98,6 +92,9 @@ typedef enum {
 void unpackChatSettings(Entity * e);
 void updatePraetorianEventChannel(Entity *e);
 #endif
+
+// Initialize a newly created player before composing packets.
+void chatSettings_InitDefaults(Entity *e);
 
 // send/recieve
 void receiveSelectedChatTabs(Packet * pak, Entity * e);

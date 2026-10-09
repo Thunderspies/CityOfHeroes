@@ -10,6 +10,5 @@ VisitedMap *visitedMap_Create();
 int mapperVisitCell(Entity *e,int cell_idx);
 void mapperSend(Entity *e, int clearFog);
 void mapperClearFogForCurrentMap(Entity *e);
-void automapserver_sendAllStaticMaps(Entity *e);
 
 #endif

@@ -92,31 +92,3 @@ void mapperClearFogForCurrentMap(Entity *e)
 
     mapperSend(e, 1);
 }
-
-void automapserver_sendAllStaticMaps(Entity *e)
-{
-    int        i;
-    START_PACKET( pak, e, SERVER_ALL_STATIC_MAP_CELLS );
-    pktSendBitsAuto(pak, e->db_id);
-    pktSendBitsAuto(pak, eaSize(&e->pl->visited_maps));
-    for (i= eaSize(&e->pl->visited_maps)-1; i >= 0; --i)
-    {
-        VisitedMap *vm = e->pl->visited_maps[i];
-        pktSendBitsAuto(pak, vm->map_id);
-        if (vm->map_id)
-        {
-            int j;
-            StaticMapInfo *info = staticMapInfoFind(vm->map_id);
-            pktSendBits(pak, 1, (info && info->opaqueFogOfWar) ? 1 : 0);
-            for (j = 0; j < ((MAX_MAPVISIT_CELLS+31)/32); ++j)
-            {
-                pktSendBits(pak, 32, vm->cells[j]);
-                vm->cells[j] = 0;
-            }
-            vm->map_id = 0;
-        }
-        free(vm);
-    }
-    eaDestroy(&e->pl->visited_maps);
-    END_PACKET
-}

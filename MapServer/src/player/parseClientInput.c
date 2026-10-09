@@ -897,7 +897,6 @@ const char* getClientInpCmdName(int cmd)
         SET_NAME(CLIENTINP_TEAM_ACCEPT);
         SET_NAME(CLIENTINP_TEAM_DECLINE);
         SET_NAME(CLIENTINP_TEAM_KICK);
-        SET_NAME(CLIENTINP_LEGACYTEAMUI_NOTE);
         SET_NAME(CLIENTINP_SUPERGROUP_TOGGLE);
         SET_NAME(CLIENTINP_SUPERGROUP_LIST_REQUEST);
 
@@ -2285,13 +2284,6 @@ int parseClientInput( Packet *pak, ClientLink *client )
                     goto ErrExit;
                 }
 
-            break;
-
-            case CLIENTINP_LEGACYTEAMUI_NOTE:
-                if (e && e->pl)
-                {
-                    e->pl->chat_settings.options |= CSFlags_AddedLegacyUINote;
-                }
             break;
 
             case CLIENTINP_READ_PLAQUE:

@@ -30,7 +30,6 @@ void receiveLevelUp(Packet *pak);
 void receiveLevelUpRespec(Packet *pak);
 void receiveNewTitle(Packet *pak);
 void receiveVisitMapCells(Packet *pak);
-void receiveStaticMapCells(Packet *pak);
 void receiveResendWaypointRequest(Packet* pak);
 void receiveWaypointUpdate(Packet* pak);
 void handleFloatingInfo(int iOwnerShownOver,char *pch,int iStyle,float fDelay, U32 color);

@@ -166,8 +166,6 @@ typedef struct EntPlayer
     unsigned int    uiSettings3;
     unsigned int    uiSettings4;
     unsigned int    showSettings;
-    unsigned int    topChatChannels;    // deprecated
-    unsigned int    botChatChannels;    // deprecated
 
     int                    csrModified;
     int                    dateCreated;
@@ -283,7 +281,6 @@ typedef struct EntPlayer
     int hideEnhancementFull;
     int disableLoadingTips;
     int freeCamera;
-    int    helpChatAdded;
     int enableJoystick;
     int hideLoyaltyTreeAccessButton;
     int hideStoreAccessButton;

@@ -2212,12 +2212,6 @@ LineDesc ent_line_desc[] =
     {{ PACKTYPE_FLOAT, SIZE_FLOAT32,            "TurnSpeed",        OFFSET2_PTR(Entity, pl,    EntPlayer, turn_speed),            },
         "A multiplier for mouse turning speed (sensitivity). This is set in the options screen."},
 
-    {{ PACKTYPE_INT, SIZE_INT32,    "TopChatFilter",    OFFSET2_PTR(Entity, pl,    EntPlayer, topChatChannels),    },
-        "Bitfield - designates which types of chat appear in the top pane of the chat window."},
-
-    {{ PACKTYPE_INT, SIZE_INT32,    "BotChatFilter",    OFFSET2_PTR(Entity, pl,    EntPlayer, botChatChannels),    },
-        "Bitfield - designates which types of chat appear in the bottom pane of the chat window."},
-
     {{ PACKTYPE_INT, SIZE_INT32,    "ChatSendChannel",    OFFSET2_PTR(Entity, pl,    EntPlayer, chatSendChannel),    },
         "The id of the output channel in the chat window"},
 
@@ -3543,7 +3537,7 @@ uiSetting uiSettings2[] = {
     {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat3),                },
     {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat4),                },
     {OFFSET2_PTR(Entity, pl,    EntPlayer,    freeCamera),                },
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,  helpChatAdded),                },
+    {0}, // Bit 20 is reserved; later current preference IDs must stay stable.
     {OFFSET2_PTR(Entity, pl,    EntPlayer,  hideDeleteSalvagePrompt),    },
     {OFFSET2_PTR(Entity, pl,    EntPlayer,  declineSuperGroupInvite),    },
     {OFFSET2_PTR(Entity, pl,    EntPlayer,  declineTradeInvite),        },
@@ -3633,6 +3627,8 @@ void packageUISettings(Entity *e)
     // second bitfield for later
     for( i = MIN( 31, ARRAY_SIZE(uiSettings2)-1 ); i >= 0; i-- )
     {
+        if (!uiSettings2[i].indirection[0].fieldName)
+            continue;
         iptr = siApplyMultipleIndirections((char *)e, uiSettings2[i].indirection, MAX_INDIRECTIONS);
         if( (*iptr) > 0 ) // should never be greater than one, but force to one anyways to keep it from breaking bitfield
             uifield2 |= 1<<i;
@@ -3693,6 +3689,8 @@ void unpackUISettings(Entity *e)
     for( i = MIN( 31, ARRAY_SIZE(uiSettings2)-1); i >= 0; i-- )
     {
         val = ((e->pl->uiSettings2>>i)&0x01);
+        if (!uiSettings2[i].indirection[0].fieldName)
+            continue;
         iptr = siApplyMultipleIndirections((char *)e, uiSettings2[i].indirection, MAX_INDIRECTIONS);
         *iptr = val;
     }
