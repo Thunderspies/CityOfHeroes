@@ -3572,175 +3572,117 @@ typedef struct uiSetting
 }uiSetting;
 
 
+// Boolean option order is shared by the current packer and unpacker.
 uiSetting uiSettings[] = {
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    mouse_invert)        }, // 0
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    options_saved)        }, // 1
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat)        }, // 2
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_nav)            }, // 3
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    titleThe)            }, // 4
-    {OFFSET3_PTR2(Entity, pl,    EntPlayer,    tray,    Tray,        mode)                }, // 5
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    inspiration_mode)    }, // 6
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideFeePrompt)        }, // 7 was deprecated
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    first)                }, // 8
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    teambuff_display)    }, // 9
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    allowProfanity)        }, // 10
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    supergroup_mode)    }, // 11
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideUsefulSalvageWarning)    }, // 12 was deprecated
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showToolTips),        }, // 13
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showBalloon),        }, // 14
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    forcedPopHelpDisable),        }, // 15 was deprecated
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    gmailFriendOnly),    }, // 16 was deprecated
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    declineGifts),        }, // 17
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    declineTeamGifts),    }, // 18
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    promptTeamTeleport),}, // 19
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    capesUnlocked),        }, // 20
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    glowieUnlocked),    }, // 21
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showPets),            }, // 22
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHideBasics),        }, // 23
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHideStats),        }, // 24
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHidePowers),        }, // 25
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    windowFade),        }, // 26
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    logChat),            }, // 27
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    attachArticle),        }, // 28
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    clicktomove),        }, // 29
-    {OFFSET3_PTR2(Entity, pl,    EntPlayer,    tray,    Tray,        mode_alt2)            }, // 30
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    deprecated),        }, // 31 deprecated. if you reclaim this, you have to update the deprecated array in unpackUISettings
-    // FULL!! Add new fields to uiSettings4
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    mouse_invert)        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    options_saved)        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat)        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_nav)            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    titleThe)            },
+    {OFFSET3_PTR2(Entity, pl,    EntPlayer,    tray,    Tray,        mode)                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    inspiration_mode)    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideFeePrompt)        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    first)                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    teambuff_display)    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    allowProfanity)        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    supergroup_mode)    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideUsefulSalvageWarning)    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showToolTips),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showBalloon),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    forcedPopHelpDisable),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    gmailFriendOnly),    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    declineGifts),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    declineTeamGifts),    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    promptTeamTeleport),},
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    capesUnlocked),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    glowieUnlocked),    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showPets),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHideBasics),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHideStats),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHidePowers),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    windowFade),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    logChat),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    attachArticle),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    clicktomove),        },
+    {OFFSET3_PTR2(Entity, pl,    EntPlayer,    tray,    Tray,        mode_alt2)            },
 };
-
-// DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
 uiSetting uiSettings2[] = {
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    deprecated)                    }, // 0 deprecated. if you reclaim this, you have to update the deprecated array in unpackUISettings
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    deprecated),                }, // 1 deprecated. if you reclaim this, you have to update the deprecated array in unpackUISettings
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableDrag),                }, // 2
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showPetBuffs),                }, // 3
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disablePetSay),                }, // 4
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    enableTeamPetSay),            }, // 5
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disablePetNames),            }, // 6
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showSalvage),                }, // 7
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hidePlacePrompt),            }, // 8
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideDeletePrompt),            }, // 9
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    preventPetIconDrag),        }, // 10
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showPetControls),            }, // 11
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    advancedPetControls),        }, // 12
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hide_supergroup_emblem),    }, // 13
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showEnemyTells),            }, // 14
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showEnemyBroadcast),        }, // 15
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideEnemyLocal),            }, // 16
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat1),                }, // 17
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat2),                }, // 18
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat3),                }, // 19
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat4),                }, // 20
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    freeCamera),                }, // 21
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,  helpChatAdded),                }, // 22
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,  hideDeleteSalvagePrompt),    }, // 23
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,  declineSuperGroupInvite),    }, // 24
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,  declineTradeInvite),        }, // 25
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,  hideDeleteRecipePrompt),    }, // 26
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHideBadges),                }, // 27
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHideFriends),            }, // 28
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideCoopPrompt),            }, // 29
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    is_a_spammer),                }, // 30
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    deprecated),                }, // 31 deprecated. if you reclaim this, you have to update the deprecated array in unpackUISettings
-    // FULL!! Add new fields to uiSettings4
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!"
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableDrag),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showPetBuffs),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disablePetSay),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    enableTeamPetSay),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disablePetNames),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showSalvage),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hidePlacePrompt),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideDeletePrompt),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    preventPetIconDrag),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showPetControls),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    advancedPetControls),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hide_supergroup_emblem),    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showEnemyTells),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showEnemyBroadcast),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideEnemyLocal),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat1),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat2),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat3),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_chat4),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    freeCamera),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,  helpChatAdded),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,  hideDeleteSalvagePrompt),    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,  declineSuperGroupInvite),    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,  declineTradeInvite),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,  hideDeleteRecipePrompt),    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHideBadges),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    webHideFriends),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideCoopPrompt),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    is_a_spammer),                },
 };
-
-// DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
 uiSetting uiSettings3[] = {
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    deprecated)                        }, // 0 deprecated. if you reclaim this, you have to update the deprecated array in unpackUISettings
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideInspirationFull),            }, // 1
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideSalvageFull),                }, // 2
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideRecipeFull),                }, // 3
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideEnhancementFull),            }, // 4
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    contactSortByName),                }, // 5
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    contactSortByZone),                }, // 6
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    contactSortByRelationship),        }, // 7
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    contactSortByActive),            }, // 8
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    recipeHideUnOwned),                }, // 9
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    recipeHideMissingParts),        }, // 10
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    recipeHideUnOwnedBench),        }, // 11
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    recipeHideMissingPartsBench),    }, // 12
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    staticColorsPerName),            }, // 13
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    reverseMouseButtons),            }, // 14
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableCameraShake),            }, // 15
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableMouseScroll),            }, // 16
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    logPrivateMessages),            }, // 17
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableLoadingTips),            }, // 18
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    enableJoystick),                }, // 19
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_tray),                    }, // 20
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    multiBuildsSetUp),                }, // 21
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    ArchitectNav)                    }, // 22
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    ArchitectTips)                    }, // 23
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    ArchitectAutoSave)                }, // 24
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    noXP)                            }, // 25
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    deprecated)                        }, // 26 Deprecated. if you reclaim this, you have to update the deprecated array in unpackUISettings
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableEmail)                    }, // 27
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    friendSgEmailOnly)                }, // 28
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    noXPExemplar)                    }, // 29
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    popHelpDisable)                    }, // 30
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    reclaim_deprecated)                }, // 31
-    // FULL!! Add new fields to uiSettings4
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideInspirationFull),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideSalvageFull),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideRecipeFull),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideEnhancementFull),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    contactSortByName),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    contactSortByZone),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    contactSortByRelationship),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    contactSortByActive),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    recipeHideUnOwned),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    recipeHideMissingParts),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    recipeHideUnOwnedBench),        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    recipeHideMissingPartsBench),    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    staticColorsPerName),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    reverseMouseButtons),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableCameraShake),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableMouseScroll),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    logPrivateMessages),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableLoadingTips),            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    enableJoystick),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_tray),                    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    multiBuildsSetUp),                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    ArchitectNav)                    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    ArchitectTips)                    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    ArchitectAutoSave)                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    noXP)                            },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableEmail)                    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    friendSgEmailOnly)                },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    noXPExemplar)                    },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    popHelpDisable)                    },
 };
-
-// DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
 uiSetting uiSettings4[] = {
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    useOldTeamUI)                 }, // 0
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideUnclaimableCert)          }, // 1
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    blinkCertifications)          }, // 2
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    voucherSingleCharacterPrompt) }, // 3
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    newCertificationPrompt)       }, // 4
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideUnslotPrompt)             }, // 5
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideUsefulSalvageWarning)     }, // 6
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideLoyaltyTreeAccessButton)  }, // 7
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideStoreAccessButton)        }, // 8
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    autoFlipSuperPackCards)       }, // 9
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideConvertConfirmPrompt)     }, // 10
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showTimer)                    }, // 11
-
- // 12
- // 13
- // 14
- // 15
-
- // 16
- // 17
- // 18
- // 19
- // 20
-
- // 21
- // 22
- // 23
- // 24
- // 25
-
- // 26
- // 27
- // 28
- // 29
- // 30
- // 31
-    // DO NOT ADD ANY MORE OPTIONS TO THIS BITFIELD!!!!!!!!!!!!!
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    useOldTeamUI)                 },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideUnclaimableCert)          },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    blinkCertifications)          },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    voucherSingleCharacterPrompt) },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    newCertificationPrompt)       },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideUnslotPrompt)             },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideUsefulSalvageWarning)     },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideLoyaltyTreeAccessButton)  },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideStoreAccessButton)        },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    autoFlipSuperPackCards)       },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    hideConvertConfirmPrompt)     },
+    {OFFSET2_PTR(Entity, pl,    EntPlayer,    showTimer)                    },
 };
-// NOTE: Currently there are 8 deprecated bits, at some point we can use a bit to recover X-1 of the deprecated bits
-//       Not sure when the best time for that will be
+
 
 
 // add new settings to end of list, each setting uses 3 bits, 10 fields max (10 used)
@@ -3764,7 +3706,6 @@ void packageUISettings(Entity *e)
     int i, uifield = 0, uifield2 = 0, uifield3 = 0, uifield4 = 0, showfield = 0;
     int *iptr;
 
-    e->pl->deprecated = 0; // reset all deprecated fields
     
     // uiSettings are all bool, 32 bits in integer cap
     for( i = MIN( 31, ARRAY_SIZE(uiSettings)-1 ); i >= 0; i-- )
@@ -3775,7 +3716,7 @@ void packageUISettings(Entity *e)
     }
     
     // second bitfield for later
-    for( i = MIN( 31, ARRAY_SIZE(uiSettings2)-1 ); i > 0; i-- ) // This is not >= because we broke the first field
+    for( i = MIN( 31, ARRAY_SIZE(uiSettings2)-1 ); i >= 0; i-- )
     {
         iptr = siApplyMultipleIndirections((char *)e, uiSettings2[i].indirection, MAX_INDIRECTIONS);
         if( (*iptr) > 0 ) // should never be greater than one, but force to one anyways to keep it from breaking bitfield
@@ -3824,22 +3765,6 @@ void unpackUISettings(Entity *e)
 {
     int i, val;
     int *iptr;
-    int deprecated[4][32] = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 1, },
-                              { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 1, },
-                              { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
-                                0, 0, },
-                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                0, 0, }};
     
     
     for( i = MIN( 31, ARRAY_SIZE(uiSettings)-1); i >= 0; i-- )
@@ -3847,22 +3772,14 @@ void unpackUISettings(Entity *e)
         val = ((e->pl->uiSettings>>i)&0x01);
         iptr = siApplyMultipleIndirections((char *)e, uiSettings[i].indirection, MAX_INDIRECTIONS);
 
-        if( e->pl->reclaim_deprecated || !deprecated[0][i] )
-            *iptr = val;
-        else
-            *iptr = 0;
+        *iptr = val;
     }
     
-    for( i = MIN( 31, ARRAY_SIZE(uiSettings2)-1); i > 0; i-- )// This is not >= because we broke the first field
+    for( i = MIN( 31, ARRAY_SIZE(uiSettings2)-1); i >= 0; i-- )
     {
         val = ((e->pl->uiSettings2>>i)&0x01);
         iptr = siApplyMultipleIndirections((char *)e, uiSettings2[i].indirection, MAX_INDIRECTIONS);
         *iptr = val;
-
-        if( e->pl->reclaim_deprecated || !deprecated[1][i] )
-            *iptr = val;
-        else
-            *iptr = 0;
     }
 
     for( i = MIN( 31, ARRAY_SIZE(uiSettings3)-1); i >= 0; i-- )
@@ -3870,11 +3787,6 @@ void unpackUISettings(Entity *e)
         val = ((e->pl->uiSettings3>>i)&0x01);
         iptr = siApplyMultipleIndirections((char *)e, uiSettings3[i].indirection, MAX_INDIRECTIONS);
         *iptr = val;
-
-        if( e->pl->reclaim_deprecated || !deprecated[2][i] )
-            *iptr = val;
-        else
-            *iptr = 0;
     }
 
     for( i = MIN( 31, ARRAY_SIZE(uiSettings4)-1); i >= 0; i-- )
@@ -3882,14 +3794,8 @@ void unpackUISettings(Entity *e)
         val = ((e->pl->uiSettings4>>i)&0x01);
         iptr = siApplyMultipleIndirections((char *)e, uiSettings4[i].indirection, MAX_INDIRECTIONS);
         *iptr = val;
-
-        if( e->pl->reclaim_deprecated || !deprecated[2][i] )
-            *iptr = val;
-        else
-            *iptr = 0;
     }
 
-    e->pl->reclaim_deprecated = 1;
 
     for( i = 0; i < ARRAY_SIZE(showSettings); i++ )
     {
