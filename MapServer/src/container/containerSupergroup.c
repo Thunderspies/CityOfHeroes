@@ -372,14 +372,8 @@ LineDesc sg_task_line_desc[] =
     {{ PACKTYPE_BIN_STR, MAX_OBJECTIVE_INFOS*4, "CompleteObjectives", OFFSET(StoryTaskInfo, completeObjectives)},
         "Keeps track of which mission objectives have been completed"},
 
-    {{ PACKTYPE_STR_ASCII,        SIZEOF2(StoryTaskInfo, villainType),    "VillainType",    OFFSET(StoryTaskInfo, villainType)},
-        "Deprecated: no longer used"},
-
     {{ PACKTYPE_INT,        SIZE_INT32,            "VillainCount",    OFFSET(StoryTaskInfo, curKillCount)},
         "Current number of villains killed for kill tasks"},
-
-    {{ PACKTYPE_STR_ASCII,        SIZEOF2(StoryTaskInfo, villainType2),    "VillainType2",    OFFSET(StoryTaskInfo, villainType2)},
-        "Deprecated: no longer used"},
 
     {{ PACKTYPE_INT,        SIZE_INT32,            "VillainCount2",OFFSET(StoryTaskInfo, curKillCount2)},
         "Current number of villains killed for kill tasks, a second count for tracking a second villain group"},

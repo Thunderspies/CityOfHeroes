@@ -583,9 +583,7 @@ static int SubTaskInstantiate(Entity* player, StoryInfo* info, StoryTaskInfo* ta
     task->doorMapId = 0;
     task->missionMapId = 0;
     task->doorPos[0] = task->doorPos[1] = task->doorPos[2] = 0;
-    task->villainType[0] = 0;
     task->curKillCount = 0;
-    task->villainType2[0] = 0;
     task->curKillCount2 = 0;
     task->deliveryTargetName[0] = 0;
     task->nextLocation = 0;
@@ -627,19 +625,21 @@ static int SubTaskInstantiate(Entity* player, StoryInfo* info, StoryTaskInfo* ta
             }
 
             // Look up and validate the villain type.
-            strcpy_s(SAFESTR(task->villainType), ScriptVarsLookup(&task->def->vs, task->def->villainType, task->seed)); // remove later
-            if(!ValidateVillainName(ScriptVarsLookup(&task->def->vs, task->def->villainType, task->seed)))
+			const char *villainType = ScriptVarsLookup(&task->def->vs,
+				task->def->villainType, task->seed);
+			if (!ValidateVillainName(villainType))
             {
-                ErrorFilenamef(task->def->filename, "Invalid villain type %s specified for kill task.  Need specific villain name or villain group.", task->villainType);
+                ErrorFilenamef(task->def->filename, "Invalid villain type %s specified for kill task.  Need specific villain name or villain group.", villainType);
                 return 0;
             }
 
             if(task->def->villainType2)
             {
-                strcpy_s(SAFESTR(task->villainType2), ScriptVarsLookup(&task->def->vs, task->def->villainType2, task->seed)); // remove later
-                if(!ValidateVillainName(ScriptVarsLookup(&task->def->vs, task->def->villainType2, task->seed)))
+				const char *villainType2 = ScriptVarsLookup(&task->def->vs,
+					task->def->villainType2, task->seed);
+				if (!ValidateVillainName(villainType2))
                 {
-                    ErrorFilenamef(task->def->filename, "Invalid villain type %s specified for kill task.  Need specific villain name or villain group.", task->villainType2);
+                    ErrorFilenamef(task->def->filename, "Invalid villain type %s specified for kill task.  Need specific villain name or villain group.", villainType2);
                     return 0;
                 }
             }
