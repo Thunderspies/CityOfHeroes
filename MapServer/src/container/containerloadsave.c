@@ -2326,6 +2326,8 @@ LineDesc ent_line_desc[] =
     {{ PACKTYPE_INT, SIZE_INT8,        "TaskForceMode",    OFFSET2_PTR(Entity, pl,            EntPlayer,        taskforce_mode),    },
         "If 1, the player is on a task force and in task force mode. If 0, they are not. 2 if its an architect taskforce"},
 
+	// Root appearance copies serve DBServer character-selection queries.
+	// Full costume loading uses Appearance rows, including slot zero.
     {{ PACKTYPE_INT, SIZE_INT8,        "BodyType",     {INDIRECTION(Entity, pl, 1), INDIRECTION(EntPlayer, costume[0], 1), INDIRECTION(Costume, appearance.bodytype, 0),}         },
         "Gender and Body Type:<br>"
         "0 = Male<br>"
