@@ -4172,10 +4172,6 @@ static void s_unpackEntInventory(Entity *e, DBEntInv *dbinv)
 
 static void fixUnpackedCostume(Entity *e)
 {
-    // backwards compat for auras
-    if(e->pl->glowieUnlocked)
-        rewardtoken_Award(&e->pl->rewardTokens, "Auras_Common", 1);
-
     // hacky fix for dual valentine costume keys
     if(rewardtoken_IdxFromName(&e->pl->rewardTokens, "Event_Valentine_Heart_Pattern") >= 0)
         rewardtoken_Award(&e->pl->rewardTokens, "Event_Valentine_Pattern", 1);
