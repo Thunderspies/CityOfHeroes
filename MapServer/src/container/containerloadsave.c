@@ -2148,9 +2148,6 @@ LineDesc ent2_line_desc[] =
     {{ PACKTYPE_INT, SIZE_INT32,                            "SelectedContactOnZoneEnter",    OFFSET2_PTR(Entity, storyInfo, StoryInfo, delayedSelectedContact),    },
         "This contact (stored by handle #) will be selected as soon as the player next ticks, which may be after a mapmove.  Currently used by the Contact Finder."},
 
-    {{ PACKTYPE_INT, SIZE_INT32,                           "PendingCertificationGrant", OFFSET2_PTR(Entity, pl,    EntPlayer, deprecated ),    },
-        "Deprecated"},
-
     {{ PACKTYPE_INT, SIZE_INT32,                            "TeamupTimer_ActivePlayer",    OFFSET(Entity, teamupTimer_activePlayer),    },
         "Moment in time when teamup_activePlayer is set to point to teamup (internal)"},
 
