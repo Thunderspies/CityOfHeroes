@@ -94,9 +94,7 @@ int dataType(char *str, int *column_size, int *num_bytes, char **sql_type_name)
     type_name = strtok(str, "[");
     length_str = strtok(NULL, "]");
 
-    if (stricmp(type_name, "attribute")==0) { // used to support "IdxByAttribute" here
-        type = CFTYPE_INT;
-    } else if (stricmp(type_name, "int1")==0) {
+    if (stricmp(type_name, "int1")==0) {
         type = CFTYPE_BYTE;
     } else if (stricmp(type_name, "int2")==0) {
         type = CFTYPE_SHORT;

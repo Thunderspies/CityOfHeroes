@@ -160,7 +160,7 @@ void hashAllNames(ContainerTemplate *tplt, const char * fname)
 ContainerTemplate *tpltLoad(int dblist_id,char *table_name,char *fname)
 {
     char* strtype,*mem;
-    int count, type, data_len, is_attr;
+    int count, type, data_len;
     ContainerTemplate* tplt;
     ColumnInfo* field = NULL;
     TableInfo* table = 0;
@@ -179,14 +179,11 @@ ContainerTemplate *tpltLoad(int dblist_id,char *table_name,char *fname)
 
     while(ctnrLineGet(&state))
     {
-        is_attr = 0;
         count = state.count - 1;
         if (count < 1)
             continue;
 
         type = dataType(state.args[1], &column_size, &data_len, &strtype);
-        if (stricmp(state.args[1],"attribute")==0)
-            is_attr = 1;
 
         table = tpltFindTable(tplt,state.table);
         if (!table)
@@ -244,10 +241,14 @@ ContainerTemplate *tpltLoad(int dblist_id,char *table_name,char *fname)
             strcpy(field->name,state.field);
             strcpy(field->data_type_name, strtype);
 
-            if (is_attr)
-                field->attr = var_attrs;
-            if (state.count > 2 && stricmp(state.args[2],"indexed")==0)
-                field->indexed = 1;
+			for (int option = 2; option < state.count; option++) {
+				if (stricmp(state.args[option], "attribute") == 0) {
+					assert(type == CFTYPE_INT);
+					field->attr = var_attrs;
+				} else if (stricmp(state.args[option], "indexed") == 0) {
+					field->indexed = 1;
+				}
+			}
         }
 
         table->array_count = state.table_idx;

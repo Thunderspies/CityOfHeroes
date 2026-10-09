@@ -571,7 +571,7 @@ static void structLineType(char *buf, size_t bufsz, char *table, LineDesc *desc)
         xcase PACKTYPE_ATTR:
         {
             assert(desc->size == MAX_ATTRIBNAME_LEN);
-            snprintf_s(buf, bufsz, bufsz, "attribute");
+            snprintf_s(buf, bufsz, bufsz, "int4");
         }
         xcase PACKTYPE_STR_UTF8:
         case PACKTYPE_ESTRING_UTF8:
@@ -667,7 +667,9 @@ void structToLineTemplate(StuffBuff *sb,char *table,LineDesc *desc,int idx) // o
             addSingleStringToStuffBuff(sb, desc->name);
 
         structLineType(type, ARRAY_SIZE(type), table, desc);
-        addStringToStuffBuff(sb, " \"%s\"%s\n", type, (desc->flags &  LINEDESCFLAG_INDEXEDCOLUMN) ? " indexed" : "");
+        addStringToStuffBuff(sb, " \"%s\"%s%s\n", type,
+			desc->type == PACKTYPE_ATTR ? " attribute" : "",
+			(desc->flags & LINEDESCFLAG_INDEXEDCOLUMN) ? " indexed" : "");
     }
 }
 
