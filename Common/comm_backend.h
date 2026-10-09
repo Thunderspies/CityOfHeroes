@@ -80,7 +80,7 @@ typedef enum
     // if any containers get above 31, adjust DbList.owner_notify_mask
     MAX_CONTAINER_TYPES
 } ContainerType;
-#define CONTAINER_IS_VALID(c) (c >= 1 && c < MAX_CONTAINER_TYPES)
+#define CONTAINER_IS_VALID(c) ((c) >= 1 && (c) < MAX_CONTAINER_TYPES && (c) != CONTAINER_LEVELINGPACTS)
 
 #define CONTAINER_IS_GROUP(c)            (    c == CONTAINER_TEAMUPS ||        \
                                             c == CONTAINER_SUPERGROUPS ||    \

@@ -13,7 +13,6 @@ void stat_LeagueDeleteMe(int dbid);
 void stat_LeagueUnpack(char *container_data, int dbid, int *members, int member_count);
 
 // cmds
-void stat_LevelingPactJoin(int entid1, int xp1, int entid2, int xp2, char *invitee_name, int CSR);
 // void stat_LevelingPactQuit(int entid); // this happens on the map now
 void stat_LevelingPactAddXP(int dbid, int xp, int time);
 void stat_LevelingPactAddInf(int entDbid, int inf, int isHero);

@@ -465,40 +465,6 @@ void receiveTaskforceQuit(Packet *pak )
     dialogStd( DIALOG_YES_NO, "TaskforceQuit", NULL, NULL, sendTaskforceQuit, NULL, 1 );
 }
 
-// Leveling Pacts //////////////////////////////////////////////////////////////
-
-static int s_levelingpact_inviter_dbid;
-
-static void sendLevelingPactAccept(void*data)
-{
-    char buf[128];
-    sprintf(buf, "levelingpact_accept %d", s_levelingpact_inviter_dbid);
-    cmdParse(buf);
-    //show the leveling pact tab
-#ifndef TEST_CLIENT
-    levelingpact_openWindow(NULL);
-#endif
-}
-
-static void sendLevelingPactDecline(void*data)
-{
-    char buf[128];
-    sprintf(buf, "levelingpact_decline %d \"%s", s_levelingpact_inviter_dbid, playerPtr()->name);
-    cmdParse(buf);
-}
-
-void receiveLevelingPactInvite(Packet *pak_in)
-{
-    char buf[16];
-    char *inviter_name;
-    s_levelingpact_inviter_dbid = pktGetBitsAuto(pak_in);
-    inviter_name = pktGetString(pak_in);
-    sprintf(buf, "%d", LEVELINGPACT_MAXLEVEL);
-    dialog(    DIALOG_YES_NO, -1, -1, -1, -1, textStd("LevelingPactInvite", inviter_name, buf),
-            NULL, sendLevelingPactAccept, NULL, sendLevelingPactDecline, 
-            DLGFLAG_GAME_ONLY, NULL, NULL, 0, 0, 0, 0 );
-}
-
 // receive a teamup offer
 void receiveLeagueOffer(Packet *pak )
 {

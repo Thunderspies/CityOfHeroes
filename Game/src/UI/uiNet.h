@@ -63,7 +63,6 @@ void receivePopHelpEventHappenedByTag(Packet *pak);
 void receiveTeamOffer(Packet *pak );
 void receiveTaskforceQuit(Packet *pak );
 void receiveTaskforceKick(Packet *pak );
-void receiveLevelingPactInvite(Packet *pak_in);
 void receiveServerDialog(Packet *pak_in);
 void receiveRewardToken( Packet * pak );
 void receiveKarmaStats(Packet *pak);

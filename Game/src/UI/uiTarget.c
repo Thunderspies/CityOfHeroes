@@ -399,8 +399,6 @@ static void initInteractTrays(void)
     contextMenu_addCode( interactPlayer, sgroup_canDemote, 0, sgroup_demote, 0, "CMDemote", 0 );
     interactTray_addCode( &interact[INTERACT_PLAYER], sgroup_higherRanking, 0, sgroup_demote, 0, "DemoteString");
 
-    contextMenu_addCode( interactPlayer, levelingpact_CanOfferMembership, 0, levelingpact_OfferMembership, 0, "CMInviteLevelingpactString", 0 );
-    interactTray_addCode( &interact[INTERACT_PLAYER], levelingpact_CanOfferMembership, 0, levelingpact_OfferMembership, 0, "InviteLevelingpactString");
 
     contextMenu_addCode( interactPlayer, team_TargetOnMap, 0, compass_setTarget, 0, "CMSetWayPoint", 0 );
     interactTray_addCode( &interact[INTERACT_PLAYER], team_TargetOnMap, 0, compass_setTarget, 0, "SetWayPoint");
@@ -488,8 +486,6 @@ static void initInteractTrays(void)
     contextMenu_addCode( interactPlayerNotOnMap, sgroup_higherRanking, 0, sgroup_demote, 0, "CMDemote", 0 );
     interactTray_addCode( &interact[INTERACT_PLAYER_NOT_ON_MAP], sgroup_higherRanking, 0, sgroup_demote, 0, "DemoteString");
 
-    //contextMenu_addCode( interactPlayer, levelingpact_CanOfferMembership, 0, levelingpact_OfferMembership, 0, "CMInviteLevelingpactString", 0 );
-    interactTray_addCode( &interact[INTERACT_PLAYER_NOT_ON_MAP], levelingpact_CanOfferMembership, 0, levelingpact_OfferMembership, 0, "InviteLevelingpactString");
 
     contextMenu_addCode( interactPlayerNotOnMap, team_makeLeaderVisible, 0, team_makeLeader, 0, "CMMakeLeader", 0 );
     interactTray_addCode( &interact[INTERACT_PLAYER_NOT_ON_MAP], team_makeLeaderVisible, 0, team_makeLeader, 0, "MakeLeader");

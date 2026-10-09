@@ -114,7 +114,6 @@ void UpdateStatTitle(void)
 static void StatLoadContainers(void)
 {
     dbSyncContainerRequest(CONTAINER_SGRPSTATS, 0, CONTAINER_CMD_LOAD_ALL, 0);
-    dbSyncContainerRequest(CONTAINER_LEVELINGPACTS, 0, CONTAINER_CMD_LOAD_ALL, 0);
     dbSyncContainerRequest(CONTAINER_LEAGUES, 0, CONTAINER_CMD_LOAD_ALL, 0);
 //    dbSyncContainerRequest(CONTAINER_RAIDS, 0, CONTAINER_CMD_LOCK_AND_LOAD_ALL, 0); // in case of reload
     dbSyncContainerRequest(CONTAINER_MININGACCUMULATOR, 0, CONTAINER_CMD_LOAD_ALL, 0);
@@ -880,10 +879,6 @@ int main(int argc,char **argv)
     loadstart_printf("Loading containers...");
     StatLoadContainers();
     loadend_printf("done");
-    loadstart_printf("Requesting Removal of Inactive Accounts...");
-    stat_LevelingPactRequestActivityCheckList();
-    loadend_printf("done");
-
     loadstart_printf("Misc other..");
     
     loadend_printf("");

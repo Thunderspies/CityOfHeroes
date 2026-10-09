@@ -362,7 +362,6 @@ typedef struct EntPlayer
     int            supergroup_mode;    // is player wearing supergroup costume?
     int            hide_supergroup_emblem; //player doesn't want to display their supergorup emblem
 
-    int            *levelingpact_invites;
 
     int            taskforce_mode;             // is player working for a task force?
     int            pendingArchitectTickets; // count of queued up tickets

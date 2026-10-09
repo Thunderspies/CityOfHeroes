@@ -152,3 +152,11 @@ function(cox_require_precise_floating_point directory)
 endfunction()
 
 cox_require_precise_floating_point("${CMAKE_CURRENT_SOURCE_DIR}")
+
+if(COX_BUILD_UTILITIES_TESTS)
+    add_executable(ContainerTypeTests cmake/tests/container_types.c)
+    cox_target_defaults(ContainerTypeTests)
+    target_include_directories(ContainerTypeTests PRIVATE Common)
+    target_link_libraries(ContainerTypeTests PRIVATE UtilitiesLib)
+    add_test(NAME ContainerTypes COMMAND ContainerTypeTests)
+endif()
