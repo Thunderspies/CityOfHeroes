@@ -9,7 +9,6 @@ typedef struct Packet Packet;
 
 typedef struct PetName
 {
-    char            DEPRECATED_pchPowerName[MAX_NAME_LEN];            //        deprecated
     int                petNumber;
     char            petName[MAX_PETNAME_LENGTH+1];
     char            pchEntityDef[MAX_NAME_LEN];
