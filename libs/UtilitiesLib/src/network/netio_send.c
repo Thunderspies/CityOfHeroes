@@ -3,6 +3,7 @@
 #include "utilitieslib/network/net_packet.h"
 #include "utilitieslib/network/netio_stats.h"
 #include "utilitieslib/network/netio_core.h"
+#include "utilitieslib/network/netio_enet.h"
 #include "utilitieslib/network/net_socket.h"
 #include "utilitieslib/network/net_link.h"
 #include "utilitieslib/network/net_linklist.h"
@@ -34,8 +35,11 @@ static int __cdecl comparePacketID(const void* pak1InData, const void* pak2InDat
 void lnkBatchSend(NetLink* link)
 {
     netioEnterCritical();
-    if(link->opType == NLOT_SYNC)
-        lnkBatchSendSync(link);
+    if (link->type == NLT_ENET)
+	    netEnetFlushLink(link); // packets were handed to ENet in
+				    // pktSendEnet; push them out now
+    else if (link->opType == NLOT_SYNC)
+	    lnkBatchSendSync(link);
     else
         lnkBatchSendAsync(link);
     netioLeaveCritical();
@@ -499,6 +503,15 @@ U32 pktSendDbg(Packet** pakptr, NetLink* link MEM_DBG_PARMS)
     else
         sizeOfPacket = pktGetSize(pak_in);
     //printf("Sending packet of size %d, bitLength %d\n", (*pakptr)->stream.size, (*pakptr)->stream.bitLength);
+
+    // ENet transport: compression above is shared;
+    // ids/fragmentation/reliability below are ENet's job. Takes ownership of
+    // the packet like the legacy path.
+    if (link->type == NLT_ENET) {
+	    U32 enetResult = pktSendEnet(pakptr, link);
+	    netioLeaveCritical();
+	    return enetResult;
+    }
 
     maxPacketDataSize = sendPacketBufferSize - (pak_in->hasDebugInfo?PACKET_MISCINFO_SIZE_WITH_DEBUG:PACKET_MISCINFO_SIZE_WITHOUT_DEBUG);
     assert(maxPacketDataSize>0); // -packetdebug and -mtu < 201 will cause this

@@ -1,6 +1,7 @@
 #ifndef NET_LINKLIST_H
 #define NET_LINKLIST_H
 
+#include "../utils/wininclude.h"
 #include "../stdtypes.h"
 #include "../network/net_typedefs.h"
 
@@ -22,6 +23,13 @@ void netLinkListDisconnect(NetLinkList *nlist);
 //static NetLink *netAddLink(NetLinkList *nlist, struct sockaddr_in *addr);
 void netRemoveLink(NetLink *link);
 
+/* Accept a peer on an allocated list. ip is in network byte order, port in
+ * host byte order, and hostSocket is borrowed from the list's ENet host.
+ * Returns a list-owned link or NULL when the list's admission rules reject it.
+ * The ENet event loop calls this while holding the network critical section.
+ */
+NetLink *netAddLinkEnetAccept(NetLinkList *nlist, U32 ip, int port,
+			      SOCKET hostSocket);
 
 NetLink* findUdpNetLink(NetLinkList* nlist, struct sockaddr_in *addr);
 //static NetLink* findTcpNetLink(NetLinkList* nlist, SOCKET sock);

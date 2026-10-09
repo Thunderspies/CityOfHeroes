@@ -728,29 +728,18 @@ void svrClientLinkDeinitialize(ClientLink* client)
     {
         NetLink* link = client->link;
         U32 addr = link->addr.sin_addr.s_addr;
-        int reliableSize = 0;
-        int i;
-        
-        logDisconnect(client, "NetLink was closed");
+	int reliableSize = netLinkReliableBacklogBytes(link);
 
+	logDisconnect(client, "NetLink was closed");
 
-        for(i = 0; i < link->reliablePacketsArray.size; i++)
-        {
-            Packet* pak = link->reliablePacketsArray.storage[i];
-            reliableSize += pak->stream.size;
-        }
+	LOG_ENT(client->entity, LOG_ENTITY, LOG_LEVEL_VERBOSE, 0,
+		"Packets Recv/Sent %-6d/%-6d Dropped %-3d/%-4d Dup Recv %-3d "
+		"Rel %4dB/%-3d",
+		link->last_recv_id, link->nextID, link->lost_packet_recv_count,
+		link->lost_packet_sent_count, link->duplicate_packet_recv_count,
+		reliableSize, netLinkReliableBacklogPackets(link));
 
-        LOG_ENT( client->entity, LOG_ENTITY, LOG_LEVEL_VERBOSE, 0,
-                        "Packets Recv/Sent %-6d/%-6d Dropped %-3d/%-4d Dup Recv %-3d Rel %4dB/%-3d",
-                        link->last_recv_id,
-                        link->nextID,
-                        link->lost_packet_recv_count,
-                        link->lost_packet_sent_count,
-                        link->duplicate_packet_recv_count,
-                        reliableSize,
-                        link->reliablePacketsArray.size);
-
-        logout_disconnect = link->logout_disconnect;
+	logout_disconnect = link->logout_disconnect;
         client->link = NULL;
     }
 
