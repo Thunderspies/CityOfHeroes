@@ -144,8 +144,8 @@ typedef enum WindowName
     WDW_CONTACT_FINDER,
     //120
     WDW_LOYALTY_TREE,
-    WDW_WEB_STORE, // not used anymore, enum left in here to maintain protocol compatibility
-    WDW_MAIN_STORE_ACCESS, // not used anymore, enum left in here to maintain protocol compatibility
+    WDW_WEB_STORE, // retired; keep numeric ID for saved window settings
+    WDW_MAIN_STORE_ACCESS, // retired; keep numeric ID for saved window settings
     WDW_LWC_UI,
     WDW_LOYALTY_TREE_ACCESS,
     WDW_SALVAGE_OPEN,
@@ -296,6 +296,9 @@ typedef struct Wdw
 extern Wdw winDefs[MAX_CUSTOM_WINDOW_COUNT+MAX_WINDOW_COUNT];
 
 typedef struct Packet Packet;
+
+// Supported built-in window records; numeric IDs also index saved settings.
+int window_IsPacketWindow(int idx);
 
 void sendWindow(Packet *pak, WdwBase *pwdw, int idx); // Just sends the data
 

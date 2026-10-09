@@ -417,7 +417,6 @@ static WindowMap s_aNonUserWindows[] =
     { "death",                WDW_DEATH, },
     { "mapSelect",            WDW_MAP_SELECT, },
     { "rewardChoice",        WDW_REWARD_CHOICE, },
-    { "deprecated",            WDW_DEPRECATED_1, },
     { "arenaCreate",           WDW_ARENA_CREATE, },
     { "arenaOptions",        WDW_ARENA_OPTIONS, },
     { "arenaList",            WDW_ARENA_LIST, },

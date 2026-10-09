@@ -1213,7 +1213,7 @@ int parseClientInput( Packet *pak, ClientLink *client )
                     clear_entry = pktGetBits(pak,1);
                     receiveWindowIdx(pak, &wdw);
                     if(e && e->pl && e->pl->winLocs &&
-                        wdw >=0 && wdw < MAX_WINDOW_COUNT)
+                        window_IsPacketWindow(wdw))
                     {
                         pwdwDest = &e->pl->winLocs[wdw];
                     }

@@ -17,6 +17,24 @@
 Wdw winDefs[MAX_WINDOW_COUNT+MAX_CUSTOM_WINDOW_COUNT] = {0};
 
 
+int window_IsPacketWindow(int idx)
+{
+    if (idx < 0 || idx >= MAX_WINDOW_COUNT)
+        return FALSE;
+    switch (idx)
+    {
+    case WDW_DEPRECATED_1:
+    case WDW_UNUSED_1:
+    case WDW_DEPRECATED_2:
+    case WDW_INVENT:
+    case WDW_WEB_STORE:
+    case WDW_MAIN_STORE_ACCESS:
+        return FALSE;
+    default:
+        return TRUE;
+    }
+}
+
 void sendWindow(Packet *pak, WdwBase *pwdw, int idx)
 {
     pktSendBitsPack(pak, 1, idx);
@@ -49,6 +67,9 @@ void sendWindow(Packet *pak, WdwBase *pwdw, int idx)
 #if CLIENT
 void sendWindowToServer(WdwBase *pwdw, int idx, int save_window)
 {
+    // Custom windows retain their local/save handling outside the built-in list.
+    if (idx < MAX_WINDOW_COUNT && !window_IsPacketWindow(idx))
+        return;
     START_INPUT_PACKET(pak, CLIENTINP_WINDOW);
     if( save_window )
     {

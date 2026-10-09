@@ -1195,3 +1195,14 @@ if(COX_BUILD_UTILITIES_TESTS)
  target_link_libraries(LevelingPactPacketTests PRIVATE UtilitiesLib)
  add_test(NAME LevelingPactPacket COMMAND LevelingPactPacketTests)
 endif()
+
+if(COX_BUILD_UTILITIES_TESTS)
+ cox_extract_costume_test("${CMAKE_CURRENT_SOURCE_DIR}/src/entity/entserver.c"
+  "assert(e->pl->winLocs != NULL);" "pktSendBitsAuto( pak, eaSize(&e->pl->rewardTokens) );"
+  window_packet_send.inc)
+ add_executable(WindowPacketTests tests/window_packet.c ../Common/gameComm/wdwbase.c)
+ cox_target_defaults(WindowPacketTests)
+ target_include_directories(WindowPacketTests PRIVATE ../Common "${CMAKE_CURRENT_BINARY_DIR}")
+ target_link_libraries(WindowPacketTests PRIVATE UtilitiesLib)
+ add_test(NAME WindowPacket COMMAND WindowPacketTests)
+endif()
