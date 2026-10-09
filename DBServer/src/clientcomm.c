@@ -1548,6 +1548,12 @@ static void s_finishHandleChoosePlayer(Packet *pak, U8 *cols, int col_count, Col
         idx += sprintf(cmd_buf + idx,"Name \"%s\"\n",cbData->name);
         idx += sprintf(cmd_buf + idx,"AccessLevel %d\n",server_cfg.default_access_level);
         idx += sprintf(cmd_buf + idx,"PlayerType %d\n",cbData->playerType);
+		unsigned int epicFlags = 0;
+		if (cbData->praetorian == kPraetorianProgress_PrimalBorn ||
+		    cbData->praetorian == kPraetorianProgress_NeutralInPrimalTutorial)
+			epicFlags = cbData->playerType == kPlayerType_Hero ?
+				DBFLAG_UNLOCK_HERO_EPICS : DBFLAG_UNLOCK_VILLAIN_EPICS;
+		idx += sprintf(cmd_buf + idx, "DbFlags %u\n", epicFlags);
         idx += sprintf(cmd_buf + idx,"Ents2[0].PlayerSubType %d\n",cbData->playerSubType);
         idx += sprintf(cmd_buf + idx,"Ents2[0].PraetorianProgress %d\n",cbData->praetorian);
         idx += sprintf(cmd_buf + idx,"Ents2[0].InfluenceType %d\n",cbData->playerTypeByLocation);

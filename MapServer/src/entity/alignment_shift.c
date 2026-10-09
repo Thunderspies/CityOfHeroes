@@ -592,6 +592,8 @@ void alignmentshift_UpdateAlignment(Entity *e)
                     // don't grant badge stats!
                     updateStats = 0;
                     e->pl->praetorianProgress = kPraetorianProgress_PrimalBorn;
+					e->db_flags &= ~DBFLAG_UNLOCK_VILLAIN_EPICS;
+					e->db_flags |= DBFLAG_UNLOCK_HERO_EPICS;
                     e->team_update = 1; // needed because we should have already been a hero, but we need to update praetorianProgress
 
                     character_PlayFX(e->pchar, e->pchar, "generic/AlignmentChange/Alignment_Hero.fx", colorPairNone, 0, 0, PLAYFX_NO_TINT);
@@ -726,6 +728,8 @@ void alignmentshift_UpdateAlignment(Entity *e)
                     // don't grant badge stats!
                     updateStats = 0;
                     e->pl->praetorianProgress = kPraetorianProgress_PrimalBorn;
+					e->db_flags &= ~DBFLAG_UNLOCK_HERO_EPICS;
+					e->db_flags |= DBFLAG_UNLOCK_VILLAIN_EPICS;
 
                     character_PlayFX(e->pchar, e->pchar, "generic/AlignmentChange/Alignment_Villain.fx", colorPairNone, 0, 0, PLAYFX_NO_TINT);
                     LOG_ENT(e, LOG_ENTITY, LOG_LEVEL_IMPORTANT, 0, "GoingRogue:AlignmentShift Player has started a Villain!");

@@ -4333,55 +4333,6 @@ static void fixTraySlots(Entity *e)
     }
 }
 
-static void fixEpicATFlags(Entity *e)
-{
-    if (!e)
-        return;
-
-    // Characters might have both, neither or just one of the flags which
-    // indicate which epic AT they can unlock. Praetorians should never have
-    // either of them set, Primals at most one. A Primal with neither set is
-    // an old character and we need to set the flag which matches their faction.
-    if (!(e->db_flags & DBFLAG_UNLOCK_HERO_EPICS) && !(e->db_flags & DBFLAG_UNLOCK_VILLAIN_EPICS))
-    {
-        if (ENT_IS_PRIMAL(e))
-        {
-            if (ENT_IS_HERO(e))
-            {
-                e->db_flags |= DBFLAG_UNLOCK_HERO_EPICS;
-                LOG_OLD( "Unpack Set DBID %d as hero for initial faction\n", e->db_id);
-            }
-            else
-            {
-                e->db_flags |= DBFLAG_UNLOCK_VILLAIN_EPICS;
-                LOG_OLD( "Unpack Set DBID %d as villain for initial faction\n", e->db_id);
-            }
-        }
-    }
-    else if ((e->db_flags & DBFLAG_UNLOCK_HERO_EPICS) && (e->db_flags & DBFLAG_UNLOCK_VILLAIN_EPICS))
-    {
-        // Turn off the non-matching flag for their faction (or both if they
-        // were not Primal-born). We can't know which faction they started on
-        // so this is our best guess.
-        if (ENT_IS_PRAETORIAN(e) || ENT_IS_HERO(e))
-            e->db_flags &= ~DBFLAG_UNLOCK_VILLAIN_EPICS;
-        if (ENT_IS_PRAETORIAN(e) || ENT_IS_VILLAIN(e))
-            e->db_flags &= ~DBFLAG_UNLOCK_HERO_EPICS;
-
-        LOG_OLD("Unpack DBID %d had both faction flags set\n", e->db_id);
-    }
-    else
-    {
-        // We expect Primals to have one flag set, but Praetorians should
-        // never have either.
-        if (ENT_IS_PRAETORIAN(e))
-        {
-            e->db_flags &= ~(DBFLAG_UNLOCK_HERO_EPICS | DBFLAG_UNLOCK_VILLAIN_EPICS);
-            LOG_OLD("Unpack DBID %d had a faction flag but is Praetorian\n", e->db_id);
-        }
-    }
-}
-
 // MAK - an entity should be zero'ed before calling this function - essentially, entities
 // can only be loaded on logins and be correct
 void unpackEnt( Entity *e, char *buff )
@@ -4530,8 +4481,6 @@ void unpackEnt( Entity *e, char *buff )
     }
 
     entUpdatePosInstantaneous(e,ENTPOS(e));
-
-    fixEpicATFlags(e);
 
     if (e->db_flags & DBFLAG_UNTARGETABLE)
     {
