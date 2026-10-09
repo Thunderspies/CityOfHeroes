@@ -936,16 +936,6 @@ bool unpackEntPowers(Entity *e, DBPowers *pdbpows, DB_RestoreAttrib_Types eResto
         bHasAtLeastOnePower = true;
         if (thisDbPower->iBuildNum != 0)
         {
-            // DGNOTE 9/18/2008
-            // This should not be needed when this setup finally goes live.  If it's stopped tripping by the time this hits closed beta, the logic that sets this
-            // and uses it can be removed.
-            extern int g_sanityCheckBuildNumbers;
-            
-            if (g_sanityCheckBuildNumbers)
-            {
-                LOG_ENT( e, LOG_POWERS, LOG_LEVEL_VERBOSE, 0, "Unpack Invalid iBuildNum detected (case 1): %d, resetting to zero.\n", thisDbPower->iBuildNum);
-                thisDbPower->iBuildNum = 0;
-            }
             if (thisDbPower->iBuildNum < 0 || thisDbPower->iBuildNum >= MAX_BUILD_NUM)
             {
                 LOG_ENT( e, LOG_POWERS, LOG_LEVEL_VERBOSE, 0, "Unpack Invalid iBuildNum detected (case 2): %d, resetting to zero.\n", thisDbPower->iBuildNum);

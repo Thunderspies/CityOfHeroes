@@ -3651,7 +3651,6 @@ uiSetting uiSettings3[] = {
     {OFFSET2_PTR(Entity, pl,    EntPlayer,    disableLoadingTips),            },
     {OFFSET2_PTR(Entity, pl,    EntPlayer,    enableJoystick),                },
     {OFFSET2_PTR(Entity, pl,    EntPlayer,    fading_tray),                    },
-    {OFFSET2_PTR(Entity, pl,    EntPlayer,    multiBuildsSetUp),                },
     {OFFSET2_PTR(Entity, pl,    EntPlayer,    ArchitectNav)                    },
     {OFFSET2_PTR(Entity, pl,    EntPlayer,    ArchitectTips)                    },
     {OFFSET2_PTR(Entity, pl,    EntPlayer,    ArchitectAutoSave)                },
@@ -4182,29 +4181,6 @@ static void fixUnpackedCostume(Entity *e)
     costumeFillPowersetDefaults(e);
 }
 
-// DGNOTE 9/18/2008
-// See comment above unpackEntPowers(...) over in character_db.c for details.  This variable can be eventually removed ...
-int g_sanityCheckBuildNumbers = 0;
-
-static void fixMultiBuilds(Entity *e)
-{
-    if (e && e->pl && e->pl->multiBuildsSetUp == 0)
-    {
-        // Fix iBuildLevels[0] to mirror current security level
-        if (e->pchar && e->pchar->iCurBuild == 0 && e->pchar->iLevel > e->pchar->iBuildLevels[0])
-        {
-            e->pchar->iBuildLevels[0] = e->pchar->iLevel;
-            if (isDevelopmentMode())
-            {
-                // Players should not need this in production
-                g_sanityCheckBuildNumbers = 1;
-            }
-        }
-        e->pl->multiBuildsSetUp = 1;
-    }
-    e->pchar->iActiveBuild = e->pchar->iCurBuild;
-}
-
 // MAK - an entity should be zero'ed before calling this function - essentially, entities
 // can only be loaded on logins and be correct
 void unpackEnt( Entity *e, char *buff )
@@ -4288,9 +4264,13 @@ void unpackEnt( Entity *e, char *buff )
 
     e->pl->current_powerCust = e->pl->current_costume;
 
-    // Fix up characters that only had a single build.  This must be done before we call unpackEntPowers(...), since that routine will
-    // do the initial build selection based on iCurBuild from the database.
-    fixMultiBuilds(e);
+	// Validate the current build before unpackEntPowers indexes its arrays.
+	if (e->pchar->iCurBuild < 0 || e->pchar->iCurBuild >= MAX_BUILD_NUM) {
+		dbLog("InvalidBuild", e, "Invalid current build %d",
+			e->pchar->iCurBuild);
+		e->pchar->iCurBuild = 0;
+	}
+	e->pchar->iActiveBuild = e->pchar->iCurBuild;
 
     // @testing -AB: see if we can detect corruption  :07/19/06
     checkEntBadges(e,"unpackEnt0");
@@ -4314,10 +4294,6 @@ void unpackEnt( Entity *e, char *buff )
 
     // WARNING: anything unpacked into a pchar will get wiped out at this stmt
     log = unpackEntPowers(e, &s_dbpows, eRestoreAttrib, "Unpack");
-    // No longer need (or want) this.
-
-    g_sanityCheckBuildNumbers = 0;
-
     // @testing -AB: see if we can detect corruption  :07/19/06
     checkEntBadges(e,"unpackEnt_afterpowers");
 

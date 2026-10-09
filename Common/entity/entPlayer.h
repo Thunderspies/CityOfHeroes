@@ -484,7 +484,6 @@ typedef struct EntPlayer
     char                primarySet[MAX_NAME_LEN];    // The category and powerset originally picked as primary
     char                secondarySet[MAX_NAME_LEN];    // And the one originally picked as secondary
 
-    int            multiBuildsSetUp;
 
     char        buildNames[MAX_BUILD_NUM][BUILD_NAME_LEN];    // Names for builds.
 
