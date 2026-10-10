@@ -61,12 +61,14 @@ static void svrInit()
     {
         for(server_state.udp_port = BASE_MAPSERVER_PORT;;server_state.udp_port++)
         {
-            if (netInit(&net_links,server_state.udp_port,server_state.tcp_port))
-                break;
+		if (netInitEnet(&net_links, server_state.udp_port,
+				server_state.tcp_port))
+			break;
         }
     }
     else
-        netInit(&net_links,server_state.udp_port,server_state.tcp_port);
+	    netInitEnet(&net_links, server_state.udp_port,
+			server_state.tcp_port);
     NMAddLinkList(&net_links, svrHandleClientMsg);
 
 }

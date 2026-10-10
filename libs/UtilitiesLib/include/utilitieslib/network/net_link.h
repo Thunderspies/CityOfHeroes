@@ -19,6 +19,12 @@ NetLink* createNetLink();
 void destroyNetLink(NetLink* link);
 void initNetLink(NetLink* link);
 void clearNetLink(NetLink* link);
+/* Lazily allocate the legacy duplicate-ID table on non-NULL, live link.
+ * Returns borrowed link-owned storage, freed by clearNetLink. ENet links do
+ * not require this table. Serialize calls with other network operations.
+ */
+SimpleSet *lnkEnsureReceivedPacketID(
+    NetLink *link); // legacy dup-detection table, created on first use
 
 /****************************************************************************************************
  * NetLink Connection/Disconnection                                                                    *

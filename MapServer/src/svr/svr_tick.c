@@ -1032,7 +1032,7 @@ static struct {
     int var;
     char *name;
 } mapping[] = {
-    {STAT_RELIABLE_SIZE, "reliablePacketsArray.size"},
+    {STAT_RELIABLE_SIZE, "reliable backlog packets"},
     {STAT_LOST_IN, "lost_packet_recv_count"},
     {STAT_LOST_OUT, "lost_packet_send_count"},
 };
@@ -1059,18 +1059,22 @@ void svrDumpNetworkStats(int all)
 
         count++;
         if (first) {
-            max[STAT_RELIABLE_SIZE] = min[STAT_RELIABLE_SIZE] = client->link->reliablePacketsArray.size;
-            max[STAT_LOST_IN] = min[STAT_LOST_IN] = client->link->lost_packet_recv_count;
-            max[STAT_LOST_OUT] = min[STAT_LOST_OUT] = client->link->lost_packet_sent_count;
-            total[STAT_RELIABLE_SIZE] = total[STAT_LOST_IN] = total[STAT_LOST_OUT] = 0;
-            first = false;
+		max[STAT_RELIABLE_SIZE] = min[STAT_RELIABLE_SIZE] =
+		    netLinkReliableBacklogPackets(client->link);
+		max[STAT_LOST_IN] = min[STAT_LOST_IN] =
+		    client->link->lost_packet_recv_count;
+		max[STAT_LOST_OUT] = min[STAT_LOST_OUT] =
+		    client->link->lost_packet_sent_count;
+		total[STAT_RELIABLE_SIZE] = total[STAT_LOST_IN] =
+		    total[STAT_LOST_OUT] = 0;
+		first = false;
         }
 #define COUNT(id, var) \
     max[id] = MAX(max[id], var); \
     min[id] = MIN(min[id], var); \
     total[id] += var;
-        COUNT(STAT_RELIABLE_SIZE, client->link->reliablePacketsArray.size);
-        COUNT(STAT_LOST_IN, client->link->lost_packet_recv_count);
+	COUNT(STAT_RELIABLE_SIZE, netLinkReliableBacklogPackets(client->link));
+	COUNT(STAT_LOST_IN, client->link->lost_packet_recv_count);
         COUNT(STAT_LOST_OUT, client->link->lost_packet_sent_count);
     }
     timerMakeDateString(buf);
@@ -1500,26 +1504,27 @@ void logDisconnect(ClientLink *client, const char * reason)
 
 static int svrTickCheckDisconnect(NetLink* link, ClientLink* client, int max_buffered_packets)
 {
-    if(!client->ready || link->reliablePacketsArray.size < max_buffered_packets)
-    {
-        return 0;
-    }
-    
+	if (!client->ready ||
+	    netLinkReliableBacklogPackets(link) < max_buffered_packets) {
+		return 0;
+	}
+
     if (db_state.local_server)
     {
         int ret;
-        while(link->reliablePacketsArray.size >= max_buffered_packets)
-        {
-            char    buf[1000];
+	while (netLinkReliableBacklogPackets(link) >= max_buffered_packets) {
+		char buf[1000];
 
-            sprintf(buf,"Waiting for client %s(%s) to accept packets",makeIpStr(link->addr.sin_addr.s_addr),client->entity->name);
-            setConsoleTitle(buf);
-            ret = netLinkMonitor(client->link,0,0);
-            if (ret == LINK_DISCONNECTED)
-                break;
-            Sleep(1);
-        }
-        if (ret == LINK_DISCONNECTED){
+		sprintf(buf, "Waiting for client %s(%s) to accept packets",
+			makeIpStr(link->addr.sin_addr.s_addr),
+			client->entity->name);
+		setConsoleTitle(buf);
+		ret = netLinkMonitor(client->link, 0, 0);
+		if (ret == LINK_DISCONNECTED)
+			break;
+		Sleep(1);
+	}
+	if (ret == LINK_DISCONNECTED){
             return 1;
         }
         return 0;
@@ -1737,8 +1742,8 @@ static void svrTickDoNetSend(int world_update)
                     else
                         timeout = FILELOADTIMEOUTSECS + TIMEOUTSECS;
                     dt = timerCpuSeconds() - link->lastRecvTime;
-                    packets_unacked = link->nextID - link->idAck;
-                    if (dt > timeout)
+		    packets_unacked = netLinkUnackedCount(link);
+		    if (dt > timeout)
                     {
                         if (!clientEnt->logout_timer)
                         {

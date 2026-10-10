@@ -1636,8 +1636,11 @@ int commStart(char *ip_str,int port,int connect_cookie)
     int        timer;
     int        result;
 
-    if (!netConnectEx(&comm_link,ip_str,port,NLT_UDP,control_state.notimeout?NO_TIMEOUT:120,NULL,1)) // Leave this over a minute, TestClients often take this long to connect
-        return 0;
+    if (!netConnectEx(&comm_link, ip_str, port, NLT_ENET,
+		      control_state.notimeout ? NO_TIMEOUT : 120, NULL,
+		      1)) // Leave this over a minute, TestClients often take
+			  // this long to connect
+	    return 0;
 
     netLinkSetBufferSize(&comm_link, SendBuffer, 128*1024);
     netLinkSetBufferSize(&comm_link, ReceiveBuffer, 128*1024);
@@ -1769,60 +1772,81 @@ int commCheck(int lookfor)
     
     if (dead_link)
     {
-        if (glob_have_camera_pos != PLAYING_GAME && game_state.game_mode != SHOW_LOAD_SCREEN)
-        {
-            PERFINFO_AUTO_START("weird stuff", 1);
-                showBgAdd(2);
-                loadUpdate("Lost link to mapserver!",-1);
-                showBgAdd(-2);
-            PERFINFO_AUTO_STOP();
-        }
-        else
-        {
-            // Disconnect from server and go back to the login screen if the game isn't
-            // in some sort of debugging mode.
-            if(!game_state.local_map_server && !control_state.notimeout)
-            {
-                PERFINFO_AUTO_START("quitToLogin", 1);
-                    // Go back to the login screen if it doesn't seem likely that the mapserver
-                    // is coming back.
+	    Entity *quitting_player = playerPtr();
 
-                    // Disconnect from the server.
-                    //        At this point, it is fairly certain that the mapserver is dead.
-                    //        This is just marking the link as disconnected in a nice way.
-                    
-                    PERFINFO_AUTO_START("commDisconnect()", 1);
-                        commDisconnect();
-                    PERFINFO_AUTO_STOP();
+	    // A quit we asked for is already counting down.  The mapserver
+	    // unloads the player -- which destroys this link -- one second
+	    // *before* our own countdown ends (playerEntCheckDisconnect: unload
+	    // at logout_timer<=30, we quit at <=0).  The legacy UDP transport
+	    // never told us about that teardown, so the countdown always
+	    // finished first and
+	    // quitToCharacterSelect()/quitToLogin()/windowExit() ran normally;
+	    // ENet surfaces the peer loss immediately.  Let the countdown
+	    // finish the quit the player asked for instead of reporting a lost
+	    // connection.
+	    if (quitting_player && quitting_player->logout_timer > 0)
+		    return 0;
 
-                    PERFINFO_AUTO_START("quitToLogin", 1);
-                        // make sure to fade back in if we were in a door transfer
-                        DoorAnimReceiveExit(NULL);
-                    PERFINFO_AUTO_STOP();
+	    if (glob_have_camera_pos != PLAYING_GAME &&
+		game_state.game_mode != SHOW_LOAD_SCREEN) {
+		    PERFINFO_AUTO_START("weird stuff", 1);
+		    showBgAdd(2);
+		    loadUpdate("Lost link to mapserver!", -1);
+		    showBgAdd(-2);
+		    PERFINFO_AUTO_STOP();
+	    } else {
+		    // Disconnect from server and go back to the login screen if
+		    // the game isn't in some sort of debugging mode.
+		    if (!game_state.local_map_server &&
+			!control_state.notimeout) {
+			    PERFINFO_AUTO_START("quitToLogin", 1);
+			    // Go back to the login screen if it doesn't seem
+			    // likely that the mapserver is coming back.
 
-                    PERFINFO_AUTO_START("quitToLogin", 1);
-                        // Go back to the login screen.
-                        printf("quitToLogin: %s\n", textStd("LostConn")); // For TestClient
-                        quitToLogin(0);
-                        //restartLoginScreen();
-                    PERFINFO_AUTO_STOP();
+			    // Disconnect from the server.
+			    //        At this point, it is fairly certain that
+			    //        the mapserver is dead. This is just
+			    //        marking the link as disconnected in a nice
+			    //        way.
 
-                    PERFINFO_AUTO_START("dialogStd", 1);
-                        // Tell the player the connection has been lost.
-                        dialogStd(DIALOG_OK, textStd("LostConn"), NULL, NULL, NULL, NULL, 0);
-                    PERFINFO_AUTO_STOP();
-                PERFINFO_AUTO_STOP();
-                
-                return 0;
-            }
+			    PERFINFO_AUTO_START("commDisconnect()", 1);
+			    commDisconnect();
+			    PERFINFO_AUTO_STOP();
+
+			    PERFINFO_AUTO_START("quitToLogin", 1);
+			    // make sure to fade back in if we were in a door
+			    // transfer
+			    DoorAnimReceiveExit(NULL);
+			    PERFINFO_AUTO_STOP();
+
+			    PERFINFO_AUTO_START("quitToLogin", 1);
+			    // Go back to the login screen.
+			    printf("quitToLogin: %s\n",
+				   textStd("LostConn")); // For TestClient
+			    quitToLogin(0);
+			    // restartLoginScreen();
+			    PERFINFO_AUTO_STOP();
+
+			    PERFINFO_AUTO_START("dialogStd", 1);
+			    // Tell the player the connection has been lost.
+			    dialogStd(DIALOG_OK, textStd("LostConn"), NULL,
+				      NULL, NULL, NULL, 0);
+			    PERFINFO_AUTO_STOP();
+			    PERFINFO_AUTO_STOP();
+
+			    return 0;
+		    }
         }
     }
 
     {
         int old_retransmit = comm_link.disableRetransmits;
 
-        // Disable *sending* of retransmits (will still queue up new packets for sending later)
-        comm_link.disableRetransmits = !control_state.mapserver_responding;
+	// Disable *sending* of retransmits (will still queue up new packets for
+	// sending later) NLT_ENET links ignore this flag: ENet owns
+	// retransmission, and its RTO backoff already stops flooding an
+	// unresponsive server.
+	comm_link.disableRetransmits = !control_state.mapserver_responding;
 
         PERFINFO_AUTO_START("netLinkMonitor", 1);
             got_it = netLinkMonitor(&comm_link, lookfor, commHandleMessage);
@@ -1836,6 +1860,30 @@ int commCheck(int lookfor)
     }
 
     return got_it;
+}
+
+/*
+ * The scene arrives as a single ~1.5MB reliable packet, which ENet splits into
+ * roughly a thousand fragments.  Nothing observable moves until the last one
+ * lands: comm_link.totalBytesRead only advances on a fully reassembled packet,
+ * so "the server never sent it" and "it is arriving and stalled partway" look
+ * exactly alike from here.  These read the transport counters underneath, which
+ * do advance, so the two can be told apart from the console.
+ */
+char *commLinkStatusStr(void)
+{
+	static char buf[256];
+
+	sprintf(buf,
+		"%u KB sent, %u KB received, %u KB reassembling, %d reliable "
+		"pkts out, link %s",
+		netLinkTransportBytesSent(&comm_link) / 1024,
+		netLinkTransportBytesReceived(&comm_link) / 1024,
+		netLinkReassemblyBytesPending(&comm_link) / 1024,
+		netLinkReliableBacklogPackets(&comm_link),
+		commConnected() ? "up" : "DOWN");
+
+	return buf;
 }
 
 int commReqScene(int isInitialLogin)
@@ -1887,12 +1935,13 @@ int commReqScene(int isInitialLogin)
         }
         testClientRandomDisconnect(TCS_commReqScene_2);
         if (timeout || !commConnected()){
-            printf("Server timeout\n");
-            texLoadQueueFinish();
-            quitToLogin(0);
-            timerFree(timer);
-            PERFINFO_AUTO_STOP();
-            return 0;
+		printf("Server timeout waiting for the scene (%s)\n",
+		       commLinkStatusStr());
+		texLoadQueueFinish();
+		quitToLogin(0);
+		timerFree(timer);
+		PERFINFO_AUTO_STOP();
+		return 0;
         }
         //loadend_printf("");
 

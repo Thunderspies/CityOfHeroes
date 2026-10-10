@@ -105,11 +105,11 @@ enum { LOOK_FOR_COOKIE = 0x7ffffffe };
 
 #define LINK_DISCONNECTED -2
 
-typedef enum NetLinkType
-{
-    NLT_NONE,
-    NLT_TCP,
-    NLT_UDP,
+typedef enum NetLinkType {
+	NLT_NONE,
+	NLT_TCP,
+	NLT_UDP,
+	NLT_ENET, // ENet-backed UDP transport (see netio_enet.h)
 } NetLinkType;
 
 typedef enum NetLinkOperationType
@@ -357,6 +357,19 @@ struct NetLink
     // Asynchronous connect
     int        asyncTimer;            // timer used to detect timeout during an async connect attempt
     float    asyncTimeout;        // timeout duration
+
+    // ENet transport (NLT_ENET links only); opaque so this header stays free
+    // of <enet/enet.h>. Only netio_enet.c dereferences these.
+    void *enet_host; // ENetHost*; the client host if owns_enet_host, else the
+		     // parent list's
+    void *enet_peer; // ENetPeer*
+    U32 enet_handshake_start; // ENet milliseconds at server transport accept
+    void *enet_sim_holdback; // Queue of outbound packets held by the
+			     // network-condition simulator
+    U32 owns_enet_host
+	: 1; // client links own (and destroy) their single-peer host
+    U32 enet_applied_notimeout
+	: 1; // notimeout state last pushed into enet_peer_timeout
 };
 
 /****************************************************************************************************
@@ -398,6 +411,8 @@ struct NetLinkList
 
     U32                        hasDisconnectedLinks:1; // Flag set when a link disconnects
     U32                        publicAccess:1;            // non-private IPs are allowed to connect (default is no)
+
+    void *enet_host; // ENetHost* when this list listens via ENet (netInitEnet)
 };
 
 

@@ -2,6 +2,7 @@
 #include "utilitieslib/network/net_link.h"
 #include "utilitieslib/network/net_socket.h"
 #include "utilitieslib/network/netio_core.h"
+#include "utilitieslib/network/netio_enet.h"
 #include "utilitieslib/network/net_masterlist.h"
 #include "utilitieslib/network/net_structdefs.h"
 #include "utilitieslib/network/netio_receive.h"
@@ -112,6 +113,9 @@ void netLinkListDisconnect(NetLinkList *nlist)
         closesocket(nlist->listen_sock);
         nlist->listen_sock = 0;
     }
+    if (nlist->enet_host) {
+	    netEnetListShutdown(nlist);
+    }
     // Could add a loop over all links to send disconnect signals on them here
     netioLeaveCritical();
 }
@@ -192,6 +196,21 @@ static void createTCPLinkHashKey(SOCKET socket, char* output){
     *output = 0;
 }
 
+static void createEnetLinkHashKey(U32 uid, char *output)
+{
+	*output++ = 'E';
+	*output++ = ':';
+
+	while (1) {
+		*output++ = 'a' + (uid & 0xf);
+		uid >>= 4;
+		if (uid == 0)
+			break;
+	}
+
+	*output = 0;
+}
+
 static void createLinkHashKey(NetLink* link, char* output){
     switch(link->type){
         case NLT_UDP:
@@ -199,7 +218,12 @@ static void createLinkHashKey(NetLink* link, char* output){
             break;
         case NLT_TCP:
             createTCPLinkHashKey(link->socket, output);
-            break;
+	    break;
+	case NLT_ENET:
+		// ENet identity is the peer, not (addr,port); the UID key just
+		// has to be unique so the stash add/remove pair stays balanced.
+		createEnetLinkHashKey(link->UID, output);
+		break;
         default:
             assert(0);
     }
@@ -285,6 +309,38 @@ static NetLink *netAddLink(NetLinkList *nlist, struct sockaddr_in *addr, int soc
     return link;
 }
 
+/* Function netAddLinkEnetAccept() (For server only)
+ *    Accepts an incoming ENet peer as a NetLink on the given list. Called from
+ *    netio_enet.c on ENET_EVENT_TYPE_CONNECT; kept here so the memory-pool,
+ *    stash, and allocCallback plumbing stays next to netAddLink.
+ *
+ *    ip is in network byte order, port in host byte order (ENet convention).
+ *    Returns NULL if the connection is rejected (publicAccess gate).
+ */
+NetLink *netAddLinkEnetAccept(NetLinkList *nlist, U32 ip, int port,
+			      SOCKET hostSocket)
+{
+	struct sockaddr_in addr = {0};
+	NetLink *link;
+
+	sockSetAddr(&addr, ip, port);
+
+	// Pass 0 and assign the handle afterwards: netAddLink's socket
+	// parameter is an int, which would truncate a 64-bit SOCKET.
+	link = netAddLink(nlist, &addr, 0, NLT_ENET);
+	if (link) {
+		link->socket = hostSocket;
+		// Mirror the legacy UDP accept (netValidateUDPPacket):
+		// encryption policy comes from the list; the link is pumped
+		// synchronously.
+		link->encrypted = (U8)nlist->encrypted;
+		link->opType = NLOT_SYNC;
+		// ENet owns retransmission and throttling for these links.
+		link->retransmit = 0;
+		link->flowControl = 0;
+	}
+	return link;
+}
 
 /* Function netRemoveLinkInternal()
 *    This function removes the given link from its parent linklist, destroys the given link, 
@@ -800,19 +856,24 @@ void netDiscardDeadLink(NetLink* link){
         NetLinkList* nlist = link->parentNetLinkList;
         if (nlist && nlist->destroyLinkOnDiscard)
         {
-            if(nlist->destroyCallback)
-            {
-                nlist->destroyCallback(link);
-                link->destroyed = 1;
-            }
-        }
-        
-        
-        if(link->type == NLT_UDP){
-            link->removedFromMasterList = 1;
-        }
-        
-        link->disconnected = 1;
+		// !destroyed guard matches netRemoveLinkInternal: ENet links
+		// can be discarded twice (in-band COMMCONTROL_DISCONNECT +
+		// transport DISCONNECT event) and the callback must only ever
+		// fire once.
+		if (nlist->destroyCallback && !link->destroyed) {
+			nlist->destroyCallback(link);
+			link->destroyed = 1;
+		}
+	}
+
+	if (link->type == NLT_UDP || link->type == NLT_ENET) {
+		// Neither is individually registered with the IO completion
+		// port, so nothing else will flag them; mark them reclaimable
+		// directly.
+		link->removedFromMasterList = 1;
+	}
+
+	link->disconnected = 1;
         link->connected = 0;
         NMNotifyDisconnectedLink(link);
         if (link->parentNetLinkList) {

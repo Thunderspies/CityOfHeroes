@@ -4,6 +4,7 @@
 #include "utilitieslib/network/net_linklist.h"
 #include "utilitieslib/network/net_packet.h"
 #include "utilitieslib/network/netio_receive.h"
+#include "utilitieslib/network/netio_enet.h"
 #include "utilitieslib/network/net_socket.h"
 #include "utilitieslib/network/netio_core.h"
 #include "utilitieslib/network/sock.h"
@@ -243,7 +244,11 @@ char *link_TypeStr(NetLink *link)
 {
     if( link )
     {
-        return link->type == NLT_TCP ? "TCP" : (link->type == NLT_UDP ? "UDP" : "UNKNOWN");
+	    return link->type == NLT_TCP
+		       ? "TCP"
+		       : (link->type == NLT_UDP
+			      ? "UDP"
+			      : (link->type == NLT_ENET ? "ENET" : "UNKNOWN"));
     }
     return "NULL";
 }
@@ -696,9 +701,39 @@ static bool s_VerifyAllPacketsProcessedScan(void)
     return false;
 }
 
+/* Function NMDispatchEnetLists
+ *    Servers: drain events on every registered ENet host (connects create
+ *    links, receives fill the per-link queues, disconnects flag links), then
+ *    dispatch the queued packets through each ENet list's packet callback.
+ *    ENet lists produce no IO completion packets, so this explicit pass is
+ *    their equivalent of NMProcessAsyncIO + NMMessageScanElement.
+ */
+static void NMDispatchEnetLists(void)
+{
+	int i;
+
+	if (!netEnetHostsRegistered())
+		return;
+
+	netEnetServiceAll();
+
+	for (i = 0; i < netMasterList.linkList->size; i++) {
+		NetMasterListElement *element =
+		    netMasterList.linkList->storage[i];
+		NetLinkList *list = element->storage;
+
+		if (list->enet_host)
+			netLinkListProcessMessages(list,
+						   element->packetCallback);
+
+		if (NMMonitorShouldStopReceiving())
+			break;
+	}
+}
+
 /* Function NMMonitorAllSyncElements
  *    handle sending and receiving for static links.
- *    
+ *
  */
 static INLINEDBG void NMMonitorAllSyncElements(void){
     int i;
@@ -743,12 +778,23 @@ void NMMonitor(int milliseconds)
     }
 
     g_nmmonitor_in_nmmonitor = true;
+
+    // ENet hosts are serviced by polling, not by completion packets; don't let
+    // the GQCS wait below stall their retransmit/ping timers or inbound events.
+    // (NO_TIMEOUT means wait-forever in NMProcessAsyncIO; POLL passes through.)
+    if (netEnetHostsRegistered() &&
+	(milliseconds == NO_TIMEOUT || milliseconds > 15))
+	    milliseconds = 15;
+
     PERFINFO_AUTO_START("netGetTcpConnect", 1);
 
         // Get any TCP connections O(#NetLinkLists) = fast
         NMForAllLinkLists(netLinkListHandleTcpConnect);
 
-    PERFINFO_AUTO_STOP_START("netLinkSendIdles", 1);
+	// Drain ENet events early so this tick's dispatch/maintenance sees them
+	netEnetServiceAll();
+
+	PERFINFO_AUTO_STOP_START("netLinkSendIdles", 1);
 
         if (timerSeconds(g_NMCachedTimeTicks - lastMaintenanceTimeTicks) > 3.0) {
             // send keep-alives
@@ -811,7 +857,10 @@ void NMMonitor(int milliseconds)
         // currently these are UDP links with no linklist parent.
         NMMonitorAllSyncElements();
 
-        // @testing-remove -AB: make sure all packets getting scanned :12/07/05
+	// service + dispatch the ENet-backed link lists
+	NMDispatchEnetLists();
+
+	// @testing-remove -AB: make sure all packets getting scanned :12/07/05
         if(!NMMonitorShouldStopReceiving() 
            && !isProductionMode() 
            && s_VerifyAllPacketsProcessedScan())
@@ -821,12 +870,13 @@ void NMMonitor(int milliseconds)
         // The packet processing step may have caused data to be added to the send queue.
         // Flush the links before we exit to keep transaction time short.
         lnkFlushAll();
-    PERFINFO_AUTO_STOP();
+	netEnetFlushAll();
+	PERFINFO_AUTO_STOP();
 
-    g_nmmonitor_stop_receiving = false;
-    g_nmmonitor_in_nmmonitor = false;
+	g_nmmonitor_stop_receiving = false;
+	g_nmmonitor_in_nmmonitor = false;
 
-    netioLeaveCritical();
+	netioLeaveCritical();
 }
 
 
