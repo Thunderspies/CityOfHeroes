@@ -1,3 +1,9 @@
+add_executable(EnetTest ../../../Utilities/EnetTest/src/EnetTest.c)
+cox_target_defaults(EnetTest)
+target_link_libraries(EnetTest PRIVATE UtilitiesLib)
+add_test(NAME ENetTransport COMMAND EnetTest)
+set_tests_properties(ENetTransport PROPERTIES TIMEOUT 180 RUN_SERIAL TRUE)
+
 add_executable(UtilitiesLibTests main.c allocation.cpp nchash.c)
 set_target_properties(UtilitiesLibTests PROPERTIES
 	C_STANDARD 11 C_STANDARD_REQUIRED ON

@@ -60,6 +60,7 @@ set(UtilitiesLib_SOURCE_FILES
 	src/network/ftpclient.c
 	src/network/netcomp.c
 	src/network/netio_core.c
+	src/network/netio_enet.c
 	src/network/netio_receive.c
 	src/network/netio_send.c
 	src/network/netio_stats.c
@@ -222,6 +223,7 @@ set(UtilitiesLib_HEADER_FILES
 	include/utilitieslib/network/netcomp.h
 	include/utilitieslib/network/netio.h
 	include/utilitieslib/network/netio_core.h
+	include/utilitieslib/network/netio_enet.h
 	include/utilitieslib/network/netio_receive.h
 	include/utilitieslib/network/netio_send.h
 	include/utilitieslib/network/netio_stats.h
@@ -386,7 +388,7 @@ if(MSVC)
 		$<$<CONFIG:Release,OptDebug>:/Gy;/Oi>)
 endif()
 target_link_libraries(UtilitiesLib PUBLIC
-	ZLIB::ZLIB cryptopp::cryptopp CrashRpt piggle::piggle
+	ZLIB::ZLIB cryptopp::cryptopp CrashRpt piggle::piggle enet
 	iphlpapi ws2_32 winmm psapi pdh version comctl32 ole32 shell32 advapi32
 	user32 gdi32 comdlg32 uuid
 )

@@ -11,6 +11,7 @@
 #define NETIO_H
 
 #include "../network/net_structdefs.h"
+#include "../network/netio_enet.h"
 #include "../stdtypes.h"
 
 C_DECLARATIONS_BEGIN

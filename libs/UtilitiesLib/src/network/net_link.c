@@ -1,6 +1,7 @@
 #include "utilitieslib/network/net_link.h"
 #include "utilitieslib/network/net_socket.h"
 #include "utilitieslib/network/netio_core.h"
+#include "utilitieslib/network/netio_enet.h"
 #include "utilitieslib/network/netio_send.h"
 #include "utilitieslib/network/netio_receive.h"
 #include "utilitieslib/network/net_packet.h"
@@ -84,10 +85,10 @@ void initNetLink(NetLink* link){
 
     initArray(&link->reliablePacketsArray, NETLINK_ACKWAITING_INIT_SIZE);
 
-    // A link keeps a table of the last received packet ID's to determine if the link
-    // has received a packet already.
-    link->receivedPacketID = createSimpleSet();
-    initSimpleSet(link->receivedPacketID,  16 * 1024, lnkReceivedPakIDHash);
+    // A link keeps a table of the last received packet IDs to determine if the
+    // link has received a packet already. Only the legacy (non-ENet) unwrap
+    // path does its own dup detection, so the 128 KB table is created on first
+    // use there (lnkEnsureReceivedPacketID) instead of for every link.
 
     initArray(&link->pakTimeoutArray, 64);
 
@@ -107,6 +108,20 @@ void initNetLink(NetLink* link){
 
     link->pLinkToMultiplexer = NULL;
     netioLeaveCritical();
+}
+
+// The legacy unwrap path's duplicate-packet table, created on first use: ENet
+// links never run that dup detection (the transport owns it), so they never pay
+// the 16k-slot (128 KB on x64) allocation. clearNetLink destroys it and then
+// memsets the link, so a reused link starts back at NULL.
+SimpleSet *lnkEnsureReceivedPacketID(NetLink *link)
+{
+	if (!link->receivedPacketID) {
+		link->receivedPacketID = createSimpleSet();
+		initSimpleSet(link->receivedPacketID, 16 * 1024,
+			      lnkReceivedPakIDHash);
+	}
+	return link->receivedPacketID;
 }
 
 void pktDequeueDestroy(Packet *pak) {
@@ -154,21 +169,28 @@ void clearNetLink(NetLink* link){
     if(link->waitingForFlush)
         lnkRemoveFromFlushList(link);
 
-    if (link->socket >= 0){
-        // If this is a tcp link or a UDP link that is not sharing its socket,
-        // close the socket.
-        if(NLT_TCP == link->type || (NLT_UDP == link->type && NULL == link->parentNetLinkList)){
-            int result;
+    // Tear down the peer before clearing the handles below.
+    if (link->type == NLT_ENET)
+	    netEnetLinkTeardown(link);
 
-            // Cancel any pening async operations.
-            if(link->opType == NLOT_ASYNC)
-                CancelIo((HANDLE)link->socket);
+    if (link->socket != INVALID_SOCKET) {
+	    // If this is a tcp link or a UDP link that is not sharing its
+	    // socket, close the socket.
+	    if (NLT_TCP == link->type ||
+		(NLT_UDP == link->type && NULL == link->parentNetLinkList)) {
+		    int result;
 
-            //printf("Closing socket 0x%x Sent %i Recv %i\n", link->socket, link->totalBytesSent, link->totalBytesRead);
-            result = closesocket(link->socket);
-        }
+		    // Cancel any pening async operations.
+		    if (link->opType == NLOT_ASYNC)
+			    CancelIo((HANDLE)link->socket);
 
-        link->socket = 0;
+		    // printf("Closing socket 0x%x Sent %i Recv %i\n",
+		    // link->socket, link->totalBytesSent,
+		    // link->totalBytesRead);
+		    result = closesocket(link->socket);
+	    }
+
+	    link->socket = 0;
     }
 
     // Cleanup all the dynamic storage in the link.
@@ -293,36 +315,54 @@ tryConnect:
     // Make all connections synchronous by default
     link->opType = NLOT_SYNC;
 
-    // Turn off retransmission for tcp connections.
-    if(link_type == NLT_TCP){
-        link->retransmit = 0;
-    }else
-        link->retransmit = 1;
+    // Retransmission is only the legacy UDP transport's job; TCP has the
+    // stream and ENet has its own reliability layer.
+    link->retransmit = (link_type == NLT_UDP);
 
     if (idleCallback) {
         idleCallback(timeout - timerElapsed(timer));
     }
 
-    // Create a socket and attach it to the link.
-    while(!netOpenSocket(link,ip_str,port,link_type == NLT_TCP))
-    {
-        if (!(timeout == 0.0) && timerElapsed(timer) > timeout)
-        {
-            timerFree(timer);
-            netioLeaveCritical();
-            return 0;
-        }
+    if (link_type == NLT_ENET) {
+	    // Transport-level connect: netEnetConnect creates the host/peer on
+	    // the first call and services the attempt for a slice per call. The
+	    // in-band COMMCONTROL handshake below then runs unchanged on top.
+	    // Slices are short so the idleCallback keeps running (loopback
+	    // tests pump the server side from it).
+	    while (!netEnetConnect(link, ip_str, port, 0.05f)) {
+		    if (!(timeout == 0.0) && timerElapsed(timer) > timeout) {
+			    clearNetLink(link);
+			    timerFree(timer);
+			    netioLeaveCritical();
+			    return 0;
+		    }
 
-        if (idleCallback) {
-            idleCallback(timeout - timerElapsed(timer));
-        }
+		    if (idleCallback) {
+			    idleCallback(timeout - timerElapsed(timer));
+		    }
 
-        if (fakeYieldToOS)
-        {
-            FakeYieldToOS();
-        }
-    }
-    
+		    if (fakeYieldToOS) {
+			    FakeYieldToOS();
+		    }
+	    }
+    } else
+	    // Create a socket and attach it to the link.
+	    while (!netOpenSocket(link, ip_str, port, link_type == NLT_TCP)) {
+		    if (!(timeout == 0.0) && timerElapsed(timer) > timeout) {
+			    timerFree(timer);
+			    netioLeaveCritical();
+			    return 0;
+		    }
+
+		    if (idleCallback) {
+			    idleCallback(timeout - timerElapsed(timer));
+		    }
+
+		    if (fakeYieldToOS) {
+			    FakeYieldToOS();
+		    }
+	    }
+
     //FIXME!!!  //JE: this is probably fixed when all of the other leaks were fixed, but should be tested
     // There is a memory leak in the networking code.
     // Comment this line out to cause rapid connect/disconnect errors to see the leak.
@@ -635,6 +675,20 @@ void netSendDisconnect(NetLink *link,F32 timeout){
         netioLeaveCritical();
         return;
     }
+    // ENet peer already gone (the other end tore the link down first): the
+    // in-band DISCONNECT cannot be sent and its ACK will never arrive, so the
+    // loop below would just burn the full timeout.  The trailing
+    // link->connected check would then skip cleanup too, leaving the host and
+    // socket handle dangling on a link callers now consider closed.
+    if (link->type == NLT_ENET && !netEnetLinkAlive(link)) {
+	    if (link->parentNetLinkList)
+		    netDiscardDeadLink(link);
+	    else
+		    clearNetLink(link);
+	    netioLeaveCritical();
+	    return;
+    }
+
     timer = timerAlloc();        // Timer starts here? But the disconnect packet haven't been sent yet.
     timerStart(timer);
 
@@ -860,7 +914,27 @@ int netLinkMonitorBlock(NetLink* link, int lookForCommand, NetPacketCallback* ne
     while(fTimeout >= 0){
         // Wait for incoming network packet.
         blockBeginTime = timerCpuTicks();
-        FD_ZERO(&readSet);
+
+	if (link->type == NLT_ENET) {
+		// Block inside enet_host_service (in <=50ms slices so ENet's
+		// own retransmit/ping timers keep running), then dispatch as
+		// usual.
+		netEnetServiceLink(link, MIN((int)(fTimeout * 1000.0f), 50));
+		monitorResult =
+		    netLinkMonitor(link, lookForCommand, netCallBack);
+		if (LINK_DISCONNECTED == monitorResult) {
+			netioLeaveCritical();
+			return LINK_DISCONNECTED;
+		}
+		if (monitorResult) {
+			netioLeaveCritical();
+			return monitorResult;
+		}
+		fTimeout -= timerSeconds(timerCpuTicks() - blockBeginTime);
+		continue;
+	}
+
+	FD_ZERO(&readSet);
         FD_ZERO(&writeSet);
         FD_ZERO(&errorSet);
         FD_AddLink(&readSet, &writeSet, &errorSet, link);
@@ -1035,10 +1109,19 @@ static int handleControlCommand(Packet *pak, CommControlCommand cmd, NetLink *li
                 if (cmd == COMMCONTROL_CONNECT_CLIENT_ACK)
                 {
                     // Code ran on server only
-                    Packet    *pak = pktCreateControlCmd(link, COMMCONTROL_CONNECT_SERVER_ACK_ACK);
-                    pktSend(&pak,link);
+		    Packet *pak;
 
-                    link->encrypt_on = link->encrypted;
+		    // The peer's decrypt_on is already set once it sent
+		    // CLIENT_ACK, so SERVER_ACK_ACK must go out encrypted.
+		    // The legacy transport got that implicitly by encrypting
+		    // at flush time; ENet links encrypt at enqueue, so the
+		    // flag has to be flipped before the send.
+		    link->encrypt_on = link->encrypted;
+
+		    pak = pktCreateControlCmd(
+			link, COMMCONTROL_CONNECT_SERVER_ACK_ACK);
+		    pktSend(&pak,link);
+
                     link->connected = 1;
                 }
             }
@@ -1261,23 +1344,26 @@ int netMessageScan(NetLink *link, int lookForCommand, bool isControlCommand, Net
     if(link && !mpReclaimed(link))
         lnkBatchSend(link);
 
-    // If the link was really full, and it was performing async reads, the full queue
-    // would have prevented new async reads from being initiated.
-    // Initiate a new async read now.
-    if(linkWasFull && link->asyncTcpState != AST_None)
-    {
-        lnkReadTCPAsync(link, 0);
+    // If the link was really full, and it was performing async reads, the full
+    // queue would have prevented new async reads from being initiated. Initiate
+    // a new async read now. Same liveness guard as the lnkBatchSend above: the
+    // loop body can tear the link down, and a reclaimed link's fields are
+    // freelist garbage.
+    if (linkWasFull && link && !mpReclaimed(link) &&
+	link->asyncTcpState != AST_None) {
+	    lnkReadTCPAsync(link, 0);
     }
 
     // --------------------
     // if there are any packets read but not processed, the async read
     // mechanism needs to know about it. post a message to the io
     // completion port
-    // Because of the complexity of the link-linklist interaction, 
-    // do this even on links that claim they are synchronous. 
+    // Because of the complexity of the link-linklist interaction,
+    // do this even on links that claim they are synchronous.
     // (is handled properly)
 
-    NMLinkQueueProcessStoredPackets(link);
+    if (link && !mpReclaimed(link))
+	    NMLinkQueueProcessStoredPackets(link);
 
     // --------------------
     // finally
@@ -1321,6 +1407,13 @@ void netIdleEx(NetLink* link, int do_sleep, float maxIdleTime, U32 current_time)
     U32        dt;
 
     netioEnterCritical();
+
+    // NLT_ENET links go through here too: ENet's own protocol pings never
+    // surface as receive events, so the peer's lastRecvTime would go stale
+    // without in-band COMMCONTROL_IDLE traffic (app code reaps links on it,
+    // e.g. Common/ClientLogin). ack_count is always 0 for ENet, and the idles
+    // ride the unsequenced channel.
+
     if (link->ack_count < MAX_PKTACKS/2) { // If we have a lot of acks outstanding, just send an idle immediately
         if(maxIdleTime > 0.0){
             dt = current_time - link->lastSendTime;
@@ -1490,17 +1583,17 @@ void netLinkAutoGrowBuffer(NetLink* link, NetLinkBufferType type)
     if (link->type == NLT_TCP) {
         // 1 socket per link, we're good to go
         useNetLink = true;
-    } else if (link->type == NLT_UDP) {
-        // Might be 1 socket for lots of links, let's check it's parent list?
-        if (link->parentNetLinkList) {
-            useNetLink = false;
-        } else {
-            useNetLink = true;
-        }
-    }
-    else {
-        netLog(link, "Invalid link type: %d\n", link->type);
-        return;
+    } else if (link->type == NLT_UDP || link->type == NLT_ENET) {
+	    // Might be 1 socket for lots of links, let's check it's parent
+	    // list?
+	    if (link->parentNetLinkList) {
+		    useNetLink = false;
+	    } else {
+		    useNetLink = true;
+	    }
+    } else {
+	    netLog(link, "Invalid link type: %d\n", link->type);
+	    return;
     }
 #define LINKVAR(var) (useNetLink?link->var:nlist->var)
     lastresize = LINKVAR(lastAutoResizeTime);
@@ -1558,10 +1651,13 @@ void netLinkAutoGrowBuffer(NetLink* link, NetLinkBufferType type)
 
 void netLinkSetBufferSize(NetLink* link, NetLinkBufferType type, int size)
 {
-    assert(!(link->type == NLT_UDP && link->parentNetLinkList));
-    if (type & SendBuffer) {
-        link->sendBufferSize = size;
-    }
+	// Links sharing their parent list's socket must size it via
+	// netLinkListSetBufferSize
+	assert(!(link->parentNetLinkList &&
+		 (link->type == NLT_UDP || link->type == NLT_ENET)));
+	if (type & SendBuffer) {
+		link->sendBufferSize = size;
+	}
     if (type & ReceiveBuffer) {
         link->recvBufferSize = size;
     }
@@ -1570,14 +1666,21 @@ void netLinkSetBufferSize(NetLink* link, NetLinkBufferType type, int size)
 
 void netLinkListSetBufferSize(NetLinkList* nlist, NetLinkBufferType type, int size)
 {
-    assert(nlist->udp_sock && !nlist->listen_sock); // We'd have to iterate over all TCP Links, this function is UDP only
-    if (type & SendBuffer) {
-        nlist->sendBufferSize = size;
-    }
+	assert(nlist->enet_host ||
+	       (nlist->udp_sock &&
+		!nlist->listen_sock)); // We'd have to iterate over all TCP
+				       // Links, this function is UDP only
+	if (type & SendBuffer) {
+		nlist->sendBufferSize = size;
+	}
     if (type & ReceiveBuffer) {
         nlist->recvBufferSize = size;
     }
-    socketSetBufferSize(nlist->udp_sock, type, size);
+    if (nlist->enet_host) {
+	    netEnetSetSocketBufferSize(nlist, type, size);
+    } else {
+	    socketSetBufferSize(nlist->udp_sock, type, size);
+    }
 }
 
 void netLog(NetLink *link, const char *fmt, ... )

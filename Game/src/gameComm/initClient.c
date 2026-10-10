@@ -493,6 +493,7 @@ void resetStuffOnMapMove()
 int doMapXfer()
 {
     extern U32 local_time_bias;
+    int xfer_timer = timerAlloc();
 
     demoStop();
     zowieReset();
@@ -503,12 +504,28 @@ int doMapXfer()
     {
         dialogStd( DIALOG_OK, "NoMapserverConn", NULL, NULL, NULL, NULL, 0 );
         restartLoginScreen();
-        return FALSE;
+	timerFree(xfer_timer);
+	return FALSE;
     }
     testClientRandomDisconnect(TCS_doMapXfer_02);
     cmdOldSetSends(control_cmds,1);
     testClientRandomDisconnect(TCS_doMapXfer_03);
+
+    // We are already connected to the destination here, and gfxReload services
+    // no network of its own -- it relies on the commKeepAlive calls threaded
+    // through it to stop the server deciding we have gone away. Its cost scales
+    // with what the map being LEFT had loaded (Atlas was ~7s when this last bit
+    // us). Only shout if it grows long enough that the interleaved pumps are
+    // carrying real weight, in which case the gaps between them deserve another
+    // look.
+    timerStart(xfer_timer);
     gfxReload(1);                //creates an entity.
+    if (timerElapsed(xfer_timer) > 15.f) {
+	    printf("doMapXfer: gfxReload took %.1fs -- link %s\n",
+		   timerElapsed(xfer_timer),
+		   commConnected() ? "survived" : "WAS LOST");
+    }
+    timerFree(xfer_timer);
     if (commConnected())
         if(!commReqScene(0))        //Asks server to send a world to load
             return FALSE;

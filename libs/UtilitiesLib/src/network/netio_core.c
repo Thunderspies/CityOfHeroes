@@ -2,6 +2,7 @@
 #include "utilitieslib/network/net_structdefs.h"
 #include "utilitieslib/network/net_packet.h"
 #include "utilitieslib/network/netio_stats.h"
+#include "utilitieslib/network/netio_enet.h"
 #include "utilitieslib/network/netio_send.h"
 #include "utilitieslib/network/crypt.h"
 #include "utilitieslib/network/net_link.h"
@@ -506,6 +507,12 @@ int linkLooksDead(NetLink *link, int threshold)
 {
     int        dead = 0, t;
 
+    if (link->type == NLT_ENET) {
+	    // ENet pings keep an idle link alive without surfacing receive
+	    // events, so quiet-time is not a death signal here; peer state is.
+	    return !netEnetLinkAlive(link);
+    }
+
     if (link->type == NLT_UDP)
     {
         // If this link has not ever received anything, it is not possible to determine if
@@ -541,6 +548,12 @@ void lnkSimulateNetworkConditions(NetLink* link, int lag, int lagVary, int packe
         link->simulateNetworkCondition = 0;
     if (outOfOrder && lag>250) {
         printf("Warning, a bug in our poor network conditions simulation may cause packets to never be delivered if Out of Order and Lag are both enabled\n");
+    }
+    if (link->type == NLT_ENET) {
+	    // ENet links apply the settings through their own shim
+	    // (inbound-loss intercept + outbound lag holdback); see
+	    // netio_enet.c.
+	    netEnetSimApply(link);
     }
     netioLeaveCritical();
 }
@@ -893,11 +906,14 @@ int pktUnwrap(Packet* pak, NetLink* link)
         // Otherwise, accept the packet and update the table.
         
         SimpleSetElement* element;
-        
-        // Look up the packet id in the received packet ID table.
-        element = sSetFindElement(link->receivedPacketID, S32_TO_PTR(pak->id));
-        
-        //    Was the slot in the set occupied at all?
+
+	// Look up the packet id in the received packet ID table. The table is
+	// created on first use here: ENet links never reach this block (the
+	// transport does its own dup rejection), so they never allocate it.
+	element = sSetFindElement(lnkEnsureReceivedPacketID(link),
+				  S32_TO_PTR(pak->id));
+
+	//    Was the slot in the set occupied at all?
         if(element){
             // If the ID matches, a packet with the particular ID has already been received.
             // The packet should be discarded.

@@ -66,7 +66,7 @@ void clientCommLoginInit(NetLinkList *gameclient_links)
 void clientCommLoginInitStartListening(NetLinkList *gameclient_links,NetPacketCallback callback, NetLinkDestroyCallback destroyCallback)
 {
     initGameChecksum();
-    netInit(gameclient_links,DEFAULT_DBGAMECLIENT_PORT,0);
+    netInitEnet(gameclient_links, DEFAULT_DBGAMECLIENT_PORT, 0);
     gameclient_links->destroyCallback = destroyCallback;
     gameclient_links->encrypted = packetCanUseEncryption();
     gameclient_links->publicAccess = 1;

@@ -1,4 +1,5 @@
 #include "testNetworkStats.h"
+#include <utilitieslib/network/netio_enet.h>
 #include "clientcomm/clientcomm.h"
 #include <stdio.h>
 #include "testUtil.h"
@@ -56,8 +57,17 @@ void calcNetworkStats(void) {
     }
 
     if (!firsttime) {
-        printf("Total bytes/pkts read/sent: %d(%d) / %d(%d)  lost r/s: %d/%d  RPA.size: %d sq.size: %d in %1.3gs\r", comm_link.totalBytesRead, comm_link.totalPacketsRead, comm_link.totalBytesSent, comm_link.totalPacketsSent, comm_link.lost_packet_recv_count, comm_link.lost_packet_sent_count, comm_link.reliablePacketsArray.size, qGetSize(comm_link.sendQueue2), timerElapsed(timer));
+	    printf("Total bytes/pkts read/sent: %d(%d) / %d(%d)  lost r/s: "
+		   "%d/%d  reliable backlog: %d send queue: %d in %1.3gs\r",
+		   comm_link.totalBytesRead, comm_link.totalPacketsRead,
+		   comm_link.totalBytesSent, comm_link.totalPacketsSent,
+		   comm_link.lost_packet_recv_count,
+		   comm_link.lost_packet_sent_count,
+		   netLinkReliableBacklogPackets(&comm_link),
+		   netLinkSendQueueDepth(&comm_link), timerElapsed(timer));
     } else {
-        printf("Total bytes/pkts read/sent: %d(%d) / %d(%d)\r", comm_link.totalBytesRead, comm_link.totalPacketsRead, comm_link.totalBytesSent, comm_link.totalPacketsSent);
+	    printf("Total bytes/pkts read/sent: %d(%d) / %d(%d)\r",
+		   comm_link.totalBytesRead, comm_link.totalPacketsRead,
+		   comm_link.totalBytesSent, comm_link.totalPacketsSent);
     }
 }

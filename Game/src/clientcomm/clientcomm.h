@@ -41,6 +41,14 @@ extern Packet *client_input_pak;
 extern NetLink comm_link;
 extern int g_showMapLoadingMessage;
 
+// One-line transport snapshot of comm_link (bytes each way, reassembly backlog,
+// link state). Diagnostic only.
+/* Return a diagnostic snapshot of the current map connection. The returned
+ * static buffer is borrowed and overwritten by the next call. Read shared
+ * network state from the client network thread; this function is not reentrant.
+ */
+char *commLinkStatusStr(void);
+
 #define START_INPUT_PACKET(pakx, cmdNumber) {            \
     Packet* pakx = client_input_pak;                    \
     START_BIT_COUNT(client_input_pak, #cmdNumber);        \

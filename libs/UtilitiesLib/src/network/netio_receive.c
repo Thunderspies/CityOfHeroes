@@ -2,6 +2,7 @@
 #include "utilitieslib/network/net_structdefs.h"
 #include "utilitieslib/network/net_packet.h"
 #include "utilitieslib/network/netio_core.h"
+#include "utilitieslib/network/netio_enet.h"
 #include "utilitieslib/network/net_socket.h"
 #include "utilitieslib/network/net_linklist.h"
 #include <zlib.h>
@@ -38,6 +39,16 @@ void lnkBatchReceive(NetLink* link){
     int gotRawPackets = 0;
 
     netioEnterCritical();
+
+    if (link->type == NLT_ENET) {
+	    // Drains all pending events on the host this link rides (a server
+	    // host queues packets onto every link riding it; each link's own
+	    // receiveQueue is then consumed by pktGet as usual).
+	    netEnetServiceLink(link, 0);
+	    netioLeaveCritical();
+	    return;
+    }
+
     // Continue grabbing packets from the socket until the receive queue is full.
     while(!qIsReallyFull(link->receiveQueue)){
         // Grab some data according to the type of the link.

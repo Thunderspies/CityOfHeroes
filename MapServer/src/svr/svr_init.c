@@ -164,7 +164,12 @@ static void svrInit()
     extern int g_assert_on_netlink_overflow;
     g_assert_on_netlink_overflow = 1; // We want to be delinked and assert if this happens
 
-    netLinkListAlloc(&net_links,100,sizeof(ClientLink),svrClientCallback);
+    // Sizes the memory pools, and via netInitEnet the ENet host's hard peer
+    // ceiling. This runs before the DbServer tells us whether we are a static
+    // zone or a mission map, so it has to cover the busiest zone; a mission map
+    // overpays by a few hundred KB of unused peer slots, which is the cheaper
+    // mistake by far -- a host at capacity refuses connects without a trace.
+    netLinkListAlloc(&net_links, 256, sizeof(ClientLink), svrClientCallback);
     net_links.destroyCallback = svrNetDisconnectCallback;
     if (!server_state.noEncryption)
         net_links.encrypted = 1;
@@ -172,12 +177,14 @@ static void svrInit()
     {
         for(server_state.udp_port = BASE_MAPSERVER_PORT;;server_state.udp_port++)
         {
-            if (netInit(&net_links,server_state.udp_port,server_state.tcp_port))
-                break;
+		if (netInitEnet(&net_links, server_state.udp_port,
+				server_state.tcp_port))
+			break;
         }
     }
     else
-        netInit(&net_links,server_state.udp_port,server_state.tcp_port);
+	    netInitEnet(&net_links, server_state.udp_port,
+			server_state.tcp_port);
     net_links.publicAccess = 1;
     NMAddLinkList(&net_links, svrHandleClientMsg);
 }

@@ -3,6 +3,7 @@
 #include "utilitieslib/network/net_version.h"
 #include "utilitieslib/network/net_masterlist.h"
 #include "utilitieslib/network/netio_core.h"
+#include "utilitieslib/network/netio_enet.h"
 #include "utilitieslib/network/crypt.h"
 #include "utilitieslib/network/sock.h"
 
@@ -69,6 +70,8 @@ void packetStartup(int maxSendPacketSize, int init_encryption)
         sendPacketBufferSize = maxSendPacketSize;
     }
 
+    netEnetStartup(sendPacketBufferSize);
+
     BitStreamBufferMemoryPool = createMemoryPoolNamed("PacketBuffer", __FILE__, __LINE__);
     initMemoryPool(BitStreamBufferMemoryPool, DEFAULT_PACKET_BUFFER_SIZE, 32);    // allocate 32 of 2k memory chunks.
     mpSetMode(BitStreamBufferMemoryPool, TurnOffAllFeatures);            // Don't zero out memory during allocation.
@@ -107,6 +110,7 @@ void packetShutdown()
     destroyMemoryPool(PacketMemoryPool);
     destroyMemoryBank(LargeBitStreamBufferBank);
     //destroyMemoryPool(PacketTimeoutGroupMemoryPool);
+    netEnetShutdown();
     netioLeaveCritical();
 }
 
