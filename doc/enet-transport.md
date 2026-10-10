@@ -12,6 +12,10 @@ reliable delivery so fragmentation does not depend on every datagram arriving.
 The existing DH/Blowfish handshake, protocol negotiation and application packet
 IDs remain in use. Ordinary transport connections tolerate a 60-second gap in
 acknowledgements; the existing `notimeout` setting extends that window.
+Server peers must complete the application handshake within five seconds of
+transport acceptance. Protocol pings, acknowledgements, application traffic and
+`notimeout` do not extend this admission deadline. Expiry immediately releases
+the ENet peer slot and reclaims the link through normal list maintenance.
 
 ## Transport audit
 

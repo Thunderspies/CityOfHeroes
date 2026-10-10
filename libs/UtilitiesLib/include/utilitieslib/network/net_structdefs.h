@@ -363,6 +363,7 @@ struct NetLink
     void *enet_host; // ENetHost*; the client host if owns_enet_host, else the
 		     // parent list's
     void *enet_peer; // ENetPeer*
+    U32 enet_handshake_start; // ENet milliseconds at server transport accept
     void *enet_sim_holdback; // Queue of outbound packets held by the
 			     // network-condition simulator
     U32 owns_enet_host

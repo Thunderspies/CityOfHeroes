@@ -21,6 +21,10 @@
 #include "utilitieslib/utils/utils.h"
 #include "utilitieslib/assert/assert.h"
 
+#undef _CRT_SECURE_NO_DEPRECATE
+#undef _CRT_SECURE_NO_WARNINGS
+#include <enet/enet.h>
+
 #include <stdio.h>
 #include <string.h>
 
@@ -282,6 +286,117 @@ static void sendEcho(int ordered, int reliable, int compress, const char *text)
 	pktSend(&pak, &s_clientLink);
 }
 
+/* A transport-only client must not reserve listener slots indefinitely, even
+ * while answering protocol pings and with the application's notimeout set.
+ */
+static void testIncompleteHandshakes(void)
+{
+	ENetHost *server = s_serverLinks.enet_host;
+	ENetHost *raw[ENET_PROTOCOL_MAXIMUM_PEER_ID] = {0};
+	ENetAddress address;
+	ENetEvent event;
+	int count = (int)server->peerCount;
+	int allocs = s_serverAllocs, destroys = s_serverDestroys;
+	int connected = 0, timer, i, activePings = 0;
+	enet_uint32 lastPing;
+
+	enet_address_set_host_ip(&address, "127.0.0.1");
+	address.port = TEST_PORT;
+	for (i = 0; i < count; i++) {
+		// Separate sockets model distinct clients; a shared
+		// address/port would deliberately replace the server's previous
+		// link.
+		raw[i] = enet_host_create(NULL, 1, 3, 0, 0);
+		CHECK(raw[i] && enet_host_connect(raw[i], &address, 3, 0),
+		      "handshake: transport-only peer created");
+		if (!raw[i])
+			break;
+	}
+	if (i < count) {
+		while (i-- > 0)
+			enet_host_destroy(raw[i]);
+		return;
+	}
+
+	timer = timerAlloc();
+	timerStart(timer);
+	while ((connected < count || s_serverLinks.links->size < count) &&
+	       timerElapsed(timer) < 3.0f) {
+		for (i = 0; i < count; i++)
+			while (enet_host_service(raw[i], &event, 0) > 0) {
+				if (event.type == ENET_EVENT_TYPE_CONNECT)
+					connected++;
+				if (event.type == ENET_EVENT_TYPE_RECEIVE)
+					enet_packet_destroy(event.packet);
+			}
+		NMMonitor(1);
+		Sleep(1);
+	}
+	CHECK(connected == count && server->connectedPeers == count &&
+		  s_serverLinks.links->size == count,
+	      "handshake: transport-only peers fill listener capacity");
+	for (i = 0; i < s_serverLinks.links->size; i++) {
+		NetLink *link = s_serverLinks.links->storage[i];
+		CHECK(!link->connected, "handshake: application not connected");
+		link->notimeout = 1;
+		netEnetApplyTimeouts(link);
+	}
+
+	lastPing = enet_time_get();
+	timerStart(timer);
+	while (timerElapsed(timer) < 6.0f) {
+		if ((enet_uint32)(enet_time_get() - lastPing) >= 100) {
+			for (i = 0; i < count; i++)
+				if (raw[i]->peers[0].state ==
+				    ENET_PEER_STATE_CONNECTED)
+					enet_peer_ping(&raw[i]->peers[0]);
+			lastPing = enet_time_get();
+		}
+		for (i = 0; i < count; i++)
+			while (enet_host_service(raw[i], &event, 0) > 0)
+				if (event.type == ENET_EVENT_TYPE_RECEIVE)
+					enet_packet_destroy(event.packet);
+		NMMonitor(1);
+		if (timerElapsed(timer) > 2.0f && timerElapsed(timer) < 3.0f) {
+			activePings = 0;
+			for (i = 0; i < count; i++) {
+				ENetPeer *peer = &raw[i]->peers[0];
+				enet_uint32 age =
+				    enet_time_get() - peer->lastReceiveTime;
+
+				if (peer->state == ENET_PEER_STATE_CONNECTED &&
+				    age < 500)
+					activePings++;
+			}
+		}
+		Sleep(1);
+	}
+	CHECK(activePings == count,
+	      "handshake: every incomplete peer answers protocol pings");
+	CHECK(s_serverAllocs == allocs + count &&
+		  s_serverDestroys == destroys + count &&
+		  s_serverLinks.links->size == 0,
+	      "handshake: incomplete links expire exactly once despite pings");
+	CHECK(server->connectedPeers == 0,
+	      "handshake: all transport slots reclaimed");
+	for (i = 0; i < count; i++)
+		enet_host_destroy(raw[i]);
+
+	CHECK(netConnect(&s_clientLink, "127.0.0.1", TEST_PORT, NLT_ENET, 15.0f,
+			 serverPumpIdleCallback),
+	      "handshake: normal client connects after capacity is reclaimed");
+	pumpBoth(5);
+	CHECK(s_serverLinks.links->size == 1 && s_clientLink.connected,
+	      "handshake: normal application handshake completes");
+	netSendDisconnect(&s_clientLink, 2.0f);
+	for (i = 0; i < 50 && s_serverLinks.links->size; i++)
+		NMMonitor(1);
+	CHECK(s_serverDestroys == destroys + count + 1 &&
+		  s_serverLinks.links->size == 0,
+	      "handshake: normal client teardown fires once");
+	timerFree(timer);
+}
+
 /* Main */
 
 int main(int argc, char **argv)
@@ -532,6 +647,8 @@ int main(int argc, char **argv)
 	CHECK(s_clientLink.reliablePacketsArray.size == 0 &&
 		  s_clientLink.ack_count == 0,
 	      "teardown: no legacy reliability state retained");
+	testIncompleteHandshakes();
+
 	netLinkListDisconnect(&s_serverLinks);
 	CHECK(!netEnetHostsRegistered(), "teardown: all ENet hosts released");
 

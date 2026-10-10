@@ -63,6 +63,9 @@ int netEnetConnect(NetLink *link, const char *ip_str, int port,
  * capacity with reconnect headroom; tcp_port optionally retains a TCP listener
  * (0 disables it). Returns 1 on success, 0 on bind/setup failure. nlist owns
  * the registered host and releases it through netLinkListDisconnect.
+ * Accepted peers must complete the application handshake within five seconds;
+ * service calls expire incomplete links even if transport traffic continues.
+ * notimeout does not extend this admission deadline.
  */
 int netInitEnet(NetLinkList *nlist, int enet_port, int tcp_port);
 

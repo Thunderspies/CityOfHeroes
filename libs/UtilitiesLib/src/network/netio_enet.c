@@ -57,6 +57,7 @@ static void netEnetSimRemove(NetLink *link, int discard);
 #define NETENET_MAX_PACKET_SIZE                                                \
 	(8 * 1024 * 1024) // sanity bound; biggest legit packets are ~1.5MB
 #define NETENET_CONNECT_SLICE_MS 250
+#define NETENET_HANDSHAKE_TIMEOUT_MS 5000
 
 // Slots reserved above a list's expected population (see netInitEnet). A peer
 // keeps its slot until its timeout expires, so disconnect/reconnect churn needs
@@ -710,6 +711,7 @@ static void netEnetHandleEvent(ENetHost *host, ENetEvent *event)
 			}
 			link->enet_host = host;
 			link->enet_peer = event->peer;
+			link->enet_handshake_start = enet_time_get();
 			event->peer->data = link;
 			netEnetApplyTimeouts(link);
 
@@ -775,6 +777,40 @@ static void netEnetHandleEvent(ENetHost *host, ENetEvent *event)
 	}
 }
 
+/* Transport acknowledgements prove reachability, not application admission.
+ * Reap incomplete server handshakes by age, regardless of packet activity or
+ * notimeout. Detach/reset the peer immediately to free its slot; the normal
+ * list maintenance owns callback invocation and link storage reclamation.
+ */
+static void netEnetExpireHandshakes(ENetHost *host)
+{
+	NetLinkList *nlist = netEnetHostOwner(host);
+	enet_uint32 now = enet_time_get();
+	int i;
+
+	if (!nlist)
+		return;
+	for (i = 0; i < nlist->links->size; i++) {
+		NetLink *link = nlist->links->storage[i];
+		ENetPeer *peer = link->enet_peer;
+
+		if (link->type != NLT_ENET || !peer || link->connected ||
+		    link->disconnected ||
+		    (enet_uint32)(now - link->enet_handshake_start) <
+			NETENET_HANDSHAKE_TIMEOUT_MS)
+			continue;
+
+		LOG(LOG_NET, LOG_LEVEL_IMPORTANT, 0,
+		    "ENet: application handshake timed out from %s:%d",
+		    makeIpStr(peer->address.host), (int)peer->address.port);
+		peer->data = NULL;
+		enet_peer_disconnect_now(peer, 0);
+		link->enet_peer = NULL;
+		link->logout_disconnect = 1;
+		netDiscardDeadLink(link);
+	}
+}
+
 /* Drains all pending events on a host. maxWaitMs > 0 blocks in
  * enet_host_service for up to that long waiting for the first event (servicing
  * ENet's own retransmit/ping timers while waiting); the rest of the drain never
@@ -788,6 +824,8 @@ static int netEnetServiceHost(ENetHost *host, int maxWaitMs)
 
 	if (!host)
 		return 0;
+
+	netEnetExpireHandshakes(host);
 
 	while (enet_host_service(host, &event, wait) > 0) {
 		wait = 0;
