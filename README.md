@@ -4,52 +4,15 @@ Heroes up until the game was cancelled in 2012. This is a fork of the Ourodev's
 repo that was intended for porting to the latest Visual C compiler, but it also
 has some minor feature additions.
 
-# Dependencies
-
-Most dependencies are vendored in the [3rdparty](3rdparty). Compile
-dependencies will be used automatically during compilation. Runtime
-dependencies include:
-
-## SQL Server
-
-https://www.microsoft.com/en-us/sql-server/sql-server-downloads
-
-Local development defaults to the bundled SQLite backend and needs no database
-service or ODBC driver. Copy the checked-in `data/server/db/servers.cfg` into
-your game data checkout and follow the [SQLite setup guide](DBServer/doc/sqlite-storage.md).
-SQL Server remains available for existing deployments; its dependencies follow.
-
-The character database can be stored in SQL Server. Any version of SQL Server seems
-to work. LocalDB is a lighter version of SQL Server that is recommended for
-local testing and private use. Instructions to install and administrate SQL
-Server is outside the scope of this guide.
-
-* From the provided link, download the free SQL Server Express installer
-* During installation, choose "Custom"
-* Click through the default install wizard options until prompted for features
-* On the features page, uncheck everything and then choose "LocalDB"
-* Continue with defaults until installation is complete
-
-NOTE: If you're prompted for something about "Azure", just disable that too
-
-## ODBC17
-
-https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver17
-
-The ODBC driver is used by the game server to interface with the SQL Server.
-It's basically the bridge between the game and the database. [ODBC 17
-x86](https://go.microsoft.com/fwlink/?linkid=2361647) is the only driver that's
-supported. Just download and run the installer.
-
 # Building
 
-Install Visual Studio 2026 with the **Desktop development with C++** workload,
-including the Windows SDK and CMake tools. The Visual Studio 2026 generator
-requires CMake 4.2 or newer. Git and network access are needed for CPM to fetch
-build dependencies on the first configure.
+Currently, only x86 (32-bit) builds are supported in Visual Studio 2026 or
+MSBuild. Release builds are for distributing publicly to players, and OptDebug
+builds enable developer mode for creating game content or map editing.
 
 From the repository root in a Visual Studio Developer PowerShell or command
-prompt, configure once and build either configuration:
+prompt, configure once and build either configuration. This project provides
+CMake presets for Release and OptDebug.
 
 ```text
 cmake --preset vs2026
@@ -83,7 +46,19 @@ game data in pigg archive files or in the data folder. The DBServer needs the
 minimal [servers.cfg](data/server/db/servers.cfg) config file to start it with
 "fake auth" mode that accepts a user without a password.
 
-First start the DBServer
+This project has a server configuration to use SQLite, which is only suitable
+for a single user to test locally. To host a server for multiple players,
+installing SQL Server and ODBC 17 is recommended, but that's outside the scope
+of this quickstart guide.
+
+Before starting the DBServer for the first time, or whenever the data or code
+is changed in some instances, templates must be generated, so it can create its
+own database schema.
+```batch
+start MapServer.exe -templates
+```
+
+If templates are already generated, start the DBServer
 ```batch
 start DBserver.exe
 ```
