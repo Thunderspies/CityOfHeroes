@@ -54,7 +54,8 @@ typedef enum ClientToAuthCmd {
     AQ_LOGOUT,
     AQ_LOGIN_MD5,
     AQ_SERVER_LIST_EXT,
-    AQ_LOGIN_MD5_MD5,
+    AQ_LOGIN_MD5_MD5, // Reserved legacy request 6
+    AQ_CREATE_ACCOUNT = 7,
 } ClientToAuthCmd;
 
 // auth->client
@@ -79,6 +80,7 @@ typedef enum AuthToClientCmd {
     AC_POSITIONINQUEUE                  = 13,
     AC_HANDOFFTOGAME                    = 14,
 
+    AC_CREATE_ACCOUNT_RESULT = 15,
     AuthToClientCmd_Count,
 } AuthToClientCmd;
 

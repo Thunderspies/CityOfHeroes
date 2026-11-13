@@ -5,6 +5,7 @@
 #include "DBConn.h"
 #include "resource.h"
 #include "Config.h"
+#include "account_creation_sql.h"
 
 #define RECOVERY_INTERVAL       30000
 #define GLOBALAUTH_REG_ENTRY        "Software\\NCSoft\\GLOBALAUTH"
@@ -19,7 +20,8 @@ DBEnv::DBEnv() : m_lock(eSystemSpinLock, 4000)
     m_pSqlPool = NULL;
     m_pFreeSqlPool = NULL;
     m_pFreeSqlPoolEnd = NULL;
-    m_connCount = 0;    
+    m_connCount = 0;
+    m_recoveryNeeded = FALSE;
 }
 
 
@@ -676,4 +678,90 @@ void CDBConn::ResetHtmt(void)
     m_paramNum = 1;
     SQLFreeStmt(m_stmt, SQL_UNBIND);
     SQLFreeStmt(m_stmt, SQL_CLOSE);
+}
+
+static bool drainCreationResults(SQLHSTMT stmt, int *result)
+{
+    SQLRETURN rc;
+    bool found = false;
+    do
+    {
+        SQLSMALLINT columns = 0;
+        if (!SQL_SUCCEEDED(SQLNumResultCols(stmt, &columns))) return false;
+        bool resultColumn = false;
+        if (columns == 1 && result)
+        {
+            SQLCHAR name[64];
+            SQLSMALLINT nameLength;
+            if (!SQL_SUCCEEDED(SQLDescribeColA(stmt, 1, name, sizeof(name), &nameLength, NULL, NULL, NULL, NULL))) return false;
+            resultColumn = strcmp((char *)name, "cox_account_creation_result") == 0;
+        }
+        if (columns)
+        {
+            while (SQL_SUCCEEDED(rc = SQLFetch(stmt)))
+            {
+                if (resultColumn)
+                {
+                    SQLINTEGER value;
+                    SQLLEN length;
+                    if (found || !SQL_SUCCEEDED(SQLGetData(stmt, 1, SQL_C_SLONG, &value, sizeof(value), &length)) || length != sizeof(value))
+                        return false;
+                    *result = value;
+                    found = true;
+                }
+            }
+            if (rc != SQL_NO_DATA) return false;
+        }
+        rc = SQLMoreResults(stmt);
+    } while (SQL_SUCCEEDED(rc));
+    return rc == SQL_NO_DATA && (!result || found);
+}
+
+AccountCreationResult CDBConn::CreateAccount(const char *name, const unsigned char hash[128])
+{
+    SQLLEN nameLength = (SQLLEN)strlen(name), hashLength = 128;
+    int result = ACCOUNT_CREATE_DATABASE_FAILURE;
+    bool ok = SQL_SUCCEEDED(SQLBindParameter(m_stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR,
+        14, 0, (SQLPOINTER)name, nameLength + 1, &nameLength));
+    ok = ok && SQL_SUCCEEDED(SQLBindParameter(m_stmt, 2, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_BINARY,
+        128, 0, (SQLPOINTER)hash, 128, &hashLength));
+    ok = ok && SQL_SUCCEEDED(SQLExecDirectA(m_stmt, (SQLCHAR *)ACCOUNT_CREATION_SQL, SQL_NTS));
+    ok = ok && drainCreationResults(m_stmt, &result);
+
+    // Even driver/transport errors must not leave an open transaction in the pool.
+    bool clean = SQL_SUCCEEDED(SQLFreeStmt(m_stmt, SQL_CLOSE));
+    clean = SQL_SUCCEEDED(SQLFreeStmt(m_stmt, SQL_UNBIND)) && clean;
+    clean = SQL_SUCCEEDED(SQLFreeStmt(m_stmt, SQL_RESET_PARAMS)) && clean;
+    if (clean)
+    {
+        SQLRETURN rc = SQLExecDirectA(m_stmt, (SQLCHAR *)"IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;", SQL_NTS);
+        clean = (SQL_SUCCEEDED(rc) || rc == SQL_NO_DATA) && drainCreationResults(m_stmt, NULL);
+    }
+    clean = SQL_SUCCEEDED(SQLFreeStmt(m_stmt, SQL_CLOSE)) && clean;
+    if (!clean)
+    {
+        // Disconnect to roll back on the server, then remove this session from
+        // the free list. Recovery replaces it instead of reusing uncertain state.
+        SQLFreeHandle(SQL_HANDLE_STMT, m_stmt);
+        SQLDisconnect(m_pCurSql->hdbc);
+        SQLFreeHandle(SQL_HANDLE_DBC, m_pCurSql->hdbc);
+        m_pCurSql->stmt = SQL_NULL_HSTMT;
+        m_pCurSql->hdbc = SQL_NULL_HDBC;
+        m_stmt = SQL_NULL_HSTMT;
+        m_pEnv->m_lock.Enter();
+        m_pCurSql->reset = TRUE;
+        if (!m_pEnv->m_recoveryNeeded)
+        {
+            m_pEnv->RegisterTimer(RECOVERY_INTERVAL);
+            m_pEnv->m_recoveryNeeded = TRUE;
+        }
+        m_pEnv->m_lock.Leave();
+    }
+    if (!ok || !clean || (result != ACCOUNT_CREATE_SUCCESS && result != ACCOUNT_CREATE_NAME_TAKEN))
+    {
+        // Driver diagnostics may contain bound values; never log them here.
+        logger.AddLog(LOG_ERROR, "Account creation database operation failed");
+        return ACCOUNT_CREATE_DATABASE_FAILURE;
+    }
+    return (AccountCreationResult)result;
 }

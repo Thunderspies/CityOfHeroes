@@ -26,7 +26,9 @@ void cryptHMAC_SHA1Destroy(HMAC_SHA1_Handle handle);
 void cryptSHA512Init();
 void cryptSHA512Update(const U8 *data, int len);
 void cryptSHA512Final(U64 hash[8]);
-void cryptRSAEncrypt(const U8 *modBuf, U32 modlen, const U8 *expBuf, U32 explen, U8 *plain, U32 plainSize, U8 *cipher, U32 *cipherSize);
+// RSA-OAEP-SHA1 using OS-seeded randomness. Buffers must not alias. Input cipherSize is the output capacity.
+// Returns nonzero on success; failure clears that capacity and sets cipherSize to zero. Does not throw.
+int cryptRSAEncrypt(const U8 *modBuf, U32 modlen, const U8 *expBuf, U32 explen, const void *plain, U32 plainSize, void *cipher, U32 *cipherSize);
 
 C_DECLARATIONS_END
 

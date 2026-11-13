@@ -6,6 +6,8 @@
 
 #include <cryptlib.h>
 #include <rng.h>
+#include <osrng.h>
+#include <misc.h>
 #include <dh.h>
 #include <hmac.h>
 #include <md5.h>
@@ -239,27 +241,57 @@ void cryptHMAC_SHA1Destroy(HMAC_SHA1_Handle hmac)
     delete hmac_sha1;
 }
 
-void cryptRSAEncrypt(const U8 *modBuf, U32 modlen, const U8 *expBuf, U32 explen, U8 *plain, U32 plainSize, U8 *cipher, U32 *cipherSize)
+int cryptRSAEncrypt(const U8 *modBuf, U32 modlen, const U8 *expBuf, U32 explen, const void *plain, U32 plainSize, void *cipher, U32 *cipherSize)
 {
-    RSAFunction publicKey;
-    Integer mod(modBuf, modlen);
-    Integer exp(expBuf, explen);
-    
-    publicKey.Initialize(mod, exp);
+    if (!cipherSize)
+        return 0;
+    const U32 capacity = *cipherSize;
+    *cipherSize = 0;
+    if (!cipher)
+        return 0;
 
-    RSAES_OAEP_SHA_Encryptor encryptor( publicKey );
-
-    U32 plainBlockSize = encryptor.FixedMaxPlaintextLength();
-    U32 cipherBlockSize = encryptor.FixedCiphertextLength();
-
-    assert( (plainSize + plainBlockSize-1) / plainBlockSize <= (*cipherSize/cipherBlockSize));
-
-    U32 plainNext = 0;
-    U32 cipherNext = 0;
-    for (; plainNext<plainSize; plainNext += plainBlockSize, cipherNext += cipherBlockSize)
-        encryptor.Encrypt(*rnd_gen, plain+plainNext, MIN(plainSize-plainNext, plainBlockSize), cipher+cipherNext);        
-
-    *cipherSize = cipherNext;
+    try
+    {
+        if (modBuf && modlen && expBuf && explen && plain && plainSize)
+        {
+            const Integer modulus(modBuf, modlen);
+            const Integer exponent(expBuf, explen);
+            // CryptoPP's public-key validation asserts on bad input in debug builds.
+            // Reject malformed peer-supplied parameters before invoking RSA operations.
+            if (modulus > Integer::One() && modulus.IsOdd() && exponent > Integer::One() && exponent.IsOdd() && exponent < modulus)
+            {
+                RSAFunction publicKey;
+                publicKey.Initialize(modulus, exponent);
+                RSAES_OAEP_SHA_Encryptor encryptor(publicKey);
+                const size_t plainBlockSize = encryptor.FixedMaxPlaintextLength();
+                const size_t cipherBlockSize = encryptor.FixedCiphertextLength();
+                const size_t blocks = plainBlockSize ? 1 + (plainSize - 1) / plainBlockSize : 0;
+                if (blocks && cipherBlockSize && blocks <= capacity / cipherBlockSize)
+                {
+                    AutoSeededRandomPool rng;
+                    const byte *plainBytes = static_cast<const byte *>(plain);
+                    byte *cipherBytes = static_cast<byte *>(cipher);
+                    size_t plainOffset = 0;
+                    size_t cipherOffset = 0;
+                    while (plainOffset < plainSize)
+                    {
+                        const size_t length = MIN(plainSize - plainOffset, plainBlockSize);
+                        encryptor.Encrypt(rng, plainBytes + plainOffset, length, cipherBytes + cipherOffset);
+                        plainOffset += length;
+                        cipherOffset += cipherBlockSize;
+                    }
+                    *cipherSize = static_cast<U32>(cipherOffset);
+                    return 1;
+                }
+            }
+        }
+    }
+    catch (...)
+    {
+        // This C interface reports key, entropy, allocation, and encryption failures uniformly.
+    }
+    SecureWipeBuffer(static_cast<byte *>(cipher), capacity);
+    return 0;
 }
 
 C_DECLARATIONS_END

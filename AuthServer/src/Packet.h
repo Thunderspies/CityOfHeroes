@@ -24,7 +24,8 @@ public:
 class CPacketServerEx : public CIOObject
 {
 public:
-    typedef bool (*ServerPacketFuncEx)(CIOSocket* , const unsigned char* packet);
+    typedef bool (*ServerPacketFuncEx)(CSocketServerEx* , const unsigned char* packet, size_t length);
+    size_t m_packetLength; // Immutable body length, excluding opcode
 
     CIOSocket *m_pSocket;
     CIOBuffer   *m_pBuf;

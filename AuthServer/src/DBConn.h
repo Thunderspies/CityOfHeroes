@@ -12,6 +12,7 @@
 #include "GlobalAuth.h"
 #include "IOObject.h"
 #include "Lock.h"
+#include "auth/account_creation.h"
 
 #define MAX_CONN_STR 256
 
@@ -69,6 +70,10 @@ public:
 
     CDBConn(DBEnv *env);
     ~CDBConn();
+
+    // Insert a validated lowercase account and 128-byte PHP hash atomically.
+    // Consumes all results; failures roll back, and unusable connections are discarded.
+    AccountCreationResult CreateAccount(const char *name, const unsigned char hash[128]);
 
     bool SetAutoCommit(bool autoCommit);
     bool EndTran(SQLSMALLINT compType);
