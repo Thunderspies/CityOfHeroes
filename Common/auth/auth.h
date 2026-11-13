@@ -55,6 +55,16 @@ void authPutStr(AuthPacket *pak,char *str);
 int authSocket();
 AuthPacket *authAllocPacket(int type);
 int authConnect(char *ip_name,int port);
+#if CLIENT
+/* Main-thread-only nonblocking connection to a resolved IPv4 address in network
+ * byte order. Start requires no existing auth connection and returns 1 when
+ * connected, 0 while connecting, or -1 on failure. Poll has the same results;
+ * polling without a socket fails. These helpers perform no DNS or waits.
+ * authDisconnect cancels a pending connection. The caller owns its deadline.
+ */
+int authConnectStart(U32 address, int port);
+int authConnectPoll(void);
+#endif
 void authDisconnect();
 void authSetKey(U32 key,int set_global_auth);
 void authFakeIt();

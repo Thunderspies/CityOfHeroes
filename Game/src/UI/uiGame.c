@@ -104,6 +104,13 @@ static int gPrevMenu = -1;        // NOT RELIABLE, for development
 static U32 s_LastInteractTime = 0;
 static bool s_bMadeAFKDialog = false;
 
+static void setCurrentMenu(int menu)
+{
+    if (gCurrentMenu == MENU_LOGIN && menu != MENU_LOGIN)
+        loginCancelAccountCreation();
+    gCurrentMenu = menu;
+}
+
 // Menu Management
 //------------------------------------------------------------------------------------------------------------------
 //
@@ -117,7 +124,7 @@ static int begin_game( int send_character )
 
     resetCharacterCreationFlag();  //clear the current creation information
     toggle_3d_game_modes( SHOW_GAME );
-    gCurrentMenu = MENU_GAME;
+    setCurrentMenu(MENU_GAME);
     newFeatures_queryWebData();
     memtrack_mark(0, getMenuName(gCurrentMenu));
     return TRUE;
@@ -310,14 +317,14 @@ void returnToGame(void)
 
 void uigameDemoForceMenu() // BER - if would be safe to say I don't know what I'm doing here
 {
-    gCurrentMenu = MENU_GAME;
+    setCurrentMenu(MENU_GAME);
     memtrack_mark(0, getMenuName(gCurrentMenu));
 }
 
 void forceLoginMenu()
 {
     gNextMenu = MENU_LOGIN;
-    gCurrentMenu = MENU_LOGIN;
+    setCurrentMenu(MENU_LOGIN);
     memtrack_mark(0, getMenuName(gCurrentMenu));
 }
 
@@ -499,7 +506,7 @@ void serve_menus()
      if( gNextMenu >= 0 )
     {
         gPrevMenu = gCurrentMenu;    // not reliable, for development purposes
-         gCurrentMenu = gNextMenu;
+        setCurrentMenu(gNextMenu);
         memtrack_mark(0, getMenuName(gCurrentMenu));
         collisions_off_for_rest_of_frame = 1;
         gLastDownX = gLastDownX = 0;
@@ -510,7 +517,7 @@ void serve_menus()
  
     if( control_state.server_state->shell_disabled )
     {
-        gCurrentMenu = MENU_GAME;
+        setCurrentMenu(MENU_GAME);
         memtrack_mark(0, getMenuName(gCurrentMenu));
         gNextMenu = -1;
     }
@@ -630,7 +637,7 @@ void serve_menus()
 
     if( gNextMenu >= 0 ) //handle menu changes from dialog boxes
     {
-        gCurrentMenu = gNextMenu;
+        setCurrentMenu(gNextMenu);
         memtrack_mark(0, getMenuName(gCurrentMenu));
         collisions_off_for_rest_of_frame = 1;
         gLastDownX = gLastDownX = 0;

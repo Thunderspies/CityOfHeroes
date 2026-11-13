@@ -43,6 +43,7 @@ public:
     int numServerIntThread;
 
     bool encrypt;
+    bool AllowAccountCreation; // Disabled unless explicitly configured
     int PacketSizeType;
     int ProtocolVer;
     bool OneTimeLogOut;

@@ -3,6 +3,7 @@
 #include <utilitieslib/network/rsa.h>
 #include <utilitieslib/language/AppLocale.h>
 #include "UI/uiQuit.h"
+#include "UI/uiConsole.h"
 #include <utilitieslib/components/EString.h>
 #include "graphics/ttFont.h"
 #include <utilitieslib/utils/StringUtil.h>
@@ -180,6 +181,20 @@ static SMFBlock *s_labelPassword;
 static SMFBlock *s_editPassword;
 static SMFBlock *s_linkToAccount;
 
+typedef enum LoginFormState
+{
+    LOGIN_FORM_LOGIN,
+    LOGIN_FORM_CREATE_DETAILS,
+    LOGIN_FORM_CONFIRM_PASSWORD,
+    LOGIN_FORM_CREATE_PENDING,
+} LoginFormState;
+
+static LoginFormState s_loginFormState = LOGIN_FORM_LOGIN;
+static char s_creationName[ACCOUNT_CREATE_NAME_BYTES];
+static U8 s_creationPassword[MAX_PASSWORD_LEN];
+static SMFBlock *s_loginResumeFocus;
+static int s_loginResumeCursor;
+
 static ToolTip gServerTips[MAX_SERVER_COUNT] = {0};
 
 static int s_SendInfoToTransgaming = true;
@@ -240,6 +255,8 @@ void resetCharacterCreationFlag(void)
 void restartLoginScreen()
 {
     Entity *e = playerPtr();
+
+    loginCancelAccountCreation();
 
     s_loggedIn_serverSelected = LOGIN_STAGE_START;
     s_LoginInit = 0;
@@ -3934,6 +3951,196 @@ int loginToAuthServer(int retry)
     return TRUE;
 }
 
+// Copies the current fields without truncation; failure clears both output buffers.
+static bool loginCopyCredentials(char *name, size_t nameBytes, char *password, size_t passwordBytes);
+
+static void loginParseField(SMFBlock *field)
+{
+    if (field->pBlock)
+        sm_DestroyBlock(field->pBlock);
+    field->pBlock = smf_CreateAndParse(field->rawString, field);
+    // A new tree has no layout even when the text and display width are unchanged.
+    field->iLastWidth = -1;
+    field->iLastHeight = -1;
+}
+
+static bool loginOwnsField(const SMFBlock *field)
+{
+    return field && (field == s_editAccount || field == s_editPassword);
+}
+
+static void loginSuspendFormInput(void)
+{
+    // SMF queues keystrokes before loginFrame runs. Merely disabling display
+    // interaction leaves those edits queued to enter the form after a modal closes.
+    // The insertion queue belongs to the selected end pane; leave other panes alone.
+    if (!loginOwnsField(smf_selectionEndPane))
+        return;
+
+    s_loginResumeFocus = smf_selectionEndPane;
+    s_loginResumeCursor = smf_GetCursorIndex();
+    if (smfEdit_currentCharactersToInsert)
+    {
+        accountCreationClear(smfEdit_currentCharactersToInsert, estrGetCapacity((const char **)&smfEdit_currentCharactersToInsert));
+        estrClear(&smfEdit_currentCharactersToInsert);
+    }
+    smfEdit_currentCommand = SMFEditCommand_None;
+    smfSearch_currentCommand = SMFSearchCommand_None;
+    smf_ClearSelection();
+}
+
+static void loginShowFormMessage(const char *message)
+{
+    loginSuspendFormInput();
+    s_loginResumeFocus = s_editPassword;
+    s_loginResumeCursor = 0;
+    dialogStd(DIALOG_OK, message, NULL, NULL, NULL, NULL, DLGFLAG_NO_TRANSLATE);
+}
+
+static void loginClearPasswordField(void)
+{
+    if (!s_editPassword)
+        return;
+
+    if (smf_selectionEndPane == s_editPassword)
+        loginSuspendFormInput();
+    s_loginResumeFocus = NULL;
+    smf_OnLostFocus(s_editPassword, NULL);
+    if (s_editPassword->rawString)
+        accountCreationClear(s_editPassword->rawString, estrGetCapacity((const char **)&s_editPassword->rawString));
+    if (s_editPassword->outputString)
+        accountCreationClear(s_editPassword->outputString, estrGetCapacity((const char **)&s_editPassword->outputString));
+    smf_SetRawText(s_editPassword, "", false);
+    loginParseField(s_editPassword);
+}
+
+static void loginSetPasswordField(const char *password)
+{
+    size_t i;
+    char *encoded = NULL;
+
+    loginClearPasswordField();
+    // Encode every space so SMF does not collapse repeated whitespace. Encode
+    // punctuation before parsing so literal strings such as "<b>" stay literal.
+    for (i = 0; password[i]; ++i)
+    {
+        switch (password[i])
+        {
+            case ' ': estrConcatStaticCharArray(&encoded, "&nbsp;"); break;
+            case '<': estrConcatStaticCharArray(&encoded, "&lt;"); break;
+            case '>': estrConcatStaticCharArray(&encoded, "&gt;"); break;
+            case '&': estrConcatStaticCharArray(&encoded, "&amp;"); break;
+            case '%': estrConcatStaticCharArray(&encoded, "&#37;"); break;
+            default: estrConcatChar(&encoded, password[i]); break;
+        }
+    }
+    smf_SetRawText(s_editPassword, encoded ? encoded : "", false);
+    loginParseField(s_editPassword);
+    if (encoded)
+    {
+        accountCreationClear(encoded, estrGetCapacity((const char **)&encoded));
+        estrDestroy(&encoded);
+    }
+}
+
+static void loginSetFormState(LoginFormState state)
+{
+    s_loginFormState = state;
+    if (s_editAccount)
+        s_editAccount->editMode = state == LOGIN_FORM_CONFIRM_PASSWORD ? SMFEditMode_ReadOnly : SMFEditMode_ReadWrite;
+    if (s_editPassword)
+    {
+        // SMF also limits encoded raw length to four times inputLimit. Give
+        // creation passwords room for entities, then validate their true length.
+        s_editPassword->inputLimit = MAX_PASSWORD_LEN;
+    }
+    if (s_labelPassword)
+        smf_SetRawText(s_labelPassword, state == LOGIN_FORM_CONFIRM_PASSWORD ? "Confirm Password" : textStd("PasswordString"), false);
+}
+
+static void loginClearAccountCreation(void)
+{
+    accountCreationClear(s_creationPassword, sizeof(s_creationPassword));
+    accountCreationClear(s_creationName, sizeof(s_creationName));
+    accountCreationClear(g_achPassword, sizeof(g_achPassword));
+    cryptStore(g_achPassword, g_achPassword, sizeof(g_achPassword));
+    loginClearPasswordField();
+    loginSetFormState(LOGIN_FORM_LOGIN);
+}
+
+void loginCancelAccountCreation(void)
+{
+    if (s_loginFormState == LOGIN_FORM_LOGIN)
+        return;
+    if (s_loginFormState == LOGIN_FORM_CREATE_PENDING)
+        authCreateAccountCancel();
+    loginClearAccountCreation();
+}
+
+static void loginFinishAccountCreation(AuthCreateAccountResult result)
+{
+    // Poll/begin has already disconnected and restored the previous auth state.
+    // Preserve only the account name in the form for the subsequent normal login.
+    smf_SetRawText(s_editAccount, s_creationName, false);
+    loginParseField(s_editAccount);
+    loginClearAccountCreation();
+    loginShowFormMessage(authCreateAccountResultMessage(result));
+}
+
+static void loginSubmitAccountCreation(void)
+{
+    char name[MAX_PASSWORD_LEN] = { 0 };
+    char password[MAX_PASSWORD_LEN] = { 0 };
+    char originalPassword[MAX_PASSWORD_LEN] = { 0 };
+    char lowercaseName[ACCOUNT_CREATE_NAME_BYTES] = { 0 };
+    AuthCreateAccountResult result;
+
+    if (!loginCopyCredentials(name, sizeof(name), password, sizeof(password)))
+    {
+        loginShowFormMessage(authCreateAccountResultMessage(AUTH_CREATE_INVALID_PASSWORD));
+        goto cleanup;
+    }
+    if (s_loginFormState == LOGIN_FORM_CREATE_DETAILS)
+    {
+        result = (AuthCreateAccountResult)accountCreationValidate(name, password, lowercaseName);
+        if (result != AUTH_CREATE_SUCCESS)
+        {
+            loginShowFormMessage(authCreateAccountResultMessage(result));
+            goto cleanup;
+        }
+        strcpy(s_creationName, name);
+        memcpy(originalPassword, password, sizeof(originalPassword));
+        cryptStore(s_creationPassword, originalPassword, sizeof(s_creationPassword));
+        loginClearPasswordField();
+        smf_OnLostFocus(s_editAccount, NULL);
+        loginSetFormState(LOGIN_FORM_CONFIRM_PASSWORD);
+        smf_SetCursor(s_editPassword, 0);
+    }
+    else if (s_loginFormState == LOGIN_FORM_CONFIRM_PASSWORD)
+    {
+        cryptRetrieve(originalPassword, s_creationPassword, sizeof(originalPassword));
+        if (strcmp(password, originalPassword) != 0)
+        {
+            loginClearPasswordField();
+            loginShowFormMessage("The passwords do not match. Enter the password again to confirm it.");
+            goto cleanup;
+        }
+        loginClearPasswordField();
+        smf_OnLostFocus(s_editAccount, NULL);
+        loginSetFormState(LOGIN_FORM_CREATE_PENDING);
+        result = authCreateAccountBegin(s_creationName, originalPassword);
+        accountCreationClear(s_creationPassword, sizeof(s_creationPassword));
+        if (result != AUTH_CREATE_PENDING)
+            loginFinishAccountCreation(result);
+    }
+
+cleanup:
+    accountCreationClear(name, sizeof(name));
+    accountCreationClear(password, sizeof(password));
+    accountCreationClear(originalPassword, sizeof(originalPassword));
+    accountCreationClear(lowercaseName, sizeof(lowercaseName));
+}
+
 static void loginFrame()
 {
     static float scale = 0;
@@ -3950,6 +4157,37 @@ static void loginFrame()
     int loginButtonFlags;
     static HybridElement sButtonLogin = {0, "LoginString"};
     static HybridElement sButtonExit = {0, "ExitString"};
+    static HybridElement sButtonCreate = { 0, "Create" };
+    static HybridElement sButtonMode = { 0, "Create Account" };
+    static HybridElement sButtonBack = { 0, "Back" };
+    bool canInteract = !conVisible() && !dialogInQueue(NULL, NULL, NULL);
+    bool canSubmit;
+
+    if (s_loginFormState == LOGIN_FORM_CREATE_PENDING)
+    {
+        AuthCreateAccountResult result = authCreateAccountPoll();
+        if (result != AUTH_CREATE_PENDING)
+        {
+            loginFinishAccountCreation(result);
+            canInteract = false;
+        }
+    }
+    sButtonCreate.text_flags = sButtonMode.text_flags = sButtonBack.text_flags = NO_MSPRINT;
+    if (!canInteract || s_loginFormState == LOGIN_FORM_CREATE_PENDING)
+    {
+        loginSuspendFormInput();
+    }
+    else if (s_loginResumeFocus && !smf_selectionEndPane)
+    {
+        SMFBlock *field = s_loginResumeFocus;
+        int cursor = s_loginResumeCursor;
+        s_loginResumeFocus = NULL;
+        if (field != s_editAccount || s_loginFormState != LOGIN_FORM_CONFIRM_PASSWORD)
+            smf_SetCursor(field, cursor);
+        // Do not reuse the key/click that dismissed a popup or console as a
+        // submit action in the newly focused form during this frame.
+        canInteract = false;
+    }
 
     textScale = screenScaleX = screenScaleY = 1.f;
 
@@ -3986,6 +4224,20 @@ static void loginFrame()
         LOGIN_WD * UIScale, (LOGIN_HT + 200) * UIScale);
     //drawBox(&box, 20, 0xff0000ff, 0);
 
+    font(&hybridbold_18);
+    font_color(LOGIN_FOREGROUND_TEXT_COLOR, LOGIN_FOREGROUND_TEXT_COLOR);
+    cprntEx(xPosition(screenScaleX, screenScaleY, LOGIN_X + LOGIN_WD / 2),
+        yPosition(screenScaleX, screenScaleY, LOGIN_Y - 18), 20, textScale, textScale, CENTER_X | NO_MSPRINT,
+        s_loginFormState == LOGIN_FORM_LOGIN ? "Login" : "Create Account");
+    if (s_loginFormState == LOGIN_FORM_CREATE_PENDING)
+    {
+        font(&hybridbold_12);
+        cprntEx(xPosition(screenScaleX, screenScaleY, LOGIN_X + LOGIN_WD / 2),
+            yPosition(screenScaleX, screenScaleY, LOGIN_Y + 110), 20, textScale, textScale, CENTER_X | NO_MSPRINT,
+            "Creating account... Please wait.");
+        return;
+    }
+
 
     //*****************************************
     // Account Name Text Entry Field
@@ -3994,104 +4246,115 @@ static void loginFrame()
     gTextAttr_LightHybridBlueHybrid12.piScale = (int *)(int)(1.f*SMF_FONT_SCALE*textScale);
 
     gTextAttr_WhiteTitle24Italics.piColor = (int *)LOGIN_FOREGROUND_TEXT_COLOR;  //set custom color depending on current artist
-    smf_Display(s_labelAccount, 
-        xPosition(screenScaleX, screenScaleY, LOGIN_X), 
+    smf_Display(s_labelAccount,
+        xPosition(screenScaleX, screenScaleY, LOGIN_X),
         yPosition(screenScaleX, screenScaleY, LOGIN_Y + 14), 20,
         LOGIN_WD * UIScale, LOGIN_HT * UIScale, 0, 0, &gTextAttr_WhiteTitle24Italics, 0);
     gTextAttr_WhiteTitle24Italics.piColor = (int *)0xffffffff;  //revert color
 
     display_sprite(typefield, xPosition(screenScaleX, screenScaleY, LOGIN_X),
         yPosition(screenScaleX, screenScaleY, LOGIN_Y + 52), 10, UIScale, UIScale, CLR_WHITE);
-    smf_SetScissorsBox(s_editAccount, 
+    smf_SetScissorsBox(s_editAccount,
         xPosition(screenScaleX, screenScaleY, LOGIN_X + R12),
         yPosition(screenScaleX, screenScaleY, LOGIN_Y + 60),
         LOGIN_WD * UIScale, LOGIN_HT * UIScale);
-    smf_Display(s_editAccount,
-        xPosition(screenScaleX, screenScaleY, LOGIN_X + R12), 
+    smf_DisplayEx(s_editAccount,
+        xPosition(screenScaleX, screenScaleY, LOGIN_X + R12),
         yPosition(screenScaleX, screenScaleY, LOGIN_Y + 60), 20,
-        LOGIN_WD * UIScale, LOGIN_HT * UIScale, 0, 0, &gTextAttr_LightHybridBlueHybrid12, 0);
+        LOGIN_WD * UIScale, LOGIN_HT * UIScale, canInteract && s_loginFormState != LOGIN_FORM_CONFIRM_PASSWORD,
+        0, 0, &gTextAttr_LightHybridBlueHybrid12, 0);
 
     //*****************************************
     // Remember Account Name Radio Button
     //*****************************************
 
-    BuildCBox(&box,
-        xPosition(screenScaleX, screenScaleY, LOGIN_X),
-        yPosition(screenScaleX, screenScaleY, LOGIN_Y + 92),
-        LOGIN_WD * UIScale, 15*UIScale);
-    if( mouseCollision(&box) )
+    if (s_loginFormState == LOGIN_FORM_LOGIN)
     {
-        if( mouseClickHit( &box, MS_LEFT) )
+        BuildCBox(&box,
+            xPosition(screenScaleX, screenScaleY, LOGIN_X),
+            yPosition(screenScaleX, screenScaleY, LOGIN_Y + 92),
+            LOGIN_WD * UIScale, 15*UIScale);
+        if( canInteract && mouseCollision(&box) )
         {
-            g_iDontSaveName = !g_iDontSaveName;
-            saveAutoResumeInfoToRegistry();
+            if( mouseClickHit( &box, MS_LEFT) )
+            {
+                g_iDontSaveName = !g_iDontSaveName;
+                saveAutoResumeInfoToRegistry();
+            }
         }
+
+        if( g_iDontSaveName )
+            mark = atlasLoadTexture( "loginscreen_checkfield.tga" );
+        else
+            mark = atlasLoadTexture( "loginscreen_checkfield_selected.tga" );
+
+        gTextAttr_WhiteHybridBold12.piColor = (int *)LOGIN_FOREGROUND_TEXT_COLOR;  //set custom color depending on current artist
+        smf_Display(s_rememberAccount,
+            xPosition(screenScaleX, screenScaleY, LOGIN_X),
+            yPosition(screenScaleX, screenScaleY, LOGIN_Y + 92), 20,
+            LOGIN_WD * UIScale, LOGIN_HT * UIScale, 0, 0, &gTextAttr_WhiteHybridBold12, 0);
+        gTextAttr_WhiteHybridBold12.piColor = (int *)0xffffffff;  //revert color
+        display_sprite(mark,
+            xPosition(screenScaleX, screenScaleY, LOGIN_X + LOGIN_WD / 2) - 40 * textScale
+            - str_wd(&hybridbold_12, textScale, textScale, textStd("RememberAccountName")) / 2 - mark->width / 2 * textScale,
+            yPosition(screenScaleX, screenScaleY, LOGIN_Y + 100) - mark->height / 2 * textScale, 20, textScale, textScale,
+            CLR_WHITE );
     }
-
-    if( g_iDontSaveName )
-        mark = atlasLoadTexture( "loginscreen_checkfield.tga" );
-    else
-        mark = atlasLoadTexture( "loginscreen_checkfield_selected.tga" );
-
-    gTextAttr_WhiteHybridBold12.piColor = (int *)LOGIN_FOREGROUND_TEXT_COLOR;  //set custom color depending on current artist
-    smf_Display(s_rememberAccount, 
-        xPosition(screenScaleX, screenScaleY, LOGIN_X), 
-        yPosition(screenScaleX, screenScaleY, LOGIN_Y + 92), 20,
-        LOGIN_WD * UIScale, LOGIN_HT * UIScale, 0, 0, &gTextAttr_WhiteHybridBold12, 0);
-    gTextAttr_WhiteHybridBold12.piColor = (int *)0xffffffff;  //revert color
-    display_sprite(mark,
-        xPosition(screenScaleX, screenScaleY, LOGIN_X + LOGIN_WD / 2) - 40 * textScale
-        - str_wd(&hybridbold_12, textScale, textScale, textStd("RememberAccountName")) / 2 - mark->width / 2 * textScale,
-        yPosition(screenScaleX, screenScaleY, LOGIN_Y + 100) - mark->height / 2 * textScale, 20, textScale, textScale,
-        CLR_WHITE );
 
     //*****************************************
     // Account Password Text Entry Field
     //*****************************************
 
     gTextAttr_WhiteTitle24Italics.piColor = (int *)LOGIN_FOREGROUND_TEXT_COLOR;  //set custom color depending on current artist
-    smf_Display(s_labelPassword, 
-        xPosition(screenScaleX, screenScaleY, LOGIN_X), 
+    smf_Display(s_labelPassword,
+        xPosition(screenScaleX, screenScaleY, LOGIN_X),
         yPosition(screenScaleX, screenScaleY, LOGIN_Y + 127), 20,
         LOGIN_WD * UIScale, LOGIN_HT * UIScale, 0, 0, &gTextAttr_WhiteTitle24Italics, 0);
     gTextAttr_WhiteTitle24Italics.piColor = (int *)0xffffffff;  //revert color
 
-    display_sprite(typefield, xPosition(screenScaleX, screenScaleY, LOGIN_X), 
+    display_sprite(typefield, xPosition(screenScaleX, screenScaleY, LOGIN_X),
         yPosition(screenScaleX, screenScaleY, LOGIN_Y + 165), 10, UIScale, UIScale, CLR_WHITE);
-    smf_SetScissorsBox(s_editPassword, 
-        xPosition(screenScaleX, screenScaleY, LOGIN_X + R12), 
+    smf_SetScissorsBox(s_editPassword,
+        xPosition(screenScaleX, screenScaleY, LOGIN_X + R12),
         yPosition(screenScaleX, screenScaleY, LOGIN_Y + 173),
         LOGIN_WD * UIScale, LOGIN_HT * UIScale);
-    smf_Display(s_editPassword, 
-        xPosition(screenScaleX, screenScaleY, LOGIN_X + R12), 
+    smf_DisplayEx(s_editPassword,
+        xPosition(screenScaleX, screenScaleY, LOGIN_X + R12),
         yPosition(screenScaleX, screenScaleY, LOGIN_Y + 173), 20,
-        LOGIN_WD * UIScale, LOGIN_HT * UIScale, 0, 0, &gTextAttr_LightHybridBlueHybrid12, 0);
+        LOGIN_WD * UIScale, LOGIN_HT * UIScale, canInteract, 0, 0, &gTextAttr_LightHybridBlueHybrid12, 0);
 
     //*****************************************
     // Buttons and Input Handling
     //*****************************************
 
-    if (inpEdge(INP_RETURN))
-    {
-        int stuff = strlen(s_editAccount->outputString);
-        stuff = strlen(s_editPassword->outputString);
-        sndPlay("N_Select", SOUND_GAME);
-    }
-
     loginButtonX = xPosition(screenScaleX, screenScaleY, LOGIN_X + LOGIN_WD - LOGIN_BUTTON_WD / 2 - 1);
     loginButtonFlags = HYBRID_BAR_BUTTON_NO_OUTLINE;
-    if (!strlen(s_editAccount->outputString) || !strlen(s_editPassword->outputString))
+    canSubmit = canInteract && s_editAccount->outputString && s_editAccount->outputString[0] &&
+        s_editPassword->outputString && s_editPassword->outputString[0];
+    if (!canSubmit)
     {
         loginButtonFlags |= HYBRID_BAR_BUTTON_DISABLED;
     }
 
-    if (D_MOUSEHIT == drawHybridBarButton(&sButtonLogin, loginButtonX, yPosition(screenScaleX, screenScaleY, LOGIN_BUTTON_Y), 20.0f, LOGIN_BUTTON_WD, UIScale*0.9f, 0x648d0cff, loginButtonFlags)
-        || inpEdge( INP_RETURN )
-        || game_state.editnpc && strlen(s_editAccount->outputString) && strlen(s_editPassword->outputString))
+    if ((D_MOUSEHIT == drawHybridBarButton(s_loginFormState == LOGIN_FORM_LOGIN ? &sButtonLogin : &sButtonCreate,
+            loginButtonX, yPosition(screenScaleX, screenScaleY, LOGIN_BUTTON_Y), 20.0f,
+            LOGIN_BUTTON_WD, UIScale * 0.9f, 0x648d0cff, loginButtonFlags)
+        || inpEdge(INP_RETURN) || (game_state.editnpc && s_loginFormState == LOGIN_FORM_LOGIN)) && canSubmit)
     {
         char *estr;
 
-        dialogClearQueue( 0 );
+        sndPlay("N_Select", SOUND_GAME);
+        mouseClear();
+        if (s_loginFormState != LOGIN_FORM_LOGIN)
+        {
+            loginSubmitAccountCreation();
+            return;
+        }
+        if (strlen(s_editPassword->outputString) > 16)
+        {
+            loginShowFormMessage("Login passwords may contain at most 16 characters.");
+            return;
+        }
 
         smf_OnLostFocus(s_editAccount, NULL);
         smf_OnLostFocus(s_editPassword, NULL);
@@ -4121,29 +4384,68 @@ static void loginFrame()
     }
 
     exitButtonX = xPosition(screenScaleX, screenScaleY, LOGIN_X + LOGIN_BUTTON_WD / 2);
-    if( D_MOUSEHIT == drawHybridBarButton(&sButtonExit, exitButtonX, 
-        yPosition(screenScaleX, screenScaleY, LOGIN_BUTTON_Y), 20.0f, 
-        LOGIN_BUTTON_WD, UIScale*0.9f, 0x9c2206ff,
-        HYBRID_BAR_BUTTON_NO_OUTLINE))
+    if (D_MOUSEHIT == drawHybridBarButton(s_loginFormState == LOGIN_FORM_CONFIRM_PASSWORD ? &sButtonBack : &sButtonExit, exitButtonX,
+        yPosition(screenScaleX, screenScaleY, LOGIN_BUTTON_Y), 20.0f,
+        LOGIN_BUTTON_WD, UIScale * 0.9f, 0x9c2206ff,
+        HYBRID_BAR_BUTTON_NO_OUTLINE | (canInteract ? 0 : HYBRID_BAR_BUTTON_DISABLED)) && canInteract)
     {
         sndPlay("N_Deselect", SOUND_GAME);
+        if (s_loginFormState == LOGIN_FORM_CONFIRM_PASSWORD)
+        {
+            char password[MAX_PASSWORD_LEN] = { 0 };
+            mouseClear();
+            cryptRetrieve(password, s_creationPassword, sizeof(password));
+            loginSetPasswordField(password);
+            accountCreationClear(password, sizeof(password));
+            accountCreationClear(s_creationPassword, sizeof(s_creationPassword));
+            accountCreationClear(s_creationName, sizeof(s_creationName));
+            loginSetFormState(LOGIN_FORM_CREATE_DETAILS);
+            smf_SelectAllText(s_editPassword);
+            return;
+        }
+        loginCancelAccountCreation();
         windowExit(0);
     }
 
+    sButtonMode.text = s_loginFormState == LOGIN_FORM_LOGIN ? "Create Account" : "Back to Login";
+    if (D_MOUSEHIT == drawHybridBarButton(&sButtonMode,
+        xPosition(screenScaleX, screenScaleY, LOGIN_X + LOGIN_WD / 2),
+        yPosition(screenScaleX, screenScaleY, LOGIN_Y + 282), 20.0f,
+        LOGIN_BUTTON_WD, UIScale * 0.9f, 0x046ecaff,
+        HYBRID_BAR_BUTTON_NO_OUTLINE | (canInteract ? 0 : HYBRID_BAR_BUTTON_DISABLED)) && canInteract)
+    {
+        mouseClear();
+        if (s_loginFormState == LOGIN_FORM_LOGIN)
+        {
+            loginClearPasswordField();
+            loginSetFormState(LOGIN_FORM_CREATE_DETAILS);
+            smf_SetCursor(s_editPassword, 0);
+        }
+        else
+        {
+            loginCancelAccountCreation();
+            smf_SetCursor(s_editPassword, 0);
+        }
+        return;
+    }
+
 #ifndef DISABLE_SETTINGS_BUTTON
-    if (D_MOUSEHIT == drawHybridBar(&heAccounts[2], 0, 
+    if (D_MOUSEHIT == drawHybridBar(&heAccounts[2], 0,
         xPosition(screenScaleX, screenScaleY, WEB_X + WEB_BUTTON_WD / 2),
-        yPosition(screenScaleX, screenScaleY, LOGIN_BUTTON_Y + 70), 20.0f, 
-        SETTINGS_BUTTON_WD, UIScale, HB_ROUND_ENDS | HB_ALWAYS_FULL_ALPHA, 1.f, H_ALIGN_LEFT, V_ALIGN_CENTER ))
+        yPosition(screenScaleX, screenScaleY, WEB_Y + 32.0f), 20.0f,
+        SETTINGS_BUTTON_WD, UIScale, HB_ROUND_ENDS | HB_ALWAYS_FULL_ALPHA | (canInteract ? 0 : HB_DISABLED),
+        1.f, H_ALIGN_LEFT, V_ALIGN_CENTER) && canInteract)
     {
         windows_Show("options");
     }
 #endif
 
     // dev mode character fetch button
-    if((encryptedKeyedAccessLevel() || isDevelopmentMode()) && fileExists("c:/game/tools/util/dbquery.exe"))
+    if (canInteract && s_loginFormState == LOGIN_FORM_LOGIN &&
+        (encryptedKeyedAccessLevel() || isDevelopmentMode()) && fileExists("c:/game/tools/util/dbquery.exe"))
         debug_DrawGetCharacter();
 }
+
 
 static int s_loginTimedOut()
 {
@@ -4236,6 +4538,9 @@ void loginMenu()
 
     int dbTimeoutSeconds = s_loginTimedOut();
 
+    if (s_loggedIn_serverSelected != LOGIN_STAGE_START)
+        loginCancelAccountCreation();
+
     if (dbhasError())
     {
         dialogStd(DIALOG_OK, dbGetError(), NULL, NULL, s_quitToLogin, NULL, 0 );
@@ -4290,7 +4595,7 @@ void loginMenu()
                 smf_SetCharacterInsertSounds(s_editAccount, "type2", "mouseover");
             }
             smf_SetRawText(s_editAccount, g_achAccountName, false);
-            smf_CreateAndParse(g_achAccountName, s_editAccount); // Required so smf_SelectAllText works.
+            loginParseField(s_editAccount); // Required so smf_SelectAllText works.
             smf_SelectAllText(s_editAccount);
 
             if (!s_rememberAccount)
@@ -4319,14 +4624,14 @@ void loginMenu()
             {
                 s_editPassword = smfBlock_Create();
                 smf_SetFlags(s_editPassword, SMFEditMode_ReadWrite, SMFLineBreakMode_SingleLine, 
-                    SMFInputMode_AnyTextNoTagsOrCodes, 16, SMFScrollMode_ExternalOnly,
+                    SMFInputMode_AnyTextNoTagsOrCodes, MAX_PASSWORD_LEN, SMFScrollMode_ExternalOnly,
                     SMFOutputMode_StripAllTagsAndCodes, SMFDisplayMode_AsterisksOnly, SMFContextMenuMode_None,
                     SMAlignment_Left, 0, "LoginScreen", -1);
                 smf_SetCharacterInsertSounds(s_editPassword, "type2", "mouseover");
             }
             cryptRetrieve(password, g_achPassword, sizeof(password));
-            smf_SetRawText(s_editPassword, password, false);
-            memset(password, 0, sizeof(password));
+            loginSetPasswordField(password);
+            accountCreationClear(password, sizeof(password));
 
             // --------------------
             // link to existing account
@@ -4436,3 +4741,41 @@ void loginMenu()
     }
 }
 
+static bool loginCopyCredentials(char *name, size_t nameBytes, char *password, size_t passwordBytes)
+{
+    if (name && nameBytes) accountCreationClear(name, nameBytes);
+    if (password && passwordBytes) accountCreationClear(password, passwordBytes);
+    if (!name || !password || !nameBytes || !passwordBytes || !s_editAccount || !s_editPassword ||
+        !s_editAccount->outputString || !s_editPassword->outputString ||
+        strlen(s_editAccount->outputString) >= nameBytes || strlen(s_editPassword->outputString) >= passwordBytes)
+        return false;
+    strcpy(name, s_editAccount->outputString);
+    strcpy(password, s_editPassword->outputString);
+    return true;
+}
+
+void loginCreateAccount(void)
+{
+    char name[ACCOUNT_CREATE_NAME_BYTES];
+    char password[ACCOUNT_CREATE_PASSWORD_BYTES];
+    AuthCreateAccountResult result;
+    if (!isMenu(MENU_LOGIN) || s_loggedIn_serverSelected != LOGIN_STAGE_START)
+    {
+        conPrintf("Account creation requires the initial login screen.");
+        return;
+    }
+    if (s_loginFormState != LOGIN_FORM_LOGIN)
+    {
+        conPrintf("Finish or leave the account creation form before using createaccount.");
+        return;
+    }
+    if (!loginCopyCredentials(name, sizeof(name), password, sizeof(password)))
+    {
+        conPrintf("Enter a username of 1-14 ASCII letters/digits and a password of 8-15 printable ASCII characters in the login fields.");
+        return;
+    }
+    result = authCreateAccount(name, password);
+    accountCreationClear(name, sizeof(name));
+    accountCreationClear(password, sizeof(password));
+    conPrintf("%s", authCreateAccountResultMessage(result));
+}

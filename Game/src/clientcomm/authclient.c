@@ -1,4 +1,5 @@
 #include "clientcomm/authclient.h"
+#include "clientcomm/auth_create_account_private.h"
 #include <utilitieslib/utils/osdependent.h>
 #include "Des.h"
 #include <string.h>
@@ -57,20 +58,20 @@ void acSendLoginMD5(const char* account_p, const char* password_p, int subscript
     AuthPacket    *pak=0;
     char        RSA_plain_buf[94];
     char        RSA_cipher_buf[512];
-    U8            md5_buf[16],pass_hash[16];
-    U64            sha512_buf[8];
+    U8            md5_buf[16],pass_hash[17];
+    U64            sha512_buf[8] = {0};
     char        session[32];
     char        account[15],password[17];
     U32            RSA_cipher_size;
 
     memset(account,0,sizeof(account));
-    strncpy(account,account_p,sizeof(account));
+    strncpy(account,account_p,sizeof(account) - 1);
     removeLeadingAndFollowingSpaces(account);
     strlwr(account);
 
 
     memset(password,0,sizeof(password));
-    strncpy(password,password_p,sizeof(password));
+    strncpy(password,password_p,sizeof(password) - 1);
 
     login_ok_expected = 1;
     switch(auth_info.protocol)
@@ -87,6 +88,7 @@ void acSendLoginMD5(const char* account_p, const char* password_p, int subscript
         dumpData("hash input ",md5hash,sizeof(md5hash));
         cryptMD5Update(md5hash, sizeof(md5hash));
         cryptMD5Final((U32 *)pass_hash);
+        accountCreationClear(md5hash, sizeof(md5hash));
         dumpData("hash(account+pass)",pass_hash,sizeof(pass_hash));
         
         DesKeyInit("9=3*2;x]11sa;/4sd.%+$@a*\'!2z0~g`{z]?n8(");
@@ -128,14 +130,34 @@ void acSendLoginMD5(const char* account_p, const char* password_p, int subscript
     memcpy(RSA_plain_buf+14,md5_buf,16);
     memcpy(RSA_plain_buf+30,sha512_buf, 64);
     RSA_cipher_size = sizeof(RSA_cipher_buf);
-    cryptRSAEncrypt(auth_info.RSA_mod, auth_info.RSA_modlen, auth_info.RSA_exp, auth_info.RSA_explen, RSA_plain_buf, sizeof(RSA_plain_buf), RSA_cipher_buf, &RSA_cipher_size);
+    int encrypted = cryptRSAEncrypt(auth_info.RSA_mod, auth_info.RSA_modlen, auth_info.RSA_exp, auth_info.RSA_explen,
+        RSA_plain_buf, sizeof(RSA_plain_buf), RSA_cipher_buf, &RSA_cipher_size);
+    accountCreationClear(RSA_plain_buf, sizeof(RSA_plain_buf));
+    accountCreationClear(password, sizeof(password));
+    accountCreationClear(account, sizeof(account));
+    accountCreationClear(pass_hash, sizeof(pass_hash));
+    accountCreationClear(sha512_buf, sizeof(sha512_buf));
+    accountCreationClear(md5_buf, sizeof(md5_buf));
+    if (!encrypted)
+    {
+        login_ok_expected = 0;
+        auth_info.fail_type = -1;
+        auth_info.reason = -3;
+        return;
+    }
     authPutU32(pak,RSA_cipher_size);
     authPutArray(pak,RSA_cipher_buf,RSA_cipher_size);
     authPutU32(pak,subscription);
     authPutU16(pak,flags); // cdkind - what is it? ab: now it is mac/pc flag
     if (auth_info.protocol == ASIA_AUTH_PROTOCOL_VERSION)
         authPutU08(pak,game_runningCohClientCount()); // number of copies of game running
-    authSendPacket(pak);
+    if (!authSendPacket(pak))
+    {
+        login_ok_expected = 0;
+        auth_info.fail_type = -1;
+        auth_info.reason = -3;
+    }
+    accountCreationClear(RSA_cipher_buf, sizeof(RSA_cipher_buf));
 }
 
 void acSendLogin(const char* account, const char* password, int subscription,AuthFlags flags)
@@ -192,8 +214,22 @@ void acGetProtocolVer(AuthPacket *pak)
     one_time_key    = authGetU32(pak);
     protocol_orig = protocol = authGetU32(pak);
     auth_info.RSA_explen = authGetU32(pak);
+    if (auth_info.RSA_explen <= 0 || auth_info.RSA_explen > sizeof(auth_info.RSA_exp) ||
+        auth_info.RSA_explen > pak->length - pak->bytesRead)
+    {
+        auth_info.fail_type = -1;
+        auth_info.reason = -3;
+        return;
+    }
     authGetArray(pak, auth_info.RSA_exp, auth_info.RSA_explen);
     auth_info.RSA_modlen = authGetU32(pak);
+    if (auth_info.RSA_modlen < 94 + 42 || auth_info.RSA_modlen > sizeof(auth_info.RSA_mod) ||
+        auth_info.RSA_modlen > pak->length - pak->bytesRead)
+    {
+        auth_info.fail_type = -1;
+        auth_info.reason = -3;
+        return;
+    }
     authGetArray(pak, auth_info.RSA_mod, auth_info.RSA_modlen);
     
     // ab: sent an email to Allan, but no word back yet, assuming this is okay.
@@ -207,9 +243,10 @@ void acGetProtocolVer(AuthPacket *pak)
 
 
     if (protocol != USA_AUTH_PROTOCOL_VERSION && protocol != ASIA_AUTH_PROTOCOL_VERSION &&
-        protocol != GLOBAL_AUTH_PROTOCOL_VERSION && protocol != GR_REACTIVATION_PROTOCOL_VERSION)
+        protocol != GLOBAL_AUTH_PROTOCOL_VERSION && protocol != GR_REACTIVATION_PROTOCOL_VERSION &&
+        protocol != OUROBOROS_PROTOCOL_VERSION_1 && protocol != OUROBOROS_PROTOCOL_VERSION_2)
     {
-        auth_info.fail_type = AC_PROTOCOL_VER;
+        auth_info.fail_type = -1;
         auth_info.reason = 0;
     }
     authSetKey(one_time_key,protocol >= GLOBAL_AUTH_PROTOCOL_VERSION);
@@ -408,8 +445,10 @@ static char const *g_AuthToClientCmdStrs[] =
     "AC_HANDOFFTOQUEUE",                // 12
     "AC_POSITIONINQUEUE",               // 13
     "AC_HANDOFFTOGAME",                 // 14
+    "AC_CREATE_ACCOUNT_RESULT",         // 15
 };
-STATIC_ASSERT(AuthToClientCmd_Count == 15);
+STATIC_ASSERT(AuthToClientCmd_Count == 16);
+STATIC_ASSERT(AQ_LOGIN_MD5_MD5 == 6 && AQ_CREATE_ACCOUNT == 7 && AC_HANDOFFTOGAME == 14 && AC_CREATE_ACCOUNT_RESULT == 15);
 
 int authWaitFor(enum AuthToClientCmd wait_for_cmd)
 {
@@ -433,6 +472,7 @@ int authWaitFor(enum AuthToClientCmd wait_for_cmd)
         else if (ret > 0)
         {
             cmd = authGetU08(&pak);
+            if (cmd < 0 || cmd >= AuthToClientCmd_Count) return 0;
             authdbg_printf("recv: %s\n", AGET(g_AuthToClientCmdStrs,cmd));
             switch(cmd)
             {
@@ -461,6 +501,7 @@ int authWaitFor(enum AuthToClientCmd wait_for_cmd)
                 xcase AC_HANDOFFTOQUEUE:    
                     acGetHandoffToQueue(&pak);                    
             }
+            if (!authSocketOk()) return 0;
             if (auth_info.fail_type)
             {
                 return 0;
@@ -483,6 +524,8 @@ int authLogin(char *name,char *password)
 {
     int            ret;
     char passwordCopy[128];
+    if (authCreateAccountIsPending())
+        return 0;
     acCleanup();
     memset(&auth_info,0,sizeof(auth_info));
     Strncpyt(auth_info.name,name);
@@ -524,7 +567,7 @@ int authLogin(char *name,char *password)
 
     writeConsole(OUTPUT_INFO, "Validating credentials");
     acSendLogin(name,password,0,IsUsingCider()?AuthFlags_MAC:AuthFlags_PC); 
-    if (!authWaitFor(AC_LOGIN_OK)) {
+    if (auth_info.fail_type || !authWaitFor(AC_LOGIN_OK)) {
         writeConsole(OUTPUT_WARNING, "Authentication failed");
         return 0;
     }

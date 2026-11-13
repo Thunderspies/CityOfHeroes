@@ -410,6 +410,8 @@ int AnsiToUnicode(char* ansistr, int maxansilen, WCHAR* unistr, int maxunilen)
 
 void BlowFishEncryptPacket(unsigned char *buf, __int64 &key, int &len)
 {
+    int paddedLength = (len + 7) & 0xfffffff8;
+    memset(buf + len, 0, paddedLength + 8 - len);
     len = (len + 7) & 0xfffffff8;   // Makes it multiple of 8.
 // As for the checksum, simple xor is proabably enough...
     int blockLen = len >> 2;
@@ -426,7 +428,7 @@ void BlowFishEncryptPacket(unsigned char *buf, __int64 &key, int &len)
 
 bool BlowFishDecryptPacket(unsigned char *buf, __int64 &key, int len)
 {
-    if ((len & 0x7) == 0) {    // It's not a multiple of 8
+    if (len >= 16 && (len & 0x7) == 0) {    // It's not a multiple of 8
         BlowfishDecrypt((unsigned char *)buf, len);
         int blockLen = (len - 8) >> 2;
         unsigned int checkSum = 0;

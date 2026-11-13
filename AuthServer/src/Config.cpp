@@ -45,7 +45,7 @@ void* LoadBinary(const char* name, int* size, bool appendNull)
     return pBuf;
 }
 
-Config::Config() {}
+Config::Config() : AllowAccountCreation(false) {}
 Config::~Config() {}
 
 bool Config::Load(const char *filename)
@@ -136,6 +136,7 @@ bool Config::Load(const char *filename)
         PacketSizeType        = 3; //GetInt( "PacketSizeType" );        
         
         encrypt   = GetBool("Encrypt");
+        AllowAccountCreation = GetBool("AllowAccountCreation", false);
 
 
         logDirectory = Get("logDirectory");

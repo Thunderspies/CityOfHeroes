@@ -7,6 +7,7 @@ set(TestClient_SOURCES
 	../../Common/account/AccountTypes.cpp
 	../../Common/auction/Auction.c
 	../../Common/auction/AuctionData.c
+	../../Common/auth/account_creation.cpp
 	../../Common/auth/auth.c
 	../../Common/auth/authUserData.c
 	../../Common/bases/basedata.c
@@ -89,6 +90,8 @@ set(TestClient_SOURCES
 	../../Common/varutils.c
 	../../Game/src/arena/arenagame.c
 	../../Game/src/clientcomm/authclient.c
+	../../Game/src/clientcomm/auth_create_account.c
+	../../Game/src/clientcomm/auth_create_resolver.c
 	../../Game/src/clientcomm/clientcomm.c
 	../../Game/src/clientcomm/clientcommreceive.c
 	../../Game/src/clientcomm/dbclient.c
@@ -149,6 +152,7 @@ set(TestClient_HEADERS
 	../../Common/account/AccountTypes.h
 	../../Common/auction/Auction.h
 	../../Common/auction/AuctionData.h
+	../../Common/auth/account_creation.h
 	../../Common/auth/auth.h
 	../../Common/auth/authconn.h
 	../../Common/auth/authUserData.h
@@ -237,6 +241,7 @@ set(TestClient_HEADERS
 	../../Common/varutils.h
 	../../Game/src/arena/arenagame.h
 	../../Game/src/clientcomm/authclient.h
+	../../Game/src/clientcomm/auth_create_account_private.h
 	../../Game/src/clientcomm/autoResumeInfo.h
 	../../Game/src/clientcomm/clientcomm.h
 	../../Game/src/clientcomm/clientcommreceive.h
