@@ -19,6 +19,7 @@ set(Game_SOURCES
 	../Common/auction/Auction.c
 	../Common/auction/AuctionData.c
 	../Common/auction/Xact.c
+	../Common/auth/account_creation.cpp
 	../Common/auth/auth.c
 	../Common/auth/authUserData.c
 	../Common/bases/basedata.c
@@ -180,6 +181,8 @@ set(Game_SOURCES
 	src/bases/basedraw.c
 	src/bases/baseedit.c
 	src/clientcomm/authclient.c
+	src/clientcomm/auth_create_account.c
+	src/clientcomm/auth_create_resolver.c
 	src/clientcomm/autoResumeInfo.c
 	src/clientcomm/clientcomm.c
 	src/clientcomm/clientcommreceive.c
@@ -576,6 +579,7 @@ set(Game_HEADERS
 	../Common/auction/Auction.h
 	../Common/auction/AuctionData.h
 	../Common/auction/Xact.h
+	../Common/auth/account_creation.h
 	../Common/auth/auth.h
 	../Common/auth/authconn.h
 	../Common/auth/authUserData.h
@@ -751,6 +755,7 @@ set(Game_HEADERS
 	src/bases/basedraw.h
 	src/bases/baseedit.h
 	src/clientcomm/authclient.h
+	src/clientcomm/auth_create_account_private.h
 	src/clientcomm/autoResumeInfo.h
 	src/clientcomm/clientcomm.h
 	src/clientcomm/clientcommreceive.h

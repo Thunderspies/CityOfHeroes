@@ -17,6 +17,10 @@ typedef enum LoginStage {
 
 extern LoginStage s_loggedIn_serverSelected;
 
+// Console entry point: create from current fields and report a result without logging in.
+void loginCreateAccount(void);
+// Cancel registration on departure/shutdown and clear its temporary credentials.
+void loginCancelAccountCreation(void);
 void loginMenu(void);
 int loginToDbServer(int id,char *err_msg);
 void respondToDbServerLogin(int idx, char *err_msg, char *server_name);

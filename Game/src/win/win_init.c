@@ -22,6 +22,7 @@
 #include <direct.h>
 #include "clientcomm/autoResumeInfo.h"
 #include "clientcomm/authclient.h"
+#include "UI/uiLogin.h"
 #include "graphics/gfxwindow.h"
 #include "UI/uiWindows.h"
 #include "UI/uiWindows_init.h"
@@ -1443,6 +1444,8 @@ void windowExit(int exitCode)
         exit(exitCode);
         return;
     }
+
+    loginCancelAccountCreation();
 
     if (game_state.cryptic)
     {

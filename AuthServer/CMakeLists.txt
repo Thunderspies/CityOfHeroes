@@ -1,4 +1,5 @@
 set(AuthServer_SOURCES
+	../Common/auth/account_creation.cpp
 	src/Account.cpp
 	src/AccountDB.cpp
 	src/Blowfish.cpp
@@ -34,6 +35,8 @@ set(AuthServer_SOURCES
 )
 
 set(AuthServer_HEADERS
+	../Common/auth/account_creation.h
+	src/account_creation_sql.h
 	src/Account.h
 	src/AccountDB.h
 	src/AuthType.h
@@ -72,11 +75,12 @@ set(AuthServer_HEADERS
 
 add_executable(AuthServer WIN32
 	${AuthServer_SOURCES} ${AuthServer_HEADERS} src/resource.rc)
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES
+source_group(TREE "${PROJECT_SOURCE_DIR}" FILES
 	${AuthServer_SOURCES} ${AuthServer_HEADERS} src/resource.rc)
 set_target_properties(AuthServer PROPERTIES
 	C_STANDARD 11 C_STANDARD_REQUIRED ON
 	CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+target_include_directories(AuthServer PRIVATE ../Common)
 target_link_libraries(AuthServer PRIVATE
 	cryptLib cryptopp::cryptopp ws2_32 dbghelp mswsock odbc32)
 

@@ -17,6 +17,8 @@ enum {
     AQ_LOGOUT,
     AQ_LOGIN_MD5,
     AQ_SERVER_LIST_EXT, // Server List kind
+    AQ_LOGIN_MD5_MD5 = 6, // Reserved legacy request
+    AQ_CREATE_ACCOUNT = 7,
     AQ_MAX,
 };
 
@@ -49,6 +51,8 @@ enum{
     AC_QUEUE_SIZE,
     AC_HANDOFF_TO_QUEUE,
     AC_POSITION_IN_QUEUE,
+    AC_HANDOFF_TO_GAME = 14, // Reserved legacy response
+    AC_CREATE_ACCOUNT_RESULT = 15,
     AC_MAX
 };
 
