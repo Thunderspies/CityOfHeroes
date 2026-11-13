@@ -15,6 +15,9 @@ typedef struct
     __int64        recv_key;
     AuthPacket    send_pak;
     int            socket;
+#if CLIENT
+    int            connecting;
+#endif
     U32            one_time_key;
     BLOWFISH_CTX    blowfish_ctx;
     U32            got_first_packet : 1;
@@ -29,7 +32,7 @@ AuthState auth_state;
 
 #define PACKET_HEADER_SIZE 2
 
-void dumpData(char *msg,const void *datav,int count)
+static void dumpData(const char *msg,const void *datav,int count)
 {
 #if 0
     static FILE    *file;
@@ -105,7 +108,7 @@ bool BlowfishDecryptPacket(unsigned char *buf, int len)
     unsigned int checkSum = 0;
     unsigned int *intPtr = (unsigned int *)buf;
 
-    if ((len & 0x7) == 0) {    // It's not a multiple of 8
+    if (len >= 16 && (len & 0x7) == 0) {    // It's not a multiple of 8
         cryptBlowfishDecrypt(&auth_state.blowfish_ctx,(unsigned char *)buf, len);
         for (i = 0; i < blockLen; ++i) {
             checkSum ^= intPtr[i];
@@ -145,15 +148,17 @@ int authGetPacket(AuthPacket *pak)
 {
     int        amt,sock = auth_state.socket;
 
-    if (pak->bytesRead < PACKET_HEADER_SIZE)
+    if (!pak->length)
     {
-        amt = recv(sock, pak->data + pak->bytesRead, PACKET_HEADER_SIZE - pak->bytesRead, 0);
+        amt = recv(sock, (char*)(pak->data + pak->bytesRead), PACKET_HEADER_SIZE - pak->bytesRead, 0);
 
         // If nothing can be retrieved from the socket, nothing else can be done.
         
         if (amt < 0 && WSAGetLastError() != WSAEWOULDBLOCK)
             return -1;
-        else if (amt <= 0)
+        else if (amt == 0)
+            return -1;
+        else if (amt < 0)
             return 0;
 
         // Otherwise, some data has been retrieved.
@@ -166,18 +171,25 @@ int authGetPacket(AuthPacket *pak)
         if (!auth_state.got_first_packet)
             setupPacketSizeOffset(*((U16 *) pak->data),8);
         pak->length = *((U16 *) pak->data) - auth_state.packet_size_offset;
+        if (!pak->length || pak->length > sizeof(pak->data))
+        {
+            auth_state.got_bad_packet = 1;
+            return -1;
+        }
         pak->bytesRead = 0;
     }
 
     // Attempt to read the body of the data now.
-    amt = recv(sock, pak->data + pak->bytesRead, pak->length - pak->bytesRead,0);
+    amt = recv(sock, (char*)(pak->data + pak->bytesRead), pak->length - pak->bytesRead,0);
 
     // Didn't get any data?
     // The packet is still only partially read.
     // Report nothing has been read yet.
     if (amt < 0 && WSAGetLastError() != WSAEWOULDBLOCK)
         return -1;
-    else if (amt <= 0)
+    else if (amt == 0)
+        return -1;
+    else if (amt < 0)
         return 0;
 
     pak->bytesRead += amt;
@@ -190,7 +202,11 @@ int authGetPacket(AuthPacket *pak)
     pak->bytesRead = 0;
     if (auth_state.global_auth)
     {
-        BlowfishDecryptPacket(pak->data,pak->length);
+        if (!BlowfishDecryptPacket(pak->data,pak->length))
+        {
+            auth_state.got_bad_packet = 1;
+            return -1;
+        }
     }
     else
     {
@@ -332,8 +348,8 @@ int authSendPacket(AuthPacket *pak)
     pak->data[1] = ((len+auth_state.packet_size_offset) >> 8) & 255;
     len += PACKET_HEADER_SIZE;
     dumpData("postblow ",pak->data,len);
-    amt = send(sock, pak->data, len, 0);
-    if (amt <= 0) 
+    amt = send(sock, (char*)pak->data, len, 0);
+    if (amt != len)
     {
         LOG_OLD_ERR("Packet send failed to authserver");
         return 0;
@@ -344,6 +360,11 @@ int authSendPacket(AuthPacket *pak)
 
 int authGetU08(AuthPacket *pak)
 {
+    if (pak->bytesRead < 0 || pak->bytesRead >= pak->length)
+    {
+        auth_state.got_bad_packet = 1;
+        return 0;
+    }
     return pak->data[pak->bytesRead++];
 }
 
@@ -352,6 +373,11 @@ int authGetU16(AuthPacket *pak)
     U8        *ptr;
     U16        val;
 
+    if (pak->bytesRead < 0 || pak->bytesRead + 2 > pak->length)
+    {
+        auth_state.got_bad_packet = 1;
+        return 0;
+    }
     ptr = &pak->data[pak->bytesRead];
     pak->bytesRead+=2;
     val = ptr[0] | (ptr[1] << 8);
@@ -363,9 +389,14 @@ int authGetU32(AuthPacket *pak)
     U8        *ptr;
     U32        val;
 
+    if (pak->bytesRead < 0 || pak->bytesRead + 4 > pak->length)
+    {
+        auth_state.got_bad_packet = 1;
+        return 0;
+    }
     ptr = &pak->data[pak->bytesRead];
     pak->bytesRead+=4;
-    val = ptr[0] | (ptr[1] << 8) | (ptr[2] << 16) | (ptr[3] << 24);
+    val = (U32)ptr[0] | ((U32)ptr[1] << 8) | ((U32)ptr[2] << 16) | ((U32)ptr[3] << 24);
     return val;
 }
 
@@ -373,13 +404,24 @@ char *authGetStr(AuthPacket *pak)
 {
     char    *s;
 
-    s = &pak->data[pak->bytesRead];
+    if (pak->bytesRead < 0 || pak->bytesRead >= pak->length ||
+        !memchr(pak->data + pak->bytesRead, 0, pak->length - pak->bytesRead))
+    {
+        auth_state.got_bad_packet = 1;
+        return "";
+    }
+    s = (char*)&pak->data[pak->bytesRead];
     pak->bytesRead += (int)strlen(s) + 1;
     return s;
 }
 
 void *authGetArray(AuthPacket *pak,void *data,int len)
 {
+    if (len < 0 || pak->bytesRead < 0 || len > pak->length - pak->bytesRead)
+    {
+        auth_state.got_bad_packet = 1;
+        return NULL;
+    }
     memcpy(data,&pak->data[pak->bytesRead],len);
     pak->bytesRead += len;
     return data;
@@ -457,6 +499,75 @@ void authDisconnect()
         auth_state.packet_size_offset = packet_size_offset;
     }
 }
+
+#if CLIENT
+int authConnectStart(U32 address, int port)
+{
+    struct sockaddr_in destination;
+    unsigned long nonblocking = 1;
+    int error;
+
+    if (auth_state.socket || !address || address == INADDR_NONE || port <= 0 || port > 65535)
+        return -1;
+
+    authDisconnect();
+    auth_state.socket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
+    if (auth_state.socket == (int)INVALID_SOCKET)
+    {
+        auth_state.socket = 0;
+        return -1;
+    }
+    if (ioctlsocket(auth_state.socket, FIONBIO, &nonblocking) != 0)
+    {
+        authDisconnect();
+        return -1;
+    }
+    sockSetAddr(&destination, address, port);
+    if (connect(auth_state.socket, (struct sockaddr *)&destination, sizeof(destination)) == 0)
+        return 1;
+
+    error = WSAGetLastError();
+    if (error == WSAEWOULDBLOCK || error == WSAEINPROGRESS || error == WSAEALREADY)
+    {
+        auth_state.connecting = 1;
+        return 0;
+    }
+    authDisconnect();
+    return -1;
+}
+
+int authConnectPoll(void)
+{
+    fd_set writable, failed;
+    struct timeval timeout = {0, 0};
+    int ready, error = 0;
+#ifdef _WIN32
+    int errorBytes = sizeof(error);
+#else
+    socklen_t errorBytes = sizeof(error);
+#endif
+
+    if (!auth_state.socket)
+        return -1;
+    if (!auth_state.connecting)
+        return 1;
+
+    FD_ZERO(&writable);
+    FD_ZERO(&failed);
+    FD_SET(auth_state.socket, &writable);
+    FD_SET(auth_state.socket, &failed);
+    ready = select(auth_state.socket + 1, NULL, &writable, &failed, &timeout);
+    if (ready == 0)
+        return 0;
+    if (ready < 0 || getsockopt(auth_state.socket, SOL_SOCKET, SO_ERROR, (char *)&error, &errorBytes) != 0 || error != 0)
+    {
+        authDisconnect();
+        return -1;
+    }
+    auth_state.connecting = 0;
+    return 1;
+}
+#endif
 
 int authConnect(char *ip_name,int port)
 {

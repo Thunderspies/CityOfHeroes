@@ -393,8 +393,15 @@ static void smf_DetermineSelectedSection(SMBlock *pBlock)
     }
 }
 
-static void smf_removeLeadingWhiteSpace(char **rawString)
+static void smf_removeLeadingWhiteSpace(SMFBlock *pSMFBlock)
 {
+    char **rawString = &pSMFBlock->rawString;
+
+    // Password fields render spaces as asterisks. Preserve their literal bytes,
+    // including leading spaces, rather than silently changing the credential.
+    if (pSMFBlock->displayMode == SMFDisplayMode_AsterisksOnly)
+        return;
+
     // continue to remove all leading whitespace, it gets skipped by the renderer and leads to problems if we leave it laying around
     int bFoundWhiteSpace = 1;
 
@@ -414,17 +421,20 @@ static void smf_removeLeadingWhiteSpace(char **rawString)
     }    
 }
 
-static void smf_modifyRawStringSection(char **rawString, int prePos, int postPos)
+static void smf_modifyRawStringSection(SMFBlock *pSMFBlock, int prePos, int postPos)
 {
-    if (!rawString)
+    char **rawString;
+
+    if (!pSMFBlock)
         return;
+    rawString = &pSMFBlock->rawString;
 
     switch (smf_GetSelectionCommand())
     {
         case SMFSelectionCommand_Delete:
             {
                 estrRemove(rawString, prePos + 1, postPos - prePos);
-                smf_removeLeadingWhiteSpace(rawString);
+                smf_removeLeadingWhiteSpace(pSMFBlock);
             }
             break;
 
@@ -475,7 +485,7 @@ static void smf_UpdateSelectionInRawString(SMFBlock *pSMFBlock)
             workingEarlyIndex--;
         }
 
-        smf_modifyRawStringSection(&pSMFBlock->rawString, workingEarlyIndex, workingLateIndex - 1);
+        smf_modifyRawStringSection(pSMFBlock, workingEarlyIndex, workingLateIndex - 1);
 
         pSMFBlock->editedThisFrame = true;
         smf_SwitchBreakingToNonBreakingSpace(pSMFBlock, workingEarlyIndex + 1);
@@ -497,12 +507,12 @@ static void smf_UpdateSelectionInRawString(SMFBlock *pSMFBlock)
         tagIndex = sm_ParseTagName(&pSMFBlock->rawString[workingEarlyIndex + 1], workingTagEnd - workingEarlyIndex - 1, smf_aTagDefs);
         if (tagIndex == -1)
         {
-            smf_modifyRawStringSection(&pSMFBlock->rawString, workingEarlyIndex, workingLateIndex);
+            smf_modifyRawStringSection(pSMFBlock, workingEarlyIndex, workingLateIndex);
             smf_SwitchBreakingToNonBreakingSpace(pSMFBlock, workingEarlyIndex);
         }
         else if (tagIndex == 41) // 41 is <br>)
         {
-            smf_modifyRawStringSection(&pSMFBlock->rawString, workingEarlyIndex-1, workingLateIndex);
+            smf_modifyRawStringSection(pSMFBlock, workingEarlyIndex-1, workingLateIndex);
             smf_SwitchBreakingToNonBreakingSpace(pSMFBlock, workingEarlyIndex);
         }
         workingLateIndex = workingEarlyIndex;
@@ -2295,7 +2305,7 @@ static void smf_InteractWithEdit(SMBlock *pBlock, TextAttribs *pattrs)
         break;
     }
 
-    smf_removeLeadingWhiteSpace(&pBlock->pSMFBlock->rawString);
+    smf_removeLeadingWhiteSpace(pBlock->pSMFBlock);
 
     if (smBlock_HasFocus(pBlock))
     {

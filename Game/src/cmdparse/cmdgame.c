@@ -281,6 +281,7 @@ enum
     CMD_CLEAR_TT_CACHE,
     CMD_QUIT,
     CMD_QUIT_TO_LOGIN,
+    CMD_CREATE_ACCOUNT,
     CMD_QUIT_TO_CHARACTER_SELECT,
     CMD_VTUNE,
     CMD_PLAYSAMPLE,
@@ -824,6 +825,8 @@ Cmd game_cmds[] =
                         "Sets X and Y screen dimensions. Should be constrained to 640x480,1024x768, 1280x1024, 1600x1200, etc"  },
     { 0, "quit", CMD_QUIT, {{0}},0,
                         "Quits game." },
+    { 0, "createaccount", CMD_CREATE_ACCOUNT, {{0}}, 0,
+                        "Create an account using the current login-screen username and password fields. Takes no arguments." },
     { 0, "quittologin", CMD_QUIT_TO_LOGIN, {{0}},0,
                         "quits to login screen" },
     { 0, "quittocharacterselect", CMD_QUIT_TO_CHARACTER_SELECT, {{0}}, 0,
@@ -3099,6 +3102,8 @@ int cmdGameParse(char *str, int x, int y)
         }
         xcase CMD_RESET_SEPS:
             resetSeps();
+        xcase CMD_CREATE_ACCOUNT:
+            loginCreateAccount();
         xcase CMD_QUIT_TO_LOGIN:
         {
             Entity *e = playerPtr();

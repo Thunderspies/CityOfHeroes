@@ -14,6 +14,10 @@
 #include "Config.h"
 #include "IPSessionDB.h"
 #include "IPList.h"
+#include "auth/account_creation.h"
+#include <memory>
+#include <exception>
+#include <utility>
 AccountDB accountdb;
 
 BOOL SendSocket(in_addr , const char *format, ...);
@@ -23,61 +27,102 @@ BOOL SendSocket(in_addr , const char *format, ...);
 #include <rsa.h>
 
 using namespace CryptoPP;
-using CryptoPP::InvertibleRSAFunction;
-using CryptoPP::RSAES_OAEP_SHA_Encryptor;
-using CryptoPP::RSAES_OAEP_SHA_Decryptor;
 
-struct RSA
+static std::unique_ptr<InvertibleRSAFunction> rsaParams;
+
+bool InitRSAParams()
 {
-    typedef RSAFunction PublicKey;
-    typedef InvertibleRSAFunction PrivateKey;
-};
-
-__declspec(thread) static AutoSeededRandomPool s_rng;
-static InvertibleRSAFunction* RSA_Params = NULL;
-
-void InitRSAParams()
-{
-    std::unique_ptr<InvertibleRSAFunction> p(std::make_unique<InvertibleRSAFunction>());
-    p->Initialize(s_rng, 1152);
-    RSA_Params = p.release();
-}
-
-void DecryptRSAText(char*ciphertextstr, int bufferLen)
-{
-    __declspec(thread) static RSAES_OAEP_SHA_Decryptor* decryptor = NULL;
-    ::RSA::PrivateKey privateKey(*RSA_Params);
-
-    if (decryptor == NULL)
+    if (rsaParams)
+        return true;
+    try
     {
-        decryptor = new RSAES_OAEP_SHA_Decryptor(privateKey);
+        AutoSeededRandomPool rng;
+        std::unique_ptr<InvertibleRSAFunction> key(new InvertibleRSAFunction);
+        // Preserve the established modulus size and Crypto++ public exponent.
+        key->Initialize(rng, 1152);
+        rsaParams = std::move(key);
+        return true;
     }
-
-    // Decryption
-    CryptoPP::SecByteBlock ciphertext((CryptoPP::byte*)ciphertextstr, bufferLen);
-
-    // Now that there is a concrete object, we can check sizes
-    assert(0 != decryptor->FixedCiphertextLength());
-    assert(ciphertext.size() <= decryptor->FixedCiphertextLength());
-
-    size_t dpl = decryptor->MaxPlaintextLength(ciphertext.size());
-    assert(0 != dpl);
-    CryptoPP::SecByteBlock recovered(dpl);
-
-    DecodingResult result = decryptor->Decrypt(s_rng, ciphertext, ciphertext.size(), recovered);
-    assert(result.isValidCoding);
-    assert(result.messageLength <= decryptor->MaxPlaintextLength(ciphertext.size()));
-
-    recovered.resize(result.messageLength);
-    assert(recovered.size() <= static_cast<size_t>(bufferLen));
-
-    memcpy(ciphertextstr, recovered.begin(), recovered.size());
+    catch (const std::exception &)
+    {
+        return false;
+    }
 }
 
-static bool LoginPacketSecure(CSocketServerEx *mysocket, const unsigned char *packet, bool useMD5)
+static bool DecryptRSAText(const unsigned char *ciphertext, size_t length, unsigned char *plain, size_t expectedLength)
+{
+    accountCreationClear(plain, expectedLength);
+    if (!rsaParams || !ciphertext || length != rsaParams->GetModulus().MinEncodedSize())
+        return false;
+    try
+    {
+        struct RsaWorker
+        {
+            AutoSeededRandomPool rng;
+            RSAES_OAEP_SHA_Decryptor decryptor;
+
+            RsaWorker() : decryptor(*rsaParams)
+            {
+            }
+        };
+        // Each worker owns its RNG and private-operation state for its lifetime.
+        static thread_local RsaWorker worker;
+        if (length != worker.decryptor.FixedCiphertextLength())
+            return false;
+        SecByteBlock recovered(worker.decryptor.MaxPlaintextLength(length));
+        if (expectedLength > recovered.size())
+            return false;
+        DecodingResult result = worker.decryptor.Decrypt(worker.rng, ciphertext, length, recovered);
+        if (!result.isValidCoding || result.messageLength != expectedLength)
+            return false;
+        memcpy(plain, recovered.data(), expectedLength);
+        return true;
+    }
+    catch (const std::exception &)
+    {
+        return false;
+    }
+}
+
+static bool CreateAccountPacket(CSocketServerEx *socket, const unsigned char *packet, size_t length)
+{
+    unsigned char plain[ACCOUNT_CREATE_PLAIN_BYTES] = {0};
+    unsigned char hash[128] = {0};
+    AccountCreationResult result;
+    if (!config.AllowAccountCreation)
+        result = ACCOUNT_CREATE_DISABLED;
+    else if (socket->um_mode != UM_PRE_LOGIN || socket->uid != 0)
+        result = ACCOUNT_CREATE_INVALID_STATE;
+    else if (config.useForbiddenIPList && forbiddenIPList.IpExists(socket->getaddr()))
+        result = ACCOUNT_CREATE_BLOCKED_IP;
+    else if (!rsaParams || !accountCreationFrame(packet, length, rsaParams->GetModulus().MinEncodedSize(),
+        config.ProtocolVer >= GLOBAL_AUTH_PROTOCOL_VERSION) ||
+        !DecryptRSAText(packet + 4, rsaParams->GetModulus().MinEncodedSize(), plain, sizeof(plain)))
+        result = ACCOUNT_CREATE_INVALID_REQUEST;
+    else
+    {
+        result = accountCreationValidateBlock(plain);
+        if (result == ACCOUNT_CREATE_SUCCESS)
+        {
+            if (!accountCreationHash((char *)plain, (char *)plain + ACCOUNT_CREATE_NAME_BYTES, hash))
+                result = ACCOUNT_CREATE_DATABASE_FAILURE;
+            else
+            {
+                CDBConn conn(g_linDB);
+                result = conn.CreateAccount((char *)plain, hash);
+            }
+        }
+    }
+    accountCreationClear(plain, sizeof(plain));
+    accountCreationClear(hash, sizeof(hash));
+    socket->Send("cc", AC_CREATE_ACCOUNT_RESULT, result);
+    return false;
+}
+
+static bool LoginPacketSecure(CSocketServerEx *mysocket, const unsigned char *packet, size_t length, bool useMD5)
 {
     CAccount account;
-    unsigned char RSAblock[512];
+    unsigned char RSAblock[94] = {0};
     int  subscription;
     char name[15];
     char passwordLineage2[MAX_PWD_LEN+1];
@@ -101,24 +146,26 @@ static bool LoginPacketSecure(CSocketServerEx *mysocket, const unsigned char *pa
     memset( passwordSHA512, 0, ENC_PWD_LEN+1 );
 
     if ( config.DesApply ){
+        if (length < 4)
+            return true;
         int size = GetIntFromPacket( packet );
-        if (size<0 || size>sizeof(RSAblock))
+        if (!rsaParams || size != (int)rsaParams->GetModulus().MinEncodedSize() || length < 4 + (size_t)size + 6 ||
+            !DecryptRSAText(packet, size, RSAblock, sizeof(RSAblock)))
         {
             logger.AddLog(LOG_ERROR, "SND: AC_LOGIN_FAIL,invalid_key_size" );
             mysocket->Send( "cc", AC_LOGIN_FAIL, S_INCORRECT_MD5Key );
             return false;
         }
-        memcpy( RSAblock, packet, size );
-        DecryptRSAText((char*)RSAblock, size);
         strncpy( name, (char *)RSAblock, 14);
         memcpy( passwordLineage2, (char *)RSAblock+14, 16);
         memcpy( passwordSHA512, (char *)RSAblock+30, 64);
+        accountCreationClear(RSAblock, sizeof(RSAblock));
 
         packet += size;
     } 
     else
     {
-        assert(0);    //    not supported anymore
+        return true;    //    not supported anymore
     }
     subscription = GetIntFromPacket( packet );
     cdkind         = GetShortFromPacket( packet );
@@ -127,6 +174,8 @@ static bool LoginPacketSecure(CSocketServerEx *mysocket, const unsigned char *pa
     logger.AddLog(LOG_DEBUG, "RCV: AQ_LOGIN,useMD5:%i, MD5Key %i", useMD5, mysocket->GetMd5Key());
 
     err_msg = account.CheckPassword( name, passwordLineage2, passwordSHA512, mysocket->GetMd5Key(), useMD5 );
+    accountCreationClear(passwordLineage2, sizeof(passwordLineage2));
+    accountCreationClear(passwordSHA512, sizeof(passwordSHA512));
 
     if ( err_msg != S_ALL_OK )
     {
@@ -277,13 +326,15 @@ static bool LoginPacketSecure(CSocketServerEx *mysocket, const unsigned char *pa
     return false;
 }
 
-static bool LoginPacket(CSocketServerEx *mysocket, const unsigned char *packet)
+static bool LoginPacket(CSocketServerEx *mysocket, const unsigned char *packet, size_t length)
 {
-    return LoginPacketSecure(mysocket, packet, false);
+    return LoginPacketSecure(mysocket, packet, length, false);
 }
 
-static bool SelectServerPacket( CSocketServerEx *pSocket, const unsigned char *packet)
+static bool SelectServerPacket( CSocketServerEx *pSocket, const unsigned char *packet, size_t length)
 {
+    if (length < 9)
+        return true;
     int uid, md5key, loginflag=0, warnflag=0;
     char account[MAX_ACCOUNT_LEN+1];
 _BEFORE
@@ -357,8 +408,10 @@ _BEFORE
 _AFTER_FIN
     return false;
 }
-static bool LogoutPacket( CSocketServerEx *mysocket, const unsigned char *packet)
+static bool LogoutPacket( CSocketServerEx *mysocket, const unsigned char *packet, size_t length)
 {
+    if (length < 8)
+        return true;
     int uid = GetIntFromPacket( packet );
     int md5key = GetIntFromPacket( packet );
 
@@ -372,14 +425,16 @@ static bool LogoutPacket( CSocketServerEx *mysocket, const unsigned char *packet
 
 }
 
-static bool DeprecatedPacket(CSocketServerEx * /*mysocket*/, const unsigned char * /*packet*/)
+static bool DeprecatedPacket(CSocketServerEx * /*mysocket*/, const unsigned char * /*packet*/, size_t /*length*/)
 {
     logger.AddLog(LOG_ERROR, "Received a deprecated packet from client connection.");
     return true;
 }
 
-static bool ServerListExtPacket(CSocketServerEx *mysocket, const unsigned char *packet)
+static bool ServerListExtPacket(CSocketServerEx *mysocket, const unsigned char *packet, size_t length)
 {
+    if (length < (config.useClientSpecifiedRegions ? 10u : 9u))
+        return true;
     int  uid    = GetIntFromPacket( packet );
     UINT md5key = GetIntFromPacket( packet );
     char ListKind = GetCharFromPacket( packet );
@@ -389,7 +444,9 @@ static bool ServerListExtPacket(CSocketServerEx *mysocket, const unsigned char *
 
     if (config.useClientSpecifiedRegions)
     {
-        numRegions = (int) GetCharFromPacket(packet);
+        numRegions = (unsigned char)GetCharFromPacket(packet);
+        if (length < 10u + 4u * numRegions)
+            return true;
         if (numRegions > MAX_REGIONS)
             printf("Packet requested %d regions, max allowed is %d\n", numRegions, MAX_REGIONS);
 
@@ -484,19 +541,24 @@ _AFTER_FIN
     return TRUE;
 }
 
-static bool LoginPacketMd5Key( CSocketServerEx *pSocket, const unsigned char *packet)
+static bool LoginPacketMd5Key( CSocketServerEx *pSocket, const unsigned char *packet, size_t length)
 {
-    return LoginPacketSecure(pSocket, packet, true);
+    return LoginPacketSecure(pSocket, packet, length, true);
 }
 
+static_assert(AQ_CREATE_ACCOUNT == 7 && AC_CREATE_ACCOUNT_RESULT == 15, "Account creation wire IDs changed");
 static ServerPacketFuncEx ServerPacketEx[] = {
     LoginPacket,
     DeprecatedPacket,
     SelectServerPacket,
     LogoutPacket,
     LoginPacketMd5Key,
-    ServerListExtPacket, 
+    ServerListExtPacket,
+    DeprecatedPacket, // Reserved request 6
+    CreateAccountPacket,
 };
+
+static_assert(sizeof(ServerPacketEx) / sizeof(ServerPacketEx[0]) == AQ_MAX, "Client dispatch table mismatch");
 
 
 VOID CALLBACK SocketExTimerCallback(PVOID lpParam, unsigned char TimerOrWaitFired)
@@ -592,7 +654,7 @@ void CSocketServerEx::OnRead()
         if (mode == SM_READ_LEN) {
             if (pi + 3 <= ri) {
                 packetLen = inBuf[pi] + (inBuf[pi + 1] << 8) + 1 - config.PacketSizeType;
-                if (packetLen <= 0 || packetLen > BUFFER_SIZE) {
+                if (packetLen <= 0 || packetLen > BUFFER_SIZE - 2) {
                     logger.AddLog(LOG_ERROR, "%d: bad packet size %d", m_hSocket, packetLen);
                     break;
                 } else {
@@ -610,16 +672,14 @@ void CSocketServerEx::OnRead()
         } else if (mode == SM_READ_BODY) {
             if (pi + packetLen <= ri) {
                 
-                result = DecPacket(inBuf+2, DecOneTimeKey , packetLen);
+                result = DecPacket(inBuf + pi, DecOneTimeKey, packetLen);
                 if ( !result ){
 #ifdef _DEBUG
                     logger.AddLog(LOG_ERROR, "unknown protocol,decrypt error" );
 #endif
                     break;
                 }
-#ifdef _DEBUG
-                DumpPacket( inBuf, packetLen+2 );
-#endif
+                // Credential packets must never be dumped to logs.
                 if (inBuf[pi] >= AQ_MAX) {
                     logger.AddLog(LOG_ERROR, "unknown protocol %d", inBuf[pi]);
                     break;
@@ -627,7 +687,8 @@ void CSocketServerEx::OnRead()
                     CPacketServerEx *pPacket = CPacketServerEx::Alloc();
                     pPacket->m_pSocket = this;
                     pPacket->m_pBuf = m_pReadBuf;
-                    pPacket->m_pFunc = (CPacketServerEx::ServerPacketFuncEx) ServerPacketEx[inBuf[pi]];
+                    pPacket->m_packetLength = packetLen - 1;
+                    pPacket->m_pFunc = ServerPacketEx[inBuf[pi]];
                     CIOSocket::AddRef();
                     m_pReadBuf->AddRef();
                     InterlockedIncrement(&CPacketServerEx::g_nPendingPacket);
@@ -654,34 +715,46 @@ const char *CSocketServerEx::IP()
 
 void CSocketServerEx::OnCreate()
 {
-    static CryptoPP::byte *modBuffer = NULL;
-    static CryptoPP::byte *expBuffer = NULL;
-    static int modByteCount;
-    static int expByteCount;
-
-    if (!modBuffer) {
-        modByteCount = static_cast<int>(RSA_Params->GetModulus().MinEncodedSize());
-        expByteCount = static_cast<int>(RSA_Params->GetPublicExponent().MinEncodedSize());
-        modBuffer = new CryptoPP::byte[modByteCount];
-        expBuffer = new CryptoPP::byte[expByteCount];
-        RSA_Params->GetModulus().Encode(modBuffer, modByteCount);
-        RSA_Params->GetPublicExponent().Encode(expBuffer, expByteCount);
+    if (!rsaParams)
+    {
+        CloseSocket();
+        return;
     }
+    try
+    {
+        int modByteCount = static_cast<int>(rsaParams->GetModulus().MinEncodedSize());
+        int expByteCount = static_cast<int>(rsaParams->GetPublicExponent().MinEncodedSize());
+        if (modByteCount <= 0 || modByteCount > 512 || expByteCount <= 0 || expByteCount > modByteCount)
+        {
+            CloseSocket();
+            return;
+        }
+        // Export the actual generated exponent rather than assuming its value.
+        SecByteBlock modBuffer(modByteCount);
+        SecByteBlock expBuffer(expByteCount);
+        rsaParams->GetModulus().Encode(modBuffer, modByteCount);
+        rsaParams->GetPublicExponent().Encode(expBuffer, expByteCount);
 
-    oneTimeKey = rand() << 16 | rand();
+        oneTimeKey = static_cast<int>((static_cast<unsigned int>(rand()) << 16) | static_cast<unsigned int>(rand()));
+        EncOneTimeKey = oneTimeKey | PRIVATE_KEY;
+        DecOneTimeKey = oneTimeKey | PRIVATE_KEY;
 
-    EncOneTimeKey = oneTimeKey | PRIVATE_KEY;
-    DecOneTimeKey = oneTimeKey | PRIVATE_KEY;
-
-    if ( config.encrypt == true)
-        Send("cdddbdb", AC_PROTOCOL_VER, oneTimeKey, config.ProtocolVer, 
-            expByteCount, expByteCount, expBuffer, modByteCount, modByteCount, modBuffer);
-    else{
-        // XXX: Is there a reason to not send the protocol version when doing non-enc?
-        NonEncSend("cdddbdb", AC_PROTOCOL_VER, oneTimeKey, config.ProtocolVer,
-            expByteCount, expByteCount, expBuffer, modByteCount, modByteCount, modBuffer);
+        if (config.encrypt)
+            Send("cdddbdb", AC_PROTOCOL_VER, oneTimeKey, config.ProtocolVer,
+                expByteCount, expByteCount, expBuffer.data(), modByteCount, modByteCount, modBuffer.data());
+        else
+        {
+            // XXX: Is there a reason to not send the protocol version when doing non-enc?
+            NonEncSend("cdddbdb", AC_PROTOCOL_VER, oneTimeKey, config.ProtocolVer,
+                expByteCount, expByteCount, expBuffer.data(), modByteCount, modByteCount, modBuffer.data());
+        }
     }
-    AS_LOG_VERBOSE( "SND: AC_PROTOCOL_VER,onetimekey:%d,buildVersion:%s", oneTimeKey, buildVersion);
+    catch (const std::exception &)
+    {
+        CloseSocket();
+        return;
+    }
+    AS_LOG_VERBOSE("SND: AC_PROTOCOL_VER,onetimekey:%d,buildVersion:%s", oneTimeKey, buildVersion);
     OnRead();
 }
 

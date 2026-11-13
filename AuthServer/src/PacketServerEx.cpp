@@ -70,7 +70,7 @@ void CPacketServerEx::OnIOCallback(BOOL bSuccess, DWORD dwTransferred, LPOVERLAP
 {
     unsigned char *packet = (unsigned char *) m_pBuf->m_buffer + dwTransferred;
 
-    if ((*m_pFunc)(m_pSocket, packet + 1)) {
+    if ((*m_pFunc)(static_cast<CSocketServerEx *>(m_pSocket), packet + 1, m_packetLength)) {
         m_pSocket->CIOSocket::CloseSocket();
     }
 

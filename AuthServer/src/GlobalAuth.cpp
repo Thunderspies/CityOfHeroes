@@ -15,6 +15,7 @@
 #include "IPList.h"
 
 #include <tchar.h>
+#include <cstdlib>
 
 #define BUTTON_WIDTH    160
 
@@ -222,8 +223,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     
     InitializeBlowfish(blowFishKey, sizeof(blowFishKey));
 
-    extern void InitRSAParams();
-    InitRSAParams();
+    extern bool InitRSAParams();
+    if (!InitRSAParams())
+    {
+        MessageBox(NULL, _T("RSA initialization failed."), _T("AuthServer Error"), MB_ICONERROR | MB_OK);
+        return EXIT_FAILURE;
+    }
 
     g_linDB = new DBEnv;
     server = new CServer;

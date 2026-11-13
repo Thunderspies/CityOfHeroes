@@ -55,7 +55,7 @@ class CSocketServerEx;
 
 typedef bool (*ServerPacketFunc)(CSocketServer* , const unsigned char* packet);
 typedef void (*InteractivePacketFunc)(CSocketInt* , const char* packet);
-typedef bool (*ServerPacketFuncEx)(CSocketServerEx* , const unsigned char* packet);
+typedef bool (*ServerPacketFuncEx)(CSocketServerEx* , const unsigned char* packet, size_t length);
 typedef void (*EncPacketType)(unsigned char *buf, __int64 &key, int &length);
 typedef bool (*DecPacketType)(unsigned char *buf, __int64 &key, int length);
 
