@@ -516,13 +516,13 @@ static int opened_native_object(void)
 	CHECK(DeleteFileA(moved));
 	fileSystemDestroy(&system);
 	CHECK(!system);
-	CHECK(pg_reader_read(reader, bytes, sizeof(bytes), &count, NULL) == PG_OK);
-	CHECK(count == 6 && !memcmp(bytes, "iginal", 6));
-	CHECK(pg_reader_read(reader, bytes, sizeof(bytes), &count, NULL) == PG_END);
+	// Piggle v1 revalidates the captured native path on each read. Replacement
+	// makes the old reader stale; it must never retarget to the new file.
+	CHECK(pg_reader_read(reader, bytes, sizeof(bytes), &count, NULL) == PG_STALE);
 	CHECK(count == 0);
-	CHECK(pg_reader_seek(reader, 0, NULL) == PG_OK);
-	CHECK(pg_reader_read(reader, bytes, sizeof(bytes), &count, NULL) == PG_OK);
-	CHECK(count == 8 && !memcmp(bytes, "original", 8));
+	CHECK(pg_reader_read(reader, bytes, sizeof(bytes), &count, NULL) == PG_INVALID);
+	CHECK(count == 0);
+	CHECK(pg_reader_seek(reader, 0, NULL) == PG_INVALID);
 	CHECK(pg_reader_close(&reader, NULL) == PG_OK);
 	CHECK(DeleteFileA(path));
 	fileSystemCallbacksEnabled(1);
