@@ -1,0 +1,87 @@
+#############################################################
+
+Sequencer
+#############################################################
+
+TypeDef Door_Arachnos_Elevator 
+	BaseSkeleton	Door_Arachnos_Elevator\Skel_Arac_Elev
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Arachnos_Elevator 
+	  Anim          Door_Arachnos_Elevator\Skel_Arac_Elev 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_Arachnos_Elevator 
+	  Anim          Door_Arachnos_Elevator\Skel_Arac_Elev 6 10 
+	  PlayFX	fx\doors\techdoor2.fx
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Arachnos_Elevator 
+	  Anim          Door_Arachnos_Elevator\Skel_Arac_Elev 11 15 
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Arachnos_Elevator 
+	  Anim          Door_Arachnos_Elevator\Skel_Arac_Elev 15 20
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Arachnos_Elevator 
+	  Anim          Door_Arachnos_Elevator\Skel_Arac_Elev 21 22
+	  PlayFX	fx\doors\techdoor3.fx
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Arachnos_Elevator 
+	  Anim          Door_Arachnos_Elevator\Skel_Arac_Elev 23  
+	TEnd
+MEnd
+
+SeqEnd
+

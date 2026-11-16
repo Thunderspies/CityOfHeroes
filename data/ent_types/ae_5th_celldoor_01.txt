@@ -1,0 +1,43 @@
+#############################################################
+## AE_5th_Celldoor_01.txt
+#############################################################
+
+Type
+
+#############################################################
+
+Sequencer	Prop_basic.txt
+
+ConstantState	NONHUMAN
+
+#############################################################
+
+HealthFX
+	Range			0.0001 100
+	LibraryPiece		AE_5th_Celldoor_01
+End
+
+HealthFx
+	Range			0 0.0001
+	OneShotFx		Explosions\MetalExplosion\Large_MetalExplosion.Fx
+End
+
+#############################################################
+
+CapsuleSize	6 10 6
+CapsuleOffset   0 0 0
+CollisionType	LibraryPiece
+Selection	LibraryPiece
+
+FadeOutStart	500
+FadeOutFinish	550
+
+ShadowType	None
+Placement	DeadOn
+
+TicksToLingerAfterDeath			25
+TicksToFadeAwayAfterDeath		1
+
+#############################################################
+
+End

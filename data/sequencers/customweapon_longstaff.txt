@@ -1,0 +1,61 @@
+#########################################################
+## CustomWeapon_Two_Handed.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef LongStaff_Base
+	BaseSkeleton	CustomWeapons_LongStaff\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoSizeScale nodraw
+	Priority	0
+
+	Type		LongStaff_Base
+	Anim	CustomWeapons_LongStaff\skel_ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	2HLARGE SPAWNBACK
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat> <TwoHandCombat>
+	NextMove	Combat_Cycle
+	Flags		NoSizeScale nodraw
+
+	Type		LongStaff_Base
+		Anim	CustomWeapons_LongStaff\skel_ready 1
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	2HLARGE
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat> <TwoHandCombat>
+	Flags		Cycle NoSizeScale
+	NextMove	Ready
+
+	Type		LongStaff_Base
+		Anim	CustomWeapons_LongStaff\skel_ready 1
+	TEnd
+MEnd
+
+##########################################################
+
+SeqEnd

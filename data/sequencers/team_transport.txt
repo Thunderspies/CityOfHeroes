@@ -1,0 +1,102 @@
+#############################################################
+## FX_banner.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Hero_Transport
+	BaseSkeleton	Team_Transport\Skel_Ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+###################
+### SPAWN AND LAND ##
+###################
+
+Move Ready
+	Requires	TEAMTRANSPORT
+	Include 	sequencers\Members\Readies.inc
+	Flags		NoSizeScale NotSelectable NOCOLLISION
+	NextMove	LiftOff_Start
+
+	Type		Hero_Transport
+	  Anim          Team_Transport\Skel_Ready 1 1
+	  PlayFx	V_COV\Powers\RobotSpawns\bot_invisible.fx 1 constant
+     	TEnd
+MEnd
+
+##############################################
+Move LiftOff_Start
+	#Requires	TEAMTRANSPORT
+	Include 	sequencers\Members\Readies.inc
+	Flags		NoSizeScale NotSelectable NOCOLLISION
+	NextMove	LiftOff_Idle_One
+
+	Type		Hero_Transport
+	  Anim          Team_Transport\Transport 1 80
+	  PlayFX	GENERIC\entityFadeIn.fx 1 Constant
+     	TEnd
+MEnd
+
+
+Move LiftOff_Idle_One
+	#Requires	TEAMTRANSPORT
+	#Include sequencers\Members\Readies.inc
+	Flags		NoSizeScale NotSelectable NOCOLLISION Cycle
+	CycleMove	LiftOff_Idle_One
+	Scale 0.8
+
+	Type		Hero_Transport
+	  Anim          Team_Transport\Transport 81 160
+     	TEnd
+MEnd
+
+
+###################
+### DEATH - TAKE OFF ##
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        101
+	Interrupts	<DeathIRQ> LiftOff_Idle_One
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Flags		NoSizeScale NotSelectable NOCOLLISION
+	Sets            NOCOLLISION
+	SticksOnChild	DEATH GROUND
+
+	Type		Hero_Transport
+         Anim        	Team_Transport\Transport 161 220
+	  PlayFx	GENERIC\Transport_Fade.fx 1 #constant
+     	TEnd
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		NotSelectable cycle #HideWeapon HideShield
+	Sets            NOCOLLISION
+	CycleMove	Default_postdeath
+	NextMove	Default_postdeath
+
+	Type		Hero_Transport
+         Anim        	Team_Transport\Transport 220 220
+	#  PlayFx	V_COV\Powers\RobotSpawns\bot_invisible.fx 1 constant
+     	TEnd
+
+MEnd
+
+
+#############################################################
+
+SeqEnd

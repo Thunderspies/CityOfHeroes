@@ -1,0 +1,148 @@
+#############################################################
+## SnowBody.fx
+#############################################################
+
+FxInfo
+
+#########################################################
+#################### BODY GLOW 1 ########################
+#########################################################
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		ENAME	LeftUarmGlow
+		Type	Local
+		At	UarmL
+		part	:ColdMist.part
+		part	:ColdMist_Additive.part
+	End
+
+	Event
+		ENAME	RightUarmGlow
+		Type	Local
+		At	UarmR
+		part	:ColdMist.part
+		part	:ColdMist_Additive.part
+	End
+
+	Event
+		ENAME	LeftLarmGlow
+		Type	Local
+		At	WepL
+		part	:ColdMist_Additive.part
+	End
+
+	Event
+		ENAME	RightLarmGlow
+		Type	Local
+		At	WepR
+		part	:ColdMist_Additive.part
+
+	End
+
+	Event
+		ENAME	ChestGlow2
+		Type	Local
+		At	Chest
+		part	:ColdMist_Trail.part
+		part	:ColdMist_Highlight_Trail.part
+	End
+
+	Event
+		ENAME	ChestGlow2
+		Type	Local
+		At	Hips
+		part	:ColdMist.part
+		part	:ColdMist_Additive.part
+		part	:ColdMist_Trail.part
+		part	:ColdMist_Highlight_Trail.part
+	End
+
+	Event
+		ENAME	LeftLLegGlow
+		Type	PositOnly
+		At	LLegL
+		part	:ColdMist.part
+		part	:ColdMist_Additive_Stationary.part
+
+	End
+
+	Event
+		ENAME	LeftLLegGlow
+		Type	PositOnly
+		At	LLegR
+		part	:ColdMist.part
+		part	:ColdMist_Additive_Stationary.part
+
+	End
+End
+
+
+#########################################################
+#################### BODY GLOW 1 ########################
+#########################################################
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		ENAME	HeadGlow
+		Type	Local
+		At	Hair
+		part	:Snowflakes.part
+	End
+
+	Event
+		ENAME	ChestGlow
+		Type	Local
+		At	Hips
+		part	:Snowflakes.part
+	End
+
+	Event
+		ENAME	RightUarmGlow
+		Type	Local
+		At	UarmR
+		part	:Snowflakes.part
+	End
+
+	Event
+		ENAME	LeftUarmGlow
+		Type	Local
+		At	UarmL
+		part	:Snowflakes.part
+	End
+
+	Event
+		ENAME	LeftLarmGlow
+		Type	Local
+		At	WepL
+		part	:Snowflakes.part
+	End
+
+	Event
+		ENAME	RightLarmGlow
+		Type	Local
+		At	WepR
+		part	:Snowflakes.part
+	End
+
+	Event
+		ENAME	RightULegGlow
+		Type	Local
+		At	UlegR
+		part	:Snowflakes.part
+	End
+
+	Event
+		ENAME	LeftLLegGlow
+		Type	Local
+		At	LLegL
+		part	:Snowflakes.part
+	End
+
+End

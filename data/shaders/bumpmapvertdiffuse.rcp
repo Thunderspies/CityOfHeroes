@@ -1,0 +1,61 @@
+!!RC1.0
+#
+#	BLENDMODE_BUMPMAP_MULTIPLY
+#
+{
+	rgb { // normalize n and h  (step 1)
+		spare1 = expand(col1) . expand(col1);
+	}
+}
+{
+	rgb { // normalize h (step 2)
+		discard = expand(col1);
+		discard = half_bias(col1) *
+                 unsigned_invert(spare1);
+		col1 = sum();
+	}
+}
+{
+	rgb {
+		col1 = expand(col1) . expand(tex2);
+	}
+}
+{
+	rgb { // Multiply 2 base textures and by 2
+		spare0 = unsigned(tex0) * unsigned(tex1);
+		scale_by_two();
+	}
+	alpha { // Specular exponent (2)
+		col1 = unsigned(col1.b) * unsigned(col1.b);
+	}
+}
+{
+	alpha { // Specular exponent (4)
+		col1 = unsigned(col1.a) * unsigned(col1.a);
+	}
+}
+{
+	rgb { // Specular color
+		col1 = unsigned(col1.a) * const1;
+	}
+}
+{
+	rgb { // Specular map from texture
+		col1 = unsigned(col1) * unsigned(tex2.a);
+	}
+	alpha { // Final alpha calculation
+		spare0 = unsigned(const0) * unsigned(tex1);
+	}
+}
+{
+	rgb { // Constant color and multiply by 4
+		spare0 = unsigned(spare0) * unsigned(col0);
+		scale_by_four();
+	}
+	alpha { // Final alpha calculation
+		spare0 = unsigned(spare0) * unsigned(tex0);
+	}
+}
+clamp_color_sum();
+out.rgb = lerp(fog.a, color_sum, fog);
+out.a = spare0;

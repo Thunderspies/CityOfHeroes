@@ -1,0 +1,1 @@
+"HospitalLocked"		"Incarnate Trials are dangerous to return to on your own. These emergency doors will lead back to the trial, but are unlocked only periodically to allow for regrouping in a relatively safe environment."

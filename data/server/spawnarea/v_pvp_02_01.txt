@@ -1,0 +1,46 @@
+SpawnArea Global
+
+	// Redundent fields?
+	MaxActiveEntities 1000000
+	MaxCritterCount 100
+	MaxNPCCount 0
+	MaxCritterPerPlayer 850		// This can go.  Mission maps determine max critter count some other way now.
+	MaxTriggerCount 10		// This can go.  Not used anymore.
+	MaxCritterSpawnCount infinite
+
+
+
+
+	NPC NPC_Male_Unkempt
+		Type MaleNPC_101, MaleNPC_102, MaleNPC_103, MaleNPC_104, MaleNPC_105, MaleNPC_106, MaleNPC_107,
+		Type MaleNPC_108, MaleNPC_109, MaleNPC_110, MaleNPC_111, MaleNPC_112, MaleNPC_113, MaleNPC_114,
+		Type MaleNPC_115
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+		RunSpeedVariation 0.3
+	End
+
+	
+
+	NPC NPC_Female_Unkempt
+		Type FemaleNPC_101, FemaleNPC_102, FemaleNPC_103, FemaleNPC_104, FemaleNPC_105, FemaleNPC_106, 
+		Type FemaleNPC_107, FemaleNPC_108, FemaleNPC_109, FemaleNPC_110, FemaleNPC_111, FemaleNPC_112,
+		Type FemaleNPC_113, FemaleNPC_114, FemaleNPC_115, 
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+		RunSpeedVariation 0.3
+	End
+	
+		
+
+	Generator NPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 10
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Unkempt, NPC_Female_Unkempt,
+	End
+
+	
+End

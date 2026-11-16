@@ -1,0 +1,89 @@
+Texture v_destsmn_circle_pad.tga
+	Bumpmap v_destsmn_circle_pad_bump.tga
+End
+
+Trick vdestsmncircle
+	Rotate -0.005
+	Autolod	
+	LodFar 800
+	LodFarFade 200
+	End
+	#ScrollST0 0.0006 -0.0004
+	ObjFlags FullBright
+	Trickflags NoColl
+End
+
+Trick vdestsmncrystal
+	#Sway 1.200000 0.020944
+	ObjFlags FullBright
+	LodFar 800
+	lodfarfade 100
+End
+
+Texture x_summoncircle_scroll
+	Base1 v_destsmn_circle_glo.tga
+	Base1Scroll -0.003 0.001
+	Base1Scale 1.5 1
+
+	Multiply1 v_destsmn_circle_glo.tga
+	Multiply1Scroll 0.0006 -0.0007
+	Multiply1Scale 0.8 0.5
+	Multiply2reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 croatoa_cauldron01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll -0.001 -0.001
+	Base2Scale 1.2 1.2
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1 
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 texture_name.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 190 185	160
+	SpecularColor2 255 255	255
+	SpecularExponent1 8
+	#SpecularExponent2 2
+
+	Flags AlwaysAddGlow 
+	MinAddGlow 255
+	MaxAddGlow 255
+	BaseAddGlow 255
+
+	DiffuseScale 2
+	AmbientScale 4
+
+		Fallback
+		UseFallback 1
+		Base  v_destsmn_circle_glo.tga
+		Blend v_destsmn_circle_glo.tga
+		Bumpmap none
+		BlendType multiply
+		ScaleST0 1 1
+		ScaleST1 0.5 0.8
+	End
+
+End

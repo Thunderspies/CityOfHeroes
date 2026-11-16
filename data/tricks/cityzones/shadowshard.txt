@@ -1,0 +1,453 @@
+Trick ssrvralpha
+	LodFar 1000
+	LodFarFade 350
+End
+
+Trick ssarchedgerock01
+	LodFar 5000
+	LodFarFade 1000
+End
+
+Trick sswater1
+	SortBias -900.000000
+	ScrollST0 0.0005 0.0004
+	ScrollST1 0.0007 -0.0003
+	LodFar 2100
+	LodFarFade 350
+	##StAnim 0.05000 0.050000 aqua
+	TrickFlags NoColl
+End
+
+Trick sswtrfall1
+	SortBias 1600.000
+	ScrollST0 0.00 -0.03
+	ScrollST1 0.00 -0.07
+	LodFar 2100
+	LodFarFade 350
+	TrickFlags NoColl ##DoubleSided
+End
+
+Trick sswtrfallHI
+	SortBias 1600.000
+	ScrollST0 0.00 -0.03
+	ScrollST1 0.00 -0.07
+	LodFar 1100
+	LodFarFade 0
+	TrickFlags NoColl ##DoubleSided
+End
+
+Trick sswtrfallLO
+	SortBias 1600.000
+	ScrollST0 0.00 -0.03
+	ScrollST1 0.00 -0.07
+	LodNear 1100
+	LodFar 5000
+	LodFarFade 350
+	TrickFlags NoColl ##DoubleSided
+End
+
+Trick sswtrfallcap
+	ScrollST1 0.00 -0.04
+	LodFar 800
+	LodFarFade 200
+	TrickFlags NoColl additive nozwrite
+End
+
+Trick sstreeshadow
+	ShadowDist 120.000000
+	LodFar 200
+	LodFarFade 50
+	TrickFlags NoColl LightFace
+End
+
+Trick ssfruithi
+	LodFar 125
+	LodFarFade 15
+End
+
+Trick ssfruitlo
+	LodNear 124
+	LodFar 250
+	LodFarFade 20
+End
+
+Trick ssfruitlo2
+	LodNear 250
+	LodFar 1000
+	LodFarFade 50
+End
+
+Trick sstreedeadhi
+	LodFar 500
+	LodFarFade 100
+End
+
+Trick sstreedeadlo
+	LodNear 501
+	LodFar 1300
+	LodFarFade 100
+End
+
+Trick sschantrywinhi
+	LodFar 2200
+	LodFarFade 300
+End
+
+Trick sschantrywalk
+	LodFar 3000
+	LodFarFade 300
+End
+
+Trick sschantrybarrier
+	TrickFlags DoubleSided Additive SimpleAlphaSort
+	ScrollST0 0 0.01
+	ScrollST1 0.005 0
+	ObjFlags NoLightAngle FullBright
+End
+
+Trick sschantryshadow
+	#TrickFlags NoColl
+	ObjFlags NoLightAngle FullBright
+End
+
+Trick sschantrybeam
+	ScrollST1 0.0008 -0.002
+	ScrollST0 0 0
+	ObjFlags FullBright
+	TrickFlags NoColl Additive NoZWrite
+	SortBias 50000.00
+End
+
+Trick ssstormpalacebeam
+	ScrollST1 0.0008 -0.002
+	ScrollST0 0 0
+	#ObjFlags FullBright
+	TrickFlags NoColl Additive NoZWrite
+	SortBias 50000.00
+End
+
+Trick chantryintdoor
+	TrickFlags NoColl
+End
+
+Trick horthavine01
+	LodFar 600
+	LodFarFade 150
+	Sway 0.600 0.0400
+	ScrollST0 0.004 0.0
+	ScrollST1 0.0 0.01
+	##TrickFlags Additive SimpleAlphaSort
+	ObjFlags FullBright
+End
+
+Trick horthadoor
+	GroupFlags VolumeTrigger DoorVolume
+	ObjFlags FullBright
+	TrickFlags NoColl EditorVisible
+End
+
+Trick monmt01
+	Rotate 0.02
+	Sway 0.1 0.1
+End
+
+Trick monmt02
+	Rotate 0.01
+End
+
+Trick monmtrot01
+	Rotate 0.01
+End
+
+Trick monmtrot02
+	Rotate -0.005
+End
+
+Trick monmtrot03
+	Rotate 0.006
+End
+
+Trick monmtrot04
+	Rotate -0.02
+End
+
+Trick shieldcol
+	SortBias 50000.00
+	ScrollST0 0.001 0.0007
+	ScrollST1 -0.0008 -0.0011
+	ObjFlags FullBright
+	TrickFlags Additive NoZWrite
+End
+
+Trick shieldarm
+	Rotate 0.01
+End
+
+Trick shieldfxtrail
+	Rotate 0.01
+	SortBias 45000.00
+	ScrollST0 0.003 0
+	ScrollST1 0.0005 0.005
+	ObjFlags FullBright
+	TrickFlags Additive NoZWrite
+End
+
+Trick shieldglowfx
+	Rotate 0.01
+	ScrollST0 -0.02 0
+	ObjFlags FullBright
+End
+
+Trick shieldglowfx2
+	Rotate 0.01
+	ScrollST0 0.02 0
+	ObjFlags FullBright
+End
+
+Trick islemount
+	LodFar 5000
+	LodFarFade 300
+End
+
+Texture floatrock_wall_detail.tga
+	Fade 1 .03
+End
+
+Texture floatrock_wall_bump.tga
+	Flags IsBumpmap
+End
+
+Texture floatrock_wall_side.tga
+	BumpMap floatrock_wall_bump.tga
+	Blend floatrock_wall_detail.tga
+	BlendType Multiply
+	ScaleST0 10 10
+End
+
+Texture SS_grass_plates_01.tga
+	Surface GRASS
+	Blend floatrock_wall_detail.tga
+	BlendType Multiply
+	ScaleST0 48 48
+End
+
+Texture SS_riverrock_trans.tga
+	Blend floatrock_wall_detail.tga
+	BlendType Multiply
+	ScaleST0 5 2.5
+	Flags ClampT
+End
+
+Texture ss_water_bump_01.tga
+	Flags IsBumpmap
+End
+
+Texture ss_water_01b.tga
+End
+
+Texture ss_water_01.tga
+	Blend ss_water_01b.tga
+	BlendType Multiply
+	ScaleST1 2 2
+	BumpMap ss_water_bump_01.tga
+End
+
+Texture ss_waterfallB.tga
+End
+
+Texture ss_waterfallA.tga
+	Blend ss_waterfallB.tga
+	BlendType Multiply
+	ScaleST0 1 3
+End
+
+Texture ss_waterfall_transB.tga
+End
+
+Texture ss_waterfall_transA.tga
+	Blend ss_waterfall_transB.tga
+	BlendType Multiply
+	ScaleST0 1 2
+End
+
+Texture ss_chantry_roof_02_bump.tga
+	Flags IsBumpmap
+End
+
+Texture ss_chantry_window_01_bump.tga
+	Flags IsBumpmap
+End
+
+Texture ss_chantry_roof_02.tga
+	Blend ss_chantry_roof_02_detail.tga
+	#Blend ss_chantry_interior_wall_detail_01.tga
+	BlendType Multiply
+	BumpMap ss_chantry_roof_02_bump.tga
+	ScaleST0 35 35
+End
+
+Texture ss_chantry_window_01.tga
+	Blend ss_chantry_roof_02_detail.tga
+	#Blend ss_chantry_interior_wall_detail_01.tga
+	BlendType Multiply
+	BumpMap ss_chantry_roof_02_bump.tga
+	ScaleST0 3 3
+End
+
+Texture ss_chantry_roof_01.tga
+	#Blend ss_chantry_interior_wall_detail_01.tga
+	Blend ss_chantry_roof_02_detail.tga
+	BlendType Multiply
+	BumpMap ss_chantry_roof_02_bump.tga
+	ScaleST0 30 30
+End
+
+Texture ss_chantry_window_trim_01.tga
+	Blend ss_chantry_roof_02_detail.tga
+	BlendType Multiply
+	BumpMap ss_chantry_roof_02_bump.tga
+	ScaleST0 2 4
+End
+
+Texture ss_chantry_window_02.tga
+	Blend ss_chantry_window_01_detail.tga
+	BlendType Multiply
+	BumpMap ss_chantry_window_01_bump.tga
+	ScaleST0 10 38
+End
+
+Texture ss_chantry_black_alpha_fade.tga
+	Flags ClampT
+End
+
+Texture ss_chantry_fx_01.tga
+	Blend ss_chantry_fx_02.tga
+	BlendType Multiply
+	ScaleST1 2 2
+	#BumpMap ss_water_bump_01.tga
+End
+
+Texture ss_chantry_interior_ceiling_01.tga
+	Blend ss_chantry_roof_02_detail.tga
+	BlendType Multiply
+	ScaleST0 7 7
+End
+
+Texture ss_chantry_interior_wall_01.tga
+	Blend ss_chantry_interior_wall_detail_01.tga
+	BlendType Multiply
+	ScaleST0 6 6
+End
+
+Texture ss_chantry_interior_floor_01.tga
+	Blend ss_chantry_roof_02_detail.tga
+	BlendType Multiply
+	ScaleST0 7 7
+End
+
+Texture ss_chantry_interior_lightbeam.tga
+	Flags Truecolor
+	Blend ss_chantry_interior_lightbeam_dust.tga
+	BlendType Multiply
+	ScaleST0 1.5 3
+End
+
+Texture ss_storm_palace_roof_02_bump.tga
+	Flags IsBumpmap
+End
+
+Texture ss_storm_palace_roof_02.tga
+	Blend ss_storm_palace_roof_02_detail.tga
+	BlendType Multiply
+	#BumpMap ss_storm_palace_roof_02_bump.tga
+	ScaleST0 25 25
+End
+
+Texture ss_storm_palace_roof_01.tga
+	Blend ss_storm_palace_roof_02_detail.tga
+	BlendType Multiply
+	#BumpMap ss_storm_palace_roof_02_bump.tga
+	ScaleST0 20 20
+End
+
+Texture ss_storm_palace_window_01.tga
+	Blend ss_storm_palace_roof_02_detail.tga
+	BlendType Multiply
+	#BumpMap ss_storm_palace_roof_02_bump.tga
+	ScaleST0 10 15
+End
+
+Texture ss_storm_palace_interior_ceiling_01.tga
+	Blend ss_storm_palace_roof_02_detail.tga
+	BlendType Multiply
+	ScaleST0 10 10
+End
+
+Texture ss_storm_palace_interior_floor_01.tga
+	Blend ss_storm_palace_roof_02_detail.tga
+	BlendType Multiply
+	ScaleST0 10 10
+End
+
+Texture ss_storm_palace_interior_wall_01.tga
+	Blend ss_storm_palace_interior_wall_detail_01.tga
+	BlendType Multiply
+	ScaleST0 6 6
+End
+
+Texture ss_storm_palace_interior_ball_01.tga
+	Blend ss_storm_palace_interior_wall_detail_01.tga
+	BlendType Multiply
+	ScaleST0 6 6
+End
+
+Texture hortha_scroll.tga
+End
+
+Texture hortha_main.tga
+	Blend hortha_scroll.tga
+	BlendType Multiply
+	ScaleST0 2 4
+End
+
+Texture ss_monument_01.tga
+	Blend floatrock_wall_detail_sml.tga
+	BlendType Multiply
+	ScaleST0 10 10
+End
+
+Texture ss_monument_02.tga
+	Blend floatrock_wall_detail_sml.tga
+	BlendType Multiply
+	ScaleST0 10 10
+End
+
+Texture rularuu_monument.tga
+	BumpMap floatrock_wall_bump.tga
+	Blend floatrock_wall_detail.tga
+	BlendType Multiply
+	ScaleST0 10 10
+End
+
+Texture shield_01.tga
+	Flags SurfaceIcy
+End
+
+Texture shield_arm_pivot_01.tga
+	Blend det_brushed_mtl.tga
+	BlendType Multiply
+	ScaleST0 15 15
+End
+
+Texture shield_arm_clamp_01.tga
+	Blend det_brushed_mtl.tga
+	BlendType Multiply
+	ScaleST0 15 15
+End
+
+Texture shield_arm_pivot_02.tga
+	Blend det_brushed_mtl.tga
+	BlendType Multiply
+	ScaleST0 15 15
+End
+

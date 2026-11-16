@@ -1,0 +1,172 @@
+#############################################################
+## Tentacle_Forest.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Tentacle
+	BaseSkeleton	Tentacle\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef Tentacle_Forest
+	BaseSkeleton	Tentacle\skel_test
+	ParentType	Tentacle
+TypeDefEnd
+
+TypeDef Tentacle_Forest_Invisible
+	BaseSkeleton	Tentacle\skel_test
+	ParentType	Tentacle
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<basicTHREAT>
+Group	<basicMENACE>
+Group	<basicLOOKOUT>
+Group	<basicCHEER>
+Group	<basicVANDAL>
+
+#############################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Include sequencers\Interrupts\Encounters_Idle.inc
+	Include sequencers\Members\Encounters_Idle.inc
+	Flags		Cycle
+	CycleMove	Ready
+	Scale           0.5
+	Interpolate	0
+
+	Type		Tentacle_Forest
+	  Anim          Tentacle\spawn_and_submerge 1 1
+	TEnd
+
+	Type		Tentacle_Forest_Invisible
+	  Anim          Tentacle\spawn_and_submerge 1 1
+	TEnd
+
+MEnd
+
+###################
+###### Spawn   ######
+###################
+
+Move Spawn
+	Requires	ENCOUNTER TENTACLE
+	Priority	2
+	Include sequencers\Interrupts\Encounters_Idle.inc
+	Include sequencers\Members\Encounters_Idle.inc
+	Flags		NotSelectable
+	Sets            NOCOLLISION CANTMOVE
+	NextMove        Spawnblend
+	Priority        1
+	Scale           0.50
+
+	Type		Tentacle_Forest
+	  Anim          Tentacle\spawn_and_submerge 1 20
+	  PlayFX	WORLD\Nature\Forest_TreeExplosion.fx 1
+	TEnd
+
+	Type		Tentacle_Forest_Invisible
+	  Anim          Tentacle\spawn_and_submerge 1 20
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFX	WORLD\Nature\Forest_TreeExplosion.fx 1
+	TEnd
+
+MEnd
+
+Move Spawnblend
+	Include sequencers\Interrupts\Encounters_Idle.inc
+	NextMove        Submerge
+	Scale           0.50
+
+	Type		Tentacle_Forest
+	  Anim          Tentacle\spawn_and_submerge 20 44
+	TEnd
+
+	Type		Tentacle_Forest_Invisible
+	  Anim          Tentacle\spawn_and_submerge 20 44
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+######################################
+
+Move Submerge
+	Include sequencers\Interrupts\Encounters_Idle.inc
+	NextMove        Submerge_post
+	Priority        1
+	Scale           0.80
+
+	Type		Tentacle_Forest
+	  Anim          Tentacle\spawn_and_submerge 45 55
+	TEnd
+
+	Type		Tentacle_Forest_Invisible
+	  Anim          Tentacle\spawn_and_submerge 45 55
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+Move Submerge_post
+	Include sequencers\Interrupts\Encounters_Idle.inc
+	Priority        1
+	NextMove	Ready
+	Scale           0.50
+
+	Type		Tentacle_Forest
+	  Anim          Tentacle\spawn_and_submerge 55 61
+	TEnd
+
+	Type		Tentacle_Forest_Invisible
+	  Anim          Tentacle\spawn_and_submerge 55 61
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+##########################
+SeqEnd

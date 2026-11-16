@@ -1,0 +1,10145 @@
+Name MindsOfMayhem
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P41722455
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+
+// Set Core Values
+		Action
+		{
+			SetScriptValue EventSize 8
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 1
+		}
+		Action
+		{
+			SetScriptValue Badge-PenelopeChallenge 0
+		}
+		Action
+		{
+			SetScriptValue Badge-AuroraChallenge 0
+		}	
+		Action
+		{
+			SetScriptValue Badge-ShaliceChallenge 0
+		}
+		Action
+		{
+			SetScriptValue Cutscene-Skippable 1
+		}
+
+// Disable Hospitals
+		Action GurneyShutoff
+		{
+			GurneyControl
+			{
+				Type DisableRezWindow
+			}
+		}
+
+// Teleporter Block
+		Action CreateTeleporters
+		{
+			PorterCreate TPTR-Malaise
+			PorterCreate TPTR-MalaiseDone
+			PorterCreate TPTR-Penelope
+			PorterCreate TPTR-PenelopeDone
+			PorterCreate TPTR-Aurora
+			PorterCreate TPTR-AuroraDone
+			PorterCreate TPTR-TheWell
+			PorterCreate TPTR-Finale
+			PorterCreate TPTR-FinaleDone
+		}			
+		Action
+		{
+			PorterControl
+			{
+				Porter TPTR-Malaise
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-MalaiseDone
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-Penelope
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-PenelopeDone
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-Aurora
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-AuroraDone
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-TheWell
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-Finale
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-FinaleDone
+				Type Deactivate
+			}
+		}
+
+// Create Spawns: WarmthBuff
+		Action
+		{
+			SpawnCreate WarmthBuff
+			{
+				Location WarmthBuff
+				Group WarmthBuff
+				Team WarmthBuff
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WarmthBuff
+			}
+		}
+
+// Create Spawns: Cutscene
+		Action
+		{
+			SpawnCreate Cutscene
+			{
+				Location Cutscene
+				Group Cutscene
+				Team Cutscene
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Cutscene
+			}
+		}
+
+// Annihilation Block
+// Create Spawns: Annihilation
+		Action
+		{
+			SpawnCreate Annihilation-Malaise
+			{
+				Location Annihilation-Malaise
+				Group Annihilation-Malaise
+				Team Annihilation-Malaise
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Annihilation-Malaise
+			}
+
+			SpawnCreate Annihilation-Penelope
+			{
+				Location Annihilation-Penelope
+				Group Annihilation-Penelope
+				Team Annihilation-Penelope
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Annihilation-Penelope
+			}
+
+			SpawnCreate Annihilation-Aurora
+			{
+				Location Annihilation-Aurora
+				Group Annihilation-Aurora
+				Team Annihilation-Aurora
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Annihilation-Aurora
+			}
+
+			SpawnCreate Annihilation-TheWell
+			{
+				Location Annihilation-TheWell
+				Group Annihilation-TheWell
+				Team Annihilation-TheWell
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Annihilation-TheWell
+			}
+
+			SpawnCreate Annihilation-Finale
+			{
+				Location Annihilation-Finale
+				Group Annihilation-Finale
+				Team Annihilation-Finale
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Annihilation-Finale
+			}
+		}
+
+// Annihilation Block
+// Create Spawns: BadgeChecker
+		Action
+		{
+			SpawnCreate BadgeChecker
+			{
+				Location BadgeChecker
+				Group BadgeChecker
+				Team BadgeChecker
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BadgeChecker
+			}
+		}
+
+// Resurrection Block
+// Create Spawns: Resurrection
+		Action
+		{
+			SpawnCreate Resurrection
+			{
+				Location Resurrection
+				Group Resurrection
+				Team Resurrection
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Resurrection
+			}
+		}
+
+// Portal Block
+// Create Spawns: Portal Malaise
+		Action
+		{
+			SpawnCreate Portal-Malaise
+			{
+				Location Portal-Malaise
+				Group Portal-Malaise
+				Team Portal-Malaise
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Portal-Malaise
+			}
+
+// Create Spawns: Portal Penelope
+			SpawnCreate Portal-Penelope
+			{
+				Location Portal-Penelope
+				Group Portal-Penelope
+				Team Portal-Penelope
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Portal-Penelope
+			}
+
+// Create Spawns: Portal Aurora
+			SpawnCreate Portal-Aurora
+			{
+				Location Portal-Aurora
+				Group Portal-Aurora
+				Team Portal-Aurora
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Portal-Aurora
+			}
+
+// Create Spawns: Portal Final
+			SpawnCreate Portal-Final
+			{
+				Location Portal-Final
+				Group Portal-Final
+				Team Portal-Final
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Portal-Final
+			}
+
+
+// Create Spawns: Portal Finale
+			SpawnCreate Portal-Finale
+			{
+				Location Portal-Finale
+				Group Portal-Finale
+				Team Portal-Finale
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Portal-Finale
+			}
+		}
+
+// Create Spawns: Aurora's Mind FX
+		Action
+		{
+			SpawnCreate AurorasMind-FX
+			{
+				Location AurorasMind-FX
+				Group AurorasMind-FX
+				Team AurorasMind-FX
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team AurorasMind-FX
+			}
+		}
+
+// NPC Block
+// Create Spawns: Desdemona
+		Action
+		{
+			SpawnCreate NPC-Desdemona
+			{
+				Location NPC-Desdemona
+				Group NPC-Desdemona
+				Team NPC-Desdemona
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-Desdemona
+			}
+
+// Create Spawns: Metronome
+			SpawnCreate NPC-Metronome
+			{
+				Location NPC-Metronome
+				Group NPC-Metronome
+				Team NPC-Metronome
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-Metronome
+			}
+
+// Create Spawns: Calvin Scott
+			SpawnCreate NPC-CalvinScott
+			{
+				Location NPC-CalvinScott
+				Group NPC-CalvinScott
+				Team NPC-CalvinScott
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-CalvinScott
+			}
+
+// Create Spawns: Aurora Borealis
+			SpawnCreate NPC-AuroraBorealis
+			{
+				Location NPC-AuroraBorealis
+				Group NPC-AuroraBorealis
+				Team NPC-AuroraBorealis
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-AuroraBorealis
+			}
+
+// Create Spawns: Penelope Yin
+			SpawnCreate NPC-PenelopeYin
+			{
+				Location NPC-PenelopeYin
+				Group NPC-PenelopeYin
+				Team NPC-PenelopeYin
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-PenelopeYin
+			}
+		}
+
+// Stage 1 Block
+// Create Spawns: Malaise, Stage 1 Boss
+		Action 
+		{
+			SpawnCreate Malaise
+			{
+				Location Malaise
+				Group Malaise
+				Team Malaise
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Malaise
+			}
+
+// Create Spawns: World of Anguish
+			SpawnCreate WorldOfAnguish
+			{
+				Location WorldOfAnguish
+				Group WorldOfAnguish
+				Team WorldOfAnguish
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WorldOfAnguish
+			}
+
+// Create Spawns: Jade Spider
+			SpawnCreate JadeSpider
+			{
+				Location JadeSpider
+				Group JadeSpider
+				Team JadeSpider
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team JadeSpider
+			}
+
+// Create Spawns: Nightmares for Stage 1
+
+			SpawnCreate Nightmare-Adamastor
+			{
+				Location Nightmare-Adamastor
+				Group Nightmare-Adamastor
+				Team Nightmare-Adamastor
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Adamastor
+			}
+
+			SpawnCreate Nightmare-Avatar
+			{
+				Location Nightmare-Avatar
+				Group Nightmare-Avatar
+				Team Nightmare-Avatar
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Avatar
+			}
+
+			SpawnCreate Nightmare-Babbage
+			{
+				Location Nightmare-Babbage
+				Group Nightmare-Babbage
+				Team Nightmare-Babbage
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Babbage
+			}
+
+			SpawnCreate Nightmare-Caleb
+			{
+				Location Nightmare-Caleb
+				Group Nightmare-Caleb
+				Team Nightmare-Caleb
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Caleb
+			}
+
+			SpawnCreate Nightmare-CrystalTitan
+			{
+				Location Nightmare-CrystalTitan
+				Group Nightmare-CrystalTitan
+				Team Nightmare-CrystalTitan
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-CrystalTitan
+			}
+
+			SpawnCreate Nightmare-Deathsurge
+			{
+				Location Nightmare-Deathsurge
+				Group Nightmare-Deathsurge
+				Team Nightmare-Deathsurge
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Deathsurge
+			}
+
+			SpawnCreate Nightmare-Eochai
+			{
+				Location Nightmare-Eochai
+				Group Nightmare-Eochai
+				Team Nightmare-Eochai
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Eochai
+			}
+
+			SpawnCreate Nightmare-JackInIrons
+			{
+				Location Nightmare-JackInIrons
+				Group Nightmare-JackInIrons
+				Team Nightmare-JackInIrons
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-JackInIrons
+			}
+
+			SpawnCreate Nightmare-Jurassik
+			{
+				Location Nightmare-Jurassik
+				Group Nightmare-Jurassik
+				Team Nightmare-Jurassik
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Jurassik
+			}
+
+			SpawnCreate Nightmare-KronosTitan
+			{
+				Location Nightmare-KronosTitan
+				Group Nightmare-KronosTitan
+				Team Nightmare-KronosTitan
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-KronosTitan
+			}
+
+			SpawnCreate Nightmare-Lanaru
+			{
+				Location Nightmare-Lanaru
+				Group Nightmare-Lanaru
+				Team Nightmare-Lanaru
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Lanaru
+			}
+
+			SpawnCreate Nightmare-LIWW
+			{
+				Location Nightmare-LIWW
+				Group Nightmare-LIWW
+				Team Nightmare-LIWW
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-LIWW
+			}
+
+			SpawnCreate Nightmare-LordWinter
+			{
+				Location Nightmare-LordWinter
+				Group Nightmare-LordWinter
+				Team Nightmare-LordWinter
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-LordWinter
+			}
+
+			SpawnCreate Nightmare-Paladin
+			{
+				Location Nightmare-Paladin
+				Group Nightmare-Paladin
+				Team Nightmare-Paladin
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Paladin
+			}
+
+			SpawnCreate Nightmare-Ruladak
+			{
+				Location Nightmare-Ruladak
+				Group Nightmare-Ruladak
+				Team Nightmare-Ruladak
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Ruladak
+			}
+
+			SpawnCreate Nightmare-Batzul
+			{
+				Location Nightmare-Batzul
+				Group Nightmare-Batzul
+				Team Nightmare-Batzul
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmare-Batzul
+			}
+
+
+// Create Spawns: Mother Mayhem Clone Fountains
+
+			SpawnCreate CloneArmy-Stage1-A
+			{
+				Location CloneArmy-Stage1-A
+				Group CloneArmy-Stage1-A
+				Team CloneArmy-Stage1-A
+				SpawnBehavior <<MoveToPos(marker:CloneArmy-1A-Dest),Wander>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CloneArmy-Stage1-A
+                                Flags UsePlayerCount
+				MinRespawnTime 120
+				Count	1,	6,	6
+				Count	8,	6,	6
+				Count	9,	6,	6
+				Count	10,	6,	6
+				Count	11,	6,	6
+				Count	12,	6,	6
+				Count	13,	6,	6
+				Count	14,	6,	6
+				Count	15,	6,	6
+				Count	16,	6,	6
+			}
+			SpawnCreate CloneArmy-Stage1-B
+			{
+				Location CloneArmy-Stage1-B
+				Group CloneArmy-Stage1-B
+				Team CloneArmy-Stage1-B
+				SpawnBehavior <<MoveToPos(marker:CloneArmy-1B-Dest),Wander>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CloneArmy-Stage1-B
+                                Flags UsePlayerCount
+				MinRespawnTime 120
+				Count	1,	4,	4
+				Count	8,	4,	4
+				Count	9,	4,	4
+				Count	10,	4,	4
+				Count	11,	4,	4
+				Count	12,	4,	4
+				Count	13,	4,	4
+				Count	14,	4,	4
+				Count	15,	6,	6
+				Count	16,	6,	6
+			}
+			SpawnCreate CloneArmy-Stage1-C
+			{
+				Location CloneArmy-Stage1-C
+				Group CloneArmy-Stage1-C
+				Team CloneArmy-Stage1-C
+				SpawnBehavior <<MoveToPos(marker:CloneArmy-1C-Dest),Wander>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CloneArmy-Stage1-C
+                                Flags UsePlayerCount
+				MinRespawnTime 120
+				Count	1,	4,	4
+				Count	8,	4,	4
+				Count	9,	4,	4
+				Count	10,	4,	4
+				Count	11,	6,	6
+				Count	12,	6,	6
+				Count	13,	6,	6
+				Count	14,	6,	6
+				Count	15,	6,	6
+				Count	16,	6,	6
+			}
+			SpawnCreate CloneArmy-Stage1-D
+			{
+				Location CloneArmy-Stage1-D
+				Group CloneArmy-Stage1-D
+				Team CloneArmy-Stage1-D
+				SpawnBehavior <<MoveToPos(marker:CloneArmy-1D-Dest),Wander>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CloneArmy-Stage1-D
+                                Flags UsePlayerCount
+				MinRespawnTime 120
+				Count	1,	4,	4
+				Count	8,	4,	4
+				Count	9,	4,	4
+				Count	10,	4,	4
+				Count	11,	4,	4
+				Count	12,	4,	4
+				Count	13,	4,	4
+				Count	14,	4,	4
+				Count	15,	4,	4
+				Count	16,	4,	4
+			}
+			SpawnCreate CloneArmy-Stage1-E
+			{
+				Location CloneArmy-Stage1-E
+				Group CloneArmy-Stage1-E
+				Team CloneArmy-Stage1-E
+				SpawnBehavior <<MoveToPos(marker:CloneArmy-1E-Dest),Wander>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CloneArmy-Stage1-E
+                                Flags UsePlayerCount
+				MinRespawnTime 120
+				Count	1,	4,	4
+				Count	8,	4,	4
+				Count	9,	4,	4
+				Count	10,	4,	4
+				Count	11,	4,	4
+				Count	12,	4,	4
+				Count	13,	6,	6
+				Count	14,	6,	6
+				Count	15,	6,	6
+				Count	16,	6,	6
+			}
+			SpawnCreate CloneArmy-Stage1-F
+			{
+				Location CloneArmy-Stage1-F
+				Group CloneArmy-Stage1-F
+				Team CloneArmy-Stage1-F
+				SpawnBehavior <<MoveToPos(marker:CloneArmy-1F-Dest),Wander>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CloneArmy-Stage1-F
+                                Flags UsePlayerCount
+				MinRespawnTime 120
+				Count	1,	4,	4
+				Count	8,	4,	4
+				Count	9,	4,	4
+				Count	10,	4,	4
+				Count	11,	4,	4
+				Count	12,	4,	4
+				Count	13,	4,	4
+				Count	14,	4,	4
+				Count	15,	4,	4
+				Count	16,	4,	4
+			}
+		}
+
+// Stage 2 Block
+// Create Spawns: Penelope Yin, Stage 2 Boss
+		Action
+		{
+			SpawnCreate Penelope
+			{
+				Location Penelope
+				Group Penelope
+				Team Penelope
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Penelope
+			}
+
+			SpawnCreate Typhoon
+			{
+				Location Typhoon
+				Group Typhoon
+				Team Typhoon
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Typhoon
+			}
+
+			SpawnCreate Vortex-A
+			{
+				Location Vortex-A
+				Group Vortex-A
+				Team Vortex-A
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Vortex-A
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+			SpawnCreate Vortex-B
+			{
+				Location Vortex-B
+				Group Vortex-B
+				Team Vortex-B
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Vortex-B
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+			SpawnCreate Vortex-C
+			{
+				Location Vortex-C
+				Group Vortex-C
+				Team Vortex-C
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Vortex-C
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+			SpawnCreate Vortex-D
+			{
+				Location Vortex-D
+				Group Vortex-D
+				Team Vortex-D
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Vortex-D
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+			SpawnCreate Vortex-E
+			{
+				Location Vortex-E
+				Group Vortex-E
+				Team Vortex-E
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Vortex-E
+				MinRespawnTime 90000
+				Count	1,	0,	0
+				Count	8,	0,	0
+				Count	9,	0,	0
+				Count	10,	0,	0
+				Count	11,	0,	0
+				Count	12,	0,	0
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+			SpawnCreate Vortex-F
+			{
+				Location Vortex-F
+				Group Vortex-F
+				Team Vortex-F
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Vortex-F
+				MinRespawnTime 90000
+				Count	1,	0,	0
+				Count	8,	0,	0
+				Count	9,	0,	0
+				Count	10,	0,	0
+				Count	11,	0,	0
+				Count	12,	0,	0
+				Count	13,	0,	0
+				Count	14,	0,	0
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+			SpawnCreate Void-A
+			{
+				Location Void-A
+				Group Void-A
+				Team Void-A
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Void-A
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+			
+			SpawnCreate Void-B
+			{
+				Location Void-B
+				Group Void-B
+				Team Void-B
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Void-B
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+			SpawnCreate Void-C
+			{
+				Location Void-C
+				Group Void-C
+				Team Void-C
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Void-C
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+			SpawnCreate Void-D
+			{
+				Location Void-D
+				Group Void-D
+				Team Void-D
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Void-D
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+		}
+
+// Create Spawns: Aurora Borealis, Stage 3 Boss
+		Action
+		{
+			SpawnCreate AuroraBorealis
+			{
+				Location AuroraBorealis
+				Group AuroraBorealis
+				Team AuroraBorealis
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team AuroraBorealis
+			}
+
+			SpawnCreate MotherMayhem
+			{
+				Location MotherMayhem
+				Group MotherMayhem
+				Team MotherMayhem
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team MotherMayhem
+			}
+
+			SpawnCreate AuroraPortal-A
+			{
+				Location AuroraPortal-A
+				Group AuroraPortal-A
+				Team AuroraPortal-A
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team AuroraPortal-A
+			}
+
+			SpawnCreate AuroraPortal-B
+			{
+				Location AuroraPortal-B
+				Group AuroraPortal-B
+				Team AuroraPortal-B
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team AuroraPortal-B
+			}
+
+			SpawnCreate AuroraPortal-C
+			{
+				Location AuroraPortal-C
+				Group AuroraPortal-C
+				Team AuroraPortal-C
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team AuroraPortal-C
+			}
+
+			SpawnCreate AuroraPortal-D
+			{
+				Location AuroraPortal-D
+				Group AuroraPortal-D
+				Team AuroraPortal-D
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team AuroraPortal-D
+			}
+
+			SpawnCreate AuroraPortal-Watcher
+			{
+				Location AuroraPortal-Watcher
+				Group AuroraPortal-Watcher
+				Team AuroraPortal-Watcher
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team AuroraPortal-Watcher
+			}
+
+			SpawnCreate CloneArmy-Stage3
+			{
+				Location CloneArmy-Stage3
+				Group CloneArmy-Stage3
+				Team CloneArmy-Stage3
+				SpawnBehavior <<MoveToPos(marker:AuroraBorealis),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CloneArmy-Stage3
+                                Flags UsePlayerCount
+				MinRespawnTime 45
+				Count	1,	4,	4
+				Count	8,	4,	4
+				Count	9,	4,	4
+				Count	10,	4,	4
+				Count	11,	6,	6
+				Count	12,	6,	6
+				Count	13,	6,	6
+				Count	14,	6,	6
+				Count	15,	8,	8
+				Count	16,	8,	8
+			}
+
+// Create Spawns: Doppelgangers
+
+			SpawnCreate Doppelgangers-A
+			{
+				Location Doppelgangers-A
+				Group Doppelgangers-A
+				Team Doppelgangers-A
+				SpawnBehavior <<MoveToPos(random:player)>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Doppelgangers-A
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	2,	2
+				Count	12,	2,	2
+				Count	13,	2,	2
+				Count	14,	3,	3
+				Count	15,	3,	3
+				Count	16,	3,	3
+			}
+		}
+
+// Create Spawns: Mother Malaise, Stage 4 Boss
+		Action
+		{
+			SpawnCreate MotherMalaise
+			{
+				Location MotherMalaise
+				Group MotherMalaise
+				Team MotherMalaise
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team MotherMalaise
+			}
+// Create Spawns: World of Anguish
+			SpawnCreate WorldOfAnguishMini
+			{
+				Location WorldOfAnguishMini
+				Group WorldOfAnguishMini
+				Team WorldOfAnguishMini
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WorldOfAnguishMini
+			}
+		}
+		Action
+		{
+			SpawnCreate ShaliceTilman-A
+			{
+				Location ShaliceTilman-A
+				Group ShaliceTilman-A
+				Team ShaliceTilman-A
+				SpawnBehavior <<Psychic_TeleportIn(Timer(4)),DoNothing(Timer(2)),LimitedSpeed(2.5),CombatOverride(Passive),MoveToPos(marker:ShaliceDestinationA,AnimList(M_Shalice_Cast_Patrol))>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShaliceTilman-A
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+
+			SpawnCreate ShaliceTilman-B
+			{
+				Location ShaliceTilman-B
+				Group ShaliceTilman-B
+				Team ShaliceTilman-B
+				SpawnBehavior <<Psychic_TeleportIn(Timer(4)),DoNothing(Timer(2)),LimitedSpeed(2.5),CombatOverride(Passive),MoveToPos(marker:ShaliceDestinationB,AnimList(M_Shalice_Cast_Patrol))>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShaliceTilman-B
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+
+			SpawnCreate ShaliceTilman-C
+			{
+				Location ShaliceTilman-C
+				Group ShaliceTilman-C
+				Team ShaliceTilman-C
+				SpawnBehavior <<Psychic_TeleportIn(Timer(4)),DoNothing(Timer(2)),LimitedSpeed(2.5),CombatOverride(Passive),MoveToPos(marker:ShaliceDestinationC,AnimList(M_Shalice_Cast_Patrol))>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShaliceTilman-C
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+		}
+
+		Action
+		{
+			SpawnCreate Nightmares
+			{
+				Location Nightmares
+				Group Nightmares
+				Team Nightmares
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Nightmares
+                                Flags UsePlayerCount
+				MinRespawnTime 90000
+				Count	1,	4,	4
+				Count	8,	4,	4
+				Count	9,	4,	4
+				Count	10,	4,	4
+				Count	11,	4,	4
+				Count	12,	4,	4
+				Count	13,	4,	4
+				Count	14,	4,	4
+				Count	15,	4,	4
+				Count	16,	4,	4
+			}
+		}
+
+		Action
+		{
+			SpawnCreate WellWatcher-A
+			{
+				Location WellWatcher-A
+				Group WellWatcher-A
+				Team WellWatcher-A
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WellWatcher-A
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate WellWatcher-B
+			{
+				Location WellWatcher-B
+				Group WellWatcher-B
+				Team WellWatcher-B
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WellWatcher-B
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate WellWatcher-C
+			{
+				Location WellWatcher-C
+				Group WellWatcher-C
+				Team WellWatcher-C
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WellWatcher-C
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate TheWell
+			{
+				Location TheWell
+				Group TheWell
+				Team TheWell
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team TheWell
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+
+		}
+
+// Create Spawns: Shalice Tilman, Stage 5 Boss
+		Action
+		{
+			SpawnCreate TilmansMind
+			{
+				Location TilmansMind
+				Group TilmansMind
+				Team TilmansMind
+				SpawnBehavior <<Psychic_TeleportIn(Timer(4)),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team TilmansMind
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage Desdemona
+//		NextStage Malaise
+//		NextStage Metronome
+//		NextStage Penelope
+//		NextStage Calvin
+//		NextStage Aurora
+//		NextStage FinalChat
+//		NextStage TheWell
+//		NextStage Finale
+//		NextStage RewardWinners
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Setup>>
+		}
+	}
+}
+
+Stage Desdemona
+{
+	DisplayName P3657441802
+	Tooltip P2500667920
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Rest Period with Desdemona>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Annihilation-Malaise
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Annihilation-Penelope
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Annihilation-Aurora
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Annihilation-TheWell
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Annihilation-Finale
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Resurrection
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue FirstPortal-State 0
+		}
+		Action
+		{
+			Delay 5
+			TeamControl
+			{
+				Team BadgeChecker
+				Type Activate
+			}
+		}
+	}
+
+//Start Warmth Spawn Block
+
+	Trigger WarmthBuffActivation
+	{
+		Requires eventLockedByGroup? ! WarmthBuffSpawned scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Warmth of Prometheus Granted>>
+			SetScriptValue WarmthBuffSpawned 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team WarmthBuff
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1172875117
+				Color FF9900
+			}
+		}
+	}
+
+	Trigger WarmthBuffBlocked
+	{
+		Requires eventLockedByGroup? WarmthBuffSpawned scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Warmth of Prometheus Disabled>>
+			SetScriptValue WarmthBuffSpawned 1
+		}
+	}
+
+//End Warmth Spawn Block
+
+//This counter detects when players have entered the 21st room of the complex.
+	Counter PlayersInMalaiseRoom
+	{
+		Type ZEPlayers
+		VolumeName TPTR-MalaiseDone
+	}
+
+//This timer determines when the Desdemona will begin to open the first portal into the Seer Network.
+	Timer FirstPortal-Timer
+	{
+		Duration 00:08
+	}
+
+//This trigger tells Desdemona to start opening the first portal.
+	Trigger FirstPortal-Start
+	{
+		Requires ScriptStageOneBattleStart objectivesucceeded> FirstPortal-State scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Stage 1: Desdemona begins to open portal to Malaise.>>
+		}
+		Action
+		{
+			Reset FirstPortal-Timer
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:FirstPortalOpening),Casting_Shield(Timer(6)),MoveToPos(marker:NPC-Desdemona)>>
+			}
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue FirstPortal-State 1
+		}
+	}
+
+//This trigger informs players when the first portal is opened.
+	Trigger FirstPortal-Open
+	{
+		Requires FirstPortal-Timer complete> FirstPortal-State scriptvalue> 1 == &&
+
+		Action
+		{
+			DebugPrint <<Stage 1: Desdemona opens portal to Malaise.>>
+		}		
+		Action
+		{
+			SetScriptValue FirstPortal-State 2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Portal-Malaise
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter TPTR-Malaise
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P255192904
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Delay 3
+			Floater
+			{
+				Message P718515417
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the stage.
+	Trigger DesdemonaSuccess
+	{
+		Requires PlayersInMalaiseRoom count> 1 >=
+	
+		Action
+		{
+			DebugPrint <<Portal to Malaise's Lair Entered>>
+		}
+
+		NextStage Malaise
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection DesdemonaStage
+	{
+		UIItem Stage1-SpeakToDesdemona
+		{
+			Type CenterText
+			Text P4248609063
+			HideIf FirstPortal-State scriptvalue> 0 >
+		}
+		UIItem MalaisePortalOpened
+		{
+			Type CenterText
+			Text P2143884306
+			ShortText P3290270427
+			HideIf FirstPortal-State scriptvalue> 2 <
+		}
+		UIItem MalaiseCountdownToPortal
+		{
+			Type Timer
+			Timer FirstPortal-Timer
+			Text P4279111462
+			ShortText P1383531207
+			HideIf FirstPortal-State scriptvalue> 1 == !
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Rest Period with Desdemona>>
+		}
+	}
+}
+
+Stage Malaise
+{
+	DisplayName P3768984351
+	Tooltip P4010902313
+
+	AwardKarma
+	KarmaThreshold 10	
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 1:00
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Boss Fight with Malaise>>
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_02High_a_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Malaise
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-A
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-B
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-C
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-D
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-E
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-F
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue NightmaresPhase 0
+		}
+		Action
+		{
+			SetScriptValue MalaiseSummonState 0
+		}
+		Action
+		{
+			SetScriptValue NightmaresDefeated 0
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsedTotal 0
+		}
+		Action
+		{
+			SetScriptValue Malaise-BonusTime-Set 0
+		}
+		Action
+		{
+			SetScriptValue ReadyForNextNightmare 0
+		}
+		Action
+		{
+			SetScriptValue Stage1-Advice-State 0
+		}
+	}
+
+//Resurrection Event Block
+
+//This timer is the delay before the first resurrection begins.
+	Timer ResurrectionDelay
+	{
+		Duration 00:15
+	}
+
+//This timer is the cycle time for the next resurrection.
+	Timer ResurrectionCycle
+	{
+		Duration 00:30
+	}
+
+//This trigger starts the resurrection power for this stage.
+	Trigger ResurrectionBegins
+	{
+		Requires ResurrectionDelay complete> ResurrectionBegun scriptvalue> 0 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P3871633027
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection")>>
+			}
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 1
+		}
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+	}
+
+//This trigger continues the use of the resurrection power for this stage.
+	Trigger ResurrectionContinues
+
+		Requires ResurrectionCycle complete> ResurrectionBegun scriptvalue> 1 == &&
+
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection")>>
+			}
+		}
+		Action
+		{
+			Reset ResurrectionContinues
+		}
+	}
+
+//This trigger depletes the stage timer if the resurrection is used.
+	Trigger ResurrectionDepletion
+	{
+		Requires ResurrectionBegun scriptvalue> 1 == DesdemonaBlessingUsed scriptvalue> 0 > &&
+	
+		Action
+		{
+			DebugPrint <<Resurrection Used. Depleting Malaise Stage Timer by 15 seconds.>>
+		}
+		Action
+		{
+			TimerControl
+			{
+				Timer MalaiseFailureTimer
+				Type Subtract
+				Duration 00:15
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed DesdemonaBlessingUsed scriptvalue> 1 -
+		}
+		Action
+		{
+			Reset ResurrectionDepletion
+		}
+	}
+
+//End Resurrection Event Block
+
+//This timer adds the P2677571450 time which is depletable by use of resurrection.
+	Timer MalaiseSetBonusTime
+	{
+		Duration 0:01
+	}
+
+//This timer is the failure timer for the stage.
+	Timer MalaiseFailureTimer
+	{
+		Duration 5:00
+	}
+
+//This timer prevents the start of the Nightmare phase immediately, to allow the health counter to properly update.
+	Timer MalaiseHealthDelayTimer
+	{
+		Duration 00:15
+	}
+
+//This timer indicates when World of Anguish will begin after the first Nightmare appears.
+	Timer Timer-WorldOfAnguish
+	{
+		Duration 00:30
+	}
+
+//This timer indicates when Desdemona will speak after each Nightmare is summoned.
+	Timer Timer-DesdemonaSpeaks
+	{
+		Duration 00:15
+	}
+
+//This is used to check for Malaise's defeat.
+	Counter MalaiseDefeated
+	{
+		Type Name
+		Name Malaise_P_Malaise
+		Count 1
+	}
+
+//This is used to update the UI with Malaise's current health.
+	Counter MalaiseHealth
+	{
+		Type BossHealth
+		Team Malaise
+	}
+
+//This is used to update the UI with Adamastor's current health.
+	Counter AdamastorHealth
+	{
+		Type BossHealth
+		Team Nightmare-Adamastor
+	}
+
+//This is used to update the UI with Avatar's current health.
+	Counter AvatarHealth
+	{
+		Type BossHealth
+		Team Nightmare-Avatar
+	}
+
+//This is used to update the UI with Babbage's current health.
+	Counter BabbageHealth
+	{
+		Type BossHealth
+		Team Nightmare-Babbage
+	}
+
+//This is used to update the UI with Batzul's current health.
+	Counter BatzulHealth
+	{
+		Type BossHealth
+		Team Nightmare-Batzul
+	}
+
+//This is used to update the UI with Caleb's current health.
+	Counter CalebHealth
+	{
+		Type BossHealth
+		Team Nightmare-Caleb
+	}
+
+//This is used to update the UI with Crystal Titan's current health.
+	Counter CrystalTitanHealth
+	{
+		Type BossHealth
+		Team Nightmare-CrystalTitan
+	}
+
+//This is used to update the UI with Deathsurge's current health.
+	Counter DeathsurgeHealth
+	{
+		Type BossHealth
+		Team Nightmare-Deathsurge
+	}
+
+//This is used to update the UI with Eochai's current health.
+	Counter EochaiHealth
+	{
+		Type BossHealth
+		Team Nightmare-Eochai
+	}
+
+//This is used to update the UI with Adamastor's current health.
+	Counter JackInIronsHealth
+	{
+		Type BossHealth
+		Team Nightmare-JackInIrons
+	}
+
+//This is used to update the UI with Jade Spider's current health.
+	Counter JadeSpiderHealth
+	{
+		Type BossHealth
+		Team JadeSpider
+	}
+
+//This is used to update the UI with Jurassik's current health.
+	Counter JurassikHealth
+	{
+		Type BossHealth
+		Team Nightmare-Jurassik
+	}
+
+//This is used to update the UI with Kronos's current health.
+	Counter KronosTitanHealth
+	{
+		Type BossHealth
+		Team Nightmare-KronosTitan
+	}
+
+//This is used to update the UI with Lanaru's current health.
+	Counter LanaruHealth
+	{
+		Type BossHealth
+		Team Nightmare-Lanaru
+	}
+
+//This is used to update the UI with LIWW's current health.
+	Counter LIWWHealth
+	{
+		Type BossHealth
+		Team Nightmare-LIWW
+	}
+
+//This is used to update the UI with Deathsurge's current health.
+	Counter LordWinterHealth
+	{
+		Type BossHealth
+		Team Nightmare-LordWinter
+	}
+
+//This is used to update the UI with Paladin's current health.
+	Counter PaladinHealth
+	{
+		Type BossHealth
+		Team Nightmare-Paladin
+	}
+
+//This is used to update the UI with Ruludak's current health.
+	Counter RuladakHealth
+	{
+		Type BossHealth
+		Team Nightmare-Ruladak
+	}
+
+//This counter tracks the defeat of Eochai.
+	Counter EochaiDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Eochai
+		Count 1
+	}
+
+//This counter tracks the defeat of Jack in Irons.
+	Counter JackDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_JackInIrons
+		Count 1
+	}
+
+//This counter tracks the defeat of Adamastor.
+	Counter AdamastorDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Adamastor
+		Count 1
+	}
+
+//This counter tracks the defeat of Babbage.
+	Counter BabbageDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Babbage
+		Count 1
+	}
+
+//This counter tracks the defeat of Paladin.
+	Counter PaladinDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Paladin
+		Count 1
+	}
+
+//This counter tracks the defeat of Kronos Class Titan.
+	Counter KronosTitanDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_KronosTitan
+		Count 1
+	}
+
+//This counter tracks the defeat of Jurassik.
+	Counter JurassikDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Jurassik
+		Count 1
+	}
+
+//This counter tracks the defeat of Crystal Titan.
+	Counter CrystalTitanDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_CrystalTitan
+		Count 1
+	}
+
+//This counter tracks the defeat of Caleb.
+	Counter CalebDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Caleb
+		Count 1
+	}
+
+//This counter tracks the defeat of Ruladak.
+	Counter RuladakDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Ruladak
+		Count 1
+	}
+
+//This counter tracks the defeat of Lanaru.
+	Counter LanaruDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Lanaru
+		Count 1
+	}
+
+//This counter tracks the defeat of Batzul.
+	Counter BatzulDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Batzul
+		Count 1
+	}
+
+//This counter tracks the defeat of Deathsurge.
+	Counter DeathsurgeDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Deathsurge
+		Count 1
+	}
+
+//This counter tracks the defeat of Lord Winter.
+	Counter LordWinterDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_LordWinter
+		Count 1
+	}
+
+//This counter tracks the defeat of Avatar of Hamidon.
+	Counter AvatarDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_Avatar
+		Count 1
+	}
+
+//This counter tracks the defeat of LIWW.
+	Counter LIWWDefeated
+	{
+		Type Name
+		Name Malaise_Nightmare_LIWW
+		Count 1
+	}
+
+//
+//Karma Objectives for Stage 1
+//
+
+//Award Karma for defeating a member of Mother Mayhem group (any clone).
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup MotherMayhem
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award Karma for defeating a member of the Malaise group (any Nightmare).
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup Malaise
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 30
+		TeamKarmaLife 60
+	}
+
+//Award Karma for chasing Malaise away.
+//	Objective
+//	{
+//		Type Team
+//		Team SpecialObjective
+//		KarmaValue 10
+//		KarmaLife 20
+//		TeamKarmaValue 10
+//		TeamKarmaLife 20
+//	}
+
+//This trigger adds the bonus time to the clock and allows the timer to display.
+
+	Trigger Malaise-BonusTime-Added
+	{
+		Requires MalaiseSetBonusTime complete> Malaise-BonusTime-Set scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Adding depletable bonus time>>
+			TimerControl
+			{
+				Timer MalaiseFailureTimer
+				Type Add
+				Duration 15:00
+			}
+		}
+		Action
+		{
+			SetScriptValue Malaise-BonusTime-Set 1
+		}
+		Action
+		{
+			Caption
+			{
+				Message P4013025294
+			}
+		}
+	}
+
+//This trigger increments a Nightmare defeat count when a Nightmare is defeated.
+
+	Trigger Nightmare-IncrementDefeat
+	{
+		Requires EochaiDefeated complete> JackDefeated complete> || AdamastorDefeated complete> || BabbageDefeated complete> || PaladinDefeated complete> || KronosTitanDefeated complete> || JurassikDefeated complete> || CrystalTitanDefeated complete> || CalebDefeated complete> || RuladakDefeated complete> || LanaruDefeated complete> || BatzulDefeated complete> || DeathsurgeDefeated complete> || LordWinterDefeated complete> || AvatarDefeated complete> || LIWWDefeated complete> ||
+
+		Action
+		{
+			SetScriptValue NightmaresDefeated NightmaresDefeated scriptvalue> 1 +
+		}
+		Action
+		{
+			Reset EochaiDefeated
+			Reset JackDefeated
+			Reset AdamastorDefeated
+			Reset BabbageDefeated
+			Reset PaladinDefeated
+			Reset KronosTitanDefeated
+			Reset JurassikDefeated
+			Reset CrystalTitanDefeated
+			Reset CalebDefeated
+			Reset RuladakDefeated
+			Reset LanaruDefeated
+			Reset BatzulDefeated
+			Reset DeathsurgeDefeated
+			Reset LordWinterDefeated
+			Reset AvatarDefeated
+			Reset LIWWDefeated
+		}
+		Action
+		{
+			Reset Timer-DesdemonaSpeaks
+		}
+		Action
+		{
+			Delay 2
+			Reset Nightmare-IncrementDefeat
+		}
+	}
+
+//This trigger starts the Malaise Nightmare part of the event when he hits 50% health.
+	Trigger Malaise-NightmareSummon-Start
+	{
+		Requires MalaiseHealthDelayTimer complete> MalaiseHealth count> 51 <= && MalaiseSummonState scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Team Malaise
+				Type DoBehavior
+				Behavior Say(P4254774943)
+			}
+			Caption
+			{
+				Message P3840951720
+			}
+		}
+		Action
+		{
+			Delay 2
+			TeamControl
+			{
+				Team Malaise
+				Type DoBehavior
+				Behavior <<CombatOverride(Passive),Untargetable(1),Unselectable(1),Invincible(1),MoveToPos(marker:MalaiseWait),DoNotMove(1),DoNothing(Timer(1)),DoNotUseAnyPowers(1),DoAttackAI(0),CastingLawRune(Timer(10))>>
+			}
+		}
+		Action
+		{
+			Delay 3
+			TeamControl
+			{
+				Team Malaise
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			SetScriptValue MalaiseSummonState 1
+		}
+		Action
+		{
+			SetScriptValue NightmaresPhase 1
+		}
+		Action
+		{
+			SetScriptValue Stage1-Advice-State 1
+		}
+		Action
+		{
+			Delay 10
+			SetScriptValue ReadyForNextNightmare 1
+			Reset Timer-WorldOfAnguish
+		}
+		Action
+		{
+			Delay 11
+			SetScriptValue WorldOfAnguishState 1
+		}
+		Action
+		{
+			Delay 15
+			Reset Timer-DesdemonaSpeaks
+		}
+		Action
+		{
+			Delay 16
+			SetScriptValue NightmarePhase-DesdemonaSpeaks 1
+		}
+	}
+
+//This is the trigger which begins World of Anguish
+	Trigger Malaise-WorldOfAnguish-Start
+	{
+		Requires WorldOfAnguishState scriptvalue> 1 == Timer-WorldOfAnguish complete> &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team WorldOfAnguish
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Malaise
+				Type DoBehavior
+				Behavior Say(P2886892482)
+			}
+			Caption
+			{
+				Message P1355715589
+			}
+			Floater
+			{
+				Message P1312419951
+				Color FF0000
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue WorldOfAnguishState 2
+		}
+	}
+
+//This is the trigger which resets the World of Anguish timer for correct display within the UI.
+	Trigger Malaise-WorldOfAnguish-TimerReset
+	{
+		Requires WorldOfAnguishState scriptvalue> 2 == Timer-WorldOfAnguish complete> &&
+
+		Action
+		{
+			Reset Timer-WorldOfAnguish
+		}
+		Action
+		{
+			Delay 2
+			Reset Malaise-WorldOfAnguish-TimerReset
+		}
+	}
+
+//This is the trigger for Desdemona to speak after a Nightmare is summoned the first time.
+	Trigger Desdemona-Speaks-FirstNightmare
+	{
+		Requires NightmarePhase-DesdemonaSpeaks scriptvalue> 1 == Timer-DesdemonaSpeaks complete> && NightmaresDefeated scriptvalue> 0 == &&
+
+		Action
+		{
+			Caption
+			{
+				Message P1991402773
+			}
+		}
+	}
+
+//This is the trigger for Desdemona to speak after a Nightmare is summoned the first time.
+	Trigger Desdemona-Speaks-SecondNightmare
+	{
+		Requires NightmarePhase-DesdemonaSpeaks scriptvalue> 1 == Timer-DesdemonaSpeaks complete> && NightmaresDefeated scriptvalue> 1 == &&
+
+		Action
+		{
+			Caption
+			{
+				Message P3868378719
+			}
+		}
+	}
+
+//This is the trigger for Desdemona to speak after a Nightmare is summoned the first time.
+	Trigger Desdemona-Speaks-ThirdNightmare
+	{
+		Requires NightmarePhase-DesdemonaSpeaks scriptvalue> 1 == Timer-DesdemonaSpeaks complete> && NightmaresDefeated scriptvalue> 2 == &&
+
+		Action
+		{
+			Caption
+			{
+				Message P2057301451
+			}
+		}
+	}
+
+//This is the master trigger deck for Malaise's summoning of Nightmares
+	TriggerDeck Malaise-NightmareSummon-Deck
+
+	Requires ReadyForNextNightmare scriptvalue> 1 ==
+
+	Type NeverShuffle
+
+		Trigger Summon-Adamastor
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Adamastor>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P3719701669)
+				}
+				Caption
+				{
+					Message P3268917735
+				}
+				Floater
+				{
+					Message P2947250330
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Adamastor
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Avatar
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Avatar>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P58976266)
+				}
+				Caption
+				{
+					Message P4073937259
+				}
+				Floater
+				{
+					Message P2380490469
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Avatar
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Babbage
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Babbage>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P209129376)
+				}
+				Caption
+				{
+					Message P3077120883
+				}
+				Floater
+				{
+					Message P2517070937
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Babbage
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Batzul
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Batzul>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P1003858059)
+				}
+				Caption
+				{
+					Message P250430605
+				}
+				Floater
+				{
+					Message P4024682237
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Batzul
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Caleb
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Caleb>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P2063631351)
+				}
+				Caption
+				{
+					Message P3821912790
+				}
+				Floater
+				{
+					Message P555235998
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Caleb
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-CrystalTitan
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Crystal Titan>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P2643969294)
+				}
+				Caption
+				{
+					Message P2197182540
+				}
+				Floater
+				{
+					Message P462602386
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-CrystalTitan
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Deathsurge
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Deathsurge>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P2251759803)
+				}
+				Caption
+				{
+					Message P3004157117
+				}
+				Floater
+				{
+					Message P1102961830
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Deathsurge
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Eochai
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Eochai>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P3882388927)
+				}
+				Caption
+				{
+					Message P238948454
+				}
+				Floater
+				{
+					Message P2263427276
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Eochai
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-JackInIrons
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Jack In Irons>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P3498269381)
+				}
+				Caption
+				{
+					Message P1260595067
+				}
+				Floater
+				{
+					Message P3005635922
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-JackInIrons
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Jurassik
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Jurassik>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P260903880)
+				}
+				Caption
+				{
+					Message P4187515635
+				}
+				Floater
+				{
+					Message P878478989
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Jurassik
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-KronosTitan
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Kronos Titan>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P3652431616)
+				}
+				Caption
+				{
+					Message P886153235
+				}
+				Floater
+				{
+					Message P1067155818
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-KronosTitan
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Lanaru
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Lanaru>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P1113497101)
+				}
+				Caption
+				{
+					Message P4181766878
+				}
+				Floater
+				{
+					Message P13374398
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Lanaru
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-LIWW
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons LIWW>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P2845159512)
+				}
+				Caption
+				{
+					Message P2628607070
+				}
+				Floater
+				{
+					Message P311369976
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-LIWW
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-LordWinter
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Lord Winter>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P3825755776)
+				}
+				Caption
+				{
+					Message P978067065
+				}
+				Floater
+				{
+					Message P1297244967
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-LordWinter
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Paladin
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Adamastor>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P1410510800)
+				}
+				Caption
+				{
+					Message P2492630908
+				}
+				Floater
+				{
+					Message P1724557080
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Paladin
+					Type Activate
+				}
+			}
+		}
+		Trigger Summon-Ruladak
+		{
+			Action
+			{
+				SetScriptValue ReadyForNextNightmare 0
+			}
+			Action
+			{	
+				DebugPrint <<Stage 1: Malaise summons Ruladak>>
+				TeamControl
+				{
+					Team Malaise
+					Type DoBehavior
+					Behavior Say(P2249001441)
+				}
+				Caption
+				{
+					Message P4217555300
+				}
+				Floater
+				{
+					Message P3005663853
+					Color FF9900
+					AlertType PriorityAlert
+				}
+			}
+			Action
+			{
+				Delay 2
+				TeamControl
+				{
+					Team Nightmare-Ruladak
+					Type Activate
+				}
+			}
+		}
+	}
+
+//This trigger grants Malaise a second summon.
+	Trigger Malaise-NightmareSummon-Second
+	{
+		Requires NightmaresDefeated scriptvalue> 1 == MalaiseSummonState scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Malaise
+				Type DoBehavior
+				Behavior <<CastingLawRune(Timer(10))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue ReadyForNextNightmare 1
+		}
+		Action
+		{
+			SetScriptValue MalaiseSummonState 2
+		}
+		Action
+		{
+			Delay 1
+			Reset Malaise-NightmareSummon-Deck
+		}
+	}
+
+//This trigger grants Malaise a third summon.
+	Trigger Malaise-NightmareSummon-Third
+	{
+		Requires NightmaresDefeated scriptvalue> 2 == MalaiseSummonState scriptvalue> 2 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Malaise
+				Type DoBehavior
+				Behavior <<CastingLawRune(Timer(10))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue ReadyForNextNightmare 1
+		}
+		Action
+		{
+			SetScriptValue MalaiseSummonState 3
+		}
+		Action
+		{
+			Delay 1
+			Reset Malaise-NightmareSummon-Deck
+		}
+	}
+
+//This trigger grants Malaise a final summon.
+	Trigger Malaise-NightmareSummon-Final
+	{
+		Requires NightmaresDefeated scriptvalue> 3 == MalaiseSummonState scriptvalue> 3 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Malaise
+				Type DoBehavior
+				Behavior Say(P2624313106)
+			}
+			Caption
+			{
+				Message P3333952849
+			}
+		}
+		Action
+		{
+			Delay 2
+			TeamControl
+			{
+				Team Malaise
+				Type DoBehavior
+				Behavior <<DoAttackAI(1),DoNotUseAnyPowers(0),DoNotMove(0),DoNothing(Timer(1)),MoveToPos(marker:Malaise),CastingLawRune(Timer(6)),Invincible(0),Untargetable(0),Unselectable(0),CombatOverride(Aggressive)>>
+			}
+		}
+		Action
+		{
+			Delay 8
+			TeamControl
+			{
+				Team Malaise
+				Type DoBehavior
+				Behavior Say(P3264825367)
+			}
+			Caption
+			{
+				Message P1339929663
+			}
+		}
+		Action
+		{
+			Delay 10
+			TeamControl
+			{
+				Team JadeSpider
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 12
+			SetScriptValue Stage1-Advice-State 2
+			TeamControl
+			{
+				Team Malaise
+				Type DoBehavior
+				Behavior Say(P3477640800)
+			}
+			Caption
+			{
+				Message P2946226770
+			}
+		}
+		Action
+		{
+			SetScriptValue MalaiseSummonState 4
+		}
+		Action
+		{
+			SetScriptValue NightmaresPhase 0
+		}
+	}
+
+//This trigger sets up the success condition for the stage.
+	Trigger MalaiseSuccess
+	{
+		Requires MalaiseSummonState scriptvalue> 4 == MalaiseDefeated complete> &&
+	
+		Action
+		{
+			DebugPrint <<Malaise Defeated>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3188769848
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1659692399
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+		NextStage Metronome
+	}
+
+	Trigger MalaiseFailure-Timer
+	{
+		Requires MalaiseFailureTimer complete>
+	
+		Action
+		{
+			DebugPrint <<Malaise Battle Timer Expired>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Annihilation-Malaise
+				Type DoBehavior
+				Behavior <<UsePower("Mind_Annihilation")>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1570550077
+				Color FF9900
+			}
+		}
+		
+		NextStage Failure
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection MalaiseStage
+	{
+		UIItem MalaiseHealthBar
+		{
+			Type BarRed
+			Text P2741034514
+			ShortText P4009817608
+			Current MalaiseHealth count>
+			OnClickFindEnt Malaise
+			HideIf NightmaresPhase scriptvalue> 1 ==
+			Target 100
+		}
+		UIItem AdamastorHealthBar
+		{
+			Type BarRed
+			Text P3702596057
+			ShortText P1683252912
+			Current AdamastorHealth count>
+			OnClickFindEnt Nightmare-Adamastor
+			HideIf AdamastorHealth count> 0 ==
+			Target 100
+		}
+		UIItem AvatarHealthBar
+		{
+			Type BarRed
+			Text P1767595959
+			ShortText P1886668168
+			Current AvatarHealth count>
+			OnClickFindEnt Nightmare-Avatar
+			HideIf AvatarHealth count> 0 ==
+			Target 100
+		}
+		UIItem BabbageHealthBar
+		{
+			Type BarRed
+			Text P2716718471
+			ShortText P2500975687
+			Current BabbageHealth count>
+			OnClickFindEnt Nightmare-Babbage
+			HideIf BabbageHealth count> 0 ==
+			Target 100
+		}
+		UIItem BatzulHealthBar
+		{
+			Type BarRed
+			Text P1956191471
+			ShortText P3640538756
+			Current BatzulHealth count>
+			OnClickFindEnt Nightmare-Batzul
+			HideIf BatzulHealth count> 0 ==
+			Target 100
+		}
+		UIItem CalebHealthBar
+		{
+			Type BarRed
+			Text P1861346615
+			ShortText P846665339
+			Current CalebHealth count>
+			OnClickFindEnt Nightmare-Caleb
+			HideIf CalebHealth count> 0 ==
+			Target 100
+		}
+		UIItem CrystalTitanHealthBar
+		{
+			Type BarRed
+			Text P3968529064
+			ShortText P2276230978
+			Current CrystalTitanHealth count>
+			OnClickFindEnt Nightmare-CrystalTitan
+			HideIf CrystalTitanHealth count> 0 ==
+			Target 100
+		}
+		UIItem DeathsurgeHealthBar
+		{
+			Type BarRed
+			Text P4123760513
+			ShortText P254803848
+			Current DeathsurgeHealth count>
+			OnClickFindEnt Nightmare-Deathsurge
+			HideIf DeathsurgeHealth count> 0 ==
+			Target 100
+		}
+		UIItem EochaiHealthBar
+		{
+			Type BarRed
+			Text P3447587603
+			ShortText P1775976981
+			Current EochaiHealth count>
+			OnClickFindEnt Nightmare-Eochai
+			HideIf EochaiHealth count> 0 ==
+			Target 100
+		}
+		UIItem JackInIronsHealthBar
+		{
+			Type BarRed
+			Text P3973538326
+			ShortText P3264143256
+			Current JackInIronsHealth count>
+			OnClickFindEnt Nightmare-JackInIrons
+			HideIf JackInIronsHealth count> 0 ==
+			Target 100
+		}
+		UIItem JadeSpiderHealthBar
+		{
+			Type BarBlue
+			Text P3540197319
+			ShortText P2872414783
+			Current JadeSpiderHealth count>
+			OnClickFindEnt JadeSpider
+			HideIf JadeSpiderHealth count> 0 ==
+			Target 100
+		}
+		UIItem JurassikHealthBar
+		{
+			Type BarRed
+			Text P4097990610
+			ShortText P832639266
+			Current JurassikHealth count>
+			OnClickFindEnt Nightmare-Jurassik
+			HideIf JurassikHealth count> 0 ==
+			Target 100
+		}
+		UIItem KronosTitanHealthBar
+		{
+			Type BarRed
+			Text P26892359
+			ShortText P1828493020
+			Current KronosTitanHealth count>
+			OnClickFindEnt Nightmare-KronosTitan
+			HideIf KronosTitanHealth count> 0 ==
+			Target 100
+		}
+		UIItem LanaruHealthBar
+		{
+			Type BarRed
+			Text P309528075
+			ShortText P3150360057
+			Current LanaruHealth count>
+			OnClickFindEnt Nightmare-Lanaru
+			HideIf LanaruHealth count> 0 ==
+			Target 100
+		}
+		UIItem LIWWHealthBar
+		{
+			Type BarRed
+			Text P1533459801
+			ShortText P3879239670
+			Current LIWWHealth count>
+			OnClickFindEnt Nightmare-LIWW
+			HideIf LIWWHealth count> 0 ==
+			Target 100
+		}
+		UIItem LordWinterHealthBar
+		{
+			Type BarRed
+			Text P1793138467
+			ShortText P421135866
+			Current LordWinterHealth count>
+			OnClickFindEnt Nightmare-LordWinter
+			HideIf LordWinterHealth count> 0 ==
+			Target 100
+		}
+		UIItem PaladinHealthBar
+		{
+			Type BarRed
+			Text P615319258
+			ShortText P143783234
+			Current PaladinHealth count>
+			OnClickFindEnt Nightmare-Paladin
+			HideIf PaladinHealth count> 0 ==
+			Target 100
+		}
+		UIItem RuladakHealthBar
+		{
+			Type BarRed
+			Text P3051110072
+			ShortText P2856447775
+			Current RuladakHealth count>
+			OnClickFindEnt Nightmare-Ruladak
+			HideIf RuladakHealth count> 0 ==
+			Target 100
+		}
+		UIItem MalaiseNightmaresDefeated
+		{
+			Type BarBlue
+			Text P2178933356
+			ShortText P3161251782
+			Current NightmaresDefeated scriptvalue>
+			HideIf NightmaresPhase scriptvalue> 0 ==
+			Target 3
+		}
+		UIItem MalaiseResurrectionUsed
+		{
+			Type BarGold
+			Text P1073155066
+			Current DesdemonaBlessingUsedTotal scriptvalue>
+			HideIf DesdemonaBlessingUsedTotal scriptvalue> 0 ==
+			Target 40
+		}
+		UIItem WorldOfAnguish-InitialTimer
+		{
+			Type Timer
+			Timer Timer-WorldOfAnguish
+			Text P3294378371
+			ShortText P916513450
+			HideIf WorldOfAnguishState scriptvalue> 1 == !
+		}
+		UIItem WorldOfAnguish-OngoingTimer
+		{
+			Type Timer
+			Timer Timer-WorldOfAnguish
+			Text P644451282
+			ShortText P2693801853
+			HideIf WorldOfAnguishState scriptvalue> 2 == !
+		}
+		UIItem MalaiseResurrectionNextCountdown
+		{
+			Type Timer
+			Timer ResurrectionCycle
+			Text P926930693
+			ShortText P3974340810
+			HideIf ResurrectionBegun scriptvalue> 0 ==
+		}
+		UIItem MalaiseResurrectionStartCountdown
+		{
+			Type Timer
+			Timer ResurrectionDelay
+			Text P926930693
+			ShortText P3974340810
+			HideIf ResurrectionBegun scriptvalue> 1 ==
+		}
+		UIItem MalaiseCountdown
+		{
+			Type Timer
+			Timer MalaiseFailureTimer
+			Text P1309273977
+			ShortText P2326612172
+			HideIf Malaise-BonusTime-Set scriptvalue> 0 ==
+		}
+		UIItem Stage1-Spacer
+		{
+			Type CenterText
+			Text P3718001799
+		}
+		UIItem Stage1-Advice1
+		{
+			Type CenterText
+			Text P1837362194
+			HideIf Stage1-Advice-State scriptvalue> 0 == !
+		}
+		UIItem Stage1-Advice2
+		{
+			Type CenterText
+			Text P3422133816
+			HideIf Stage1-Advice-State scriptvalue> 1 == !
+		}
+		UIItem Stage1-Advice3
+		{
+			Type CenterText
+			Text P860670406
+			HideIf Stage1-Advice-State scriptvalue> 2 == !
+		}	
+	}
+
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Boss Fight with Malaise>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 10
+			}
+		}
+		Action
+		{	
+			TeamControl
+			{
+				Team WorldOfAnguish
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Malaise
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team JadeSpider
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-D
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-E
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-F
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Malaise
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-Malaise
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Delay 2
+			PorterControl
+			{
+				Porter TPTR-MalaiseDone
+				Type Activate
+			}
+		}
+	}
+}
+
+Stage Metronome
+{
+	DisplayName P3657441802
+	Tooltip P1036764660
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Rest Period with Metronome>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-Metronome
+				Type Activate
+			}
+		}
+		Action
+		{
+			PorterControl
+			{
+				Porter TPTR-MalaiseDone
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 2
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsedTotal 0
+		}
+		Action
+		{
+			SetScriptValue SecondPortal-State 0
+		}
+	}
+
+//Resurrection Event Block
+
+//This timer hits players with a resurrection soon after a stage ends
+	Timer ResurrectionRapid
+	{
+		Duration 00:05
+	}
+
+//This timer is the cycle time for the next resurrection.
+	Timer ResurrectionCycle
+	{
+		Duration 00:30
+	}
+
+//This trigger hits players with a resurrection soon after a stage ends.
+	Trigger ResurrectionQuickHit
+
+		Requires ResurrectionRapid complete>
+
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection_Simple")>>
+			}
+		}
+	}
+
+//This trigger continues the use of the resurrection power for this stage.
+	Trigger ResurrectionContinues
+
+		Requires ResurrectionCycle complete>
+
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection_Simple")>>
+			}
+		}
+		Action
+		{
+			Reset ResurrectionContinues
+		}
+	}
+
+//End Resurrection Event Block
+
+//This counter detects when players have entered Penelope Yin's area.
+	Counter PlayersInPenelopeRoom
+	{
+		Type ZEPlayers
+		VolumeName TPTR-PenelopeDone
+	}
+
+//This timer determines when the Desdemona will begin to open the first portal into the Seer Network.
+	Timer SecondPortal-Timer
+	{
+		Duration 00:08
+	}
+
+//This trigger tells Desdemona to start opening the first portal.
+	Trigger SecondPortal-Start
+	{
+		Requires ScriptStageTwoBattleStart objectivesucceeded> SecondPortal-State scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Stage 2: Desdemona begins to open portal to Penelope.>>
+		}
+		Action
+		{
+			Reset SecondPortal-Timer
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:SecondPortalOpening),Casting_Shield(Timer(6)),MoveToPos(marker:NPC-Desdemona)>>
+			}
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue SecondPortal-State 1
+		}
+	}
+
+//This trigger informs players when the first portal is opened.
+	Trigger SecondPortal-Open
+	{
+		Requires SecondPortal-Timer complete> SecondPortal-State scriptvalue> 1 == &&
+
+		Action
+		{
+			DebugPrint <<Stage 2: Desdemona opens portal to Penelope.>>
+		}		
+		Action
+		{
+			SetScriptValue SecondPortal-State 2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Portal-Penelope
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter TPTR-Penelope
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1852748891
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Delay 3
+			Floater
+			{
+				Message P718515417
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the stage.
+	Trigger MetronomeSuccess
+	{
+		Requires PlayersInPenelopeRoom count> 1 >=
+	
+		Action
+		{
+			DebugPrint <<Portal to Penelope's Lair Entered>>
+		}
+
+		NextStage Penelope
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection MetronomeStage
+	{
+		UIItem Stage2-SpeakToDesdemona
+		{
+			Type CenterText
+			Text P4248609063
+			HideIf SecondPortal-State scriptvalue> 0 >
+		}
+		UIItem PenelopePortalOpened
+		{
+			Type CenterText
+			Text P2887537092
+			ShortText P3290270427
+			HideIf SecondPortal-State scriptvalue> 2 <
+		}
+		UIItem PenelopeCountdownToPortal
+		{
+			Type Timer
+			Timer SecondPortal-Timer
+			Text P4279111462
+			ShortText P1383531207
+			HideIf SecondPortal-State scriptvalue> 1 == !
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Rest Period with Metronome>>
+		}
+	}
+}
+
+Stage Penelope
+{
+	DisplayName P3505939754
+	Tooltip P1695510929
+
+	AwardKarma
+	KarmaThreshold 10	
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 1:00
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Boss Fight with Penelope Yin>>
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_02Low_B_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Penelope
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Void-A
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Void-B
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Void-C
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Void-D
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Vortex-A
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Vortex-B
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Vortex-C
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Vortex-D
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Vortex-E
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Vortex-F
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue PsionicTyphoonStarted 0
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsedTotal 0
+		}
+		Action
+		{
+			SetScriptValue Penelope-BonusTime-Set 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Void-A 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Void-B 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Void-C 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Void-D 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-A 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-B 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-C 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-D 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-E 0
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-F 0
+		}
+	}
+
+//Resurrection Event Block
+
+//This timer is the delay before the first resurrection begins.
+	Timer ResurrectionDelay
+	{
+		Duration 00:15
+	}
+
+//This timer is the cycle time for the next resurrection.
+	Timer ResurrectionCycle
+	{
+		Duration 00:30
+	}
+
+//This trigger starts the resurrection power for this stage.
+	Trigger ResurrectionBegins
+	{
+		Requires ResurrectionDelay complete> ResurrectionBegun scriptvalue> 0 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P3871633027
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection")>>
+			}
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 1
+		}
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+	}
+
+//This trigger continues the use of the resurrection power for this stage.
+	Trigger ResurrectionContinues
+
+		Requires ResurrectionCycle complete> ResurrectionBegun scriptvalue> 1 == &&
+
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection")>>
+			}
+		}
+		Action
+		{
+			Reset ResurrectionContinues
+		}
+	}
+
+//This trigger depletes the stage timer if the resurrection is used.
+	Trigger ResurrectionDepletion
+	{
+		Requires ResurrectionBegun scriptvalue> 1 == DesdemonaBlessingUsed scriptvalue> 0 > &&
+	
+		Action
+		{
+			DebugPrint <<Resurrection Used. Depleting Penelope Stage Timer by 15 seconds.>>
+		}
+		Action
+		{
+			TimerControl
+			{
+				Timer PenelopeFailureTimer
+				Type Subtract
+				Duration 00:15
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed DesdemonaBlessingUsed scriptvalue> 1 -
+		}
+		Action
+		{
+			Reset ResurrectionDepletion
+		}
+	}
+
+//End Resurrection Event Block
+
+//This timer adds the P2677571450 time which is depletable by use of resurrection.
+	Timer PenelopeSetBonusTime
+	{
+		Duration 0:01
+	}
+
+//This timer is the failure timer for the stage.
+	Timer PenelopeFailureTimer
+	{
+		Duration 5:00
+	}
+
+//This time is the delay for the start of the psionic typhoon.
+	Timer PsionicTyphoonDelay
+	{
+		Duration 00:10
+	}
+
+//This block of timers is for the respawn cycle of a void.
+	Timer RespawnTimer-Void-A
+	{
+		Duration 00:45
+	}
+	Timer RespawnTimer-Void-B
+	{
+		Duration 00:45
+	}
+	Timer RespawnTimer-Void-C
+	{
+		Duration 00:45
+	}
+	Timer RespawnTimer-Void-D
+	{
+		Duration 00:45
+	}
+
+//This block of timers is for the respawn cycle of a vortex.
+	Timer RespawnTimer-Vortex-A
+	{
+		Duration 00:30
+	}
+	Timer RespawnTimer-Vortex-B
+	{
+		Duration 00:30
+	}
+	Timer RespawnTimer-Vortex-C
+	{
+		Duration 00:30
+	}
+	Timer RespawnTimer-Vortex-D
+	{
+		Duration 00:30
+	}
+	Timer RespawnTimer-Vortex-E
+	{
+		Duration 00:30
+	}
+	Timer RespawnTimer-Vortex-F
+	{
+		Duration 00:30
+	}
+
+//This is used to check for Penelope's defeat.
+	Counter PenelopeDefeated
+	{
+		Type Name
+		Name MotherMayhem_P_MotherYin
+		Count 1
+	}
+
+//This is used to update the UI with Penelope's current health.
+	Counter PenelopeHealth
+	{
+		Type BossHealth
+		Team Penelope
+	}
+
+//This counter detects the defeat of a Void in the room, but does not reset. It is used for the badge check.
+	Counter Badge-PenelopeChallenge-VoidDefeated
+	{
+		Type Name
+		Name Objects_MindsOfMayhem_Void
+		Direction Up
+		Count 100
+	}
+
+//This counter detects the presence of vortices in the room for UI display.
+	Counter Vortices-Present
+	{
+		Type Name
+		Name Objects_MindsOfMayhem_Vortex
+		Direction Down
+		Count 0
+	}
+
+//This counter detects the presence of voids in the room for UI display.
+	Counter Voids-Present
+	{
+		Type Name
+		Name Objects_MindsOfMayhem_Void
+		Direction Down
+		Count 0
+	}
+
+//This counter detects the presence of vortices in the room for UI display.
+	Counter Eyes-Present
+	{
+		Type Name
+		Name Objects_MindsOfMayhem_Eye
+		Direction Down
+		Count 0
+	}
+
+//This counter detects the defeat of Void team A.
+	Counter Defeated-Void-A
+	{
+		Type Team
+		Team Void-A
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the defeat of Void team B.
+	Counter Defeated-Void-B
+	{
+		Type Team
+		Team Void-B
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the defeat of Void team C.
+	Counter Defeated-Void-C
+	{
+		Type Team
+		Team Void-C
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the defeat of Void team D.
+	Counter Defeated-Void-D
+	{
+		Type Team
+		Team Void-D
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the defeat of Vortex team A.
+	Counter Defeated-Vortex-A
+	{
+		Type Team
+		Team Vortex-A
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the defeat of Vortex team B.
+	Counter Defeated-Vortex-B
+	{
+		Type Team
+		Team Vortex-B
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the defeat of Vortex team C.
+	Counter Defeated-Vortex-C
+	{
+		Type Team
+		Team Vortex-C
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the defeat of Vortex team D.
+	Counter Defeated-Vortex-D
+	{
+		Type Team
+		Team Vortex-D
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the defeat of Vortex team E.
+	Counter Defeated-Vortex-E
+	{
+		Type Team
+		Team Vortex-E
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the defeat of Vortex team F.
+	Counter Defeated-Vortex-F
+	{
+		Type Team
+		Team Vortex-F
+		Direction Up
+		Count 1
+	}
+
+//Karma objectives for stage 2
+//Award Karma for defeating a member of Mother Mayhem group (Penelope Yin).
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup MotherMayhem
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 30
+		TeamKarmaLife 60
+	}
+
+//Award Karma for each Void defeated.
+	Objective
+	{
+		Type Named
+		Name Objects_MindsOfMayhem_Void
+		KarmaValue 30
+		KarmaLife 30
+		TeamKarmaValue 30
+		TeamKarmaLife 30
+	}
+
+//Award Karma for each Vortex defeated.
+	Objective
+	{
+		Type Named
+		Name Objects_MindsOfMayhem_Vortex
+		KarmaValue 30
+		KarmaLife 30
+		TeamKarmaValue 30
+		TeamKarmaLife 30
+	}
+
+//This trigger fails the badge if more than three Eyes of the Storm are created.
+	Trigger Badge-PenelopeChallenge-Failed
+	{
+		Requires Badge-PenelopeChallenge-VoidDefeated count> 5 >=
+
+		Action
+		{
+			SetScriptValue Badge-PenelopeChallenge 1
+		}
+	}	
+
+//This trigger adds the bonus time to the clock and allows the timer to display.
+	Trigger Penelope-BonusTime-Added
+	{
+		Requires PenelopeSetBonusTime complete> Penelope-BonusTime-Set scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Adding depletable bonus time>>
+			TimerControl
+			{
+				Timer PenelopeFailureTimer
+				Type Add
+				Duration 10:00
+			}
+		}
+		Action
+		{
+			SetScriptValue Penelope-BonusTime-Set 1
+		}
+		Action
+		{
+			Caption
+			{
+				Message P3407408213
+			}
+		}
+	}
+
+//This trigger starts the Psionic Typhoon in Penelope's room
+	Trigger PsionicTyphoonStart
+	{
+		Requires PsionicTyphoonDelay complete> PsionicTyphoonStarted scriptvalue> 0 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Typhoon
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P757856869
+				Color FF9900
+			}
+		}
+	}
+
+//This trigger sets up the respawn of Void A after 45s.
+	Trigger StartRespawn-Void-A
+	{
+		Requires Defeated-Void-A complete> Respawning-Void-A scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Void-A
+		}
+		Action
+		{
+			Reset RespawnTimer-Void-A
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Void-A 1
+		}
+	}
+
+	Trigger FinishRespawn-Void-A
+	{
+		Requires RespawnTimer-Void-A complete> Respawning-Void-A scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Void-A
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Void-A 0
+		}
+		Action
+		{
+			Reset StartRespawn-Void-A
+		}
+		Action
+		{
+			Reset FinishRespawn-Void-A
+		}
+	}
+
+//This trigger sets up the respawn of Void B after 45s.
+	Trigger StartRespawn-Void-B
+	{
+		Requires Defeated-Void-B complete> Respawning-Void-B scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Void-B
+		}
+		Action
+		{
+			Reset RespawnTimer-Void-B
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Void-B 1
+		}
+	}
+
+	Trigger FinishRespawn-Void-B
+	{
+		Requires RespawnTimer-Void-B complete> Respawning-Void-B scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Void-B
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Void-B 0
+		}
+		Action
+		{
+			Reset StartRespawn-Void-B
+		}
+		Action
+		{
+			Reset FinishRespawn-Void-B
+		}
+	}
+
+//This trigger sets up the respawn of Void C after 45s.
+	Trigger StartRespawn-Void-C
+	{
+		Requires Defeated-Void-C complete> Respawning-Void-C scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Void-C
+		}
+		Action
+		{
+			Reset RespawnTimer-Void-C
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Void-C 1
+		}
+	}
+
+	Trigger FinishRespawn-Void-C
+	{
+		Requires RespawnTimer-Void-C complete> Respawning-Void-C scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Void-C
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Void-C 0
+		}
+		Action
+		{
+			Reset StartRespawn-Void-C
+		}
+		Action
+		{
+			Reset FinishRespawn-Void-C
+		}
+	}
+
+//This trigger sets up the respawn of Void D after 45s.
+	Trigger StartRespawn-Void-D
+	{
+		Requires Defeated-Void-D complete> Respawning-Void-D scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Void-D
+		}
+		Action
+		{
+			Reset RespawnTimer-Void-D
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Void-D 1
+		}
+	}
+
+	Trigger FinishRespawn-Void-D
+	{
+		Requires RespawnTimer-Void-D complete> Respawning-Void-D scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Void-D
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Void-D 0
+		}
+		Action
+		{
+			Reset StartRespawn-Void-D
+		}
+		Action
+		{
+			Reset FinishRespawn-Void-D
+		}
+	}
+
+//This trigger sets up the respawn of Vortex A after 30s.
+	Trigger StartRespawn-Vortex-A
+	{
+		Requires Defeated-Vortex-A complete> Respawning-Vortex-A scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Vortex-A
+		}
+		Action
+		{
+			Reset RespawnTimer-Vortex-A
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Vortex-A 1
+		}
+	}
+
+	Trigger FinishRespawn-Vortex-A
+	{
+		Requires RespawnTimer-Vortex-A complete> Respawning-Vortex-A scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Vortex-A
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-A 0
+		}
+		Action
+		{
+			Reset StartRespawn-Vortex-A
+		}
+		Action
+		{
+			Reset FinishRespawn-Vortex-A
+		}
+	}
+
+//This trigger sets up the respawn of Vortex B after 30s.
+	Trigger StartRespawn-Vortex-B
+	{
+		Requires Defeated-Vortex-B complete> Respawning-Vortex-B scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Vortex-B
+		}
+		Action
+		{
+			Reset RespawnTimer-Vortex-B
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Vortex-B 1
+		}
+	}
+
+	Trigger FinishRespawn-Vortex-B
+	{
+		Requires RespawnTimer-Vortex-B complete> Respawning-Vortex-B scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Vortex-B
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-B 0
+		}
+		Action
+		{
+			Reset StartRespawn-Vortex-B
+		}
+		Action
+		{
+			Reset FinishRespawn-Vortex-B
+		}
+	}
+
+//This trigger sets up the respawn of Vortex C after 30s.
+	Trigger StartRespawn-Vortex-C
+	{
+		Requires Defeated-Vortex-C complete> Respawning-Vortex-C scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Vortex-C
+		}
+		Action
+		{
+			Reset RespawnTimer-Vortex-C
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Vortex-C 1
+		}
+	}
+
+	Trigger FinishRespawn-Vortex-C
+	{
+		Requires RespawnTimer-Vortex-C complete> Respawning-Vortex-C scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Vortex-C
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-C 0
+		}
+		Action
+		{
+			Reset StartRespawn-Vortex-C
+		}
+		Action
+		{
+			Reset FinishRespawn-Vortex-C
+		}
+	}
+
+//This trigger sets up the respawn of Vortex D after 30s.
+	Trigger StartRespawn-Vortex-D
+	{
+		Requires Defeated-Vortex-D complete> Respawning-Vortex-D scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Vortex-D
+		}
+		Action
+		{
+			Reset RespawnTimer-Vortex-D
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Vortex-D 1
+		}
+	}
+
+	Trigger FinishRespawn-Vortex-D
+	{
+		Requires RespawnTimer-Vortex-D complete> Respawning-Vortex-D scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Vortex-D
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-D 0
+		}
+		Action
+		{
+			Reset StartRespawn-Vortex-D
+		}
+		Action
+		{
+			Reset FinishRespawn-Vortex-D
+		}
+	}
+
+//This trigger sets up the respawn of Vortex E after 30s.
+	Trigger StartRespawn-Vortex-E
+	{
+		Requires Defeated-Vortex-E complete> Respawning-Vortex-E scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Vortex-E
+		}
+		Action
+		{
+			Reset RespawnTimer-Vortex-E
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Vortex-E 1
+		}
+	}
+
+	Trigger FinishRespawn-Vortex-E
+	{
+		Requires RespawnTimer-Vortex-E complete> Respawning-Vortex-E scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Vortex-E
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-E 0
+		}
+		Action
+		{
+			Reset StartRespawn-Vortex-E
+		}
+		Action
+		{
+			Reset FinishRespawn-Vortex-E
+		}
+	}
+
+//This trigger sets up the respawn of Vortex F after 30s.
+	Trigger StartRespawn-Vortex-F
+	{
+		Requires Defeated-Vortex-F complete> Respawning-Vortex-F scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset Defeated-Vortex-F
+		}
+		Action
+		{
+			Reset RespawnTimer-Vortex-F
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Respawning-Vortex-F 1
+		}
+	}
+
+	Trigger FinishRespawn-Vortex-F
+	{
+		Requires RespawnTimer-Vortex-F complete> Respawning-Vortex-F scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Vortex-F
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			SetScriptValue Respawning-Vortex-F 0
+		}
+		Action
+		{
+			Reset StartRespawn-Vortex-F
+		}
+		Action
+		{
+			Reset FinishRespawn-Vortex-F
+		}
+	}
+
+//This trigger sets up the success condition for the stage.
+	Trigger PenelopeSuccess
+	{
+		Requires PenelopeDefeated complete>
+	
+		Action
+		{
+			DebugPrint <<Penelope Yin Defeated>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3753508428
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1659692399
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+		NextStage Calvin
+	}
+
+//This trigger sets up the failure condition due to timer expiration.
+	Trigger PenelopeFailure-Timer
+	{
+		Requires PenelopeFailureTimer complete>
+	
+		Action
+		{
+			DebugPrint <<Penelope Yin Battle Timer Expired>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Annihilation-Penelope
+				Type DoBehavior
+				Behavior <<UsePower("Mind_Annihilation")>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3896138257
+				Color FF9900
+			}
+		}
+	
+		NextStage Failure
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection PenelopeStage
+	{
+		UIItem PenelopeHealth
+		{
+			Type BarRed
+			Text P868389194
+			ShortText P974127439
+			Current PenelopeHealth count>
+			OnClickFindEnt Penelope
+			Target 100
+		}
+		UIItem VorticesPresent-Bar
+		{
+			Type BarBlue
+			Text P1261506225
+			ShortText P443124626
+			Current Vortices-Present count>
+			Target 4
+			HideIf ZonePlayers count> 12 <= !
+		}
+		UIItem VorticesPresentMore-Bar
+		{
+			Type BarBlue
+			Text P1261506225
+			ShortText P443124626
+			Current Vortices-Present count>
+			Target 5
+			HideIf ZonePlayers count> 12 > ZonePlayers count> 15 < && !
+		}
+		UIItem VorticesPresentMost-Bar
+		{
+			Type BarBlue
+			Text P1261506225
+			ShortText P443124626
+			Current Vortices-Present count>
+			Target 6
+			HideIf ZonePlayers count> 15 >= !
+		}
+		UIItem VoidsPresent-Bar
+		{
+			Type BarGold
+			Text P3394338910
+			ShortText P3147399719
+			Current Voids-Present count>
+			Target 4
+		}
+		UIItem EyesPresent-Bar
+		{
+			Type BarGold
+			Text P4200679704
+			ShortText P3422827902
+			Current Eyes-Present count>
+			Target 4
+		}
+		UIItem PenelopeResurrectionUsed
+		{
+			Type BarGold
+			Text P1073155066
+			Current DesdemonaBlessingUsedTotal scriptvalue>
+			HideIf DesdemonaBlessingUsedTotal scriptvalue> 0 ==
+			Target 40
+		}
+		UIItem PenelopeResurrectionNextCountdown
+		{
+			Type Timer
+			Timer ResurrectionCycle
+			Text P926930693
+			ShortText P3974340810
+			HideIf ResurrectionBegun scriptvalue> 0 ==
+		}
+		UIItem PenelopeResurrectionStartCountdown
+		{
+			Type Timer
+			Timer ResurrectionDelay
+			Text P926930693
+			ShortText P3974340810
+			HideIf ResurrectionBegun scriptvalue> 1 ==
+		}
+		UIItem PenelopeCountdown
+		{
+			Type Timer
+			Timer PenelopeFailureTimer
+			Text P1309273977
+			ShortText P2326612172
+		}
+		UIItem Stage2-Spacer
+		{
+			Type CenterText
+			Text P3718001799
+		}
+		UIItem Stage2-Advice1
+		{
+			Type CenterText
+			Text P1580592961
+		}
+		UIItem Stage2-Advice2
+		{
+			Type CenterText
+			Text P3081348143
+		}
+		UIItem Stage2-Advice3
+		{
+			Type CenterText
+			Text P3648361603
+		}	
+	}
+
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Boss Fight with Penelope Yin>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 10
+			}
+		}
+		Action
+		{	
+			TeamControl
+			{
+				Team Penelope
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Typhoon
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-D
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-E
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-F
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Void-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Void-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Void-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Void-D
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Penelope
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-Penelope
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Delay 2
+			PorterControl
+			{
+				Porter TPTR-PenelopeDone
+				Type Activate
+			}
+		}
+	}
+}
+
+Stage Calvin
+{
+	DisplayName P3657441802
+	Tooltip P3590321187
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Rest Period with Calvin Scott>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-CalvinScott
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 3
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsedTotal 0
+		}
+		Action
+		{
+			SetScriptValue ThirdPortal-State 0
+		}
+	}
+
+//Resurrection Event Block
+
+//This timer hits players with a resurrection soon after a stage ends
+	Timer ResurrectionRapid
+	{
+		Duration 00:05
+	}
+
+//This timer is the cycle time for the next resurrection.
+	Timer ResurrectionCycle
+	{
+		Duration 00:30
+	}
+
+//This trigger hits players with a resurrection soon after a stage ends.
+	Trigger ResurrectionQuickHit
+
+		Requires ResurrectionRapid complete>
+
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection_Simple")>>
+			}
+		}
+	}
+
+//This trigger continues the use of the resurrection power for this stage.
+	Trigger ResurrectionContinues
+
+		Requires ResurrectionCycle complete>
+
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection_Simple")>>
+			}
+		}
+		Action
+		{
+			Reset ResurrectionContinues
+		}
+	}
+
+//End Resurrection Event Block
+
+//This counter detects when players have entered Aurora Borealis's area.
+	Counter PlayersInAuroraRoom
+	{
+		Type ZEPlayers
+		VolumeName VolChk-AuroraStart
+	}
+
+//This timer determines when the Desdemona will begin to open the third portal into the Seer Network.
+	Timer ThirdPortal-Timer
+	{
+		Duration 00:08
+	}
+
+//This trigger tells Desdemona to start opening the third portal.
+	Trigger ThirdPortal-Start
+	{
+		Requires ScriptStageThreeBattleStart objectivesucceeded> ThirdPortal-State scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Stage 3: Desdemona begins to open portal to Aurora.>>
+		}
+		Action
+		{
+			Reset ThirdPortal-Timer
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:ThirdPortalOpening),Casting_Shield(Timer(6)),MoveToPos(marker:NPC-Desdemona)>>
+			}
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue ThirdPortal-State 1
+		}
+	}
+
+//This trigger informs players when the third portal is opened.
+	Trigger ThirdPortal-Open
+	{
+		Requires ThirdPortal-Timer complete> ThirdPortal-State scriptvalue> 1 == &&
+
+		Action
+		{
+			DebugPrint <<Stage 3: Desdemona opens portal to Aurora.>>
+		}		
+		Action
+		{
+			SetScriptValue ThirdPortal-State 2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Portal-Aurora
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter TPTR-Aurora
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2198561081
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Delay 3
+			Floater
+			{
+				Message P718515417
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the stage.
+	Trigger CalvinSuccess
+	{
+		Requires PlayersInAuroraRoom count> 1 >=
+	
+		Action
+		{
+			DebugPrint <<Portal to Mother Mayhem's Lair Entered>>
+		}
+
+		NextStage Aurora
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection CalvinStage
+	{
+		UIItem Stage3-SpeakToDesdemona
+		{
+			Type CenterText
+			Text P4248609063
+			HideIf ThirdPortal-State scriptvalue> 0 >
+		}
+		UIItem AuroraPortalOpened
+		{
+			Type CenterText
+			Text P2798890272
+			ShortText P3290270427
+			HideIf ThirdPortal-State scriptvalue> 2 <
+		}
+		UIItem AuroraCountdownToPortal
+		{
+			Type Timer
+			Timer ThirdPortal-Timer
+			Text P4279111462
+			ShortText P1383531207
+			HideIf ThirdPortal-State scriptvalue> 1 == !
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Rest Period with Calvin Scott>>
+		}
+	}
+}
+
+Stage Aurora
+{
+	DisplayName P3773155281
+	Tooltip P3471615855
+
+	AwardKarma
+	KarmaThreshold 10	
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 1:00
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Boss Fight with Mother Mayhem>>
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_02High_b_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMayhem
+				Type Activate
+			}
+			TeamControl
+			{
+				Team AuroraBorealis
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage3
+				Type Activate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-A
+				Type Activate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-Watcher
+				Type Activate
+			}
+			TeamControl
+			{
+				Team AurorasMind-FX
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue PortalsRemaining 4
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCountdown 0
+		}
+		Action
+		{
+			SetScriptValue Portal-A-Destroyed-Script 0
+		}
+		Action
+		{
+			SetScriptValue ShowPortalAHealth 1
+		}
+		Action
+		{
+			SetScriptValue Portal-B-Destroyed-Script 0
+		}
+		Action
+		{
+			SetScriptValue ShowPortalBHealth 0
+		}
+		Action
+		{
+			SetScriptValue Portal-C-Destroyed-Script 0
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCHealth 0
+		}
+		Action
+		{
+			SetScriptValue Portal-D-Destroyed-Script 0
+		}
+		Action
+		{
+			SetScriptValue ShowPortalDHealth 0
+		}
+		Action
+		{
+			SetScriptValue NoPortalsLeft 0
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsedTotal 0
+		}
+		Action
+		{
+			SetScriptValue Aurora-BonusTime-Set 0
+		}
+	}
+
+//Resurrection Event Block
+
+//This timer adds the P2677571450 time which is depletable by use of resurrection.
+	Timer AuroraSetBonusTime
+	{
+		Duration 0:01
+	}
+
+//This timer is the delay before the first resurrection begins.
+	Timer ResurrectionDelay
+	{
+		Duration 00:15
+	}
+
+//This timer is the cycle time for the next resurrection.
+	Timer ResurrectionCycle
+	{
+		Duration 00:30
+	}
+
+//This trigger starts the resurrection power for this stage.
+	Trigger ResurrectionBegins
+	{
+		Requires ResurrectionDelay complete> ResurrectionBegun scriptvalue> 0 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P3871633027
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection")>>
+			}
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 1
+		}
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+	}
+
+//This trigger continues the use of the resurrection power for this stage.
+	Trigger ResurrectionContinues
+
+		Requires ResurrectionCycle complete> ResurrectionBegun scriptvalue> 1 == &&
+
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection")>>
+			}
+		}
+		Action
+		{
+			Reset ResurrectionContinues
+		}
+	}
+
+//This trigger depletes the stage timer if the resurrection is used.
+	Trigger ResurrectionDepletion
+	{
+		Requires ResurrectionBegun scriptvalue> 1 == DesdemonaBlessingUsed scriptvalue> 0 > &&
+	
+		Action
+		{
+			DebugPrint <<Resurrection Used. Depleting Aurora Stage Timer by 15 seconds.>>
+		}
+		Action
+		{
+			TimerControl
+			{
+				Timer AuroraFailureTimer
+				Type Subtract
+				Duration 00:15
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed DesdemonaBlessingUsed scriptvalue> 1 -
+		}
+		Action
+		{
+			Reset ResurrectionDepletion
+		}
+	}
+
+//End Resurrection Event Block
+
+//This timer is the failure timer for the stage.
+	Timer AuroraFailureTimer
+	{
+		Duration 5:00
+	}
+
+//This timer is for the period between portal respawns should one be destroyed.
+	Timer PortalSpawnCountdown
+	{
+		Duration 00:30
+	}
+
+//This timer prevents Aurora's Health Check for the badge from completing instantly.
+	Timer Badge-AuroraDelay
+	{
+		Duration 00:10
+	}
+
+//This timer is the delay on the start of Doppelgangers.
+	Timer DoppelgangerDelay
+	{
+		Duration 00:15
+	}
+
+//This timer is the delay on the cycle of Doppelgangers.
+	Timer DoppelgangerCycle
+	{
+		Duration 00:40
+	}
+
+//This is used to check for Mother Mayhem's defeat.
+	Counter MotherMayhemDefeated
+	{
+		Type Name
+		Name MotherMayhem_P_MotherMayhem_Tall
+		Count 1
+	}
+
+//This is used to update the UI with Mother Mayhem's current health.
+	Counter MotherMayhemHealth
+	{
+		Type BossHealth
+		Team MotherMayhem
+	}
+
+//This is used to check for Aurora Borealis' defeat.
+	Counter AuroraBorealisDefeated
+	{
+		Type Team
+		Team AuroraBorealis
+		Count 1
+	}
+
+//This is used to update the UI with Aurora Borealis' current health.
+	Counter AuroraBorealisHealth
+	{
+		Type BossHealth
+		Team AuroraBorealis
+	}
+
+//This is used to check for Portal A's defeat.
+	Counter Portal-A-Destroyed
+	{
+		Type Team
+		Team AuroraPortal-A
+		Direction Up
+		Count 1
+	}
+
+//This is used to update the UI with Portal A's current health.
+	Counter PortalAHealth
+	{
+		Type BossHealth
+		Team AuroraPortal-A
+	}
+
+//This is used to check for Portal B's defeat.
+	Counter Portal-B-Destroyed
+	{
+		Type Team
+		Team AuroraPortal-B
+		Direction Up
+		Count 1
+	}
+
+//This is used to update the UI with Portal B's current health.
+	Counter PortalBHealth
+	{
+		Type BossHealth
+		Team AuroraPortal-B
+	}
+
+//This is used to check for Portal C's defeat.
+	Counter Portal-C-Destroyed
+	{
+		Type Team
+		Team AuroraPortal-C
+		Direction Up
+		Count 1
+	}
+
+//This is used to update the UI with Portal C's current health.
+	Counter PortalCHealth
+	{
+		Type BossHealth
+		Team AuroraPortal-C
+	}
+
+//This is used to check for Portal D's defeat.
+	Counter Portal-D-Destroyed
+	{
+		Type Team
+		Team AuroraPortal-D
+		Direction Up
+		Count 1
+	}
+
+//This is used to update the UI with Portal D's current health.
+	Counter PortalDHealth
+	{
+		Type BossHealth
+		Team AuroraPortal-D
+	}
+
+//Karma objectives for stage 3
+
+//Award Karma for defeating a member of Mother Mayhem group (any clone).
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup MotherMayhem
+		KarmaValue 15
+		KarmaLife 30
+		TeamKarmaValue 15
+		TeamKarmaLife 30
+	}
+
+//Award Karma for defeating a Doppelganger (any clone).
+	Objective
+	{
+		Type Named
+		Name DDDoppelgangerTeamGhost 
+		KarmaValue 15
+		KarmaLife 30
+		TeamKarmaValue 15
+		TeamKarmaLife 30
+	}
+
+//This trigger fails the badge if Aurora's health falls below 75% at any time in this stage.
+	Trigger Badge-AuroraChallenge-Failed
+	{
+		Requires Badge-AuroraDelay complete> AuroraBorealisHealth count> 75 < &&
+
+		Action
+		{
+			SetScriptValue Badge-AuroraChallenge 1
+		}
+	}	
+
+//This trigger adds the bonus time to the clock and allows the timer to display.
+
+	Trigger Aurora-BonusTime-Added
+	{
+		Requires AuroraSetBonusTime complete> Aurora-BonusTime-Set scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Adding depletable bonus time>>
+			TimerControl
+			{
+				Timer AuroraFailureTimer
+				Type Add
+				Duration 10:00
+			}
+		}
+		Action
+		{
+			SetScriptValue Aurora-BonusTime-Set 1
+		}
+		Action
+		{
+			Caption
+			{
+				Message P377675663
+			}
+		}
+	}
+
+//This trigger starts the spawn of Doppelgangers
+	Trigger Doppelganger-Start
+	{
+		Requires DoppelgangerDelay complete> DoppelgangerStarted scriptvalue> 0 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P3626888792
+				Color FF0000
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue DoppelgangerStarted 1
+		}
+		Action
+		{
+			Reset DoppelgangerCycle
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Doppelgangers-A
+				Type Activate
+			}
+		}
+	}
+
+//This trigger continues the spawn of Doppelgangers
+	Trigger Doppelganger-Force
+	{
+		Requires DoppelgangerCycle complete> DoppelgangerStarted scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Doppelgangers-A
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Reset DoppelgangerCycle
+		}
+		Action
+		{
+			Delay 2
+			Reset Doppelganger-Force
+		}
+	}
+
+//This trigger starts the spawn of Portal B if Portal A is destroyed.
+	Trigger Portal-A-Gone
+	{
+		Requires Portal-A-Destroyed complete>
+
+		Action
+		{
+			SetScriptValue PortalsRemaining PortalsRemaining scriptvalue> 1 -
+		}
+		Action
+		{
+			Reset PortalSpawnCountdown
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCountdown 1
+		}
+		Action
+		{
+			SetScriptValue ShowPortalAHealth 0
+		}
+		Action
+		{
+			SetScriptValue Portal-A-Destroyed-Script 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team AuroraPortal-Watcher
+				Type DoBehavior
+				Behavior <<UsePower("Revoke_Phasing")>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P4166429102
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger spawns Portal B 30 seconds after Portal A is destroyed.
+	Trigger Portal-B-Spawn
+	{
+		Requires Portal-A-Destroyed-Script scriptvalue> 1 == PortalSpawnCountdown complete> &&
+
+		Action
+		{
+			SetScriptValue Portal-A-Destroyed-Script 2
+		}
+		Action
+		{
+			SetScriptValue ShowPortalBHealth 1
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCountdown 0
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team AuroraPortal-B
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1133710357
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger starts the spawn of Portal C if Portal B is destroyed.
+	Trigger Portal-B-Gone
+	{
+		Requires Portal-B-Destroyed complete>
+
+		Action
+		{
+			SetScriptValue PortalsRemaining PortalsRemaining scriptvalue> 1 -
+		}
+		Action
+		{
+			Reset PortalSpawnCountdown
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCountdown 1
+		}
+		Action
+		{
+			SetScriptValue ShowPortalBHealth 0
+		}
+		Action
+		{
+			SetScriptValue Portal-B-Destroyed-Script 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team AuroraPortal-Watcher
+				Type DoBehavior
+				Behavior <<UsePower("Revoke_Phasing")>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P4166429102
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger spawns Portal C 30 seconds after Portal B is destroyed.
+	Trigger Portal-C-Spawn
+	{
+		Requires Portal-B-Destroyed-Script scriptvalue> 1 == PortalSpawnCountdown complete> &&
+
+		Action
+		{
+			SetScriptValue Portal-B-Destroyed-Script 2
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCHealth 1
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCountdown 0
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team AuroraPortal-C
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1133710357
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger starts the spawn of Portal D if Portal C is destroyed.
+	Trigger Portal-C-Gone
+	{
+		Requires Portal-C-Destroyed complete>
+
+		Action
+		{
+			SetScriptValue PortalsRemaining PortalsRemaining scriptvalue> 1 -
+		}
+		Action
+		{
+			Reset PortalSpawnCountdown
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCHealth 0
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCountdown 1
+		}
+		Action
+		{
+			SetScriptValue Portal-C-Destroyed-Script 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team AuroraPortal-Watcher
+				Type DoBehavior
+				Behavior <<UsePower("Revoke_Phasing")>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P4166429102
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger spawns Portal D 30 seconds after Portal C is destroyed.
+	Trigger Portal-D-Spawn
+	{
+		Requires Portal-C-Destroyed-Script scriptvalue> 1 == PortalSpawnCountdown complete> &&
+
+		Action
+		{
+			SetScriptValue Portal-C-Destroyed-Script 2
+		}
+		Action
+		{
+			SetScriptValue ShowPortalDHealth 1
+		}
+		Action
+		{
+			SetScriptValue ShowPortalCountdown 0
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team AuroraPortal-D
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2015409062
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+//This trigger tracks the destruction of Portal D.
+	Trigger Portal-D-Gone
+	{
+		Requires Portal-D-Destroyed complete>
+
+		Action
+		{
+			SetScriptValue PortalsRemaining PortalsRemaining scriptvalue> 1 -
+		}
+		Action
+		{
+			SetScriptValue ShowPortalDHealth 0
+		}
+		Action
+		{
+			SetScriptValue NoPortalsLeft 1
+		}
+		Action
+		{
+			SetScriptValue Portal-D-Destroyed-Script 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team AuroraPortal-Watcher
+				Type DoBehavior
+				Behavior <<UsePower("Revoke_Phasing")>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1984398778
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the stage.
+	Trigger AuroraSuccess
+	{
+		Requires MotherMayhemDefeated complete> AuroraBorealisDefeated complete> ! &&
+	
+		Action
+		{
+			DebugPrint <<Mother Mayhem Defeated>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3206782641
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1659692399
+				Color FF9900
+			}
+		}
+//		//Reward players with the mid-trial item drop, added in 2150 - commenting  out in MoM due to its length, but if necessary, this is where we would re-add it.
+//		Action
+//		{
+//			Reward IS.Issue2150Midtrial
+//		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+		NextStage Cutscene
+	}
+
+	Trigger AuroraFailure-Death
+	{
+		Requires AuroraBorealisDefeated complete>
+	
+		Action
+		{
+			DebugPrint <<Aurora Borealis Defeated>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P493349803
+				Color FF9900
+			}
+		}
+
+		NextStage Failure
+	}
+
+	Trigger AuroraFailure-Timer
+	{
+		Requires AuroraFailureTimer complete>
+	
+		Action
+		{
+			DebugPrint <<Aurora Borealis Battle Timer Expired>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Annihilation-Aurora
+				Type DoBehavior
+				Behavior <<UsePower("Mind_Annihilation")>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3896138257
+				Color FF9900
+			}
+		}
+
+		NextStage Failure
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection AuroraStage
+	{
+		UIItem NoPortalsLeft
+		{
+			Type CenterText
+			Text P1499983317
+			HideIf NoPortalsLeft scriptvalue> 0 ==
+		}
+		UIItem MotherMayhemHealthBar
+		{
+			Type BarRed
+			Text P4122640193
+			ShortText P1739205190
+			Current MotherMayhemHealth count>
+			OnClickFindEnt MotherMayhem
+			Target 100
+		}
+		UIItem AuroraHealthBar
+		{
+			Type BarRed
+			Text P448934060
+			ShortText P3881416394
+			Current AuroraBorealisHealth count>
+			OnClickFindEnt AuroraBorealis
+			Target 100
+		}
+		UIItem PortalAHealthBar
+		{
+			Type BarRed
+			Text P3859986339
+			ShortText P309359501
+			Current PortalAHealth count>
+			OnClickFindEnt AuroraPortal-A
+			HideIf ShowPortalAHealth scriptvalue> 1 <
+			Target 100
+		}
+		UIItem PortalBHealthBar
+		{
+			Type BarRed
+			Text P3859986339
+			ShortText P309359501
+			Current PortalBHealth count>
+			OnClickFindEnt AuroraPortal-B
+			HideIf ShowPortalBHealth scriptvalue> 1 <
+			Target 100
+		}
+		UIItem PortalCHealthBar
+		{
+			Type BarRed
+			Text P3859986339
+			ShortText P309359501
+			Current PortalCHealth count>
+			OnClickFindEnt AuroraPortal-C
+			HideIf ShowPortalCHealth scriptvalue> 1 <
+			Target 100
+		}
+		UIItem PortalDHealthBar
+		{
+			Type BarRed
+			Text P3859986339
+			ShortText P309359501
+			Current PortalDHealth count>
+			OnClickFindEnt AuroraPortal-D
+			HideIf ShowPortalDHealth scriptvalue> 1 <
+			Target 100
+		}
+		UIItem PortalsRemainingBar
+		{
+			Type BarGold
+			Text P4000576024
+			ShortText P118205379
+			Current PortalsRemaining scriptvalue>
+			HideIf NoPortalsLeft scriptvalue> 1 ==
+			Target 4
+		}
+		UIItem AuroraResurrectionUsed
+		{
+			Type BarGold
+			Text P1073155066
+			Current DesdemonaBlessingUsedTotal scriptvalue>
+			HideIf DesdemonaBlessingUsedTotal scriptvalue> 0 ==
+			Target 40
+		}
+		UIItem PortalReturnCountdown
+		{
+			Type Timer
+			Timer PortalSpawnCountdown
+			Text P3226012039
+			ShortText P1782203431
+			HideIf ShowPortalCountdown scriptvalue> 0 ==
+		}
+		UIItem ResurrectionNextCountdown
+		{
+			Type Timer
+			Timer ResurrectionCycle
+			Text P926930693
+			ShortText P3974340810
+			HideIf ResurrectionBegun scriptvalue> 0 ==
+		}
+		UIItem ResurrectionStartCountdown
+		{
+			Type Timer
+			Timer ResurrectionDelay
+			Text P926930693
+			ShortText P3974340810
+			HideIf ResurrectionBegun scriptvalue> 1 ==
+		}
+		UIItem Doppelganger-Countdown
+		{
+			Type Timer
+			Timer DoppelgangerDelay
+			Text P346641165
+			ShortText P695103157
+			HideIf DoppelgangerStarted scriptvalue> 0 >
+		}
+		UIItem Doppelganger-CycleCountdown
+		{
+			Type Timer
+			Timer DoppelgangerCycle
+			Text P3206245436
+			ShortText P695103157
+			HideIf DoppelgangerStarted scriptvalue> 1 <
+		}
+		UIItem AuroraCountdown
+		{
+			Type Timer
+			Timer AuroraFailureTimer
+			Text P1309273977
+			ShortText P2326612172
+		}
+		UIItem Stage3-Spacer
+		{
+			Type CenterText
+			Text P3718001799
+		}
+		UIItem Stage3-Advice1
+		{
+			Type CenterText
+			Text P492196731
+		}
+		UIItem Stage3-Advice2
+		{
+			Type CenterText
+			Text P3722604723
+		}
+		UIItem Stage3-Advice3
+		{
+			Type CenterText
+			Text P3927712595
+		}	
+	}
+
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Boss Fight with Mother Mayhem>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 10
+			}
+		}
+		Action
+		{	
+			TeamControl
+			{
+				Team MotherMayhem
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraBorealis
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Aurora
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-Aurora
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-Watcher
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-D
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AurorasMind-FX
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Doppelgangers-A
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Delay 2
+			PorterControl
+			{
+				Porter TPTR-AuroraDone
+				Type Activate
+			}
+		}
+	}
+}
+
+Stage Cutscene
+{
+	DisplayName P3657441802
+	Tooltip P4015418006
+	
+	Startup
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Cutscene>>
+		}
+	}
+	
+//This timer delays the start of the cutscene a few moments.
+	Timer Cutscene-Delay-Timer
+	{
+		Duration 00:05
+	}
+
+//This timer indicates the length of the cutscene.
+	Timer Cutscene-Timer
+	{
+		Duration 00:64
+	}
+
+//This trigger starts the cutscene if someone in the event has never completed it.
+	Trigger Cutscene-Start
+	{
+		Requires Cutscene-Skippable scriptvalue> 0 == Cutscene-Delay-Timer complete> &&
+
+		Action
+		{
+			Reset Cutscene-Timer
+		}
+		Action
+		{
+			SetScriptValue ShowTimer 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Cutscene
+				Type Activate
+			}
+		}
+	}
+
+//This trigger ends the stage with the cutscene if it is triggered.
+	Trigger Cutscene-End
+	{
+		Requires Cutscene-Skippable scriptvalue> 0 == Cutscene-Timer complete> &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Team Cutscene
+				Type Deactivate
+			}
+		}
+		
+		NextStage FinalChat
+	}
+
+//This trigger skips the cutscene if everyone in the event has the badge.
+	Trigger Cutscene-Skip
+	{
+		Requires Cutscene-Skippable scriptvalue> 1 ==
+
+		NextStage FinalChat
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection CutsceneStage
+	{
+		UIItem CutsceneTimer-Start
+		{
+			Type Timer
+			Timer Cutscene-Delay-Timer
+			Text P1740097365
+			ShortText P1436029197
+			HideIf ShowTimer scriptvalue> 0 == !
+		}	
+		UIItem CutsceneTimer-Ongoing
+		{
+			Type Timer
+			Timer Cutscene-Timer
+			Text P2024037260
+			ShortText P1049793817
+			HideIf ShowTimer scriptvalue> 1 == !
+		}	
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Cutscene>>
+		}
+	}
+}
+
+Stage FinalChat
+{
+	DisplayName P3657441802
+	Tooltip P4051736574
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Rest Period with All NPCs>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-PenelopeYin
+				Type Activate
+			}
+			TeamControl
+			{
+				Team NPC-AuroraBorealis
+				Type Activate
+			}
+			TeamControl
+			{
+				Team NPC-CalvinScott
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:CalvinFinalPos),DoNothing(Timer(2)),MoveToPos(marker:CalvinFinalPos2),Surrounded>>
+			}
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 4
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsedTotal 0
+		}
+		Action
+		{
+			SetScriptValue FourthPortal-State 0
+		}
+	}
+
+//Resurrection Event Block
+
+//This timer hits players with a resurrection soon after a stage ends
+	Timer ResurrectionRapid
+	{
+		Duration 00:05
+	}
+
+//This timer is the cycle time for the next resurrection.
+	Timer ResurrectionCycle
+	{
+		Duration 00:30
+	}
+
+//This trigger hits players with a resurrection soon after a stage ends.
+	Trigger ResurrectionQuickHit
+
+		Requires ResurrectionRapid complete>
+
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection_Simple")>>
+			}
+		}
+	}
+
+//This trigger continues the use of the resurrection power for this stage.
+	Trigger ResurrectionContinues
+
+		Requires ResurrectionCycle complete>
+
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection_Simple")>>
+			}
+		}
+		Action
+		{
+			Reset ResurrectionContinues
+		}
+	}
+
+//End Resurrection Event Block
+
+//This counter detects when players have entered Tilman's Sanctum area.
+	Counter PlayersInFinalRoom
+	{
+		Type ZEPlayers
+		VolumeName PlayersInWell
+	}
+
+//This timer determines when the Desdemona will begin to open the fourth portal into the Seer Network.
+	Timer FourthPortal-Timer
+	{
+		Duration 00:08
+	}
+
+//This trigger tells Desdemona to start opening the fourth portal.
+	Trigger FourthPortal-Start
+	{
+		Requires ScriptStageFourBattleStart objectivesucceeded> FourthPortal-State scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Stage 4: Desdemona begins to open portal to The Well.>>
+		}
+		Action
+		{
+			Reset FourthPortal-Timer
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:FourthPortalOpening-Des),Casting_Shield(Timer(6)),MoveToPos(marker:NPC-Desdemona)>>
+			}
+			TeamControl
+			{
+				Team NPC-PenelopeYin
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:FourthPortalOpening-PY),Casting_Shield(Timer(6)),MoveToPos(marker:NPC-PenelopeYin)>>
+			}
+			TeamControl
+			{
+				Team NPC-AuroraBorealis
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:FourthPortalOpening-AB),Casting_Shield(Timer(6)),MoveToPos(marker:NPC-AuroraBorealis)>>
+			}
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue FourthPortal-State 1
+		}
+	}
+
+//This trigger informs players when the fourth portal is opened.
+	Trigger FourthPortal-Open
+	{
+		Requires FourthPortal-Timer complete> FourthPortal-State scriptvalue> 1 == &&
+
+		Action
+		{
+			DebugPrint <<Stage 4: Desdemona opens portal to The Well.>>
+		}		
+		Action
+		{
+			SetScriptValue FourthPortal-State 2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Portal-Final
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter TPTR-TheWell
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1053444195
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Delay 3
+			Floater
+			{
+				Message P718515417
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the stage.
+	Trigger FinalChatSuccess
+	{
+		Requires PlayersInFinalRoom count> 1 >=
+	
+		Action
+		{
+			DebugPrint <<Portal to Final Room Entered>>
+		}
+
+		NextStage TheWell
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection FinalChatStage
+	{
+		UIItem Stage4-SpeakToDesdemona
+		{
+			Type CenterText
+			Text P4248609063
+			HideIf FourthPortal-State scriptvalue> 0 >
+		}	
+		UIItem FinalPortalOpened
+		{
+			Type CenterText
+			Text P1609408792
+			ShortText P3290270427
+			HideIf FourthPortal-State scriptvalue> 2 <
+		}
+		UIItem FinalCountdownToPortal
+		{
+			Type Timer
+			Timer FourthPortal-Timer
+			Text P4279111462
+			ShortText P1383531207
+			HideIf FourthPortal-State scriptvalue> 1 == !
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Rest Period with All NPCs>>
+		}
+	}
+}
+
+Stage TheWell
+{
+	DisplayName P2111938672
+	Tooltip P3847774560
+
+	AwardKarma
+	KarmaThreshold 10	
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 1:00
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block	
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Boss Fight with Mother Malaise>>
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_03High_a_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanState 0
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 0
+		}
+		Action
+		{
+			SetScriptValue FinaleCountdown 0
+		}
+		Action
+		{
+			SetScriptValue WorldOfAnguishState 1
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsedTotal 0
+		}
+		Action
+		{
+			SetScriptValue TheWell-BonusTime-Set 0
+		}
+	}
+
+//Resurrection Event Block
+
+//This timer is the delay before the first resurrection begins.
+	Timer ResurrectionDelay
+	{
+		Duration 00:15
+	}
+
+//This timer is the cycle time for the next resurrection.
+	Timer ResurrectionCycle
+	{
+		Duration 00:30
+	}
+
+//This trigger starts the resurrection power for this stage.
+	Trigger ResurrectionBegins
+	{
+		Requires ResurrectionDelay complete> ResurrectionBegun scriptvalue> 0 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P3871633027
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection")>>
+			}
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 1
+		}
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+	}
+
+//This trigger continues the use of the resurrection power for this stage.
+	Trigger ResurrectionContinues
+
+		Requires ResurrectionCycle complete> ResurrectionBegun scriptvalue> 1 == &&
+
+		Action
+		{
+			Reset ResurrectionCycle
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Resurrection
+				Type DoBehavior
+				Behavior <<UsePower("Resurrection")>>
+			}
+		}
+		Action
+		{
+			Reset ResurrectionContinues
+		}
+	}
+
+//This trigger depletes the stage timer if the resurrection is used.
+	Trigger ResurrectionDepletion
+	{
+		Requires ResurrectionBegun scriptvalue> 1 == DesdemonaBlessingUsed scriptvalue> 0 > &&
+	
+		Action
+		{
+			DebugPrint <<Resurrection Used. Depleting The Well Stage Timer by 15 seconds.>>
+		}
+		Action
+		{
+			TimerControl
+			{
+				Timer TheWellFailureTimer
+				Type Subtract
+				Duration 00:15
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed DesdemonaBlessingUsed scriptvalue> 1 -
+		}
+		Action
+		{
+			Reset ResurrectionDepletion
+		}
+	}
+
+//End Resurrection Event Block
+	Timer Timer-WorldOfAnguish
+	{
+		Duration 00:30
+	}
+
+//This is the trigger which begins World of Anguish
+	Trigger Malaise-WorldOfAnguish-Start
+	{
+		Requires WorldOfAnguishState scriptvalue> 1 == Timer-WorldOfAnguish complete> &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team WorldOfAnguishMini
+				Type Activate
+			}
+			Floater
+			{
+				Message P1312419951
+				Color FF0000
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue WorldOfAnguishState 2
+		}
+	}
+
+//This is the trigger which resets the World of Anguish timer for correct display within the UI.
+	Trigger Malaise-WorldOfAnguish-TimerReset
+	{
+		Requires WorldOfAnguishState scriptvalue> 2 == Timer-WorldOfAnguish complete> &&
+
+		Action
+		{
+			Reset Timer-WorldOfAnguish
+		}
+		Action
+		{
+			Reset Malaise-WorldOfAnguish-TimerReset
+		}
+	}
+
+//This is the trigger that suppresses World of Anguish when Malaise is not fighting the players
+	Trigger Malaise-WorldOfAnguish-Suppress
+	{
+		Requires ShaliceTilmanPresent scriptvalue> 0 > WorldOfAnguishState scriptvalue> 3 == ! &&
+
+		Action
+		{
+			SetScriptValue WorldOfAnguishState 3
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WorldOfAnguishMini
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Reset Malaise-WorldOfAnguish-Suppress
+		}
+	}
+
+//This is the trigger that re-enables the World of Anguish when Malaise fights the players again
+	Trigger Malaise-WorldOfAnguish-Reenable
+	{
+		Requires ShaliceTilmanPresent scriptvalue> 0 == WorldOfAnguishState scriptvalue> 3 == &&
+
+		Action
+		{
+			SetScriptValue WorldOfAnguishState 2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WorldOfAnguishMini
+				Type Activate
+			}
+		}
+		Action
+		{
+			Reset Timer-WorldOfAnguish
+		}
+		Action
+		{
+			Reset Malaise-WorldOfAnguish-Reenable
+			Reset Malaise-WorldOfAnguish-Suppress
+		}
+	}
+
+
+//This timer adds the P2677571450 time which is depletable by use of resurrection.
+	Timer TheWellSetBonusTime
+	{
+		Duration 0:01
+	}
+
+//This timer is the failure timer for the stage.
+	Timer TheWellFailureTimer
+	{
+		Duration 5:00
+	}
+
+//This timer prevents the start of the Shalice Tilman phase immediately, to allow the health counter to properly update.
+	Timer MalaiseHealthDelayTimer
+	{
+		Duration 00:15
+	}
+
+//This timer prevents the Well from starting Debilitation until 30s into the encounter.
+	Timer WellDelayTimer
+	{
+		Duration 00:30
+	}
+
+//This is used to check for Mother Mayhem's defeat.
+	Counter MotherMalaiseDefeated
+	{
+		Type Name
+		Name Malaise_P_MotherMalaise
+		Count 1
+	}
+
+//This is used to update the UI with Mother Malaise's current health.
+	Counter MotherMalaiseHealth
+	{
+		Type BossHealth
+		Team MotherMalaise
+	}
+
+//This is used to check for the first version of Shalice Tilman's defeat.
+	Counter ShaliceTilmanDefeated-A
+	{
+		Type Team
+		Team ShaliceTilman-A
+		Count 1
+	}
+
+//This is used to update the UI with Shalice Tilman's current health.
+	Counter ShaliceTilmanHealth-A
+	{
+		Type BossHealth
+		Team ShaliceTilman-A
+	}
+
+//This counter is used to determine if the first version of Shalice Tilman reaches the Well.
+	Counter ShaliceTilmanReachesWell-A
+	{
+		Type Team
+		Team WellWatcher-A
+		Count 1
+	}
+
+//This is used to check for the second version of Shalice Tilman's defeat.
+	Counter ShaliceTilmanDefeated-B
+	{
+		Type Team
+		Team ShaliceTilman-B
+		Count 1
+	}
+
+//This is used to update the UI with Shalice Tilman's current health.
+	Counter ShaliceTilmanHealth-B
+	{
+		Type BossHealth
+		Team ShaliceTilman-B
+	}
+
+//This counter is used to determine if the second version of Shalice Tilman reaches the Well.
+	Counter ShaliceTilmanReachesWell-B
+	{
+		Type Team
+		Team WellWatcher-B
+		Count 1
+	}
+
+//This is used to check for the third version of Shalice Tilman's defeat.
+	Counter ShaliceTilmanDefeated-C
+	{
+		Type Team
+		Team ShaliceTilman-C
+		Count 1
+	}
+
+//This is used to update the UI with Shalice Tilman's current health.
+	Counter ShaliceTilmanHealth-C
+	{
+		Type BossHealth
+		Team ShaliceTilman-C
+	}
+
+//This counter is used to determine if the third version of Shalice Tilman reaches the Well.
+	Counter ShaliceTilmanReachesWell-C
+	{
+		Type Team
+		Team WellWatcher-C
+		Count 1
+	}
+
+//Karma objectives for stage 3
+
+//Award Karma for defeating a member of Mother Mayhem group (any clone).
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup MotherMayhem
+		KarmaValue 30
+		KarmaLife 30
+		TeamKarmaValue 30
+		TeamKarmaLife 30
+	}
+
+//Award Karma for defeating a member of Malaise group (any nightmare).
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup Malaise
+		KarmaValue 30
+		KarmaLife 30
+		TeamKarmaValue 30
+		TeamKarmaLife 30
+	}
+
+//Award Karma for chasing Malaise away.
+//	Objective
+//	{
+//		Type Team
+//		Team SpecialObjective
+//		KarmaValue 20
+//		KarmaLife 20
+//		TeamKarmaValue 20
+//		TeamKarmaLife 20
+//	}
+
+//This trigger adds the bonus time to the clock and allows the timer to display.
+
+	Trigger TheWell-BonusTime-Added
+	{
+		Requires TheWellSetBonusTime complete> TheWell-BonusTime-Set scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Adding depletable bonus time>>
+			TimerControl
+			{
+				Timer TheWellFailureTimer
+				Type Add
+				Duration 10:00
+			}
+		}
+		Action
+		{
+			SetScriptValue TheWell-BonusTime-Set 1
+		}
+		Action
+		{
+			Caption
+			{
+				Message P4021787718
+			}
+		}
+	}
+
+//This trigger brings on the Well of the Furies and its Debilitation effect.
+	Trigger WellOfTheFuries-Spawned
+	{
+		Requires WellDelayTimer complete> WellState scriptvalue> 0 == &&
+
+		Action
+		{
+			Reset WellDelayTimer
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team TheWell
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2968383944
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue WellState 1
+		}
+	}
+
+//This trigger continues resetting the timer after the Well is spawned.
+	Trigger WellOfTheFuries-Timer-Recycle
+	{
+		Requires WellDelayTimer complete> WellState scriptvalue> 1 == &&
+
+		Action
+		{
+			Reset WellDelayTimer
+		}
+		Action
+		{
+			Reset WellOfTheFuries-Timer-Recycle
+		}
+	}
+
+//This trigger spawns the first version of Shalice Tilman when Malaise reaches 50%.
+	Trigger ShaliceTilman-Spawned-A
+	{
+		Requires MalaiseHealthDelayTimer complete> MotherMalaiseHealth count> 51 < && ShaliceTilmanState scriptvalue> 0 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type DoBehavior
+				Behavior <<Invincible(1),Untargetable(1),Unselectable(1),DoNotMove(1),DoNotUseAnyPowers(1),DoAttackAI(0),Malaise_Collapse(CombatOverride(Passive))>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Nightmares
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellWatcher-A
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2601773568
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P86390619
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 1
+		}
+		Action
+		{
+			Delay 4
+			TeamControl
+			{
+				Team ShaliceTilman-A
+				Type Activate
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the first version of Shalice Tilman.
+	Trigger ShaliceTilman-Victory-A
+	{
+		Requires ShaliceTilmanDefeated-A complete>
+
+		Action
+		{
+			Reset MalaiseHealthDelayTimer
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team ShaliceTilman-A
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Nightmares
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellWatcher-A
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 0
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanState 1
+		}
+		Action
+		{
+			Floater
+			{
+				Message P528458157
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1012932382
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type DoBehavior
+				Behavior <<Psychic_TeleportIn(Timer(4)),Invincible(0),Untargetable(0),Unselectable(0),DoNotMove(0),DoNotUseAnyPowers(0),DoAttackAI(1),Combat>>
+			}
+		}
+	}
+		
+//This trigger sets up the failure condition for the first version of Shalice Tilman.
+	Trigger ShaliceTilman-Failure-A
+	{
+		Requires ShaliceTilmanReachesWell-A complete>
+		
+		Action
+		{
+			Reset ShaliceTilmanReachesWell-A
+		}
+		Action
+		{
+			SetScriptValue Badge-ShaliceChallenge 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team ShaliceTilman-A
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Nightmares
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellWatcher-A
+				Type Deactivate
+			}
+		}			
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 0
+		}
+		Action
+		{
+			Floater
+			{
+				Message P4166782546
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1012932382
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type DoBehavior
+				Behavior <<Psychic_TeleportIn(Timer(4)),Invincible(0),Untargetable(0),Unselectable(0),DoNotMove(0),DoNotUseAnyPowers(0),DoAttackAI(1),Combat>>
+			}
+		}
+		Action
+		{
+			Delay 1
+			Reset ShaliceTilman-Spawned-A
+		}
+		Action
+		{
+			Delay 2
+			Reset ShaliceTilman-Failure-A
+		}
+	}
+
+//This trigger spawns the second version of Shalice Tilman when Malaise reaches 50%.
+	Trigger ShaliceTilman-Spawned-B
+	{
+		Requires MalaiseHealthDelayTimer complete> MotherMalaiseHealth count> 51 < && ShaliceTilmanState scriptvalue> 1 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type DoBehavior
+				Behavior <<Invincible(1),Untargetable(1),Unselectable(1),DoNotMove(1),DoNotUseAnyPowers(1),DoAttackAI(0),Malaise_Collapse(CombatOverride(Passive))>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Nightmares
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellWatcher-B
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P687941589
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P86390619
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 2
+		}
+		Action
+		{
+			Delay 4
+			TeamControl
+			{
+				Team ShaliceTilman-B
+				Type Activate
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the second version of Shalice Tilman.
+	Trigger ShaliceTilman-Victory-B
+	{
+		Requires ShaliceTilmanDefeated-B complete>
+
+		Action
+		{
+			Reset MalaiseHealthDelayTimer
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team ShaliceTilman-B
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Nightmares
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellWatcher-B
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 0
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanState 2
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2715921303
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1012932382
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type DoBehavior
+				Behavior <<Psychic_TeleportIn(Timer(4)),Invincible(0),Untargetable(0),Unselectable(0),DoNotMove(0),DoNotUseAnyPowers(0),DoAttackAI(1),Combat>>
+			}
+		}
+	}
+		
+//This trigger sets up the failure condition for the second version of Shalice Tilman.
+	Trigger ShaliceTilman-Failure-B
+	{
+		Requires ShaliceTilmanReachesWell-B complete>
+		
+		Action
+		{
+			Reset ShaliceTilmanReachesWell-B
+		}
+		Action
+		{
+			SetScriptValue Badge-ShaliceChallenge 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team ShaliceTilman-B
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Nightmares
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellWatcher-B
+				Type Deactivate
+			}
+		}			
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 0
+		}
+		Action
+		{
+			Floater
+			{
+				Message P4166782546
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1012932382
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type DoBehavior
+				Behavior <<Psychic_TeleportIn(Timer(4)),Invincible(0),Untargetable(0),Unselectable(0),DoNotMove(0),DoNotUseAnyPowers(0),DoAttackAI(1),Combat>>
+			}
+		}
+		Action
+		{
+			Delay 1
+			Reset ShaliceTilman-Spawned-B
+		}
+		Action
+		{
+			Delay 2
+			Reset ShaliceTilman-Failure-B
+		}
+	}
+
+//This trigger spawns the third version of Shalice Tilman when Malaise reaches 50%.
+	Trigger ShaliceTilman-Spawned-C
+	{
+		Requires MalaiseHealthDelayTimer complete> MotherMalaiseHealth count> 51 < && ShaliceTilmanState scriptvalue> 2 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type DoBehavior
+				Behavior <<Invincible(1),Untargetable(1),Unselectable(1),DoNotMove(1),DoNotUseAnyPowers(1),DoAttackAI(0),Malaise_Collapse(CombatOverride(Passive))>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Nightmares
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellWatcher-C
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3134613093
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P86390619
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 3
+		}
+		Action
+		{
+			Delay 4
+			TeamControl
+			{
+				Team ShaliceTilman-C
+				Type Activate
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the third version of Shalice Tilman.
+	Trigger ShaliceTilman-Victory-C
+	{
+		Requires ShaliceTilmanDefeated-C complete>
+
+		Action
+		{
+			TeamControl
+			{
+				Team ShaliceTilman-C
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Nightmares
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellWatcher-C
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 0
+		}
+		Action
+		{
+			SetScriptValue ShaliceTilmanState 3
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2185356194
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1012932382
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Delay 3
+			Floater
+			{
+				Message P1099178147
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type DoBehavior
+				Behavior <<Psychic_TeleportIn(Timer(4)),Invincible(0),Untargetable(0),Unselectable(0),DoNotMove(0),DoNotUseAnyPowers(0),DoAttackAI(1),Combat>>
+			}
+		}
+	}
+		
+//This trigger sets up the failure condition for the third version of Shalice Tilman.
+	Trigger ShaliceTilman-Failure-C
+	{
+		Requires ShaliceTilmanReachesWell-C complete>
+		
+		Action
+		{
+			Reset ShaliceTilmanReachesWell-C
+		}
+		Action
+		{
+			SetScriptValue Badge-ShaliceChallenge 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team ShaliceTilman-C
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Nightmares
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellWatcher-C
+				Type Deactivate
+			}
+		}			
+		Action
+		{
+			SetScriptValue ShaliceTilmanPresent 0
+		}
+		Action
+		{
+			Floater
+			{
+				Message P4166782546
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1012932382
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team MotherMalaise
+				Type DoBehavior
+				Behavior <<Psychic_TeleportIn(Timer(4)),Invincible(0),Untargetable(0),Unselectable(0),DoNotMove(0),DoNotUseAnyPowers(0),DoAttackAI(1),Combat>>
+			}
+		}
+		Action
+		{
+			Delay 1
+			Reset ShaliceTilman-Spawned-C
+		}
+		Action
+		{
+			Delay 2
+			Reset ShaliceTilman-Failure-C
+		}
+	}
+
+
+//This trigger sets up the success condition for the stage.
+	Trigger TheWellSuccess
+	{
+		Requires MotherMalaiseDefeated complete> ShaliceTilmanState scriptvalue> 3 == &&
+	
+		Action
+		{
+			DebugPrint <<Mother Malaise Defeated>>
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 1
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P164176068
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Delay 3
+			Floater
+			{
+				Message P669053486
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Delay 3	
+			PorterControl
+			{
+				Porter TPTR-Finale
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 3
+			SetScriptValue FinaleCountdown 1
+		}
+		Action
+		{
+			Delay 3	
+			TeamControl
+			{
+				Team Portal-Finale
+				Type Activate
+			}
+		}
+	}
+
+	Trigger TheWellTransitionOut
+	{
+		Requires FinaleCountdown scriptvalue> 1 ==
+		
+		NextStage FinaleIntro
+	}
+
+	Trigger TheWellFailure-Timer
+	{
+		Requires TheWellFailureTimer complete>
+	
+		Action
+		{
+			DebugPrint <<Mother Malaise Battle Timer Expired>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Annihilation-TheWell
+				Type DoBehavior
+				Behavior <<UsePower("Mind_Annihilation")>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3659330718
+				Color FF9900
+			}
+		}
+
+		NextStage Failure
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection TheWellStage
+	{
+		UIItem FinaleTransition
+		{
+			Type Timer
+			Timer FinaleCountdownTimer
+			Text P885705642
+			ShortText P394068257
+			HideIf FinaleCountdown scriptvalue> 1 <
+		}
+		UIItem MotherMalaiseHealth
+		{
+			Type BarRed
+			Text P626720108
+			ShortText P4009817608
+			Current MotherMalaiseHealth count>
+			OnClickFindEnt MotherMalaise
+			HideIf FinaleCountdown scriptvalue> 0 >
+			Target 100
+		}
+		UIItem ShaliceTilmanHealthBar-A
+		{
+			Type BarRed
+			Text P3206921154
+			ShortText P4006451130
+			Current ShaliceTilmanHealth-A count>
+			OnClickFindEnt ShaliceTilman-A
+			HideIf ShaliceTilmanPresent scriptvalue> 1 == !
+			Target 100
+		}
+		UIItem ShaliceTilmanHealthBar-B
+		{
+			Type BarRed
+			Text P3206921154
+			ShortText P4006451130
+			Current ShaliceTilmanHealth-B count>
+			OnClickFindEnt ShaliceTilman-B
+			HideIf ShaliceTilmanPresent scriptvalue> 2 == !
+			Target 100
+		}
+		UIItem ShaliceTilmanHealthBar-C
+		{
+			Type BarRed
+			Text P3206921154
+			ShortText P4006451130
+			Current ShaliceTilmanHealth-C count>
+			OnClickFindEnt ShaliceTilman-C
+			HideIf ShaliceTilmanPresent scriptvalue> 3 == !
+			Target 100
+		}
+		UIItem ShaliceTilmanDisconnections
+		{
+			Type BarBlue
+			Text P446495029
+			ShortText P1633550288
+			Current ShaliceTilmanState scriptvalue>
+			HideIf FinaleCountdown scriptvalue> 0 >
+			Target 3
+		}
+		UIItem TheWellResurrectionUsed
+		{
+			Type BarGold
+			Text P1073155066
+			Current DesdemonaBlessingUsedTotal scriptvalue>
+			HideIf DesdemonaBlessingUsedTotal scriptvalue> 0 ==
+			Target 40
+		}
+		UIItem WorldOfAnguish-InitialTimer
+		{
+			Type Timer
+			Timer Timer-WorldOfAnguish
+			Text P3294378371
+			ShortText P916513450
+			HideIf WorldOfAnguishState scriptvalue> 1 == !
+		}
+		UIItem WorldOfAnguish-OngoingTimer
+		{
+			Type Timer
+			Timer Timer-WorldOfAnguish
+			Text P644451282
+			ShortText P2693801853
+			HideIf WorldOfAnguishState scriptvalue> 2 == !
+		}
+		UIItem DebilitationNext
+		{
+			Type Timer
+			Timer WellDelayTimer
+			Text P3924878469
+			HideIf WellState scriptvalue> 1 <
+			ShortText P287483948
+		}
+		UIItem DebilitationCountdown
+		{
+			Type Timer
+			Timer WellDelayTimer
+			Text P3095746176
+			HideIf WellState scriptvalue> 0 >
+			ShortText P36801206
+		}
+		UIItem ResurrectionNextCountdown
+		{
+			Type Timer
+			Timer ResurrectionCycle
+			Text P926930693
+			ShortText P3974340810
+			HideIf ResurrectionBegun scriptvalue> 0 ==
+		}
+		UIItem ResurrectionStartCountdown
+		{
+			Type Timer
+			Timer ResurrectionDelay
+			Text P926930693
+			ShortText P3974340810
+			HideIf ResurrectionBegun scriptvalue> 1 ==
+		}
+		UIItem DyingTilmanCountdown
+		{
+			Type Timer
+			Timer TheWellFailureTimer
+			Text P1309273977
+			HideIf FinaleCountdown scriptvalue> 0 >
+			ShortText P2326612172
+		}
+		UIItem Stage4-Spacer
+		{
+			Type CenterText
+			Text P3718001799
+		}
+		UIItem Stage4-Advice1
+		{
+			Type CenterText
+			Text P3847621617
+			HideIf ShaliceTilmanPresent scriptvalue> 0 == !
+		}
+		UIItem Stage4-Advice2
+		{
+			Type CenterText
+			Text P3752933293
+			HideIf ShaliceTilmanPresent scriptvalue> 1 == !
+		}
+		UIItem Stage4-Advice3
+			Type CenterText
+			Text P1976830122
+			HideIf ShaliceTilmanPresent scriptvalue> 1 == !
+		}
+		UIItem Stage4-Advice3
+			Type CenterText
+			Text P95944190
+			HideIf ShaliceTilmanPresent scriptvalue> 1 == !
+		}
+	}
+
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Boss Fight with Mother Malaise>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 0
+			}
+		}
+		Action
+		{	
+			TeamControl
+			{
+				Team MotherMalaise
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team WorldOfAnguishMini
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team ShaliceTilman-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team ShaliceTilman-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team ShaliceTilman-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmares
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team WellWatcher-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team WellWatcher-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team WellWatcher-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team TheWell
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Final
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-TheWell
+				Type Deactivate
+			}
+		}
+	}
+}
+
+Stage FinaleIntro
+{
+		
+	DisplayName P890860289
+	Tooltip P896892593
+	
+	Startup
+	{
+		Action
+		{
+			DebugPrint <<Starting Finale Intro>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 10
+			}
+		}
+//		Action
+//		{
+//			PlaySound
+//			{
+//				Sound i20_03High_b_Loop
+//				Channel Music
+//				VolumeLevel 1
+//			}
+//		}
+	}
+
+	Timer FinaleIntro-Duration
+	{
+		Duration 00:30
+	}
+
+	Timer FinaleIntro-Delay
+	{
+		Duration 00:03
+	}
+
+	Trigger FinaleIntro-Start
+	{
+		Requires FinaleIntro-Delay complete>
+
+		Action
+		{
+			Caption
+			{
+				Message P1849590687
+			}
+		}
+		Action
+		{
+			Delay 25
+			Floater
+			{
+				Message P2038061975
+				Color CC99FF
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger FinaleIntro-End
+	{
+		Requires FinaleIntro-Duration complete>
+
+		NextStage Finale
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection FinaleIntroStage
+	{
+		UIItem Trapped
+		{
+			Type CenterText
+			Text P618398261
+		}
+	}
+
+	Shutdown
+	{
+		Action
+		{
+			DebugPrint <<Ending Finale Intro>>
+		}
+	}
+}
+
+
+Stage Finale
+{
+	DisplayName P890860289
+	Tooltip P939579451
+
+	AwardKarma
+	KarmaThreshold 10
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Boss Fight with Dying Tilman>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team TilmansMind
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 5
+		}
+		Action
+		{
+			SetScriptValue ResurrectionBegun 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsed 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaBlessingUsedTotal 0
+		}
+		Action
+		{
+			SetScriptValue Finale-BonusTime-Set 0
+		}
+	}
+
+//Resurrection Event Block
+//
+//This timer is the delay before the first resurrection begins.
+//	Timer ResurrectionDelay
+//	{
+//		Duration 00:15
+//	}
+//
+//This timer is the cycle time for the next resurrection.
+//	Timer ResurrectionCycle
+//	{
+//		Duration 00:30
+//	}
+//
+//This trigger starts the resurrection power for this stage.
+//	Trigger ResurrectionBegins
+//	{
+//		Requires ResurrectionDelay complete> ResurrectionBegun scriptvalue> 0 == &&
+//
+//		Action
+//		{
+//			Floater
+//			{
+//				Message P3871633027
+//				Color FF9900
+//			}
+//		}
+//		Action
+//		{
+//			TeamControl
+//			{
+//				Team Resurrection
+//				Type DoBehavior
+//				Behavior <<UsePower("Resurrection")>>
+//			}
+//		}
+//		Action
+//		{
+//			SetScriptValue ResurrectionBegun 1
+//		}
+//		Action
+//		{
+//			Reset ResurrectionCycle
+//		}
+//	}
+//
+//This trigger continues the use of the resurrection power for this stage.
+//	Trigger ResurrectionContinues
+//
+//		Requires ResurrectionCycle complete> ResurrectionBegun scriptvalue> 1 == &&
+//
+//		Action
+//		{
+//			Reset ResurrectionCycle
+//		}
+//		Action
+//		{
+//			TeamControl
+//			{
+//				Team Resurrection
+//				Type DoBehavior
+//				Behavior <<UsePower("Resurrection")>>
+//			}
+//		}
+//		Action
+//		{
+//			Reset ResurrectionContinues
+//		}
+//	}
+//
+//This trigger depletes the stage timer if the resurrection is used.
+//	Trigger ResurrectionDepletion
+//	{
+//		Requires ResurrectionBegun scriptvalue> 1 == DesdemonaBlessingUsed scriptvalue> 0 > &&
+//	
+//		Action
+//		{
+//			DebugPrint <<Resurrection Used. Depleting Finale Stage Timer by 15 seconds.>>
+//		}
+//		Action
+//		{
+//			TimerControl
+//			{
+//				Timer FinaleFailureTimer
+//				Type Subtract
+//				Duration 00:15
+//			}
+//		}
+//		Action
+//		{
+//			SetScriptValue DesdemonaBlessingUsed DesdemonaBlessingUsed scriptvalue> 1 -
+//		}
+//		Action
+//		{
+//			Reset ResurrectionDepletion
+//		}
+//	}
+//
+//End Resurrection Event Block
+
+//This timer adds the P2677571450 time which is depletable by use of resurrection.
+	Timer FinaleSetBonusTime
+	{
+		Duration 0:01
+	}
+
+//This timer is the failure timer for the stage.
+	Timer FinaleFailureTimer
+	{
+		Duration 0:30
+	}
+
+//This is used to check for Dying Tilman's defeat.
+	Counter DyingTilmanDefeated
+	{
+		Type Team
+		Team TilmansMind
+		Count 1
+	}
+
+//This is used to update the UI with Dying Tilman's current health.
+	Counter DyingTilmanHealth
+	{
+		Type BossHealth
+		Team TilmansMind
+	}
+
+//Award Karma for defeating a member of Mother Mayhem group (any clone).
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup MotherMayhem
+		KarmaValue 30
+		KarmaLife 30
+		TeamKarmaValue 30
+		TeamKarmaLife 30
+	}
+
+//This trigger adds the bonus time to the clock and allows the timer to display.
+
+	Trigger Finale-BonusTime-Added
+	{
+		Requires FinaleSetBonusTime complete> Finale-BonusTime-Set scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Adding depletable bonus time>>
+			TimerControl
+			{
+				Timer FinaleFailureTimer
+				Type Add
+				Duration 2:30
+			}
+		}
+		Action
+		{
+			SetScriptValue Finale-BonusTime-Set 1
+		}
+	}
+
+//This trigger sets up the success condition for the stage.
+	Trigger FinaleSuccess
+	{
+		Requires DyingTilmanDefeated complete>
+	
+		Action
+		{
+			DebugPrint <<Shalice Tilman Defeated>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2251382982
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Delay 8
+			PorterControl
+			{
+				Porter TPTR-FinaleDone
+				Type Activate
+			}
+		}
+		Action
+		{
+			Reward EmpyreanMerit_MoM
+		}
+		NextStage RewardWinners
+	}
+
+	Trigger FinaleFailure-Timer
+	{
+		Requires FinaleFailureTimer complete>
+	
+		Action
+		{
+			DebugPrint <<Shalice Tilman Battle Timer Expired>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Annihilation-Finale
+				Type DoBehavior
+				Behavior <<UsePower("Mind_Annihilation")>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3568486885
+				Color FF9900
+			}
+		}
+
+		NextStage Failure
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection FinaleStage
+	{
+		UIItem DyingTilmanHealth
+		{
+			Type BarRed
+			Text P3206921154
+			ShortText P2229585750
+			Current DyingTilmanHealth count>
+			OnClickFindEnt TilmansMind
+			Target 100
+		}
+		UIItem Morale
+		{
+			Type BarGold
+			Text P2665463120
+			ShortText P3738247573
+			Current 100 DyingTilmanHealth count> - 0 60 minmax 60 / 100 *
+			Target 100
+		}
+//		UIItem FinaleResurrectionUsed
+//		{
+//			Type BarGold
+//			Text P1073155066
+//			Current DesdemonaBlessingUsedTotal scriptvalue>
+//			HideIf DesdemonaBlessingUsedTotal scriptvalue> 0 ==
+//			Target 10
+//		}
+//		UIItem ResurrectionNextCountdown
+//		{
+//			Type Timer
+//			Timer ResurrectionCycle
+//			Text P926930693
+//			ShortText P3974340810
+//			HideIf ResurrectionBegun scriptvalue> 0 ==
+//		}
+//		UIItem ResurrectionStartCountdown
+//		{
+//			Type Timer
+//			Timer ResurrectionDelay
+//			Text P926930693
+//			ShortText P3974340810
+//			HideIf ResurrectionBegun scriptvalue> 1 ==
+//		}
+		UIItem DyingTilmanCountdown
+		{
+			Type Timer
+			Timer FinaleFailureTimer
+			Text P904769664
+			ShortText P856300666
+		}
+		UIItem Finale-Spacer
+		{
+			Type CenterText
+			Text P3718001799
+			HideIf 100 DyingTilmanHealth count> - 0 60 minmax 60 / 100 * 100 ==
+		}
+		UIItem Finale-Advice1
+		{
+			Type CenterText
+			Text P1073402150
+			HideIf 100 DyingTilmanHealth count> - 0 60 minmax 60 / 100 * 100 ==
+		}
+		UIItem Finale-Advice2
+		{
+			Type CenterText
+			Text P345861891
+			HideIf 100 DyingTilmanHealth count> - 0 60 minmax 60 / 100 * 100 ==
+		}
+		UIItem Finale-Advice3
+		{
+			Type CenterText
+			Text P133714127
+			HideIf 100 DyingTilmanHealth count> - 0 60 minmax 60 / 100 * 100 ==
+		}
+	}
+
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Boss Fight with Shalice Tilman>>
+		}
+//		Action
+//		{
+//			FadeSound
+//			{
+//				Channel Music
+//				FadeTime 10
+//			}
+//		}
+		Action
+		{
+			PorterControl
+			{
+				Porter TPTR-Finale
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team NPC-CalvinScott
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Finale
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team TilmansMind
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Final
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-TheWell
+				Type Deactivate
+			}
+		}
+	}
+}
+
+Stage RewardWinners
+{
+	StartUp
+	{
+		Action StartRewardWinners
+		{
+			DebugPrint <<Stage Reward Winners Initialized...>>
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 6
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3793641794
+				Color FF9900
+			}
+		}
+		Action
+		{
+			GurneyControl
+			{
+				Type EnableRezWindow
+			}
+		}
+	}
+	Trigger AwardBadge-Completion
+	{
+		Action
+		{
+			DebugPrint <<Awarding Completion Badge>>
+			Reward IT_MoM_Complete
+		}
+	}
+	Trigger AwardBadge-PenelopeChallenge
+	{
+		Requires Badge-PenelopeChallenge scriptvalue> 0 ==
+		Action
+		{
+			DebugPrint <<Awarding A Perfect Storm Badge>>
+			Reward IT_MoM_PenelopeChallenge
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardBadge-AuroraChallenge
+	{
+		Requires Badge-AuroraChallenge scriptvalue> 0 ==
+		Action
+		{
+			DebugPrint <<Awarding Daylight Saver Badge>>
+			Reward IT_MoM_AuroraChallenge
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardBadge-ShaliceChallenge
+	{
+		Requires Badge-ShaliceChallenge scriptvalue> 0 ==
+		Action
+		{
+			DebugPrint <<Awarding Lost Connection Badge>>
+			Reward IT_MoM_ShaliceChallenge
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardMerit-OpenLeague
+	{
+		Requires eventLockedByGroup? ! OpenLeagueAward scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Bonus Merit for an Open League Awarded>>
+			SetScriptValue OpenLeagueAward 1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger End
+	{
+		NextStage Stop
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Stage Reward Winners Completed...>>
+		}
+		Action PhatLewt
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+					NumStagesRequired 0
+					RewardTable IncarnatePool1None
+				}
+				Reward class1
+				{
+					NumStagesRequired 4
+					RewardTable Issue21EndKarma0
+				}
+				Reward class2
+				{
+					PercentileNeeded 0.00
+					NumStagesRequired 5
+					PointsNeeded 10
+					RewardTable IS.Issue2150EndKarma1Plus
+				}
+			}
+		}
+	}
+}
+	
+Stage Failure
+{
+	StartUp
+	{
+		Action FailureStart
+		{
+			DebugPrint <<Initializing Stage Failure...>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2594637490
+				Color FF9900
+			}
+		}
+		Action
+		{
+			GurneyControl
+			{
+				Type EnableRezWindow
+			}
+		}
+	}
+	Timer FailureDelay
+	{
+		Duration 00:10
+	}
+	Trigger FailureDelayEnd
+	{
+		Requires FailureDelay complete>
+		NextStage Stop
+		
+		Action StopStart
+		{
+			DebugPrint <<Completing Stage Failure...>>
+		}
+	}
+
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint <<Initializing Stage Stop...>>
+			RemoveWaypoints
+		}		
+		Action ShutDownInstancedEvent
+	        {
+			TrialComplete Success
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WorldOfAnguish
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Resurrection
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team WarmthBuff
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Malaise
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Penelope
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Aurora
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Portal-Final
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AurorasMind-FX
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Malaise
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team JadeSpider
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Adamastor
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Avatar
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Babbage
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Batzul
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Caleb
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-CrystalTitan
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Deathsurge
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Eochai
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-JackInIrons
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Jurassik
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-KronosTitan
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Lanaru
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-LIWW
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-LordWinter
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Paladin
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmare-Ruladak
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-D
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-E
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage1-F
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Penelope
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-D
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-E
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vortex-F
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Void-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Void-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Void-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Void-D
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team MotherMayhem
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraBorealis
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Doppelgangers-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CloneArmy-Stage3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-D
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AuroraPortal-Watcher
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team MotherMalaise
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Nightmares
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team ShaliceTilman-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team ShaliceTilman-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team ShaliceTilman-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team WellWatcher-A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team WellWatcher-B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team WellWatcher-C
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team TheWell
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team TilmansMind
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team BadgeChecker
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Annihilation-Malaise
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Annihilation-Penelope
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Annihilation-Aurora
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Annihilation-TheWell
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Annihilation-Finale
+				Type Deactivate
+			}
+		}
+	}
+	Trigger Never
+	{
+		Requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting Down Stop Stage>>
+		}
+	}
+}

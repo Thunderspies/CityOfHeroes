@@ -1,0 +1,161 @@
+Def grp847588
+	Group Omni/_Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"Contacts\Shadow_Shard\Cornelius.npc"	0
+End
+
+Def grp763258
+	Group Omni/_Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"Contacts\Shadow_Shard\Joe_Young.npc"	0
+End
+
+Def grp_Cornelius_And_Joe
+	Group grp847588
+		Rot 0 1.570796 0
+		Pos 1.696579 -4.484211 1.5
+	End
+	Group grp763258
+		Rot 0 1.570796 0
+		Pos -0.303421 -4.484211 -1.5
+	End
+End
+
+Def grp50292
+	Group Omni/EncounterSpawns/Encounter_E_05
+		Rot 0 -0.174533 0
+		Pos -3.609344 -0.000008 19.697388
+	End
+	Group Omni/EncounterSpawns/Encounter_E_04
+		Rot 0 -0.698132 0
+		Pos -28.448483 7.388397 25.465189
+	End
+	Group Omni/EncounterSpawns/Encounter_E_07
+		Rot 0 -2.617994 0
+		Pos -25.065277 3.999992 -2.615967
+	End
+	Group Omni/EncounterSpawns/Encounter_E_09
+		Rot 0 -2.617994 0
+		Pos -11.722504 -0.000008 -9.911255
+	End
+	Group Omni/EncounterSpawns/Encounter_E_08
+		Rot 0 -1.919863 0
+		Pos -4.847702 3.999992 -22.045288
+	End
+	Group Omni/EncounterSpawns/Encounter_E_01
+		Rot 0 2.268928 0
+		Pos 25.32695 3.999992 8.298218
+	End
+	Group Omni/EncounterSpawns/Encounter_E_03
+		Rot 0 2.094395 0
+		Pos 14.711044 5.999992 -2.310791
+	End
+	Group Omni/EncounterSpawns/Encounter_E_02
+		Rot 0 1.396264 0
+		Pos 17.368591 3.999992 -16.092529
+	End
+	Group Omni/EncounterSpawns/Encounter_E_06
+		Rot 0 -0.174533 0
+		Pos 4.875961 3.999992 34.394409
+	End
+	Property	"CanSpawn0"	"SpawnDefs/Universal/RMKF_D1_V0.spawndef"	0
+	Property	"CanSpawn1"	"SpawnDefs/Universal/RMKF_D1_V1.spawndef"	0
+	Property	"CanSpawn2"	"SpawnDefs/Universal/RMKF_D1_V2.spawndef"	0
+	Property	"EncounterSpawn"	"RMKF"	0
+End
+
+Def grp_Monkeys
+	Group grp50292
+	End
+	Property	"EncounterAutospawnEnd"	"0.0831"	0
+	Property	"EncounterAutospawnStart"	"0.083"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"GroupName"	"RMKF"	0
+End
+
+Def grp50299
+	Group Omni/_Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"Contacts\StoreNPCs\ArenaStore_07.npc"	0
+End
+
+Def grp50298
+	Group Omni/_Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"Contacts\StoreNPCs\ArenaStore_06.npc"	0
+End
+
+Def grp_Arena_Stores
+	Group grp50299
+		Rot 0 3.141592 0
+		Pos 20.918243 -4.484211 -63.668213
+	End
+	Group grp50298
+		Pos 20.918243 -4.484211 23.331787
+	End
+End
+
+Def grp50469
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Property	"CanSpawn1"	"SpawnDefs\Universal\RMKF_Audio_D01_V1.spawndef"	0
+	Property	"EncounterSpawn"	"RMKF_Cheering"	0
+End
+
+Def grp50470
+	Group grp50469
+	End
+	Property	"EncounterGroup"	"0"	0
+End
+
+Def grp63459
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Property	"CanSpawn0"	"SpawnDefs\Universal\RMKF_Audio_D01_V0.spawndef"	0
+	Property	"EncounterSpawn"	"RMKF_Fighting"	0
+End
+
+Def grp63458
+	Group grp63459
+	End
+	Property	"EncounterGroup"	"0"	0
+End
+
+Def grp_RMKF
+	Group grp_Cornelius_And_Joe
+		Rot 0 2.356194 0
+		Pos 43.821716 12.007895 12.053467
+	End
+	Group grp_Monkeys
+		Rot 0 -2.879794 0
+		Pos -9.566574 -16.492098 -15.486084
+	End
+	Group Omni/BeaconizeHere
+		Rot 0 1.832595 0
+		Pos -11.178299 -16.492105 -16.446533
+	End
+	Group Omni/ValidBeacon
+		Rot 0 1.832595 0
+		Pos -7.178299 -16.492105 -20.946533
+	End
+	Group grp_Arena_Stores
+		Pos -31.096527 31.992105 -1.77832
+	End
+	Group grp50470
+		Pos -10.678284 -16.492105 -22.446533
+	End
+	Group grp63458
+		Pos -3.678284 -16.492105 -22.446533
+	End
+	Flags NoColl
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_RMKF
+	Pos -181.821716 -7.507895 -1306.053467
+End
+

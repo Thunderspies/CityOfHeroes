@@ -1,0 +1,125 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Rollup_med
+	BaseSkeleton	Door_Rollup_med\Skel_Door_Rollup_med
+	ParentType	None
+TypeDefEnd
+
+TypeDef Door_Rollup_small
+	BaseSkeleton	Door_Rollup_med\Door_Rollup_small
+	ParentType	Door_Rollup_med
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> Shut Shut2
+	Flags		Cycle 
+
+	Type		Door_Rollup_med
+	  Anim          Door_Rollup_med\Skel_Door_Rollup_med 1 5
+	TEnd
+
+	Type		Door_Rollup_small
+	  Anim          Door_Rollup_med\Door_Rollup_small 1 5
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+	Interpolate     0
+
+	Type		Door_Rollup_med
+	  Anim          Door_Rollup_med\Skel_Door_Rollup_med 6 25
+	  PlayFX	fx\doors\rollupdoor1.fx
+	TEnd
+
+	Type		Door_Rollup_small
+	  Anim          Door_Rollup_med\Door_Rollup_small 6 25
+	  PlayFX	fx\doors\rollupdoor1.fx
+	  Scale		0.5
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Interpolate     0
+	Sets            WALKTHROUGH 
+
+	Type		Door_Rollup_med
+	  Anim          Door_Rollup_med\Skel_Door_Rollup_med 26 40
+	TEnd
+
+	Type		Door_Rollup_small
+	  Anim          Door_Rollup_med\Door_Rollup_small 25 40
+	  Scale		0.5
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Rollup_med
+	  Anim          Door_Rollup_med\Skel_Door_Rollup_med 41 45
+	TEnd
+
+	Type		Door_Rollup_small
+	  Anim          Door_Rollup_med\Door_Rollup_small 41 45
+	  Scale		0.5
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Rollup_med
+	  Anim          Door_Rollup_med\Skel_Door_Rollup_med 46 69
+	  PlayFX	fx\doors\rollupdoor2.fx
+	TEnd
+
+	Type		Door_Rollup_small
+	  Anim          Door_Rollup_med\Door_Rollup_small 46 69
+	  PlayFX	fx\doors\rollupdoor2.fx
+	  Scale		0.5
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		Door_Rollup_med
+	  Anim          Door_Rollup_med\Skel_Door_Rollup_med 70
+	  TEnd
+
+	 Type		Door_Rollup_small
+	  Anim          Door_Rollup_med\Door_Rollup_small 70
+	  Scale		0.5
+	TEnd
+MEnd
+
+SeqEnd
+

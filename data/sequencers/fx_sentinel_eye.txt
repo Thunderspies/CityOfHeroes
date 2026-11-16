@@ -1,0 +1,211 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Sentinel_EYE
+	BaseSkeleton	FX_Sentinel_EYE\Skel_FX_Sentinel_EYE
+	ParentType	None
+TypeDefEnd
+
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+
+
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle 
+	Scale           0.2
+
+	Type		FX_Sentinel_EYE
+	  Anim          FX_Sentinel_EYE\Skel_FX_Sentinel_EYE 1
+	  
+	  
+	TEnd
+
+MEnd
+
+
+
+
+#### powers & attacks  ######################
+
+
+###################
+###### Eye Cast  ######
+###################	
+
+Move EyeCast
+	Requires	COMBAT HEADCAST 
+	Interrupts	<AttackIRQ> 
+	Member		<DeathIRQ> 
+	NextMove        EyeCastpost
+	Priority        2
+	Sets            CANTMOVE 
+
+	Type		FX_Sentinel_EYE
+	  Anim          FX_Sentinel_EYE\eye_cast_slow 1 75 
+	TEnd
+
+MEnd
+
+
+Move EyeCastpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ> 
+	NextMove        Ready
+	Interpolate     0
+
+	Type		FX_Sentinel_EYE
+	  Anim          FX_Sentinel_EYE\eye_cast_slow 76
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### Snap Attack  ######
+###################	
+
+Move Snap_L
+	Requires	COMBAT Punch
+	Interrupts	<AttackIRQ> 
+	Member		<DeathIRQ> 
+	NextMove        Snap_L_post
+	Priority        2
+	Sets            CANTMOVE 
+
+	Type		FX_Sentinel_EYE
+	  Anim          FX_Sentinel_EYE\snap 1 40 
+	TEnd
+
+MEnd
+
+
+Move Snap_L_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ> 
+	NextMove        Ready
+	Interpolate     0
+
+	Type		FX_Sentinel_EYE
+	  Anim          FX_Sentinel_EYE\snap 41
+	TEnd
+
+MEnd
+
+
+
+###### special Hit reacts  ###################################################
+
+
+###################
+###### Freeze Stun  ######
+###################	
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN 
+	Interrupts	<ReactIRQ> Stun Stun_cycle 
+	Member		<DeathIRQ> 
+	NextMove        FreezeStun_cycle
+	Priority        4
+
+	Type		FX_Sentinel_EYE
+	  Anim          FX_Sentinel_EYE\freeze 1 24
+	TEnd
+
+MEnd
+
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN 
+	Member		<DeathIRQ> 
+	Flags		Cycle 
+	NextMove        weak_post
+	Priority        3
+
+	Type		FX_Sentinel_EYE
+	  Anim          FX_Sentinel_EYE\freeze 25 40
+	TEnd
+MEnd
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> 
+	Flags		Cycle 
+	NextMove        weak_post
+	Priority        3
+
+	Type		FX_Sentinel_EYE
+	  Anim          FX_Sentinel_EYE\freeze 25 40
+	TEnd
+
+
+MEnd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SeqEnd		##(leave at the bottom. DO NOT MOVE!!!)###

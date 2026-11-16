@@ -1,0 +1,683 @@
+#############################################################
+## Black_scorpion_tail.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Tail
+	BaseSkeleton	V_BlackScorpion\SKEL_tail
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+###################
+### Ready ##
+###################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+
+	Type		Tail
+	  Anim          V_BlackScorpion\SKEL_tail 1
+	TEnd
+MEnd
+
+###################
+### Run ##
+###################
+
+Move RunPre
+	Requires	FORWARD
+	Interrupts	<Ready>  <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs NoSizeScale ##MoveScale SmoothSprint
+	NextMove        RunCycle
+	Priority        1
+
+	Type		Tail
+	  Anim          V_BlackScorpion\Run_tail 19
+	TEnd
+MEnd
+
+Move RunPreCombat
+	Requires	FORWARD COMBAT
+	Interrupts	<Ready>  <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs NoSizeScale ##MoveScale SmoothSprint
+	NextMove        RunCycle
+	Priority        2
+	interpolate	12
+
+	Type		Tail
+	  Anim          V_BlackScorpion\Run_tail 19
+	TEnd
+MEnd
+
+Move RunCycle
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle  NoSizeScale
+	NextMove        RunPost
+	Priority        1
+
+
+	Type		Tail
+	  Anim          V_BlackScorpion\Run_tail 1
+	TEnd
+MEnd
+
+Move RunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate	8
+	scale		.5
+	Flags		NoSizeScale
+
+	Type		tail
+	  Anim          V_BlackScorpion\runpost_tail 9
+	TEnd
+MEnd
+
+###################
+###### Super Jump  ######
+###################
+
+Move jumpPre
+	Requires	JUMP
+	Interrupts	Pre_SkillMode <PostMoveCycle> <Ready>  <BasicMove> <Skill> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ> <StunMove>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpUp
+	Priority        1
+
+	Type		Tail
+	  Anim          V_BlackScorpion\SKEL_tail 1 1
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        jumpApex
+	Priority        1
+
+	Type		Tail
+	  Anim          V_BlackScorpion\SKEL_tail 1 1
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpFall
+	Priority        1
+
+	Type		Tail
+	  Anim          V_BlackScorpion\SKEL_tail 1 1
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+	Priority        1
+
+	Type		Tail
+	  Anim          V_BlackScorpion\SKEL_tail 1 1
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        1
+
+	Type		Tail
+	  Anim          V_BlackScorpion\SKEL_tail 1 1
+	TEnd
+MEnd
+
+Move JumpPost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate     1
+	Scale		.8
+
+	Type		tail
+	  Anim          V_BlackScorpion\Jumppost_tail 1
+	TEnd
+
+MEnd
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Hit_cycle
+	Flags		HitReact
+	Priority        2
+	scale		.65
+
+	Type		tail
+	  Anim          V_BlackScorpion\hitquick_tail 7
+	TEnd
+MEnd
+
+Move Hit_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Scale           1
+	Interpolate     0
+	Flags		HitReact
+
+	Type		Tail
+	  Anim          V_BlackScorpion\SKEL_tail 1
+	TEnd
+MEnd
+
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+	SticksOnChild   STUN STRONG LASSOSTUN ##(for anim FX)
+	scale		1.3
+
+	Type		Tail
+	  Anim          V_BlackScorpion\freezestun_tail 1
+	TEnd
+MEnd
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        3
+	SticksOnChild   STUN STRONG LASSOSTUN ##(for anim FX)
+
+	Type		Tail
+	  Anim          V_BlackScorpion\freezestun_tail 20 20
+	TEnd
+MEnd
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	Fear
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+	Priority        2
+
+	Type		Tail
+	  Anim          V_BlackScorpion\hitquick_tail 7 20
+	TEnd
+MEnd
+
+Move FearStun_cycle
+	Requires	Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	Interpolate	8
+
+	Type		Tail
+	  Anim          V_BlackScorpion\electropain_tail 1
+	TEnd
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        ElectroStun_cycle
+	Priority        3
+	scale		0.8
+
+	Type		Tail
+	  Anim          V_BlackScorpion\electropain_tail 7 20
+	TEnd
+MEnd
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+	scale		0.8
+
+	Type		Tail
+	  Anim          V_BlackScorpion\electropain_tail 1
+	TEnd
+MEnd
+
+Move weak_post
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	nextmove	CombatReady
+	Flags		NoSizeScale
+	scale		0.5
+
+	Type		Tail
+	  Anim          V_BlackScorpion\hitquick_tail 11 30
+	TEnd
+MEnd
+
+###################
+###### Lasso Stun  ######
+###################
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        LassoStun_cycle
+	Priority        3
+	Scale           0.60
+
+	Type		Tail
+	  Anim          V_BlackScorpion\hitquick_tail  7 20
+	TEnd
+MEnd
+
+Move LassoStun_cycle
+	Requires	STUN LASSOSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+	Scale           0.60
+
+	Type		Tail
+	  Anim          V_BlackScorpion\electropain_tail 1
+	TEnd
+MEnd
+
+###################
+######Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ> <Ready> <HitIRQ>
+	Member		<ReactIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_Post
+	Flags		HitReact NoSizeScale
+	Priority        6
+	scale		1.7
+
+	Type		Tail
+	  Anim          V_BlackScorpion\electropain_tail 1
+	TEnd
+MEnd
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Priority        5
+	Sets            CANTMOVE
+
+	Type		Tail
+	  Anim          V_BlackScorpion\curl_tail 1 25
+	TEnd
+MEnd
+
+Move KHF_travel
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Tail
+	  Anim          V_BlackScorpion\curl_tail 1 25
+	TEnd
+MEnd
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tail
+	  Anim          V_BlackScorpion\curl_tail 1 25
+	TEnd
+MEnd
+
+Move KHF_fallcycle
+	Requires	AIR
+	Priority        1
+	Flags		Cycle
+	NextMove        KHF_impact
+	Sets            CANTMOVE
+
+	Type		Tail
+	  Anim          V_BlackScorpion\curl_tail 1 25
+	TEnd
+MEnd
+
+Move KHF_impact
+	NextMove        getup_back
+	Sets            CANTMOVE
+	scale		0.6
+
+	Type		Tail
+	  Anim          V_BlackScorpion\curl_tail 1
+	TEnd
+MEnd
+
+###################
+###### Sweeps  ######
+###################
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tail
+	  Anim          V_BlackScorpion\curl_tail 1 25
+	TEnd
+MEnd
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	Interpolate     0
+	Sets            CANTMOVE
+	scale		0.7
+
+	Type		Tail
+	  Anim          V_BlackScorpion\curl_tail 1
+	TEnd
+MEnd
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tail
+	  Anim          V_BlackScorpion\curl_tail 1 25
+	TEnd
+MEnd
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+	Flags		HitReact NoSizeScale
+	scale		1.6
+
+	Type		Tail
+	  Anim          V_BlackScorpion\hitquick_tail 7 20
+	TEnd
+MEnd
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react3
+	Flags		NoSizeScale
+	scale		1.5
+
+	Type		Tail
+	  Anim          V_BlackScorpion\electropain_tail 1 1
+	TEnd
+MEnd
+
+Move ClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react4
+	Flags		NoSizeScale
+	scale		2
+
+	Type		Tail
+	  Anim          V_BlackScorpion\electropain_tail 1
+	TEnd
+MEnd
+
+Move ClawSpeed_react4
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ready
+	Flags		NoSizeScale
+	scale		0.7
+
+	Type		Tail
+	  Anim          V_BlackScorpion\hitquick_tail 11 30
+	TEnd
+MEnd
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Tail
+	  Anim          V_BlackScorpion\freezestun_tail 1
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+	scale		0.7
+	interpolate	40
+
+	Type		Tail
+	  Anim          V_BlackScorpion\curl_tail 1 25
+	TEnd
+MEnd
+
+#############################################################
+## POWERS
+#############################################################
+
+###################
+## Black Scorpion Tail sting
+###################
+
+Move BS_Sting
+	Requires	COMBAT BSSTING
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        BS_Sting_post
+	Flags		CANTMOVE
+
+	Type		Tail
+	  Anim          V_BlackScorpion\sting_tail 1 25
+	TEnd
+MEnd
+
+Move BS_Sting_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		Tail
+	  Anim          V_BlackScorpion\sting_tail 25
+	TEnd
+MEnd
+
+###################
+## Black Scorpion Tail blast
+###################
+
+Move BS_TailBlast
+	Requires	COMBAT BSBLAST
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        BS_TailBlast_post
+	Flags		CANTMOVE
+
+	Type		Tail
+	  Anim          V_BlackScorpion\blast_tail 1 40
+	TEnd
+MEnd
+
+Move BS_TailBlast_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		Tail
+	  Anim          V_BlackScorpion\blast_tail 40
+	TEnd
+MEnd
+
+###################
+## Black Scorpion 360 tail swipe
+###################
+
+Move BS_Tailarc
+	Requires	COMBAT BSARC
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        BS_Tailarc_post
+	Flags		CANTMOVE
+
+	Type		Tail
+	  Anim          V_BlackScorpion\spin_360 1 35
+	TEnd
+MEnd
+
+Move BS_Tailarc_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove	CombatReady
+	SticksOnChild COMBAT
+
+	Type		Tail
+	  Anim          V_BlackScorpion\spin_360 35
+	TEnd
+MEnd
+
+###################
+## Black Scorpion Arm Blast
+###################
+
+Move BS_ArmBlast
+	Requires	COMBAT BSARMCANNON
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        BS_ArmBlast_post
+	Flags		CANTMOVE
+	SticksOnChild	COMBAT BSARMCANNON
+
+	Type		Tail
+	  Anim          V_BlackScorpion\blast_arm 1 65
+	TEnd
+MEnd
+
+Move BS_ArmBlast_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove	CombatReady
+	SticksOnChild	COMBAT
+
+	Type		Tail
+	  Anim          V_BlackScorpion\blast_arm 65
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

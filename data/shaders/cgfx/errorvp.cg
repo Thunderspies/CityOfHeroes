@@ -1,0 +1,52 @@
+// errorvp.cg
+
+//--------------------------------------------------
+// Output struct def
+//--------------------------------------------------
+struct vpOutput
+{
+    float4 position : POSITION;
+    float4 color    : COLOR;
+};
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+vpOutput main(
+        float4 vertex_position     : POSITION,
+        float4 vertex_normal       : NORMAL,
+        uniform float4x4 g_ModelViewProjection,     // state.matrix.mvp
+        uniform float4x4 g_ModelViewMatrixInvTrans, // state.matrix.modelview.invtrans,
+        uniform float4 lightDir    : state.light[0].position,
+        uniform float4 halfDir     : state.light[0].half,
+        uniform float4 specExp     : state.material.shininess,
+        uniform float4 ambientCol  : state.lightprod[0].ambient,
+        uniform float4 diffuseCol  : state.lightprod[0].diffuse,
+        uniform float4 specularCol : state.lightprod[0].specular
+      )
+{
+    vpOutput OUT;
+
+    // Transform the vertex to clip coordinates.   
+    OUT.position = mul(g_ModelViewProjection, vertex_position); // DP4
+
+    // Transform the normal to eye coordinates.
+    float3 xfNormal = mul( (float3x3) g_ModelViewMatrixInvTrans, vertex_normal.xyz); // DP3
+    
+    // Compute diffuse and specular dot products and use LIT to compute
+    // lighting coefficients.
+    float NdotL = dot(xfNormal, lightDir.xyz); // DP3
+    float NdotH = dot(xfNormal, halfDir.xyz); // DP3
+    float4 dots = lit( NdotL, NdotH, specExp.x );
+
+    // Accumulate color contributions.
+    float3 color = (( dots.y * diffuseCol ) + ambientCol ).xyz;
+    OUT.color.xyz = ( dots.z * specularCol.xyz ) + color;
+    OUT.color.w = diffuseCol.w;
+
+    return OUT;
+}
+

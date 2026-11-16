@@ -1,0 +1,197 @@
+Def grp_UGR_ResAcc_Spawn_UNT
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"LinkFrom_P_City_00_03_R"	0
+End
+
+Def grp80530
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"AllowThrough1"	"True"	0
+	Property	"AllowThrough2"	"False"	0
+	Property	"GotoMap"	"P_City_00_03.txt"	0
+	Property	"GotoSpawn"	"LinkFrom_P_City_00_08_R"	0
+	Property	"LockedText1"	"UNT_WelcomeResistance"	0
+	Property	"LockedText2"	"UNT_NoLoyalist"	0
+	Property	"Requires1"	"CanEnterHeroZone char> praetorianprogress char> normal eq ! &&"	0
+	Property	"Requires2"	"1"	0
+	Property	"miniMapLocation"	"NPAccessR"	0
+	Property	"specialMapIcon"	"ResistanceIcon"	0
+End
+
+Def grp_UGR_ResAcc_GoTo_NT
+	Group grp80530
+		PYR 0 -90 -0
+	End
+End
+
+Def grp_UGR_ResAcc_Door_UNT
+	Group grp_UGR_ResAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos -6 0 -5
+	End
+	Group grp_UGR_ResAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos -4.5 0 -3.5
+	End
+	Group grp_UGR_ResAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos -6 0 2
+	End
+	Group grp_UGR_ResAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos -4.5 0 0.5
+	End
+	Group grp_UGR_ResAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos -4 0 -1.5
+	End
+	Group grp_UGR_ResAcc_GoTo_NT
+		Pos -12 0 -2
+	End
+End
+
+Def grp_UGR_LoyAcc_Spawn_UNT
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"LinkFrom_P_City_00_03_L"	0
+End
+
+Def grp80532
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"AllowThrough1"	"True"	0
+	Property	"AllowThrough2"	"False"	0
+	Property	"GotoMap"	"P_City_00_03.txt"	0
+	Property	"GotoSpawn"	"LinkFrom_P_City_00_08_L"	0
+	Property	"LockedText1"	"UNT_WelcomeLoyalist"	0
+	Property	"LockedText2"	"UNT_NoResistance"	0
+	Property	"Requires1"	"CanEnterVillainZone char> praetorianprogress char> normal eq ! &&"	0
+	Property	"Requires2"	"1"	0
+	Property	"miniMapLocation"	"NPAccessL"	0
+	Property	"specialMapIcon"	"LoyalistIcon"	0
+End
+
+Def grp_UGR_LoyAcc_GoTo_NT
+	Group grp80532
+		PYR 0 -90 -0
+	End
+End
+
+Def grp_UGR_LoyAcc_Door_UNT
+	Group grp_UGR_LoyAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos -0.75 0 -3.5
+	End
+	Group grp_UGR_LoyAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos -0.75 0 3.5
+	End
+	Group grp_UGR_LoyAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos 0.75 0 2
+	End
+	Group grp_UGR_LoyAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos 0.75 0 -2
+	End
+	Group grp_UGR_LoyAcc_Spawn_UNT
+		PYR 0 90 -0
+		Pos 1.25 0 0
+	End
+	Group grp_UGR_LoyAcc_GoTo_NT
+		Pos -1.25 0 0
+	End
+End
+
+Def grp_UGR_QuickAccess_UNT
+	Group grp_UGR_ResAcc_Door_UNT
+		Pos 8.25 0 -2.5
+	End
+	Group grp_UGR_LoyAcc_Door_UNT
+		PYR 0 -90 -0
+		Pos -1331.75 -32 -464.5
+	End
+End
+
+Def grp_UNT_ResHub_Spawn_OUT
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"NT_ResHub_Out"	0
+End
+
+Def grp_UNT_ResHub_Spawn_IN
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"NT_ResHub_In"	0
+End
+
+Def grp_UNT_ResHub_GoTo_OUT
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoSpawn"	"NT_ResHub_Out"	0
+End
+
+Def grp_UNT_ResHub_GoTo_IN
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"AllowThrough1"	"True"	0
+	Property	"AllowThrough2"	"False"	0
+	Property	"GotoSpawn"	"NT_ResHub_In"	0
+	Property	"LockedText1"	"UNT_ResHub_ForRes"	0
+	Property	"LockedText2"	"UNT_ResHub_ForLoy"	0
+	Property	"Requires1"	"CanEnterHeroZone char>"	0
+	Property	"Requires2"	"1"	0
+	Property	"miniMapLocation"	"Resistance Hub"	0
+	Property	"specialMapIcon"	"ResistanceHub"	0
+End
+
+Def grp_UNT_ResHub_Access
+	Group grp_UNT_ResHub_Spawn_OUT
+		PYR 0 -89.999992 -0
+		Pos -349.625 -0.042236 -294.75
+	End
+	Group grp_UNT_ResHub_Spawn_IN
+		PYR 0 90 -0
+		Pos 349.375 -0.042236 294.75
+	End
+	Group grp_UNT_ResHub_GoTo_OUT
+		PYR 0 90 -0
+		Pos 343.375 0.042236 294.75
+	End
+	Group grp_UNT_ResHub_GoTo_IN
+		PYR 0 -90 -0
+		Pos -343.125 0.042236 -294.75
+	End
+End
+
+Def grp_Beacons
+	Group Omni/ValidBeacon
+		Pos -3623 -1130 -596.5
+	End
+	Group Omni/ValidBeacon
+		Pos -697.5 -1257.949951 -167
+	End
+	Group grp_UGR_QuickAccess_UNT
+		Pos -1827.25 -1262.851074 -880
+	End
+	Group grp_UNT_ResHub_Access
+		Pos -1247.875 -1258.895752 -461.75
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Beacons
+	Pos 727 42 -1435.5
+End
+

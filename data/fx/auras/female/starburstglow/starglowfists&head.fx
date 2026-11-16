@@ -1,0 +1,115 @@
+#############################################################
+## StarGlowFists.fx
+#############################################################
+
+FxInfo
+
+Flags DontSuppress ##InheritAlpha - Don't use inheret alpha on Aura FX
+
+## FISTS ###########################################################
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		Type	Local
+		At	UarmR
+		Bhvr	Behaviors\GenericParticleFade.bhvr
+		part	:BodyStarGlow01.part
+		Pmagnet LarmR
+		POther  LarmR
+	End
+
+	Event
+		Type	Local
+		At	HandR
+		Bhvr	Behaviors\GenericParticleFade.bhvr
+		part	:HeadStarGlow01.part
+		part	:HeadStarGlow02.part
+		Pmagnet LarmR
+		POther  LarmR
+	End
+
+	Event
+		Type	Local
+		At	UarmL
+		Bhvr	Behaviors\GenericParticleFade.bhvr
+		part	:BodyStarGlow01.part
+		Pmagnet LarmL
+		POther  LarmL
+	End
+
+	Event
+		Type	Local
+		At	HandL
+		Bhvr	Behaviors\GenericParticleFade.bhvr
+		part	:HeadStarGlow01.part
+		part	:HeadStarGlow02.part
+		Pmagnet LarmL
+		POther  LarmL
+	End
+
+	Event
+		Type	Local
+		At	HandR
+		Bhvr	Behaviors\GenericParticleFade.bhvr
+		part	:FistStarGlow01.part
+		part	:HeadStarGlow01.part
+		part	:HeadStarGlow02.part
+		Pmagnet UarmR
+	End
+
+	Event
+		Type	Local
+		At	HandL
+		Bhvr	Behaviors\GenericParticleFade.bhvr
+		part	:FistStarGlow01.part
+		part	:HeadStarGlow01.part
+		part	:HeadStarGlow02.part
+		Pmagnet UarmL
+	End
+End
+
+## EYES ###########################################################
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		Type	Local
+		At	Head
+		Bhvr	:EyeNodeL.bhvr
+		part	:EyeStarGlow01.part
+		part	:EyeStarGlow02.part
+	End
+
+	Event
+		Type	Local
+		At	Head
+		Bhvr	:EyeNodeR.bhvr
+		part	:EyeStarGlow01.part
+		part	:EyeStarGlow02.part
+	End
+End
+
+## HAIR ###########################################################
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		Type	Local
+		At	Head
+		Bhvr	:HeadOffset1.bhvr
+		part	:HeadStarGlow01.part
+		part	:HeadStarGlow02.part
+		Pmagnet Head
+	End
+End
+
+#############################################################
+
+End

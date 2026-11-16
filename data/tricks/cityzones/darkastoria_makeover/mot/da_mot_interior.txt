@@ -1,0 +1,1003 @@
+Texture DA_Mot_Insides_01_D
+	Surface Puddle
+End
+
+Texture X_DA_Mot_Interior_Blend
+	Base1 DA_Mot_Insides_02_D //DA_Grass_01_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 15 10 //8 3
+
+	Multiply1 DA_MOT_Interior_Detail_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 DA_Mot_Insides_02_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 5 5 //8 3
+
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask DA_MOT_Interior_Blend_M
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1
+	MaskWeight  1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_01_D
+	Base2Scroll .001 .001
+	Base2ScrollType  Normal //Normal
+	Base2Scale  20 10
+
+	Multiply2 DA_MOT_Interior_Detail_C
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 DA_Mot_Insides_01_NS
+	BumpMap2Scroll .001 .001 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  20 10
+
+	CubeMap %dynamic%  //
+	ReflectivityBase .2
+	ReflectivityScale .3
+	ReflectivityPower .3
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 85 85 85
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DA_Mot_Insides_01_D
+		BumpMap none //
+		Blend DA_MOT_Interior_Detail_C
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 15 15
+		DiffuseScale 2
+		AmbientScale 2
+	End
+End
+
+
+
+Texture x_DA_Mot_Rib_01
+	Base1 DAmo_mot_bone_01_b
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 5 12
+
+	Multiply1 DA_MOT_Rib_01_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	//ReflectivityBase .5
+  //ReflectivityScale .5
+  //ReflectivityPower .5
+
+	BumpMap1 DAmo_mot_bone_01_n
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 5 12
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  0        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask DA_MOT_Rib_01_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_02_D
+	Base2Scroll .00 .00
+	Base2ScrollType Normal
+	Base2Scale 5 9
+
+	Multiply2 DA_MOT_Rib_01_C
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+
+
+	BumpMap2 DA_Mot_Insides_02_NS
+	BumpMap2Scroll .00 .00
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 9
+
+	SpecularColor1 100 100 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 2
+	SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DAmo_mot_bone_01_b
+		Blend DA_MOT_Rib_01_C
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		//ScrollST 0 0.005
+		ScaleST0 1 1
+		ScaleST1 10 20
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+
+
+
+Texture X_DA_Mot_Spine_01
+	Base1 DAmo_mot_bone_01_b
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 5 5
+
+	Multiply1 DA_MOT_Spine_01_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	//ReflectivityBase .5
+  //ReflectivityScale .5
+  //ReflectivityPower .5
+
+	BumpMap1 DAmo_mot_bone_01_n
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 5 5
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  0        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask DA_MOT_Spine_01_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_02_D
+	Base2Scroll .00 .00
+	Base2ScrollType Normal
+	Base2Scale 5 9
+
+	Multiply2 DA_MOT_Spine_01_C
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 DA_Mot_Insides_02_NS
+	BumpMap2Scroll .00 .00
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 9
+
+	SpecularColor1 100 100 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 2
+	SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DAmo_mot_bone_01_b
+		Blend DA_MOT_Spine_01_C
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		//ScrollST 0 0.005
+		ScaleST0 1 1
+		ScaleST1 8 8
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+
+
+
+
+
+Texture X_DA_Mot_Spine_02
+	Base1 DAmo_mot_bone_01_b
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 6 6
+
+	Multiply1 DA_MOT_Spine_01_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	//ReflectivityBase .5
+  //ReflectivityScale .5
+  //ReflectivityPower .5
+
+	BumpMap1 DAmo_mot_bone_01_n
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 6 6
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  0        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask DA_MOT_Spine_02_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_02_D
+	Base2Scroll .00 .00
+	Base2ScrollType Normal
+	Base2Scale 10 8
+
+	Multiply2 DA_MOT_Spine_01_C
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 DA_Mot_Insides_02_NS
+	BumpMap2Scroll .00 .00
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 10 8
+
+	SpecularColor1 100 100 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 2
+	SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DAmo_mot_bone_01_b
+		Blend DA_MOT_Spine_01_C
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		//ScrollST 0 0.005
+		ScaleST0 1 1
+		ScaleST1 7 7
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+
+
+
+
+
+Texture X_DA_Mot_Spine_03
+	Base1 DAmo_mot_bone_01_b
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 6 6
+
+	Multiply1 DA_MOT_Spine_01_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	//ReflectivityBase .5
+  //ReflectivityScale .5
+  //ReflectivityPower .5
+
+	BumpMap1 DAmo_mot_bone_01_n
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 6 6
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  0        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask DA_MOT_Spine_03_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_02_D
+	Base2Scroll .00 .00
+	Base2ScrollType Normal
+	Base2Scale 10 12
+
+	Multiply2 DA_MOT_Spine_01_C
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 DA_Mot_Insides_02_NS
+	BumpMap2Scroll .00 .00
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 10 12
+
+	SpecularColor1 100 100 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 2
+	SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DAmo_mot_bone_01_b
+		Blend DA_MOT_Spine_01_C
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		//ScrollST 0 0.005
+		ScaleST0 1 1
+		ScaleST1 6 6
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+
+
+
+
+
+
+
+Texture X_DA_MOT_Hip
+	Base1 DAmo_mot_bone_01_b
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 8 8
+
+	Multiply1 DA_MOT_Hip_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	//ReflectivityBase .5
+  //ReflectivityScale .5
+  //ReflectivityPower .5
+
+	BumpMap1 DAmo_mot_bone_01_n
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  0        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask DA_MOT_Hip_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_02_D
+	Base2Scroll .00 .00
+	Base2ScrollType Normal
+	Base2Scale 10 10
+
+	Multiply2 DA_MOT_Hip_C
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 DA_Mot_Insides_02_NS
+	BumpMap2Scroll .00 .00
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 10 10
+
+	SpecularColor1 100 100 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 2
+	SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DAmo_mot_bone_01_b
+		Blend DA_MOT_Hip_C
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		//ScrollST 0 0.005
+		ScaleST0 1 1
+		ScaleST1 15 15
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+
+
+
+
+
+
+
+Texture X_DA_MOT_Tail
+	Base1 DAmo_mot_bone_01_b
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 8 8
+
+	Multiply1 DA_MOT_Tail_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	//ReflectivityBase .5
+  //ReflectivityScale .5
+  //ReflectivityPower .5
+
+	BumpMap1 DAmo_mot_bone_01_n
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  0        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask DA_MOT_Tail_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_02_D
+	Base2Scroll .00 .00
+	Base2ScrollType Normal
+	Base2Scale 10 10
+
+	Multiply2 DA_MOT_Tail_C
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 DA_Mot_Insides_02_NS
+	BumpMap2Scroll .00 .00
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 10 10
+
+	SpecularColor1 100 100 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 2
+	SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DAmo_mot_bone_01_b
+		Blend DA_MOT_Tail_C
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		//ScrollST 0 0.005
+		ScaleST0 1 1
+		ScaleST1 10 10
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+
+
+
+
+
+
+Texture X_DA_Mot_Fatpile_01
+	Base1 DA_Mot_Insides_02_D //DA_Grass_01_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 15 10 //8 3
+
+	Multiply1 DA_MOT_Interior_Detail_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 DA_Mot_Insides_02_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 5 5 //8 3
+
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask DA_MOT_FatPile_01_M
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1
+	MaskWeight  1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_01_D
+	Base2Scroll .001 .001
+	Base2ScrollType  Normal //Normal
+	Base2Scale  8 5
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 DA_Mot_Insides_01_NS
+	BumpMap2Scroll .001 .001 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  8 5
+
+	CubeMap %dynamic%  //
+	ReflectivityBase .2
+	ReflectivityScale .5
+	ReflectivityPower .5
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 85 85 85
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DA_Mot_Insides_01_D
+		BumpMap none //
+		Blend none
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 9 4
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+
+
+
+Texture X_DA_Mot_WhiteHead
+	Base1 DA_MOT_Whitehead_D
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1 //8 3
+
+	Multiply1 DA_MOT_Whitehead_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 DA_MOT_Whitehead_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 //8 3
+
+		CubeMap %dynamic%  //
+	ReflectivityBase .1
+	ReflectivityScale .2
+	ReflectivityPower .2
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+
+	AddGlow1 DA_MOT_Whitehead_G
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask DA_MOT_Whitehead_M
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1
+	MaskWeight  1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_01_D
+	Base2Scroll .0007 .0007
+	Base2ScrollType  Normal //Normal
+	Base2Scale  .7 .7
+
+	Multiply2 DA_MOT_Whitehead_C
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 DA_Mot_Insides_01_NS
+	BumpMap2Scroll .0007 .0007 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  .7 .7
+
+	CubeMap %dynamic%  //
+	ReflectivityBase .1
+	ReflectivityScale .2
+	ReflectivityPower .2
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 85 85 85
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	#ObjFlags FancyWater
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DA_MOT_Whitehead_D
+		BumpMap none //
+		Blend DA_MOT_Whitehead_C
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 2
+		AmbientScale 2
+	End
+End
+
+
+
+
+
+
+
+Texture X_DA_Mot_WhiteHead_Cool
+	Base1 DA_MOT_Whitehead_Cool_D
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1 //8 3
+
+	Multiply1 DA_MOT_Whitehead_C
+	Multiply1Scroll 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 DA_MOT_Whitehead_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 //8 3
+
+		CubeMap %dynamic%  //
+	ReflectivityBase .1
+	ReflectivityScale .2
+	ReflectivityPower .2
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+
+	AddGlow1 DA_MOT_Whitehead_Cool_G
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask DA_MOT_Whitehead_M
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1
+	MaskWeight  1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 DA_Mot_Insides_01_D
+	Base2Scroll .0007 .0007
+	Base2ScrollType  Normal //Normal
+	Base2Scale  .7 .7
+
+	Multiply2 DA_MOT_Whitehead_C
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 DA_Mot_Insides_01_NS
+	BumpMap2Scroll .0007 .0007 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  .7 .7
+
+	CubeMap %dynamic%  //
+	ReflectivityBase .1
+	ReflectivityScale .2
+	ReflectivityPower .2
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 85 85 85
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	#ObjFlags FancyWater
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base DA_MOT_Whitehead_Cool_D
+		BumpMap none //
+		Blend DA_MOT_Whitehead_C
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+
+
+
+
+Trick  motWhitehead
+	Sway 0.200000 0.1
+	SwayRandomize 0.05 0.02
+End
+
+
+

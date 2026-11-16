@@ -1,0 +1,39 @@
+/******************************************************************************
+  SHADOW MAPPING
+  
+  This header defines the common interpolators, samplers and functions used
+  to shadow map.
+
+  @todo
+  Need to use a BIT_SHADOW_MAP to have shader variants with/without shadow
+  map support so that these can be switched on the fly and more importantly
+  non-shadowmap variants can be used on auxiliary viewports for speed or
+  in places where shadows are not enabled (interiors?)
+*****************************************************************************/
+
+#ifndef _SHADOWS_CGH_
+#define _SHADOWS_CGH_
+
+
+///////////////////////////////////////////////////////////////////////////////
+// SHADOW MAPPING DEFINES
+///////////////////////////////////////////////////////////////////////////////
+
+// only create shader variants for shadowmapping at runtime if enabled
+#if defined(BIT_SHADOWMAP)
+  #define USE_SHADOWMAP
+#endif
+
+// Shadow map quality will be selected as a compilation define:
+//	SHADOWSHADER_FAST:		SHADOWMAP_RUNTIME_PCF_1x1			(default)
+//	SHADOWSHADER_MEDIUMQ:	SHADOWMAP_RUNTIME_PCF_2x2
+//	SHADOWSHADER_HIGHQ:		SHADOWMAP_RUNTIME_PCF_4x4
+//	SHADOWSHADER_DEBUG:		SHADOWMAP_RUNTIME_DEBUG
+
+// debug features have to be enabled during compilation
+#if defined(SHADOWMAP_RUNTIME_DEBUG)
+  #define SHADOWMAP_DEVELOPMENT
+#endif
+
+
+#endif //_SHADOWS_CGH_

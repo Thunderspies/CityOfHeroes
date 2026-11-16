@@ -1,0 +1,86 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Truck
+	BaseSkeleton	Door_Truck\Skel_truck
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Truck
+	  Anim          Door_Truck\Skel_truck 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+	Scale           0.70
+
+	Type		Door_Truck
+	  Anim          Door_Truck\Skel_truck 6 24 
+	TEnd
+MEnd
+
+
+Move Open2		##(note this is not used because door opens really fast)
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Scale           0.70
+	Sets            WALKTHROUGH 
+
+	Type		Door_Truck
+	  Anim          Door_Truck\Skel_truck 25 50
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Truck
+	  Anim          Door_Truck\Skel_truck 50 55 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Ready  ##Shut2
+	Priority        1
+##	Sets            WALKTHROUGH 
+
+	Type		Door_Truck
+	  Anim          Door_Truck\Skel_truck 54 66
+	TEnd
+MEnd
+
+
+Move Shut2		##(note this is not used because door opens really fast)
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Truck
+	  Anim          Door_Truck\Skel_truck 67 
+	TEnd
+MEnd
+
+SeqEnd
+

@@ -1,0 +1,1666 @@
+//	Object Tricks
+
+Trick SP2BeltAlphaFix
+	AlphaRef 220.000000
+	ObjFlags  ForceAlphaSort
+End
+
+
+//	Shaders for Super Pack 2 Cosmic Corsair Weapons
+//	Sword is Chromium Cutlass
+//	Gun is Sidereal Sidearm
+
+Texture N_Sword_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Sword_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Sword_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Sword_SuperPack2_01_AG.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Sword_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Sword_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Sword_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Sword_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Neck_V_Ascension_01_GlowScroll //DE_RayBubbles_g
+	AddGlow1Scroll 0 -0.02
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 .5
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Sword_SuperPack2_01_AG 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Sword_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Shader_Reflect_Chrome_02 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Sword_SuperPack2_01_DC				//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Sword_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 10				// Glossiness of color 1
+	SpecularExponent2 15
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture N_Pistol_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Pistol_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Pistol_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Pistol_SuperPack2_01_AG.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Pistol_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Pistol_SuperPack2_01_B 		//greyWblackAlpha		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Pistol_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Pistol_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Neck_V_Ascension_01_GlowScroll //DE_RayBubbles_g
+	AddGlow1Scroll 0 -0.02
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 .8
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Pistol_SuperPack2_01_AG 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Pistol_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Shader_Reflect_Chrome_02 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Pistol_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Pistol_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 10				// Glossiness of color 1
+	SpecularExponent2 15
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+
+
+
+//	Shader for Backpack and Cape
+//	N_Horizontal_GlowScroll
+
+Texture N_Backpack_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Backpack_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Backpack_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Backpack_SuperPack2_01_AG.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Horizontal_GlowScroll.tga
+	Flags RepeatS RepeatT
+End
+
+Texture X_Backpack_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Backpack_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Backpack_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Backpack_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 N_Horizontal_GlowScroll //DE_RayBubbles_g
+	AddGlow1Scroll -0.02 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 .5
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Backpack_SuperPack2_01_AG 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Backpack_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Shader_Reflect_Chrome_02 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Backpack_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Backpack_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 10				// Glossiness of color 1
+	SpecularExponent2 15
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+
+Texture N_Cape_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Cape_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Cape_SuperPack2_02_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Cape_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Cape_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Cape_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none //Shader_Reflect_Chrome_11					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 0.5 0.5
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Cape_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Cape_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+//	Flags AlwaysAddGlow
+
+	Mask N_All_ShadowHound_01_MK 	// Reflection Texture
+	MaskScroll -0.0005 -0.0035
+	MaskScrollType Normal
+	MaskScale 0.05 0.2
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 cape_01 //greyWblackAlpha		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_11 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Cape_SuperPack2_02_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Cape_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 10				// Glossiness of color 1
+	SpecularExponent2 15
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+
+
+//	Shaders for Costume Pieces
+
+Texture N_Hair_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Hair_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Hair_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Hair_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Hair_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Hair_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Hair_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Hair_SuperPack2_01_DC 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Hair_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Hair_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Hair_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 3
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture X_Hair_SuperPack2_02			// For E.O. Helmet
+	Base1 N_Hair_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Hair_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Hair_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Hair_SuperPack2_01_DC 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Hair_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Hair_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Hair_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 10
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture N_EyesNeck_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_EyesNeck_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_EyesNeck_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture X_EyesNeck_SuperPack2_01			// For E.O. Helmet
+	Base1 N_EyesNeck_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_EyesNeck_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_EyesNeck_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_EyesNeck_SuperPack2_01_DC 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_EyesNeck_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_EyesNeck_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_EyesNeck_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 3
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture N_SpadR_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_SpadR_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_SpadR_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_SpadR_SuperPack2_01_AG.tga
+	Flags ClampS ClampT
+End
+
+Texture X_SpadR_SuperPack2_01					// For Shoulder Pads
+	Base1 N_SpadR_SuperPack2_01_B				// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02			// Reflection or Decals
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 					// Optional flag indicating this is a spheremap
+
+	DualColor1 N_SpadR_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_SpadR_SuperPack2_01_NM			// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 N_Horizontal_GlowScroll //DE_RayBubbles_g
+	AddGlow1Scroll -0.02 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 .5
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_SpadR_SuperPack2_01_AG 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_SpadR_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_SpadR_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_SpadR_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 5
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture N_Top_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Top_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Top_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Top_SuperPack2_01_MK.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Top_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Top_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Top_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Top_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Top_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Top_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Top_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Top_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 3
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture X_Top_SuperPack2_02			// For E.O. Helmet
+	Base1 N_Top_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Top_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Top_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Top_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Top_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Top_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Top_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 10
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture N_Sleeve_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Sleeve_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Sleeve_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Sleeve_SuperPack2_01_MK.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Sleeve_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Sleeve_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 0.6 0.6
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Sleeve_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Sleeve_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Sleeve_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Sleeve_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Sleeve_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Sleeve_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 3
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture X_Sleeve_SuperPack2_02			// For E.O. Helmet
+	Base1 N_Sleeve_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 0.6 0.6
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Sleeve_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Sleeve_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Sleeve_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Sleeve_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Sleeve_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Sleeve_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 10
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture N_Larm_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Larm_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Larm_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Larm_SuperPack2_01_MK.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Larm_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Larm_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Larm_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Larm_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Larm_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Larm_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Larm_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Larm_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 3
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture X_Larm_SuperPack2_02			// For E.O. Helmet
+	Base1 N_Larm_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Larm_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Larm_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Larm_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Larm_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Larm_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Larm_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 10
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture N_Belt_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Belt_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Belt_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Belt_SuperPack2_01_MK.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Belt_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Belt_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_11					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Belt_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Belt_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Belt_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Belt_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_11 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Belt_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Belt_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 3
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture X_Belt_SuperPack2_02			// For E.O. Helmet
+	Base1 N_Belt_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_11					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Belt_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Belt_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Belt_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Belt_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_11 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Belt_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Belt_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 10
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture N_Hips_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Hips_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Hips_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Hips_SuperPack2_01_MK.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Hips_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Hips_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Hips_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Hips_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Hips_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Hips_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Hips_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Hips_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 3
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture X_Hips_SuperPack2_02			// For E.O. Helmet
+	Base1 N_Hips_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Hips_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Hips_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask N_Hips_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Hips_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Hips_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Hips_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 10
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture N_Lleg_SuperPack2_01_B.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Lleg_SuperPack2_01_DC.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Lleg_SuperPack2_01_NM.tga
+	Flags ClampS ClampT
+End
+
+Texture N_Lleg_SuperPack2_01_MK.tga
+	Flags ClampS ClampT
+End
+
+Texture X_Lleg_SuperPack2_01			// For E.O. Helmet
+	Base1 N_Lleg_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Lleg_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Lleg_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Lleg_SuperPack2_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Flags AlwaysAddGlow
+
+	Mask N_Lleg_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Lleg_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Lleg_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Lleg_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 3
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End
+
+Texture X_Lleg_SuperPack2_02			// For E.O. Helmet
+	Base1 N_Lleg_SuperPack2_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Lleg_SuperPack2_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Lleg_SuperPack2_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Lleg_SuperPack2_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Flags AlwaysAddGlow
+
+	Mask N_Lleg_SuperPack2_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Lleg_SuperPack2_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none //Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Lleg_SuperPack2_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Lleg_SuperPack2_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 15				// Glossiness of color 1
+	SpecularExponent2 10
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End

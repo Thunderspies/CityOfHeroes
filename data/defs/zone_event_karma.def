@@ -1,0 +1,73 @@
+PowerClick
+{
+	Amount		5
+	Lifespan	-1
+	StackLimit	-1
+}
+
+BuffPowerClick
+{
+	Amount		10
+	Lifespan	8
+	StackLimit	1
+}
+
+TeamObjComplete
+{
+	Amount		10
+	Lifespan	15
+	StackLimit	1
+}
+
+AllPlayObjComplete
+{
+	Amount		5
+	Lifespan	15
+	StackLimit	1
+}
+
+//	For reference: the class names are as follows
+//	Class_Blaster
+//	Class_Controller
+//	Class_Defender
+//	Class_Scrapper
+//	Class_Tanker
+//	Class_Warshade
+//	Class_Peacebringer
+//	Class_Brute
+//	Class_Corruptor
+//	Class_Dominator
+//	Class_MasterMind
+//	Class_Stalker
+//	Class_Arachnos_Widow
+//	Class_Arachnos_Soldier
+
+//	Stalker AT Modifier
+ClassModifier
+{
+	ClassName	Class_Stalker		//	name must match the class name for the AT you want to affect
+	ClassMod	1.1			//	modifier
+}
+
+//	Mastermind AT Modifier
+ClassModifier
+{
+	ClassName	Class_Mastermind	//	name must match the class name for the AT you want to affect
+	ClassMod	1.2			//	modifier
+}
+
+//	The formula for lifespan is
+//	lifespan = PowerLifeCap * (cycleTime/(cycleTime+powerLifeConst));
+//	The stacking is as follows
+//	each additional copy gives (karma^(1/powerStackMod))^n
+PowerLifeCap	30
+PowerLifeConst	10
+PowerStackMod	2
+
+PowerBubbleRad	100		//	radius of the bubble
+PowerBubbleDur	10		//	duration of the bubble
+
+KarmaPardonDuration	900		//	15minutes*60seconds
+KarmaPardonGrace	15		//	15 seconds of null time
+
+ActiveDuration	30

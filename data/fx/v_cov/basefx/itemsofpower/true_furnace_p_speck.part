@@ -1,0 +1,97 @@
+##############################################
+############  P A R T I C L E S  #############
+##############################################
+
+System
+
+#Flags
+
+#####################################
+############  Emitting  #############
+#####################################
+
+NewPerFrame		5	
+#Burst			1
+#MoveScale		1
+
+#TimeToFull		1
+#KickStart		1
+
+WorldOrLocalPosition	0
+FrontOrLocalFacing	0			# 0 = Front; 1 = Local - face up the y axis of the particle system's matrix  
+#Stickiness		.3
+
+#KillOnZero		1
+#DieLikeThis		:BobbleDeath.part	# can call a separate death particle effect
+#DeathAgeToZero		0			# 0 or 1
+
+EmissionType		5 
+ EmissionRadius		5.0 
+ EmissionHeight		0.0
+EmissionStartJitter	0.1 0.1 0.1 
+
+BurbleAmplitude		1
+ BurbleFrequency	2.0
+ BurbleType		1
+ BurbleThreshold	2.0
+
+StartSize		.12
+StartSizeJitter		0.1
+ExpandRate		-0.0014
+ ExpandType		1                      
+  EndSize		.01
+
+FadeInBy 		0
+FadeOutStart		10
+FadeOutBy   		15
+
+#####################################
+#############  Motion  ##############
+#####################################
+
+InitialVelocity		-.3 0.0 0.0
+InitialVelocityJitter	0.05 .2 0.2	
+VelocityJitter		0.07 0.07 0.07	# Per frame random change in speed and direction per particle
+
+#TightenUp		0.2		# Pull or push particles toward or away from cam (+ or -)   
+
+#Spin			10		# turn this many degrees per frame 	
+#SpinJitter		2		# Add or subtract as much as this from Spin   
+#OrientationJitter	1		# Rangle: 0 = up and down, to 128 = appear at random ori
+
+Drag			0.003
+Magnetism		-0.0025			
+#Gravity		-0.001			
+
+#####################################
+###########  Appearance  ############
+#####################################
+
+StreakType		0 	
+StreakScale		15
+StreakOrient		1	
+StreakDirection		1  
+
+#SortBias		1
+#VisRadius		1
+#VisDist		1
+
+#####################################
+############  Textures  #############
+#####################################
+
+Blend_mode		1 			
+Alpha			255
+
+TextureName		solidcircle.tga	#spark_Halo.tga #spark02.tga #glow.tga #generic_Glow2.tga #FadeBorder.tga #glow.tga
+#TexScroll1		0 0 0 
+#TexScrollJitter1	0 0 0	
+#AnimFrames1		1		
+#AnimPace1		1	
+
+#TextureName2		FireWeapon_c_Cropped.tga
+
+StartColor		80 150 220
+ColorChangeType		0 
+
+End

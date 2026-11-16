@@ -1,0 +1,1968 @@
+#############################################################
+## Seers_seq.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef fem
+	BaseSkeleton	fem\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef Seer
+	BaseSkeleton	fem\skel_ready2
+	ParentType	fem
+TypeDefEnd
+
+TypeDef Seer_Unbound
+	BaseSkeleton	fem\skel_ready2
+	ParentType	Seer
+TypeDefEnd
+
+TypeDef Seer_Incarnate
+	BaseSkeleton	fem\skel_ready2
+	ParentType	Seer_Unbound
+TypeDefEnd
+
+TypeDef Corrupt_Seer
+	BaseSkeleton	fem\skel_ready2
+	ParentType	Seer
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+#########################################################
+			### CORE ANIMATIONS ##
+#########################################################
+
+###################
+### Ready ##
+###################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready
+	CycleMove	Ready
+	CycleMove	Ready
+	CycleMove	Ready_TransmitCycle
+
+	Type		Seer
+	  Anim          fem\seer_ready 1
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_ready 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\seer_unbound_ready 1
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+MEnd
+
+#########################################################
+
+Move Ready_TransmitCycle
+	Include sequencers\Members\Readies.inc
+	Flags		CYCLE NoSizeScale
+	CycleMove	Ready
+	Priority        0
+	CycleMove	Ready_TransmitCycle
+	CycleMove	Ready_TransmitCycle
+	CycleMove	Ready_TransmitRight
+	CycleMove	Ready_TransmitLeft
+
+	Type		Seer
+	  Anim          fem\Seer_ready 1
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_ready 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_ready 1
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+MEnd
+
+Move Ready_TransmitRight
+	Include sequencers\Members\Readies.inc
+	Flags		CYCLE NoSizeScale
+	CycleMove	Ready_TransmitCycle
+	CycleMove	Ready_TransmitCycle
+	CycleMove	Ready_TransmitLeft
+	Priority        0
+
+	Type		Seer
+	  Anim          fem\Seer_transmit 1 190
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_ready 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_transmit 1 190
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+MEnd
+
+Move Ready_TransmitLeft
+	Include sequencers\Members\Readies.inc
+	Flags		CYCLE NoSizeScale
+	CycleMove	Ready_TransmitCycle
+	CycleMove	Ready_TransmitCycle
+	CycleMove	Ready_TransmitRight
+	Priority        0
+
+	Type		Seer
+	  Anim          fem\Seer_transmit 190 390
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_ready 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_transmit 190 390
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+MEnd
+
+###################
+### Combat to Ready ##
+###################
+
+Move Combat_to_Ready
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Ready
+	Sets            CANTMOVE
+
+	Type		Seer
+	  Anim          fem\seer_combat_to_ready 1
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\seer_unbound_combat_to_ready 1
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+MEnd
+
+###################
+### Combat Ready ##
+###################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready> PostWepReady
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	NextMove        Ready
+	Flags		Cycle
+
+	Type		Seer
+	  Anim          fem\seer_combat_ready 1
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_ready 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\seer_unbound_combat_ready 1
+	  PlayFX	ENEMYFX\Seers\Aura_SFX.fx 1 CONSTANT
+	TEnd
+MEnd
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkCycle
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <CombatAttack>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        WalkPost
+	Priority        1
+	SticksonChild	FORWARD
+	interpolate	30
+	scale 3
+
+	Type		Seer
+	  Anim          fem\seer_run 1
+	  PlayFX	ENEMYFX\Seers\AuraFly_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\seer_run 1
+	  PlayFX	ENEMYFX\Seers\AuraFly_SFX.fx 1 CONSTANT
+	TEnd
+
+
+	Type		Seer_Unbound
+	  Anim          fem\seer_unbound_run 1
+	  PlayFX	ENEMYFX\Seers\AuraFly_SFX.fx 1 CONSTANT
+	TEnd
+MEnd
+
+
+Move WalkPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Seer
+	  Anim          fem\Seer_runpost 1
+	  PlayFX	ENEMYFX\Seers\AuraFly_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_runpost 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_runpost 1
+	  PlayFX	ENEMYFX\Seers\AuraFly_SFX.fx 1 CONSTANT
+	TEnd
+
+MEnd
+
+###################
+### Mediate ##
+###################
+
+Move Meditate
+	Requires	MEDITATE
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+	interpolate	30
+
+	Type		Seer
+	  Anim          fem\seer_ready 1
+	  Playfx	GENERIC\arachnos_mu_meditate.fx 0 constant
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_ready 1
+	  Playfx	GENERIC\arachnos_mu_meditate.fx 0 constant
+	TEnd
+MEnd
+
+##### hit reacts   ################################################
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	Priority        2
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_hitquick 2
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 2
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_hit_quick 2
+	TEnd
+
+MEnd
+
+
+Move HitQuick_strong
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	Priority        2
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_hitquick 2
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 2
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_hit_quick 2
+	TEnd
+
+MEnd
+
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	NextMove        KHF_travel
+	Priority        2
+	Interpolate     4
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_hitquick 1 5
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1 5
+	TEnd
+
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_hit_quick 1 10
+	TEnd
+
+MEnd
+
+
+Move KHF_travel
+	Requires	HIT KNOCKBACK
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        KHF_fallcycle
+	Priority        2
+	scale 5
+
+	Type		Seer
+	  Anim          fem\Seer_knockback 1 31
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_knockback 1 31
+	TEnd
+
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_knockback 1 31
+	TEnd
+
+MEnd
+
+
+Move KHF_fallcycle
+	Member		<DeathIRQ>
+	NextMove        KHF_impact
+	Priority        1
+
+	Type		Seer
+	  Anim          fem\Seer_knockback 31 31
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_knockback 31 31
+	TEnd
+
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_knockback 31 31
+	TEnd
+MEnd
+
+
+Move KHF_impact
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	interpolate 20
+
+	Type		Seer
+	  Anim          fem\Seer_knockback 32
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_knockback 32
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_knockback 32
+	TEnd
+MEnd
+
+###################
+###### electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+	Flags		HitReact
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_electropain 1 57
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_electropain 1 57
+	TEnd
+MEnd
+
+###################
+###### electro_pain_LONG  ######
+###################
+
+Move electro_react_Long
+	Requires	STRONG HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        electro_react_Long2
+	Priority        3
+	Flags		HitReact
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_electropain 1 115
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_electropain 1 115
+	TEnd
+MEnd
+
+
+Move electro_react_Long2
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        weak_post
+
+	Type		Seer
+	  Anim          fem\Seer_electropain 1 20
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_electropain 1 20
+	TEnd
+MEnd
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post_to_combat_ready
+	Flags		HitReact
+
+	Type		Seer
+	  Anim          fem\Seer_wriggle 40
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\air_drain 40
+	TEnd
+MEnd
+
+###################
+###### weak to combat ready  ######
+###################
+
+Move Weak_Post_To_Combat_Ready
+	Include sequencers\Members\Readies.inc
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim          fem\seer_combat_ready 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\seer_unbound_drain_to_combat_ready 1 30
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_ready 1
+	TEnd
+
+MEnd
+
+###################
+###### drain react  ######
+###################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+	Flags		HitReact
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_electropain 41 68
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\air_drain 1
+	TEnd
+MEnd
+
+###################
+###### sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+	Flags		HitReact
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_electropain 1 57
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\air_sonicpain 1
+	TEnd
+MEnd
+
+###################
+###### choke react  ######
+###################
+
+Move choke_react
+	Requires	HIT MAGIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+	Flags		HitReact
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_electropain 1 57
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\air_choke 1
+	TEnd
+MEnd
+
+
+###################
+###### Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Speed_react2
+	Priority        2
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_speedhit 1
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_speedhit 1
+	TEnd
+MEnd
+
+
+Move Speed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim          fem\Seer_hitquick 2
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_hit_quick 2
+	TEnd
+MEnd
+
+###################
+###### Kungfu_speed react  ######
+###################
+
+Move KungfuSpeed_react
+	Requires	HIT KUNGFUSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react2
+	Priority        2
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_speedhit 1 36
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_speedhit 1 36
+	TEnd
+
+MEnd
+
+
+Move KungfuSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react3
+
+	Type		Seer
+	  Anim          fem\Seer_speedhit 1 12
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_speedhit 1 12
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim          fem\Seer_hitquick 1
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_hit_quick 1
+	TEnd
+MEnd
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+	SticksonChild	QUICK HIT
+
+	Type		Seer
+	  Anim          fem\Seer_electropain 1 45
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_hitquick 1
+	TEnd
+
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_electropain 1 45
+	TEnd
+MEnd
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim          fem\Seer_hitquick 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_hit_quick 1
+	TEnd
+MEnd
+
+##################
+###### Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Include sequencers\Members\Combat.inc
+	Priority        2
+	NextMove	Ready
+
+	Type		Seer
+	  Anim          fem\seer_boostup 1 120
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\seer_unbound_boostup 1 120
+	TEnd
+MEnd
+
+###################
+###### Boost_down react  ######
+###################
+
+Move Boost_D
+	Requires	HIT BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Priority        2
+	NextMove	Ready
+
+	Type		Seer
+	  Anim          fem\Seer_boostdown 1 129
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_boostdown 1 129
+	TEnd
+MEnd
+
+#### Deaths  ########################################################################
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Seer
+	  Anim          fem\Seer_death 1 61
+	  	  PlayFx        Feet\SeerDeath1.fx 5
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_death 1
+	  	  PlayFx        Feet\SeerDeath1.fx 5
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_death 1 61
+	  	  PlayFx        Feet\SeerDeath1.fx 5
+	TEnd
+MEnd
+
+
+Move Default_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Seer
+	  Anim          fem\Seer_death 61 61
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_death 61 61
+	TEnd
+
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_death 61 61
+	TEnd
+MEnd
+
+###############################
+###### Pose Death (gang wars) ##
+###############################
+
+Move PoseDeath		##(thugs-pose run away)
+	Requires	Hit DEATH POSEDEATH
+	Interrupts	<DeathIRQ>
+	NextMove	PoseDeath_cycle
+	Priority        3
+	Interpolate     8
+	Flags		NotSelectable NOCOLLISION
+
+	Type		Seer
+	  Anim          fem\Seer_boostup 1 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx	Powers\ElectricityControl\Red_LightningRod.fx
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_boostup 1 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx	Powers\ElectricityControl\Red_LightningRod.fx
+	TEnd
+MEnd
+
+
+Move PoseDeath_cycle
+	Requires	DEATH
+	Flags		Cycle NotSelectable NOCOLLISION
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Seer
+	  Anim          fem\Seer_boostup 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_boostup 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+#####################
+### Basic Spawn  #####
+#####################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_post
+	Priority        5
+	Interpolate     0
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+
+	Type		Seer
+	  Anim          fem\Seer_ready 1 8
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx	Powers\ElectricityControl\Red_LightningRod.fx
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_ready 1 8
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx	Powers\ElectricityControl\Red_LightningRod.fx
+	TEnd
+
+	Type		Seer_Incarnate
+	  Anim          fem\Seer_unbound_ready 1 8
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+
+MEnd
+
+Move Spawned_post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Ready
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+	Type		Seer
+	  Anim          fem\Seer_ready 1
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_ready 1
+	TEnd
+
+	Type		Seer_Incarnate
+	  Anim          fem\Seer_unbound_ready 1
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+
+MEnd
+
+###################
+### Dismiss Death   ####
+###################
+
+
+Move DismissDeath
+	Requires	DISMISS DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        DismissDeath_cycle
+	Priority        9
+	Scale           0.75
+	Interpolate     2
+	Flags		NOCOLLISION NotSelectable
+
+	Type		Seer
+	  Anim          fem\Seer_boostup 1 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx	Powers\ElectricityControl\Red_LightningRod.fx
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_boostup 1 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx	Powers\ElectricityControl\Red_LightningRod.fx
+	TEnd
+MEnd
+
+Move DismissDeath_cycle
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Priority        1
+	Interpolate     0
+	NextMove        DismissDeath_cycle2
+	Flags		ReqInputs NOCOLLISION NotSelectable
+
+	Type		Seer
+	  Anim          fem\Seer_boostup 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_boostup 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+Move DismissDeath_cycle2
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Priority        1
+	Interpolate     0
+	Flags		NotSelectable NOCOLLISION Cycle
+
+	Type		Seer
+	  Anim          fem\Seer_boostup 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_boostup 120
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+##################################################################################################################
+##################################################################################################################
+						### NEW ATTACK ANIMATIONS ##
+##################################################################################################################
+##################################################################################################################
+
+Move Summon
+	Requires	COMBAT SUMMON
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Summonpost
+	Priority        2
+	Sets            CANTMOVE
+	SticksOnChild	COMBAT SUMMON
+
+	Type		Seer
+	  Anim          fem\Seer_summon 1 65
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_summon 1 65
+	TEnd
+MEnd
+
+Move Summonpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim         fem\Seer_summon 66
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_summon 66
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Psionic_Slash_Left
+	Requires	COMBAT PSIONIC SLASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Psionic_slash_left_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_psionic_slash_left 1 25
+	TEnd
+MEnd
+
+Move Psionic_slash_left_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_psionic_slash_left 26
+	TEnd
+
+MEnd
+
+Move Psionic_Slash_Right
+	Requires	COMBAT PSIONIC SLASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Psionic_slash_right_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_psionic_slash_right 1 40
+	TEnd
+MEnd
+
+Move Psionic_slash_right_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_psionic_slash_right 41
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Dominate_Mind
+	Requires	COMBAT PSIONIC UPPERCUT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Dominate_Mind_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_dominate 1 75
+	TEnd
+MEnd
+
+Move Dominate_Mind_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_dominate 76
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Reveal_Weakness
+	Requires	COMBAT TELEATTACK SHOW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Reveal_Weakness_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_reveal_weakness 1 85
+	TEnd
+MEnd
+
+Move Reveal_Weakness_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_reveal_weakness 86
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Psionic_Dart
+	Requires	COMBAT PSIONICBLAST BLOW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Psionic_Dart_post
+	Priority        3
+	Sets            CANTMOVE
+	SticksOnChild	COMBAT PSIONICBLAST BLOW
+
+	Type		Seer
+	  Anim          fem\seer_psionic_dart 1 50
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\seer_unbound_psionic_dart 1 45
+	TEnd
+MEnd
+
+Move Psionic_Dart_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim         fem\seer_psionic_dart 51
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim         fem\seer_unbound_psionic_dart 46
+	TEnd
+
+MEnd
+
+
+############################################################
+
+Move Mental_Blast
+	Requires	COMBAT PSIONICBLAST HIGH QUICK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Mental_Blast_post
+	Priority        3
+	Sets            CANTMOVE
+	SticksOnChild	COMBAT PSIONICBLAST HIGH QUICK
+
+
+	Type		Seer
+	  Anim          fem\Seer_mental_blast 1 80
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_mental_blast 1 80
+	TEnd
+MEnd
+
+Move Mental_Blast_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim         fem\Seer_mental_blast 81
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_mental_blast 81
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Will_Domination
+	Requires	COMBAT TELEKINESIS STOPCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Will_Domination_post
+	Priority        3
+	Sets            CANTMOVE
+	SticksOnChild	COMBAT TELEKINESIS STOPCAST
+
+	Type		Seer
+	  Anim          fem\Seer_domination 1 75
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_domination 1 75
+	TEnd
+MEnd
+
+Move Will_Domination_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim         fem\Seer_domination 76
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_domination 76
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Psychic_Scream
+	Requires	COMBAT HEADCAST SCREAM HIGH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Psychic_Scream_post
+	Priority        4
+	Sets            CANTMOVE
+	SticksOnChild	COMBAT HEADCAST SCREAM HIGH
+
+	Type		Seer
+	  Anim          fem\seer_psychic_scream 1 50
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_subdual 1 60
+	TEnd
+MEnd
+
+Move Psychic_Scream_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim         fem\seer_psychic_scream 51
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_subdual 61
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Subdual
+	Requires	COMBAT PSIONIC HEADCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Subdual_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_subdual 1 60
+	TEnd
+MEnd
+
+Move Subdual_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_subdual 61
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Scare
+	Requires	COMBAT PSIONIC HEADCAST LOW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Scare_post
+	Priority        4
+	Sets            CANTMOVE
+	SticksOnChild	COMBAT PSIONIC HEADCAST LOW
+
+	Type		Seer
+	  Anim          fem\seer_psychic_scream 1 50
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_subdual 1 60
+	TEnd
+MEnd
+
+Move Scare_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim          fem\seer_psychic_scream 50
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_subdual 61
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Soothe_Mind
+	Requires	COMBAT HEAL
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Soothe_Mind_post
+	Priority        2
+	Sets            CANTMOVE
+	SticksOnChild	COMBAT HEAL
+
+	Type		Seer
+	  Anim          fem\Seer_fortitude 1 80
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_fortitude 1 80
+	TEnd
+MEnd
+
+Move Soothe_Mind_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim         fem\Seer_fortitude 81
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_fortitude 81
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Fortitude
+	Requires	COMBAT HEAL MEDOTHER
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Fortitude_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_fortitude 1 80
+	TEnd
+MEnd
+
+Move Fortitude_post
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_fortitude 81
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Psionic_Tornado
+	Requires	COMBAT PSIONIC WINDBLAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Psionic_Tornado_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_psionic_tornado 1 85
+	TEnd
+MEnd
+
+Move Psionic_Tornado_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_psionic_tornado 86
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Fortune
+	Requires	COMBAT LEADERSHIP
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Fortune_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_fortune 1 70
+	TEnd
+MEnd
+
+Move Fortune_post
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_fortune 71 85
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Drain_Psyche
+	Requires	COMBAT PSIONICBLAST DRAINED QUICK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Drain_Psyche_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\seer_unbound_drain_psyche 1 95
+	TEnd
+MEnd
+
+Move Drain_Psyche_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\seer_unbound_drain_psyche 96
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Levitate
+	Requires	COMBAT LEVITATE WALL
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Levitate_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_levitate 1 60
+	TEnd
+MEnd
+
+Move Levitate_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_levitate 61
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Dominate
+	Requires	COMBAT TELEKINESIS STOPCAST HIGH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Dominate_post
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_domination 1 75
+	TEnd
+MEnd
+
+Move Dominate_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer_Unbound
+	  Anim         fem\Seer_unbound_domination 76
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Telekinetic_Blast
+	Requires	COMBAT QUICK PSIONICBLAST LOW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Telekinetic_Blast_post
+	Priority        4
+	Sets            CANTMOVE
+	SticksOnChild	COMBAT QUICK PSIONICBLAST LOW
+
+	Type		Seer
+	  Anim          fem\seer_psychic_scream 1 50
+	TEnd
+
+MEnd
+
+Move Telekinetic_Blast_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+
+	Type		Seer
+	  Anim         fem\seer_psychic_scream 50
+	TEnd
+
+MEnd
+
+####Corrupted Seer - Powers ########################################################
+
+Move Psychic_Lash_Pre
+	Requires	COMBAT PSIONIC LASH HIGH
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Psychic_Lash
+	flags            CANTMOVE nosizescale
+	SticksOnChild	COMBAT PSIONIC LASH HIGH
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_psychic_lash 1 29
+	TEnd
+
+MEnd
+
+Move Psychic_Lash
+	Include sequencers\Members\Combat.inc
+	NextMove        Psychic_Lash_post
+	flags            nosizescale CANTMOVE
+	SticksOnChild	COMBAT PSIONIC LASH HIGH
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_psychic_lash 30 50
+	TEnd
+
+MEnd
+
+Move Psychic_Lash_post
+	Include sequencers\Members\Combat.inc
+	Scale		0.70
+	NextMove        CombatReady
+	SticksOnChild	COMBAT PSIONIC LASH HIGH
+	flags            nosizescale
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_psychic_lash 51 75
+	TEnd
+
+MEnd
+
+#### Psionic Blast  ########################################################
+
+Move Psionic_Blast_Pre
+	Requires	COMBAT PSIONICBLAST ALTERNATE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Psionic_Blast
+	flags            CANTMOVE nosizescale
+	SticksOnChild	COMBAT PSIONICBLAST ALTERNATE
+
+	Type		male
+	  Anim          male\telekinesis 1 29
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		huge
+	  Anim          huge\telekinesis 1 29
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		fem
+	  Anim          fem\telekinesis 1 29
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		Seer
+	  Anim          fem\seer_psychic_scream 1 29
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_domination 1 29
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_psionic_blast 1 29
+	TEnd
+
+MEnd
+
+Move Psionic_Blast
+	Include sequencers\Members\Combat.inc
+	NextMove        Psionic_Blast_Attack
+	flags            nosizescale CANTMOVE
+	SticksOnChild	COMBAT PSIONICBLAST ALTERNATE
+
+	Type		male
+	  Anim          male\telekinesis 29 57
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		huge
+	  Anim          huge\telekinesis 29 57
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		fem
+	  Anim          fem\telekinesis 29 57
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		Seer
+	  Anim         fem\seer_psychic_scream 30 57
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_domination 30 57
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_psionic_blast 30 57
+	TEnd
+
+MEnd
+
+
+Move Psionic_Blast_Attack
+	Include sequencers\Members\Combat.inc
+	NextMove        Psionic_Blast_post
+	flags            nosizescale CANTMOVE
+	SticksOnChild	COMBAT PSIONICBLAST ALTERNATE
+
+	Type		male
+	  Anim          male\telekinesis 57 75
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		huge
+	  Anim          huge\telekinesis 57 75
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		fem
+	  Anim          fem\telekinesis 57 75
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		Seer
+	  Anim         fem\seer_psychic_scream 57 75
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_domination 57 75
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_psionic_blast 58 75
+	TEnd
+
+MEnd
+
+Move Psionic_Blast_post
+	Include sequencers\Members\Combat.inc
+	Scale		0.70
+	NextMove        CombatReady
+	SticksOnChild	COMBAT PSIONICBLAST ALTERNATE
+	flags            nosizescale
+
+	Type		male
+	  Anim          male\magic_L 5 66
+	  PitchAngle	0.5
+	TEnd
+
+	Type		huge
+	  Anim          huge\magic_L 5
+	  PitchAngle	0.5
+	TEnd
+
+	Type		fem
+	  Anim          fem\magic_L 5
+	  PitchAngle	0.5
+	TEnd
+
+	Type		Seer
+	  Anim         fem\seer_psychic_scream 75
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_domination 75
+	TEnd
+
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_psionic_blast 75 95
+	TEnd
+
+MEnd
+
+#### Psionic Shockwave ########################################################
+
+Move Psionic_Shockwave_Pre
+	Requires	COMBAT PSIONIC LASH LOW ALTERNATE
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Psionic_Shockwave
+	flags            CANTMOVE nosizescale
+	SticksOnChild	COMBAT PSIONIC LASH LOW ALTERNATE
+
+	Type		male
+	  Anim          male\telekinesis 1 41
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		huge
+	  Anim          huge\telekinesis 1 41
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		fem
+	  Anim          fem\telekinesis 1 41
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		Seer
+	  Anim          fem\seer_psychic_scream 1 41
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_subdual 1 41
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_psionic_shockwave 1 41
+	TEnd
+
+MEnd
+
+Move Psionic_Shockwave
+	Include sequencers\Members\Combat.inc
+	NextMove        Psionic_Shockwave_post
+	flags            nosizescale CANTMOVE
+	Scale		0.50
+	SticksOnChild	COMBAT PSIONIC LASH LOW ALTERNATE
+
+	Type		male
+	  Anim          male\telekinesis 42 65
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		huge
+	  Anim          huge\telekinesis 42 65
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		fem
+	  Anim          fem\telekinesis 42 65
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		Seer
+	  Anim          fem\seer_psychic_scream 42 65
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_subdual 42 65
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_psionic_shockwave 42 65
+	TEnd
+
+MEnd
+
+Move Psionic_Shockwave_post
+	Include sequencers\Members\Combat.inc
+	Scale		0.70
+	NextMove        CombatReady
+	SticksOnChild	COMBAT PSIONIC LASH LOW ALTERNATE
+	flags            nosizescale
+
+	Type		male
+	  Anim          male\telekinesis 66
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		huge
+	  Anim          huge\telekinesis 66
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+	Type		fem
+	  Anim          fem\telekinesis 66
+	  PitchStart	10
+	  PitchAngle	0.5
+	TEnd
+
+
+	Type		Seer
+	  Anim          fem\seer_psychic_scream 66
+	TEnd
+
+	Type		Seer_Unbound
+	  Anim          fem\Seer_unbound_subdual 66
+	TEnd
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_psionic_shockwave 66 102
+	TEnd
+
+MEnd
+
+#### Consume  ########################################################
+
+Move Consume_Pre
+	Requires	COMBAT PSIONIC BOOSTUP ALTERNATE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Consume
+	flags            CANTMOVE nosizescale
+	SticksOnChild	COMBAT PSIONIC BOOSTUP ALTERNATE
+
+	Type		Corrupt_Seer
+	  Anim          fem\corrupt_seer_consume 1 33
+	TEnd
+
+MEnd
+
+Move Consume
+	Include sequencers\Members\Combat.inc
+	NextMove        Consume_Attack
+	flags            nosizescale CANTMOVE
+	SticksOnChild	COMBAT PSIONIC BOOSTUP ALTERNATE
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_consume 34 60
+	TEnd
+
+MEnd
+
+
+Move Consume_Attack
+	Include sequencers\Members\Combat.inc
+	NextMove        Consume_post
+	flags            nosizescale CANTMOVE
+	SticksOnChild	COMBAT PSIONIC BOOSTUP ALTERNATE
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_consume 61 102
+	TEnd
+
+MEnd
+
+Move Consume_post
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	SticksOnChild	COMBAT PSIONIC BOOSTUP ALTERNATE
+	flags            nosizescale
+
+	Type		Corrupt_Seer
+	  Anim         fem\corrupt_seer_consume 103 150
+	TEnd
+
+MEnd
+
+
+## INCLUDES ###########################################################
+
+Include sequencers\player\praetorian_encounters.inc
+
+############################################################
+
+SeqEnd
+
+

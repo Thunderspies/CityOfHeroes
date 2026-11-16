@@ -1,0 +1,1353 @@
+#############################################################
+## MonsterSpider_seq.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef	MonsterSpider
+	BaseSkeleton	Spider\Skel_Spider
+	ParentType	None
+TypeDefEnd
+
+TypeDef	MonsterSpider_Exposed
+	BaseSkeleton	Spider\Skel_Spider
+	ParentType	MonsterSpider
+TypeDefEnd
+
+TypeDef	MindsOfMayhem_JadeSpider
+	BaseSkeleton	Spider\Skel_Spider
+	ParentType	MonsterSpider
+TypeDefEnd
+
+
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<IRQEmotesALL>
+Group	<Skill>
+Group	<SkillMode>
+Group	<MonsterGroup>
+Group	<MonsterMove>
+Group	<RagdollBellyIRQ>
+
+#############################################################
+
+Move Ready
+	Member		<Ready>	<AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	Priority	0
+	Scale		0.5
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_ready_tall 1
+	TEnd
+MEnd
+
+## WALK	FORWARD	###########################################################
+
+Move WalkPre
+	Requires	FORWARD	#WALK
+	Interrupts	<Ready>	<PostMoveCycle>	<Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove	WalkCycle
+	Priority	2
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_walk_tall	1
+	  #PlayFX	V_COV\EnemyPowers\Arachnos\GiantSpider\CameraShake_Walking.fx 0 CONSTANT
+	  MoveRate	0.4
+	TEnd
+MEnd
+
+Move WalkCycle
+	Requires	FORWARD	#WALK
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove	WalkPost
+	Priority	2
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_walk_tall	1
+	  #PlayFX	V_COV\EnemyPowers\Arachnos\GiantSpider\CameraShake_Walking.fx 0 CONSTANT
+	  MoveRate	0.4
+	TEnd
+MEnd
+
+Move WalkPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove	Ready
+	Priority	0
+	Scale		0.75
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_hit_quick_tall 10
+	TEnd
+MEnd
+
+
+## RUN FORWARD ###########################################################
+
+#Move RunPre
+#	Requires	FORWARD
+#	Interrupts	<Ready>	<PostMoveCycle>	<Claw> <Block> <HitIRQ>
+#	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+#	Flags		ReqInputs MoveScale
+#	NextMove	RunCycle
+#	Priority	2
+#
+#	Type		MonsterSpider
+#	  Anim		Spider\spider_Run_tall 1
+#	  MoveRate	0.2
+#	TEnd
+#MEnd
+#
+#Move RunCycle
+#	Requires	FORWARD
+#	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+#	Flags		Cycle MoveScale
+#	NextMove	RunPost
+#	Priority	2
+#	Interpolate	3
+#
+#	Type		MonsterSpider
+#	  Anim		Spider\spider_Run_tall 1
+#	  MoveRate	0.2
+#	TEnd
+#MEnd
+
+## SWARM FORWARD ###########################################################
+
+Move SwarmPre
+	Requires	FEET
+	Interrupts	<Ready>	<PostMoveCycle>	<Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	SwarmRun
+	Priority	3
+	scale		3
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_Run 1
+	TEnd
+MEnd
+
+Move SwarmRun
+	Requires	FEET
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove	SwarmRun
+	Priority	3
+	Interpolate	3
+	scale		4
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_Run 1
+	TEnd
+MEnd
+
+Move RunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove	Ready
+	Priority	0
+	scale		0.4
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_hit_quick_tall 17
+	TEnd
+MEnd
+
+## JUMP	###########################################################
+
+Move jumpPre
+	Requires	JUMP
+	Interrupts	<PostMoveCycle>	<Ready>	<BasicMove> <iceslide> <Swim> <jumpFall> <Claw>	RunJumpCycleB <Block> <HitIRQ> <StunMove>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	jumpUp
+	Priority	1
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_superjump_tall 1 4
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove	jumpApex
+	Priority	1
+	Scale		0.5
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_superjump_tall 5 25
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	jumpFall
+	Priority	1
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_superjump_tall 25	26
+	TEnd
+MEnd
+
+Move jumpFall  ##transition to falling
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	jumpFall2
+	Priority	1
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_superjump_tall 26	44
+	TEnd
+MEnd
+
+Move jumpFall2	##falling
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove	JumpEnd
+	Priority	1
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_superjump_tall 45	65
+	TEnd
+MEnd
+
+Move JumpEnd
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove	postReady_back
+	Priority	0
+	Interpolate	6
+	Scale		0.75
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_superjump_tall 66	90
+	  PlayFX	GENERIC\CameraShake_Monsterous.fx 3
+	TEnd
+MEnd
+
+
+## HIT - QUICK ###########################################################
+
+#Move HitQuick
+#	Requires	QUICK HIT
+#	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+#	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+#	Flags		HitReact
+#	Priority	2
+#
+#	Type		MonsterSpider
+#	  Anim		Spider\spider_hit_quick_tall 1
+#	TEnd
+#MEnd
+
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	Fear
+	Interrupts	<ReactIRQ> Stun	Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove	FearStun_cycle
+	Priority	2
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_hit_quick_tall 3 12
+	TEnd
+MEnd
+
+Move FearStun_cycle
+	Requires	Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority	2
+	scale		1.5
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_stun_tall	1
+	TEnd
+MEnd
+
+
+## PAIN	###########################################################
+
+Move Pain
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ> Stun	Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove	Pain_cycle
+	Priority	2
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_hit_quick	3 12
+	TEnd
+MEnd
+
+Move Pain_cycle
+	Requires	ENERGY
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority	2
+	scale		1.5
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_pain_tall	1
+	TEnd
+MEnd
+
+
+## PAIN 2 ###########################################################
+
+Move Pain2
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ> Stun	Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove	Pain2_cycle
+	Priority	2
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_hit_quick_tall 3 12
+	TEnd
+MEnd
+
+Move Pain2_cycle
+	Requires	PSIONIC
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority	2
+	scale		1.5
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_pain2_tall 1
+	TEnd
+MEnd
+
+
+####################
+#### Stunned Walk ##
+####################
+
+Move WalkStunPre
+	Requires	STUN FORWARD
+	Interrupts	<Ready>	<PostMoveCycle>	<Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove	WalkStunCycle
+	Priority	4
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_walk_stun_tall 1
+	  MoveRate	0.2
+	TEnd
+MEnd
+
+Move WalkStunCycle
+	Requires	STUN FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove	WalkStunPost
+	Priority	4
+	interpolate	0
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_walk_stun_tall 1
+	  MoveRate	0.2
+	TEnd
+MEnd
+
+Move WalkStunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove	Ready
+	Priority	1
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_stun_tall	20
+	TEnd
+MEnd
+
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT	LASSOSTUN
+	Interrupts	<ReactIRQ> Stun	Stun_cycle
+	Member		<DeathIRQ>
+	NextMove	FreezeStun_cycle
+	Priority	4
+	Scale		1.0
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_freezestun_tall 1	28
+	TEnd
+MEnd
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	Scale		0.01
+	Priority	3
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_freezestun_tall 29 30
+	TEnd
+MEnd
+
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove	KHF_travel
+	Priority	5
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\Spider_knockback_tall 26	31
+	TEnd
+MEnd
+
+Move KHF_travel
+	Requires	AIR
+	Flags		Cycle
+	NextMove	KHF_impact
+	Priority	1
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\Spider_knockback_tall 1 31
+	TEnd
+MEnd
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove	KHF_fallcycle
+	Priority	2
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\Spider_knockback_tall 31	32
+	TEnd
+MEnd
+
+Move KHF_fallcycle
+	Requires	AIR
+	Flags		Cycle
+	NextMove	KHF_impact
+	Priority	1
+	Sets		CANTMOVE
+	interpolate	20
+
+	Type		MonsterSpider
+	  Anim		Spider\Spider_knockback	100 130
+	TEnd
+MEnd
+
+Move KHF_impact
+	NextMove	getup_back
+	Priority	0
+	Sets		CANTMOVE
+	scale		2.0
+
+	Type		MonsterSpider
+	  Anim		Spider\Spider_knockback_tall 32	46
+	TEnd
+MEnd
+
+Move getup_back
+	Priority	0
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\Spider_knockback_tall 47	90
+	TEnd
+MEnd
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Priority	3
+	Nextmove	Sleep_Cycle
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_hit_quick_tall 3 12
+	TEnd
+MEnd
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority	4
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_sleep_tall 1
+	TEnd
+MEnd
+
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	Priority	1
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_weak_tall	1
+	TEnd
+MEnd
+
+
+########################
+###### Default Death   ######
+########################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove	Default_postdeath
+	Priority	1
+	Sets		NOCOLLISION
+	Scale		0.625
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_death 1
+	  PlayFx	GENERIC\ENTITYVANISH.FX	1 CONSTANT
+	TEnd
+
+	Type		MonsterSpider_Exposed
+	  Anim		Spider\spider_death 1
+	TEnd
+
+	Type		MindsOfMayhem_JadeSpider
+	  Anim		Spider\spider_death 1
+	  PlayFx        ENEMYFX\Praetorian\MoM\Malaise_Nightmare_Death.fx
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority	1
+	Sets		NOCOLLISION DIENOW TARGET
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_death 101	101
+	  PlayFx	GENERIC\ENTITYVANISH.FX	1 CONSTANT
+	TEnd
+
+	Type		MonsterSpider_Exposed
+	  Anim		Spider\spider_death 101	101
+	TEnd
+
+	Type		MindsOfMayhem_JadeSpider
+	  Anim		Spider\spider_death 101	101
+	TEnd
+MEnd
+
+
+############################
+######### Default Death 2  ######
+############################
+#
+#Move Default_Death_2
+#	Requires	DEATH
+#	Interrupts	<DeathIRQ>
+#	Member		<RaiseDeadIRQ>
+#	NextMove	Default_postdeath_2
+#	Priority	1
+#	Sets		NOCOLLISION
+#	Flags		noSizeScale
+#
+#	Type		MonsterSpider
+#	  Anim		Spider\spider_death 1 32
+#	  PlayFX	Feet\maltadeath3.fx 20
+#	  PlayFx	GENERIC\ENTITYVANISH.FX	30 CONSTANT
+#	  PlayFx	Explosions\VehicleExplosion\Expolsion_Tarantula.fx 30
+#	TEnd
+#MEnd
+#
+#Move Default_postdeath_2
+#	Requires	DEATH
+#	Member		<RaiseDeadIRQ>
+#	Flags		Cycle
+#	Priority	1
+#	Sets		NOCOLLISION DIENOW TARGET
+#	Wind		DEATHWIND
+#
+#	Type		MonsterSpider
+#	  Anim		Spider\spider_death 101	101
+#	  PlayFx	GENERIC\ENTITYVANISH.FX	0 CONSTANT
+#	TEnd
+#MEnd
+
+
+#################################
+###### Claw Attacks ######
+#################################
+
+Move Slash_R
+	Requires	COMBAT ARACHCLAWSLASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	Slashpost_R
+	Priority	2
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_melee_clawR_tall 1 21
+	  PlayFX	V_COV\EnemyPowers\Arachnos\Tarantula_ClawsStreaksR.fx
+	TEnd
+
+MEnd
+
+Move Slashpost_R
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove	Combat_Cycle
+	Priority	1
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_melee_clawR_tall 22
+	TEnd
+MEnd
+
+Move Slash_L
+	Requires	COMBAT ARACHCLAWSLASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	Slashpost_L
+	Priority	2
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_melee_clawL_tall 1 21
+	  PlayFX	V_COV\EnemyPowers\Arachnos\Tarantula_ClawsStreaksL.fx
+	TEnd
+MEnd
+
+Move Slashpost_L
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove	Slashcycle
+	Priority	1
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_melee_clawL_tall 22
+	TEnd
+MEnd
+
+
+############################
+###### Slash Cone ######
+##########################
+
+Move Slash_Cone
+	Requires	COMBAT ARACHCLAWSLASH STRONG
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	Slash_Cone_Post
+	Priority	3
+	Sets		CANTMOVE
+	scale		1.2
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_melee_cone_tall 1	26
+	TEnd
+MEnd
+
+Move Slash_Cone_Post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove	Combat_Cycle
+	Priority	1
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_melee_cone_tall 27
+	TEnd
+MEnd
+
+
+############################
+###### 3shot dual gun MG burst ######
+##########################
+
+Move attack_burst
+	Requires	ARACHMGBURST Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	attack_burst_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_burst_tall	1 45
+	TEnd
+MEnd
+
+Move attack_burst_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	  Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_burst_tall	46
+	TEnd
+MEnd
+
+
+############################
+###### Single shot ######
+##########################
+
+Move attack_backL
+	Requires	ARACHMGSHOT Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	attack_backL_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+	SticksOnChild	ARACHMGSHOT Combat Left
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_backL_tall	1 45
+	TEnd
+MEnd
+
+Move attack_backL_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	  Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_backL_tall	46
+	TEnd
+MEnd
+
+Move attack_backR
+	Requires	ARACHMGSHOT Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	attack_backR_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+	SticksOnChild	ARACHMGSHOT Combat Right
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_backR_tall	1 45
+	TEnd
+MEnd
+
+Move attack_backR_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	  Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_backR_tall	46
+	TEnd
+MEnd
+
+
+############################
+###### Double Barrel shot ####
+##########################
+
+Move attack_doubleshot
+	Requires	ARACHMGBOTH Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	attack_doubleshot_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_back_tall 1 45
+	TEnd
+MEnd
+
+Move attack_doubleshot_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	  Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_back_tall 46
+	TEnd
+MEnd
+
+
+###########################################
+###### FullAuto	(long burst) ######
+###########################################
+
+Move FullAuto_pre
+	Requires	ARACHMGFULLAUTO	Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	FullAuto_cycle1
+	Flags		NoSizeScale ##PitchToTarget
+	Priority	6
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_supress_tall 1 35
+	TEnd
+MEnd
+
+Move FullAuto_cycle1
+	Requires	ARACHMGFULLAUTO	Combat
+	Member		<DeathIRQ>
+	NextMove	FullAuto_cycle2
+	Flags		NoSizeScale ##PitchToTarget
+	Priority	3
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_supress_tall 36 66
+	TEnd
+MEnd
+
+Move FullAuto_cycle2
+	Member		<DeathIRQ>
+	NextMove	FullAuto_cycle3
+	Flags		NoSizeScale ##PitchToTarget
+	Priority	3
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_supress_tall 36 66
+	TEnd
+MEnd
+
+Move FullAuto_cycle3
+	Member		<DeathIRQ>
+	NextMove	FullAuto_cycle4
+	Flags		NoSizeScale ##PitchToTarget
+	Priority	3
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_supress_tall 36 66
+	TEnd
+MEnd
+
+Move FullAuto_cycle4
+	Member		<DeathIRQ>
+	NextMove	FullAuto_post
+	Flags		NoSizeScale ##PitchToTarget
+	Priority	3
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_supress_tall 36 66
+	TEnd
+MEnd
+
+Move FullAuto_post
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandAttack> <BlockIRQ> <AttackIRQ>
+	NextMove	Combat_Cycle
+	Priority	3
+	Interpolate	0
+	Flags		 NoSizeScale
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_supress_tall 66
+	TEnd
+MEnd
+
+
+############################
+###### Disruptor Lightning ####
+##########################
+
+Move attack_lightning
+	Requires	ARACHDISBOLT Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	attack_lightning_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_back_tall 1 45
+	TEnd
+MEnd
+
+Move attack_lightning_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	  Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_back_tall 46
+	TEnd
+MEnd
+
+
+############################
+###### Disruptor Ball ####
+##########################
+
+Move attack_ball_blast
+	Requires	ARACHDISBALL Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	attack_ball_blast_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_back_tall 1 45
+	TEnd
+MEnd
+
+Move attack_ball_blast_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatAttack>	<AttackIRQ> <BlockIRQ>
+	##NextMove	  Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_back_tall 46
+	TEnd
+MEnd
+
+
+###########################################
+###### Disruptor Tesla Cage ######
+###########################################
+
+Move attack_tesla_cage
+	Requires	ARACHDISCAGE Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	attack_tesla_cage_post
+	Flags		NoSizeScale ##PitchToTarget
+	Priority	6
+	Sets		CANTMOVE
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_supress_tall 1 66
+	TEnd
+MEnd
+
+Move attack_tesla_cage_post
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandAttack> <BlockIRQ> <AttackIRQ>
+	NextMove	Combat_Cycle
+	Priority	3
+	Interpolate	0
+	Flags		NoSizeScale
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_supress_tall 66
+	TEnd
+MEnd
+
+
+############################
+###### Disruptor summon	spiderlings ######
+##########################
+
+Move Summon_spiderlings
+	Requires	ARACHDISSPIDERLINGS Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	Summon_spiderlings_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_AOE 1 35
+	TEnd
+MEnd
+
+Move Summon_spiderlings_post
+	##Requires	  Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	 Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_AOE 36
+	TEnd
+MEnd
+
+
+############################
+###### Quick Psionic Shot ######
+##########################
+
+Move psionic_short
+	Requires	TARANTULAPSIBOLT Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	psionic_short_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_short 1 35
+	TEnd
+MEnd
+
+Move psionic_short_post
+	##Requires	  Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	 Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_short 36
+	TEnd
+MEnd
+
+
+############################
+###### Extended	Psionic	blast ######
+##########################
+
+Move psionic_long
+	Requires	TARANTULAPSIBLAST Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	psionic_long_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_long 1 50
+	TEnd
+MEnd
+
+Move psionic_long_post
+	##Requires	  Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	 Ready
+	Priority	1
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_long 51
+	TEnd
+MEnd
+
+
+############################
+###### Psionic PBAOE ######
+##########################
+
+Move psionic_PBAOE
+	Requires	TARANTULAPSIAOE	Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	psionic_PBAOE_post
+	Priority	2
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_AOE 1 35
+	TEnd
+MEnd
+
+Move psionic_PBAOE_post
+	##Requires	  Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	 Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_AOE 36
+	TEnd
+MEnd
+
+
+############################
+###### Grenade Launch ######
+##########################
+
+Move Grenade
+	Requires	TARANTULAPSIAOE	Combat LAUNCH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	Grenade_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+	scale		2
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_AOE 1 35
+	TEnd
+MEnd
+
+Move Grenade_post
+	##Requires	  Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	 Ready
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_psionic_AOE 36
+	TEnd
+MEnd
+
+
+############################
+###### blaster 3 shot  burst ######
+##########################
+
+Move blaster_burst
+	Requires	ARACHBLASTERSHOOT Combat low
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	blaster_burst_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_burst_tall	1 45
+	TEnd
+MEnd
+
+Move blaster_burst_post
+	##Requires	  Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	  Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_burst_tall	46
+	TEnd
+MEnd
+
+
+############################
+###### Overload	######
+##########################
+
+Move Overload
+	Requires	Overload
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	Overload_post
+	Priority	1
+	Sets		CANTMOVE
+	Flags		NoSizeScale
+
+	Type		MonsterSpider
+	  Anim		Spider\overload	1 90
+	TEnd
+MEnd
+
+Move Overload_post
+	##Requires	  Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	  Ready
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\overload	91
+	TEnd
+MEnd
+
+
+############################
+###### Blaster heavy shot ####
+##########################
+
+Move blaster_heavy
+	Requires	ARACHBLASTERSHOOT Combat strong
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	blaster_heavy_post
+	Priority	3
+	Sets		CANTMOVE
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_back_tall 1 45
+	TEnd
+MEnd
+
+Move blaster_heavy_post
+	##Requires	  Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove	  flypost
+	Priority	0
+	Interpolate	0
+	Flags		NoSizeScale ##PitchToTarget
+
+	Type		MonsterSpider
+	  Anim		Spider\spider_attack_back_tall 46
+	TEnd
+MEnd
+
+
+####################################
+## Drop-web	Spawn		######
+###################################
+#
+#Move Web_Spawn
+#	Requires	SPAWN HIGH   ##SPAWN TELEPORT
+#	Interrupts	<DeathIRQ>
+#	Priority	3
+#	NextMove	ready
+#	Sets		CANTMOVE NOCOLLISION
+#	Flags		NotSelectable
+#	scale		1.5
+#
+#	Type		MonsterSpider
+#	  Anim		Spider\spider_web_summon_Tall 1
+#	  PlayFX	V_COV\EnemyPowers\Arachnos\SpiderFadeIn.fx 0
+#	  PlayFX	V_COV\EnemyPowers\Arachnos\Spider_Websummon.fx 0
+#	TEnd
+#MEnd
+#
+#
+######################
+## Basic Spawn	 #####
+######################
+#
+#Move Basic_Spawn
+#	Requires	SPAWNEDASPET
+#	Interrupts	<Ready>	<Combat> <WepCombat> <FlyReady>	<RaiseDeadIRQ>
+#	NextMove	ready
+#	Priority	10
+#	Interpolate	0
+#	Sets		CANTMOVE
+#	Flags		NoSizeScale NotSelectable
+#	scale		1.5
+#
+#	Type		MonsterSpider
+#	  Anim		Spider\spider_web_summon_Tall 1
+#	  PlayFX	V_COV\EnemyPowers\Arachnos\SpiderFadeIn.fx 0
+#	  PlayFX	V_COV\EnemyPowers\Arachnos\Spider_Websummon.fx 0
+#	TEnd
+#MEnd
+
+
+#############################################################
+
+SeqEnd

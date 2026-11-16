@@ -1,0 +1,59 @@
+######################################
+## 
+## 
+Type
+		
+#ConstantState        INSTANTDEATH
+
+HealthFx
+	Range            75 100 
+	LibraryPiece		Dest_Hero_Male_XL_01_100
+	OneShotFx		none
+End
+
+HealthFx
+	Range				50 75
+	LibraryPiece		Dest_Hero_Male_XL_01_075
+	OneShotFx		Explosions\StoneStatueExplosions\XL_StatueExplosion.Fx
+End
+
+HealthFx
+	Range            25 50 
+	LibraryPiece		Dest_Hero_Male_XL_01_050
+	OneShotFx		Explosions\StoneStatueExplosions\XL_StatueExplosion2.Fx
+End
+
+HealthFx
+	Range				0.0001 25
+	LibraryPiece		Dest_Hero_Male_XL_01_025
+	OneShotFx		Explosions\StoneStatueExplosions\XL_StatueExplosion3.Fx
+End
+
+HealthFx
+	Range				0 0.0001
+	LibraryPiece		Dest_Hero_Male_XL_01_000
+	OneShotFx		Explosions\StoneStatueExplosions\XL_StatueExplosion4.Fx
+End
+
+CapsuleSize	40 80 25		
+CapsuleOffset  0 0 0		
+
+Sequencer	Prop_basic.txt		
+
+FadeOutStart	1000			
+FadeOutFinish	1250			
+
+Placement		Deadon		
+
+ShadowType	None			
+
+GeomScale	1.0 1.0 1.0	
+	
+CollisionType	LibraryPiece
+Selection	LibraryPiece 
+
+TicksToLingerAfterDeath		999940		
+TicksToFadeAwayAfterDeath	999940			
+
+End
+

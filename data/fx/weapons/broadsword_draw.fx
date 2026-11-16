@@ -1,0 +1,26 @@
+#############################################################
+## CustomWeapon_Broadsword.fx
+#############################################################
+
+FxInfo
+
+Flags InheritAlpha DontSuppress
+
+Lifespan 60
+
+#############################################################
+
+Condition
+	On 	Time
+	Time 	0
+
+	Event
+		Type	Local
+		At	WepR
+		Sound swordshing 100 100 0.7
+	End
+End
+
+#############################################################
+
+End

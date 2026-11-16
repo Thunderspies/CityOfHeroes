@@ -1,0 +1,2889 @@
+Name 50PlusMagisterium
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P1212531025
+
+//Stage Names:
+//Stage 1: Startup
+//Stage 2: Approach
+//Stage 3: BattleRoyale
+//Stage 4: BlackSwan
+//Stage 5: Cutscene
+//Stage 6: PostNuke
+//Stage 7: Finale
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+// Teleporter Block
+		Action CreateTeleporters
+		{
+			PorterCreate TPTR-Nuke
+			PorterCreate TPTR-Hospital
+		}			
+		Action
+		{
+			PorterControl
+			{
+				Porter TPTR-Nuke
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TPTR-Hospital
+				Type Deactivate
+			}
+		}
+// Create Gurneys: PreNukeHosp
+		Action
+		{
+			GurneyCreate PreNukeHosp
+			{
+			}
+		}
+// Create Gurneys: PostNukeHosp
+		Action
+		{
+			GurneyCreate PostNukeHosp
+			{
+			}
+		}
+
+// Create Spawns: Desdemona NPC
+		Action
+		{
+			SpawnCreate NPC-Desdemona
+			{
+				Location NPC-Desdemona
+				Group NPC-Desdemona
+				Team NPC-Desdemona
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-Desdemona
+			}
+		}
+		
+// Create Spawns: Mistress NPC
+		Action
+		{
+			SpawnCreate NPC-Mistress
+			{
+				Location NPC-Mistress
+				Group NPC-Mistress
+				Team NPC-Mistress
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-Mistress
+			}
+		}	
+
+// Create Spawns: Dominatrix with Dream Doctor NPC
+		Action
+		{
+			SpawnCreate NPC-DominatrixDimensional
+			{
+				Location NPC-DominatrixDimensional
+				Group NPC-DominatrixDimensional
+				Team NPC-DominatrixDimensional
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-DominatrixDimensional
+			}
+		}
+
+// Create Spawns: Dominatrix in Praetoria NPC
+		Action
+		{
+			SpawnCreate NPC-DominatrixPraetoria
+			{
+				Location NPC-DominatrixPraetoria
+				Group NPC-DominatrixPraetoria
+				Team NPC-DominatrixPraetoria
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-DominatrixPraetoria
+			}
+		}
+
+// Create Spawns: Dream Doctor NPC
+		Action
+		{
+			SpawnCreate NPC-DreamDoctor
+			{
+				Location NPC-DreamDoctor
+				Group NPC-DreamDoctor
+				Team NPC-DreamDoctor
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NPC-DreamDoctor
+			}
+		}
+// Create Spawns: Dream Doctor Ally
+		Action
+		{
+			SpawnCreate Ally-DreamDoctor
+			{
+				Location Ally-DreamDoctor
+				Group Ally-DreamDoctor
+				Team Ally-DreamDoctor
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Ally-DreamDoctor
+				MinRespawnTime 15
+				Count	1,	1,	1
+			}
+		}
+// Create Spawns: Cutscene
+		Action
+		{
+			SpawnCreate Cutscene
+			{
+				Location Cutscene
+				Group Cutscene
+				Team Cutscene
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Cutscene
+			}
+		}
+// Create Spawns: Armageddon
+		Action
+		{
+			SpawnCreate Armageddon
+			{
+				Location Armageddon
+				Group Armageddon
+				Team Armageddon
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Armageddon
+			}
+		}
+// Create Spawns: Minelayers
+		Action
+		{
+			SpawnCreate Minelayer
+			{
+				Location Minelayer
+				Group Minelayer
+				Team Minelayer
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Minelayer
+			}
+		}
+// Create Spawns: NetherworldFX
+		Action
+		{
+			SpawnCreate NetherworldFX
+			{
+				Location NetherworldFX
+				Group NetherworldFX
+				Team NetherworldFX
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NetherworldFX
+			}
+		}
+// Create Spawns: Excalibur
+		Action
+		{
+			SpawnCreate Excalibur
+			{
+				Location Excalibur
+				Group Excalibur
+				Team Excalibur
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Excalibur
+			}
+		}
+// Create Spawns: BeginPortal
+		Action
+		{
+			SpawnCreate BeginPortal
+			{
+				Location BeginPortal
+				Group BeginPortal
+				Team BeginPortal
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BeginPortal
+			}
+		}
+// Create Spawns: Soul Portal
+		Action
+		{
+			SpawnCreate SoulPortal
+			{
+				Location SoulPortal
+				Group SoulPortal
+				Team SoulPortal
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SoulPortal
+				MinRespawnTime 15
+				Count	1,	1,	1
+			}
+		}
+// Create Spawns: Well Marker
+		Action
+		{
+			SpawnCreate WellMarker
+			{
+				Location WellMarker
+				Group WellMarker
+				Team WellMarker
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WellMarker
+			}
+		}
+// Create Spawns: Shadowhunter
+		Action
+		{
+			SpawnCreate Shadowhunter
+			{
+				Location Shadowhunter
+				Group Shadowhunter
+				Team Shadowhunter
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Shadowhunter
+			}
+		}
+// Create Spawns: Pendragon
+		Action
+		{
+			SpawnCreate Pendragon
+			{
+				Location Pendragon
+				Group Pendragon
+				Team Pendragon
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Pendragon
+			}
+		}
+// Create Spawns: Chimera
+		Action
+		{
+			SpawnCreate Chimera
+			{
+				Location Chimera
+				Group Chimera
+				Team Chimera
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Chimera
+			}
+		}
+// Create Spawns: Black Swan
+		Action
+		{
+			SpawnCreate BlackSwan
+			{
+				Location BlackSwan
+				Group BlackSwan
+				Team BlackSwan
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BlackSwan
+			}
+		}
+// Create Spawns: Tyrant Stage 1
+		Action
+		{
+			SpawnCreate Tyrant1
+			{
+				Location Tyrant1
+				Group Tyrant1
+				Team Tyrant1
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Tyrant1
+			}
+		}
+// Create Spawns: Tyrant Stage 2
+		Action
+		{
+			SpawnCreate Tyrant2
+			{
+				Location Tyrant2
+				Group Tyrant2
+				Team Tyrant2
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Tyrant2
+			}
+		}
+// Create Spawns: Tyrant Stage 3
+		Action
+		{
+			SpawnCreate Tyrant3
+			{
+				Location Tyrant3
+				Group Tyrant3
+				Team Tyrant3
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Tyrant3
+			}
+		}
+// Create Spawns: Tyrant Guards
+		Action
+		{
+			SpawnCreate Guard1
+			{
+				Location Guard1
+				Group Guard1
+				Team Guard1
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Guard1
+			}
+		}
+// Create Spawns: Talons Ground Forces
+		Action
+		{
+			SpawnCreate Talons-Ground-01
+			{
+				Location Talons-Ground-01
+				Group Talons-Ground-01
+				Team Talons-Ground-01
+				SpawnBehavior <<MoveToPos(marker:Talons-Ground-01-Engage)>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Talons-Ground-01
+			}
+			SpawnCreate Talons-Ground-02
+			{
+				Location Talons-Ground-02
+				Group Talons-Ground-02
+				Team Talons-Ground-02
+				SpawnBehavior <<MoveToPos(marker:Talons-Ground-02-Engage)>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Talons-Ground-02
+			}
+		}
+
+// Create Spawns: Talons Flying Forces
+		Action
+		{
+			SpawnCreate Talons-Flying-01
+			{
+				Location Talons-Flying-01
+				Group Talons-Flying-01
+				Team Talons-Flying-01
+				SpawnBehavior <<MoveToPos(marker:Talons-Flying-01-Engage)>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Talons-Flying-01
+			}
+			SpawnCreate Talons-Flying-02
+			{
+				Location Talons-Flying-02
+				Group Talons-Flying-02
+				Team Talons-Flying-02
+				SpawnBehavior <<MoveToPos(marker:Talons-Flying-02-Engage)>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Talons-Flying-02
+			}
+		}
+
+// Create Spawns: Carnival Ground Forces
+		Action
+		{
+			SpawnCreate Carnival-01
+			{
+				Location Carnival-01
+				Group Carnival-01
+				Team Carnival-01
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Carnival-01
+			}
+			SpawnCreate Carnival-02
+			{
+				Location Carnival-02
+				Group Carnival-02
+				Team Carnival-02
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Carnival-02
+			}
+			SpawnCreate Carnival-03
+			{
+				Location Carnival-03
+				Group Carnival-03
+				Team Carnival-03
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Carnival-03
+			}
+		}
+
+//Create the Initial IDF Plaza Defenses 
+		Action
+		{
+			SpawnCreate IDF-Guards-Plaza-Initial
+			{
+				Location IDF-Guards-Plaza-Initial
+				Group IDF-Guards-Plaza-Initial
+				Team IDF-Guards-Plaza-Initial
+				KillBehavior <<PlayFX(Powers\FireControl\VillainExplosion.fx,Timer(1)),Dead(Timer(1),DoNotDrawAggro(1),CombatOverride(Passive),Unselectable(1),Invincible(1),Untargetable(1),Gang(2)),DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team IDF-Guards-Plaza-Initial
+				MinRespawnTime 90000
+				Count	1,	70,	70
+			}
+		}
+
+
+//Create IDF Plaza Defenses
+		Action
+		{
+			SpawnCreate IDF-Guards-Plaza
+			{
+				Location IDF-Guards-Plaza
+				Group IDF-Guards-Plaza
+				Team IDF-Guards-Plaza
+				KillBehavior <<Praetorian_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team IDF-Guards-Plaza
+				MinRespawnTime 300
+				Count	1,	150,	300
+				Count	12,	150,	300
+				Count	13,	150,	300
+				Count	14,	150,	300
+				Count	15,	150,	300
+				Count	16,	150,	300
+				Count	17,	150,	300
+				Count	18,	150,	300
+				Count	19,	150,	300
+				Count	20,	150,	300
+				Count	21,	150,	300
+				Count	22,	150,	300
+				Count	23,	150,	300
+				Count	24,	150,	300
+			}
+		}
+// Create Team Group
+		Action
+		{
+			TeamGroup All
+			{ 
+				Addteams NetherworldFX, Excalibur, Minelayer, Ally-DreamDoctor, Armageddon, IDF-Guards-Plaza-Initial, IDF-Guards-Plaza, Tyrant3, Tyrant2, Tyrant1, BlackSwan, Chimera, Pendragon, Shadowhunter, Cutscene, Guard1, WellMarker, SoulPortal, NPC-DreamDoctor, BeginPortal, NPC-Desdemona, NPC-Mistress, NPC-DominatrixDimensional, NPC-DominatrixPraetoria, Talons-Ground-01, Talons-Ground-02, Talons-Flying-01, Talons-Flying-02, Carnival-01, Carnival-02, Carnival-03
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage Approach
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Setup>>
+		}
+	}
+}
+
+Stage Approach
+{
+	DisplayName P3282363411
+	Tooltip P2148775081
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Approach>>
+		}
+		Action
+		{
+			SetScriptValue RetreatStarted 0
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team IDF-Guards-Plaza-Initial
+				Type Activate
+			}
+			TeamControl
+			{
+				Team NPC-DreamDoctor
+				Type Activate
+			}
+			TeamControl
+			{
+				Team NPC-DominatrixDimensional
+				Type Activate
+			}
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type Activate
+			}
+			TeamControl
+			{
+				Team NPC-Mistress
+				Type Activate
+			}
+		}
+		Action
+		{
+			GurneyControl
+			{
+				Gurney PreNukeHosp
+				Type Activate
+			}
+		}
+		Action
+		{
+			GurneyControl
+			{
+				Gurney PostNukeHosp
+				Type DeActivate
+			}
+		}
+	}
+
+//This is used to keep track of the number of IDF defeated in the UI.
+
+	Counter Approach-Defeats
+	{
+		Type Team
+		Team IDF-Guards-Plaza
+		Count 250
+	}
+
+//Counters - Volume Entry for Retreat Trigger
+	Counter PlayersInFrontVolume
+	{
+		Type ZEPlayers
+		VolumeName FrontVolume
+	}
+
+//This is the timer that causes the portal to appear after the captions are done
+	Timer Delay-Timer
+	{
+		Duration 00:24
+	}
+
+//This is the event timer that tracks the Ready to Rumble badge
+	EventTimer ReadyToRumble-Timer
+	{
+		Duration 08:00
+	}
+
+//This is the timer that causes the portal to appear after the captions are done
+	Timer Delay-Timer-Two
+	{
+		Duration 00:34
+	}
+
+//This is the timer that kills all the Talons after 20 seconds of their assault on the IDF.
+	Timer Talons-Annihilate-Timer
+	{
+		Duration 00:20
+	}
+
+//This is the timer that initiates Desdemona's fallback sequence.
+	Timer Desdemona-Fallback-Timer
+	{
+		Duration 00:32
+	}
+
+//This is the timer to display the time until reinforcements arrive in Stage 1.
+	Timer Reinforcements-Arrive-Timer
+	{
+		Duration 00:36
+	}
+
+//This trigger sets off the exposition captions.
+	Trigger IntroCaptions
+	{
+		Requires ScriptStageOneBattleStart objectivesucceeded>
+
+		Action
+		{
+			Reset Delay-Timer
+			Reset Delay-Timer-Two
+			Caption DreamDoctorIntro
+			{
+				Message P1657121715
+			}
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue	CaptionComplete-Scriptvalue 1
+		}
+	}
+
+
+//This trigger enables the teleport to the trial's start.
+	Trigger BeginPort
+	{
+		Requires CaptionComplete-Scriptvalue scriptvalue> 1 == Delay-Timer complete> &&
+	
+		Action
+		{
+			SetScriptValue	CaptionComplete-Scriptvalue 2
+		}
+		Action
+		{
+			Caption PortalOpen
+			{
+				Message P617005977
+				Volume TPTR-Hospital
+			}
+			TeamControl
+			{
+				Team BeginPortal
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue	CaptionComplete-Scriptvalue 3
+			Reset ReadyToRumble-Timer
+		}
+	}
+
+//This trigger starts the event where Dominatrix departs the dimensional space and enters the Magisterium.
+	Trigger Event-DominatrixLeaves
+		
+		Requires CaptionComplete-Scriptvalue scriptvalue> 3 == Delay-Timer-Two complete> &&		
+
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-DominatrixDimensional
+				Type DoBehavior
+				Behavior <<Say(P1801072254),MoveToPos(marker:BeginPortal)>>
+			}
+			Caption DuncanCaption-1
+			{
+				Message P3738701450
+				Volume TPTR-Hospital
+			}
+		}
+		Action
+		{
+			Delay 1
+			TeamControl
+			{
+				Team NPC-DreamDoctor
+				Type DoBehavior
+				Behavior Say(P1070894632)
+			}
+			Caption DreamDoctor-1
+			{
+				Message P95392504
+				Volume TPTR-Hospital
+			}
+		}
+		Action
+		{
+			Delay 3
+			TeamControl
+			{
+				Team NPC-DominatrixDimensional
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Delay 4
+			TeamControl
+			{
+				Team NPC-DominatrixPraetoria
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 6
+			TeamControl
+			{
+				Team NPC-DominatrixPraetoria
+				Type DoBehavior
+				Behavior <<Say(P1741239775),MoveToPos(marker:NPC-DomToDesTalk),Say(P2064709971)>>
+			}
+			Caption DuncanCaption-2
+			{
+				Message P2619776997
+				Volume FrontVolume
+			}
+		}
+		Action
+		{
+			Delay 8
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type DoBehavior
+				Behavior <<Say(P4051650818)>>
+			}
+			Caption DesdemonaCaption-1
+			{
+				Message P3081885557
+				Volume FrontVolume
+			}
+		}
+	}
+
+//This trigger begins the retreat when the first player has arrived on the other side of the portal.
+	Trigger Event-RetreatStart
+	{
+		Requires PlayersInFrontVolume count> 1 >= RetreatStarted scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Retreat Event Started>>
+			Reset Talons-Annihilate-Timer
+			Reset Desdemona-Fallback-Timer
+			Reset Reinforcements-Arrive-Timer
+		}
+		Action
+		{
+			Caption TalonsCaption-1
+			{
+				Message P3286848768
+				Volume FrontVolume
+			}
+			TeamControl
+			{
+				Team Talons-Ground-01
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Talons-Ground-02
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Talons-Flying-01
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Talons-Flying-02
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Carnival-01
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Carnival-02
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Carnival-03
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue RetreatStarted 1
+			Caption IDFCaption-1
+			{
+				Message P2992214520
+				Volume FrontVolume
+			}
+		}
+		Action
+		{
+			Delay 3
+			Caption Carnival-1
+			{
+				Message P4030291447
+				Volume FrontVolume
+			}
+		}
+		Action
+		{
+			Delay 4
+			TeamControl
+			{
+				Team Carnival-01
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:Carnival-01-Retreat)>>
+			}
+			TeamControl
+			{
+				Team Carnival-02
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:Carnival-02-Retreat)>>
+			}
+			TeamControl
+			{
+				Team Carnival-03
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:Carnival-03-Retreat)>>
+			}
+		}
+	}
+
+//This trigger kills the Talons after twenty seconds.
+	Trigger Event-TalonsDefeated
+	{
+		Requires RetreatStarted scriptvalue> 1 == Talons-Annihilate-Timer complete> &&
+
+		Action
+		{
+			Caption IDFCaption-2
+			{
+				Message P3684485968
+			}
+		}
+		Action
+		{
+			Delay 2
+			TeamControl
+			{
+				Team Talons-Ground-01
+				Type DoBehavior
+				Behavior <<PlayFX(Powers\FireControl\VillainExplosion.fx,Timer(1)),Dead(Timer(1),DoNotDrawAggro(1),CombatOverride(Passive),Unselectable(1),Invincible(1),Untargetable(1),Gang(2)),DestroyMe>>
+			}
+			TeamControl
+			{
+				Team Talons-Ground-02
+				Type DoBehavior
+				Behavior <<PlayFX(Powers\FireControl\VillainExplosion.fx,Timer(1)),Dead(Timer(1),DoNotDrawAggro(1),CombatOverride(Passive),Unselectable(1),Invincible(1),Untargetable(1),Gang(2)),DestroyMe>>
+			}
+		}
+		Action
+		{
+			Delay 3
+			Caption TalonsCaption-2
+			{
+				Message P3843244126
+			}
+			TeamControl
+			{
+				Team Talons-Flying-01
+				Type DoBehavior
+				Behavior <<PlayFX(Powers\FireControl\VillainExplosion.fx,Timer(1)),Dead(Timer(1),DoNotDrawAggro(1),CombatOverride(Passive),Unselectable(1),Invincible(1),Untargetable(1),Gang(2)),DestroyMe>>
+			}
+			TeamControl
+			{
+				Team IDF-Guards-Plaza-Initial
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Delay 4
+			TeamControl
+			{
+				Team Talons-Flying-02
+				Type DoBehavior
+				Behavior <<PlayFX(Powers\FireControl\VillainExplosion.fx,Timer(1)),Dead(Timer(1),DoNotDrawAggro(1),CombatOverride(Passive),Unselectable(1),Invincible(1),Untargetable(1),Gang(2)),DestroyMe>>
+			}
+		}
+		Action
+		{
+			Delay 5
+			SetScriptValue RetreatStarted 2
+			TeamControl
+			{
+				Team NPC-Mistress
+				Type DoBehavior
+				Behavior <<Say(P263357285)>>
+			}
+			Caption MistressCaption-1
+			{
+				Message P3665983195
+				Volume FrontVolume
+			}
+			TeamControl
+			{
+				Team Talons-Ground-01
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Talons-Ground-02
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Talons-Flying-01
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Talons-Flying-02
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Carnival-01
+				Type DoBehavior
+				Behavior <<CarnivalOfLight_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+			TeamControl
+			{
+				Team Carnival-02
+				Type DoBehavior
+				Behavior <<CarnivalOfLight_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+			TeamControl
+			{
+				Team Carnival-03
+				Type DoBehavior
+				Behavior <<CarnivalOfLight_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+		}
+
+	}
+
+//This trigger causes Desdemona, Dominatrix and the Mistress to fall back after the Talons are wiped out..
+	Trigger Event-DesdemonaFallback
+	{
+		Requires RetreatStarted scriptvalue> 2 == Desdemona-Fallback-Timer complete> &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type DoBehavior
+				Behavior <<Say(P3674867555)>>
+			}
+			Caption DesdemonaCaption-2
+			{
+				Message P171587691
+			}
+		}
+		Action
+		{
+			Delay 3
+			SetScriptValue RetreatStarted 3
+			Caption IDFCaption-2
+			{
+				Message P2307897934
+			}			
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:DesdemonaFallback)>>
+			}
+			TeamControl
+			{
+				Team NPC-DominatrixPraetoria
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:DominatrixFallback)>>
+			}
+			TeamControl
+			{
+				Team NPC-Mistress
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:MistressFallback)>>
+			}
+			TeamControl
+			{
+				Team IDF-Guards-Plaza
+				Type Activate
+			}
+		}
+		Action
+		{	
+			Delay 9
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type DoBehavior
+				Behavior <<CarnivalOfLight_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+			TeamControl
+			{
+				Team NPC-DominatrixPraetoria
+				Type DoBehavior
+				Behavior <<CarnivalOfLight_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+			TeamControl
+			{
+				Team NPC-Mistress
+				Type DoBehavior
+				Behavior <<CarnivalOfLight_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the event.
+	Trigger Success
+	{
+		Requires Approach-Defeats complete>
+	
+		Action
+		{
+			DebugPrint <<Trash Cleared.>>
+		}
+
+		NextStage BattleRoyale
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection Approach
+	{
+		UIItem KillBar
+		{
+			Type BarBlue
+			Text P718066303
+			ShortText P3504659590
+			Current Approach-Defeats count>
+			Target 250
+			HideIf RetreatStarted scriptvalue> 3 <
+		}
+		UIItem RetreatObserve
+		{
+			Type CenterText
+			Text P2211039836
+			HideIf RetreatStarted scriptvalue> 0 == RetreatStarted scriptvalue> 3 == ||
+		}
+		UIItem RetreatObserve
+		{
+			Type CenterText
+			Text P406587310
+			HideIf RetreatStarted scriptvalue> 0 == RetreatStarted scriptvalue> 3 == ||
+		}
+		UIItem StageApproach-Tip1
+		{
+			Type CenterText
+			Text P339312489
+			HideIf ScriptStageOneBattleStart objectivesucceeded>
+		}
+		UIItem MagisteriumEnter
+		{
+			Type CenterText
+			Text P2549163497
+			HideIf RetreatStarted scriptvalue> 0 >
+		}
+		UIItem ReinforcementTimer-Stage1
+		{
+			Type Timer
+			Timer Reinforcements-Arrive-Timer
+			Text P3298578148
+			ShortText P3985542317
+			HideIf RetreatStarted scriptvalue> 0 == RetreatStarted scriptvalue> 3 == ||
+		}
+		UIItem PortalTimer-Stage1
+		{
+			Type Timer
+			Timer Delay-Timer
+			Text P2143651426
+			ShortText P2285458711
+			HideIf CaptionComplete-Scriptvalue scriptvalue> 1 == !
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Approach>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team IDF-Guards-Plaza
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team NPC-Desdemona
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team NPC-DominatrixPraetoria
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team NPC-Mistress
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Carnival-01
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Carnival-02
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Carnival-03
+				Type Deactivate
+			}
+		}
+	}
+}
+Stage BattleRoyale
+{
+	DisplayName P3229186760
+	Tooltip P298261451
+
+	AwardKarma
+	KarmaThreshold 10
+
+	StageActiveRequires ZonePlayers count> 8 > ZonePlayersActive count> ZonePlayers count> / 0.25 > &&
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage BattleRoyale>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Chimera
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Shadowhunter
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Pendragon
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team NetherworldFX
+				Type Activate
+			}
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_02Low_B_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+	}
+
+//Award Karma for defeating a member of the Pendragon team.
+	Objective
+	{
+		Type Team
+		Team Pendragon
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 30
+		TeamKarmaLife 60
+	}
+
+//Award Karma for defeating a member of the Shadowhunter team.
+	Objective
+	{
+		Type Team
+		Team Shadowhunter
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 30
+		TeamKarmaLife 60
+	}
+
+//Award Karma for defeating a Shadowhunter wolf.
+	Objective
+	{
+		Type Named
+		Name Nightstalkers_Wodan_Summoned
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award Karma for defeating a member of the Chimera team.
+	Objective
+	{
+		Type Team
+		Team Chimera
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 30
+		TeamKarmaLife 60
+	}
+
+//This is the timer which counts towards the stage's P1354651601.
+	Timer RoyaleEnrage-Timer
+	{
+		Duration 12:00
+	}
+
+//This is the timer for Triple Threat.
+	Timer TripleThreatCheck-Timer
+	{
+		Duration 00:06
+	}
+
+//This is used to update the UI as to Chimera's current health.
+	Counter ChimeraHealth
+	{
+		Type BossHealth
+		Team Chimera
+	}
+
+//This is used to update the UI as to Shadowhunter's current health.
+	Counter ShadowhunterHealth
+	{
+		Type BossHealth
+		Team Shadowhunter
+	}
+
+//This is used to update the UI as to Pendragon's current health.
+	Counter PendragonHealth
+	{
+		Type BossHealth
+		Team Pendragon
+	}
+
+//This is used to keep track of the defeat of Chimera.
+	Counter ChimeraDefeated
+	{
+		Type Name
+		Name Chimera_P_Endgame_Chimera
+		Direction Up
+		Count 1
+	}
+
+//This is used to keep track of the defeat of the Shadowhunter.
+	Counter ShadowhunterDefeated
+	{
+		Type Name
+		Name Shadowhunter_P_Endgame_Shadowhunter
+		Direction Up
+		Count 1
+	}
+
+//This is used to keep track of the defeat of Pendragon.
+	Counter PendragonDefeated
+	{
+		Type Name
+		Name BlackKnights_P_Endgame_Pendragon
+		Direction Up
+		Count 1
+	}
+
+//This trigger activates Chimera's Dead Man's Switch.
+	Trigger Minelayers
+	{
+		Requires ChimeraDefeated complete>
+	
+		Action
+		{
+			DebugPrint <<Chimera Defeated.  Enabling Minelayers>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Minelayer
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater Minelayer
+			{
+			Message P2700640
+			Color FF0000
+			}
+		}
+	}
+
+//This trigger activates Pendragon's post-death Excalibur rain.
+	Trigger Excalibur
+	{
+		Requires PendragonDefeated complete>
+	
+		Action
+		{
+			DebugPrint <<Pendragon Defeated.  Enabling Excalibur bombs>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Excalibur
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater Excalibur
+			{
+			Message P2755489639
+			Color FF0000
+			}
+		}
+	}
+
+//This trigger displays a float for Shadowhunter's post-death mechanic.
+	Trigger Banish
+	{
+		Requires ShadowhunterDefeated complete>
+	
+		Action
+		{
+			DebugPrint <<Shadowhunter Defeated.  Triggering display floater.>>
+		}
+		Action
+		{
+			Floater Excalibur
+			{
+			Message P2907200248
+			Color FF0000
+			}
+		}
+	}
+
+//This trigger starts the triple threat counter when one boss dies.
+	Trigger TripleThreatTimerStart
+	{
+		Requires ChimeraDefeated complete> ShadowhunterDefeated complete> || PendragonDefeated complete> ||
+	
+		Action
+		{
+			Log <<First AV Defeated. Starting Triple Threat timer.>>
+			Reset TripleThreatCheck-Timer
+		}
+	}
+
+//This trigger sets up the success condition for the event after earning Triple Threat.
+	Trigger TripleThreat
+	{
+		Requires ChimeraDefeated complete> ShadowhunterDefeated complete> && PendragonDefeated complete> && TripleThreatCheck-Timer complete> ! &&
+	
+		Action
+		{
+			DebugPrint <<All AVs Defeated.>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Minelayer
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Excalibur
+				Type Deactivate
+			}
+			SetScriptValue TripleThreatCheck 1
+			Log  <<Triple Threat earned!>>
+		}
+
+		NextStage BattleRoyale-Recovery
+	}
+
+//This trigger sets up the success condition for the event while not earning Triple Threat.
+	Trigger Success
+	{
+		Requires ChimeraDefeated complete> ShadowhunterDefeated complete> && PendragonDefeated complete> && TripleThreatCheck-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<All AVs Defeated.>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Minelayer
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Excalibur
+				Type Deactivate
+			}
+		Log <<Triple Threat not earned.>>
+		}
+
+		NextStage BattleRoyale-Recovery
+	}
+
+
+//This trigger sets up the success condition for the event.
+	Trigger Fail
+	{
+		Requires ChimeraDefeated complete> ShadowhunterDefeated complete> && ! RoyaleEnrage-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<You are defeated!>>
+		}
+		NextStage Failure
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection BattleRoyale
+	{
+		UIItem ChimeraHealthBar
+		{
+			Type BarRed
+			Text P2542502378
+			ShortText P3579301328
+			Current ChimeraHealth count>
+			HideIf ChimeraHealth count> 0 <=
+			OnClickFindEnt Chimera
+			Target 100
+		}
+		UIItem ShadowhunterHealthBar
+		{
+			Type BarRed
+			Text P1425521178
+			ShortText P3150862942
+			HideIf ShadowhunterHealth count> 0 <=
+			Current ShadowhunterHealth count>
+			OnClickFindEnt Shadowhunter
+			Target 100
+		}
+		UIItem PendragonHealthBar
+		{
+			Type BarRed
+			Text P1160477472
+			ShortText P1519520205
+			HideIf PendragonHealth count> 0 <=
+			Current PendragonHealth count>
+			OnClickFindEnt Pendragon
+			Target 100
+		}
+		UIItem PendragonAbsorbBar
+		{
+			Type BarGold
+			Text P1871976773
+			ShortText P1971123771
+			HideIf PendragonHealth count> 0 <= PendragonAbsorb scriptvalue> 0 <= ||
+			Current PendragonAbsorb scriptvalue> 9203 / 100 *
+			Target 100
+		}
+		UIItem PendragonRageBar
+		{
+			Type BarBlue
+			Text P1998231305
+			ShortText P2490720293
+			HideIf PendragonHealth count> 0 <=
+			Current PendragonRage scriptvalue>
+			Target 100
+		}
+		UIItem EnrageTimer
+		{
+			Type Timer
+			Timer RoyaleEnrage-Timer
+			Text P3649598134
+			ShortText P3097074627
+		}
+		UIItem Stage1-Tip1
+		{
+			Type CenterText
+			Text P3952926581
+		}
+		UIItem Stage1-Tip2
+		{
+			Type CenterText
+			Text P4227994937
+			HideIf ShadowhunterHealth count> 0 <=
+		}
+		UIItem Stage1-Tip3
+		{
+			Type CenterText
+			Text P2876098752
+			HideIf ChimeraHealth count> 0 <=
+		}
+		UIItem Stage1-Tip4
+		{
+			Type CenterText
+			Text P1132614831
+			HideIf PendragonHealth count> 0 <=
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage BattleRoyale>>
+
+		}
+	}
+}
+
+Stage BattleRoyale-Recovery
+{
+	DisplayName P2559910843
+	Tooltip P430337563
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage 1A: Recovery>>
+			RemoveWaypoints
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 3
+			}
+		}
+		Action
+			PorterControl
+			{
+			Porter TPTR-Hospital
+			Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SoulPortal
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Ally-DreamDoctor
+				Type Activate
+			}
+		}
+		Action
+		{
+			GurneyControl
+			{
+				Gurney PreNukeHosp
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			GurneyControl
+			{
+				Gurney PostNukeHosp
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue StagePostNuke 0
+		}
+	}
+
+	Trigger BlackSwan-Speaks
+	{
+		Action
+		{
+			Caption BlackSwanIntro
+			{
+				Message P1478050008
+			}
+		}
+		Action
+		{
+			Delay 30
+			Floater
+			{
+				Message P2616565212
+				Color FEFEFF
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//Recovery Stage Timer
+	Timer Recovery-Timer-Stage1A
+	{
+		Duration 00:34
+		Display
+	}
+
+	Trigger Recovery-Complete-Stage1A
+	{
+		Requires Recovery-Timer-Stage1A complete>
+		NextStage BlackSwan
+	}
+
+	UICollection Stage1A
+	{
+		UIItem Stage1A-Tip1
+		{
+			Type CenterText
+			Text P2213615474
+		}
+		UIItem Stage1A-Tip2
+		{
+			Type CenterText
+			Text P104943296
+		}
+	}
+
+	Shutdown
+	{
+		Action
+		{
+			DebugPrint <<Ending Stage 1A: Recovery>>
+		}
+	}
+}
+
+Stage BlackSwan
+{
+	DisplayName P2559910843
+	Tooltip P947791482
+
+	AwardKarma
+	KarmaThreshold 10
+
+	StageActiveRequires ZonePlayers count> 8 > ZonePlayersActive count> ZonePlayers count> / 0.25 > &&
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage BlackSwan>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team BlackSwan
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue QuillsTimerReset 0
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_02High_b_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+	}
+
+//Award Karma for defeating a member of the Black Swan villain group.
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup BlackSwan
+		KarmaValue 15
+		KarmaLife 30
+		TeamKarmaValue 15
+		TeamKarmaLife 30
+	}
+
+//Award Karma for defeating a member of the SoulPortal team.
+	Objective
+	{
+		Type Team
+		Team SoulPortal
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//This is the timer which counts towards the stage's P1354651601.
+
+	Timer BlackSwanEnrage-Timer
+	{
+		Duration 12:00
+	}
+
+//This is the timer which updates the number of Lights alive in the scriptvalue used for level shifting.
+	Timer QuillsUseTimer-Timer
+	{
+		Duration 0:60
+	}
+
+//This is used to update the UI as to Black Swan's current health.
+	Counter BlackSwanHealth
+	{
+		Type BossHealth
+		Team BlackSwan
+	}
+
+//This is used to keep track of the defeat of Black Swan.
+	Counter BlackSwanDefeated
+	{
+		Type Name
+		Name BlackSwan_P_Endgame_BlackSwan
+		Direction Up
+		Count 1
+	}
+
+//This counter tracks the number of Portals present within the event
+	Counter PortalsPresent
+	{
+		Type Name
+		Name BlackSwan_Portal
+		Direction Down
+		Count 0
+	}
+
+//This trigger resets the Quills timer.
+	Trigger QuillsUseTimer-Trigger
+	{
+		Requires QuillsTimerReset scriptvalue> 1 ==
+		Action
+		{
+			SetScriptValue QuillsTimerReset 0
+			Reset QuillsUseTimer-Trigger
+			Reset QuillsUseTimer-Timer
+		}
+	}
+
+//This trigger sets the script value for Shadow Master.
+	Trigger ShadowMaster-Trigger-Failure
+	{
+		Requires PortalsPresent count> 6 >=
+		Action
+		{
+			Log <<Six portals spawned, Shadow Master not granted.>>
+			SetScriptValue ShadowMasterCheck 1
+		}
+	}
+
+
+//This trigger sets the script value for Ready to Rumble.
+	Trigger ReadyToRumble-Trigger-Success
+	{
+		Requires BlackSwanDefeated complete> ReadyToRumble-Timer complete> ! &&
+		Action
+		{
+			SetScriptValue ReadyToRumbleCheck 1
+		}
+		Action
+		{
+			Log <<Black Swan Defeated, Ready to Rumble earned.>>
+		}
+
+		NextStage Cutscene
+	}
+
+//This trigger sets up the success condition for the event.
+	Trigger Success
+	{
+		Requires BlackSwanDefeated complete> ReadyToRumble-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<Black Swan Defeated.>>
+		}
+
+		NextStage Cutscene
+	}
+
+
+//This trigger sets up the fail condition for the event.
+	Trigger Fail
+	{
+		Requires BlackSwanDefeated complete> ! BlackSwanEnrage-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<You are defeated!>>
+		}
+		NextStage Failure
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection BlackSwan
+	{
+		UIItem BlackSwanHealthBar
+		{
+			Type BarRed
+			Text P3402754783
+			ShortText P1210435864
+			Current BlackSwanHealth count>
+			OnClickFindEnt BlackSwan
+			Target 100
+		}
+		UIItem BlackSwanPortalBar
+		{
+			Type BarGold
+			Text P1054494332
+			ShortText P118205379
+			Current PortalsPresent count>
+			Target 6
+		}
+		UIItem QuillTimer
+		{
+			Type Timer
+			Timer QuillsUseTimer-Timer
+			Text P2659587495
+			ShortText P2547518383
+		}
+		UIItem EnrageTimer
+		{
+			Type Timer
+			Timer BlackSwanEnrage-Timer
+			Text P3649598134
+			ShortText P3097074627
+		}
+		UIItem Stage2-Tip1
+		{
+			Type CenterText
+			Text P2266112078
+		}
+		UIItem Stage2-Tip2
+		{
+			Type CenterText
+			Text P3588704809
+		}
+		UIItem Stage2-Tip3
+		{
+			Type CenterText
+			Text P3681413349
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage BlackSwan>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team BeginPortal
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team NPC-DreamDoctor
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 2
+			}
+		}
+	}
+}
+
+Stage Cutscene
+{
+	DisplayName P314015296
+	Tooltip P2709311866
+	
+	Startup
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Cutscene>>
+		}
+	}
+	
+//This timer delays the start of the cutscene a few moments.
+	Timer Cutscene-Delay-Timer
+	{
+		Duration 00:05
+	}
+
+//This timer delays the teleport to occur in the middle of the cutscene.
+	Timer Teleport-Delay-Timer
+	{
+		Duration 00:45
+	}
+
+//This timer indicates the length of the cutscene.
+	Timer Cutscene-Timer
+	{
+		Duration 00:54
+	}
+
+//This trigger starts the cutscene if someone in the event has never completed it.
+	Trigger Cutscene-Start
+	{
+		Requires Cutscene-Skippable scriptvalue> 0 == Cutscene-Delay-Timer complete> &&
+
+		Action
+		{
+			Reset Cutscene-Timer
+		}
+		Action
+		{
+			SetScriptValue ShowTimer 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Cutscene
+				Type Activate
+			}
+		}
+	}
+
+//This trigger teleports the players while the cutscene is playing.
+	Trigger Cutscene-Teleport
+	{
+		Requires Teleport-Delay-Timer complete>
+
+		Action
+		{
+			PorterControl
+			{
+			Porter TPTR-Nuke
+			Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Armageddon
+				Type Activate
+			}
+		}
+	}
+
+//This trigger ends the stage with the cutscene if it is triggered.
+	Trigger Cutscene-End
+	{
+		Requires Cutscene-Skippable scriptvalue> 0 == Cutscene-Timer complete> &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Team Cutscene
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Armageddon
+				Type Deactivate
+			}
+		}
+		
+		NextStage PostNuke
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection CutsceneStage
+	{
+		UIItem CutsceneTimer-Start
+		{
+			Type Timer
+			Timer Cutscene-Delay-Timer
+			Text P3120827612
+			ShortText P1436029197
+			HideIf ShowTimer scriptvalue> 0 == !
+		}	
+		UIItem CutsceneTimer-Ongoing
+		{
+			Type Timer
+			Timer Cutscene-Timer
+			Text P2024037260
+			ShortText P1049793817
+			HideIf ShowTimer scriptvalue> 1 == !
+		}	
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Cutscene>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 2
+			}
+		}
+	}
+}
+
+Stage PostNuke
+{
+	DisplayName P3713983168
+	Tooltip P229524030
+
+	AwardKarma
+	KarmaThreshold 10
+
+	StageActiveRequires ZonePlayers count> 8 > ZonePlayersActive count> ZonePlayers count> / 0.25 > &&
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage PostNuke>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Tyrant2
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team WellMarker
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue LightTimerReset 0
+		}
+		Action
+		{
+			SetScriptValue StagePostNuke 1
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_02High_a_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+	}
+
+//Award Karma for defeating a member of the Tyrant villain group.
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup Tyrant
+		KarmaValue 15
+		KarmaLife 30
+		TeamKarmaValue 15
+		TeamKarmaLife 30
+	}
+
+//Award Karma for defeating a member of the SoulPortal team.
+	Objective
+	{
+		Type Team
+		Team SoulPortal
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//This is the timer which counts towards the stage's P1354651601.
+
+	Timer Tyrant2Enrage-Timer
+	{
+		Duration 20:00
+	}
+
+//This is the timer which Prevents Tyrant from speaking all his dialogue instantly.
+
+	Timer Tyrant2SpeechDelay-Timer
+	{
+		Duration 0:05
+	}
+
+//This is the timer which updates the number of Lights alive in the scriptvalue used for level shifting.
+	Timer LightsReset-Timer
+	{
+		Duration 0:01
+	}
+
+//This is the timer which updates the number of Lights alive in the scriptvalue used for level shifting.
+	Timer LightsSpawnTimer-Timer
+	{
+		Duration 0:40
+	}
+
+//This is the timer which prevents instantaneous completion.
+	Timer SuccessDelay-Timer
+	{
+		Duration 0:10
+	}
+
+//This is used to update the UI as to Tyrant's current health.
+	Counter Tyrant2Health
+	{
+		Type BossHealth
+		Team Tyrant2
+	}
+
+//This is used to keep track of the defeat of Tyrant.
+	Counter Tyrant2Defeated
+	{
+		Type Name
+		Name Tyrant_P_Endgame_Tyrant_02
+		Direction Up
+		Count 1
+	}
+//This is used to keep track of the number of Lights.
+	Counter LightsAlive
+	{
+		Type Name
+		Name Tyrant_Light_of_the_Well
+		Direction Down
+		Count 0
+	}
+
+//This is used to keep track of the number of Lights that have been defeated.
+	Counter LightsKilled
+	{
+		Type Name
+		Name Tyrant_Light_of_the_Well
+		Direction Up
+		Count 13
+	}
+
+//This is used to keep track of The Really Hard Way.
+	Counter AnyLightsKilled
+	{
+		Type Name
+		Name Tyrant_Light_of_the_Well
+		Direction Up
+		Count 1
+	}
+
+//This trigger sets the Script Value for the number of living Lights.
+	Trigger LightsSZE
+	{
+		Requires LightsReset-Timer complete>
+	
+		Action
+		{
+			SetScriptValue LivingLights 6 LightsAlive count> -
+		}
+		Action
+		{
+			Reset LightsReset-Timer
+			Reset LightsSZE
+		}
+	}
+
+//This trigger resets the Soul Portal.
+	Trigger LightsSpawnTimer-Trigger
+	{
+		Requires LightTimerReset scriptvalue> 1 ==
+		Action
+		{
+			SetScriptValue LightTimerReset 0
+			Reset LightsSpawnTimer-Trigger
+			Reset LightsSpawnTimer-Timer
+		}
+	}
+
+//This trigger gives Tyrant something to say as he is battled by players. It hits at 50%.
+	Trigger TyrantBigBattle-CaptionAt-50
+	{
+		Requires Tyrant2Health count> 50 < Tyrant2SpeechDelay-Timer complete> &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Tyrant2
+				Type DoBehavior
+				Behavior Say(P1320018072)
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the event.
+	Trigger ReallyHardWay
+	{
+		Requires Tyrant2Health count> 10 <= SuccessDelay-Timer complete> && AnyLightsKilled complete> ! &&
+	
+		Action
+		{
+			DebugPrint <<Tyrant Defeated.>>
+		}
+		Action
+		{
+			Log <<The Really Hard Way challenge succeeded.>>
+		}
+		Action
+		{
+			Log <<Awarding The Really Hard Way Badge.  This league has beaten the game.>>
+			Reward IT_MAG_EpicChallenge
+		}
+		Action
+		{
+			Reward EmpyreanMerit2
+		}
+		Action
+		{
+			Log <<Awarding The Hard Way Badge>>
+			Reward IT_MAG_Challenge4
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+		NextStage PostNuke-Recovery
+	}
+
+//This trigger sets up the success condition for the event.
+	Trigger HardWay
+	{
+		Requires Tyrant2Health count> 10 <= SuccessDelay-Timer complete> && LightsKilled complete> ! && AnyLightsKilled complete> &&
+	
+		Action
+		{
+			DebugPrint <<Tyrant Defeated.>>
+		}
+		Action
+		{
+			Log <<Hard Way challenge succeeded.>>
+		}
+		Action
+		{
+			Log <<Awarding The Hard Way Badge>>
+			Reward IT_MAG_Challenge4
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+
+		NextStage PostNuke-Recovery
+	}
+
+//This trigger sets up the success condition for the event.
+	Trigger Success
+	{
+		Requires Tyrant2Health count> 10 <= SuccessDelay-Timer complete> &&  LightsKilled complete> && AnyLightsKilled complete> &&
+	
+		Action
+		{
+			DebugPrint <<Tyrant Defeated.>>
+			Log <<Hard Way challenge failed.>>
+		}
+
+		NextStage PostNuke-Recovery
+	}
+
+
+//This trigger sets up the fail condition for the event.
+	Trigger Fail
+	{
+		Requires Tyrant2Defeated complete> ! Tyrant2Enrage-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<You are defeated!>>
+		}
+		NextStage Failure
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection PostNuke
+	{
+		UIItem TyrantHealthBar
+		{
+			Type BarRed
+			Text P2289510126
+			ShortText P2839932528
+			Current Tyrant2Health count>
+			OnClickFindEnt Tyrant2
+			Target 100
+		}
+		UIItem TyrantRegenBar
+		{
+			Type BarGold
+			Text P3700690094
+			ShortText P3803857980
+			Current 100 Tyrant2Health count> 0 50 minmax 2 * -
+			Target 100
+			HideIf Tyrant2Health count> 50 > Tyrant2SpeechDelay-Timer complete> ! ||
+		}
+		UIItem EnrageTimer
+		{
+			Type Timer
+			Timer Tyrant2Enrage-Timer
+			Text P3649598134
+			ShortText P3097074627
+		}
+		UIItem LightTimer
+		{
+			Type Timer
+			Timer LightsSpawnTimer-Timer
+			Text P2807360348
+			ShortText P1839801972
+		}
+		UIItem Connections
+		{
+			Type BarGold
+			Text P2816767867
+			ShortText P1968888155
+			Current LightsAlive count>
+			Target 6
+		}
+//		UIItem TyrantRageBar
+//		{
+//			Type BarBlue
+//			Text P2324809002
+//			ShortText P3319732960
+//			HideIf Tyrant2Health count> 0 <=
+//			Current TyrantRage scriptvalue>
+//			Target 8
+//		}
+		UIItem Stage3-Tip1
+		{
+			Type CenterText
+			Text P361685042
+		}
+		UIItem Stage3-Tip2
+		{
+			Type CenterText
+			Text P3147343913
+		}
+		UIItem Stage3-Tip3
+		{
+			Type CenterText
+			Text P2930046085
+		}
+		UIItem Stage3-Tip4
+		{
+			Type CenterText
+			Text P1692667418
+		}
+		UIItem Stage3-Tip5
+		{
+			Type CenterText
+			Text P4141315198
+		}
+		UIItem Stage3-Tip6
+		{
+			Type CenterText
+			Text P4255242437
+			HideIf Tyrant2Health count> 50 > Tyrant2SpeechDelay-Timer complete> ! ||
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage PostNuke>>
+			TeamControl
+			{
+				Team Tyrant2
+				Type DoBehavior 
+				Behavior <<SetHealth(Health(1)),Unselectable(1),Invincible(1),UsePower("Shrink"),Say(P3747658080)DoNothing(Timer(6)),Combat(CombatModShift(-8),Unselectable(0),Invincible(0))>>
+			}
+		}
+	}
+}
+
+
+Stage PostNuke-Recovery
+{
+	DisplayName P3432733825
+	Tooltip P1555764691
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage 4A: Recovery>>
+			RemoveWaypoints
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 3
+			}
+		}
+	}
+
+//Recovery Stage Timer
+	Timer Recovery-Timer-Stage4A
+	{
+		Duration 00:08
+		Display
+	}
+
+	Trigger Recovery-Complete-Stage4A
+	{
+		Requires Recovery-Timer-Stage4A complete>
+		NextStage Finale
+	}
+
+	UICollection Stage4A
+	{
+		UIItem Stage4A-Tip1
+		{
+			Type CenterText
+			Text P2832137425
+		}
+	}
+
+	Shutdown
+	{
+		Action
+		{
+			DebugPrint <<Ending Stage 4A: Recovery>>
+		}
+	}
+}
+
+Stage Finale
+{
+	DisplayName P3432733825
+	Tooltip P1593262352
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Finale>>
+		}
+	}
+
+//This is the timer which counts towards the stage's P1354651601.
+
+	Timer Tyrant3Enrage-Timer
+	{
+		Duration 5:00
+	}
+
+//This is the timer which Prevents Tyrant from speaking all his dialogue instantly.
+
+	Timer TyrantSpeechDelay-Timer
+	{
+		Duration 0:05
+	}
+
+//This is used to update the UI as to Tyrant's current health.
+	Counter Tyrant3Health
+	{
+		Type BossHealth
+		Team Tyrant2
+	}
+
+//This is used to keep track of the defeat of Tyrant.
+	Counter Tyrant3Defeated
+	{
+		Type Name
+		Name Tyrant_P_Endgame_Tyrant_02
+		Direction Up
+		Count 1
+	}
+
+//This trigger gives Tyrant something to say as he is battled by players. It hits at 75%.
+	Trigger TyrantBattle-CaptionAt-75
+	{
+		Requires Tyrant3Health count> 75 < TyrantSpeechDelay-Timer complete> &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Tyrant2
+				Type DoBehavior
+				Behavior Say(P166933088)
+			}
+			Caption
+			{
+				Message P401188836
+			}
+		}
+	}
+
+//This trigger gives Tyrant something to say as he is battled by players. It hits at 50%.
+	Trigger TyrantBattle-CaptionAt-50
+	{
+		Requires Tyrant3Health count> 50 < TyrantSpeechDelay-Timer complete> &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Tyrant2
+				Type DoBehavior
+				Behavior Say(P3566591199)
+			}
+			Caption
+			{
+				Message P1502367131
+			}
+		}
+	}
+
+//This trigger gives Tyrant something to say as he is battled by players. It hits at 10%.
+	Trigger TyrantBattle-CaptionAt-15
+	{
+		Requires Tyrant3Health count> 15 < TyrantSpeechDelay-Timer complete> &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Tyrant2
+				Type DoBehavior
+				Behavior Say(P1735401240)
+			}
+			Caption
+			{
+				Message P2969227168
+			}
+		}
+	}
+
+//This trigger sets up the success condition for the event.
+	Trigger Success
+	{
+		Requires Tyrant3Defeated complete>
+	
+		Action
+		{
+			DebugPrint <<Tyrant 3 Defeated.>>
+		}
+		Action
+		{
+			Reward EmpyreanMerit_MAG
+		}
+
+		NextStage RewardWinners
+	}
+
+
+//This trigger sets up the fail condition for the event.
+	Trigger Fail
+	{
+		Requires Tyrant3Defeated complete> ! Tyrant3Enrage-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<You are defeated!>>
+		}
+		NextStage Failure
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection Finale
+	{
+		UIItem TyrantHealthBar
+		{
+			Type BarRed
+			Text P2289510126
+			ShortText P2839932528
+			Current Tyrant3Health count>
+			OnClickFindEnt Tyrant2
+			Target 100
+		}
+		UIItem EnrageTimer
+		{
+			Type Timer
+			Timer Tyrant3Enrage-Timer
+			Text P3649598134
+			ShortText P3097074627
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Finale>>
+		}
+	}
+}
+
+Stage RewardWinners
+{
+	StartUp
+	{
+		Action StartRewardWinners
+		{
+			DebugPrint <<Stage Reward Winners Initialized...>>
+		}
+		Action
+		{
+			SetScriptValue OpenLeagueAward 0
+		}
+	}
+	Trigger AwardBadge-Completion
+	{
+		Action
+		{
+			Log <<Awarding Magisterium Completion Badge>>
+			Reward IT_MAG_Complete
+		}
+	}
+	Trigger AwardBadge-TripleThreat
+	{
+		Requires TripleThreatCheck scriptvalue> 1 ==
+		Action
+		{
+			Log <<Awarding Triple Threat Badge>>
+			Reward IT_MAG_Challenge1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardBadge-ReadyToRumble
+	{
+		Requires ReadyToRumbleCheck scriptvalue> 1 ==
+		Action
+		{
+			Log <<Awarding Ready to Rumble Badge>>
+			Reward IT_MAG_Challenge2
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardBadge-ShadowMaster
+	{
+		Requires ShadowMasterCheck scriptvalue> 1 == !
+		Action
+		{
+			Log <<Awarding Shadow Master Badge>>
+			Reward IT_MAG_Challenge3
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardMerit-OpenLeague
+	{
+		Requires eventLockedByGroup? ! OpenLeagueAward scriptvalue> 0 == &&
+
+		Action
+		{
+			Log <<Bonus Merit for an Open League Awarded>>
+			SetScriptValue OpenLeagueAward 1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}	
+	Trigger End
+	{
+		NextStage Stop
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Stage Reward Winners Completed...>>
+		}
+		Action PhatLewt
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+					NumStagesRequired 0
+					RewardTable IncarnatePool1None
+				}
+				Reward class1
+				{
+					NumStagesRequired 2
+					RewardTable Issue20EndKarma1
+				}
+				Reward class2
+				{
+					PercentileNeeded 0.00
+					NumStagesRequired 3
+					PointsNeeded 10
+					RewardTable is.Issue2150EndKarma1Plus
+				}
+			}
+		}
+	}
+}
+
+Stage Failure
+{
+	StartUp
+	{
+		Action FailureStart
+		{
+			DebugPrint <<Initializing Stage Failure...>>
+		}
+	}
+	Timer FailureDelay
+	{
+		Duration 00:10
+	}
+	Trigger FailureDelayEnd
+	{
+		Requires FailureDelay complete>
+		NextStage Stop
+		
+		Action StopStart
+		{
+			DebugPrint <<Completing Stage Failure...>>
+		}
+	}
+
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint <<Initializing Stage Stop...>>
+			RemoveWaypoints
+		}
+// Disable Spawns: All
+		Action
+		{
+			TeamControl
+			{
+				TeamGroup All
+				Type Deactivate
+			}
+		}
+		Action ShutDownInstancedEvent
+	        {
+			TrialComplete Success
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 2
+			}
+		}
+	}
+	Trigger Never
+	{
+		Requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting Down Stop Stage>>
+		}
+	}
+}

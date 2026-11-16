@@ -1,0 +1,65 @@
+#########################################################
+## CustomWeapon_Katana.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Katana_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef Katana_Flaming
+	BaseSkeleton	FX_CustomWeapons_Flaming_Sword\skel_ready
+	ParentType	Katana_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw NoSizeScale
+	Priority	0
+
+	Type		Katana_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	LEFTHAND SPAWNHIP
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Flags		NoDraw NoSizeScale
+
+	Type		Katana_Base
+	  Anim		Prop_basic\skel_test 1 9
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	LEFTHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle NoSizeScale
+
+	Type		Katana_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

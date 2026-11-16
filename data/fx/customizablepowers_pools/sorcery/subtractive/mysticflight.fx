@@ -1,0 +1,100 @@
+#############################################################
+## Fireflies_Body.fx
+#############################################################
+
+FxInfo
+
+#########################################################
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		Ename	SpinAnchor
+		Type	Local
+		At	Root
+		BhvrOverride
+			PositionOffset 0 1 0
+			Spin	0.0 0.05 0.0
+		End
+		ChildFX	CustomizablePowers_Pools\Sorcery\Subtractive\CHILD_Continuous_Body.fx
+		Lifespan 80
+	End
+End
+
+Condition
+	On	Cycle
+	Time	20
+
+	Event
+		Ename	SpinAnchor
+		Type	Local
+		At	Root
+		BhvrOverride
+			PositionOffset 0 1 0
+			Spin	0.0 0.05 0.0
+		End
+		ChildFX	CustomizablePowers_Pools\Sorcery\Subtractive\CHILD_Continuous_Body.fx
+		Lifespan 80
+	End
+End
+
+Condition
+	On	Cycle
+	Time	30
+	Random	1
+
+	Event
+		Type	Start
+		At	SpinAnchor
+		ChildFX	CustomizablePowers_Pools\Sorcery\Subtractive\CHILD_Runes_Body.fx
+		Lifespan 90
+	End
+
+	Event
+		Type	Start
+		At	SpinAnchor
+		ChildFX	CustomizablePowers_Pools\Sorcery\Subtractive\CHILD_Runes2_Body.fx
+		Lifespan 90
+	End
+
+	Event
+		Type	Start
+		At	SpinAnchor
+		ChildFX	CustomizablePowers_Pools\Sorcery\Subtractive\CHILD_Runes3_Body.fx
+		Lifespan 90
+	End
+
+	Event
+		Type	Start
+		At	SpinAnchor
+		ChildFX	CustomizablePowers_Pools\Sorcery\Subtractive\CHILD_Runes4_Body.fx
+		Lifespan 90
+	End
+
+	Event
+		Type	Start
+		At	SpinAnchor
+		ChildFX	CustomizablePowers_Pools\Sorcery\Subtractive\CHILD_Runes5_Body.fx
+		Lifespan 90
+	End
+
+	Event
+		Type	Start
+		At	SpinAnchor
+		ChildFX	CustomizablePowers_Pools\Sorcery\Subtractive\CHILD_Runes6_Body.fx
+		Lifespan 90
+	End
+
+	Event
+		Type	Start
+		At	SpinAnchor
+		ChildFX	CustomizablePowers_Pools\Sorcery\Subtractive\CHILD_Runes7_Body.fx
+		Lifespan 90
+	End
+End
+
+#############################################################
+
+End

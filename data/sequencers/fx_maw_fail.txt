@@ -1,0 +1,47 @@
+#############################################################
+## FX_banner.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_Maw_Fail
+	BaseSkeleton	FX_Maw\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Scale		4
+	NextMove	Death
+
+	Type		FX_Maw_Fail
+	  Anim          FX_Maw\skel_ready 220 425
+	TEnd
+MEnd
+
+Move Death
+	Member		<Ready>
+	Scale		4
+	Flags		Cycle
+
+	Type		FX_Maw_Fail
+	  Anim          FX_Maw\skel_ready 400 425
+	TEnd
+MEnd
+
+
+
+
+
+#############################################################
+
+SeqEnd

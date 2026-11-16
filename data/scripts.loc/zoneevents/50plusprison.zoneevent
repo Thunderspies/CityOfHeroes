@@ -1,0 +1,9615 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P959045291
+//EventVolume EventVolume // ZoneEventName = 50plusPrison
+
+//Event Reward Structure
+// Stage 1: Defeat trash - No Karma, No Merits
+// Stage 2: Defeat Nightstar - Karma 10, Astral Merit
+// Stage 3: Prevent escapes - Karma 10, Astral Merit
+// Stage 4: Defeat Siege - Karma 10, Astal Merit
+// Stage 5: Defeat Both - Karma 10, Empyrean Merit (subject to lockout)
+// Total: 4 Karma Stages. 
+//	1-2 Completed stages: Incarnate Subcomponent
+//	3 Completed stages: Common Component
+//	4 Completed stages: Component Drop Tables
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action
+		{
+			DebugPrint <<This is a 12-24 player event>>
+			SetScriptValue EventSize 12
+		}
+		Action
+		{
+			DebugPrint <<Setting Cutscene to skippable unless some players have not seen it>>
+			SetScriptValue Cutscene-Skippable 1
+		}
+		Action CreateStuff
+		{
+			WaypointCreate AdminWaypoint map_enticon_neighborhood P1858564184
+			WaypointCreate BivouacWaypoint map_enticon_neighborhood P975681099
+			WaypointCreate EscapeWaypoint1 map_enticon_gate_entrydanger P120177712
+			WaypointCreate EscapeWaypoint2 map_enticon_gate_entrydanger P120177712
+			WaypointCreate EscapeWaypoint3 map_enticon_gate_entrydanger P120177712
+			WaypointCreate SpawnWaypoint1 map_enticon_gate_entrysafe P2144990738
+			WaypointCreate SpawnWaypoint2 map_enticon_gate_entrysafe P2144990738
+			WaypointCreate SpawnWaypoint3 map_enticon_gate_entrysafe P2144990738
+			WaypointCreate SpawnWaypoint4 map_enticon_gate_entrysafe P2144990738
+			WaypointCreate SpawnWaypoint5 map_enticon_gate_entrysafe P2144990738
+			WaypointCreate SpawnWaypoint6 map_enticon_gate_entrysafe P2144990738
+			WaypointCreate WP-MissionExit map_enticon_neighborhood P3301789151
+			WaypointCreate WP-HospitalExit map_enticon_neighborhood P2099690906
+
+			DoorCreate Door-Hospital // Add the following property to the MapSwap: Requires 50plusPrison.Door.Door-Hospital ZoneEvent>
+
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+
+// Create Spawns: WarmthBuff
+			SpawnCreate WarmthBuff
+			{
+				Location WarmthBuff
+				Group WarmthBuff
+				Team WarmthBuff
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WarmthBuff
+			}
+
+// Create Spawns: Badge Checker
+			SpawnCreate BadgeChecker
+			{
+				Location BadgeChecker
+				Group BadgeChecker
+				Team BadgeChecker
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BadgeChecker
+			}
+
+// Create Spawns: Cutscene
+			SpawnCreate Cutscene
+			{
+				Location Cutscene
+				Group Cutscene
+				Team Cutscene
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Cutscene
+			}
+
+// Create Spawns: Caption Manager
+			SpawnCreate CaptionManagerA
+			{
+				Location CaptionManagerA
+				Group CaptionManagerA
+				Team CaptionManagerA
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CaptionManagerA
+			}
+
+// Create Spawns: Nightstar
+			SpawnCreate Nightstar
+			{
+				Location BAFNightstar
+				Group BAFNightstar
+				Team NightstarTeam
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team NightstarTeam
+			}
+
+// Create Spawns: Nightstar Location Watchers
+			SpawnCreate NightstarWatcher-Stage2
+			{
+				Location NightstarWatcher-Stage2
+				Group NightstarWatcher-Stage2
+				Team NightstarWatcher-Stage2
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NightstarWatcher-Stage2
+			}
+			SpawnCreate NightstarWatcher-Stage5
+			{
+				Location NightstarWatcher-Stage5
+				Group NightstarWatcher-Stage5
+				Team NightstarWatcher-Stage5
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NightstarWatcher-Stage5
+			}
+
+// Create Spawns: Siege
+			SpawnCreate Siege
+			{
+				Location BAFSiege
+				Group BAFSiege
+				Team SiegeTeam
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team SiegeTeam
+			}
+
+// Create Spawns: Siege Location Watchers			
+			SpawnCreate SiegeWatcher-Stage4
+			{
+				Location SiegeWatcher-Stage4
+				Group SiegeWatcher-Stage4
+				Team SiegeWatcher-Stage4
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SiegeWatcher-Stage4
+			}
+			SpawnCreate SiegeWatcher-Stage5
+			{
+				Location SiegeWatcher-Stage5
+				Group SiegeWatcher-Stage5
+				Team SiegeWatcher-Stage5
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SiegeWatcher-Stage5
+			}
+
+// Create Spawns: Siege/Nightstar Initial Pets
+			SpawnCreate NightstarInitialPets
+			{
+				Location NightstarInitialPets
+				Group NightstarInitialPets
+				Team NightstarInitialPets
+				SpawnBehavior <<DoNotGoToSleep,Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NightstarInitialPets
+				Creator NightstarTeam
+			}
+			SpawnCreate SiegeInitialPets
+			{
+				Location SiegeInitialPets
+				Group SiegeInitialPets
+				Team SiegeInitialPets
+				SpawnBehavior <<DoNotGoToSleep,Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SiegeInitialPets
+				Creator SiegeTeam
+			}
+
+// Create Spawns: Siege/Nightstar Ongoing Pets
+			SpawnCreate NightstarWavePets
+			{
+				Location NightstarWavePets
+				Group NightstarWavePets
+				Team NightstarWavePets
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NightstarWavePets
+				Creator NightstarTeam
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	2
+				Count	14,	1,	2
+				Count	15,	1,	3
+				Count	16,	1,	3
+				Count	17,	1,	4
+				Count	18,	1,	4
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	6
+				Count	22,	1,	6
+				Count	23,	1,	7
+				Count	24,	1,	7
+			}
+			SpawnCreate SiegeWavePets
+			{
+				Location SiegeWavePets
+				Group SiegeWavePets
+				Team SiegeWavePets
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SiegeWavePets
+				Creator SiegeTeam
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	2
+				Count	14,	1,	2
+				Count	15,	1,	3
+				Count	16,	1,	3
+				Count	17,	1,	4
+				Count	18,	1,	4
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	6
+				Count	22,	1,	6
+				Count	23,	1,	7
+				Count	24,	1,	7
+			}
+
+// Create Spawns: General Resistance Trash
+//			SpawnCreate GenRes1
+//			{
+//				Location GenRes1
+//				Group GenRes1
+//				Team GenRes1
+//				SpawnBehavior <<RunOutOfDoor>>
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenRes1
+//				MinRespawnTime 90000
+//				Count	1,	1,	10
+//				Count	12,	1,	10
+//				Count	13,	1,	11
+//				Count	14,	1,	11
+//				Count	15,	1,	12
+//				Count	16,	1,	12
+//				Count	17,	1,	13
+//				Count	18,	1,	13
+//				Count	19,	1,	13
+//				Count	20,	1,	13
+//				Count	21,	1,	13
+//				Count	22,	1,	14
+//				Count	23,	1,	14
+//				Count	24,	1,	14
+//			}
+//			SpawnCreate GenRes2
+//			{
+//				Location GenRes2
+//				Group GenRes2
+//				Team GenRes2
+//				SpawnBehavior <<RunOutOfDoor>>
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenRes2
+//				MinRespawnTime 90000
+//				Count	1,	1,	10
+//				Count	12,	1,	10
+//				Count	13,	1,	11
+//				Count	14,	1,	11
+//				Count	15,	1,	12
+//				Count	16,	1,	12
+//				Count	17,	1,	13
+//				Count	18,	1,	13
+//				Count	19,	1,	13
+//				Count	20,	1,	13
+//				Count	21,	1,	13
+//				Count	22,	1,	14
+//				Count	23,	1,	14
+//				Count	24,	1,	14
+//			}
+//			SpawnCreate GenRes3
+//			{
+//				Location GenRes3
+//				Group GenRes3
+//				Team GenRes3
+//				SpawnBehavior <<RunOutOfDoor>>
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenRes3
+//				MinRespawnTime 90000
+//				Count	1,	1,	10
+//				Count	12,	1,	10
+//				Count	13,	1,	11
+//				Count	14,	1,	11
+//				Count	15,	1,	12
+//				Count	16,	1,	12
+//				Count	17,	1,	13
+//				Count	18,	1,	13
+//				Count	19,	1,	13
+//				Count	20,	1,	13
+//				Count	21,	1,	13
+//				Count	22,	1,	14
+//				Count	23,	1,	14
+//			Count	24,	1,	14
+//			}
+//			SpawnCreate GenRes4
+//			{
+//				Location GenRes4
+//				Group GenRes4
+//				Team GenRes4
+//				SpawnBehavior <<RunOutOfDoor>>
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenRes4
+//				MinRespawnTime 90000
+//				Count	1,	1,	10
+//				Count	12,	1,	10
+//				Count	13,	1,	11
+//				Count	14,	1,	11
+//				Count	15,	1,	12
+//				Count	16,	1,	12
+//				Count	17,	1,	13
+//				Count	18,	1,	13
+//				Count	19,	1,	13
+//				Count	20,	1,	13
+//				Count	21,	1,	13
+//				Count	22,	1,	14
+//				Count	23,	1,	14
+//				Count	24,	1,	14
+//			}
+//			SpawnCreate GenRes5
+//			{
+//				Location GenRes5
+//				Group GenRes5
+//				Team GenRes5
+//				SpawnBehavior <<RunOutOfDoor>>
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenRes5
+//				MinRespawnTime 90000
+//				Count	1,	1,	10
+//				Count	12,	1,	10
+//				Count	13,	1,	11
+//				Count	14,	1,	11
+//				Count	15,	1,	12
+//				Count	16,	1,	12
+//				Count	17,	1,	13
+//				Count	18,	1,	13
+//				Count	19,	1,	13
+//				Count	20,	1,	13
+//				Count	21,	1,	13
+//				Count	22,	1,	14
+//				Count	23,	1,	14
+//				Count	24,	1,	14
+//			}
+//			SpawnCreate GenRes6
+//			{
+//				Location GenRes6
+//				Group GenRes6
+//				Team GenRes6
+//				SpawnBehavior <<RunOutOfDoor>>
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenRes6
+//				MinRespawnTime 90000
+//				Count	1,	1,	10
+//				Count	12,	1,	10
+//				Count	13,	1,	11
+//				Count	14,	1,	11
+//				Count	15,	1,	12
+//				Count	16,	1,	12
+//				Count	17,	1,	13
+//				Count	18,	1,	13
+//				Count	19,	1,	13
+//				Count	20,	1,	13
+//				Count	21,	1,	13
+//				Count	22,	1,	14
+//				Count	23,	1,	14
+//				Count	24,	1,	14
+//			}
+
+// Create Spawns: General WarWorks Trash
+			SpawnCreate GenWW1
+			{
+				Location GenWW1
+				Group GenWW1
+				Team GenWW1
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW1
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW2
+			{
+				Location GenWW2
+				Group GenWW2
+				Team GenWW2
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW2
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW3
+			{
+				Location GenWW3
+				Group GenWW3
+				Team GenWW3
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW3
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW4
+			{
+				Location GenWW4
+				Group GenWW4
+				Team GenWW4
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW4
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW5
+			{
+				Location GenWW5
+				Group GenWW5
+				Team GenWW5
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW5
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW6
+			{
+				Location GenWW6
+				Group GenWW6
+				Team GenWW6
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW6
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW7
+			{
+				Location GenWW7
+				Group GenWW7
+				Team GenWW7
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW7
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW8
+			{
+				Location GenWW8
+				Group GenWW8
+				Team GenWW8
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW8
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW9
+			{
+				Location GenWW9
+				Group GenWW9
+				Team GenWW9
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW9
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW10
+			{
+				Location GenWW10
+				Group GenWW10
+				Team GenWW10
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW10
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW11
+			{
+				Location GenWW11
+				Group GenWW11
+				Team GenWW11
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW11
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW12
+			{
+				Location GenWW12
+				Group GenWW12
+				Team GenWW12
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW12
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW13
+			{
+				Location GenWW13
+				Group GenWW13
+				Team GenWW13
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW13
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW14
+			{
+				Location GenWW14
+				Group GenWW14
+				Team GenWW14
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW14
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW15
+			{
+				Location GenWW15
+				Group GenWW15
+				Team GenWW15
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW15
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW16
+			{
+				Location GenWW16
+				Group GenWW16
+				Team GenWW16
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW16
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW17
+			{
+				Location GenWW17
+				Group GenWW17
+				Team GenWW17
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW17
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW18
+			{
+				Location GenWW18
+				Group GenWW18
+				Team GenWW18
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW18
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW19
+			{
+				Location GenWW19
+				Group GenWW19
+				Team GenWW19
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW19
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW20
+			{
+				Location GenWW20
+				Group GenWW20
+				Team GenWW20
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW20
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW21
+			{
+				Location GenWW21
+				Group GenWW21
+				Team GenWW21
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW21
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW22
+			{
+				Location GenWW22
+				Group GenWW22
+				Team GenWW22
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW22
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW23
+			{
+				Location GenWW23
+				Group GenWW23
+				Team GenWW23
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW23
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW24
+			{
+				Location GenWW24
+				Group GenWW24
+				Team GenWW24
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW24
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW25
+			{
+				Location GenWW25
+				Group GenWW25
+				Team GenWW25
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW25
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW26
+			{
+				Location GenWW26
+				Group GenWW26
+				Team GenWW26
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW26
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW27
+			{
+				Location GenWW27
+				Group GenWW27
+				Team GenWW27
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW27
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW28
+			{
+				Location GenWW28
+				Group GenWW28
+				Team GenWW28
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW28
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+			SpawnCreate GenWW29
+			{
+				Location GenWW29
+				Group GenWW29
+				Team GenWW29
+				SpawnBehavior <<DoNothing>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW29
+				MinRespawnTime 90000
+				Count	1,	1,	10
+				Count	12,	1,	10
+				Count	13,	1,	11
+				Count	14,	1,	11
+				Count	15,	1,	12
+				Count	16,	1,	12
+				Count	17,	1,	13
+				Count	18,	1,	13
+				Count	19,	1,	13
+				Count	20,	1,	13
+				Count	21,	1,	13
+				Count	22,	1,	14
+				Count	23,	1,	14
+				Count	24,	1,	14
+			}
+
+// Create Spawns: Escaping Resistance
+			SpawnCreate ResistanceRunnersA
+			{
+				Location BAFMWResistanceRunnersA
+				Group BAFMWResistanceRunnersA
+				Team ResistanceRunnersATeam
+				SpawnBehavior <<CombatOverride(Passive), RunOutOfDoor, Patrol(OverridePerceptionRadius(0), CombatOverride(Passive)), UsePower("SpawnCounter"), RunIntoDoor>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior <<CombatOverride(Passive), Untargetable, Unselectable, Invincible, HandsOnHead_Kneel(Timer(10)), DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ResistanceRunnersATeam
+				MinRespawnTime 10
+				Count	1,	3,	4
+				Count	12,	3,	4
+				Count	13,	3,	4
+				Count	14,	4,	5
+				Count	15,	5,	6
+				Count	16,	6,	7
+				Count	17,	6,	8
+				Count	18,	7,	9
+				Count	19,	8,	10
+				Count	20,	9,	11
+				Count	21,	9,	11
+				Count	22,	10,	12
+				Count	23,	10,	13
+				Count	24,	11,	14
+			}
+			SpawnCreate ResistanceRunnersB
+			{
+				Location BAFMWResistanceRunnersB
+				Group BAFMWResistanceRunnersB
+				Team ResistanceRunnersBTeam
+				SpawnBehavior <<CombatOverride(Passive), RunOutOfDoor, Patrol(OverridePerceptionRadius(0), CombatOverride(Passive)), UsePower("SpawnCounter"), RunIntoDoor>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior <<CombatOverride(Passive), Untargetable, Unselectable, Invincible, HandsOnHead_Kneel(Timer(10)), DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ResistanceRunnersBTeam
+				MinRespawnTime 10
+				Count	1,	3,	4
+				Count	12,	3,	4
+				Count	13,	3,	4
+				Count	14,	4,	5
+				Count	15,	5,	6
+				Count	16,	6,	7
+				Count	17,	6,	8
+				Count	18,	7,	9
+				Count	19,	8,	10
+				Count	20,	9,	11
+				Count	21,	9,	11
+				Count	22,	10,	12
+				Count	23,	10,	13
+				Count	24,	11,	14
+			}
+			SpawnCreate ResistanceRunnersC
+			{
+				Location BAFMWResistanceRunnersC
+				Group BAFMWResistanceRunnersC
+				Team ResistanceRunnersCTeam
+				SpawnBehavior <<CombatOverride(Passive), RunOutOfDoor, Patrol(OverridePerceptionRadius(0), CombatOverride(Passive)), UsePower("SpawnCounter"), RunIntoDoor>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior <<CombatOverride(Passive), Untargetable, Unselectable, Invincible, HandsOnHead_Kneel(Timer(10)), DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ResistanceRunnersCTeam
+				MinRespawnTime 10
+				Count	1,	3,	4
+				Count	12,	3,	4
+				Count	13,	3,	4
+				Count	14,	4,	5
+				Count	15,	5,	6
+				Count	16,	6,	7
+				Count	17,	6,	8
+				Count	18,	7,	9
+				Count	19,	8,	10
+				Count	20,	9,	11
+				Count	21,	9,	11
+				Count	22,	10,	12
+				Count	23,	10,	13
+				Count	24,	11,	14
+			}
+			SpawnCreate ResistanceRunnersD
+			{
+				Location BAFMWResistanceRunnersD
+				Group BAFMWResistanceRunnersD
+				Team ResistanceRunnersDTeam
+				SpawnBehavior <<CombatOverride(Passive), RunOutOfDoor, Patrol(OverridePerceptionRadius(0), CombatOverride(Passive)), UsePower("SpawnCounter"), RunIntoDoor>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior <<CombatOverride(Passive), Untargetable, Unselectable, Invincible, HandsOnHead_Kneel(Timer(10)), DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ResistanceRunnersDTeam
+				MinRespawnTime 10
+				Count	1,	3,	4
+				Count	12,	3,	4
+				Count	13,	3,	4
+				Count	14,	4,	5
+				Count	15,	5,	6
+				Count	16,	6,	7
+				Count	17,	6,	8
+				Count	18,	7,	9
+				Count	19,	8,	10
+				Count	20,	9,	11
+				Count	21,	9,	11
+				Count	22,	10,	12
+				Count	23,	10,	13
+				Count	24,	11,	14
+			}
+			SpawnCreate ResistanceRunnersE
+			{
+				Location BAFMWResistanceRunnersE
+				Group BAFMWResistanceRunnersE
+				Team ResistanceRunnersETeam
+				SpawnBehavior <<CombatOverride(Passive), RunOutOfDoor, Patrol(OverridePerceptionRadius(0), CombatOverride(Passive)), UsePower("SpawnCounter"), RunIntoDoor>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior <<CombatOverride(Passive), Untargetable, Unselectable, Invincible, HandsOnHead_Kneel(Timer(10)), DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ResistanceRunnersETeam
+				MinRespawnTime 10
+				Count	1,	3,	4
+				Count	12,	3,	4
+				Count	13,	3,	4
+				Count	14,	4,	5
+				Count	15,	5,	6
+				Count	16,	6,	7
+				Count	17,	6,	8
+				Count	18,	7,	9
+				Count	19,	8,	10
+				Count	20,	9,	11
+				Count	21,	9,	11
+				Count	22,	10,	12
+				Count	23,	10,	13
+				Count	24,	11,	14
+			}
+			SpawnCreate ResistanceRunnersF
+			{
+				Location BAFMWResistanceRunnersF
+				Group BAFMWResistanceRunnersF
+				Team ResistanceRunnersFTeam
+				SpawnBehavior <<CombatOverride(Passive), RunOutOfDoor, Patrol(OverridePerceptionRadius(0), CombatOverride(Passive)), UsePower("SpawnCounter"), RunIntoDoor>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior <<CombatOverride(Passive), Untargetable, Unselectable, Invincible, HandsOnHead_Kneel(Timer(10)), DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ResistanceRunnersFTeam
+				MinRespawnTime 10
+				Count	1,	3,	4
+				Count	12,	3,	4
+				Count	13,	3,	4
+				Count	14,	4,	5
+				Count	15,	5,	6
+				Count	16,	6,	7
+				Count	17,	6,	8
+				Count	18,	7,	9
+				Count	19,	8,	10
+				Count	20,	9,	11
+				Count	21,	9,	11
+				Count	22,	10,	12
+				Count	23,	10,	13
+				Count	24,	11,	14
+			}
+
+// Create Spawns: Boss Resser for final battle
+			SpawnCreate BossResser
+			{
+				Location BAFBossResser
+				Group BAFBossResser
+				Team BossResserTeam
+				//SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BossResserTeam
+			}
+
+// Create Spawns: Guard Tower Entities, Stage 2
+			SpawnCreate GuardTowerAP2
+			{
+				Location BAFGuardTowerA
+				Group BAFGuardTowerA_P2
+				Team GuardTowerAP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerAP2Team
+			}
+			SpawnCreate GuardTowerBP2
+			{
+				Location BAFGuardTowerB
+				Group BAFGuardTowerB_P2
+				Team GuardTowerBP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerBP2Team
+			}
+			SpawnCreate GuardTowerCP2
+			{
+				Location BAFGuardTowerC
+				Group BAFGuardTowerC_P2
+				Team GuardTowerCP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerCP2Team
+			}
+			SpawnCreate GuardTowerDP2
+			{
+				Location BAFGuardTowerD
+				Group BAFGuardTowerD_P2
+				Team GuardTowerDP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerDP2Team
+			}
+			SpawnCreate GuardTowerEP2
+			{
+				Location BAFGuardTowerE
+				Group BAFGuardTowerE_P2
+				Team GuardTowerEP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerEP2Team
+			}
+			SpawnCreate GuardTowerFP2
+			{
+				Location BAFGuardTowerF
+				Group BAFGuardTowerF_P2
+				Team GuardTowerFP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerFP2Team
+			}
+			SpawnCreate GuardTowerGP2
+			{
+				Location BAFGuardTowerG
+				Group BAFGuardTowerG_P2
+				Team GuardTowerGP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerGP2Team
+			}
+			SpawnCreate GuardTowerHP2
+			{
+				Location BAFGuardTowerH
+				Group BAFGuardTowerH_P2
+				Team GuardTowerHP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerHP2Team
+			}
+			SpawnCreate GuardTowerIP2
+			{
+				Location BAFGuardTowerI
+				Group BAFGuardTowerI_P2
+				Team GuardTowerIP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerIP2Team
+			}
+			SpawnCreate GuardTowerJP2
+			{
+				Location BAFGuardTowerJ
+				Group BAFGuardTowerJ_P2
+				Team GuardTowerJP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerJP2Team
+			}
+			SpawnCreate GuardTowerKP2
+			{
+				Location BAFGuardTowerK
+				Group BAFGuardTowerK_P2
+				Team GuardTowerKP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerKP2Team
+			}
+			SpawnCreate GuardTowerLP2
+			{
+				Location BAFGuardTowerL
+				Group BAFGuardTowerL_P2
+				Team GuardTowerLP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerLP2Team
+			}
+			SpawnCreate GuardTowerMP2
+			{
+				Location BAFGuardTowerM
+				Group BAFGuardTowerM_P2
+				Team GuardTowerMP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerMP2Team
+			}
+			SpawnCreate GuardTowerNP2
+			{
+				Location BAFGuardTowerN
+				Group BAFGuardTowerN_P2
+				Team GuardTowerNP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerNP2Team
+			}
+			SpawnCreate GuardTowerOP2
+			{
+				Location BAFGuardTowerO
+				Group BAFGuardTowerO_P2
+				Team GuardTowerOP2Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerOP2Team
+			}
+
+// Create Spawns: Guard Tower Entities, Stage 4
+			SpawnCreate GuardTowerAP4
+			{
+				Location BAFGuardTowerA
+				Group BAFGuardTowerA_P4
+				Team GuardTowerAP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerAP4Team
+			}
+			SpawnCreate GuardTowerBP4
+			{
+				Location BAFGuardTowerB
+				Group BAFGuardTowerB_P4
+				Team GuardTowerBP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerBP4Team
+			}
+			SpawnCreate GuardTowerCP4
+			{
+				Location BAFGuardTowerC
+				Group BAFGuardTowerC_P4
+				Team GuardTowerCP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerCP4Team
+			}
+			SpawnCreate GuardTowerDP4
+			{
+				Location BAFGuardTowerD
+				Group BAFGuardTowerD_P4
+				Team GuardTowerDP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerDP4Team
+			}
+			SpawnCreate GuardTowerEP4
+			{
+				Location BAFGuardTowerE
+				Group BAFGuardTowerE_P4
+				Team GuardTowerEP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerEP4Team
+			}
+			SpawnCreate GuardTowerFP4
+			{
+				Location BAFGuardTowerF
+				Group BAFGuardTowerF_P4
+				Team GuardTowerFP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerFP4Team
+			}
+			SpawnCreate GuardTowerGP4
+			{
+				Location BAFGuardTowerG
+				Group BAFGuardTowerG_P4
+				Team GuardTowerGP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerGP4Team
+			}
+			SpawnCreate GuardTowerHP4
+			{
+				Location BAFGuardTowerH
+				Group BAFGuardTowerH_P4
+				Team GuardTowerHP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerHP4Team
+			}
+			SpawnCreate GuardTowerIP4
+			{
+				Location BAFGuardTowerI
+				Group BAFGuardTowerI_P4
+				Team GuardTowerIP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerIP4Team
+			}
+			SpawnCreate GuardTowerJP4
+			{
+				Location BAFGuardTowerJ
+				Group BAFGuardTowerJ_P4
+				Team GuardTowerJP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerJP4Team
+			}
+			SpawnCreate GuardTowerKP4
+			{
+				Location BAFGuardTowerK
+				Group BAFGuardTowerK_P4
+				Team GuardTowerKP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerKP4Team
+			}
+			SpawnCreate GuardTowerLP4
+			{
+				Location BAFGuardTowerL
+				Group BAFGuardTowerL_P4
+				Team GuardTowerLP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerLP4Team
+			}
+			SpawnCreate GuardTowerMP4
+			{
+				Location BAFGuardTowerM
+				Group BAFGuardTowerM_P4
+				Team GuardTowerMP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerMP4Team
+			}
+			SpawnCreate GuardTowerNP4
+			{
+				Location BAFGuardTowerN
+				Group BAFGuardTowerN_P4
+				Team GuardTowerNP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerNP4Team
+			}
+			SpawnCreate GuardTowerOP4
+			{
+				Location BAFGuardTowerO
+				Group BAFGuardTowerO_P4
+				Team GuardTowerOP4Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerOP4Team
+			}
+
+// Create Spawns: Guard Tower Entities, Stage 5
+			SpawnCreate GuardTowerAP5
+			{
+				Location BAFGuardTowerA
+				Group BAFGuardTowerA_P5
+				Team GuardTowerAP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerAP5Team
+			}
+			SpawnCreate GuardTowerBP5
+			{
+				Location BAFGuardTowerB
+				Group BAFGuardTowerB_P5
+				Team GuardTowerBP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerBP5Team
+			}
+			SpawnCreate GuardTowerCP5
+			{
+				Location BAFGuardTowerC
+				Group BAFGuardTowerC_P5
+				Team GuardTowerCP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerCP5Team
+			}
+			SpawnCreate GuardTowerDP5
+			{
+				Location BAFGuardTowerD
+				Group BAFGuardTowerD_P5
+				Team GuardTowerDP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerDP5Team
+			}
+			SpawnCreate GuardTowerEP5
+			{
+				Location BAFGuardTowerE
+				Group BAFGuardTowerE_P5
+				Team GuardTowerEP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerEP5Team
+			}
+			SpawnCreate GuardTowerFP5
+			{
+				Location BAFGuardTowerF
+				Group BAFGuardTowerF_P5
+				Team GuardTowerFP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerFP5Team
+			}
+			SpawnCreate GuardTowerGP5
+			{
+				Location BAFGuardTowerG
+				Group BAFGuardTowerG_P5
+				Team GuardTowerGP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerGP5Team
+			}
+			SpawnCreate GuardTowerHP5
+			{
+				Location BAFGuardTowerH
+				Group BAFGuardTowerH_P5
+				Team GuardTowerHP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerHP5Team
+			}
+			SpawnCreate GuardTowerIP5
+			{
+				Location BAFGuardTowerI
+				Group BAFGuardTowerI_P5
+				Team GuardTowerIP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerIP5Team
+			}
+			SpawnCreate GuardTowerJP5
+			{
+				Location BAFGuardTowerJ
+				Group BAFGuardTowerJ_P5
+				Team GuardTowerJP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerJP5Team
+			}
+			SpawnCreate GuardTowerKP5
+			{
+				Location BAFGuardTowerK
+				Group BAFGuardTowerK_P5
+				Team GuardTowerKP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerKP5Team
+			}
+			SpawnCreate GuardTowerLP5
+			{
+				Location BAFGuardTowerL
+				Group BAFGuardTowerL_P5
+				Team GuardTowerLP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerLP5Team
+			}
+			SpawnCreate GuardTowerMP5
+			{
+				Location BAFGuardTowerM
+				Group BAFGuardTowerM_P5
+				Team GuardTowerMP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerMP5Team
+			}
+			SpawnCreate GuardTowerNP5
+			{
+				Location BAFGuardTowerN
+				Group BAFGuardTowerN_P5
+				Team GuardTowerNP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerNP5Team
+			}
+			SpawnCreate GuardTowerOP5
+			{
+				Location BAFGuardTowerO
+				Group BAFGuardTowerO_P5
+				Team GuardTowerOP5Team
+				SpawnBehavior <<Combat(CombatOverride(Aggressive))>>
+				//MoveToMarker Villagesquare_01
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GuardTowerOP5Team
+			}
+
+// Create Glowies: Guard Tower Shutoff Terminals			
+			GlowieCreate GuardTowerPanelA
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelA
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelB
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelB
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelC
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelC
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelD
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelD
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelE
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelE
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelF
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelF
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelG
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelG
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelH
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelH
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelI
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelI
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelJ
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelJ
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelK
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelK
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelL
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelL
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelM
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelM
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelN
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelN
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+			GlowieCreate GuardTowerPanelO
+			{
+				DisplayName P1223039791
+				Location GuardTowerPanelO
+				Quantity 1
+				ResetDelay 30
+				Model OO_RV_FC_Terminal01
+				Interact P3318189424
+				Interrupt P2589200594
+				Complete P3326655226
+				BarText P2848147183
+				InteractTime 1
+			}
+		}
+		Action SetupGlowies
+		{
+			GlowieControl PlaceA
+			{
+				Type Place
+				Glowie GuardTowerPanelA
+			}
+			GlowieControl PlaceB
+			{
+				Type Place
+				Glowie GuardTowerPanelB
+			}
+			GlowieControl PlaceC
+			{
+				Type Place
+				Glowie GuardTowerPanelC
+			}
+			GlowieControl PlaceD
+			{
+				Type Place
+				Glowie GuardTowerPanelD
+			}
+			GlowieControl PlaceE
+			{
+				Type Place
+				Glowie GuardTowerPanelE
+			}
+			GlowieControl PlaceF
+			{
+				Type Place
+				Glowie GuardTowerPanelF
+			}
+			GlowieControl PlaceG
+			{
+				Type Place
+				Glowie GuardTowerPanelG
+			}
+			GlowieControl PlaceH
+			{
+				Type Place
+				Glowie GuardTowerPanelH
+			}
+			GlowieControl PlaceI
+			{
+				Type Place
+				Glowie GuardTowerPanelI
+			}
+			GlowieControl PlaceJ
+			{
+				Type Place
+				Glowie GuardTowerPanelJ
+			}
+			GlowieControl PlaceK
+			{
+				Type Place
+				Glowie GuardTowerPanelK
+			}
+			GlowieControl PlaceL
+			{
+				Type Place
+				Glowie GuardTowerPanelL
+			}
+			GlowieControl PlaceM
+			{
+				Type Place
+				Glowie GuardTowerPanelM
+			}
+			GlowieControl PlaceN
+			{
+				Type Place
+				Glowie GuardTowerPanelN
+			}
+			GlowieControl PlaceO
+			{
+				Type Place
+				Glowie GuardTowerPanelO
+			}
+		}
+		
+//Activate Badge Checker		
+		Action
+		{
+			TeamControl
+			{
+				Team BadgeChecker
+				Type Activate
+			}
+		}
+
+//Activate Caption Manager
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team CaptionManagerA
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage Cutscene
+	}
+}
+
+Stage Cutscene
+{
+	DisplayName P2707677793
+	ToolTip P1895544780
+	
+	Startup
+	{
+		Action
+		{
+			SetScriptValue CutsceneStarted 0
+		}
+		Action
+		{
+			SetScriptValue WarmthBuffSpawned 0
+		}
+		Action
+		{
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+		}
+	}
+
+//Start Warmth Spawn Block
+
+	Trigger WarmthBuffActivation
+	{
+		Requires eventLockedByGroup? ! WarmthBuffSpawned scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Warmth of Prometheus Granted>>
+			SetScriptValue WarmthBuffSpawned 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team WarmthBuff
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1172875117
+				Color FF9900
+			}
+		}
+	}
+
+	Trigger WarmthBuffBlocked
+	{
+		Requires eventLockedByGroup? WarmthBuffSpawned scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Warmth of Prometheus Disabled>>
+			SetScriptValue WarmthBuffSpawned 1
+		}
+	}
+
+//End Warmth Spawn Block
+
+//This counter detects when players have entered the 3rd room of the complex.
+	Counter PlayersInStartVolume
+	{
+		Type ZEPlayers
+		VolumeName Start
+	}
+
+//This counter detects the defeat of the entity which checks to see if any players do not have the completion badge.
+//	Counter BadgeCheckerDefeated
+//	{
+//		Type Team
+//		Team BadgeChecker
+//		Direction Up
+//		Count 1
+//	}
+
+//This timer is used to indicate when the cutscene has ended and the stage can be flipped.
+	Timer EndCutscene
+	{
+		Duration 00:80
+	}
+	
+//This timer starts the cutscene automatically if no players have entered the start volume within 5 minutes.
+	Timer TimeElapsed
+	{
+		Duration 05:00
+	}
+
+	Trigger StartCutscene-Volume
+	
+		Requires PlayersInStartVolume count> 1 >= CutsceneStarted scriptvalue> 0 == && Cutscene-Skippable scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Cutscene Started by Volume>>
+		}
+		Action
+		{
+			Reset EndCutscene
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team Cutscene
+			}
+		}
+		Action
+		{
+			SetScriptValue CutsceneStarted 1
+		}
+	}
+
+	Trigger StartCutscene-Timer
+	{
+		Requires TimeElapsed complete> CutsceneStarted scriptvalue> 0 == && Cutscene-Skippable scriptvalue> 0 == &&
+		
+		Action
+		{
+			DebugPrint <<Cutscene Started by Timer>>
+		}
+		Action
+		{
+			Reset EndCutscene
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team Cutscene
+			}
+		}
+		Action
+		{
+			SetScriptValue CutsceneStarted 1
+		}
+	}
+
+	Trigger EndCutscene-AllBadges-Volume
+	{
+		Requires PlayersInStartVolume count> 1 >= CutsceneStarted scriptvalue> 0 == && Cutscene-Skippable scriptvalue> 0 == ! &&
+
+		Action
+		{
+			DebugPrint <<Cutscene Skipped by Volume>>
+		}
+		
+		NextStage Riots
+	}
+	
+	Trigger EndCutscene-AllBadges-Timer
+	{
+		Requires TimeElapsed complete> CutsceneStarted scriptvalue> 0 == && Cutscene-Skippable scriptvalue> 0 == ! &&
+		
+		Action
+		{
+			DebugPrint <<Cutscene Skipped by Timer>>
+		}
+
+		NextStage Riots
+	}
+	Trigger EndCutscene-Stage
+	{
+		Requires CutsceneStarted scriptvalue> 1 == EndCutscene complete> &&
+
+		Action
+		{
+			DebugPrint <<Cutscene Completed>>
+		}
+
+		NextStage Riots
+	}
+
+	UICollection OpeningCutscene
+	{
+		UIItem Directions
+		{
+			Type Text
+			Text P3793717247
+		}
+		UIItem CutsceneAutostart
+		{
+			Type Timer
+			Timer TimeElapsed
+			Text P1199669832
+			ShortText P3107402947
+			HideIf CutsceneStarted scriptvalue> 1 ==
+		}
+		UIItem TimeRemaining
+		{
+			Type Timer
+			Timer EndCutscene
+			Text P1199669832
+			ShortText P3107402947
+			HideIf CutsceneStarted scriptvalue> 0 ==
+		}
+	}	
+
+	Shutdown
+	{
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team Cutscene
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team BadgeChecker
+			}
+		}
+	}
+}
+
+Stage Riots
+{
+	DisplayName P1595408192
+	ToolTip P3388653799
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:00
+	}
+	
+	Trigger HospitalDoor-Unlock-Recovery
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1533101862
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//End Hospital Door Block
+
+	StartUp
+	{
+		Action DebugNote
+		{
+			DebugPrint <<Starting Stage Riots>>
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage1 0
+		}
+		Action TurnOnSpawns
+		{
+//			TeamControl StartGenRes1
+//			{
+//				Type Activate
+//				Team GenRes1
+//			}
+//			TeamControl StartGenRes2
+//			{
+//				Type Activate
+//				Team GenRes2
+//			}
+//			TeamControl StartGenRes3
+//			{
+//				Type Activate
+//				Team GenRes3
+//			}
+//			TeamControl StartGenRes4
+//			{
+//				Type Activate
+//				Team GenRes4
+//			}
+//			TeamControl StartGenRes5
+//			{
+//				Type Activate
+//				Team GenRes5
+//			}
+//			TeamControl StartGenRes6
+//			{
+//				Type Activate
+//				Team GenRes6
+//			}
+			TeamControl StartGenWW1
+			{
+				Type Activate
+				Team GenWW1
+			}
+			TeamControl StartGenWW2
+			{
+				Type Activate
+				Team GenWW2
+			}
+			TeamControl StartGenWW3
+			{
+				Type Activate
+				Team GenWW3
+			}
+			TeamControl StartGenWW4
+			{
+				Type Activate
+				Team GenWW4
+			}
+			TeamControl StartGenWW5
+			{
+				Type Activate
+				Team GenWW5
+			}
+			TeamControl StartGenWW6
+			{
+				Type Activate
+				Team GenWW6
+			}
+			TeamControl StartGenWW7
+			{
+				Type Activate
+				Team GenWW7
+			}
+			TeamControl StartGenWW8
+			{
+				Type Activate
+				Team GenWW8
+			}
+			TeamControl StartGenWW9
+			{
+				Type Activate
+				Team GenWW9
+			}
+			TeamControl StartGenWW10
+			{
+				Type Activate
+				Team GenWW10
+			}
+			TeamControl StartGenWW11
+			{
+				Type Activate
+				Team GenWW11
+			}
+			TeamControl StartGenWW12
+			{
+				Type Activate
+				Team GenWW12
+			}
+			TeamControl StartGenWW13
+			{
+				Type Activate
+				Team GenWW13
+			}
+			TeamControl StartGenWW14
+			{
+				Type Activate
+				Team GenWW14
+			}
+			TeamControl StartGenWW15
+			{
+				Type Activate
+				Team GenWW15
+			}
+			TeamControl StartGenWW16
+			{
+				Type Activate
+				Team GenWW16
+			}
+			TeamControl StartGenWW17
+			{
+				Type Activate
+				Team GenWW17
+			}
+			TeamControl StartGenWW18
+			{
+				Type Activate
+				Team GenWW18
+			}
+			TeamControl StartGenWW19
+			{
+				Type Activate
+				Team GenWW19
+			}
+			TeamControl StartGenWW20
+			{
+				Type Activate
+				Team GenWW20
+			}
+			TeamControl StartGenWW21
+			{
+				Type Activate
+				Team GenWW21
+			}
+			TeamControl StartGenWW22
+			{
+				Type Activate
+				Team GenWW22
+			}
+			TeamControl StartGenWW23
+			{
+				Type Activate
+				Team GenWW23
+			}
+			TeamControl StartGenWW24
+			{
+				Type Activate
+				Team GenWW24
+			}
+			TeamControl StartGenWW25
+			{
+				Type Activate
+				Team GenWW25
+			}
+			TeamControl StartGenWW26
+			{
+				Type Activate
+				Team GenWW26
+			}
+			TeamControl StartGenWW27
+			{
+				Type Activate
+				Team GenWW27
+			}
+			TeamControl StartGenWW28
+			{
+				Type Activate
+				Team GenWW28
+			}
+			TeamControl StartGenWW29
+			{
+				Type Activate
+				Team GenWW29
+			}
+		}
+	}
+
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianResistance
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianWarworksEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+
+	Counter DefeatResistanceCount
+	{
+		Type VillainGroup
+		Count 40
+		VillainGroup PraetorianResistance
+	}
+	Counter DefeatWarWorksCount
+	{
+		Type VillainGroup
+		Count 40
+		VillainGroup PraetorianWarworksEndgame
+	}
+
+	Timer Captions-Start-Stage1-Timer
+	{
+		Duration 00:05
+	}
+
+	Trigger Captions-Start-Stage1
+	{
+		Requires Captions-Start-Stage1-Timer complete> Captions-Started-Stage1 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage1 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerA
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth99")>>
+			}
+		}
+	}
+
+	Trigger DefeatCountSuccess
+	{
+		Requires DefeatResistanceCount count> DefeatWarWorksCount count> + 40 >=
+		Action DefeatDone
+		{
+			DebugPrint <<Riots success: switching to Suppression>>
+		}
+
+		NextStage Suppression
+	}
+	UICollection UIRiots
+	{
+		UIItem DefeatCountUI
+		{
+			Type BarBlue
+			Text P3088976244
+			ShortText P3671015092
+			Current DefeatResistanceCount count> DefeatWarWorksCount count> +
+			Target 40
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Riots>>
+		}
+		Action TurnOffSpawns
+		{
+//			TeamControl StopGenRes1
+//			{
+//				Type Deactivate
+//				Team GenRes1
+//			}
+//			TeamControl StopGenRes2
+//			{
+//				Type Deactivate
+//				Team GenRes2
+//			}
+//			TeamControl StopGenRes3
+//			{
+//				Type Deactivate
+//				Team GenRes3
+//			}
+//			TeamControl StopGenRes4
+//			{
+//				Type Deactivate
+//				Team GenRes4
+//			}
+//			TeamControl StopGenRes5
+//			{
+//				Type Deactivate
+//				Team GenRes5
+//			}
+//			TeamControl StopGenRes6
+//			{
+//				Type Deactivate
+//				Team GenRes6
+//			}
+			TeamControl StopGenWW1
+			{
+				Type Deactivate
+				Team GenWW1
+			}
+			TeamControl StopGenWW2
+			{
+				Type Deactivate
+				Team GenWW2
+			}
+			TeamControl StopGenWW3
+			{
+				Type Deactivate
+				Team GenWW3
+			}
+			TeamControl StopGenWW4
+			{
+				Type Deactivate
+				Team GenWW4
+			}
+			TeamControl StopGenWW5
+			{
+				Type Deactivate
+				Team GenWW5
+			}
+			TeamControl StopGenWW6
+			{
+				Type Deactivate
+				Team GenWW6
+			}
+			TeamControl StopGenWW7
+			{
+				Type Deactivate
+				Team GenWW7
+			}
+			TeamControl StopGenWW8
+			{
+				Type Deactivate
+				Team GenWW8
+			}
+			TeamControl StopGenWW9
+			{
+				Type Deactivate
+				Team GenWW9
+			}
+			TeamControl StopGenWW10
+			{
+				Type Deactivate
+				Team GenWW10
+			}
+			TeamControl StopGenWW11
+			{
+				Type Deactivate
+				Team GenWW11
+			}
+			TeamControl StopGenWW12
+			{
+				Type Deactivate
+				Team GenWW12
+			}
+			TeamControl StopGenWW13
+			{
+				Type Deactivate
+				Team GenWW13
+			}
+			TeamControl StopGenWW14
+			{
+				Type Deactivate
+				Team GenWW14
+			}
+			TeamControl StopGenWW15
+			{
+				Type Deactivate
+				Team GenWW15
+			}
+			TeamControl StopGenWW16
+			{
+				Type Deactivate
+				Team GenWW16
+			}
+			TeamControl StopGenWW17
+			{
+				Type Deactivate
+				Team GenWW17
+			}
+			TeamControl StopGenWW18
+			{
+				Type Deactivate
+				Team GenWW18
+			}
+			TeamControl StopGenWW19
+			{
+				Type Deactivate
+				Team GenWW19
+			}
+			TeamControl StopGenWW20
+			{
+				Type Deactivate
+				Team GenWW20
+			}
+			TeamControl StopGenWW21
+			{
+				Type Deactivate
+				Team GenWW21
+			}
+			TeamControl StopGenWW22
+			{
+				Type Deactivate
+				Team GenWW22
+			}
+			TeamControl StopGenWW23
+			{
+				Type Deactivate
+				Team GenWW23
+			}
+			TeamControl StopGenWW24
+			{
+				Type Deactivate
+				Team GenWW24
+			}
+			TeamControl StopGenWW25
+			{
+				Type Deactivate
+				Team GenWW25
+			}
+			TeamControl StopGenWW26
+			{
+				Type Deactivate
+				Team GenWW26
+			}
+			TeamControl StopGenWW27
+			{
+				Type Deactivate
+				Team GenWW27
+			}
+			TeamControl StopGenWW28
+			{
+				Type Deactivate
+				Team GenWW28
+			}
+			TeamControl StopGenWW29
+			{
+				Type Deactivate
+				Team GenWW29
+			}
+		}
+	}
+}
+
+Stage Suppression
+{
+	DisplayName P756488014
+	ToolTip P1811293725
+	AwardKarma
+	KarmaThreshold 10
+
+	StageActiveRequires ZonePlayers count> 8 > ZonePlayersActive count> ZonePlayers count> / 0.25 > &&
+
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianResistance
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianWarworksEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelA
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelB
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelC
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelD
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelE
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelF
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelG
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelH
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelI
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelJ
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelK
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelL
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelM
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelN
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelO
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+
+	StartUp
+	{
+		Action StartSuppression
+		{
+			DebugPrint <<Starting Stage Suppression>>
+			WaypointPlace BivouacWaypoint BivouacWaypoint
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 0
+		}
+		Action
+		{
+			SetScriptValue NightstarPulledAwayStage2 0
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage2 0
+		}
+		Action ActivateGlowies
+		{
+			GlowieControl TurnOnA
+			{
+				Type Activate
+				Glowie GuardTowerPanelA
+			}
+			GlowieControl TurnOnB
+			{
+				Type Activate
+				Glowie GuardTowerPanelB
+			}
+			GlowieControl TurnOnC
+			{
+				Type Activate
+				Glowie GuardTowerPanelC
+			}
+			GlowieControl TurnOnD
+			{
+				Type Activate
+				Glowie GuardTowerPanelD
+			}
+			GlowieControl TurnOnE
+			{
+				Type Activate
+				Glowie GuardTowerPanelE
+			}
+			GlowieControl TurnOnF
+			{
+				Type Activate
+				Glowie GuardTowerPanelF
+			}
+			GlowieControl TurnOnG
+			{
+				Type Activate
+				Glowie GuardTowerPanelG
+			}
+			GlowieControl TurnOnH
+			{
+				Type Activate
+				Glowie GuardTowerPanelH
+			}
+			GlowieControl TurnOnI
+			{
+				Type Activate
+				Glowie GuardTowerPanelI
+			}
+			GlowieControl TurnOnJ
+			{
+				Type Activate
+				Glowie GuardTowerPanelJ
+			}
+			GlowieControl TurnOnK
+			{
+				Type Activate
+				Glowie GuardTowerPanelK
+			}
+			GlowieControl TurnOnL
+			{
+				Type Activate
+				Glowie GuardTowerPanelL
+			}
+			GlowieControl TurnOnM
+			{
+				Type Activate
+				Glowie GuardTowerPanelM
+			}
+			GlowieControl TurnOnN
+			{
+				Type Activate
+				Glowie GuardTowerPanelN
+			}
+			GlowieControl TurnOnO
+			{
+				Type Activate
+				Glowie GuardTowerPanelO
+			}
+		}
+		Action TurnOnSpawns
+		{
+			TeamControl StartNightstar
+			{
+				Type Activate
+				Team NightstarTeam
+			}
+		}
+		Action TurnOnInitialPets
+		{
+			Delay 5
+			TeamControl StartNightstarInitialPets
+			{
+				Type Activate
+				Team NightstarInitialPets
+			}
+			TeamControl StartWatcher
+			{
+				Type Activate
+				Team NightstarWatcher-Stage2
+			}
+		}
+		Action TurnOnTowers
+		{
+			TeamControl StartGuardTowerA
+			{
+				Type Activate
+				Team GuardTowerAP2Team
+			}
+			TeamControl StartGuardTowerB
+			{
+				Type Activate
+				Team GuardTowerBP2Team
+			}
+			TeamControl StartGuardTowerC
+			{
+				Type Activate
+				Team GuardTowerCP2Team
+			}
+			TeamControl StartGuardTowerD
+			{
+				Type Activate
+				Team GuardTowerDP2Team
+			}
+			TeamControl StartGuardTowerE
+			{
+				Type Activate
+				Team GuardTowerEP2Team
+			}
+			TeamControl StartGuardTowerF
+			{
+				Type Activate
+				Team GuardTowerFP2Team
+			}
+			TeamControl StartGuardTowerG
+			{
+				Type Activate
+				Team GuardTowerGP2Team
+			}
+			TeamControl StartGuardTowerH
+			{
+				Type Activate
+				Team GuardTowerHP2Team
+			}
+			TeamControl StartGuardTowerI
+			{
+				Type Activate
+				Team GuardTowerIP2Team
+			}
+			TeamControl StartGuardTowerJ
+			{
+				Type Activate
+				Team GuardTowerJP2Team
+			}
+			TeamControl StartGuardTowerK
+			{
+				Type Activate
+				Team GuardTowerKP2Team
+			}
+			TeamControl StartGuardTowerL
+			{
+				Type Activate
+				Team GuardTowerLP2Team
+			}
+			TeamControl StartGuardTowerM
+			{
+				Type Activate
+				Team GuardTowerMP2Team
+			}
+			TeamControl StartGuardTowerN
+			{
+				Type Activate
+				Team GuardTowerNP2Team
+			}
+			TeamControl StartGuardTowerO
+			{
+				Type Activate
+				Team GuardTowerOP2Team
+			}
+		}
+		Action FloatersStage2Begins
+		{
+			Floater NightstarArrive
+			{
+				Message P3092910744
+				Color ff9900
+			}
+			Floater GuardTowersActive
+			{
+				Message P795092952
+				Color ff9900
+			}
+		}
+	}
+	Counter NightstarCount
+	{
+		Type Team
+		Count 1
+		Team NightstarTeam
+	}
+	Counter NightstarHealth
+	{
+		Type BossHealth
+		Team NightstarTeam
+	}
+	Counter NightstarWatcherCount-Stage2
+	{
+		Type Team
+		Team NightstarWatcher-Stage2
+		Direction Up
+		Count 1
+	}
+	Counter GuardTowerClicksA
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelA
+	}
+	Counter GuardTowerClicksB
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelB
+	}
+	Counter GuardTowerClicksC
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelC
+	}
+	Counter GuardTowerClicksD
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelD
+	}
+	Counter GuardTowerClicksE
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelE
+	}
+	Counter GuardTowerClicksF
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelF
+	}
+	Counter GuardTowerClicksG
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelG
+	}
+	Counter GuardTowerClicksH
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelH
+	}
+	Counter GuardTowerClicksI
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelI
+	}
+	Counter GuardTowerClicksJ
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelJ
+	}
+	Counter GuardTowerClicksK
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelK
+	}
+	Counter GuardTowerClicksL
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelL
+	}
+	Counter GuardTowerClicksM
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelM
+	}
+	Counter GuardTowerClicksN
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelN
+	}
+	Counter GuardTowerClicksO
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelO
+	}
+	
+	Timer NightstarWaveDelay
+	{
+		Duration 0:45
+	}
+	Timer NightstarInitialDelay
+	{
+		Duration 0:30
+	}
+	Timer NightstarWaveDisplay
+	{
+		Duration 0:30
+	}
+
+	Timer Captions-Start-Stage2-Timer
+	{
+		Duration 00:05
+	}
+
+	Trigger Captions-Start-Stage2
+	{
+		Requires Captions-Start-Stage2-Timer complete> Captions-Started-Stage2 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage2 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerA
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth89")>>
+			}
+		}
+	}
+
+	Trigger NightstarInitialPop
+	{
+		Requires NightstarInitialDelay complete>
+		Action
+		{	
+			Floater
+			{
+				Message P1442033881
+				Color ff9900
+			}
+			Reset NightstarWaveDelay
+			Reset NightstarWaveDisplay
+			TeamControl
+			{
+				Type Activate
+				Team NightstarWavePets
+			}
+		}
+		Action
+		{
+			TimerControl
+			{
+				Timer NightstarWaveDisplay
+				Type Add
+				Duration 0:15
+			}
+		}
+	}
+
+	Trigger NightstarWavePop
+	{
+		Requires NightstarWaveDelay complete>
+		Action
+		{
+			Floater
+			{
+				Message P1442033881
+				Color ff9900
+			}
+			Reset NightstarWavePop
+			Reset NightstarWaveDelay
+			Reset NightstarWaveDisplay
+		}
+		Action
+		{
+			TimerControl
+			{
+				Timer NightstarWaveDisplay
+				Type Add
+				Duration 0:15
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team NightstarWavePets
+			}
+		}
+	}
+
+	Trigger NightstarPulledFromSpawn-Stage2
+	{
+		Requires NightstarWatcherCount-Stage2 complete> NightstarCount complete> ! &&
+		Action
+		{
+			SetScriptValue NightstarPulledAwayStage2 1
+		}
+	}
+
+	Trigger NightstarCountSuccess
+	{
+		Requires NightstarCount complete>
+		Action NightstarDone
+		{
+			DebugPrint <<Suppression success: switching to Escape>>
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable AstralMerit1
+				}
+			}
+		}
+		NextStage Escape
+	}
+	Trigger GuardTowerAHackSuccess
+	{
+		Requires GuardTowerClicksA complete>
+		Action GuardTowerAHacked
+		{
+			DebugPrint <<Guard Tower A Hacked>>
+			TeamControl SuppressGuardTowerA
+			{
+				Type DoBehavior
+				Team GuardTowerAP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerAReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower A Reset>>
+			Reset GuardTowerAHackSuccess GuardTowerClicksA
+		}
+	}
+	Trigger GuardTowerBHackSuccess
+	{
+		Requires GuardTowerClicksB complete>
+		Action GuardTowerBHacked
+		{
+			DebugPrint <<Guard Tower B Hacked>>
+			TeamControl SuppressGuardTowerB
+			{
+				Type DoBehavior
+				Team GuardTowerBP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerBReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower B Reset>>
+			Reset GuardTowerBHackSuccess GuardTowerClicksB
+		}
+	}
+	Trigger GuardTowerCHackSuccess
+	{
+		Requires GuardTowerClicksC complete>
+		Action GuardTowerCHacked
+		{
+			DebugPrint <<Guard Tower C Hacked>>
+			TeamControl SuppressGuardTowerC
+			{
+				Type DoBehavior
+				Team GuardTowerCP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerCReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower C Reset>>
+			Reset GuardTowerCHackSuccess GuardTowerClicksC
+		}
+	}
+	Trigger GuardTowerDHackSuccess
+	{
+		Requires GuardTowerClicksD complete>
+		Action GuardTowerDHacked
+		{
+			DebugPrint <<Guard Tower D Hacked>>
+			TeamControl SuppressGuardTowerD
+			{
+				Type DoBehavior
+				Team GuardTowerDP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerDReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower D Reset>>
+			Reset GuardTowerDHackSuccess GuardTowerClicksD
+		}
+	}
+	Trigger GuardTowerEHackSuccess
+	{
+		Requires GuardTowerClicksE complete>
+		Action GuardTowerEHacked
+		{
+			DebugPrint <<Guard Tower E Hacked>>
+			TeamControl SuppressGuardTowerE
+			{
+				Type DoBehavior
+				Team GuardTowerEP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerEReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower E Reset>>
+			Reset GuardTowerEHackSuccess GuardTowerClicksE
+		}
+	}
+	Trigger GuardTowerFHackSuccess
+	{
+		Requires GuardTowerClicksF complete>
+		Action GuardTowerFHacked
+		{
+			DebugPrint <<Guard Tower F Hacked>>
+			TeamControl SuppressGuardTowerF
+			{
+				Type DoBehavior
+				Team GuardTowerFP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerFReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower F Reset>>
+			Reset GuardTowerFHackSuccess GuardTowerClicksF
+		}
+	}
+	Trigger GuardTowerGHackSuccess
+	{
+		Requires GuardTowerClicksG complete>
+		Action GuardTowerGHacked
+		{
+			DebugPrint <<Guard Tower G Hacked>>
+			TeamControl SuppressGuardTowerG
+			{
+				Type DoBehavior
+				Team GuardTowerGP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerGReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower G Reset>>
+			Reset GuardTowerGHackSuccess GuardTowerClicksG
+		}
+	}
+	Trigger GuardTowerHHackSuccess
+	{
+		Requires GuardTowerClicksH complete>
+		Action GuardTowerHHacked
+		{
+			DebugPrint <<Guard Tower H Hacked>>
+			TeamControl SuppressGuardTowerH
+			{
+				Type DoBehavior
+				Team GuardTowerHP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerHReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower H Reset>>
+			Reset GuardTowerHHackSuccess GuardTowerClicksH
+		}
+	}
+	Trigger GuardTowerIHackSuccess
+	{
+		Requires GuardTowerClicksI complete>
+		Action GuardTowerIHacked
+		{
+			DebugPrint <<Guard Tower I Hacked>>
+			TeamControl SuppressGuardTowerI
+			{
+				Type DoBehavior
+				Team GuardTowerIP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerIReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower I Reset>>
+			Reset GuardTowerIHackSuccess GuardTowerClicksI
+		}
+	}
+	Trigger GuardTowerJHackSuccess
+	{
+		Requires GuardTowerClicksJ complete>
+		Action GuardTowerJHacked
+		{
+			DebugPrint <<Guard Tower J Hacked>>
+			TeamControl SuppressGuardTowerJ
+			{
+				Type DoBehavior
+				Team GuardTowerJP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerJReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower J Reset>>
+			Reset GuardTowerJHackSuccess GuardTowerClicksJ
+		}
+	}
+	Trigger GuardTowerKHackSuccess
+	{
+		Requires GuardTowerClicksK complete>
+		Action GuardTowerKHacked
+		{
+			DebugPrint <<Guard Tower K Hacked>>
+			TeamControl SuppressGuardTowerK
+			{
+				Type DoBehavior
+				Team GuardTowerKP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerKReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower K Reset>>
+			Reset GuardTowerKHackSuccess GuardTowerClicksK
+		}
+	}
+	Trigger GuardTowerLHackSuccess
+	{
+		Requires GuardTowerClicksL complete>
+		Action GuardTowerLHacked
+		{
+			DebugPrint <<Guard Tower L Hacked>>
+			TeamControl SuppressGuardTowerL
+			{
+				Type DoBehavior
+				Team GuardTowerLP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerLReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower L Reset>>
+			Reset GuardTowerLHackSuccess GuardTowerClicksL
+		}
+	}
+	Trigger GuardTowerMHackSuccess
+	{
+		Requires GuardTowerClicksM complete>
+		Action GuardTowerMHacked
+		{
+			DebugPrint <<Guard Tower M Hacked>>
+			TeamControl SuppressGuardTowerM
+			{
+				Type DoBehavior
+				Team GuardTowerMP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerMReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower M Reset>>
+			Reset GuardTowerMHackSuccess GuardTowerClicksM
+		}
+	}
+	Trigger GuardTowerNHackSuccess
+	{
+		Requires GuardTowerClicksN complete>
+		Action GuardTowerNHacked
+		{
+			DebugPrint <<Guard Tower N Hacked>>
+			TeamControl SuppressGuardTowerN
+			{
+				Type DoBehavior
+				Team GuardTowerNP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerNReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower N Reset>>
+			Reset GuardTowerNHackSuccess GuardTowerClicksN
+		}
+	}
+	Trigger GuardTowerOHackSuccess
+	{
+		Requires GuardTowerClicksO complete>
+		Action GuardTowerOHacked
+		{
+			DebugPrint <<Guard Tower O Hacked>>
+			TeamControl SuppressGuardTowerO
+			{
+				Type DoBehavior
+				Team GuardTowerOP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage2 TerminalsUsedStage2 scriptvalue> 1 +
+		}
+		Action GuardTowerOReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower O Reset>>
+			Reset GuardTowerOHackSuccess GuardTowerClicksO
+		}
+	}
+
+	Trigger FailsafeStart
+	{
+		Requires GuardTowerClicksO complete>
+		Action GuardTowerOHacked
+		{
+			DebugPrint <<Guard Tower O Hacked>>
+			TeamControl SuppressGuardTowerO
+			{
+				Type DoBehavior
+				Team GuardTowerOP2Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+
+		}
+		Action GuardTowerOReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower O Reset>>
+			Reset GuardTowerOHackSuccess GuardTowerClicksO
+		}
+	}
+
+	Timer StageTimer
+	{
+		Duration 15:00
+	}
+	Trigger StageTimerFailed
+	{
+		Requires StageTimer complete>
+		Action
+		{
+			DebugPrint <<Stage Timer Failed>>
+			Floater
+			{
+				Message P709429685
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3386779019
+				Color ff9900
+			}
+		}
+		NextStage Stop
+	}
+	UICollection UISuppression
+	{
+		UIItem DefeatCountUI
+		{
+			Type BarRed
+			Text P3955752300
+			ShortText P1904626672
+			Current NightstarHealth count>
+			OnClickFindEnt NightstarTeam
+			Target 100
+		}
+		UIItem ReinforcementShow
+		{
+			Type Timer
+			Text P423999497
+			ShortText P1294360240
+			Timer NightstarWaveDisplay
+
+		}
+		UIItem TimerShow
+		{
+			Type Timer
+			Text P2719699290
+			ShortText P3483776891
+			Timer StageTimer
+
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Suppression>>
+			SetScriptValue FailsafeInProcess 0
+			RemoveWaypoints
+		}
+		Action TurnOffSpawns
+		{
+			
+			TeamControl StopGenWW1
+			{
+				Type Deactivate
+				Team GenWW1
+			}
+			TeamControl StopGenWW2
+			{
+				Type Deactivate
+				Team GenWW2
+			}
+			TeamControl StopGenWW3
+			{
+				Type Deactivate
+				Team GenWW3
+			}
+			TeamControl StopGenWW4
+			{
+				Type Deactivate
+				Team GenWW4
+			}
+			TeamControl StopGenWW5
+			{
+				Type Deactivate
+				Team GenWW5
+			}
+			TeamControl StopGenWW6
+			{
+				Type Deactivate
+				Team GenWW6
+			}
+			TeamControl StopGenWW7
+			{
+				Type Deactivate
+				Team GenWW7
+			}
+			TeamControl StopGenWW8
+			{
+				Type Deactivate
+				Team GenWW8
+			}
+			TeamControl StopGenWW9
+			{
+				Type Deactivate
+				Team GenWW9
+			}
+			TeamControl StopGenWW10
+			{
+				Type Deactivate
+				Team GenWW10
+			}
+			TeamControl StopGenWW11
+			{
+				Type Deactivate
+				Team GenWW11
+			}
+			TeamControl StopGenWW12
+			{
+				Type Deactivate
+				Team GenWW12
+			}
+			TeamControl StopGenWW13
+			{
+				Type Deactivate
+				Team GenWW13
+			}
+			TeamControl StopGenWW14
+			{
+				Type Deactivate
+				Team GenWW14
+			}
+			TeamControl StopGenWW15
+			{
+				Type Deactivate
+				Team GenWW15
+			}
+			TeamControl StopGenWW16
+			{
+				Type Deactivate
+				Team GenWW16
+			}
+			TeamControl StopGenWW17
+			{
+				Type Deactivate
+				Team GenWW17
+			}
+			TeamControl StopGenWW18
+			{
+				Type Deactivate
+				Team GenWW18
+			}
+			TeamControl StopGenWW19
+			{
+				Type Deactivate
+				Team GenWW19
+			}
+			TeamControl StopGenWW20
+			{
+				Type Deactivate
+				Team GenWW20
+			}
+			TeamControl StopGenWW21
+			{
+				Type Deactivate
+				Team GenWW21
+			}
+			TeamControl StopGenWW22
+			{
+				Type Deactivate
+				Team GenWW22
+			}
+			TeamControl StopGenWW23
+			{
+				Type Deactivate
+				Team GenWW23
+			}
+			TeamControl StopGenWW24
+			{
+				Type Deactivate
+				Team GenWW24
+			}
+			TeamControl StopGenWW25
+			{
+				Type Deactivate
+				Team GenWW25
+			}
+			TeamControl StopGenWW26
+			{
+				Type Deactivate
+				Team GenWW26
+			}
+			TeamControl StopGenWW27
+			{
+				Type Deactivate
+				Team GenWW27
+			}
+			TeamControl StopGenWW28
+			{
+				Type Deactivate
+				Team GenWW28
+			}
+			TeamControl StopGenWW29
+			{
+				Type Deactivate
+				Team GenWW29
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NightstarInitialPets
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NightstarWavePets
+			}
+			TeamControl KillNightstarWavePets
+			{
+				Type DoBehavior
+				Team NightstarWavePets
+				Behavior <<DestroyMe>>
+			}
+			TeamControl StopWatcher
+			{
+				Type Deactivate
+				Team NightstarWatcher-Stage2
+			}
+		}
+		Action DeactivateGlowies
+		{
+			GlowieControl TurnOffA
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelA
+			}
+			GlowieControl TurnOffB
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelB
+			}
+			GlowieControl TurnOffC
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelC
+			}
+			GlowieControl TurnOffD
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelD
+			}
+			GlowieControl TurnOffE
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelE
+			}
+			GlowieControl TurnOffF
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelF
+			}
+			GlowieControl TurnOffG
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelG
+			}
+			GlowieControl TurnOffH
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelH
+			}
+			GlowieControl TurnOffI
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelI
+			}
+			GlowieControl TurnOffJ
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelJ
+			}
+			GlowieControl TurnOffK
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelK
+			}
+			GlowieControl TurnOffL
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelL
+			}
+			GlowieControl TurnOffM
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelM
+			}
+			GlowieControl TurnOffN
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelN
+			}
+			GlowieControl TurnOffO
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelO
+			}
+		}
+		Action TurnOffTowers
+		{
+			TeamControl StopGuardTowerA
+			{
+				Type Deactivate
+				Team GuardTowerAP2Team
+			}
+			TeamControl StopGuardTowerB
+			{
+				Type Deactivate
+				Team GuardTowerBP2Team
+			}
+			TeamControl StopGuardTowerC
+			{
+				Type Deactivate
+				Team GuardTowerCP2Team
+			}
+			TeamControl StopGuardTowerD
+			{
+				Type Deactivate
+				Team GuardTowerDP2Team
+			}
+			TeamControl StopGuardTowerE
+			{
+				Type Deactivate
+				Team GuardTowerEP2Team
+			}
+			TeamControl StopGuardTowerF
+			{
+				Type Deactivate
+				Team GuardTowerFP2Team
+			}
+			TeamControl StopGuardTowerG
+			{
+				Type Deactivate
+				Team GuardTowerGP2Team
+			}
+			TeamControl StopGuardTowerH
+			{
+				Type Deactivate
+				Team GuardTowerHP2Team
+			}
+			TeamControl StopGuardTowerI
+			{
+				Type Deactivate
+				Team GuardTowerIP2Team
+			}
+			TeamControl StopGuardTowerJ
+			{
+				Type Deactivate
+				Team GuardTowerJP2Team
+			}
+			TeamControl StopGuardTowerK
+			{
+				Type Deactivate
+				Team GuardTowerKP2Team
+			}
+			TeamControl StopGuardTowerL
+			{
+				Type Deactivate
+				Team GuardTowerLP2Team
+			}
+			TeamControl StopGuardTowerM
+			{
+				Type Deactivate
+				Team GuardTowerMP2Team
+			}
+			TeamControl StopGuardTowerN
+			{
+				Type Deactivate
+				Team GuardTowerNP2Team
+			}
+			TeamControl StopGuardTowerO
+			{
+				Type Deactivate
+				Team GuardTowerOP2Team
+			}
+		}
+	}
+}
+
+Stage Escape
+{
+	DisplayName P1542684888
+	ToolTip P1193694609
+	AwardKarma
+	KarmaThreshold 10
+
+	StageActiveRequires ZonePlayers count> 8 > ZonePlayersActive count> ZonePlayers count> / 0.25 > &&
+
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianResistance
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianWarworksEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:00
+	}
+	
+	Trigger HospitalDoor-Unlock-Recovery
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1533101862
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//End Hospital Door Block
+
+	StartUp
+	{
+		Action StartEscape
+		{
+			DebugPrint <<Starting Stage Escape>>
+//			GroupShow grpfog_EscapeFogNode
+			WaypointPlace EscapeWaypoint1 EscapeWaypoint1
+			WaypointPlace EscapeWaypoint2 EscapeWaypoint2
+			WaypointPlace EscapeWaypoint3 EscapeWaypoint3
+			WaypointPlace SpawnWaypoint1 SpawnWaypoint1
+			WaypointPlace SpawnWaypoint2 SpawnWaypoint2
+			WaypointPlace SpawnWaypoint3 SpawnWaypoint3
+			WaypointPlace SpawnWaypoint4 SpawnWaypoint4
+			WaypointPlace SpawnWaypoint5 SpawnWaypoint5
+			WaypointPlace SpawnWaypoint6 SpawnWaypoint6
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage3 0
+		}
+		Action FloatersStage3Begins
+		{
+			Floater PowerFailure
+			{
+				Message P222014822
+				Color ff9900
+			}
+			Floater PrisonersIn60
+			{
+				Message P3180370177
+				Color ff9900
+			}
+		}
+	}
+	Counter RunnersACount
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ResistanceRunnersATeam
+	}
+	Counter RunnersBCount
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ResistanceRunnersBTeam
+	}
+	Counter RunnersCCount
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ResistanceRunnersCTeam
+	}
+	Counter RunnersDCount
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ResistanceRunnersDTeam
+	}
+	Counter RunnersECount
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ResistanceRunnersETeam
+	}
+	Counter RunnersFCount
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ResistanceRunnersFTeam
+	}
+	Counter MarkerCount
+	{
+		//This counts a special marker. The markers are generated by Resistance who reach the door successfully and immediately suicide. This should count as a kill here.
+		Type Name
+		Count 20
+		Name Objects_BAFCounter
+	}
+	Counter MarkerIncrementCount
+	{
+		//This counts a single special marker. The markers are generated by Resistance who reach the door successfully and immediately suicide. This should count as a kill here.
+		//This is used to pop a floater whenever any Escape occurs
+		Type Name
+		Count 1
+		Name Objects_BAFCounter
+	}
+	Timer EscapeTimer
+	{
+		Duration 6:00
+	}
+	Timer StartTimer
+	{
+		Duration 1:00
+	}
+
+	Timer Captions-Start-Stage3-Timer
+	{
+		Duration 00:05
+	}
+
+	Trigger Captions-Start-Stage3
+	{
+		Requires Captions-Start-Stage3-Timer complete> Captions-Started-Stage3 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage3 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerA
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth79")>>
+			}
+		}
+	}
+
+	Trigger RunnersStart
+	{
+		//After the delay before runners Emerge
+		Requires StartTimer complete>
+		Action TurnOnSpawns
+		{
+			TeamControl TurnOnRunnersA
+			{
+				Type Activate
+				Team ResistanceRunnersATeam
+			}
+			TeamControl TurnOnRunnersB
+			{
+				Type Activate
+				Team ResistanceRunnersBTeam
+			}
+			TeamControl TurnOnRunnersC
+			{
+				Type Activate
+				Team ResistanceRunnersCTeam
+			}
+			TeamControl TurnOnRunnersD
+			{
+				Type Activate
+				Team ResistanceRunnersDTeam
+			}
+			TeamControl TurnOnRunnersE
+			{
+				Type Activate
+				Team ResistanceRunnersETeam
+			}
+			TeamControl TurnOnRunnersF
+			{
+				Type Activate
+				Team ResistanceRunnersFTeam
+			}
+		}
+		Action
+		{
+			Floater RunnersStart
+			{
+				Message P2751411666
+				Color ff9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger RunnersCountSuccess
+	{
+		//If the timer is over, stage successful and move on to next stage
+		//Also this is only triggered if there are any marker kills (escapes)
+		Requires EscapeTimer complete> MarkerCount count> 0 > &&
+	
+		Action RunnersDone
+		{
+			DebugPrint <<Escape success: switching to Siege>>
+		}
+		Action FloatersStage3Success
+		{
+			Floater Stage3Success
+			{
+				Message P3028004554
+				Color ff9900
+			}
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable AstralMerit1
+				}
+			}
+		}
+		NextStage PreSiege
+	}
+	Trigger RunnersCountSuperSuccess
+	{
+		//If no runners are still alive or the timer is over, stage successful and move on to next stage
+		//Also this is only triggered if there are 0 marker kills (escapes)
+		//This should award a badge to everyone present but doesn't
+		Requires EscapeTimer complete> MarkerCount count> 0 == &&
+	
+		Action RunnersDone
+		{
+			DebugPrint <<Escape super success: switching to Siege>>
+		}
+		Action FloatersStage3SuperSuccess
+		{
+			Floater Stage3SuperSuccess
+			{
+				Message P767410818
+				Color FF9900
+			}
+		}
+		Action
+		{
+			DebugPrint <<Awarding No Escapes badge>>
+			Reward IT_BAF_NoEscapes
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable AstralMerit1
+				}
+			}
+		}
+		NextStage PreSiege
+	}
+	Trigger MarkerCountFailure
+	{
+		//This tracks if the specified number of maximum successful escapes has happened. If it has, fail the stage and go to reset.
+		Requires MarkerCount complete>
+		
+		Action MarkerDone
+		{
+			DebugPrint <<Escape failure: switching to Reset>>
+		}
+		Action FloatersStage3Failure
+		{
+			Floater TooManyEscapes
+			{
+				Message P3686341648
+				Color ff0000
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3386779019
+				Color ff9900
+			}
+		}
+		NextStage Stop
+	}
+	Trigger MarkerIncrementCountFailure
+	{
+		//This tracks a single escape to pop a floater when it happens but not on the last one
+		Requires MarkerIncrementCount complete> MarkerCount complete> ! &&
+		Action FloatersStage3Escape
+		{
+			Floater Escape
+			{
+				Message P2458345280
+				Color ff9900
+				AlertType PriorityAlert
+			}
+			DebugPrint <<Escape detected>>
+			Reset MarkerIncrementCountFailure
+			Reset MarkerIncrementCount
+		}	
+	}
+
+	UICollection UIEscape
+	{
+		UIItem DefeatCountUI
+		{
+			Type BarRed
+			Text P2855996394
+			ShortText P3734417408
+			Current MarkerCount count>
+			Target 20
+		}
+		UIItem TimerShow
+		{
+			Type Timer
+			Text P2719699290
+			ShortText P3483776891
+			Timer EscapeTimer
+
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Escape>>
+			SetScriptValue FailsafeInProcess 0
+			RemoveWaypoints
+		}
+		Action TurnOffSpawns
+		{
+			TeamControl TurnOffRunnersA
+			{
+				Type Deactivate
+				Team ResistanceRunnersATeam
+			}
+			TeamControl TurnOffRunnersB
+			{
+				Type Deactivate
+				Team ResistanceRunnersBTeam
+			}
+			TeamControl TurnOffRunnersC
+			{
+				Type Deactivate
+				Team ResistanceRunnersCTeam
+			}
+			TeamControl TurnOffRunnersD
+			{
+				Type Deactivate
+				Team ResistanceRunnersDTeam
+			}
+			TeamControl TurnOffRunnersE
+			{
+				Type Deactivate
+				Team ResistanceRunnersETeam
+			}
+			TeamControl TurnOffRunnersF
+			{
+				Type Deactivate
+				Team ResistanceRunnersFTeam
+			}
+		}
+	}
+}
+
+Stage PreSiege
+{
+	DisplayName P2798099443
+	ToolTip P80400086
+	
+	Trigger GotoSiege
+	{
+		NextStage Siege
+	}
+	
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage PreSiege>>
+//			GroupHide grpfog_EscapeFogNode
+		}
+	}
+}
+
+Stage Siege
+{
+	DisplayName P2798099443
+	ToolTip P80400086
+
+	AwardKarma
+	KarmaThreshold 10
+
+	StageActiveRequires ZonePlayers count> 8 > ZonePlayersActive count> ZonePlayers count> / 0.25 > &&
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianResistance
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianWarworksEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelA
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelB
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelC
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelD
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelE
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelF
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelG
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelH
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelI
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelJ
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelK
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelL
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelM
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelN
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelO
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+
+	StartUp
+	{
+		Action StartSiege
+		{
+			DebugPrint <<Starting Stage Siege>>
+			WaypointPlace AdminWaypoint AdminWaypoint
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 0
+		}
+		Action
+		{
+			SetScriptValue SiegePulledAwayStage4 0
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage4 0
+		}
+		Action ActivateGlowies
+		{
+			GlowieControl TurnOnA
+			{
+				Type Activate
+				Glowie GuardTowerPanelA
+			}
+			GlowieControl TurnOnB
+			{
+				Type Activate
+				Glowie GuardTowerPanelB
+			}
+			GlowieControl TurnOnC
+			{
+				Type Activate
+				Glowie GuardTowerPanelC
+			}
+			GlowieControl TurnOnD
+			{
+				Type Activate
+				Glowie GuardTowerPanelD
+			}
+			GlowieControl TurnOnE
+			{
+				Type Activate
+				Glowie GuardTowerPanelE
+			}
+			GlowieControl TurnOnF
+			{
+				Type Activate
+				Glowie GuardTowerPanelF
+			}
+			GlowieControl TurnOnG
+			{
+				Type Activate
+				Glowie GuardTowerPanelG
+			}
+			GlowieControl TurnOnH
+			{
+				Type Activate
+				Glowie GuardTowerPanelH
+			}
+			GlowieControl TurnOnI
+			{
+				Type Activate
+				Glowie GuardTowerPanelI
+			}
+			GlowieControl TurnOnJ
+			{
+				Type Activate
+				Glowie GuardTowerPanelJ
+			}
+			GlowieControl TurnOnK
+			{
+				Type Activate
+				Glowie GuardTowerPanelK
+			}
+			GlowieControl TurnOnL
+			{
+				Type Activate
+				Glowie GuardTowerPanelL
+			}
+			GlowieControl TurnOnM
+			{
+				Type Activate
+				Glowie GuardTowerPanelM
+			}
+			GlowieControl TurnOnN
+			{
+				Type Activate
+				Glowie GuardTowerPanelN
+			}
+			GlowieControl TurnOnO
+			{
+				Type Activate
+				Glowie GuardTowerPanelO
+			}
+		}
+		Action TurnOnSpawns
+		{
+			TeamControl StartSiege
+			{
+				Type Activate
+				Team SiegeTeam
+			}
+		}
+		Action TurnOnSpawnsDelay
+		{
+			Delay 5
+			TeamControl StartSiegePets
+			{
+				Type Activate
+				Team SiegeInitialPets
+			}
+			TeamControl StartWatcher
+			{
+				Type Activate
+				Team SiegeWatcher-Stage4
+			}
+		}
+		Action TurnOnTowers
+		{
+			TeamControl StartGuardTowerA
+			{
+				Type Activate
+				Team GuardTowerAP4Team
+			}
+			TeamControl StartGuardTowerB
+			{
+				Type Activate
+				Team GuardTowerBP4Team
+			}
+			TeamControl StartGuardTowerC
+			{
+				Type Activate
+				Team GuardTowerCP4Team
+			}
+			TeamControl StartGuardTowerD
+			{
+				Type Activate
+				Team GuardTowerDP4Team
+			}
+			TeamControl StartGuardTowerE
+			{
+				Type Activate
+				Team GuardTowerEP4Team
+			}
+			TeamControl StartGuardTowerF
+			{
+				Type Activate
+				Team GuardTowerFP4Team
+			}
+			TeamControl StartGuardTowerG
+			{
+				Type Activate
+				Team GuardTowerGP4Team
+			}
+			TeamControl StartGuardTowerH
+			{
+				Type Activate
+				Team GuardTowerHP4Team
+			}
+			TeamControl StartGuardTowerI
+			{
+				Type Activate
+				Team GuardTowerIP4Team
+			}
+			TeamControl StartGuardTowerJ
+			{
+				Type Activate
+				Team GuardTowerJP4Team
+			}
+			TeamControl StartGuardTowerK
+			{
+				Type Activate
+				Team GuardTowerKP4Team
+			}
+			TeamControl StartGuardTowerL
+			{
+				Type Activate
+				Team GuardTowerLP4Team
+			}
+			TeamControl StartGuardTowerM
+			{
+				Type Activate
+				Team GuardTowerMP4Team
+			}
+			TeamControl StartGuardTowerN
+			{
+				Type Activate
+				Team GuardTowerNP4Team
+			}
+			TeamControl StartGuardTowerO
+			{
+				Type Activate
+				Team GuardTowerOP4Team
+			}
+		}
+		Action FloatersStage4Begins
+		{
+			Floater SiegeArrives
+			{
+				Message P1713142204
+				Color ff9900
+			}
+			Floater GuardTowersUpgraded
+			{
+				Message P906858411
+				Color ff9900
+			}
+		}
+	}
+	Counter SiegeCount
+	{
+		Type Team
+		Count 1
+		Team SiegeTeam
+	}
+	Counter SiegeHealth
+	{
+		Type BossHealth
+		Team SiegeTeam
+	}
+	Counter SiegeAliveCount
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team SiegeTeam
+	}
+	Counter SiegeWatcherCount-Stage4
+	{
+		Type Team
+		Team SiegeWatcher-Stage4
+		Direction Up
+		Count 1
+	}
+	Counter GuardTowerClicksA
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelA
+	}
+	Counter GuardTowerClicksB
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelB
+	}
+	Counter GuardTowerClicksC
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelC
+	}
+	Counter GuardTowerClicksD
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelD
+	}
+	Counter GuardTowerClicksE
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelE
+	}
+	Counter GuardTowerClicksF
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelF
+	}
+	Counter GuardTowerClicksG
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelG
+	}
+	Counter GuardTowerClicksH
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelH
+	}
+	Counter GuardTowerClicksI
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelI
+	}
+	Counter GuardTowerClicksJ
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelJ
+	}
+	Counter GuardTowerClicksK
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelK
+	}
+	Counter GuardTowerClicksL
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelL
+	}
+	Counter GuardTowerClicksM
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelM
+	}
+	Counter GuardTowerClicksN
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelN
+	}
+	Counter GuardTowerClicksO
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelO
+	}
+
+	Timer SiegeWaveDelay
+	{
+		Duration 0:45
+	}
+	Timer SiegeInitialDelay
+	{
+		Duration 0:30
+	}
+	Timer SiegeWaveDisplay
+	{
+		Duration 0:30
+	}
+
+	Timer Captions-Start-Stage4-Timer
+	{
+		Duration 00:05
+	}
+
+	Trigger Captions-Start-Stage4
+	{
+		Requires Captions-Start-Stage4-Timer complete> Captions-Started-Stage4 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage4 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerA
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth69")>>
+			}
+		}
+	}
+
+	Trigger SiegeInitialPop
+	{
+		Requires SiegeInitialDelay complete>
+		Action
+		{
+			Floater
+			{
+				Message P511493595
+				Color ff9900
+			}
+			TeamControl StartSiegePets2
+			{
+				Type Activate
+				Team SiegeWavePets
+			}
+			Reset SiegeWaveDelay
+			Reset SiegeWaveDisplay
+		}
+		Action
+		{
+			TimerControl
+			{
+				Timer SiegeWaveDisplay
+				Type Add
+				Duration 0:15
+			}
+		}
+	}
+	Trigger SiegeWavePop
+	{
+		Requires SiegeWaveDelay complete>
+		Action
+		{
+			Floater
+			{
+				Message P511493595
+				Color ff9900
+			}
+			Reset SiegeWavePop
+			Reset SiegeWaveDelay
+			Reset SiegeWaveDisplay
+		}
+		Action
+		{
+			TimerControl
+			{
+				Timer SiegeWaveDisplay
+				Type Add
+				Duration 0:15
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team SiegeWavePets
+			}
+		}
+	}
+
+	Trigger SiegePulledFromSpawn-Stage4
+	{
+		Requires SiegeWatcherCount-Stage4 complete> SiegeCount complete> ! &&
+		Action
+		{
+			SetScriptValue SiegePulledAwayStage4 1
+		}
+	}
+
+	Trigger SiegeCountTriggerRes
+	{
+		Requires SiegeCount complete> SiegeAliveCount count> 0 == &&
+		Action StartBossResser
+		{
+			TeamControl StartBossResser
+			{
+				Type Activate
+				Team BossResserTeam
+			}
+			TeamControl SiegeInvincible
+			{
+				Type DoBehavior
+				Team SiegeTeam
+				Behavior <<Invincible>>
+			}
+			DebugPrint <<BossResser Active, Siege Invincible>>
+		}
+		Action DelayedSiegeCount
+		{
+			Delay 1
+
+			TeamControl StopBossResser
+			{
+				Type Deactivate
+				Team BossResserTeam
+			}
+			Reset SiegeAliveCount SiegeCountTriggerRes
+		}
+	}
+
+	Trigger SiegeCountSuccess
+	{
+		//This strangeness ensures that Siege is back alive (due to the resser) before we transition to the next stage
+		Requires SiegeCount complete> SiegeAliveCount count> 1 == &&
+		Action SiegeDone
+		{
+			DebugPrint <<Siege success: switching to SiegeAndNightstar>>
+			
+			TeamControl StopBossResser
+			{
+				Type Deactivate
+				Team BossResserTeam
+			}
+			TeamControl SiegeNonInvincible
+			{
+				Type DoBehavior
+				Team SiegeTeam
+				Behavior <<Invincible(0)>>
+			}
+			DebugPrint <<BossResser Deactive, Siege Uninvincible>>
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable AstralMerit1
+				}
+			}
+		}
+		NextStage SiegeAndNightstar
+	}
+
+	Trigger GuardTowerAHackSuccess
+	{
+		Requires GuardTowerClicksA complete>
+		Action GuardTowerAHacked
+		{
+			DebugPrint <<Guard Tower A Hacked>>
+			TeamControl SuppressGuardTowerA
+			{
+				Type DoBehavior
+				Team GuardTowerAP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerAReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower A Reset>>
+			Reset GuardTowerAHackSuccess GuardTowerClicksA
+		}
+	}
+	Trigger GuardTowerBHackSuccess
+	{
+		Requires GuardTowerClicksB complete>
+		Action GuardTowerBHacked
+		{
+			DebugPrint <<Guard Tower B Hacked>>
+			TeamControl SuppressGuardTowerB
+			{
+				Type DoBehavior
+				Team GuardTowerBP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerBReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower B Reset>>
+			Reset GuardTowerBHackSuccess GuardTowerClicksB
+		}
+	}
+	Trigger GuardTowerCHackSuccess
+	{
+		Requires GuardTowerClicksC complete>
+		Action GuardTowerCHacked
+		{
+			DebugPrint <<Guard Tower C Hacked>>
+			TeamControl SuppressGuardTowerC
+			{
+				Type DoBehavior
+				Team GuardTowerCP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerCReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower C Reset>>
+			Reset GuardTowerCHackSuccess GuardTowerClicksC
+		}
+	}
+	Trigger GuardTowerDHackSuccess
+	{
+		Requires GuardTowerClicksD complete>
+		Action GuardTowerDHacked
+		{
+			DebugPrint <<Guard Tower D Hacked>>
+			TeamControl SuppressGuardTowerD
+			{
+				Type DoBehavior
+				Team GuardTowerDP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerDReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower D Reset>>
+			Reset GuardTowerDHackSuccess GuardTowerClicksD
+		}
+	}
+	Trigger GuardTowerEHackSuccess
+	{
+		Requires GuardTowerClicksE complete>
+		Action GuardTowerEHacked
+		{
+			DebugPrint <<Guard Tower E Hacked>>
+			TeamControl SuppressGuardTowerE
+			{
+				Type DoBehavior
+				Team GuardTowerEP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerEReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower E Reset>>
+			Reset GuardTowerEHackSuccess GuardTowerClicksE
+		}
+	}
+	Trigger GuardTowerFHackSuccess
+	{
+		Requires GuardTowerClicksF complete>
+		Action GuardTowerFHacked
+		{
+			DebugPrint <<Guard Tower F Hacked>>
+			TeamControl SuppressGuardTowerF
+			{
+				Type DoBehavior
+				Team GuardTowerFP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerFReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower F Reset>>
+			Reset GuardTowerFHackSuccess GuardTowerClicksF
+		}
+	}
+	Trigger GuardTowerGHackSuccess
+	{
+		Requires GuardTowerClicksG complete>
+		Action GuardTowerGHacked
+		{
+			DebugPrint <<Guard Tower G Hacked>>
+			TeamControl SuppressGuardTowerG
+			{
+				Type DoBehavior
+				Team GuardTowerGP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerGReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower G Reset>>
+			Reset GuardTowerGHackSuccess GuardTowerClicksG
+		}
+	}
+	Trigger GuardTowerHHackSuccess
+	{
+		Requires GuardTowerClicksH complete>
+		Action GuardTowerHHacked
+		{
+			DebugPrint <<Guard Tower H Hacked>>
+			TeamControl SuppressGuardTowerH
+			{
+				Type DoBehavior
+				Team GuardTowerHP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerHReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower H Reset>>
+			Reset GuardTowerHHackSuccess GuardTowerClicksH
+		}
+	}
+	Trigger GuardTowerIHackSuccess
+	{
+		Requires GuardTowerClicksI complete>
+		Action GuardTowerIHacked
+		{
+			DebugPrint <<Guard Tower I Hacked>>
+			TeamControl SuppressGuardTowerI
+			{
+				Type DoBehavior
+				Team GuardTowerIP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerIReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower I Reset>>
+			Reset GuardTowerIHackSuccess GuardTowerClicksI
+		}
+	}
+	Trigger GuardTowerJHackSuccess
+	{
+		Requires GuardTowerClicksJ complete>
+		Action GuardTowerJHacked
+		{
+			DebugPrint <<Guard Tower J Hacked>>
+			TeamControl SuppressGuardTowerJ
+			{
+				Type DoBehavior
+				Team GuardTowerJP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerJReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower J Reset>>
+			Reset GuardTowerJHackSuccess GuardTowerClicksJ
+		}
+	}
+	Trigger GuardTowerKHackSuccess
+	{
+		Requires GuardTowerClicksK complete>
+		Action GuardTowerKHacked
+		{
+			DebugPrint <<Guard Tower K Hacked>>
+			TeamControl SuppressGuardTowerK
+			{
+				Type DoBehavior
+				Team GuardTowerKP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerKReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower K Reset>>
+			Reset GuardTowerKHackSuccess GuardTowerClicksK
+		}
+	}
+	Trigger GuardTowerLHackSuccess
+	{
+		Requires GuardTowerClicksL complete>
+		Action GuardTowerLHacked
+		{
+			DebugPrint <<Guard Tower L Hacked>>
+			TeamControl SuppressGuardTowerL
+			{
+				Type DoBehavior
+				Team GuardTowerLP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerLReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower L Reset>>
+			Reset GuardTowerLHackSuccess GuardTowerClicksL
+		}
+	}
+	Trigger GuardTowerMHackSuccess
+	{
+		Requires GuardTowerClicksM complete>
+		Action GuardTowerMHacked
+		{
+			DebugPrint <<Guard Tower M Hacked>>
+			TeamControl SuppressGuardTowerM
+			{
+				Type DoBehavior
+				Team GuardTowerMP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerMReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower M Reset>>
+			Reset GuardTowerMHackSuccess GuardTowerClicksM
+		}
+	}
+	Trigger GuardTowerNHackSuccess
+	{
+		Requires GuardTowerClicksN complete>
+		Action GuardTowerNHacked
+		{
+			DebugPrint <<Guard Tower N Hacked>>
+			TeamControl SuppressGuardTowerN
+			{
+				Type DoBehavior
+				Team GuardTowerNP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerNReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower N Reset>>
+			Reset GuardTowerNHackSuccess GuardTowerClicksN
+		}
+	}
+	Trigger GuardTowerOHackSuccess
+	{
+		Requires GuardTowerClicksO complete>
+		Action GuardTowerOHacked
+		{
+			DebugPrint <<Guard Tower O Hacked>>
+			TeamControl SuppressGuardTowerO
+			{
+				Type DoBehavior
+				Team GuardTowerOP4Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage4 TerminalsUsedStage4 scriptvalue> 1 +
+		}
+		Action GuardTowerOReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower O Reset>>
+			Reset GuardTowerOHackSuccess GuardTowerClicksO
+		}
+	}
+	
+	Timer StageTimer
+	{
+		Duration 15:00
+	}
+	Trigger StageTimerFailed
+	{
+		Requires StageTimer complete>
+		Action
+		{
+			DebugPrint <<Stage Timer Failed>>
+			Floater
+			{
+				Message P15152823
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3386779019
+				Color ff9900
+			}
+		}
+		NextStage Stop
+	}
+
+	UICollection UISiege
+	{
+		UIItem DefeatCountUI
+		{
+			Type BarRed
+			Text P828015434
+			ShortText P2798099443
+			Current SiegeHealth count>
+			OnClickFindEnt SiegeTeam
+			Target 100
+		}
+		UIItem ReinforcementShow
+		{
+			Type Timer
+			Text P871073547
+			Timer SiegeWaveDisplay
+
+		}
+		UIItem TimerShow
+		{
+			Type Timer
+			Text P2719699290
+			Timer StageTimer
+
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Siege>>
+			SetScriptValue FailsafeInProcess 0
+			RemoveWaypoints
+		}
+		Action TurnOffSpawns
+		{
+			//Note: Currently all of the spawns activated in this stage persist to the next
+
+
+			//Currently deactivating these guys to fake a rez in the next stage
+			//Since the rezzer is working and killing Siege ends this stage, his body should still be around
+			//TeamControl StopSiege
+			//{
+			//	Type Deactivate
+			//	Team SiegeTeam
+			//}
+//			TeamControl StopNightstar
+//			{
+//				Type Deactivate
+//				Team NightstarTeam
+//			}
+
+			//This guy should self-destruct but just in case
+			TeamControl StopBossResser
+			{
+				Type Deactivate
+				Team BossResserTeam
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team SiegeInitialPets
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team SiegeWavePets
+			}
+			TeamControl StartWatcher
+			{
+				Type Deactivate
+				Team SiegeWatcher-Stage4
+			}
+		}
+		Action DeactivateGlowies
+		{
+			//Even though these glowies persist, deactivating them just to be sure
+			GlowieControl TurnOffA
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelA
+			}
+			GlowieControl TurnOffB
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelB
+			}
+			GlowieControl TurnOffC
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelC
+			}
+			GlowieControl TurnOffD
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelD
+			}
+			GlowieControl TurnOffE
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelE
+			}
+			GlowieControl TurnOffF
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelF
+			}
+			GlowieControl TurnOffG
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelG
+			}
+			GlowieControl TurnOffH
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelH
+			}
+			GlowieControl TurnOffI
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelI
+			}
+			GlowieControl TurnOffJ
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelJ
+			}
+			GlowieControl TurnOffK
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelK
+			}
+			GlowieControl TurnOffL
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelL
+			}
+			GlowieControl TurnOffM
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelM
+			}
+			GlowieControl TurnOffN
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelN
+			}
+			GlowieControl TurnOffO
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelO
+			}
+		}
+		Action TurnOffTowers
+		{
+			TeamControl StopGuardTowerA
+			{
+				Type Deactivate
+				Team GuardTowerAP4Team
+			}
+			TeamControl StopGuardTowerB
+			{
+				Type Deactivate
+				Team GuardTowerBP4Team
+			}
+			TeamControl StopGuardTowerC
+			{
+				Type Deactivate
+				Team GuardTowerCP4Team
+			}
+			TeamControl StopGuardTowerD
+			{
+				Type Deactivate
+				Team GuardTowerDP4Team
+			}
+			TeamControl StopGuardTowerE
+			{
+				Type Deactivate
+				Team GuardTowerEP4Team
+			}
+			TeamControl StopGuardTowerF
+			{
+				Type Deactivate
+				Team GuardTowerFP4Team
+			}
+			TeamControl StopGuardTowerG
+			{
+				Type Deactivate
+				Team GuardTowerGP4Team
+			}
+			TeamControl StopGuardTowerH
+			{
+				Type Deactivate
+				Team GuardTowerHP4Team
+			}
+			TeamControl StopGuardTowerI
+			{
+				Type Deactivate
+				Team GuardTowerIP4Team
+			}
+			TeamControl StopGuardTowerJ
+			{
+				Type Deactivate
+				Team GuardTowerJP4Team
+			}
+			TeamControl StopGuardTowerK
+			{
+				Type Deactivate
+				Team GuardTowerKP4Team
+			}
+			TeamControl StopGuardTowerL
+			{
+				Type Deactivate
+				Team GuardTowerLP4Team
+			}
+			TeamControl StopGuardTowerM
+			{
+				Type Deactivate
+				Team GuardTowerMP4Team
+			}
+			TeamControl StopGuardTowerN
+			{
+				Type Deactivate
+				Team GuardTowerNP4Team
+			}
+			TeamControl StopGuardTowerO
+			{
+				Type Deactivate
+				Team GuardTowerOP4Team
+			}
+		}
+	}
+}	
+
+Stage SiegeAndNightstar
+{
+	DisplayName P300392647
+	ToolTip P295049786
+
+	AwardKarma
+	KarmaThreshold 10
+
+	StageActiveRequires ZonePlayers count> 8 > ZonePlayersActive count> ZonePlayers count> / 0.25 > &&
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianResistance
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianWarworksEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelA
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelB
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelC
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelD
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelE
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelF
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelG
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelH
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelI
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelJ
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelK
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelL
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelM
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelN
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Glowie
+		Glowie GuardTowerPanelO
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+
+	StartUp
+	{
+		Action StartSiegeAndNightstar
+		{
+			DebugPrint <<Starting Stage SiegeAndNightstar>>
+		}
+		Action
+		{
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 0
+		}
+		Action
+		{
+			SetScriptValue NightstarPulledAwayStage5 0
+		}
+		Action
+		{
+			SetScriptValue SiegePulledAwayStage5 0
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage5 0
+		}
+		Action
+		{
+			SetScriptValue AddsAliveStage5 2
+		}
+		Action ActivateGlowies
+		{
+			GlowieControl TurnOnA
+			{
+				Type Activate
+				Glowie GuardTowerPanelA
+			}
+			GlowieControl TurnOnB
+			{
+				Type Activate
+				Glowie GuardTowerPanelB
+			}
+			GlowieControl TurnOnC
+			{
+				Type Activate
+				Glowie GuardTowerPanelC
+			}
+			GlowieControl TurnOnD
+			{
+				Type Activate
+				Glowie GuardTowerPanelD
+			}
+			GlowieControl TurnOnE
+			{
+				Type Activate
+				Glowie GuardTowerPanelE
+			}
+			GlowieControl TurnOnF
+			{
+				Type Activate
+				Glowie GuardTowerPanelF
+			}
+			GlowieControl TurnOnG
+			{
+				Type Activate
+				Glowie GuardTowerPanelG
+			}
+			GlowieControl TurnOnH
+			{
+				Type Activate
+				Glowie GuardTowerPanelH
+			}
+			GlowieControl TurnOnI
+			{
+				Type Activate
+				Glowie GuardTowerPanelI
+			}
+			GlowieControl TurnOnJ
+			{
+				Type Activate
+				Glowie GuardTowerPanelJ
+			}
+			GlowieControl TurnOnK
+			{
+				Type Activate
+				Glowie GuardTowerPanelK
+			}
+			GlowieControl TurnOnL
+			{
+				Type Activate
+				Glowie GuardTowerPanelL
+			}
+			GlowieControl TurnOnM
+			{
+				Type Activate
+				Glowie GuardTowerPanelM
+			}
+			GlowieControl TurnOnN
+			{
+				Type Activate
+				Glowie GuardTowerPanelN
+			}
+			GlowieControl TurnOnO
+			{
+				Type Activate
+				Glowie GuardTowerPanelO
+			}
+		}
+		Action TurnOnSpawns
+		{
+			//Note all spawns should be carried over from previous stage
+
+			//Reactivating Nightstar as her body will not be around from before
+			//TeamControl StartSiege
+			//{
+			//	Type Activate
+			//	Team SiegeTeam
+			//}
+//			TeamControl StartNightstar
+//			{
+//				Type Activate
+//				Team NightstarTeam
+//			}
+		}
+		Action TurnOnSpawnsDelay
+		{
+			Delay 3
+			TeamControl
+			{
+				Type Activate
+				Team NightstarWavePets
+			}
+			TeamControl
+			{
+				Type Activate
+				Team SiegeWavePets
+			}
+		}
+		Action TurnOnWatchersDelay
+		{
+			Delay 5
+			TeamControl
+			{
+				Type Activate
+				Team NightstarWatcher-Stage5
+			}
+			TeamControl
+			{
+				Type Activate
+				Team SiegeWatcher-Stage5
+			}
+		}
+		Action TurnOnTowers
+		{
+			TeamControl StartGuardTowerA
+			{
+				Type Activate
+				Team GuardTowerAP5Team
+			}
+			TeamControl StartGuardTowerB
+			{
+				Type Activate
+				Team GuardTowerBP5Team
+			}
+			TeamControl StartGuardTowerC
+			{
+				Type Activate
+				Team GuardTowerCP5Team
+			}
+			TeamControl StartGuardTowerD
+			{
+				Type Activate
+				Team GuardTowerDP5Team
+			}
+			TeamControl StartGuardTowerE
+			{
+				Type Activate
+				Team GuardTowerEP5Team
+			}
+			TeamControl StartGuardTowerF
+			{
+				Type Activate
+				Team GuardTowerFP5Team
+			}
+			TeamControl StartGuardTowerG
+			{
+				Type Activate
+				Team GuardTowerGP5Team
+			}
+			TeamControl StartGuardTowerH
+			{
+				Type Activate
+				Team GuardTowerHP5Team
+			}
+			TeamControl StartGuardTowerI
+			{
+				Type Activate
+				Team GuardTowerIP5Team
+			}
+			TeamControl StartGuardTowerJ
+			{
+				Type Activate
+				Team GuardTowerJP5Team
+			}
+			TeamControl StartGuardTowerK
+			{
+				Type Activate
+				Team GuardTowerKP5Team
+			}
+			TeamControl StartGuardTowerL
+			{
+				Type Activate
+				Team GuardTowerLP5Team
+			}
+			TeamControl StartGuardTowerM
+			{
+				Type Activate
+				Team GuardTowerMP5Team
+			}
+			TeamControl StartGuardTowerN
+			{
+				Type Activate
+				Team GuardTowerNP5Team
+			}
+			TeamControl StartGuardTowerO
+			{
+				Type Activate
+				Team GuardTowerOP5Team
+			}
+		}
+		Action FloatersStage5Begins
+		{
+			Floater BossRes
+			{
+				Message P1512219050
+				Color ff9900
+			}
+			Floater GuardTowersUpgraded
+			{
+				Message P906858411
+				Color ff9900
+			}
+			SetScriptValue ResInProcess 0
+		}
+	}	
+	Counter SiegeDead
+	{
+		Type Team
+		Count 1
+		Team SiegeTeam
+	}
+	Counter SiegeHealth
+	{
+		Type BossHealth
+		Team SiegeTeam
+	}
+	Counter NightstarDead
+	{
+		Type Team
+		Count 1
+		Team NightstarTeam
+	}
+	Counter NightstarHealth
+	{
+		Type BossHealth
+		Team NightstarTeam
+	}
+	Counter Adds-Nightstar
+	{
+		Type Team
+		Team NightstarWavePets
+		Direction Down
+		Count 0
+	}
+	Counter Adds-Siege
+	{
+		Type Team
+		Team SiegeWavePets
+		Direction Down
+		Count 0
+	}
+	Counter NightstarWatcherCount-Stage5
+	{
+		Type Team
+		Team NightstarWatcher-Stage5
+		Direction Up
+		Count 1
+	}
+	
+	Counter SiegeWatcherCount-Stage5
+	{
+		Type Team
+		Team SiegeWatcher-Stage5
+		Direction Up
+		Count 1
+	}
+	Counter GuardTowerClicksA
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelA
+	}
+	Counter GuardTowerClicksB
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelB
+	}
+	Counter GuardTowerClicksC
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelC
+	}
+	Counter GuardTowerClicksD
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelD
+	}
+	Counter GuardTowerClicksE
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelE
+	}
+	Counter GuardTowerClicksF
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelF
+	}
+	Counter GuardTowerClicksG
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelG
+	}
+	Counter GuardTowerClicksH
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelH
+	}
+	Counter GuardTowerClicksI
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelI
+	}
+	Counter GuardTowerClicksJ
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelJ
+	}
+	Counter GuardTowerClicksK
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelK
+	}
+	Counter GuardTowerClicksL
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelL
+	}
+	Counter GuardTowerClicksM
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelM
+	}
+	Counter GuardTowerClicksN
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelN
+	}
+	Counter GuardTowerClicksO
+	{
+		Type Click
+		Count 1
+		Glowie GuardTowerPanelO
+	}
+
+	Timer TenSec
+	{
+		Duration 0:10
+	}
+
+	Timer FiveSec
+	{
+		Duration 0:05
+	}
+
+	Timer InitialNightstarWaveDelay
+	{
+		Duration 1:30
+	}
+
+	Timer NightstarWaveDelay
+	{
+		Duration 1:00
+	}
+	
+	Timer SiegeWaveDelay
+	{
+		Duration 1:00
+	}
+	
+	Timer ReinforcementDisplay
+	{
+		Duration 0:30
+	}
+	Timer RefreshInitialCount
+	{
+		Duration 00:10
+	}
+	Timer Captions-Start-Stage5-Timer
+	{
+		Duration 00:05
+	}
+
+	Trigger Captions-Start-Stage5
+	{
+		Requires Captions-Start-Stage5-Timer complete> Captions-Started-Stage5 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage5 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerA
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth59")>>
+			}
+		}
+	}
+
+	Trigger RefreshInitialCount
+	{
+		Requires RefreshInitialCount complete>
+		
+		Action
+		{
+			Reset Adds-Siege
+			Reset Adds-Nightstar
+		}
+	}
+
+	Trigger InitialReinforcementDisplay
+	{
+		Action
+		{
+			TimerControl
+			{
+				Timer ReinforcementDisplay
+				Type Add
+				Duration 0:30
+			}
+		}
+	}
+
+	Trigger NightstarWavePop
+	{
+		Requires NightstarWaveDelay complete> InitialNightstarWaveDelay complete> &&
+		Action
+		{
+			Floater
+			{
+				Message P1442033881
+				Color ff9900
+			}
+			Reset NightstarWavePop
+			Reset NightstarWaveDelay
+			Reset ReinforcementDisplay
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team NightstarWavePets
+			}
+		}
+		Action
+		{
+			Reset Adds-Nightstar
+		}
+	}
+
+	Trigger SiegeWavePop
+	{
+		Requires SiegeWaveDelay complete>
+		Action
+		{
+			Floater
+			{
+				Message P511493595
+				Color ff9900
+			}
+			Reset SiegeWavePop
+			Reset SiegeWaveDelay
+			Reset ReinforcementDisplay
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team SiegeWavePets
+			}
+		}
+		Action
+		{
+			Reset Adds-Siege
+		}
+	}
+
+	Trigger NightstarPulledFromSpawn-Stage5
+	{
+		Requires NightstarWatcherCount-Stage5 complete> AddsAliveStage5 scriptvalue> 2 >= &&
+		Action
+		{
+			SetScriptValue NightstarPulledAwayStage5 1
+		}
+	}
+	Trigger SiegePulledFromSpawn-Stage5
+	{
+		Requires SiegeWatcherCount-Stage5 complete> AddsAliveStage5 scriptvalue> 2 >= &&
+		Action
+		{
+			SetScriptValue SiegePulledAwayStage5 1
+		}
+	}
+
+	Trigger SiegeDeadSuccess
+	{
+		Requires SiegeDead count> 1 == ResInProcess scriptvalue> 0 == &&
+		Action FloatersSiegeDown
+		{
+			Floater SiegeDown
+			{
+				Message P4100004287
+				Color 0099ff
+				AlertType PriorityAlert
+			}
+
+			TeamControl NightstarStartRez
+			{
+				Type DoBehavior
+				Team NightstarTeam
+				Behavior <<UsePower("Resurrect")>>
+			}
+		}
+		Action SiegeDeadReset
+		{
+			SetScriptValue ResInProcess 1
+			Reset SiegeDeadSuccess TenSec FiveSec
+		}
+	}
+	Trigger SiegeDeadHalfway
+	{
+		Requires SiegeDead count> 1 == ResInProcess scriptvalue> 1 == && FiveSec complete> &&
+		Action FloatersSiegeHalfway
+		{
+			Floater SiegeHalfway
+			{
+				Message P1007937512
+				Color 0099ff
+				AlertType PriorityAlert
+			}
+		}
+		Action SiegeDeadHalfwayReset
+		{
+			SetScriptValue ResInProcess 2
+			Reset SiegeDeadHalfway
+		}
+	}
+	Trigger SiegeRes
+	{
+		Requires SiegeDead count> 1 == ResInProcess scriptvalue> 2 == && TenSec complete> &&
+		Action FloatersSiegeRes
+		{
+			Floater SiegeRes
+			{
+				Message P2338974117
+				Color 0099ff
+				AlertType PriorityAlert
+			}
+		}
+		Action ActivateBossResser
+		{
+			TeamControl StartBossResser
+			{
+				Type Activate
+				Team BossResserTeam
+			}
+			TeamControl SiegeInvincible
+			{
+				Type DoBehavior
+				Team SiegeTeam
+				Behavior <<Invincible>>
+			}
+			DebugPrint <<BossResser Active, Siege Invincible>>
+
+			SetScriptValue ResInProcess 3
+
+			Reset SiegeDead NightstarDead SiegeHealth NightstarHealth
+		}
+		Action DelayedReset
+		{
+			Delay 1
+			TeamControl StopBossResser
+			{
+				Type Deactivate
+				Team BossResserTeam
+			}
+			TeamControl SiegeNonInvincible
+			{
+				Type DoBehavior
+				Team SiegeTeam
+				Behavior <<Invincible(0)>>
+			}
+			DebugPrint <<BossResser Deactive, Siege Uninvincible>>
+			
+			SetScriptValue ResInProcess 0
+			Reset SiegeRes
+		}
+	}
+
+	Trigger NightstarDeadSuccess
+	{
+		Requires NightstarDead count> 1 == ResInProcess scriptvalue> 0 == &&
+		Action FloatersNightstarDown
+		{
+			Floater NightstarDown
+			{
+				Message P440784556
+				Color 0099ff
+				AlertType PriorityAlert
+			}
+
+			TeamControl SiegeStartRez
+			{
+				Type DoBehavior
+				Team SiegeTeam
+				Behavior <<UsePower("Resurrect")>>
+			}
+		}
+		Action NightstarDeadReset
+		{
+			SetScriptValue ResInProcess 1
+			Reset NightstarDeadSuccess TenSec FiveSec
+		}
+	}
+	Trigger NightstarDeadHalfway
+	{
+		Requires NightstarDead count> 1 == ResInProcess scriptvalue> 1 == && FiveSec complete> &&
+		Action FloatersNightstarHalfway
+		{
+			Floater NightstarHalfway
+			{
+				Message P3868105166
+				Color 0099ff
+				AlertType PriorityAlert
+			}
+		}
+		Action NightstarDeadHalfwayReset
+		{
+			SetScriptValue ResInProcess 2
+			Reset NightstarDeadHalfway
+		}
+	}
+	Trigger NightstarRes
+	{
+		Requires NightstarDead count> 1 == ResInProcess scriptvalue> 2 == && TenSec complete> &&
+		Action FloatersNightstarRes
+		{
+			Floater NightstarRes
+			{
+				Message P2292934828
+				Color 0099ff
+				AlertType PriorityAlert
+			}
+		}
+		Action ActivateBossResser
+		{
+			TeamControl StartBossResser
+			{
+				Type Activate
+				Team BossResserTeam
+			}
+			TeamControl NightstarInvincible
+			{
+				Type DoBehavior
+				Team NightstarTeam
+				Behavior <<Invincible>>
+			}
+			DebugPrint <<BossResser Active, Nightstar Invincible>>
+
+			SetScriptValue ResInProcess 3
+
+			Reset NightstarDead SiegeDead SiegeHealth NightstarHealth
+		}
+		Action DelayedReset
+		{
+			Delay 1
+			TeamControl StopBossResser
+			{
+				Type Deactivate
+				Team BossResserTeam
+			}
+			TeamControl NightstarNonInvincible
+			{
+				Type DoBehavior
+				Team NightstarTeam
+				Behavior <<Invincible(0)>>
+			}
+			DebugPrint <<BossResser Deactive, Nightstar Uninvincible>>
+			
+			SetScriptValue ResInProcess 0
+			Reset NightstarRes
+		}
+	}
+
+	Trigger SiegeAndNightstarDeadSuccess-AddsAlive
+	{
+		Requires SiegeDead count> 1 == NightstarDead count> 1 == && TenSec complete> ! && ResInProcess scriptvalue> 1 == ResInProcess scriptvalue> 2 == || && Adds-Siege count> 0 > Adds-Nightstar count> 0 > || &&
+		Action SiegeAndNightstarDone
+		{
+			DebugPrint <<SiegeAndNightstar success: switching to RewardWinners>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1402606563
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1590952439
+				Color ff9900
+			}
+		}
+		Action
+		{
+			SetScriptValue AddsAliveStage5 1
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable EmpyreanMerit_BAF
+				}
+			}
+		}
+		NextStage RewardWinners
+	}
+
+	Trigger SiegeAndNightstarDeadSuccess-AddsClear
+	{
+		Requires SiegeDead count> 1 == NightstarDead count> 1 == && TenSec complete> ! && ResInProcess scriptvalue> 1 == ResInProcess scriptvalue> 2 == || && Adds-Siege count> 0 == && Adds-Nightstar count> 0 == &&
+		Action SiegeAndNightstarDone
+		{
+			DebugPrint <<SiegeAndNightstar success: switching to RewardWinners>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1402606563
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1590952439
+				Color ff9900
+			}
+		}
+		Action
+		{
+			SetScriptValue AddsAliveStage5 0
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable EmpyreanMerit_BAF
+				}
+			}
+		}
+		NextStage RewardWinners
+	}
+
+	Trigger GuardTowerAHackSuccess
+	{
+		Requires GuardTowerClicksA complete>
+		Action GuardTowerAHacked
+		{
+			DebugPrint <<Guard Tower A Hacked>>
+			TeamControl SuppressGuardTowerA
+			{
+				Type DoBehavior
+				Team GuardTowerAP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerAReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower A Reset>>
+			Reset GuardTowerAHackSuccess GuardTowerClicksA
+		}
+	}
+	Trigger GuardTowerBHackSuccess
+	{
+		Requires GuardTowerClicksB complete>
+		Action GuardTowerBHacked
+		{
+			DebugPrint <<Guard Tower B Hacked>>
+			TeamControl SuppressGuardTowerB
+			{
+				Type DoBehavior
+				Team GuardTowerBP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerBReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower B Reset>>
+			Reset GuardTowerBHackSuccess GuardTowerClicksB
+		}
+	}
+	Trigger GuardTowerCHackSuccess
+	{
+		Requires GuardTowerClicksC complete>
+		Action GuardTowerCHacked
+		{
+			DebugPrint <<Guard Tower C Hacked>>
+			TeamControl SuppressGuardTowerC
+			{
+				Type DoBehavior
+				Team GuardTowerCP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerCReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower C Reset>>
+			Reset GuardTowerCHackSuccess GuardTowerClicksC
+		}
+	}
+	Trigger GuardTowerDHackSuccess
+	{
+		Requires GuardTowerClicksD complete>
+		Action GuardTowerDHacked
+		{
+			DebugPrint <<Guard Tower D Hacked>>
+			TeamControl SuppressGuardTowerD
+			{
+				Type DoBehavior
+				Team GuardTowerDP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerDReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower D Reset>>
+			Reset GuardTowerDHackSuccess GuardTowerClicksD
+		}
+	}
+	Trigger GuardTowerEHackSuccess
+	{
+		Requires GuardTowerClicksE complete>
+		Action GuardTowerEHacked
+		{
+			DebugPrint <<Guard Tower E Hacked>>
+			TeamControl SuppressGuardTowerE
+			{
+				Type DoBehavior
+				Team GuardTowerEP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerEReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower E Reset>>
+			Reset GuardTowerEHackSuccess GuardTowerClicksE
+		}
+	}
+	Trigger GuardTowerFHackSuccess
+	{
+		Requires GuardTowerClicksF complete>
+		Action GuardTowerFHacked
+		{
+			DebugPrint <<Guard Tower F Hacked>>
+			TeamControl SuppressGuardTowerF
+			{
+				Type DoBehavior
+				Team GuardTowerFP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerFReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower F Reset>>
+			Reset GuardTowerFHackSuccess GuardTowerClicksF
+		}
+	}
+	Trigger GuardTowerGHackSuccess
+	{
+		Requires GuardTowerClicksG complete>
+		Action GuardTowerGHacked
+		{
+			DebugPrint <<Guard Tower G Hacked>>
+			TeamControl SuppressGuardTowerG
+			{
+				Type DoBehavior
+				Team GuardTowerGP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerGReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower G Reset>>
+			Reset GuardTowerGHackSuccess GuardTowerClicksG
+		}
+	}
+	Trigger GuardTowerHHackSuccess
+	{
+		Requires GuardTowerClicksH complete>
+		Action GuardTowerHHacked
+		{
+			DebugPrint <<Guard Tower H Hacked>>
+			TeamControl SuppressGuardTowerH
+			{
+				Type DoBehavior
+				Team GuardTowerHP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerHReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower H Reset>>
+			Reset GuardTowerHHackSuccess GuardTowerClicksH
+		}
+	}
+	Trigger GuardTowerIHackSuccess
+	{
+		Requires GuardTowerClicksI complete>
+		Action GuardTowerIHacked
+		{
+			DebugPrint <<Guard Tower I Hacked>>
+			TeamControl SuppressGuardTowerI
+			{
+				Type DoBehavior
+				Team GuardTowerIP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerIReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower I Reset>>
+			Reset GuardTowerIHackSuccess GuardTowerClicksI
+		}
+	}
+	Trigger GuardTowerJHackSuccess
+	{
+		Requires GuardTowerClicksJ complete>
+		Action GuardTowerJHacked
+		{
+			DebugPrint <<Guard Tower J Hacked>>
+			TeamControl SuppressGuardTowerJ
+			{
+				Type DoBehavior
+				Team GuardTowerJP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerJReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower J Reset>>
+			Reset GuardTowerJHackSuccess GuardTowerClicksJ
+		}
+	}
+	Trigger GuardTowerKHackSuccess
+	{
+		Requires GuardTowerClicksK complete>
+		Action GuardTowerKHacked
+		{
+			DebugPrint <<Guard Tower K Hacked>>
+			TeamControl SuppressGuardTowerK
+			{
+				Type DoBehavior
+				Team GuardTowerKP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerKReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower K Reset>>
+			Reset GuardTowerKHackSuccess GuardTowerClicksK
+		}
+	}
+	Trigger GuardTowerLHackSuccess
+	{
+		Requires GuardTowerClicksL complete>
+		Action GuardTowerLHacked
+		{
+			DebugPrint <<Guard Tower L Hacked>>
+			TeamControl SuppressGuardTowerL
+			{
+				Type DoBehavior
+				Team GuardTowerLP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerLReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower L Reset>>
+			Reset GuardTowerLHackSuccess GuardTowerClicksL
+		}
+	}
+	Trigger GuardTowerMHackSuccess
+	{
+		Requires GuardTowerClicksM complete>
+		Action GuardTowerMHacked
+		{
+			DebugPrint <<Guard Tower M Hacked>>
+			TeamControl SuppressGuardTowerM
+			{
+				Type DoBehavior
+				Team GuardTowerMP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerMReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower M Reset>>
+			Reset GuardTowerMHackSuccess GuardTowerClicksM
+		}
+	}
+	Trigger GuardTowerNHackSuccess
+	{
+		Requires GuardTowerClicksN complete>
+		Action GuardTowerNHacked
+		{
+			DebugPrint <<Guard Tower N Hacked>>
+			TeamControl SuppressGuardTowerN
+			{
+				Type DoBehavior
+				Team GuardTowerNP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerNReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower N Reset>>
+			Reset GuardTowerNHackSuccess GuardTowerClicksN
+		}
+	}
+	Trigger GuardTowerOHackSuccess
+	{
+		Requires GuardTowerClicksO complete>
+		Action GuardTowerOHacked
+		{
+			DebugPrint <<Guard Tower O Hacked>>
+			TeamControl SuppressGuardTowerO
+			{
+				Type DoBehavior
+				Team GuardTowerOP5Team
+				Behavior <<DoNothing(DisableAutoPowers(1),Timer(30)),Combat(DisableAutoPowers(0))>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TerminalsUsedStage5 TerminalsUsedStage5 scriptvalue> 1 +
+		}
+		Action GuardTowerOReset
+		{
+			Delay 20
+			DebugPrint <<Guard Tower O Reset>>
+			Reset GuardTowerOHackSuccess GuardTowerClicksO
+		}
+	}
+	Timer StageTimer
+	{
+		Duration 20:00
+	}
+	Trigger StageTimerFailed
+	{
+		Requires StageTimer complete>
+		Action
+		{
+			DebugPrint <<Stage Timer Failed>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P198127376
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3386779019
+				Color ff9900
+			}
+		}
+		NextStage Stop
+	}
+
+	UICollection UISiegeAndNightstar
+	{
+		UIItem SiegeDefeatCountUI
+		{
+			Type BarRed
+			Text P828015434
+			ShortText P2798099443
+			Current SiegeHealth count>
+			OnClickFindEnt SiegeTeam
+			Target 100
+		}
+		UIItem NightstarDefeatCountUI
+		{
+			Type BarRed
+			Text P3955752300
+			ShortText P1904626672
+			Current NightstarHealth count>
+			OnClickFindEnt NightstarTeam
+			Target 100
+		}
+		UIItem ReinforcementShow
+		{
+			Type Timer
+			Text P1273097279
+			Timer ReinforcementDisplay
+		}
+		UIItem TimerShow
+		{
+			Type Timer
+			Text P2719699290
+			Timer StageTimer
+		}
+//		UIItem AddsShow
+//		{
+//			Type BarBlue
+//			Text P818786864
+//			ShortText P2242842013
+//			Current Adds-Siege count> Adds-Nightstar count> +
+//			Target 100
+//		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage SiegeAndNightstar>>
+			SetScriptValue FailsafeInProcess 0
+			SetScriptValue ResInProcess 0
+		}
+		Action TurnOffSpawns
+		{
+			TeamControl StopSiege
+			{
+				Type Deactivate
+				Team SiegeTeam
+			}
+			TeamControl StopNightstar
+			{
+				Type Deactivate
+				Team NightstarTeam
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NightstarInitialPets
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NightstarWavePets
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team SiegeInitialPets
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team SiegeWavePets
+			}
+			TeamControl StopGenWW1
+			{
+				Type Deactivate
+				Team GenWW1
+			}
+			TeamControl StopGenWW2
+			{
+				Type Deactivate
+				Team GenWW2
+			}
+			TeamControl StopGenWW3
+			{
+				Type Deactivate
+				Team GenWW3
+			}
+			TeamControl StopGenWW4
+			{
+				Type Deactivate
+				Team GenWW4
+			}
+			TeamControl StopGenWW5
+			{
+				Type Deactivate
+				Team GenWW5
+			}
+			TeamControl StopGenWW6
+			{
+				Type Deactivate
+				Team GenWW6
+			}
+			TeamControl StopGenWW7
+			{
+				Type Deactivate
+				Team GenWW7
+			}
+			TeamControl StopGenWW8
+			{
+				Type Deactivate
+				Team GenWW8
+			}
+			TeamControl StopGenWW9
+			{
+				Type Deactivate
+				Team GenWW9
+			}
+			TeamControl StopGenWW10
+			{
+				Type Deactivate
+				Team GenWW10
+			}
+			TeamControl StopGenWW11
+			{
+				Type Deactivate
+				Team GenWW11
+			}
+			TeamControl StopGenWW12
+			{
+				Type Deactivate
+				Team GenWW12
+			}
+			TeamControl StopGenWW13
+			{
+				Type Deactivate
+				Team GenWW13
+			}
+			TeamControl StopGenWW14
+			{
+				Type Deactivate
+				Team GenWW14
+			}
+			TeamControl StopGenWW15
+			{
+				Type Deactivate
+				Team GenWW15
+			}
+			TeamControl StopGenWW16
+			{
+				Type Deactivate
+				Team GenWW16
+			}
+			TeamControl StopGenWW17
+			{
+				Type Deactivate
+				Team GenWW17
+			}
+			TeamControl StopGenWW18
+			{
+				Type Deactivate
+				Team GenWW18
+			}
+			TeamControl StopGenWW19
+			{
+				Type Deactivate
+				Team GenWW19
+			}
+			TeamControl StopGenWW20
+			{
+				Type Deactivate
+				Team GenWW20
+			}
+			TeamControl StopGenWW21
+			{
+				Type Deactivate
+				Team GenWW21
+			}
+			TeamControl StopGenWW22
+			{
+				Type Deactivate
+				Team GenWW22
+			}
+			TeamControl StopGenWW23
+			{
+				Type Deactivate
+				Team GenWW23
+			}
+			TeamControl StopGenWW24
+			{
+				Type Deactivate
+				Team GenWW24
+			}
+			TeamControl StopGenWW25
+			{
+				Type Deactivate
+				Team GenWW25
+			}
+			TeamControl StopGenWW26
+			{
+				Type Deactivate
+				Team GenWW26
+			}
+			TeamControl StopGenWW27
+			{
+				Type Deactivate
+				Team GenWW27
+			}
+			TeamControl StopGenWW28
+			{
+				Type Deactivate
+				Team GenWW28
+			}
+			TeamControl StopGenWW29
+			{
+				Type Deactivate
+				Team GenWW29
+			}
+//			TeamControl StopGenRes1
+//			{
+//				Type Deactivate
+//				Team GenRes1
+//			}
+//			TeamControl StopGenRes2
+//			{
+//				Type Deactivate
+//				Team GenRes2
+//			}
+//			TeamControl StopGenRes3
+//			{
+//				Type Deactivate
+//				Team GenRes3
+//			}
+//			TeamControl StopGenRes4
+//			{
+//				Type Deactivate
+//				Team GenRes4
+//			}
+//			TeamControl StopGenRes5
+//			{
+//				Type Deactivate
+//				Team GenRes5
+//			}
+//			TeamControl StopGenRes6
+//			{
+//				Type Deactivate
+//				Team GenRes6
+//			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NightstarWatcher-Stage5
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team SiegeWatcher-Stage5
+			}
+		}
+		Action DeactivateGlowies
+		{
+			GlowieControl TurnOffA
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelA
+			}
+			GlowieControl TurnOffB
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelB
+			}
+			GlowieControl TurnOffC
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelC
+			}
+			GlowieControl TurnOffD
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelD
+			}
+			GlowieControl TurnOffE
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelE
+			}
+			GlowieControl TurnOffF
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelF
+			}
+			GlowieControl TurnOffG
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelG
+			}
+			GlowieControl TurnOffH
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelH
+			}
+			GlowieControl TurnOffI
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelI
+			}
+			GlowieControl TurnOffJ
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelJ
+			}
+			GlowieControl TurnOffK
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelK
+			}
+			GlowieControl TurnOffL
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelL
+			}
+			GlowieControl TurnOffM
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelM
+			}
+			GlowieControl TurnOffN
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelN
+			}
+			GlowieControl TurnOffO
+			{
+				Type Deactivate
+				Glowie GuardTowerPanelO
+			}
+		}
+		Action TurnOffTowers
+		{
+			TeamControl StopGuardTowerA
+			{
+				Type Deactivate
+				Team GuardTowerAP5Team
+			}
+			TeamControl StopGuardTowerB
+			{
+				Type Deactivate
+				Team GuardTowerBP5Team
+			}
+			TeamControl StopGuardTowerC
+			{
+				Type Deactivate
+				Team GuardTowerCP5Team
+			}
+			TeamControl StopGuardTowerD
+			{
+				Type Deactivate
+				Team GuardTowerDP5Team
+			}
+			TeamControl StopGuardTowerE
+			{
+				Type Deactivate
+				Team GuardTowerEP5Team
+			}
+			TeamControl StopGuardTowerF
+			{
+				Type Deactivate
+				Team GuardTowerFP5Team
+			}
+			TeamControl StopGuardTowerG
+			{
+				Type Deactivate
+				Team GuardTowerGP5Team
+			}
+			TeamControl StopGuardTowerH
+			{
+				Type Deactivate
+				Team GuardTowerHP5Team
+			}
+			TeamControl StopGuardTowerI
+			{
+				Type Deactivate
+				Team GuardTowerIP5Team
+			}
+			TeamControl StopGuardTowerJ
+			{
+				Type Deactivate
+				Team GuardTowerJP5Team
+			}
+			TeamControl StopGuardTowerK
+			{
+				Type Deactivate
+				Team GuardTowerKP5Team
+			}
+			TeamControl StopGuardTowerL
+			{
+				Type Deactivate
+				Team GuardTowerLP5Team
+			}
+			TeamControl StopGuardTowerM
+			{
+				Type Deactivate
+				Team GuardTowerMP5Team
+			}
+			TeamControl StopGuardTowerN
+			{
+				Type Deactivate
+				Team GuardTowerNP5Team
+			}
+			TeamControl StopGuardTowerO
+			{
+				Type Deactivate
+				Team GuardTowerOP5Team
+			}
+		}
+	}
+}
+
+Stage RewardWinners
+{
+	StartUp
+	{
+		Action StartRewardWinners
+		{
+			DebugPrint <<Starting Stage RewardWinners>>
+		}
+		Action
+		{
+			SetScriptValue OpenLeagueAward 0
+		}
+	}
+	Trigger End
+	{
+		NextStage Stop
+	}
+	Trigger AwardBadge-Completion
+	{
+		Action
+		{
+			DebugPrint <<Awarding Completion Badge>>
+			Reward IT_BAF_Complete
+		}
+	}
+	Trigger AwardBadge-NoTerminals
+	{
+		Requires TerminalsUsedStage2 scriptvalue> 0 == TerminalsUsedStage4 scriptvalue> 0 == && TerminalsUsedStage5 scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Awarding NoTerminals Badge>>
+			Reward IT_BAF_NoTowers
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardBadge-NoAddsAliveAtEnd
+	{
+		Requires AddsAliveStage5 scriptvalue> 0 ==
+		Action
+		{
+			DebugPrint <<Awarding NoAdds Badge>>
+			Reward IT_BAF_NoAdds
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardBadge-NoPullTogether
+	{
+		Requires NightstarPulledAwayStage2 scriptvalue> 0 == NightstarPulledAwayStage5 scriptvalue> 0 == && SiegePulledAwayStage4 scriptvalue> 0 == && SiegePulledAwayStage5 scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Awarding NoPullTogether Badge>>
+			Reward IT_BAF_NoMovingAVs
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardMerit-OpenLeague
+	{
+		Requires eventLockedByGroup? ! OpenLeagueAward scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Bonus Merit for an Open League Awarded>>
+			SetScriptValue OpenLeagueAward 1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Reward>>
+		}
+		Action PhatLewt
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+					NumStagesRequired 0
+					RewardTable IncarnatePool1None
+				}
+				Reward class1
+				{
+					NumStagesRequired 3
+					RewardTable Issue20EndKarma0
+				}
+				Reward class2
+				{
+					PercentileNeeded 0.00
+					NumStagesRequired 4
+					PointsNeeded 10
+					RewardTable Issue20EndKarma1
+				}
+			}
+		}
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint <<Starting Stop Stage>>
+			SetScriptValue FailsafeInProcess 0
+			SetScriptValue ResInProcess 0
+			RemoveWaypoints
+		}
+		Action TurnOffAllSpawns
+		{
+			TeamControl StopSiege
+			{
+				Type Deactivate
+				Team SiegeTeam
+			}
+			TeamControl StopNightstar
+			{
+				Type Deactivate
+				Team NightstarTeam
+			}
+
+			TeamControl
+			{
+				Type Deactivate
+				Team NightstarInitialPets
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NightstarWavePets
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team SiegeInitialPets
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team SiegeWavePets
+			}			
+			TeamControl StopGenWW1
+			{
+				Type Deactivate
+				Team GenWW1
+			}
+			TeamControl StopGenWW2
+			{
+				Type Deactivate
+				Team GenWW2
+			}
+			TeamControl StopGenWW3
+			{
+				Type Deactivate
+				Team GenWW3
+			}
+			TeamControl StopGenWW4
+			{
+				Type Deactivate
+				Team GenWW4
+			}
+			TeamControl StopGenWW5
+			{
+				Type Deactivate
+				Team GenWW5
+			}
+			TeamControl StopGenWW6
+			{
+				Type Deactivate
+				Team GenWW6
+			}
+			TeamControl StopGenWW7
+			{
+				Type Deactivate
+				Team GenWW7
+			}
+			TeamControl StopGenWW8
+			{
+				Type Deactivate
+				Team GenWW8
+			}
+			TeamControl StopGenWW9
+			{
+				Type Deactivate
+				Team GenWW9
+			}
+			TeamControl StopGenWW10
+			{
+				Type Deactivate
+				Team GenWW10
+			}
+			TeamControl StopGenWW11
+			{
+				Type Deactivate
+				Team GenWW11
+			}
+			TeamControl StopGenWW12
+			{
+				Type Deactivate
+				Team GenWW12
+			}
+			TeamControl StopGenWW13
+			{
+				Type Deactivate
+				Team GenWW13
+			}
+			TeamControl StopGenWW14
+			{
+				Type Deactivate
+				Team GenWW14
+			}
+			TeamControl StopGenWW15
+			{
+				Type Deactivate
+				Team GenWW15
+			}
+			TeamControl StopGenWW16
+			{
+				Type Deactivate
+				Team GenWW16
+			}
+			TeamControl StopGenWW17
+			{
+				Type Deactivate
+				Team GenWW17
+			}
+			TeamControl StopGenWW18
+			{
+				Type Deactivate
+				Team GenWW18
+			}
+			TeamControl StopGenWW19
+			{
+				Type Deactivate
+				Team GenWW19
+			}
+			TeamControl StopGenWW20
+			{
+				Type Deactivate
+				Team GenWW20
+			}
+			TeamControl StopGenWW21
+			{
+				Type Deactivate
+				Team GenWW21
+			}
+			TeamControl StopGenWW22
+			{
+				Type Deactivate
+				Team GenWW22
+			}
+			TeamControl StopGenWW23
+			{
+				Type Deactivate
+				Team GenWW23
+			}
+			TeamControl StopGenWW24
+			{
+				Type Deactivate
+				Team GenWW24
+			}
+			TeamControl StopGenWW25
+			{
+				Type Deactivate
+				Team GenWW25
+			}
+			TeamControl StopGenWW26
+			{
+				Type Deactivate
+				Team GenWW26
+			}
+			TeamControl StopGenWW27
+			{
+				Type Deactivate
+				Team GenWW27
+			}
+			TeamControl StopGenWW28
+			{
+				Type Deactivate
+				Team GenWW28
+			}
+			TeamControl StopGenWW29
+			{
+				Type Deactivate
+				Team GenWW29
+			}
+
+			
+
+			TeamControl TurnOffRunnersA
+			{
+				Type Deactivate
+				Team ResistanceRunnersATeam
+			}
+			TeamControl TurnOffRunnersB
+			{
+				Type Deactivate
+				Team ResistanceRunnersBTeam
+			}
+			TeamControl TurnOffRunnersC
+			{
+				Type Deactivate
+				Team ResistanceRunnersCTeam
+			}
+			TeamControl TurnOffRunnersD
+			{
+				Type Deactivate
+				Team ResistanceRunnersDTeam
+			}
+			TeamControl TurnOffRunnersE
+			{
+				Type Deactivate
+				Team ResistanceRunnersETeam
+			}
+			TeamControl TurnOffRunnersF
+			{
+				Type Deactivate
+				Team ResistanceRunnersFTeam
+			}
+			TeamControl StopBossResser
+			{
+				Type Deactivate
+				Team BossResserTeam
+			}
+		}
+		Action DeactivateGlowies
+		{
+			GlowieControl TurnOffA
+			{
+				Type Remove
+				Glowie GuardTowerPanelA
+			}
+			GlowieControl TurnOffB
+			{
+				Type Remove
+				Glowie GuardTowerPanelB
+			}
+			GlowieControl TurnOffC
+			{
+				Type Remove
+				Glowie GuardTowerPanelC
+			}
+			GlowieControl TurnOffD
+			{
+				Type Remove
+				Glowie GuardTowerPanelD
+			}
+			GlowieControl TurnOffE
+			{
+				Type Remove
+				Glowie GuardTowerPanelE
+			}
+			GlowieControl TurnOffF
+			{
+				Type Remove
+				Glowie GuardTowerPanelF
+			}
+			GlowieControl TurnOffG
+			{
+				Type Remove
+				Glowie GuardTowerPanelG
+			}
+			GlowieControl TurnOffH
+			{
+				Type Remove
+				Glowie GuardTowerPanelH
+			}
+			GlowieControl TurnOffI
+			{
+				Type Remove
+				Glowie GuardTowerPanelI
+			}
+			GlowieControl TurnOffJ
+			{
+				Type Remove
+				Glowie GuardTowerPanelJ
+			}
+			GlowieControl TurnOffK
+			{
+				Type Remove
+				Glowie GuardTowerPanelK
+			}
+			GlowieControl TurnOffL
+			{
+				Type Remove
+				Glowie GuardTowerPanelL
+			}
+			GlowieControl TurnOffM
+			{
+				Type Remove
+				Glowie GuardTowerPanelM
+			}
+			GlowieControl TurnOffN
+			{
+				Type Remove
+				Glowie GuardTowerPanelN
+			}
+			GlowieControl TurnOffO
+			{
+				Type Remove
+				Glowie GuardTowerPanelO
+			}
+		}
+		Action TurnOffTowersP2
+		{
+			TeamControl StopGuardTowerA
+			{
+				Type Deactivate
+				Team GuardTowerAP2Team
+			}
+			TeamControl StopGuardTowerB
+			{
+				Type Deactivate
+				Team GuardTowerBP2Team
+			}
+			TeamControl StopGuardTowerC
+			{
+				Type Deactivate
+				Team GuardTowerCP2Team
+			}
+			TeamControl StopGuardTowerD
+			{
+				Type Deactivate
+				Team GuardTowerDP2Team
+			}
+			TeamControl StopGuardTowerE
+			{
+				Type Deactivate
+				Team GuardTowerEP2Team
+			}
+			TeamControl StopGuardTowerF
+			{
+				Type Deactivate
+				Team GuardTowerFP2Team
+			}
+			TeamControl StopGuardTowerG
+			{
+				Type Deactivate
+				Team GuardTowerGP2Team
+			}
+			TeamControl StopGuardTowerH
+			{
+				Type Deactivate
+				Team GuardTowerHP2Team
+			}
+			TeamControl StopGuardTowerI
+			{
+				Type Deactivate
+				Team GuardTowerIP2Team
+			}
+			TeamControl StopGuardTowerJ
+			{
+				Type Deactivate
+				Team GuardTowerJP2Team
+			}
+			TeamControl StopGuardTowerK
+			{
+				Type Deactivate
+				Team GuardTowerKP2Team
+			}
+			TeamControl StopGuardTowerL
+			{
+				Type Deactivate
+				Team GuardTowerLP2Team
+			}
+			TeamControl StopGuardTowerM
+			{
+				Type Deactivate
+				Team GuardTowerMP2Team
+			}
+			TeamControl StopGuardTowerN
+			{
+				Type Deactivate
+				Team GuardTowerNP2Team
+			}
+			TeamControl StopGuardTowerO
+			{
+				Type Deactivate
+				Team GuardTowerOP2Team
+			}
+		}
+		Action TurnOffTowersP4
+		{
+			TeamControl StopGuardTowerA
+			{
+				Type Deactivate
+				Team GuardTowerAP4Team
+			}
+			TeamControl StopGuardTowerB
+			{
+				Type Deactivate
+				Team GuardTowerBP4Team
+			}
+			TeamControl StopGuardTowerC
+			{
+				Type Deactivate
+				Team GuardTowerCP4Team
+			}
+			TeamControl StopGuardTowerD
+			{
+				Type Deactivate
+				Team GuardTowerDP4Team
+			}
+			TeamControl StopGuardTowerE
+			{
+				Type Deactivate
+				Team GuardTowerEP4Team
+			}
+			TeamControl StopGuardTowerF
+			{
+				Type Deactivate
+				Team GuardTowerFP4Team
+			}
+			TeamControl StopGuardTowerG
+			{
+				Type Deactivate
+				Team GuardTowerGP4Team
+			}
+			TeamControl StopGuardTowerH
+			{
+				Type Deactivate
+				Team GuardTowerHP4Team
+			}
+			TeamControl StopGuardTowerI
+			{
+				Type Deactivate
+				Team GuardTowerIP4Team
+			}
+			TeamControl StopGuardTowerJ
+			{
+				Type Deactivate
+				Team GuardTowerJP4Team
+			}
+			TeamControl StopGuardTowerK
+			{
+				Type Deactivate
+				Team GuardTowerKP4Team
+			}
+			TeamControl StopGuardTowerL
+			{
+				Type Deactivate
+				Team GuardTowerLP4Team
+			}
+			TeamControl StopGuardTowerM
+			{
+				Type Deactivate
+				Team GuardTowerMP4Team
+			}
+			TeamControl StopGuardTowerN
+			{
+				Type Deactivate
+				Team GuardTowerNP4Team
+			}
+			TeamControl StopGuardTowerO
+			{
+				Type Deactivate
+				Team GuardTowerOP4Team
+			}
+		}
+		Action TurnOffTowersP5
+		{
+			TeamControl StopGuardTowerA
+			{
+				Type Deactivate
+				Team GuardTowerAP5Team
+			}
+			TeamControl StopGuardTowerB
+			{
+				Type Deactivate
+				Team GuardTowerBP5Team
+			}
+			TeamControl StopGuardTowerC
+			{
+				Type Deactivate
+				Team GuardTowerCP5Team
+			}
+			TeamControl StopGuardTowerD
+			{
+				Type Deactivate
+				Team GuardTowerDP5Team
+			}
+			TeamControl StopGuardTowerE
+			{
+				Type Deactivate
+				Team GuardTowerEP5Team
+			}
+			TeamControl StopGuardTowerF
+			{
+				Type Deactivate
+				Team GuardTowerFP5Team
+			}
+			TeamControl StopGuardTowerG
+			{
+				Type Deactivate
+				Team GuardTowerGP5Team
+			}
+			TeamControl StopGuardTowerH
+			{
+				Type Deactivate
+				Team GuardTowerHP5Team
+			}
+			TeamControl StopGuardTowerI
+			{
+				Type Deactivate
+				Team GuardTowerIP5Team
+			}
+			TeamControl StopGuardTowerJ
+			{
+				Type Deactivate
+				Team GuardTowerJP5Team
+			}
+			TeamControl StopGuardTowerK
+			{
+				Type Deactivate
+				Team GuardTowerKP5Team
+			}
+			TeamControl StopGuardTowerL
+			{
+				Type Deactivate
+				Team GuardTowerLP5Team
+			}
+			TeamControl StopGuardTowerM
+			{
+				Type Deactivate
+				Team GuardTowerMP5Team
+			}
+			TeamControl StopGuardTowerN
+			{
+				Type Deactivate
+				Team GuardTowerNP5Team
+			}
+			TeamControl StopGuardTowerO
+			{
+				Type Deactivate
+				Team GuardTowerOP5Team
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team WarmthBuff
+			}
+		}
+		Action ShutDownInstancedEvent
+	        {
+			TrialComplete Success
+		}
+	}
+	Trigger Never
+	{
+		Requires 0
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Stop>>
+		}
+	}
+}

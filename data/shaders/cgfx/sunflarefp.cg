@@ -1,0 +1,49 @@
+// sunflarefp.cg
+#include "variants.cgh"
+
+// definitions required for this program,
+// so we don't bother putting them in a variant
+#define VERTEX_LIT		VERT_COLOR
+#define PIXEL_LIT		NONE
+
+/*
+ #fragment let slimshady know this is a fragment program
+ Variants and options to be verified/analyzed by slimshady script:
+*/
+
+#include "constants_fp.cgh"
+#include "functions.cgh"
+
+uniform sampler2D sampler_base : TEXUNIT0;
+uniform sampler2D sampler_blend : TEXUNIT1;
+uniform sampler2D sampler_flare_scale : TEXUNIT3;
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+#include "nexus.cgh"			// define vertex program structure/semantics <=> fragment program input
+
+//----------------------------------------------------------------------------
+// main
+//----------------------------------------------------------------------------
+float4 main( VP2FP IN ) : COLOR
+{
+	float2 uv0 = IN.uv0_uv1.xy;
+	float2 uv1 = IN.uv0_uv1.zw;
+
+	float4 tex_base			= tex2D( sampler_base, uv0 );
+    float4 tex_blend		= tex2D( sampler_blend, uv1 );
+    float4 tex_flare_scale	= tex2D( sampler_flare_scale, float2( 0.5, 0 ) );
+
+    // essentially a 'BLENDMODE_MULTIPLY' material
+	float4 out_color	= tex_base * tex_blend;	// straight modulation of base by blend texture (alpha also)
+	out_color.rgb		*= 8*IN.color.rgb;		// modulate by vertex color and scale (x8 to match multiplyReg register combiner program and old assets)
+	out_color.a			*= g_Env0FP.a;			// modulate by lod alpha
+
+	out_color.a			*= tex_flare_scale.x;	// with the addition of flare alpha modulate
+
+	// @todo why are we fogging sun flare????
+	out_color.rgb = calc_fogged_color( out_color.rgb, IN.fogCoord );
+
+    return out_color;
+}

@@ -1,0 +1,90 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Left_City 
+	BaseSkeleton	Door_Left_City\skel_door_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Left_City
+	  Anim          Door_Left_City\skel_door_ready 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+	Scale           0.70
+
+	Type		Door_Left_City
+	  Anim          Door_Left_City\skel_door_ready 5 30 
+	  PlayFX	fx\doors\woodopen.fx
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Scale           0.70
+	Sets            WALKTHROUGH 
+
+	Type		Door_Left_City
+	  Anim          Door_Left_City\skel_door_ready 31 34 
+	  #PlayFX	fx\doors\woodopen.fx
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Left_City
+	  Anim          Door_Left_City\skel_door_ready 35 44 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Left_City
+	  Anim          Door_Left_City\skel_door_ready 45 66 
+	  PlayFX	fx\doors\woodclose.fx
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Left_City
+	  Anim          Door_Left_City\skel_door_ready 67 80 
+	  #PlayFX	fx\doors\woodclose.fx
+	TEnd
+MEnd
+
+SeqEnd
+

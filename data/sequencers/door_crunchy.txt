@@ -1,0 +1,89 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Crunchy
+	BaseSkeleton	Door_Crunchy\skel_door_crunchy
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Crunchy
+	  Anim          Door_Crunchy\skel_door_crunchy 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+	Scale           0.70
+
+	Type		Door_Crunchy
+	  Anim          Door_Crunchy\skel_door_crunchy 5 30 
+	  PlayFX	fx\doors\woodopen.fx
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Scale           0.70
+	Sets            WALKTHROUGH 
+
+	Type		Door_Crunchy
+	  Anim          Door_Crunchy\skel_door_crunchy 31 34 
+	  #PlayFX	fx\doors\woodopen.fx
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Crunchy
+	  Anim          Door_Crunchy\skel_door_crunchy 35 44 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Crunchy
+	  Anim          Door_Crunchy\skel_door_crunchy 45 66 
+	  PlayFX	fx\doors\woodclose.fx
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Crunchy
+	  Anim          Door_Crunchy\skel_door_crunchy 67 80 
+	TEnd
+MEnd
+
+SeqEnd
+

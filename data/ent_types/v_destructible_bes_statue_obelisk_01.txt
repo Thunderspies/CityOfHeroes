@@ -1,0 +1,54 @@
+######################################
+## 
+## 
+Type
+
+HealthFx
+	Range            75 100 
+	LibraryPiece		V_Dest_Bes_Obelisk_01_100
+End
+
+HealthFx
+	Range				50 75
+	LibraryPiece		V_Dest_Bes_Obelisk_01_100
+End
+
+HealthFx
+	Range            25 50 
+	LibraryPiece		V_Dest_Bes_Obelisk_01_050
+	OneShotFx		V_COV\Destructible_Objects\CathedralofPain_Oblisk\ObliskExplosionA.fx
+End
+
+HealthFx
+	Range            0.0001 25 
+	LibraryPiece		V_Dest_Bes_Obelisk_01_025
+	OneShotFx		V_COV\Destructible_Objects\CathedralofPain_Oblisk\ObliskExplosionB.fx
+End
+
+HealthFx
+	Range            0 0.0001 
+	LibraryPiece		V_Dest_Bes_Obelisk_01_000
+	OneShotFx		V_COV\Destructible_Objects\CathedralofPain_Oblisk\ObliskExplosionC.fx
+End
+
+CapsuleSize	25 150 25	
+CapsuleOffset  0 0 0		
+
+Sequencer	Prop_basic.txt		
+
+FadeOutStart	1500			
+FadeOutFinish	2000			
+
+Placement		Deadon		
+
+ShadowType	None			
+
+GeomScale	1.0 1.0 1.0		
+
+Selection	Capsule 
+CollisionType	LibraryPiece
+
+TicksToLingerAfterDeath		500		
+TicksToFadeAwayAfterDeath	256			
+
+End

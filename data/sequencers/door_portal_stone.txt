@@ -1,0 +1,127 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Portal_stone
+	BaseSkeleton	Door_Portal_stone\skel_Portal_stone
+	ParentType	None
+TypeDefEnd
+
+TypeDef DoorCathedralOfPainInner
+	BaseSkeleton	Door_Portal_stone\skel_Portal_stone
+	ParentType	Door_Portal_stone
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		Door_Portal_stone
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 5
+	TEnd
+
+MEnd
+
+#When Unlocking bit is flashed, move to the unlocked state
+Move ReadyUnlockedPre
+	Interrupts	<Ready>
+	Requires		Unlocking
+	Member		<Ready>
+	Priority        2
+	NextMove		ReadyUnlocked
+
+	Type		Door_Portal_stone
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 5
+	  PlayFx		EnemyFx\Rularuu\ruladak\ObeliskPortal.fx 0 CONSTANT
+	TEnd
+
+	Type		DoorCathedralOfPainInner
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 5
+	TEnd
+
+
+MEnd
+
+Move ReadyUnlocked
+	Member		<Ready>
+	Flags		Cycle
+	Priority        1
+
+	Type		Door_Portal_stone
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 5
+	  PlayFx		EnemyFx\Rularuu\ruladak\ObeliskPortal.fx 0 CONSTANT
+	TEnd
+
+	Type		DoorCathedralOfPainInner
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 5
+	TEnd
+MEnd
+
+Move Open
+	Requires	OPEN
+	Interrupts	<Ready>
+	NextMove        Opened
+	Priority        2
+
+	Type		Door_Portal_stone
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 10
+	  PlayFx		EnemyFx\Rularuu\ruladak\ObeliskPortal.fx 0 CONSTANT
+	  PlayFx		V_COV\BaseFx\ItemsOfPower\TormentMonument\Portal_Torment_Monument.fx 0 CONSTANT
+	TEnd
+
+	Type		DoorCathedralOfPainInner
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 10
+	 # PlayFx		EnemyFx\Rularuu\ruladak\ObeliskPortal.fx 0 CONSTANT
+	   PlayFx		V_COV\BaseFx\ItemsOfPower\TormentMonument\Portal_Torment_Monument.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle
+	Sets            WALKTHROUGH
+
+	Type		Door_Portal_stone
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 10
+	  PlayFx		EnemyFx\Rularuu\ruladak\ObeliskPortal.fx 0 CONSTANT
+	  PlayFx		V_COV\BaseFx\ItemsOfPower\TormentMonument\Portal_Torment_Monument.fx 0 CONSTANT
+	TEnd
+
+	Type		DoorCathedralOfPainInner
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 10
+	  #PlayFx		EnemyFx\Rularuu\ruladak\ObeliskPortal.fx 0 CONSTANT
+	   PlayFx		V_COV\BaseFx\ItemsOfPower\TormentMonument\Portal_Torment_Monument.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT
+	Interrupts	Opened
+	NextMove        ReadyUnlocked
+	Priority        1
+	Sets            WALKTHROUGH
+
+
+	Type		Door_Portal_stone
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 10
+	  PlayFx		EnemyFx\Rularuu\ruladak\ObeliskPortal.fx 0 CONSTANT
+	  PlayFx		V_COV\BaseFx\ItemsOfPower\TormentMonument\Portal_Torment_Monument.fx 0 CONSTANT
+	TEnd
+
+	Type		DoorCathedralOfPainInner
+	  Anim          Door_Portal_stone\skel_Portal_stone 1 10
+	   PlayFx		V_COV\BaseFx\ItemsOfPower\TormentMonument\Portal_Torment_Monument.fx 0 CONSTANT
+	  #PlayFx		EnemyFx\Rularuu\ruladak\ObeliskPortal.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+SeqEnd
+

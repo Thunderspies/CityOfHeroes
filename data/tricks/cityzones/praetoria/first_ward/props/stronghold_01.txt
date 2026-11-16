@@ -1,0 +1,504 @@
+Texture FW_Lincoln_D
+	Surface Metal
+End
+
+Texture FW_Sportscar_D
+	Surface Metal
+End
+
+Texture FW_Compact_D
+	Surface Metal
+End
+
+Texture X_FW_Busted_01
+	Base1 FW_Busted_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 3 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape
+
+	DualColor1 white
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 FW_Busted_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask FW_Busted_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 FW_Busted_D
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 100 100 100
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+
+	//REF VALUES
+	//----------------
+	ReflectivityBase		0.07
+	ReflectivityScale		0.05
+	ReflectivityPower		0.05
+
+	CubeMap generic_cubemap_face0.tga
+
+	DiffuseScale 1
+	AmbientScale 2
+
+
+  #ObjFlags FancyWater
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base FW_Busted_D
+		Blend none
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End
+
+
+
+Texture X_FW_SportsCar_01
+	Base1 FW_SportsCar_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 3 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 FW_SportsCar_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask FW_SportsCar_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 FW_SportsCar_D
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 100 100 100
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+
+	//REF VALUES
+	//----------------
+	ReflectivityBase		0.05
+	ReflectivityScale		0.07
+	ReflectivityPower		.05
+
+	CubeMap generic_cubemap_face0.tga
+
+	DiffuseScale 1
+	AmbientScale 2
+
+
+  #ObjFlags FancyWater
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base FW_SportsCar_D
+		Blend none
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End
+
+
+
+
+Texture X_FW_Lincoln_01
+	Base1 FW_Lincoln_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 3 5
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremape
+
+	DualColor1 white
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 FW_Lincoln_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask FW_Lincoln_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 FW_Lincoln_D
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale .3 .3
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 100 100 100
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+
+	//REF VALUES
+	//----------------
+
+	ReflectivityBase		.05
+	ReflectivityScale		.07
+	ReflectivityPower		.05
+
+ CubeMap generic_cubemap_face0.tga
+
+	DiffuseScale 1
+	AmbientScale 2
+
+
+  #ObjFlags FancyWater
+	Flags FallbackForceOpaque // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base fw_lincoln_d_lod_01 //FW_Lincoln_D
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End
+
+
+
+
+Texture X_FW_Compact_01
+	Base1 FW_Compact_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 3 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 FW_Compact_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask FW_Compact_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 FW_Compact_D
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 100 100 100
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+
+	//REF VALUES
+	//----------------
+	ReflectivityBase		0.05
+	ReflectivityScale		0.07
+	ReflectivityPower		.05
+
+	CubeMap generic_cubemap_face0.tga
+
+	DiffuseScale 1
+	AmbientScale 2
+
+
+  #ObjFlags FancyWater
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base FW_Compact_D
+		Blend none
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End
+
+
+Texture X_FW_LWSign_D
+	Base1 FW_LWSign_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 3 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 FW_LWSign_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale .125 .125
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 100 100 100
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+
+	//REF VALUES
+	//----------------
+	ReflectivityBase		0.03
+	ReflectivityScale		0.05
+	ReflectivityPower		.3
+
+	DiffuseScale 1
+	AmbientScale 2
+
+
+  #ObjFlags FancyWater
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base FW_LWSign_D
+		Blend none
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,50 @@
+#############################################################
+
+Sequencer
+
+TypeDef Mannequin_male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef Mannequin_female
+	BaseSkeleton	fem\skel_ready2
+	ParentType	Mannequin_Male
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Mannequin_male
+	  Anim          male\thumbsup 99 100 
+	TEnd
+
+	Type		Mannequin_female
+	  Anim          fem\yes 70 75 
+	TEnd
+MEnd
+
+
+
+
+SeqEnd
+

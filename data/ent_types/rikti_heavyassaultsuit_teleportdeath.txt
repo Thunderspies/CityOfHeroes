@@ -1,0 +1,44 @@
+#############################################################
+## Rikti Heavy Assault Suit
+#############################################################
+
+Type
+
+#############################################################
+
+Sequencer	Rikti_AttackCraft.txt   	  		
+SequencerType	Rikti_HeavyAssaultSuit_TeleportDeath
+Graphics	player_library/G_RiktiHeavyAssaultSuit.geo
+FX		ENEMYFX\Rikti\HeavyAssaultSuit\Thruster_Persistent.fx
+
+FadeOutStart	180				
+FadeOutFinish	200
+
+GeomScale	1.0 1.0 1.0			
+
+Placement	DeadOn  
+Selection	Capsule
+
+CapsuleSize	8 12 2
+CapsuleOffset   0 4 1 
+ReticleHeightBias 0
+ReticleBaseBias 0
+
+TicksToLingerAfterDeath		60
+TicksToFadeAwayAfterDeath	60
+
+## HEALTH STATES ###########################################################
+
+#HealthFx
+#	Range			0.0001 100
+#	#ContinuingFX		ENEMYFX\Rikti\HeavyAssaultSuit\Thruster_Persistent.fx
+#End
+#
+#HealthFx
+#	Range			0 0.0001  	
+#	OneShotFx		ENEMYFX\Rikti\HeavyAssaultSuit\Rikti_HeavyAssaultSuit_TeleportIn.fx
+#End
+
+#############################################################
+
+End

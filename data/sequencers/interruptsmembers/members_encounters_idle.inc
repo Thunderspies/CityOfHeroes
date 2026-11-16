@@ -1,0 +1,1 @@
+Member		<DeathIRQ> <ReactIRQ> <BlockIRQ> <AttackIRQ> <IRQEncounters> <MoveIRQ>

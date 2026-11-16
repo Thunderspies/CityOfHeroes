@@ -1,0 +1,1 @@
+"AtlasLock"		"You must defeat the Circle of Thorns before entering City Hall!"

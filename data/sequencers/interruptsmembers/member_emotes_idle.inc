@@ -1,0 +1,1 @@
+Member		<IRQEmotesALL> <DeathIRQ> <ReactIRQ> <AttackIRQ> <Jumps> <MoveIRQ> <Combat> <WepCombat> <TwoHandCombat> <DualHandCombat> <Block> #<HitIRQ> <Ready>

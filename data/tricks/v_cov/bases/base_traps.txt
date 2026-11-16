@@ -1,0 +1,161 @@
+Texture x_slow_field
+	Base1 basetrap_liquid02.tga
+	Base1Scroll 0.005 0.007
+	Base1Scale 1.1 1.1
+	Multiply1 basetrap_liquid02.tga
+	Multiply1Scroll 0.0007 -0.0003
+	Multiply1Scale 1 1
+	BumpMap1 basetrap_liquid01.tga
+	BumpMap1Scroll  0.0003 -0.0002
+	BumpMap1Scale 1 1
+	BumpMap2 basetrap_liquid01.tga
+	BumpMap2Scroll  -0.0004 -0.00025
+	BumpMap2Scale 2 2
+	MaskWeight 0.8
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Color4 150 150 150
+	Color3 150 150 150
+	
+	ObjFlags FancyWater // This is the flag that says to render as water!
+End
+
+Texture x_basetrap_arc_face01
+	Base1 basetrap_face01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+
+	DualColor1 texture_name.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 basetrap_face01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 texture_name.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 texture_name.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	#SpecularColor 248 191 206
+	#SpecularExponent 5
+
+	SpecularColor1 242 255 240
+	#SpecularColor2 255 100 100
+	SpecularExponent 5
+	DiffuseScale 1
+	AmbientScale 1
+End
+
+Texture x_basetrap_arc_facemount
+	Base1 basetrap_face01_mount.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+
+	DualColor1 texture_name.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 basetrap_face01_mount_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 texture_name.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 texture_name.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	#SpecularColor 248 191 206
+	#SpecularExponent 5
+
+	SpecularColor1 242 255 240
+	#SpecularColor2 255 100 100
+	SpecularExponent 5
+	DiffuseScale 1
+	AmbientScale 1
+End
+
+Trick basetraplodnocoll
+	LodFar 800
+	LodFarFade 100
+	TrickFlags NoColl
+End
+
+Trick basetraplod2nocoll
+	LodFar 800
+	LodFarFade 100
+	TrickFlags NoColl
+	ScrollST0 0.003 0.005
+End
+
+Trick basetrapglo
+	LodFar 800
+	LodFarFade 100
+	ScrollST0 0 0.01
+	ObjFlags FullBright
+
+End
+
+Trick basetraplod
+	LodFar 800
+	LodFarFade 100
+End
+
+Trick basetrapvolumetrig
+	LodFar 800
+	LodFarFade 100
+	TrickFlags NoColl Editorvisible NoZWrite
+	Groupflags VolumeTrigger
+End
+

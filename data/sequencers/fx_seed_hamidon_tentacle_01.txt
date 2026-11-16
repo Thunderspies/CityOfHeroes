@@ -1,0 +1,80 @@
+#############################################################
+## FX_CorruptedSeerTentacle.txt
+#############################################################
+
+Sequencer
+
+TypeDef FX_Seed_Hamidon_Tentacle_01
+	BaseSkeleton	FX_CorruptedSeerTentacle\skel_ready
+	ParentType	None
+TypeDefEnd
+
+Group	<Ready>
+Group	<Combat>
+Group	<AttackIRQ>
+
+### Note: All sequencer stuff must match exactly w\ player sequencer
+#############################################################
+
+Move Ready
+	Member		<DeathIRQ> <Ready>
+	Flags		Cycle
+	Priority	0
+	Scale		.5
+	NextMove	CombatReady
+
+	Type		FX_Seed_Hamidon_Tentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_ready 1 80
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready> PostWepReady
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle nosizescale
+	CycleMove	Combat_Cycle
+	Scale		0.5
+	NextMove	Post_Combat
+
+	Type		FX_Seed_Hamidon_Tentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_ready 1 80
+	TEnd
+
+
+MEnd
+
+Move Combat_Cycle
+	Requires	COMBAT
+	Priority        1
+	Scale		0.5
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle nosizescale
+	NextMove	Post_Combat
+
+	Type		FX_Seed_Hamidon_Tentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_ready 1 80
+	TEnd
+
+MEnd
+
+Move Post_Combat
+	Member		<Ready> <DeathIRQ>
+	NextMove	Ready
+	Flags		nosizescale
+
+	Type		FX_Seed_Hamidon_Tentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_ready 1 80
+	TEnd
+
+
+MEnd
+
+###################################################
+
+SeqEnd
+

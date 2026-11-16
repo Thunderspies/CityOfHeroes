@@ -1,0 +1,79 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_hazard 
+	BaseSkeleton	Door_hazard\skel_hazard
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> <DeathIRQ> 
+	Flags		Cycle 
+
+	Type		Door_hazard
+	  Anim          Door_hazard\skel_hazard 1 5 
+	TEnd
+MEnd
+
+########################################################
+
+Move HitQuick_A
+	Requires	QUICK HIT 
+	Interrupts	Ready 
+	Member		<DeathIRQ> 
+	Flags		Cycle 
+	Priority        2
+
+	Type		Door_hazard
+	  Anim          Door_hazard\skel_hazard 6 10 
+	TEnd
+MEnd
+
+#########################################################
+
+Move HitQuick_B
+	Requires	QUICK HIT 
+	Interrupts	HitQuick_A 
+	Member		<DeathIRQ> 
+	Flags		Cycle 
+	Priority        2
+
+	Type		Door_hazard
+	  Anim          Door_hazard\skel_hazard 11 15 
+	TEnd
+MEnd
+
+########################################################
+
+Move HitDeath
+	Requires	HIT DEATH 
+	Interrupts	<DeathIRQ> 
+	NextMove        postdeath2
+	Priority        2
+
+	Type		Door_hazard
+	  Anim          Door_hazard\skel_hazard 16 20 
+	TEnd
+MEnd
+
+
+Move postdeath2
+	Requires	DEATH 
+	Flags		Cycle 
+	Priority        1
+	Sets            DIENOW TARGET 
+
+	Type		Door_hazard
+	  Anim          Door_hazard\skel_hazard 16 20 
+	TEnd
+MEnd
+
+SeqEnd
+

@@ -1,0 +1,51 @@
+#########################
+#
+#	sun
+#
+#########################
+
+sun
+	MoonName sun__		0 100 70 350 # The first moon is the sun - values lock its position
+	MoonName RuinBrown_moon__		0 100 -136 0
+
+	CloudFadeTime 25 24 #4.5 20 #19.5
+	CloudFadeMin 250
+
+
+	
+	FogHeightRange	850 1350 //620  980 # miny, maxy
+	FogDist		325 1200	
+
+	LampLightTime 0 24
+End
+
+cloud 
+	Name		V_clouds1__
+end
+
+cloud 
+	Name RuinBrown_sunskirt__
+end
+
+suntime	##################### Dusk #1  ###########
+	Time 19.0 	
+	diffuse 255 160  80 # 254 182 57 #255 210 100  
+	ambient 160 130 130 #136 136 95
+	FogColor 210 140 120
+	HighFogColor 210 140 120
+	BackGroundColor 210 140 120 #210 140 110
+	FogDist 100 1980
+	SkyName dusk__
+	SunScale	2
+	MoonScale	1
+	ShadowColor	13 8 50
+	ShadowAlpha	80
+
+      DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+      DOFFocusDist     900    #Changes the focus (mid) distance 
+      DOFFarDist       1080   #Changes the far distance 
+      
+      DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+      DOFFocusValue   .3     #Changes the blurriness at the focus (mid) point (should leave at 0) 
+      DOFFarValue     .7       #Changes the blurriness at the far point
+End

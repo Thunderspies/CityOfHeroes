@@ -1,0 +1,390 @@
+#############################################################
+## V_Shivan_Giant.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Shivan_Giant
+	BaseSkeleton	Beast\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle #CANTMOVE #nosizescale
+	Scale		0.5
+	Interpolate	0
+
+	Type		Shivan_Giant
+	   Anim          Beast\Shivan_Giant_Ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Flags		CANTMOVE
+	Scale		0.5
+
+	Type		Shivan_Giant
+	  Anim          Beast\Shivan_Giant_Ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle #CANTMOVE
+	NextMove        postReady_back
+	Scale		0.5
+	Interpolate	0
+
+	Type		Shivan_Giant
+	   Anim          Beast\Shivan_Giant_Ready 1
+	TEnd
+MEnd
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Priority	101
+	Interrupts	<DeathIRQ>
+	NextMove        Death_PostCycle
+	Sets		DIENOW TARGET
+	flags		notselectable CANTMOVE
+	Scale		0.65
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_death 1 44
+	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_Death.fx
+	TEnd
+MEnd
+
+Move Death_PostCycle
+	Requires	DEATH
+	Flags		Cycle notselectable CANTMOVE
+	Sets		DIENOW TARGET
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_death 44 44
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+###################
+###### Hit Death   ######
+###################
+
+Move HitDeath
+	Requires	HIT DEATH
+	Priority        102
+	Interrupts	<DeathIRQ> <ReactIRQ>
+	NextMove        Death_PostCycle
+	Sets            DIENOW TARGET
+	flags		nosizescale CANTMOVE
+	Scale		0.65
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_death 3
+	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_Death.fx
+	TEnd
+MEnd
+
+### HIT QUICK ###########################################################
+#
+#Move HitQuick
+#	Requires	QUICK HIT
+#	Priority        2
+#	Interrupts	<HitIRQ> FearStun_cycle FearStun
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        CombatReady
+#	Scale		0.65
+#	Flags		notselectable HitReact CANTMOVE
+#
+#	Type		Shivan_Giant
+#	  Anim          Beast\Shivan_Giant_hit_react 1
+#	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_HitReact.fx
+#	TEnd
+#
+#MEnd
+
+###################
+###### Chest Ray ######
+###################
+
+Move Shivan_Chest_Ray
+	Requires	COMBAT GIANT ENDGAME HIGH
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Shivan_Chest_Ray_post
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_chest_ray 1 55
+	TEnd
+MEnd
+
+Move Shivan_Chest_Ray_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_chest_ray 55 110
+	TEnd
+MEnd
+
+###################
+###### Attack - Left ######
+###################
+
+Move Shivan_Attack_Left
+	Requires	COMBAT GIANT ENDGAME ONE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Shivan_Attack_Left_post
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_attack_left 1 50
+	TEnd
+MEnd
+
+Move Shivan_Attack_Left_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		nosizescale
+	Interpolate	0
+	Scale		1
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_attack_left 51
+	TEnd
+MEnd
+
+###################
+###### Attack - Right ######
+###################
+
+Move Shivan_Attack_Right
+	Requires	COMBAT GIANT ENDGAME TWO
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Shivan_Attack_Right_post
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_attack_right 1 50
+	TEnd
+MEnd
+
+Move Shivan_Attack_Right_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Interpolate	0
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_attack_right 51
+	TEnd
+MEnd
+
+###################
+###### Attack - Center ######
+###################
+
+Move Shivan_Attack_Center
+	Requires	COMBAT GIANT ENDGAME THREE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Shivan_Attack_Center_post
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_attack_center 1 50
+	TEnd
+MEnd
+
+Move Shivan_Attack_Center_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		nosizescale
+	Interpolate	0
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_attack_center 51
+	TEnd
+MEnd
+
+
+###################
+###### Orbital Blast ######
+###################
+
+Move Shivan_orbital_Blast_lock
+	Requires	COMBAT GIANT LOCKDOWN ENDGAME LOW
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Shivan_orbital_Blast_tell
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_orbital_blast 1 80
+	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_Climb.fx 1
+  	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_Footfalls.fx 25
+  	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_Footfalls.fx 60
+	TEnd
+MEnd
+
+
+Move Shivan_orbital_Blast_tell
+	Requires	COMBAT GIANT ENDGAME ALTERNATE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Shivan_orbital_Blast_attack
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_orbital_blast 80 140
+	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_MeteorVOX.fx
+	TEnd
+MEnd
+
+Move Shivan_orbital_Blast_attack
+	Requires	COMBAT GIANT ENDGAME
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Shivan_orbital_Blast_post
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_orbital_blast 140 200
+	TEnd
+MEnd
+
+
+Move Shivan_orbital_Blast_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		nosizescale
+
+	Type		Shivan_Giant
+	  Anim          Beast\shivan_giant_orbital_blast 200
+#  	  PlayFX	ENEMYFX\Praetorian\Warworks\Warwalker_ServoHi.fx 1
+#   	  PlayFX	ENEMYFX\Praetorian\Warworks\Warwalker_Foot.fx 33
+	TEnd
+MEnd
+
+#########################
+###Shivan_Climb_Up_Pre
+#########################
+
+Move Shivan_Climb_Up_Pre
+	Requires	SPAWN ENDGAME GIANT
+	Priority 	3
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		NoSizeScale CANTMOVE NOCOLLISION NotSelectable
+	NextMove	Shivan_Climb_Up
+
+	Type		Shivan_Giant
+	  Anim          Beast\Shivan_Giant_Climb 1 39
+	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\Spawn_Dust.fx
+  	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_Climb.fx 1
+  	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_Footfalls.fx 20
+	TEnd
+
+MEnd
+
+Move Shivan_Climb_Up
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		NotSelectable NoSizeScale
+	Sets            CANTMOVE
+	NextMove	Shivan_Climb_Up_Roar
+
+	Type		Shivan_Giant
+	  Anim          Beast\Shivan_Giant_Climb 40 132
+	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_Footfalls.fx 20
+	TEnd
+
+MEnd
+
+Move Shivan_Climb_Up_Roar
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		NotSelectable NoSizeScale
+	Sets            CANTMOVE
+	NextMove	Shivan_Climb_Up_Post
+
+	Type		Shivan_Giant
+	  Anim          Beast\Shivan_Giant_Climb 133 167
+	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\Roar_Attack.fx 0
+	TEnd
+
+MEnd
+
+Move Shivan_Climb_Up_Post
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		NotSelectable NoSizeScale
+	Sets            CANTMOVE
+	Scale		0.50
+	NextMove	Ready
+
+	Type		Shivan_Giant
+	  Anim          Beast\Shivan_Giant_Climb 168 185
+	TEnd
+MEnd
+
+## HIT QUICK (Canned) ###########################################################
+
+Move Shivan_HitQuick
+	Requires	ENCOUNTER ENDGAME GIANT HIT
+	Priority        4
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		NoSizeScale CANTMOVE NOCOLLISION
+	NextMove        CombatReady
+	Scale		0.65
+
+	Type		Shivan_Giant
+	  Anim          Beast\Shivan_Giant_hit_react 1
+	  PlayFX	ENEMYFX\Unique\Shivan\GiantShivan\ShivanGiant_HitReact.fx
+	TEnd
+
+MEnd
+#########################
+
+SeqEnd

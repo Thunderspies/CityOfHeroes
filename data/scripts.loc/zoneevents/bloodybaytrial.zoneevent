@@ -1,0 +1,3713 @@
+Name BloodyBayTrial
+FirstStage Setup
+StopStage Stop
+RestartStage Setup
+DisplayName P1444145500
+Stage Setup
+{
+	Startup
+	{
+		Action StartSetup
+		{
+			DebugPrint P1007512383
+		}
+		Action
+		{
+			SetMaxPlayerLevel 20
+			SetMinPlayerLevel 20
+		}
+		Action CreateDoors
+		{
+			DoorCreate Door-Hospital
+			DoorControl
+			{
+				Door Door-Hospital
+				Type Lock
+			}
+		}
+		Action CreatePorters
+		{
+			PorterCreate PrtDestGZ
+			PorterCreate PrtDestFF
+		}
+		Action CreateStuff
+		{
+			WaypointCreate WP-LBComm map_enticon_pushpin P3324264602
+			WaypointCreate WP-ARComm map_enticon_pushpin P372414384
+			WaypointCreate WP-LBOper map_enticon_pushpin P3758247066
+			WaypointCreate WP-ARPysc map_enticon_pushpin P1894973438
+			GlowieCreate GMTeen
+			{
+				DisplayName P922217335
+				Location WP-MTeen
+				Quantity 1
+				ResetDelay 1800
+				Model bldby_meteor_01
+				Interact P3219586103
+				Interrupt P4039371970
+				Complete P1937750739
+				BarText P935466943
+				InteractTime 3
+			}
+			GlowieCreate GMEk
+			{
+				DisplayName P2763454731
+				Location WP-MEk
+				Quantity 1
+				ResetDelay 1800
+				Model bldby_meteor_01
+				Interact P3219586103
+				Interrupt P4039371970
+				Complete P1937750739
+				BarText P935466943
+				InteractTime 3
+			}
+			GlowieCreate GMJay
+			{
+				DisplayName P2636048083
+				Location WP-MJay
+				Quantity 1
+				ResetDelay 1800
+				Model bldby_meteor_01
+				Interact P3219586103
+				Interrupt P4039371970
+				Complete P1937750739
+				BarText P935466943
+				InteractTime 3
+			}
+			GlowieCreate GMPanch
+			{
+				DisplayName P2619717032
+				Location WP-MPanch
+				Quantity 1
+				ResetDelay 1800
+				Model bldby_meteor_01
+				Interact P3219586103
+				Interrupt P4039371970
+				Complete P1937750739
+				BarText P935466943
+				InteractTime 3
+			}
+			SpawnCreate Teleporter
+			{
+				Location Teleporter
+				Group Teleporter
+				Team Teleporter
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Teleporter
+			}
+			SpawnCreate BW-Hero-NPC1
+			{
+				Location BW-Hero-NPC1
+				Group BW-Hero-NPC1
+				Team BW-Hero-NPC1
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BW-Hero-NPC1
+			}
+			SpawnCreate BW-Villain-NPC1
+			{
+				Location BW-Villain-NPC1
+				Group BW-Villain-NPC1
+				Team BW-Villain-NPC1
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BW-Villain-NPC1
+			}
+			SpawnCreate Pre-LBCmdr
+			{
+				Location Pre-LBCmdr
+				Group Pre-LBCmdr
+				Team Pre-LBCmdr
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team Pre-LBCmdr
+			}
+			SpawnCreate Pre-ARCmdr
+			{
+				Location Pre-ARCmdr
+				Group Pre-ARCmdr
+				Team Pre-ARCmdr
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team Pre-ARCmdr
+			}
+			SpawnCreate BWAK1
+			{
+				Location BWAK1
+				Group BWAK1
+				Team BWAK1
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BWAK1
+			}
+			SpawnCreate BW-Fallen
+			{
+				Location BW-Fallen
+				Group BW-Fallen
+				Team BW-Fallen
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BW-Fallen
+			}
+			SpawnCreate BW-LBCmdr
+			{
+				Location BW-LBCmdr
+				Group BW-LBCmdr
+				Team BW-LBCmdr
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BW-LBCmdr
+			}
+			SpawnCreate BW-LBAdvance
+			{
+				Location BW-LBAdvance
+				Group BW-LBAdvance
+				Team BW-LBAdvance
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BW-LBAdvance
+			}
+			SpawnCreate BW-ARCmdr
+			{
+				Location BW-ARCmdr
+				Group BW-ARCmdr
+				Team BW-ARCmdr
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BW-ARCmdr
+			}
+			SpawnCreate BW-ARAdvance
+			{
+				Location BW-ARAdvance
+				Group BW-ARAdvance
+				Team BW-ARAdvance
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BW-ARAdvance
+			}
+			SpawnCreate GZ-Trash1
+			{
+				Location GZ-Trash1
+				Group GZ-Trash1
+				Team GZ-Trash1
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Trash1
+			}
+			SpawnCreate GZ-Trash2
+			{
+				Location GZ-Trash2
+				Group GZ-Trash2
+				Team GZ-Trash2
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Trash2
+			}
+			SpawnCreate GZ-Trash3
+			{
+				Location GZ-Trash3
+				Group GZ-Trash3
+				Team GZ-Trash3
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Trash3
+			}
+			SpawnCreate GZ-Eligos
+			{
+				Location GZ-Eligos
+				Group GZ-Eligos
+				Team GZ-Eligos
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Eligos
+			}
+			SpawnCreate GZ-Barbatos
+			{
+				Location GZ-Barbatos
+				Group GZ-Barbatos
+				Team GZ-Barbatos
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Barbatos
+			}
+			SpawnCreate GZ-Marchosias
+			{
+				Location GZ-Marchosias
+				Group GZ-Marchosias
+				Team GZ-Marchosias
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Marchosias
+			}
+			SpawnCreate GZ-LBCmdr
+			{
+				Location GZ-LBCmdr
+				Group GZ-LBCmdr
+				Team GZ-LBCmdr
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-LBCmdr
+			}
+			SpawnCreate GZ-ARCmdr
+			{
+				Location GZ-ARCmdr
+				Group GZ-ARCmdr
+				Team GZ-ARCmdr
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-ARCmdr
+			}
+			SpawnCreate GZ-Civ1
+			{
+				Location GZ-Civ1
+				Group GZ-Civ1
+				Team GZ-Civ1
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Civ1
+			}
+			SpawnCreate GZ-Civ2
+			{
+				Location GZ-Civ2
+				Group GZ-Civ2
+				Team GZ-Civ2
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Civ2
+			}			
+			SpawnCreate GZ-Civ3
+			{
+				Location GZ-Civ3
+				Group GZ-Civ3
+				Team GZ-Civ3
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Civ3
+			}
+			SpawnCreate GZ-Civ4
+			{
+				Location GZ-Civ4
+				Group GZ-Civ4
+				Team GZ-Civ4
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Civ4
+			}
+			SpawnCreate GZ-Civ5
+			{
+				Location GZ-Civ5
+				Group GZ-Civ5
+				Team GZ-Civ5
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Civ5
+			}			
+			SpawnCreate GZ-Civ6
+			{
+				Location GZ-Civ6
+				Group GZ-Civ6
+				Team GZ-Civ6
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Civ6
+			}
+			SpawnCreate GZ-Shi1
+			{
+				Location GZ-Shi1
+				Group GZ-Shi1
+				Team GZ-Shi1
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Shi1
+			}
+			SpawnCreate GZ-Shi2
+			{
+				Location GZ-Shi2
+				Group GZ-Shi2
+				Team GZ-Shi2
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Shi2
+			}
+			SpawnCreate GZ-Shi3
+			{
+				Location GZ-Shi3
+				Group GZ-Shi3
+				Team GZ-Shi3
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Shi3
+			}
+			SpawnCreate GZ-Fallen
+			{
+				Location GZ-Fallen
+				Group GZ-Fallen
+				Team GZ-Fallen
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-Fallen
+			}
+			SpawnCreate GZ-LBAdvance
+			{
+				Location GZ-LBAdvance
+				Group GZ-LBAdvance
+				Team GZ-LBAdvance
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-LBAdvance
+			}
+			SpawnCreate GZ-ShivanAdvance
+			{
+				Location GZ-ShivanAdvance
+				Group GZ-ShivanAdvance
+				Team GZ-ShivanAdvance
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-ShivanAdvance
+			}
+			SpawnCreate GZ-ARAdvance
+			{
+				Location GZ-ARAdvance
+				Group GZ-ARAdvance
+				Team GZ-ARAdvance
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-ARAdvance
+			}
+			SpawnCreate FF-Fallen
+			{
+				Location FF-Fallen
+				Group FF-Fallen
+				Team FF-Fallen
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-Fallen
+			}
+			SpawnCreate FF-Trash
+			{
+				Location FF-Trash
+				Group FF-Trash
+				Team FF-Trash
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-Trash
+			}
+			SpawnCreate FF-Trash1
+			{
+				Location FF-Trash1
+				Group FF-Trash1
+				Team FF-Trash1
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-Trash1
+			}
+			SpawnCreate FF-Trash2
+			{
+				Location FF-Trash2
+				Group FF-Trash2
+				Team FF-Trash2
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-Trash2
+			}
+			SpawnCreate FF-Trash3
+			{
+				Location FF-Trash3
+				Group FF-Trash3
+				Team FF-Trash3
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-Trash3
+			}
+			SpawnCreate FF-Boss
+			{
+				Location FF-Boss
+				Group FF-Boss
+				Team FF-Boss
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(2)),Combat>>
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-Boss
+			}
+			SpawnCreate FF-BossAlt
+			{
+				Location FF-BossAlt
+				Group FF-BossAlt
+				Team FF-BossAlt
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(2)),Combat>>
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-BossAlt
+				Creator FF-Boss
+			}
+			SpawnCreate FF-LBCmdr
+			{
+				Location FF-LBCmdr
+				Group FF-LBCmdr
+				Team FF-LBCmdr
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-LBCmdr
+			}
+			SpawnCreate FF-ARCmdr
+			{
+				Location FF-ARCmdr
+				Group FF-ARCmdr
+				Team FF-ARCmdr
+				KillBehavior DestroyMe
+			}			
+			TeamCreate
+			{
+				Team FF-ARCmdr
+			}
+			SpawnCreate FF-ARGuards
+			{
+				Location FF-ARGuards
+				Group FF-ARGuards
+				Team FF-ARGuards
+				KillBehavior DestroyMe
+			}			
+			TeamCreate
+			{
+				Team FF-ARGuards
+			}
+			SpawnCreate FF-ShivanAdvance
+			{
+				Location FF-ShivanAdvance
+				Group FF-ShivanAdvance
+				Team FF-ShivanAdvance
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-ShivanAdvance
+			}
+			SpawnCreate FF-ConvoH
+			{
+				Location FF-ConvoH
+				Group FF-ConvoH
+				Team FF-ConvoH
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-ConvoH
+			}
+			SpawnCreate FF-ConvoV
+			{
+				Location FF-ConvoV
+				Group FF-ConvoV
+				Team FF-ConvoV
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-ConvoV
+			}
+			SpawnCreate BW-LBTP
+			{
+				Location BW-LBTP
+				Group BW-LBTP
+				Team BW-LBTP
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BW-LBTP
+			}
+			SpawnCreate GZ-LBTPA
+			{
+				Location GZ-LBTPA
+				Group GZ-LBTPA
+				Team GZ-LBTPA
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-LBTPA
+			}
+			SpawnCreate GZ-LBTPB
+			{
+				Location GZ-LBTPB
+				Group GZ-LBTPB
+				Team GZ-LBTPB
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-LBTPB
+			}
+			SpawnCreate FF-LBTP
+			{
+				Location FF-LBTP
+				Group FF-LBTP
+				Team FF-LBTP
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-LBTP
+			}
+			SpawnCreate BW-ARTP
+			{
+				Location BW-ARTP
+				Group BW-ARTP
+				Team BW-ARTP
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team BW-ARTP
+			}
+			SpawnCreate GZ-ARTPA
+			{
+				Location GZ-ARTPA
+				Group GZ-ARTPA
+				Team GZ-ARTPA
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-ARTPA
+			}
+			SpawnCreate GZ-ARTPB
+			{
+				Location GZ-ARTPB
+				Group GZ-ARTPB
+				Team GZ-ARTPB
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GZ-ARTPB
+			}
+			SpawnCreate FF-ARTP
+			{
+				Location FF-ARTP
+				Group FF-ARTP
+				Team FF-ARTP
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team FF-ARTP
+			}
+			SpawnCreate GlobalBuff1
+			{
+				Location GlobalBuff1
+				Group GlobalBuff1
+				Team GlobalBuff1
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GlobalBuff1
+			}
+			SpawnCreate GlobalBuff2
+			{
+				Location GlobalBuff2
+				Group GlobalBuff2
+				Team GlobalBuff2
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GlobalBuff2
+			}
+			SpawnCreate GlobalBuff3
+			{
+				Location GlobalBuff3
+				Group GlobalBuff3
+				Team GlobalBuff3
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team GlobalBuff3
+			}
+			GurneyCreate Gurney
+			{
+			}
+			GlowieControl PlaceTeen
+			{
+				Type Place
+				Glowie GMTeen
+			}
+			GlowieControl PlaceEk
+			{
+				Type Place
+				Glowie GMEk
+			}
+			GlowieControl PlacePanch
+			{
+				Type Place
+				Glowie GMPanch
+			}
+			GlowieControl PlaceJay
+			{
+				Type Place
+				Glowie GMJay
+			}
+		}
+	}
+	Trigger HeroCheck
+	{
+		Requires turnstileMissionName> LowLevelBloodyBayTrial_hero eq
+		action
+		{
+			setscriptvalue hero 1
+		}
+		action
+		{
+			debugprint <<Setting as Hero>>
+		}
+	}
+	Trigger VillainCheck
+	{
+		Requires turnstileMissionName> LowLevelBloodyBayTrial_villain eq
+		action
+		{
+			setscriptvalue villain 1
+		}
+		action
+		{
+			debugprint <<Setting as Villain>>
+		}
+	}
+	Trigger NeitherCheck
+	{
+		Requires turnstileMissionName> LowLevelBloodyBayTrial_hero eq ! turnstileMissionName> LowLevelBloodyBayTrial_villain eq ! &&
+		action
+		{
+			setscriptvalue villain 1
+		}
+		action
+		{
+			debugprint <<No Side Set, Defaulting to villain>>
+		}
+	}
+	Trigger End
+	{
+		NextStage Prelude
+	}
+}
+Stage Prelude
+{
+	DisplayName P2186842247
+	Startup
+	{
+		Action StartPrelude
+		{
+			DebugPrint <<Starting PRELUDE>>
+		}
+		Action
+		{
+			GurneyControl
+			{
+				Type Activate
+				Gurney Gurney
+			}
+			DebugPrint <<Hosptial GURNEY ACTIVATED>>
+		}
+		Action TurnOffTeleporters
+		{
+			PorterControl
+			{
+				Porter PrtDestGZ
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter PrtDestFF
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 1
+		}
+		Action TurnOnSpawnsGen
+		{
+			TeamControl
+			{
+				Type Activate
+				Team BWAK1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team BW-Fallen
+			}
+		}
+	} 
+	UICollection Boardwalk
+	{
+		UIItem TalkCmdr1
+		{
+			Type Text
+			Text P1087727489
+			ShortText P1001670740
+			HideIf CurrentStageH scriptvalue> 1 == !
+		}
+		UIItem TalkArbt1
+		{
+			Type Text
+			Text P1087727489
+			ShortText P1001670740
+			HideIf CurrentStageV scriptvalue> 1 == !
+		}
+		UIItem BWAssaultKillTxt
+		{
+			Type Text
+			Text P3298837396
+			ShortText P4200176475
+			HideIf CurrentStage scriptvalue> 2 == !
+		}
+		UIItem BWAssaultKilARar
+		{
+			Type BarBlue
+			Text P4017215392
+			ShortText P1089795953
+			Target BWAKCount2 count>
+			Current BWAKCount count>
+			HideIf CurrentStage scriptvalue> 2 == !
+		}
+		UIItem TalkCmdr2
+		{
+			Type Text
+			Text P4068402295
+			ShortText P1001670740
+			HideIf CurrentStageH scriptvalue> 3 == !
+		}
+		UIItem TalkArbt2
+		{
+			Type Text
+			Text P840562889
+			ShortText P1001670740
+			HideIf CurrentStageV scriptvalue> 3 == !
+		}
+	}
+	Counter Pushstage1-Counter
+	{
+		Type ZEPlayers
+		VolumeName PreludePush1
+	}
+	Counter BWAKCount
+	{
+		Type Team
+		Team BWAK1
+		Direction Up
+		Count 200
+	}
+	Counter BWAKCount2
+	{
+		Type Team
+		Team BWAK1
+		Direction Down
+		Count 0
+	}
+//Meteor Counters for every stage - Start
+	Counter MTeenCount
+	{
+		Type Click
+		Glowie GMTeen
+		Count 1
+	}
+//Meteor Counters for every stage - End
+//Meteor Trigger Completes for every stage - Start
+	Trigger TeenComplete
+	{
+		Requires MTeenCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			Log <<Meteor Teen Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P727470965
+				Color 00FF00
+			}
+		}
+	}
+//Meteor Trigger Completes for every stage - Start
+	Trigger VillainSpawnsBW
+	{
+		Requires villain scriptvalue> 1 ==
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team BW-Villain-NPC1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team Pre-ARCmdr
+			}
+		}
+		Action
+		{
+			SetScriptValue CurrentStageV 1
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-ARComm WP1
+		}
+	}
+	Trigger HeroSpawnsBW
+	{
+		Requires hero scriptvalue> 1 ==
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team BW-Hero-NPC1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team Pre-LBCmdr
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			SetScriptValue CurrentStageH 1
+		}
+		Action
+		{
+			WaypointPlace WP-LBComm WP1
+		}
+	}
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+	Trigger BWAKReturning
+	{
+		Requires CurrentStage scriptvalue> 1
+		Action
+		{
+			SetScriptValue BWAKReturn BWAKCount2 count>
+		}
+	}
+	Trigger BWObjPush1
+	{
+		Requires ScriptStageOneBattleStart objectivesucceeded> Pushstage1-Counter Count> 1 >= ||
+		Action
+		{
+			SetScriptValue CurrentStage 2
+		}
+		Action
+		{
+			DebugPrint <<CurrentStage Value should be 2>>
+		}
+		Action
+		{
+			SetScriptValue CurrentStageH 0
+		}
+		Action
+		{
+			SetScriptValue CurrentStageV 0
+		}
+	}
+	Trigger BWAKCompleteHero
+	{
+		Requires BWAKCount2 count> 0 == hero scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CurrentStageH 3
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 3
+		}
+		Action
+		{
+			DebugPrint <<CurrentStage Value should be 3>>
+			Floater Victory
+			{
+				Message P3405097599
+				Color 00ff00
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-LBComm WP2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team Pre-LBCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team BW-LBCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team BW-LBAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-Hero-NPC1
+			}
+		}
+	}
+	Trigger BWAKCompleteVillain
+	{
+		Requires BWAKCount2 count> 0 == villain scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CurrentStageV 3
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 3
+		}
+		Action
+		{
+			DebugPrint <<CurrentStage Value should be 3>>
+			Floater Victory
+			{
+				Message P3405097599
+				Color 00ff00
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-ARComm WP2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team Pre-ARCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team BW-ARCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team BW-ARAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-Villain-NPC1
+			}
+		}
+	}
+	Trigger SideObjectiveStart
+	{
+		Requires ScriptScientistObjStart1 objectivesucceeded>
+		Action
+		{
+			DebugPrint <<Side Objective has been started!>>
+		}
+		Action
+		{
+			GlowieControl GMTeen
+			{
+				Type Activate
+				Glowie GMTeen
+			}
+			GlowieControl GMEk
+			{
+				Type Activate
+				Glowie GMEk
+			}
+			GlowieControl GMPanch
+			{
+				Type Activate
+				Glowie GMPanch
+			}
+			GlowieControl GMJay
+			{
+				Type Activate
+				Glowie GMJay
+			}
+		}
+	}
+	Trigger End
+	{
+		Requires ScriptStageTwoBattleStart objectivesucceeded>
+		Action
+		{
+			DebugPrint <<BW Stage Over. Advancing>>
+			SetScriptValue CurrentStageV 0
+			SetScriptValue CurrentStageH 0
+		}
+		NextStage GZero
+	}
+}
+Stage GZero
+{
+	DisplayName P832704698
+	Startup
+	{
+		Action StartGZero
+		{
+			DebugPrint <<Starting GZero>>
+		}
+		Action
+		{
+			SetScriptValue CurrentStage 4
+		}
+		Action
+		{
+			SetScriptValue RitualActive 1
+		}
+		Action
+		{
+			GurneyControl
+			{
+				Type Activate
+				Gurney GroundZGurney
+			}
+			GurneyControl
+			{
+				Type Deactivate
+				Gurney BoardwalkGurney
+			}
+		}
+		Action TurnOnSpawns
+		{
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Trash1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Trash2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Trash3
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Eligos
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Barbatos
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Marchosias
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Fallen
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Shi1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Shi2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Shi3
+			}
+			TeamControl
+			{
+				Type Activate
+				Team Teleporter
+			}
+			PorterControl
+			{
+				Type Activate
+				Porter PrtDestGZ
+			}
+		}
+	}
+	Trigger GZ-Herospawn
+	{
+		Requires hero scriptvalue> 1 ==
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team GZ-LBTPA
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Civ1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Civ2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Civ3
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-LBComm WP2
+		}
+		Action
+		{
+			WaypointPlace WP-LBoper WP3
+		}
+		Action
+		{
+			Setscriptvalue CivRescuedH 1
+		}
+	}
+	Trigger GZ-Villspawn
+	{
+		Requires villain scriptvalue> 1 ==
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team GZ-ARTPA
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Civ4
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Civ5
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-Civ6
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-ARComm WP2
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP3
+		}
+		Action
+		{
+			Setscriptvalue CivRescuedV 1
+		}
+	}
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+	Counter Trash1-CountDown
+	{
+		Type Team
+		Team GZ-Trash1
+		Direction Down
+		Count 0
+	}
+	Counter Trash1-CountUp
+	{
+		Type Team
+		Team GZ-Trash1
+		Direction Up
+		Count 100
+	}
+	Counter Trash2-CountDown
+	{
+		Type Team
+		Team GZ-Trash2
+		Direction Down
+		Count 0
+	}
+	Counter Trash2-CountUp
+	{
+		Type Team
+		Team GZ-Trash2
+		Direction Up
+		Count 100
+	}
+	Counter Trash3-CountDown
+	{
+		Type Team
+		Team GZ-Trash3
+		Direction Down
+		Count 0
+	}
+	Counter Trash3-CountUp
+	{
+		Type Team
+		Team GZ-Trash3
+		Direction Up
+		Count 100
+	}
+	Counter Eligos-Count
+	{
+		Type Team
+		Team GZ-Eligos
+		Direction Up
+		Count 8
+	}
+	Counter Barbatos-Count
+	{
+		Type Team
+		Team GZ-Barbatos
+		Direction Up
+		Count 8
+	}
+	Counter Marchosias-Count
+	{
+		Type Team
+		Team GZ-Marchosias
+		Direction Up
+		Count 8
+	}
+	Counter GZplayercount
+	{
+		Type ZEPlayers
+	}
+	Trigger GZFourPlayers
+	{
+		Requires GZplayercount count> 4 ==
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 6
+		}
+		Action
+		{
+			DebugPrint <<36% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff1
+			}
+		}
+	}
+	Trigger GZFivePlayers
+	{
+		Requires GZplayercount count> 5 ==
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 5
+		}
+		Action
+		{
+			DebugPrint <<30% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff1
+			}
+		}
+	}
+	Trigger GZSixPlayers
+	{
+		Requires GZplayercount count> 6 ==
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 3
+		}
+		Action
+		{
+			DebugPrint <<18% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff1
+			}
+		}
+	}
+	Trigger GZSevenPlayers
+	{
+		Requires GZplayercount count> 7 ==
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 1
+		}
+		Action
+		{
+			DebugPrint <<6% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff1
+			}
+		}
+	}
+	Trigger GZOnePlayer
+	{
+		Requires GZplayercount count> 1 ==
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 28
+		}
+		Action
+		{
+			DebugPrint <<168% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff1
+			}
+		}
+	}
+//Meteor Counters for every stage - Start
+	Counter MTeenCount
+	{
+		Type Click
+		Glowie GMTeen
+		Count 1
+	}
+	Counter MEkCount
+	{
+		Type Click
+		Glowie GMEk
+		Count 1
+	}
+//Meteor Counters for every stage - End
+//Meteor Trigger Completes for every stage - Start
+	Trigger TeenComplete
+	{
+		Requires MTeenCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			Log <<Meteor Teen Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P727470965
+				Color 00FF00
+			}
+		}
+	}
+	Trigger EkComplete
+	{
+		Requires MEkCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			Log <<Meteor Ek Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P2978454631
+				Color 00FF00
+			}
+		}
+	}
+//Meteor Trigger Completes for every stage - Start
+	UICollection GroundZero
+	{
+		UIItem KillEverythingGZ
+		{
+			Type Text
+			Text P164003204
+			ShortText P1053655850
+			HideIf CurrentStage scriptvalue> 4 == !
+		}
+		UIItem KillEverythingGZBar
+		{
+			Type BarBlue
+			Text P186599160
+			ShortText P1089795953
+			Target Trash1-CountDown count> Trash2-CountDown count> + Trash3-CountDown count> + 24 +
+			Current Trash1-CountUp count> Trash2-CountUp count> + Trash3-CountUp count> + Eligos-Count count> + EligosTrash-Count count> + Barbatos-Count count> + BarbatosTrash-Count count> + Marchosias-Count count> + MarchosiasTrash-Count count> +
+			HideIf CurrentStage scriptvalue> 4 == !
+		}
+		UIItem Civ1
+		{
+			Type Text
+			Text P1638407627
+			ShortText P1638407627
+			HideIf CivRescuedH scriptvalue> 1 == !
+		}
+		UIItem Civ2
+		{
+			Type BarGold
+			Text P3567590721
+			ShortText P3567590721
+			Target 3
+			Current CivRescued scriptvalue>
+			HideIf CivRescuedH scriptvalue> 1 == !
+		}
+		UIItem Civ3
+		{
+			Type Text
+			Text P3633409688
+			ShortText P3633409688
+			HideIf CivRescuedV scriptvalue> 1 == !
+		}
+		UIItem Civ4
+		{
+			Type BarGold
+			Text P358588725
+			ShortText P358588725
+			Target 3
+			Current CivRescued scriptvalue>
+			HideIf CivRescuedV scriptvalue> 1 == !
+		}
+		UIItem Ritual1
+		{
+			Type Text
+			Text P3396108149
+			ShortText P3396108149
+			HideIf RitualsStopped scriptvalue> 3 ==
+		}
+		UIItem Ritual2
+		{
+			Type BarGold
+			Text P2497715372
+			ShortText P2497715372
+			Target 3
+			Current RitualsStopped scriptvalue>
+			HideIf RitualsStopped scriptvalue> 3 ==
+		}
+		UIItem GZCmdrChat
+		{
+			Type Text
+			Text P2063166402
+			ShortText P2063166402
+			HideIf CurrentStageH scriptvalue> 5 == !
+		}
+		UIItem GZArbtChat
+		{
+			Type Text
+			Text P3482027959
+			ShortText P3482027959
+			HideIf CurrentStageV scriptvalue> 5 == !
+		}
+		UIItem TeleportReminderH1
+		{
+			Type Text
+			Text P2438559187
+			ShortText P2438559187
+			HideIf HeroTransportReminder scriptvalue> 1 == !
+		}
+		UIItem TeleportReminderH2
+		{
+			Type Text
+			Text P1466363097
+			ShortText P1466363097
+			HideIf HeroTransportReminder scriptvalue> 1 == !
+		}
+		UIItem TeleportReminderH3
+		{
+			Type Text
+			Text P282014616
+			ShortText P282014616
+			HideIf HeroTransportReminder scriptvalue> 1 == !
+		}
+		UIItem TeleportReminderH4
+		{
+			Type Text
+			Text P70149942
+			ShortText P70149942
+			HideIf HeroTransportReminder scriptvalue> 1 == !
+		}
+		UIItem TeleportReminderV1
+		{
+			Type Text
+			Text P2438559187
+			ShortText P2438559187
+			HideIf VillainTransportReminder scriptvalue> 1 == !
+		}
+		UIItem TeleportReminderV2
+		{
+			Type Text
+			Text P1466363097
+			ShortText P1466363097
+			HideIf VillainTransportReminder scriptvalue> 1 == !
+		}
+		UIItem TeleportReminderV3
+		{
+			Type Text
+			Text P1565579520
+			ShortText P1565579520
+			HideIf VillainTransportReminder scriptvalue> 1 == !
+		}
+		UIItem TeleportReminderV4
+		{
+			Type Text
+			Text P70149942
+			ShortText P70149942
+			HideIf VillainTransportReminder scriptvalue> 1 == !
+		}
+	}
+	Trigger HeroTransRemindTrig
+	{
+		Requires hero scriptvalue> 1 ==
+		Action
+		{
+			SetScriptValue HeroTransportReminder 1
+		}
+	}
+	Trigger VillTransRemindTrig
+	{
+		Requires villain scriptvalue> 1 ==
+		Action
+		{
+			SetScriptValue VillainTransportReminder 1
+		}
+	}
+	Trigger HeroCivComplete
+	{
+		Requires hero scriptvalue> 1 == CivRescued scriptvalue> 3 ==
+		Action
+		{
+			Setscriptvalue CivRescuedH 0
+		}
+	}
+	Trigger VillCivComplete
+	{
+		Requires villain scriptvalue> 1 == CivRescued scriptvalue> 3 ==
+		Action
+		{
+			Setscriptvalue CivRescuedV 0
+		}
+	}
+	Trigger Ritual1
+	{
+		Requires Eligos-Count complete>
+		Action
+		{
+			Floater Victory
+			{
+				Message P1240780870
+				Color 00FF00
+			}
+			SetScriptValue RitualsStopped RitualsStopped scriptvalue> 1 +
+		}
+	}
+	Trigger Ritual2
+	{
+		Requires Barbatos-Count complete>
+		Action
+		{
+			Floater Victory
+			{
+				Message P886619534
+				Color 00FF00
+			}
+			SetScriptValue RitualsStopped RitualsStopped scriptvalue> 1 +
+		}
+	}
+	Trigger Ritual3
+	{
+		Requires Marchosias-Count complete>
+		Action
+		{
+			Floater Victory
+			{
+				Message P2345993587
+				Color 00FF00
+			}
+			SetScriptValue RitualsStopped RitualsStopped scriptvalue> 1 +
+		}
+	}
+	Trigger PaulinaClear
+	{
+		Requires Trash1-CountDown complete> hero scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CivRescued CivRescued scriptvalue> 1 +
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team GZ-Civ2
+				Behavior <<Say(P654665840)>>
+			}
+		}
+	}
+	Trigger IraClear
+	{
+		Requires Trash2-CountDown complete> hero scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CivRescued CivRescued scriptvalue> 1 +
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team GZ-Civ1
+				Behavior <<Say(P1120352902)>>
+			}
+		}
+	}
+	Trigger LoganClear
+	{
+		Requires Trash3-CountDown complete> hero scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CivRescued CivRescued scriptvalue> 1 +
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team GZ-Civ3
+				Behavior <<Say(P1270375046)>>
+			}
+		}
+	}
+	Trigger JesseClear
+	{
+		Requires Trash2-CountDown complete> villain scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CivRescued CivRescued scriptvalue> 1 +
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team GZ-Civ4
+				Behavior <<Say(P142626610)>>
+			}
+		}
+	}
+	Trigger TuttleClear
+	{
+		Requires Trash3-CountDown complete> villain scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CivRescued CivRescued scriptvalue> 1 +
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team GZ-Civ5
+				Behavior <<Say(P4199438061)>>
+			}
+		}
+	}
+	Trigger BritClear
+	{
+		Requires Trash1-CountDown complete> villain scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CivRescued CivRescued scriptvalue> 1 +
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team GZ-Civ6
+				Behavior <<Say(P2329829058)>>
+			}
+		}
+	}
+	Trigger CivSafe
+	{
+		Requires CivRescued scriptvalue> 3 == hero scriptvalue> 1 == &&
+		Action
+		{
+			Floater Victory
+			{
+				Message P1209646317
+				Color 00FF00
+			}
+		}
+	}
+	Trigger CivCapture
+	{
+		Requires CivRescued scriptvalue> 3 == villain scriptvalue> 1 == &&
+		Action
+		{
+			Floater Victory
+			{
+				Message P3924881441
+				Color 00FF00
+			}
+		}
+	}
+	Trigger RitualEnd1
+	{
+		Requires Eligos-Count complete> Barbatos-Count complete> && Marchosias-Count complete> &&
+		Action
+		{
+			Floater Victory
+			{
+				Message P3214651092
+				Color 00FF00
+			}
+		}
+		Action
+		{
+			SetScriptValue RitualActive 3
+		}
+	}
+	Trigger GZAdvanceH
+	{
+		Requires CivRescued scriptvalue> 3 == RitualActive scriptvalue> 3 == && hero scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CurrentStage 5
+		}
+		Action
+		{
+			SetScriptValue CurrentStageH 5
+		}
+		Action
+		{
+			DebugPrint <<CurrentStage Value should be 5>>
+			Floater Victory
+			{
+				Message P1723722571
+				Color 00FF00
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-LBComm WP4
+		}
+		Action
+		{
+			WaypointPlace WP-LBOper WP3
+		}
+		Action
+		{
+			WaypointPlace WP-LBOper WP2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-LBCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team BW-LBTP
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-LBAdvance
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-LBCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-LBAdvance
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-ShivanAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Civ1
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Civ2
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Civ3
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Shi1
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Shi2
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Shi3
+			}
+		}
+	}
+	Trigger GZAdvanceV
+	{
+		Requires CivRescued scriptvalue> 3 == RitualActive scriptvalue> 3 == && villain scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CurrentStage 5
+		}
+		Action
+		{
+			SetScriptValue CurrentStageV 5
+		}
+		Action
+		{
+			DebugPrint <<CurrentStage Value should be 5>>
+			Floater Victory
+			{
+				Message P1723722571
+				Color 00FF00
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-ARComm WP4
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP3
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-ARCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team BW-ARTP
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-ARAdvance
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-ARCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-ARAdvance
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-ShivanAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Civ4
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Civ5
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Civ6
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Shi1
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Shi2
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Shi3
+			}
+		}
+	}
+	Trigger GZShivanDestroy
+	{
+		Requires ScriptShivanEnemies objectivesucceeded>
+		Action
+		{
+			TeamControl
+			{
+				Team GZ-ShivanAdvance
+				Type SetHealth
+				Health 0.0
+			}
+		}
+	}
+	Trigger End
+	{
+		Requires ScriptStageThreeBattleStart objectivesucceeded>
+		Action
+		{
+			DebugPrint <<GZero Stage Over. Advancing.>>
+		}
+		NextStage ForgottenForest
+	}
+}
+Stage ForgottenForest
+{
+	DisplayName P2657096536
+	Startup
+	{
+		Action StartFF
+		{
+			DebugPrint <<Starting Forgotten Forest>>
+		}
+			
+		Action
+		{
+			SetScriptValue CurrentStage 6
+		}
+		Action TurnOnSpawns
+		{
+			TeamControl
+			{
+				Type Activate
+				Team FF-Trash
+			}
+			TeamControl
+			{
+				Type Activate
+				Team FF-Trash1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team FF-Fallen
+			}
+			PorterControl
+			{
+				Type Deactivate
+				Porter PrtDestGZ
+			}
+			PorterControl
+			{
+				Type Activate
+				Porter PrtDestFF
+			}
+		}
+	}
+	Trigger FFSpawnH
+	{
+		Requires hero scriptvalue> 1 ==
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team FF-Trash2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team FF-LBTP
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-LBComm WP4
+		}
+		Action
+		{
+			WaypointPlace WP-LBOper WP3
+		}
+		Action
+		{
+			WaypointPlace WP-LBOper WP2
+		}
+		Action
+		{
+			WaypointPlace WP-LBOper WP5
+		}
+	}
+	Trigger FFSpawnV
+	{
+		Requires villain scriptvalue> 1 ==
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team FF-Trash3
+			}
+			TeamControl
+			{
+				Type Activate
+				Team FF-ARTP
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-ARComm WP4
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP3
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP2
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP5
+		}
+	}
+	Trigger GZShivanDestroy
+	{
+		Requires ScriptShivanEnemies objectivesucceeded>
+		Action
+		{
+			TeamControl
+			{
+				Team GZ-ShivanAdvance
+				Type SetHealth
+				Health 0.0
+			}
+		}
+	}
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+	Counter FFZEPlayers
+	{
+		Type ZEPlayers
+	}
+	Trigger FFAFourPlayers
+	{
+		Requires FFZEPlayers count> 4 == FFBossStart Scriptvalue> 0 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 13
+		}
+		Action
+		{
+			DebugPrint <<78% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff2
+			}
+		}
+	}
+	Trigger FFAFivePlayers
+	{
+		Requires FFZEPlayers count> 5 == FFBossStart Scriptvalue> 0 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 10
+		}
+		Action
+		{
+			DebugPrint <<60% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff2
+			}
+		}
+	}
+	Trigger FFASixPlayers
+	{
+		Requires FFZEPlayers count> 6 == FFBossStart Scriptvalue> 0 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 6
+		}
+		Action
+		{
+			DebugPrint <<36% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff2
+			}
+		}
+	}
+	Trigger FFASevenPlayers
+	{
+		Requires FFZEPlayers count> 7 == FFBossStart Scriptvalue> 0 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 3
+		}
+		Action
+		{
+			DebugPrint <<18% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff2
+			}
+		}
+	}
+	Trigger FFAOnePlayer
+	{
+		Requires FFZEPlayers count> 1 == FFBossStart Scriptvalue> 0 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 29
+		}
+		Action
+		{
+			DebugPrint <<174% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff2
+			}
+		}
+	}
+	Trigger FFBFourPlayers
+	{
+		Requires FFZEPlayers count> 4 == FFBossStart Scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 20
+		}
+		Action
+		{
+			DebugPrint <<120% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff3
+			}
+		}
+	}
+	Trigger FFBFivePlayers
+	{
+		Requires FFZEPlayers count> 5 == FFBossStart Scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 15
+		}
+		Action
+		{
+			DebugPrint <<90% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff3
+			}
+		}
+	}
+	Trigger FFBSixPlayers
+	{
+		Requires FFZEPlayers count> 6 == FFBossStart Scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 10
+		}
+		Action
+		{
+			DebugPrint <<60% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff3
+			}
+		}
+	}
+	Trigger FFBSevenPlayers
+	{
+		Requires FFZEPlayers count> 7 == FFBossStart Scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 5
+		}
+		Action
+		{
+			DebugPrint <<30% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff3
+			}
+		}
+	}
+	Trigger FFBOnePlayer
+	{
+		Requires FFZEPlayers count> 1 == FFBossStart Scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue varBBTDamageBuff 30
+		}
+		Action
+		{
+			DebugPrint <<180% Buff Applied>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GlobalBuff3
+			}
+		}
+	}
+	Counter FF-TrashCount
+	{
+		Type Team
+		Team FF-Trash
+		Direction Up
+		Count 45
+	}
+	Counter ShivanBossHealth
+	{
+		Type BossHealth
+		Team FF-Boss
+	}
+	Counter FF-Boss-Count
+	{
+		Type Team
+		Team FF-Boss
+		Direction Up
+		Count 1
+	}
+	Counter FF-Boss-Alt-Count
+	{
+		Type Team
+		Team FF-BossAlt
+		Direction Up
+		Count 1
+	}
+	Counter ShivanBossAltHealth
+	{
+		Type BossHealth
+		Team FF-BossAlt
+	}
+	Counter CmdrChatVol
+	{
+		Type ZEPlayers
+		VolumeName FFCmdrEnc
+	}
+	Timer BossBattleBadge-Timer
+	{
+		Duration 00:30
+	}
+//Meteor Counters for every stage - Start
+	Counter MTeenCount
+	{
+		Type Click
+		Glowie GMTeen
+		Count 1
+	}
+	Counter MEkCount
+	{
+		Type Click
+		Glowie GMEk
+		Count 1
+	}
+	Counter MPanchCount
+	{
+		Type Click
+		Glowie GMPanch
+		Count 1
+	}
+	Counter MJayCount
+	{
+		Type Click
+		Glowie GMJay
+		Count 1
+	}
+//Meteor Counters for every stage - End
+//Meteor Trigger Completes for every stage - Start
+	Trigger TeenComplete
+	{
+		Requires MTeenCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			Log <<Meteor Teen Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P727470965
+				Color 00FF00
+			}
+		}
+	}
+	Trigger EkComplete
+	{
+		Requires MEkCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			Log <<Meteor Ek Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P2978454631
+				Color 00FF00
+			}
+		}
+	}
+	Trigger PanchComplete
+	{
+		Requires MPanchCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			Log <<Meteor Panch Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P613751949
+				Color 00FF00
+			}
+		}
+	}
+	Trigger JayComplete
+	{
+		Requires MJayCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			Log <<Meteor Jay Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P3975321517
+				Color 00FF00
+			}
+		}
+	}
+//Meteor Trigger Completes for every stage - Start
+	Trigger MeteorEventComplete
+	{
+		Requires BadgeMeteors scriptvalue> 4 ==
+		Action
+		{
+			Log <<Side Objective Completed Successfully>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P2720859449
+				Color 00FF00
+			}
+		}
+		Action
+		{
+			Reward BloodyBayTrial_Meteors
+		}
+	}
+	UICollection ForgottenForest
+	{
+		UIItem FFAK
+		{
+			Type Text
+			Text P752032265
+			ShortText P700110248
+			HideIf FF-TrashCountB complete>
+		}
+		UIItem FFAKBar
+		{
+			Type BarBlue
+			Text P2473209583
+			ShortText P2473209583
+			Target 45
+			Current FF-TrashCount count>
+			HideIf FF-TrashCount complete>
+		}
+		UIItem BossDefeat
+		{
+			Type Text
+			Text P1495519678
+			ShortText P1045273423
+			HideIf AltBossActive Scriptvalue> 1 == !
+		}
+		UIItem BothBossDefeat
+		{
+			Type Text
+			Text P1063106332
+			ShortText P1063106332
+			HideIf AltBossActive Scriptvalue> 2 == !
+		}
+		UIItem BossHealth
+		{
+			Type BarRed
+			Text P516411839
+			ShortText P516411839
+			Current ShivanBossHealth count>
+			OnClickFindEnt FF-Boss
+			Target 100
+			HideIf AltBossActive Scriptvalue> 1 >= !
+		}
+		UIItem BossAltHealth
+		{
+			Type BarRed
+			Text P2071184669
+			ShortText P2071184669
+			Current ShivanBossAltHealth count>
+			OnClickFindEnt FF-BossAlt
+			Target 100
+			HideIf AltBossActive Scriptvalue> 2 == !
+		}
+	}
+	Trigger CmdrRadio
+	{
+		Requires CmdrChatVol Count> 1 >=
+		Action
+		{
+			Caption
+			{
+				Message P2925240359
+			}
+		}
+		Action
+		{
+			SetScriptValue FFStage 1
+		}
+	}
+	Trigger BossArea
+	{
+		Requires FF-TrashCount complete>
+		Action
+		{
+			SetScriptValue CurrentStage 7
+			DebugPrint <<CurrentStage Value 7>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team FF-Boss
+			}
+			Floater Victory
+			{
+				Message P1382261284
+				Color 00FF00
+			}
+			Floater Victory
+			{
+				Message P567829951
+				Color 00FF00
+			}
+		}
+		Action
+		{
+			SetScriptValue AltBossActive 1
+		}
+		Action
+		{
+			SetScriptValue FFBossStart 1
+		}
+	}
+	Trigger BossHealthPercent
+	{
+		Requires ShivanBossHealth count> 50 <= ShivanBossHealth count> 1 >= &&
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team FF-BossAlt
+			}
+		}
+		Action
+		{
+			SetScriptValue AltBossActive 2
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type SetHealth
+				Team FF-BossAlt
+				Health 0.5
+			}
+		}
+	}
+	Trigger BossBadgeReqFinal
+	{
+		Requires FF-Boss-Count Complete> FF-Boss-Alt-Count complete> && BossBattleBadge-Timer complete> ! &&
+		Action
+		{
+			Reward BloodyBayTrial_SimultaneousDefeat
+		}
+		Action
+		{
+			Log <<You should receive the simultaneous defeat badge>>
+		}
+	}
+	Trigger BossBadgeReqFinalFailLog
+	{
+		Requires FF-Boss-Count complete> ! FF-Boss-Alt-Count complete> ! || BossBattleBadge-Timer complete> && BossTimerActive scriptvalue> 1 == &&
+		Action
+		{
+			Log <<30 seconds has elapsed. Brotherly Love Failed>>
+		}
+	}
+	Trigger BossBadgeReqInit
+	{
+		Requires FF-Boss-Count Complete> FF-Boss-Alt-Count complete> ||
+		Action
+		{
+			Reset BossBattleBadge-Timer
+		}
+		Action
+		{
+			DebugPrint <<Reseting Boss Kill Timer>>
+		}
+		Action
+		{
+			SetScriptValue BossTimerActive 1
+		}
+	}
+	Trigger BossHealthDeadH
+	{
+		Requires FF-Boss-Count complete> FF-Boss-Alt-Count complete> && hero scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CurrentStage 8
+		}
+		Action
+		{
+			Log <<Trial Completed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P1601029554
+				Color 00FF00
+			}
+		}		
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-LBComm WP6
+		}
+		Action
+		{
+			WaypointPlace WP-LBOper WP3
+		}
+		Action
+		{
+			WaypointPlace WP-LBOper WP2
+		}
+		Action
+		{
+			WaypointPlace WP-LBOper WP5
+		}
+		Action
+		{
+			WaypointPlace WP-LBOper WP4
+		}
+		Action RewardChoicetable
+		{
+			Reward SL3BloodyBayTrialRewardtable
+		}
+		Action RewardBadgeComplete
+		{
+			Reward BloodyBayTrial_Complete
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team FF-LBCmdr
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-LBCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-LBTPB
+			}
+			TeamControl
+			{
+				Type Activate
+				Team FF-ConvoH
+			}
+			Caption
+			{
+				Message P1745011565
+			}
+		}
+		Action
+		{
+			TrialComplete Success
+		}
+		NextStage Stop
+	}
+	Trigger BossHealthDeadV
+	{
+		Requires FF-Boss-Count complete> FF-Boss-Alt-Count complete> && villain scriptvalue> 1 == &&
+		Action
+		{
+			SetScriptValue CurrentStage 8
+		}
+		Action
+		{
+			Log <<Trial Completed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P1601029554
+				Color 00FF00
+			}
+		}		
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-ARComm WP6
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP3
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP2
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP5
+		}
+		Action
+		{
+			WaypointPlace WP-ARPsyc WP4
+		}
+		Action RewardChoicetable
+		{
+			Reward SL3BloodyBayTrialRewardtable
+		}
+		Action RewardBadgeComplete
+		{
+			Reward BloodyBayTrial_Complete
+		}
+		Action RewardMeritComplete
+		{
+			Reward IS.SL3_BloodyBayTrial_Merits
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team FF-ARCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team FF-ARGuards
+			}
+			TeamControl
+			{
+				Type Activate
+				Team FF-ConvoV
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-ARCmdr
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GZ-ARTPB
+			}
+		}
+		Action
+		{
+			Caption
+			{
+				Message P3647419638
+			}
+		}
+		Action
+		{
+			TrialComplete Success
+		}
+		NextStage Stop
+	}
+}
+Stage Stop
+{
+	Startup
+	{
+		Action ShutdownPrep
+		{
+			Reset FinalEnd-timer
+		}
+	}
+	Timer FinalEnd-timer
+	{
+		Duration 05:00
+	}
+//Meteor Counters for every stage - Start
+	Counter MTeenCount
+	{
+		Type Click
+		Glowie GMTeen
+		Count 1
+	}
+	Counter MEkCount
+	{
+		Type Click
+		Glowie GMEk
+		Count 1
+	}
+	Counter MPanchCount
+	{
+		Type Click
+		Glowie GMPanch
+		Count 1
+	}
+	Counter MJayCount
+	{
+		Type Click
+		Glowie GMJay
+		Count 1
+	}
+//Meteor Counters for every stage - End
+//Meteor Trigger Completes for every stage - Start
+	Trigger TeenComplete
+	{
+		Requires MTeenCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			DebugPrint <<Meteor Teen Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P727470965
+				Color 00FF00
+			}
+		}
+	}
+	Trigger EkComplete
+	{
+		Requires MEkCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			DebugPrint <<Meteor Ek Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P2978454631
+				Color 00FF00
+			}
+		}
+	}
+	Trigger PanchComplete
+	{
+		Requires MPanchCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			DebugPrint <<Meteor Panch Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P613751949
+				Color 00FF00
+			}
+		}
+	}
+	Trigger JayComplete
+	{
+		Requires MJayCount complete>
+		Action
+		{
+			SetScriptValue BadgeMeteors BadgeMeteors scriptvalue> 1 +
+		}
+		Action
+		{
+			DebugPrint <<Meteor Jay Claimed>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P3975321517
+				Color 00FF00
+			}
+		}
+	}
+//Meteor Trigger Completes for every stage - Start
+	Trigger MeteorEventComplete
+	{
+		Requires BadgeMeteors scriptvalue> 4 ==
+		Action
+		{
+			DebugPrint <<Side Objective Completed Successfully>>
+		}
+		Action
+		{
+			Floater Victory
+			{
+				Message P2720859449
+				Color 00FF00
+			}
+		}
+		Action
+		{
+			Reward BloodyBayTrial_Meteors
+		}
+	}
+	Trigger ShivanSpawn
+	{
+		Requires villain scriptvalue> 1 == ScriptShivanEnemies objectivesucceeded> ! &&
+		Action
+		{
+			TeamControl
+			{
+				Team FF-ShivanAdvance
+				Type Activate
+			}
+		}
+	}
+	Trigger FFBShivanDestroy
+	{
+		Requires ScriptShivanEnemies objectivesucceeded>
+		Action
+		{
+			TeamControl
+			{
+				Team FF-ShivanAdvance
+				Type SetHealth
+				Health 0.0
+			}
+			TeamControl
+			{
+				Team FF-ShivanAdvance
+				Type SetHealth
+				Health 0.0
+			}
+		}
+	}
+	Trigger ARBossKill
+	{
+		Requires ScriptKillSulaco objectivesucceeded>
+		Action
+		{
+			TeamControl
+			{
+				Team FF-ARCmdr
+				Type SetHealth
+				Health 0.0
+			}
+			TeamControl
+			{
+				Team FF-ARGuards
+				Type DoBehavior
+				Behavior gang(9)
+			}
+		}
+	}
+	Trigger End
+	{
+		Requires FinalEnd-timer complete>
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team Teleporter
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-Hero-NPC1
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-Villain-NPC1
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team Pre-LBCmdr
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team Pre-ARCmdr
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-Fallen
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-LBCmdr
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-LBAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-ARCmdr
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-ARAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-LBCmdr
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-ARCmdr
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-Fallen
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-LBAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-ShivanAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-ARAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team FF-Fallen
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team FF-LBCmdr
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team FF-ARCmdr
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team FF-ARGuards
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team FF-ShivanAdvance
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team FF-ConvoH
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team FF-ConvoV
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-LBTP
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-LBTPA
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-LBTPB
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team FF-LBTP
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BW-ARTP
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-ARTPA
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GZ-ARTPB
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team FF-ARTP
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GlobalBuff
+			}
+		}
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+	}
+	Trigger Never
+	{
+		Requires 0
+	}
+}

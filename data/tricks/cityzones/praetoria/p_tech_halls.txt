@@ -1,0 +1,1350 @@
+
+Texture X_P_Tech_Walls_01
+	Base1 P_Tech_Walls_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+CubeMap cadelany_testmap_grpcubemap16_face0.tga
+
+	Multiply1 Tech_Metal_01
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_Walls_01_NS
+	ReflectivityBase .1
+  	ReflectivityScale 0.2
+ 	 ReflectivityPower 1
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 P_Tech_Walls_01_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_Walls_01
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Walls_01
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 P_TechMetalBrushSidewyas_ns
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 2 24
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 50
+	SpecularExponent2 50
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow  FallbackForceOpaque // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 0
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Walls_01
+		Blend none
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Floors_01
+	Base1 P_Tech_Floors_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	CubeMap cadelany_testmap_grpcubemap16_face0.tga
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_Floors_01_NS
+	ReflectivityBase .05
+  ReflectivityScale 1
+  ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_Floors_01.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Floors_01
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 5 5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Floors_01
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Ceiling_01
+	Base1 P_Tech_Ceiling_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none //P_Tech_Ceiling_01_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 P_Tech_Ceiling_01_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 0
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Ceiling_01
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Ceiling_02
+	Base1 P_Tech_Ceiling_02
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none //P_Tech_Ceiling_02_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 P_Tech_Ceiling_02_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 0
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Ceiling_02
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Ceiling_03
+	Base1 P_Tech_Ceiling_03
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none //P_Tech_Ceiling_02_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 P_Tech_Ceiling_03_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 0
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Ceiling_03
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Ceiling_04
+	Base1 P_Tech_Ceiling_04
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none //P_Tech_Ceiling_02_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 P_Tech_Ceiling_04_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 0
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Ceiling_04
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+Texture X_P_Tech_Ceiling_05
+	Base1 P_Tech_Ceiling_05
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 P_Tech_Ceiling_05_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 0
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Ceiling_05
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+Texture X_P_Tech_Floors_02
+	Base1 P_Tech_Floors_02
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+		CubeMap cadelany_testmap_grpcubemap16_face0.tga
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_Floors_02_NS
+	ReflectivityBase .05
+  ReflectivityScale 1
+  ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_Floors_02
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Floors_02
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 5 5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Floors_02
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Floors_03
+	Base1 P_Tech_Floors_03
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+		CubeMap cadelany_testmap_grpcubemap16_face0.tga
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_Floors_03_NS
+	ReflectivityBase .05
+  ReflectivityScale 1
+  ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_Floors_03
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Floors_03
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 5 5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Floors_03
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Floors_04
+	Base1 P_Tech_Floors_04
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+			CubeMap cadelany_testmap_grpcubemap16_face0.tga
+
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_Floors_04_NS
+	ReflectivityBase .05
+  ReflectivityScale 1
+  ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_Floors_04
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Floors_04
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 5 5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Floors_04
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Floors_05
+	Base1 P_Tech_Floors_05
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+			CubeMap cadelany_testmap_grpcubemap16_face0.tga
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_Floors_05_NS
+	ReflectivityBase .05
+  ReflectivityScale 1
+  ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_Floors_05
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Floors_05
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 5 5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Floors_05
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+Texture X_P_Tech_Floors_06
+	Base1 P_Tech_Floors_06
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+			CubeMap cadelany_testmap_grpcubemap16_face0.tga
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_Floors_06_NS
+	ReflectivityBase .05
+  ReflectivityScale 1
+  ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_Floors_06
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Floors_06
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 5 5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Floors_06
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Floors_07
+	Base1 P_Tech_Floors_07
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+			CubeMap cadelany_testmap_grpcubemap16_face0.tga
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_Floors_07_NS
+	ReflectivityBase .05
+  ReflectivityScale 1
+  ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_Floors_07
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Floors_07
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 5 5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Floors_07
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_Floors_08
+	Base1 P_Tech_Floors_08
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+			CubeMap cadelany_testmap_grpcubemap16_face0.tga
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_Floors_08_NS
+	ReflectivityBase .05
+  ReflectivityScale 1
+  ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_Floors_08
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Floors_08
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 5 5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Floors_08
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+Texture X_P_Tech_WallRibs_01
+	Base1 P_Tech_WallRibs_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Tech_Metal_01
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 2 2
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tech_WallRibs_01_NS
+	ReflectivityBase .01
+  ReflectivityScale 1
+  ReflectivityPower 3
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask P_Tech_WallRibs_01
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .2
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_WallRibs_01
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 tech_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 5 5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_WallRibs_01
+		Blend Tech_Metal_01
+		Bumpmap none
+		BlendType ColorBlendDual // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End

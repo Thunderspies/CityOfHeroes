@@ -1,0 +1,324 @@
+
+StartStoryArc
+
+Title "P1841515898"
+Description "P534807290"
+Contact "P3582258383"
+
+MinLevel 1
+MaxLevel 50
+MinTeamSize 1
+MaxTeamSize 8
+
+StartMission
+
+	Title "P236933340"
+	SubTitle "P1337616067"
+	MapName maps/Missions/Warehouse/Warehouse_30/Warehouse_30_Layout_01_01.txt
+		// Any map path right now
+	VillainGroup 5thColumn
+		// Any Villain group right now
+	Pacing BackLoaded
+		// Flat
+		// BackLoaded
+		// FrontLoaded
+		// RampUp
+		// RampDown
+		// Staggered
+	CompletionTime 30
+
+	ContactIntro "P105912956"
+	ContactSendOff "P3980608839"
+	ContactDeclineSendOff "P2098172459"
+	ContactStillBusy "P3797511930"
+	ContactMissonSuccess "P4225215788"
+	ContactMissonFail "P1887069310"
+
+	MissionAccept "P3784015099"
+	MissionDecline "P2565060356"
+	MissionActiveTask "P4225658583"
+	MissionEnterMission "P34608439"
+	MissionSucceed "P2022038247"
+	MissionFailed "P3865744673"
+
+	MissionRequirements "P2118573225" 
+		// if all of these succed you win
+		// if any of these fail you will lose
+		// DefeatAllVillains
+		// DefeatAllVillainsInEndRoom
+
+	// BOSS ---------------------------------------------------------------------------------
+	Detail
+	{
+		Name "P1228699415"
+		DetailType Boss
+		Entity Random
+			// Or any entity name
+		VillainGroup 5th_Column
+		Placement Back
+			// Front
+			// Middle
+			// Back
+		Quantity 3
+		Alignment Enemy
+			// Ally
+			// Enemy
+			// Rogue
+		Difficulty Easy
+			// Easy
+			// Medium
+			// Hard
+
+		InactiveSpeech "P809034563"
+		ActiveSpeech "P1316861614"
+
+		CompassDescription "P976595413"
+		CompassDescriptionSingular "P3419428597"
+
+		RewardText "P1728954725"
+		DefaultAnimation ZombieDrum_Standing
+
+		FirstBloodSpeech "P1796897918"
+		ThreeFourthsHealthSpeech "P1046805483"
+		HalfHealthSpeech "P1483922697"
+		QuarterHealthSpeech "P1962131108"
+		DeathSpeech "P1140314121"
+		DefeatedPlayerSpeech "P2053620826"
+		HeldSpeech "P3755903885"
+		FreedSpeech "P2158871188"
+		AfraidSpeech "P3948628939"
+
+		BossRunsAwaySpeech "P667113478"
+		BossRunsWhenHPIsBelow .01
+		BossRunsWhenAllyCountIsBelow 1
+		BossAnimation Eat_Donut
+		BossOnlyRequiredForComplete 1
+	}
+
+	// COLLECTION ---------------------------------------------------------------------------------
+	Detail
+	{
+		Name "P1897653333"
+		DetailType Collection
+		Entity OO_Tek1_Mainframe_01
+			// Model Name instead of entity name here
+		Placement Front
+		Quantity 3
+
+		CompassDescription "P3161058246"
+		CompassDescriptionSingular "P3777229570"
+
+		RewardText "P1728954725"
+
+		ObjectInteractionTime 2
+		ObjectBeginInteraction "P2176194443"
+		ObjectInteractionBar "P3732240909"
+		ObjectInterrupted "P4039291106"
+		ObjectComplete "P655968816"
+		ObjectWaiting "P437760970"
+		ObjectReset "P1263582511"
+		ObjectLocation Floor
+			// Person
+			// Wall
+			// Floor
+			// Roof
+		ObjectRemoveOnComplete 1
+	}
+
+	// AMBUSH ---------------------------------------------------------------------------------
+	Detail
+	{
+		Name "P3711735059"
+		DetailType Ambush
+		VillainGroup Romans
+		Placement Back
+		Quantity 1
+		Alignment Enemy
+		Difficulty Hard
+
+		InactiveSpeech "P2646588049"
+		ActiveSpeech "P1241563812"
+
+		AmbushTrigger "P1228699415"
+			// Can also be the name of any completable Detail
+	}
+
+	// PATROL ---------------------------------------------------------------------------------
+	Detail
+	{
+		Name "P1096887982"
+		DetailType Patrol
+		VillainGroup Arachnos
+		Placement Front
+		Quantity 1
+		Alignment Ally
+		Difficulty Medium
+
+		InactiveSpeech "P272701305"
+		ActiveSpeech "P1396409969"
+
+		Patroller1Speech "P2736956974"
+		Patroller2Speech "P2356125547"
+	}
+
+	// PERSON ---------------------------------------------------------------------------------
+	Detail
+	{
+		Name "P2118573225"
+		DetailType Person
+		Entity  Romans_Romulus_Nictus
+		VillainGroup 5th_Column
+		Placement Front
+		Quantity 1
+		Alignment Enemy
+		Difficulty Medium
+
+		CompassDescription "P4039628801"
+		CompassDescriptionSingular "P3960300369"
+
+		RewardText "P1728954725"
+		DefaultAnimation ZombieDrum_Standing
+
+		PersonSucceedsOn Rescue
+			// Delivery
+			// Rescue
+
+		InactiveSpeech "P4091224651"
+		ActiveSpeech "P3569639917"
+
+		PersonCombatStance FightDefensive
+			// NonCombat
+			// Pacifist
+			// FightAggressive
+			// FightDefensive
+
+		PersonInactiveSpeech "P3153865379"
+		PersonActiveSpeech "P72100277"
+
+		PersonRescuedSpeech "P320242751"
+		PersonArriveAtDestinationSpeech "P3702139898"
+		PersonReacquiredSpeech "P1181735068"
+		PersonStrandedSpeech "P4102066154"
+		PersonClickAfterReaquireSpeech "P3957001973"
+
+		PersonAnimation Binocular_Scan
+		PersonRescuedAnimation Binocular_Scan
+		PersonArrivedAnimation Binocular_Scan
+		PersonRecapturedAnimation Binocular_Scan
+		PersonStrandedAnimation Binocular_Scan
+
+		PersonRescuedBehavior RunToNearestDoor
+			// --- Below are not valid if rescue type is delivery
+			// RunToNearestDoor -- Runs into nears door
+			// RunAway -- Runs off for 90 seconds then dissappears - DOES NOT WORK
+			// Wander -- Wanders Around
+			// DoNothing -- Just plays the Rescue Anim
+
+		PersonArrivedBehavior RunAway
+			// RunToNearestDoor
+			// RunAway
+			// Wander
+			// DoNothing
+		PersonBetraysOnArrival 1
+
+		EscortDestination Door:MissionReturn
+			// Hopefully we can add more locations later
+		EscortMapWayPoint "P1589139288"
+		EscortStatusText "P1192510751"
+	}
+
+	// DEFEND ---------------------------------------------------------------------------------
+	Detail
+	{
+		Name "P3625933681"
+		DetailType DefendObject
+		Entity Objects_Ancient_Lockbox
+		VillainGroup 5th_Column
+		Placement Back
+		Quantity 1
+		Alignment Enemy
+		Difficulty Medium
+
+		InactiveSpeech "P3016948760"
+		ActiveSpeech "P3612500813"
+
+		CompassDescription "P3522067079"
+		CompassDescriptionSingular "P2108922557"
+
+		RewardText "P1728954725"
+		DefaultAnimation ZombieDrum_Standing
+		FirstBloodSpeech "P1796897918"
+		ThreeFourthsHealthSpeech "P1046805483"
+		HalfHealthSpeech "P1483922697"
+		QuarterHealthSpeech "P1962131108"
+		DeathSpeech "P1140314121"
+		DefeatedPlayerSpeech "P2053620826"
+		HeldSpeech "P3755903885"
+		FreedSpeech "P2158871188"
+		AfraidSpeech "P3948628939"
+		
+		Attacker1Speech "P532473665"
+		Attacker2Speech "P2260055803"
+		AttackerAlertSpeech "P3796924065"
+	}
+
+	// DESTROY ---------------------------------------------------------------------------------
+	Detail
+	{
+		Name "P1785516851"
+		DetailType DestroyObject
+		Entity Objects_Ancient_Lockbox
+		VillainGroup 5th_Column
+		Placement Back
+		Quantity 1
+		Alignment Enemy
+		Difficulty Medium
+
+		InactiveSpeech "P207061112"
+		ActiveSpeech "P3473047546"
+
+		CompassDescription "P2199954368"
+		CompassDescriptionSingular "P4204088856"
+
+		RewardText "P1728954725"
+		DefaultAnimation ZombieDrum_Standing
+
+		FirstBloodSpeech "P1796897918"
+		ThreeFourthsHealthSpeech "P1046805483"
+		HalfHealthSpeech "P1483922697"
+		QuarterHealthSpeech "P1962131108"
+		DeathSpeech "P1140314121"
+		DefeatedPlayerSpeech "P2053620826"
+		HeldSpeech "P3755903885"
+		FreedSpeech "P2158871188"
+		AfraidSpeech "P3948628939"
+	}
+
+
+EndMission
+
+
+StartMission
+	Title "P527133477"
+	SubTitle "P1337616067"
+	MapName maps/Missions/5th_Column/5th_Column_30/5th_Column_30_Layout_01.txt
+	VillainGroup 5thColumn
+	Pacing BackLoaded
+	CompletionTime 30
+	ContactIntro "P105912956"
+	ContactSendOff "P3980608839"
+	ContactDeclineSendOff "P2098172459"
+	ContactStillBusy "P3797511930"
+	ContactMissonSuccess "P4225215788"
+	ContactMissonFail "P1887069310"
+	MissionAccept "P3784015099"
+	MissionDecline "P2565060356"
+	MissionActiveTask "P527133477"
+	MissionEnterMission "P34608439"
+	MissionSucceed "P2022038247"
+	MissionFailed "P3865744673"
+EndMission
+
+
+EndStoryArc
+

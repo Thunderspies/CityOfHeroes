@@ -1,0 +1,6692 @@
+#############################################################
+## Zombie.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef zombie
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef mastermind_zombie
+	BaseSkeleton	male\skel_ready2
+	ParentType	zombie
+TypeDefEnd
+
+TypeDef fem_zombie
+	BaseSkeleton	fem\skel_ready2
+	ParentType	zombie
+TypeDefEnd
+
+TypeDef huge_zombie
+	BaseSkeleton	huge\skel_ready
+	ParentType	zombie
+TypeDefEnd
+
+TypeDef CameraShaker
+	BaseSkeleton	huge\skel_ready
+	ParentType	huge_zombie
+TypeDefEnd
+
+TypeDef Vahzilok
+	BaseSkeleton	vahzilok\skel_vah_combat_cycle
+	ParentType	huge_zombie
+TypeDefEnd
+
+TypeDef Brute
+	BaseSkeleton	huge\skel_ready
+	ParentType	Vahzilok
+TypeDefEnd
+
+TypeDef skeleton
+	BaseSkeleton	male\skel_ready2
+	ParentType	zombie
+TypeDefEnd
+
+TypeDef mastermind_skeleton
+	BaseSkeleton	male\skel_ready2
+	ParentType	skeleton
+TypeDefEnd
+
+TypeDef EventZombie
+	BaseSkeleton	male\skel_ready2
+	ParentType	zombie
+TypeDefEnd
+
+TypeDef MindsOfMayhem_Adamastor
+	BaseSkeleton	huge\skel_ready
+	ParentType	huge_zombie
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<basicTHREAT>
+Group	<basicMENACE>
+Group	<basicLOOKOUT>
+Group	<basicCHEER>
+Group	<basicVANDAL>
+Group	<basic0BSERVE>
+Group	<basicLOITER>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 1
+	  PlayFX	ENEMYFX\Zombie\Zombie_Idle_SFX.fx
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+#############################################################
+## MOVEMENT
+#############################################################
+
+## IDLE ###########################################################
+
+Move Z_IdleReady
+	Requires	IDLE
+	Priority        1
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		zombie
+	  Anim          male\skel_ready2 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+## WALK FORWARD ###########################################################
+
+Move Z_WalkPre
+	Requires	FORWARD IDLE
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Z_WalkCycle
+	Priority        3
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_walk 1 27
+	  PlayFX	Feet\Ghoul_Left.fx 1
+	  PlayFX	Feet\Ghoul_Right.fx 14
+	  PlayFX	ENEMYFX\Zombie\Zombie_Idle_SFX.fx
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Beast\walk 6 25
+	TEnd
+MEnd
+
+Move Z_WalkCycle
+	Requires	FORWARD IDLE
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Z_WalkPost
+	Priority        3
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_walk 1 27
+	  PlayFX	Feet\Ghoul_Left.fx 1
+	  PlayFX	Feet\Ghoul_Right.fx 14
+	  PlayFX	ENEMYFX\Zombie\Zombie_Idle_SFX.fx
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Beast\walk 1 25
+	TEnd
+MEnd
+
+Move Z_WalkPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		zombie
+	  Anim          male\zombie_postrun 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_postrun 4 28
+	TEnd
+MEnd
+
+## LOITER WALK FORWARD ###########################################################
+
+Move LoiterWalk
+	Requires	FORWARD LOITER
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        WalkPost
+	Priority        2
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_walk 1 27
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Beast\walk 1 25
+	TEnd
+MEnd
+
+Move LoiterWalk_B
+	Requires	FORWARD LOITER
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        WalkPost
+	Priority        2
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_walk_armsdown 1 27
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Beast\walk 1 25
+	TEnd
+MEnd
+
+Move LoiterWalk_C
+	Requires	FORWARD LOITER
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        WalkPost
+	Priority        2
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_walk_bentback 1 27
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Beast\walk 1 25
+	TEnd
+MEnd
+
+Move LoiterWalk_D
+	Requires	FORWARD LOITER
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	NextMove        WalkPost
+	Priority        2
+	Scale           0.70
+
+	Type		zombie
+	  Anim          male\weak_walk 1 28
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Beast\walk 1 25
+	TEnd
+MEnd
+
+## RUN FORWARD ###########################################################
+
+Move RunPreReady
+	Requires	FORWARD
+	Priority        1
+	Interrupts	<Ready> <PostMoveCycle> <Block> <HitIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RunCycleReady
+
+	Type		zombie
+	  Anim          male\zombie_run 1 27
+	  PlayFX	Feet\Ghoul_Left.fx 1
+	  PlayFX	Feet\Ghoul_Right.fx 14
+	  PlayFX	ENEMYFX\Zombie\Zombie_Run_SFX.fx
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_run 1 25
+	TEnd
+MEnd
+
+Move RunCycleReady
+	Requires	FORWARD
+	Priority        1
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        RunPostReady
+
+	Type		zombie
+	  Anim          male\zombie_run 1 27
+	  PlayFX	Feet\Ghoul_Left.fx 1
+	  PlayFX	Feet\Ghoul_Right.fx 14
+	  PlayFX	ENEMYFX\Zombie\Zombie_Run_SFX.fx
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_run 1 25
+	TEnd
+MEnd
+
+Move RunPostReady
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Scale           0.70
+
+	Type		zombie
+	  Anim          male\zombie_postrun 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_postrun 4 28
+	TEnd
+MEnd
+
+## JUMP ###########################################################
+
+Move jumpPre
+	Requires	JUMP
+	Priority        1
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpUp
+
+	Type		zombie
+	  Anim          male\monster_jump 10 90
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Priority        1
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        jumpApex
+
+	Type		zombie
+	  Anim          male\monster_jump 91 92
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Priority        1
+	Member		<DeathIRQ> <Jumps>
+	NextMove        jumpFall
+
+	Type		zombie
+	  Anim          male\monster_jump 93 94
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Priority        1
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+
+	Type		zombie
+	  Anim          male\monster_jump 95 117
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Priority        1
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		zombie
+	  Anim          male\monster_jump 118 120
+	TEnd
+MEnd
+
+Move JumpPost
+	Include sequencers\Members\Readies.inc
+	NextMove        JumpPost_cycle
+	Interpolate     0
+	Flags		CantMove
+
+	Type		zombie
+	  Anim          male\monster_postjump 1 34
+	  PlayFx        FEET\LAND1.FX  21
+	TEnd
+MEnd
+
+Move JumpPost_cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		zombie
+	  Anim          male\monster_postjump 35
+	TEnd
+MEnd
+
+#############################################################
+## COMBAT
+#############################################################
+
+Move PreCombat
+	Requires	COMBAT
+	Interrupts	<Ready> PostWepReady
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Priority        1
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        PostCombatReady
+	Priority        1
+	Scale           0.50
+	Interpolate	0
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+Move PostCombatReady
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+Move CombatReady_half
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Priority        1
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 15 31
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+Move CombatReady_stand
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        PostCombatReady
+	Priority        1
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ready 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+Move CombatReady_stand_half
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady_stand
+	Priority        1
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ready 15 31
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 15
+	TEnd
+MEnd
+
+###################
+### Combat run Forward ##
+###################
+
+Move C_RunPre
+	Requires	FORWARD COMBAT
+	Interrupts	<Combat> <PostMoveCycle> <HitIRQ> <CombatAttack>
+	Member		<CombatMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_RunCycle
+	Priority        2
+
+	Type		zombie
+	  Anim          male\zombie_run 1 27
+	  PlayFX	Feet\Ghoul_Left.fx 1
+	  PlayFX	Feet\Ghoul_Right.fx 14
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_run 1 25
+	TEnd
+MEnd
+
+Move C_RunCycle
+	Requires	FORWARD COMBAT
+	Member		<CombatMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_RunPost
+	Priority        2
+
+	Type		zombie
+	  Anim          male\zombie_run 1 27
+	  PlayFX	Feet\Ghoul_Left.fx 1
+	  PlayFX	Feet\Ghoul_Right.fx 14
+	  PlayFX	ENEMYFX\Zombie\Zombie_Run_SFX.fx 1
+	  //PlayFX	ENEMYFX\Zombie\Zombie_Run_SFX.fx 20
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_run 1 25
+	TEnd
+MEnd
+
+Move C_RunPost
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Scale           0.70
+
+	Type		zombie
+	  Anim          male\zombie_postrun 1
+	  PlayFX	ENEMYFX\Zombie\Zombie_Idle_SFX.fx
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_postrun 4 28
+	TEnd
+MEnd
+
+#####################
+###### Combat Jump  ######
+#####################
+
+Move C_jumpPre
+	Requires	JUMP COMBAT
+	Interrupts	<PostMoveCycle> <Combat> <CombatMove> <iceslide> <Swim> <CombatAttack> <jumpFall> <Claw> C_RunJumpCycleB <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        C_jumpUp
+	Priority        1
+
+	Type		zombie
+	  Anim          male\monster_jump 10 90
+	TEnd
+MEnd
+
+Move C_jumpUp
+	Requires	JUMP COMBAT
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        C_jumpApex
+	Priority        1
+
+	Type		zombie
+	  Anim          male\monster_jump 91 92
+	TEnd
+MEnd
+
+Move C_jumpApex
+	Requires	APEX COMBAT
+	Member		<DeathIRQ> <Jumps>
+	NextMove        C_jumpFall
+	Priority        1
+
+	Type		zombie
+	  Anim          male\monster_jump 93 94
+	TEnd
+MEnd
+
+Move C_jumpFall
+	Requires	AIR COMBAT
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        C_jumpFall2
+	Priority        1
+
+	Type		zombie
+	  Anim          male\monster_jump 95 117
+	TEnd
+MEnd
+
+Move C_jumpFall2
+	Requires	AIR COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        C_JumpPost
+	Priority        1
+
+	Type		zombie
+	  Anim          male\monster_jump 118 120
+	TEnd
+MEnd
+
+Move C_JumpPost
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        C_JumpPost_cycle
+	Priority        1
+	Interpolate     0
+	Flags		CantMove
+
+	Type		zombie
+	  Anim          male\monster_postjump 1 34
+	  PlayFx        FEET\LAND1.FX  21
+	TEnd
+MEnd
+
+Move C_JumpPost_cycle
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	Priority        1
+
+	Type		zombie
+	  Anim          male\monster_postjump 35
+	TEnd
+MEnd
+
+#############################################################
+## POWERS
+#############################################################
+
+## STOMP ###########################################################
+
+Move Stomp
+	Requires	COMBAT STOMP
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Stomp2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\stomp 1 62
+	  PlayFX	Feet\GiantStomp.fx 25
+	TEnd
+MEnd
+
+Move Stomp2
+	Include sequencers\Members\Combat.inc
+	NextMove        Combat_half
+
+	Type		zombie
+	  Anim          male\stomp 62
+	TEnd
+MEnd
+
+Move Combat_half
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Scale           0.70
+
+	Type		zombie
+	  Anim          male\combat_cycle 15 31
+	TEnd
+MEnd
+
+## STEAL POWER ###########################################################
+
+Move Steal
+	Requires	COMBAT STEAL
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Stealpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		zombie
+	  Anim          male\zombie_steal 1 57
+	  PitchStart	8
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+Move Stealpost
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+
+	Type		zombie
+	  Anim          male\zombie_steal 57
+	TEnd
+MEnd
+
+## POISON MODE (MR.SPIKEY)###########################################################
+
+Move PrePoison
+	Requires	COMBAT POISON
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PrePoison2
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          vahzilok\pre_poison 1 91
+	TEnd
+MEnd
+
+Move PrePoison2
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+
+	Type		zombie
+	  Anim          vahzilok\pre_poison 91
+	TEnd
+MEnd
+
+## MOUTH_EYE BLAST ###########################################################
+
+Move Mouth
+	Requires	COMBAT HEADCAST
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PostMouth
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		zombie
+	  Anim          vahzilok\vah_eyecast 1 49
+	  PitchStart	1
+	  PitchAngle	0.1
+	TEnd
+MEnd
+
+Move PostMouth
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+
+	Type		zombie
+	  Anim          vahzilok\vah_eyecast 49
+	TEnd
+MEnd
+
+Move PostMouth_cycle
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        PostCombatReady
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+
+###################
+###### WindUp  ######
+###################
+
+Move Pre_WindUp
+	Requires	COMBAT STARTOFFENSESTANCE WINDUP
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <CombatAttack>
+	NextMove        WindUp
+
+	Type		zombie
+	  Anim          male\windup_power 1 41
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\windup_power 1 41
+	TEnd
+MEnd
+
+Move WindUp
+	Requires	COMBAT WINDUP
+	Priority        2
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <CombatAttack>
+	Flags		Cycle
+	NextMove        WindUp_post
+
+	Type		zombie
+	  Anim          male\windup_power 42 63
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\windup_power 42 63
+	TEnd
+MEnd
+
+Move WindUp_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+
+	Type		zombie
+	  Anim          male\windup_power 64 77
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\windup_power 64 77
+	TEnd
+MEnd
+
+######################
+###### 1 Hand Swipe  ######
+#####################
+
+Move 1H_Swipe
+	Requires	COMBAT HAND SWIPE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1H_post_R2
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\FRK_1Hattack 1 33
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_swipeL 1 33
+	TEnd
+MEnd
+
+Move 1H_post_R2
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        1H_cycle
+
+	Type		zombie
+	  Anim          male\FRK_cycle 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_swipeL 34
+	TEnd
+MEnd
+
+Move 1H_Swipe_L
+	Requires	COMBAT HAND SWIPE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1H_post_L2
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\FRK_1Hattack 41 71
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_smash 1 33
+	TEnd
+MEnd
+
+Move 1H_post_L2
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        1H_cycle
+	Priority        1
+
+	Type		zombie
+	  Anim          male\FRK_cycle 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_smash 34
+	TEnd
+MEnd
+
+Move 1H_cycle
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        postReady
+
+	Type		zombie
+	  Anim          male\FRK_cycle 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+###################
+###### Brawling ######
+###################
+
+Move Brawl_R
+	Requires	COMBAT PUNCH
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Brawlpost_R
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_swipe 1 40
+	  PlayFX	ENEMYFX\Zombie\Zombie_HitLong_SFX.fx
+	TEnd
+MEnd
+
+Move Brawlpost_R
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Brawlcycle_A
+
+	Type		zombie
+	  Anim          male\zombie_swipe 40 111
+	  PlayFX	ENEMYFX\Zombie\Zombie_Idle_SFX.fx
+	TEnd
+MEnd
+
+Move Brawlcycle_A
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ready 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move Brawl_L
+	Requires	COMBAT PUNCH
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Brawlpost_L
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_swipe 116 152
+	  PlayFX	ENEMYFX\Zombie\Zombie_HitLong_SFX.fx
+	TEnd
+MEnd
+
+Move Brawlpost_L
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Brawlcycle_B
+
+	Type		zombie
+	  Anim          male\zombie_swipe 152 198
+	TEnd
+MEnd
+
+Move Brawlcycle_B
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 1 31
+	TEnd
+MEnd
+
+#################################
+###### Blow Cast (zombie barf)  ######
+#################################
+
+Move Blow
+	Requires	COMBAT BLOW
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Blowpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		zombie
+	  Anim          male\zombie_barf 1 79
+	TEnd
+MEnd
+
+Move Blowpost
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady_half
+
+	Type		zombie
+	  Anim          male\zombie_barf 79
+	TEnd
+MEnd
+
+
+#################################
+###### Quick spit  ######
+#################################
+
+Move Spit
+	Requires	COMBAT BLOW CAST QUICK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Spitpost
+	Priority        4
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		zombie
+	  Anim          male\zombie_quickspit 1 34
+	  PlayFX	ENEMYFX\Zombie\Zombie_Spit_SFX.fx
+	TEnd
+MEnd
+
+Move Spitpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        SpitCycle
+	Priority        1
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\zombie_quickspit 35 47
+	TEnd
+MEnd
+
+Move SpitCycle
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <Combat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+
+
+	Type		zombie
+	  Anim          male\zombie_quickspit 48 84
+	TEnd
+MEnd
+
+#############################################################
+## WEAPON COMBAT
+#############################################################
+
+######## Weapon combat mode  #########################################################
+
+###################
+###### Weapon Mode ######
+###################
+
+Move WepReady
+	Requires	COMBAT WEAPON
+	Include sequencers\Members\Combat_Weapon.inc
+	Flags		Cycle
+	NextMove        PostWepReady
+	Priority        2
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\wep_cycle 1 31
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+Move PostWepReady
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Ready
+
+	Type		zombie
+	  Anim          male\wepready 71
+	TEnd
+MEnd
+
+Move WepBlend
+	Requires	COMBAT WEAPON
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        WepReady
+	Priority        2
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\wep_cycle 17 31
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 15
+	TEnd
+MEnd
+
+###################
+### Weapon run Forward ##
+###################
+
+Move W_RunPre
+	Requires	FORWARD COMBAT WEAPON
+	Interrupts	<WepCombat> <WepAttack> <PostMoveCycle> <HitIRQ>
+	Member		<WepMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        W_RunCycle
+	Priority        3
+
+	Type		zombie
+	  Anim          male\weprun 4 9
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_run 1 25
+	TEnd
+MEnd
+
+Move W_RunCycle
+	Requires	FORWARD COMBAT WEAPON
+	Member		<WepMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        W_RunPost
+	Priority        3
+
+	Type		zombie
+	  Anim          male\weprun 10 34
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_run 1 25
+	TEnd
+MEnd
+
+Move W_RunPost
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        WepReady
+
+	Type		zombie
+	  Anim          male\weprun 39
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_postrun 4 28
+	TEnd
+MEnd
+
+###################
+###### Weapon Jump  ######
+###################
+
+Move W_jumpPre
+	Requires	JUMP COMBAT WEAPON
+	Interrupts	<PostMoveCycle> <WepCombat> <Wepmove> <iceslide> <Swim> <WepAttack> <TwoHandCombat> <TwoHandMove> <TwoHandAttack> <jumpFall> <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        W_jumpUp
+	Priority        3
+
+	Type		zombie
+	  Anim          male\monster_jump 10 90
+	TEnd
+MEnd
+
+Move W_jumpUp
+	Requires	JUMP COMBAT WEAPON
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        W_jumpApex
+	Priority        3
+
+	Type		zombie
+	  Anim          male\monster_jump 91 92
+	TEnd
+MEnd
+
+Move W_jumpApex
+	Requires	APEX COMBAT WEAPON
+	Member		<DeathIRQ> <Jumps>
+	NextMove        W_jumpFall
+	Priority        3
+
+	Type		zombie
+	  Anim          male\monster_jump 93 94
+	TEnd
+MEnd
+
+Move W_jumpFall
+	Requires	AIR COMBAT WEAPON
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        W_jumpFall2
+	Priority        3
+
+	Type		zombie
+	  Anim          male\monster_jump 95 117
+	TEnd
+MEnd
+
+Move W_jumpFall2
+	Requires	AIR COMBAT WEAPON
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        W_JumpPost
+	Priority        3
+
+	Type		zombie
+	  Anim          male\monster_jump 118 120
+	TEnd
+MEnd
+
+Move W_JumpPost
+	Requires	COMBAT WEAPON
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        W_JumpPost_cycle
+	Priority        2
+	Interpolate     0
+	Flags		CantMove
+
+	Type		zombie
+	  Anim          male\monster_postjump 1 34
+	  PlayFx        FEET\LAND1.FX  21
+	TEnd
+MEnd
+
+Move W_JumpPost_cycle
+	Requires	COMBAT WEAPON
+	Include sequencers\Members\Combat_Weapon.inc
+	Flags		Cycle
+	Priority        2
+
+	Type		zombie
+	  Anim          male\monster_postjump 35
+	TEnd
+MEnd
+
+## 1HAND MACHINEGUN BURST ###########################################################
+
+Move 1Hburst
+	Requires	COMBAT WEAPON MACHINEGUN HAND SHOOT
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1Hburst2
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		zombie
+	  Anim          Vahzilok\1Hburst 1 60
+	TEnd
+MEnd
+
+Move 1Hburst2
+	Requires	COMBAT WEAPON
+	Priority        2
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        1Hburst_cycle
+
+	Type		zombie
+	  Anim          Vahzilok\1Hburst 60
+	TEnd
+MEnd
+
+Move 1Hburst_cycle
+	Requires	COMBAT WEAPON
+	Priority        2
+	Include sequencers\Members\Combat_Weapon.inc
+	Flags		Cycle
+	NextMove        PostWepReady
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\wep_cycle 1 31
+	TEnd
+
+	Type		Vahzilok
+	  Anim          huge\wep_cycle 1 31
+	TEnd
+MEnd
+
+## HIP SHOOT###########################################################
+
+Move HipShoot
+	Requires	COMBAT ATTACK HANDGUN
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        HipShoot2
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		zombie
+	  Anim          male\pistol_hipshoot 1 35
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_shoot 1 90
+	TEnd
+MEnd
+
+Move HipShoot2
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        HipShootCycle
+
+	Type		zombie
+	  Anim          male\pistol_hipshoot 35
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_shoot 90
+	TEnd
+MEnd
+
+Move HipShootCycle
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat_Weapon.inc
+	Flags		Cycle
+	NextMove        postReady_back
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\wep_cycle 1 31
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+####################################
+###### Zombie Axe (no Weapon bits) ######
+###################################
+
+Move Draw_ZombAxe
+	Requires	COMBAT SPAWNBACK
+	Priority        2
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <CombatAttack>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Draw_ZombAxe_post
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_draw_wep 1 30
+	TEnd
+MEnd
+
+Move Draw_ZombAxe_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Draw_ZombAxe_cycle
+
+	Type		zombie
+	  Anim          male\zombie_draw_wep 30
+	TEnd
+MEnd
+
+Move Draw_ZombAxe_cycle
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat_Weapon.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move 1st_ZombAxe
+	Requires	COMBAT SPAWNBACK SLASH AXE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_ZombAxe2
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_draw_wep 1 30
+	TEnd
+MEnd
+
+Move 1st_ZombAxe2
+	Requires	COMBAT
+	Priority        1
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        1st_ZombAxe_post
+	Interpolate     8
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_club_swing 118 153
+	TEnd
+MEnd
+
+Move 1st_ZombAxe_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Draw_ZombAxe_cycle
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\zombie_club_swing 154
+	TEnd
+MEnd
+
+#############################################################
+
+Move 2nd_ZombAxe
+	Requires	COMBAT SLASH AXE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_ZombAxe_post
+	Interpolate     8
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_club_swing 118 153
+	TEnd
+MEnd
+
+#############################################################
+
+Move 3rd_ZombAxe
+	Requires	COMBAT SLASH AXE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        3rd_ZombAxe_post
+	Interpolate     8
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_club_swing 1 62
+	TEnd
+MEnd
+
+Move 3rd_ZombAxe_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        ZombAxe_cycle_stand
+
+	Type		zombie
+	  Anim          male\zombie_club_swing 62 111
+	TEnd
+MEnd
+
+#############################################################
+
+Move ZombAxe_cycle_stand
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat_Weapon.inc
+	Flags		Cycle
+	Scale           0.50
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\zombie_ready 1
+	TEnd
+MEnd
+
+####################################
+###### Zombie Gun (no Weapon bits) ######
+###################################
+
+Move 1st_ZombGun
+	Requires	COMBAT GUN SPAWNBACK SHOOT
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_ZombGun2
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_draw_wep 1 30
+	TEnd
+MEnd
+
+Move 1st_ZombGun2
+	Requires	COMBAT
+	Priority        1
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        1st_ZombGun_post
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		zombie
+	  Anim          male\zombie_gunshoot 1 90
+	TEnd
+MEnd
+
+Move 1st_ZombGun_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        ZombAxe_cycle_stand
+
+	Type		zombie
+	  Anim          male\zombie_gunshoot 90
+	TEnd
+MEnd
+
+#############################################################
+
+Move 2nd_ZombGun
+	Requires	COMBAT GUN SHOOT
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_ZombGun_post
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		zombie
+	  Anim          male\zombie_gunshoot 1 90
+	TEnd
+MEnd
+
+#############################################################
+## HIT REACTIONS
+#############################################################
+
+## HIT QUICK ###########################################################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady_half
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\zombie_HQ_mid 1  ##10
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_HQ_mid 3
+	TEnd
+MEnd
+
+###################
+###### Combat Hit Quick  ######
+###################
+
+Move C_HitQuick
+	Requires	COMBAT QUICK HIT
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady_half
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\zombie_HQ 1
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_HQ 3
+	TEnd
+MEnd
+
+###################
+###### Weapon Hit Quick  ######
+###################
+
+Move W_HitQuick
+	Requires	COMBAT WEAPON QUICK HIT
+	Priority        4
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\zombie_HQ 1 10
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\vah_HQ 3 10
+	TEnd
+MEnd
+
+Move W_HitQuick2
+	Requires	COMBAT WEAPON
+	Priority        2
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	NextMove        WepReady
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\wep_cycle 15 31
+	TEnd
+
+	Type		Vahzilok
+	  Anim          Vahzilok\skel_vah_combat_cycle 1
+	TEnd
+MEnd
+
+##########################
+###### Hit Placate React ######
+##########################
+
+Move Hit_Placate
+	Requires	HIT PLACATEHIT
+	Priority        2
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Hit_Placate_cycle
+
+	Type		zombie
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+Move Hit_Placate_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+
+	Type		zombie
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+###################
+######cage react\wriggle  ######
+###################
+
+Move cage_wriggle
+	Requires	HIT WRIGGLE
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        cage_wriggle2
+	Scale           0.60
+
+	Type		zombie
+	  Anim          male\wriggle 1 17
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\wriggle 1 17
+	TEnd
+
+	Type		fem
+	  Anim          fem\wriggle 1 17
+	TEnd
+MEnd
+
+Move cage_wriggle2
+	Requires	HIT WRIGGLE
+	Priority        2
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        postReady
+	Scale           0.60
+
+	Type		zombie
+	  Anim          male\wriggle 18
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\wriggle 18
+	TEnd
+
+	Type		fem
+	  Anim          fem\wriggle 18
+	TEnd
+MEnd
+
+###################
+######electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\electro 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1
+	TEnd
+MEnd
+
+###################
+###### electro_pain_LONG  ######
+###################
+
+Move electro_react_Long
+	Requires	HIT ENERGY STRONG
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        electro_react_Long2
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\electro 1 115
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1 115
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1 115
+	TEnd
+MEnd
+
+Move electro_react_Long2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\electro 1 20
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1 20
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1 20
+	TEnd
+MEnd
+
+###################
+######weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\drain 40 100
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\drain 40 100
+	TEnd
+
+	Type		fem
+	  Anim          fem\drain 40 100
+	TEnd
+MEnd
+
+###################
+######drain react  ######
+###################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\drain 1 100
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\drain 1 100
+	TEnd
+
+	Type		fem
+	  Anim          fem\drain 1 100
+	TEnd
+MEnd
+
+###################
+######sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\sonicpain 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sonic_pain 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\sonic_pain 1
+	TEnd
+MEnd
+
+###################
+######choke react  ######
+###################
+
+Move choke_react
+	Requires	HIT MAGIC
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\choke 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\choke 1
+	TEnd
+MEnd
+
+###################
+######Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\speed_react 3
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\speed_react 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\speed_react 3
+	TEnd
+MEnd
+
+
+##################
+######Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\absorb 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\boostup 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\boostup 1
+	TEnd
+MEnd
+
+Move hit_Boost_D
+	Requires	HIT BOOSTDOWN
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Flags		HitReact
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+
+	Type		zombie
+	  Anim          male\boost 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\boostdown 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\boostdown 1
+	TEnd
+MEnd
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Priority        5
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Interpolate     3
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\knockback_fierce 3 15
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 3 15
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 3 16
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move KHF_travel
+	Requires	AIR
+	Priority        1
+	Flags		Cycle
+	NextMove        KHF_impact
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\knockback_fierce 15 16
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 15 16
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 16 17
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Priority        2
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\knockback_fierce 17 24
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 17 24
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 18 25
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move KHF_fallcycle
+	Requires	AIR
+	Priority        1
+	Flags		Cycle
+	NextMove        KHF_impact
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\knockback_fierce 24 25
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 24 25
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 25 26
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move KHF_impact
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\knockback_fierce 25
+	  PlayFx        FEET\MALEDEATH7.FX
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 25
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 27
+	  Ragdoll	1
+	TEnd
+MEnd
+
+###############################################################
+### Slow default get up is for bad guys ############
+###############################################################
+
+Move getup_back
+	NextMove        getup_back2
+	Interpolate     0
+	Sets            CANTMOVE
+	Member 		<ReactIRQ> <RagdollBellyIRQ>
+	Flags		NoSizeScale
+
+	Type		zombie
+	  Anim          male\getup_back 5 53
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_back 5 53
+	TEnd
+
+	Type		fem
+	  Anim          fem\getup_back 5 53
+	TEnd
+MEnd
+
+Move getup_back2
+	NextMove        Ready
+	Include sequencers\Members\Readies.inc
+	Flags		NoSizeScale
+
+	Type		zombie
+	  Anim          male\getup_back 53 100
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_back 53 100
+	TEnd
+
+	Type		fem
+	  Anim          fem\getup_back 53 100
+	TEnd
+MEnd
+
+########################################################
+## Player only fast get up  #########
+########################################################
+
+Move Quick_getup_back
+	Requires	PLAYER
+	Interpolate     0
+	Interrupts	getup_back
+	NextMove        Quick_getup_back2
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\Quick_getup 1 25
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\Quick_getup 1 25
+	TEnd
+
+	Type		fem
+	  Anim          fem\Quick_getup 1 25
+	TEnd
+MEnd
+
+Move Quick_getup_back2
+	NextMove        Ready
+	Interpolate     0
+	Include sequencers\Members\Readies.inc
+
+	Type		zombie
+	  Anim          male\comb_postjump 2
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\combat_postjump 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\combat_postjump 2
+	TEnd
+MEnd
+
+#############################################################
+
+Move KHF_Deathcycle
+	Requires	DEATH
+	Priority        1
+	Interrupts	getup_back Alt_KHF_impact2 Ragdoll_belly
+	Flags		Cycle
+	Interpolate     0
+	Sets            NOCOLLISION CANTMOVE DIENOW TARGET
+
+	Type		zombie
+	  Anim          male\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+MEnd
+
+###################
+###### Impact Death   ######
+###################
+
+Move Impact_Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	getup_back2
+	NextMove        Impact_postdeath
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\knockback_fierce 27
+	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx
+	  Ragdoll	0
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 27
+	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx
+	  Ragdoll	0
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 27
+	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx
+	  Ragdoll	0
+	TEnd
+MEnd
+
+Move Impact_postdeath
+	Requires	DEATH
+	Priority        1
+	Flags		Cycle
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		zombie
+	  Anim          male\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+MEnd
+
+###############################
+###### Ragdoll Belly getup   ######
+##############################
+
+Move Ragdoll_belly
+	Requires	RAGDOLLBELLY
+	Priority        1
+	Interrupts	<ReactIRQ> <DeathIRQ> <RagdollBellyIRQ>
+	NextMove        KnockDown_cycle
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\getup_belly 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_belly 1
+	TEnd
+MEnd
+
+###################
+###### Sweeps  ######
+###################
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Priority        3
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\sweep 3 31
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sweep 3 31
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\sweep 3 31
+	TEnd
+MEnd
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\knockback_fierce 26
+	  PlayFx        FEET\MALEDEATH7.FX
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 26
+	  PlayFx        FEET\MALEDEATH6.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 26
+	TEnd
+MEnd
+
+#############################################################
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Priority        3
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\sweep_flip 2 28
+	  PlayFx        FEET\MALEDEATH7.FX
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sweep_flip 2 28
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\sweep_flip 2 28
+	TEnd
+MEnd
+
+###################
+###### MA Palm stun ######
+###################
+
+Move Stun
+	Requires	STUN HIT
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	NextMove        Stun_cycle
+
+	Type		zombie
+	  Anim          male\stun_hit 2
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\stun_hit 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\stun_hit 2
+	TEnd
+MEnd
+
+Move Stun_cycle
+	Requires	STUN
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	Flags		Cycle
+	NextMove        Ready
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\stun_cycle 1 31
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\stun_cycle 1 31
+	TEnd
+
+	Type		fem
+	  Anim          fem\stun_cycle 1 31
+	TEnd
+MEnd
+
+Move Dizzy_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\dizzy_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move Stun_forward
+	Requires	STUN FORWARD
+	Priority        8
+	Interrupts	Stun Stun_cycle <BasicMove> <CombatMove> <WepMove> <TwoHandMove> dizzy <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Stun_cycle
+	Scale		0.5
+	Flags		Cycle
+	Interpolate	20
+
+	Type		zombie
+	  Anim          male\stun_walk 1 27 ##zombie_walk_armsdown 1 27
+	TEnd
+MEnd
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	HIT STUN SLEEP
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Sleep2
+	Scale           0.40
+
+	Type		zombie
+	  Anim          male\sleep 1 12
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sleep 1 12
+	TEnd
+
+	Type		fem
+	  Anim          fem\sleep 1 12
+	TEnd
+MEnd
+
+Move Sleep2
+	Requires	STUN SLEEP
+	Priority        2
+	Interrupts	<ReactIRQ> <AttackIRQ> <HitIRQ>
+	Member		<DeathIRQ> <ReactIRQ>
+	NextMove        Sleep_cycle
+	Scale           0.20
+	Interpolate     0
+	Flags		ReqInputs
+
+	Type		zombie
+	  Anim          male\sleep 13 52
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sleep 13 52
+	TEnd
+
+	Type		fem
+	  Anim          fem\sleep 13 52
+	TEnd
+MEnd
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Priority        2
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Scale           0.20
+
+	Type		zombie
+	  Anim          male\sleep 55 85
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sleep 55 85
+	TEnd
+
+	Type		fem
+	  Anim          fem\sleep 55 85
+	TEnd
+MEnd
+
+###################
+###### choke Stun  ######
+###################
+
+Move chokeStun
+	Requires	STUN HIT CHOKESTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        chokeStun_cycle
+
+	Type		zombie
+	  Anim          male\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		fem
+	  Anim          fem\choke 1
+	  PlayFx        FEET\CHOKE2.fx
+	TEnd
+MEnd
+
+Move chokeStun_cycle
+	Requires	STUN CHOKESTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		zombie
+	  Anim          male\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		fem
+	  Anim          fem\choke 1
+	  PlayFx        FEET\CHOKE2.fx
+	TEnd
+MEnd
+
+###################
+###### Sonic Stun  ######
+###################
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        SonicStun_cycle
+
+	Type		zombie
+	  Anim          male\sonicpain 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sonic_pain 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\sonic_pain 1
+	TEnd
+MEnd
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		zombie
+	  Anim          male\sonicpain 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sonic_pain 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\sonic_pain 1
+	TEnd
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        ElectroStun_cycle
+
+	Type		zombie
+	  Anim          male\electro 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1
+	TEnd
+MEnd
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		zombie
+	  Anim          male\electro 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1
+	TEnd
+MEnd
+
+###################
+###### Lasso Stun  ######
+###################
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        LassoStun_cycle
+	Scale           0.60
+
+	Type		zombie
+	  Anim          male\wriggle 1 17
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\wriggle 1 17
+	TEnd
+
+	Type		fem
+	  Anim          fem\wriggle 1 17
+	TEnd
+MEnd
+
+Move LassoStun_cycle
+	Requires	STUN LASSOSTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Scale           0.60
+
+	Type		zombie
+	  Anim          male\wriggle 18
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\wriggle 18
+	TEnd
+
+	Type		fem
+	  Anim          fem\wriggle 18
+	TEnd
+MEnd
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Priority        4
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+
+	Type		zombie
+	  Anim          male\freezestun 1 20
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\freeze 1 20
+	TEnd
+
+	Type		fem
+	  Anim          fem\freeze 1 20
+	TEnd
+MEnd
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Priority        3
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		zombie
+	  Anim          male\freezestun 20 30
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\freeze 20 30
+	TEnd
+
+	Type		fem
+	  Anim          fem\freeze 20 30
+	TEnd
+MEnd
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		zombie
+	  Anim          male\freezestun 20 30
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\freeze 20 30
+	TEnd
+MEnd
+
+###################
+###### Levitate Stun  ######
+###################
+
+Move Lev_Stun
+	Requires	STUN HIT FLOATSTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Lev_Stun_cycle
+
+	Type		zombie
+	  Anim          male\pre_fly 2
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\pre_fly 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\pre_fly 2
+	TEnd
+MEnd
+
+Move Lev_Stun_cycle
+	Requires	STUN FLOATSTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		zombie
+	  Anim          male\float2 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\float 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\float 1
+	TEnd
+MEnd
+
+###################
+###### Lev_Stun Hit Quick  ######
+###################
+
+Move Lev_Stun_HitQuick
+	Requires	HIT
+	Priority        1
+	Interrupts	Lev_Stun Lev_Stun_cycle
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Lev_Stun_cycle
+	Flags		HitReact
+
+	Type		zombie
+	  Anim          male\float_HQ 2
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\float_HQ 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\float_HQ 2
+	TEnd
+MEnd
+
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	FEAR
+	Priority        2
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+
+	Type		zombie
+	  Anim          male\zombie_fear_stun 1
+	TEnd
+MEnd
+
+Move FearStun_cycle
+	Requires	FEAR
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Interpolate	8
+
+	Type		zombie
+	  Anim          male\zombie_fear_stun 25 60
+	TEnd
+MEnd
+
+
+###################
+###### Knock Down  ######
+###################
+
+Move KnockDown
+	Requires	HIT KNOCKDOWN
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	NextMove        KnockDown2
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\impact_belly 2
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\impact_belly 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\impact_belly 2
+	TEnd
+MEnd
+
+Move KnockDown2
+	Member		<DeathIRQ> <ReactIRQ>
+	NextMove        KnockDown_cycle
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\getup_belly 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_belly 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\getup_belly 1
+	TEnd
+MEnd
+
+Move KnockDown_cycle
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	Scale           0.50
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\claw_cycle 1 31
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\claw_cycle 1 31
+	TEnd
+
+	Type		fem
+	  Anim          fem\claw_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### Raise Dead   ######
+###################
+
+Move RaiseDead
+	Requires	RAISEDEAD
+	Priority        1
+	Interrupts	<RaiseDeadIRQ> <RaiseDeadBackIRQ>
+	Member		<DeathIRQ>
+	NextMove        RaiseDead_post
+	Scale           0.50
+	Flags		NotSelectable
+	Sets		CANTMOVE
+
+	Type		zombie
+	  Anim          male\raisedead 1 98
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\raisedead 1 98
+	TEnd
+
+	Type		fem
+	  Anim          fem\raisedead 1 98
+	TEnd
+MEnd
+
+Move RaiseDead_post
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Scale           0.70
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\raisedead_post 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\raisedead_post 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\raisedead_post 1
+	TEnd
+MEnd
+
+###################
+###### Revive (GetUp)  ######
+###################
+
+Move Revive_belly
+	Requires	HIT GETUP
+	Priority        2
+	Interrupts	<RaiseDeadIRQ>
+	NextMove        KnockDown_cycle
+	Flags		NotSelectable
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\getup_belly 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_belly 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Revive_back
+	Requires	HIT GETUP
+	Priority        2
+	Interrupts	<RaiseDeadBackIRQ>
+	Flags		NotSelectable
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\getup_back 5 66
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_back 5 66
+	TEnd
+MEnd
+
+###################################
+###### Reclaim (reclaimationpad)  ######
+##################################
+
+Move Reclaim
+	Requires	RECLAIM
+	Priority        1
+	Interrupts	<DeathIRQ>
+	NextMove        Reclaim2
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\drain 100 160
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\drain 100 160
+	TEnd
+
+	Type		fem
+	  Anim          fem\drain 100 160
+	TEnd
+MEnd
+
+Move Reclaim2
+	Requires	RECLAIM
+	Priority        1
+	Member		<ReactIRQ> <DeathIRQ>
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\absorb 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\boostup 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\boostup 1
+	TEnd
+MEnd
+
+###############################
+###### Fallout (after death)  ######
+##############################
+
+Move Fallout
+	Requires	STRONG RAISEDEAD
+	Priority        2
+	Interrupts	<RaiseDeadIRQ> <RaiseDeadBackIRQ> <ReactIRQ>
+	NextMove        KHF_Deathcycle
+	Sets            NOCOLLISION CANTMOVE
+	Flags		NoSizeScale NotSelectable
+
+	Type		male
+	  Anim          male\fallout 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\fallout 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\fallout 1
+	TEnd
+MEnd
+
+##### deaths ###################################################################
+
+#######################
+###### Vanish Death   ######
+######################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Priority        5
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 1 10
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Priority        1
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION DIENOW
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 10 15
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+#######################
+###### kamikaze Death   ######
+######################
+
+Move kamikaze_Death
+	Requires	DEATH KAMIKAZEDEATH
+	Priority        5
+	Interrupts	<DeathIRQ>
+	NextMove        kamikaze_postdeath
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		zombie
+	  Anim          male\boost 1
+	TEnd
+
+MEnd
+
+Move kamikaze_postdeath
+	Requires	DEATH
+	Priority        1
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION DIENOW
+
+	Type		zombie
+	  Anim          male\zombie_ALT_ready 10 15
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PLAYFX	meatychunks
+	TEnd
+MEnd
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\death_front 47 129
+	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 47 129
+	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 47 129
+	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Priority        1
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		zombie
+	  Anim          male\death_front 129 130
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 129 130
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 129 130
+	  Ragdoll	1
+	TEnd
+MEnd
+
+###################
+###### Hit Death 4  ######
+###################
+
+Move HitDeath
+	Requires	HIT DEATH
+	Priority        102
+	Interrupts	<DeathIRQ> <HitIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        postdeath2
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\death_front 3 129
+	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx
+	  Ragdoll	10
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 47 129
+	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx
+	  Ragdoll	10
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 47 129
+	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx
+	  Ragdoll	10
+	TEnd
+
+	Type		MindsOfMayhem_Adamastor
+	  Anim          huge\sonic_pain 1 124
+	  PlayFx        ENEMYFX\Praetorian\MoM\Malaise_Nightmare_Death.fx
+
+	TEnd
+
+MEnd
+
+Move postdeath2
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		zombie
+	  Anim          male\death_front 129 130
+#	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx 1 CONSTANT
+	  Ragdoll	5
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 129 130
+#	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx 1 CONSTANT
+	  Ragdoll	5
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 129 130
+#	  PlayFX	ENEMYFX\Zombie\Zombie_Death_SFX.fx 1 CONSTANT
+	  Ragdoll	5
+	TEnd
+
+	Type		MindsOfMayhem_Adamastor
+	  Anim          huge\death_front 46
+#	  PlayFx        ENEMYFX\Praetorian\MoM\Malaise_Nightmare_Death.fx
+	TEnd
+MEnd
+
+###################
+###### Electro Death  ######
+###################
+
+Move ElectroDeath
+	Requires	HIT DEATH ENERGY
+	Interrupts	<DeathIRQ>
+	NextMove        ElectroDeath2
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\electro 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1 47
+	TEnd
+MEnd
+
+
+Move ElectroDeath2
+	Requires	DEATH
+	NextMove        ElectroDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\death_front 53 127
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 53 127
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 53 127
+	TEnd
+MEnd
+
+
+Move ElectroDeath3
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		zombie
+	  Anim          male\death_front 128 129
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 128 129
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 128 129
+	TEnd
+MEnd
+
+###################
+###### Disrupt Death  ######
+###################
+
+Move DisruptDeath
+	Requires	HIT DEATH DISRUPT
+	Interrupts	<DeathIRQ>
+	NextMove        DisruptDeath2
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\electro 1 47
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1 47
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1 47
+	TEnd
+MEnd
+
+
+Move DisruptDeath2
+	Requires	DEATH
+	NextMove        DisruptDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\ko 1 100
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\ko 1 100
+	TEnd
+
+	Type		fem
+	  Anim          fem\ko 1 100
+	TEnd
+MEnd
+
+
+Move DisruptDeath3
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		zombie
+	  Anim          male\ko 100 101
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\ko 100 101
+	TEnd
+
+	Type		fem
+	  Anim          fem\ko 100 101
+	TEnd
+MEnd
+
+###################
+###### Choke Death  ######
+###################
+
+Move ChokeDeath
+	Requires	HIT DEATH MAGIC
+	Interrupts	<DeathIRQ> <BasicDeath>
+	NextMove        ChokeDeath2
+	Priority        3
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\choke 1 137
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\choke 1 137
+	TEnd
+
+	Type		fem
+	  Anim          fem\choke 1 137
+	TEnd
+MEnd
+
+
+Move ChokeDeath2
+	Requires	DEATH
+	NextMove        ChokeDeath3
+	Priority        1
+	Interpolate     12
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\death_front 46
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 46
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 46
+	TEnd
+MEnd
+
+
+Move ChokeDeath3
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		zombie
+	  Anim          male\death_front 128 129
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 128 129
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 128 129
+	TEnd
+MEnd
+
+###################
+###### Sonic Death  ######
+###################
+
+Move SonicDeath
+	Requires	HIT DEATH PSIONIC
+	Interrupts	<DeathIRQ>
+	NextMove        SonicDeath2
+	Priority        3
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\sonicpain 1 124
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sonic_pain 1 124
+	TEnd
+
+	Type		fem
+	  Anim          fem\sonic_pain 1 124
+	TEnd
+MEnd
+
+
+Move SonicDeath2
+	Requires	DEATH
+	NextMove        SonicDeath3
+	Priority        1
+	Interpolate     12
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\death_front 46
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 46
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 46
+	TEnd
+MEnd
+
+
+Move SonicDeath3
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		zombie
+	  Anim          male\death_front 128 129
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\death_front 128 129
+	TEnd
+
+	Type		fem
+	  Anim          fem\death_front 128 129
+	TEnd
+MEnd
+
+###################
+###### Speed Death  ######
+###################
+
+Move SpeedDeath
+	Requires	HIT DEATH SPEEDPUNCH
+	Interrupts	<DeathIRQ>
+	NextMove        SpeedDeath2
+	Priority        3
+	Scale           0.75
+	Interpolate     2
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\speed_react 3 65
+	  PlayFx        FEET\FlurryHits.FX  16
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\speed_react 3 65
+	  PlayFx        FEET\FlurryHits.FX  16
+	TEnd
+
+	Type		fem
+	  Anim          fem\speed_react 3 65
+	  PlayFx        FEET\FlurryHits.FX  16
+	TEnd
+MEnd
+
+
+Move SpeedDeath2
+	Requires	DEATH
+	NextMove        SpeedDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		zombie
+	  Anim          male\knockback 3 38
+	  PlayFx        FEET\MaleDeath7.FX  8
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockdown 3 38
+	  PlayFx        FEET\MaleDeath7.FX  8
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockdown 3 38
+	  PlayFx        FEET\MaleDeath7.FX  8
+	TEnd
+MEnd
+
+
+Move SpeedDeath3
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		zombie
+	  Anim          male\knockback 39 40
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockdown 39 40
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockdown 39 40
+	TEnd
+MEnd
+
+###################
+### Dismiss Death   ####
+###################
+
+
+Move DismissDeath
+	Requires	DISMISS DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        DismissDeath_cycle
+	Priority        9
+	Scale           0.75
+	Interpolate     2
+	Flags		NotSelectable NOCOLLISION
+
+	Type		zombie
+	  Anim          male\death_front 47 107
+	  PlayFx	powers\DarknessControl\Zero_DarkArmorCloak.fx 0 Constant
+	TEnd
+
+	Type		mastermind_zombie
+	  Anim          male\death_front 47 107
+	TEnd
+
+	Type		mastermind_skeleton
+	  Anim          male\death_front 47 107
+	TEnd
+MEnd
+
+Move DismissDeath_cycle
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Priority        1
+	Interpolate     0
+	NextMove        DismissDeath_cycle2
+	Flags		ReqInputs NOCOLLISION NotSelectable
+
+	Type		zombie
+	  Anim          male\death_front 108
+	  PlayFx	Generic\entityVanish.fx 0 Constant
+	  PlayFX	V_COV\Powers\Necromacy\Dismiss_zombie.fx 0 Constant
+	TEnd
+
+	Type		mastermind_zombie
+	  Anim          male\death_front 108
+	  PlayFx	Generic\entityVanish.fx 0 Constant
+	TEnd
+
+	Type		mastermind_skeleton
+	  Anim          male\death_front 108
+	  PlayFx	Generic\entityVanish.fx 0 Constant
+	TEnd
+MEnd
+
+Move DismissDeath_cycle2
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Priority        1
+	Interpolate     0
+	Flags		NotSelectable NOCOLLISION Cycle NoDraw
+
+	Type		zombie
+	  Anim          male\death_front 108
+	  PlayFx	Generic\entityVanish.fx 0 Constant
+	TEnd
+MEnd
+
+##### Encounters stuff   ####################################
+
+##############################
+### Brute short beam attack  #####
+#############################
+
+Move Brute_shorteyeattack
+	Requires	ENCOUNTER VANDALIZE EYE LOW
+	Priority        4
+	Include sequencers\Interrupts\Encounters_Idle.inc
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle PickRandomly
+	CycleMove	Brute_shorteyeattack
+	CycleMove	Brute_shorteyeattack_2
+	CycleMove	Brute_shorteyeattack_3
+
+	Type		zombie
+	  Anim          vahzilok\eyeblast_short 1
+	  PlayFx	ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall.fx 1
+	TEnd
+MEnd
+
+Move Brute_shorteyeattack_2
+	Requires	ENCOUNTER VANDALIZE EYE LOW
+	Priority        4
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle PickRandomly
+	CycleMove	Brute_shorteyeattack
+	CycleMove	Brute_shorteyeattack_2
+	CycleMove	Brute_shorteyeattack_3
+
+	Type		zombie
+	  Anim          vahzilok\eyeblast_short 1 64
+	  PlayFx	ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall.fx 1
+	TEnd
+MEnd
+
+
+
+Move Brute_shorteyeattack_3
+	Requires	ENCOUNTER VANDALIZE EYE LOW
+	Priority        4
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle PickRandomly
+	CycleMove	Brute_shorteyeattack
+	CycleMove	Brute_shorteyeattack_2
+	CycleMove	Brute_shorteyeattack_3
+
+	Type		zombie
+	  Anim          vahzilok\eyeblast_short 1 30
+	  PlayFx       ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall.fx 1
+	TEnd
+MEnd
+
+#####################
+### Brute eye beam  #####
+#####################
+
+Move Brute_eyebeam
+	Requires	ENCOUNTER VANDALIZE EYE HIGH
+	Priority        4
+	Include sequencers\Interrupts\Encounters_Idle.inc
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle PickRandomly
+	CycleMove	Brute_eyebeam
+	CycleMove	Brute_eyebeam_2
+	CycleMove	Brute_eyebeam_3
+
+	Type		zombie
+	  Anim          vahzilok\eyeblast_high 1
+	  PlayFx       ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall.fx 1
+	TEnd
+MEnd
+
+Move Brute_eyebeam_2
+	Requires	ENCOUNTER VANDALIZE EYE HIGH
+	Priority        4
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle PickRandomly
+	CycleMove	Brute_eyebeam
+	CycleMove	Brute_eyebeam_3
+	Scale		0.7
+
+	Type		zombie
+	  Anim          vahzilok\eyeblast_high 1
+	  PlayFx       ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall.fx 1
+	TEnd
+MEnd
+
+
+Move Brute_eyebeam_3
+	Requires	ENCOUNTER VANDALIZE EYE HIGH
+	Priority        4
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle PickRandomly
+	CycleMove	Brute_eyebeam_2
+	CycleMove	Brute_eyebeam_3
+	CycleMove	Brute_eyebeam
+	Scale		1.2
+
+	Type		zombie
+	  Anim          vahzilok\eyeblast_high 1
+	  PlayFx       ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall.fx 1
+	TEnd
+MEnd
+
+
+###################
+### Menace Eat  #####
+###################
+
+Move Menace_eat
+	Requires	ENCOUNTER EAT
+	Priority        2
+	Include sequencers\Interrupts\Encounters_Idle.inc
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle
+	CycleMove	Menace_nibble
+	CycleMove       Menace_lookquick
+	CycleMove       Menace_lookquick_slow
+
+	Type		zombie
+	  Anim          Beast\eat 1
+	  PlayFx        GENERIC\meatbone.fx  0 Constant
+	TEnd
+MEnd
+
+Move Menace_nibble
+	Requires	ENCOUNTER EAT
+	Priority        2
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle
+	CycleMove       Menace_lookquick
+	CycleMove       Menace_nibble_blend
+
+	Type		zombie
+	  Anim          Beast\nibble 1
+	  PlayFx        GENERIC\meatbone.fx  0 Constant
+	TEnd
+MEnd
+
+Move Menace_nibble_blend
+	Requires	ENCOUNTER EAT
+	Priority        2
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle
+	CycleMove       Menace_lookquick_slow
+
+	Type		zombie
+	  Anim          Beast\nibble 11
+	  PlayFx        GENERIC\meatbone.fx  0 Constant
+	TEnd
+MEnd
+
+Move Menace_lookquick
+	Requires	ENCOUNTER EAT
+	Priority        2
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle
+	CycleMove       Menace_eat
+
+	Type		zombie
+	  Anim          Beast\eat_lookquick 4
+	  PlayFx        GENERIC\meatbone.fx  0 Constant
+	TEnd
+MEnd
+
+Move Menace_lookquick_slow
+	Requires	ENCOUNTER EAT
+	Priority        2
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle
+	CycleMove       Menace_eat
+	Scale		0.6
+
+	Type		zombie
+	  Anim          Beast\eat_lookquick 4
+	  PlayFx        GENERIC\meatbone.fx  0 Constant
+	TEnd
+MEnd
+
+
+#############################
+### Spawn Pet (popup in combat)  #####
+############################
+
+Move Z_Spawn_Pet
+	Requires	LOW SPAWN SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat>
+	NextMove        Z_Spawn
+	Priority        3
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\zombie_sleep 1 60
+	TEnd
+MEnd
+
+#############################################################
+
+Move Z_Spawn
+	NextMove        Z_Spawn2
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_alt_popup 1 35
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX 11
+	TEnd
+MEnd
+
+Move Z_Spawn2
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Z_Spawn_cycle_half
+	Scale           0.50
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\zombie_alt_popup 36
+	TEnd
+MEnd
+
+Move Z_Spawn_cycle_half
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Z_Spawn_cycle
+	Scale           0.50
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\zombie_ready 15 31
+	TEnd
+MEnd
+
+Move Z_Spawn_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+
+	Type		zombie
+	  Anim          male\zombie_ready 1 31
+	TEnd
+MEnd
+
+
+######################
+###### Ambush_Sleep  ######
+#####################
+
+Move Z_Spawn_Ambush_Sleep
+	Requires	RAISEDEAD SPAWN
+	Priority        3
+	Interrupts	<Ready> <Combat> <WepCombat>
+	NextMove        Z_Spawn_Ambush
+	Interpolate     0
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION CANTMOVE
+
+	Type		zombie
+	  Anim          Beast\impact_belly 46 47
+	TEnd
+MEnd
+
+Move Z_Spawn_Ambush
+	NextMove        Z_Spawn_Ambush_cycle
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          Beast\getup_belly 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Z_Spawn_Ambush_Sleep_B
+	Requires	VARIATIONB RAISEDEAD SPAWN
+	Priority        4
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Flags		Cycle NotSelectable
+	NextMove        Spawn_Ambush_B
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          Beast\impact_back 46 47
+	TEnd
+MEnd
+
+Move Z_Spawn_Ambush_B
+	NextMove        Z_Spawn_Ambush_cycle  ##Ready
+	Flags		NotSelectable
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          Beast\getup_back 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Z_Spawn_Ambush_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+	Interpolate     0
+
+	Type		zombie
+	  Anim          Beast\claw_cycle 1 31
+	TEnd
+MEnd
+
+########################
+### groundburst Spawn  #####
+########################
+
+Move groundburst_sleep
+	Requires	SPAWN GROUNDSUMMON
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle NotSelectable
+	NextMove	groundburst_Spawn
+	Priority        2
+	Interpolate	0
+	Sets            NOCOLLISION CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_alt_popup 1 2
+	TEnd
+MEnd
+
+Move groundburst_Spawn
+	Flags		NotSelectable
+	NextMove        groundburst_land
+	Interpolate     0
+	Sets            CANTMOVE
+
+
+	Type		zombie
+	  Anim          male\zombie_monster_popup 1 24
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  12
+	TEnd
+MEnd
+
+Move groundburst_land
+	Flags		NotSelectable
+	NextMove	groundburst_Roar
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          Beast\postjump 1 35
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+
+########################
+### Waterburst Spawn  #####
+########################
+
+Move Waterburst_sleep
+	Requires	SPAWN GROUNDSUMMON LOW
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		Cycle NotSelectable
+	NextMove	Waterburst_Spawn
+	Priority        3
+	Interpolate	0
+	Sets            NOCOLLISION CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_alt_popup 1 2
+	TEnd
+MEnd
+
+Move Waterburst_Spawn
+	Flags		NotSelectable
+	NextMove        Waterburst_land
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_monster_popup 1 24
+	  PlayFx        Volumes\Water\DeepSplash\Encounter_DeepSplash.fx  14
+	TEnd
+MEnd
+
+Move Waterburst_land
+	Flags		NotSelectable
+	NextMove	groundburst_Roar
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          Beast\postjump 1 35
+	  PlayFx        Volumes\Water\ShallowSplash\Encounter_shallowsplash.fx  1
+	TEnd
+MEnd
+
+Move groundburst_Roar
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	NextMove	groundburst_cycle
+	Interpolate	9
+
+	Type		zombie
+	  Anim          Beast\Growl 1
+	TEnd
+MEnd
+
+Move groundburst_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		zombie
+	  Anim          Beast\Skel_ready 1
+	TEnd
+MEnd
+
+#####################
+### Basic Spawn  #####
+#####################
+
+Move Z_Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Z_Spawned_post
+	Priority        5
+	Interpolate     0
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_popup 1 35
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  2
+	TEnd
+
+	Type		skeleton
+	  Anim          male\pronesleep_awaken 1 60
+	  PlayFX	Generic\entityFadeIn.fx 0
+	  ##PlayFX	V_COV\Powers\Necromacy\SummonHit.fx 0
+	TEnd
+
+	Type		EventZombie
+	  Anim          male\zombie_reveal 1 60
+	  PlayFx	Events\Halloween\ZombieSpawn.fx 0
+	TEnd
+MEnd
+
+Move Z_Spawned_post
+	NextMove	Z_Spawned_cycle
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+	Type		zombie
+	  Anim          male\zombie_popup 36
+	TEnd
+
+	Type		skeleton
+	  Anim          male\pronesleep_awaken 61
+	TEnd
+
+	Type		EventZombie
+	  Anim          male\zombie_reveal 61
+	TEnd
+MEnd
+
+Move Z_Spawned_cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		zombie
+	  Anim          male\zombie_Alt_ready 1 31
+	TEnd
+
+	Type		skeleton
+	  Anim          male\zombie_ALT_ready 1
+	  Scale		0.25
+	TEnd
+
+	Type		EventZombie
+	  Anim          male\zombie_ALT_ready 1
+	  Scale		0.25
+	TEnd
+MEnd
+
+###################
+### Dismiss    ####
+###################
+
+Move Dismiss
+	Requires	DISMISS
+	Interrupts	<AttackIRQ> <ReactIRQ> <DeathIRQ>
+	NextMove        Dismiss_cycle
+	Priority        8
+	Flags		NotSelectable NOCOLLISION
+	Sets		CANTMOVE
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\death_front 47 107
+	  ##PlayFx	powers\DarknessControl\Zero_DarkArmorCloak.fx 0 Constant
+	TEnd
+
+	Type		skeleton
+	  Anim          male\death_front 47 107
+	  ##PlayFx	powers\DarknessControl\Zero_DarkArmorCloak.fx 0 Constant
+	TEnd
+MEnd
+
+Move Dismiss_cycle
+	Requires	DISMISS
+	Member		<RaiseDeadIRQ>
+	Priority        5
+	Flags		NotSelectable NOCOLLISION
+	Sets		CANTMOVE
+	Interpolate     0
+
+	Type		zombie
+	  Anim          male\death_front 108
+	  PlayFx	Generic\entityVanish.fx 0 Constant
+	##PlayFX	V_COV\Powers\Necromacy\Dismiss_zombie.fx 0
+	TEnd
+
+	Type		skeleton
+	  Anim          male\death_front 108
+	  PlayFx	Generic\entityVanish.fx 0 Constant
+	  ##PlayFX	V_COV\Powers\Necromacy\Dismiss_zombie.fx 0
+	TEnd
+MEnd
+
+
+######  basic flight  #############################################################################
+
+###################
+### Fly Mode  ####
+###################
+
+Move Fall_Fready
+	Requires	FLY
+	Priority        1
+	Interrupts	<FlyFall>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+	Type		male
+	  Anim          male\flydown 180
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 180
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 180
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\float 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move postAir_C_W
+	Requires	FLY
+	Interrupts	C_PreFall W_PreFall
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+	Priority        1
+
+	Type		male
+	  Anim          male\prefloat_combat 5
+	TEnd
+
+	Type		huge
+	  Anim          huge\prefloat_combat 5
+	TEnd
+
+	Type		fem
+	  Anim          fem\prefloat_combat 5
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\Float 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Preflyready
+	Requires	FLY
+	Interrupts	<Ready>  <Jumps> <PostMoveCycle>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+	Priority        1
+
+	Type		male
+	  Anim          male\pre_fly 2
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\pre_fly 2
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\pre_fly 2
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\float 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move flyready
+	Requires	FLY
+	Include sequencers\Members\Readies_Air.inc
+	Flags		Cycle
+	NextMove        PreFall
+	Priority        1
+
+	Type		male
+	  Anim          male\float2 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\float 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_ready 1
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\float 1
+	TEnd
+MEnd
+
+###################
+### Hover forward  ####
+###################
+
+Move Hoverpre
+	Requires	FORWARD FLY HOVER
+	Interrupts	flypre_Launch flypre flyCycle <FlyReady> <PostMoveCycle> <BasicMove> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        HoverCycle
+	Priority        3
+	Scale           1.50
+
+	Type		male
+	  Anim          male\hover 1 54
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\hover 1 54
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\hover 1 54
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+MEnd
+
+
+Move HoverCycle
+	Requires	FORWARD FLY HOVER
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        HoverPost
+	Priority        3
+
+	Type		male
+	  Anim          male\hover 57 106
+	TEnd
+
+	Type		huge
+	  Anim          huge\hover 57 106
+	TEnd
+
+	Type		fem
+	  Anim          fem\hover 57 106
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+MEnd
+
+
+Move HoverPost
+	Requires	FLY HOVER
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Priority        2
+
+	Type		male
+	  Anim          male\hover 107
+	TEnd
+
+	Type		huge
+	  Anim          huge\hover 107
+	TEnd
+
+	Type		fem
+	  Anim          fem\hover 107
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+MEnd
+
+###########################
+### Fly forward from run  ####
+#########################
+
+Move flypre_Launch
+	Requires	FORWARD FLY
+	Interrupts	RunCycle <Launch> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        flyCycle
+	Priority        2
+
+	Type		male
+	  Anim          male\f_launch 3
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\f_launch 3
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\launch 3
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		fem_floater
+	  Anim          fem\hover 1 54
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		male_floater
+	  Anim          male\hover 1 54
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\fly_forward_cycle 1
+	TEnd
+
+
+MEnd
+
+###################
+### Fly forward  ####
+###################
+
+Move flypre
+	Requires	FORWARD FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        flyCycle
+	Priority        2
+	Wind			FLY
+
+	Type		male
+	  Anim          male\fly 4 24
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\fly 4 24
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly 4 24
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		fem_floater
+	  Anim          fem\hover 1 54
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		male_floater
+	  Anim          male\hover 1 54
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\fly_forward 1 50
+	TEnd
+MEnd
+
+
+Move flyCycle
+	Requires	FORWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        flyPost
+	Priority        2
+	Wind			FLY
+
+	Type		male
+	  Anim          male\fly 25 81
+	TEnd
+
+	Type		huge
+	  Anim          huge\fly 25 81
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly 25 81
+	TEnd
+
+	Type		fem_floater
+	  Anim          fem\hover 57 106
+	TEnd
+
+	Type		male_floater
+	  Anim          male\hover 57 106
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\fly_forward_cycle 1
+	TEnd
+MEnd
+
+
+Move flyPost
+	Requires	FLY
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Priority        1
+	Scale           1.30
+
+	Type		male
+	  Anim          male\fly 82
+	TEnd
+
+	Type		huge
+	  Anim          huge\fly 82
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly 82
+	TEnd
+
+
+	Type		fem_floater
+	  Anim          fem\hover 107
+	TEnd
+
+	Type		male_floater
+	  Anim          male\hover 107
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\fly_forward 51
+	TEnd
+MEnd
+
+###################
+## fly Backward ##
+###################
+
+Move BackflyPre
+	Requires	BACKWARD FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <iceslide>
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        BackflyCycle
+	Priority        2
+
+	Type		male
+	  Anim          male\flyback 3 13
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\flyback 3 13
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\flyback 3 13
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+MEnd
+
+
+Move BackflyCycle
+	Requires	BACKWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        BackflyPost
+	Priority        2
+
+	Type		male
+	  Anim          male\flyback 14 63
+	TEnd
+
+	Type		huge
+	  Anim          huge\flyback 14 63
+	TEnd
+
+	Type		fem
+	  Anim          fem\flyback 14 63
+	TEnd
+MEnd
+
+
+Move BackflyPost
+	Requires	FLY
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Priority        1
+	Scale           1.30
+
+	Type		male
+	  Anim          male\flyback 64
+	TEnd
+
+	Type		huge
+	  Anim          huge\flyback 64
+	TEnd
+
+	Type		fem
+	  Anim          fem\flyback 64
+	TEnd
+MEnd
+
+###################
+### Fly Up  ####
+###################
+
+Move flyUPpre
+	Requires	JUMP FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        flyUPCycle
+	Priority        2
+	Scale           0.90
+	Wind			FLYUP
+
+	Type		male
+	  Anim          male\flyup 5 34
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\flyup 5 34
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_up 5 34
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+MEnd
+
+
+Move flyUPCycle
+	Requires	JUMP FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        flyUPPost
+	Priority        2
+	Wind			FLYUP
+
+	Type		male
+	  Anim          male\flyup 36 93
+	TEnd
+
+	Type		huge
+	  Anim          huge\flyup 36 93
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_up 36 93
+	TEnd
+MEnd
+
+
+Move flyUPPost
+	Requires	FLY
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Priority        1
+	Wind			FLY
+
+	Type		male
+	  Anim          male\flyup 94
+	TEnd
+
+	Type		huge
+	  Anim          huge\flyup 94
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_up 94
+	TEnd
+MEnd
+
+###################
+### fly Right ####
+###################
+
+Move RightflyPre
+	Requires	STEPRIGHT FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> LeftflyCycle <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RightflyCycle
+	Priority        2
+
+	Type		male
+	  Anim          male\ssflyR 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\ssflyR 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_right 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+MEnd
+
+
+Move RightflyCycle
+	Requires	STEPRIGHT FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        RightflyPost
+	Priority        2
+
+	Type		male
+	  Anim          male\ssflyR 10 59
+	TEnd
+
+	Type		huge
+	  Anim          huge\ssflyR 10 59
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_right 10 59
+	TEnd
+MEnd
+
+
+Move RightflyPost
+	Requires	FLY
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Priority        1
+
+	Type		male
+	  Anim          male\ssflyR 60
+	TEnd
+
+	Type		huge
+	  Anim          huge\ssflyR 60
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_right 60
+	TEnd
+MEnd
+
+###################
+### fly Left  ####
+###################
+
+Move LeftflyPre
+	Requires	STEPLEFT FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> RightflyCycle <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        LeftflyCycle
+	Priority        2
+
+	Type		male
+	  Anim          male\ssflyL 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\ssflyL 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_left 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+MEnd
+
+
+Move LeftflyCycle
+	Requires	STEPLEFT FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        LeftflyPost
+	Priority        2
+
+	Type		male
+	  Anim          male\ssflyL 10 59
+	TEnd
+
+	Type		huge
+	  Anim          huge\ssflyL 10 59
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_left 10 59
+	TEnd
+MEnd
+
+
+Move LeftflyPost
+	Requires	FLY
+	Priority        1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+
+	Type		male
+	  Anim          male\ssflyL 60
+	TEnd
+
+	Type		huge
+	  Anim          huge\ssflyL 60
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_left 60
+	TEnd
+MEnd
+
+###################
+###### Fly Down  ######
+###################
+
+Move PreFall
+	Requires	AIR
+	Priority        1
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		male
+	  Anim          male\flydown 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 1
+	TEnd
+MEnd
+
+###################
+###### Fly Forward Down  ######
+###################
+
+Move Ffly_PreFall
+	Requires	FORWARD AIR
+	Interrupts	flyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        Ffly_PreFall_2
+	Priority        2
+
+	Type		male
+	  Anim          male\flydown 1 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 1 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 1 3
+	TEnd
+MEnd
+
+Move Ffly_PreFall_2
+	Requires	AIR
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        1
+
+	Type		male
+	  Anim          male\flydown 4
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 4
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 4
+	TEnd
+MEnd
+
+###################
+###### Fly Backward Down  ######
+###################
+
+Move Bfly_PreFall
+	Requires	BACKWARD AIR
+	Interrupts	<FlyReady> BackflyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+	Priority        2
+
+	Type		male
+	  Anim          male\flydown 1 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 1 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 1 3
+	TEnd
+MEnd
+
+###################
+###### Fly Left Down  ######
+###################
+
+Move Lfly_PreFall
+	Requires	STEPLEFT AIR
+	Interrupts	<FlyReady> LeftflyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+	Priority        2
+
+	Type		male
+	  Anim          male\flydown 1 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 1 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 1 3
+	TEnd
+MEnd
+
+###################
+###### Fly Right Down  ######
+###################
+
+Move Rfly_PreFall
+	Requires	STEPRIGHT AIR
+	Interrupts	<FlyReady> RightflyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+	Priority        2
+
+	Type		male
+	  Anim          male\flydown 1 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 1 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 1 3
+	TEnd
+MEnd
+
+###################
+###### Fly Upcycle Down  ######
+###################
+
+Move Ufly_PreFall
+	Requires	JUMP AIR
+	Interrupts	<FlyReady> flyUPPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+	Priority        2
+
+	Type		male
+	  Anim          male\flydown 1 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 1 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 1 3
+	TEnd
+MEnd
+
+###################
+###### Falling from run  ######
+###################
+
+Move RunFall
+	Requires	BIGFALL
+	Interrupts	<BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <Combat> <WepCombat> <TwoHandCombat> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RunFall_2
+	Priority        1
+
+	Type		male
+	  Anim          male\superjump 67 93
+	TEnd
+
+	Type		huge
+	  Anim          huge\superjump 67 93
+	TEnd
+
+	Type		fem
+	  Anim          fem\superjump 67 93
+	TEnd
+MEnd
+
+
+Move RunFall_2
+	Requires	AIR
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        1
+
+	Type		male
+	  Anim          male\superjump 93
+	TEnd
+
+	Type		huge
+	  Anim          huge\superjump 93
+	TEnd
+
+	Type		fem
+	  Anim          fem\superjump 93
+	TEnd
+MEnd
+
+
+#### air reacts  ###################################################################
+
+
+###################
+###### Air Hit Quick  ######
+###################
+
+Move A_HitQuick
+	Requires	FLY QUICK HIT
+	Interrupts	<ReactIRQ> A_FearStun_cycle A_FearStun
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        C_flycycle
+	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          male\air_combat_HQ 2
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_combat_HQ 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_combat_HQ 2
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_HQ 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\HQ 1
+	TEnd
+MEnd
+
+###################
+###### Air Combat Hit Quick  ######
+###################
+
+Move A_C_HitQuick
+	Requires	FLY COMBAT QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        C_flycycle
+	Flags		HitReact
+	Priority        4
+
+	Type		male
+	  Anim          male\air_combat_HQ 2
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_combat_HQ 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_combat_HQ 2
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_HQ 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\HQ 1
+	TEnd
+MEnd
+
+Move A_C_HitQuick_L
+	Requires	FLY COMBAT QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		 <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        C_flycycle
+	Flags		HitReact
+	Priority        4
+
+	Type		male
+	  Anim          male\air_combat_HQ 2
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_combat_HQ 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_combat_HQ 2
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_HQ_alt 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\HQ 1
+	TEnd
+MEnd
+
+###################
+###### Air Weapon Hit Quick  ######
+###################
+
+Move A_W_HitQuick
+	Requires	FLY COMBAT WEAPON QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		 <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        W_flycycle
+	Flags		HitReact
+	Priority        6
+
+	Type		male
+	  Anim          male\air_wep_HQ 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_wep_HQ 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_wep_HQ 1
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_HQ 2
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\HQ 1
+	TEnd
+MEnd
+
+###################
+###### Air cage react\wriggle  ######
+###################
+
+Move A_cage_wriggle
+	Requires	FLY HIT WRIGGLE
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        A_cage_wriggle2
+	Priority        3
+	Scale           0.60
+
+	Type		male
+	  Anim          male\air_wriggle 1 17
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_wriggle 1 17
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_wriggle 1 17
+	TEnd
+MEnd
+
+
+Move A_cage_wriggle2
+	Requires	FLY HIT WRIGGLE
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        postAir_C_W
+	Priority        3
+	Scale           0.60
+
+	Type		male
+	  Anim          male\air_wriggle 18
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_wriggle 18
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_wriggle 18
+	TEnd
+MEnd
+
+###################
+###### Air electro\pain react  ######
+###################
+
+Move A_electro_react
+	Requires	FLY HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        A_weak_post
+	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          male\air_electro 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_electro 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_electro 1
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_electro 1
+	TEnd
+MEnd
+
+###################
+###### Air weak post  ######
+###################
+
+Move A_weak_post
+	Requires	FLY
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postAir_C_W
+	Priority        1
+
+	Type		male
+	  Anim          male\air_drain 40
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_drain 40
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_drain 40
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\drain 40
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_drain 40
+	TEnd
+MEnd
+
+###################
+###### Air drain react  ######
+###################
+
+Move A_Drain_react
+	Requires	FLY HIT DRAINED
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postAir_C_W
+	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          male\air_drain 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_drain 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_drain 1
+	TEnd
+
+
+	Type		Wisp
+	  Anim          wisp\drain 1
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_drain 1
+	TEnd
+
+MEnd
+
+###################
+###### Air sonic\psi pain react  ######
+###################
+
+Move A_sonic_react
+	Requires	FLY HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        A_weak_post
+	Priority        3
+
+	Type		male
+	  Anim          male\air_sonicpain 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_sonicpain 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_sonicpain 1
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_sonicpain 1
+	TEnd
+MEnd
+
+###################
+###### Air choke react  ######
+###################
+
+Move A_choke_react
+	Requires	FLY HIT MAGIC
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        A_weak_post
+	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          male\air_choke 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_choke 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_choke 1
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_choke 1
+	TEnd
+MEnd
+
+###################
+###### Air Speed_attack react  ######
+###################
+
+Move A_Speed_react
+	Requires	FLY HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        A_weak_post
+	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          male\air_speedreact 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_speedreact 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_speedreact 3
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\air_speedreact 3
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_speedreact 3
+	TEnd
+MEnd
+
+
+
+###################
+###### Air Kungfu_speed react  ######
+###################
+
+Move A_KungfuSpeed_react
+	Requires	FLY HIT KUNGFUSPEED
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        A_weak_post
+	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          male\air_speedreact 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_speedreact 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_speedreact 3
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\air_speedreact 3
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_speedreact 3
+	TEnd
+MEnd
+
+
+###################
+###### Air Claw_speed react  ######
+###################
+
+Move A_ClawSpeed_react
+	Requires	FLY HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        A_weak_post
+	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          male\air_speedreact 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_speedreact 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_speedreact 3
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\air_speedreact 3
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_speedreact 3
+	TEnd
+MEnd
+
+
+
+##################
+###### Air Boost_up react  ######
+###################
+
+Move A_Hit_Boostup
+	Requires	FLY HIT BOOSTUP
+	Flags		HitReact
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        C_flycycle
+	Priority        3
+
+	Type		male
+	  Anim          male\air_boostup 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_boostup 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_boostup 1
+	TEnd
+MEnd
+
+Move A_hit_Boost_D
+	Requires	FLY HIT BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        C_flycycle
+	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          male\air_boostdown 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_boostdown 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_boostdown 1
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_boostaura 1
+	TEnd
+MEnd
+
+###################
+###### Air Fear Stun  ######
+###################
+
+Move A_FearStun
+	Requires	Fly Fear
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        A_FearStun_cycle
+	Priority        3
+
+	Type		male
+	  Anim          male\air_fear_stun 1
+	TEnd
+MEnd
+
+
+Move A_FearStun_cycle
+	Requires	Fly Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        3
+	Interpolate	8
+
+	Type		male
+	  Anim          male\air_fear_stun 25 60
+	TEnd
+MEnd
+
+###################
+###### Air knockback Hit  ######
+###################
+
+Move A_KHF
+	Requires	FLY HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ> KHF
+	NextMove        flyready
+	Priority        8
+
+	Type		male
+	  Anim          male\air_KB_quick 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\KB_quick 1
+	TEnd
+MEnd
+
+
+
+
+###################
+###### Air Sweeps  ######
+###################
+
+
+Move A_Sweep_low
+	Requires	SWEEP LOW HIT FLY
+	Interrupts	<ReactIRQ> <DeathIRQ> Sweep_low
+	NextMove        flyready
+	Priority        4
+
+	Type		male
+	  Anim          male\air_KB_quick 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\KB_quick 1
+	TEnd
+MEnd
+
+
+Move A_Sweep_High
+	Requires	SWEEP HIGH HIT FLY
+	Interrupts	<ReactIRQ> <DeathIRQ> Sweep_Highk
+	NextMove        flyready
+	Priority        4
+
+	Type		male
+	  Anim          male\air_KB_quick 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\KB_quick 1
+	TEnd
+MEnd
+
+
+
+######## air deaths  #############################################
+
+###################
+###### Default air Death   ######
+###################
+
+Move Air_Death
+	Requires	Fly DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Air_Death2
+	Priority        3
+
+	Type		male
+	  Anim          male\air_death 6 7
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_death 6 7
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_death 6 7
+	TEnd
+
+	Type		male_teledeath
+	  Anim          male\air_boostup 1 2
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_death 1 2
+	  PlayFx        POWERS\Ability\AgilityContinuing.fx 0 Constant
+	  PlayFx        POWERS\Ability\WillpowerContinuingRays.fx 123 Constant
+	  PlayFx        POWERS\Ability\StrengthHands2.fx 123 Constant
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\freeze 1 20
+	TEnd
+MEnd
+
+Move Air_Death2
+	Requires	AIR DEATH
+##	Flags		ReqInputs
+	NextMove        Air_death_fall
+	Priority        2
+
+	Type		male
+	  Anim          male\air_death 8 51
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_death 8 51
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_death 8 51
+	TEnd
+
+	Type		male_teledeath
+	  Anim          male\air_boostup 3 70
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_death 3
+	  PlayFx        POWERS\Ability\AgilityContinuing.fx 0 Constant
+	  PlayFx        POWERS\Ability\WillpowerContinuingRays.fx 0 Constant
+	  PlayFx        POWERS\Ability\StrengthHands2.fx 0 Constant
+	  PlayFx        ENEMYFX\Hydra\Hydra_Head_Death\Rularuu_Death.fx 153
+	  PlayFx        GENERIC\ENTITYVANISH.FX 168 CONSTANT
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\freeze 20 30
+	TEnd
+MEnd
+
+
+Move Air_death_fall
+	Requires	AIR DEATH
+	Flags		Cycle
+	NextMove        Air_death_impact
+	Priority        2
+
+	Type		male
+	  Anim          male\air_death 53 78
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_death 53 78
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_death 53 78
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\freeze 20 30
+	TEnd
+MEnd
+
+
+Move Air_death_impact
+	Requires	DEATH
+	NextMove        Air_death_cycle
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		male
+	  Anim          male\impact_belly 4 47
+	TEnd
+
+	Type		huge
+	  Anim          huge\impact_belly 4 47
+	TEnd
+
+	Type		fem
+	  Anim          fem\impact_belly 4 47
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\freeze 20 30
+	TEnd
+MEnd
+
+
+Move Air_death_cycle
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+
+	Type		male
+	  Anim          male\impact_belly 48 50
+	TEnd
+
+	Type		huge
+	  Anim          huge\impact_belly 48 50
+	TEnd
+
+	Type		fem
+	  Anim          fem\impact_belly 48 50
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\freeze 20 30
+	TEnd
+MEnd
+
+
+#############################################################
+##  AIR POWERS
+#############################################################
+
+## AIR BRAWLING ###########################################################
+
+Move AirBrawl_R
+	Requires	FLY COMBAT PUNCH
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        AirBrawl_Rpost
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          male\air_brawl_high 1 24
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_brawl_high 1 24
+	TEnd
+MEnd
+
+Move AirBrawl_Rpost
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        A_Brawlcycle_15
+
+	Type		male
+	  Anim          male\air_brawl_high 24 71
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_brawl_high 24 71
+	TEnd
+MEnd
+
+#############################################################
+
+Move AirBrawl_L
+	Requires	FLY COMBAT PUNCH
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        AirBrawl_Lpost
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          male\air_brawl_high 78 100
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_brawl_high 78 100
+	TEnd
+MEnd
+
+Move AirBrawl_Lpost
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        A_Brawlcycle_15
+
+	Type		male
+	  Anim          male\air_brawl_high 100
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_brawl_high 100
+	TEnd
+MEnd
+
+#############################################################
+
+Move A_Brawlcycle_15
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        AirBrawlcycle
+	Scale           0.50
+
+	Type		male
+	  Anim          male\air_brawl_cycle 16 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_brawlcycle 16 31
+	TEnd
+MEnd
+
+Move AirBrawlcycle
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+	Scale           0.50
+
+	Type		male
+	  Anim          male\air_brawl_cycle 1 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_brawlcycle 1 31
+	TEnd
+MEnd
+
+###################
+###### Air Steal power  ######
+###################
+
+Move A_Steal
+	Requires	FLY COMBAT STEAL
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        A_Stealpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          male\air_steal 1 58
+	  PitchStart	8
+	  PitchAngle	0.5
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_steal 1 58
+	  PitchStart	8
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+Move A_Stealpost
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flycycle
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          male\air_steal 58
+	  PitchEnd	70
+	  PitchAngle	0.5
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_steal 58
+	  PitchEnd	70
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+###################
+###### Air Blow Cast  ######
+###################
+
+Move A_Blow
+	Requires	FLY COMBAT BLOW
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        A_Blowpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          male\air_blow_cast 1 80
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_blow_cast 1 80
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+Move A_Blowpost
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flycycle_half
+	Scale           0.50
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          male\air_blow_cast 80
+	  PitchEnd	85
+	  PitchAngle	0.2
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_blow_cast 80
+	  PitchEnd	85
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+#################################
+###### Quick spit  ######
+#################################
+
+Move A_Spit
+	Requires	FLY COMBAT BLOW CAST QUICK
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        A_Spitpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          male\air_quickspit 1 35
+	  PlayFX	ENEMYFX\Zombie\Zombie_Spit_SFX.fx
+	TEnd
+MEnd
+
+Move A_Spitpost
+	Requires	Fly COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        Lazy_C_flycycle_half
+
+	Type		male
+	  Anim          male\air_quickspit 35
+	TEnd
+MEnd
+
+#############################################################
+## COMBAT FLIGHT
+#############################################################
+
+Move C_flyready
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+	Priority        2
+
+	Type		male
+	  Anim          male\air_combatready 25 65
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_combatready 25 65
+	TEnd
+MEnd
+
+#############################################################
+
+Move C_flycycle_half
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flycycle
+	Scale           0.50
+	Wind		FLY
+
+	Type		male
+	  Anim          male\air_combat_cycle 16 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_combat_cycle 16 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move C_flycycle
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+	Scale           0.50
+	Wind		FLY
+
+	Type		male
+	  Anim          male\air_combat_cycle 1 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_combat_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+#####  Lazy combat flight: for simple male anims that convert well for fem & huge ##
+
+Move Lazy_C_flycycle
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+	Scale           0.50
+
+	Type		male
+	  Anim          male\air_combat_cycle 1 31
+	TEnd
+MEnd
+
+Move Lazy_C_flycycle_half
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        Lazy_C_flycycle
+	Scale           0.50
+	Wind		FLY
+
+	Type		male
+	  Anim          male\air_combat_cycle 16 31
+	TEnd
+MEnd
+
+###################
+### Combat Hover forward  ####
+###################
+
+Move C_Hoverpre
+	Requires	FORWARD FLY COMBAT HOVER
+	Interrupts	<FlyCombat> <FlyCombatAttack> <CombatMove> <PostMoveCycle> <FlyFall> <Jumps> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_HoverCycle
+	Priority        4
+	Scale           1.50
+
+	Type		male
+	  Anim          male\combat_hover 1 54
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\combat_hover 1 54
+	  PlayFx        FEET\FLIGHT2.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\combat_hover 1 54
+	TEnd
+MEnd
+
+Move C_HoverCycle
+	Requires	FORWARD FLY COMBAT HOVER
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_HoverPost
+	Priority        4
+
+	Type		male
+	  Anim          male\combat_hover 57 106
+	TEnd
+
+	Type		huge
+	  Anim          huge\combat_hover 57 106
+	TEnd
+
+	Type		fem
+	  Anim          fem\combat_hover 57 106
+	TEnd
+MEnd
+
+Move C_HoverPost
+	Requires	FLY COMBAT HOVER
+	Priority        3
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		male
+	  Anim          male\combat_hover 107
+	TEnd
+
+	Type		huge
+	  Anim          huge\combat_hover 107
+	TEnd
+
+	Type		fem
+	  Anim          fem\combat_hover 107
+	TEnd
+MEnd
+
+###################
+### Combat Fly forward  ####
+###################
+
+Move C_flypre
+	Requires	FORWARD FLY COMBAT
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_RunJumpCycle C_RunJumpCycleB C_Ffly_PreFall <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_flyingCycle
+	Priority        3
+
+	Type		male
+	  Anim          male\air_comb_fly 4 24
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_fly 4 24
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_fly 4 24
+	TEnd
+
+	Type		male_floater
+	  Anim          male\combat_hover 1 54
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+MEnd
+
+Move C_flyingCycle
+	Requires	FORWARD FLY COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_flyPost
+	Priority        3
+	Wind		FLY
+
+	Type		male
+	  Anim          male\air_comb_fly 25 81
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_fly 25 81
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_fly 25 81
+	TEnd
+
+	Type		fem_floater
+	  Anim          fem\combat_hover 57 106
+	TEnd
+
+	Type		male_floater
+	  Anim          male\combat_hover 57 106
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+MEnd
+
+Move C_flyPost
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+	Scale           1.30
+	Wind		FLY
+
+	Type		male
+	  Anim          male\air_comb_fly 82
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_fly 82
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_fly 82
+	TEnd
+
+	Type		fem_floater
+	  Anim          fem\combat_hover 107
+	TEnd
+
+	Type           male_floater
+	  Anim          male\combat_hover 107
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+MEnd
+
+###################
+## Combat fly Backward ##
+###################
+
+Move C_BackflyPre
+	Requires	BACKWARD FLY COMBAT
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_BackRunCycle <iceslide>
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_BackflyCycle
+	Priority        3
+
+	Type		male
+	  Anim          male\air_comb_flyback 10 13
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyback 10 13
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyback 10 13
+	TEnd
+MEnd
+
+Move C_BackflyCycle
+	Requires	BACKWARD FLY COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_BackflyPost
+	Priority        3
+
+	Type		male
+	  Anim          male\air_comb_flyback 14 63
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyback 14 63
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyback 14 63
+	TEnd
+MEnd
+
+Move C_BackflyPost
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		male
+	  Anim          male\air_comb_flyback 64
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyback 64
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyback 64
+	TEnd
+MEnd
+
+###################
+### Combat Fly Up  ####
+###################
+
+Move C_flyUPpre
+	Requires	JUMP FLY COMBAT
+	Priority        3
+	Interrupts	<FlyCombat> <Jumps> <FlyCombatAttack> <PostFLYCycle> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_flyUPCycle
+	Scale           0.90
+	Wind		FLYUP
+
+	Type		male
+	  Anim          male\air_comb_flyup 5 34
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyup 5 34
+	  PlayFx        FEET\FLIGHT3.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyup 5 34
+	TEnd
+MEnd
+
+Move C_flyUPCycle
+	Requires	JUMP FLY COMBAT
+	Priority        3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_flyUPPost
+	Wind		FLYUP
+
+	Type		male
+	  Anim          male\air_comb_flyup 36 93
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyup 36 93
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyup 36 93
+	TEnd
+MEnd
+
+Move C_flyUPPost
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+	Scale           1.30
+	Wind		FLY
+
+	Type		male
+	  Anim          male\air_comb_flyup 94
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyup 94
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyup 94
+	TEnd
+MEnd
+
+###################
+###### Combat Fly Down  ######
+###################
+
+Move C_PreFall
+	Requires	AIR COMBAT
+	Priority        2
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+
+	Type		male
+	  Anim          male\flydown 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 1
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+
+	Type		Wisp
+	  Anim          wisp\Float 1
+	TEnd
+MEnd
+
+###################
+###### Combat Fly Forward Down  ######
+###################
+
+Move C_Ffly_PreFall
+	Requires	FORWARD AIR COMBAT
+	Interrupts	C_flyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	NextMove        C_Ffly_PreFall_2
+	Priority        3
+
+	Type		male
+	  Anim          male\flydown 1 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 1 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 1 3
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+MEnd
+
+Move C_Ffly_PreFall_2
+	Requires	AIR COMBAT
+	Priority        2
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+
+	Type		male
+	  Anim          male\flydown 4
+	TEnd
+
+	Type		huge
+	  Anim          huge\flydown 4
+	TEnd
+
+	Type		fem
+	  Anim          fem\fly_down 4
+	TEnd
+
+	Type		Rularuu_male
+	  Anim          male\mystic_float 1
+	TEnd
+MEnd
+
+###################
+### Combat fly Right ####
+###################
+
+Move C_RightflyPre
+	Requires	STEPRIGHT FLY COMBAT
+	Priority        3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_LeftflyCycle C_Ffly_Fready <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_RightflyCycle
+
+	Type		male
+	  Anim          male\air_comb_flyright 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyright 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyright 3 9
+	TEnd
+MEnd
+
+Move C_RightflyCycle
+	Requires	STEPRIGHT FLY COMBAT
+	Priority        3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_RightflyPost
+
+	Type		male
+	  Anim          male\air_comb_flyright 10 59
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyright 10 59
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyright 10 59
+	TEnd
+MEnd
+
+Move C_RightflyPost
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		male
+	  Anim          male\air_comb_flyright 60
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyright 60
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyright 60
+	TEnd
+MEnd
+
+###################
+### Combat fly Left  ####
+###################
+
+Move C_LeftflyPre
+	Requires	STEPLEFT FLY COMBAT
+	Priority        3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_RightflyCycle C_Ffly_Fready <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_LeftflyCycle
+
+	Type		male
+	  Anim          male\air_comb_flyleft 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyleft 3 9
+	  PlayFx        FEET\FLIGHT4.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyleft 3 9
+	TEnd
+MEnd
+
+Move C_LeftflyCycle
+	Requires	STEPLEFT FLY COMBAT
+	Priority        3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_LeftflyPost
+
+	Type		male
+	  Anim          male\air_comb_flyleft 10 59
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyleft 10 59
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyleft 10 59
+	TEnd
+MEnd
+
+Move C_LeftflyPost
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		male
+	  Anim          male\air_comb_flyleft 60
+	TEnd
+
+	Type		huge
+	  Anim          huge\air_comb_flyleft 60
+	TEnd
+
+	Type		fem
+	  Anim          fem\air_comb_flyleft 60
+	TEnd
+MEnd
+
+###################
+###### Falling from combat run  ######
+###################
+
+Move C_RunFall
+	Requires	BIGFALL COMBAT
+	Priority        2
+	Interrupts	<CombatMove> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_RunFall_2
+
+	Type		male
+	  Anim          male\superjump 67 93
+	TEnd
+
+	Type		huge
+	  Anim          huge\superjump 67 93
+	TEnd
+
+	Type		fem
+	  Anim          fem\superjump 67 93
+	TEnd
+MEnd
+
+Move C_RunFall_2
+	Requires	AIR COMBAT
+	Priority        2
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+
+	Type		male
+	  Anim          male\superjump 93
+	TEnd
+
+	Type		huge
+	  Anim          huge\superjump 93
+	TEnd
+
+	Type		fem
+	  Anim          fem\superjump 93
+	TEnd
+MEnd
+
+#############################################################
+
+Include sequencers\player\emotes.inc
+Include sequencers\player\emotes_air.inc
+Include sequencers\player\encounters.inc
+Include sequencers\player\Swim.inc
+
+#############################################################
+
+SeqEnd

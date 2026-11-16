@@ -1,0 +1,71 @@
+// debugfp.cg
+
+// OPTION ARB_fog_linear;
+
+#include "utilsfp.cgh"
+#include "constants_fp.cgh"
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main(    
+    float4 texCoord0 : TEXCOORD0,
+    float4 texCoord1 : TEXCOORD1,
+    uniform sampler2D texSampler0 : TEXUNIT0
+) : COLOR
+{
+    #if defined(TEXCOORDS0)
+        return float4( frac(texCoord0).xy, 0, 1 );
+    #elif defined(TEXCOORDS1)
+        return float4( frac(texCoord1).xy, 0, 1 );
+    #elif defined(WHICH_SHADER)
+        #if defined(BIT_HIGH_QUALITY) || defined(BIT_SINGLE_MATERIAL) || defined(BIT_BUILDING) || defined(BIT_OLDTINTMODE)
+
+    		#ifdef BIT_SINGLE_MATERIAL
+	    		#ifdef BIT_HIGH_QUALITY
+		    		float3 colorA = (0.5, 0, 0);
+			    #else 
+				    float3 colorA = (0, 0, 0);
+    			#endif
+	    	#elif BIT_BUILDING
+		    	float3 colorA = (0.5, 0.5, 0);
+    		#elif BIT_HIGH_QUALITY
+	    		float3 colorA = (1, 0, 0);
+		    #elif BIT_OLDTINTMODE
+				float3 colorA = (0, 0.5, 0);
+    		#endif
+
+	    	#ifdef BIT_OLDTINTMODE
+		    	float3 colorB = (0, 0.5, 0);
+    		#else
+	    		float3 colorB = colorA;
+            #endif
+
+            float2 aa = floor(texCoord0 * 5).xy * 0.5;
+            float horiz = frac(aa.x) * 2;
+            float checker = frac( aa.x + aa.y ) * 2;
+            float3 colorLERP = lerp(colorB, colorA, horiz); 
+            return float4(lerp( colorLERP, float3(WHICH_SHADER_R, WHICH_SHADER_G, WHICH_SHADER_B), checker ), 1);
+        #else
+            return float4( WHICH_SHADER_R, WHICH_SHADER_G, WHICH_SHADER_B, 1 );
+        #endif
+    #elif defined(SHOWLIGHTING)
+        float4 debugLighting; 
+        debugLighting = frac(texCoord0) * 2;
+        debugLighting = min( floor(debugLighting), 1.0 );
+        debugLighting = lerp( g_LightProd0DiffuseFP, g_LightProd0AmbientFP, debugLighting.x );
+        return debugLighting;
+	#elif defined(TEXCOORD_TEST)
+        float4 texture0 = tex2D( texSampler0, texCoord0.xy );
+		float4 tc = frac(texCoord0) * 1024 ;
+		tc = utilsSetLessThan( frac(tc), 0.02 );
+		float tcSat = saturate( ( tc.x + tc.y ) ); 
+		return float4( lerp( texture0, float4(1, 0, 1, 1), tcSat ).xyz, 1 );
+	#endif
+    
+    //shouldn't have gotten here.. return error color
+    return float4(0.9, 0.5, 0.5, 1);
+}
+

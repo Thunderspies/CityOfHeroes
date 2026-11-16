@@ -1,0 +1,35 @@
+#############################################################
+## FX_Spines_SpineBurst.fx
+#############################################################
+
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_Spines_SpineBurst
+	BaseSkeleton	FX_Spines_SpineBurst\Skel_Ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move ReadyA
+	Member		<Ready>
+	Flags		Cycle
+	Priority        0
+	Scale           1.0
+	Interpolate	0
+
+	Type		FX_Spines_SpineBurst
+	  Anim          FX_Spines_SpineBurst\Skel_Ready 1 16
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

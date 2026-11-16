@@ -1,0 +1,4339 @@
+#############################################################
+## Snakemen_seq.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Snakemen
+	BaseSkeleton	Snakemen\SKEL_snakemen
+	ParentType	none
+TypeDefEnd
+
+TypeDef Snakewoman
+	BaseSkeleton	Snakewoman\SKEL_ready
+	ParentType	Snakemen
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		Snakemen
+	  Anim          Snakemen\SKEL_snakemen 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\SKEL_ready 1
+	TEnd
+MEnd
+
+Move Ready_half
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+
+	Type		Snakemen
+	  Anim          Snakemen\SKEL_snakemen  31 61
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\SKEL_ready 31 61
+	TEnd
+MEnd
+
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkCycle
+	Requires	FORWARD WALK
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <CombatAttack> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        WalkPost
+	Priority        1
+	Scale 2
+
+	Type		Snakemen
+	  Anim          Snakemen\walk 1 33
+	  MoveRate      0.5
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\walk 1 33
+	  MoveRate      0.5
+	TEnd
+
+MEnd
+
+Move WalkPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+	interpolate	15
+	Scale		0.8
+
+	Type		Snakemen
+	  Anim          Snakemen\walk 45 65
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\walkpost 1
+	TEnd
+MEnd
+
+
+###################
+### Run Forward ##
+###################
+
+Move RunCycle
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <CombatAttack> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        WalkPost
+	Priority        1
+	Scale 2
+
+	Type		Snakemen
+	  Anim          Snakemen\run 1
+	  MoveRate     0.7
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\run 1
+	  MoveRate     0.7
+	TEnd
+MEnd
+
+Move RunSuper
+	Requires	FORWARD SUPERSPEED
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <CombatAttack>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        WalkPost
+	Priority        2
+	Scale 2
+
+	Type		Snakemen
+	  Anim          Snakemen\run_fast 1
+	  MoveRate     0.7
+	TEnd
+MEnd
+
+###################
+###### Jump  ######
+###################
+
+Move jumpPre
+	Requires	JUMP
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <WepMove> <jumpFall> <Block> <HitIRQ> <Combat> <CombatMove> <CombatAttack> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpUp
+	Priority        1
+
+	Type		Snakemen
+	  Anim          Snakemen\jump 85 90
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        jumpApex
+	Priority        1
+	scale 0.3
+	interpolate 2
+
+	Type		Snakemen
+	  Anim          Snakemen\jump 91 92
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps>
+	NextMove        jumpFall
+	Priority        1
+	scale 0.3
+
+	Type		Snakemen
+	  Anim          Snakemen\jump 93 94
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+	Priority        1
+	interpolate 15
+
+	Type		Snakemen
+	  Anim          Snakemen\jump 95 117
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        1
+
+	Type		Snakemen
+	  Anim          Snakemen\jump 118 120
+	TEnd
+MEnd
+
+Move JumpPost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	Interpolate     0
+	Nextmove	landcycle
+
+	Type		Snakemen
+	  Anim          Snakemen\jumppost 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\jumppost 1
+	TEnd
+
+MEnd
+
+Move landcycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+#	Scale           0.50
+
+	Type		Snakemen
+	  Anim          Snakemen\jumppost 35
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\jumppost 35
+	TEnd
+MEnd
+
+
+
+################### Hit Reacts #####################
+
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\hitquick 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\hitquick 1
+	TEnd
+
+MEnd
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	Fear
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\hitquick 3 12
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\hitquick 3 12
+	TEnd
+MEnd
+
+Move FearStun_cycle
+	Requires	Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	scale		1.5
+
+	Type		Snakemen
+	  Anim          Snakemen\stun 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\stun 1
+	TEnd
+
+
+MEnd
+
+###################
+###### Pain  ######
+###################
+
+Move Pain
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Pain_cycle
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\hitquick 3 12
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\hitquick 3 12
+	TEnd
+MEnd
+
+Move Pain_cycle
+	Requires	ENERGY
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	scale		1.5
+
+	Type		Snakemen
+	  Anim          Snakemen\sonicpain 1
+	TEnd
+
+
+MEnd
+
+
+####################
+#### Stunned Walk ##
+####################
+
+Move WalkStunPre
+	Requires	STUN FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        WalkStunCycle
+	Priority        4
+
+	Type		Snakemen
+	  Anim          Snakemen\walk_stun 1
+	  MoveRate      0.2
+	TEnd
+
+
+MEnd
+
+
+Move WalkStunCycle
+	Requires	STUN FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        WalkStunPost
+	Priority        4
+	interpolate	0
+
+
+	Type		Snakemen
+	  Anim          Snakemen\walk_stun 1
+	  MoveRate      0.2
+	TEnd
+
+
+MEnd
+
+
+Move WalkStunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+
+	Type		Snakemen
+	  Anim          Snakemen\stun 20
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\stun 20
+	TEnd
+
+MEnd
+
+###################
+###### knockback Hit  ######
+###################
+
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Priority        5
+	Interpolate     3
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\knockback 3 15
+	TEnd
+
+MEnd
+
+Move KHF_travel
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\knockback 14 15
+	TEnd
+
+MEnd
+
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\knockback 17 24
+	TEnd
+
+MEnd
+
+
+Move KHF_fallcycle
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\knockback 25 26
+	TEnd
+
+MEnd
+
+
+Move KHF_impact
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+	scale		1.5
+
+	Type		Snakemen
+	  Anim          Snakemen\knockback 26
+	TEnd
+
+MEnd
+
+###############################################################
+### Slow default get up is for bad guys
+
+Move getup_back
+	NextMove        getup_back2
+	Interpolate     0
+	Sets            CANTMOVE
+	Member 		<ReactIRQ>
+	scale		1.5
+	interpolate	15
+
+	Type		Snakemen
+	  Anim          Snakemen\getup 5 53
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\getup 5 53
+	TEnd
+MEnd
+
+Move getup_back2
+	NextMove        Ready
+	Interpolate     0
+	Member 		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <MoveIRQ>
+
+	Type		Snakemen
+	  Anim          Snakemen\getup 54 100
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\getup 54 100
+	TEnd
+MEnd
+
+
+###################
+###### Sweeps  ######
+###################
+
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+	scale		2
+
+	Type		Snakemen
+	  Anim          Snakemen\sweep 1 25
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sweep 1 25
+	TEnd
+
+MEnd
+
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	Interpolate     5
+	nextmove	getup_back
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\knockback 47 90
+	TEnd
+
+
+MEnd
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+	scale		2.1
+
+	Type		Snakemen
+	  Anim          Snakemen\sweep 1 33
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sweep 1 33
+	TEnd
+
+
+MEnd
+
+
+###################
+###### Stun ######
+###################
+
+Move Stun
+	Requires	STUN HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	NextMove        Stun_cycle
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\stun 2 99
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\stun 2 99
+	TEnd
+MEnd
+
+
+Move Stun_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+	Scale           0.50
+
+	Type		Snakemen
+	  Anim          Snakemen\stun 100
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\stun 100
+	TEnd
+MEnd
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Nextmove	Sleep_cycle
+
+	Type		Snakemen
+	  Anim          Snakemen\sleep 1 52
+	TEnd
+MEnd
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Priority        4
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Scale		0.75
+
+	Type		Snakemen
+	  Anim          Snakemen\sleep 56 85
+	TEnd
+MEnd
+
+###################
+###### choke Stun  ######
+###################
+
+Move chokeStun
+	Requires	STUN HIT CHOKESTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        chokeStun_cycle
+	Priority        3
+
+	Type		Snakemen
+	  Anim          Snakemen\choke 1
+	TEnd
+
+MEnd
+
+
+Move chokeStun_cycle
+	Requires	STUN CHOKESTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\choke 1
+	TEnd
+
+MEnd
+
+
+
+###################
+###### Sonic Stun  ######
+###################
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        SonicStun_cycle
+	Priority        3
+
+	Type		Snakemen
+	  Anim          Snakemen\sonicpain 1
+	TEnd
+MEnd
+
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\sonicpain 1
+	TEnd
+
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        ElectroStun_cycle
+	Priority        3
+
+	Type		Snakemen
+	  Anim          Snakemen\electro 1
+	TEnd
+
+MEnd
+
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\electro 1
+	TEnd
+
+MEnd
+
+###################
+###### Lasso Stun  ######
+###################
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        LassoStun_cycle
+	Priority        3
+	Scale           0.60
+
+	Type		Snakemen
+	  Anim          Snakemen\wriggle 1 17
+	TEnd
+
+MEnd
+
+
+Move LassoStun_cycle
+	Requires	STUN LASSOSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+	Scale           0.60
+
+	Type		Snakemen
+	  Anim          Snakemen\wriggle 18
+	TEnd
+
+MEnd
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+
+	Type		Snakemen
+	  Anim          Snakemen\freeze 1 28
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\freeze 1 28
+	TEnd
+
+MEnd
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+
+	Scale           0.01
+	Priority        3
+
+	Type		Snakemen
+	  Anim          Snakemen\freeze 29 30
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\freeze 29 30
+	TEnd
+
+MEnd
+
+###################
+###### Levitate Stun  ######
+###################
+
+Move Lev_Stun
+	Requires	STUN HIT FLOATSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Lev_Stun_cycle
+	Priority        3
+
+	Type		Snakemen
+	  Anim          Snakemen\levitate_pre 2
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\levitate_pre 2
+	TEnd
+
+MEnd
+
+
+Move Lev_Stun_cycle
+	Requires	STUN FLOATSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\levitate_cycle 1
+	TEnd
+
+MEnd
+
+
+###################
+###### Lev_Stun Hit Quick  ######
+###################
+
+Move Lev_Stun_HitQuick
+	Requires	HIT
+	Interrupts	Lev_Stun Lev_Stun_cycle
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Lev_Stun_cycle
+	Flags		HitReact
+	Priority        1
+
+	Type		Snakemen
+	  Anim          Snakemen\levitate_HQ 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\levitate_HQ 1
+	TEnd
+
+MEnd
+
+
+###################
+######cage react\wriggle  ######
+###################
+
+Move cage_wriggle
+	Requires	HIT WRIGGLE
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        cage_wriggle2
+	Priority        2
+	Scale           0.60
+
+	Type		Snakemen
+	  Anim          Snakemen\wriggle 1 17
+	TEnd
+
+MEnd
+
+
+Move cage_wriggle2
+	Requires	HIT WRIGGLE
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        postReady
+	Priority        2
+	Scale           0.60
+
+	Type		Snakemen
+	  Anim          Snakemen\wriggle 18
+	TEnd
+
+MEnd
+
+###################
+######electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\electro 1
+	TEnd
+
+MEnd
+
+###################
+###### electro_pain_LONG  ######
+###################
+
+Move electro_react_Long
+	Requires	STRONG HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        electro_react_Long2
+	Priority        3
+	Flags		HitReact
+
+	Type		Snakemen
+	  Anim          Snakemen\electro 1 115
+	TEnd
+
+MEnd
+
+
+Move electro_react_Long2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		Snakemen
+	  Anim          Snakemen\electro 1 20
+	TEnd
+
+MEnd
+
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	Priority        1
+
+	Type		Snakemen
+	  Anim          Snakemen\hitquick 15
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\hitquick 15
+	TEnd
+
+MEnd
+
+
+###################
+######sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\sonicpain 1
+	TEnd
+
+MEnd
+
+###################
+######choke react  ######
+###################
+
+Move choke_react
+	Requires	HIT MAGIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\choke 1
+	TEnd
+
+MEnd
+
+
+
+###################
+######Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ> <Ready> <HitIRQ>
+	Member		<ReactIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        runpost
+	Flags		HitReact NoSizeScale
+	Priority        6
+	scale		1.5
+
+
+
+	Type		Snakemen
+	  Anim          Snakemen\speedreact 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\speedreact 1
+	TEnd
+
+MEnd
+
+##################
+######Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ> <Ready>
+	Flags		HitReact
+	NextMove        Ready
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\boostup 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\boostup 1
+	TEnd
+
+MEnd
+
+##################
+######Boost_down react  ######
+###################
+
+Move hit_Boost_D
+	Requires	HIT BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Flags		HitReact
+	NextMove        Ready
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ> <Ready>
+	Priority        2
+
+	Type		Snakemen
+	  Anim          Snakemen\boostdown 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\boostdown 1
+	TEnd
+
+MEnd
+
+
+
+#######  Deaths   ##################################################
+
+
+################################
+###### Vanish Death (instant)  ######
+################################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Snakemen
+	  Anim          Snakemen\SKEL_snakemen 1
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\SKEL_ready 1
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		Snakemen
+	  Anim          Snakemen\SKEL_snakemen 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\SKEL_ready 1
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+###############################################
+###### Vaporize Death (vanish + freezestun)   ######
+###############################################
+
+Move Vaporize_Death
+	Requires	DEATH HIDE FIERCE
+	Interrupts	<DeathIRQ>
+	NextMove        Vaporize_postdeath
+	Priority        7
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Snakemen
+	  Anim          Snakemen\freeze 1 20
+	 PlayFx        GENERIC\ENTITYVANISH.FX  20 CONSTANT
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\freeze 1 20
+	 PlayFx        GENERIC\ENTITYVANISH.FX  20 CONSTANT
+	TEnd
+
+MEnd
+
+Move Vaporize_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		Snakemen
+	  Anim          Snakemen\freeze 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\freeze 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Snakemen
+	  Anim          Snakemen\death 47 129
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\death 47 129
+	TEnd
+
+MEnd
+
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+
+	Type		Snakemen
+	  Anim          Snakemen\death 129 130
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\death 129 130
+	TEnd
+
+
+MEnd
+
+#####  Powers  ##################################
+
+
+###################
+###### Brawling ######
+###################
+
+Move Brawl_R
+	Requires	COMBAT PUNCH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Brawlpost_R
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 1 35
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 1 35
+	TEnd
+MEnd
+
+
+Move Brawlpost_R
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove        Fake_Combat_Cycle
+	Priority        1
+	#Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 36
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 36
+	TEnd
+
+MEnd
+
+####################
+####### Sword Brawling ######
+####################
+
+Move Sword_brawl
+	Requires	COMBAT WEAPON PUNCH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Sword_brawl2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 1 35
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 1 35
+	TEnd
+
+MEnd
+
+
+Move Sword_brawl2
+	Requires	COMBAT WEAPON
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ>
+	NextMove        Wep_half
+	Priority        2
+	Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 36
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 36
+	TEnd
+MEnd
+
+###################
+###### standard bite ######
+###################
+Move bite
+	Requires	COMBAT SNAKEMANBITE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	Priority        2
+	nextmove	bitepost
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 1 35
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 1 35
+	TEnd
+
+MEnd
+
+Move bitepost
+	## Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Fake_Combat_Cycle
+	Priority        1
+	Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 36
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 36
+	TEnd
+MEnd
+
+#################################
+###### Quick spit  ######
+#################################
+
+Move Spit
+	Requires	COMBAT SNAKEMANSPIT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Spitpost
+	Priority        5
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+	Interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\spit 1 34
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\spit 1 34
+	TEnd
+
+MEnd
+
+
+Move Spitpost
+	##Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Fake_Combat_Cycle
+	Priority        2
+	Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\spit 35
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\spit 35
+	TEnd
+MEnd
+
+###################
+###### Spray spit ######
+###################
+
+Move Spray
+	Requires	COMBAT SNAKEMANSPRAY
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Spraypost
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Snakemen
+	  Anim          Snakemen\spit_arc 1 79
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\spit_arc 1 79
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+
+Move Spraypost
+
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Fake_Combat_Cycle_half
+	Priority        2
+	Flags		PitchToTarget
+
+	Type		Snakemen
+	  Anim          Snakemen\spit_arc 80
+	  PitchEnd	85
+	  PitchAngle	0.2
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\spit_arc 80
+	  PitchEnd	85
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+Move Fake_Combat_Cycle
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	Scale		1.5
+
+	Type		Snakemen
+	  Anim          Snakemen\SKEL_snakemen  1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\SKEL_ready  1
+	TEnd
+
+MEnd
+
+Move Fake_Combat_Cycle_half
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	NextMove	Fake_Combat_Cycle
+	Priority        2
+	Scale           0.50
+
+	Type		Snakemen
+	  Anim          Snakemen\SKEL_snakemen  31 61
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\SKEL_ready  31 61
+	TEnd
+
+MEnd
+
+###################
+###### hypnotize ######
+###################
+
+Move Hypnotize
+	Requires	COMBAT SNAKEMANMESMERIZE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Hypnotize2
+	Priority        2
+	Scale           1.50
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Snakemen
+	  Anim          Snakemen\mesmerize 1 133
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\mesmerize 20 133
+	TEnd
+
+MEnd
+
+
+Move Hypnotize2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Hypnotize_post
+	Priority        1
+	Scale           1.50
+	Flags		PitchToTarget
+
+	Type		Snakemen
+	  Anim          Snakemen\mesmerize 134 175
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\mesmerize 134 175
+	TEnd
+
+MEnd
+
+
+Move Hypnotize_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	Priority        1
+	Scale           0.50
+	NextMove	Ready
+	Interpolate 	20
+	Flags		pitchtotarget
+
+	Type		Snakemen
+	  Anim          Snakemen\mesmerize 176 238
+	  PitchEnd	185
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\mesmerize 176 238
+	PitchEnd	176
+	TEnd
+MEnd
+
+########  Weapons   ##########################
+
+###################
+###### Throw Knife  ######
+###################
+
+Move Throwknife
+	Requires	COMBAT THROWKNIFE QUICK
+	Interrupts	<AttackIRQ> <Block>
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack>
+	NextMove        Throwknifepost
+	Priority        3
+	Flags		PitchToTarget
+
+	Type		Snakemen
+	  Anim          Snakemen\knife_throw 1 23
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\knife_throw 1 23
+	TEnd
+
+MEnd
+
+
+Move Throwknifepost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half_fingers
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\knife_throw 24
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\knife_throw 24
+	TEnd
+
+MEnd
+
+###################
+###### 3 dagger throw  ######
+###################
+
+Move threedagger
+	Requires	COMBAT THROWKNIFE QUICK CONE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        threedaggerpost
+	Priority        4
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Snakemen
+	  Anim          Snakemen\frisbee 1 30
+	  PitchAngle	0.3
+	  PitchStart	11
+	  PitchEnd	23
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\frisbee 1 30
+	  PitchAngle	0.3
+	  PitchStart	11
+	  PitchEnd	23
+	TEnd
+
+
+MEnd
+
+Move threedaggerpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Interpolate     0
+
+
+	Type		Snakemen
+	  Anim          Snakemen\frisbee 31
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\frisbee 31
+	TEnd
+
+MEnd
+
+###################
+###### Draw Sword  ######
+###################
+
+Move Draw_saber
+	Requires	COMBAT WEAPON SPAWNBACK
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ>
+	NextMove        Draw_saber_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_draw 1 30
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_draw 1 30
+	TEnd
+MEnd
+
+
+Move Draw_saber_post
+##	Requires	NO BITS   ##COMBAT WEAPON
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ> <PostMoveCycle>
+	NextMove        Ready
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_draw 31
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_draw 31
+	TEnd
+MEnd
+
+
+#########################
+###### Sword Slash  ######
+#########################
+
+Move 1st_SwordSlash
+	Requires	COMBAT WEAPON SNAKEMANSLASH SPAWNBACK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordSlash2
+	Priority        4
+	Flags		NoSizeScale
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_draw 1 30
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_draw 1 30
+	TEnd
+
+MEnd
+
+
+Move 1st_SwordSlash2
+	Requires	COMBAT WEAPON
+	Member		<DeathIRQ>
+	NextMove        1st_SwordSlash_post
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slash 1 50
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slash 1 50
+	TEnd
+
+MEnd
+
+
+Move 1st_SwordSlash_post
+	Requires	COMBAT WEAPON
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Flags		NoSizeScale
+	Priority        2
+	Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slash 51
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slash 51
+	TEnd
+
+MEnd
+
+#####
+
+Move 2nd_SwordSlash
+	Requires	COMBAT WEAPON SNAKEMANSLASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordSlash_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slash 1 50
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slash 1 50
+	TEnd
+
+MEnd
+
+#########################
+###### Sword Chop  ######
+#########################
+
+Move 1st_SwordChop
+	Requires	COMBAT WEAPON SNAKEMANSLASH SPAWNBACK HIGH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordChop2
+	Priority        5
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_draw 1 30
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_draw 1 30
+	TEnd
+
+
+MEnd
+
+
+Move 1st_SwordChop2
+	Requires	COMBAT WEAPON
+	Member		<DeathIRQ>
+	NextMove        1st_SwordChop_post
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_Chop 1 40
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_Chop 1 40
+	TEnd
+
+MEnd
+
+
+Move 1st_SwordChop_post
+	Requires	COMBAT WEAPON
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_Chop 41
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_Chop 41
+	TEnd
+
+MEnd
+
+#####
+
+Move 2nd_SwordChop
+	Requires	COMBAT WEAPON SNAKEMANSLASH HIGH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordChop_post
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_Chop 1 40
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_Chop 1 40
+	TEnd
+
+MEnd
+
+
+#########################
+###### Sword Reverse  ######
+#########################
+
+Move 1st_SwordRev
+	Requires	COMBAT WEAPON SNAKEMANSLICE SPAWNBACK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordRev2
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_draw 1 30
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_draw 1 30
+	TEnd
+
+MEnd
+
+
+Move 1st_SwordRev2
+	Requires	COMBAT WEAPON
+	Member		<DeathIRQ>
+	NextMove        1st_SwordRev_post
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slashback 1 50
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slashback 1 50
+	TEnd
+
+MEnd
+
+
+Move 1st_SwordRev_post
+	Requires	COMBAT WEAPON
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slashback 51
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slashback 51
+	TEnd
+
+MEnd
+
+#####
+
+Move 2nd_SwordRev
+	Requires	COMBAT WEAPON SNAKEMANSLICE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordRev_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slashback 1 50
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slashback 1 50
+	TEnd
+
+MEnd
+
+############################# ambush spawn ###########################
+
+######################
+###### Ambush_Sleep  ######
+#####################
+
+Move Spawn_Ambush_Sleep
+	Requires	LOW SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Flags		Cycle NotSelectable
+	NextMove        Spawn_Ambush
+	Priority        2
+	Interpolate     0
+	Sets            CANTMOVE NOCOLLISION
+
+	Type		Snakemen
+	  Anim          Snakemen\groundspawn 1 1
+	TEnd
+MEnd
+
+
+Move Spawn_Ambush
+	NextMove        JumpPost
+	Sets            CANTMOVE
+
+	Type		 Snakemen
+	  Anim          Snakemen\groundspawn 1
+	TEnd
+MEnd
+
+### claw attacks  #######################################################
+
+###################
+###### claw swipe  ######
+###################
+
+Move 1st_claw_R
+	Requires	COMBAT SNAKEMANSWIPE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_claw_R_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\claw_right 1 21
+	  PlayFX	V_COV\EnemyPowers\Snakemen\SnakeMen_ClawsStreaksR.fx
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\claw_right 1 21
+	  PlayFX	V_COV\EnemyPowers\Snakemen\SnakeMen_ClawsStreaksR.fx
+	TEnd
+
+MEnd
+
+Move 1st_claw_R_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	Priority        1
+	Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\claw_right 22
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\claw_right 22
+	TEnd
+
+MEnd
+
+#####
+
+Move 2nd_claw_L
+	Requires	COMBAT SNAKEMANSWIPE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        2nd_clawpost_L
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\claw_left 1 21
+	  PlayFX	V_COV\EnemyPowers\Snakemen\SnakeMen_ClawsStreaksL.fx
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\claw_left 1 21
+	  PlayFX	V_COV\EnemyPowers\Snakemen\SnakeMen_ClawsStreaksL.fx
+	TEnd
+MEnd
+
+
+Move 2nd_clawpost_L
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        clawcycle
+	Priority        1
+	Interpolate     0
+
+
+	Type		Snakemen
+	  Anim          Snakemen\claw_left 22
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\claw_left 22
+	TEnd
+MEnd
+
+######################### emotes ##########################
+
+###################
+### Grumpy snake  #####
+###################
+
+Move Emote_Mad
+	Requires	EMOTE ANGRY POSE LOW
+	Priority        4
+	Interrupts	<Ready> <ReactIRQ> <Combat> <WepCombat> <TwoHandCombat> <PostMoveCycle> <Block>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Block>
+	NextMove        Emote_Mad_pawL
+	Interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\growl 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\growl 1
+	TEnd
+MEnd
+
+Move Emote_Mad_pawL
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	cyclemove	Emote_Mad_pawR
+	cyclemove	Emote_Mad_growl
+	cyclemove	Emote_Mad_pawL
+	Interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\pawL 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\pawL 1
+	TEnd
+MEnd
+
+Move Emote_Mad_pawR
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	cyclemove	Emote_Mad_growl
+	cyclemove	Emote_Mad_pawL
+	cyclemove	Emote_Mad_pawR
+	Interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\pawR 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\pawR 1
+	TEnd
+MEnd
+
+Move Emote_Mad_growl
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	cyclemove	Emote_Mad_pawL
+	cyclemove	Emote_Mad_pawR
+	cyclemove	Emote_Mad_growl
+	Interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\growl 1 80
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\growl 1 80
+	TEnd
+MEnd
+
+
+##########################
+#### Emote Praise_Bow	     #####
+##########################
+
+Move Emote_Praise_Bow
+	Requires	EMOTE BOWING LOW
+	Interrupts	<Ready> <ReactIRQ> <Combat> <WepCombat> <TwoHandCombat> <PostMoveCycle>  <Block>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Block>
+	NextMove        Emote_Praise_Bow_cycle
+	Priority        3
+	Interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\worship 1
+	TEnd
+MEnd
+
+Move Emote_Praise_Bow_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Interpolate	0
+
+	Type		Snakemen
+	  Anim          Snakemen\worship 1
+	TEnd
+MEnd
+
+
+##########################
+#### Encounter Praise_Bow	     #####
+##########################
+
+Move Praise_Bow
+	Requires	ENCOUNTER BOWING
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Interpolate	8
+	Cyclemove	Praise_Bow
+	Cyclemove	Praise_Bow2
+	Cyclemove	Praise_Bow3
+
+	Type		Snakemen
+	  Anim          Snakemen\worship 1
+	TEnd
+MEnd
+
+Move Praise_Bow2
+	Requires	ENCOUNTER BOWING
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Interpolate	8
+	Cyclemove	Praise_Bow
+	Cyclemove	Praise_Bow2
+	Cyclemove	Praise_Bow3
+	Scale		1.2
+
+	Type		Snakemen
+	  Anim          Snakemen\worship 1
+	TEnd
+MEnd
+
+Move Praise_Bow3
+	Requires	ENCOUNTER BOWING
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Interpolate	8
+	Cyclemove	Praise_Bow
+	Cyclemove	Praise_Bow2
+	Cyclemove	Praise_Bow3
+	scale		0.85
+
+	Type		Snakemen
+	  Anim          Snakemen\worship 1
+	TEnd
+MEnd
+
+
+####################
+#### Point     #####
+####################
+
+Move Emote_Point
+	Requires	EMOTE POINT
+	Interrupts	<Ready>  <Combat> <WepCombat> <TwoHandCombat> <PostMoveCycle> <Block>  <ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Block>
+	NextMove        Emote_Point_cycle
+	Priority        3
+	Interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\point 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\point 1
+	TEnd
+MEnd
+
+Move Emote_Point_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\point 30 30
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\point 30 30
+	TEnd
+MEnd
+
+
+###################### encounter #############################
+
+####################
+#### Rumble #####
+####################
+
+Move Rumble_idle
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_clawL
+	Cyclemove	Rumble_growl
+	Cyclemove	Rumble_HQ
+	Cyclemove	Rumble_clawR
+
+	Type		Snakemen
+	  Anim          Snakemen\SKEL_snakemen  1 31
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\SKEL_ready  1 31
+	TEnd
+MEnd
+
+Move Rumble_growl
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_clawL
+	Cyclemove	Rumble_idle
+	Cyclemove	Rumble_HQ
+	Cyclemove	Rumble_clawR
+
+	Type		Snakemen
+	  Anim          Snakemen\growl 1 80
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\growl 1 80
+	TEnd
+MEnd
+
+
+Move Rumble_clawL
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_idle
+	Cyclemove	Rumble_growl
+	Cyclemove	Rumble_HQ
+	Cyclemove	Rumble_clawR
+
+	Type		Snakemen
+	  Anim          Snakemen\claw_left 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\claw_left 1
+	TEnd
+MEnd
+
+Move Rumble_clawR
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_clawL
+	Cyclemove	Rumble_growl
+	Cyclemove	Rumble_HQ
+	Cyclemove	Rumble_idle
+
+	Type		Snakemen
+	  Anim          Snakemen\claw_right 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\claw_right 1
+	TEnd
+MEnd
+
+Move Rumble_HQ
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_clawL
+	Cyclemove	Rumble_growl_sword
+	Cyclemove	Rumble_idle
+	Cyclemove	Rumble_clawR
+
+	Type		Snakemen
+	  Anim          Snakemen\hitquick 1 40
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\hitquick 1 40
+	TEnd
+MEnd
+
+Move Rumble_growl_sword
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_clawL
+	Cyclemove	Rumble_sword_draw
+	Cyclemove	Rumble_idle
+	Cyclemove	Rumble_clawR
+
+	Type		Snakemen
+	  Anim          Snakemen\growl 1 80
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\growl 1 80
+	TEnd
+MEnd
+
+Move Rumble_sword_draw
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		NoSizeScale
+	Nextmove	Rumble_idle_sword
+	interpolate	15
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_draw 1 30
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_draw 1 30
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+Move Rumble_idle_sword
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash
+	Cyclemove	Rumble_sword_chop
+	Cyclemove	Rumble_HQ_sword
+	Cyclemove	Rumble_sword_slashback
+
+	Type		Snakemen
+	  Anim          Snakemen\SKEL_snakemen  1 31
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\SKEL_ready  1 31
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+Move Rumble_sword_slash
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_growl_sword
+	Cyclemove	Rumble_sword_chop
+	Cyclemove	Rumble_HQ_sword
+	Cyclemove	Rumble_sword_slashback
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slash 1 50
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slash 1 50
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+Move Rumble_sword_slashback
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash
+	Cyclemove	Rumble_sword_chop
+	Cyclemove	Rumble_HQ_sword
+	Cyclemove	Rumble_growl_sword
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slashback 1 50
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slashback 1 50
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+Move Rumble_sword_chop
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash
+	Cyclemove	Rumble_growl_sword
+	Cyclemove	Rumble_HQ_sword
+	Cyclemove	Rumble_sword_slashback
+
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_Chop 1 40
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_Chop 1 40
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+
+Move Rumble_HQ_sword
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash
+	Cyclemove	Rumble_growl_brawl
+	Cyclemove	Rumble_sword_chop
+	Cyclemove	Rumble_sword_slashback
+
+
+	Type		Snakemen
+	  Anim          Snakemen\hitquick 1 40
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\hitquick 1 40
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+
+Move Rumble_growl_brawl
+	Requires	ENCOUNTER RUMBLEA
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash
+	Cyclemove	Rumble_idle
+	Cyclemove	Rumble_HQ_sword
+	Cyclemove	Rumble_sword_chop
+
+	Type		Snakemen
+	  Anim          Snakemen\growl 1 80
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\growl 1 80
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+
+####################
+#### Rumble Sword Only #####
+####################
+
+Move Rumble_idle_sword1
+	Requires	ENCOUNTER RUMBLEA SWORD
+	Priority        3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash1
+	Cyclemove	Rumble_sword_chop1
+	Cyclemove	Rumble_HQ_sword1
+	Cyclemove	Rumble_sword_slashback1
+
+	Type		Snakemen
+	  Anim          Snakemen\SKEL_snakemen  1 31
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\SKEL_ready  1 31
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+Move Rumble_sword_slash1
+	Requires	ENCOUNTER RUMBLEA SWORD
+	Priority        3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_growl_sword1
+	Cyclemove	Rumble_sword_chop1
+	Cyclemove	Rumble_HQ_sword1
+	Cyclemove	Rumble_sword_slashback1
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slash 1 50
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slash 1 50
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+Move Rumble_sword_slashback1
+	Requires	ENCOUNTER RUMBLEA SWORD
+	Priority        3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash1
+	Cyclemove	Rumble_sword_chop1
+	Cyclemove	Rumble_HQ_sword1
+	Cyclemove	Rumble_growl_sword1
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_slashback 1 50
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_slashback 1 50
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+Move Rumble_sword_chop1
+	Requires	ENCOUNTER RUMBLEA SWORD
+	Priority        3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash1
+	Cyclemove	Rumble_growl_sword1
+	Cyclemove	Rumble_HQ_sword1
+	Cyclemove	Rumble_sword_slashback1
+
+
+	Type		Snakemen
+	  Anim          Snakemen\sword_Chop 1 40
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_Chop 1 40
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+
+Move Rumble_HQ_sword1
+	Requires	ENCOUNTER RUMBLEA SWORD
+	Priority        3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash1
+	Cyclemove	Rumble_growl_sword1
+	Cyclemove	Rumble_sword_chop1
+	Cyclemove	Rumble_sword_slashback1
+
+
+	Type		Snakemen
+	  Anim          Snakemen\hitquick 1 40
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\hitquick 1 40
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+
+Move Rumble_growl_sword1
+	Requires	ENCOUNTER RUMBLEA SWORD
+	Priority        3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	interpolate	15
+	Cyclemove	Rumble_sword_slash1
+	Cyclemove	Rumble_idle_sword1
+	Cyclemove	Rumble_HQ_sword1
+	Cyclemove	Rumble_sword_chop1
+
+	Type		Snakemen
+	  Anim          Snakemen\growl 1 80
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\growl 1 80
+	  PlayFX	weapons\sword_scimitar.fx 0 constant
+	TEnd
+MEnd
+
+
+##########################
+#### Encounter Sleepy sunning	     #####
+##########################
+
+Move Sunning
+	Requires	ENCOUNTER SLEEP HAPPY
+	Priority        3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Nextmove	getup_back
+	Interpolate	8
+
+	Type		Snakemen
+	  Anim          Snakemen\sunning 1
+	TEnd
+MEnd
+
+
+##### Run outs ########################################
+
+
+###################
+### Basic Runout  ####
+###################
+
+Move Basic_runout
+	Requires	EMERGE RUNOUT
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	NextMove        Ready
+	Priority        7
+	Sets            CANTMOVE WALKTHROUGH
+	Flags		DoNotDelay
+
+	Type		Snakemen
+	  Anim          male\basic_runout 2
+	TEnd
+MEnd
+
+
+###################
+### Snake Hole Jump IN  ####
+###################
+
+Move SnakeHole_Jump_IN
+	Requires	RUNIN JUMPINHOLE
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Truck_Jump_In_post
+	Sets		CANTMOVE RUNIN
+	Flags		NotSelectable
+	Priority        9
+	Interpolate	8
+
+	Type		Snakemen
+	  Anim          male\Hole_jump_IN 1
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+MEnd
+
+########### (Continues in the truck jump in animation, but RUNIN bit isn't set, so the transfer begins)
+
+Move SnakeHole_Jump_In_post
+	NextMove        Ready
+	Priority        5
+	Member		<RunIn>
+	Sets            CANTMOVE
+	Flags		cycle NotSelectable
+
+	Type		Snakemen
+	  Anim          male\absorb 60
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+MEnd
+
+
+###################
+### Snake Hole Jump OUT  ####
+###################
+
+Move SnakeHole_Jump_OUT
+	Requires	EMERGE JUMPOUTOFHOLE
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	NextMove        Emote_Mad
+	Priority        10
+	Sets            CANTMOVE
+	Flags		NotSelectable DoNotDelay
+
+	Type		Snakemen
+	  Anim          Snakemen\groundspawn 1
+	TEnd
+MEnd
+
+###################
+# Basic Spawn  #####
+##################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_2
+	Priority        5
+	Interpolate     0
+	Flags		NoSizeScale NotSelectable NOCOLLISION
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\groundspawn 1 25
+	PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+Move Spawned_2
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Spawned_post
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\groundspawn 6
+	TEnd
+MEnd
+
+Move Spawned_post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Ready
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+	Type		Snakemen
+	  Anim          Snakemen\jumppost 1
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\jumppost 1
+	TEnd
+MEnd
+
+#############################################################
+## ARCHERY (fake bow w\ no mode bits)
+#############################################################
+
+## BOW READY ###########################################################
+
+Move Bow_Ready
+
+	Member		<ReactIRQ> <DeathIRQ> <Ready> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Scale           0.50
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_cycle 1 31
+	TEnd
+MEnd
+
+Move Bow_half2
+
+	Member		<ReactIRQ> <DeathIRQ> <Ready> <AttackIRQ>
+	NextMove        Bow_Ready
+	Scale           0.50
+	Interpolate	0
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_cycle 15 31
+	TEnd
+MEnd
+
+## DRAW BOW ###########################################################
+
+Move Draw_Bow
+	Requires	SPAWNHIP BOW
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> Predual PreWep
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Bow_Ready
+	Priority        2
+	Interpolate	8
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_draw 1 20
+	TEnd
+MEnd
+
+Move Draw_Bow_post
+
+	Member		<ReactIRQ> <DeathIRQ> <Ready> <AttackIRQ> <PostMoveCycle>
+	NextMove        Bow_half2
+	Interpolate	0
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_draw 21
+	TEnd
+MEnd
+
+
+## BOW QUICK ###########################################################
+
+Move Bow_Quick_Draw
+	Requires	BOW QUICK SPAWNHIP
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Quick
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_draw 1 20
+	TEnd
+MEnd
+
+Move Bow_Quick
+	Requires	BOW QUICK
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Quick_Post
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+	SticksOnChild   BOWQUICK
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_quickshoot 1 31
+	  PlayFX	WEAPONS\Bow\bowstring_quick.fx 0
+	  PitchStart	2
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+Move Bow_Quick_Post
+	Member		<ReactIRQ> <DeathIRQ> <Ready>
+	NextMove        Bow_Ready
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_quickshoot 32
+	TEnd
+MEnd
+
+
+## BOW HEAVY (sniper no windup) ###########################################################
+
+Move Bow_Heavy_Draw
+	Requires	BOW STRONG SPAWNHIP
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Heavy
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_draw 1 20
+	TEnd
+MEnd
+
+Move Bow_Heavy
+	Requires	BOW STRONG
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Heavy_post
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+	SticksOnChild   BOWHEAVY
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_sniper 15 68
+	   PlayFX	WEAPONS\Bow\bowstring_sniper.fx 0
+	   PitchStart	22
+	  PitchAngle	0.7
+	TEnd
+MEnd
+
+Move Bow_Heavy_post
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ> <PostMoveCycle>
+	NextMove        Bow_Ready
+	Interpolate     0
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_sniper 69
+	  PitchEnd	93
+	  PitchAngle	0.7
+	TEnd
+MEnd
+
+
+## BOW CONE ###########################################################
+
+Move Bow_Cone_Draw
+	Requires	BOW CONE SPAWNHIP
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Cone
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_draw 1 20
+	TEnd
+MEnd
+
+Move Bow_Cone
+	Requires	BOW CONE
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Cone_Post
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+	SticksOnChild   BOWCONE
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_cone 15 50
+	  PlayFX	WEAPONS\Bow\bowstring_cone.fx 0
+	  PitchStart	2
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+Move Bow_Cone_Post
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ> <PostMoveCycle>
+	NextMove        Bow_Ready
+	Interpolate     0
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_cone 51
+	  PitchEnd	72
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+
+## BOW ARC ###########################################################
+
+Move Bow_Arc_Draw	## (don't add pitchtotarget to this power!) ##
+	Requires	BOW LAUNCH SPAWNHIP
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Arc
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_draw 1 20
+	TEnd
+MEnd
+
+Move Bow_Arc
+	Requires	BOW LAUNCH
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Arc_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	SticksOnChild   BOWARCH
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_arc 1 136
+	  PlayFX	WEAPONS\Bow\bowstring_arc.fx 0
+	TEnd
+MEnd
+
+Move Bow_Arc_post
+	NextMove        Bow_Ready
+	Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_arc 137
+	TEnd
+MEnd
+
+
+## BOW BITE (W\ NO stance bits) ###########################################################
+
+Move Bow_Bite_Draw
+	Requires	BOW SNAKEMANBITE SPAWNHIP
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Bite
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bow_draw 1 20
+	TEnd
+MEnd
+
+Move Bow_Bite
+	Requires	BOW SNAKEMANBITE
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bow_Bite_post
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 1 35
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 1 35
+	TEnd
+MEnd
+
+Move Bow_Bite_post
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 36
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 36
+	TEnd
+MEnd
+
+
+#############################################################
+##  DAGGER ATTACKS
+#############################################################
+
+## DRAW DAGGERS ###########################################################
+
+Move Draw_Daggers
+	Requires	SPAWNSIDE Dual Knife
+	Interrupts	<Ready> PostWepReady
+	Member		<ReactIRQ> <DeathIRQ> <Ready> <AttackIRQ> ##<PreMove> ## <Combat>
+	NextMove        Draw_Daggers_2
+	Priority        3
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_draw 1 30
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\dagger_draw 1 30
+	TEnd
+
+MEnd
+
+Move Draw_Daggers_2
+	Member		<ReactIRQ> <DeathIRQ> <Ready> <AttackIRQ> ##<PreMove> ## <Combat>
+	NextMove        Ready
+	Priority        3
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_draw 31
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\dagger_draw 31
+	TEnd
+
+MEnd
+
+#########################
+###### Dagger slash ######
+#########################
+
+Move 1st_Daggers_slash
+	Requires	SPAWNSIDE Dual Knife SLASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_slash2
+	Priority        5
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_draw 1 30
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\dagger_draw 1 30
+	TEnd
+
+
+MEnd
+
+
+Move 1st_Daggers_slash2
+
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_slash_post
+	Priority        1
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_slashL 1 20
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\dagger_slashL 1 20
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+
+MEnd
+
+
+Move 1st_Daggers_slash_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_slashL 21
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\dagger_slashL 21
+	TEnd
+
+MEnd
+
+#####
+
+Move 2nd_Daggers_slash
+	Requires	Dual Knife SLASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        2nd_Daggers_slash_post
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_doublestab 1 20
+	  PlayFX	Generic\SFX_stab.fx 11
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\dagger_doublestab 1 20
+	  PlayFX	Generic\SFX_stab.fx 11
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+
+MEnd
+
+
+Move 2nd_Daggers_slash_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_doublestab 21
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\dagger_doublestab 21
+	TEnd
+
+MEnd
+
+Move 3RD_Daggers_slash_stabbie
+	Requires	Dual Knife SLASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_slash_post
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_slashL 1 20
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\dagger_slashL 1 20
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+
+MEnd
+
+
+
+
+#########################
+###### Dagger Jump Stab ######
+#########################
+
+Move 1st_Daggers_JumpStab
+	Requires	SPAWNSIDE Dual Knife CHOP
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_JumpStab2
+	Priority        5
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_draw 1 30
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\dagger_draw 1 30
+	TEnd
+
+MEnd
+
+
+Move 1st_Daggers_JumpStab2
+
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_JumpStab_post
+	Priority        1
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_jumpstab 1 50
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\dagger_jumpstab 1 50
+	TEnd
+
+MEnd
+
+
+Move 1st_Daggers_JumpStab_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_jumpstab 51
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\dagger_jumpstab 51
+	TEnd
+
+MEnd
+
+#####
+
+Move 2nd_Daggers_JumpStab
+	Requires	DUAL KNIFE CHOP
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_JumpStab_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_jumpstab 1 50
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\dagger_jumpstab 1 50
+	TEnd
+
+MEnd
+
+
+
+##############################################
+###### Daggers Bite (W\ NO stance bits)   ##
+##############################################
+
+Move 1st_Daggers_Bite
+	Requires	SPAWNSIDE DUAL KNIFE SNAKEMANBITE
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_Bite2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_draw 1 30
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\dagger_draw 1 30
+	TEnd
+MEnd
+
+
+Move 1st_Daggers_Bite2
+
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_Bite_post
+	Priority        2
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 1 35
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 1 35
+	TEnd
+MEnd
+
+
+Move 1st_Daggers_Bite_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 36
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 36
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_Daggers_Bite
+	Requires	DUAL KNIFE SNAKEMANBITE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_Bite_post
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 1 35
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\bite 1 35
+	TEnd
+MEnd
+
+##############################################
+###### Daggers Spit (W\ NO stance bits)   ##
+##############################################
+
+Move 1st_Daggers_Spit
+	Requires	SPAWNSIDE DUAL KNIFE SNAKEMANSPIT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_Spit2
+	Priority        5
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\dagger_draw 1 30
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\dagger_draw 1 30
+	TEnd
+MEnd
+
+
+Move 1st_Daggers_Spit2
+
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_Spit_post
+	Priority        2
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\spit 1 34
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\spit 1 34
+	TEnd
+MEnd
+
+
+Move 1st_Daggers_Spit_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\spit 35
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\spit 35
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_Daggers_Spit
+	Requires	DUAL KNIFE SNAKEMANSPIT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_Spit_post
+	Priority        4
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+
+	Type		Snakemen
+	  Anim          Snakemen\spit 1 34
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\spit 1 34
+	TEnd
+MEnd
+
+#####  Staff moves  #####################################################
+
+##############################################
+###### MagicStaff Cast (W\ NO stance bits)   ##
+##############################################
+
+Move 1st_MagicStaff
+	Requires	COMBAT WEAPON SPAWNBACK SNAKESTAFFCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_MagicStaff2
+	Priority        4
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\sword_draw 1 25
+	TEnd
+
+	Type		Snakewoman
+	  Anim          Snakewoman\sword_draw 1 25
+	TEnd
+MEnd
+
+
+Move 1st_MagicStaff2
+
+	Member		<DeathIRQ>
+	NextMove        1st_MagicStaff_post
+	Priority        2
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\staff_medcast 1 54
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\staff_castmed 1 54
+	TEnd
+MEnd
+
+
+Move 1st_MagicStaff_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\staff_medcast 55
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\staff_castmed 55
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_MagicStaff
+	Requires	COMBAT WEAPON SNAKESTAFFCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_MagicStaff_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\staff_medcast 1 54
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\staff_castmed 1 54
+	TEnd
+MEnd
+
+####################################################
+###### Fast_MagicStaff Cast (W\ NO stance bits)    ##
+####################################################
+
+Move 1st_FastMagicStaff
+	Requires	COMBAT WEAPON SPAWNBACK SNAKESTAFFCASTFAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_FastMagicStaff2
+	Priority        4
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\sword_draw 1 25
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\sword_draw 1 25
+	TEnd
+MEnd
+
+
+Move 1st_FastMagicStaff2
+
+	Member		<DeathIRQ>
+	NextMove        1st_FastMagicStaff_post
+	Priority        2
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\staff_fastcast 1 54
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\staff_castfast 1 54
+	TEnd
+MEnd
+
+
+Move 1st_FastMagicStaff_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\staff_fastcast 55
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\staff_castfast 55
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_FastMagicStaff
+	Requires	COMBAT WEAPON SNAKESTAFFCASTFAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_FastMagicStaff_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\staff_fastcast 1 54
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\staff_castfast 1 54
+	TEnd
+MEnd
+
+
+#######################################################
+###### MagicStaff EnergyTorrent (W\ NO stance bits)   ##
+#######################################################
+
+Move 1st_MStaff_Torrent
+	Requires	COMBAT WEAPON SPAWNBACK SNAKESTAFFTORRENT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_MStaff_Torrent2
+	Priority        4
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\sword_draw 1 25
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\sword_draw 1 25
+	TEnd
+MEnd
+
+
+Move 1st_MStaff_Torrent2
+
+	Member		<DeathIRQ>
+	NextMove        1st_MStaff_Torrent_post
+	Priority        2
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\staff_energytorrent 1 64
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\staff_energytorrent 1 64
+	TEnd
+MEnd
+
+
+Move 1st_MStaff_Torrent_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\staff_energytorrent 65
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\staff_energytorrent 65
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_MStaff_Torrent
+	Requires	COMBAT WEAPON SNAKESTAFFTORRENT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_MStaff_Torrent_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\staff_energytorrent 1 64
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\staff_energytorrent 1 64
+	TEnd
+MEnd
+
+
+
+##############################################
+###### MagicStaff Bite (W\ NO stance bits)   ##
+##############################################
+
+Move 1st_Staff_Bite
+	Requires	COMBAT WEAPON SPAWNBACK SNAKEMANBITE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Staff_Bite2
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\sword_draw 1 25
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\sword_draw 1 25
+	TEnd
+MEnd
+
+
+Move 1st_Staff_Bite2
+
+	Member		<DeathIRQ>
+	NextMove        1st_Staff_Bite_post
+	Priority        2
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 1 35
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\bite 1 35
+	TEnd
+MEnd
+
+
+Move 1st_Staff_Bite_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 36
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\bite 36
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_Staff_Bite
+	Requires	COMBAT WEAPON SNAKEMANBITE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Staff_Bite_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\bite 1 35
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\bite 1 35
+	TEnd
+MEnd
+
+##############################################
+###### MagicStaff Spray (W\ NO stance bits)   ##
+##############################################
+
+Move 1st_Staff_Spray
+	Requires	COMBAT WEAPON SPAWNBACK SNAKEMANSPRAY
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Staff_Spray2
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\sword_draw 1 25
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\sword_draw 1 25
+	TEnd
+MEnd
+
+
+Move 1st_Staff_Spray2
+
+	Member		<DeathIRQ>
+	NextMove        1st_Staff_Spray_post
+	Priority        2
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\spit_arc 1 79
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\spit_arc 1 79
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+
+Move 1st_Staff_Spray_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready_half
+	Priority        2
+	Interpolate     0
+	Flags		PitchToTarget NoSizeScale
+
+
+	Type		Snakemen
+	  Anim          Snakemen\spit_arc 80
+	  PitchEnd	85
+	  PitchAngle	0.2
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\spit_arc 80
+	  PitchEnd	85
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_Staff_Spray
+	Requires	COMBAT WEAPON SNAKEMANSPRAY
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Staff_Spray_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\spit_arc 1 79
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\spit_arc 1 79
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+##############################################
+###### MagicStaff Spit (W\ NO stance bits)   ##
+##############################################
+
+Move 1st_Staff_Spit
+	Requires	COMBAT WEAPON SPAWNBACK SNAKEMANSPIT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Staff_Spit2
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          Snakemen\sword_draw 1 25
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\sword_draw 1 25
+	TEnd
+MEnd
+
+
+Move 1st_Staff_Spit2
+
+	Member		<DeathIRQ>
+	NextMove        1st_Staff_Spit_post
+	Priority        2
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\spit 1 34
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\spit 1 34
+	TEnd
+MEnd
+
+
+Move 1st_Staff_Spit_post
+
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\spit 35
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\spit 35
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_Staff_Spit
+	Requires	COMBAT WEAPON SNAKEMANSPIT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Staff_Spit_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Snakemen
+	  Anim          Snakemen\spit 1 34
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\spit 1 34
+	TEnd
+MEnd
+
+######### powers #################
+
+###################
+###### Levitate  ######
+###################
+
+Move Levitate
+	Requires	COMBAT LEVITATE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Levitatepost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		snakemen
+	  Anim          snakemen\power_levitate 1 50
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\power_levitate 1 50
+	TEnd
+MEnd
+
+Move Levitatepost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Flags		NoSizeScale
+	Interpolate     0
+
+	Type		snakemen
+	  Anim		snakemen\power_levitate 51
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\power_levitate 51
+	TEnd
+
+MEnd
+
+
+###################
+###### Radius Effect  ######
+###################
+
+Move RadiusEffect
+	Requires	COMBAT RADIUSEFFECT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        RadiusEffePost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		snakemen
+	  Anim          snakemen\radiuseffect 1 60
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\power_radiuseffect 1 60
+	TEnd
+MEnd
+
+
+Move RadiusEffePost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          snakemen\radiuseffect 61
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\power_radiuseffect 61
+	TEnd
+MEnd
+
+
+###################
+###### Stop cast ######
+###################
+
+Move Stop
+	Requires	COMBAT STOPCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Stop_cycle
+	Flags		PitchToTarget
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		snakemen
+	  Anim          snakemen\power_stop 1 32
+	  PitchAngle	0.5
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\power_stop 1 32
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+
+Move Stop_cycle
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Stop_post
+	Flags		PitchToTarget
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          snakemen\power_stop 33 60
+	  PitchAngle	0.5
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\power_stop 33 60
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+
+Move Stop_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+	Flags		PitchToTarget NoSizeScale
+
+	Type		snakemen
+	  Anim          snakemen\power_stop 61
+	  PitchEnd	64
+	  PitchAngle	0.5
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\power_stop 61
+	  PitchEnd	64
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+##########################
+###### Howl Cast      ####
+##########################
+
+Move Howl_cast
+	Requires	COMBAT SCREAM SPEECH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Howl_cast_post
+	Priority        7
+	Sets            CANTMOVE
+
+	Type		snakemen
+	  Anim          snakemen\power_howl 1 50
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\power_howl 1 50
+	TEnd
+
+MEnd
+
+
+Move Howl_cast_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		snakemen
+	  Anim          snakemen\power_howl 51
+	TEnd
+
+	Type		snakewoman
+	  Anim          snakewoman\power_howl 51
+	TEnd
+
+MEnd
+
+###############
+## 1 2 punch ##
+###############
+
+Move 1_2punch
+	Requires	COMBAT PUNCH COMBO2
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        1_2punchpost
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakewoman
+	  Anim          snakewoman\1_2punch 1 40
+	TEnd
+MEnd
+
+Move 1_2punchpost
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Combat_half
+	Scale           0.50
+	Flags		NoSizeScale ReqInputs
+
+	Type		snakewoman
+	  Anim          snakewoman\1_2punch 40
+	TEnd
+MEnd
+
+## SONIC SCREAM ###########################################################
+
+Move SonicScream
+	Requires	COMBAT SCREAM SPEECH
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Scream_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		snakewoman
+	  Anim          snakewoman\scream 10 58
+	    PlayFX	feet\femTaunt2.fx
+	TEnd
+
+MEnd
+
+Move Scream_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Scream_cycle
+	Flags		NoSizeScale ReqInputs
+
+
+	Type		snakewoman
+	  Anim          snakewoman\scream 58
+	TEnd
+
+MEnd
+
+##########################################################
+##  SWIM READY ###########################################################
+##########################################################
+
+Move swim_readypre
+	Requires	SWIM
+	Priority        10
+	Interrupts	<Ready> Ready jumppost walkpost
+	Include sequencers\Members\Swim.inc
+	Flags		ReqInputs FixHipsReg
+	NextMove        swim_ready
+	Scale           0.75
+
+	Type		Snakemen
+	  Anim          Snakemen\swim_ready 1
+	  PlayFx        FEET\SWIMREADY.FX
+	TEnd
+
+MEnd
+
+Move swim_ready
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	Flags		Cycle FixHipsReg
+	NextMove        Ready
+	Scale           0.75
+
+	Type		Snakemen
+	  Anim          Snakemen\swim_ready 1
+	  PlayFx        FEET\SWIMREADY.FX 30
+	  PlayFx        FEET\SWIMREADY.FX 70
+	TEnd
+
+MEnd
+
+## SWIM FORWARD ###########################################################
+
+Move SwimPre
+	Requires	FORWARD SWIM
+	Priority        11
+	Interrupts	<SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle #FixHipsReg
+	CycleMove	SwimCycle
+	NextMove        SwimPost
+	Scale           0.75
+
+	Type		snakemen
+	  Anim          snakemen\swim_forward 1 33
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move SwimCycle
+	Requires	FORWARD SWIM
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle #FixHipsReg
+	NextMove        SwimPost
+	Scale           0.75
+
+	Type		snakemen
+	  Anim          snakemen\swim_forward 1 33
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move SwimPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        swim_ready
+	Flags		#FixHipsReg
+	Scale           0.75
+	Interpolate     15
+
+	Type		snakemen
+	  Anim          snakemen\swim_forward 33
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+## SWIM POSTJUMP ###########################################################
+
+Move Swim_JumpPost
+	Requires	SWIM
+	Priority        10
+	Interrupts	<GroundJumpPost>
+	Include sequencers\Members\Swim.inc
+	NextMove        swim_ready
+	Flags		FixHipsReg
+	Interpolate     2
+
+	Type		snakemen
+	  Anim          snakemen\swim_postjump 1
+	TEnd
+
+MEnd
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,116 @@
+Texture X_FW_TalonWater
+
+            Base1 FW_Glowwater_d
+            Base1Scroll 0 0 //-0.002 0.003
+            Base1ScrollType Normal
+            Base1Scale 2 2
+
+ 
+
+            Multiply1 FW_Glowwater_d
+            Multiply1Scroll 0.0004  -0.0003
+            Multiply1ScrollType Normal
+            Multiply1Scale 1 1
+            Multiply1Reflect 0
+
+ 
+
+            DualColor1 FW_Glowwater_d
+            DualColor1Scroll 0 0
+            DualColor1ScrollType Normal
+            DualColor1Scale 1 1
+
+ 
+
+            BumpMap1 newwater4bmp
+            BumpMap1Scroll 0.0003 -0.0002
+            BumpMap1ScrollType Normal
+            BumpMap1Scale 4 4
+
+ 
+
+            AddGlow1 FW_Glowwater_d
+            AddGlow1Scroll 0.0001 0.0002
+            AddGlow1ScrollType Normal
+            AddGlow1Scale 1.5 1.5
+
+ 
+
+            Mask none //Enables blending between Material 1 and 2.  White is Material1, Black is Material2
+            MaskScroll 0 0
+            MaskScrollType Normal
+            MaskScale 1 1
+            MaskWeight 1
+            AlphaMask 0     // Optional flag indicating to use the ALPHA channel
+                                    // of the Mask texture instead of all 4 channels
+
+ 
+
+            Base2 FW_RockFiller_d
+            Base2Scroll 0 0
+            Base2ScrollType Normal
+            Base2Scale 12 12
+
+ 
+
+            Multiply2 none
+            Multiply2Scroll 0 0
+            Multiply2ScrollType Normal
+            Multiply2Scale .7 .7
+            Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+ 
+
+            DualColor2 white //FW_RockMossy2_dc
+            DualColor2Scroll 0 0
+            DualColor2ScrollType Normal
+            DualColor2Scale 1 1
+
+ 
+
+            BumpMap2 FW_Noise_n
+            BumpMap2Scroll 0.00 0
+            BumpMap2ScrollType Normal
+            BumpMap2Scale 12 12
+
+ 
+
+            SpecularColor1 160 200 255
+            SpecularColor2 0 0 0  // BLACK means inherit color from SpecularColor1
+            SpecularExponent1 8
+            SpecularExponent2 8
+
+ 
+
+            DiffuseScale .8
+            AmbientScale 2
+
+ 
+
+            #ObjFlags //FancyWater //Commented out. Enable to turn on refraction. 
+            Flags FallBackForceOpaque AlwaysAddGlow //OldTin
+            MinAddGlow 100
+            MaxAddGlow 100
+ 
+
+            Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+            Color4 0 0 0
+
+	
+ 
+            Fallback
+
+                        UseFallback 1
+                        Base FW_TalonShrine_d
+                        Blend none
+                        Bumpmap none
+                        BlendType 0 //Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+                        ScaleST0 2 2
+                        ScaleST1 2 2 
+                        DiffuseScale 0.5
+                        AmbientScale 0.5
+
+            End
+
+End
+

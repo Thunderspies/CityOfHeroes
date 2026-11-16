@@ -1,0 +1,212 @@
+#############################################################
+## FX_IDF_BackPack.txt
+#############################################################
+Sequencer
+
+TypeDef FX_IDF_BackPack_01 			 # rockets only pop out
+	BaseSkeleton	FX_IDF_BackPack\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_IDF_BackPack_02			 # rocket/lmg only pop out
+	BaseSkeleton	FX_IDF_BackPack\skel_ready
+	ParentType	FX_IDF_BackPack_01
+TypeDefEnd
+
+TypeDef FX_IDF_BackPack_03			 # rocket/lmg/pulse rifle pop out
+	BaseSkeleton	FX_IDF_BackPack\skel_ready
+	ParentType	FX_IDF_BackPack_02
+TypeDefEnd
+
+
+Group	<Ready>
+Group	<Combat>
+Group	<AttackIRQ>
+
+### Note: All sequencer stuff must match exactly w\ player sequencer
+#############################################################
+
+Move Ready
+	Member		<DeathIRQ> <Ready>
+	Flags		Cycle
+	Priority	0
+	NextMove	CombatReady
+
+	Type		FX_IDF_BackPack_01
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_01 1 5
+	TEnd
+
+	Type		FX_IDF_BackPack_02
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_02 1 5
+	TEnd
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_03 1 5
+	TEnd
+MEnd
+
+#############################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready> PostWepReady
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle nosizescale
+	CycleMove	Combat_Cycle
+	NextMove	Post_Combat
+
+	Type		FX_IDF_BackPack_01
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_01 5 28
+	  PlayFX		Costumes\IDFTroopers\IDF_BackPack_01_Activate.fx
+	TEnd
+
+	Type		FX_IDF_BackPack_02
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_02 5 28
+	  PlayFX		Costumes\IDFTroopers\IDF_BackPack_02_Activate.fx
+	TEnd
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_03 5 28
+	  PlayFX		Costumes\IDFTroopers\IDF_BackPack_03_Activate.fx
+	TEnd
+
+MEnd
+
+Move Combat_Cycle
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle nosizescale
+	NextMove	Post_Combat
+
+	Type		FX_IDF_BackPack_01
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_01 28 37
+	TEnd
+
+	Type		FX_IDF_BackPack_02
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_02 28 37
+	TEnd
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_03 28 37
+	TEnd
+MEnd
+
+#############################################################
+
+Move Post_Combat
+	Member		<Ready> <DeathIRQ>
+	NextMove	Ready
+	Flags		nosizescale
+
+	Type		FX_IDF_BackPack_01
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_01 37 60
+	  PlayFX		Costumes\IDFTroopers\IDF_BackPack_01_Deactivate.fx
+	TEnd
+
+	Type		FX_IDF_BackPack_02
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_02 37 60
+	  PlayFX		Costumes\IDFTroopers\IDF_BackPack_02_Deactivate.fx
+	TEnd
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_backpack_tier_03 37 60
+	  PlayFX		Costumes\IDFTroopers\IDF_BackPack_03_Deactivate.fx
+	TEnd
+
+MEnd
+
+###########################################################
+####### Powers #########################
+###########################################################
+
+##  All Out Assault Tier 03  ## also used for targeted strike ###########################################################
+
+
+Move IDF_Assault_Tier03_Pre
+	Requires	COMBAT MISSLE ONE
+	Priority        3
+	Interrupts	<Combat>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        IDF_Assault_Tier03_Post
+	Flags		NoSizeScale
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_trooper_assault 1 37
+	TEnd
+
+MEnd
+
+Move IDF_Assault_Tier03_Post
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Combat_Cycle
+	Flags		NoSizeScale
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_trooper_assault 38
+	TEnd
+
+MEnd
+
+
+#  BURST ###########################################################
+Move IDF_Burst_Pre
+	Requires	COMBAT MISSLE TWO
+	Priority        3
+	Interrupts	<Combat>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        IDF_Burst_Post
+	Flags		NoSizeScale
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_trooper_burst 1 37
+	TEnd
+
+MEnd
+
+Move IDF_Burst_Post
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Combat_Cycle
+	Flags		NoSizeScale
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_trooper_burst 38
+	TEnd
+
+MEnd
+
+##  Penetrate Tier 03 ###########################################################
+
+Move IDF_Penetrate_Tier03_Pre
+	Requires	COMBAT ENDGAME MISSLE ONE
+	Priority        4
+	Interrupts	<Combat>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        IDF_Penetrate_Tier03_Post
+	Flags		NoSizeScale
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_trooper_penetrate 14 33
+	TEnd
+
+MEnd
+
+Move IDF_Penetrate_Tier03_Post
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Combat_Cycle
+	Flags		NoSizeScale
+
+	Type		FX_IDF_BackPack_03
+	  Anim          FX_IDF_BackPack\idf_trooper_penetrate 34
+	TEnd
+
+MEnd
+
+###################################################
+
+SeqEnd
+

@@ -1,0 +1,47 @@
+Def grp_No_Cast_Portal
+	Group Omni/EncounterSpawns/Universal/_ES_DisableOuroborosPortal_Generic
+	End
+	Property	"EncounterAutospawnEnd"	"0.0001"	0
+	Property	"EncounterAutospawnStart"	"0.0001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"ManualSpawn"	"1"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def grpvolume89285
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 16.000000 16.000000 16.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"OBJ_TriggerVolume_One"	0
+End
+
+Def grp_Beacons
+	Group grp_No_Cast_Portal
+		Pos 1316 665.38208 468.5
+	End
+	Group grpvolume89285
+		Pos 1129.5 15.616939 365.5
+	End
+	Group Omni/MissionBeacons/PlayerSpawn
+		PYR 0 90 -0
+		Pos 1128.5 15.305409 369
+	End
+	Group Omni/MissionBeacons/PlayerSpawn
+		PYR 0 90 -0
+		Pos 1128 15.496615 366.5
+	End
+	Group Omni/MissionBeacons/PlayerSpawn
+		PYR 0 90 -0
+		Pos 1129 15.751534 364
+	End
+	Group Omni/ValidBeacon
+		Pos 1157.5 17.2384 289
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Beacons
+	Pos -866 -0.000366 -1134.5
+End
+

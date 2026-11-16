@@ -1,0 +1,1628 @@
+#############################################################
+## Beast.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef huge
+	BaseSkeleton	huge\skel_ready
+	ParentType	male
+TypeDefEnd
+
+TypeDef Beast
+	BaseSkeleton	Beast\skel_ready
+	ParentType	huge
+TypeDefEnd
+
+TypeDef CameraShaker
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Behemoth
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Dwarf
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Behemoth
+TypeDefEnd
+
+TypeDef Nightwolf
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Tuatha
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Nightwolf
+TypeDefEnd
+
+TypeDef Slug
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Snowbeast
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Slug
+TypeDefEnd
+
+TypeDef DevouredLeader
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Brute
+	BaseSkeleton	huge\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Crystal
+	BaseSkeleton	Rikti_Flesh\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Natterling
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Nightwolf
+TypeDefEnd
+
+TypeDef Magmite
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Electro_Beast
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Mini
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef CrystalMini
+	BaseSkeleton	Rikti_Flesh\skel_ready
+	ParentType	Crystal
+TypeDefEnd
+
+TypeDef Shivan
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef Shivan_Giant
+	BaseSkeleton	Beast\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef MindsOfMayhem_CrystalTitan
+	BaseSkeleton	Rikti_Flesh\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef MindsOfMayhem_Deathsurge
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef MindsOfMayhem_Jurassik
+	BaseSkeleton	Beast\skel_ready
+	ParentType	CameraShaker
+TypeDefEnd
+
+TypeDef MindsOfMayhem_LordWinter
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Snowbeast
+TypeDefEnd
+
+
+
+
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<IRQEmotesALL>
+Group	<MonsterGroup>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+#############################################################
+
+Move Ready_A
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove       Ready_B
+	CycleMove       Ready_D
+	CycleMove       Ready_C
+	Interpolate	8
+
+	Type		Beast
+	  Anim          Beast\Growl 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\Growl 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_Howl.fx
+	TEnd
+
+	Type		Behemoth
+	  Anim          Beast\Growl 1
+	  PlayFX	EnemyFx\5thcolumn\NightWolf\nightwolfgrowl2.fx
+	TEnd
+
+	Type		Nightwolf
+	  Anim          Beast\Growl 1
+	PlayFX		EnemyFx\5thcolumn\NightWolf\nightwolfgrowl1.fx
+	TEnd
+
+	Type		CameraShaker
+	  Anim          Beast\Growl 1
+	PlayFX		EnemyFx\DevouringEarth\Jurassic1.fx
+	TEnd
+
+	Type		DevouredLeader
+	  Anim          Beast\Growl 1
+	  PlayFX	EnemyFx\DevouringEarth\Devoured1.fx
+	TEnd
+
+	Type		Crystal
+	  Anim          male\growl_pawL 1
+	TEnd
+
+	Type		Tuatha
+	  Anim          Beast\Growl 1
+	  PlayFX	EnemyFX\Tuatha\tuatharoar1.fx
+	TEnd
+
+	Type		Natterling
+	  Anim          Beast\Growl 1
+	PlayFX		EnemyFx\Rularuu\Natterling\Natterlinggrowl1.fx
+	TEnd
+MEnd
+
+Move Ready_B
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove       Ready_A
+	CycleMove       Ready_E
+	CycleMove       Ready_C
+	CycleMove       Ready_H
+
+	Type		Beast
+	  Anim          Beast\beatchest 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\beatchest 1
+  	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_TauntLong.fx 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 7
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 14
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 18
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 21
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 25
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 28
+	TEnd
+
+	Type		Dwarf
+	  Anim          Beast\Skel_ready 1
+	TEnd
+
+	Type		Nightwolf
+	  Anim          Beast\beatchest 1
+	  PlayFX	EnemyFx\5thcolumn\NightWolf\nightwolfhowl.fx
+	TEnd
+
+	Type		Camerashaker
+	  Anim          Beast\beatchest 1
+	  PlayFX	EnemyFx\DevouringEarth\Jurassic2.fx
+	TEnd
+
+	Type		DevouredLeader
+	  Anim          Beast\beatchest 1
+	  PlayFX	EnemyFx\DevouringEarth\Devoured2.fx
+	TEnd
+
+	Type		Crystal
+	  Anim          male\growl 1
+	TEnd
+
+	Type		Tuatha
+	  Anim          Beast\beatchest 1
+	  PlayFX	EnemyFX\Tuatha\tuatharoar4.fx
+	TEnd
+
+	Type		Natterling
+	  Anim          Beast\Growl 1
+	  PlayFX	EnemyFx\Rularuu\Natterling\Natterlinggrowl2.fx
+	TEnd
+MEnd
+
+Move Ready_C
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	Scale           0.5
+	CycleMove       Ready_A
+	CycleMove       Ready_F
+	CycleMove       Ready_E
+
+	Type		Beast
+	  Anim          Beast\lookquick 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\lookquick 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Nightwolf
+	  Anim          Beast\lookquick 1
+	  PlayFX	EnemyFx\5thcolumn\NightWolf\nightwolfgrowl2.fx
+	TEnd
+
+	Type		Crystal
+	  Anim          male\lookquick 1
+	TEnd
+
+	Type		Tuatha
+	  Anim          Beast\lookquick 1
+	  PlayFX	EnemyFX\Tuatha\tuatharoar2.fx
+	TEnd
+MEnd
+
+Move Ready_D
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove       Ready_E
+	CycleMove       Ready_C
+	CycleMove       Ready_G
+	CycleMove       Ready_F
+
+	Type		Beast
+	  Anim          Beast\Skel_ready 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\Skel_ready 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Tuatha
+	  Anim          Beast\feetclaw 1
+	  PlayFX	feet\horsefoot1.fx
+	TEnd
+
+	Type		Crystal
+	  Anim          male\growl_cycle 1
+	TEnd
+MEnd
+
+Move Ready_E
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove       Ready_A
+	CycleMove       Ready_F
+	CycleMove       Ready_D
+
+	Type		Beast
+	  Anim          Beast\paw_R 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\paw_R 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_TauntShort.fx
+	TEnd
+
+	Type		Crystal
+	  Anim          male\growl_pawR 1
+	TEnd
+
+	Type		Nightwolf
+	  Anim          Beast\paw_R 1
+	  PlayFX	EnemyFx\5thcolumn\NightWolf\nightwolfwhoosh.fx
+	TEnd
+MEnd
+
+Move Ready_F
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove       Ready_A
+	CycleMove       Ready_E
+	CycleMove       Ready_H
+	CycleMove       Ready_G
+
+	Type		Beast
+	  Anim          Beast\paw_L 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\paw_L 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_TauntShort.fx
+	TEnd
+
+	Type		Crystal
+	  Anim          male\growl_pawL 1
+	TEnd
+
+	Type		Nightwolf
+	  Anim          Beast\paw_L 1
+	  PlayFX	EnemyFx\5thcolumn\NightWolf\nightwolfwhoosh.fx
+	TEnd
+MEnd
+
+Move Ready_G
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove       Ready_A
+	CycleMove       Ready_B
+	CycleMove       Ready_D
+	CycleMove       Ready_H
+
+	Type		Beast
+	  Anim          Beast\wipe_drool 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\wipe_drool 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_Moan.fx
+	TEnd
+
+	Type		Nightwolf
+	  Anim          Beast\wipe_drool 1
+	  PlayFX	EnemyFx\5thcolumn\NightWolf\nightwolfslurp1.fx
+	TEnd
+
+	Type		Dwarf
+	  Anim          Beast\Skel_ready 1
+	TEnd
+
+	Type		Crystal
+	  Anim          male\growl 1
+	TEnd
+
+	Type		Tuatha
+	  Anim          Beast\feetclaw 1
+	  PlayFX	feet\horsefoot1.fx
+	TEnd
+MEnd
+
+Move Ready_H
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	Scale		0.5
+	CycleMove       Ready_A
+	CycleMove       Ready_B
+	CycleMove       Ready_C
+
+	Type		Beast
+	  Anim          Beast\howl 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\howl 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_Howl.fx
+	TEnd
+
+	Type		Dwarf
+	  Anim          Beast\lookquick 1
+	TEnd
+
+	Type		Crystal
+	  Anim          male\growl 1
+	TEnd
+
+	Type		NightWolf
+	  Anim          Beast\howl 1
+	  PlayFX	EnemyFx\5thcolumn\NightWolf\nightwolfhowl2.fx
+	TEnd
+
+	Type		Tuatha
+	  Anim          Beast\howl 1
+	PlayFX		EnemyFX\Tuatha\tuatharoar3.fx
+	TEnd
+MEnd
+
+#############################################################
+## FLIGHT
+#############################################################
+
+Move Fall_Fready
+	Requires	FLY
+	Priority	1
+	Interrupts	<FlyFall>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\flydown 180
+	TEnd
+MEnd
+
+#############################################################
+
+Move postAir_C_W
+	Requires	FLY
+	Priority	1
+	Interrupts	C_PreFall W_PreFall
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\prefloat_combat 5
+	TEnd
+
+	Type		huge
+	  Anim          huge\prefloat_combat 5
+	TEnd
+MEnd
+
+#############################################################
+
+Move Preflyready
+	Requires	FLY
+	Priority	1
+	Interrupts	<Ready> <Jumps> <PostMoveCycle>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\pre_fly 2
+	TEnd
+MEnd
+
+#############################################################
+
+Move flyready
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		Cycle
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\float2 1
+	TEnd
+MEnd
+
+###################
+### Hover forward  ####
+###################
+
+Move Hoverpre
+	Requires	FORWARD FLY HOVER
+	Priority	3
+	Interrupts	flypre_Launch flypre flyCycle <FlyReady> <PostMoveCycle> <BasicMove> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        HoverCycle
+	Scale           1.50
+
+	Type		Beast
+	  Anim          male\hover 1 54
+	TEnd
+MEnd
+
+Move HoverCycle
+	Requires	FORWARD FLY HOVER
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        HoverPost
+
+	Type		Beast
+	  Anim          male\hover 57 106
+	TEnd
+MEnd
+
+Move HoverPost
+	Requires	FLY HOVER
+	Priority	2
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\hover 107
+	TEnd
+
+MEnd
+
+###########################
+### Fly forward from run  ####
+#########################
+
+Move flypre_Launch
+	Requires	FORWARD FLY
+	Priority	2
+	Interrupts	RunCycle <Launch>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        flyCycle
+
+	Type		Beast
+	  Anim          male\f_launch 3
+
+	TEnd
+MEnd
+
+###################
+### Fly forward  ####
+###################
+
+Move flypre
+	Requires	FORWARD FLY
+	Wind		FLY
+	Priority	2
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        flyCycle
+
+	Type		Beast
+	  Anim          male\fly 4 24
+	TEnd
+MEnd
+
+Move flyCycle
+	Requires	FORWARD FLY
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        flyPost
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\fly 25 81
+	TEnd
+MEnd
+
+Move flyPost
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Scale           1.30
+
+	Type		Beast
+	  Anim          male\fly 82
+	TEnd
+MEnd
+
+###################
+## fly Backward ##
+###################
+
+Move BackflyPre
+	Requires	BACKWARD FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall>
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        BackflyCycle
+	Priority	2
+
+	Type		Beast
+	  Anim          male\flyback 3 13
+	TEnd
+MEnd
+
+Move BackflyCycle
+	Requires	BACKWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        BackflyPost
+	Priority	2
+
+	Type		Beast
+	  Anim          male\flyback 14 63
+	TEnd
+MEnd
+
+Move BackflyPost
+	Requires	FLY
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Priority	1
+	Scale           1.30
+
+	Type		Beast
+	  Anim          male\flyback 64
+	TEnd
+MEnd
+
+###################
+### Fly Up  ####
+###################
+
+Move flyUPpre
+	Requires	JUMP FLY
+	Priority	2
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        flyUPCycle
+	Scale           0.90
+	Wind		FLYUP
+
+	Type		Beast
+	  Anim          male\flyup 5 34
+	TEnd
+MEnd
+
+Move flyUPCycle
+	Requires	JUMP FLY
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        flyUPPost
+	Wind		FLYUP
+
+	Type		Beast
+	  Anim          male\flyup 36 93
+	TEnd
+MEnd
+
+Move flyUPPost
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\flyup 94
+	TEnd
+MEnd
+
+###################
+### fly Right ####
+###################
+
+Move RightflyPre
+	Requires	STEPRIGHT FLY
+	Priority	2
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> LeftflyCycle
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RightflyCycle
+
+	Type		Beast
+	  Anim          male\ssflyR 3 9
+	TEnd
+MEnd
+
+Move RightflyCycle
+	Requires	STEPRIGHT FLY
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        RightflyPost
+
+	Type		Beast
+	  Anim          male\ssflyR 10 59
+	TEnd
+MEnd
+
+Move RightflyPost
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\ssflyR 60
+	TEnd
+
+MEnd
+
+###################
+### fly Left  ####
+###################
+
+Move LeftflyPre
+	Requires	STEPLEFT FLY
+	Priority	2
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> RightflyCycle
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        LeftflyCycle
+
+	Type		Beast
+	  Anim          male\ssflyL 3 9
+	TEnd
+MEnd
+
+Move LeftflyCycle
+	Requires	STEPLEFT FLY
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        LeftflyPost
+
+	Type		Beast
+	  Anim          male\ssflyL 10 59
+	TEnd
+MEnd
+
+Move LeftflyPost
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\ssflyL 60
+	TEnd
+MEnd
+
+###################
+###### Fly Down  ######
+###################
+
+Move PreFall
+	Requires	AIR
+	Priority	1
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		Beast
+	  Anim          male\flydown 1
+	TEnd
+MEnd
+
+###################
+###### Fly Forward Down  ######
+###################
+
+Move Ffly_PreFall
+	Requires	FORWARD AIR
+	Priority	2
+	Interrupts	flyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        Ffly_PreFall_2
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+Move Ffly_PreFall_2
+	Requires	AIR
+	Priority	1
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		Beast
+	  Anim          male\flydown 4
+	TEnd
+MEnd
+
+###################
+###### Fly Backward Down  ######
+###################
+
+Move Bfly_PreFall
+	Requires	BACKWARD AIR
+	Priority	2
+	Interrupts	<FlyReady> BackflyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+###################
+###### Fly Left Down  ######
+###################
+
+Move Lfly_PreFall
+	Requires	STEPLEFT AIR
+	Priority	2
+	Interrupts	<FlyReady> LeftflyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+###################
+###### Fly Right Down  ######
+###################
+
+Move Rfly_PreFall
+	Requires	STEPRIGHT AIR
+	Priority	2
+	Interrupts	<FlyReady> RightflyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+###################
+###### Fly Upcycle Down  ######
+###################
+
+Move Ufly_PreFall
+	Requires	JUMP AIR
+	Priority	2
+	Interrupts	<FlyReady> flyUPPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+###################
+###### Falling from run  ######
+###################
+
+Move RunFall
+	Requires	BIGFALL
+	Priority	1
+	Interrupts	<BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RunFall_2
+
+	Type		Beast
+	  Anim          male\superjump 67 93
+	TEnd
+MEnd
+
+Move RunFall_2
+	Requires	AIR
+	Priority	1
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		Beast
+	  Anim          male\superjump 93
+	TEnd
+MEnd
+
+
+#############################################################
+## COMBAT MODE
+#############################################################
+
+Move PreCombat
+	Requires	COMBAT
+	Priority	1
+	Interrupts	<Ready> PostWepReady
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Interpolate	20
+
+	Type		Beast
+	   Anim          Beast\combat_cycle 1 31
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\combat_cycle 1 31
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Crystal
+	   Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move Combat_half
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady_Alt_B  ##CombatReady
+	Scale		0.5
+
+	Type		Beast
+	  Anim          Beast\combat_cycle 15 31
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\combat_cycle 15 31
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Crystal
+	   Anim          male\combat_cycle 15 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        PostCombatReady
+	Scale		0.5
+
+	Type		Beast
+	  Anim          Beast\combat_cycle 1 31
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\combat_cycle 1 31
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Crystal
+	   Anim		male\combat_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move Combat_half_fingers
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady_Alt_A  ##CombatReady
+	Scale		0.5
+
+	Type		Beast
+	  Anim          Beast\combat_fingers 15 31
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\combat_fingers 15 31
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Crystal
+	   Anim          male\combat_cycle 15 31
+	TEnd
+MEnd
+
+Move Combat_fingers
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady_Alt_A  ##CombatReady
+	Scale		0.5
+
+	Type		Beast
+	  Anim          Beast\combat_fingers 1 31
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\combat_fingers 1 31
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Crystal
+	   Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+Move CombatBlend
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady_Alt_C  ##CombatReady
+	Interpolate	15
+	Scale		0.5
+
+	Type		Beast
+	  Anim          Beast\combat_cycle 1 31
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\combat_cycle 1 31
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Crystal
+	   Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+### extra combat_ready filler anims to spice things up  ##################
+
+Move CombatReady_Alt_A
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle  NoSizeScale
+	NextMove        PostCombatReady
+	CycleMove	CombatReady_Alt_B
+	CycleMove	CombatReady_Alt_C
+
+	Type		Beast
+	  Anim          Beast\Growl 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\Growl 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Crystal
+	  Anim          male\combat_cycle 1 31
+	  Scale		0.5
+	TEnd
+
+	Type		Tuatha
+	  Anim          Beast\Growl 1
+	  PlayFX	EnemyFX\Tuatha\tuatharoar1.fx
+	TEnd
+MEnd
+
+Move CombatReady_Alt_B
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle NoSizeScale
+	NextMove        PostCombatReady
+	CycleMove	CombatReady_Alt_C
+	CycleMove	CombatReady_Alt_A
+
+	Type		Beast
+	  Anim          Beast\beatchest 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\beatchest 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_TauntLong.fx 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 7
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 14
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 21
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BeatChest.fx 28
+	TEnd
+
+	Type		Crystal
+	  Anim          male\combat_cycle 1 31
+	TEnd
+
+	Type		Tuatha
+	  Anim          Beast\beatchest 1
+	PlayFX		EnemyFx\5thcolumn\NightWolf\nightwolfhowl.fx
+	TEnd
+MEnd
+
+Move CombatReady_Alt_C
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle NoSizeScale
+	NextMove        PostCombatReady
+	Scale		0.5
+	CycleMove	CombatReady_Alt_C
+	CycleMove	CombatReady_Alt_A
+
+	Type		Beast
+	  Anim          Beast\howl 1
+	TEnd
+
+	Type		Shivan
+	  Anim          Beast\howl 1
+	  PlayFX		ENEMYFX\Unique\Shivan\Shivan_BreathIdle_SFX.fx 1 CONSTANT
+	TEnd
+
+	Type		Crystal
+	  Anim          male\combat_cycle 1 31
+	TEnd
+
+	Type		Tuatha
+	  Anim          Beast\lookquick 1
+	PlayFX		EnemyFX\Tuatha\tuatharoar2.fx
+	TEnd
+MEnd
+
+###################
+### Combat Fly readys  ####
+###################
+
+Move C_Fall_Fready
+	Requires	FLY COMBAT
+	Priority	2
+	Interrupts	C_FallCycle C_PreFall C_Ffly_PreFall C_Ffly_PreFall_2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\flydown 180
+	TEnd
+MEnd
+
+Move C_Preflyready
+	Requires	FLY COMBAT
+	Priority	2
+	Interrupts	<Combat> <CombatMove> <Jumps> <Claw> <CombatAttack> Preflyready
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\pre_aircombat 2
+	TEnd
+MEnd
+
+Move air_T_airCombat
+	Requires	FLY COMBAT
+	Priority	2
+	Interrupts	<FlyReady>
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\air_combatready 2 24
+	TEnd
+MEnd
+
+### actual combat fly ready
+
+Move C_flyready
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+
+	Type		Beast
+	  Anim          male\air_combatready 25 65
+	TEnd
+MEnd
+
+Move C_flycycle
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+	Scale           0.50
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\air_combat_cycle 1 31
+	TEnd
+MEnd
+
+Move C_flycycle_half
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flycycle
+	Scale           0.50
+	Interpolate     0
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\air_combat_cycle 16 31
+	TEnd
+MEnd
+
+###################
+### Combat Hover forward  ####
+###################
+
+Move C_Hoverpre
+	Requires	FORWARD FLY COMBAT HOVER
+	Priority	4
+	Interrupts	<FlyCombat> <FlyCombatAttack> <CombatMove> <PostMoveCycle> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_HoverCycle
+	Scale           1.50
+
+	Type		Beast
+	  Anim          male\combat_hover 1 54
+	TEnd
+MEnd
+
+Move C_HoverCycle
+	Requires	FORWARD FLY COMBAT HOVER
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_HoverPost
+	Priority	4
+
+	Type		Beast
+	  Anim          male\combat_hover 57 106
+	TEnd
+MEnd
+
+Move C_HoverPost
+	Requires	FLY COMBAT HOVER
+	Priority	3
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\combat_hover 107
+	TEnd
+MEnd
+
+###################
+### Combat Fly forward  ####
+###################
+
+Move C_flypre
+	Requires	FORWARD FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_RunJumpCycle C_RunJumpCycleB C_Ffly_PreFall
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_flyingCycle
+
+	Type		Beast
+	  Anim          male\air_comb_fly 4 24
+	TEnd
+MEnd
+
+Move C_flyingCycle
+	Requires	FORWARD FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_flyPost
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\air_comb_fly 25 81
+	TEnd
+MEnd
+
+Move C_flyPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+	Scale           1.30
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\air_comb_fly 82
+	TEnd
+MEnd
+
+###################
+## Combat fly Backward ##
+###################
+
+Move C_BackflyPre
+	Requires	BACKWARD FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_BackRunCycle
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_BackflyCycle
+
+	Type		Beast
+	  Anim          male\air_comb_flyback 10 13
+	TEnd
+MEnd
+
+Move C_BackflyCycle
+	Requires	BACKWARD FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_BackflyPost
+
+	Type		Beast
+	  Anim          male\air_comb_flyback 14 63
+	TEnd
+MEnd
+
+Move C_BackflyPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\air_comb_flyback 64
+	TEnd
+MEnd
+
+###################
+### Combat Fly Up  ####
+###################
+
+Move C_flyUPpre
+	Requires	JUMP FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <Jumps> <FlyCombatAttack> <PostFLYCycle>
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_flyUPCycle
+	Scale           0.90
+	Wind		FLYUP
+
+	Type		Beast
+	  Anim          male\air_comb_flyup 5 34
+	TEnd
+MEnd
+
+Move C_flyUPCycle
+	Requires	JUMP FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_flyUPPost
+	Wind		FLYUP
+
+	Type		Beast
+	  Anim          male\air_comb_flyup 36 93
+	TEnd
+MEnd
+
+Move C_flyUPPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+	Scale           1.30
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\air_comb_flyup 94
+	TEnd
+MEnd
+
+###################
+###### Combat Fly Down  ######
+###################
+
+Move C_PreFall
+	Requires	AIR COMBAT
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+
+	Type		Beast
+	  Anim          male\flydown 1
+	TEnd
+MEnd
+
+###################
+###### Combat Fly Forward Down  ######
+###################
+
+Move C_Ffly_PreFall
+	Requires	FORWARD AIR COMBAT
+	Priority	3
+	Interrupts	C_flyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	NextMove        C_Ffly_PreFall_2
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+Move C_Ffly_PreFall_2
+	Requires	AIR COMBAT
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+
+	Type		Beast
+	  Anim          male\flydown 4
+	TEnd
+MEnd
+
+###################
+### Combat fly Right ####
+###################
+
+Move C_RightflyPre
+	Requires	STEPRIGHT FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_LeftflyCycle C_Ffly_Fready
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_RightflyCycle
+
+	Type		Beast
+	  Anim          male\air_comb_flyright 3 9
+	TEnd
+MEnd
+
+Move C_RightflyCycle
+	Requires	STEPRIGHT FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_RightflyPost
+
+	Type		Beast
+	  Anim          male\air_comb_flyright 10 59
+	TEnd
+MEnd
+
+Move C_RightflyPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\air_comb_flyright 60
+	TEnd
+MEnd
+
+###################
+### Combat fly Left  ####
+###################
+
+Move C_LeftflyPre
+	Requires	STEPLEFT FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_RightflyCycle C_Ffly_Fready
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_LeftflyCycle
+
+	Type		Beast
+	  Anim          male\air_comb_flyleft 3 9
+	TEnd
+MEnd
+
+Move C_LeftflyCycle
+	Requires	STEPLEFT FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_LeftflyPost
+
+	Type		Beast
+	  Anim          male\air_comb_flyleft 10 59
+	TEnd
+MEnd
+
+Move C_LeftflyPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\air_comb_flyleft 60
+	TEnd
+MEnd
+
+###################
+###### Falling from combat run  ######
+###################
+
+Move C_RunFall
+	Requires	BIGFALL COMBAT
+	Priority	2
+	Interrupts	<CombatMove>
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_RunFall_2
+
+	Type		Beast
+	  Anim          male\superjump 67 89
+	TEnd
+MEnd
+
+Move C_RunFall_2
+	Requires	AIR COMBAT
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+
+	Type		Beast
+	  Anim          male\superjump 89
+	TEnd
+MEnd
+
+###  Inc files ###############################################
+Include sequencers\player\readies_fake.inc
+
+Include sequencers\Beast\motion.inc
+Include sequencers\Beast\powers.inc
+Include sequencers\Beast\weapons.inc
+Include sequencers\Beast\reactions.inc
+Include sequencers\Beast\deaths.inc
+
+Include sequencers\Beast\spawns.inc
+Include sequencers\player\encounters.inc
+Include sequencers\Beast\encounters.inc
+
+Include sequencers\Beast\emotes.inc
+## DON'T USE THESE - THESE ARE THE PLAYER RIGS
+##Include sequencers\player\emotes.inc
+##Include sequencers\player\emotes_air.inc
+
+Include sequencers\player\Boombox.inc
+Include sequencers\player\Swim.inc
+
+#############################################################
+
+SeqEnd

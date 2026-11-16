@@ -1,0 +1,828 @@
+Texture x_arachstk_white
+	Base1 bunkerwhite_main.tga
+	Base1Scroll 0 0
+	Base1Scale 20 20
+
+	Multiply1 goth_reflect_02.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1.3 1.1
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 bunkerwhite_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 10 10
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.3 1.1
+	Multiply2reflect 0
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 0 70
+	SpecularColor2 80 20 0
+	SpecularExponent 30
+
+	DiffuseScale 5
+	AmbientScale 2.2
+	
+	AmbientMinVec .71 .71 .71 //ALL other arachnos materials should match this Ambient Min!
+	
+	Fallback
+		UseFallback 1
+		Base bunkerwhite_main.tga
+		Blend goth_reflect_02.tga
+		// Bumpmap bunkerwhite_bump.tga
+		BlendType Multiply
+		// ScaleST0 10 10
+		ScaleST1 15 15
+		DiffuseScale 2.5
+		AmbientScale 1
+	End
+End
+
+Texture x_arachstk_black
+	Base1 bunkerfound_main.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 goth_reflect_03.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale .7 .7
+	Multiply1reflect 1
+
+	DualColor1 none //bunkerbase_main.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 Arachnos_BaseMetal01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale .7 .7
+	Multiply2reflect 1
+
+	DualColor2 none //bunkerbase_main.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none //bunkerbase_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255 //185 110 255
+	SpecularColor2 20 110 50 //50 170 100
+	SpecularExponent 30
+
+	DiffuseScale 5
+	AmbientScale 5
+
+	AmbientMinVec .71 .71 .71 //ALL other arachnos materials should match this Ambient Min!
+
+	Fallback
+		UseFallback 1
+		Base bunkerfound_main.tga
+		//Blend some_detail
+		Bumpmap arachnos_door_frame01_bump.tga
+		//BlendType Multiply
+		//ScaleST0 4 4
+		//ScaleST1 1 1
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+
+Texture x_SimpleFillers
+	Base1 arachfillermetal.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 0.5 0.5
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wall_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 5	10
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 5 0 20
+	SpecularColor2 0 0 0
+	SpecularExponent1 2
+	SpecularExponent2 0
+
+	DiffuseScale 1
+	AmbientScale 4
+
+	Flags None
+
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base arachfillermetal.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 0.0001 0.0001
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_WebAnchor_01
+	Base1 plate_c.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 0.5 0.5
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 5	10
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 5 0 20
+	SpecularColor2 0 0 0
+	SpecularExponent1 2
+	SpecularExponent2 0
+
+	DiffuseScale 1
+	AmbientScale 4
+
+	Flags None
+
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base arachfillermetal.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 0.0001 0.0001
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_anchorfiller
+	Base1 plate_f.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 0.5 0.5
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 5	10
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 5 0 20
+	SpecularColor2 0 0 0
+	SpecularExponent1 2
+	SpecularExponent2 0
+
+	DiffuseScale 1
+	AmbientScale 4
+
+	Flags None
+
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base arachfillermetal.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 0.0001 0.0001
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_anchorpivot
+	Base1 arac_tanktop_noalpha.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 0.5 0.5
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 5	10
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 5 0 20
+	SpecularColor2 0 0 0
+	SpecularExponent1 2
+	SpecularExponent2 0
+
+	DiffuseScale 1
+	AmbientScale 4
+
+	Flags None
+
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base arachfillermetal.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 0.0001 0.0001
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_ArachRedGlow
+	Base1 ArachRedGlow_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 16 16
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 80 90 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 15
+	SpecularExponent2 15
+
+	DiffuseScale 2.0
+	AmbientScale 4.0
+
+	Flags FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base none
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_Arachnos_Concrete_02 //Optimized 2/23/2007
+	Base1 Arachnos_Concrete_B_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 8 8
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none //baseswr02_ceiling_40_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 100 100 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 15
+	SpecularExponent2 10
+
+	DiffuseScale 2.0
+	AmbientScale 2.0 
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base none
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_Arachnos_Concrete_01  //Optimized 2/23/2007
+	Base1 bunker_floor_light_B.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 8 8
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none //baseswr_floor_00_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 15
+	SpecularExponent2 15
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base none
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_Gutter_Asphalt
+	Base1 Gutter_Asphalt.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 alley_det.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 16 16
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Gutter_Asphalt_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 180 190 200
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 15
+	SpecularExponent2 15
+
+	DiffuseScale 2
+	AmbientScale 3.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Gutter_Asphalt.tga
+		Blend alley_det.tga
+		Bumpmap Gutter_Asphalt_bump.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 16 16
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+Trick arac_bargrate
+	TrickFlags AlphaCutout
+	AlphaRef 70
+AutoLOD
+		AllowedError 0
+		lodfar 500
+		lodfarfade 50
+	End
+End
+
+Trick arac_bargrate2
+	TrickFlags AlphaCutout
+	AlphaRef 70
+End
+
+Trick aracelevarrows
+	ObjFlags FullBright
+	lodfar 300
+End
+
+Trick aracelevarrowsframe
+	lodfar 300
+End
+
+Texture Arach_Elev_Wall_01.tga
+	Surface METAL
+
+	End
+
+Texture Arach_Bars_Grate.tga
+	Surface METAL
+
+	End
+

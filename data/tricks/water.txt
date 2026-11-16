@@ -1,0 +1,301 @@
+Texture newwater1.tga
+#	Blend newwater1.tga
+#	BlendType Multiply
+#	BumpMap newwater1bmp.tga
+
+
+	Base1 newwater1
+	Base1Scroll 0.0006 0.0004
+	Base1Scale 2 2
+	Multiply1 newwater1
+	Multiply1Scroll 0.0007 -0.0003
+	BumpMap1 newwater1bmp
+	BumpMap1Scroll  0.0003 -0.0002
+	BumpMap2 newwater1bmp
+	BumpMap2Scroll  -0.0004 -0.00025
+	BumpMap2Scale 2 2
+	MaskWeight 0.8
+
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Color4 180 180 255
+	Color3 0 255 120
+	
+	ObjFlags FancyWater
+End
+
+Texture newwater4
+	Base1 newwater4
+	Base1Scroll 0.0006 0.0004
+	Base1Scale 2 2
+	Multiply1 newwater4bmp
+	Multiply1Scroll 0.0007 -0.0003
+	Multiply1Scale 1 1
+	BumpMap1 newwater4bmp
+	BumpMap1Scroll  0.0003 -0.0002
+	BumpMap1Scale 1 1
+	BumpMap2 newwater4bmp
+	BumpMap2Scroll  -0.0004 -0.00025
+	BumpMap2Scale 2 2
+	MaskWeight 0.8
+
+	SpecularExponent 8
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Color4 180 180 255
+	Color3 0 255 120
+	
+	ObjFlags FancyWater
+End
+
+Texture calmwater_1.tga
+	Base1 calmwater_1
+	Base1Scroll 0.0006 0.0004
+	Base1Scale 2 2
+
+	Multiply1 calmwater_reflect1.tga
+	Multiply1Scroll 0.0007 -0.0003
+
+	BumpMap1 newwater4bmp
+	BumpMap1Scroll  0.001 -0.001
+	BumpMap2 newwater4bmp
+	BumpMap2Scroll  -0.001 0.001
+	BumpMap2Scale 2 2
+	MaskWeight 1
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Color3 70 255 180
+	Color4 180 180 255
+
+	ObjFlags FancyWater
+
+	ScaleST0 0.5 0.5
+
+	Surface INWATER
+
+End
+
+Texture DangerGOO.tga
+	Base1 DangerGOO.tga
+	Base1Scroll 0.0006 0.0004
+	Base1Scale 2 2
+
+	Multiply1 DangerGOO.tga
+	Multiply1Scroll 0.0007 -0.0003
+
+	BumpMap1 newwater4bmp
+	BumpMap1Scroll  0.001 -0.001
+	BumpMap2 newwater4bmp
+	BumpMap2Scroll  -0.001 0.001
+	BumpMap2Scale 2 2
+	MaskWeight 1
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Color3 70 255 180
+	Color4 180 180 255
+
+	ObjFlags FancyWater
+
+	ScaleST0 0.5 0.5
+
+	Surface INWATER
+
+End
+
+Texture calmwater_2.tga
+	Base1 calmwater_2
+	Base1Scroll 0.0006 0.0004
+	Base1Scale .5 .5
+
+	Multiply1 calmwater_reflect1.tga
+	Multiply1Scroll 0.0007 -0.0003
+
+	BumpMap1 newwater4bmp
+	BumpMap1Scroll 0.0006 0.0004 // 0.001 -0.001
+	BumpMap1Scale .5 .5	
+
+	DiffuseScale 2
+	AmbientScale 2
+
+  Surface INWATER
+  ObjFlags FancyWater   
+
+End
+
+Texture calmwater_3
+	Base1 calmwater_2
+	Base1Scroll 0.0006 0.0004
+	Base1Scale 2 2
+
+	Multiply1 calmwater_reflect1.tga
+	Multiply1Scroll 0.0007 -0.0003
+
+	BumpMap1 newwater4bmp
+	BumpMap1Scroll 0.0006 0.0004 // 0.001 -0.001
+	BumpMap1Scale 2 2
+
+	DiffuseScale .4
+	AmbientScale 2
+
+  Surface INWATER
+  ObjFlags FancyWater   
+
+End
+
+Trick wave
+	ScrollST0 0.0015 0
+	LodFar 800
+	LodFarFade 100
+	StAnim 1.000000 1.000000 coast3 
+	TrickFlags NoColl Additive
+End
+
+Trick oceanfloor
+	SortBias -990.000000
+	ScrollST0 0.0002 0.0002
+	ScrollST1 0.0002 0.0002
+	LodFar 5000
+	LodFarFade 350
+End
+
+Trick oceanfloor01
+	SortBias -990.000000
+	ScrollST0 0.0002 0.0002
+	ScrollST1 0.0002 0.0002
+	LodFar 2100
+	LodFarFade 350
+End
+
+Trick oceanfloorold
+	SortBias -990.000000
+	ScrollST0 0.0002 0.0002
+	ScrollST1 0.0002 0.0002
+	LodFar 1800
+	LodFarFade 0
+End
+
+Trick ocean
+	SortBias -900.000000
+	ScrollST0 0.0003 0.0002
+	ScrollST1 0.0007 -0.0003
+	LodFar 5000      
+	LodFarFade 350
+	#StAnim 0.005000 0.050000 aqua 
+	TrickFlags NoColl
+End
+
+Trick oceanold
+	SortBias -900.000000
+	ScrollST0 0.0003 0.0002
+	ScrollST1 0.0007 -0.0003
+	LodFar 1800
+	LodFarFade 0
+	StAnim 0.005000 0.050000 aqua 
+	TrickFlags NoColl
+End
+
+Trick calmwater1
+	ScrollST0 0.001 0.0007
+	ScrollST1 -0.0008 -0.0011
+	LodFar 1800
+	LodFarFade 0
+	StAnim 0.005000 0.050000 aqua 
+	TrickFlags NoColl DoubleSided
+End
+
+Trick calmwater2
+	SortBias 16.0
+	ScrollST0 0.002 0.0015
+	ScrollST1 -0.001 -0.001
+	LodFar 1800
+	LodFarFade 0
+	StAnim 0.005000 0.050000 aqua 
+	TrickFlags NoColl DoubleSided Additive
+End
+
+Trick calmwater3
+	LodFar 1800
+	LodFarFade 0
+	TrickFlags NoColl
+End
+
+Trick wtrpltlodA
+	LodFar 40000
+	LodFarFade 0
+End
+
+Trick calmwater4
+	LodFar 1800
+	LodFarFade 0
+End
+
+Trick calmwater5
+	ScrollST0 0.001 0.0007
+	ScrollST1 -0.0008 -0.0011
+	LodFar 1800
+	LodFarFade 0
+	StAnim 0.005000 0.050000 aqua 
+	TrickFlags DoubleSided
+End
+
+Texture foam1.tga
+	Flags ClampT
+	Blend foam2.tga
+	BlendType Multiply
+End
+
+Texture ocean.tga
+End
+
+Texture newwater1bmp.tga
+	Flags IsBumpmap
+#	Gloss 1
+End
+
+Texture newwater2bmp.tga
+	Flags IsBumpmap
+End
+
+Texture newwater3bmp.tga
+	Flags IsBumpmap
+End
+
+Texture newwater2.tga
+	Blend newwater2bmp.tga
+	BlendType Multiply
+	BumpMap newwater2bmp.tga
+	ScaleST0 2 2
+End
+
+Texture newwater3.tga
+	Blend newwater3bmp.tga
+	BlendType Multiply
+	BumpMap newwater3bmp.tga
+	ScaleST0 2 2
+End
+
+Texture newwater4bmp.tga
+	Flags IsBumpmap TrueColor
+	Gloss 0.4
+End
+
+Texture calmwater_reflect1.tga
+End
+
+Texture calmwater_caustics2.tga
+End
+
+Texture calmwater_caustics1.tga
+	Blend calmwater_caustics2.tga
+	BlendType Multiply
+//	ObjFlags 65536
+End
+

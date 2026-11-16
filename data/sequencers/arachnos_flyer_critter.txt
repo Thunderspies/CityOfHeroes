@@ -1,0 +1,431 @@
+#############################################################
+## Arachnos_flyer_Critter.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Critter_flyer
+	BaseSkeleton	V_Arachnos_Flyer_Critter\Skel_Critter_Flyer
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+##	interpolate	30
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Skel_Critter_Flyer 1
+	TEnd
+
+MEnd
+
+
+#######################
+####### tower spawn\emerge ######
+######################
+#
+##Move Tower_Sleep
+##	Requires	test1 #LOW SPAWN WAIT
+##	Interrupts	<Ready> <Combat> <WepCombat>
+##	Flags		Cycle NotSelectable
+##	NextMove        Tower_launch
+##	Priority        3
+##	Interpolate     0
+##	Sets            CANTMOVE NOCOLLISION
+##
+##	Type		Critter_flyer
+##	  Anim          V_Arachnos_Flyer_Critter\flyer_towerlaunch 1 1
+##	TEnd
+##MEnd
+
+
+Move Basic_runout
+	Requires	EMERGE RUNOUT
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	NextMove        Ready
+	Priority        7
+	Sets            CANTMOVE WALKTHROUGH
+	Flags		DoNotDelay
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_towerlaunch 79
+##	  PlayFx	Generic\entityFadeIn.fx 0  ##(replace w\ shorter fade in)
+	TEnd
+MEnd
+
+####################
+#### run Forward ##
+####################
+
+Move RunPre
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RunCycle
+	Priority        1
+	Interpolate	30
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_run 1
+	TEnd
+
+
+MEnd
+
+
+Move RunCycle
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        RunPost
+	Priority        1
+
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_run 1
+	TEnd
+
+
+
+MEnd
+
+
+Move RunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate	30
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Skel_Critter_Flyer 1
+	TEnd
+
+MEnd
+
+
+#######  Powers  #####################################################################
+
+
+###################
+###### Shoot  ######
+###################
+
+Move Shoot
+	Requires	ARACHBLASTERSHOOT LOW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Shoot_post
+	Priority        1
+	flags		PitchToTarget
+
+	Type		Critter_flyer
+	  PitchStart	5
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_burst 1
+	TEnd
+MEnd
+
+Move Shoot_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Skel_Critter_Flyer 1
+	TEnd
+MEnd
+
+###################
+###### Heavy Shoot  ######
+###################
+
+Move ShootHeavy
+	Requires	ARACHBLASTERSHOOT STRONG
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Shoot_post
+	Priority        1
+	flags		PitchToTarget
+	scale		.70
+
+	Type		Critter_flyer
+	  PitchStart	5
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_burst 1
+	TEnd
+MEnd
+
+###########################################
+######  Seekers              ######
+###########################################
+
+Move Seekers
+	Requires	ROCKETLAUNCHER BLAST THROWSTAR
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Seekers2
+	Priority        3
+	Flags		PitchToTarget
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_deploy 1 70
+	TEnd
+MEnd
+
+
+Move Seekers2
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Flags		NoSizeScale PitchToTarget
+
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_deploy 70
+	TEnd
+MEnd
+
+###########################################
+######  DeployTroops              ######
+###########################################
+
+Move Deploy
+	Requires	ROCKETLAUNCHER BLAST FIERCE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Deploy2
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+	scale		.7
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_deploy 1 70
+	TEnd
+MEnd
+
+Move Deploy2
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Flags		NoSizeScale PitchToTarget
+	scale		0.7
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_deploy 70
+	TEnd
+MEnd
+
+
+########## reactions #############################
+
+
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ready
+	Flags		HitReact
+	Priority        2
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_hitquick 1
+	TEnd
+
+
+MEnd
+
+
+###################
+###### Combat Hit Quick  ######
+###################
+
+Move C_HitQuick
+	Requires	QUICK HIT COMBAT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ready
+	Flags		HitReact
+	Priority        3
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_hitquick 1
+	TEnd
+
+
+MEnd
+
+
+###################
+######Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<HitIRQ>
+	Member		<ReactIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Flags		HitReact NoSizeScale
+	Priority        6
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_speedhit 1
+	TEnd
+
+
+MEnd
+
+
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+	Flags		HitReact NoSizeScale
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Hips_flyer_speedhit 1 40
+	TEnd
+
+
+MEnd
+
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Combat_Cycle
+	Flags		NoSizeScale
+	scale		1.5
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Skel_Critter_Flyer 1 2
+	TEnd
+MEnd
+
+##
+##Move ClawSpeed_react3
+##	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+##	NextMove        ClawSpeed_react4
+####	Flags		NoSizeScale
+##
+##	Type		Shark
+##	  Anim          Shark\knockback 1 6
+##
+##	TEnd
+##MEnd
+##
+##Move ClawSpeed_react4
+##	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+##	NextMove        Combat_Cycle
+####	Flags		NoSizeScale
+##
+##	Type		Shark
+##	  Anim          Shark\knockback 47 80
+##	  PlayFx	Volumes\Water\DeepSplash\Mystic_DeepSplash.fx 1
+##	TEnd
+##
+##MEnd
+#
+#######  deaths  ######################################################################
+
+
+
+
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+	Flags		noSizeScale NotSelectable
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Skel_Critter_Flyer 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx	Explosions\VehicleExplosion\Expolsion_Flier_Arachnos.fx
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable NoDraw
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+
+	Type		Critter_flyer
+	  Anim          V_Arachnos_Flyer_Critter\Skel_Critter_Flyer 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

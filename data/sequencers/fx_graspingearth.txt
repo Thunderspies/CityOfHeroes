@@ -1,0 +1,35 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_GraspingEarth 
+	BaseSkeleton	FX_GraspingEarth\skel_graspingearth
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move pregrasp
+	NextMove        graspcycle
+
+	Type		FX_GraspingEarth
+	  Anim          FX_GraspingEarth\skel_graspingearth 1 100 
+	TEnd
+MEnd
+
+#	Scale		1
+
+Move graspcycle
+	Flags		Cycle 
+
+	Type		FX_GraspingEarth
+	  Anim          FX_GraspingEarth\skel_graspingearth 100 101 
+	TEnd
+MEnd
+
+SeqEnd
+

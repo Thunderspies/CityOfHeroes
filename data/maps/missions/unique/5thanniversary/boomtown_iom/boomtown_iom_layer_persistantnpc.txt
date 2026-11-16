@@ -1,0 +1,28 @@
+Def grp_Boomtown_InfoNPC
+	Group Omni/EncounterSpawns/InfoNPCs/_ES_Boomtown_Hazard_Info
+	End
+	Property	"EncounterAutospawnEnd"	"0.001"	0
+	Property	"EncounterAutospawnStart"	"0.001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"IgnoreRadius"	"0"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def grp_PersistantNPC
+	Group Omni/EncounterSpawns/BaseTypes/EG_PoliceDrone
+		Pos 21.75 0.000061 0
+	End
+	Group Omni/EncounterSpawns/BaseTypes/EG_PoliceDrone
+		Pos -21.75 -0.000061 0
+	End
+	Group grp_Boomtown_InfoNPC
+		Rot 0 3.141592 -0
+		Pos -3.25 0.046143 -28.5
+	End
+	Property	"Layer"	"PersistantNPC"	0
+End
+
+Ref grp_PersistantNPC
+	Pos -1472.25 -0.5 5593.5
+End
+

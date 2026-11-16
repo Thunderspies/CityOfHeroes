@@ -1,0 +1,292 @@
+#########################################################
+## Earth's Embrace
+#########################################################
+
+FxInfo
+
+LifeSpan	150
+
+##################################
+
+Condition
+	On	Time
+	Time 	0
+		
+	Event
+		Type	Local
+		At 	origin
+		Sound Stone4 100 100 1.0
+	End
+End
+
+##################################################################
+## Ground FX
+##################################################################
+
+Condition
+	On	TriggerBits
+	TriggerBits	concrete
+	TriggerBits	grass		#needs grass clipping fx#
+	TriggerBits	gravel		#needs gravel debris fx#
+	TriggerBits	Dirt
+	#TriggerBits	Wood
+	#TriggerBits	Carpet
+	#TriggerBits	metal
+		
+	Event
+		EName 	GroundFX
+		Type	Start 
+		At	root
+
+		ChildFX	:EarthEmbrace_GroundFX.fx
+	End
+End
+
+#########################################################################
+## Heal/Stamina Buff
+#########################################################################
+
+Condition
+	On	Time
+	Time	15
+	
+	Event
+		EName	Ring
+		Type	Local
+		At	Root
+		part1	Powers/Ability/StaminaRingUp.part
+		
+		Sound heal1 70 70 .8
+	End
+End
+
+Condition
+	On	Time
+	Time	20
+	
+	Event
+		EName	Ring
+		Type	Local
+		At	Root
+		part1	Powers/Ability/StaminaRingUp.part
+	End
+End	
+
+Condition
+	On	Time
+	Time	35
+	
+	Event
+		EName	Ring
+		Type	Local
+		At	Root
+		part1	Powers/Ability/StaminaRingUp.part
+	End
+End
+
+Condition
+	On	Time
+	Time	28
+	
+	Event
+		EName	1
+		Type	Local
+		At	Hips
+		part1	Powers/Healing/Healing01.part
+		bhvr	Behaviors/GenericParticleFade.bhvr
+	End
+End
+
+Condition
+	On	Time
+	Time	18
+	
+	Event
+		EName	2
+		Type	Local
+		At	FootR
+		part1	Powers/Healing/HealingBodyGlows.part
+		part2	Powers/Healing/HealingBodyGlowsFlat.part
+	End
+
+	Event
+		EName	3
+		Type	Local
+		At	ULEGL
+		part1	Powers/Healing/HealingMotionGlows.part
+		PMagnet LLEGL
+
+	End
+
+	Event
+		EName	4
+		Type	Local
+		At	LLEGL
+		part1	Powers/Healing/HealingMotionGlows.part
+		PMagnet FootL
+	End
+
+	Event
+		EName	5		
+		Type	Local
+		At	FootL
+		part1	Powers/Healing/HealingBodyGlows.part
+		part2	Powers/Healing/HealingBodyGlowsFlat.part
+	End
+
+	Event
+		EName	6
+		Type	Local
+		At	ULEGR
+		part1	Powers/Healing/HealingMotionGlows.part
+		PMagnet LLEGR
+
+	End
+
+	Event
+		EName	7
+		Type	Local
+		At	LLEGR
+		part1	Powers/Healing/HealingMotionGlows.part
+		PMagnet FootR
+	End
+
+	Event
+		EName	9
+		Type	Local
+		At	Hair
+		part2	Powers/Healing/HealingHeadGlows.part
+	End
+
+	Event
+		EName	10
+		Type	Local
+		At	UArmL
+		part1	Powers/Healing/HealingArmMotionGlows.part
+		part2	Powers/Healing/HealingArmMotionGlows2.part
+		PMagnet ElbowL
+	End
+
+	Event
+		EName	11
+		Type	Local
+		At	LArmL
+		part1	Powers/Healing/HealingArmMotionGlows.part
+		part2	Powers/Healing/HealingArmMotionGlows2.part
+		PMagnet HandL
+	End
+
+	Event
+		EName	12
+		Type	Local
+		At	WepL
+		part1	Powers/Healing/HealingArmGlows.part
+	End
+
+	Event
+		EName	13
+		Type	Local
+		At	UArmR
+		part1	Powers/Healing/HealingArmMotionGlows.part
+		part2	Powers/Healing/HealingArmMotionGlows2.part
+		PMagnet ElbowL
+	End
+
+	Event
+		EName	14
+		Type	Local
+		At	LArmR
+		part1	Powers/Healing/HealingArmMotionGlows.part
+		part2	Powers/Healing/HealingArmMotionGlows2.part
+		PMagnet HandL
+	End
+
+	Event
+		EName	15
+		Type	Local
+		At	WepR
+		part1	Powers/Healing/HealingArmGlows.part
+	End
+End
+
+#########################################################################
+## Destroy!
+#########################################################################
+
+Condition
+	On	Time
+	Time	105
+	
+	Event
+		EName	1
+		Type	Destroy
+	End
+
+	Event
+		EName	2
+		Type	Destroy
+	End
+
+	Event
+		EName	3
+		Type	Destroy
+	End
+
+	Event
+		EName	4
+		Type	Destroy
+	End
+
+	Event
+		EName	5
+		Type	Destroy
+	End
+
+	Event
+		EName	6
+		Type	Destroy
+	End
+
+	Event
+		EName	7
+		Type	Destroy
+	End
+
+	Event
+		EName	9
+		Type	Destroy
+	End
+
+	Event
+		EName	10
+		Type	Destroy
+	End
+
+	Event
+		EName	11
+		Type	Destroy
+	End
+
+	Event
+		EName	12
+		Type	Destroy
+	End
+
+	Event
+		EName	13
+		Type	Destroy
+	End
+
+	Event
+		EName	14
+		Type	Destroy
+	End
+
+	Event
+		EName	15
+		Type	Destroy
+	End
+End
+
+
+End				

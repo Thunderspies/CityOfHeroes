@@ -1,0 +1,1314 @@
+Def P_Tech_Door_01_Open_1&
+	Group _P_Tech_DOOR_A_Left
+		Pos 5 0 -0.022858
+	End
+	Group _P_Tech_DOOR_A_Right
+		Pos -5 0 -0.022858
+	End
+	Group P_Tech_Frame_Room_01
+	End
+	Ambient 35 35 35
+End
+
+Def P_Tech_Door_01_Open
+	Obj _PTech_DTray_32
+	Group P_Tech_Door_01_Open_1&
+	End
+	Lod
+		Far 278.955322
+		FarFade 69.738831
+	End
+End
+
+Def P_Tech_Door_01_1&
+	Group Omni/PARTICLE_15
+	End
+	Property	"Door"	"Door"	0
+	Property	"generator"	"Door_PreatorianTech_Interior_01"	0
+End
+
+Def P_Tech_Door_01
+	Obj _PTech_DTray_32
+	Group P_Tech_Frame_Room_01
+	End
+	Group Omni/MissionBeacons/Lock_unlocked
+		PYR 0 -179.999969 -0
+		Pos 4 0 0
+	End
+	Group P_Tech_Door_01_1&
+	End
+	Lod
+		Far 278.955322
+		FarFade 69.738831
+	End
+	Ambient 35 35 35
+End
+
+Def P_Tech_Door_01_Closed_3&
+	Group _P_Tech_DOOR_A_Left
+		PYR 0 -179.999985 -0
+	End
+	TexSwap P_Tech_Door_01 P_Tech_Door_02 0
+	TexSwap P_Tech_Door_01_Glow P_Tech_Door_02_Glow 0
+	TexSwap P_Tech_Door_01_D P_Tech_Door_02 0
+End
+
+Def P_Tech_Door_01_Closed
+	Obj _PTech_DTray_32
+	Group P_Tech_Frame_Room_01
+	End
+	Group _P_Tech_DOOR_A_Right
+		Pos 0 0 -0.022858
+	End
+	Group P_Tech_Door_01_Closed_3&
+		PYR 0 179.999985 -0
+		Pos 0 0 -0.022858
+	End
+	Lod
+		Far 278.955322
+		FarFade 69.738831
+	End
+	Ambient 35 35 35
+End
+
+Def P_Tech_TechElevator_01_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_TechElevator_01_7&
+	Group Omni/_EmergeFromMe
+		PYR 0 89.999985 0
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"elevator"	0
+End
+
+Def P_Tech_TechElevator_01_6&
+	Group Omni/ExitPoint
+		Pos 0.000015 0 -12.50001
+	End
+	Group Omni/ExitPoint
+		PYR 0 20.000008 0
+		Pos -3 0 -11.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 -20.000008 0
+		Pos 3.500015 0 -11.500008
+	End
+	Group P_Tech_TechElevator_01_7&
+		PYR 0 -89.999985 0
+		Pos 0.000015 0 1.5
+	End
+End
+
+Def P_Tech_TechElevator_01_4&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0 0 0.295654
+	End
+	Group P_Tech_TechElevator_01_5&
+		Pos 0 0 -7.000001
+	End
+	Group P_Tech_TechElevator_01_6&
+	End
+End
+
+Def P_Tech_TechElevator_01_3&
+	Group P_Tech_TechElevator_01_4&
+		PYR 0 179.999985 -0
+		Pos -16.297852 -5.828613 -87.481438
+	End
+End
+
+Def P_Tech_TechElevator_01_2&
+	Group P_Tech_TechElevator_01_3&
+		PYR 0 179.999969 0
+		Pos -44 0 -16
+	End
+End
+
+Def P_Tech_TechElevator_01_13&
+	Group _P_Tech_Elevator_INT_A
+		PYR 0 -179.999985 -0
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Elevator_01"	0
+End
+
+Def P_Tech_TechElevator_01_1&
+	Obj _PTech_ElevatorTray_01
+	Group P_Tech_TechElevator_01_2&
+		Pos 27.5 6 -78.533386
+	End
+	Group P_Tech_TechElevator_01_13&
+		Pos 0 0 -0.033386
+	End
+	Ambient 5 5 7
+End
+
+Def P_Tech_TechElevator_01
+	Group P_Tech_TechElevator_01_1&
+		Pos 0 0 0.033386
+	End
+End
+
+Def P_Tech_Door_01_Teleport_4&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_Door_01_Teleport_3&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0.000488 0.000122 3.465942
+	End
+	Group P_Tech_Door_01_Teleport_4&
+		Pos 0.000488 0.000122 -1.034058
+	End
+	Group Omni/ExitPoint
+		Pos 0.000488 0.000122 -1.034058
+	End
+	Group Omni/ExitPoint
+		Pos -1.999512 0.000122 -2.034058
+	End
+	Group Omni/ExitPoint
+		Pos 2.000488 0.000122 -2.534058
+	End
+	Group Omni/EmergeFromMe
+		Pos 0.000488 0.000122 3.170288
+	End
+End
+
+Def P_Tech_Door_01_Teleport_2&
+	Group P_Tech_Door_01_Teleport_3&
+		Pos 0 0 1.143036
+	End
+End
+
+Def P_Tech_Door_01_Teleport_5&
+	Group P_Tech_Frame_Room_01B
+	End
+	Ambient 15 15 15
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Interior_01"	0
+End
+
+Def P_Tech_Door_01_Teleport_1&
+	Group P_Tech_Door_01_Teleport_2&
+		Pos 0 0 -6.178497
+	End
+	Group P_Tech_Door_01_Teleport_5&
+	End
+End
+
+Def P_Tech_Door_01_Teleport
+	Obj _PTech_DTray_32
+	Group P_Tech_Door_01_Teleport_1&
+	End
+	Lod
+		Far 278.955322
+		FarFade 69.738831
+	End
+End
+
+Def P_Tech_Elevator_01A_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_Elevator_01A_7&
+	Group Omni/_EmergeFromMe
+		PYR 0 89.999985 0
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"elevator"	0
+End
+
+Def P_Tech_Elevator_01A_6&
+	Group Omni/ExitPoint
+		Pos 0.000015 0 -12.50001
+	End
+	Group Omni/ExitPoint
+		PYR 0 20.000008 0
+		Pos -3 0 -11.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 -20.000008 0
+		Pos 3.500015 0 -11.500008
+	End
+	Group P_Tech_Elevator_01A_7&
+		PYR 0 -89.999985 0
+		Pos 0.000015 0 1.5
+	End
+End
+
+Def P_Tech_Elevator_01A_4&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0 0 0.295654
+	End
+	Group P_Tech_Elevator_01A_5&
+		Pos 0 0 -7.000001
+	End
+	Group P_Tech_Elevator_01A_6&
+	End
+End
+
+Def P_Tech_Elevator_01A_3&
+	Group P_Tech_Elevator_01A_4&
+		PYR 0 179.999985 -0
+		Pos -16.297852 -5.828613 -87.481438
+	End
+End
+
+Def P_Tech_Elevator_01A_2&
+	Group P_Tech_Elevator_01A_3&
+		PYR 0 179.999969 0
+		Pos -44 0 -16
+	End
+End
+
+Def P_Tech_Elevator_01A_8&
+	Group _P_Tech_Elevator_INT_A
+		PYR 0 -179.999985 -0
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Elevator_01"	0
+End
+
+Def P_Tech_Elevator_01A_9&
+	Group Omni/_Omni
+	End
+	Omni 9 19 23 14.821144 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_01A_10&
+	Group Omni/_Omni
+	End
+	Omni 38 38 38 19.326843 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_01A_1&
+	Obj _PTech_ElevatorTray_01
+	Group P_Tech_Elevator_01A_2&
+		Pos 27.5 6 -78.533386
+	End
+	Group P_Tech_Elevator_01A_8&
+		Pos 0 0 -0.033386
+	End
+	Group P_Tech_Elevator_01A_9&
+		PYR 0 -89.999992 -0
+		Pos 0 8 2.466614
+	End
+	Group P_Tech_Elevator_01A_10&
+		PYR 0 -89.999992 -0
+		Pos 0 4 -11.566772
+	End
+	Ambient 5 5 7
+End
+
+Def P_Tech_Elevator_01A_13&
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoSpawn"	"P_Tech_Elevator_1B"	0
+End
+
+Def P_Tech_Elevator_01A_12&
+	Group P_Tech_Elevator_01A_13&
+	End
+End
+
+Def P_Tech_Elevator_01A_14&
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 179.999985 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"P_Tech_Elevator_1A"	0
+End
+
+Def P_Tech_Elevator_01A_11&
+	Group P_Tech_Elevator_01A_12&
+		Pos 0 0 4
+	End
+	Group P_Tech_Elevator_01A_14&
+		PYR 0 179.999985 -0
+		Pos 0 0 -4
+	End
+End
+
+Def P_Tech_Elevator_01A
+	Group P_Tech_Elevator_01A_1&
+		Pos 0 0 5.566772
+	End
+	Group P_Tech_Elevator_01A_11&
+		Pos 0 0 -4
+	End
+End
+
+Def P_Tech_Elevator_01B_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_Elevator_01B_7&
+	Group Omni/_EmergeFromMe
+		PYR 0 89.999985 0
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"elevator"	0
+End
+
+Def P_Tech_Elevator_01B_6&
+	Group Omni/ExitPoint
+		Pos 0.000015 0 -12.50001
+	End
+	Group Omni/ExitPoint
+		PYR 0 20.000008 0
+		Pos -3 0 -11.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 -20.000008 0
+		Pos 3.500015 0 -11.500008
+	End
+	Group P_Tech_Elevator_01B_7&
+		PYR 0 -89.999985 0
+		Pos 0.000015 0 1.5
+	End
+End
+
+Def P_Tech_Elevator_01B_4&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0 0 0.295654
+	End
+	Group P_Tech_Elevator_01B_5&
+		Pos 0 0 -7.000001
+	End
+	Group P_Tech_Elevator_01B_6&
+	End
+End
+
+Def P_Tech_Elevator_01B_3&
+	Group P_Tech_Elevator_01B_4&
+		PYR 0 179.999985 -0
+		Pos -16.297852 -5.828613 -87.481438
+	End
+End
+
+Def P_Tech_Elevator_01B_2&
+	Group P_Tech_Elevator_01B_3&
+		PYR 0 179.999969 0
+		Pos -44 0 -16
+	End
+End
+
+Def P_Tech_Elevator_01B_8&
+	Group _P_Tech_Elevator_INT_A
+		PYR 0 -179.999985 -0
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Elevator_01"	0
+End
+
+Def P_Tech_Elevator_01B_9&
+	Group Omni/_Omni
+	End
+	Omni 9 19 23 14.821144 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_01B_10&
+	Group Omni/_Omni
+	End
+	Omni 38 38 38 19.326843 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_01B_1&
+	Obj _PTech_ElevatorTray_01
+	Group P_Tech_Elevator_01B_2&
+		Pos 27.5 6 -78.533386
+	End
+	Group P_Tech_Elevator_01B_8&
+		Pos 0 0 -0.033386
+	End
+	Group P_Tech_Elevator_01B_9&
+		PYR 0 -89.999992 -0
+		Pos 0 8 2.466614
+	End
+	Group P_Tech_Elevator_01B_10&
+		PYR 0 -89.999992 -0
+		Pos 0 4 -11.566772
+	End
+	Ambient 5 5 7
+End
+
+Def P_Tech_Elevator_01B_12&
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 179.999985 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"P_Tech_Elevator_1B"	0
+End
+
+Def P_Tech_Elevator_01B_14&
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoSpawn"	"P_Tech_Elevator_1A"	0
+End
+
+Def P_Tech_Elevator_01B_13&
+	Group P_Tech_Elevator_01B_14&
+	End
+End
+
+Def P_Tech_Elevator_01B_11&
+	Group P_Tech_Elevator_01B_12&
+		PYR 0 -90 -0
+		Pos -4 0 0
+	End
+	Group P_Tech_Elevator_01B_13&
+		PYR 0 90 -0
+		Pos 4 0 0
+	End
+End
+
+Def P_Tech_Elevator_01B
+	Group P_Tech_Elevator_01B_1&
+		Pos 0 0 5.566772
+	End
+	Group P_Tech_Elevator_01B_11&
+		PYR 0 -90 -0
+		Pos 0 0 -4
+	End
+End
+
+Def P_Tech_Elevator_02A_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_Elevator_02A_7&
+	Group Omni/_EmergeFromMe
+		PYR 0 89.999985 0
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"elevator"	0
+End
+
+Def P_Tech_Elevator_02A_6&
+	Group Omni/ExitPoint
+		Pos 0.000015 0 -12.50001
+	End
+	Group Omni/ExitPoint
+		PYR 0 20.000008 0
+		Pos -3 0 -11.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 -20.000008 0
+		Pos 3.500015 0 -11.500008
+	End
+	Group P_Tech_Elevator_02A_7&
+		PYR 0 -89.999985 0
+		Pos 0.000015 0 1.5
+	End
+End
+
+Def P_Tech_Elevator_02A_4&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0 0 0.295654
+	End
+	Group P_Tech_Elevator_02A_5&
+		Pos 0 0 -7.000001
+	End
+	Group P_Tech_Elevator_02A_6&
+	End
+End
+
+Def P_Tech_Elevator_02A_3&
+	Group P_Tech_Elevator_02A_4&
+		PYR 0 179.999985 -0
+		Pos -16.297852 -5.828613 -87.481438
+	End
+End
+
+Def P_Tech_Elevator_02A_2&
+	Group P_Tech_Elevator_02A_3&
+		PYR 0 179.999969 0
+		Pos -44 0 -16
+	End
+End
+
+Def P_Tech_Elevator_02A_8&
+	Group _P_Tech_Elevator_INT_A
+		PYR 0 -179.999985 -0
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Elevator_01"	0
+End
+
+Def P_Tech_Elevator_02A_9&
+	Group Omni/_Omni
+	End
+	Omni 9 19 23 14.821144 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_02A_10&
+	Group Omni/_Omni
+	End
+	Omni 38 38 38 19.326843 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_02A_1&
+	Obj _PTech_ElevatorTray_01
+	Group P_Tech_Elevator_02A_2&
+		Pos 27.5 6 -78.533386
+	End
+	Group P_Tech_Elevator_02A_8&
+		Pos 0 0 -0.033386
+	End
+	Group P_Tech_Elevator_02A_9&
+		PYR 0 -89.999992 -0
+		Pos 0 8 2.466614
+	End
+	Group P_Tech_Elevator_02A_10&
+		PYR 0 -89.999992 -0
+		Pos 0 4 -11.566772
+	End
+	Ambient 5 5 7
+End
+
+Def P_Tech_Elevator_02A_12&
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 179.999985 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"P_Tech_Elevator_2A"	0
+End
+
+Def P_Tech_Elevator_02A_14&
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoSpawn"	"P_Tech_Elevator_2B"	0
+End
+
+Def P_Tech_Elevator_02A_13&
+	Group P_Tech_Elevator_02A_14&
+	End
+End
+
+Def P_Tech_Elevator_02A_11&
+	Group P_Tech_Elevator_02A_12&
+		PYR 0 0.00001 -0
+		Pos 0 0 4
+	End
+	Group P_Tech_Elevator_02A_13&
+		PYR 0 179.999985 -0
+		Pos 0 0 -4
+	End
+End
+
+Def P_Tech_Elevator_02A
+	Group P_Tech_Elevator_02A_1&
+		Pos 0 0 5.566772
+	End
+	Group P_Tech_Elevator_02A_11&
+		PYR 0 -179.999985 -0
+		Pos -0.000001 0 -4
+	End
+End
+
+Def P_Tech_Elevator_02B_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_Elevator_02B_7&
+	Group Omni/_EmergeFromMe
+		PYR 0 89.999985 0
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"elevator"	0
+End
+
+Def P_Tech_Elevator_02B_6&
+	Group Omni/ExitPoint
+		Pos 0.000015 0 -12.50001
+	End
+	Group Omni/ExitPoint
+		PYR 0 20.000008 0
+		Pos -3 0 -11.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 -20.000008 0
+		Pos 3.500015 0 -11.500008
+	End
+	Group P_Tech_Elevator_02B_7&
+		PYR 0 -89.999985 0
+		Pos 0.000015 0 1.5
+	End
+End
+
+Def P_Tech_Elevator_02B_4&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0 0 0.295654
+	End
+	Group P_Tech_Elevator_02B_5&
+		Pos 0 0 -7.000001
+	End
+	Group P_Tech_Elevator_02B_6&
+	End
+End
+
+Def P_Tech_Elevator_02B_3&
+	Group P_Tech_Elevator_02B_4&
+		PYR 0 179.999985 -0
+		Pos -16.297852 -5.828613 -87.481438
+	End
+End
+
+Def P_Tech_Elevator_02B_2&
+	Group P_Tech_Elevator_02B_3&
+		PYR 0 179.999969 0
+		Pos -44 0 -16
+	End
+End
+
+Def P_Tech_Elevator_02B_8&
+	Group _P_Tech_Elevator_INT_A
+		PYR 0 -179.999985 -0
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Elevator_01"	0
+End
+
+Def P_Tech_Elevator_02B_9&
+	Group Omni/_Omni
+	End
+	Omni 9 19 23 14.821144 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_02B_10&
+	Group Omni/_Omni
+	End
+	Omni 38 38 38 19.326843 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_02B_1&
+	Obj _PTech_ElevatorTray_01
+	Group P_Tech_Elevator_02B_2&
+		Pos 27.5 6 -78.533386
+	End
+	Group P_Tech_Elevator_02B_8&
+		Pos 0 0 -0.033386
+	End
+	Group P_Tech_Elevator_02B_9&
+		PYR 0 -89.999992 -0
+		Pos 0 8 2.466614
+	End
+	Group P_Tech_Elevator_02B_10&
+		PYR 0 -89.999992 -0
+		Pos 0 4 -11.566772
+	End
+	Ambient 5 5 7
+End
+
+Def P_Tech_Elevator_02B_12&
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 179.999985 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"P_Tech_Elevator_2B"	0
+End
+
+Def P_Tech_Elevator_02B_14&
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoSpawn"	"P_Tech_Elevator_2A"	0
+End
+
+Def P_Tech_Elevator_02B_13&
+	Group P_Tech_Elevator_02B_14&
+	End
+End
+
+Def P_Tech_Elevator_02B_11&
+	Group P_Tech_Elevator_02B_12&
+		PYR 0 90 -0
+		Pos 4 0 0
+	End
+	Group P_Tech_Elevator_02B_13&
+		PYR 0 -90 -0
+		Pos -4 0 0
+	End
+End
+
+Def P_Tech_Elevator_02B
+	Group P_Tech_Elevator_02B_1&
+		Pos 0 0 5.566772
+	End
+	Group P_Tech_Elevator_02B_11&
+		PYR 0 90 -0
+		Pos 0 0 -4
+	End
+End
+
+Def P_Tech_Elevator_03A_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_Elevator_03A_7&
+	Group Omni/_EmergeFromMe
+		PYR 0 89.999985 0
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"elevator"	0
+End
+
+Def P_Tech_Elevator_03A_6&
+	Group Omni/ExitPoint
+		Pos 0.000015 0 -12.50001
+	End
+	Group Omni/ExitPoint
+		PYR 0 20.000008 0
+		Pos -3 0 -11.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 -20.000008 0
+		Pos 3.500015 0 -11.500008
+	End
+	Group P_Tech_Elevator_03A_7&
+		PYR 0 -89.999985 0
+		Pos 0.000015 0 1.5
+	End
+End
+
+Def P_Tech_Elevator_03A_4&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0 0 0.295654
+	End
+	Group P_Tech_Elevator_03A_5&
+		Pos 0 0 -7.000001
+	End
+	Group P_Tech_Elevator_03A_6&
+	End
+End
+
+Def P_Tech_Elevator_03A_3&
+	Group P_Tech_Elevator_03A_4&
+		PYR 0 179.999985 -0
+		Pos -16.297852 -5.828613 -87.481438
+	End
+End
+
+Def P_Tech_Elevator_03A_2&
+	Group P_Tech_Elevator_03A_3&
+		PYR 0 179.999969 0
+		Pos -44 0 -16
+	End
+End
+
+Def P_Tech_Elevator_03A_8&
+	Group _P_Tech_Elevator_INT_A
+		PYR 0 -179.999985 -0
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Elevator_01"	0
+End
+
+Def P_Tech_Elevator_03A_9&
+	Group Omni/_Omni
+	End
+	Omni 9 19 23 14.821144 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_03A_10&
+	Group Omni/_Omni
+	End
+	Omni 38 38 38 19.326843 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_03A_1&
+	Obj _PTech_ElevatorTray_01
+	Group P_Tech_Elevator_03A_2&
+		Pos 27.5 6 -78.533386
+	End
+	Group P_Tech_Elevator_03A_8&
+		Pos 0 0 -0.033386
+	End
+	Group P_Tech_Elevator_03A_9&
+		PYR 0 -89.999992 -0
+		Pos 0 8 2.466614
+	End
+	Group P_Tech_Elevator_03A_10&
+		PYR 0 -89.999992 -0
+		Pos 0 4 -11.566772
+	End
+	Ambient 5 5 7
+End
+
+Def P_Tech_Elevator_03A_13&
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoSpawn"	"P_Tech_Elevator_3B"	0
+End
+
+Def P_Tech_Elevator_03A_12&
+	Group P_Tech_Elevator_03A_13&
+	End
+End
+
+Def P_Tech_Elevator_03A_14&
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 179.999985 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"P_Tech_Elevator_3A"	0
+End
+
+Def P_Tech_Elevator_03A_11&
+	Group P_Tech_Elevator_03A_12&
+		Pos 0 0 4
+	End
+	Group P_Tech_Elevator_03A_14&
+		PYR 0 179.999985 -0
+		Pos 0 0 -4
+	End
+End
+
+Def P_Tech_Elevator_03A
+	Group P_Tech_Elevator_03A_1&
+		Pos 0 0 5.566772
+	End
+	Group P_Tech_Elevator_03A_11&
+		Pos 0 0 -4
+	End
+End
+
+Def P_Tech_Elevator_03B_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_Elevator_03B_7&
+	Group Omni/_EmergeFromMe
+		PYR 0 89.999985 0
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"elevator"	0
+End
+
+Def P_Tech_Elevator_03B_6&
+	Group Omni/ExitPoint
+		Pos 0.000015 0 -12.50001
+	End
+	Group Omni/ExitPoint
+		PYR 0 20.000008 0
+		Pos -3 0 -11.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 -20.000008 0
+		Pos 3.500015 0 -11.500008
+	End
+	Group P_Tech_Elevator_03B_7&
+		PYR 0 -89.999985 0
+		Pos 0.000015 0 1.5
+	End
+End
+
+Def P_Tech_Elevator_03B_4&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0 0 0.295654
+	End
+	Group P_Tech_Elevator_03B_5&
+		Pos 0 0 -7.000001
+	End
+	Group P_Tech_Elevator_03B_6&
+	End
+End
+
+Def P_Tech_Elevator_03B_3&
+	Group P_Tech_Elevator_03B_4&
+		PYR 0 179.999985 -0
+		Pos -16.297852 -5.828613 -87.481438
+	End
+End
+
+Def P_Tech_Elevator_03B_2&
+	Group P_Tech_Elevator_03B_3&
+		PYR 0 179.999969 0
+		Pos -44 0 -16
+	End
+End
+
+Def P_Tech_Elevator_03B_8&
+	Group _P_Tech_Elevator_INT_A
+		PYR 0 -179.999985 -0
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Elevator_01"	0
+End
+
+Def P_Tech_Elevator_03B_9&
+	Group Omni/_Omni
+	End
+	Omni 9 19 23 14.821144 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_03B_10&
+	Group Omni/_Omni
+	End
+	Omni 38 38 38 19.326843 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_03B_1&
+	Obj _PTech_ElevatorTray_01
+	Group P_Tech_Elevator_03B_2&
+		Pos 27.5 6 -78.533386
+	End
+	Group P_Tech_Elevator_03B_8&
+		Pos 0 0 -0.033386
+	End
+	Group P_Tech_Elevator_03B_9&
+		PYR 0 -89.999992 -0
+		Pos 0 8 2.466614
+	End
+	Group P_Tech_Elevator_03B_10&
+		PYR 0 -89.999992 -0
+		Pos 0 4 -11.566772
+	End
+	Ambient 5 5 7
+End
+
+Def P_Tech_Elevator_03B_12&
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 179.999985 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"P_Tech_Elevator_3B"	0
+End
+
+Def P_Tech_Elevator_03B_14&
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoSpawn"	"P_Tech_Elevator_3A"	0
+End
+
+Def P_Tech_Elevator_03B_13&
+	Group P_Tech_Elevator_03B_14&
+	End
+End
+
+Def P_Tech_Elevator_03B_11&
+	Group P_Tech_Elevator_03B_12&
+		PYR 0 -90 -0
+		Pos -4 0 0
+	End
+	Group P_Tech_Elevator_03B_13&
+		PYR 0 90 -0
+		Pos 4 0 0
+	End
+End
+
+Def P_Tech_Elevator_03B
+	Group P_Tech_Elevator_03B_1&
+		Pos 0 0 5.566772
+	End
+	Group P_Tech_Elevator_03B_11&
+		PYR 0 -90 -0
+		Pos 0 0 -4
+	End
+End
+
+Def P_Tech_Elevator_04A_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_Elevator_04A_7&
+	Group Omni/_EmergeFromMe
+		PYR 0 89.999985 0
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"elevator"	0
+End
+
+Def P_Tech_Elevator_04A_6&
+	Group Omni/ExitPoint
+		Pos 0.000015 0 -12.50001
+	End
+	Group Omni/ExitPoint
+		PYR 0 20.000008 0
+		Pos -3 0 -11.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 -20.000008 0
+		Pos 3.500015 0 -11.500008
+	End
+	Group P_Tech_Elevator_04A_7&
+		PYR 0 -89.999985 0
+		Pos 0.000015 0 1.5
+	End
+End
+
+Def P_Tech_Elevator_04A_4&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0 0 0.295654
+	End
+	Group P_Tech_Elevator_04A_5&
+		Pos 0 0 -7.000001
+	End
+	Group P_Tech_Elevator_04A_6&
+	End
+End
+
+Def P_Tech_Elevator_04A_3&
+	Group P_Tech_Elevator_04A_4&
+		PYR 0 179.999985 -0
+		Pos -16.297852 -5.828613 -87.481438
+	End
+End
+
+Def P_Tech_Elevator_04A_2&
+	Group P_Tech_Elevator_04A_3&
+		PYR 0 179.999969 0
+		Pos -44 0 -16
+	End
+End
+
+Def P_Tech_Elevator_04A_8&
+	Group _P_Tech_Elevator_INT_A
+		PYR 0 -179.999985 -0
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Elevator_01"	0
+End
+
+Def P_Tech_Elevator_04A_9&
+	Group Omni/_Omni
+	End
+	Omni 9 19 23 14.821144 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_04A_10&
+	Group Omni/_Omni
+	End
+	Omni 38 38 38 19.326843 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_04A_1&
+	Obj _PTech_ElevatorTray_01
+	Group P_Tech_Elevator_04A_2&
+		Pos 27.5 6 -78.533386
+	End
+	Group P_Tech_Elevator_04A_8&
+		Pos 0 0 -0.033386
+	End
+	Group P_Tech_Elevator_04A_9&
+		PYR 0 -89.999992 -0
+		Pos 0 8 2.466614
+	End
+	Group P_Tech_Elevator_04A_10&
+		PYR 0 -89.999992 -0
+		Pos 0 4 -11.566772
+	End
+	Ambient 5 5 7
+End
+
+Def P_Tech_Elevator_04A_12&
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 179.999985 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"P_Tech_Elevator_4A"	0
+End
+
+Def P_Tech_Elevator_04A_14&
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoSpawn"	"P_Tech_Elevator_4B"	0
+End
+
+Def P_Tech_Elevator_04A_13&
+	Group P_Tech_Elevator_04A_14&
+	End
+End
+
+Def P_Tech_Elevator_04A_11&
+	Group P_Tech_Elevator_04A_12&
+		Pos 0 0 4
+	End
+	Group P_Tech_Elevator_04A_13&
+		PYR 0 179.999985 -0
+		Pos 0 0 -4
+	End
+End
+
+Def P_Tech_Elevator_04A
+	Group P_Tech_Elevator_04A_1&
+		Pos 0 0 5.566772
+	End
+	Group P_Tech_Elevator_04A_11&
+		PYR 0 -179.999985 -0
+		Pos -0.000001 0 -4
+	End
+End
+
+Def P_Tech_Elevator_04B_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def P_Tech_Elevator_04B_7&
+	Group Omni/_EmergeFromMe
+		PYR 0 89.999985 0
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"elevator"	0
+End
+
+Def P_Tech_Elevator_04B_6&
+	Group Omni/ExitPoint
+		Pos 0.000015 0 -12.50001
+	End
+	Group Omni/ExitPoint
+		PYR 0 20.000008 0
+		Pos -3 0 -11.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 -20.000008 0
+		Pos 3.500015 0 -11.500008
+	End
+	Group P_Tech_Elevator_04B_7&
+		PYR 0 -89.999985 0
+		Pos 0.000015 0 1.5
+	End
+End
+
+Def P_Tech_Elevator_04B_4&
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Pos 0 0 0.295654
+	End
+	Group P_Tech_Elevator_04B_5&
+		Pos 0 0 -7.000001
+	End
+	Group P_Tech_Elevator_04B_6&
+	End
+End
+
+Def P_Tech_Elevator_04B_3&
+	Group P_Tech_Elevator_04B_4&
+		PYR 0 179.999985 -0
+		Pos -16.297852 -5.828613 -87.481438
+	End
+End
+
+Def P_Tech_Elevator_04B_2&
+	Group P_Tech_Elevator_04B_3&
+		PYR 0 179.999969 0
+		Pos -44 0 -16
+	End
+End
+
+Def P_Tech_Elevator_04B_8&
+	Group _P_Tech_Elevator_INT_A
+		PYR 0 -179.999985 -0
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Door_PreatorianTech_Elevator_01"	0
+End
+
+Def P_Tech_Elevator_04B_9&
+	Group Omni/_Omni
+	End
+	Omni 9 19 23 14.821144 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_04B_10&
+	Group Omni/_Omni
+	End
+	Omni 38 38 38 19.326843 
+	Flags Ungroupable
+End
+
+Def P_Tech_Elevator_04B_1&
+	Obj _PTech_ElevatorTray_01
+	Group P_Tech_Elevator_04B_2&
+		Pos 27.5 6 -78.533386
+	End
+	Group P_Tech_Elevator_04B_8&
+		Pos 0 0 -0.033386
+	End
+	Group P_Tech_Elevator_04B_9&
+		PYR 0 -89.999992 -0
+		Pos 0 8 2.466614
+	End
+	Group P_Tech_Elevator_04B_10&
+		PYR 0 -89.999992 -0
+		Pos 0 4 -11.566772
+	End
+	Ambient 5 5 7
+End
+
+Def P_Tech_Elevator_04B_13&
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoSpawn"	"P_Tech_Elevator_4A"	0
+End
+
+Def P_Tech_Elevator_04B_12&
+	Group P_Tech_Elevator_04B_13&
+	End
+End
+
+Def P_Tech_Elevator_04B_14&
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 179.999985 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"P_Tech_Elevator_4B"	0
+End
+
+Def P_Tech_Elevator_04B_11&
+	Group P_Tech_Elevator_04B_12&
+		PYR 0 -90 -0
+		Pos -4 0 0
+	End
+	Group P_Tech_Elevator_04B_14&
+		PYR 0 90 -0
+		Pos 4 0 0
+	End
+End
+
+Def P_Tech_Elevator_04B
+	Group P_Tech_Elevator_04B_1&
+		Pos 0 0 5.566772
+	End
+	Group P_Tech_Elevator_04B_11&
+		PYR 0 90 -0
+		Pos 0 0 -4
+	End
+End
+

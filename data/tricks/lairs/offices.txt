@@ -1,0 +1,151 @@
+Texture ofc1_tile.tga
+	Surface TILE
+End
+
+Texture ofc1_carpet_strt.tga
+	Blend det_carpet.tga
+	BlendType Multiply
+	ScaleST0 8 8
+	Surface Carpet
+End
+
+Texture ofc1_carpet_fill.tga
+	Blend det_carpet.tga
+	BlendType Multiply
+	ScaleST0 8 8
+	Surface Carpet
+End
+
+Texture ofc1_carpet_small.tga
+	Blend det_carpet.tga
+	BlendType Multiply
+	ScaleST0 2 2
+	Surface Carpet
+End
+
+Texture ofc1_carpet_small_edge.tga
+	Flags ClampT
+	Blend det_carpet.tga
+	BlendType Multiply
+	ScaleST0 2 2
+	Surface Carpet
+End
+
+Texture ofc1_carpet_small_90in.tga
+	Flags ClampS ClampT
+	Blend det_carpet.tga
+	BlendType Multiply
+	ScaleST0 2 2
+	Surface Carpet
+End
+
+Texture ofc1_carpet_small_90out.tga
+	Flags ClampS ClampT
+	Blend det_carpet.tga
+	BlendType Multiply
+	ScaleST0 2 2
+	Surface Carpet
+End
+
+Texture ofc1_chrome.tga
+	Fade 0.4 -25
+End
+
+Texture ofc1_carpet_elev.tga
+	Blend det_carpet.tga
+	BlendType Multiply
+	ScaleST0 4 4
+	Surface Carpet
+End
+
+Texture ofc1_handrail.tga
+	Blend ofc1_chrome.tga
+	BlendType Multiply
+	ScaleST0 8 8
+End
+
+Trick ofcwindow
+	ObjFlags FullBright
+	TrickFlags NoZWrite ReflectTex0
+End
+
+Trick ofcwindow2
+	ObjFlags StaticFx ForceAlphaSort ##WorldFx
+	TrickFlags ReflectTex0
+End
+
+Trick ofcchrome
+	TrickFlags ReflectTex1 NotSelectable
+End
+
+Trick ofcwallglow
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick ofclight
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Texture brushed_det.tga
+	Fade 0.7 -25
+End
+
+Texture ofc1_wall.tga
+	Flags ClampT
+	Blend brushed_det.tga
+	BlendType Multiply
+	ScaleST0 4 4
+End
+
+Texture ofc1_wall_upper.tga
+	Blend brushed_det.tga
+	BlendType Multiply
+	ScaleST0 4 4
+End
+
+Texture ofc1_wall_filler.tga
+	Blend brushed_det.tga
+	BlendType Multiply
+	ScaleST0 2 2
+End
+
+Trick ofctray
+	GroupFlags VisTray
+	ObjFlags ForceOpaque
+End
+
+Trick ofcdoor
+	GroupFlags VisDoorFrame VisTray
+	ObjFlags ForceOpaque
+	TrickFlags ReflectTex1
+End
+
+Trick ofcdoor2
+	GroupFlags VisDoorFrame VisTray
+	ObjFlags ForceOpaque
+End
+
+Trick ofcfauxdoor
+	TrickFlags NoColl
+End
+
+Texture ofc1_paintng_horiz_01.tga
+	Flags Replaceable
+End
+
+Texture ofc1_paintng_square_01.tga
+	Flags Replaceable
+End
+
+Trick ofcelevcoll
+	ObjFlags FullBright NoLightAngle
+	TrickFlags EditorVisible
+End
+
+Trick ofcDynaChair
+	ObjFlags StaticFX # FullBright # NoLightAngle
+	TrickFlags #
+End
+

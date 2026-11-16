@@ -1,0 +1,36 @@
+#############################################################
+## FX_banner.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_Butterflies
+	BaseSkeleton	FX_Butterflies\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove       Ready
+	Scale		2
+
+	Type		FX_Butterflies
+	  Anim          FX_Butterflies\skel_ready 1
+	TEnd
+
+MEnd
+
+
+#############################################################
+
+SeqEnd

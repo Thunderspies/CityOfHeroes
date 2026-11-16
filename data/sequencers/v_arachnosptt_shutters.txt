@@ -1,0 +1,153 @@
+##################################################
+## Arachnos PTT - Generators for Statesman's SF ##
+##################################################
+
+Sequencer
+
+
+TypeDef V_ArachnosPTT_Shutters
+	BaseSkeleton	V_ArachnosPTT_Shutters\Skel_ArachnosPTT_Shutters
+	ParentType	None 
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+###########
+## Ready ##
+###########
+
+Move Ready		
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ> 
+	Flags		NotSelectable CANTMOVE #Cycle
+	NextMove	Spawn
+
+
+	Type		V_ArachnosPTT_Shutters
+	  Anim          V_ArachnosPTT_Shutters\ArachnosPTT_Shutters_Death 66
+	TEnd
+
+MEnd
+
+###################
+## Spawn\Respawn ##
+###################
+
+Move Spawn
+	#Requires	RAISEDEAD
+	Interrupts	<DeathIRQ> <ReactIRQ> 
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		NotSelectable CANTMOVE #CycleNOCOLLISION
+	NextMove	Idle_Loop
+
+	Type		V_ArachnosPTT_Shutters
+	  Anim          V_ArachnosPTT_Shutters\skel_ArachnosPTT_Shutters 1 91  
+	TEnd
+MEnd
+
+
+Move Idle_Loop		
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle #NotSelectable #NOCOLLISION
+	NextMove	Ready
+
+	Type		V_ArachnosPTT_Shutters
+	  Anim          V_ArachnosPTT_Shutters\skel_ArachnosPTT_Shutters 92 167  
+	TEnd
+MEnd
+
+
+########  DEATHS  #############################################################################################################
+
+###############################################################################################################################
+##	Default Death
+###############################################################################################################################	
+
+Move Default_Death
+	Requires	DEATH 
+	Interrupts	<DeathIRQ> 
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        2
+	Sets            NOCOLLISION 
+	Flags		noSizeScale NotSelectable
+
+	Type		V_ArachnosPTT_Shutters
+	  Anim          V_ArachnosPTT_Shutters\ArachnosPTT_Shutters_Death 1
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH 
+	Member		<RaiseDeadIRQ> 
+	Priority        1
+	Sets            NOCOLLISION
+	Flags		Cycle NotSelectable
+
+	Type		V_ArachnosPTT_Shutters
+	  Anim          V_ArachnosPTT_Shutters\ArachnosPTT_Shutters_Death 66
+	TEnd
+MEnd
+
+
+########################
+## Closed and Waiting ##
+########################
+
+Move waiting_pre
+	Requires	WAITING
+	Interrupts	<MonsterGroup> <Ready> <Combat> <WepCombat>
+	Member		<DeathIRQ>
+	Flags		Cycle NotSelectable NOCOLLISION CANTMOVE
+	NextMove	Ready
+	Priority        11
+	Interpolate	0
+
+
+	Type		V_ArachnosPTT_Shutters
+	  Anim          V_ArachnosPTT_Shutters\ArachnosPTT_Shutters_Death 66
+	TEnd
+MEnd
+
+
+SeqEnd

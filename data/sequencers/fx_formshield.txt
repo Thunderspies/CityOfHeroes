@@ -1,0 +1,425 @@
+#############################################################
+## FX_FormShield.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Fx_FormShield
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoSizeScale
+
+	Type		Fx_FormShield
+	  Anim          Prop_basic\skel_test 1 10
+	  PlayFX	ENEMYFX\V_PraetorianPolice\FormShield\Anim_FormShield_QuickHit01.fx 0
+	TEnd
+MEnd
+
+#############################################################
+
+Move HitQuick
+	Requires	HIT
+	Priority        2
+	Interrupts	<Ready>
+	Include sequencers\Members\Reactions.inc
+	NextMove        Fake_CombatCycle_Half
+	Flags		HitReact
+
+	Type		Fx_FormShield
+	  Anim          Prop_basic\skel_test 1 60
+	  PlayFX	ENEMYFX\V_PraetorianPolice\FormShield\FormShield_QuickHit01.fx 0
+	TEnd
+MEnd
+
+##############################################################
+### #cage react\wriggle
+##############################################################
+#
+#Move cage_wriggle
+#	Requires	HIT WRIGGLE
+#	Priority        2
+#	Interrupts	<HitIRQ>
+#	Include sequencers\Members\Reactions.inc
+#	Flags		ReqInputs
+#	NextMove        cage_wriggle2
+#	Scale           0.60
+#
+#	Type		male
+#	  Anim          male\wriggle 1 17
+#	TEnd
+#
+#	Type		huge
+#	  Anim          huge\wriggle 1 17
+#	TEnd
+#
+#	Type		fem
+#	  Anim          fem\wriggle 1 17
+#	TEnd
+#MEnd
+#
+#Move cage_wriggle2
+#	Requires	HIT WRIGGLE
+#	Include sequencers\Members\Reactions.inc
+#	Flags		Cycle
+#	NextMove        postReady
+#	Scale           0.60
+#
+#	Type		male
+#	  Anim          male\wriggle 18
+#	TEnd
+#
+#	Type		huge
+#	  Anim          huge\wriggle 18
+#	TEnd
+#
+#	Type		fem
+#	  Anim          fem\wriggle 18
+#	TEnd
+#MEnd
+#
+#
+##############################################################
+### electro\pain react
+##############################################################
+#
+#Move electro_react
+#	Requires	HIT ENERGY
+#	Priority        2
+#	Interrupts	<HitIRQ>
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        postReady
+#	Flags		HitReact
+#
+#	Type		male
+#	  Anim          male\electro 1
+#	TEnd
+#MEnd
+#
+#
+##############################################################
+### electro_pain_LONG
+##############################################################
+#
+#Move electro_react_Long
+#	Requires	STRONG HIT ENERGY
+#	Priority        3
+#	Interrupts	<HitIRQ>
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        electro_react_Long2
+#	Flags		HitReact
+#
+#	Type		male
+#	  Anim          male\electro 1 115
+#	TEnd
+#MEnd
+#
+#Move electro_react_Long2
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        weak_post
+#	Flags		HitReact
+#
+#	Type		male
+#	  Anim          male\electro 1 20
+#	TEnd
+#MEnd
+#
+#Move Speed_react
+#	Requires	HIT SPEEDPUNCH
+#	Priority        6
+#	Interrupts	<HitIRQ>
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        weak_post
+#	Flags		HitReact NoSizeScale
+#
+#	Type		male
+#	  Anim          male\speed_react 3 71
+#	TEnd
+#MEnd
+#
+#
+##############################################################
+### Kungfu_speed react
+##############################################################
+#
+#Move KungfuSpeed_react
+#	Requires	HIT KUNGFUSPEED
+#	Priority        2
+#	Interrupts	<HitIRQ>
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        KungfuSpeed_react2
+#	Flags		HitReact NoSizeScale
+#
+#	Type		male
+#	  Anim          male\speed_react 3 39
+#	TEnd
+#MEnd
+#
+#Move KungfuSpeed_react2
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        KungfuSpeed_react3
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\drain 40 52
+#	TEnd
+#MEnd
+#
+#Move KungfuSpeed_react3
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        postReady_back
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\HQ_high 1
+#	TEnd
+#MEnd
+#
+#
+##############################################################
+### Claw_speed react
+##############################################################
+#
+#Move ClawsSpeed_react
+#	Requires	HIT CLAWSPEED
+#	Priority        2
+#	Interrupts	<HitIRQ>
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        ClawsSpeed_react2
+#	Flags		HitReact NoSizeScale
+#
+#	Type		male
+#	  Anim          male\speed_react 3 35
+#	TEnd
+#MEnd
+#
+#Move ClawsSpeed_react2
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        ClawsSpeed_react3
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\drain 40 41
+#	TEnd
+#MEnd
+#
+#Move ClawsSpeed_react3
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        postReady_back
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\HQ_high 1
+#	TEnd
+#MEnd
+#
+#
+##############################################################
+### Dual Blades Speed Hit Reaction
+##############################################################
+#
+#Move DualBlade_SpeedHit
+#	Requires	HIT DUAL CLAWSPEED
+#	Priority        3
+#	Interrupts	<HitIRQ>
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        DualBlade_SpeedHit_Pause
+#	Flags		HitReact NoSizeScale
+#
+#	Type		male
+#	  Anim          male\speed_react 3 53
+#	TEnd
+#MEnd
+#
+#Move DualBlade_SpeedHit_Pause
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        DualBlade_SpeedHit_Followup
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\drain 40 57
+#	TEnd
+#MEnd
+#
+#Move DualBlade_SpeedHit_Followup
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        postReady_back
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\HQ_high 1
+#	TEnd
+#MEnd
+#
+##############################################################
+#
+##############################################################
+### knockback Hit
+##############################################################
+#
+#Move KHF
+#	Requires	HIT KNOCKBACK
+#	Priority        5
+#	Interrupts	<HitIRQ> <DeathIRQ>
+#	NextMove        KHF_travel
+#	Interpolate     3
+#	Sets            CANTMOVE
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\knockback_fierce 3 15
+#	  Ragdoll	1
+#	TEnd
+#
+#	Type		huge
+#	  Anim          huge\knockback_fierce 3 15
+#	  Ragdoll	1
+#	TEnd
+#
+#	Type		fem
+#	  Anim          fem\knockback_fierce 3 16
+#	  Ragdoll	1
+#	TEnd
+#MEnd
+#
+##############################################################
+#
+#Move KHF_impact
+#	NextMove        getup_back
+#	Sets            CANTMOVE
+#	Flags		NoSizeScale
+#	Interpolate     0
+#
+#	Type		male
+#	  Anim          male\knockback_fierce 25
+#	  PlayFx        FEET\MALEDEATH7.FX
+#	  Ragdoll	1
+#	TEnd
+#
+#	Type		huge
+#	  Anim          huge\knockback_fierce 25
+#	  PlayFx        FEET\MALEDEATH7.FX
+#	  Ragdoll	1
+#	TEnd
+#
+#	Type		fem
+#	  Anim          fem\knockback_fierce 27
+#	  PlayFx        FEET\MALEDEATH7.FX
+#	  Ragdoll	1
+#	TEnd
+#MEnd
+#
+##############################################################
+##############################################################
+### Sweeps
+##############################################################
+#
+#Move Sweep_low
+#	Requires	SWEEP LOW HIT
+#	Priority        3
+#	Interrupts	<HitIRQ> <DeathIRQ>
+#	NextMove        Sweep_impact
+#	Interpolate     0
+#	Sets            CANTMOVE
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\sweep 3 31
+#	TEnd
+#
+#	Type		huge
+#	  Anim          huge\sweep 3 31
+#	TEnd
+#
+#	Type		fem
+#	  Anim          fem\sweep 3 31
+#	TEnd
+#MEnd
+#
+#Move Sweep_impact
+#	Member		<DeathIRQ>
+#	NextMove        getup_back
+#	Interpolate     0
+#	Sets            CANTMOVE
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\knockback_fierce 26
+#	  PlayFx        FEET\MALEDEATH7.FX
+#	TEnd
+#
+#	Type		huge
+#	  Anim          huge\knockback_fierce 26
+#	  PlayFx        FEET\MALEDEATH6.FX
+#	TEnd
+#
+#	Type		fem
+#	  Anim          fem\knockback_fierce 26
+#	  PlayFx        FEET\MALEDEATH7.FX
+#	TEnd
+#MEnd
+#
+##############################################################
+#
+#Move Sweep_High
+#	Requires	SWEEP HIGH HIT
+#	Priority        3
+#	Interrupts	<HitIRQ> <DeathIRQ>
+#	NextMove        Sweep_impact
+#	Interpolate     0
+#	Sets            CANTMOVE
+#	Flags		NoSizeScale
+#
+#	Type		male
+#	  Anim          male\sweep_flip 2 28
+#	  PlayFx        FEET\MALEDEATH7.FX
+#	TEnd
+#
+#	Type		huge
+#	  Anim          huge\sweep_flip 2 28
+#	  PlayFx        FEET\MALEDEATH5.FX
+#	TEnd
+#
+#	Type		fem
+#	  Anim          fem\sweep_flip 2 28
+#	  PlayFx        FEET\MALEDEATH7.FX
+#	TEnd
+#MEnd
+#
+##############################################################
+### Stun
+##############################################################
+#
+#Move Stun
+#	Requires	STUN HIT
+#	Priority        2
+#	Interrupts	<HitIRQ>
+#	Include sequencers\Members\Reactions.inc
+#	NextMove        Stun_cycle
+#
+#	Type		male
+#	  Anim          male\stun_hit 2 96
+#	TEnd
+#MEnd
+#
+#Move Stun_cycle
+#	Requires	STUN
+#	Include sequencers\Members\Reactions.inc
+#	Flags		Cycle
+#	Scale           0.50
+#
+#	Type		male
+#	  Anim          male\stun_cycle 1 31
+#	TEnd
+#MEnd
+
+#############################################################
+
+SeqEnd

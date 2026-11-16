@@ -1,0 +1,83 @@
+//
+// Uses VAR_META_COSTUME_CATEGORY to determine which meta group head/upper/lower to be in.
+//
+Button
+	Code			CodeCostumeCategory
+	Value			COSTUME_HEAD
+	String			"Head"
+	Var				VAR_HEAD_CATEGORY
+	StringTable
+					"Standard"
+					"Masked_1"
+					"Masked_2"
+					"Masked_3"
+					"Masked_4"
+					"Helmets"
+					"Hoods"
+					"Full_Helmets"
+					"Great_Helms"
+					"Hats"
+					
+	EndStringTable
+End
+	Switch	VAR_HEAD_CATEGORY
+		Case		0			//"Standard"
+			Include	Master\Head_Standard.Mnu
+		Case		1			//"Masked_1"
+			Include	Master\Head_Masked_1.Mnu
+		Case		2			//"Masked_2"
+			Include	Master\Head_Masked_2.Mnu
+		Case		3			//"Masked_3"
+			Include	Master\Head_Masked_3.Mnu
+		Case		4			//"Masked_4"
+			Include	Master\Head_Masked_4.Mnu
+		Case		5			//"Helmets"
+			Include	Master\Head_Helmets.Mnu
+		Case		6			//"Hoods"
+			Include	Master\Head_Hoods.Mnu
+		Case		7			//"Full_Helmets"
+			Include	Master\Head_Full_Helmets.Mnu
+		Case		8			//"Great_Helms"
+			Include	Master\Head_Great_Helms.Mnu
+		Case		9			//"Hats"
+			Include	Master\Head_Hats.Mnu
+	EndSwitch
+
+		
+Button
+	Code			CodeCostumeCategory
+	Value			COSTUME_UPPER_BODY
+	String			"Upper Body"
+	Var				VAR_UPPER_BODY_CATEGORY
+	StringTable
+					"Robe"
+					"Armoured"
+	EndStringTable
+End
+	Switch	VAR_UPPER_BODY_CATEGORY
+		Case		0			//"Robed"
+			Include	MaleMutant\RobedUpper.Mnu
+		Case		1			//"Armoured"
+			Include	MaleMutant\ArmouredUpper.Mnu
+	EndSwitch
+
+
+Button
+	Code			CodeCostumeCategory
+	Value			COSTUME_LOWER_BODY
+	String			"Lower Body"
+	Var				VAR_LOWER_BODY_CATEGORY
+	StringTable
+					"Robe"
+					"Armoured"
+	EndStringTable
+End
+ 
+ 	Switch	VAR_LOWER_BODY_CATEGORY
+		Case		0			//"Robed"
+			Include	MaleMutant\RobedLower.Mnu
+		Case		1			//"Armoured"
+			Include	MaleMutant\ArmouredLower.Mnu
+	EndSwitch
+
+ 

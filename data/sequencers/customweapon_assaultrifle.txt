@@ -1,0 +1,222 @@
+#########################################################
+## CustomWeapon_AssaultRifle.txt
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef AssaultRifle_Base
+	BaseSkeleton	CustomWeapons_AssaultRifles\skel_AssaultRifle01
+	ParentType	None
+TypeDefEnd
+
+TypeDef AssaultRifle_Chaingun01
+	BaseSkeleton	CustomWeapons_AssaultRifles\Chaingun01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Council01
+	BaseSkeleton	CustomWeapons_AssaultRifles\Council01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Council02
+	BaseSkeleton	CustomWeapons_AssaultRifles\Council02_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Malta01
+	BaseSkeleton	CustomWeapons_AssaultRifles\Malta01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Mastermind01
+	BaseSkeleton	CustomWeapons_AssaultRifles\Mastermind01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Mastermind02
+	BaseSkeleton	CustomWeapons_AssaultRifles\Mastermind02_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Mastermind03
+	BaseSkeleton	CustomWeapons_AssaultRifles\Mastermind03_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Military01
+	BaseSkeleton	CustomWeapons_AssaultRifles\Military01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Nemesis01
+	BaseSkeleton	CustomWeapons_AssaultRifles\Nemesis01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Nemesis02
+	BaseSkeleton	CustomWeapons_AssaultRifles\Nemesis02_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Shotgun01
+	BaseSkeleton	CustomWeapons_AssaultRifles\Shotgun01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_TommyGun01
+	BaseSkeleton	CustomWeapons_AssaultRifles\TommyGun01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_VanguardReddingRifle01
+	BaseSkeleton	CustomWeapons_AssaultRifles\VanguardReddingRifle01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Arachnos01
+	BaseSkeleton	CustomWeapons_AssaultRifles\Arachnos01_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Arachnos02
+	BaseSkeleton	CustomWeapons_AssaultRifles\Arachnos02_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_Arachnos03
+	BaseSkeleton	CustomWeapons_AssaultRifles\Arachnos03_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_ResistanceRifle
+	BaseSkeleton	CustomWeapons_AssaultRifles\ResistanceRifle_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_ResistancePowerCannon
+	BaseSkeleton	CustomWeapons_AssaultRifles\ResistancePowerCannon_skelready
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_SteampunkRifle
+	BaseSkeleton	CustomWeapons_AssaultRifles\AssaultRifle_SteampunkRifle
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+TypeDef AssaultRifle_CelestialRifle
+	BaseSkeleton	CustomWeapons_AssaultRifles\AssaultRifle_CelestialRifle
+	ParentType	AssaultRifle_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		AssaultRifle_Base
+	  Anim		CustomWeapons_AssaultRifles\skel_AssaultRifle01 1
+	TEnd
+
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	TWOHAND SPAWNBACK
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Flags		NoDraw
+
+	Type		AssaultRifle_Base
+	  Anim		CustomWeapons_AssaultRifles\skel_AssaultRifle01 1 11
+	TEnd
+
+MEnd
+
+Move Combat_Cycle
+	Requires	TWOHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle
+
+	Type		AssaultRifle_Base
+	  Anim		CustomWeapons_AssaultRifles\skel_AssaultRifle01 1
+	TEnd
+
+	Type		AssaultRifle_Chaingun01
+	  Anim		CustomWeapons_AssaultRifles\Chaingun01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Council01
+	  Anim		CustomWeapons_AssaultRifles\Council01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Council02
+	  Anim		CustomWeapons_AssaultRifles\Council01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Malta01
+	  Anim		CustomWeapons_AssaultRifles\Council01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Mastermind01
+	  Anim		CustomWeapons_AssaultRifles\Mastermind01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Mastermind02
+	  Anim		CustomWeapons_AssaultRifles\Mastermind02_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Mastermind03
+	  Anim		CustomWeapons_AssaultRifles\Mastermind03_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Military01
+	  Anim		CustomWeapons_AssaultRifles\Military01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Nemesis01
+	  Anim		CustomWeapons_AssaultRifles\Nemesis01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Nemesis02
+	  Anim		CustomWeapons_AssaultRifles\Nemesis02_skelready 1
+	TEnd
+
+	Type		AssaultRifle_Shotgun01
+	  Anim		CustomWeapons_AssaultRifles\Shotgun01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_TommyGun01
+	  Anim		CustomWeapons_AssaultRifles\TommyGun01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_VanguardReddingRifle01
+	  Anim		CustomWeapons_AssaultRifles\VanguardReddingRifle01_skelready 1
+	TEnd
+
+	Type		AssaultRifle_SteampunkRifle
+	  Anim		CustomWeapons_AssaultRifles\AssaultRifle_SteampunkRifle 1
+	TEnd
+
+	Type		AssaultRifle_CelestialRifle
+	  Anim		CustomWeapons_AssaultRifles\AssaultRifle_CelestialRifle 1
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

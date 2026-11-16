@@ -1,0 +1,9829 @@
+Name IncarnateTrialTheUnderground
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P1440119047
+//EventVolume EventVolume // ZoneEventName = 50plusUnderground
+
+//Event Reward Structure
+// Stage 1: Defeat trash - No Karma, No Merits
+// Stage 2: Defeat Extinction WW - Karma 10, Astral Merit
+// Stage 3: Defeat SR WW and LI WW - Karma 10, Astral Merit per boss
+// Stage 4: Defeat Avatar - Karma 10, Empyrean Merit (subject to lockout)
+// Total: 3 Karma Stages. 
+//	1 Completed stages: Incarnate Subcomponent
+//	2 Completed stages: Common Component
+//	3 Completed stages: Component Drop Tables
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action
+		{
+			DebugPrint <<This is a 12-24 player event>>
+			SetScriptValue EventSize 12
+		}
+		Action CreatePorters
+		{
+			PorterCreate TPTR-Room5
+			PorterCreate TPTR-StartAct2
+			PorterCreate TPTR-Room10
+			PorterCreate TPTR-Room13
+			PorterCreate TPTR-StartAct3
+			PorterCreate TPTR-Room17
+			PorterCreate TPTR-Room20
+		}
+		Action CreateWaypoints
+		{
+			WaypointCreate WP-Room5 map_enticon_neighborhood P2896291565
+			WaypointCreate WP-StartAct2 map_enticon_neighborhood P2896291565
+			WaypointCreate WP-Room10 map_enticon_neighborhood P2896291565
+			WaypointCreate WP-Room13 map_enticon_neighborhood P2896291565
+			WaypointCreate WP-StartAct3 map_enticon_neighborhood P2896291565
+			WaypointCreate WP-Room17 map_enticon_neighborhood P2896291565
+			WaypointCreate WP-Room20 map_enticon_neighborhood P2896291565
+			WaypointCreate WP-MissionExit map_enticon_neighborhood P3301789151
+			WaypointCreate WP-HospitalExit map_enticon_neighborhood P2099690906
+		}
+		Action CreateDoors
+		{
+			DoorCreate DoorRoom2Exit // Add the following property to the MapSwap: Requires 50plusUnderground.Door.DoorRoom2Exit ZoneEvent>
+			DoorCreate DoorBoss1Entrance
+			DoorCreate DoorBoss1Exit
+			DoorCreate DoorBoss2Entrance
+			DoorCreate DoorBoss2Exit
+			DoorCreate DoorBoss3Entrance
+			DoorCreate Door-Hospital // Add the following property to the MapSwap: Requires 50plusUnderground.Door.Door-Hospital ZoneEvent>
+
+			DoorControl
+			{
+				Door PreludeDoor
+				Type Lock
+			}
+			DoorControl
+			{
+				Door DoorRoom2Exit
+				Type Lock
+			}
+			DoorControl
+			{
+				Door DoorRoom10Exit
+				Type Lock
+			}
+			DoorControl
+			{
+				Door DoorBoss1Entrance
+				Type Lock
+			}
+			DoorControl
+			{
+				Door DoorBoss1Exit
+				Type Lock
+			}
+			DoorControl
+			{
+				Door DoorBoss2Entrance
+				Type Lock
+			}
+			DoorControl
+			{
+				Door DoorBoss2Exit
+				Type Lock
+			}
+			DoorControl
+			{
+				Door DoorBoss3Entrance
+				Type Lock
+			}
+			DoorControl
+			{
+				Door Door-Hospital
+				Type Lock
+			}
+		}
+
+// Create Spawns: WarmthBuff
+		Action
+		{
+			SpawnCreate WarmthBuff
+			{
+				Location WarmthBuff
+				Group WarmthBuff
+				Team WarmthBuff
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WarmthBuff
+			}
+		}
+
+// Create Spawns: Badge Checker
+		Action
+		{
+			SpawnCreate BadgeChecker
+			{
+				Location BadgeChecker
+				Group BadgeChecker
+				Team BadgeChecker
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BadgeChecker
+			}
+		}
+
+// Create Spawns: Teleporter FX
+		Action
+		{
+			SpawnCreate TeleporterFX
+			{
+				Location TeleporterFX
+				Group TeleporterFX
+				Team TeleporterFX
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team TeleporterFX
+			}
+		}
+
+// Create Spawns: Cutscene Managers
+		Action
+		{
+			SpawnCreate Cutscene-Avatar
+			{
+				Location Cutscene-Avatar
+				Group Cutscene-Avatar
+				Team Cutscene-Avatar
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Cutscene-Avatar
+			}
+
+			SpawnCreate Cutscene-Completion
+			{
+				Location Cutscene-Completion
+				Group Cutscene-Completion
+				Team Cutscene-Completion
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Cutscene-Completion
+			}
+		}
+
+// Create Spawns: Caption Managers
+		Action
+		{
+			SpawnCreate CaptionManager-Statesman
+			{
+				Location CaptionManager-Statesman
+				Group CaptionManager-Statesman
+				Team CaptionManager-Statesman
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CaptionManager-Statesman
+			}
+
+			SpawnCreate CaptionManager-Prometheus
+			{
+				Location CaptionManager-Prometheus
+				Group CaptionManager-Prometheus
+				Team CaptionManager-Prometheus
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CaptionManager-Prometheus
+			}
+
+			SpawnCreate CaptionManager-Desdemona
+			{
+				Location CaptionManager-Desdemona
+				Group CaptionManager-Desdemona
+				Team CaptionManager-Desdemona
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CaptionManager-Desdemona
+			}
+
+			SpawnCreate CaptionManager-Vanessa
+			{
+				Location CaptionManager-Vanessa
+				Group CaptionManager-Vanessa
+				Team CaptionManager-Vanessa
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CaptionManager-Vanessa
+			}
+		}
+
+// Create Spawns: Spore Clouds
+		Action
+		{
+			SpawnCreate SporeCloud
+			{
+				Location SporeCloud
+				Group SporeCloud
+				Team SporeCloud
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SporeCloud
+			}
+		}
+
+		Action
+		{
+			SpawnCreate SporeCloud-Avatar
+			{
+				Location SporeCloud-Avatar
+				Group SporeCloud-Avatar
+				Team SporeCloud-Avatar
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SporeCloud-Avatar
+			}
+		}
+
+// Create Glowies: Lichen
+		Action CreateGlowies
+		{
+			GlowieCreate Lichen
+			{
+				DisplayName P1912002571
+				BarText P1812554298
+				Complete P4285086149
+				InteractTime 5
+				Location Lichen
+				Model DE_SporePod
+				Quantity 26
+				ResetDelay 360
+				VanishOnComplete
+				Reward Underground_Lichen
+			}
+			GlowieCreate LichenDet
+			{
+				DisplayName P1912002571				
+				BarText P1812554298
+				Complete P4285086149
+				InteractTime 5
+				Location LichenDet
+				Model DE_SporePod
+				Quantity 13
+				ResetDelay 120
+				VanishOnComplete
+				Reward Underground_Lichen
+			}
+			GlowieControl LichenPlace
+			{
+				Glowie Lichen
+				Type Place
+			}
+			GlowieControl LichenDetPlace
+			{
+				Glowie LichenDet
+				Type Place
+			}
+			GlowieControl LichenActivate
+			{
+				Glowie Lichen
+				Type Activate
+			}
+			GlowieControl LichenDetActivate
+			{
+				Glowie LichenDet
+				Type Activate
+			}
+		}
+
+//Create crystal trap watcher for the Room 2 event.		
+		Action CreateIDFTrapWatchers
+		{	
+			SpawnCreate DesdemonaWatcher2A
+			{
+				Location DesdemonaWatcher2A
+				Group DesdemonaWatcher2A
+				Team DesdemonaWatcher2A
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team DesdemonaWatcher2A
+			}
+			SpawnCreate DesdemonaWatcher2B
+			{
+				Location DesdemonaWatcher2B
+				Group DesdemonaWatcher2B
+				Team DesdemonaWatcher2B
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team DesdemonaWatcher2B
+			}
+		}
+
+//Create crystal trap watcher for the Room 10 event.		
+		Action CreateCrystalTrapWatcher
+		{	
+			SpawnCreate DesdemonaWatcher-10
+			{
+				Location DesdemonaWatcher-10
+				Group DesdemonaWatcher-10
+				Team DesdemonaWatcher-10
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team DesdemonaWatcher-10
+			}
+			SpawnCreate DesdemonaWatcher
+			{
+				Location DesdemonaWatcher
+				Group DesdemonaWatcher
+				Team DesdemonaWatcher
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team DesdemonaWatcher
+			}
+		}
+
+//Create crystal trap teams for the Room 10 event.		
+		Action CreateCrystalTrapPower
+		{	
+			SpawnCreate CrystalTrap-Power
+			{
+				Location CrystalTrap-Power
+				Group CrystalTrap-Power
+				Team CrystalTrap-Power
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CrystalTrap-Power
+			}
+		}
+		Action CreateCrystalTrapA
+		{	
+			SpawnCreate CrystalTrapA
+			{
+				Location CrystalTrapA
+				Group CrystalTrapA
+				Team CrystalTrapA
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CrystalTrapA
+			}
+		}
+		Action CreateCrystalTrapB
+		{	
+			SpawnCreate CrystalTrapB
+			{
+				Location CrystalTrapB
+				Group CrystalTrapB
+				Team CrystalTrapB
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CrystalTrapB
+			}
+		}
+		Action CreateCrystalTrapC
+		{	
+			SpawnCreate CrystalTrapC
+			{
+				Location CrystalTrapC
+				Group CrystalTrapC
+				Team CrystalTrapC
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CrystalTrapC
+			}
+		}
+		Action CreateCrystalTrapD
+		{	
+			SpawnCreate CrystalTrapD
+			{
+				Location CrystalTrapD
+				Group CrystalTrapD
+				Team CrystalTrapD
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CrystalTrapD
+			}
+		}
+
+//Create crystal guards.
+		Action CreateCrystalGuardsA
+		{	
+			SpawnCreate CrystalGuardsA
+			{
+				Location CrystalGuardsA
+				Group CrystalGuardsA
+				Team CrystalGuardsA
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CrystalGuardsA
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	16,	1,	4
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	6
+				Count	20,	1,	6
+				Count	21,	1,	7
+				Count	22,	1,	7
+				Count	23,	1,	8
+				Count	24,	1,	8
+			}
+		}
+		Action CreateCrystalGuardsB
+		{	
+			SpawnCreate CrystalGuardsB
+			{
+				Location CrystalGuardsB
+				Group CrystalGuardsB
+				Team CrystalGuardsB
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CrystalGuardsB
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	16,	1,	4
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	6
+				Count	20,	1,	6
+				Count	21,	1,	7
+				Count	22,	1,	7
+				Count	23,	1,	8
+				Count	24,	1,	8
+			}
+		}
+		Action CreateCrystalGuardsC
+		{	
+			SpawnCreate CrystalGuardsC
+			{
+				Location CrystalGuardsC
+				Group CrystalGuardsC
+				Team CrystalGuardsC
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CrystalGuardsC
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	16,	1,	4
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	6
+				Count	20,	1,	6
+				Count	21,	1,	7
+				Count	22,	1,	7
+				Count	23,	1,	8
+				Count	24,	1,	8
+			}
+		}
+		Action CreateCrystalGuardsD
+		{	
+			SpawnCreate CrystalGuardsD
+			{
+				Location CrystalGuardsD
+				Group CrystalGuardsD
+				Team CrystalGuardsD
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CrystalGuardsD
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	16,	1,	4
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	6
+				Count	20,	1,	6
+				Count	21,	1,	7
+				Count	22,	1,	7
+				Count	23,	1,	8
+				Count	24,	1,	8
+			}
+		}
+
+//Create final room bomb spawn.		
+		Action CreateFinalBomb
+		{	
+			SpawnCreate AvatarMegaBomb
+			{
+				Location AvatarMegaBomb
+				Group AvatarMegaBomb
+				Team AvatarMegaBomb
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team AvatarMegaBomb
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+		}
+
+//Create prelude teams.
+		Action CreatePreludeTeams
+		{
+			SpawnCreate GenRoom1
+			{
+				Group GenRoom1
+				Location GenRoom1
+				Team GenRoom1
+			}
+			TeamCreate GenRoom1
+			{
+				Team GenRoom1
+				MinRespawnTime 90000
+				Count	1,	1,	24
+				Count	16,	1,	24
+				Count	17,	1,	24
+				Count	18,	1,	30
+				Count	19,	1,	30
+				Count	20,	1,	30
+				Count	21,	1,	36
+				Count	22,	1,	36
+				Count	23,	1,	36
+				Count	24,	1,	42
+			}
+		}
+		Action CreateAct1Teams
+		{
+			SpawnCreate Room2-AttackA
+			{
+				SpawnBehavior <<MoveToPos(marker:DefendDesdemonaA),Combat>>
+				Group Room2-AttackA
+				Location Room2-AttackA
+				Team Room2-AttackA
+			}
+			TeamCreate Room2-AttackA
+			{
+				Team Room2-AttackA
+				MinRespawnTime 90000
+				Count	1,	10,	10
+				Count	16,	10,	10
+				Count	17,	10,	10
+				Count	18,	12,	12
+				Count	19,	12,	12
+				Count	20,	14,	14
+				Count	21,	14,	14
+				Count	22,	16,	16
+				Count	23,	16,	16
+				Count	24,	18,	18
+			}
+			
+			SpawnCreate Room2-AttackB
+			{
+				SpawnBehavior <<MoveToPos(marker:DefendDesdemonaB),Combat>>
+				Group Room2-AttackB
+				Location Room2-AttackB
+				Team Room2-AttackB
+			}
+			TeamCreate Room2-AttackB
+			{
+				Team Room2-AttackB
+				MinRespawnTime 90000
+				Count	1,	10,	10
+				Count	16,	10,	10
+				Count	17,	10,	10
+				Count	18,	12,	12
+				Count	19,	12,	12
+				Count	20,	14,	14
+				Count	21,	14,	14
+				Count	22,	16,	16
+				Count	23,	16,	16
+				Count	24,	18,	18
+			}
+			
+			SpawnCreate GenRoom3-1
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group GenRoom3-1
+				Location GenRoom3-1
+				Team GenRoom3-1
+			}
+			TeamCreate GenRoom3-1
+			{
+				Team GenRoom3-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom3-2
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group GenRoom3-2
+				Location GenRoom3-2
+				Team GenRoom3-2
+			}
+			TeamCreate GenRoom3-2
+			{
+				Team GenRoom3-2
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom4-1
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom4-1Target
+				Group GenRoom4-1
+				Location GenRoom4-1
+				Team GenRoom4-1
+			}
+			TeamCreate GenRoom4-1
+			{
+				Team GenRoom4-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom4-2
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group GenRoom4-2
+				Location GenRoom4-2
+				Team GenRoom4-2
+			}
+			TeamCreate GenRoom4-2
+			{
+				Team GenRoom4-2
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom4-3
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom4-3Target
+				Group GenRoom4-3
+				Location GenRoom4-3
+				Team GenRoom4-3
+			}
+			TeamCreate GenRoom4-3
+			{
+				Team GenRoom4-3
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom4-4
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom4-4Target
+				Group GenRoom4-4
+				Location GenRoom4-4
+				Team GenRoom4-4
+			}
+			TeamCreate GenRoom4-4
+			{
+				Team GenRoom4-4
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom4-5
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom4-5Target
+				Group GenRoom4-5
+				Location GenRoom4-5
+				Team GenRoom4-5
+			}
+			TeamCreate GenRoom4-5
+			{
+				Team GenRoom4-5
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom4-6
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom4-6Target
+				Group GenRoom4-6
+				Location GenRoom4-6
+				Team GenRoom4-6
+			}
+			TeamCreate GenRoom4-6
+			{
+				Team GenRoom4-6
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom4-7
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom4-7Target
+				Group GenRoom4-7
+				Location GenRoom4-7
+				Team GenRoom4-7
+			}
+			TeamCreate GenRoom4-7
+			{
+				Team GenRoom4-7
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom4-8
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom4-8Target
+				Group GenRoom4-8
+				Location GenRoom4-8
+				Team GenRoom4-8
+			}
+			TeamCreate GenRoom4-8
+			{
+				Team GenRoom4-8
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom4-9
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group GenRoom4-9
+				Location GenRoom4-9
+				Team GenRoom4-9
+			}
+			TeamCreate GenRoom4-9
+			{
+				Team GenRoom4-9
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate StaticRoom5
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group StaticRoom5
+				Location StaticRoom5
+				Team StaticRoom5
+			}
+			TeamCreate StaticRoom5
+			{
+				Team StaticRoom5
+				MinRespawnTime 90000
+				Count	1,	1,	40
+				Count	16,	1,	40
+				Count	17,	1,	45
+				Count	18,	1,	45
+				Count	19,	1,	50
+				Count	20,	1,	50
+				Count	21,	1,	55
+				Count	22,	1,	55
+				Count	23,	1,	60
+				Count	24,	1,	60
+			}
+			SpawnCreate GenRoom6-1
+			{
+				Group GenRoom6-1
+				Location GenRoom6-1
+				Team GenRoom6-1
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate GenRoom6-1
+			{
+				Team GenRoom6-1
+				MinRespawnTime 20		
+				MaxRespawnTime 40
+				Creator ExtinctionBoss
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom6-2
+			{
+				Group GenRoom6-2
+				Location GenRoom6-2
+				Team GenRoom6-2
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate GenRoom6-2
+			{
+				Team GenRoom6-2
+				MinRespawnTime 20		
+				MaxRespawnTime 40
+				Creator ExtinctionBoss
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate ExtinctionBoss
+			{
+				SpawnBehavior <<Loop("DoNothing(Timer(Rand(10,20))),WanderAround(Radius(40),Timer(Rand(5,10)))")>>
+				KillBehavior <<DestroyMe>>
+				Group ExtinctionBoss
+				Location ExtinctionBoss
+				Team ExtinctionBoss
+			}
+			TeamCreate ExtinctionBoss
+			{
+				Team ExtinctionBoss
+			}
+		}
+		Action CreateAct2Spawns
+		{
+			SpawnCreate GenRoom7-1
+			{
+				SpawnBehavior <<UseEnterable, RunOutOfDoor, MoveToPos(marker:GenRoom7-1Target, Radius(20))>>
+				Group GenRoom7-1
+				Location GenRoom7-1
+				Team GenRoom7-1
+			}
+			TeamCreate GenRoom7-1
+			{
+				Team GenRoom7-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom7-2
+			{
+				SpawnBehavior <<UseEnterable, RunOutOfDoor, MoveToPos(marker:GenRoom7-2Target, Radius(20))>>
+				MoveToMarker GenRoom7-2Target
+				Group GenRoom7-2
+				Location GenRoom7-2
+				Team GenRoom7-2
+			}
+			TeamCreate GenRoom7-2
+			{
+				Team GenRoom7-2
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom7-3
+			{
+				SpawnBehavior <<UseEnterable, RunOutOfDoor, MoveToPos(marker:GenRoom7-3Target, Radius(20))>>
+				MoveToMarker GenRoom7-3Target
+				Group GenRoom7-3
+				Location GenRoom7-3
+				Team GenRoom7-3
+			}
+			TeamCreate GenRoom7-3
+			{
+				Team GenRoom7-3
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom8-1
+			{
+				SpawnBehavior <<UseEnterable, RunOutOfDoor, MoveToPos(marker:GenRoom8-1Target, Radius(20))>>
+				MoveToMarker GenRoom8-1Target
+				Group GenRoom8-1
+				Location GenRoom8-1
+				Team GenRoom8-1
+			}
+			TeamCreate GenRoom8-1
+			{
+				Team GenRoom8-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom8-2
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group GenRoom8-2
+				Location GenRoom8-2
+				Team GenRoom8-2
+			}
+			TeamCreate GenRoom8-2
+			{
+				Team GenRoom8-2
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom8-3
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group GenRoom8-3
+				Location GenRoom8-3
+				Team GenRoom8-3
+			}
+			TeamCreate GenRoom8-3
+			{
+				Team GenRoom8-3
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom8-4
+			{
+				SpawnBehavior <<UseEnterable, RunOutOfDoor, MoveToPos(marker:GenRoom8-4Target, Radius(20))>>
+				MoveToMarker GenRoom8-4Target
+				Group GenRoom8-4
+				Location GenRoom8-4
+				Team GenRoom8-4
+			}
+			TeamCreate GenRoom8-4
+			{
+				Team GenRoom8-4
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom8-5
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom8-5Target
+				Group GenRoom8-5
+				Location GenRoom8-5
+				Team GenRoom8-5
+			}
+			TeamCreate GenRoom8-5
+			{
+				Team GenRoom8-5
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom8-6
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom8-6Target
+				Group GenRoom8-6
+				Location GenRoom8-6
+				Team GenRoom8-6
+			}
+			TeamCreate GenRoom8-6
+			{
+				Team GenRoom8-6
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom9-1
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom9-1Target
+				Group GenRoom9-1
+				Location GenRoom9-1
+				Team GenRoom9-1
+			}
+			TeamCreate GenRoom9-1
+			{
+				Team GenRoom9-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom9-2
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom9-2Target
+				Group GenRoom9-2
+				Location GenRoom9-2
+				Team GenRoom9-2
+			}
+			TeamCreate GenRoom9-2
+			{
+				Team GenRoom9-2
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom9-3
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group GenRoom9-3
+				Location GenRoom9-3
+				Team GenRoom9-3
+			}
+			TeamCreate GenRoom9-3
+			{
+				Team GenRoom9-3
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate StaticRoom10-1
+			{
+				SpawnBehavior <<UseEnterable, OverridePerceptionRadius(200), Patrol(NamedRoute("Route10-1"))>>
+				Group StaticRoom10-1
+				Location StaticRoom10-1
+				Team StaticRoom10-1
+			}
+			TeamCreate StaticRoom10-1
+			{
+				Team StaticRoom10-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate StaticRoom10-2
+			{
+				SpawnBehavior <<UseEnterable, OverridePerceptionRadius(200), Patrol(NamedRoute("Route10-2"))>>
+				Group StaticRoom10-2
+				Location StaticRoom10-2
+				Team StaticRoom10-2
+			}
+			TeamCreate StaticRoom10-2
+			{
+				Team StaticRoom10-2
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate StaticRoom10-3
+			{
+				SpawnBehavior <<UseEnterable, OverridePerceptionRadius(200), Patrol(NamedRoute("Route10-3"))>>
+				Group StaticRoom10-3
+				Location StaticRoom10-3
+				Team StaticRoom10-3
+			}
+			TeamCreate StaticRoom10-3
+			{
+				Team StaticRoom10-3
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom10-1
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom10-1Target
+				Group GenRoom10-1
+				Location GenRoom10-1
+				Team GenRoom10-1
+			}
+			TeamCreate GenRoom10-1
+			{
+				Team GenRoom10-1
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom10-2
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom10-2Target
+				Group GenRoom10-2
+				Location GenRoom10-2
+				Team GenRoom10-2
+			}
+			TeamCreate GenRoom10-2
+			{
+				Team GenRoom10-2
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate StaticRoom11
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group StaticRoom11
+				Location StaticRoom11
+				Team StaticRoom11
+			}
+			TeamCreate StaticRoom11
+			{
+				Team StaticRoom11
+				MinRespawnTime 90000
+				Count	1,	1,	56
+				Count	16,	1,	56
+				Count	17,	1,	63
+				Count	18,	1,	63
+				Count	19,	1,	70
+				Count	20,	1,	70
+				Count	21,	1,	77
+				Count	22,	1,	77
+				Count	23,	1,	84
+				Count	24,	1,	84
+			}
+			SpawnCreate GenRoom11-1
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom11-1Target
+				Group GenRoom11-1
+				Location GenRoom11-1
+				Team GenRoom11-1
+			}
+			TeamCreate GenRoom11-1
+			{
+				Team GenRoom11-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom11-2
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom11-2Target
+				Group GenRoom11-2
+				Location GenRoom11-2
+				Team GenRoom11-2
+			}
+			TeamCreate GenRoom11-2
+			{
+				Team GenRoom11-2
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom12-1
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom12-1Target
+				Group GenRoom12-1
+				Location GenRoom12-1
+				Team GenRoom12-1
+			}
+			TeamCreate GenRoom12-1
+			{
+				Team GenRoom12-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom12-2
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom12-2Target
+				Group GenRoom12-2
+				Location GenRoom12-2
+				Team GenRoom12-2
+			}
+			TeamCreate GenRoom12-2
+			{
+				Team GenRoom12-2
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom12-3
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom12-3Target
+				Group GenRoom12-3
+				Location GenRoom12-3
+				Team GenRoom12-3
+			}
+			TeamCreate GenRoom12-3
+			{
+				Team GenRoom12-3
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom12-4
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom12-4Target
+				Group GenRoom12-4
+				Location GenRoom12-4
+				Team GenRoom12-4
+			}
+			TeamCreate GenRoom12-4
+			{
+				Team GenRoom12-4
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate StaticRoom13
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group StaticRoom13
+				Location StaticRoom13
+				Team StaticRoom13
+			}
+			TeamCreate StaticRoom13
+			{
+				Team StaticRoom13
+				MinRespawnTime 90000
+				Count	1,	1,	40
+				Count	16,	1,	40
+				Count	17,	1,	45
+				Count	18,	1,	45
+				Count	19,	1,	50
+				Count	20,	1,	50
+				Count	21,	1,	55
+				Count	22,	1,	55
+				Count	23,	1,	60
+				Count	24,	1,	60
+			}
+			SpawnCreate GenRoom14-1
+			{
+				Group GenRoom14-1
+				Location GenRoom14-1
+				Team GenRoom14-1
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate GenRoom14-1
+			{
+				Team GenRoom14-1
+				MinRespawnTime 20
+				MaxRespawnTime 40
+				Creator SelfRepairBoss
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom14-2
+			{
+				Group GenRoom14-2
+				Location GenRoom14-2
+				Team GenRoom14-2
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate GenRoom14-2
+			{
+				Team GenRoom14-2
+				MinRespawnTime 20
+				MaxRespawnTime 40
+				Creator LichenBoss
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate SelfRepairBoss
+			{
+				SpawnBehavior <<Loop("DoNothing(Timer(Rand(10,20))),WanderAround(Radius(40),Timer(Rand(5,10)))")>>
+				KillBehavior <<DestroyMe>>
+				Group SelfRepairBoss
+				Location SelfRepairBoss
+				Team SelfRepairBoss
+			}
+			TeamCreate SelfRepairBoss
+			{
+				Team SelfRepairBoss
+			}
+			SpawnCreate LichenBoss
+			{
+				SpawnBehavior <<Loop("DoNothing(Timer(Rand(10,20))),WanderAround(Radius(40),Timer(Rand(5,10)))")>>
+				KillBehavior <<DestroyMe>>
+				Group LichenBoss
+				Location LichenBoss
+				Team LichenBoss
+			}
+			TeamCreate LichenBoss
+			{
+				Team LichenBoss
+			}
+			SpawnCreate LichenDest-01
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_01
+				Location LichenDet_01
+				Team LichenDest-01
+			}
+			TeamCreate LichenDest-01
+			{
+				Team LichenDest-01
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-02
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_02
+				Location LichenDet_02
+				Team LichenDest-02
+			}
+			TeamCreate LichenDest-02
+			{
+				Team LichenDest-02
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-03
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_03
+				Location LichenDet_03
+				Team LichenDest-03
+			}
+			TeamCreate LichenDest-03
+			{
+				Team LichenDest-03
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-04
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_04
+				Location LichenDet_04
+				Team LichenDest-04
+			}
+			TeamCreate LichenDest-04
+			{
+				Team LichenDest-04
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-05
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_05
+				Location LichenDet_05
+				Team LichenDest-05
+			}
+			TeamCreate LichenDest-05
+			{
+				Team LichenDest-05
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-06
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_06
+				Location LichenDet_06
+				Team LichenDest-06
+			}
+			TeamCreate LichenDest-06
+			{
+				Team LichenDest-06
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-07
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_07
+				Location LichenDet_07
+				Team LichenDest-07
+			}
+			TeamCreate LichenDest-07
+			{
+				Team LichenDest-07
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-08
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_08
+				Location LichenDet_08
+				Team LichenDest-08
+			}
+			TeamCreate LichenDest-08
+			{
+				Team LichenDest-08
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-09
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_09
+				Location LichenDet_09
+				Team LichenDest-09
+			}
+			TeamCreate LichenDest-09
+			{
+				Team LichenDest-09
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-10
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_10
+				Location LichenDet_10
+				Team LichenDest-10
+			}
+			TeamCreate LichenDest-10
+			{
+				Team LichenDest-10
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-11
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_11
+				Location LichenDet_11
+				Team LichenDest-11
+			}
+			TeamCreate LichenDest-11
+			{
+				Team LichenDest-11
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-12
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_12
+				Location LichenDet_12
+				Team LichenDest-12
+			}
+			TeamCreate LichenDest-12
+			{
+				Team LichenDest-12
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+			SpawnCreate LichenDest-13
+			{
+				KillBehavior <<DestroyMe>>
+				Group LichenDet_13
+				Location LichenDet_13
+				Team LichenDest-13
+			}
+			TeamCreate LichenDest-13
+			{
+				Team LichenDest-13
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+		}
+		Action CreateAct3Spawns
+		{
+			SpawnCreate StaticRoom15
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group StaticRoom15
+				Location StaticRoom15
+				Team StaticRoom15
+			}
+			TeamCreate StaticRoom15
+			{
+				Team StaticRoom15
+				MinRespawnTime 90000
+				Count	1,	1,	40
+				Count	16,	1,	40
+				Count	17,	1,	45
+				Count	18,	1,	45
+				Count	19,	1,	50
+				Count	20,	1,	50
+				Count	21,	1,	55
+				Count	22,	1,	55
+				Count	23,	1,	60
+				Count	24,	1,	60
+			}
+			SpawnCreate StaticRoom16-1
+			{
+				SpawnBehavior <<UseEnterable, Patrol(NamedRoute("Route16-1"))>>
+				Group StaticRoom16-1
+				Location StaticRoom16-1
+				Team StaticRoom16-1
+			}
+			TeamCreate StaticRoom16-1
+			{
+				Team StaticRoom16-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate StaticRoom16-2
+			{
+				SpawnBehavior <<UseEnterable, Patrol(NamedRoute("Route16-2"))>>
+				Group StaticRoom16-2
+				Location StaticRoom16-2
+				Team StaticRoom16-2
+			}
+			TeamCreate StaticRoom16-2
+			{
+				Team StaticRoom16-2
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom17-1
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom17-1Target
+				Group GenRoom17-1
+				Location GenRoom17-1
+				Team GenRoom17-1
+			}
+			TeamCreate GenRoom17-1
+			{
+				Team GenRoom17-1
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom17-2
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom17-2Target
+				Group GenRoom17-2
+				Location GenRoom17-2
+				Team GenRoom17-2
+			}
+			TeamCreate GenRoom17-2
+			{
+				Team GenRoom17-2
+				MinRespawnTime 300
+				MaxRespawnTime 360
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom17-3
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom17-3Target
+				Group GenRoom17-3
+				Location GenRoom17-3
+				Team GenRoom17-3
+			}
+			TeamCreate GenRoom17-3
+			{
+				Team GenRoom17-3
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom18-1
+			{
+				SpawnBehavior <<UseEnterable, Patrol(NamedRoute("Route18-1"))>>
+				Group GenRoom18-1
+				Location GenRoom18-1
+				Team GenRoom18-1
+			}
+			TeamCreate GenRoom18-1
+			{
+				Team GenRoom18-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom18-2
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom18-2Target
+				Group GenRoom18-2
+				Location GenRoom18-2
+				Team GenRoom18-2
+			}
+			TeamCreate GenRoom18-2
+			{
+				Team GenRoom18-2
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom18-3
+			{
+				SpawnBehavior <<UseEnterable, Patrol(NamedRoute("Route18-3"))>>
+				Group GenRoom18-3
+				Location GenRoom18-3
+				Team GenRoom18-3
+			}
+			TeamCreate GenRoom18-3
+			{
+				Team GenRoom18-3
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom18-4
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom18-4Target
+				Group GenRoom18-4
+				Location GenRoom18-4
+				Team GenRoom18-4
+			}
+			TeamCreate GenRoom18-4
+			{
+				Team GenRoom18-4
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom18-5
+			{
+				SpawnBehavior <<UseEnterable, Patrol(NamedRoute("Route18-5"))>>
+				Group GenRoom18-5
+				Location GenRoom18-5
+				Team GenRoom18-5
+			}
+			TeamCreate GenRoom18-5
+			{
+				Team GenRoom18-5
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom18-6
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom18-6Target
+				Group GenRoom18-6
+				Location GenRoom18-6
+				Team GenRoom18-6
+			}
+			TeamCreate GenRoom18-6
+			{
+				Team GenRoom18-6
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom18-7
+			{
+				SpawnBehavior <<UseEnterable, Patrol(NamedRoute("Route18-7"))>>
+				Group GenRoom18-7
+				Location GenRoom18-7
+				Team GenRoom18-7
+			}
+			TeamCreate GenRoom18-7
+			{
+				Team GenRoom18-7
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom18-8
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom18-8Target
+				Group GenRoom18-8
+				Location GenRoom18-8
+				Team GenRoom18-8
+			}
+			TeamCreate GenRoom18-8
+			{
+				Team GenRoom18-8
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate GenRoom19-1
+			{
+				SpawnBehavior <<UseEnterable, Patrol(NamedRoute("Route19-1"))>>
+				Group GenRoom19-1
+				Location GenRoom19-1
+				Team GenRoom19-1
+			}
+			TeamCreate GenRoom19-1
+			{
+				Team GenRoom19-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate StaticRoom19
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group StaticRoom19
+				Location StaticRoom19
+				Team StaticRoom19
+			}
+			TeamCreate StaticRoom19
+			{
+				Team StaticRoom19
+				MinRespawnTime 90000
+				Count	1,	1,	56
+				Count	16,	1,	56
+				Count	17,	1,	63
+				Count	18,	1,	63
+				Count	19,	1,	70
+				Count	20,	1,	70
+				Count	21,	1,	77
+				Count	22,	1,	77
+				Count	23,	1,	84
+				Count	24,	1,	84
+			}
+			SpawnCreate StaticRoom20
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group StaticRoom20
+				Location StaticRoom20
+				Team StaticRoom20
+			}
+			TeamCreate StaticRoom20
+			{
+				Team StaticRoom20
+				MinRespawnTime 90000
+				Count	1,	1,	16
+				Count	16,	1,	16
+				Count	17,	1,	18
+				Count	18,	1,	18
+				Count	19,	1,	20
+				Count	20,	1,	20
+				Count	21,	1,	22
+				Count	22,	1,	22
+				Count	23,	1,	24
+				Count	24,	1,	24
+			}
+			SpawnCreate GenRoom20-1
+			{
+				SpawnBehavior <<UseEnterable>>
+				MoveToMarker GenRoom20-1Target
+				Group GenRoom20-1
+				Location GenRoom20-1
+				Team GenRoom20-1
+			}
+			TeamCreate GenRoom20-1
+			{
+				Team GenRoom20-1
+				MinRespawnTime 90000
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate StaticRoom21
+			{
+				SpawnBehavior <<UseEnterable>>
+				Group StaticRoom21
+				Location StaticRoom21
+				Team StaticRoom21
+			}
+			TeamCreate StaticRoom21
+			{
+				Team StaticRoom21
+				MinRespawnTime 90000
+				Count	1,	1,	24
+				Count	16,	1,	24
+				Count	17,	1,	27
+				Count	18,	1,	27
+				Count	19,	1,	30
+				Count	20,	1,	30
+				Count	21,	1,	33
+				Count	22,	1,	33
+				Count	23,	1,	36
+				Count	24,	1,	36
+			}
+			SpawnCreate GenRoom21-1
+			{
+				Group GenRoom21-1
+				Location GenRoom21-1
+				Team GenRoom21-1
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate GenRoom21-1
+			{
+				Team GenRoom21-1
+				MinRespawnTime 20
+				MaxRespawnTime 45
+				Creator AvatarBoss
+				Count	1,	1,	8
+				Count	16,	1,	8
+				Count	17,	1,	9
+				Count	18,	1,	9
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	11
+				Count	22,	1,	11
+				Count	23,	1,	12
+				Count	24,	1,	12
+			}
+			SpawnCreate Bombs
+			{
+				Group Bombs
+				Location Bombs
+				Team Bombs
+			}
+			TeamCreate Bombs
+			{
+				Team Bombs
+			}
+			SpawnCreate BombsDE
+			{
+				Group BombsDE
+				Location BombsDE
+				Team BombsDE
+			}
+			TeamCreate BombsDE
+			{
+				Team BombsDE
+			}
+			SpawnCreate AvatarBoss
+			{
+				SpawnBehavior <<Loop("DoNothing(Timer(Rand(10,20))),WanderAround(Radius(40),Timer(Rand(5,10)))")>>
+				Group AvatarBoss
+				Location AvatarBoss
+				Team AvatarBoss
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate AvatarBoss
+			{
+				Team AvatarBoss
+			}
+			SpawnCreate Desdemona
+			{
+				Group Desdemona
+				Location Desdemona
+				Team Desdemona
+				SpawnBehavior <<BoostSpeed(2),Combat>>
+			}
+			TeamCreate Desdemona
+			{
+				Team Desdemona
+				Creator each:player
+			}
+			SpawnCreate Vanessa
+			{
+				Group Vanessa
+				Location Vanessa
+				Team Vanessa
+			}
+			TeamCreate Vanessa
+			{
+				Team Vanessa
+			}
+		}
+//Activate Caption Managers
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team CaptionManager-Statesman
+			}
+			TeamControl
+			{
+				Type Activate
+				Team CaptionManager-Prometheus
+			}
+			TeamControl
+			{
+				Type Activate
+				Team CaptionManager-Desdemona
+			}
+			TeamControl
+			{
+				Type Activate
+				Team CaptionManager-Vanessa
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage Prelude
+	}
+}
+
+Stage Prelude
+//This stage only exists to give us time before we track Karma
+{
+	DisplayName P4116941047
+	ToolTip P1035118780
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:00
+	}
+	
+	Trigger HospitalDoor-Unlock-Recovery
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1533101862
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//End Hospital Door Block	
+	
+	StartUp
+	{
+		Action DebugNote
+		{
+			DebugPrint <<Starting Stage Prelude - Karma Off>>
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+		}
+		Action TurnOnSpawns
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Vanessa
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom1
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaHealth-BelowFifty 0
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage1 0
+		}
+		Action
+		{
+			SetScriptValue TeleporterLocation 0
+		}
+		Action
+		{
+			SetScriptValue WarmthBuffSpawned 0
+		}
+	}
+
+	Counter PreludeIDF
+	{
+		Type VillainGroup
+		Count 1
+		Villaingroup PraetorianIDFEndgame
+	}
+
+	Counter PreludeWarworks
+	{
+		Type VillainGroup
+		Count 1
+		Villaingroup PraetorianWarworksEndgame
+	}
+
+//Start Warmth Spawn Block
+
+	Trigger WarmthBuffActivation
+	{
+		Requires eventLockedByGroup? ! WarmthBuffSpawned scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Warmth of Prometheus Granted>>
+			SetScriptValue WarmthBuffSpawned 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team WarmthBuff
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1172875117
+				Color FF9900
+			}
+		}
+	}
+
+	Trigger WarmthBuffBlocked
+	{
+		Requires eventLockedByGroup? WarmthBuffSpawned scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Warmth of Prometheus Disabled>>
+			SetScriptValue WarmthBuffSpawned 1
+		}
+	}
+
+//End Warmth Spawn Block
+
+	Trigger EndPrelude
+	{
+		Requires PreludeIDF complete> PreludeWarworks complete> ||
+		Action
+		{
+			DebugPrint <<Ending Stage Prelude, Next is Act1>>
+		}
+		NextStage Act1
+	}
+	UICollection UIPrelude
+	{
+		UIItem
+		{
+			Text P3875133305
+			Type Text
+		}
+	}
+
+
+	Timer Captions-Start-Stage1-Timer
+	{
+		Duration 00:05
+	}
+	Timer Message01_Delay
+	{
+		Duration 0:10
+	}
+
+	Trigger Captions-Start-Stage1
+	{
+		Requires Captions-Start-Stage1-Timer complete> Captions-Started-Stage1 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage1 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Statesman
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth99")>>
+			}
+		}
+	}
+
+	Trigger Message01_Send
+	{
+		Requires Message01_Delay complete>
+		Action
+		{
+			Floater FailsafeEnd
+			{
+				Message P1358130203
+				Color ff9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater FailsafeEnd
+			{
+				Message P3527734818
+				Color ff9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Shutdown
+	{
+		Action
+		{
+			DebugPrint <<Prelude Completed>>
+		}
+	}
+}
+
+Stage Act1
+{
+	DisplayName P4116941047
+	ToolTip P471696026
+
+	AwardKarma
+	KarmaThreshold 1
+	
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+	
+	StartUp
+	{
+		Action DebugNote
+		{
+			DebugPrint <<Starting Stage Act1>>
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom5 0
+		}
+		Action
+		{
+			SetScriptValue NotificationRoom5 0
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage1 0
+		}
+		Action
+		{
+			SetScriptValue ExtinctionBossEngaged 0
+		}
+		Action TurnOnSpawns
+		{	
+			TeamControl
+			{
+				Team GenRoom3-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom3-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom4-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom4-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom4-3
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom4-4
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom4-5
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom4-6
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom4-7
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom4-8
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom4-9
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom5
+				Type Activate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher2A
+				Type Activate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher2B
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue Room1-Unlocked 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackStarted 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-ShowFirstTimer 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-ShowWaveTimer 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-FirstWaves 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-TotalWaves 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-ShowFirstTimer 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-ShowWaveTimer 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-FirstWaves 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-TotalWaves 0
+		}
+		Action
+		{
+			SetScriptValue NotificationRoom3 0
+		}
+		Action
+		{
+			SetScriptValue LocationA-Finished 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-Triggered 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaIntangible 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaShieldActive 0
+		}
+		Action
+		{
+			SetScriptValue DesdemonaCollapsed 0
+		}
+		Action
+		{
+			SetScriptValue AvatarCorruptionActive 0
+		}
+		Action
+		{
+			Delay 2
+			Reset DesdemonaHealth
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_03Low_a_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+	}
+
+//Award Karma for defeating a member of the IDF.
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianIDFEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award Karma for defeating a member of the WarWorks.
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianWarworksEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award bonus Karma for defeating the Extinction War Walker.
+	Objective
+	{
+		Type Named
+		Name PraetorianWarworksEndgame_Extinction_War_Walker
+		KarmaValue 20
+		KarmaLife 20
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+
+//This is used to track the death of the first Watcher in room 2, starting the event.
+	Counter Room2-WatcherA-Defeated
+	{
+		Count 1
+		Direction Up
+		Team DesdemonaWatcher2A
+		Type Team
+	}
+
+//This is used to track the death of the second Watcher in room 2, starting the event.
+	Counter Room2-WatcherB-Defeated
+	{
+		Count 1
+		Direction Up
+		Team DesdemonaWatcher2B
+		Type Team
+	}
+
+//This is used to count all entities in Room 1 to keep track of clearing progress.
+	Counter Room1A-CountDown
+	{
+		Count 0
+		Direction Down
+		Team GenRoom1
+		Type Team
+	}
+
+//This is used to count all entities in Room 2 to keep track of clearing progress.
+	Counter Room2-AttackA-Count
+	{
+		Count 0
+		Direction Down
+		Team Room2-AttackA
+		Type Team
+	}
+
+	Counter Room2-AttackB-Count
+	{
+		Count 0
+		Direction Down
+		Team Room2-AttackB
+		Type Team
+	}
+
+//This is used to count all entities in Room 5 to keep track of clearing progress.
+	Counter StaticRoom5Cleared
+	{
+		Count 0
+		Direction Down
+		Team StaticRoom5
+		Type Team
+	}
+
+//This is used to update the UI as to the Desdemona's current health.
+	Counter DesdemonaHealth
+	{
+		Type BossHealth
+		Team Desdemona
+	}
+
+//This counter tracks the defeat of Desdemona.
+	Counter DesdemonaDefeated
+	{
+		Count 1
+		Direction Up
+		Team Desdemona
+		Type Team
+	}
+
+//This is used to update the UI as to the Extinction WW's current health.
+	Counter ExtinctionBossHealth
+	{
+		Type BossHealth
+		Team ExtinctionBoss
+	}
+
+//This counter tracks the defeat of the Extinction WW.	
+	Counter ExtinctionBossCleared
+	{
+		Count 1
+		Direction Up
+		Team ExtinctionBoss
+		Type Team
+	}
+
+//This counter detects when players have entered the 3rd room of the complex.
+	Counter PlayersInRoom3
+	{
+		Type ZEPlayers
+		VolumeName Room3
+	}
+
+//This counter detects when players have entered the 5th room of the complex.
+	Counter PlayersInRoom5
+	{
+		Type ZEPlayers
+		VolumeName Room5
+	}
+
+//This timer is used to trigger the delivery of this stage's badge text.
+	Timer RefreshTimer
+	{
+		Duration 0:01
+	}
+	Timer Message02_Delay
+	{
+		Duration 0:05
+	}
+	Timer Room2-AttackA-FirstWave
+	{
+		Duration 0:15
+	}
+	Timer Room2-AttackA-SpawnWave
+	{
+		Duration 1:00
+	}
+	Timer Room2-AttackB-Delay
+	{
+		Duration 0:14
+	}
+	Timer Room2-AttackB-FirstWave
+	{
+		Duration 0:15
+	}
+	Timer Room2-AttackB-SpawnWave
+	{
+		Duration 1:00
+	}
+
+//This timer gives a brief delay before starting to check Desdemona's health value.
+	Timer DesdemonaHealth-StartChecking-Act1
+	{
+		Duration 00:05
+	}
+
+//This timer gives a limit on the amount of time a League has to wipe against the Extinction War Walker.
+	Timer ExtinctionEnrage
+	{
+		Duration 12:00
+	}
+
+//This is the failsafe trigger to ensure the room 2 event fires if Desdemona does not trigger the watcher for any reason.
+	Timer Room2-AssaultB-FailsafeTimer
+	{
+		Duration 00:30
+	}
+
+//UI Collection Block for Stage 1
+	UICollection UIAct1
+	{
+		UIItem TeleporterLocation1
+		{
+			Type CenterText
+			Text P2748568781
+			ShortText P2596181166
+			HideIf TeleporterLocation scriptvalue> 1 == !
+		}
+
+		UIItem TeleporterLocation2
+		{
+			Type CenterText
+			Text P4237788590
+			ShortText P2936868319
+			HideIf TeleporterLocation scriptvalue> 2 == !
+		}
+		UIItem Room1-DefenderBar
+		{
+			Type BarBlue
+			Text P353209660
+			ShortText P3504659590
+			Current Room1A-CountDown count>
+			HideIf Room1-Unlocked scriptvalue> 1 >=
+			Target Room1-IDF-Present scriptvalue>
+			UpdateTarget
+		}
+		UIItem Room2-AttackA-WaveCleanupBar
+		{
+			Type BarRed
+			Text P1604767824
+			ShortText P3279371562
+			Current Room2-AttackA-Count count>
+			HideIf Room2-AttackA-ShowCount scriptvalue> 0 ==
+			Target Room2-Attackers-Target scriptvalue>
+			UpdateTarget
+		}
+		UIItem Room2-AttackB-WaveCleanupBar
+		{
+			Type BarRed
+			Text P1604767824
+			ShortText P3279371562
+			Current Room2-AttackB-Count count>
+			HideIf Room2-AttackB-ShowCount scriptvalue> 0 ==
+			Target Room2-Attackers-Target scriptvalue>
+			UpdateTarget
+		}
+		UIItem ClearRoom5
+		{
+			Type BarRed
+			Text P3771453707
+			ShortText P2388190166
+			Current StaticRoom5Cleared count>
+			HideIf EnteredRoom5 scriptvalue> 1 <
+			Target Room5-Attackers-Target scriptvalue>
+			UpdateTarget
+		}
+		UIItem ExtinctionWarWalkerHealthBar
+		{
+			Type BarRed
+			Text P4088680709
+			ShortText P1105245171
+			Current ExtinctionBossHealth count>
+			HideIf BossAccessibleStage1 scriptvalue> 1 <
+			OnClickFindEnt ExtinctionBoss
+			Target 100
+		}
+		UIItem DesdemonaHealthBar
+		{
+			Type BarBlue
+			Text P3411404469
+			ShortText P2641648380
+			Current DesdemonaHealth count>
+			OnClickFindEnt Desdemona
+			Target 100
+		}
+		UIItem FirstWaveTimer-AttackA
+		{
+			Type Timer
+			Timer Room2-AttackA-FirstWave
+			Text P3020136639
+			ShortText P3235362630
+			HideIf Room2-AttackA-ShowFirstTimer scriptvalue> 0 ==
+		}
+		UIItem SpawnWaveTimer-AttackA
+		{
+			Type Timer
+			Timer Room2-AttackA-SpawnWave
+			Text P2803729209
+			ShortText P3235362630
+			HideIf Room2-AttackA-ShowWaveTimer scriptvalue> 0 ==
+		}
+		UIItem FirstWaveTimer-AttackB
+		{
+			Type Timer
+			Timer Room2-AttackB-FirstWave
+			Text P3020136639
+			ShortText P3235362630
+			HideIf Room2-AttackB-ShowFirstTimer scriptvalue> 0 ==
+		}
+		UIItem SpawnWaveTimer-AttackB
+		{
+			Type Timer
+			Timer Room2-AttackB-SpawnWave
+			Text P2803729209
+			ShortText P3235362630
+			HideIf Room2-AttackB-ShowWaveTimer scriptvalue> 0 ==
+		}
+		UIItem ExtinctionWarWalkerTimer
+		{
+			Type Timer
+			Timer ExtinctionEnrage
+			Text P3649598134
+			ShortText P3097074627
+			HideIf ExtinctionBossEngaged scriptvalue> 0 ==
+		}
+	}
+
+//This trigger sets a badge check value if Desdemona's health falls below 50%.
+	Trigger DesdemonaHealth-FallsBelowFifty-Act1
+	{
+		Requires DesdemonaHealth-StartChecking-Act1 complete> DesdemonaHealth count> 50 < &&
+
+		Action
+		{
+			SetScriptValue DesdemonaHealth-BelowFifty 1
+		}
+	}
+
+//This trigger sets the count of the number of entities in Room 1.
+	Trigger Room1-EntCount
+	{
+		Requires RefreshTimer complete> Room1-Counted scriptvalue> 0 == &&
+		Action
+		{
+			Reset Room1A-CountDown
+		}
+		Action
+		{
+			SetScriptValue Room1-IDF-Present Room1A-CountDown count>
+		}
+		Action
+		{
+			SetScriptValue Room1-Counted 1
+		}
+		Action
+		{
+			SetScriptValue Room5-Attackers-Target StaticRoom5Cleared count>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2894611004
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P321982628
+				Color FF9900
+			}
+		}
+	}
+
+	Trigger Room1-UnlockDoor
+	{
+		Requires Room1-Unlocked scriptvalue> 0 == Room1A-CountDown complete> &&
+		Action
+		{
+			DoorControl
+			{
+				Door PreludeDoor
+				Type Unlock
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P4213649350
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3905062974
+				Color FF9900
+			}
+		}
+		Action
+		{
+			SetScriptValue Room1-Unlocked 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GenRoom1
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Desdemona
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth99")>>
+			}
+		}
+	}
+				
+
+//This trigger sends the badge text for the stage agter the message timer is complete.
+	Trigger Message02_Send
+	{
+		Requires Message02_Delay complete>
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Vanessa
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth99")>>
+			}
+		}
+	}
+
+//This trigger begins the attack event on Desdemona in Room 2.
+	Trigger AttackDesdemona
+	{
+		Requires Room2-WatcherA-Defeated complete> Room2-AttackStarted scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Room 2 Attack A Started>>
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackStarted 1
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-ShowFirstTimer 1
+		}
+		Action
+		{
+			SetScriptValue DesdemonaIntangible 1
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2304744321
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P952844730
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2342520833
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Reset Room2-AttackA-FirstWave
+		}
+		Action
+		{
+			Reset Room2-AttackA-SpawnWave
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:DefendDesdemonaA),DoNotMove(1),DoNotUseAnyPowers(1),DoAttackAI(0)>>
+			}
+		}
+	}
+
+	Trigger AttackDesdemona-LocationA-FirstWave
+	{
+		Requires Room2-AttackStarted scriptvalue> 1 == Room2-AttackA-FirstWave complete> && Room2-AttackA-FirstWaves scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Attack A First Wave Spawned>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team Room2-AttackA
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1273475629
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-ShowFirstTimer 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-ShowWaveTimer 1
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-FirstWaves 1
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-TotalWaves Room2-AttackA-TotalWaves scriptvalue> 1 +
+		}
+		Action
+		{
+			Reset Room2-AttackA-Count
+		}
+		Action
+		{
+			SetScriptValue Room2-Attackers-Target Room2-AttackA-Count count>
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-ShowCount 1
+		}
+		Action
+		{
+			Reset Room2-AttackA-SpawnWave
+		}
+	}
+
+	Trigger AttackDesdemona-LocationA-NextWave
+	{
+		Requires Room2-AttackStarted scriptvalue> 1 == Room2-AttackA-SpawnWave complete> && Room2-AttackA-FirstWaves scriptvalue> 1 == && Room2-AttackA-TotalWaves scriptvalue> 2 < &&
+		Action
+		{
+			DebugPrint <<Attack A Second Wave Spawned>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team Room2-AttackA
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P822308758
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-TotalWaves Room2-AttackA-TotalWaves scriptvalue> 1 +
+		}
+		Action
+		{
+			Reset Room2-AttackA-Count
+		}
+		Action
+		{
+			SetScriptValue Room2-Attackers-Target Room2-AttackA-Count count>
+		}
+		Action
+		{
+			Reset Room2-AttackA-SpawnWave
+		}
+		Action
+		{
+			Reset AttackDesdemona-LocationA-NextWave
+		}
+	}
+
+	Trigger Hide-LocationA-Timer
+	{
+		Requires Room2-AttackA-TotalWaves scriptvalue> 2 >=
+		Action
+		{
+			SetScriptValue Room2-AttackA-ShowWaveTimer 0
+		}
+	}
+
+	Trigger AttackDesdemona-LocationA-Finish
+	{
+		Requires Room2-AttackStarted scriptvalue> 1 == Room2-AttackA-TotalWaves scriptvalue> 2 >= && Room2-AttackA-Count complete> &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type DoBehavior
+				Behavior <<DoNotMove(0),MoveToPos(marker:DefendDesdemonaB),DoNotMove(1))>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3198938331
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P989470714
+				Color FF9900
+			}
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackA-ShowCount 0
+		}
+		Action
+		{
+			Reset Room2-AssaultB-FailsafeTimer
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Desdemona
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth89")>>
+			}
+		}
+		Action
+		{
+			Delay 2
+			SetScriptValue LocationA-Finished 1
+		}
+	}
+
+	Trigger DesdemonaArrivesAtPositionB
+	{
+		Requires Room2-AttackStarted scriptvalue> 1 == Room2-WatcherB-Defeated complete> &&
+		Action
+		{
+			SetScriptValue Room2-AttackB-Triggered 1
+		}
+	}
+
+	Trigger Desdemona-PositionB-Failsafe
+	{
+		Requires Room2-AttackStarted scriptvalue> 1 == LocationA-Finished scriptvalue> 1 == && Room2-AssaultB-FailsafeTimer complete> &&
+		Action
+		{
+			SetScriptValue Room2-AttackB-Triggered 1
+		}
+	}
+
+	Trigger AttackDesdemona-LocationB-Triggered
+	{
+		Requires Room2-AttackB-Triggered scriptvalue> 1 ==
+
+		Action
+		{
+			Reset Room2-AttackB-FirstWave
+		}
+		Action
+		{
+			Reset Room2-AttackB-SpawnWave
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackStarted 2
+		}
+	}
+
+	Trigger AttackDesdemona-LocationB-Start
+	{
+		Requires Room2-AttackStarted scriptvalue> 2 ==
+		{
+		Action
+		{
+			DebugPrint <<Room 2 Attack B Started>>
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-ShowFirstTimer 1
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2304744321
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P952844730
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2342520833
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Reset Room2-AttackB-FirstWave
+		}
+		Action
+		{
+			Reset Room2-AttackB-SpawnWave
+		}
+	}
+
+	Trigger AttackDesdemona-LocationB-FirstWave
+	{
+		Requires Room2-AttackStarted scriptvalue> 2 == Room2-AttackB-FirstWave complete> && Room2-AttackB-FirstWaves scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Attack B First Wave Spawned>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team Room2-AttackB
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1273475629
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-ShowFirstTimer 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-ShowWaveTimer 1
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-FirstWaves 1
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-TotalWaves Room2-AttackB-TotalWaves scriptvalue> 1 +
+		}
+		Action
+		{
+			Reset Room2-AttackB-Count
+		}
+		Action
+		{
+			SetScriptValue Room2-Attackers-Target Room2-AttackB-Count count>
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-ShowCount 1
+		}
+		Action
+		{
+			Reset Room2-AttackB-SpawnWave
+		}
+	}
+
+	Trigger AttackDesdemona-LocationB-NextWave
+	{
+		Requires Room2-AttackStarted scriptvalue> 2 == Room2-AttackB-SpawnWave complete> && Room2-AttackB-FirstWaves scriptvalue> 1 == && Room2-AttackB-TotalWaves scriptvalue> 2 < &&
+		Action
+		{
+			DebugPrint <<Attack B Second Wave Spawned>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team Room2-AttackB
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P822308758
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-TotalWaves Room2-AttackB-TotalWaves scriptvalue> 1 +
+		}
+		Action
+		{
+			Reset Room2-AttackB-Count
+		}
+		Action
+		{
+			SetScriptValue Room2-Attackers-Target Room2-AttackB-Count count>
+		}
+		Action
+		{
+			Reset Room2-AttackB-SpawnWave
+		}
+		Action
+		{
+			Reset AttackDesdemona-LocationB-NextWave
+		}
+	}
+
+	Trigger Hide-LocationB-Timer
+	{
+		Requires Room2-AttackB-TotalWaves scriptvalue> 2 >=
+		Action
+		{
+			SetScriptValue Room2-AttackB-ShowWaveTimer 0
+		}
+	}
+
+	Trigger AttackDesdemona-LocationB-Finish
+	{
+		Requires Room2-AttackStarted scriptvalue> 2 == Room2-AttackB-TotalWaves scriptvalue> 2 >= && Room2-AttackB-Count complete> &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaIntangible 0
+		}	
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type DoBehavior
+				Behavior <<DoNotMove(0),DoNotUseAnyPowers(0),DoNothing(Timer(2)),DoAttackAI(1))>>
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3587596616
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P96571684
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Desdemona
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth79")>>
+			}
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackB-ShowCount 0
+		}
+		Action
+		{
+			SetScriptValue Room2-AttackStarted 3
+		}
+		Action
+		{
+			DoorControl
+			{
+				Door DoorRoom2Exit
+				Type Unlock
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GenRoom1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Room2-AttackA
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Room2-AttackB
+				Type Deactivate
+			}
+		}
+	}
+
+	Trigger EnteredRoom3
+	{
+		Requires PlayersInRoom3 count> 1 >= NotificationRoom3 scriptvalue> 0 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Prometheus
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth99")>>
+			}
+		}
+		Action
+		{
+			SetScriptValue NotificationRoom3 1
+		}
+	}
+
+	Trigger EnteredRoom5
+	{
+		Requires PlayersInRoom5 count> 1 >= NotificationRoom5 scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Entered Room 5>>
+		}
+		Action
+		{
+			SetScriptValue NotificationRoom5 1
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom5 1
+		}
+		Action
+		{
+			Reset StaticRoom5Cleared
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2359167197
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P728126590
+				Color FF9900
+			}
+		}
+	}
+
+//This trigger unlocks access to the boss room for Stage 1 and deactivates all spawns prior to Room 5 when Room 5 is cleared.
+	Trigger StaticRoom5Trigger
+	{
+		Requires StaticRoom5Cleared complete> NotificationRoom5 scriptvalue> 1 == &&
+		Action
+		{
+			DebugPrint <<Room 5 Cleared, Boss Door Open>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 5
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team ExtinctionBoss
+				Type Activate
+			}
+		}
+		Action
+		{
+			Reset ExtinctionBossHealth
+		}
+		Action
+		{
+			SetScriptValue TeleporterLocation 1
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage1 1
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom5 0
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3230867856
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P4010599995
+				Color FF9900
+			}
+		}
+		Action
+		{
+			DoorControl
+			{
+				Door DoorBoss1Entrance
+				Type Unlock
+			}
+		}
+		Action
+		{
+			WaypointPlace WP-Room5
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+			Floater
+			{
+				Message P2748568781
+				Color 0099FF
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TPTR-Room5
+				Type Activate
+			}
+			TeamControl
+			{
+				Team TeleporterFX
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GenRoom3-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom3-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-6
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-7
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-8
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-9
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Delay 2
+			TeamControl
+			{
+				Team GenRoom6-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom6-2
+				Type Activate
+			}
+		}
+	}
+//This trigger runs when the Extinction War Walker is damaged.
+	Trigger ExtinctionBossEngaged
+	{
+		Requires ExtinctionBossHealth count> 100 < BossAccessibleStage1 scriptvalue> 1 == && ExtinctionBossEngaged scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Extinction War Walker engaged>>
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_03High_a_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+		Action
+		{
+			Reset ExtinctionEnrage
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue ExtinctionBossEngaged 1
+		}
+	}
+//This trigger runs when the Extinction War Walker is defeated.
+	Trigger ExtinctionBossTrigger
+	{
+		Requires ExtinctionBossCleared complete> ExtinctionEnrage complete> ! &&
+		Action
+		{
+			DebugPrint <<Ending Stage Act1, Next Stage Act2>>
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage1 0
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GenRoom6-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom6-2
+				Type Deactivate
+			}
+			DoorControl
+			{
+				Door DoorBoss1Exit
+				Type Unlock
+			}
+			Floater
+			{
+				Message P2310003547
+				Color FF9900
+			}
+			Floater
+			{
+				Message P3919783057
+				Color FF9900
+			}
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable AstralMerit3
+				}
+			}
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 5
+			}
+		}
+		NextStage Act2
+	}
+
+//This trigger fails the event if Desdemona is defeated.
+	Trigger DesdemonaDefeatFailure
+	{
+		Requires DesdemonaDefeated complete>
+		Action
+		{
+			DebugPrint <<Desdemona Defeated. Event Failed.>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P868216392
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1021555188
+				Color FF9900
+			}
+		}
+		NextStage Failure
+	}
+
+//This trigger fails the event if the Extinction War Walker's Enrage timer is hit.
+	Trigger ExtinctionEnrageFailure
+	{
+		Requires ExtinctionEnrage complete> ExtinctionBossEngaged scriptvalue> 1 == &&
+		Action
+		{
+			DebugPrint <<Extinction War Walker Enraged. Event Failed.>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P656839202
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1021555188
+				Color FF9900
+			}
+		}
+		NextStage Failure
+	}
+
+//Stage Shutdown
+	Shutdown
+	{
+		Action
+		{
+			TeamControl
+			{
+				Team GenRoom1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Room2-AttackA
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Room2-AttackB
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom3-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom3-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-6
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-7
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-8
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-9
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom6-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom6-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team ExtinctionBoss
+				Type Deactivate
+			}
+		}
+	}
+}
+
+Stage Act2
+{
+	DisplayName P4116941047
+	ToolTip P98647324
+
+	AwardKarma
+	KarmaThreshold 1
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+
+	StartUp
+	{
+		Action DebugNote
+		{
+			DebugPrint <<Starting Stage Act2>>
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom13 0
+		}
+		Action
+		{
+			SetScriptValue NotificationRoom13 0
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage2A 0
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage2A 0
+		}
+		Action
+		{
+			SetScriptValue BossChallenge2-Initiated 0
+		}
+		Action
+		{
+			SetScriptValue BossChallenge2-Completed 0
+		}
+		Action
+		{
+			SetScriptValue Room13CounterSet 0
+		}
+		Action
+		{
+			SetScriptValue TeleporterLocation 2
+		}
+		Action TurnOnSpawns
+		{	
+			TeamControl
+			{
+				Team GenRoom7-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom7-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom7-3
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom8-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom8-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom8-3
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom8-4
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom8-5
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom8-6
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom9-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom9-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom9-3
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-3
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom10-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom10-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom11
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom11-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom11-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom12-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom12-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom12-3
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom12-4
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom13
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CrystalTrapA
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CrystalTrapB
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CrystalTrapC
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CrystalTrapD
+				Type Activate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher-10
+				Type Activate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CrystalTrapA
+				Type DoBehavior
+				Behavior <<Untargetable(1),Unselectable(1)>>
+			}
+			TeamControl
+			{
+				Team CrystalTrapB
+				Type DoBehavior
+				Behavior <<Untargetable(1),Unselectable(1)>>
+			}
+			TeamControl
+			{
+				Team CrystalTrapC
+				Type DoBehavior
+				Behavior <<Untargetable(1),Unselectable(1)>>
+			}
+			TeamControl
+			{
+				Team CrystalTrapD
+				Type DoBehavior
+				Behavior <<Untargetable(1),Unselectable(1)>>
+			}
+		}
+		Action
+		{
+			SetScriptValue TotalCrystalsDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom10 0
+		}
+		Action
+		{
+			SetScriptValue Boss2Engaged 0
+		}
+		Action
+		{		
+			PorterControl
+			{
+				Porter TPTR-Room5
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-StartAct2
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+			Floater
+			{
+				Message P2481504620
+				Color 0099FF
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TPTR-StartAct2
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 2
+			Reset DesdemonaHealth
+		}
+		Action
+		{
+			Delay 10
+			PlaySound
+			{
+				Sound i20_03Low_a_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+	}
+
+//Award Karma for defeating a member of the IDF.
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianIDFEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award Karma for defeating a member of the Warworks.
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianWarworksEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award Karma for defeating a member of the Devouring Earth.	
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup DevouringEarth
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award bonus Karma for defeating the Self-Repairing War Walker.
+	Objective
+	{
+		Type Named
+		Name PraetorianWarworksEndgame_SelfRepair_War_Walker
+		KarmaValue 20
+		KarmaLife 20
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+
+//Award bonus Karma for defeating the Lichen Infested War Walker.
+	Objective
+	{
+		Type Named
+		Name PraetorianWarworksEndgame_LichenInfested_War_Walker
+		KarmaValue 20
+		KarmaLife 20
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+
+//This counter detects when players have entered the 7th room of the complex.
+	Counter Room7Entered
+	{
+		Type ZEPlayers
+		VolumeName Room7Entry
+	}
+
+//This counter detects when players have entered the 13th room of the complex.
+	Counter PlayersInRoom10
+	{
+		Type ZEPlayers
+		VolumeName Room10
+	}
+
+//This counter detects when players have entered the 13th room of the complex.
+	Counter PlayersInRoom13
+	{
+		Type ZEPlayers
+		VolumeName Room13
+	}
+
+//This counter detects the death of the invisible entity which detects Desdemona.
+	Counter DesdemonaWatcher10-Defeated
+	{
+		Type Team
+		Team DesdemonaWatcher-10
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the death of the invisible entity which detects Desdemona.
+	Counter DesdemonaWatcher-Defeated
+	{
+		Type Team
+		Team DesdemonaWatcher
+		Direction Up
+		Count 1
+	}
+
+//This counter detects the death of the invisible entity which runs the trap power.
+	Counter CrystalTrap-Defeated
+	{
+		Type Team
+		Team CrystalTrap-Power
+		Direction Up
+		Count 1
+	}
+
+//This counter detects if Crystal Traps are defeated.
+	Counter CrystalTrapA-Defeated
+	{
+		Type Team
+		Team CrystalTrapA
+		Direction Up
+		Count 1
+	}
+
+	Counter CrystalTrapB-Defeated
+	{
+		Type Team
+		Team CrystalTrapB
+		Direction Up
+		Count 1
+	}
+
+	Counter CrystalTrapC-Defeated
+	{
+		Type Team
+		Team CrystalTrapC
+		Direction Up
+		Count 1
+	}
+
+	Counter CrystalTrapD-Defeated
+	{
+		Type Team
+		Team CrystalTrapD
+		Direction Up
+		Count 1
+	}
+
+//This counter detects if players have cleared Room 11, which shuts down all previous spawns.
+	Counter StaticRoom11Cleared
+	{
+		Count 0
+		Direction Down
+		Team StaticRoom11
+		Type Team
+	}
+
+//This counter detects if players have cleared Room 13, which unlocks access to the boss room.
+	Counter StaticRoom13Cleared
+	{
+		Count 0
+		Direction Down
+		Team StaticRoom13
+		Type Team
+	}
+
+//This is used to update the UI as to the Desdemona's current health.
+	Counter DesdemonaHealth
+	{
+		Type BossHealth
+		Team Desdemona
+	}
+
+//This counter tracks the defeat of Desdemona.
+	Counter DesdemonaDefeated
+	{
+		Count 1
+		Direction Up
+		Team Desdemona
+		Type Team
+	}
+
+//This is used to update the UI as to the Self Repairing WW's current health.
+	Counter SelfRepairBossHealth
+	{
+		Type BossHealth
+		Team SelfRepairBoss
+	}
+	
+//This counter tracks the defeat of the Self Repairing WW.
+	Counter SelfRepairBossCleared
+	{
+		Count 1
+		Direction Up
+		Team SelfRepairBoss
+		Type Team
+	}
+
+//This is used to update the UI as to the Lichen Infested WW's current health.
+	Counter LichenBossHealth
+	{
+		Type BossHealth
+		Team LichenBoss
+	}
+	
+//This counter tracks the defeat of the Lichen Infested WW.
+	Counter LichenBossCleared
+	{
+		Count 1
+		Direction Up
+		Team LichenBoss
+		Type Team
+	}
+
+//UI Collection Block for Stage 2
+	UICollection UIAct2
+	{
+		UIItem TeleporterLocation2
+		{
+			Type CenterText
+			Text P4237788590
+			ShortText P2936868319
+			HideIf TeleporterLocation scriptvalue> 2 == !
+		}
+		UIItem TeleporterLocation3
+		{
+			Type CenterText
+			Text P3265922509
+			ShortText P2696187521
+			HideIf TeleporterLocation scriptvalue> 3 == !
+		}
+		UIItem TeleporterLocation4
+		{
+			Type CenterText
+			Text P1532414752
+			ShortText P1674906224
+			HideIf TeleporterLocation scriptvalue> 4 == !
+		}
+		UIItem TeleporterLocation5
+		{
+			Type CenterText
+			Text P2339325480
+			ShortText P4108150138
+			HideIf TeleporterLocation scriptvalue> 5 == !
+		}
+		UIItem CrystalTrapEntitiesDefeated
+		{
+			Type BarBlue
+			Text P3967289774
+			ShortText P2965001052
+			Current CrystalTrapA-Defeated count> CrystalTrapB-Defeated count> + CrystalTrapC-Defeated count> + CrystalTrapD-Defeated count> +
+			HideIf EnteredRoom10 scriptvalue> 1 <
+			Target 4
+		}
+		UIItem ClearRoom13
+		{
+			Type BarRed
+			Text P3771453707
+			ShortText P2388190166
+			Current StaticRoom13Cleared count>
+			HideIf EnteredRoom13 scriptvalue> 1 <
+			Target Room13-Attackers-Target scriptvalue>
+			UpdateTarget
+		}
+		UIItem SelfRepairingWarWalkerHealthBar
+		{
+			Type BarRed
+			Text P4075575293
+			ShortText P3768651502
+			Current SelfRepairBossHealth count>
+			HideIf BossAccessibleStage2A scriptvalue> 1 <
+			OnClickFindEnt SelfRepairBoss
+			Target 100
+		}	
+		UIItem LichenInfestedWarWalkerHealthBar
+		{
+			Type BarRed
+			Text P2935213168
+			ShortText P378321261
+			Current LichenBossHealth count>
+			HideIf BossAccessibleStage2B scriptvalue> 1 <
+			OnClickFindEnt LichenBoss
+			Target 100
+		}
+		UIItem DesdemonaHealthBar
+		{
+			Type BarBlue
+			Text P3411404469
+			ShortText P2641648380
+			Current DesdemonaHealth count>
+			OnClickFindEnt Desdemona
+			Target 100
+		}
+		UIItem Boss2EnrageTimer
+		{
+			Type Timer
+			Timer Boss2Enrage-Timer
+			Text P3649598134
+			ShortText P3097074627
+			HideIf Boss2Engaged scriptvalue> 0 ==
+		}
+	}
+
+	Timer RefreshTimer2
+	{
+		Duration 0:01
+	}
+
+	Timer BossChallenge2-Timer
+	{
+		Duration 8:00
+	}
+	Timer Boss2Enrage-Timer
+	{
+		Duration 20:00
+	}
+
+//This timer gives a brief delay after the room 10 event is triggered before starting the trap.
+	Timer Room10-AutoStart
+	{
+		Duration 00:10
+	}
+
+//This timer gives a brief delay before starting to check Desdemona's health value.
+	Timer DesdemonaHealth-StartChecking-Act2
+	{
+		Duration 00:05
+	}
+
+//This timer determines when this stage's badge is awarded to players.
+	Timer Message03_Delay
+	{
+		Duration 0:15
+	}
+
+	Trigger SetRoom13Attackers
+	{
+		Requires RefreshTimer2 complete> Room13CounterSet scriptvalue> 0 == &&
+		
+		Action
+		{
+			SetScriptValue Room13-Attackers-Target StaticRoom13Cleared count>
+		}
+		Action
+		{
+			SetScriptValue Room13CounterSet 1
+		}
+	}
+
+//This trigger awards the badge to players when the above timer is complete.
+	Trigger Message03_Send
+	{
+		Requires Message03_Delay complete>
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Vanessa
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth89")>>
+			}
+		}
+	}
+
+
+//This trigger sets a badge check value if Desdemona's health falls below 50%.
+	Trigger DesdemonaHealth-FallsBelowFifty-Act2
+	{
+		Requires DesdemonaHealth-StartChecking-Act2 complete> DesdemonaHealth count> 50 < &&
+
+		Action
+		{
+			SetScriptValue DesdemonaHealth-BelowFifty 1
+		}
+	}
+
+//This trigger deactivates the patrolling team that spawns in Room 7 once players enter the volume for Room 7.
+	Trigger Room7EnteredTrigger
+	{
+		Requires Room7Entered count> 0 >
+		Action
+		{
+			DebugPrint <<Room 7 Entered>>
+			TeamControl
+			{
+				Team GenRoom7-1
+				Type Deactivate
+			}
+		}
+	}
+
+//This trigger activates the Crystal Power team and moves Desdemona to her P3197075251 position when a player enters Room 10.
+	Trigger Room10EventIndicated
+	{
+		Requires PlayersInRoom10 count> 1 >= Room10EventTriggered scriptvalue> 0 == &&
+		Action
+		{
+			Floater
+			{
+				Message P4068608316
+				Color FF9900
+			}
+			Floater
+			{
+				Message P1463034486
+				Color FF9900
+			}
+		}
+	}
+
+	Trigger ActivateRoom10Event
+	{
+		Requires DesdemonaWatcher10-Defeated complete> Room10EventTriggered scriptvalue> 0 == &&
+		
+		Action
+		{
+			SetScriptValue DesdemonaIntangible 1
+		}		
+		Action
+		{
+			Floater
+			{
+				Message P4073985618
+				Color FF9900
+			}
+			TeamControl
+			{
+				Team Desdemona
+				Type DoBehavior
+				Behavior <<MoveToPos(marker:DefendDesdemonaC),DoNotMove(1),DoNotUseAnyPowers(1),DoAttackAI(0)>>
+			}
+		}
+		Action
+		{
+			Reset Room10-AutoStart
+		}
+		Action
+		{
+			Delay 2
+			SetScriptValue Room10EventTriggered 1
+		}
+	}
+
+//This trigger activates the Crystal Power team once Desdemona enters the volume which kills the watcher.		
+	Trigger HoldDesdemona
+	{
+		Requires Room10EventTriggered scriptvalue> 1 == Room10-AutoStart complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Desdemona
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth69")>>
+			}
+		}
+		Action
+		{
+			DebugPrint <<Crystal Trap Sprung>>
+			TeamControl
+			{
+				Team CrystalTrap-Power
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CrystalTrap-Power
+				Type DoBehavior
+				Behavior <<Untargetable(1),Unselectable(1),Invincible(1)>>
+			}
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom10 1
+		}
+		Action
+		{
+			Reset CrystalTrap-Defeated
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3466722014
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1606182374
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2889823092
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CrystalGuardsA
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsB
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsC
+				Type Activate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsD
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CrystalTrapA
+				Type DoBehavior
+				Behavior <<Untargetable(0),Unselectable(0),Combat>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CrystalTrapB
+				Type DoBehavior
+				Behavior <<Untargetable(0),Unselectable(0),Combat>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CrystalTrapC
+				Type DoBehavior
+				Behavior <<Untargetable(0),Unselectable(0),Combat>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CrystalTrapD
+				Type DoBehavior
+				Behavior <<Untargetable(0),Unselectable(0),Combat>>
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaTrapped 1
+		}
+	}
+
+//This trigger pops a floater for the defeat of crystal trap A.
+	Trigger CrystalTrapA-Defeated
+	{
+		Requires Room10EventTriggered scriptvalue> 1 == CrystalTrapA-Defeated complete> && CrystalTrapA-Dead scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Crystal Trap A Defeated>>
+			Floater
+			{
+				Message P2413266169
+				Color FF9900
+			}
+		}
+		Action
+		{
+			SetScriptValue CrystalTrapA-Dead 1
+		}
+		Action
+		{
+			SetScriptValue TotalCrystalsDestroyed TotalCrystalsDestroyed scriptvalue> 1 +
+		}
+	}
+
+	Trigger CrystalTrapB-Defeated
+	{
+		Requires Room10EventTriggered scriptvalue> 1 == CrystalTrapB-Defeated complete> && CrystalTrapB-Dead scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Crystal Trap B Defeated>>
+			Floater
+			{
+				Message P3287244854
+				Color FF9900
+			}
+		}
+		Action
+		{
+			SetScriptValue CrystalTrapB-Dead 1
+		}
+		Action
+		{
+			SetScriptValue TotalCrystalsDestroyed TotalCrystalsDestroyed scriptvalue> 1 +
+		}
+	}
+
+	Trigger CrystalTrapC-Defeated
+	{
+		Requires Room10EventTriggered scriptvalue> 1 == CrystalTrapC-Defeated complete> && CrystalTrapC-Dead scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Crystal Trap C Defeated>>
+			Floater
+			{
+				Message P1764184479
+				Color FF9900
+			}
+		}
+		Action
+		{
+			SetScriptValue CrystalTrapC-Dead 1
+		}
+		Action
+		{
+			SetScriptValue TotalCrystalsDestroyed TotalCrystalsDestroyed scriptvalue> 1 +
+		}
+	}
+	
+	Trigger CrystalTrapD-Defeated
+	{
+		Requires Room10EventTriggered scriptvalue> 1 == CrystalTrapD-Defeated complete> && CrystalTrapD-Dead scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Crystal Trap D Defeated>>	
+			Floater
+			{
+				Message P2045729832
+				Color FF9900
+			}
+		}
+		Action
+		{
+			SetScriptValue CrystalTrapD-Dead 1
+		}
+		Action
+		{
+			SetScriptValue TotalCrystalsDestroyed TotalCrystalsDestroyed scriptvalue> 1 +
+		}
+	}
+	
+//This trigger kills the trap power caster when all crystals are destroyed.
+	Trigger CrystalTrapDefeated
+	{
+		Requires Room10EventTriggered scriptvalue> 1 == TotalCrystalsDestroyed scriptvalue> 4 >= &&
+
+		Action
+		{
+			DebugPrint <<Crystal Trap Defeated>>	
+			TeamControl
+			{
+				Team CrystalTrap-Power
+				Type DoBehavior
+				Behavior <<DestroyMe>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaIntangible 0
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3439448117
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P287497152
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type DoBehavior
+				Behavior <<DoNotMove(0),DoNotUseAnyPowers(0),DoAttackAI(1)>>
+			}
+		}
+		Action
+		{
+			DoorControl
+			{
+				Door DoorRoom10Exit
+				Type Unlock
+			}
+		}
+		Action
+		{
+			SetScriptValue Room10EventTriggered 2
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom10 0
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Desdemona
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth59")>>
+			}
+		}
+	}
+
+//This trigger deactivates all spawns up to and including Room 10 when Room 10 is cleared of all enemies.
+	Trigger StaticRoom10Trigger
+	{
+		Requires Room10EventTriggered scriptvalue> 2 ==
+		Action
+		{		
+			PorterControl
+			{
+				Porter TPTR-StartAct2
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			SetScriptValue TeleporterLocation 3
+		}
+		Action
+		{
+			WaypointPlace WP-Room10
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+			Floater
+			{
+				Message P3141927316
+				Color 0099FF
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TPTR-Room10
+				Type Activate
+			}
+		}
+		Action
+		{
+			DebugPrint <<Room 10 Cleared>>
+			TeamControl
+			{
+				Team GenRoom7-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom7-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-6
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom9-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom9-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom9-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom10-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom10-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapA
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapB
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapC
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapD
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrap-Power
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsA
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsB
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsC
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsD
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher
+				Type Deactivate
+			}
+		}
+	}
+
+//This trigger deactivates all spawns up to and including Room 11 when Room 11 is cleared of all enemies.
+	Trigger StaticRoom11Trigger
+	{
+		Requires StaticRoom11Cleared complete>
+		Action
+		{
+			DebugPrint <<Room 11 Cleared>>
+			TeamControl
+			{
+				Team GenRoom11-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom11-2
+				Type Deactivate
+			}
+		}
+	}
+
+//This trigger is fired when a single player enters the passageway before room 13.
+	Trigger EnteredRoom13
+	{
+		Requires PlayersInRoom13 count> 1 >= NotificationRoom13 scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Entered Room 13>>
+		}
+		Action
+		{
+			SetScriptValue NotificationRoom13 1
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom13 1
+		}
+		Action
+		{
+			Reset StaticRoom13Cleared
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3142024731
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1300003907
+				Color FF9900
+			}
+		}
+	}
+
+//This trigger activates the boss room, unlocks the door and deactivates all spawns from rooms 12 and 13 when Room 13 is cleared of all enemies.
+	Trigger StaticRoom13Trigger
+	{
+		Requires StaticRoom13Cleared complete>
+		Action
+		{
+			DebugPrint <<Room 13 Cleared, Boss Door Open>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 5
+			}
+		}	
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Vanessa
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth79")>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SelfRepairBoss
+				Type Activate
+			}
+		}
+		Action
+		{
+			Reset SelfRepairBossHealth
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage2A 1
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom13 0
+		}
+		Action
+		{
+			SetScriptValue TeleporterLocation 4
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3230867856
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P137815983
+				Color FF9900
+			}
+		}
+		Action
+		{
+			DoorControl
+			{
+				Door DoorBoss2Entrance
+				Type Unlock
+			}
+		}
+		Action
+		{		
+			PorterControl
+			{
+				Porter TPTR-Room10
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-Room13
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+			Floater
+			{
+				Message P1113792270
+				Color 0099FF
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TPTR-Room13
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GenRoom12-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-4
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Delay 2
+			TeamControl
+			{
+				Team GenRoom14-1
+				Type Activate
+			}
+		}
+	}
+
+	Trigger BossChallenge-Start
+	{
+		Requires SelfRepairBossHealth count> 100 < BossAccessibleStage2A scriptvalue> 1 == && BossChallenge2-Initiated scriptvalue> 0 == &&
+
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_03High_b_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}		
+		Action
+		{
+			Reset BossChallenge2-Timer
+		}
+		Action
+		{
+			Reset Boss2Enrage-Timer
+		}
+		Action
+		{
+			SetScriptValue BossChallenge2-Initiated 1
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue Boss2Engaged 1
+		}
+	}
+
+	Trigger SelfRepairBossTrigger
+	{
+		Requires SelfRepairBossCleared complete> Boss2Enrage-Timer complete> ! &&
+		Action
+		{
+			DebugPrint <<SelfRepairBoss down, spawning LichenBoss>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team LichenBoss
+				Type Activate
+			}
+		}
+		Action
+		{
+			Reset LichenBossHealth
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage2A 0
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage2B 1
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3400585406
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P144786907
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1826368214
+				Color FF9900
+			}
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable AstralMerit2
+				}
+			}
+		}
+		Action
+		{
+			GlowieControl
+			{
+				Glowie LichenDet
+				Type Deactivate
+			}
+			GlowieControl
+			{
+				Glowie LichenDet
+				Type Remove
+			}
+			TeamControl
+			{
+				Team GenRoom14-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom14-1
+				Type DoBehavior
+				Behavior <<DestroyMe>>
+			}
+			TeamControl
+			{
+				Team LichenDest-01
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-02
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-03
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-04
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-05
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-06
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-07
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-08
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-09
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-10
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-11
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-12
+				Type Activate
+			}
+			TeamControl
+			{
+				Team LichenDest-13
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 2
+			TeamControl
+			{
+				Team GenRoom14-2
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 2
+			Reset LichenDest-01Counter LichenDest-02Counter LichenDest-03Counter LichenDest-04Counter LichenDest-05Counter LichenDest-06Counter LichenDest-07Counter LichenDest-08Counter LichenDest-09Counter LichenDest-10Counter LichenDest-11Counter LichenDest-12Counter LichenDest-13Counter
+			SetScriptValue LichenInProgress 1
+		}
+	}
+
+	Counter LichenDest-01Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-01
+	}
+	Trigger LichenDest-01Destroyed
+	{
+		Requires LichenDest-01Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 01>>
+			TeamControl
+			{
+				Team LichenDest-01
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 01 Triggers>>
+			Reset LichenDest-01Counter LichenDest-01Destroyed
+		}
+	}
+	Counter LichenDest-02Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-02
+	}
+	Trigger LichenDest-02Destroyed
+	{
+		Requires LichenDest-02Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 02>>
+			TeamControl
+			{
+				Team LichenDest-02
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 02 Triggers>>
+			Reset LichenDest-02Counter LichenDest-02Destroyed
+		}
+	}
+	Counter LichenDest-03Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-03
+	}
+	Trigger LichenDest-03Destroyed
+	{
+		Requires LichenDest-03Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 03>>
+			TeamControl
+			{
+				Team LichenDest-03
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 03 Triggers>>
+			Reset LichenDest-03Counter LichenDest-03Destroyed
+		}
+	}
+	Counter LichenDest-04Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-04
+	}
+	Trigger LichenDest-04Destroyed
+	{
+		Requires LichenDest-04Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 04>>
+			TeamControl
+			{
+				Team LichenDest-04
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 04 Triggers>>
+			Reset LichenDest-04Counter LichenDest-04Destroyed
+		}
+	}
+	Counter LichenDest-05Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-05
+	}
+	Trigger LichenDest-05Destroyed
+	{
+		Requires LichenDest-05Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 05>>
+			TeamControl
+			{
+				Team LichenDest-05
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 05 Triggers>>
+			Reset LichenDest-05Counter LichenDest-05Destroyed
+		}
+	}
+	Counter LichenDest-06Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-06
+	}
+	Trigger LichenDest-06Destroyed
+	{
+		Requires LichenDest-06Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 06>>
+			TeamControl
+			{
+				Team LichenDest-06
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 06 Triggers>>
+			Reset LichenDest-06Counter LichenDest-06Destroyed
+		}
+	}
+	Counter LichenDest-07Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-07
+	}
+	Trigger LichenDest-07Destroyed
+	{
+		Requires LichenDest-07Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 07>>
+			TeamControl
+			{
+				Team LichenDest-07
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 07 Triggers>>
+			Reset LichenDest-07Counter LichenDest-07Destroyed
+		}
+	}
+	Counter LichenDest-08Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-08
+	}
+	Trigger LichenDest-08Destroyed
+	{
+		Requires LichenDest-08Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 08>>
+			TeamControl
+			{
+				Team LichenDest-08
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 08 Triggers>>
+			Reset LichenDest-08Counter LichenDest-08Destroyed
+		}
+	}
+	Counter LichenDest-09Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-09
+	}
+	Trigger LichenDest-09Destroyed
+	{
+		Requires LichenDest-09Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 09>>
+			TeamControl
+			{
+				Team LichenDest-09
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 09 Triggers>>
+			Reset LichenDest-09Counter LichenDest-09Destroyed
+		}
+	}
+	Counter LichenDest-10Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-10
+	}
+	Trigger LichenDest-10Destroyed
+	{
+		Requires LichenDest-10Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 10>>
+			TeamControl
+			{
+				Team LichenDest-10
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 10 Triggers>>
+			Reset LichenDest-10Counter LichenDest-10Destroyed
+		}
+	}
+	Counter LichenDest-11Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-11
+	}
+	Trigger LichenDest-11Destroyed
+	{
+		Requires LichenDest-11Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 11>>
+			TeamControl
+			{
+				Team LichenDest-11
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 11 Triggers>>
+			Reset LichenDest-11Counter LichenDest-11Destroyed
+		}
+	}
+	Counter LichenDest-12Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-12
+	}
+	Trigger LichenDest-12Destroyed
+	{
+		Requires LichenDest-12Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 12>>
+			TeamControl
+			{
+				Team LichenDest-12
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 12 Triggers>>
+			Reset LichenDest-12Counter LichenDest-12Destroyed
+		}
+	}
+	Counter LichenDest-13Counter
+	{
+		Type Team
+		Direction Down
+		Count 0
+		Team LichenDest-13
+	}
+	Trigger LichenDest-13Destroyed
+	{
+		Requires LichenDest-13Counter complete> LichenInProgress scriptvalue> 1 == &&
+		Action
+		{
+			Delay 30
+			DebugPrint <<ForceSpawning Lichen 13>>
+			TeamControl
+			{
+				Team LichenDest-13
+				Type ForceSpawn
+			}
+		}
+		Action
+		{
+			Delay 32
+			DebugPrint <<Resetting Lichen 13 Triggers>>
+			Reset LichenDest-13Counter LichenDest-13Destroyed
+		}
+	}
+
+	Trigger LichenBossTrigger-ChallengeVictory
+	{
+		Requires LichenBossCleared complete> BossChallenge2-Timer complete> ! && Boss2Enrage-Timer complete> ! &&
+		Action
+		{
+			DebugPrint <<LichenBoss down, ending Act2, next is Act3>>
+		}
+		Action
+		{
+			SetScriptValue BossChallenge2-Completed 1
+		}
+		Action
+		{
+			DebugPrint <<LichenBoss down, Challenge completed, ending Act2, next is Act3>>
+			SetScriptValue LichenInProgress 0
+			DoorControl
+			{
+				Door DoorBoss2Exit
+				Type Unlock
+			}
+			Floater
+			{
+				Message P3571992110
+				Color FF9900
+			}
+		}
+		//Reward players with the mid-trial item drop, added in 2150
+		Action
+		{
+			Reward IS.Issue2150Midtrial
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 5
+			}
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable AstralMerit2
+				}
+			}
+		}
+		NextStage Act3
+	}
+
+	Trigger LichenBossTrigger
+	{
+		Requires LichenBossCleared complete> BossChallenge2-Timer complete> && Boss2Enrage-Timer complete> ! &&
+		Action
+		{
+			DebugPrint <<LichenBoss down, ending Act2, next is Act3>>
+			SetScriptValue LichenInProgress 0
+			DoorControl
+			{
+				Door DoorBoss2Exit
+				Type Unlock
+			}
+			Floater
+			{
+				Message P3571992110
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 5
+			}
+		}
+		//Reward players with the mid-trial item drop, added in 2150
+		Action
+		{
+			Reward IS.Issue2150Midtrial
+		}
+		Action
+		{
+			RewardGroup
+			{
+				MinorStageReward
+				Reward Merits
+				{
+//					PointsNeeded 15
+					RewardTable AstralMerit2
+				}
+			}
+		}
+		NextStage Act3
+	}
+
+//This trigger fails the event if Desdemona is defeated.
+	Trigger DesdemonaDefeatFailure
+	{
+		Requires DesdemonaDefeated complete>
+		Action
+		{
+			DebugPrint <<Desdemona Defeated. Event Failed.>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P868216392
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1021555188
+				Color FF9900
+			}
+		}
+		NextStage Failure
+	}
+
+//This trigger fails the event if the Enrage timer is hit.
+	Trigger Boss2EnrageFailure
+	{
+		Requires Boss2Enrage-Timer complete> Boss2Engaged scriptvalue> 1 == &&
+		Action
+		{
+			DebugPrint <<Enrage reached. Event Failed.>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2332754668
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1021555188
+				Color FF9900
+			}
+		}
+		NextStage Failure
+	}
+
+	Shutdown
+	{
+		Action
+		{
+			GlowieControl
+			{
+				Glowie LichenDet
+				Type Deactivate
+			}
+			GlowieControl
+			{
+				Glowie LichenDet
+				Type Remove
+			}
+			TeamControl
+			{
+				Team GenRoom7-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom7-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-6
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom9-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom9-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom9-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom10-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom10-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapA
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapB
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapC
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapD
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrap-Power
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsA
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsB
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsC
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsD
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom11-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom11-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team SelfRepairBoss
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenBoss
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom14-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom14-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-01
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-02
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-03
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-04
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-05
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-06
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-07
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-08
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-09
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-10
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-11
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-12
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-13
+				Type Deactivate
+			}
+		}
+	}
+}
+
+Stage Act3
+{
+	DisplayName P4116941047
+	ToolTip P98647324
+
+	AwardKarma
+	KarmaThreshold 1
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+
+	StartUp
+	{
+		Action DebugNote
+		{
+			DebugPrint <<Starting Stage Act3>>
+		}
+		Action TurnOnSpawns
+		{	
+			TeamControl
+			{
+				Team SporeCloud
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom15
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom16-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom16-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom17-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom17-2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom17-3
+				Type Activate
+			}
+//			TeamControl
+//			{
+//				Team GenRoom18-1
+//				Type Activate
+//			}
+			TeamControl
+			{
+				Team GenRoom18-2
+				Type Activate
+			}
+//			TeamControl
+//			{
+//				Team GenRoom18-3
+//				Type Activate
+//			}
+			TeamControl
+			{
+				Team GenRoom18-4
+				Type Activate
+			}
+//			TeamControl
+//			{
+//				Team GenRoom18-5
+//				Type Activate
+//			}
+			TeamControl
+			{
+				Team GenRoom18-6
+				Type Activate
+			}
+//			TeamControl
+//			{
+//				Team GenRoom18-7
+//				Type Activate
+//			}
+			TeamControl
+			{
+				Team GenRoom18-8
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom19-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom19
+				Type Activate
+			}
+			TeamControl
+			{
+				Team StaticRoom20
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom20-1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Bombs
+				Type Activate
+			}
+			TeamControl
+			{
+				Team BombsDE
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 2
+			TeamControl
+			{
+				Team BadgeChecker
+				Type Activate
+			}
+		}
+		Action
+		{
+			SetScriptValue Cutscene-Skippable 1
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom19 0
+		}
+		Action
+		{
+			SetScriptValue NotificationRoom19 0
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage3 0
+		}
+		Action
+		{
+			SetScriptValue BombMechanicsDescribed 0
+		}
+		Action
+		{
+			SetScriptValue BombActivationBegun 0
+		}
+		Action
+		{
+			SetScriptValue AllBombsDefeated 0
+		}
+		Action
+		{
+			SetScriptValue AnyBombsDetonated 0
+		}
+		Action
+		{
+			SetScriptValue AvatarDefeatedWithChargePresent 0
+		}
+		Action
+		{
+			SetScriptValue RoomCounts-Act3-Set 0
+		}
+		Action
+		{
+			SetScriptValue AvatarObjectiveDisplayed 0
+		}
+		Action
+		{
+			SetScriptValue AvatarIntroductionBegun 0
+		}
+		Action
+		{
+			SetScriptValue AvatarEngaged 0
+		}
+		Action
+		{
+			SetScriptValue TeleporterLocation 5
+		}
+		Action
+		{
+			SetScriptValue DesdemonaShieldActive 1
+		}
+		Action
+		{
+			Delay 2
+			Reset DesdemonaHealth
+		}
+		Action
+		{		
+			PorterControl
+			{
+				Porter TPTR-Room13
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			WaypointPlace WP-StartAct3
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+			Floater
+			{
+				Message P2481504620
+				Color 0099FF
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TPTR-StartAct3
+				Type Activate
+			}
+		}
+		Action
+		{
+			Delay 10
+			PlaySound
+			{
+				Sound i20_01Low_a_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+	}
+
+//Award Karma for defeating a member of the IDF.
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianIDFEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award Karma for defeating a member of the Warworks.
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianWarworksEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award Karma for defeating a member of the Devouring Earth.	
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup DevouringEarth
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award Karma for defeating an IDF explosive charge.
+	Objective
+	{
+		Type Team
+		Team Bombs
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+
+//Award bonus Karma for defeating the Avatar of Hamidon.
+	Objective
+	{
+		Type Named
+		Name DevouringEarth_AvatarOfHamidon
+		KarmaValue 20
+		KarmaLife 20
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+
+//This counter detects when players have entered the 16th room of the complex.
+	Counter PlayersInRoom16
+	{
+		Type ZEPlayers
+		VolumeName Room16
+	}
+
+//This counter detects when players have entered the 18th room of the complex.
+	Counter PlayersInRoom18
+	{
+		Type ZEPlayers
+		VolumeName Room18
+	}
+
+//This counter detects when players have entered the 19th room of the complex.
+	Counter PlayersInRoom19
+	{
+		Type ZEPlayers
+		VolumeName Room19
+	}
+
+//This counter detects when players have entered the 21st room of the complex.
+	Counter PlayersInRoom21
+	{
+		Type ZEPlayers
+		VolumeName Room21
+	}
+
+//This counter detects when players have entered the Avatar's room.
+	Counter PlayersInAvatarBattleRoom
+	{
+		Type ZEPlayers
+		VolumeName AvatarBattleRoom
+	}
+
+//This counter checks the number of defeats of IDF Explosive Charges
+	Counter ExplosiveChargesDefeated
+	{
+		Type Name
+		Name Objects_Underground_Bomb
+		Direction Up
+		Count 29
+	}
+
+//This counter checks the number of defeats of the IDF Demo Charges that actually cause damage.
+	Counter DemoChargesDefeated
+	{
+		Type Name
+		Name Objects_Underground_DemoCharge
+		Direction Up
+		Count 1
+	}
+
+//This counter checks the number of charges present during the final battle with the Avatar.
+	Counter AvatarChargesPresent
+	{
+		Type Team
+		Team AvatarMegaBomb
+		Direction Down
+		Count 0
+	}
+
+//This counter checks the number of enemies still alive in room 19.
+	Counter StaticRoom19Cleared
+	{
+		Count 0
+		Direction Down
+		Team StaticRoom19
+		Type Team
+	}
+
+//This counter checks the number of enemies still alive in room 20.
+	Counter StaticRoom20Cleared
+	{
+		Count 0
+		Direction Down
+		Team StaticRoom20
+		Type Team
+	}
+
+//This is used to update the UI as to the Desdemona's current health.
+	Counter DesdemonaHealth
+	{
+		Type BossHealth
+		Team Desdemona
+	}
+
+//This counter tracks the defeat of Desdemona.
+	Counter DesdemonaDefeated
+	{
+		Count 1
+		Direction Up
+		Team Desdemona
+		Type Team
+	}
+
+//This is used to display the Avatar of Hamidon's current health remaining.
+	Counter AvatarBossHealth
+	{
+		Type BossHealth
+		Team AvatarBoss
+	}
+
+//This counter checks to see if the Avatar of Hamidon has been defeated.
+	Counter AvatarBossCleared
+	{
+		Count 1
+		Direction Up
+		Team AvatarBoss
+		Type Team
+	}
+
+//UI Collection Block for Stage 3
+	UICollection UIAct3
+	{
+		UIItem TeleporterLocation5
+		{
+			Type CenterText
+			Text P2339325480
+			ShortText P4108150138
+			HideIf TeleporterLocation scriptvalue> 5 == !
+		}
+		UIItem TeleporterLocation6
+		{
+			Type CenterText
+			Text P713120095
+			ShortText P201961502
+			HideIf TeleporterLocation scriptvalue> 6 == !
+		}
+		UIItem TeleporterLocation7
+		{
+			Type CenterText
+			Text P552573721
+			ShortText P2514630867
+			HideIf TeleporterLocation scriptvalue> 7 == !
+		}
+		UIItem ClearRoom19
+		{
+			Type BarRed
+			Text P275057309
+			ShortText P2945166954
+			Current StaticRoom19Cleared count>
+			HideIf EnteredRoom19 scriptvalue> 1 <
+			Target Room19-Attackers-Target scriptvalue>
+			UpdateTarget
+		}
+		UIItem ClearRoom20
+		{
+			Type BarRed
+			Text P212518944
+			ShortText P4131642243
+			Current StaticRoom20Cleared count>
+			HideIf EnteredRoom19 scriptvalue> 1 <
+			Target Room20-Attackers-Target scriptvalue>
+			UpdateTarget
+		}
+		UIItem AvatarOfHamidonHealthBar
+		{
+			Type BarRed
+			Text P667554754
+			ShortText P1886668168
+			Current AvatarBossHealth count>
+			HideIf BossAccessibleStage3 scriptvalue> 1 <
+			OnClickFindEnt AvatarBoss
+			Target 100
+		}
+		UIItem DesdemonaHealthBar
+		{
+			Type BarBlue
+			Text P3411404469
+			ShortText P2641648380
+			Current DesdemonaHealth count>
+			OnClickFindEnt Desdemona
+			Target 100
+		}
+//		UIItem BombPresent
+//		{
+//			Type BarGold
+//			Text P4224026095
+//			ShortText P3336432461
+//			Current AvatarChargesPresent count>
+//			Target 1
+//		}
+		UIItem TimeToNextBombDrop-Initial
+		{
+			Type Timer
+			Text P794394544
+			ShortText P3098114356
+			Timer AvatarBombDropTimerInitial
+			HideIf BombActivationBegun scriptvalue> 1 == !
+		}
+		UIItem TimeToNextBombDrop-Ongoing
+		{
+			Type Timer
+			Text P1464972779
+			ShortText P1183808015
+			Timer AvatarBombDropTimerOngoing
+			HideIf BombActivationBegun scriptvalue> 2 == !
+		}
+		UIItem TimeToDetonation
+		{
+			Type Timer
+			Text P1950008472
+			ShortText P3002610236
+			Timer AvatarBombDropTimerLockout
+			HideIf BombActivationBegun scriptvalue> 3 == !
+		}
+		UIItem AvatarEnrageTimer
+		{
+			Type Timer
+			Timer AvatarEnrage-Timer
+			Text P3649598134
+			ShortText P3097074627
+			HideIf AvatarEngaged scriptvalue> 0 ==
+		}
+	}
+
+//This timer indicates when the first badge text for this stage will be awarded.
+	Timer Message05_Delay
+	{
+		Duration 0:05
+	}
+
+//This timer indicates when the second badge text for this stage will be awarded.
+	Timer Message06_Delay
+	{
+		Duration 3:05
+	}
+
+//This timer indicates when the third badge text for this stage will be awarded.
+	Timer Message07_Delay
+	{
+		Duration 6:05
+	}
+
+//This timer indicates the cycle time for the first bomb dropped into the Avatar's room.
+	Timer AvatarBombDropTimerInitial
+	{
+		Duration 00:20
+	}
+
+//This timer indicates the cycle time for the ongoing bomb drops into the Avatar's room.
+	Timer AvatarBombDropTimerOngoing
+	{
+		Duration 00:30
+	}
+
+//This timer is used to lock out the ongoing drop for a few seconds.
+	Timer AvatarBombDropTimerLockout
+	{
+		Duration 00:10
+	}
+
+//This timer gives a brief delay before starting to check Desdemona's health value.
+	Timer DesdemonaHealth-StartChecking-Act3
+	{
+		Duration 00:05
+	}
+
+//This timer gives the Avatar fight a 12 minute enrage timer.
+	Timer AvatarEnrage-Timer
+	{
+		Duration 12:00
+	}
+
+//This timer tracks the length of the Avatar of Hamidon's cutscene.
+	Timer Cutscene-Avatar-Timer
+	{
+		Duration 00:36
+	}
+
+//This trigger sets a badge check value if Desdemona's health falls below 50%.
+	Trigger SetCounterLimitsForEndRooms-Act3
+	{
+		Requires DesdemonaHealth-StartChecking-Act3 complete> RoomCounts-Act3-Set scriptvalue> 0 == &&	
+		Action
+		{
+			SetScriptValue Room19-Attackers-Target StaticRoom19Cleared count>
+		}
+		Action
+		{
+			SetScriptValue Room20-Attackers-Target StaticRoom20Cleared count>
+		}
+		Action
+		{
+			SetScriptValue RoomCounts-Act3-Set 1
+		}
+	}
+
+//This trigger sets a badge check value if Desdemona's health falls below 50%.
+	Trigger DesdemonaHealth-FallsBelowFifty-Act3
+	{
+		Requires DesdemonaHealth-StartChecking-Act3 complete> DesdemonaHealth count> 50 < &&
+
+		Action
+		{
+			SetScriptValue DesdemonaHealth-BelowFifty 1
+		}
+	}
+
+//This trigger checks to see if any players have entered Room 18.
+	Trigger SporeMechanics-Information
+	{
+		Requires PlayersInRoom18 count> 1 >= SporeMechanicsDescribed scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue SporeMechanicsDescribed 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Desdemona
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth49")>>
+			}
+		}
+		Action
+		{		
+			PorterControl
+			{
+				Porter TPTR-StartAct3
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			SetScriptValue TeleporterLocation 6
+		}
+		Action
+		{
+			WaypointPlace WP-Room17
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+			Floater
+			{
+				Message P1285955060
+				Color 0099FF
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TPTR-Room17
+				Type Activate
+			}
+		}
+	}
+
+//This trigger checks to see if any bombs have been detonated.
+	Trigger BombDetonation-Detected
+	{
+		Requires DemoChargesDefeated complete>
+
+		Action
+		{
+			SetScriptValue AnyBombsDetonated 1
+		}
+	}
+
+//This trigger checks to see if all bombs have been defeated.
+	Trigger BombDefeats-Completed
+	{
+		Requires ExplosiveChargesDefeated complete>
+		
+		Action
+		{
+			SetScriptValue AllBombsDefeated 1
+		}
+	}
+
+//This trigger advises players of the bomb mechanics.
+	Trigger BombMechanics-Floaters
+	{
+		Requires PlayersInRoom16 count> 1 >= BombMechanicsDescribed scriptvalue> 0 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P903232516
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2564383682
+				Color FF9900
+			}
+		}
+		Action
+		{
+			SetScriptValue BombMechanicsDescribed 1
+		}
+	}			
+
+//This trigger runs the cutscene introducing the Avatar of Hamidon.
+	Trigger Avatar-Introduction
+	{
+		Requires PlayersInAvatarBattleRoom count> 1 >= AvatarIntroductionBegun scriptvalue> 0 == && Cutscene-Skippable scriptvalue> 0 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Cutscene-Avatar
+				Type Activate
+			}
+		}
+		Action
+		{
+			Reset Cutscene-Avatar-Timer
+		}
+		Action
+		{
+			SetScriptValue AvatarIntroductionBegun 1
+		}
+		Action
+		{
+			SetScriptValue SkipFinalCutscene 0
+		}
+	}
+
+//This trigger allows the Avatar objective to display if the cutscene is not run.
+	Trigger Avatar-CutsceneSkipped
+	{
+		Requires PlayersInAvatarBattleRoom count> 1 >= AvatarIntroductionBegun scriptvalue> 0 == && Cutscene-Skippable scriptvalue> 0 > &&
+		
+		Action
+		{
+			SetScriptValue AvatarIntroductionBegun 1
+		}
+		Action
+		{
+			SetScriptValue SkipFinalCutscene 1
+		}
+	}
+
+//This activates the Avatar's UI Objective after the cutscene is complete.
+	Trigger ActivateAvatarObjective
+	{
+		Requires AvatarIntroductionBegun scriptvalue> 1 == Cutscene-Avatar-Timer complete> && AvatarObjectiveDisplayed scriptvalue> 0 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P2549094838
+				Color FF9900
+			}
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_01Low_b_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+		Action
+		{
+			SetScriptValue AvatarObjectiveDisplayed 1
+		}
+		Action
+		{
+			SetScriptValue BossAccessibleStage3 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SporeCloud-Avatar
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Cutscene-Avatar
+				Type Deactivate
+			}
+		}
+	}
+
+//This trigger runs when the Avatar is damaged.
+	Trigger AvatarBossEngaged
+	{
+		Requires AvatarBossHealth count> 100 < BossAccessibleStage3 scriptvalue> 1 == && AvatarEngaged scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Avatar of Hamidon engaged>>
+		}
+		Action
+		{
+			Reset AvatarEnrage-Timer
+		}
+		Action
+		{
+			Delay 1
+			SetScriptValue AvatarEngaged 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team StaticRoom21
+				Type Deactivate
+			}
+		}
+	}
+
+//This trigger initializes the first bomb drop in the final battle.
+	Trigger MegaBombDrop-Initialize
+	{
+		Requires AvatarObjectiveDisplayed scriptvalue> 1 == AvatarBossHealth count> 95 <= && BombActivationBegun scriptvalue> 0 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P3361405767
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1193717464
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Reset AvatarBombDropTimerInitial
+		}
+		Action
+		{
+			SetScriptValue BombActivationBegun 1
+		}
+	}
+
+//This trigger starts the first bomb drop in the Avatar's room.
+	Trigger MegaBombDrop-First
+	{
+		Requires AvatarBombDropTimerInitial complete> BombActivationBegun scriptvalue> 1 == &&
+
+		Action
+		{
+			Reset AvatarBombDropTimerOngoing
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team AvatarMegaBomb
+			}
+		}
+		Action
+		{
+			SetScriptValue BombActivationBegun 2
+		}
+		Action
+		{
+			Reset AvatarChargesPresent
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1269260137
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P337222074
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This trigger sets the ongoing bomb drop in the Avatar's room.
+	Trigger MegaBombDrop-Ongoing
+	{
+		Requires AvatarBombDropTimerOngoing complete> BombActivationBegun scriptvalue> 2 == &&
+
+		Action
+		{
+			Reset AvatarBombDropTimerOngoing
+		}
+
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team AvatarMegaBomb
+			}
+		}
+		Action
+		{
+			Reset AvatarBombDropTimerLockout
+		}
+		Action
+		{
+			Reset AvatarChargesPresent
+		}
+		Action
+		{
+			SetScriptValue BombActivationBegun 3
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1269260137
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//This is the lockout trigger for ongoing bomb drops.
+	Trigger MegaBombDrop-Lockout
+	{
+		Requires AvatarBombDropTimerLockout complete> BombActivationBegun scriptvalue> 3 == &&
+
+		Action
+		{
+			Reset MegaBombDrop-Ongoing
+		}
+		Action
+		{
+			SetScriptValue BombActivationBegun 2
+		}
+		Action
+		{
+			Reset AvatarBombDropTimerLockout
+		}
+		Action
+		{
+			Reset MegaBombDrop-Lockout
+		}
+	}
+
+
+//This trigger awards the first badge text for this stage.
+	Trigger Message05_Send
+	{
+		Requires Message05_Delay complete> StaticRoom19Cleared complete> StaticRoom20Cleared complete> && ! &&
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Vanessa
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth69")>>
+			}
+		}
+	}
+
+//This trigger awards the second badge text for this stage.
+	Trigger Message06_Send
+	{
+		Requires Message06_Delay complete> StaticRoom19Cleared complete> StaticRoom20Cleared complete> && ! &&
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Vanessa
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth59")>>
+			}
+		}
+	}
+
+//This trigger awards the third badge text for this stage.	
+	Trigger Message07_Send
+	{
+		Requires Message07_Delay complete> StaticRoom19Cleared complete> StaticRoom20Cleared complete> && ! &&
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Vanessa
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth49")>>
+			}
+		}
+	}
+
+//This trigger informs players of the need to clear rooms 19 and 20 when initially entering room 19.
+	Trigger EnteredRoom19
+	{
+		Requires PlayersInRoom19 count> 1 >= NotificationRoom19 scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Entered Room 19>>
+		}
+		Action
+		{
+			SetScriptValue NotificationRoom19 1
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom19 1
+		}
+		Action
+		{
+			Reset StaticRoom19Cleared
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1679888725
+				Color FF9900
+			}
+		}
+	}
+
+//This trigger tracks Rooms 19 and 20 to determine if they are cleared of all enemies. This turns off all previous spawns, unlocks the boss room and activates the boss spawns.
+	Trigger StaticRoom1920Trigger
+	{
+		Requires StaticRoom19Cleared complete> StaticRoom20Cleared complete> &&
+		Action
+		{
+			DebugPrint <<Rooms 19 & 20 Cleared, Boss Door Open>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManager-Vanessa
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth00")>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team AvatarBoss
+				Type Activate
+			}
+		}
+		Action
+		{
+			Reset AvatarBossHealth
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 5
+			}
+		}
+		Action
+		{
+			SetScriptValue EnteredRoom19 0
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3230867856
+				Color FF9900
+			}
+		}
+		Action
+		{		
+			PorterControl
+			{
+				Porter TPTR-Room17
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			RemoveWaypoints
+		}
+		Action
+		{
+			SetScriptValue TeleporterLocation 7
+		}
+		Action
+		{
+			WaypointPlace WP-Room20
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+			Floater
+			{
+				Message P2835039923
+				Color 0099FF
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TPTR-Room20
+				Type Activate
+			}
+		}		
+		Action
+		{
+			TeamControl
+			{
+				Team StaticRoom15
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom16-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom16-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom17-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom17-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom17-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-6
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-7
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-8
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom19-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom19
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom20
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team SporeCloud
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom21
+				Type Activate
+			}
+			TeamControl
+			{
+				Team GenRoom21-1
+				Type Activate
+			}
+			DoorControl
+			{
+				Door DoorBoss3Entrance
+				Type Unlock
+			}
+		}
+	}
+
+//This trigger grants the Avatar its Corruption power, which affects Desdemona.
+	Trigger GrantCorruption
+	{
+		Requires AvatarObjectiveDisplayed scriptvalue> 1 == AvatarBossHealth count> 99 <= &&
+
+		Action
+		{
+			Floater
+			{
+				Message P2232852885
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue AvatarCorruptionActive 1
+		}
+	}
+
+	Trigger AvatarBoss-DesdemonaCollapse
+	{
+		Requires AvatarEngaged scriptvalue> 1 >= DesdemonaHealth count> 40 <= &&
+
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type DoBehavior
+				Behavior <<Untargetable(1),Unselectable(1),Invincible(1),DoNotDrawAggro(1),DoAttackAI(0),DoNotMove(1),CombatOverride(Passive),RecluseCollapse(Timer(500))>>
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaCollapsed 1
+		}
+	}
+
+	Trigger AvatarBossTrigger
+	{
+		Requires AvatarBossCleared complete> AvatarChargesPresent count> 0 == && AvatarEnrage-Timer complete> ! &&
+
+		Action
+		{
+			DebugPrint <<Avatar Boss Defeated, ZE Success>>
+			DebugPrint <<Ending Act3, NextStage RewardWinners>>
+			TeamControl
+			{
+				Team GenRoom20-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom21
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom21-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AvatarBoss
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Bombs
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team BombsDE
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team SporeCloud-Avatar
+				Type Deactivate
+			}
+			Floater
+			{
+				Message P1574017436
+				Color FF9900
+			}
+			Floater
+			{
+				Message P1279012192
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			Reward EmpyreanMerit_UGR
+		}
+		Action
+		{
+			Reward AstralMerit2
+		}
+		NextStage Cutscene
+	}
+
+	Trigger AvatarBossTrigger-ChargesPresent
+	{
+		Requires AvatarBossCleared complete> AvatarChargesPresent count> 0 > && AvatarEnrage-Timer complete> ! &&
+
+		Action
+		{
+			DebugPrint <<Avatar Boss Defeated, Bomb Present, ZE Success>>
+			DebugPrint <<Ending Act3, NextStage RewardWinners>>
+			Floater
+			{
+				Message P1574017436
+				Color FF9900
+			}
+			Floater
+			{
+				Message P1279012192
+				Color FF9900
+			}
+			TeamControl
+			{
+				Team GenRoom20-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom21
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom21-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AvatarBoss
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Bombs
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team BombsDE
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team SporeCloud-Avatar
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			SetScriptValue AvatarDefeatedWithChargePresent 1
+		}
+		Action
+		{
+			Reward EmpyreanMerit_UGR
+		}
+		Action
+		{
+			Reward AstralMerit2
+		}
+		NextStage Cutscene
+	}
+
+//This trigger fails the event if Desdemona is defeated.
+	Trigger DesdemonaDefeatFailure
+	{
+		Requires DesdemonaDefeated complete> AvatarEngaged scriptvalue> 1 < &&
+		Action
+		{
+			DebugPrint <<Desdemona Defeated. Event Failed.>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P868216392
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1021555188
+				Color FF9900
+			}
+		}
+		NextStage Failure
+	}
+
+//This trigger fails the event if the Extinction War Walker's Enrage timer is hit.
+	Trigger AvatarEnrageFailure
+	{
+		Requires AvatarEnrage-Timer complete> AvatarEngaged scriptvalue> 1 == &&
+		Action
+		{
+			DebugPrint <<Avatar Enraged. Event Failed.>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1221103264
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1021555188
+				Color FF9900
+			}
+		}
+		NextStage Failure
+	}
+
+	Shutdown
+	{
+		Action
+		{
+			TeamControl
+			{
+				Team StaticRoom15
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom16-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom16-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom17-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom17-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom17-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-6
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-7
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-8
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom19-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom19
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom20
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom20-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom21
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom21-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AvatarBoss
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Bombs
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team BombsDE
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AvatarMegaBomb
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team SporeCloud
+				Type Deactivate
+			}
+		}
+	}
+}
+
+Stage Cutscene
+{
+	Startup
+	{
+
+	}
+
+//This timer is used to indicate when the cutscene has ended and the stage can be flipped.
+	Timer CutsceneStart
+	{
+		Duration 00:08
+	}
+	
+	Timer EndCutscene
+	{
+		Duration 00:62
+	}
+	
+	Trigger PlayFinalCutscene
+	{
+		Requires CutsceneStart complete> SkipFinalCutscene scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Team Cutscene-Completion
+				Type Activate
+			}
+		}
+	}
+
+	Trigger SkipFinalCutscene
+	{
+		Requires SkipFinalCutscene scriptvalue> 1 ==
+
+		NextStage RewardWinners
+	}
+
+	Trigger EndCutscene-Stage
+	{
+		Requires EndCutscene complete>
+
+		NextStage RewardWinners
+	}
+
+	Shutdown
+	{
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team Cutscene-Completion
+			}
+		}
+	}
+}
+
+Stage RewardWinners
+{
+	StartUp
+	{
+		Action StartRewardWinners
+		{
+			DebugPrint <<Starting Stage RewardWinners>>
+		}
+		Action
+		{
+			SetScriptValue OpenLeagueAward 0
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 10
+			}
+		}
+	}
+
+	Trigger AvatarBoss-DesdemonaCollapse-Recovery
+	{
+		Requires DesdemonaCollapsed scriptvalue> 1 ==
+
+		Action
+		{
+			TeamControl
+			{
+				Team Desdemona
+				Type DoBehavior
+				Behavior <<ArmsCrossed>>
+			}
+		}
+		Action
+		{
+			SetScriptValue DesdemonaCollapsed 2
+		}
+	}
+
+	Trigger AwardBadge-Completion
+	{
+		Action
+		{
+			DebugPrint <<Awarding Completion Badge>>
+			Reward IT_Underground_Complete
+		}
+	}
+	Trigger AwardBadge-Boss2-FastKill
+	{
+		Requires BossChallenge2-Completed scriptvalue> 1 ==
+		Action
+		{
+			DebugPrint <<Awarding Fast Kill Badge>>
+			Reward IT_Underground_FastKill
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardBadge-DesdemonaHealth
+	{
+		Requires DesdemonaHealth-BelowFifty scriptvalue> 0 ==
+		Action
+		{
+			DebugPrint <<Awarding Desdemona Health Badge>>
+			Reward IT_Underground_DesHealth
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardBadge-BombsDefeated
+	{
+		Requires AllBombsDefeated scriptvalue> 1 == AnyBombsDetonated scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Awarding Bombs Defeated Badge>>
+			Reward IT_Underground_AllBombs
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardBadge-AvatarBombs
+	{
+		Requires AvatarDefeatedWithChargePresent scriptvalue> 1 ==
+		Action
+		{
+			DebugPrint <<Awarding Avatar With Bombs Badge>>
+			Reward IT_Underground_AvatarBomb
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardMerit-OpenLeague
+	{
+		Requires eventLockedByGroup? ! OpenLeagueAward scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Bonus Merit for an Open League Awarded>>
+			SetScriptValue OpenLeagueAward 1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger End
+	{
+		NextStage Stop
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Reward>>
+		}
+		Action PhatLewt
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+					NumStagesRequired 0
+					RewardTable IncarnatePool1None
+				}
+				Reward class1
+				{
+					NumStagesRequired 2
+					RewardTable Issue21EndKarma1
+				}
+				Reward class2
+				{
+					NumStagesRequired 3
+					RewardTable IS.Issue2150AvatarKarma1
+				}
+			}
+		}
+	}
+}
+
+Stage Failure
+{
+	StartUp
+	{
+		Action FailureStart
+		{
+			DebugPrint <<Initializing Stage Failure...>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 10
+			}
+		}
+	}
+	Timer FailureDelay
+	{
+		Duration 00:10
+	}
+	Trigger FailureDelayEnd
+	{
+		Requires FailureDelay complete>
+		NextStage Stop
+		
+		Action StopStart
+		{
+			DebugPrint <<Completing Stage Failure...>>
+		}
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint <<Starting Stop Stage>>
+			RemoveWaypoints
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 10
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GenRoom1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom3-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom3-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-6
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-7
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-8
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom4-9
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom6-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom6-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom7-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom7-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom7-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom8-6
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom9-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom9-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom9-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom10-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom10-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom11-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom11-2
+				Type Deactivate
+			}			
+			TeamControl
+			{
+				Team GenRoom12-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom12-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom13
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom14-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-01
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-02
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-03
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-04
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-05
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-06
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-07
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-08
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-09
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-10
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-11
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-12
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team LichenDest-13
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom15
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom16-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom16-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom17-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom17-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom17-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-5
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-6
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-7
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom18-8
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom19-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom19
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom20
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom21
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom21-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom20-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom21
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom21-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AvatarBoss
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Bombs
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team BombsDE
+				Type Deactivate
+			}
+			GlowieControl
+			{
+				Glowie LichenDet
+				Type Deactivate
+			}
+			GlowieControl
+			{
+				Glowie LichenDet
+				Type Remove
+			}
+			TeamControl
+			{
+				Team ExtinctionBoss
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team SelfRepairBoss
+				Type Deactivate
+			}			
+			TeamControl
+			{
+				Team LichenBoss
+				Type Deactivate
+			}			
+			TeamControl
+			{
+				Team AvatarBoss
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Vanessa
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Desdemona
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team AvatarMegaBomb
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom10-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team GenRoom10-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team StaticRoom10-3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapA
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapB
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapC
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrapD
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalTrap-Power
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsA
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsB
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsC
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team CrystalGuardsD
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher2A
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher2B
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team DesdemonaWatcher-10
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team SporeCloud
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team BadgeChecker
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team WarmthBuff
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team TeleporterFX
+				Type Deactivate
+			}
+		}
+		Action ShutDownInstancedEvent
+	        {
+			TrialComplete Success
+		}
+	}	
+	Trigger Never
+	{
+		Requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting Down Stop Stage>>
+		}
+
+	}
+
+}

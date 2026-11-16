@@ -1,0 +1,237 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage ResetStage
+EventVolume EventVolume_AT_Tutorial
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup. NOTE TO ANYONE LOOKING AT THIS. THIS IS A NON ZONE EVENT, THIS IS MEANT TO ADD FLAVOR TO THE WORLD>>
+		}
+		Action CreateStuff
+		{
+			SpawnCreate ShivanFountainSpawnIntro1
+			{
+				Location ShivanFountainSpawnIntro1
+				Group ShivanFountainSpawnIntro1
+				Team ShivanFountainSpawnIntro1
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(2)),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawnIntro1
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   3,   3
+				Count   2,   3,   3
+				Count   3,   3,   3
+				Count   8,   3,   3
+				Count   10,   3,   3
+				Count   12,   3,   3
+				Count   16,   3,   3
+				Count   23,   3,   3
+				Count   38,   3,   3
+				Count   43,   3,   3
+			}
+			SpawnCreate ShivanFountainSpawnIntro2
+			{
+				Location ShivanFountainSpawnIntro2
+				Group ShivanFountainSpawnIntro2
+				Team ShivanFountainSpawnIntro2
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(2)),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawnIntro2
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   3,   3
+				Count   2,   3,   3
+				Count   3,   3,   3
+				Count   8,   3,   3
+				Count   10,   3,   3
+				Count   12,   3,   3
+				Count   16,   3,   3
+				Count   23,   3,   3
+				Count   38,   3,   3
+				Count   43,   3,   3
+			}
+			SpawnCreate BaB
+			{
+				Location BaB
+				Group BaB
+				Team BaB
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(2)),DoNotMove(1),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BaB
+			}
+			SpawnCreate Psyche
+			{
+				Location Psyche
+				Group Psyche
+				Team Psyche
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(2)),DoNotMove(1),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Psyche
+			}
+			SpawnCreate ControlLongStrafe
+			{
+				Location Tutorial_Airstrike_Controller_Long_Strafe
+				Group Tutorial_Airstrike_Controller_Long_Strafe
+				Team ControlLongStrafe
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ControlLongStrafe
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage RegularStage
+	}
+}
+
+Stage CompleteStage
+{
+	StartUp
+	{
+		Action TurnOffLongbow1
+		{
+			TeamControl DeTriggerLongbow1
+			{
+				Type Deactivate
+				Team LongbowCharger1
+			}
+		}
+		Action TurnOffLongbow2
+		{
+			TeamControl DeTriggerLongbow2
+			{
+				Type DeActivate
+				Team LongbowCharger2
+			}
+		}
+		Action TurnOffLongbow3
+		{
+			TeamControl DeTriggerLongbow3
+			{
+				Type DeActivate
+				Team LongbowCharger3
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:30
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		NextStage ChargeStage
+	}
+}
+
+Stage RegularStage
+{
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Shivan Respawn>>
+		}
+		Action TurnonShivans
+		{
+			TeamControl TriggerShivan1
+			{
+				Type Activate
+				Team ShivanFountainSpawnIntro1
+			}
+			TeamControl TriggerShivan2
+			{
+				Type Activate
+				Team ShivanFountainSpawnIntro2
+			}
+			TeamControl TriggerBaB
+			{
+				Type Activate
+				Team BaB
+			}
+			TeamControl TriggerPsyche
+			{
+				Type Activate
+				Team Psyche
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ControlLongStrafe
+			}
+		}
+	}
+
+	Timer SendLongStrafe
+	{
+		Duration 00:60
+	}
+
+	Trigger LongStrafe
+	{
+		Requires SendLongStrafe complete>
+		Action
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team ControlLongStrafe
+				Behavior <<UsePower(Long_Strafe)>>
+			}
+			Reset LongStrafe SendLongStrafe
+		}
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action TurnOffLongbow1
+		{
+			TeamControl DeTriggerLongbow1
+			{
+				Type Deactivate
+				Team LongbowCharger1
+			}
+		}
+		Action TurnOffLongbow2
+		{
+			TeamControl DeTriggerLongbow2
+			{
+				Type DeActivate
+				Team LongbowCharger2
+			}
+		}
+		Action TurnOffLongbow3
+		{
+			TeamControl DeTriggerLongbow3
+			{
+				Type DeActivate
+				Team LongbowCharger3
+			}
+		}
+}

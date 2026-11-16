@@ -1,0 +1,281 @@
+#############################################################
+
+Sequencer
+
+TypeDef disruptor_screws
+	BaseSkeleton	Arachnos_disruptorpack\Skel_disruptors
+	ParentType	None
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+
+###################
+### Ready ##
+###################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+	interpolate	0
+	scale		0.1
+	CycleMove	Ready
+	CycleMove	Ready2
+	CycleMove	Ready3
+	CycleMove	Ready
+
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 52 65
+	TEnd
+MEnd
+
+Move Ready2
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale
+	interpolate	0
+	scale		0.5
+	nextmove	Ready
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 210 250
+	TEnd
+MEnd
+
+Move Ready3
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale
+	nextmove	Ready
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 250 300
+	  PlayFX	Feet\ServoScrews.fx
+	TEnd
+MEnd
+
+
+################### Deaths  #####################
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 52 65
+	TEnd
+
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 52 65
+	TEnd
+
+
+MEnd
+
+################# POWERS  #######################
+
+############################
+###### Disruptor Lightning ####
+##########################
+
+Move attack_lightning
+	Requires	ARACHDISBOLT Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        attack_lightning_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 55 100
+	TEnd
+
+MEnd
+
+Move attack_lightning_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 100 120
+	TEnd
+
+MEnd
+
+
+############################
+###### Disruptor Ball ####
+##########################
+
+Move attack_ball_blast
+	Requires	ARACHDISBALL Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        attack_ball_blast_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 55 100
+	TEnd
+
+MEnd
+
+Move attack_ball_blast_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	##NextMove        Ready
+	Flags		PitchToTarget NoSizeScale
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 100 120
+	TEnd
+
+MEnd
+
+
+
+###########################################
+###### Disruptor Tesla Cage ######
+###########################################
+
+Move attack_tesla_cage
+	Requires	ARACHDISCAGE Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        attack_tesla_cage_post
+	Flags		PitchToTarget NoSizeScale
+	Priority        6
+	Sets            CANTMOVE
+	scale		.9
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 130 190
+	TEnd
+
+MEnd
+
+
+Move attack_tesla_cage_post
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Combat_Cycle
+	Priority        3
+	Flags		 NoSizeScale
+	scale		.9
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 190 215
+	TEnd
+
+MEnd
+
+
+
+
+###########################################
+###### Disruptor Spawn Kiddos ######
+###########################################
+
+Move Spawn_kids
+	Requires	ARACHDISSPIDERLINGS combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <ReactIRQ>
+	NextMove        Spawn_kids_post
+	Flags		NoSizeScale
+	Priority        6
+	Sets            CANTMOVE
+	scale		.75
+
+
+#	Type		disruptor_screws
+#	  Anim          Arachnos_disruptorpack\Skel_disruptors 160 180 #210 250
+#	TEnd
+
+	Type		disruptor_screws
+	  Anim          Arachnos_disruptorpack\Skel_disruptors 250 300
+	TEnd
+
+MEnd
+
+#Move Spawn_kids_post
+#	Member		<ReactIRQ> <DeathIRQ> <TwoHandAttack> <BlockIRQ> <AttackIRQ>
+#	NextMove        Combat_Cycle
+#	Priority        3
+#	Interpolate     0
+#	Flags		 NoSizeScale
+#	scale		2
+#
+#	Type		disruptor_screws
+#	  Anim          Arachnos_disruptorpack\Skel_disruptors 215 250
+#	TEnd
+#
+#MEnd
+#
+SeqEnd ## Don't cut
+
+
+

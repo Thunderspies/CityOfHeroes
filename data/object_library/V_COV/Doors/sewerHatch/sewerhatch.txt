@@ -1,0 +1,82 @@
+RootMod SewrHatch_Base
+End
+
+RootMod SewerAccess_Hatch
+End
+
+Def SewerHatch_Door_1&
+	Group Doors/Sewer_Doors/_Door_Sewer_Generator
+		Rot 0 3.141592 0
+	End
+	Property	"Generator"	"Door_Sewer_Hatch"	0
+End
+
+Def SewerHatch_Door_2&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EmergeAnimationBits"	"JUMPOUTOFHOLE"	0
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterAnimationBits"	"JUMPINHOLE"	0
+	Property	"EnterMe"	"0"	0
+End
+
+Def SewerHatch_Door_3&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def SewerHatch_Door_5&
+	Group Doors/Hatch_door/Hatch_frame
+		Rot 0 -2.268928 0
+		Pos -0.199463 -1.14212 -0.175049
+	End
+	Property	"Door"	"Door"	0
+End
+
+Def SewerHatch_Door
+	Group city_templates/mapmarkers/marker_sewer
+		Rot 0 2.96706 0
+	End
+	Group SewerHatch_Door_1&
+		Rot 0 0.942477 0
+		Pos -0.21875 0 -0.501221
+	End
+	Group SewerHatch_Door_2&
+		Rot 0 -0.174533 0
+		Pos -0.227051 0.120483 -0.5
+	End
+	Group SewerHatch_Door_3&
+		Rot 0 -0.174532 0
+		Pos -3 0 1
+	End
+	Group SewerHatch_Door_3&
+		Rot 0 -0.174532 0
+		Pos -3 0 -1
+	End
+	Group SewerHatch_Door_3&
+		Rot 0 -0.174532 0
+		Pos -1.727051 0.661224 -3
+	End
+	Group SewerHatch_Door_3&
+		Rot 0 -0.174532 0
+		Pos 0.5 0 -4
+	End
+	Group Omni/ExitPoint
+		Rot 0 0.436331 0
+		Pos -2.378174 0.691528 -5.458496
+	End
+	Group Omni/ExitPoint
+		Rot 0 1.570796 0
+		Pos -5.761719 0.661224 -0.801758
+	End
+	Group SewerHatch_Door_5&
+		Rot 0 0.087266 0
+		Pos -0.031738 1.120483 -0.255859
+	End
+	Group Omni/ExitPoint
+		Rot 0 1.047197 0
+		Pos -4.805908 1.281708 -3.467285
+	End
+End
+

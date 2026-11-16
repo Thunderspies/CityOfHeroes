@@ -1,0 +1,62 @@
+#############################################################
+
+Sequencer
+
+TypeDef Hydra_Pod 
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+Group	<Ready>
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Hydra_Pod
+	  Anim          Prop_basic\skel_test 3  
+	  PlayFx	ENEMYFX\Hydra\Hydra_Regeneration_Pod\Hydra_Regeneration_Pod.fx 0 Constant
+	TEnd
+
+MEnd
+
+Move DeathBlast
+	Requires	DEATH
+	Interrupts	<Ready>
+	Priority        4
+	NextMove	Death
+
+	Type		Hydra_Pod
+	  Anim          Prop_basic\skel_test 1 30
+	  PlayFx	ENEMYFX\Hydra\Hydra_Regeneration_Pod\Exit\Hydra_Regeneration_Pod_Exit.fx 0 Constant
+	TEnd
+
+MEnd
+
+Move Death
+	Requires	DEATH
+	Flags		Cycle 
+	NextMove	Resurrect
+	Priority        2
+
+	Type		Hydra_Pod
+	  Anim          Prop_basic\skel_test 1
+	TEnd
+
+MEnd
+
+Move Resurrect
+	NextMove	Ready
+	Priority        4
+
+	Type		Hydra_Pod
+	  Anim          Prop_basic\skel_test 1 30
+	  PlayFx	ENEMYFX\Hydra\Hydra_Regeneration_Pod\Entrance\Hydra_Regeneration_Pod_Entrance.fx 0 Constant
+	TEnd
+
+MEnd
+
+
+
+SeqEnd
+

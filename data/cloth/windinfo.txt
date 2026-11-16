@@ -1,0 +1,265 @@
+// WorldFactor=0 && LocalFactor=0 : freeze cloth
+// WindInMovementDirection means apply wind in direction of movement (scale wind by dp)
+// SpecialCollision means to use extra collision for moving backwards that keeps the cape
+//    from getting entangled in the character
+// LocalDir:
+//    -Y = head to foot, -Z = away from back
+
+
+// Default wind used if no other wind is specified, this MUST be defined
+WindInfo
+	Name DEFAULT
+	WorldFactor	0.9
+	LocalFactor	0.1
+	Ripple		0.5
+	Gravity		1.0
+	LocalDir	0.0 0.25 -0.9375
+End
+
+// Special setting to freeze the cape simulate (good for spins, etc, where it goes crazy)
+WindInfo
+	Name FREEZE
+	WorldFactor	0.0
+	LocalFactor	0.0
+End
+
+// Special parameters used for flags
+WindInfo
+	Name FLAG
+	WorldFactor	1.0
+	LocalFactor	0.0
+	Ripple		0.4
+	Gravity		0.5
+#	LocalDir	0.0 0.0 -1.0
+End
+
+// Special parameters used for tails (not currently implemented)
+WindInfo
+	Name TAIL
+	WorldFactor	0.0
+	LocalFactor	0.25
+	Ripple		0.0
+	Gravity		0.0
+	LocalDir	0.0 0.0 -1.0
+End
+
+// Automatically used if the player is moving backwards
+WindInfo
+	Name BACKRUN
+	WorldFactor	0.0
+	LocalFactor	0.5
+	SpecialCollision
+	WindInMovementDirection
+	Ripple		0.5
+	Gravity		1.0
+	LocalDir	0.0 0.0 -1.0
+End
+
+// Automatically used when player is falling downward
+WindInfo
+	Name JUMPFALL
+	WorldFactor	0.0
+	LocalFactor	0.5
+	Ripple		3.5
+	Gravity		-0.1
+	LocalDir	0.0 -0.25 -0.9375
+End
+
+// Automatically used when player jumping straight up
+WindInfo
+	Name JUMPUP
+	WorldFactor	0.0
+	LocalFactor	0.5
+	Ripple		0.5
+	Gravity		0.0
+	LocalDir	0.0 0.707 -0.707
+End
+
+// Automatically used when player moving diagnolly upward (running jump)
+WindInfo
+	Name HOP
+	WorldFactor	0.0
+	LocalFactor	0.5
+	Ripple		0.5
+	Gravity		1.0
+	LocalDir	0.0 0.0 -1.0
+End
+
+// From here on down are special wind settings referred to in squencers
+
+// FLY: Use this one if the back of the character is facing up (like flying fowards)
+//   Adds a nice ripple affect while flying
+WindInfo		// -Z = "UP"
+	Name FLY
+	WorldFactor	0.0
+	LocalFactor	0.25
+	Ripple		3.0
+	Gravity		0.25
+	LocalDir	0.0 -0.5 -0.866
+End
+
+// FLYUP: Use this one if the head of the character is moving upward (like a jump)
+WindInfo		// +Y = "UP"
+	Name FLYUP
+	WorldFactor	0.0
+	LocalFactor	0.5
+	Ripple		1.0
+	Gravity		0.5
+	LocalDir	0.0 0.5 -0.866
+End
+
+// This generates a fair amount of wind pushing the cape away from the players back, this
+//   is good in attack animations so that when the player leans forward the cape doesn't end
+//   up crumpled on his back
+WindInfo
+	Name ATTACK
+	WorldFactor	0.0
+	LocalFactor	0.5
+	Ripple		0.0
+	Gravity		1.0
+	LocalDir	0.0 0.25 -0.9375
+End
+
+// Turns off world wind values while sitting so that the cape stays behind the character, as
+//   it easily gets crumpled while on the ground
+WindInfo
+	Name SIT
+	WorldFactor	0.0
+	LocalFactor	0.1
+	Ripple		0.1
+	Gravity		1.0
+	LocalDir	0.0 0.0 -1.0
+End
+
+// Turns off world wind values while sitting so that the cape stays behind the character, as
+//   it easily gets crumpled while on the ground
+WindInfo
+	Name DEATHWIND
+	WorldFactor	0.0
+	LocalFactor	0.4
+	Ripple		0.1
+	Gravity		1.0
+	LocalDir	0.0 -1.0 0.0
+End
+
+
+// Various flag settings referenced directly in FX files
+// Flag that hangs straight down, slight amount of wind
+WindInfo
+	Name FLAG_VERTICAL
+	WorldFactor	0.9
+	LocalFactor	0.1
+	Ripple		0.4
+	Gravity		2.4
+	LocalDir	0.0 0.25 -1.0
+End
+
+WindInfo
+	Name FLAG_HORIZONTAL
+	WorldFactor	2.0
+	LocalFactor	0.05
+	Ripple		0.4
+	Gravity		0.5
+	LocalDir	0.0 0.25 -1.0
+End
+
+WindInfo
+	Name FLAG_HORIZONTAL_LARGE
+	WorldFactor	2.0
+	LocalFactor	.5
+	Ripple		.5
+	Gravity		0.4
+	LocalDir	0.25 0.25 5.0
+End
+
+WindInfo
+	Name FLAG_ARENA
+	WorldFactor	3
+	LocalFactor	.2
+	Ripple		1.5
+	Gravity		.1
+	LocalDir	0.0 0.25 -1.0
+End
+
+
+WindInfo
+	Name FLAG_ARENA_INT
+	WorldFactor	0.3
+	LocalFactor	0.1
+	Ripple		0.4
+	Gravity		3.4
+	LocalDir	0.0 0.25 -1.0
+End
+
+WindInfo
+	Name FLAG_SHORT
+	WorldFactor	0.65
+	LocalFactor	0.1
+	Ripple		0.6
+	Gravity		0.0
+	LocalDir	0.0 2.25 0.25
+End
+
+WindInfo
+	Name FLAG_SHORT2
+	WorldFactor	0.55
+	LocalFactor	0.1
+	Ripple		0.6
+	Gravity		0.08
+	LocalDir	0.0 2.25 0.25
+End
+
+WindInfo
+	Name Villain_Tabard_Front
+	WorldFactor	0.1
+	LocalFactor	0.1
+	Ripple		0.2
+	Gravity		1.0
+	LocalDir	0.0 10.1 0.1
+End
+
+WindInfo
+	Name Villain_Tabard_Back
+	WorldFactor	0.1
+	LocalFactor	0.1
+	Ripple		0.2
+	Gravity		1.0
+	LocalDir	0.0 10.1 0.1
+End
+
+WindInfo
+	Name Scirocco
+	WorldFactor	0.1
+	LocalFactor	0.1
+	Ripple		0.05
+	Gravity		1.0
+	LocalDir	0.0 10.1 0.1
+End
+
+WindInfo
+	Name MirrorSpirit
+	WorldFactor	0.1
+	LocalFactor	0.1
+	Ripple		0.05
+	Gravity		1.0
+	LocalDir	0.0 10.1 0.1
+End
+
+WindInfo
+	Name WHIP
+	WorldFactor	0.0
+	LocalFactor	0.005
+	Ripple		0.25
+	Gravity		.1
+	LocalDir	0.1 0.3 0.2
+End
+
+// Default wind used if no other wind is specified, this MUST be defined
+WindInfo
+	Name WALKFORWARD
+	WorldFactor	0.1
+	LocalFactor	0.2
+	Ripple		1
+	Gravity		1.0
+	LocalDir	0.0 0.0 1.0
+End

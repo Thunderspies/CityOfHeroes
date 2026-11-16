@@ -1,0 +1,163 @@
+#############################################################
+## Door_Roman - Roman doors
+#############################################################
+
+Sequencer
+
+TypeDef Door_Roman_Center
+	BaseSkeleton	Door_Roman\skel_DoorRoman_Center
+	ParentType	None
+TypeDefEnd
+
+TypeDef Door_Roman_Left
+	BaseSkeleton	Door_Roman\Door_Roman_Left_skel
+	ParentType	Door_Roman_Center
+TypeDefEnd
+
+TypeDef Door_Roman_Right
+	BaseSkeleton	Door_Roman\Door_Roman_Right_skel
+	ParentType	Door_Roman_Center
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Flags		Cycle NoSizeScale
+	Scale		0.625
+
+	Type		Door_Roman_Center
+	  Anim          Door_Roman\skel_DoorRoman_Center 1 5
+	TEnd
+
+	Type		Door_Roman_Left
+	  Anim          Door_Roman\Door_Roman_Left_skel 1 5
+	TEnd
+
+	Type		Door_Roman_Right
+	  Anim          Door_Roman\Door_Roman_Right_skel 1 5
+	TEnd
+MEnd
+
+### OPEN ###########################################################
+
+Move Open
+	Requires	OPEN
+	Priority        1
+	Interrupts	Ready
+	Interpolate	0
+	NextMove        Open2
+	Flags		NoSizeScale
+	Scale		0.625
+
+	Type		Door_Roman_Center
+	  Anim          Door_Roman\skel_DoorRoman_Center 6 50
+	  PlayFX	Doors\Roman_Open.FX
+	TEnd
+
+	Type		Door_Roman_Left
+	  Anim          Door_Roman\Door_Roman_Left_skel 6 50
+	  PlayFX	Doors\Roman_Open.FX
+	TEnd
+
+	Type		Door_Roman_Right
+	  Anim          Door_Roman\Door_Roman_Right_skel 6 50
+	  PlayFX	Doors\Roman_Open.FX
+	TEnd
+MEnd
+
+Move Open2
+	Requires	OPEN
+	Priority        1
+	Interpolate	0
+	NextMove        Opened
+	Sets            WALKTHROUGH
+	Flags		NoSizeScale
+	Scale		0.625
+
+	Type		Door_Roman_Center
+	  Anim          Door_Roman\skel_DoorRoman_Center 51 83
+	TEnd
+
+	Type		Door_Roman_Left
+	  Anim          Door_Roman\Door_Roman_Left_skel 51 83
+	TEnd
+
+	Type		Door_Roman_Right
+	  Anim          Door_Roman\Door_Roman_Right_skel 51 83
+	TEnd
+MEnd
+
+Move Opened
+	Flags		Cycle NoSizeScale
+	Interpolate	0
+	Sets            WALKTHROUGH
+
+	Type		Door_Roman_Center
+	  Anim          Door_Roman\skel_DoorRoman_Center 84 95
+	TEnd
+
+	Type		Door_Roman_Left
+	  Anim          Door_Roman\Door_Roman_Left_skel 84 95
+	TEnd
+
+	Type		Door_Roman_Right
+	  Anim          Door_Roman\Door_Roman_Right_skel 84 95
+	TEnd
+MEnd
+
+## SHUT ###########################################################
+
+Move Shut
+	Requires	SHUT
+	Priority        1
+	Interrupts	Opened
+	Interpolate	0
+	NextMove        Shut2
+	Sets            WALKTHROUGH
+	Flags		NoSizeScale
+	Scale		0.625
+
+	Type		Door_Roman_Center
+	  Anim          Door_Roman\skel_DoorRoman_Center 96 135
+	  PlayFX	Doors\Roman_Close.FX
+	TEnd
+
+	Type		Door_Roman_Left
+	  Anim          Door_Roman\Door_Roman_Left_skel 96 135
+	  PlayFX	Doors\Roman_Close.FX
+	TEnd
+
+	Type		Door_Roman_Right
+	  Anim          Door_Roman\Door_Roman_Right_skel 96 135
+	  PlayFX	Doors\Roman_Close.FX
+	TEnd
+MEnd
+
+Move Shut2
+	Requires	SHUT
+	Priority        1
+	Interpolate	0
+	NextMove        Ready
+	Flags		NoSizeScale
+	Scale		0.625
+
+	Type		Door_Roman_Center
+	  Anim          Door_Roman\skel_DoorRoman_Center 135 165
+	TEnd
+
+	Type		Door_Roman_Left
+	  Anim          Door_Roman\Door_Roman_Left_skel 135 165
+	TEnd
+
+	Type		Door_Roman_Right
+	  Anim          Door_Roman\Door_Roman_Right_skel 135 165
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

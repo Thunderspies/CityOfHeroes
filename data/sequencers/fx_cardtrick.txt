@@ -1,0 +1,141 @@
+#############################################################
+## HEADER
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_CardTrick_Male
+	BaseSkeleton	FX_CardTrick\skel_Male_CardTrick
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_CardTrick_Huge
+	BaseSkeleton	FX_CardTrick\skel_Male_CardTrick
+	ParentType	FX_CardTrick_Male
+TypeDefEnd
+
+TypeDef FX_CardTrick_Fem
+	BaseSkeleton	FX_CardTrick\skel_Male_CardTrick
+	ParentType	FX_CardTrick_Male
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+#############################################################
+
+Move CardTrick_Pre
+	Member		<Ready>
+	NextMove	CardTrick_LeftHand
+	Flags		NoSizeScale NoDraw
+
+	Type		FX_CardTrick_Male
+	  Anim          FX_CardTrick\skel_Male_CardTrick 10 57 #1 57
+	TEnd
+
+	Type		FX_CardTrick_Huge
+	  Anim          FX_CardTrick\Huge_CardTrick 10 57 #1 57
+	TEnd
+
+	Type		FX_CardTrick_Fem
+	  Anim          FX_CardTrick\Fem_CardTrick 10 57 #1 57
+	TEnd
+MEnd
+
+Move CardTrick_LeftHand
+	Member		<Ready>
+	NextMove	CardTrick_Transfer
+	Flags		NoSizeScale
+
+	Type		FX_CardTrick_Male
+	  Anim          FX_CardTrick\skel_Male_CardTrick 57 93
+	TEnd
+
+	Type		FX_CardTrick_Huge
+	  Anim          FX_CardTrick\Huge_CardTrick 57 93
+	TEnd
+
+	Type		FX_CardTrick_Fem
+	  Anim          FX_CardTrick\Fem_CardTrick 57 93
+	TEnd
+MEnd
+
+Move CardTrick_Transfer
+	Member		<Ready>
+	NextMove	CardTrick_RightHand
+	Flags		NoSizeScale NoDraw
+
+	Type		FX_CardTrick_Male
+	  Anim          FX_CardTrick\skel_Male_CardTrick 93 117
+	TEnd
+
+	Type		FX_CardTrick_Huge
+	  Anim          FX_CardTrick\Huge_CardTrick 93 117
+	TEnd
+
+	Type		FX_CardTrick_Fem
+	  Anim          FX_CardTrick\Fem_CardTrick 93 117
+	TEnd
+MEnd
+
+Move CardTrick_RightHand
+	Member		<Ready>
+	NextMove	CardTrick_Vanish
+	Flags		NoSizeScale
+
+	Type		FX_CardTrick_Male
+	  Anim          FX_CardTrick\skel_Male_CardTrick 117 252
+	TEnd
+
+	Type		FX_CardTrick_Huge
+	  Anim          FX_CardTrick\Huge_CardTrick 117 252
+	TEnd
+
+	Type		FX_CardTrick_Fem
+	  Anim          FX_CardTrick\Fem_CardTrick 117 252
+	TEnd
+MEnd
+
+Move CardTrick_Vanish
+	Member		<Ready>
+	Flags		NoSizeScale NoDraw
+	NextMove	CardTrick_PostCycle
+
+	Type		FX_CardTrick_Male
+	  Anim          FX_CardTrick\skel_Male_CardTrick 252
+	TEnd
+
+	Type		FX_CardTrick_Huge
+	  Anim          FX_CardTrick\Huge_CardTrick 252
+	TEnd
+
+	Type		FX_CardTrick_Fem
+	  Anim          FX_CardTrick\Fem_CardTrick 252
+	TEnd
+MEnd
+
+#############################################################
+
+Move CardTrick_PostCycle
+	Member		<Ready>
+	Flags		CYCLE NoSizeScale NoDraw
+	Type		FX_CardTrick_Male
+	  Anim          FX_CardTrick\skel_Male_CardTrick 1
+	TEnd
+
+	Type		FX_CardTrick_Huge
+	  Anim          FX_CardTrick\Huge_CardTrick 1
+	TEnd
+
+	Type		FX_CardTrick_Fem
+	  Anim          FX_CardTrick\Fem_CardTrick 1
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd
+

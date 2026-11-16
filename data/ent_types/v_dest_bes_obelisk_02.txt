@@ -1,0 +1,49 @@
+######################################
+## 
+## 
+Type
+
+HealthFx
+	Range            50 100
+	LibraryPiece      V_Dest_Bes_Obelisk_02_100
+End
+
+HealthFx
+	Range          25 50
+	LibraryPiece     V_Dest_Bes_Obelisk_02_050
+	OneShotFx	Explosions\StonestatueExplosions\Bes_Obelisk_RockExplosionTop.Fx
+End
+
+HealthFx
+	Range          0.0001 25
+	LibraryPiece    V_Dest_Bes_Obelisk_02_025
+	OneShotFx	Explosions\StonestatueExplosions\Bes_Obelisk_RockExplosion.Fx
+End
+
+HealthFx
+	Range          0 0.0001
+	LibraryPiece    V_Dest_Bes_Obelisk_02_000
+	OneShotFx	Explosions\StonestatueExplosions\Bes_Obelisk_RockExplosionFinal.Fx
+End
+
+CapsuleSize 18 75 18
+CapsuleOffset   0 -3 0
+
+ReticleHeightBias -15.0
+ReticleBaseBias	-20.0
+
+Sequencer	Prop_basic.txt   	 		
+
+FadeOutStart	500				
+FadeOutFinish	550
+
+ShadowType	None			
+
+GeomScale	1.0 1.0 1.0			
+
+Selection	Capsule 
+
+TicksToLingerAfterDeath			40000
+TicksToFadeAwayAfterDeath		256
+
+End

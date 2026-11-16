@@ -1,0 +1,101 @@
+######################################
+## AE_Tech_Lab_Pod_01
+## 
+Type
+
+//////Sequencer ////////////////////////////////////////////////////////////
+Sequencer	Prop_basic.txt			//Sequencer File from data/sequencers 
+SequencerType	Prop_basic			//Type inside the Sequencer to use (default is name of the sequencer file, (prop_basic in this case) )
+ConstantState	Fly				//Default is null.  What animation bits would you like always set on this guy (ie. Fly if you want him to move like a ghost: earthbound, but floating. 
+
+////// Base Graphics /////////////////////////////////////////////////////////////
+FX		Weapons\Good_Flamethrower.fx	//Default is null. FX to attach to this entity when created and never destroy (can have several, on multiple FX lines) (This is redundant with HealthFX)
+GeomScale	1.0 1.0 1.0			//X=Width Y=Height Z=Depth.  Default 1.0 1.0 1.0.  How much to scale up this guy.  If all the numbers aren't the same, it can easily look weird, so be careful)
+GeomScaleMax	1.0 1.0 1.0			//X=Width Y=Height Z=Depth.  Default 1.0 1.0 1.0.  If different from GeomScale, they become a min and max, and the size is randomly assigned somewhere in between ofr each entity
+
+Graphics	player_library/g_male_blobby.geo //Default is null.  Default Graphics.  Get GEO_BoneName for each bone. (as well as location of GEO_COLLISION if CollisionType is Door) TO DO: how does Conor's stuff affect this?
+LOD1_Dist	85				//Default is 0.	    Distance to transition from best graphics to LOD 1 (TO DO explain LOD rules in detail, including detail rules)
+LOD2_Dist	200				//Default is 0.     Distance to transition from LOD 1 to LOD 2
+LOD3_Dist	300				//Distance to transition from LOD 2 to LOD 3
+
+FadeOutStart		350			//Default is 350.  Distance to begin fading this entity out on the client
+FadeOutFinish		450			//Default is 450.  Distance to stop drawing this entity and stop sending it from the server
+
+
+/////// Shadow ///////////////////////////////////////////////////////////////////////////////////
+ShadowType		None			//Splat or None(default)
+ShadowTexture		PlayerShadowCircle	//Any texture name -- will use it as the splat shadow.  ("PlayerShadowCircle" is default)
+ShadowQuality		Medium			//Low, Medium, High.  Low quality shadows don't project onto high density meshes, and don't project very far.  Good for Cars and other big shadow things
+ShadowSize		3.6 0.0 3.6		//X=Width(3.6 default) Y=Unused and Z=Depth(3.6 default) Size of splat shadow.  (Y is determined by shadow quality) 
+ShadowOffset		0.0 0.0 0.0		//If you don't like where the splat shadow is on an entity, twiddle it here
+
+/////// Selection and Reticle //////////////////////////////////////////////////////////////////////
+Selection		Bones		//Bones(Default), WorldGroup, or Capsule.  What to use for selecting (TO DO vs select capsule, etc)
+ReticleHeightBias	0.5			//Default 0.5.  Amount to always raise the reticle (to get it out of headdresses, for example)
+ReticleWidthBias	1.0			//Default 1.0.  Amount to always widen the reticle (again, to get it out of the way of objects with geometry the protrudes past the bones
+ReticleBaseBias		0.0			//Default 0.0.  Amount to always lower the reticle (as above, to get it out of the way)
+NotSelectable		0			//0(default) or 1.  Players can't select this entity. (Still targetable by powers, just not selectable in the UI)
+
+/////// Collision and Physics /////////////////////////////////////////////////////////////////////
+CollisionType		Capsule			//Capsule(default), Door, WorldGroup, Repulsion, BounceUp, etc.  (TO DO careful discussion of these)
+BigMonster		0			//0(default) or 1.  If I am a big monster, I don't collide with non big monsters
+CapsuleSize		3.0 6.0 3.0		//X=Width Y=Height Z=Depth. Default 3.0 6.0 3.0.  Capsule size. Must be one big and two smaller.  (TO DO longer description) 
+CapsuleOffset		0.0 0.0 0.0		//X=Width Y=Height Z=Depth. Default 0.0 0.0 0.0. Amount to move the capsule from directly above the ent's position.  Use with care. (TO DO longer description)
+Bounciness		0.0			//0.0 Default.  For special CollisionTypes (TO DO explain)
+Pushable		0			//0(default) or 1.  Can you be pushed by other entities (TO DO figure out details)
+
+/////// General /////////////////////////////////////////////////////////////////////////////////////
+Flags			NoShallowSplash NoDeepSplash  //NoShallowSplash: doesn't make a splash when first touching water. NoDeepSplash: Doesn't make secondary splash when deep in water
+RandomBoneScale		0			//0(default) or 1.  For ents with a BoneScaleSkinny and Fat, file -- should I pick a random scale for each entity? (Some thugs fat, some skinny.)
+LightAsDoorOutside	0			//0(default) or 1.  When you are outside, using sunlight, don't use the overbright light players use, use the regular light so you'll blend in with other things
+RejectContinuingFX	0			//0(default) or 1.  You don't get continuing fx played on you (i.e. you are a desk and don't show bubbles over your head when stunned)
+FullBodyPortrait	0			//0(default) or 1.  Should the heashot be the entire entity (automatic for things with no headbone) 
+TicksToLingerAfterDeath		600		//Ticks for entity to stay around on the server after it has died (600 is default) Set it to extremely high to never fade away. Needs to be at least 25 if it has powers it uses after death.
+TicksToFadeAwayAfterDeath	90		//Ticks to spend fading away on the client once you have been cleaned up (90 is default) 
+MinimumAmbient		0.15			//0.15 Default. Never let the ambient light on this thing get lower than this. (So entities don't ever vanish into darkness in dark rooms) 
+VisSphereRadius		5.0			//5.0 Default.  Sphere to use for visibility clipping on whole entity. Will scale automatically with GeomScale.  Large objects like blimps need to be adjusted upward if they disappear when near the edge of the screen.
+MaxAlpha		255			//255 Default.  Never get any less transparent than this. Useful for making ghosts from regular models (Can also be done through FX system)
+ReverseFadeOutDist	0.0			//(0.0 Default) Fade away if you get closer to player than this.  Trick for the ghost NPCs in Dark Astoria
+Placement		SetBack			//SetBack or DeadOn.  Setback moves the ent's animation back a bit off the center so combat animations look right. Use DeadOn for objects and nonanimated stuff
+SpawnOffsetY		0.0			//Default 0.0.  When this entity is spawned, always move it up (relative to the direction its facing) this much. For Ball turrets for example
+StaticLighting		0			//0(default) or 1.  Indoors, if you have a library piece (either in worldgroup or healthFxgeometry, should it get staticly vertex lit like other geometry in the world? 
+CameraHeight		6.0			//Default 6.0. Height of camera when playing a character with this entType (scaled by geomScale)
+NoStrafe		0			//0(default) or 1.  When players are strafing, the animation will turn in the direction moved, unless NoStrafe is set to one.  The Kheldians use this, because they have their own strafe animation
+HasRandomName		0			//0(default) or 1.  NPCs only. Should we get a random name from the NPC random name file /server/names/male.txt or female.txt (see Wiki)
+RandomNameFile		militaryNames.txt	//Default is null.If NPC HasRandomName and should use another file in /server/names/ rather than male or female.txt		
+OnClickFx		Explosions\Large\Expolsion_large.fx	//default is Null.  The FX to play when the player clicks on me (clicker's client only) Not used currently by anything
+
+
+HealthFx
+	Range       0 0.005 
+	LibraryPiece	V_Destmdr_mudoor_000
+	OneShotFx     Explosions\Huge_Rock\MuDoor_Explosion.fx
+	Flags		NoCollision		//If this guy has CollisionType LibraryPiece, and has a library piece in this health slot, but you don't waht collsion for this one, add this flag
+End
+#######################################################################
+######################## GEOMETRY SCALING #############################
+#######################################################################
+
+BoneScaleSkinny player_library/MALE_BONES_SCALE_S.anm
+BoneScaleFat	player_library/MALE_BONES_SCALE_L.anm
+		
+ShoulderScaleSkinny    -0.16	 0.0	0.0
+ShoulderScaleFat        0.16	-0.05	0.0
+NeckScale		0.0	-0.045	0.0
+HipScale		0.07	 0.0	0.0
+
+LegScaleMin		-.10
+LegScaleMax		.02
+headScaleMax		0.065    0.075  0.055
+headScaleMin		0.05     0.07   0.05
+
+LegScaleRatio		0.80		# % of leg scale to use when adjusting hip height
+
+shoulderScaleRange                  1.0        
+chestScaleRange                     .75       
+waistScaleRange                     1.1
+hipScaleRange			    1.0
+
+#######################################################################
+
+End

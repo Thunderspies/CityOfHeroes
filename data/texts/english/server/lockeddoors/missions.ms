@@ -1,0 +1,1 @@
+"LauraLockhart_LockedDoor"	"You must find Laura before proceeding!"

@@ -1,0 +1,44 @@
+#############################################################
+## Vamp_chamber.txt
+#############################################################
+
+Type
+
+#############################################################
+
+Sequencer	Vamp_chamber.txt
+
+##############################################################
+
+HealthFx
+	Range		0.001 100
+	ContinuingFX	WORLD\Lairs\Council\VampChamber.fx
+End
+
+HealthFx
+	Range		0 0.001
+	OneShotFX	Explosions\Large\Expolsion_large2.fx
+	LibraryPiece	vmpch_main_dmg1
+End
+
+#############################################################
+
+FadeOutStart	500
+FadeOutFinish	550
+
+VisSphereRadius 21.12
+ShadowType	None
+
+Selection		Capsule
+CollisionType		Capsule
+CapsuleSize		7 14 4
+CapsuleOffset		0 0 -2
+
+Placement         DeadOn
+
+TicksToLingerAfterDeath			9000
+TicksToFadeAwayAfterDeath		100
+
+#############################################################
+
+End

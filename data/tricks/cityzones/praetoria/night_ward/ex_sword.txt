@@ -1,0 +1,71 @@
+Texture X_Excalibur_01			// For Black Knights Pendragon Special Weapon
+	Base1 N_Sword_Excalibur_01_B		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 None					// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 				// Optional flag indicating this is a spheremap
+
+	DualColor1 N_Sword_Excalibur_01_DC		// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 N_Sword_Excalibur_01_NM		// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //N_Hair_Elemental_Order_01_AG
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 1
+
+	Flags AlwaysAddGlow
+
+	Mask black //N_Hair_Elemental_Order_01_MK 	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 0.35
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 N_Sword_Excalibur_01_B		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Shader_Reflect_Chrome_01 		// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 				// Optional flag indicating this is a spheremap
+
+	DualColor2 N_Sword_Excalibur_01_DC					//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 N_Sword_Excalibur_01_NM		//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255			// Color of spec highlite for color1
+	SpecularColor2 255 255 255			//
+	SpecularExponent1 10				// Glossiness of color 1
+	SpecularExponent2 15
+
+#	ReflectionDesaturate  0				// Remove these and it will use ugly reflection
+#	ReflectionTint  0
+#	ReflectivityBase 1.0
+#	ReflectivityScale 0.7
+#	ReflectivityPower 3.0
+End

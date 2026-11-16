@@ -1,0 +1,56 @@
+// modulatefp.cg
+#include "variants.cgh"
+
+/*
+ modulatefp.cg
+ BLENDMODE_MODULATE
+ These blend modes are equivalent and historically were performed by the
+ fixed function fragment pipe.
+
+ The ouput is a simple modulate of base texture, blend texture, and
+ vertex color. Note that the output alpha undergoes the same operation.
+
+ @todo This material may have been treated as BLENDMODE_MULTIPLY when a 
+ fragment program was used (i.e. multiplyReg). They may now be equivalent
+ (except that we had reflection feature support added to multiplyReg.)
+*/
+
+// definitions required for this program,
+// so we don't bother putting them in a variant
+#define VERTEX_LIT		VERT_COLOR
+#define PIXEL_LIT		NONE
+
+/*
+ #fragment let slimshady know this is a fragment program
+ Variants to be verified/analyzed by slimshady script:
+*/
+
+#include "constants_fp.cgh"
+#include "functions.cgh"
+
+uniform sampler2D sampler_base	: TEXUNIT0;
+uniform sampler2D sampler_blend	: TEXUNIT1;
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+#include "nexus.cgh"			// define vertex program structure/semantics <=> fragment program input
+
+//----------------------------------------------------------------------------
+// main
+//----------------------------------------------------------------------------
+float4 main( VP2FP IN) : COLOR
+{
+	float2 uv0 = IN.uv0_uv1.xy;
+	float2 uv1 = IN.uv0_uv1.zw;
+
+	float4 tex_base		= tex2D( sampler_base, uv0 );
+	float4 tex_blend	= tex2D( sampler_blend, uv1 );
+	
+	// simple modulate of base texture, blend texture, and vertex color (alpha included)
+	float4 out_color = IN.color * tex_base * tex_blend;
+
+	out_color.rgb = calc_fogged_color( out_color.rgb, IN.fogCoord );
+
+    return out_color;
+}

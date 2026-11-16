@@ -1,0 +1,294 @@
+#############################################################
+
+Sequencer
+
+TypeDef  Hand
+	BaseSkeleton	V_BlackScorpion_Hand\SKEL_BS_hand
+	ParentType	None
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+
+###################
+### Ready ##
+###################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+	interpolate	0
+	CycleMove	Ready
+	CycleMove	Ready2
+	CycleMove	Ready
+
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 1 30
+	   #PlayFx        FEET\RoboHand1.FX
+	TEnd
+MEnd
+
+Move Ready2
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale Cycle
+	interpolate	0
+	CycleMove	adjust
+	CycleMove	spin_pre
+	CycleMove	click_pre
+	CycleMove	yawn
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 1 30
+	TEnd
+MEnd
+
+
+Move adjust
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale
+	interpolate	0
+	nextmove	ready
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 30 80
+	TEnd
+MEnd
+
+
+Move Yawn
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale
+	interpolate	0
+	nextmove	ready
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 255 310
+	TEnd
+MEnd
+
+######## spin
+
+Move spin_pre
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale
+	interpolate	0
+	scale		1.5
+	nextmove	spin_cycle
+	nextmove	spin_post
+	nextmove	spin_cycle
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 80 100
+	TEnd
+MEnd
+
+Move spin_cycle
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale Cycle
+	interpolate	0
+	scale		1.5
+	CycleMove	spin_cycle
+	CycleMove	spin_post
+	CycleMove	spin_cycle
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 100 130
+	  PlayFx        FEET\RoboHand1.FX
+	TEnd
+MEnd
+
+Move spin_post
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale
+	interpolate	0
+	scale		1.5
+	nextmove	ready
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 130 170
+	TEnd
+MEnd
+
+########## click fun
+
+
+
+Move click_pre
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale
+	interpolate	0
+	nextmove	click_cycle
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 170 180
+	TEnd
+MEnd
+
+Move click_cycle
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale Cycle
+	interpolate	0
+	CycleMove	click_cycle
+	CycleMove	click_post
+	CycleMove	click_cycle_short
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 180 220
+	TEnd
+MEnd
+
+Move click_cycle_short
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale Cycle
+	interpolate	0
+	CycleMove	click_cycle
+	CycleMove	click_post
+	CycleMove	click_cycle
+	CycleMove	click_cycle_short
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 200 220
+	TEnd
+MEnd
+
+Move click_post
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		NoSizeScale
+	interpolate	0
+	nextmove	ready
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 220 255
+	TEnd
+MEnd
+
+###################
+###### Brawling ######
+###################
+
+Move Brawl_R
+	Requires	COMBAT PUNCH
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Brawlpost_R
+	Sets            CANTMOVE
+##	Flags		PitchToTarget ## Bad Woomer! NO! NO! NO!
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 170 200
+	TEnd
+MEnd
+
+Move Brawlpost_R
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 220 255
+	TEnd
+MEnd
+
+############## Impatient ready
+#
+#Move Ready_Xarms
+#	Requires	BSCLAW
+#	Priority        1
+#	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+#	Flags		Cycle
+#	CycleMove	Ready
+#	Interpolate	15
+#	sticksonchild
+#
+#	Type		hand
+#	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 180 220
+#	TEnd
+#MEnd
+
+
+
+################### Deaths  #####################
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 36 40
+	TEnd
+
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+
+	Type		hand
+	  Anim          V_BlackScorpion_Hand\SKEL_BS_hand 36 40
+	TEnd
+
+
+MEnd
+
+SeqEnd ## Don't cut
+
+
+

@@ -1,0 +1,48 @@
+Def grpvolume_DJ_Vault
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 30.000000 50.000000 30.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Vault"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Banker_Message"	0
+End
+
+Def grpvolume_Hospital_V
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 50.000000 50.000000 70.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Hospital"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Caregiver_Message"	0
+End
+
+Def grpvolume_DJ_Hospital_H1
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 30.000000 50.000000 60.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Hospital"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Caregiver_Message"	0
+End
+
+Def grp_Day_Job_Volumes
+	Group grpvolume_DJ_Vault
+		Pos -244.583344 -3.083252 775.083496
+	End
+	Group grpvolume_Hospital_V
+		PYR 0 179.999985 -0
+		Pos -2320.083252 -29.831787 -310.416504
+	End
+	Group grpvolume_DJ_Hospital_H1
+		Pos -298.583344 -3.083252 791.083496
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Day_Job_Volumes
+	Pos 260.583344 -1218.916748 -2333.083496
+End
+

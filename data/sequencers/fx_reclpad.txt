@@ -1,0 +1,88 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_reclpad 
+	BaseSkeleton	FX_reclpad\skel_FX_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle NoInterp 
+	Sets            WALKTHROUGH 
+
+	Type		FX_reclpad
+	  Anim          FX_reclpad\skel_FX_ready 1 2 
+	TEnd
+MEnd
+
+
+Move drop
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        drop2
+	Priority        1
+
+	Type		FX_reclpad
+	  Anim          FX_reclpad\skel_FX_ready 3 20 
+	TEnd
+MEnd
+
+
+Move drop2
+	Requires	OPEN 
+	NextMove        contained
+	Priority        1
+	Interpolate     0
+
+	Type		FX_reclpad
+	  Anim          FX_reclpad\skel_FX_ready 21 45 
+	TEnd
+MEnd
+
+
+Move contained
+	Requires	OPEN 
+	Flags		Cycle 
+	Priority        1
+	Interpolate     0
+
+	Type		FX_reclpad
+	  Anim          FX_reclpad\skel_FX_ready 46 70 
+	TEnd
+MEnd
+
+
+Move lift
+	Requires	SHUT 
+	Interrupts	contained 
+	NextMove        lift2
+	Priority        1
+
+	Type		FX_reclpad
+	  Anim          FX_reclpad\skel_FX_ready 71 87 
+	TEnd
+MEnd
+
+
+Move lift2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+	Sets            WALKTHROUGH 
+
+	Type		FX_reclpad
+	  Anim          FX_reclpad\skel_FX_ready 89 100 
+	TEnd
+MEnd
+
+SeqEnd
+

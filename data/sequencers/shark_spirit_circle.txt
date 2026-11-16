@@ -1,0 +1,171 @@
+#############################################################
+
+Sequencer
+
+
+
+TypeDef Spirit_circle 
+	BaseSkeleton	Shark\Skel_shark
+	ParentType	None
+TypeDefEnd
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+
+
+
+
+
+Move start
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale #pickrandomly
+	cyclemove	ready
+	cyclemove	ready2
+	cyclemove	ready3
+
+
+	Type		Spirit_circle
+	  Anim          Shark\Spirit_circle 1
+	  PlayFx	Generic\entityFadeIn.fx 0
+	  scale		2.5	
+	TEnd
+
+
+MEnd
+
+
+Move start2
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale #pickrandomly
+	cyclemove	ready
+	cyclemove	ready2
+	cyclemove	ready3
+
+
+
+	Type		Spirit_circle
+	  Anim          Shark\Spirit_circle 20
+	  PlayFx	Generic\entityFadeIn.fx 0
+	  scale		2.5	
+	TEnd
+
+
+MEnd
+
+
+Move start3
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale #pickrandomly
+	cyclemove	ready
+	cyclemove	ready2
+	cyclemove	ready3
+
+
+	Type		Spirit_circle
+	  Anim          Shark\Spirit_circle 30
+	  PlayFx	Generic\entityFadeIn.fx 0
+	  scale		2.5	
+	TEnd
+
+
+MEnd
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale #pickrandomly
+	cyclemove	ready
+	cyclemove	ready2
+	cyclemove	ready3
+
+
+	Type		Spirit_circle
+	  Anim          Shark\Spirit_circle 1
+	  scale		2.35	
+	TEnd
+
+
+MEnd
+
+
+Move Ready2
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale #pickrandomly
+	cyclemove	ready
+	cyclemove	ready2
+	cyclemove	ready3
+
+
+
+	Type		Spirit_circle
+	  Anim          Shark\Spirit_circle 1
+	  scale		2.5	
+	TEnd
+
+
+MEnd
+
+
+Move Ready3
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale #pickrandomly
+	cyclemove	ready
+	cyclemove	ready2
+	cyclemove	ready3
+
+
+	Type		Spirit_circle
+	  Anim          Shark\Spirit_circle 1
+	  scale		2.7	
+	TEnd
+
+
+MEnd
+
+
+
+
+SeqEnd ## Don't cut
+

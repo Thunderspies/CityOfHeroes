@@ -1,0 +1,72 @@
+///////////////////////////////////////
+//  Shaders For TikiCasino Interior  //
+///////////////////////////////////////
+
+Texture v_wall_tiki_main_window_mask.tga
+	Flags TrueColor
+End
+
+Texture v_wall_tiki_main_window.tga
+	Flags TrueColor
+End
+
+Texture x_wall_tiki_main_window
+	Base1 v_wall_tiki_main_window.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10            
+
+	DualColor1 v_wall_tiki_main_window.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask v_wall_tiki_main_window_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect.tga //goth_reflect_02.tga
+	Multiply2Scroll 0.0001 -0.0001
+	Multiply2Scale 2 2 
+	Multiply2reflect 1 
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 155
+
+End

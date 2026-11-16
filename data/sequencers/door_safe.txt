@@ -1,0 +1,75 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_safe
+	BaseSkeleton	Door_safe\skel_safe
+	ParentType	None
+TypeDefEnd
+
+TypeDef DestructibleSpiderWeb
+	BaseSkeleton	Door_safe\skel_safe
+	ParentType	Door_safe
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> <DeathIRQ> 
+	Flags		Cycle 
+
+	Type		Door_safe
+	  Anim          Door_safe\skel_safe 1  
+	TEnd
+MEnd
+
+
+################################
+###### Default Death (instant)  ######
+################################	
+
+Move Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ> 
+	NextMove        Death_post
+	Priority        5
+	Sets            NOCOLLISION WALKTHROUGH
+	Flags		NotSelectable
+
+	Type		Door_safe
+	  Anim          Door_safe\skel_safe 1  
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	 PlayFx        V_COV\World\Vault\VaultExplosion.fx
+	TEnd
+
+	Type		DestructibleSpiderWeb
+	  Anim          Door_safe\skel_safe 1  
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  #PlayFx        V_COV\World\Vault\VaultExplosion.fx
+	TEnd
+
+MEnd
+
+Move Death_post
+	Requires	DEATH 
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION WALKTHROUGH DIENOW
+
+
+	Type		Door_safe
+	  Anim          Door_safe\skel_safe 1   
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+
+
+
+
+SeqEnd

@@ -1,0 +1,1317 @@
+/////////////////////////////////////////////////
+//Neutral Pillbox: Object Tricks
+/////////////////////////////////////////////////
+
+Trick   PbxOuterShell
+
+	LodFar 300
+	LodFarFade 100
+	TrickFlags  NotSelectable  NoZWrite Additive
+	ScrollST0   -.002   .023
+	ScrollST1   .01  -0.001
+	ObjFlags   FullBright NoLightAngle
+	
+	#Groupflags ParentFade
+End
+
+
+
+Trick   PbxInnerShell
+
+	LodFar 3000
+	LodFarFade 512 
+	TrickFlags  NotSelectable  NoZWrite Additive
+	ObjFlags   FullBright NoLightAngle
+	ScrollST0   -.001   .007
+	ScrollST1   -.001  -0.005
+	#Groupflags ParentFade
+End
+
+Trick   PbxShellBrace
+
+	LodFar 400
+	LodFarFade 100
+	TrickFlags  NotSelectable 
+
+End
+
+Trick   PbxBase
+
+
+
+	AutoLOD
+	AllowedError	0
+	LodFarFade	25
+	LodFar		200
+	End
+
+	AutoLOD
+	AllowedError	100
+	LodFarFade	100
+	LodNearFade	25
+	LodNear		200
+	LodFar		500
+	
+	End
+END
+
+
+Trick	PbxBaseLOD
+
+	TrickFlags	NoColl
+	
+	AutoLOD
+	AllowedError	0
+	LodNear		500
+	LodNearFade	100
+	LodFar		1600
+	LodFarFade	100
+
+	End
+
+
+END
+
+Trick	PbxCmpHolo
+	LodFar 1600
+	LodFarFade 200
+	TrickFlags	Additive DoubleSided NotSelectable NoColl NoZWrite
+	ObjFlags	FullBright NoLightAngle	
+END
+
+
+Trick	PbxCmpGLOW
+	LodFar 1600
+	LodFarFade 200
+	TrickFlags	Additive DoubleSided NotSelectable NoColl NoZWrite
+	ObjFlags	FullBright NoLightAngle	
+END
+
+
+/////////////////////////////////////////////////
+//Neutral Pillbox: Shaders
+/////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+Texture x_pbox_outershell
+	Base1 pbox_shield_outerbase
+	Base1Scroll 0.0006 0.0004
+	Base1Scale 2 2
+
+	Multiply1 pbox_shield_outerREF.tga
+	Multiply1Scroll 0.0007 -0.0003
+
+	BumpMap1 pbox_shield_blue_bump.tga
+	BumpMap1Scroll  0.001 -0.001
+	BumpMap1Scale .3 .3
+
+	BumpMap2 pbox_shield_blue_bump.tga
+	BumpMap2Scroll  -0.001 0.001
+	BumpMap2Scale .1 .1
+	
+	MaskWeight -.5
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	#Color3 0 0 0
+	#Color4 0 0 0
+
+	ObjFlags FancyWater
+
+	ScaleST0 0.5 0.5
+
+	Surface INWATER
+
+	Fallback
+		UseFallback 1
+		Base pbox_shield_outerbase
+		Blend pbox_shield_outerREF.tga
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 2 2
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+
+End
+
+
+
+Texture x_pbox_innershell_BLUE
+	Base1 pbox_shield_blue
+	Base1Scroll 0.001 0.004
+	Base1ScrollType Normal
+	Base1Scale 3 3
+
+
+	Multiply1 pbox_shield_blue
+	Multiply1Scroll -0.001 -0.005
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0.005 0.005
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 3 4
+
+	Addglow1 pbox_shield_blue_fallback.tga
+	Addglow1Scroll 0 0.0014
+	Addglow1Scale .31 .31
+
+	Mask black
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 pbox_shield_BLUE
+	Base2Scroll -0.0000 -0.0005
+	Base2ScrollType Normal
+	Base2Scale .125 .125
+
+	Multiply2 pbox_shield_BLUE
+	Multiply2Scroll 0.000 -0.001 
+	Multiply2ScrollType Normal
+	Multiply2Scale .75 .75
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 24
+	SpecularExponent2 24
+
+	DiffuseScale 2.0
+	AmbientScale 4.0
+
+	Flags AlwaysAddGlow FullBright // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base pbox_shield_blue_fallback.tga
+		Blend pbox_shield_blue_fallback.tga
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 .25 .25
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+Texture x_pbox_innershell_RED
+	Base1 pbox_shield_red
+	Base1Scroll 0.001 0.004
+	Base1ScrollType Normal
+	Base1Scale 3 3
+
+
+	Multiply1 pbox_shield_red
+	Multiply1Scroll -0.001 -0.005
+	Multiply1ScrollType Normal
+	Multiply1Scale .8 .8
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0.005 0.005
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 3 4
+
+	Addglow1 pbox_shield_red_fallback.tga
+	Addglow1Scroll 0.001 0.004
+	Addglow1Scale .25 .251
+
+	Mask black
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 pbox_shield_red
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale 1.15 1.15
+
+	Multiply2 pbox_shield_red
+	Multiply2Scroll 0.000 -0.001 
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.8 1.8
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 24
+	SpecularExponent2 24
+
+	DiffuseScale 2.0
+	AmbientScale 4.0
+
+	Flags AlwaysAddGlow FullBright // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base pbox_shield_red_fallback.tga
+		Blend pbox_shield_red_fallback.tga
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 .25 .25
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_pbox_HUD_holo
+	Base1 pbox_hud_holo
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 pbox_hud_interlace.tga
+	Multiply1Scroll 0 -.012
+	Multiply1ScrollType Normal
+	Multiply1Scale 8 8
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0.005 0.005
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 3 4
+
+	Addglow1 none #pillbox_hud_det.tga
+	Addglow1Scroll -0.005 -0.005
+	Addglow1Scale 18 18
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale .025 .025
+
+	Multiply2 none
+	Multiply2Scroll 0.000 -0.001 
+	Multiply2ScrollType Normal
+	Multiply2Scale .4 .4
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 24
+	SpecularExponent2 24
+
+	DiffuseScale 2.0
+	AmbientScale 4.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base pbox_shield_red_fallback.tga
+		Blend pbox_shield_red_fallback.tga
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 .25 .25
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+Texture x_pbox_HUD_glow
+	Base1 pbox_hud_glow
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 pbox_hud_interlace.tga
+	Multiply1Scroll -.01 -.005
+	Multiply1ScrollType Normal
+	Multiply1Scale .01 .01
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0.005 0.005
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 3 4
+
+	Addglow1 none #pillbox_hud_det.tga
+	Addglow1Scroll -0.005 -0.005
+	Addglow1Scale 18 18
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale .025 .025
+
+	Multiply2 none
+	Multiply2Scroll 0.000 -0.001 
+	Multiply2ScrollType Normal
+	Multiply2Scale .4 .4
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 24
+	SpecularExponent2 24
+
+	DiffuseScale 2.0
+	AmbientScale 4.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base pbox_shield_red_fallback.tga
+		Blend pbox_shield_red_fallback.tga
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 .25 .25
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+Texture x_pbox_HUD_holoON
+	Base1 pbox_hud_holoON
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 pbox_hud_interlace.tga
+	Multiply1Scroll 0 .01
+	Multiply1ScrollType Normal
+	Multiply1Scale 16 16
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0.005 0.005
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 3 4
+
+	Addglow1 none #pillbox_hud_det.tga
+	Addglow1Scroll -0.005 -0.005
+	Addglow1Scale 18 18
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale .025 .025
+
+	Multiply2 none
+	Multiply2Scroll 0.000 -0.001 
+	Multiply2ScrollType Normal
+	Multiply2Scale .4 .4
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 24
+	SpecularExponent2 24
+
+	DiffuseScale 2.0
+	AmbientScale 4.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base pbox_shield_red_fallback.tga
+		Blend pbox_shield_red_fallback.tga
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 .25 .25
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+#HERO SHADERS.
+
+Texture x_pbox_hero_metalpanel_03
+	Base1 pbox_hero_metalpanel_03
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 grey
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 pbox_hero_metalpanel_03_normal
+	BumpMap1Scroll 0 0 
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Addglow1 pbox_hero_metalpanel_03_addglow.tga
+	Addglow1Scroll 0 0
+	Addglow1Scale 1 1
+
+	Mask pbox_hero_metalpanel_03_normal
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .75
+        ALPHAMASK  1		// Optional flag indicating to use the ALPHA channel
+				// of the Mask texture instead of all 4 channels
+
+	Base2 pbox_hero_metalpanel_03
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 LB_Reflect_Map.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 3
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll 1 1
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 55 50 50
+	SpecularColor2 50 50 50 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 7
+	SpecularExponent2 1
+
+	DiffuseScale 2.0
+	AmbientScale 4.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base pbox_hero_metalpanel_03
+		Blend pbox_hero_metalpanel_03_addglow
+		Bumpmap pbox_hero_metalpanel_03_normal
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 .25 .25
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_pbox_hero_metalpanel_05
+	Base1 pbox_hero_metalpanel_05
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 grey
+	Multiply1Scroll 0 .01
+	Multiply1ScrollType Normal
+	Multiply1Scale 16 16
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0.005 0.005
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 3 4
+
+	Addglow1 pbox_hero_metalpanel_05_addglow.tga
+	Addglow1Scroll 0 0
+	Addglow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale .025 .025
+
+	Multiply2 none
+	Multiply2Scroll 0.000 -0.001 
+	Multiply2ScrollType Normal
+	Multiply2Scale .4 .4
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 24
+	SpecularExponent2 24
+
+	DiffuseScale 2.0
+	AmbientScale 4.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base pbox_shield_red_fallback.tga
+		Blend pbox_shield_red_fallback.tga
+		Bumpmap none
+		BlendType multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 .25 .25
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+#VILLAIN SHADERS.
+
+Texture pbox_villain_metalpanel_01
+	Base1 pbox_villain_metalpanel_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 grey
+	Multiply1Scroll 0 .01
+	Multiply1ScrollType Normal
+	Multiply1Scale 16 16
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 pbox_villain_metalpanel_01_normal
+	BumpMap1Scroll 0.000 0.000
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Addglow1 none
+	Addglow1Scroll 0 0
+	Addglow1Scale 1 1
+
+	Mask pbox_villain_metalpanel_01_normal
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5
+        ALPHAMASK  1		// Optional flag indicating to use the ALPHA channel
+				// of the Mask texture instead of all 4 channels
+
+	Base2 pbox_villain_metalpanel_01
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale .025 .025
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 90 60 255 //185 110 255
+	SpecularColor2 20 110 50 //50 170 100
+	SpecularExponent 30
+
+	DiffuseScale 2
+	AmbientScale 4
+
+	AmbientMinVec .25 .25 .60 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base pbox_villain_metalpanel_01
+		Blend none
+		Bumpmap pbox_villain_metalpanel_01_normal
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.75
+		AmbientScale 0.75
+	End
+End
+
+Texture pbox_villain_metalpanel_02
+	Base1 pbox_villain_metalpanel_02
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 grey
+	Multiply1Scroll 0 .01
+	Multiply1ScrollType Normal
+	Multiply1Scale 16 16
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 pbox_villain_metalpanel_02_normal
+	BumpMap1Scroll 0.000 0.000
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Addglow1 none
+	Addglow1Scroll 0 0
+	Addglow1Scale 1 1
+
+	Mask pbox_villain_metalpanel_02_normal
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5
+        ALPHAMASK  1     // Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 pbox_villain_metalpanel_02
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale .025 .025
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 90 60 255 //185 110 255
+	SpecularColor2 20 110 50 //50 170 100
+	SpecularExponent 30
+
+	DiffuseScale 2
+	AmbientScale 4
+
+	AmbientMinVec .25 .25 .60 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	SpecularColor1 90 60 255 //185 110 255
+	SpecularColor2 20 110 50 //50 170 100
+
+	Fallback
+		UseFallback 1
+		Base pbox_villain_metalpanel_02
+		Blend none
+		Bumpmap pbox_villain_metalpanel_02_normal
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.75
+		AmbientScale 0.75
+	End
+End
+
+Texture pbox_villain_metalpanel_03
+	Base1 pbox_villain_metalpanel_03
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 grey
+	Multiply1Scroll 0 .01
+	Multiply1ScrollType Normal
+	Multiply1Scale 16 16
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 pbox_villain_metalpanel_03_normal
+	BumpMap1Scroll 0.000 0.000
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Addglow1 pbox_villain_metalpanel_03_addglow.tga
+	Addglow1Scroll 0 0
+	Addglow1Scale 1 1
+
+	Mask pbox_villain_metalpanel_03_normal
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5
+        ALPHAMASK  1     // Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 pbox_villain_metalpanel_03
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale .025 .025
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 90 60 255 //185 110 255
+	SpecularColor2 20 110 50 //50 170 100
+	SpecularExponent 30
+
+	DiffuseScale 2
+	AmbientScale 4
+
+	AmbientMinVec .25 .25 .60 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	SpecularColor1 90 60 255 //185 110 255
+	SpecularColor2 20 110 50 //50 170 100
+
+	Fallback
+		UseFallback 1
+		Base pbox_villain_metalpanel_03
+		Blend pbox_villain_metalpanel_03_addglow
+		Bumpmap pbox_villain_metalpanel_03_normal
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.75
+		AmbientScale 0.75
+	End
+End
+
+Texture pbox_villain_metalpanel_04
+	Base1 pbox_villain_metalpanel_04
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 grey
+	Multiply1Scroll 0 .01
+	Multiply1ScrollType Normal
+	Multiply1Scale 16 16
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 pbox_villain_metalpanel_04_normal
+	BumpMap1Scroll 0.000 0.000
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Addglow1 none
+	Addglow1Scroll 0 0
+	Addglow1Scale 1 1
+
+	Mask pbox_villain_metalpanel_04_normal
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5
+        ALPHAMASK  1     // Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 pbox_villain_metalpanel_04
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale .025 .025
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 90 60 255 //185 110 255
+	SpecularColor2 20 110 50 //50 170 100
+	SpecularExponent 30
+
+	DiffuseScale 2
+	AmbientScale 4
+
+	AmbientMinVec .25 .25 .60 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base pbox_villain_metalpanel_04
+		Blend none
+		Bumpmap pbox_villain_metalpanel_04_normal
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.75
+		AmbientScale 0.75
+	End
+End
+
+Texture pbox_villain_metalpanel_05
+	Base1 pbox_villain_metalpanel_05.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+	Multiply1 grey
+	Multiply1Scroll 0 .01
+	Multiply1ScrollType Normal
+	Multiply1Scale 16 16
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none #pbox_villain_metalpanel_05_normal.tga
+	BumpMap1Scroll 0.0 0.0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 0 0
+
+	Addglow1 none
+	Addglow1Scroll 0 0
+	Addglow1Scale 1 1
+
+	Mask pbox_villain_metalpanel_05_normal
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5
+        ALPHAMASK  1     // Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 pbox_villain_metalpanel_05
+	Base2Scroll -0.0000 -0.0001
+	Base2ScrollType Normal
+	Base2Scale .025 .025
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1 
+	Multiply2reflect 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none #pillbox_hud_bump.tga
+	BumpMap2Scroll -0.005 -0.005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 8 8
+
+	SpecularColor1 90 60 255 //185 110 255
+	SpecularColor2 20 110 50 //50 170 100
+	SpecularExponent 30
+
+	DiffuseScale 2
+	AmbientScale 4
+
+	AmbientMinVec .25 .25 .60 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#ObjFlags FancyWater
+
+	Surface INWATER
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base pbox_villain_metalpanel_05
+		Blend none
+		Bumpmap pbox_villain_metalpanel_05_normal
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.75
+		AmbientScale 0.75
+	End
+End
+
+#backup
+///////////////////////////////////////////////////
+##Inner Shield Texture.
+#
+#Texture x_Pillbox_InnerShell
+#	Base1 pillbox_hud.tga
+#	Base1Scroll 0.005 0.005
+#	Base1Scale 8 8
+#
+#	Addglow1 none
+#	Addglow1Scroll -0.005 -0.005
+#	Addglow1Scale 18 18
+#
+#	Multiply1 pillbox_hud.tga
+#	Multiply1Scroll -0.005 -0.005
+#	Multiply1Scale 18 18
+#
+#	BumpMap1 pillbox_hud_bump
+#	BumpMap1Scroll  0.005 0.005
+#	BumpMap1Scale 18 18
+#
+#	BumpMap2 pillbox_hud_bump
+#	BumpMap2Scroll  -0.005 -0.005
+#	BumpMap2Scale 18 18 
+#	MaskWeight 1
+#
+#	DiffuseScale 2
+#	AmbientScale 2
+#
+#	Color4 180 180 255
+#	Color3 0 255 120
+#	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+#	ObjFlags FancyWater // This is the flag that says to render as water!
+#End
+#
+##Texture pillbox_hud.tga
+##	Base1 pillbox_hud.tga
+##	Base1Scroll 0.001 0.001
+##	Base1Scale 18 18
+##
+##	Multiply1 pillbox_hud_det
+##	Multiply1Scroll -0.0012 -0.001
+##	Multiply1Scale 18 18
+##
+##	BumpMap1 pillbox_hud_bump
+##	BumpMap1Scroll   0.001 0.001
+##	BumpMap1Scale 18 18
+##
+##	DualColor1 black //bunkerfound_main.tga
+##	DualColor1Scroll 0 0
+##	DualColor1Scale 1 1
+##
+##	Mask black
+##	MaskScroll -0.001 -0.001
+##	MaskScale 4 4
+##	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+##	MaskWeight 1
+##	
+##	BumpMap2 pillbox_hud_bump
+##	BumpMap2Scroll   -0.001 -0.001
+##	BumpMap2Scale 8 8
+##
+##	
+##	SpecularColor1 100 100 100
+##	SpecularColor2 100 100 100
+##
+##	Color3 255 255 180
+##	Color4 180 180 255
+##	
+##	
+##
+##	ObjFlags FancyWater
+##
+##	Surface INWATER
+##
+##End
+#
+#// This is the Shield/HUD shader.
+##
+#
+#
+##PILLBOXES
+#
+##__PbxOuterShell
+##__PbxInnerShell
+##__PbxShellBrace
+#
+##Trick pillboxpillar
+##
+##	#ObjFlags
+##	LodFar 172
+##	LodFarFade 64 
+##	TrickFlags  NotSelectable
+##	Groupflags ParentFade
+##End
+##
+##
+##Trick pillboxHUD
+##
+##	LodFar 4000
+##	LodFarFade 16 
+##	TrickFlags  NotSelectable  NoZWrite Additive
+##	#StAnim 0.6 1.000000 light_pulse2 FRAMESNAP
+##	ObjFlags   FullBright NoLightAngle
+##	#Groupflags ParentFade
+##End
+##

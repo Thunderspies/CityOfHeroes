@@ -1,0 +1,165 @@
+#########################################################
+##	template
+
+FxInfo
+
+
+#########################################################
+####################### AUDIO ###########################
+#########################################################
+
+Condition
+	On	Time
+	Time	0
+	
+
+	Event
+		Type	Local
+		At 	Origin
+		Sound Fast2 70 70 .7
+	End
+End
+
+
+
+#########################################################
+#################### BODY GLOW 1 ########################
+#########################################################
+
+
+
+Condition
+	On	Time
+	Time	5
+	
+
+	Event	
+		ENAME	ChestGlow
+		Type	Local
+		At	Hips
+		part	:HealEnergy.part
+		part	:Heal.part
+		#POther Neck
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+	
+	End
+
+	Event	
+		ENAME	HeadGlow
+		Type	Local
+		At	Head
+		part	:HealEnergy.part
+		part	:Heal.part
+		#POther Chest
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+		
+	End
+	
+
+	Event	
+		ENAME	RightUarmGlow
+		Type	Local
+		At	SpadR
+		part	:HealEnergy.part
+		part	:Heal.part
+		#POther LarmR
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+		
+	End
+
+	Event	
+		ENAME	LeftUarmGlow
+		Type	Local
+		At	SpadL
+		part	:HealEnergy.part
+		part	:Heal.part
+		#POther LarmL
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+		
+	End
+		
+	Event	
+		ENAME	RightLarmGlow
+		Type	Local
+		At	WepR
+		part	:HealLowerArmsEnergy.part
+		part	:HealLowerArms.part
+		#POther LarmR
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+		
+	End
+
+	Event	
+		ENAME	LeftLarmGlow
+		Type	Local
+		At	WepL
+		part	:HealLowerArmsEnergy.part
+		part	:HealLowerArms.part
+		#POther LarmL
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+		
+	End
+
+
+	
+	Event	
+		ENAME	RightLarmGlow
+		Type	Local
+		At	LarmR
+		part	:HealLowerArmsEnergy.part
+		part	:HealLowerArms.part
+		#POther LarmR
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+		
+	End
+
+
+	Event	
+		ENAME	LeftUarmGlow
+		Type	Local
+		At	LarmL
+		part	:HealLowerArmsEnergy.part
+		part	:HealLowerArms.part
+		#POther LarmL
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+		
+	End
+	
+	
+	Event	
+		ENAME	RightLarmGlow
+		Type	Local
+		At	UarmR
+		part	:HealShouldersEnergy.part
+		part	:HealShoulders.part
+		#POther LarmR
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+		
+	End
+
+
+	Event	
+		ENAME	LeftUarmGlow
+		Type	Local
+		At	UarmL
+		part	:HealShouldersEnergy.part
+		part	:HealShoulders.part
+		#POther LarmL
+		Bhvr	Behaviors/GenericParticleFade.bhvr
+		Lifespan 30
+		
+	End
+
+End
+
+
+End		

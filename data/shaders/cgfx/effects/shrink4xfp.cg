@@ -1,0 +1,72 @@
+// #define EXTEND_COLORS
+// #define CAPTHEM
+// #define HIGH_RANGE
+
+#include "constants_vfx.cgh"
+#include "utilEffects.cgh"  //placed after #defines for util routines
+
+// TBD! OPTION ARB_precision_hint_fastest;
+
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+    float4 texCoord0              : TEXCOORD0;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform float4 g_Effects_TextTransformFP		TIE( ENV0 ); // program.local[0];
+};
+
+
+void SAMPLE(inout float4 c, fpInput IN, float dx, float dy)
+{
+	float2 texcoord = (( IN.g_Effects_TextTransformFP.xy * float2(dx, dy)) + IN.texCoord0.xy );
+	c += tex2D( IN.texSampler0, texcoord );
+}
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float4 oColor;
+    float4 c = 0;
+
+    SAMPLE(c,IN,-3,-3);
+    SAMPLE(c,IN,-3,-1);
+    SAMPLE(c,IN,-3, 1);
+    SAMPLE(c,IN,-3, 3);
+    SAMPLE(c,IN,-1,-3);
+    SAMPLE(c,IN,-1,-1);
+    SAMPLE(c,IN,-1, 1);
+    SAMPLE(c,IN,-1, 3);
+    SAMPLE(c,IN, 1,-3);
+    SAMPLE(c,IN, 1,-1);
+    SAMPLE(c,IN, 1, 1);
+    SAMPLE(c,IN, 1, 3);
+    SAMPLE(c,IN, 3,-3);
+    SAMPLE(c,IN, 3,-1);
+    SAMPLE(c,IN, 3, 1);
+    SAMPLE(c,IN, 3, 3);
+    c *= 0.0625;
+
+    #if defined(USE_LUMINANCE)
+        c = dot(c.xyz, LUMINANCE_VECTOR);
+    #endif
+
+    #if defined(USE_EXP)
+        // EX2 c, c.x;  (replicates the result to all 4 elements)
+        c = exp2( c.x );
+    #endif
+
+    oColor = utilFinalColor(c);
+
+    //oColor.xyz = IN.texCoord0.xyz;
+    //oColor.xyz = c + 1;
+
+    return oColor;
+}

@@ -1,0 +1,31 @@
+!!RC1.0
+#
+#	BLENDMODE_COLORBLEND_DUAL (NV20 version)
+#
+{
+  rgb {
+    discard = unsigned(tex1) * unsigned(const0);
+    discard = unsigned_invert(tex1) * unsigned(const1);
+    spare0 = sum();
+  }
+  alpha {
+    spare0 = unsigned(const0) * unsigned(tex1);
+  }
+}
+{
+  rgb {
+    discard = unsigned(tex0.a);
+    discard = unsigned_invert(tex0.a) * unsigned(spare0);
+    spare0 = sum();
+  }
+}
+{
+  rgb {
+    spare0 = unsigned(col0) * spare0;
+    scale_by_four();
+  }
+}
+final_product = spare0 * unsigned(tex0);
+clamp_color_sum();
+out.rgb = lerp(fog.a, final_product, fog);
+out.a = spare0;

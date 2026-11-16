@@ -1,0 +1,1181 @@
+MinTime 120
+
+PatrolXPMultiplier 1.5
+PatrolScalar 0.00000115741
+
+DayJob CityOfficial
+{
+	VolumeName DJ_CityHall
+	Stat DayJob.CityOfficial
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.City_Official_Influence_Lesser
+		Type TimeInGame
+		Requires DJ_City_Official owned? !
+		Factor .0083
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.City_Official_Influence_Greater
+		Type TimeInGame
+		Requires DJ_City_Official owned?
+		Factor .0083
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Warden_Baton
+		Type Activation
+		Requires DJ_Warden owned?
+		Factor 0.0000347222
+		RemainderToken DJWardenRemainder
+	}
+}
+
+DayJob LawEnforcement
+{
+	VolumeName DJ_PoliceStation
+	Stat DayJob.LawEnforcement
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Law_Enforcement_XP_Lesser
+		Type TimeInGame
+		Requires DJ_Law_Enforcement owned? !
+		Factor .0083
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Law_Enforcement_XP_Greater
+		Type TimeInGame
+		Requires DJ_Law_Enforcement owned?
+		Factor .0083
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Warden_Baton
+		Type Activation
+		Requires DJ_Warden owned?
+		Factor 0.0000347222
+		RemainderToken DJWardenRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Security_Guard_Tear_Gas
+		Type Activation
+		Requires DJ_Security_Chief owned?
+		Factor 0.0000173611
+		RemainderToken DJSecurityGuardRemainder
+	}
+}
+
+DayJob Commuter
+{
+	VolumeName DJ_TrainStation
+	Stat DayJob.Commuter
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Movement_Increase_Lesser
+		Type TimeInGame
+		Requires DJ_Commuter owned? !
+		Factor 0.008333333
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Movement_Increase_Greater
+		Type TimeInGame
+		Requires DJ_Commuter owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Traveler owned?
+		Factor 0.005952381
+	}
+}
+	
+DayJob ShopKeeper
+{
+	VolumeName DJ_Stores
+	Stat DayJob.ShopKeeper
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Shop_Keeper_Enhancement
+		Type TimeInGame
+		Requires DJ_Shop_Keeper owned? !
+		Factor 0.008333333
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Shop_Keeper_Enhancement
+		Type TimeInGame
+		Requires DJ_Shop_Keeper owned?
+		Factor .01190
+	}
+
+	Power {
+		Salvage S_InventionDiscountCoupon
+		Requires DJ_Entrepreneur owned?
+		Factor 0.0000115741
+		Max 10
+		RemainderToken DJInventionRemainder
+	}
+}
+
+DayJob DimensionalExplorerFireBaseZulu
+{
+	ZoneName Hazard_06_01
+	Stat DayJob.DimensionalExplorer
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Traveler owned? ! DJ_Dimensional_Explorer owned? ! &&
+		Factor 0.002083333
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Dimensional_Explorer owned? DJ_Traveler owned? ! &&
+		Factor 0.00245098
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Traveler owned? DJ_Dimensional_Explorer owned? &&
+		Factor 0.00297619
+	}
+}
+
+DayJob DimensionalExplorerCascadeArchipelago
+{
+	ZoneName Hazard_06_02
+	Stat DayJob.DimensionalExplorer
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Traveler owned? ! DJ_Dimensional_Explorer owned? ! &&
+		Factor 0.002083333
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Dimensional_Explorer owned? DJ_Traveler owned? ! &&
+		Factor 0.00245098
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Traveler owned? DJ_Dimensional_Explorer owned? &&
+		Factor 0.00297619
+	}
+}
+
+DayJob DimensionalExplorerChantry
+{
+	ZoneName Hazard_06_03
+	Stat DayJob.DimensionalExplorer
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Traveler owned? ! DJ_Dimensional_Explorer owned? ! &&
+		Factor 0.002083333
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Dimensional_Explorer owned? DJ_Traveler owned? ! &&
+		Factor 0.00245098
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Traveler owned? DJ_Dimensional_Explorer owned? &&
+		Factor 0.00297619
+	}
+}
+
+DayJob DimensionalExplorerStormPalace
+{
+	ZoneName Trial_06_01
+	Stat DayJob.DimensionalExplorer
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Traveler owned? ! DJ_Dimensional_Explorer owned? ! &&
+		Factor 0.002083333
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Dimensional_Explorer owned? DJ_Traveler owned? ! &&
+		Factor 0.00245098
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Traveler owned? DJ_Dimensional_Explorer owned? &&
+		Factor 0.00297619
+	}
+}
+
+DayJob Intern
+{
+	VolumeName DJ_PortalCorps
+	Stat DayJob.Intern
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Intern_Inspiration
+		Type TimeInGame
+		Requires DJ_Intern owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Intern_Inspiration
+		Type TimeInGame
+		Requires DJ_Intern owned?
+		Factor 0.011904762
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Scientist_Sleep_Grenade
+		Type Activation
+		Requires DJ_Scientist owned?
+		Factor 0.0000208333
+		RemainderToken DJScientistRemainder
+
+	}
+}	
+	
+DayJob Caregiver
+{
+	VolumeName DJ_Hospital
+	Stat DayJob.Caregiver
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Increase_Regeneration_Lesser	
+		Type TimeInGame
+		Requires DJ_Caregiver owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Increase_Regeneration_Greater	
+		Type TimeInGame
+		Requires DJ_Caregiver owned?
+		Factor 0.008333333
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Doctor_Revive_Ally
+		Type Activation
+		Requires DJ_Doctor owned?
+		Factor 0.0000173611
+		RemainderToken DJDoctorRemainder
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Alchemists_Potion
+		Type Activation
+		Requires DJ_Alchemist owned?
+		Factor 0.0000231481
+		RemainderToken DJAlchemistRemainder
+	}
+
+}
+
+DayJob Scholar
+{
+	VolumeName DJ_University
+	Stat DayJob.Scholar
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Scholar_Tech_Salvage
+		Type TimeInGame
+		Requires DJ_Scholar owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Scholar_Tech_Salvage
+		Type TimeInGame
+		Requires DJ_Scholar owned?
+		Factor 0.009803922
+	}	
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Doctor_Revive_Ally
+		Type Activation
+		Requires DJ_Doctor owned?
+		Factor 0.0000173611
+		RemainderToken DJDoctorRemainder
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Scientist_Sleep_Grenade
+		Type Activation
+		Requires DJ_Scientist owned?
+		Factor 0.0000208333
+		RemainderToken DJScientistRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Scientist_Sleep_Grenade
+		Type Activation
+		Requires DJ_Crey_Scientist owned?
+		Factor 0.0000231481
+		RemainderToken DJScientistRemainder
+	}
+}
+
+DayJob Banker
+{
+	VolumeName DJ_Vault
+	Stat DayJob.Banker
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Banker_Influence_Lesser
+		Type TimeInGame
+		Requires DJ_Banker owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Banker_Influence_Greater
+		Type TimeInGame
+		Requires DJ_Banker owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Security_Guard_Tear_Gas
+		Type Activation
+		Requires DJ_Security_Chief owned?
+		Factor 0.0000173611
+		RemainderToken DJSecurityGuardRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Black_Ops_Smoke_Grenade
+		Type Activation
+		Requires DJ_Black_Ops owned?
+		Factor 0.0000231481
+		RemainderToken DJSecurityGuardRemainder
+	}
+}
+
+DayJob Clubber
+{
+	ZoneName City_02_04
+	Stat DayJob.Clubber
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Increase_Recovery_Lesser
+		Type TimeInGame
+		Requires DJ_Clubber owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Increase_Recovery_Greater
+		Type TimeInGame
+		Requires DJ_Clubber owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Trend_Setter_Placate
+		Type Activation
+		Requires DJ_Trend_Setter owned?
+		Factor 0.0000231481
+		RemainderToken DJTrendSetterRemainder
+	}
+}
+
+DayJob Auctioneer
+{
+	VolumeName DJ_AuctionHouse
+	Stat DayJob.Auctioneer
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Auctioneer_Teleporter_Lesser
+		Type Activation
+		Requires DJ_Auctioneer owned? ! hero type char> eq &&
+		Factor 0.0000115741
+		RemainderToken DJAuctioneerTeleporterLesserRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Auctioneer_Teleporter_Greater
+		Type Activation
+		Requires DJ_Auctioneer owned? hero type char> eq &&
+		Factor 0.0000115741
+		RemainderToken DJAuctioneerTeleporterGreaterRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Marketeer_Teleporter_Lesser
+		Type Activation
+		Requires DJ_Auctioneer owned? ! villain type char> eq &&
+		Factor 0.0000115741
+		RemainderToken DJMarketeerTeleporterLesserRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Marketeer_Teleporter_Greater
+		Type Activation
+		Requires DJ_Auctioneer owned? villain type char> eq &&
+		Factor 0.0000115741
+		RemainderToken DJMarketeerTeleporterGreaterRemainder
+	}
+
+	Power {
+		Salvage S_InventionDiscountCoupon
+		Requires DJ_Entrepreneur owned? DJ_Black_Marketeer owned? ||
+		Factor 0.0000115741
+		Max 10
+		RemainderToken DJInventionRemainder
+	}
+}
+
+DayJob VanguardRecruit
+{
+	VolumeName DJ_VanguardBase
+	Stat DayJob.VanguardRecruit
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Vanguard_Recruit_Merit_Lesser
+		Type TimeInGame
+		Requires DJ_Vanguard_Recruit owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Vanguard_Recruit_Merit_Greater
+		Type TimeInGame
+		Requires DJ_Vanguard_Recruit owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Soldier_Grenade
+		Type Activation
+		Requires DJ_Soldier owned?
+		Factor 0.0000173611
+		RemainderToken DJSoldierRemainder
+	}
+}
+
+DayJob MenderHero
+{
+	ZoneName City_06_01
+	Stat DayJob.Mender
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Mender_Recipe
+		Type TimeInGame
+		Requires DJ_Mender owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Mender_Recipe
+		Type TimeInGame
+		Requires DJ_Mender owned?
+		Factor 0.009803922
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Time_Traveler
+		Type TimeInGame
+		Requires DJ_Time_Traveler owned?
+		Factor 0.008333333
+	}
+}
+
+DayJob MenderVillain
+{
+	ZoneName V_City_06_01
+	Stat DayJob.Mender
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Mender_Recipe
+		Type TimeInGame
+		Requires DJ_Mender owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Mender_Recipe
+		Type TimeInGame
+		Requires DJ_Mender owned?
+		Factor 0.009803922
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Time_Traveler
+		Type TimeInGame
+		Requires DJ_Time_Traveler owned?
+		Factor 0.008333333
+	}
+}
+
+DayJob Midnighter
+{
+	ZoneName Coop_02_01
+	Stat DayJob.Midnighter
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Midnighter_Arcane_Salvage
+		Type TimeInGame
+		Requires DJ_Midnighter owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Midnighter_Arcane_Salvage
+		Type TimeInGame
+		Requires DJ_Midnighter owned?
+		Factor 0.009803922
+	}	
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Alchemists_Potion
+		Type Activation
+		Requires DJ_Alchemist owned?
+		Factor 0.0000231481
+		RemainderToken DJAlchemistRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Archaelogist_Rune
+		Type Activation
+		Requires DJ_Archaeologist owned?
+		Factor 0.0000231481
+		RemainderToken DJArchaeologistRemainder
+	}
+}
+
+DayJob Midnighter
+{
+	VolumeName DJ_Midnighter
+	Stat DayJob.Midnighter
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Midnighter_Arcane_Salvage
+		Type TimeInGame
+		Requires DJ_Midnighter owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Midnighter_Arcane_Salvage
+		Type TimeInGame
+		Requires DJ_Midnighter owned?
+		Factor 0.009803922
+	}	
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Alchemists_Potion
+		Type Activation
+		Requires DJ_Alchemist owned?
+		Factor 0.0000231481
+		RemainderToken DJAlchemistRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Archaelogist_Rune
+		Type Activation
+		Requires DJ_Archaeologist owned?
+		Factor 0.0000231481
+		RemainderToken DJArchaeologistRemainder
+	}
+}
+
+DayJob Pilot
+{
+	VolumeName DJ_Helicopter
+	Stat DayJob.Pilot
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Pilot_Lesser
+		Type TimeInGame
+		Requires DJ_Pilot owned? !
+		Factor 0.008333333
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Pilot_Greater
+		Type TimeInGame
+		Requires DJ_Pilot owned?
+		Factor 0.00833333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Brood_Leader owned?
+		Factor 0.005952381
+	}
+}
+
+DayJob Duelist
+{
+	VolumeName DJ_Arena
+	Stat DayJob.Duelist
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Increase_Endurance_Lesser
+		Type TimeInGame
+		Requires DJ_Duelist owned? !
+		Factor 0.008333333
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Increase_Endurance_Greater
+		Type TimeInGame
+		Requires DJ_Duelist owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Combat_Shield
+		Type TimeUsed
+		Requires DJ_Gladiator owned?
+		Factor 0.002083333
+	}
+}
+
+DayJob Clotheshorse
+{
+	VolumeName DJ_Tailor
+	Stat DayJob.Clotheshorse
+	
+	Power {
+		Salvage S_TailorDiscountCoupon
+		Requires DJ_Clotheshorse owned? !
+		Factor 0.0000115741
+		Max 10
+		RemainderToken DJTailorRemainder
+	}
+
+	Power {
+		Salvage S_TailorDiscountCoupon
+		Requires DJ_Clotheshorse owned?
+		Factor 0.0000136166
+		Max 10
+		RemainderToken DJTailorRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Trend_Setter_Placate
+		Type Activation
+		Requires DJ_Trend_Setter owned?
+		Factor 0.0000231481
+		RemainderToken DJTrendSetterRemainder
+	}
+}
+
+DayJob Cimeroran
+{
+	ZoneName City_03_04
+	Stat DayJob.Cimeroran
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Damage_Resistance_Lesser
+		Type TimeInGame
+		Requires DJ_Cimeroran owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Damage_Resistance_Greater
+		Type TimeInGame
+		Requires DJ_Cimeroran owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Time_Traveler
+		Type TimeInGame
+		Requires DJ_Time_Traveler owned?
+		Factor 0.008333333
+	}
+}
+
+DayJob GrieferBloodyBay
+{
+	ZoneName V_PvP_02_01
+	Stat DayJob.Griefer
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Improved_Recharge_Time_Lesser
+		Type TimeInGame
+		Requires DJ_Griefer owned? !
+		Factor 0.008333333
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Improved_Recharge_Time_Greater
+		Type TimeInGame
+		Requires DJ_Griefer owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Combat_Shield
+		Type TimeUsed
+		Requires DJ_Gladiator owned?
+		Factor 0.002083333
+	}
+}
+
+DayJob GrieferSirensCall
+{
+	ZoneName V_PvP_03_01
+	Stat DayJob.Griefer
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Improved_Recharge_Time_Lesser
+		Type TimeInGame
+		Requires DJ_Griefer owned? !
+		Factor 0.008333333
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Improved_Recharge_Time_Greater
+		Type TimeInGame
+		Requires DJ_Griefer owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Combat_Shield
+		Type TimeUsed
+		Requires DJ_Gladiator owned?
+		Factor 0.002083333
+	}
+}
+
+DayJob GrieferWarburg
+{
+	ZoneName V_PvP_04_01
+	Stat DayJob.Griefer
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Improved_Recharge_Time_Lesser
+		Type TimeInGame
+		Requires DJ_Griefer owned? !
+		Factor 0.008333333
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Improved_Recharge_Time_Greater
+		Type TimeInGame
+		Requires DJ_Griefer owned?
+		Factor 0.00833333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Combat_Shield
+		Type TimeUsed
+		Requires DJ_Gladiator owned?
+		Factor 0.002083333
+	}
+}
+
+DayJob GrieferReclusesVictory
+{
+	ZoneName V_PvP_05_01
+	Stat DayJob.Griefer
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Improved_Recharge_Time_Lesser
+		Type TimeInGame
+		Requires DJ_Griefer owned? !
+		Factor 0.008333333
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Improved_Recharge_Time_Greater
+		Type TimeInGame
+		Requires DJ_Griefer owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Combat_Shield
+		Type TimeUsed
+		Requires DJ_Gladiator owned?
+		Factor 0.002083333
+	}
+}
+
+DayJob MonitorDuty
+{
+	VolumeName DJ_SuperGroupBase
+	Stat DayJob.MonitorDuty
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Monitor_Duty_Prestige_Lesser
+		Type TimeInGame
+		Requires DJ_Monitor_Duty owned? !
+		Factor 0.008333333
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Monitor_Duty_Prestige_Greater
+		Type TimeInGame
+		Requires DJ_Monitor_Duty owned?
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Rapid_Response_Member_Teleport
+		Type Activation
+		Requires DJ_Rapid_Response_Member owned?
+		Factor 0.0000115741
+		RemainderToken DJRapidResponseTeleportRemainder
+	}
+}
+
+DayJob Gravedigger
+{
+	VolumeName DJ_Graveyard
+	Stat DayJob.Gravedigger
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Grave_Digger_XP_Debt_Lesser
+		Type TimeInGame
+		Requires DJ_Gravedigger owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Grave_Digger_XP_Debt_Greater
+		Type TimeInGame
+		Requires DJ_Gravedigger owned?
+		Factor 0.008333333
+	}	
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Archaelogist_Rune
+		Type Activation
+		Requires DJ_Archaeologist owned?
+		Factor 0.0000231481
+		RemainderToken DJArchaeologistRemainder
+	}
+}
+
+DayJob GravediggerDarkAstoria
+{
+	ZoneName Hazard_03_01
+	Stat DayJob.Gravedigger
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Grave_Digger_XP_Debt_Lesser
+		Type TimeInGame
+		Requires DJ_Gravedigger owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Grave_Digger_XP_Debt_Greater
+		Type TimeInGame
+		Requires DJ_Gravedigger owned?
+		Factor 0.008333333
+	}	
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Archaelogist_Rune
+		Type Activation
+		Requires DJ_Archaeologist owned?
+		Factor 0.0000231481
+		RemainderToken DJArchaeologistRemainder
+	}
+}
+
+DayJob CreyEmployee
+{
+	VolumeName DJ_CreyIndustries
+	Stat DayJob.CreyEmployee
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Crey_Employee_Inspiration
+		Type TimeInGame
+		Requires DJ_Intern owned? !
+		Factor 0.008333333
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Crey_Employee_Inspiration
+		Type TimeInGame
+		Requires DJ_Intern owned?
+		Factor 0.011904762
+	}
+		
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Scientist_Sleep_Grenade
+		Type Activation
+		Requires DJ_Crey_Scientist owned?
+		Factor 0.0000208333
+		RemainderToken DJScientistRemainder
+	}
+}	
+
+DayJob ArachnosOfficial
+{
+	ZoneName V_City_05_01
+	Stat DayJob.ArachnosOfficial
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Brood_Leader owned? ! DJ_Arachnos_Official owned? ! &&
+		Factor 0.002083333
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Brood_Leader owned? ! DJ_Arachnos_Official owned? &&
+		Factor 0.00245098
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Jet_Pack
+		Type TimeUsed
+		Requires DJ_Brood_Leader owned? DJ_Arachnos_Official owned? &&
+		Factor 0.00297619
+	}
+}
+
+DayJob ArachnosAgent
+{
+	VolumeName DJ_ArachnosControlled
+	Stat DayJob.ArachnosAgent
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Arachnos_Agent_XP_Lesser
+		Type TimeInGame
+		Requires DJ_Arachnos_Agent owned? !
+		Factor .0083
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Arachnos_Agent_XP_Greater
+		Type TimeInGame
+		Requires DJ_Arachnos_Agent owned?
+		Factor .0083
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Web_Weaver_Grenade
+		Type Activation
+		Requires DJ_Web_Weaver owned?
+		Factor 0.0000347222
+		RemainderToken DJWebWeaverRemainder
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Black_Ops_Smoke_Grenade
+		Type Activation
+		Requires DJ_Black_Ops owned?
+		Factor 0.0000231481
+		RemainderToken DJSecurityGuardRemainder
+	}
+}	
+
+DayJob Smuggler
+{
+	VolumeName DJ_Docks
+	Stat DayJob.Smuggler
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Smuggler_Enhancement
+		Type TimeInGame
+		Requires DJ_Smuggler owned? !
+		Factor .0083
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Smuggler_Enhancement
+		Type TimeInGame
+		Requires DJ_Smuggler owned?
+		Factor .01190
+	}
+
+	Power {
+		Salvage S_InventionDiscountCoupon
+		Requires DJ_Black_Marketeer owned?
+		Factor 0.0000115741
+		Max 10
+		RemainderToken DJInventionRemainder
+	}
+}
+
+DayJob Demagogue
+{
+
+	VolumeName DJ_Marconeville
+	Stat DayJob.Demagogue
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Demagogue_Influence_Lesser
+		Type TimeInGame
+		Requires DJ_Demagogue owned? !
+		Factor .0083
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Demagogue_Influence_Greater
+		Type TimeInGame
+		Requires DJ_Demagogue owned?
+		Factor .0083
+	}
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Web_Weaver_Grenade
+		Type Activation
+		Requires DJ_Web_Weaver owned?
+		Factor 0.0000347222
+		RemainderToken DJWebWeaverRemainder
+	}
+}
+
+DayJob Architect
+{
+	VolumeName DJ_ArchitectLobby, DJ_Architect
+	Stat DayJob.Architect
+
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Master_Architect_Power
+		Type Activation
+		Requires DJ_Master_Architect owned?
+		Factor 0.0000138889
+		RemainderToken DJMasterArchitectRemainder
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Architect_Ticket_Lesser
+		Type TimeInGame
+		Requires DJ_Architect owned? !
+		Factor .0083
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Architect_Ticket_Greater
+		Type TimeInGame
+		Requires DJ_Architect owned?
+		Factor .0083
+	}
+}
+
+DayJob DUSTRanger
+{
+	VolumeName DJ_DUSTRanger
+	Stat DayJob.DUSTRanger
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_DPS_Buff_Lesser
+		Type TimeInGame
+		Requires DJ_DUST_Ranger owned? !
+		Factor .0083
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_DPS_Buff_Greater
+		Type TimeInGame
+		Requires DJ_DUST_Ranger owned?
+		Factor .0083
+	}
+}
+
+DayJob Scavenger
+{
+	ZoneName P_City_00_04
+	Stat DayJob.Scavenger
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Scavenger_Inspiration
+		Type TimeInGame
+		Requires DJ_Scavenger owned? !
+		Factor .0083
+	}
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Scavenger_Inspiration
+		Type TimeInGame
+		Requires DJ_Scavenger owned?
+		Factor .0098
+	}
+}
+
+DayJob Psychologist
+{
+	VolumeName DJ_Psychologist
+	Stat DayJob.Psychologist
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Psionic_Resistance_Lesser
+		Type TimeInGame
+		Requires DJ_Psychologist owned? !
+		Factor .0083
+	}
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_Psionic_Resistance_Greater
+		Type TimeInGame
+		Requires DJ_Psychologist owned?
+		Factor .0083
+	}
+}
+
+DayJob Survivalist
+{
+	VolumeName DJ_Survivalist
+	Stat DayJob.Survivalist
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Survivalist_Recipe
+		Type TimeInGame
+		Requires DJ_Scavenger owned? !
+		Factor .0083
+	}
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Survivalist_Recipe
+		Type TimeInGame
+		Requires DJ_Scavenger owned?
+		Factor .0098
+	}
+}
+
+DayJob DarkAstoria
+{
+	ZoneName Coop_06_01
+	Stat DayJob.DarkAstoria
+	
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_ColdNegative_Resistance_Lesser
+		Type TimeInGame
+		Requires DJ_DarkAstoria owned? !
+		Factor .0083
+	}
+	Power {
+		Power Temporary_Powers.Day_Job_Powers.Day_Job_ColdNegative_Resistance_Greater
+		Type TimeInGame
+		Requires DJ_DarkAstoria owned?
+		Factor .0098
+	}
+}

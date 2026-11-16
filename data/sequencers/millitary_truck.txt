@@ -1,0 +1,80 @@
+#############################################################
+
+Sequencer
+
+TypeDef Millitary_truck
+	BaseSkeleton	Millitary_truck\skel_test
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Millitary_truck
+	  Anim          Millitary_truck\idle 1  
+	TEnd
+MEnd
+
+
+
+###################
+### run Forward ##
+###################
+
+Move Forward_Pre
+	Requires	FORWARD 
+	Interrupts	<Ready> <PostMoveCycle> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		ReqInputs 
+	NextMove        Forward_Cycle
+	Priority        1
+	Interpolate	0
+
+	Type		Millitary_truck
+	  Anim          Millitary_truck\skel_test 
+	  PlayFX	fx\EntitySounds\Car_Truck.fx 0 Constant
+	TEnd
+
+MEnd
+
+
+
+Move Forward_Cycle
+	Requires	FORWARD 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle 
+	Priority        1
+	Interpolate	0
+
+	Type		Millitary_truck
+	  Anim          Millitary_truck\skel_test 1  
+	  PlayFX	fx\EntitySounds\Car_Truck.fx 0 Constant
+	TEnd
+
+MEnd
+
+
+
+SeqEnd
+

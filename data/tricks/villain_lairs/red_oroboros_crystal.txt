@@ -1,0 +1,124 @@
+Texture x_ouroboros_crystal_inner1_red
+	Base1 ouroboros_crystal_red
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 ofc1_glass_b
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.3 0.3
+	Multiply1reflect 1
+
+	DualColor1 none //ouroboros_crystal
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_crystal_inner1
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask black
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+
+	DiffuseScale 4
+	AmbientScale 4
+
+	Flags None // NoRandomAddGlow FullBright
+
+	MinAddGlow 1
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base alpha
+		Blend none
+		Bumpmap none
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ouroboros_crystal_red
+	Base1 ouroboros_crystal_inner1_red
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 ouroboros_crystal_inner1_red
+	Multiply1Scroll 0 0
+	Multiply1reflect 1
+
+	BumpMap1 ofc1_glass
+	BumpMap1Scroll   0 0
+	BumpMap1Scale .3 .3
+
+	BumpMap2 ouroboros_crystal_red
+	BumpMap2Scroll  .00005 .00005
+	BumpMap2Scale .1 .1
+
+	MaskWeight .5
+
+	DiffuseScale 20
+	AmbientScale 4
+
+	Color3 100 100 125
+	//Color4 50 50 200
+
+	SpecularColor1 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	ObjFlags FancyWater
+
+	ReflectivityBase 0
+	ReflectivityScale 0
+	ReflectivityPower 1
+
+	ScaleST0 0.5 0.5
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base alpha //ouroboros_crystal.tga
+		Blend none
+		Bumpmap none //ouroboros_crystal_inner1.tga
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+

@@ -1,0 +1,45 @@
+
+#include "constants_vfx.cgh"
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+    float4 texCoord0              : TEXCOORD0;
+    float4 texCoord1              : TEXCOORD1;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform sampler2D texSampler1 : TEXUNIT1;
+    uniform float4 g_TimeStepFP		TIE( ENV0 ); // program.local[0];
+};
+
+// #define NO_FPRENDER
+#if defined(NO_FPRENDER)
+    const float ADJUST_VALUE = 0.98;  // Adjust quicker because integer consistency won't let us get all that close
+#else
+    const float ADJUST_VALUE = 0.99;
+#endif
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float4 avgLum  = tex2D( IN.texSampler0, IN.texCoord0.xy );
+    float4 lastLum = tex2D( IN.texSampler1, IN.texCoord1.xy );
+
+    // fAdaptedLum + (fCurrentLum - fAdaptedLum) * ( 1 - pow( 0.98f, 30 * g_fElapsedTime ) )
+    float scaleLum = ( 1 - pow( ADJUST_VALUE, ( IN.g_TimeStepFP.x * 1 ) ) );
+    float4 deltaLum = ( ( avgLum - lastLum ) * scaleLum );
+
+    // SGE initVar.x, -lastLum.x, 0;
+    float initVar = (-lastLum.x >= 0) ? 1.0 : 0.0;
+
+    float3 color = lerp( ( lastLum + deltaLum ), avgLum, initVar ).xyz;
+    const float alpha = 1;
+
+    return float4(color, alpha);
+}

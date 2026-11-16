@@ -1,0 +1,3006 @@
+#############################################################
+## cat.txt
+#############################################################
+Sequencer
+
+## Dog #######################################################
+
+TypeDef Cat
+	BaseSkeleton	Cat\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Panther
+	BaseSkeleton	Cat\skel_ready
+	ParentType	Cat
+TypeDefEnd
+
+TypeDef Lion
+	BaseSkeleton	Cat\skel_ready
+	ParentType	Cat
+TypeDefEnd
+
+TypeDef Liger
+	BaseSkeleton	Cat\skel_ready
+	ParentType	Cat
+TypeDefEnd
+
+
+
+TypeDef NightStalker_Panther
+	BaseSkeleton	Cat\skel_ready
+	ParentType	Cat
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<IRQEmotesALL>
+Group	<Skill>
+Group	<SkillMode>
+Group	<MonsterGroup>
+Group	<MonsterMove>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+#########################################################
+## READIES
+#############################################################
+
+Move Ready
+	Interpolate	5
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Cat_Ready
+
+	Type		Cat
+	  Anim          Cat\cat_idle 1 60
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Cat_Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Cat_Ready
+	CycleMove	Cat_Ready
+	CycleMove	Cat_ready_to_sit
+	CycleMove	Cat_idlebreak_headturn
+	CycleMove	Cat_idlebreak_headshake
+
+	Type		Cat
+	  Anim          Cat\cat_idle 1 60
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Cat_idlebreak_headturn
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Cat_Ready
+
+	Type		Cat
+	  Anim          Cat\Cat_idlebreak_headturn 1 237
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Cat_idlebreak_headshake
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Cat_Ready
+
+	Type		Cat
+	  Anim          Cat\Cat_idlebreak_headshake 1 60
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 10
+	  PlayFX	NPCFX\Pets\Cat\Cat_Shake.fx
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 50
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 58
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Cat_ready_to_sit
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Cat_sit_cycle
+
+	Type		Cat
+	  Anim          Cat\Cat_lie_down 1 89
+	  PlayFX	NPCFX\Pets\Cat\Cat_Purr.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 10
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 60
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 75
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Cat_sit_cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Cat_sit_cycle
+	CycleMove	Cat_sit_cycle
+	CycleMove	Cat_sit_headturn
+	CycleMove	Cat_sit_licking
+	CycleMove	Cat_sit_to_ready
+
+
+	Type		Cat
+	  Anim          Cat\Cat_lie_down 90 149
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Cat_sit_headturn
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Cat_sit_cycle
+
+	Type		Cat
+	  Anim          Cat\Cat_lie_down 150 350
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Cat_sit_licking
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Cat_sit_cycle
+
+	Type		Cat
+	  Anim          Cat\Cat_lie_down 351 570
+	  PlayFX	NPCFX\Pets\Cat\Cat_Lick.fx 8
+	  PlayFX	NPCFX\Pets\Cat\Cat_Lick.fx 50
+	  PlayFX	NPCFX\Pets\Cat\Cat_Lick.fx 65
+	  PlayFX	NPCFX\Pets\Cat\Cat_Lick.fx 85
+#	  PlayFX	NPCFX\Pets\Cat\Cat_Scratch.fx 100
+	  PlayFX	NPCFX\Pets\Cat\Cat_Scratch.fx 120
+	  PlayFX	NPCFX\Pets\Cat\Cat_Scratch.fx 140
+	  PlayFX	NPCFX\Pets\Cat\Cat_Lick.fx 180
+	TEnd
+
+MEnd
+
+Move Cat_sit_to_ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Cat_Ready
+
+	Type		Cat
+	  Anim          Cat\Cat_lie_down 571 641
+	TEnd
+
+MEnd
+
+#############################################################
+## Combat
+#############################################################
+
+## COMBAT READY ###########################################################
+
+Move Cat_PreCombat
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove        Cat_CombatReady
+	Scale           1
+
+	Type		Cat
+	  Anim          cat\cat_combat_idle 1 22
+	 # PlayFX	NPCFX\Pets\Cat\Cat_Snarl.fx
+	TEnd
+
+MEnd
+
+Move Cat_CombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle HideWeapon HideShield
+	NextMove        Cat_postReady_back
+	Scale           1
+
+	Type		Cat
+	  Anim          cat\cat_combat_idle 23 49
+	TEnd
+
+MEnd
+
+Move Cat_postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Cat_Ready
+	Priority        0
+    Flags       HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_combat_idle 50
+	TEnd
+
+MEnd
+
+## BASIC SPAWN ###########################################################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Priority	1
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_post
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield NotSelectable NOCOLLISION
+
+	Type		Cat
+	  Anim          cat\cat_spawn 1 47
+	  PlayFX	Generic\entityFadeIn.fx 0 CONSTANT
+	TEnd
+
+	Type		Liger
+	  Anim          cat\cat_roar 1 50
+	  PlayFX	NPCFX\Pets\Liger\Liger_Spawn.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Spawned_post
+	Include sequencers\Members\Readies.inc
+	NextMove	Cat_Ready
+	Flags NoSizeScale HideWeapon HideShield NotSelectable
+
+	Type		Cat
+	  Anim          cat\cat_spawn 47
+	TEnd
+
+	Type		Cat
+	  Anim          cat\cat_roar 51 200
+	TEnd
+
+MEnd
+
+###################
+### Death    ####
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        101
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Flags		NotSelectable NOCOLLISION HideWeapon HideShield
+	Sets            NOCOLLISION
+	SticksOnChild	DEATH GROUND
+
+	Type		Cat
+	  Anim          cat\cat_death 1 37
+	 # PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Lion  #chanage back to death if Lion entity turn into a mastermind pet
+	  Anim          cat\cat_dismiss 1 31
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Liger  #chanage back to death if Liger entity turn into a mastermind pet
+	  Anim          cat\cat_roar 1 50
+	  #PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		NightStalker_Panther
+	  Anim          cat\cat_roar 1 40
+	  PlayFx	ENEMYFX\Praetorian\SpiritStalkers\SpiritPanther_Death.fx 0 #constant
+	TEnd
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle HideWeapon HideShield
+	Sets            NOCOLLISION
+
+	Type		Cat
+	  Anim          cat\cat_death 38 38
+	 # PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Lion
+	  Anim          cat\cat_dismiss 31
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Liger
+	  Anim          cat\cat_roar 51 200
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		NightStalker_Panther
+	  Anim          cat\cat_roar 41 200
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+
+MEnd
+
+####################
+#### Dismiss    ####
+####################
+
+Move Dismiss
+	Requires	DISMISS
+	Interrupts	<AttackIRQ> <ReactIRQ> <HitIRQ> <DeathIRQ>
+	NextMove        Dismiss_cycle
+	Priority        102
+	Flags		 HideWeapon HideShield NotSelectable NOCOLLISION
+
+	Type		Cat
+	  Anim          cat\cat_dismiss 1 31
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 30
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Liger
+	  Anim          cat\cat_roar 1 60
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 30
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 31
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 44
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 54
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 60
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+MEnd
+
+Move Dismiss_cycle
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle HideWeapon HideShield
+	Interpolate     5
+
+	Type		Cat
+	  Anim          cat\cat_dismiss 31
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Liger
+	  Anim          cat\cat_roar 61
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+MEnd
+
+#############################################################
+## Hit Quick
+#############################################################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	NextMove        Cat_CombatReady
+	Flags		 HideWeapon HideShield HitReact
+	SticksOnChild	QUICK HIT
+
+	Type		Cat
+	  Anim          cat\cat_hit_quickA 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_Whimper.fx
+	TEnd
+
+MEnd
+
+#############################################################
+## Combat Hit Quick
+#############################################################
+
+Move C_HitQuick
+	Requires	COMBAT QUICK HIT
+	Priority        3
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	NextMove        Cat_CombatReady
+	Flags		HideWeapon HideShield HitReact
+
+	Type		Cat
+	  Anim          cat\cat_hit_quickA 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_Whimper.fx
+	TEnd
+
+MEnd
+
+Move C_HitQuick_B
+	Requires	COMBAT QUICK HIT
+	Priority        3
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	NextMove        Cat_CombatReady
+	Flags		HideWeapon HideShield HitReact
+
+	Type		Cat
+	  Anim          cat\cat_hit_quickB 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_Whimper.fx
+	TEnd
+
+MEnd
+
+#############################################################
+## knockback Hit
+#############################################################
+
+Move Knockback
+	Requires	HIT KNOCKBACK
+	Priority        5
+	Interrupts	<HitIRQ> <DeathIRQ>
+	NextMove        Knockback_travel
+	Interpolate     3
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_knockback 3 9
+	TEnd
+
+MEnd
+
+Move Knockback_travel
+	Requires	AIR
+	NextMove        Knockback_impact
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_knockback 10 10
+	TEnd
+
+MEnd
+
+Move Knockback_Apex
+	Requires	AIR APEX
+	Interrupts	Knockback_travel Knockback
+	NextMove        Knockback_fallcycle
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_knockback 11 15
+	TEnd
+
+MEnd
+
+Move Knockback_fallcycle
+	Requires	AIR
+#	Member		<RagdollBellyIRQ>
+	NextMove        Knockback_impact
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_knockback 16 16
+	TEnd
+
+MEnd
+
+Move Knockback_impact
+	NextMove        getup
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+	Interpolate     0
+
+	Type		Cat
+	  Anim          cat\cat_knockback 17 40
+	TEnd
+
+MEnd
+
+#############################################################
+### GETUP
+#############################################################
+
+Move getup
+	NextMove        getup_post
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_getup 1 31
+	TEnd
+
+MEnd
+
+Move getup_post
+	NextMove        Cat_CombatReady
+#	Include sequencers\Members\Reactions.inc
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_getup 32
+	TEnd
+
+MEnd
+
+#############################################################
+## Sweeps
+#############################################################
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Priority        3
+	Interrupts	<HitIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Interpolate     2
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_sweep 3 26
+	TEnd
+
+MEnd
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	NextMove        getup
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          Cat\cat_sweep 27
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Priority        3
+	Interrupts	<HitIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Interpolate     2
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_sweep_flip 3 26
+	TEnd
+
+MEnd
+
+##############################################################
+##############################################################
+## RUN FORWARD	###########################################################
+
+Move Cat_RunPre
+	Requires	FORWARD
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		Cycle HideWeapon HideShield nosizescale #MoveScale SmoothSprint
+	CycleMove	Cat_RunCycle
+	#NextMove	Idle_Walk_Post
+	Interpolate	5
+
+	Type		Cat
+	  Anim          Cat\Cat_run_forward 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+	  Scale		1.2
+
+#	  MoveRate	1  ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		Panther
+	  Anim          Cat\Cat_sprint_forward 1 14
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+	  Scale		0.85 ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		NightStalker_Panther
+	  Anim          Cat\Cat_run_forward 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+	  Scale		1
+    	TEnd
+
+MEnd
+
+Move Cat_RunCycle
+	Requires	FORWARD
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		Cycle HideWeapon HideShield nosizescale #MoveScale	SmoothSprint
+	NextMove	Cat_RunPost
+	Interpolate	5
+
+	Type		Cat
+	  Anim		Cat\cat_run_forward 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+	  Scale		1.1
+	  MoveRate	1
+#	  MoveRate	1 ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		Panther
+	  Anim		Cat\cat_sprint_forward 1 14
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+#	  MoveRate	1 ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		NightStalker_Panther
+	  Anim		Cat\cat_run_forward 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+	  Scale		1
+	  MoveRate	1
+#	  MoveRate	1 ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+MEnd
+
+Move Cat_RunPost
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+	Flags		nosizescale
+
+	Type		Cat
+	  Anim		Cat\cat_run_forward_post 1 30
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+## RUN BACKWARD	###########################################################
+
+Move Cat_Run_Back_Pre
+	Requires	BACKWARD
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield nosizescale #MoveScale	SmoothSprint
+	CycleMove	Cat_Run_Back_Cycle
+	#NextMove	Idle_Walk_Post
+	Interpolate	5
+#	MoveRate	0.8
+
+	Type		Cat
+	  Anim		Cat\Cat_run_backward_pre 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+	TEnd
+
+	Type		Panther
+	  Anim		Cat\Cat_run_backward_pre 1 10
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+	TEnd
+
+MEnd
+
+Move Cat_Run_Back_Cycle
+	Requires	BACKWARD
+	Priority	1
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield nosizescale #MoveScale	SmoothSprint
+	MoveRate	1.2
+	NextMove	Cat_Run_Back_Post
+	Interpolate	3
+
+
+	Type		Cat
+	  Anim		Cat\Cat_run_backward 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+	TEnd
+
+	Type		Panther
+	  Anim		Cat\Cat_sprint_backward 1 14
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+	TEnd
+
+MEnd
+
+Move Cat_Run_Back_Post
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+	Scale 		0.9
+	Flags		nosizescale
+
+	Type		Cat
+	  Anim		Cat\Cat_run_backward_post 1
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+
+## RUN LEFT ###########################################################
+
+Move Cat_Run_Left_Pre
+	Requires	STEPLEFT
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ> RunPre
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle HideWeapon HideShield nosizescale #MoveScale SmoothSprint
+	CycleMove	Cat_Run_Left_Cycle
+	#NextMove	Idle_Walk_Post
+	Interpolate	5
+	Scale 		1
+
+	Type		Cat
+	  Anim		Cat\Cat_run_left_pre 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+#	  SmoothSprint	3.3
+	TEnd
+
+	Type		Panther
+	  Anim		Cat\Cat_sprint_left 1 14
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+#	  SmoothSprint	3.3
+	TEnd
+
+MEnd
+
+Move Cat_Run_Left_Cycle
+	Requires	STEPLEFT
+	Priority	1
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle HideWeapon HideShield nosizescale #MoveScale	SmoothSprint
+#	MoveRate	1  ##	0.7 x 30 = I animated this to move at 21 feet per second
+	NextMove	Cat_Run_Left_Post
+	Interpolate	3
+
+	Type		Cat
+	  Anim		Cat\Cat_run_left 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+#	  SmoothSprint	3.3
+	TEnd
+
+	Type		Panther
+	  Anim		Cat\Cat_sprint_left 1 14
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+#	  SmoothSprint	3.3
+	TEnd
+
+MEnd
+
+Move Cat_Run_Left_Post
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+#	Scale 		1.1
+	Flags		nosizescale
+
+	Type		Cat
+	  Anim		Cat\Cat_run_left_post 1
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Cat_Run_Right_Pre
+	Requires	STEPRIGHT
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ> RunPre
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle HideWeapon HideShield nosizescale #MoveScale SmoothSprint
+	CycleMove	Cat_Run_Right_Cycle
+	#NextMove	Idle_Walk_Post
+#	MoveRate	1  ##	0.7 x 30 = I animated this to move at 21 feet per second
+	Interpolate	5
+	Scale 		1
+
+	Type		Cat
+	  Anim		Cat\Cat_run_right_pre 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+#	  SmoothSprint	3.3
+	TEnd
+
+	Type		Panther
+	  Anim		Cat\Cat_sprint_right 1 14
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+#	  SmoothSprint	3.3
+	TEnd
+
+MEnd
+
+Move Cat_Run_Right_Cycle
+	Requires	STEPRIGHT
+	Priority	1
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle HideWeapon HideShield nosizescale #MoveScale	 SmoothSprint
+#	MoveRate	1
+	NextMove	Cat_run_Right_Post
+	Interpolate	3
+
+	Type		Cat
+	  Anim		Cat\Cat_run_right 1 17
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+#	  SmoothSprint	3.3
+	TEnd
+
+	Type		Panther
+	  Anim		Cat\Cat_sprint_right 1 14
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 14
+#	  SmoothSprint	3.3
+	TEnd
+
+MEnd
+
+Move Cat_Run_Right_Post
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+	Scale 		1
+	Flags		nosizescale
+
+	Type		Cat
+	  Anim          Cat\Cat_run_right_post 1
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+### NPC WALK     ###########################################################
+## WALK FORWARD ###########################################################
+
+Move Cat_WalkCycle_Pre
+	Requires	FORWARD	WALK
+	Priority	2
+	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		MoveScale HideWeapon HideShield
+	NextMove	Cat_WalkCycle
+
+	Type		Cat
+	  Anim		Cat\cat_walk_forward 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 30
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 31
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 44
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 54
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 60
+	  MoveRate	0.146
+	  Scale		1.1
+	TEnd
+
+
+MEnd
+
+Move Cat_WalkCycle
+	Requires	FORWARD	WALK
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		Cycle HideWeapon HideShield MoveScale
+	NextMove	Cat_WalkPost
+	Priority	2
+
+	Type		Cat
+	  Anim		Cat\cat_walk_forward 1 60
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 30
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 31
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 44
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 54
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 60
+	  MoveRate	5
+	  Scale		2
+	TEnd
+
+MEnd
+
+Move Cat_WalkPost
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	8
+
+	Type		Cat
+	  Anim		Cat\cat_walk_forward 60
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 1
+#	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 14
+#	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 30
+#	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 31
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 44
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 54
+#	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 60
+	TEnd
+
+MEnd
+
+#############################################################
+## PLAYER WALK
+#############################################################
+
+## WALK FORWARD ###########################################################
+
+Move CatPlayer_Walk_Forward
+	Requires	PLAYER FORWARD PLAYERWALK
+	Priority	3
+	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	CatPlayer_Walk_Forward_Cycle
+	Flags		ReqInputs HideWeapon HideShield MoveScale
+	Interpolate	10
+	Wind		WALKFORWARD
+
+	Type		Cat
+	  Anim		Cat\cat_walk_forward 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 30
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 31
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 44
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 54
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 60
+	  MoveRate	0.09
+	TEnd
+
+MEnd
+
+Move CatPlayer_Walk_Forward_Cycle
+	Requires	PLAYER FORWARD PLAYERWALK
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	CatPlayer_Walk_Post
+	Flags		Cycle HideWeapon HideShield MoveScale
+	Wind		WALKFORWARD
+
+	Type		Cat
+	  Anim		Cat\cat_walk_forward 1 60
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 30
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 31
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 44
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 54
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Walk.fx 60
+	  MoveRate	0.09
+	TEnd
+
+MEnd
+#
+### WALK RIGHT ###########################################################
+#
+#Move Player_Walk_Right
+#	Requires	PLAYER STEPRIGHT PLAYERWALK
+#	Priority	3
+#	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+#	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+#	NextMove	Player_Walk_Right_Cycle
+#	Flags		ReqInputs HideWeapon HideShield MoveScale
+#	Interpolate	10
+#	Wind		WALKRIGHT
+#
+#	Type		Dog
+#	  Anim		Dog\dog_walk_right_pre 1
+#	  MoveRate	0.13
+#	TEnd
+#
+#MEnd
+#
+#Move Player_Walk_Right_Cycle
+#	Requires	PLAYER STEPRIGHT PLAYERWALK
+#	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+#	NextMove	Player_Walk_Post
+#	Flags		Cycle HideWeapon HideShield MoveScale
+#	Wind		WALKRIGHT
+#
+#	Type		Dog
+#	  Anim		Dog\dog_walk_right 1 37
+#	  MoveRate	0.13
+#	TEnd
+#
+#MEnd
+#
+### WALK LEFT ###########################################################
+#
+#Move Player_Walk_Left
+#	Requires	PLAYER STEPLEFT PLAYERWALK
+#	Priority	3
+#	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+#	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+#	NextMove	Player_Walk_Left_Cycle
+#	Flags		ReqInputs HideWeapon HideShield MoveScale
+#	Wind		WALKLEFT
+#
+#	Type		Dog
+#	  Anim		Dog\dog_walk_left_pre 1
+#	  MoveRate	0.13
+#	TEnd
+#
+#MEnd
+#
+#Move Player_Walk_Left_Cycle
+#	Requires	PLAYER STEPLEFT PLAYERWALK
+#	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+#	NextMove	Player_Walk_Post
+#	Flags		Cycle HideWeapon HideShield MoveScale
+#	Wind		WALKLEFT
+#
+#	Type		Dog
+#	  Anim		Dog\dog_walk_left 1 37
+#	  MoveRate	0.13
+#	TEnd
+#
+#MEnd
+#
+### WALK BACK ###########################################################
+#
+#Move Player_Walk_Back
+#	Requires	PLAYER BACKWARD PLAYERWALK
+#	Priority	3
+#	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+#	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+#	NextMove	Player_Walk_Back_Cycle
+#	Flags		ReqInputs HideWeapon HideShield MoveScale
+#	Interpolate	10
+#	Wind		WALKBACK
+#
+#	Type		Dog
+#	  Anim		Dog\dog_walk_back 1
+#	  MoveRate	0.14
+#	TEnd
+#
+#MEnd
+#
+#Move Player_Walk_Back_Cycle
+#	Requires	PLAYER BACKWARD PLAYERWALK
+#	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+#	NextMove	Player_Walk_Post
+#	Flags		Cycle HideWeapon HideShield MoveScale
+#	Wind		WALKBACK
+#
+#	Type		Dog
+#	  Anim		Dog\dog_walk_back 1 37
+#	  MoveRate	0.14
+#	TEnd
+#
+#MEnd
+#
+##############################################################
+#
+Move CatPlayer_Walk_Post
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+
+
+	Type		Cat
+	  Anim		Cat\cat_walk_forward 60
+	  MoveRate	0.5
+	TEnd
+
+MEnd
+
+## JUMP FORWARD ###########################################################
+
+Move cat_HopPre
+	Requires	FORWARD	JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_Hop
+
+	Type		Cat
+	  Anim		cat\cat_hop 1 4
+	TEnd
+
+MEnd
+
+Move cat_Hop
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove 	cat_HopCycle
+	NextMove	cat_HopApex
+	Scale		0.75
+
+	Type		Cat
+	  Anim		cat\cat_hop 5 82
+	TEnd
+
+MEnd
+
+Move cat_HopCycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_HopApex
+
+	Type		Cat
+	  Anim		cat\cat_hop 20 82
+	TEnd
+MEnd
+
+Move cat_HopApex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	cat_HopFall
+
+	Type		Cat
+	  Anim		cat\cat_hop 82 94
+	TEnd
+
+MEnd
+
+Move cat_HopFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_HopFall_Cycle
+	NextMove	cat_HopPost
+
+	Type		Cat
+	  Anim		cat\cat_hop 94 111
+	TEnd
+
+MEnd
+
+Move cat_HopFall_Cycle
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_HopPost
+
+	Type		Cat
+	  Anim		cat\cat_hop 112 171
+	TEnd
+
+MEnd
+
+Move cat_HopPost
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	Interpolate	1
+	Scale		1
+	SticksOnChild	LAND
+
+	Type		Cat
+	  Anim		cat\cat_hop 172 200
+	  PlayFX	NPCFX\Pets\Cat\Cat_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 5
+	TEnd
+
+MEnd
+
+## JUMP RIGHT ###########################################################
+
+Move cat_Hop_Right_Pre
+	Requires	STEPRIGHT JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_Hop_Right
+
+	Type		cat
+	  Anim		cat\cat_hop_right 1 4
+	TEnd
+
+MEnd
+
+Move cat_Hop_Right
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove 	cat_Hop_Right_Cycle
+	NextMove	cat_Hop_Right_Apex
+	Scale		0.75
+
+	Type		cat
+	  Anim		cat\cat_hop_right 5 82
+	TEnd
+
+MEnd
+
+Move cat_Hop_Right_Cycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_Hop_Right_Apex
+
+	Type		cat
+	  Anim		cat\cat_hop_right 20 82
+	TEnd
+MEnd
+
+Move cat_Hop_Right_Apex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	cat_Hop_Right_Fall
+
+	Type		cat
+	  Anim		cat\cat_hop_right 82 94
+	TEnd
+
+MEnd
+
+Move cat_Hop_Right_Fall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_Hop_Right_Fall_Cycle
+	NextMove	cat_Hop_Right_Post
+
+	Type		cat
+	  Anim		cat\cat_hop_right 94 111
+	TEnd
+
+MEnd
+
+Move cat_Hop_Right_Fall_Cycle
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_Hop_Right_Post
+
+	Type		cat
+	  Anim		cat\cat_hop_right 112 171
+	TEnd
+
+MEnd
+
+Move cat_Hop_Right_Post
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	Interpolate	1
+	Scale		1.1
+	SticksOnChild	LAND
+
+	Type		cat
+	  Anim		cat\cat_run_right_post 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 5
+	TEnd
+
+MEnd
+
+## JUMP LEFT ###########################################################
+
+Move cat_Hop_left_Pre
+	Requires	STEPLEFT JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_Hop_left
+
+	Type		cat
+	  Anim		cat\cat_hop_left 1 4
+	TEnd
+
+MEnd
+
+Move cat_Hop_left
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove 	cat_Hop_left_Cycle
+	NextMove	cat_Hop_left_Apex
+	Scale		0.75
+
+	Type		cat
+	  Anim		cat\cat_hop_left 5 82
+	TEnd
+
+MEnd
+
+Move cat_Hop_left_Cycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_Hop_left_Apex
+
+	Type		cat
+	  Anim		cat\cat_hop_left 20 82
+	TEnd
+MEnd
+
+Move cat_Hop_left_Apex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	cat_Hop_left_Fall
+
+	Type		cat
+	  Anim		cat\cat_hop_left 82 94
+	TEnd
+
+MEnd
+
+Move cat_Hop_left_Fall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_Hop_left_Fall_Cycle
+	NextMove	cat_Hop_left_Post
+
+	Type		cat
+	  Anim		cat\cat_hop_left 94 111
+	TEnd
+
+MEnd
+
+Move cat_Hop_left_Fall_Cycle
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_Hop_left_Post
+
+	Type		cat
+	  Anim		cat\cat_hop_left 112 171
+	TEnd
+
+MEnd
+
+Move cat_Hop_left_Post
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	Interpolate	1
+	Scale		1.1
+	SticksOnChild	LAND
+
+	Type		cat
+	  Anim		cat\cat_run_left_post 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 5
+	TEnd
+
+MEnd
+
+## JUMP BACK ###########################################################
+
+Move cat_Hop_back_Pre
+	Requires	BACKWARD JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_Hop_back
+
+	Type		cat
+	  Anim		cat\cat_hop_back 1 4
+	TEnd
+
+MEnd
+
+Move cat_Hop_back
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove 	cat_Hop_back_Cycle
+	NextMove	cat_Hop_back_Apex
+	Scale		0.75
+
+	Type		cat
+	  Anim		cat\cat_hop_back 5 82
+	TEnd
+
+MEnd
+
+Move cat_Hop_back_Cycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_Hop_back_Apex
+
+	Type		cat
+	  Anim		cat\cat_hop_back 20 82
+	TEnd
+MEnd
+
+Move cat_Hop_back_Apex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	cat_Hop_back_Fall
+
+	Type		cat
+	  Anim		cat\cat_hop_back 82 94
+	TEnd
+
+MEnd
+
+Move cat_Hop_back_Fall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_Hop_back_Fall_Cycle
+	NextMove	cat_Hop_back_Post
+
+	Type		cat
+	  Anim		cat\cat_hop_back 94 111
+	TEnd
+
+MEnd
+
+Move cat_Hop_back_Fall_Cycle
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_Hop_back_Post
+
+	Type		cat
+	  Anim		cat\cat_hop_back 112 171
+	TEnd
+
+MEnd
+
+Move cat_Hop_back_Post
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	Interpolate	1
+	Scale		1.2
+	SticksOnChild	LAND
+
+	Type		cat
+	  Anim		cat\cat_run_backward_post 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 5
+	TEnd
+
+MEnd
+
+# JUMP UP ###########################################################
+
+Move cat_JumpPre
+	Requires	JUMP AIR #COMBAT
+	Priority	2
+	Interrupts	<MoveIRQ> <Ready> <Combat> <IRQJumps> <RunsALL> <GroundMoveALL> <Skill> <iceslide> <Swim> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	NextMove	cat_JumpUp
+	Interpolate	5
+
+	Type		cat
+	  Anim		cat\cat_jump 3 6
+
+	TEnd
+MEnd
+
+Move cat_JumpUp
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_JumpApex
+	CycleMove	cat_JumpCycle
+
+	Type		cat
+	  Anim		cat\cat_jump 6 82
+	TEnd
+MEnd
+
+Move cat_JumpCycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_JumpApex
+
+	Type		cat
+	  Anim		cat\cat_jump 20 82
+	TEnd
+MEnd
+
+Move cat_JumpApex #Apex is for short jumps
+	Requires	APEX AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	cat_JumpFall
+
+	Type		cat
+	  Anim		cat\cat_jump 82 92
+
+	TEnd
+MEnd
+
+Move cat_JumpFall
+	Requires	AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_JumpFall_Cycle
+	NextMove	cat_JumpPost
+	Interpolate	2
+
+	Type		cat
+	  Anim		cat\cat_jump 92 111
+	TEnd
+MEnd
+
+Move cat_JumpFall_Cycle
+	Requires	AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_JumpPost
+
+	Type		cat
+	  Anim		cat\cat_jump 111 171
+	TEnd
+MEnd
+
+Move cat_JumpPost
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	SticksOnChild	LAND
+	Interpolate	1
+
+	Type		cat
+	  Anim		cat\cat_jump 172 190
+	  PlayFX	NPCFX\Pets\Cat\Cat_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Cat\Cat_FF_Land.fx 5
+	TEnd
+
+	Type		CameraShaker
+	  Anim		male\comb_postjump 1
+	TEnd
+MEnd
+
+
+## cat JUMP UP INTO FORWARD TRANSITION ###########################################################
+
+Move cat_JumpToHop
+	Requires	FORWARD JUMP AIR #COMBAT
+	Priority	3
+	Interrupts	<TravelJump>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_HopApex
+	Interpolate	20
+
+	Type		cat
+	  Anim		cat\cat_hop 5 82
+	TEnd
+MEnd
+
+#############################################################
+## FALLS
+#############################################################
+
+## RUN FALL ###########################################################
+
+Move Cat_RunFall
+	Requires	BIGFALL
+	Priority	1
+	Interrupts	<BasicMove> <WalkMove> <DualPistolsMove> <CombatMove> <WepMove> <TwoHandMove> <TravelMove> <TravelWepMove> <TravelDualHandMove> <TravelLeftHandMove> <TravelShieldMove> <TravelShieldWepMove> <Ready> <Combat> <WepCombat> <TwoHandCombat> <iceslide> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ>  <Fall>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Cat_RunFall_2
+
+	Type		cat
+	  Anim		cat\cat_jump 92 111
+	TEnd
+
+MEnd
+
+Move Cat_RunFall_2
+	Requires	AIR
+	Priority	1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>  <Fall>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Cat_JumpPost
+
+	Type		cat
+	  Anim		cat\cat_jump 111 171
+	TEnd
+
+MEnd
+
+## FLY FORWARD FROM RUN ###########################################################
+
+Move cat_flypre_Launch
+	Requires	FORWARD	FLY
+	Priority	12
+	Interrupts	RunPre RunCycle <GroundMoveALL> <Launch> <iceslide>
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_fly_forward_cycle
+	Wind		FLY
+
+	Type		cat
+	  Anim		cat\cat_fly_forward 15 35
+	  PlayFx	FEET\FlightForward.fx
+	TEnd
+
+MEnd
+
+## FLY READY ###########################################################
+
+Move cat_flyready_pre
+	Requires	FLY
+	Priority	1
+	Interrupts	<Ready>	<Jumps>	<PostMoveCycle>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove	cat_flyready
+
+	Type		cat
+	  Anim		cat\cat_fly_ready 2 59
+	TEnd
+
+MEnd
+
+Move cat_flyready
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		Cycle HideWeapon HideShield
+	NextMove	PreFall
+	Interpolate	3
+
+	Type		cat
+	  Anim		cat\cat_fly_ready 60 110
+	TEnd
+
+MEnd
+
+## FLY FORWARD ###########################################################
+
+Move cat_fly_forward_pre
+	Requires	FORWARD	FLY
+	Priority	12
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_fly_forward_cycle
+	Scale		0.8
+	Wind		FLY
+
+
+	Type		cat
+	  Anim		cat\cat_fly_forward 1 15
+	TEnd
+
+MEnd
+
+Move cat_fly_forward_cycle
+	Requires	FORWARD	FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt>
+	Flags		Cycle HideWeapon HideShield ReqInputs
+	NextMove	cat_fly_forward_post
+	Wind		FLY
+
+	Type		cat
+	  Anim		cat\cat_fly_forward 16 35
+	TEnd
+
+MEnd
+
+Move cat_fly_forward_post
+	Requires	FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_flyready
+	Priority	11
+	Scale		0.7
+
+	Type		cat
+	  Anim		cat\cat_fly_forward 36 55
+	TEnd
+
+MEnd
+
+## FLY UP ###########################################################
+
+Move cat_fly_up_pre
+	Requires	JUMP FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <iceslide> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_fly_up_cycle
+	Priority	12
+	Scale		0.90
+	Wind		FLYUP
+
+	Type		cat
+	  Anim		cat\cat_fly_up 1 15
+	TEnd
+
+MEnd
+
+Move cat_fly_up_cycle
+	Requires	JUMP FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_fly_up_post
+	Priority	12
+	Wind		FLYUP
+
+	Type		cat
+	  Anim		cat\cat_fly_up 16 35
+	TEnd
+
+MEnd
+
+Move cat_fly_up_post
+	Requires	FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_flyready
+	Priority	11
+	Wind		FLY
+
+	Type		cat
+	  Anim		cat\cat_fly_up 36 55
+	TEnd
+
+MEnd
+
+## FLY BACKWARD	###########################################################
+
+Move cat_back_fly_pre
+	Requires	BACKWARD FLY
+	Priority	12
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <iceslide> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_back_fly_cycle
+	Scale		0.7
+
+	Type		cat
+	  Anim		cat\cat_fly_backward 2 15
+	TEnd
+
+MEnd
+
+Move cat_back_fly_cycle
+	Requires	BACKWARD FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_back_fly_post
+
+
+	Type		cat
+	  Anim		cat\cat_fly_backward 16 35
+	TEnd
+
+MEnd
+
+Move cat_back_fly_post
+	Requires	FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_flyready
+	Priority	11
+	Scale		1
+
+	Type		cat
+	  Anim		cat\cat_fly_backward 36 55
+	TEnd
+
+MEnd
+
+## FLY RIGHT ###########################################################
+
+Move cat_fly_right_pre
+	Requires	STEPRIGHT FLY
+	Priority	12
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicFlyMove> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_fly_right_cycle
+	Scale		0.90
+
+
+	Type		cat
+	  Anim		cat\cat_fly_right 2 15
+	TEnd
+MEnd
+
+Move cat_fly_right_cycle
+	Requires	STEPRIGHT FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_fly_right_post
+
+
+	Type		cat
+	  Anim		cat\cat_fly_right 16 35
+	TEnd
+MEnd
+
+Move cat_fly_right_post
+	Requires	FLY
+	Priority	11
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_flyready
+	Wind		FLY
+	Scale		0.7
+
+	Type		cat
+	  Anim		cat\cat_fly_right 36 55
+	TEnd
+MEnd
+
+## FLY LEFT ###########################################################
+
+Move cat_fly_left_pre
+	Requires	STEPLEFT FLY
+	Priority	12
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicFlyMove> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_fly_left_cycle
+	Scale		0.8
+
+	Type		cat
+	  Anim		cat\cat_fly_left 2 15
+	TEnd
+MEnd
+
+Move cat_fly_left_cycle
+	Requires	STEPLEFT FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_fly_left_post
+
+	Type		cat
+	  Anim		cat\cat_fly_left 16 35
+	TEnd
+MEnd
+
+Move cat_fly_left_post
+	Requires	FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_flyready
+	Wind		FLY
+	Scale		0.7
+
+	Type		cat
+	  Anim		cat\cat_fly_left 36 55
+	TEnd
+MEnd
+
+#############################################################
+## HOVERS
+#############################################################
+
+## cat HOVER FORWARD ###########################################################
+
+Move cat_hover_forward_pre
+	Requires	FORWARD	FLY HOVER
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicFlyMove> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_hover_forward
+	Scale		0.625
+
+	Type		cat
+	  Anim		cat\cat_fly_forward 1 15
+	TEnd
+MEnd
+
+Move cat_hover_forward
+	Requires	FORWARD	FLY HOVER
+	Priority	13
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield ReqInputs
+	NextMove	cat_hover_forward_post
+	Scale		0.625
+
+	Type		cat
+	  Anim		cat\cat_fly_forward 16 35
+	TEnd
+MEnd
+
+Move cat_hover_forward_post
+	Requires	FLY
+	Priority	11
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	cat_flyready
+	Scale		0.875
+
+	Type		cat
+	  Anim		cat\cat_fly_forward 36 55
+	TEnd
+MEnd
+
+# cat FALL ###########################################################
+
+Move cat_pre_fall
+	Requires	AIR
+	Priority	1
+	Interrupts	<FlyReady>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <HoverMove> <FlyMoveALL> <Fall>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_JumpFall_Cycle
+	NextMove	cat_JumpPost
+	Interpolate	2
+
+	Type		cat
+	  Anim		cat\cat_jump 92 111
+	TEnd
+
+MEnd
+#############################################################
+## "SLIDE"
+#############################################################
+
+Move cat_slidePre
+	Requires	FORWARD	SLIDING
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_slideCycle
+	NextMove	cat_slideCycle
+
+	Type		cat
+	  Anim		cat\cat_slide_forward 1 28
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move cat_slideCycle
+	Requires	SLIDING
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL> <IRQSlide>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_slideCycle_post
+	Interpolate	15
+
+	Type		cat
+	  Anim		cat\cat_slide_forward 1	28
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move cat_slideCycle_post
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+
+	Type		cat
+	  Anim		Cat\cat_run_forward_post 1 30
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+### ICESLIDE BACKWARD ###########################################################
+
+Move cat_slidePre_B
+	Requires	BACKWARD SLIDING
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_slideCycle_B
+	NextMove	cat_slideCycle_B
+
+	Type		cat
+	  Anim		cat\cat_slide_backward 1 28
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move cat_slideCycle_B
+	Requires	BACKWARD SLIDING
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_slidePost_B
+
+	Type		cat
+	  Anim		cat\cat_slide_backward 1 28
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move cat_slidePost_B
+	Include sequencers\Members\Readies.inc
+	NextMove	cat_slideCycle
+	Interpolate	5
+
+	Type		cat
+	  Anim          cat\cat_slide_backward 1
+	TEnd
+
+MEnd
+
+## ICESLIDE LEFT ###########################################################
+
+Move cat_slidePre_L
+	Requires	STEPLEFT SLIDING
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide> IceslidePre
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_slideCycle_L
+	NextMove	cat_slideCycle_L
+
+	Type		cat
+	  Anim		cat\cat_slide_left 1 28
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move cat_slideCycle_L
+	Requires	STEPLEFT SLIDING
+	Priority	12
+	Interrupts	cat_IceslideCycle
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_slidePost_L
+
+	Type		cat
+	  Anim		cat\cat_slide_left 1 28
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move cat_slidePost_L
+	Include sequencers\Members\Readies.inc
+	NextMove	cat_slideCycle
+	Interpolate	5
+
+	Type		cat
+	  Anim		Cat\Cat_run_left_post 1 10
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+## ICESLIDE RIGHT ###########################################################
+
+Move cat_slidePre_R
+	Requires	STEPRIGHT SLIDING
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide> IceslidePre
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_slideCycle_R
+	NextMove	ccat_slideCycle_R
+
+	Type		cat
+	  Anim		cat\cat_slide_right 1 28
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move cat_slideCycle_R
+	Requires	STEPRIGHT SLIDING
+	Priority	12
+	Interrupts	cat_IceslideCycle
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_slidePost_R
+
+	Type		cat
+	  Anim		cat\cat_slide_right 1 28
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move cat_slidePost_R
+	Include sequencers\Members\Readies.inc
+	NextMove	cat_slideCycle
+	Interpolate	5
+
+	Type		cat
+	  Anim          Cat\Cat_run_right_post 1 10
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+#############################################################
+## "ICESLIDE" - Used by Prestige Power Slide
+#############################################################
+
+Move cat_IceslidePre
+	Requires	FORWARD	ICESLIDE
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_IceslideCycle
+	NextMove	cat_Slide_Post
+
+	Type		cat
+	  Anim		cat\cat_slide_forward 1 28
+	TEnd
+
+MEnd
+
+Move cat_IceslideCycle
+	Requires	FORWARD	ICESLIDE
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_IceslidePost
+
+	Type		cat
+	  Anim		cat\cat_slide_forward 1	28
+	TEnd
+
+MEnd
+
+Move cat_IceslidePost
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+
+	Type		cat
+	  Anim		Cat\cat_run_forward_post 1 30
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+### ICESLIDE BACKWARD ###########################################################
+
+Move cat_IceslidePre_B
+	Requires	BACKWARD ICESLIDE
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_IceslideCycle_B
+	NextMove	cat_Slide_Post
+
+	Type		cat
+	  Anim		cat\cat_slide_backward 1 28
+	TEnd
+
+MEnd
+
+Move cat_IceslideCycle_B
+	Requires	BACKWARD ICESLIDE
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_IceslidePost_B
+
+	Type		cat
+	  Anim		Cat\Cat_run_backward_post 1
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+Move cat_IceslidePost_B
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+	Interpolate	5
+
+	Type		cat
+	  Anim          cat\cat_slide_backward 1
+	TEnd
+
+MEnd
+
+## ICESLIDE LEFT ###########################################################
+
+Move cat_IceslidePre_L
+	Requires	STEPLEFT ICESLIDE
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide> IceslidePre
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_IceslideCycle_L
+	NextMove	cat_Slide_Post
+
+	Type		cat
+	  Anim		cat\cat_slide_left 1 28
+	TEnd
+
+MEnd
+
+Move cat_IceslideCycle_L
+	Requires	STEPLEFT ICESLIDE
+	Priority	12
+	Interrupts	cat_IceslideCycle
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_IceslidePost_L
+
+	Type		cat
+	  Anim		cat\cat_slide_left 1 28
+	TEnd
+
+MEnd
+
+Move cat_IceslidePost_L
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+	Interpolate	5
+
+	Type		cat
+	  Anim		Cat\Cat_run_left_post 1
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+## ICESLIDE RIGHT ###########################################################
+
+Move cat_IceslidePre_R
+	Requires	STEPRIGHT ICESLIDE
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide> IceslidePre
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	cat_IceslideCycle_R
+	NextMove	cat_Slide_Post
+
+	Type		cat
+	  Anim		cat\cat_slide_right 1 28
+	TEnd
+
+MEnd
+
+Move cat_IceslideCycle_R
+	Requires	STEPRIGHT ICESLIDE
+	Priority	12
+	Interrupts	cat_IceslideCycle
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	cat_IceslidePost_R
+
+	Type		cat
+	  Anim		cat\cat_slide_right 1 28
+	TEnd
+
+MEnd
+
+Move cat_IceslidePost_R
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+	Interpolate	5
+
+	Type		cat
+	  Anim          Cat\Cat_run_right_post 1
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 19
+	  PlayFX	NPCFX\PETS\Cat\Cat_FF_Run.fx 28
+	TEnd
+
+MEnd
+
+### BASIC SPAWN ###########################################################
+#
+#Move Basic_Spawn
+#	Requires	SPAWNEDASPET
+#	Priority	1
+#	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+#	NextMove        Spawned_post
+#	Interpolate     0
+#	Sets            CANTMOVE
+#	Flags NoSizeScale HideWeapon HideShield NotSelectable NOCOLLISION
+#
+#	Type		cat
+#	  Anim          cat\cat_run_in 1 50
+#	  PlayFX	Generic\entityFadeIn.fx 0
+#	TEnd
+#
+#MEnd
+#
+#Move Spawned_post
+#	Include sequencers\Members\Readies.inc
+#	NextMove	Idle_Cycle
+#	Flags NoSizeScale HideWeapon HideShield NotSelectable
+#
+#	Type		cat
+#	  Anim          cat\cat_run_in 50
+#	TEnd
+#
+#MEnd
+#
+#####################
+##### Dismiss    ####
+#####################
+#
+#Move Default_Death
+#	Requires	DEATH
+#	Priority        101
+#	Interrupts	<DeathIRQ>
+#	Member		<RaiseDeadIRQ>
+#	NextMove        Default_postdeath
+#	Flags		NotSelectable NOCOLLISION HideWeapon HideShield
+#	Sets            NOCOLLISION
+#	SticksOnChild	DEATH GROUND
+#
+#	Type		cat
+#	  Anim          cat\cat_run_out 1 33
+#	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+#	TEnd
+#
+#MEnd
+#
+#Move Default_postdeath
+#	Requires	DEATH
+#	Member		<RaiseDeadIRQ>
+#	Flags		Cycle HideWeapon HideShield
+#	Sets            NOCOLLISION
+#
+#	Type		cat
+#	  Anim          cat\cat_run_out 33 33
+#	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+#	TEnd
+#
+#MEnd
+#
+##  SWIM READY ###########################################################
+
+Move cat_swim_readypre
+	Requires	SWIM
+	Priority        10
+	Interrupts	<Ready> Ready
+	Include sequencers\Members\Swim.inc
+	Flags		ReqInputs HideWeapon HideShield FixHipsReg
+	NextMove        cat_swim_ready
+	Scale           0.5
+
+	Type		cat
+	  Anim          cat\cat_swim_ready 1
+	  PlayFx        FEET\SWIMREADY.FX
+	TEnd
+
+
+MEnd
+
+Move cat_swim_ready
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        Ready
+	Scale           0.5
+
+	Type		cat
+	  Anim          cat\cat_swim_ready 1
+	  PlayFx        FEET\SWIMREADY.FX
+	TEnd
+
+MEnd
+
+
+## SWIM FORWARD ###########################################################
+
+Move cat_SwimPre
+	Requires	FORWARD SWIM
+	Priority        11
+	Interrupts	<SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	CycleMove	cat_SwimCycle
+	NextMove        cat_SwimPost
+	Scale           1
+
+	Type		cat
+	  Anim          cat\cat_swim_forward 1
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move cat_SwimCycle
+	Requires	FORWARD SWIM
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        cat_SwimPost
+	Scale           1
+
+	Type		cat
+	  Anim          cat\cat_swim_forward 1 20
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move cat_SwimPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        cat_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Scale           0.5
+	Interpolate     15
+
+	Type		cat
+	  Anim          cat\cat_swim_forward 20
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+## SWIM BACK ###########################################################
+
+Move cat_SwimBackPre
+	Requires	BACKWARD SWIM
+	Priority        11
+	Interrupts	<SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	CycleMove	cat_SwimBackCycle
+	NextMove        cat_SwimBackPost
+	Scale           0.75
+
+	Type		cat
+	  Anim          cat\cat_swim_backward 1
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move cat_SwimBackCycle
+	Requires	BACKWARD SWIM
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        cat_SwimBackPost
+	Scale           0.75
+
+	Type		cat
+	  Anim          cat\cat_swim_backward 1 20
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move cat_SwimBackPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        cat_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Scale           0.75
+	Interpolate     15
+
+	Type		cat
+	  Anim          cat\cat_swim_backward 20
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+## SWIM RIGHT ###########################################################
+
+Move cat_SwimRightPre
+	Requires	STEPRIGHT SWIM
+	Priority        11
+	Interrupts	cat_SwimPre <SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	CycleMove	cat_SwimRightCycle
+	NextMove        cat_SwimRightPost
+	Scale           0.75
+
+	Type		cat
+	  Anim          cat\cat_swim_right 1
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move cat_SwimRightCycle
+	Requires	STEPRIGHT SWIM
+	Priority        11
+	Interrupts	cat_SwimCycle <SwimReady> <GroundMoveALL> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        cat_SwimRightPost
+	Scale           0.75
+
+	Type		cat
+	  Anim          cat\cat_swim_right 1 20
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move cat_SwimRightPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        cat_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Scale           0.75
+	Interpolate     15
+
+	Type		cat
+	  Anim          cat\cat_swim_right 20
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+
+## SWIM LEFT ###########################################################
+
+Move cat_SwimLeftPre
+	Requires	STEPLEFT SWIM
+	Priority        11
+	Interrupts	cat_SwimPre <SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	CycleMove	cat_SwimLeftCycle
+	NextMove        cat_SwimLeftPost
+	Scale           0.75
+
+	Type		cat
+	  Anim          cat\cat_swim_left 1
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move cat_SwimLeftCycle
+	Requires	STEPLEFT SWIM
+	Priority	11
+	Interrupts	cat_SwimCycle <SwimReady> <GroundMoveALL> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        cat_SwimLeftPost
+	Scale           0.75
+
+	Type		cat
+	  Anim          cat\cat_swim_left 1 20
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move cat_SwimLeftPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        cat_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Scale           0.75
+	Interpolate     15
+
+	Type		cat
+	  Anim          cat\cat_swim_left 20
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+## SWIM POSTJUMP ###########################################################
+
+Move cat_Swim_JumpPost
+	Requires	SWIM
+	Priority        10
+	Interrupts	<GroundJumpPost>
+	Include sequencers\Members\Swim.inc
+	NextMove        cat_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Interpolate     0
+
+	Type		cat
+	  Anim          cat\cat_swim_jumppost 1
+	  # PlayFx        FEET\SPLASH.FX
+	TEnd
+
+MEnd
+
+##############################################################
+
+## Claw Rake #############################################
+
+Move Claw_Rake
+	Requires	COMBAT ANIMAL CLAWSPEED
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Claw_Rake_Post
+	Sets            CANTMOVE
+	Interpolate 	0
+    Flags       HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_claw 1 38
+	  PlayFX	NPCFX\Pets\Cat\Cat_Eviscerate.fx
+	TEnd
+
+MEnd
+
+Move Claw_Rake_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Cat_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+	Interpolate 	0
+
+	Type		Cat
+	  Anim          cat\cat_claw 39
+	TEnd
+
+
+MEnd
+
+## Vicious Bite #############################################
+
+Move Vicious_Bite
+	Requires	COMBAT ANIMAL OPEN
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Vicious_Bite_Post
+	Sets            CANTMOVE
+	Flags NoSizeScale HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_bite 1 51
+	  PlayFX	NPCFX\Pets\Cat\Cat_Pounce.fx 0
+	TEnd
+
+MEnd
+
+Move Vicious_Bite_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Cat_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_bite 52 62
+	TEnd
+
+MEnd
+
+## Wild Charge #############################################
+
+Move Wild_Charge
+	Requires	COMBAT ANIMAL BOAST
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Wild_Charge_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_charging  1 16
+	  PlayFX	NPCFX\Pets\Cat\Cat_RoarLong.fx
+	TEnd
+
+MEnd
+
+Move Wild_Charge_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Cat_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_charging 17
+	TEnd
+
+MEnd
+
+## Lick Wound #############################################
+
+Move Lick_Wound
+	Requires	COMBAT ANIMAL MOUTHSFX WOUNDED
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Lick_Wound_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_lick_wound 1 45
+	TEnd
+
+MEnd
+
+Move Lick_Wound_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Cat_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_lick_wound 46
+	TEnd
+
+MEnd
+
+## Lion's Roar #############################################
+
+Move Lion_Roar
+	Requires	COMBAT ANIMAL YELL STRONG
+	Priority	5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Lion_Roar_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_roar 1 60
+	TEnd
+
+MEnd
+
+Move Lion_Roar_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Cat_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_roar 61
+	TEnd
+
+MEnd
+
+## Claw Swipe #############################################
+
+Move Claw_Swipe
+	Requires	COMBAT ANIMAL CLAWFLURRY
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Claw_Swipe_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_claw_fury 1 64
+	TEnd
+
+MEnd
+
+Move Claw_Swipe_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Cat_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_claw_fury 65
+	TEnd
+
+MEnd
+
+## Ferocious Growl #############################################
+
+Move Ferocious_Growl
+	Requires	COMBAT ANIMAL GROWL FIERCE
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Ferocious_Growl_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_ferocious_growl 1 60
+	TEnd
+
+MEnd
+
+Move Ferocious_Growl_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Cat_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_ferocious_growl 61
+	TEnd
+
+MEnd
+
+## NightStalker Panther Shadow fire #############################################
+
+Move Shadow_Fire
+	Requires	COMBAT ANIMAL FIRE
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Shadow_Fire_Post
+	Sets            CANTMOVE
+    	Flags       	HideWeapon HideShield
+
+	Type		Cat
+	  Anim          cat\cat_fireball 1 37
+	TEnd
+
+MEnd
+
+Move Shadow_Fire_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Cat_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+	Interpolate	0
+
+	Type		Cat
+	  Anim          cat\cat_fireball 38 42
+	TEnd
+
+MEnd
+
+
+#
+#Include sequencers\cat\cat_readies_air.inc
+
+
+
+SeqEnd
+

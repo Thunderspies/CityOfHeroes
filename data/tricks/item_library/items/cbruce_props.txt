@@ -1,0 +1,658 @@
+Texture X_Ouroboros_BeamA
+	Base1 Ouroboros_BeamA.tga
+	Base1Scroll 0.001 0.0
+	Base1Scale 1.0 1.0
+
+	Multiply1 Ouroboros_BeamB.tga
+	Multiply1Scroll 0.01 0.05
+	Multiply1Scale 1.0 1.0
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 -1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 245 190
+	SpecularColor2 125 150 250
+	SpecularExponent 45
+
+	DiffuseScale 0.5
+	AmbientScale 1
+
+	Flags FullBright
+	MinAddGlow 1
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base Ouroboros_BeamA.tga
+		Blend Ouroboros_BeamB.tga
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 0.5 2.0
+		ScaleST1 1.0 1.0
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_TransparentAlpha
+	Base1 TransparentAlpha.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 TransparentAlpha.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+End
+
+Texture X_RomanPilum_01
+	Base1 Roman_Pilum_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_06
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	BumpMap1 Roman_Pilum_01_Bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask Roman_Pilum_01_Bump
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Roman_Pilum_01
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	BumpMap2 Roman_Pilum_01_Bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 248 240
+	SpecularColor2 255 248 240
+	SpecularExponent1 15
+	SpecularExponent2 10
+
+	Fallback
+		UseFallback 1
+		Base Roman_Pilum_01
+		Bumpmap Roman_Pilum_01_Bump
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_PowerAnalyzer_01
+	Base1 PowerAnalyzer_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_06
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	Fallback
+		UseFallback 1
+		Base PowerAnalyzer_01
+		Bumpmap None
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_PowerAnalyzer_Text01
+	Base1 PowerAnalyzer_Text01
+	Base1Scroll 0 0.01
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_06
+	Multiply1Scroll 1 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	Fallback
+		UseFallback 1
+		Base PowerAnalyzer_Text01
+		Bumpmap None
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_PowerAnalyzer_Waveform01
+	Base1 PowerAnalyzer_Waveform01
+	Base1Scroll 0.005 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base PowerAnalyzer_Waveform01
+		Bumpmap None
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_MapUI
+	Base1 mapui
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1.0 1.0
+
+	Multiply1 shader_reflect_generic_06
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	Fallback
+		UseFallback 1
+		Base mapui
+		Bumpmap None
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_CyclopsEye_01
+	Base1 Face_V_Skin_Cyclops_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	BumpMap1 Face_V_Cyclops_01_Bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	SpecularColor1 255 248 240
+	SpecularExponent1 25
+End
+
+Texture X_WinterEvent_Halo
+	Base1 plc_stn_white_alpha
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_03
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	SpecularColor1 255 248 240
+	SpecularExponent1 25
+End
+
+Texture X_WinterEvent_FlamingHalo
+	Base1 rock03MoltenBlack2
+	Base1Scroll 0 0.004
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Mask Caustic_tile_LG_01.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 0.75 0.75
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 ink01.tga
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+End
+
+Texture X_WinterEvent_Halo_Tintable
+	Base1 plc_stn_white_alpha
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 Tintable_Primary_Mask
+	DualColor1Scroll 0.01 0.01
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	SpecularColor1 255 255 255
+	SpecularExponent1 25
+End
+
+Texture X_WinterEvent_FlamingHalo_Tintable
+	Base1 rock03MoltenBlack2_Tintable
+	Base1Scroll 0 0.004
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 Tintable_Primary_Mask
+	DualColor1Scroll 0.01 0.01
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	Mask Caustic_tile_LG_01.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 0.75 0.75
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 ink01.tga
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+End
+
+
+Texture X_CyborgCombatHUD
+	Base1 Cyborg_Combat_HUD_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 Cyborg_Combat_HUD_Mask01
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	Multiply1 InterlaceLines_03
+	Multiply1Scroll 0 0.01
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 0.3
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+End
+
+Texture X_abndn_tek1_hall_spine
+	Base1 abndn_tek1_hall_spine
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 abndn_tek1_hall_spine
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+End
+
+Texture X_abndn_tek1_archpanel1
+	Base1 abndn_tek1_archpanel1
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 abndn_tek1_archpanel1
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+End
+
+Texture X_ContainmentField_Blue
+	Base1 ContainmentField_Blue
+	Base1Scroll 0 -0.015
+	Base1ScrollType Normal
+	Base1Scale 1 0.5
+
+	Multiply1 containmentfield_01
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+End
+
+Texture X_erlenmeyerflask01
+	Base1 erlenmeyerflask01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 erlenmeyerflask01_Mask #Shield_Gem1_01_Mask
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	Multiply1 Shader_Reflect_Chrome_02
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1
+
+	AddGlow1 erlenmeyerflask01_AddGlow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularExponent1 25
+
+	Flags AlwaysAddGlow
+End
+
+Texture X_wepr_maelstrom_pistol_overlay_01
+	Base1 wepr_maelstrom_pistol_overlay_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 None
+	Multiply1Scroll 1 1
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+End
+
+Texture X_wepr_maelstrom_pistol_01
+	Base1 wepr_maelstrom_pistol_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 None
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 wepr_maelstrom_pistol_01_Bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	SpecularColor1 255 248 240
+	SpecularExponent1 10
+End
+
+Texture X_binoculars
+	Base1 binoculars
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 None
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremape
+
+	DualColor1 None
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 binoculars_Bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask binoculars_RefMask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0
+
+	Base2 binoculars
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 shader_reflect_generic_06
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 None
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 binoculars_Bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 128 124 120
+	SpecularColor2 160 96 255
+	SpecularExponent1 15
+	SpecularExponent2 20
+
+	ReflectivityBase 0.25
+	ReflectivityScale 0.25
+	ReflectivityPower 1.000
+
+	Fallback
+		UseFallback 1
+		Base binoculars
+		Blend None
+		BlendType AlphaDetail
+		Bumpmap binoculars_Bump
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Trick Invention_Widget_Cube
+	SortBias 2222288.00
+	ScrollST1 -0.0125 0.025
+	ObjFlags FullBright
+	TrickFlags NoColl Additive DoubleSided NoZWrite
+End
+
+Trick Invention_Widget_Beams
+	SortBias 2222288.00
+	ScrollST0 0.01 0.0
+	ScrollST1 0.0125 0.025
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite Additive
+End
+
+Trick NoBackfaceCull
+	#ObjFlags FullBright
+	TrickFlags DoubleSided
+End
+
+Trick NoBackfaceCull_FullBright
+	ObjFlags FullBright
+	TrickFlags DoubleSided
+End
+
+Trick NoBackfaceCull_FullBright_Additive
+	ObjFlags FullBright
+	TrickFlags Additive DoubleSided
+End
+
+Trick NoBackfaceCull_Add_FullBright
+	ObjFlags FullBright
+	SortBias 2222288.00
+	TrickFlags Additive DoubleSided
+End
+
+Trick FullBright_Additive
+	ObjFlags FullBright
+	SortBias 2222288.00
+	TrickFlags Additive
+End
+
+Trick GlowSphere
+	ObjFlags FullBright
+	TrickFlags Additive NoZWrite #DoubleSided
+End
+
+Trick NoColl_Add_FullBright_NoZWrite
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite Additive
+End
+
+Trick ArachnosPTTPulse
+	ScrollST0 0.00 0.0625
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided
+End
+
+Trick ArachnosPTTStrand
+	SortBias 2222288.00
+	ScrollST0 0.00 0.0625
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite Additive
+End
+
+Trick TalsorianBlade
+	SortBias 2222288.00
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite Additive #ReflectTex1
+End
+
+Trick SigilRoundTracer
+	##ScrollST0 0.00 0.0625
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite Additive #ReflectTex1
+End
+
+Trick BlackwandGem
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided Subtractive #Additive NoZWrite
+End
+
+Trick OuroborosSigil
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided Additive #NoZWrite
+End
+
+Trick OuroborosBeam
+	ScrollST0 0.01 0.0
+	ScrollST1 0.0125 0.025
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite Additive #ReflectTex1
+End
+
+Trick WinterEventHalo
+	ObjFlags FullBright
+End
+
+Trick CyborgHUD
+	ObjFlags FullBright
+	SortBias 2222288.00
+	TrickFlags Additive NoZWrite #DoubleSided
+End
+
+Trick GridCube
+	ObjFlags FullBright
+#	SortBias 2222288.00
+#	TrickFlags Additive NoZWrite #DoubleSided
+End
+
+Texture ScreenEffect_Eylids.tga
+	Flags ClampS ClampT TrueColor
+End
+
+Texture Invention_Widget_Cube.tga
+	Blend Invention_Widget_Beam_B.tga
+	BlendType Multiply
+End
+
+Texture Invention_Widget_Beam_A.tga
+	Blend Invention_Widget_Beam_B.tga
+	BlendType Multiply
+End
+
+Texture Splat_WheelOfFortune.tga
+	Flags ClampS ClampT
+End
+
+Texture LaserBeam_Fade_01.tga
+	Flags NoMip #TrueColor
+End
+
+Texture ArachnosPTTPulse_Red.tga
+	Flags RepeatS RepeatT
+End
+
+Texture ArachnosPTTPulse_Orange.tga
+	Flags RepeatS RepeatT
+End
+
+Texture ArachnosPTTPulse_Green.tga
+	Flags RepeatS RepeatT
+End
+
+Texture ArachnosPTTPulse_Blue.tga
+	Flags RepeatS RepeatT
+End
+
+Texture ArachnosPTTStrand_Red.tga
+	Flags RepeatS RepeatT
+End
+
+Texture ArachnosPTTStrand_Orange.tga
+	Flags RepeatS RepeatT
+End
+
+Texture ArachnosPTTStrand_Blue.tga
+	Flags RepeatS RepeatT
+End
+
+Texture ArachnosPTTStrand_Green.tga
+	Flags RepeatS RepeatT
+End
+
+Texture Grid.tga
+	Flags Truecolor #RepeatS RepeatT #NoMip
+End
+

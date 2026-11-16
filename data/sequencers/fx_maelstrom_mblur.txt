@@ -1,0 +1,283 @@
+#############################################################
+## Weapons_DualWield_Pisotls.inc - Dual Wield Pistols
+#############################################################
+
+Sequencer
+
+## MALE #######################################################
+
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef CraneKick
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef StormKick
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef DragonsTail
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Combat_DualWeapon.inc
+	Flags		Cycle
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          male\dual_cycle 1 31
+	TEnd
+
+	Type		CraneKick
+	  Anim          male\MA_ironkick 38 #72
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 1
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 34
+	TEnd
+
+	Type		StormKick
+	  Anim          male\kick_highspin 9 #25
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 1
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 16
+	TEnd
+
+	Type		DragonsTail
+	  Anim          male\short_sweepkick 12 #32
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 1
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 18
+	TEnd
+MEnd
+
+#############################################################
+
+Move A_Ready
+	Include sequencers\Members\Combat_DualWeapon_Air.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\air_dual_cycle 1 31
+	TEnd
+
+	Type		CraneKick
+	  Anim          male\MA_ironkick 21
+	TEnd
+
+	Type		StormKick
+	  Anim          male\air_dual_cycle 1 31
+	TEnd
+
+	Type		DragonsTail
+	  Anim          male\air_dual_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+## "Bullet Rain"
+#############################################################
+
+Move DualPistols_BulletRain
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOT LAUNCH
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        DualPistols_BulletRain_Post
+
+	Type		male
+	  Anim          male\DualPistols_BulletRain 1 72
+	TEnd
+MEnd
+
+Move DualPistols_BulletRain_Post
+	Requires	COMBAT
+	Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove        Pistols_Ready_NoInterpolate
+
+	Type		male
+	  Anim          male\DualPistols_BulletRain 72
+	TEnd
+MEnd
+
+#############################################################
+
+Move A_DualPistols_BulletRain_Draw
+	Requires	FLY COMBAT WEAPON DUAL PISTOLS SHOOT LAUNCH SPAWNBACK
+	Priority        18
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        A_DualPistols_BulletRain
+
+	Type		male
+	  Anim          male\DualPistols_Draw_Air 1 26
+	TEnd
+MEnd
+
+Move A_DualPistols_BulletRain
+	Requires	FLY COMBAT WEAPON DUAL PISTOLS SHOOT LAUNCH
+	Priority        17
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        A_DualPistols_BulletRain_Post
+
+	Type		male
+	  Anim          male\DualPistols_BulletRain_Air 1 72
+	TEnd
+MEnd
+
+Move A_DualPistols_BulletRain_Post
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_DualWeapon_Air.inc
+	NextMove        A_PISTOLS_Ready
+
+	Type		male
+	  Anim          male\DualPistols_BulletRain_Air 72
+	TEnd
+MEnd
+
+#############################################################
+## "PIERCING ROUNDS"
+#############################################################
+
+Move DualPistols_PiercingRounds
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOT SNIPERBLAST
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        DualPistols_PiercingRounds_Post
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          male\DualPistols_PiercingRounds 1 75
+	TEnd
+MEnd
+
+Move DualPistols_PiercingRounds_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat_DualWeapon.inc
+	NextMove        Pistols_Ready_NoInterpolate
+	Scale		0.625
+
+	Type		male
+	  Anim          male\DualPistols_PiercingRounds 75
+	TEnd
+MEnd
+
+#############################################################
+
+Move A_DualPistols_PiercingRounds
+	Requires	FLY COMBAT WEAPON DUAL PISTOLS SHOOT SNIPERBLAST
+	Priority        17
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        A_DualPistols_PiercingRounds_Post
+	Flags		PitchToTarget
+
+	Type		male
+	  PitchStart	35
+	  PitchEnd	60
+	  Anim          male\DualPistols_PiercingRounds_Air 1 75
+	TEnd
+MEnd
+
+Move A_DualPistols_PiercingRounds_Post
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_DualWeapon_Air.inc
+	NextMove        A_PISTOLS_Ready
+	Scale		0.625
+
+	Type		male
+	  Anim          male\DualPistols_PiercingRounds_Air 75
+	TEnd
+MEnd
+
+#############################################################
+## HAIL OF BULLETS
+#############################################################
+
+Move DualPistols_HailBullets
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOT SPIN
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        DualPistols_HailBullets_Post
+
+	Type		male
+	  Anim          male\DualPistols_HailBullets 1 125
+	TEnd
+
+	Type		male
+	  Anim          male\DualPistols_HailBullets 1 125
+	TEnd
+
+	Type		male
+	  Anim          male\DualPistols_HailBullets 1 125
+	TEnd
+MEnd
+
+Move DualPistols_HailBullets_Post
+	Requires	COMBAT
+	Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove        Pistols_Ready
+	Scale		0.5
+
+	Type		male
+	  Anim          male\DualPistols_PiercingRounds 125
+	TEnd
+
+	Type		male
+	  Anim          male\DualPistols_PiercingRounds 125
+	TEnd
+
+	Type		male
+	  Anim          male\DualPistols_PiercingRounds 125
+	TEnd
+MEnd
+
+#############################################################
+
+Move A_DualPistols_HailBullets_Draw
+	Requires	FLY COMBAT WEAPON DUAL PISTOLS SHOOT SPIN SPAWNBACK
+	Priority        18
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        A_DualPistols_HailBullets
+
+	Type		male
+	  Anim          male\DualPistols_Draw_Air 1 26
+	TEnd
+MEnd
+
+Move A_DualPistols_HailBullets
+	Requires	FLY COMBAT WEAPON DUAL PISTOLS SHOOT SPIN
+	Priority        17
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        A_DualPistols_HailBullets_Post
+
+	Type		male
+	PitchStart	90
+	PitchEnd	110
+	  Anim          male\DualPistols_HailBullets_Air 1 125
+	TEnd
+MEnd
+
+Move A_DualPistols_HailBullets_Post
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_DualWeapon_Air.inc
+	NextMove        A_PISTOLS_Ready
+
+	Type		male
+	  Anim          male\DualPistols_HailBullets_Air 126
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

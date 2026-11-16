@@ -1,0 +1,45 @@
+#############################################################
+
+Sequencer
+
+
+TypeDef Fx_Natterling_transform 
+	BaseSkeleton	Beast\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Fx_Natterling_crap
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Fx_Natterling_transform
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> <AttackIRQ>
+	Flags		NoSizeScale
+	Scale           1
+	SticksOnChild   Test1
+
+	Type		Fx_Natterling_transform
+	  Anim          Beast\fuse_B 1    ##melt_B 1 65
+	TEnd
+
+	Type		Fx_Natterling_crap
+	  Anim          Beast\double_spawn 5  ##3    
+	TEnd
+
+
+MEnd
+
+
+
+SeqEnd
+
+
+
+

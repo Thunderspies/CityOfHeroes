@@ -1,0 +1,39 @@
+######################################
+## V_Dest_Chaser
+## 
+Type
+
+HealthFx
+	Range            0.0001 100
+	LibraryPiece		V_Dest_Chaser_100
+	#ContinuingFX	EntitySounds/StrigaGen1.fx
+End
+
+HealthFx
+	Range				0 0.0001 
+##	LibraryPiece		V_Dest_Chaser_050
+	ContinuingFX	GENERIC/FX_Eagle_skiff_DeathOnly.fx
+End
+
+CapsuleSize 16 16 16
+CapsuleOffset   0 0 -8
+
+Sequencer	Prop_basic.txt   	 		
+
+FadeOutStart	500				
+FadeOutFinish	550
+
+ShadowType	None			
+
+GeomScale	1.0 1.0 1.0			
+
+CollisionType	LibraryPiece
+Selection	Capsule   ##LibraryPiece 
+
+ReticleHeightBias -1
+ReticleBaseBias  -5
+
+TicksToLingerAfterDeath			20
+TicksToFadeAwayAfterDeath		1
+
+End

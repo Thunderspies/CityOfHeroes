@@ -1,0 +1,254 @@
+#############################################################
+## Turrets.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Turrets
+	BaseSkeleton	Turrets\Skel_Quad_Turrets
+	ParentType	None
+TypeDefEnd
+
+TypeDef Dual_Turrets
+	BaseSkeleton	Turrets\Dual_turrets
+	ParentType	Turrets
+TypeDefEnd
+
+TypeDef Dual_Turrets_base
+	BaseSkeleton	Turrets\Base_turret_dual_bones
+	ParentType	Dual_Turrets
+TypeDefEnd
+
+TypeDef Head_Turrets_base
+	BaseSkeleton	Turrets\Head_turret_bones
+	ParentType	Dual_Turrets
+TypeDefEnd
+
+TypeDef Arachnos_Dual_Turrets
+	BaseSkeleton	Turrets\Arachnos_Dual_bones
+	ParentType	Dual_Turrets
+TypeDefEnd
+
+TypeDef Arachnos_Quad_Turrets
+	BaseSkeleton	Turrets\Arachnos_Quad_bones
+	ParentType	Turrets
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+#############################################################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Interpolate	25
+	CycleMove	Alt_Ready_pause2
+	CycleMove	Alt_Ready_pause
+	CycleMove	Alt_Ready
+	Flags		Cycle
+	Scale		0.5
+
+	Type		Turrets
+	  Anim          Turrets\Turrets_idle 1
+	TEnd
+MEnd
+
+Move Alt_Ready
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	CycleMove	Alt_Ready_pause
+	CycleMove	Alt_Ready_pause2
+	Flags		Cycle
+	Scale		0.4
+
+	Type		Turrets
+	  Anim          Turrets\Turrets_idle_Alt 1
+	TEnd
+MEnd
+
+Move Alt_Ready_pause
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	CycleMove	Alt_Ready
+	CycleMove	Alt_Ready
+	CycleMove	Ready
+	Flags		Cycle
+
+	Type		Turrets
+	  Anim          Turrets\Turrets_ready 1 20
+	TEnd
+MEnd
+
+Move Alt_Ready_pause2
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Interpolate	20
+	CycleMove	Ready
+	CycleMove	Alt_Ready
+	Flags		Cycle
+
+	Type		Turrets
+	  Anim          Turrets\Turrets_ready 1 70
+	TEnd
+MEnd
+
+
+####################
+####### Shoot Burst  ######
+####################
+
+Move PreBurst
+	Requires	COMBAT WEAPON GUN MACHINEGUN
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Burst
+	Priority        4
+	Interpolate	13
+	Flags		PitchToTarget
+
+	Type		Turrets
+	  Anim          Turrets\Quad_shoot 1 13
+	TEnd
+
+	Type		Dual_Turrets
+	  Anim          Turrets\Dual_shoot 1 13
+	TEnd
+MEnd
+
+Move Burst
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        Active_cycle
+	Priority        1
+	Flags		PitchToTarget
+
+	Type		Turrets
+	  Anim          Turrets\Quad_shoot 14 45
+	TEnd
+
+	Type		Dual_Turrets
+	  Anim          Turrets\Dual_shoot 14 40
+	TEnd
+MEnd
+
+
+######################
+####### Flamethrower ######
+######################
+
+Move Flame
+	Requires	COMBAT WEAPON GUN FLAMETHROWER MID
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Flame_post
+	Priority        4
+	Interpolate	20
+
+	Type		Turrets
+	  Anim          Turrets\Turrets_ready 1 100
+	TEnd
+MEnd
+
+Move Flame_post
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Active_cycle
+	Priority        1
+
+	Type		Turrets
+	  Anim          Turrets\Turrets_ready 1 100
+	TEnd
+MEnd
+
+
+####################
+####### Active   ######
+####################
+
+Move Active_cycle
+	Requires	COMBAT
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+	NextMove	Ready
+	Priority        1
+	Flags		PitchToTarget
+
+	 Type		Turrets
+	  Anim          Turrets\Turrets_ready 1  100
+	  Scale		0.1
+	TEnd
+MEnd
+
+
+####### Deaths  ######################################
+
+################################
+###### Vanish Death (instant)  ######
+################################
+
+Move Vanish_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	 Type           Turrets
+	  Anim          Turrets\Turrets_ready 1  5
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+##	 PlayFx		Explosions\Large\Expolsion_large.fx 0
+	PlayFX		Explosions\TurretExplosion\LargeTurretExplosion.Fx
+	TEnd
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+	 Type           Turrets
+	  Anim          Turrets\Turrets_ready 1  10
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+##	  PlayFx	WORLD\Ruins\MediumFireFast.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+################################
+####### Off Mode (for bases)   ###
+################################
+
+Move Off
+	Requires	OFF
+	Interrupts	<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+	NextMove	Ready
+	Priority        1
+	Interpolate	35
+
+	 Type		Turrets
+	  Anim          Turrets\quad_off 1  50
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd
+

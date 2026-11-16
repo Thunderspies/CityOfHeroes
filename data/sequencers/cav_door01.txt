@@ -1,0 +1,73 @@
+#############################################################
+
+Sequencer
+
+TypeDef cav_door01 
+	BaseSkeleton	cav_door01\skel_cav_door01
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		cav_door01
+	  Anim          cav_door01\skel_cav_door01 1 10 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Opened
+	Priority        1
+
+	Type		cav_door01
+	  Anim          cav_door01\skel_cav_door01 10 50 
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+
+	Type		cav_door01
+	  Anim          cav_door01\skel_cav_door01 50 60 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Ready
+	Priority        1
+
+	Type		cav_door01
+	  Anim          cav_door01\skel_cav_door01 61  
+	TEnd
+MEnd
+
+SeqEnd
+

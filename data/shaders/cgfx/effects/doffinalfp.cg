@@ -1,0 +1,87 @@
+// #define DOF_INTO_BLURRED_TEXTURE
+
+// This might cause problems with depth buffer precision
+// TBD! OPTION ARB_precision_hint_fastest;
+
+#include "constants_vfx.cgh"
+#include "utilEffects.cgh"  //placed after #defines for util routines
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+	float4 primaryColor           : COLOR0;
+	float4 secondaryColor         : COLOR1;
+    float4 fragmentPos            : WPOS;
+    float  fragmentFogCoord       : FOG;
+    float4 texCoord0              : TEXCOORD0;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform sampler2D texSampler2 : TEXUNIT2;
+    uniform sampler2D texSampler3 : TEXUNIT3;
+    uniform sampler1D texSampler4 : TEXUNIT4;
+    uniform float4 g_Effects_DofParam2FP			TIE( ENV1 ); // program.local[1]
+    uniform float4 g_Effects_DofProjectFP			TIE( ENV2 ); // program.local[2]
+    #if defined(DESATURATE)
+        uniform float4 g_Effects_DesaturateParamFP	TIE( ENV3 ); // program.local[3]
+    #endif
+};
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float4 oColor;
+
+    float4 sample  = tex2D( IN.texSampler0, IN.texCoord0.xy );
+    float4 blurred = tex2D( IN.texSampler2, IN.texCoord0.xy );
+    float4 depth   = tex2D( IN.texSampler3, IN.texCoord0.xy );
+
+    #if defined(MRT_DEPTH)
+        // PARAM extractFactors = { 1.0, 0.00390625, 0.0000152587890625, 0.000000059604644775390625 };
+        const float4 extractFactors = { 1, 0.003921568627450980392, 0.000015378700499807766243752402921953, 0.000000060308629411010848014715305576287 }; // PARAM
+        depth = saturate( dot(depth,extractFactors) ); // DP4_SAT
+    #endif
+
+    // Texture index by distance
+
+    // Calculate distance from depth
+    #if defined(DOF_INTO_BLURRED_TEXTURE)
+        float distance = blurred.w;
+    #else
+        float distance = utilDistanceFromDepth(IN.g_Effects_DofProjectFP, depth.x, IN.g_Effects_DofParam2FP, IN.texSampler4);
+    #endif
+
+    float4 lerpSample = lerp( sample, blurred, distance );
+
+    #if defined(DESATURATE)
+        lerpSample = DoDesaturate( lerpSample, IN.g_Effects_DesaturateParamFP, LUMINANCE_VECTOR );
+    #endif
+
+    oColor = utilFinalColor(lerpSample);
+    
+    #if defined(SHOW_DOF)
+        oColor.xyz = distance;
+    #endif
+
+    // oColor.xyz = (depth * 8) - 7;
+
+    // #define LOOK_FOR_DEPTH_ERRORS
+
+    //#if defined(LOOK_FOR_DEPTH_ERRORS)
+    //    float4 depthSample = tex2D( IN.texSampler3, IN.texCoord0.xy );
+    //    depthSample.z = depthSample.x;
+    //    float depthExp = frac( floor( depthSample.x * 255 ) * 0.5 );
+    //    depthSample.x = ( depthExp * 2 );
+
+    //    oColor.xyz = depthSample.xyz;
+    //    // oColor.z = 0;
+    //#endif
+
+    return oColor;
+}
+

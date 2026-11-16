@@ -1,0 +1,492 @@
+Def grp_PS_AH_Resistance
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"AuctionResistanceDoor"	0
+End
+
+Def grp_AH_Power
+	Group grp_PS_AH_Resistance
+		Pos -2.166626 0 2.166748
+	End
+	Group grp_PS_AH_Resistance
+		Pos -0.166626 0 2.166748
+	End
+	Group grp_PS_AH_Resistance
+		Pos 2.333374 0 1.666748
+	End
+End
+
+Def grp_UGR_LoyAcc_Spawn_UIC
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"LinkFrom_P_City_00_02_L"	0
+End
+
+Def grp_UGR_LoyAcc_GoTo_IC
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"AllowThrough1"	"True"	0
+	Property	"AllowThrough2"	"False"	0
+	Property	"GotoMap"	"P_City_00_02.txt"	0
+	Property	"GotoSpawn"	"LinkFrom_P_City_00_07_L"	0
+	Property	"LockedText1"	"UIC_WelcomeLoyalist"	0
+	Property	"LockedText2"	"UIC_NoResistance"	0
+	Property	"Requires1"	"CanEnterVillainZone char> praetorianprogress char> normal eq ! &&"	0
+	Property	"Requires2"	"1"	0
+	Property	"miniMapLocation"	"NPAccessL"	0
+	Property	"specialMapIcon"	"LoyalistIcon"	0
+End
+
+Def grp_UGR_LoyAcc_Door_UIC
+	Group grp_UGR_LoyAcc_Spawn_UIC
+		PYR 0 -179.999985 -0
+		Pos -3 0 -1.25
+	End
+	Group grp_UGR_LoyAcc_Spawn_UIC
+		PYR 0 -179.999985 -0
+		Pos 3 0 -1.25
+	End
+	Group grp_UGR_LoyAcc_Spawn_UIC
+		PYR 0 -179.999985 -0
+		Pos 0 0 -1.25
+	End
+	Group grp_UGR_LoyAcc_GoTo_IC
+		PYR 0 -179.999985 -0
+		Pos 0 0 3.75
+	End
+End
+
+Def grp_UGR_ResAcc_Spawn_UIC
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"LinkFrom_P_City_00_02_R"	0
+End
+
+Def grp_UGR_ResAcc_GoTo_IC
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"AllowThrough1"	"True"	0
+	Property	"AllowThrough2"	"False"	0
+	Property	"GotoMap"	"P_City_00_02.txt"	0
+	Property	"GotoSpawn"	"LinkFrom_P_City_00_07_R"	0
+	Property	"LockedText1"	"UIC_WelcomeResistance"	0
+	Property	"LockedText2"	"UIC_NoLoyalist"	0
+	Property	"Requires1"	"CanEnterHeroZone char> praetorianprogress char> normal eq ! &&"	0
+	Property	"Requires2"	"1"	0
+	Property	"miniMapLocation"	"NPAccessR"	0
+	Property	"specialMapIcon"	"ResistanceIcon"	0
+End
+
+Def grp_UGR_ResAcc_Door_UIC
+	Group grp_UGR_ResAcc_Spawn_UIC
+		PYR 0 -179.999985 -0
+		Pos -5.833252 0 -0.333252
+	End
+	Group grp_UGR_ResAcc_Spawn_UIC
+		PYR 0 -179.999985 -0
+		Pos 6.166748 0 -0.333252
+	End
+	Group grp_UGR_ResAcc_Spawn_UIC
+		PYR 0 -179.999985 -0
+		Pos 3.166748 0 -1.333252
+	End
+	Group grp_UGR_ResAcc_Spawn_UIC
+		PYR 0 -179.999985 -0
+		Pos -2.833252 0 -1.333252
+	End
+	Group grp_UGR_ResAcc_Spawn_UIC
+		PYR 0 -179.999985 -0
+		Pos 0.166748 0 -1.333252
+	End
+	Group grp_UGR_ResAcc_GoTo_IC
+		PYR 0 -179.999985 -0
+		Pos -0.833252 0 4.666748
+	End
+End
+
+Def grp_UIC_ResHub_Spawn_OUT
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"IA_ResHub_Out"	0
+End
+
+Def grp_UIC_ResHub_Spawn_IN
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"IA_ResHub_In"	0
+End
+
+Def grp_UIC_ResHub_GoTo_OUT
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoSpawn"	"IA_ResHub_Out"	0
+End
+
+Def grp_UIC_ResHub_GoTo_IN
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"AllowThrough1"	"True"	0
+	Property	"AllowThrough2"	"False"	0
+	Property	"GotoSpawn"	"IA_ResHub_In"	0
+	Property	"LockedText1"	"UIC_ResHub_ForRes"	0
+	Property	"LockedText2"	"UIC_ResHub_ForLoy"	0
+	Property	"Requires1"	"CanEnterHeroZone char> praetorianprogress char> normal eq ! &&"	0
+	Property	"Requires2"	"1"	0
+	Property	"miniMapLocation"	"Resistance Hub"	0
+	Property	"specialMapIcon"	"ResistanceHub"	0
+End
+
+Def grp_UIC_ResHub_Access
+	Group grp_UIC_ResHub_Spawn_OUT
+		PYR 0 -89.999992 -0
+		Pos -6.625 -0.042175 473
+	End
+	Group grp_UIC_ResHub_Spawn_IN
+		PYR 0 90 -0
+		Pos 6.375 -0.042175 -473
+	End
+	Group grp_UIC_ResHub_GoTo_OUT
+		PYR 0 90 -0
+		Pos 0.375 0.042175 -473
+	End
+	Group grp_UIC_ResHub_GoTo_IN
+		PYR 0 -90 -0
+		Pos -0.125 0.042175 473
+	End
+End
+
+Def grp78599
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"MrGTunnelSpawn"	0
+End
+
+Def grp109364
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"AllowThrough1"	"False"	0
+	Property	"GotoSpawn"	"FromLink_Tunnel_V_Teleporter"	0
+	Property	"LockedText"	"TUNNELVillainOnly"	0
+	Property	"MonorailLine"	"VillainTunnelTeleporter"	0
+	Property	"Requires"	"Praetorianprogress char> praetoria == praetorianprogress char> tutorial == || ! CanEnterHeroZone char> ! &&"	0
+	Property	"miniMapLocation"	"Tunnel_Teleporter_Monorail_V"	0
+	Property	"specialMapIcon"	"TrainStation"	0
+End
+
+Def grp109356
+	Group Omni/EncounterSpawns/Encounter_E_02
+		PYR 0 -130 -0
+		Pos -10.500122 0.047852 -11.999878
+	End
+	Group Omni/EncounterSpawns/Encounter_E_01
+		PYR 0 130 -0
+		Pos 9.999878 0 -8.999878
+	End
+	Property	"CanSpawn1"	"SpawnDefs/Atmospheric/i23_TUNNELGuards_D0_V2.spawndef"	0
+	Property	"EncounterSpawn"	"Duo"	0
+End
+
+Def grp109355
+	Group grp109356
+		Pos -0.000122 0 0.000061
+	End
+	Property	"EncounterAutospawnEnd"	"0.001"	0
+	Property	"EncounterAutospawnStart"	"0.001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"IgnoreRadius"	"1"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def grp109360
+	Group Omni/EncounterSpawns/Encounter_E_01
+		PYR 0 170.000015 -0
+		Pos 5 0 1.499847
+	End
+	Property	"CanSpawn1"	"SpawnDefs/InfoNPCs/TUNNEL_Info_COL2_D0_V0.spawndef"	0
+	Property	"EncounterSpawn"	"Solo"	0
+End
+
+Def grp109359
+	Group grp109360
+		Pos -0.000122 0 0.000061
+	End
+	Property	"EncounterAutospawnEnd"	"0.001"	0
+	Property	"EncounterAutospawnStart"	"0.001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"IgnoreRadius"	"1"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def grp109362
+	Group Omni/_Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"Contacts/Atmospheric/TUNNEL_COL.npc"	0
+End
+
+Def grp109354
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"LinkFrom_Tunnel_V_Teleporter"	0
+End
+
+Def grp_PStartTUNNEL_Villain
+	Group grp109354
+		Pos 9 0 3
+	End
+	Group grp109354
+		Pos 9 0 -3
+	End
+	Group grp109354
+		Pos 3 0 -3
+	End
+	Group grp109354
+		Pos 3 0 3
+	End
+	Group grp109354
+		Pos -3 0 3
+	End
+	Group grp109354
+		Pos -9 0 3
+	End
+	Group grp109354
+		Pos -3 0 -3
+	End
+	Group grp109354
+		Pos -9 0 -3
+	End
+End
+
+Def grp_TUNNEL_VILLAIN_COL
+	Group grp109364
+		Pos 2.370361 0 -2.370361
+	End
+	Group grp109355
+		PYR 0 -39.999996 -0
+		Pos 0.06189 0 0.704468
+	End
+	Group grp109359
+		PYR 0 -39.999996 -0
+		Pos 6.141602 0 1.237305
+	End
+	Group grp109362
+		PYR 0 160 -0
+		Pos 9.00769 0 5.600098
+	End
+	Group grp_PStartTUNNEL_Villain
+		PYR 0 -39.999996 -0
+		Pos -4.499512 0 5.362305
+	End
+End
+
+Def grp83342
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"AllowThrough1"	"False"	0
+	Property	"GotoSpawn"	"FromLink_Tunnel_Teleporter"	0
+	Property	"LockedText"	"TUNNELHeroOnly"	0
+	Property	"MonorailLine"	"HeroTunnelTeleporter"	0
+	Property	"Requires"	"Praetorianprogress char> praetoria == praetorianprogress char> tutorial == || ! CanEnterHeroZone char> &&"	0
+	Property	"miniMapLocation"	"Tunnel_Teleporter_Monorail_H"	0
+	Property	"specialMapIcon"	"TrainStation"	0
+End
+
+Def grp109353
+	Group Omni/EncounterSpawns/Encounter_E_02
+		PYR 0 -120 -0
+		Pos -10.000122 0 -9.499939
+	End
+	Group Omni/EncounterSpawns/Encounter_E_01
+		PYR 0 110 -0
+		Pos 10.499878 0 -8.999939
+	End
+	Property	"CanSpawn1"	"SpawnDefs/Atmospheric/i23_TUNNELGuards_D0_V2.spawndef"	0
+	Property	"EncounterSpawn"	"Duo"	0
+End
+
+Def grp109345
+	Group grp109353
+		Pos -0.000122 0 0.000061
+	End
+	Property	"EncounterAutospawnEnd"	"0.001"	0
+	Property	"EncounterAutospawnStart"	"0.001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"IgnoreRadius"	"1"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def grp109358
+	Group Omni/EncounterSpawns/Encounter_E_01
+		PYR 0 170.000015 -0
+		Pos 7.5 0 1
+	End
+	Property	"CanSpawn1"	"SpawnDefs/InfoNPCs/TUNNEL_Info_COL1_D0_V0.spawndef"	0
+	Property	"EncounterSpawn"	"Solo"	0
+End
+
+Def grp109357
+	Group grp109358
+		Pos -0.000122 0 0.000061
+	End
+	Property	"EncounterAutospawnEnd"	"0.001"	0
+	Property	"EncounterAutospawnStart"	"0.001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"IgnoreRadius"	"1"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def grp109361
+	Group Omni/_Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"Contacts/Atmospheric/TUNNEL_COL.npc"	0
+End
+
+Def grp1109346
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"LinkFrom_Tunnel_Teleporter"	0
+End
+
+Def grp_PStartTUNNEL_PStartTUNNEL_Hero
+	Group grp1109346
+		Pos 3 -0.000458 -3
+	End
+	Group grp1109346
+		Pos 3 0.000458 3
+	End
+	Group grp1109346
+		Pos 9 0.000458 3
+	End
+	Group grp1109346
+		Pos 9 -0.000458 -3
+	End
+	Group grp1109346
+		Pos -3 0.000458 3
+	End
+	Group grp1109346
+		Pos -9 0.000458 3
+	End
+	Group grp1109346
+		Pos -9 -0.000458 -3
+	End
+	Group grp1109346
+		Pos -3 -0.000458 -3
+	End
+End
+
+Def grp_TUNNEL_HERO_COL1
+	Group grp83342
+		Pos 2.370361 0 -2.370361
+	End
+	Group grp109345
+		PYR 0 -39.999996 -0
+		Pos 0.06189 0 0.704468
+	End
+	Group grp109357
+		PYR 0 -39.999996 -0
+		Pos 7.229004 0 1.497009
+	End
+	Group grp109361
+		PYR 0 160 -0
+		Pos 12.331665 0 7.083923
+	End
+	Group grp_PStartTUNNEL_PStartTUNNEL_Hero
+		PYR 0 -39.999996 -0
+		Pos -3.794922 0 5.30072
+	End
+End
+
+Def grp_Beacons
+	Group Omni/ValidBeacon
+		PYR 0 90 -0
+		Pos -1604 290 -1988
+	End
+	Group grp_AH_Power
+		PYR 0 90 -0
+		Pos -1745.166748 290 -2013.166748
+	End
+	Group Villain_Lairs/P_Tnl/Level_C/rooms/P_TnlStc_C_Rm_3wy_01
+		PYR 0 -90 0
+		Pos -3319 277.994598 -1764.5
+	End
+	Group grp_UGR_LoyAcc_Door_UIC
+		Pos -3319 273.149017 -1433.25
+	End
+	Group grp_UGR_ResAcc_Door_UIC
+		Pos -1975.166748 289.148956 -858.166748
+	End
+	Group grp_UIC_ResHub_Access
+		Pos -1878.875 293.104187 -1469.5
+	End
+	Group grp78599
+		PYR 0 -179.999985 0
+		Pos -3275.5 422.049988 -2469
+	End
+	Group grp78599
+		PYR 0 -179.999985 0
+		Pos -3273.5 422.049988 -2468
+	End
+	Group grp78599
+		PYR 0 -179.999985 0
+		Pos -3271.5 422.049988 -2468
+	End
+	Group grp78599
+		PYR 0 -179.999985 0
+		Pos -3270.5 422.049988 -2469
+	End
+	Group grp78599
+		PYR 0 -179.999985 0
+		Pos -3268 422.049988 -2468
+	End
+	Group grp78599
+		PYR 0 -179.999985 0
+		Pos -3266 422.049988 -2469.5
+	End
+	Group Omni/ValidBeacon
+		PYR 0 90 -0
+		Pos -2229.5 293 -1239
+	End
+	Group grp_TUNNEL_VILLAIN_COL
+		PYR 0 39.999996 -0
+		Pos -2807 422 1182.5
+	End
+	Group grp_TUNNEL_HERO_COL1
+		PYR 0 -140 -0
+		Pos -2807 422 1517
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Beacons
+	Pos 727 42 -1435.5
+End
+

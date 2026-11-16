@@ -1,0 +1,1552 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage ResetStage
+EventVolume EventVolume_ShivanRespawn
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup. NOTE TO ANYONE LOOKING AT THIS. THIS IS A NON ZONE EVENT, THIS IS MEANT TO ADD FLAVOR TO THE WORLD>>
+		}
+		Action CreateStuff
+		{
+			SpawnCreate ArachnosFlier
+			{
+				Location ArachnosFlier
+				Group ArachnosFlier
+				Team ArachnosFlier
+				MoveToMarker SkyBattle
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ArachnosFlier
+			}
+			SpawnCreate BaB
+			{
+				Location BaB
+				Group BaB
+				Team BaB
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BaB
+			}
+			SpawnCreate GW
+			{
+				Location GW
+				Group GW
+				Team GW
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GW
+			}
+			SpawnCreate Scirocco
+			{
+				Location Scirocco
+				Group Scirocco
+				Team Scirocco
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Scirocco
+			}
+			SpawnCreate HugeShivan
+			{
+				Location HugeShivan
+				Group HugeShivan
+				Team HugeShivan
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HugeShivan
+			}
+			SpawnCreate LBHeavy
+			{
+				Location LBHeavy
+				Group LBHeavy
+				Team LBHeavy
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LBHeavy
+			}
+			SpawnCreate VanguardHeavy1
+			{
+				Location VanguardHeavy1
+				Group VanguardHeavy1
+				Team VanguardHeavy1
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VanguardHeavy1
+			}
+			SpawnCreate VanguardHeavy2
+			{
+				Location VanguardHeavy2
+				Group VanguardHeavy2
+				Team VanguardHeavy2
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VanguardHeavy2
+			}
+			SpawnCreate ShivanFountainSpawn1
+			{
+				Location ShivanFountainSpawn1
+				Group ShivanFountainSpawn1
+				Team ShivanFountainSpawn1
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn1
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn2
+			{
+				Location ShivanFountainSpawn2
+				Group ShivanFountainSpawn2
+				Team ShivanFountainSpawn2
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn2
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn3
+			{
+				Location ShivanFountainSpawn3
+				Group ShivanFountainSpawn3
+				Team ShivanFountainSpawn3
+				SpawnBehavior <<SpawnAsPet(Timer(.9)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),CombatOverride(Aggressive)>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn3
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn4
+			{
+				Location ShivanFountainSpawn4
+				Group ShivanFountainSpawn4
+				Team ShivanFountainSpawn4
+				SpawnBehavior 		<<SpawnAsPet(Timer(.9)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),CombatOverride(Aggressive),Eat_Junk>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn4
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn5
+			{
+				Location ShivanFountainSpawn5
+				Group ShivanFountainSpawn5
+				Team ShivanFountainSpawn5
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),CombatOverride(Aggressive)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn5
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn6
+			{
+				Location ShivanFountainSpawn6
+				Group ShivanFountainSpawn6
+				Team ShivanFountainSpawn6
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn6
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn7
+			{
+				Location ShivanFountainSpawn7
+				Group ShivanFountainSpawn7
+				Team ShivanFountainSpawn7
+				SpawnBehavior <<SpawnAsPet(Timer(.9)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),CombatOverride(Aggressive),PipeRampage>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn7
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn8
+			{
+				Location ShivanFountainSpawn8
+				Group ShivanFountainSpawn8
+				Team ShivanFountainSpawn8
+				SpawnBehavior <<SpawnAsPet(Timer(.9)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),CombatOverride(Aggressive),Eat_Junk>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn8
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn9
+			{
+				Location ShivanFountainSpawn9
+				Group ShivanFountainSpawn9
+				Team ShivanFountainSpawn9
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn9
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn10
+			{
+				Location ShivanFountainSpawn10
+				Group ShivanFountainSpawn10
+				Team ShivanFountainSpawn10
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn10
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn11
+			{
+				Location ShivanFountainSpawn11
+				Group ShivanFountainSpawn11
+				Team ShivanFountainSpawn11
+				SpawnBehavior <<SpawnAsPet(Timer(.9)),OverridePerceptionRadius(20),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn11
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn12
+			{
+				Location ShivanFountainSpawn12
+				Group ShivanFountainSpawn12
+				Team ShivanFountainSpawn12
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn12
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn13
+			{
+				Location ShivanFountainSpawn13
+				Group ShivanFountainSpawn13
+				Team ShivanFountainSpawn13
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn13
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn14
+			{
+				Location ShivanFountainSpawn14
+				Group ShivanFountainSpawn14
+				Team ShivanFountainSpawn14
+				SpawnBehavior <<SpawnAsPet(Timer(.9)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn14
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn15
+			{
+				Location ShivanFountainSpawn15
+				Group ShivanFountainSpawn15
+				Team ShivanFountainSpawn15
+				SpawnBehavior <<SpawnAsPet(Timer(.9)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),CombatOverride(Aggressive),PipeRampage>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn15
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn16
+			{
+				Location ShivanFountainSpawn16
+				Group ShivanFountainSpawn16
+				Team ShivanFountainSpawn16
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn16
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn17
+			{
+				Location ShivanFountainSpawn17
+				Group ShivanFountainSpawn17
+				Team ShivanFountainSpawn17
+				SpawnBehavior <<SpawnAsPet(Timer(.9)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn17
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn18
+			{
+				Location ShivanFountainSpawn18
+				Group ShivanFountainSpawn18
+				Team ShivanFountainSpawn18
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn18
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn19
+			{
+				Location ShivanFountainSpawn19
+				Group ShivanFountainSpawn19
+				Team ShivanFountainSpawn19
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn19
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawn20
+			{
+				Location ShivanFountainSpawn20
+				Group ShivanFountainSpawn20
+				Team ShivanFountainSpawn20
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(1)),OverridePerceptionRadius(20),VulnerableLeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn20
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ShivanFountainSpawnBaB
+			{
+				Location ShivanFountainSpawnBaB
+				Group ShivanFountainSpawnBaB
+				Team ShivanFountainSpawnBaB
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawnBaB
+				MinRespawnTime 5
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   3,   6
+				Count   2,   3,   6
+				Count   3,   3,   6
+				Count   8,   3,   6
+				Count   10,   3,   6
+				Count   12,   3,   6
+				Count   16,   3,   6
+				Count   23,   3,   6
+				Count   38,   3,   6
+				Count   43,   3,   6
+			}
+			SpawnCreate ShivanFountainSpawnLB
+			{
+				Location ShivanFountainSpawnLB
+				Group ShivanFountainSpawnLB
+				Team ShivanFountainSpawnLB
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawnLB
+				MinRespawnTime 5
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   3,   6
+				Count   2,   3,   6
+				Count   3,   3,   6
+				Count   8,   3,   6
+				Count   10,   3,   6
+				Count   12,   3,   6
+				Count   16,   3,   6
+				Count   23,   3,   6
+				Count   38,   3,   6
+				Count   43,   3,   6
+			}
+			SpawnCreate ShivanFountainSpawn19
+			{
+				Location ShivanFountainSpawn19
+				Group ShivanFountainSpawn19
+				Team ShivanFountainSpawn19
+				SpawnBehavior <<Ambush_Shiva(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Untargetable(0),Unselectable(0),OverridePerceptionRadius(20),VulnerableLeashedToSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainSpawn19
+				MinRespawnTime 10
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate LongbowRespawn1
+			{
+				Location LongbowRespawn1
+				Group LongbowRespawn1
+				Team LongbowRespawn1
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowRespawn1
+				MinRespawnTime 15
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate LongbowRespawn2
+			{
+				Location LongbowRespawn2
+				Group LongbowRespawn2
+				Team LongbowRespawn2
+				MoveToMarker Longbow2Marker
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowRespawn2
+				MinRespawnTime 12
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate LongbowRespawn3
+			{
+				Location LongbowRespawn3
+				Group LongbowRespawn3
+				Team LongbowRespawn3
+				MoveToMarker Longbow3Marker
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowRespawn3
+				MinRespawnTime 22
+				MaxRespawnTime 25
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate LongbowRespawn4
+			{
+				Location LongbowRespawn4
+				Group LongbowRespawn4
+				Team LongbowRespawn4
+				MoveToMarker Longbow3Marker
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowRespawn4
+				MinRespawnTime 10
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate LongbowRespawn5
+			{
+				Location LongbowRespawn5
+				Group LongbowRespawn5
+				Team LongbowRespawn5
+				MoveToMarker Longbow5Marker
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowRespawn5
+				MinRespawnTime 12
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate LongbowRespawn6
+			{
+				Location LongbowRespawn6
+				Group LongbowRespawn6
+				Team LongbowRespawn6
+				MoveToMarker Longbow5Marker
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowRespawn6
+				MinRespawnTime 9
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ArachnosSpawn1
+			{
+				Location ArachnosSpawn1
+				Group ArachnosSpawn1
+				Team ArachnosSpawn1
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ArachnosSpawn1
+				MinRespawnTime 8
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ArachnosSpawn2
+			{
+				Location ArachnosSpawn2
+				Group ArachnosSpawn2
+				Team ArachnosSpawn2
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ArachnosSpawn2
+				MinRespawnTime 14
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ArachnosSpawn3
+			{
+				Location ArachnosSpawn3
+				Group ArachnosSpawn3
+				Team ArachnosSpawn3
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ArachnosSpawn3
+				MinRespawnTime 19
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ArachnosSpawn4
+			{
+				Location ArachnosSpawn4
+				Group ArachnosSpawn4
+				Team ArachnosSpawn4
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ArachnosSpawn4
+				MinRespawnTime 15
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ArachnosSpawn5
+			{
+				Location ArachnosSpawn5
+				Group ArachnosSpawn5
+				Team ArachnosSpawn5
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ArachnosSpawn5
+				MinRespawnTime 8
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate ArachnosSpawn6
+			{
+				Location ArachnosSpawn6
+				Group ArachnosSpawn6
+				Team ArachnosSpawn6
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),OverridePerceptionRadius(20),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ArachnosSpawn6
+				MinRespawnTime 10
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate Skiffs1
+			{
+				Location Skiffs1
+				Group Skiffs1
+				Team Skiffs1
+				SpawnBehavior <<MovetoPos(marker:SkyBattle1),AlertTeam(1),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Skiffs1
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate Skiffs2
+			{
+				Location Skiffs2
+				Group Skiffs2
+				Team Skiffs2
+				SpawnBehavior <<MovetoPos(marker:SkyBattle2),AlertTeam(1),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Skiffs2
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate Skiffs3
+			{
+				Location Skiffs3
+				Group Skiffs3
+				Team Skiffs3
+				SpawnBehavior <<MovetoPos(marker:SkyBattle3),AlertTeam(1),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Skiffs3
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate Drones1
+			{
+				Location Drones1
+				Group Drones1
+				Team Drones1
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),CombatOverride(Aggressive),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Drones1
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate Drones2
+			{
+				Location Drones2
+				Group Drones2
+				Team Drones2
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),CombatOverride(Aggressive),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Drones2
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate Drones3
+			{
+				Location Drones3
+				Group Drones3
+				Team Drones3
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),CombatOverride(Aggressive),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Drones3
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate Eagles1
+			{
+				Location Eagles1
+				Group Eagles1
+				Team Eagles1
+				SpawnBehavior <<MovetoPos(marker:Battle1),AlertTeam(1),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Eagles1
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate Eagles2
+			{
+				Location Eagles2
+				Group Eagles2
+				Team Eagles2
+				SpawnBehavior <<MovetoPos(marker:Battle2),AlertTeam(1),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Eagles2
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate Eagles3
+			{
+				Location Eagles3
+				Group Eagles3
+				Team Eagles3
+				SpawnBehavior <<MovetoPos(marker:Battle2),AlertTeam(1),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Eagles3
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   1,   2
+				Count   3,   1,   2
+				Count   8,   1,   2
+				Count   10,   1,   2
+				Count   12,   1,   2
+				Count   16,   1,   2
+				Count   23,   1,   2
+				Count   38,   1,   2
+				Count   43,   1,   2
+			}
+			SpawnCreate LongbowHigh
+			{
+				Location LongbowHigh
+				Group LongbowHigh
+				Team LongbowHigh
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowHigh
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   5,   10
+				Count   2,   5,   10
+				Count   3,   5,   10
+				Count   8,   5,   10
+				Count   10,   5,   10
+				Count   12,   5,   10
+				Count   16,   5,   10
+				Count   23,   5,   10
+				Count   38,   5,   10
+				Count   43,   5,   10
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage RegularStage
+	}
+}
+
+Stage CompleteStage
+{
+	StartUp
+	{
+		Action TurnOffLongbow1
+		{
+			TeamControl DeTriggerLongbow1
+			{
+				Type Deactivate
+				Team LongbowCharger1
+			}
+		}
+		Action TurnOffLongbow2
+		{
+			TeamControl DeTriggerLongbow2
+			{
+				Type DeActivate
+				Team LongbowCharger2
+			}
+		}
+		Action TurnOffLongbow3
+		{
+			TeamControl DeTriggerLongbow3
+			{
+				Type DeActivate
+				Team LongbowCharger3
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:30
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		NextStage ChargeStage
+	}
+}
+
+Stage RegularStage
+{
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Shivan Respawn>>
+		}
+		Action TurnonShivans
+		{
+			TeamControl TriggerShivan1
+			{
+				Type Activate
+				Team ShivanFountainSpawn1
+			}
+			TeamControl TriggerShivan2
+			{
+				Type Activate
+				Team ShivanFountainSpawn2
+			}
+			TeamControl TriggerShivan3
+			{
+				Type Activate
+				Team ShivanFountainSpawn3
+			}
+			TeamControl TriggerShivan4
+			{
+				Type Activate
+				Team ShivanFountainSpawn4
+			}
+			TeamControl TriggerShivan5
+			{
+				Type Activate
+				Team ShivanFountainSpawn5
+			}
+			TeamControl TriggerShivan6
+			{
+				Type Activate
+				Team ShivanFountainSpawn6
+			}
+			TeamControl TriggerShivan7
+			{
+				Type Activate
+				Team ShivanFountainSpawn7
+			}
+			TeamControl TriggerShivan8
+			{
+				Type Activate
+				Team ShivanFountainSpawn8
+			}
+			TeamControl TriggerShivan9
+			{
+				Type Activate
+				Team ShivanFountainSpawn9
+			}
+			TeamControl TriggerShivan10
+			{
+				Type Activate
+				Team ShivanFountainSpawn10
+			}
+			TeamControl TriggerShivan11
+			{
+				Type Activate
+				Team ShivanFountainSpawn11
+			}
+			TeamControl TriggerShivan12
+			{
+				Type Activate
+				Team ShivanFountainSpawn12
+			}
+			TeamControl TriggerShivan13
+			{
+				Type Activate
+				Team ShivanFountainSpawn13
+			}
+			TeamControl TriggerShivan14
+			{
+				Type Activate
+				Team ShivanFountainSpawn14
+			}
+			TeamControl TriggerShivan15
+			{
+				Type Activate
+				Team ShivanFountainSpawn15
+			}
+			TeamControl TriggerShivan16
+			{
+				Type Activate
+				Team ShivanFountainSpawn16
+			}
+			TeamControl TriggerShivan17
+			{
+				Type Activate
+				Team ShivanFountainSpawn17
+			}
+			TeamControl TriggerShivan18
+			{
+				Type Activate
+				Team ShivanFountainSpawn18
+			}
+			TeamControl TriggerShivan19
+			{
+				Type Activate
+				Team ShivanFountainSpawn19
+			}
+			TeamControl TriggerShivan20
+			{
+				Type Activate
+				Team ShivanFountainSpawn20
+			}
+			TeamControl TriggerShivanBaB
+			{
+				Type Activate
+				Team ShivanFountainSpawnBaB
+			}
+			TeamControl LongbowRespawn1Start
+			{
+				Type Activate
+				Team LongbowRespawn1
+			}
+			TeamControl LongbowRespawn2Start
+			{
+				Type Activate
+				Team LongbowRespawn2
+			}
+			TeamControl LongbowRespawn3Start
+			{
+				Type Activate
+				Team LongbowRespawn3
+			}
+//			TeamControl LongbowRespawn4Start
+//			{
+//				Type Activate
+//				Team LongbowRespawn4
+//			}
+//			TeamControl LongbowRespawn5Start
+//			{
+//				Type Activate
+//				Team LongbowRespawn5
+//			}
+//			TeamControl LongbowRespawn6Start
+//			{
+//				Type Activate
+//				Team LongbowRespawn6
+//			}
+			TeamControl ArachnosSpawn1Start
+			{
+				Type Activate
+				Team ArachnosSpawn1
+			}
+			TeamControl ArachnosSpawn2Start
+			{
+				Type Activate
+				Team ArachnosSpawn2
+			}
+			TeamControl ArachnosSpawn3Start
+			{
+				Type Activate
+				Team ArachnosSpawn3
+			}
+//			TeamControl ArachnosSpawn4Start
+//			{
+//				Type Activate
+//				Team ArachnosSpawn4
+//			}
+//			TeamControl ArachnosSpawn5Start
+//			{
+//				Type Activate
+//				Team ArachnosSpawn5
+//			}
+//			TeamControl ArachnosSpawn6Start
+//			{
+//				Type Activate
+//				Team ArachnosSpawn6
+//			}
+			TeamControl FlierStart
+			{
+				Type Activate
+				Team ArachnosFlier
+			}
+			TeamControl BaBStart
+			{
+				Type Activate
+				Team BaB
+			}
+			TeamControl Skiffs1Start
+			{
+				Type Activate
+				Team Skiffs1
+			}
+			TeamControl Skiffs2Start
+			{
+				Type Activate
+				Team Skiffs2
+			}
+			TeamControl Skiffs3Start
+			{
+				Type Activate
+				Team Skiffs3
+			}
+			TeamControl LongbowHighStart
+			{
+				Type Activate
+				Team LongbowHigh
+			}
+// The following are commented out because there were issues with them and instead of removing them, I just put the comment on here. If you're looking through this in the future and decide you'll try to put these back in, don't.
+//			TeamControl GWStart
+//			{
+//				Type Activate
+//				Team GW
+//			}
+//			TeamControl SciroccoStart
+//			{
+//				Type Activate
+//				Team Scirocco
+//			}
+//			TeamControl HugeShivanStart
+//			{
+//				Type Activate
+//				Team HugeShivan
+//			}
+//			TeamControl LBHeavyStart
+//			{
+//				Type Activate
+//				Team LBHeavy
+//			}
+//			TeamControl VanguardHeavy1Start
+//			{
+//				Type Activate
+//				Team VanguardHeavy1
+//			}
+//			TeamControl VanguardHeavy2Start
+//			{
+//				Type Activate
+//				Team VanguardHeavy2
+//			}
+//			TeamControl ShivanFountainSpawnLBStart
+//			{
+//				Type Activate
+//				Team ShivanFountainSpawnLB
+//			}
+		}
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action TurnOffLongbow1
+		{
+			TeamControl DeTriggerLongbow1
+			{
+				Type Deactivate
+				Team LongbowCharger1
+			}
+		}
+		Action TurnOffLongbow2
+		{
+			TeamControl DeTriggerLongbow2
+			{
+				Type DeActivate
+				Team LongbowCharger2
+			}
+		}
+		Action TurnOffLongbow3
+		{
+			TeamControl DeTriggerLongbow3
+			{
+				Type DeActivate
+				Team LongbowCharger3
+			}
+		}
+}

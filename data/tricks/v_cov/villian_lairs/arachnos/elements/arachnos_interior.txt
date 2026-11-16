@@ -1,0 +1,1295 @@
+#########     ARACHNOS INTERIOR       #########
+#########       pipes, structure, texture tricks        #########
+######### crates, wires, grating, optimized outdoor pipes ######
+######### invisible wall trick ######
+
+Texture arac_grate_06.tga
+            Surface METAL
+End
+
+
+//INVISIBLE WALL TRICK//
+Trick arac_invis
+	Trickflags NoDraw
+	Trickflags EditorVisible
+End
+
+Texture arach_invisible_poly.tga
+	Flags
+		Surface METAL
+End
+
+
+//BLACKBOX OF NEGATIVE LIGHT//
+Trick blackboxfade
+End
+
+// Interior scrolling textures //
+
+Trick floorsafe
+	LodFar 150
+	LodFarFade 50
+End
+
+Trick aracradslow
+	ScrollST0 .0 .03
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Trick aracrada
+	ScrollST0 .0 .01
+	ObjFlags FullBright
+	TrickFlags NoColl
+	LodFar 150
+	LodFarFade 50
+End
+
+Trick aracradb
+	ScrollST0 .0 .003
+	ObjFlags FullBright
+	TrickFlags NoColl
+	LodFar 150
+	LodFarFade 50
+End
+
+//CRATES//
+
+Texture cratestop.tga
+	Surface METAL
+End
+
+Texture crateside.tga
+	Surface METAL
+End
+
+Texture x_arac_crate_top
+	Base1 cratestop.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1 
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 cratestop_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask cratestop_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	Maskweight 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 cratestop.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 V_Rikti_Pod_Reflection_01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 cratestop_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Surface METAL
+
+	Fallback
+		UseFallback 1
+		Base cratestop.tga
+		Blend V_Rikti_Pod_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+Texture x_arac_crate_side
+	Base1 crateside.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1 
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 crateside_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask crateside_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 crateside.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 indoor_arachnos_floor_reflection.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 crateside_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 2
+	AmbientScale 2
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base crateside.tga
+		Blend V_Rikti_Pod_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+//WIRES//
+
+	Texture x_arac_wires
+	Base1 cov_wires.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 cov_wires_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Base2 none 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 160 160 160
+	SpecularColor2 50 50 50
+	SpecularExponent 4
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Fallback
+		UseFallback 1
+		Base cov_wires.tga
+		Blend none
+		Bumpmap cov_wires_bump.tga
+		BlendType Multiply // Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+//Arachnos Pipe Texture Tricks//
+
+Texture arac_pipe_flange_edge_a.tga
+	Flags
+		Surface METAL
+End
+
+Texture arac_pipe_flange_edge_b.tga
+	Flags
+		Surface METAL
+End
+
+Texture arac_pipe_flange_face_a.tga
+	Flags
+		Surface METAL
+End
+
+Texture arac_pipe1.tga
+	Flags
+		Surface METAL
+End
+
+Texture arac_pipe2.tga
+	Flags
+		Surface METAL
+End
+
+Texture arac_pipe3.tga
+	Flags
+		Surface METAL
+End
+
+//Arachnos Pipe Bumpmaps//
+
+Texture arac_pipe_flange_edge_a_BUMP.tga
+	flags isbumpmap
+End
+
+Texture arac_pipe_flange_edge_b_BUMP.tga
+	flags isbumpmap
+End
+
+Texture arac_pipe_flange_face_a_BUMP.tga
+	flags isbumpmap
+End
+
+Texture arac_pipe1_BUMP.tga
+	flags isbumpmap
+End
+
+Texture arac_pipe2_BUMP.tga
+	flags isbumpmap
+End
+
+Texture arac_pipe3_BUMP.tga
+	flags isbumpmap
+End
+
+//Arachnos Pipe Shaders//
+
+Texture x_arac_pipe_1
+	Base1 arac_pipe1.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arac_pipe1.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe1_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arac_pipe1_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arac_pipe1.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //indoor_arachnos_floor_reflection.tga
+	Multiply2Scroll 0.00006 -0.00004
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //arac_pipe1_BUMP.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 175 90 115
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe1.tga
+		Blend arac_pipe1_fall.tga
+		Bumpmap arac_pipe1_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale 1
+		DiffuseScale 1.4
+	End
+
+End
+
+Texture x_arac_pipe_2
+	Base1 arac_pipe2.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arac_pipe2.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe2_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arac_pipe2_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arac_pipe2.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //indoor_arachnos_floor_reflection.tga
+	Multiply2Scroll 0.00006 -0.00004
+	Multiply2Scale .7 .7
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //arac_pipe2_BUMP.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 175 90 115
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe2.tga
+		Blend arac_pipe2_fall.tga
+		Bumpmap arac_pipe2_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale 1
+		DiffuseScale 1.4
+	End
+
+End
+
+Texture x_arac_pipe_3
+	Base1 arac_pipe3.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arac_pipe3.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe3_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arac_pipe3_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arac_pipe3.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //indoor_arachnos_floor_reflection.tga
+	Multiply2Scroll 0.00006 -0.00004
+	Multiply2Scale .7 .7
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //arac_pipe3_BUMP.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 175 90 115
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe3.tga
+		Blend arac_pipe3_fall.tga
+		Bumpmap arac_pipe3_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale 1
+		DiffuseScale 1.4
+	End
+
+End
+
+Texture x_arac_pipe_face_a
+	Base1 arac_pipe_flange_face_a.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arac_pipe_flange_face_a.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe_flange_face_a_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arac_pipe_flange_face_a_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arac_pipe_flange_face_a.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //indoor_arachnos_floor_reflection.tga
+	Multiply2Scroll 0.00006 -0.00004
+	Multiply2Scale .7 .7
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //arac_pipe_flange_face_a_BUMP.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 175 90 115
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe_flange_face_a.tga
+		Blend arac_pipe_flange_face_a_fall.tga
+		Bumpmap arac_pipe_flange_face_a_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale 1
+		DiffuseScale 1.4
+	End
+
+End
+
+Texture x_arac_pipe_edge_a
+	Base1 arac_pipe_flange_edge_a.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arac_pipe_flange_edge_a.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe_flange_edge_a_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arac_pipe_flange_edge_a_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arac_pipe_flange_edge_a.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //indoor_arachnos_floor_reflection.tga
+	Multiply2Scroll 0.00006 -0.00004
+	Multiply2Scale .7 .7
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //arac_pipe_flange_edge_a_BUMP.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 175 90 115
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe_flange_edge_a.tga
+		Blend arac_pipe_flange_edge_a_fall.tga
+		Bumpmap arac_pipe_flange_edge_a_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale 1
+		DiffuseScale 1.4
+	End
+
+End
+
+Texture x_arac_pipe_edge_b
+	Base1 arac_pipe_flange_edge_b.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arac_pipe_flange_edge_b.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe_flange_edge_b_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arac_pipe_flange_edge_b_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arac_pipe_flange_edge_b.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //indoor_arachnos_floor_reflection.tga
+	Multiply2Scroll 0.00006 -0.00004
+	Multiply2Scale .7 .7
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //arac_pipe_flange_edge_b_BUMP.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 175 90 115
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe_flange_edge_b.tga
+		Blend arac_pipe_flange_edge_b_fall.tga
+		Bumpmap arac_pipe_flange_edge_b_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale 1
+		DiffuseScale 1.4
+	End
+
+End
+
+###########//////////////////////OPTIMIZED PIPE SHADERS///////////////##########
+
+Texture x_arac_pipe_1_Out
+	Base1 arac_pipe1.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 indoor_arachnos_floor_reflection.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe1_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+	
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 95 70 145
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale .7
+	AmbientScale 1.4
+	
+	AmbientMinVec .30 .28 .28 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0 
+	MaxAddGlow 0
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe1.tga
+		Blend arac_pipe1_fall.tga
+		Bumpmap arac_pipe1_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale .6
+		DiffuseScale .9
+	End
+End
+
+Texture x_arac_pipe_2_Out
+	Base1 arac_pipe2.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 indoor_arachnos_floor_reflection.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe2_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scale 1 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 95 70 145
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale .7
+	AmbientScale 1.4
+
+	AmbientMinVec .30 .28 .28 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0 
+	MaxAddGlow 0
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe2.tga
+		Blend arac_pipe2_fall.tga
+		Bumpmap arac_pipe2_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale .6
+		DiffuseScale .9
+	End
+
+End
+
+Texture x_arac_pipe_3_Out
+	Base1 arac_pipe3.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 indoor_arachnos_floor_reflection.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe3_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scale 1 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 95 70 145
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale .7
+	AmbientScale 1.4
+
+	AmbientMinVec .30 .28 .28 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0 
+	MaxAddGlow 0
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe3.tga
+		Blend arac_pipe3_fall.tga
+		Bumpmap arac_pipe3_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale .6
+		DiffuseScale .9
+	End
+
+End
+
+Texture x_arac_pipe_face_a_Out
+	Base1 arac_pipe_flange_face_a.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 indoor_arachnos_floor_reflection.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe_flange_face_a_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scale 1 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 95 70 145
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale .7
+	AmbientScale 1.4
+
+	AmbientMinVec .30 .28 .28 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0 
+	MaxAddGlow 0
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe_flange_face_a.tga
+		Blend arac_pipe_flange_face_a_fall.tga
+		Bumpmap arac_pipe_flange_face_a_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale .6
+		DiffuseScale .9
+	End
+
+End
+
+Texture x_arac_pipe_edge_a_Out
+	Base1 arac_pipe_flange_edge_a.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 indoor_arachnos_floor_reflection.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe_flange_edge_a_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scale 1 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 95 70 145
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale .7
+	AmbientScale 1.4
+
+	AmbientMinVec .30 .28 .28 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0 
+	MaxAddGlow 0
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe_flange_edge_a.tga
+		Blend arac_pipe_flange_edge_a_fall.tga
+		Bumpmap arac_pipe_flange_edge_a_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale .6
+		DiffuseScale .9
+	End
+
+End
+
+Texture x_arac_pipe_edge_b_Out
+	Base1 arac_pipe_flange_edge_b.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 indoor_arachnos_floor_reflection.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_pipe_flange_edge_b_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scale 1 1
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 95 70 145
+	SpecularColor2 95 75 125
+	SpecularExponent 45
+
+	DiffuseScale .7
+	AmbientScale 1.4
+
+	AmbientMinVec .30 .28 .28 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0 
+	MaxAddGlow 0
+
+	Fallback
+		UseFallback 1
+		Base arac_pipe_flange_edge_b.tga
+		Blend arac_pipe_flange_edge_b_fall.tga
+		Bumpmap arac_pipe_flange_edge_b_BUMP.tga
+		BlendType Multiply  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale .6
+		DiffuseScale .9
+	End
+
+End
+
+
+//////////////////////GRATING SHADERS//////////////
+
+
+
+Texture x_arac_grate_06
+	Base1 arac_grate_06.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arac_grate_06.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	
+	DualColor1 arac_grate_06.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 arac_grate_06_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask arac_grate_06_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	SpecularColor1 175 90 115
+	SpecularColor2 95 75 125
+	SpecularExponent 70
+
+	DiffuseScale 2
+	AmbientScale 2
+
+End
+
+Texture sign_arachnosbase
+	Flags Replaceable
+End
+
+Texture sign_arachnosbase1to4
+	Flags Replaceable
+End
+
+Texture x_arac_floor_2
+	Base1 bunkerfloor_main_Indoors.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 indoor_arachnos_floor_reflection.tga
+	Multiply1Scroll 0.00006 -0.00004
+	Multiply1Scale 1 1
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 bunkerfloor_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 85 70 110
+	SpecularColor2 80 40 70
+	SpecularExponent 140
+	
+
+	DiffuseScale 10
+	AmbientScale 10
+
+	Fallback
+		UseFallback 1
+		Base bunkerfloor_main_Indoors.tga
+		Blend indoor_arachnos_floor_reflection.tga
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+End
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

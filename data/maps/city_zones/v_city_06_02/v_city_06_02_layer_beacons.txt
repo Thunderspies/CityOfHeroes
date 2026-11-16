@@ -1,0 +1,128 @@
+Def grp2611
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoMap"	"V_City_03_01.txt"	0
+	Property	"GotoSpawn"	"Linkfrom_Vill_Lobby_Mantis"	0
+	Property	"miniMapLocation"	"DontDrawonMiniMap"	0
+End
+
+Def grp_Teleport_To_Mantis
+	Group grp2611
+	End
+End
+
+Def grp2615
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoMap"	"V_City_04_01.txt"	0
+	Property	"GotoSpawn"	"Linkfrom_Vill_Lobby_Mistral"	0
+	Property	"miniMapLocation"	"DontDrawonMiniMap"	0
+End
+
+Def grp_Teleport_To_Mistral
+	Group grp2615
+	End
+End
+
+Def grp2614
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoMap"	"V_City_05_01.txt"	0
+	Property	"GotoSpawn"	"Linkfrom_Vill_Lobby_Recluse"	0
+	Property	"miniMapLocation"	"DontDrawonMiniMap"	0
+End
+
+Def grp_Teleport_To_Recluse
+	Group grp2614
+	End
+End
+
+Def grp2613
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoMap"	"V_City_05_01.txt"	0
+	Property	"GotoSpawn"	"Linkfrom_Vill_Lobby_Barrac"	0
+	Property	"miniMapLocation"	"DontDrawonMiniMap"	0
+End
+
+Def grp_Teleport_To_Barrac
+	Group grp2613
+	End
+End
+
+Def grp2612
+	Obj Omni/MissionBeacons/_Marker_MapSwap_XSML
+	Property	"GotoMap"	"V_City_03_01.txt"	0
+	Property	"GotoSpawn"	"Linkfrom_Vill_Lobby_Renault"	0
+	Property	"miniMapLocation"	"DontDrawonMiniMap"	0
+End
+
+Def grp_Teleport_To_Renault
+	Group grp2612
+	End
+End
+
+Def grp_Teleporters
+	Group grp_Teleport_To_Mantis
+	End
+	Group grp_Teleport_To_Mistral
+		Pos -149.5 0 -16
+	End
+	Group grp_Teleport_To_Recluse
+		Pos -182 0 63
+	End
+	Group grp_Teleport_To_Barrac
+		Pos -125.5 0 159.5
+	End
+	Group grp_Teleport_To_Renault
+		Pos 10.5 -2 79.5
+	End
+End
+
+Def grp16453
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"LinkFrom_V_City_02_01_To_Lounge"	0
+End
+
+Def grp10069
+	Group Omni/MissionBeacons/_Marker_MapSwap_XSML
+		PYR 0 90 -0
+	End
+	Property	"GotoMap"	"V_City_02_01.txt"	0
+	Property	"GotoSpawn"	"LinkFrom_V_City_06_02_To_Cap"	0
+End
+
+Def grp_FROM_CapAuDiable
+	Group grp16453
+		PYR 0 -90 -0
+		Pos -0.75 -0.60498 0.25
+	End
+	Group grp10069
+		Pos 3.25 0.614838 -0.25
+	End
+	Group grp16453
+		PYR 0 -90 -0
+		Pos -1.25 0.48912 3.25
+	End
+	Group grp16453
+		PYR 0 -90 -0
+		Pos -1.25 -0.689987 -3.25
+	End
+End
+
+Def grp_Beacons
+	Group grp_Teleporters
+		Pos 153 0 -6
+	End
+	Group grp_FROM_CapAuDiable
+		Pos 528.25 13.460159 55.25
+	End
+	Group Omni/ValidBeacon
+		Pos -44.5 -2 57.5
+	End
+	Property	"Layer"	"Beacons"	0
+End
+
+Ref grp_Beacons
+	Pos -371.5 -198 -1017.5
+End
+

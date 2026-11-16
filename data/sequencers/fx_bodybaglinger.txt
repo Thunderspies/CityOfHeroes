@@ -1,0 +1,37 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_BodyBagLinger
+	BaseSkeleton	FX_BodyBag\skel_BodyBag
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	NextMove	Ready2
+	Interpolate	0
+
+	Type		FX_BodyBagLinger
+	  Anim          FX_BodyBag\BodyBag_TossLinger 80 
+	TEnd
+MEnd
+
+Move Ready2
+	Member		<Ready> 
+	Flags		Cycle 
+	Interpolate	0
+
+	Type		FX_BodyBagLinger
+	  Anim          FX_BodyBag\BodyBag_TossLinger 170 180
+	TEnd
+MEnd
+
+
+SeqEnd

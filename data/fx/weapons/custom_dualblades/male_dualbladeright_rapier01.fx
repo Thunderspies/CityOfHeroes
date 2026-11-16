@@ -1,0 +1,24 @@
+#############################################################
+## Costume Anim Entity - Right Blade - 03
+#############################################################
+
+FxInfo
+
+Flags InheritAlpha DontSuppress
+
+#############################################################
+
+Condition
+	On 	Time
+	Time 	0
+
+	Event
+		Type	Local
+		At	WepR
+		Anim	CustomWeapon_BladeRight_Rapier_01
+	End
+End
+
+#############################################################
+
+End

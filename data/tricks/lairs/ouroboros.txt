@@ -1,0 +1,2277 @@
+Texture x_ouroboros_crystal
+	Base1 ouroboros_crystal_inner1
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 ouroboros_crystal_inner1
+	Multiply1Scroll 0 0
+	Multiply1reflect 1
+
+	BumpMap1 ofc1_glass
+	BumpMap1Scroll   0 0
+	BumpMap1Scale .3 .3
+
+	BumpMap2 ouroboros_crystal
+	BumpMap2Scroll  .0001 .0001
+	BumpMap2Scale .1 .1
+	
+	MaskWeight .5	
+	
+	DiffuseScale 20
+	AmbientScale 4
+
+	Color3 100 100 125
+	//Color4 50 50 200
+
+	SpecularColor1 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	ObjFlags FancyWater
+
+	ReflectivityBase 0
+	ReflectivityScale 0
+	ReflectivityPower 1
+
+	ScaleST0 0.5 0.5
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base alpha //ouroboros_crystal.tga
+		Blend none
+		Bumpmap none //ouroboros_crystal_inner1.tga
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ouroboros_crystal_inner1
+	Base1 ouroboros_crystal
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 ofc1_glass_b
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.3 0.3
+	Multiply1reflect 1
+
+	DualColor1 ouroboros_crystal
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_crystal_inner1
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+
+	DiffuseScale 4
+	AmbientScale 4
+
+	Flags None // NoRandomAddGlow FullBright
+	
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base alpha
+		Blend none
+		Bumpmap none
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ouroboros_crystal_inner2
+	Base1 marble_det.tga //ouroboros_crystal.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 ofc1_glass_b
+	Multiply1Scroll 0.0005 0.002
+	Multiply1Scale 0.5 0.5 
+	Multiply1reflect 1
+
+	DualColor1 ofc1_glass //ouroboros_crystal_inner1
+	DualColor1Scroll 0 0
+	DualColor1Scale 0.5 0.5
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_crystal_inner1.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 70 70 130
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+
+	DiffuseScale 4
+	AmbientScale 4
+
+	Flags None // NoRandomAddGlow FullBright
+	
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_crystal.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ouroboros_emblem
+	Base1 ouroboros_emblem.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.3 0.3 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_emblem_normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 //170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_emblem.tga
+		Blend none
+		Bumpmap ouroboros_emblem_normal.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_concrete_02
+	Base1 building_concrete_02.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1Scale .25 .25
+	Multiply1reflect 2
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1  building_concrete_02_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+	
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale .3 .3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 //170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8 //10
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base  building_concrete_02.tga
+		Blend none
+		Bumpmap building_concrete_02_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_concrete_03
+	Base1 building_concrete_03.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1Scale .25 .25
+	Multiply1reflect 2
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1  building_concrete_03_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+	
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale .3 .3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 //170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8 //10
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base building_concrete_03.tga
+		Blend none
+		Bumpmap building_concrete_03_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_concrete_07
+	Base1 building_concrete_07.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1Scale .25 .25
+	Multiply1reflect 2
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1  building_concrete_07_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+	
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale .3 .3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 //170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8 //10
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base  building_concrete_07.tga
+		Blend none
+		Bumpmap building_concrete_07_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_plaza_arch
+	Base1 plaza_arch.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 plaza_arch_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base plaza_arch.tga
+		Blend none
+		Bumpmap plaza_arch_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_sidetower
+	Base1 side_tower.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 side_tower_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base side_tower.tga
+		Blend none
+		Bumpmap side_tower_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_steps
+	Base1 plaza_step.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 plaza_step_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base plaza_step.tga
+		Blend none
+		Bumpmap plaza_step_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_ramp
+	Base1 ouroboros_ramp.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_ramp_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_ramp.tga
+		Blend none
+		Bumpmap ouroboros_ramp_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_ramp_02
+	Base1 ouroboros_ramp_02.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_ramp_02_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_ramp_02.tga
+		Blend none
+		Bumpmap ouroboros_ramp_02_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_stone_detail
+	Base1 stone_detail.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 stone_detail_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base stone_detail.tga
+		Blend none
+		Bumpmap stone_detail_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_step_top
+	Base1 step_top.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 step_top_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base step_top.tga
+		Blend none
+		Bumpmap step_top_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_metal
+	Base1 ouroboros_metal.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_metal_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_metal.tga
+		Blend none
+		Bumpmap ouroboros_metal_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_pipe
+	Base1 ouroboros_pipe.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_pipe_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_pipe.tga
+		Blend none
+		Bumpmap ouroboros_pipe_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_tower
+	Base1 ouroboros_tower.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_tower_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_tower.tga
+		Blend none
+		Bumpmap ouroboros_tower_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_rail
+	Base1 rail.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	
+	DualColor1 rail.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 rail_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask  none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base rail.tga
+		Blend rail.tga
+		Bumpmap rail_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 2
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_pipe_front
+	Base1 ouroboros_pipe_front.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_pipe_front_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_pipe_front.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_pipe_02
+	Base1 ouroboros_pipe_02.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_pipe_02_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_pipe_02.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_door
+	Base1 ouroboros_door.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_door_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 25
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_door.tga
+		Blend none
+		Bumpmap ouroboros_door_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_reclam_body
+	Base1 ob_reclam_body.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ob_reclam_body_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ob_reclam_body.tga
+		Blend none
+		Bumpmap ob_reclam_body_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_reclam_ring
+	Base1 ob_reclam_ring.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ob_reclam_ring_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ob_reclam_ring.tga
+		Blend none
+		Bumpmap ob_reclam_ring_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_reclam_base
+	Base1 ob_reclam_base.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ob_reclam_base_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ob_reclam_base.tga
+		Blend none
+		Bumpmap ob_reclam_base_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_cov_reclam_base
+	Base1 ob_cov_reclam_base.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale .3 .3
+	Multiply1reflect 1
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ob_cov_reclam_base_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ob_cov_reclam_base.tga
+		Blend none
+		Bumpmap ob_cov_reclam_base_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_glass
+	Base1 glass.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	
+	DualColor1 glass.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 glass_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 2
+	AmbientScale 2.4
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base glass.tga
+		Blend none
+		Bumpmap glass_bump
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_glass_02
+	Base1 glass_02.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	
+	DualColor1 glass_02.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 glass_02_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 2
+	AmbientScale 2.4
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base glass_02
+		Blend none
+		Bumpmap glass_02_bump
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_glass_03
+	Base1 glass_03.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	
+	DualColor1 glass_03.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 glass_03_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 2
+	AmbientScale 2.4
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base glass_03
+		Blend none
+		Bumpmap glass_03_bump
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_glass_04
+	Base1 glass_04.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	
+	DualColor1 glass_04.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 glass_04_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 2
+	AmbientScale 2.4
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base glass_04
+		Blend none
+		Bumpmap glass_04_bump
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_ob_glass_panel
+	Base1 ouroboros_glass_panel.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 universal_window_reflect6.tga // shader_reflect_window_07.tga 
+	Multiply1Scroll 0.0003 0.0003
+	Multiply1Scale .25 .5
+	Multiply1reflect 2
+	
+	DualColor1 ouroboros_glass_panel.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 138 105 49 // default -> 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 2
+	AmbientScale 2.4
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_glass_panel.tga
+		Blend universal_window_reflect6.tga
+		Bumpmap none
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 .25 .5    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale .5
+		DiffuseScale .5
+	End
+End
+
+Texture x_ob_broken_glass
+	Base1 ouroboros_glass_panel_broken.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 universal_window_reflect6.tga // shader_reflect_window_07.tga 
+	Multiply1Scroll 0.0003 0.0003
+	Multiply1Scale .25 .5
+	Multiply1reflect 2
+	
+	DualColor1 ouroboros_glass_panel.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 ouroboros_glass_panel_broken_NS.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 200 200
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+
+	DiffuseScale 2
+	AmbientScale 2.4
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base ouroboros_glass_panel.tga
+		Blend universal_window_reflect6.tga
+		Bumpmap none
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 .25 .5    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale .5
+		DiffuseScale .5
+	End
+End
+
+Trick Ouroboros_Crystal
+	TrickFlags NoZWrite
+End
+
+Trick Ouroboros_Crystal_Sway
+	Sway 0.8 0.011
+	TrickFlags NoZWrite
+End
+
+Trick Ouroboros_Crystal_Ring
+	Rotate 0.001 
+End
+
+Trick glass_panel
+        ObjFlags FullBright
+	TrickFlags NoZWrite  ReflectTex0
+End
+
+Texture glass_03_bump.tga
+	Flags Truecolor
+
+End
+
+Texture building_concrete_07_bump.tga
+	Flags Truecolor
+
+End
+

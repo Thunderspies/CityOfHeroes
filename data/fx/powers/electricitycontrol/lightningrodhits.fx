@@ -1,0 +1,819 @@
+#########################################################
+##	forceBubble
+########################################################
+FxInfo
+
+
+LifeSpan	265    
+
+########################################################
+
+
+######################################################################################
+
+
+
+Condition
+	On 	Time
+	Time 	50
+	
+	Event
+		Ename	nodeDelay
+		Type	local
+		At	root	
+		
+	End
+
+	Event
+		Ename	Lightning
+		Type	local
+		At	Root
+		BHVR	Powers/ItemsAndTempPowers/OverheadOffset.bhvr
+
+	End
+
+	Event
+		Type	local
+		At	Lightning
+		Part	:LightningStrikeB.part	
+		Pmagnet	 root
+
+	End	
+
+######################################################################################
+
+	Event
+		Ename	Lightning2
+		Type	local
+		At	Root
+		BHVR	Powers/ItemsAndTempPowers/OverheadOffset2.bhvr
+
+	End
+
+	Event
+
+		Ename	node01
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	3 5 3
+			PositionOffset	0 150 0
+		End
+
+	End
+	
+	Event
+
+		Ename	ChargedBolt1
+		Type	start
+		At	node01
+		altpiv	1
+		
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+#		Part	:LightningRod_ChargedBolt01a.Part	
+		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+#		Part	:LightningRod_ChargedBolt06a.Part
+		POther	node02
+
+	End	
+
+End
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	node02
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	3 5 3
+			PositionOffset	0 100 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt2
+		Type	start
+		At	node02
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+#		Part	:LightningRod_ChargedBolt01a.Part	
+		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 node03
+
+	End
+
+End
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	node03
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	3 5 3
+			PositionOffset	0 60 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt3
+		Type	start
+		At	node03
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+		Part	:LightningRod_ChargedBolt01a.Part	
+		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+#		Part	:LightningRod_ChargedBolt05a.Part	
+		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 node04
+
+	End
+
+End
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	node04
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	3 5 3
+			PositionOffset	0 30 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt4
+		Type	start
+		At	node04
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+		Part	:LightningRod_ChargedBolt01a.Part	
+		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+#		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 node05
+
+	End
+
+End
+
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	node05
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			FadeOutLength		280
+			Startjitter	3 5 3
+			PositionOffset	0 -10 0
+		End
+
+	End
+
+	Event
+
+		Ename	node06
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+		
+			FadeOutLength		280
+			Startjitter	3 5 3
+			PositionOffset	0 -50 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt6
+		Type	start
+		At	node05
+		altpiv	1
+
+		BhvrOverride
+		
+			FadeOutLength		280
+		End
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+		Part	:LightningRod_ChargedBolt01a.Part	
+#		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 node06
+
+	End
+
+End
+
+Condition
+	On 	Time
+	Time 	53
+
+	Event
+		Type	local
+		At	Lightning
+		Part	:LightningStrikeC.part	
+		Pmagnet	 root
+
+	End	
+	
+End
+
+
+Condition
+	On 	Time
+	Time 	55
+	Event
+		Type	local
+		At	Lightning2
+		Part	:LightningStrikeB.part	
+		Pmagnet	 root
+
+	End	
+
+End
+
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+		Type	local
+		At	Lightning
+		Part	:LightningStrikeA.part
+		Pmagnet	 root	
+
+	End	
+	
+#######################################################################################################
+
+	Event
+
+		Ename	node01
+		Type	start
+		At	Root
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	3 5 3
+			PositionOffset	0 50 0
+		End
+
+	End
+	
+	Event
+
+		Ename	ChargedBolt1
+		Type	start
+		At	node01
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+		
+		Part	:LightningRod_ChargedBolt01a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+		Part	:LightningRod_ChargedBolt01a.Part	
+#		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+#		Part	:LightningRod_ChargedBolt06a.Part
+		POther	node02
+
+	End	
+
+End
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	node02
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	3 5 3
+			PositionOffset	0 40 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt2
+		Type	start
+		At	node02
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+		Part	:LightningRod_ChargedBolt01a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+#		Part	:LightningRod_ChargedBolt01a.Part	
+		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+#		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 node03
+
+	End
+
+End
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	node03
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	3 5 3
+			PositionOffset	0 30 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt3
+		Type	start
+		At	node03
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+		Part	:LightningRod_ChargedBolt01a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+#		Part	:LightningRod_ChargedBolt01a.Part	
+#		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 node04
+
+	End
+
+End
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	node04
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	3 5 3
+			PositionOffset	0 20 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt4
+		Type	start
+		At	node04
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+		Part	:LightningRod_ChargedBolt01a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+		Part	:LightningRod_ChargedBolt01a.Part	
+		Part	:LightningRod_ChargedBolt02a.Part
+#		Part	:LightningRod_ChargedBolt05a.Part	
+#		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 node05
+
+	End
+
+End
+
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	node05
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	3 5 3
+			PositionOffset	0 -10 0
+			FadeOutLength		280
+		End
+
+	End
+
+####################################################################################################
+
+	Event
+
+		Type	start
+		At	node05
+
+		BhvrOverride
+			InitialVelocity		0 -10 0	
+			PositionOffset		0 -10 0
+#			FadeOutLength		280
+			
+			physics 		1
+			physRadius 		0.8
+			physGravity 		.9
+			physRestitution 	0.5
+			physSFriction 	 	0.3
+			physDFriction 	 	0.5
+
+
+		End
+
+		CEvent	POWERS\ElectricityControl\LightningRodHit.fx
+		Cdestroy	1
+		CThresh		0.001
+		
+	End
+
+####################################################################################################
+
+	Event
+
+		Ename	node06
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+		
+			FadeOutLength		280
+			Startjitter	3 5 3
+			PositionOffset	0 -50 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt6
+		Type	start
+		At	node05
+		altpiv	1
+
+		BhvrOverride
+		
+			FadeOutLength		280
+		End
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+		Part	:LightningRod_ChargedBolt01a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+#		Part	:LightningRod_ChargedBolt01a.Part	
+		Part	:LightningRod_ChargedBolt02a.Part
+#		Part	:LightningRod_ChargedBolt05a.Part	
+		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 Node06
+
+	End
+
+End
+
+######################################################################################
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	nodeA
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	.5 3 .5
+			PositionOffset	0 150 0
+		End
+
+	End
+	
+	Event
+
+		Ename	ChargedBolt1
+		Type	start
+		At	nodeA
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+		
+		Part	:LightningRod_ChargedBolt01a.Part	
+#		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+#		Part	:LightningRod_ChargedBolt06a.Part
+		POther	nodeB
+
+	End	
+
+End
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	nodeB
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	.5 3 .5
+			PositionOffset	0 100 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt2
+		Type	start
+		At	nodeB
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+		Part	:LightningRod_ChargedBolt01a.Part	
+		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+#		Part	:LightningRod_ChargedBolt05a.Part	
+#		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 nodeC
+
+	End
+
+End
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	nodeC
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	.5 3 .5
+			PositionOffset	0 60 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt3
+		Type	start
+		At	nodeC
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+#		Part	:LightningRod_ChargedBolt01a.Part	
+#		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 nodeD
+
+	End
+
+End
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	nodeD
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			Startjitter	.5 3 .5
+			PositionOffset	0 30 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt4
+		Type	start
+		At	nodeD
+		altpiv	1
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+#		Part	:LightningRod_ChargedBolt01a.Part	
+		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+		Part	:LightningRod_ChargedBolt05a.Part	
+#		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 nodeE
+
+	End
+
+End
+
+
+Condition
+	On 	Time
+	Time 	50
+
+	Event
+
+		Ename	nodeE
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+			FadeOutLength		280
+			Startjitter	.5 3 .5
+			PositionOffset	0 -10 0
+		End
+
+	End
+
+	Event
+
+		Ename	nodeF
+		Type	start
+		At	Lightning
+		Geom	centerdummy
+
+		BhvrOverride
+		
+			FadeOutLength		280
+			Startjitter	.5 3 .5
+			PositionOffset	0 -50 0
+		End
+
+	End
+
+	Event
+
+		Ename	ChargedBolt6
+		Type	start
+		At	nodeE
+		altpiv	1
+
+		BhvrOverride
+		
+			FadeOutLength		280
+		End
+
+		Part	:LinghtningRodSpark.part
+		Part	:LinghtningRodSpark_White.part
+
+
+		Part	:LightningRod_ChargedBolt01a.Part	
+#		Part	:LightningRod_ChargedBolt02a.Part
+		Part	:LightningRod_ChargedBolt03a.Part
+#		Part	:LightningRod_ChargedBolt05a.Part	
+		Part	:LightningRod_ChargedBolt06a.Part
+		POther	 nodeF
+
+	End
+
+
+####################################################################################################
+
+	Event
+
+		Type	start
+		At	nodeE
+
+		BhvrOverride
+			InitialVelocity		0 -10 0	
+			PositionOffset	0 -10 0
+#			FadeOutLength		280
+			
+			physics 		1
+			physRadius 		0.8
+			physGravity 		.9
+			physRestitution 	0.5
+			physSFriction 	 	0.3
+			physDFriction 	 	0.5
+
+
+		End
+
+		CEvent	POWERS\ElectricityControl\LightningRodHit.fx
+		Cdestroy	1
+		CThresh		0.00001
+		
+	End
+
+End

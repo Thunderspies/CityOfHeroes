@@ -1,0 +1,101 @@
+#########################################################
+## CustomWeapon_Mace.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Mace_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw NoSizeScale
+	Priority	0
+
+	Type		Mace_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	RIGHTHAND SPAWNBACK
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Flags		NoDraw NoSizeScale
+
+	Type		Mace_Base
+	  Anim		Prop_basic\skel_test 1 9
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	RIGHTHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle NoSizeScale
+	NextMove	Ready
+
+	Type		Mace_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+## THROW SPEAR #######################################################
+
+Move Shield_Weapon_ThrowSpear
+	Requires	RIGHTHAND HIDE QUICK ONE
+	Priority	4
+	Interrupts	<Ready> <WepCombat>
+	Member		<DeathIRQ>
+	NextMove	Combat_Pre
+	Flags		NoDraw NoSizeScale
+
+	Type		Mace_Base
+	  Anim		Prop_basic\skel_test 1 54
+	TEnd
+MEnd
+
+## LOB GRENADE #######################################################
+
+Move Shield_Weapon_GrenadeLob
+	Requires	RIGHTHAND HIDE QUICK TWO
+	Priority	4
+	Interrupts	<Ready> <WepCombat>
+	Member		<DeathIRQ>
+	NextMove	Shield_Weapon_GrenadeLob_Post
+	Flags		NoDraw NoSizeScale
+
+	Type		Mace_Base
+	  Anim		Prop_basic\skel_test 1 60
+	TEnd
+MEnd
+
+Move Shield_Weapon_GrenadeLob_Post
+	Member		<DeathIRQ>
+	NextMove	Combat_Pre
+	Flags		NoDraw NoSizeScale
+
+	Type		Mace_Base
+	  Anim		Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

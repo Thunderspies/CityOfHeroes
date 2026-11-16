@@ -1,0 +1,253 @@
+RootMod _kiosk_staticmap1_mapold
+End
+
+RootMod _kiosk_staticmap1_neon
+End
+
+RootMod _kiosk_staticmap1_spinner
+End
+
+RootMod _kiosk_staticmap1_center
+End
+
+RootMod _kiosk_staticmap1_base
+End
+
+RootMod _patrol_box_clean_light
+End
+
+RootMod _patrol_box_clean
+End
+
+RootMod _patrol_box_dirty
+End
+
+RootMod _patrol_box_dirty_light
+End
+
+RootMod _kiosk_staticmap1_map
+End
+
+RootMod _kiosk_screen01
+End
+
+RootMod _kiosk_screen01glass
+End
+
+RootMod _kiosk_screen02
+End
+
+RootMod _kiosk_screen03
+End
+
+RootMod _kiosk_cover01
+End
+
+RootMod _kiosk_cover03
+End
+
+RootMod _kiosk_cover02
+End
+
+RootMod _kiosk_lights01
+End
+
+RootMod _kiosk_bulbglow
+End
+
+RootMod _kiosk_bulbglow2
+End
+
+RootMod _tourism_marker_01
+End
+
+RootMod _tourism_volume_01
+End
+
+Def Tourism_plaque_01
+	Group _tourism_volume_01
+	End
+	Group _tourism_marker_01
+	End
+End
+
+Def Patrol_Box_Clean_2&
+	Group Omni/PARTICLE_5
+	End
+	Type WORLD\City\BlueStreetLightPulsing.fx
+End
+
+Def Patrol_Box_Clean
+	Group _patrol_box_clean
+	End
+	Group Patrol_Box_Clean_2&
+		Pos 0.200653 6.114099 -0.337997
+	End
+	Group _patrol_box_clean_light
+	End
+	Group Patrol_Box_Clean_2&
+		Pos -0.160141 6.114099 -0.337997
+	End
+	Flags Ungroupable
+	Property	"Plaque"	"0"	0
+	Property	"VisitLocation"	"0"	0
+End
+
+Def kiosk_zonemap_19&
+	Group Omni/_sound
+	End
+	Sound Sign9_Loop 1.000000 19.913904 9.000000 
+	Flags Ungroupable
+End
+
+Def kiosk_zonemap_1&
+	Group _kiosk_staticmap1_map
+	End
+End
+
+Def kiosk_zonemap_7&
+	Group _kiosk_bulbglow2
+		Pos -0.000002 -0.074537 0.084106
+	End
+	Group _kiosk_bulbglow
+		Pos -0.000002 0.074497 -0.083984
+	End
+	Group _kiosk_bulbglow
+		Pos -0.000002 0.074497 0.084106
+	End
+	Group _kiosk_bulbglow2
+		Pos -0.000002 -0.074537 -0.083984
+	End
+End
+
+Def kiosk_zonemap_6&
+	Group kiosk_zonemap_7&
+		PYR 0 89.999985 0
+		Pos -0.061291 0.007172 3.321533
+	End
+	Group kiosk_zonemap_7&
+		PYR 0 89.999985 0
+		Pos 0.046694 -0.00717 -3.321655
+	End
+	Group kiosk_zonemap_7&
+		PYR 0 179.999969 0
+		Pos 3.302479 -0.00717 0.039551
+	End
+	Group kiosk_zonemap_7&
+		Pos -3.302479 0.007172 -0.050781
+	End
+End
+
+Def kiosk_zonemap_9&
+	Group _kiosk_cover02
+	End
+	Group _kiosk_cover01
+	End
+	Group _kiosk_cover03
+	End
+End
+
+Def kiosk_zonemap_3&
+	Group Omni/_sound
+	End
+	Sound SignRotate_Loop 0.250000 25.709858 30.000000 
+	Flags Ungroupable
+End
+
+Def kiosk_zonemap_2&
+	Group _kiosk_staticmap1_spinner
+	End
+	Group kiosk_zonemap_3&
+		Pos 2.190674 11.292358 -0.180176
+	End
+End
+
+Def kiosk_zonemap
+	Group kiosk_zonemap_19&
+		Pos -0.000183 5.500057 -1
+	End
+	Group _kiosk_staticmap1_center
+	End
+	Group _kiosk_staticmap1_center
+	End
+	Group _kiosk_staticmap1_base
+	End
+	Group _kiosk_staticmap1_neon
+	End
+	Group kiosk_zonemap_1&
+	End
+	Group _kiosk_screen02
+	End
+	Group _kiosk_screen01
+		PYR 0 -89.999985 0
+	End
+	Group _kiosk_screen03
+		PYR 0 -179.999969 0
+	End
+	Group _kiosk_screen01
+		PYR 0 89.999985 0
+	End
+	Group _kiosk_lights01
+	End
+	Group _kiosk_lights01
+		PYR 0 89.999985 0
+	End
+	Group _kiosk_lights01
+		PYR 0 179.999969 0
+	End
+	Group _kiosk_lights01
+		PYR 0 -89.999985 0
+	End
+	Group kiosk_zonemap_6&
+		Pos 0.010159 4.712042 0.001465
+	End
+	Group _kiosk_screen01glass
+		PYR 0 -179.999969 0
+	End
+	Group _kiosk_screen01glass
+		PYR 0 -89.999985 0
+	End
+	Group _kiosk_screen01glass
+	End
+	Group _kiosk_screen01glass
+		PYR 0 89.999985 0
+	End
+	Group kiosk_zonemap_9&
+	End
+	Group kiosk_zonemap_9&
+		PYR 0 89.999985 0
+	End
+	Group kiosk_zonemap_9&
+		PYR 0 -89.999985 0
+	End
+	Group kiosk_zonemap_9&
+		PYR 0 179.999969 0
+	End
+	Group kiosk_zonemap_2&
+		Pos 0 2.499878 0
+	End
+	Property	"kiosk"	"home"	0
+End
+
+Def Patrol_Box_Dirty_2&
+	Group Omni/PARTICLE_5
+	End
+	Type WORLD\City\BlueStreetLightPulsing.fx
+End
+
+Def Patrol_Box_Dirty
+	Group _patrol_box_dirty
+	End
+	Group Patrol_Box_Dirty_2&
+		Pos 0.195251 6.075524 -0.294434
+	End
+	Group _patrol_box_dirty_light
+	End
+	Group Patrol_Box_Dirty_2&
+		Pos -0.199081 6.075524 -0.294434
+	End
+	Flags Ungroupable
+	Property	"Plaque"	"0"	0
+	Property	"VisitLocation"	"0"	0
+End
+

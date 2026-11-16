@@ -1,0 +1,99 @@
+!!RC1.0
+#
+#	BLENDMODE_BUMPMAP_COLORBLEND_DUAL
+#
+
+###	Stage 0
+# Inputs: col0 and col1: L and H (from Vert Shader (skin_bump.vp))
+{
+	rgb { // normalize h  (step 1)
+		spare1 = expand(col1) . expand(col1); // spare1.xyz = H . H = x^2 + y^2 + z^2
+		col0 = expand(col0) . expand(tex2); // L.tex2 (N.L)
+	}
+}
+
+###	Stage 1
+# Inputs:
+#		const0.a = Gloss value from texture
+{
+	rgb { // normalize h (step 2)
+		discard = expand(col1);			// col1 [0..1] -> [-1..1]   ( input H )
+		discard = half_bias(col1) *		// col1 [0..1] -> [-0.5..0.5] ( input H * 0.5 )
+                 unsigned_invert(spare1); // H.H [0..1] -> [1..0]		( 1 - H.H)
+		col1 = sum(); // col1(H) = H + 0.5*H*(1-H.H)  // Do we assume this normalized it here?
+	}
+	alpha {
+		spare0 = tex2.a * unsigned(const0); // spare0 = specular map * gloss
+	}
+}
+
+###	Stage 2
+# Inputs:
+#		const0 = specularColor
+{
+	rgb {
+		// Specular color
+		spare0 = spare0.a * const0;
+		// Compute N.H (lighting values)
+		col1 = expand(col1) . expand(tex2); // col1(from stage 1, expanded again?).tex2
+	}
+}
+
+###	Stage 3
+# Inputs:
+#		const0 = diffuse * 4
+#		const1 = ambient * 2
+{
+	rgb {  // Add diffuse and ambient terms
+		discard = unsigned(col0) * unsigned(const0);
+		discard = unsigned(const1);
+		col0 = sum();
+	}
+	alpha {  // col1 = specular ^ 2
+		col1 = unsigned(col1.b) * unsigned(col1.b);
+	}
+}
+
+###	Stage 4
+{
+	rgb {	// gloss * specularmap * specular^2
+		spare0 = spare0 * unsigned(col1.a);
+	}
+	alpha { // col1 = specular ^ 4
+		col1 = unsigned(col1.a) * unsigned(col1.a);
+	}
+}
+
+###	Stage 5  - Dual color blend (1 of 3)
+# Inputs:  const0, const1 = DualBlend color inputs
+{
+  rgb {
+    discard = unsigned(tex1) * unsigned(const0);
+    discard = unsigned_invert(tex1) * unsigned(const1);
+    spare1 = sum();
+  }
+  alpha { // final alpha caluclation, must be in this stage!
+    spare0 = unsigned(const0) * unsigned(tex1);
+  }
+}
+
+###	Stage 6 - Dual color blend (2 of 3)
+{
+	rgb {
+		col1 = unsigned(col1.a) * spare0; // col1 = gloss * specularmap * specular ^ 6
+		spare1 = unsigned(tex0) * spare1; // detail with tex0
+	}
+}
+
+###	Stage 7 - Dual color blend (3 of 3)
+{
+  rgb {
+    discard = unsigned(tex0.a) * unsigned(tex0);
+    discard = unsigned_invert(tex0.a) * unsigned(spare1);
+    spare1 = sum();
+  }
+}
+final_product = spare1 * col0;  // Lighting times result of dual color blend
+clamp_color_sum();
+out.rgb = lerp(fog.a, final_product, fog) + col1;   // Fog + specular (bump) ?
+out.a = spare0;

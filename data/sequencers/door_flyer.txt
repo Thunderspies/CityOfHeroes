@@ -1,0 +1,90 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_flyer 
+	BaseSkeleton	Door_flyer\skel_door_flyer
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+
+	Type		Door_flyer
+	  Anim          Door_flyer\skel_door_flyer 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+	SticksOnChild   OPEN
+
+	Type		Door_flyer
+	  Anim          Door_flyer\skel_door_flyer 1 10 
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH
+	SticksOnChild   OPEN
+
+	Type		Door_flyer
+	  Anim          Door_flyer\skel_door_flyer 1 20  
+	  PlayFX	fx\doors\keepout1.fx
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_flyer
+	  Anim          Door_flyer\skel_door_flyer 1 20 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+	SticksOnChild   SHUT
+
+	Type		Door_flyer
+	  Anim          Door_flyer\skel_door_flyer 1 20
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+	SticksOnChild   SHUT
+
+	Type		Door_flyer
+	  Anim          Door_flyer\skel_door_flyer 1 20
+	TEnd
+MEnd
+
+SeqEnd
+

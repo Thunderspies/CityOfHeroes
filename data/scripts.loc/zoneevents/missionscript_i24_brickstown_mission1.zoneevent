@@ -1,0 +1,201 @@
+Name MissionScript_i24_Brickstown_Mission1.zoneevent
+FirstStage Setup
+StopStage Stop
+DisplayName P1642501598
+RestartStage Stop
+
+//This zone event script is used for the zone event in the first mission of Brickstown arcs in Arc 2.
+//This zone event is working on conjuction with the mission objectives that are being fired off in the finale mission of this event. The mission is mission 1 in the file data\scripts\Contacts\Brickstown\tasks\_src\SL6_7_Marchand_Arc_Two.xls
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Zone event for Brickstown Arc 2, Mission 1, is now beginning.>>
+		}
+		Action CreatePorters
+		{
+			PorterCreate TeleportFire
+			PorterCreate TeleportNemesis
+			PorterCreate TeleportFreakshow
+		}
+		Action TurnOffTeleporters
+		{
+			PorterControl
+			{
+				Porter TeleportFire
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportNemesis
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportFreakshow
+				Type Deactivate
+			}
+		}
+	}
+	Trigger GoToMonitorStage
+	{
+		Requires ScriptHandleThem objectivesucceeded>
+		NextStage TimerUI
+	}
+}
+
+Stage TimerUI
+{
+	DisplayName P2099166030
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Starting the stage to show the timers.>>
+		}
+	}
+	UICollection MainTimerUI
+	{
+		UIItem NemesisTimerUI
+		{
+			Type Timer
+			Timer NemesisTimer
+			Text P3389388539
+			ShortText P3389388539
+			HideIf ScriptNemesisTimer objectivesucceeded> NemesisDefeated objectivesucceeded> ||
+		}
+		UIItem NemesisExplanation
+		{
+			Type Text
+			Text P745918073
+			HideIf ScriptNemesisTimer objectivesucceeded> NemesisDefeated objectivesucceeded> ||
+		}
+		UIItem FreakshowUI
+		{
+			Type Timer
+			Timer FreakshowRaveTimer
+			Text P497046084
+			ShortText P497046084
+			HideIf ScriptFreakshowTimer objectivesucceeded> FreakshowDefeated objectivesucceeded> ||
+		}
+		UIItem FreakshowExplanation
+		{
+			Type Text
+			Text P834093723
+			HideIf ScriptFreakshowTimer objectivesucceeded> FreakshowDefeated objectivesucceeded> ||
+		}
+		UIItem BuildingFireUI
+		{
+			Type Timer
+			Timer BuildingFireTimer
+			Text P1681644293
+			ShortText P1681644293
+			HideIf ScriptFireTimer objectivesucceeded> PeopleRescued objectivesucceeded> ||
+		}
+		UIItem RescueCiviliansExplanation
+		{
+			Type Text
+			Text P1517351438
+			HideIf ScriptFireTimer objectivesucceeded> PeopleRescued objectivesucceeded> ||
+		}
+	}
+	Trigger StopEverythingTage
+	{
+		Requires ScriptMissionComplete objectivesucceeded>
+		NextStage Stop
+	}
+// The following is a timer to notify players when RulaWade's map-wide power will be going off.
+	Timer NemesisTimer
+	{
+		Duration 5:00
+	}
+	Timer FreakshowRaveTimer
+	{
+		Duration 6:00
+	}
+	Timer BuildingFireTimer
+	{
+		Duration 7:00
+	}
+	Trigger NemesisEscapes
+	{
+		Requires NemesisTimer complete> NemesisDefeated objectivesucceeded> ! &&
+		Action
+		{	
+			Floater
+			{
+				Message P209554032
+				Color 00ff99
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TeleportNemesis
+				Type Activate
+			}
+		}
+		Action TriggerObjective
+		{
+			Objective ScriptNemesisTimer
+		}
+	}
+	Trigger FreakshowEscape
+	{
+		Requires FreakshowRaveTimer complete> FreakshowDefeated objectivesucceeded> ! &&
+		Action
+		{	
+			Floater
+			{
+				Message P1812437143
+				Color 00ff99
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TeleportFreakshow
+				Type Activate
+			}
+		}
+		Action TriggerObjective
+		{
+			Objective ScriptFreakshowTimer
+		}
+	}
+	Trigger FireBlasted
+	{
+		Requires BuildingFireTimer complete> PeopleRescued objectivesucceeded> ! &&
+		Action
+		{	
+			Floater
+			{
+				Message P2864023469
+				Color 00ff99
+				AlertType PriorityAlert
+			}
+			PorterControl
+			{
+				Porter TeleportFire
+				Type Activate
+			}
+		}
+		Action TriggerObjective
+		{
+			Objective ScriptFireTimer
+		}
+
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Turning everything off>>
+		}
+	}
+}

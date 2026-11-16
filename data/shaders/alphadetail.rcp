@@ -1,0 +1,23 @@
+!!RC1.0
+#
+#	BLENDMODE_ALPHADETAIL
+#
+{
+  rgb {  #spare0.rgb = tex0.a * tex0.rgb + (1-tex0.a)*tex1.rgb
+    discard = unsigned(tex0.a) * unsigned(tex0);
+    discard = unsigned_invert(tex0.a) * unsigned(tex1);
+    spare0 = sum();
+  }
+  alpha {  #spare0.a = const0.a * tex1.a
+    spare0 = unsigned(const0) * unsigned(tex1);
+  }
+}
+{
+  rgb {  #spare0.rgb = spare0.rgb * col0.rgb * 4
+    spare0 = unsigned(spare0) * unsigned(col0);
+    scale_by_four();
+  }
+}
+clamp_color_sum();
+out.rgb = lerp(fog.a, color_sum, fog);
+out.a = spare0;

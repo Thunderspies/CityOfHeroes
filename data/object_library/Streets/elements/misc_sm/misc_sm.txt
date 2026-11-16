@@ -1,0 +1,216 @@
+RootMod _Mailbox
+End
+
+RootMod _Atm_Panel
+End
+
+RootMod _firehydrant_shadow
+End
+
+RootMod _Parking_Meter
+End
+
+RootMod _Pay_Phone
+End
+
+RootMod _Concrete_Bench
+End
+
+RootMod _ATM_frame
+End
+
+RootMod modern_bench_4wide
+End
+
+RootMod _bustop_main
+End
+
+RootMod _busstop_glass
+End
+
+RootMod modern_bench_2wide
+End
+
+RootMod _news_stand_shadow
+End
+
+RootMod _pay_phone_shadow
+End
+
+RootMod _mailbox_shadow
+End
+
+RootMod _concrete_bench_shadow
+End
+
+RootMod drinking_fntn_wall
+End
+
+RootMod bathroom_doors
+End
+
+RootMod plain_faux_door
+	Group Omni/MissionBeacons/Marker_Door_Removal
+	End
+End
+
+RootMod _Firehydrant
+End
+
+RootMod _News_Stand
+End
+
+RootMod _busstop_poster_side_1a
+End
+
+RootMod _busstop_poster_side_2a
+End
+
+RootMod _busstop_poster_side_1b
+End
+
+RootMod _busstop_poster_side_2b
+End
+
+Def Concrete_Bench
+	Group _concrete_bench_shadow
+	End
+	Group _Concrete_Bench
+	End
+	Property	"breakable"	"200"	0
+End
+
+Def Pay_Phone
+	Group _pay_phone_shadow
+	End
+	Group _Pay_Phone
+	End
+End
+
+Def Mailbox_1&
+	Group Omni/PARTICLE_5
+		Pos -0.02832 0.02832 0.02832
+	End
+	Type Explosions\MailBoxExplosion\Mailbox_ForceReact.Fx
+	Lod
+		Scale 0.500000
+	End
+End
+
+Def Mailbox
+	Group _mailbox_shadow
+	End
+	Group _Mailbox
+	End
+	Group Mailbox_1&
+		Pos 0.02832 0.47168 -0.02832
+	End
+End
+
+Def News_Stand_1&
+	Group _News_Stand
+	End
+End
+
+Def News_Stand
+	Group News_Stand_1&
+	End
+End
+
+Def Firehydrant
+	Group _firehydrant_shadow
+	End
+	Group _Firehydrant
+	End
+End
+
+Def ATM1_2&
+	Group Omni/PARTICLE_5
+		Pos -0.011597 -0.011597 0.011597
+	End
+	Type Explosions\MoneyExplosion\ATM_ForceReact.Fx
+	Lod
+		Scale 0.500000
+	End
+End
+
+Def ATM1
+	Group _Atm_Panel
+		PYR 0 -89.999985 0
+		Pos 0.096619 5 0
+	End
+	Group _ATM_frame
+		PYR 0 -89.999985 0
+	End
+	Group ATM1_2&
+		Pos 0.011597 5.011597 -0.511597
+	End
+End
+
+Def bustop_1_2&
+	Group _busstop_glass
+		PYR 0 89.999985 0
+	End
+	Group _bustop_main
+		PYR 0 89.999985 0
+	End
+End
+
+Def bustop_1
+	Group bustop_1_2&
+	End
+End
+
+Def parking_meter
+	Group _Parking_Meter
+		PYR 0 -89.999985 0
+	End
+End
+
+Def _bustop_poster_2_group_1a
+	Group Omni/DF_Ad_Orientator
+		PYR 0 89.999985 -0
+		Pos -7.056641 5.5 0
+	End
+	Group _busstop_poster_side_1a
+	End
+End
+
+Def _bustop_poster_2_group_1b
+	Group Omni/DF_Ad_Orientator
+		PYR 0 -89.999985 -0
+		Pos -6.989014 5.5 0
+	End
+	Group _busstop_poster_side_2a
+	End
+End
+
+Def _bustop_poster_2_group_2a
+	Group Omni/DF_Ad_Orientator
+		PYR 0 -89.999985 -0
+		Pos 7.085938 5.5 0
+	End
+	Group _busstop_poster_side_1b
+	End
+End
+
+Def _bustop_poster_2_group_2b
+	Group Omni/DF_Ad_Orientator
+		PYR 0 89.999985 -0
+		Pos 6.987793 5.5 0
+	End
+	Group _busstop_poster_side_2b
+	End
+End
+
+Def _bustop_posters
+	Group _bustop_poster_2_group_1b
+	End
+	Group _bustop_poster_2_group_2b
+	End
+	Group _bustop_poster_2_group_2a
+	End
+	Group _bustop_poster_2_group_1a
+	End
+End
+

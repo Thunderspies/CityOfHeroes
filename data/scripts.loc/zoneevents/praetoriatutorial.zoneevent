@@ -1,0 +1,327 @@
+Name PraetoriaTutorial
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P1103093536
+EventVolume TutorialEventVolume // ZoneEventName = PraetorianTutorial
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action CreateStuff
+		{
+			//WaypointCreate WhereisReese GlowieIcon P4292860590
+			//WaypointPlace WhereisReese ReeseIsHere
+			SpawnCreate PPDSpawn
+			{
+				Location PPDWave
+				Group PPDWave
+				Team PPDteam
+				//SpawnBehavior Wander(CombatOverride(Aggressive))
+				MoveToMarker PPDExtRunTo
+				KillBehavior RunIntoDoor
+			}
+			SpawnCreate DestroyersSpawn
+			{
+				Location DestroyersWave
+				Group DestroyersWave
+				Team Destroyersteam
+				//SpawnBehavior AnimalRampage(CombatOverride(Defensive))
+				MoveToMarker DestroyersRunTo
+				KillBehavior RunIntoDoor
+			}
+			TeamCreate Team_PPDteam
+			{
+				Team PPDteam
+				MinRespawnTime 20
+				MaxRespawnTime 90
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+			}
+			TeamCreate Team_Destroyersteam
+			{
+				Team Destroyersteam
+				MinRespawnTime 20
+				MaxRespawnTime 90
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+			}
+			SpawnCreate PPDSpawnA
+			{
+				Location PPDWaveA
+				Group PPDWaveA
+				Team PPDteamA
+				//SpawnBehavior Wander(CombatOverride(Aggressive))
+				MoveToMarker PPDExtRunToA
+				KillBehavior RunIntoDoor
+			}
+			SpawnCreate DestroyersSpawnA
+			{
+				Location DestroyersWaveA
+				Group DestroyersWaveA
+				Team DestroyersteamA
+				//SpawnBehavior AnimalRampage(CombatOverride(Defensive))
+				MoveToMarker DestroyersRunToA
+				KillBehavior RunIntoDoor
+			}
+			TeamCreate Team_PPDteamA
+			{
+				Team PPDteamA
+				MinRespawnTime 20
+				MaxRespawnTime 90
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+			}
+			TeamCreate Team_DestroyersteamA
+			{
+				Team DestroyersteamA
+				MinRespawnTime 20
+				MaxRespawnTime 90
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+			}
+			SpawnCreate PPDSpawnB
+			{
+				Location PPDWaveB
+				Group PPDWaveB
+				Team PPDteamB
+				//SpawnBehavior Wander(CombatOverride(Aggressive))
+				MoveToMarker PPDExtRunToB
+				KillBehavior RunIntoDoor
+			}
+			SpawnCreate DestroyersSpawnB
+			{
+				Location DestroyersWaveB
+				Group DestroyersWaveB
+				Team DestroyersteamB
+				//SpawnBehavior AnimalRampage(CombatOverride(Defensive))
+				MoveToMarker DestroyersRunToB
+				KillBehavior RunIntoDoor
+			}
+			TeamCreate Team_PPDteamB
+			{
+				Team PPDteamB
+				MinRespawnTime 20
+				MaxRespawnTime 90
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+			}
+			TeamCreate Team_DestroyersteamB
+			{
+				Team DestroyersteamB
+				MinRespawnTime 20
+				MaxRespawnTime 90
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+			}
+			SpawnCreate RunnerSpawn
+			{
+				Location RunnerWave
+				Group RunnerWave
+				Team Runnerteam
+				KillBehavior RunIntoDoor
+			}
+			TeamCreate Team_Runnerteam
+			{
+				Team Runnerteam
+				MinRespawnTime 2
+				MaxRespawnTime 40
+				//	Plyrs	Minimum	Full
+				Count   1,   16,   20
+			}
+			SpawnCreate TargetDummy
+			{
+				Location TargetDummyWave
+				Group TargetDummyWave
+				Team TargetDummyteam
+				KillBehavior RunIntoDoor
+			}
+			TeamCreate Team_TargetDummyteam
+			{
+				Team TargetDummyteam
+				MinRespawnTime 4
+				MaxRespawnTime 12
+				//	Plyrs	Minimum	Full
+				Count   1,   3,   6
+			}
+
+		}
+	}
+	Trigger End
+	{
+		NextStage DefeatDestroyers
+	}
+}
+Stage DefeatDestroyers
+{
+	DisplayName P3031918627
+	ToolTip P3888088339
+	StartUp
+	{
+		Action StartKillDestroyers
+		{
+			DebugPrint <<Starting Stage DefeatDestroyers>>
+		}
+		Action TurnOnNPCs
+		{
+			TeamControl StartTargetDummyteam
+			{
+				Type Activate
+				Team TargetDummyteam
+			}
+			TeamControl StartRunnerteam
+			{
+				Type Activate
+				Team Runnerteam
+			}
+			TeamControl StartDestroyers
+			{
+				Type Activate
+				Team Destroyersteam
+			}
+			TeamControl StartSTPPD
+			{
+				Type Activate
+				Team PPDteam
+			}
+			TeamControl StartDestroyersA
+			{
+				Type Activate
+				Team DestroyersteamA
+			}
+			TeamControl StartSTPPDA
+			{
+				Type Activate
+				Team PPDteamA
+			}
+			TeamControl StartDestroyersB
+			{
+				Type Activate
+				Team DestroyersteamB
+			}
+			TeamControl StartSTPPDB
+			{
+				Type Activate
+				Team PPDteamB
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+	}
+}
+Stage Reset
+{
+	DisplayName P559874022
+	ToolTip P190629907
+	StartUp
+	{
+		Action TurnOffCritters
+		{
+			TeamControl StopTargetDummyteam
+			{
+				Type Deactivate
+				Team TargetDummyteam
+			}
+			TeamControl StopRunnerteam
+			{
+				Type Deactivate
+				Team Runnerteam
+			}
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team PPDteam
+			}
+			TeamControl StopDestroyers
+			{
+				Type Deactivate
+				Team Destroyersteam
+			}
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team PPDteamA
+			}
+			TeamControl StopDestroyers
+			{
+				Type Deactivate
+				Team DestroyersteamA
+			}
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team PPDteamB
+			}
+			TeamControl StopDestroyers
+			{
+				Type Deactivate
+				Team DestroyersteamB
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:10
+		Display
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<DestroyersZone Event Reset Timer Complete>>
+		}
+		NextStage DefeatDestroyers
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Reset>>
+		}
+	}
+}
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint <<Starting Stop Stage>>
+		}
+		Action TurnOffCritters
+		{
+			RemoveWaypoints
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team PPDteam
+			}
+			TeamControl StopDestroyers
+			{
+				Type Deactivate
+				Team Destroyersteam
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting down Stage Stop>>
+		}
+	}
+}

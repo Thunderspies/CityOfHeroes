@@ -1,0 +1,350 @@
+/*
+ vp_master_legacy.cg
+
+ This is the master vertex program which is conditionally compiled to feed
+ legacy hardware register combiner 'program' blend mode material implementations.
+
+ See legacy_shaders.txt for more information.
+*/
+
+#include "variants.cgh"				// this include file must come before any #variants for slimshady processing
+
+/*
+	@todo
+	We currently don't have a way to have any variation in vertex shaders other than
+	a HIGH_QUALITY and a regular version. Thus we have to always have interpolators in
+	use for these utlra features until we change that.
+	They come along for free on the HQ compiled programs but we eat 2 interpolators for the
+	time being on low quality if we aren't using these features
+*/
+#undef USE_CUBEMAP
+#define USE_CUBEMAP
+
+#undef USE_SHADOWMAP
+#define USE_SHADOWMAP
+
+#undef USE_PLANAR_REFLECTION
+#define USE_PLANAR_REFLECTION
+
+#ifdef BIT_HIGH_QUALITY
+    #define HIGH_QUALITY
+#endif
+
+/*
+ #vertex	# - let slimshady know this is a vertex program
+ Variants to be verified/analyzed by slimshady script:
+	#option	HIGH_QUALITY				// all the variants are also optionally compiled with this defined
+	#option	USE_CUBEMAP					// all the variants are also optionally compiled with this defined
+	#option	USE_SHADOWMAP				// all the variants are also optionally compiled with this defined
+//#option	USE_NV_CLIP_PLANES	// nVidia specific clip plane support (vp30 and higher, though should be vp40 if want to keep same as ARB asm)
+
+	#variant fixed_function_unlit.vp    : SKIN=0 LIGHT_SPACE=VIEW   VERTEX_LIT=FF_UNLIT_GL	TC_XFORM=TC_MATRIX  PIXEL_LIT=NONE      REFLECT=FAUX_0_1
+	#variant fixed_function.vp          : SKIN=0 LIGHT_SPACE=VIEW   VERTEX_LIT=FF_LIT_GL	TC_XFORM=TC_MATRIX  PIXEL_LIT=NONE      REFLECT=FAUX_0_1
+	#variant fixed_function_pp.vp       : SKIN=0 LIGHT_SPACE=VIEW   VERTEX_LIT=VERT_COLOR   TC_XFORM=TC_MATRIX  PIXEL_LIT=LIT       REFLECT=FAUX_0_1
+	#variant bump.vp                    : SKIN=0 LIGHT_SPACE=MODEL  VERTEX_LIT=DIFFUSE		TC_XFORM=TC_OFFSET  PIXEL_LIT=BUMP_SPEC REFLECT=NONE
+	#variant bump_pp.vp                 : SKIN=0 LIGHT_SPACE=VIEW   VERTEX_LIT=VERT_COLOR   TC_XFORM=TC_OFFSET  PIXEL_LIT=BUMP_ALL  REFLECT=NONE
+	#variant bump_rgb.vp                : SKIN=0 LIGHT_SPACE=MODEL  VERTEX_LIT=PRELIT		TC_XFORM=TC_OFFSET  PIXEL_LIT=BUMP_SPEC REFLECT=NONE
+	#variant bump_dual.vp               : SKIN=0 LIGHT_SPACE=VIEW   VERTEX_LIT=NONE			TC_XFORM=NONE       PIXEL_LIT=BUMP_ALL  REFLECT=NONE
+	#variant skin.vp                    : SKIN=1 LIGHT_SPACE=VIEW   VERTEX_LIT=DIFFUSE		TC_XFORM=NONE       PIXEL_LIT=NONE      REFLECT=NONE
+	#variant skin_bump.vp               : SKIN=1 LIGHT_SPACE=VIEW   VERTEX_LIT=NONE			TC_XFORM=NONE       PIXEL_LIT=BUMP_ALL  REFLECT=NONE
+
+	#variant bump_dual_multi.vp         : SKIN=0 LIGHT_SPACE=VIEW   VERTEX_LIT=PRELIT_WHITE	TC_XFORM=NONE       PIXEL_LIT=BUMP_ALL  REFLECT=FAUX_MULTI
+	#variant bump_dual_multi_rgb.vp     : SKIN=0 LIGHT_SPACE=VIEW   VERTEX_LIT=PRELIT		TC_XFORM=NONE       PIXEL_LIT=BUMP_ALL  REFLECT=FAUX_MULTI
+
+	#variant BUMPMAP_SKINNED_MULTITEX   : SKIN=1 LIGHT_SPACE=VIEW   VERTEX_LIT=PRELIT_WHITE	TC_XFORM=NONE       PIXEL_LIT=BUMP_ALL  REFLECT=FAUX_MULTI
+*/
+
+#include "constants_vp.cgh"
+#include "functions.cgh"
+#include "nexus.cgh"			// (#extract) define vertex program structure/semantics <=> fragment program input
+
+// Depending on the per pixel lighting mode the fragment shader will be using we
+// may already be setting up the interpolants that we need for ultra mode features.
+// In which case don't waste gpu resources in additional reduntant interpolant data
+//   - HIGH_QUALITY pp bumpmapping gives us view space view vector (ie -position_vs) and normal
+//   - Simple LIT per pixel lighting mode also gives us view space view vector (ie -position_vs) and normal
+// Otherwise we need to explicitly assign them.
+#define NEED_ULTRA_INTERPOLATORS	(PIXEL_LIT == NONE || ((PIXEL_LIT > LIT) && !defined(HIGH_QUALITY)))
+
+//--------------------------------------------------
+// Vertex Input Attribute Declaration
+//--------------------------------------------------
+struct vpIn
+{
+    float4 attr_position		: POSITION;
+    float3 attr_normal			: NORMAL;
+#if VERTEX_LIT == VERT_COLOR || VERTEX_LIT == FF_UNLIT_GL || VERTEX_LIT == FF_LIT_GL
+    float4 attr_color			: COLOR;
+#endif
+	float4 attr_texCoord0		: TEXCOORD0;
+    float4 attr_texCoord1		: TEXCOORD1;
+#if PIXEL_LIT >= BUMP_SPEC
+    float4 attr_tangent			: ATTR7;		// binormal sign is stored in w component
+#endif
+#if SKIN
+    float4 boneWeights          : ATTR1;        // vertex.attrib[1];
+    float4 boneIndices          : ATTR5;        // vertex.attrib[5];
+#endif
+#if VERTEX_LIT == PRELIT
+    float4 attr_prelit_color	: ATTR11;		// 	@todo could change the runtime to make this come in on attr_color?
+#endif
+};
+
+//-----------------------------------------------------------------------------
+// Vertex Programs Variants
+//-----------------------------------------------------------------------------
+
+VP2FP main( vpIn IN )
+{
+    VP2FP OUT;
+
+	// Transform inputs to the correct working space, e.g. view space or model space
+
+    //-----------------------
+	// Position
+#if SKIN
+	// Skinning
+	// skinning matrices skin directly to view space
+
+    // bone indices are *3 for ARB bone matrix indices
+	// @todo these will just be set as matrix uniforms when runtime is updated
+	int iBone0 = IN.boneIndices.x;	
+	int iBone1 = IN.boneIndices.y;
+    float3x4 boneMatrix0 = float3x4(
+                                g_BoneMatrixArrVP[iBone0+0],
+                                g_BoneMatrixArrVP[iBone0+1],
+                                g_BoneMatrixArrVP[iBone0+2] );
+    float3x4 boneMatrix1 = float3x4(
+                                g_BoneMatrixArrVP[iBone1+0],
+                                g_BoneMatrixArrVP[iBone1+1],
+                                g_BoneMatrixArrVP[iBone1+2] );
+
+    // blend values between bone 0 & 1
+	float weight = IN.boneWeights.y;	// @todo only necessary to send a single weight in the vertex stream
+	float3 position_vs	= blend_bone_positions(	IN.attr_position, boneMatrix0, boneMatrix1, weight ).xyz;
+#else
+    // Transform position to view space
+    float3 position_vs = mul( (float3x4) g_ModelViewMatrix, IN.attr_position);
+#endif
+
+	//****
+	// Calculate homogeneous clipspace position coordinates
+	OUT.position = mul( g_ProjectionMatrix, float4(position_vs,1) );
+
+	//****
+    // Compute fog coordinate, avoid sqrt( <= 0 )
+    OUT.fogCoord = sqrt( dot(position_vs, position_vs) + 1e-16);
+
+    //-----------------------
+	// Calculate base and blend texture coordinates
+#if TC_XFORM == TC_OFFSET
+	float2 uv0	= IN.attr_texCoord0.xy + g_TexScroll0VP.xy;		// @todo combine these into one constant without affecting register combiner path
+    float2 uv1	= IN.attr_texCoord1.xy + g_TexScroll1VP.xy;
+#elif TC_XFORM == TC_MATRIX
+	float2 uv0 = mul( g_TextureMatrix0, IN.attr_texCoord0 ).xy;
+	float2 uv1 = mul( g_TextureMatrix1, IN.attr_texCoord1 ).xy;
+#else	// TC_XFORM == NONE
+	float2 uv0	= IN.attr_texCoord0.xy;
+    float2 uv1	= IN.attr_texCoord1.xy;
+#endif
+	OUT.uv0_uv1 = float4( uv0, uv1 );
+
+    //-----------------------
+	// Establish basic lighting vectors
+	float3 normal, light, view;
+
+#if VERTEX_LIT == FF_LIT_GL || (VERTEX_LIT == FF_UNLIT_GL && REFLECT != NONE)
+	// GL lighting vectors are supplied in view space
+	// fixed function has its own variable g_Light0PositionVP which is shadowing state.light[0].position
+	// All other vertex shaders use a different constant g_LightDirVP
+	// @todo Change the runtime to just set g_LightDirVP in both cases if this isn't already done?
+	// @todo g_LightDirVP looks like it is either view space or model space depending on DRAWMODE?
+
+	// We also do this for the FF_UNLIT_GL so that the normal and view vector get calculated in the same space as
+	// expected by the faux reflection calculation
+	light = g_Light0PositionVP.xyz;	// @todo shader code expects this is already normalized, check
+#else
+	light = g_LightDirVP.xyz;				// already in view space for skinned models? @todo also normalized?
+#endif
+
+#if LIGHT_SPACE == MODEL
+	// Compute lighting vectors in model space (attribute normal is already in model space)
+	normal	= IN.attr_normal.xyz;
+    light	= normalize( light - IN.attr_position.xyz );
+	view	= normalize( g_ViewerPositionVP.xyz - IN.attr_position.xyz ); // view vector in model space (vector to eye)
+#else // most common case is VIEW space lighting
+	#if SKIN
+		// lighting vectors are in view space for skinned models
+		normal	= blend_bone_normals( IN.attr_normal.xyz, boneMatrix0, boneMatrix1, weight );
+	#else
+		normal = normalize(mul( (float3x3) g_ModelViewMatrix, IN.attr_normal.xyz));
+	#endif
+	view = normalize( -position_vs );	// view vector in view space (vector to eye) is just reverse of position vector
+#endif
+
+
+	//-----------------------
+    // Calculate vertex lighting
+#if VERTEX_LIT == VERT_COLOR || VERTEX_LIT == FF_UNLIT_GL
+	// use color supplied in the input COLOR attribute
+	OUT.color = IN.attr_color;
+#elif VERTEX_LIT == PRELIT
+	// use prelit baked on lighting supplied with vertex
+	// @todo could change the runtime to make this same as above by passing to COLOR instead of ATTR11
+	OUT.color = IN.attr_prelit_color*4;
+#elif VERTEX_LIT == PRELIT_WHITE
+	// @todo This is a waste of an interpolator because there is no BIT_PRELIT variant of the multi9
+	// shader and it just always currently modulates by the vertex color and leaves it to the vertex
+	// program to decide if that is a constant one or interior prelit colors as above in PRELIT
+	OUT.color = 1;
+#elif VERTEX_LIT == DIFFUSE
+	// Compute diffuse + ambient lighting per vertex (sepcular will be per pixel bumped)
+	OUT.color = saturate( dot( normal, light)) * g_DiffuseParameterVP + g_AmbientParameterVP;	
+#elif VERTEX_LIT == FF_LIT_GL
+	// emulate OpenGL fixed function lighting using gl state for light and material shinniness
+	// @todo set the same constants as the 'normal' path for light/material properties so we don't need
+	// to special case this.
+	float3 half_vs				= normalize( light + view );
+	float4 spec_color_and_exp	= float4( g_Light0SpecularVP.rgb, g_MaterialShininessVP.x );
+	float4 normal_and_gloss		= float4(normal, 1);
+
+	float3 lit_diffuse, lit_specular;
+	calc_lighting_diffuse_and_specular( normal_and_gloss, light, half_vs, g_Light0DiffuseVP.rgb, spec_color_and_exp,
+					lit_diffuse, lit_specular );
+	// combine all the ligthing contributions
+    OUT.color.rgb = lit_diffuse + g_Light0AmbientVP.rgb;
+	OUT.color.rgb *= IN.attr_color.rgb;						// modulate by vertex color
+	OUT.color.rgb += lit_specular;							// add in the gloss
+    OUT.color.w = IN.attr_color.w;							// alpha comes from vertex color
+#endif	//VERTEX_LIT == NONE
+
+    //-----------------------
+    // Reflection data generation and selection
+//#if !defined(USE_CUBEMAP)
+	// @todo when we can better pair vertex shader and fragment shader in a material
+	// right now we just have normal and hq vertex variants, need all the combinations
+	// before we can not do these options
+
+	// without ultra cubemaps active the engine supports a legacy 'faux'
+	// reflection and will optionally generate sphere map reflection uv
+	// and substitute them for the base and/or blend textures (or materia1 or material 2 for MULTI)
+	#if REFLECT == FAUX_0_1
+		float2 uvFaux = calc_faux_reflection_uv( normal, position_vs );
+		// g_ReflectionParamVP is a selector set by the material that chooses either
+		// vertex supplied texture coordinates or the faux reflection map uv coordinates
+		uv0 = (( g_ReflectionParamVP.z * uv0 ) + ( uvFaux * g_ReflectionParamVP.x ) );
+		uv1 = (( g_ReflectionParamVP.w * uv1 ) + ( uvFaux * g_ReflectionParamVP.y ) );
+		OUT.uv0_uv1 = float4( uv0, uv1 );
+	#elif REFLECT == FAUX_MULTI
+		// MULTI material calculates the faux reflection spheremap uv and places it
+		// in uv1 slot of our output texture coord interplator.
+		// The fragment program uses a reflection selector constant to decide which
+		// texture coords to use when looking up the Multiply textures (either uv0 or uv_faux)
+		
+		float2 uv_faux = calc_faux_reflection_uv( normal, position_vs );
+		OUT.uv0_uv1 = float4( uv0, uv_faux );
+	#endif
+
+#if defined(USE_CUBEMAP)
+	// without ultra cubemaps active the engine supports a legacy 'faux'
+	// reflection and will optionally generate sphere map reflection uv
+	// and substitute them for the base and/or blend textures (or materia1 or material 2 for MULTI)
+
+	// using ultra mode cubemaps
+
+	// @todo need to add planar reflector strength to an output w component
+	// still used?
+
+	//@todo our cubemap relections only are used in place of 'multiply1' (the blend texture) for
+	//old style materials) or for 'multiply2' in material2 of a MULTI material.
+	// We don't currently support using a selector to do reflection on base texture (old) or
+	// 'multiply1' in material1 (MULTI). Should we?
+
+	// We currently look at the material cpu side to decide if it has reflection semantics
+	// and then choose to enable the cubemap bit to choose cubemap shader.
+	// has to work that way if we want to fall back to faux reflect on non ultra config.
+	// i.e., we shouln't add reflection on top of a non reflect 'multiply2' as then there
+	// would be no way to fallback to a reflection non ultra
+
+	// but we currently dont support the cube reflection on material1 of multi (e.g when
+	// material2 is not used.
+
+	// The faux reflections were pretty much either or but the ultra reflections have new
+	// material settings which allow them to be blended on top of material2 but we are still
+	// ignoring multiply2 should we be?(e.g., being used for non reflection blend like a detail overlay?
+
+	#if defined(USE_CUBEMAP) && NEED_ULTRA_INTERPOLATORS
+		// Calculate cubemap reflection vector
+		// if doing high quality then we calculate the reflection vector per pixel and we 
+		// don't need to supply it from the vertex shader and consume another interpolator
+		float3x3 invViewMat = float3x3(
+								g_InverseCubemapViewMatrixVP[0],
+								g_InverseCubemapViewMatrixVP[1],
+								g_InverseCubemapViewMatrixVP[2] );
+		OUT.reflection = calc_ws_reflection_vector4(position_vs.xyz, normal, (float3x3)invViewMat);
+		#ifdef USE_PLANAR_REFLECTION	// calculate planar reflection amount
+			OUT.reflection.w = calc_planar_reflection_amount( normal, position_vs );
+		#endif
+
+	#endif
+
+#endif //USE_CUBEMAP
+
+
+#if PIXEL_LIT == LIT
+    //-----------------------
+	// PER PIXEL LIGHTING
+	// Add a simple per pixel lighting calculation option to augment some of the simpler
+	// materials like 'MULTIPLY' that do not support bump mapping. This is useful in conjunction with
+	// shadow mapping to reduce artifacts.
+    OUT.normal_vs	= float4( normal, 0 );	
+    OUT.position_vs		= float4(position_vs, 0);
+#elif PIXEL_LIT != NONE
+    //-----------------------
+	// PER PIXEL LIGHTING - BUMP MAPPED
+    // Calculate interpolants for per-pixel BUMP MAPPED lighting
+	float3 tangent	= IN.attr_tangent.xyz;	// model space tangent from geo
+	#if LIGHT_SPACE == VIEW
+		#if SKIN
+			// lighting vectors xform into view space for skinned models
+			tangent	= blend_bone_normals( tangent, boneMatrix0, boneMatrix1, weight );
+		#else
+			tangent = normalize(mul( (float3x3) g_ModelViewMatrix, IN.attr_tangent.xyz));
+		#endif
+	#endif
+
+    #if defined(HIGH_QUALITY)			// High Quality ARBFB version
+		// HQ mode calculates binormal in pixel shader (which is why we pass sign in normal w component)
+        OUT.tangent_vs	= float4( tangent, sign(IN.attr_tangent.w) ); // also pass IN.attr_tangent.w) to fragment shader so can calc binormal sign
+        OUT.normal_vs	= float4( normal, 0 );	
+        OUT.position_vs		= float4(position_vs, 0);
+		#if defined(USE_CUBEMAP) && defined(USE_PLANAR_REFLECTION)
+			// calculate planar reflection amount and piggy back on an unused interpolant channel
+			OUT.normal_vs.w = calc_planar_reflection_amount( normal, position_vs );
+		#endif
+    #else			
+		float3 o_position_ts, o_light_ts;
+		calc_tangent_space_light_and_position( normal, tangent, sign(IN.attr_tangent.w), position_vs.xyz, light, o_position_ts, o_light_ts );
+		OUT.light_ts	= float4( o_light_ts, 1 );
+		OUT.view_ts		= float4( -o_position_ts, 1 );
+	#endif
+#endif // PIXEL_LIT
+
+    #if defined(USE_SHADOWMAP) && NEED_ULTRA_INTERPOLATORS
+      OUT.position_vs = float4(position_vs,1);	// if we are doing high quality bump we already have view_vs
+    #endif
+
+	#if defined(USE_NV_CLIP_PLANES) && defined(PROFILE_VP40)
+	//-----------------------
+	// Calculate clip distances on nVidia GPUs
+	float4 pos4 = float4(position_vs, 1);
+	OUT.clip0 = dot(pos4, g_clipPlane0VP);
+	OUT.clip1 = dot(pos4, g_clipPlane1VP);
+	OUT.clip2 = dot(pos4, g_clipPlane2VP);
+	OUT.clip3 = dot(pos4, g_clipPlane3VP);
+	OUT.clip4 = dot(pos4, g_clipPlane4VP);
+	OUT.clip5 = dot(pos4, g_clipPlane5VP);
+	#endif
+
+	return OUT;
+}

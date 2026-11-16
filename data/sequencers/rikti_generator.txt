@@ -1,0 +1,61 @@
+#############################################################
+
+Sequencer
+
+TypeDef Rikti_generator
+	BaseSkeleton	Rikti_generator\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef Shield_generator
+	BaseSkeleton	Rikti_generator\skel_test
+	ParentType	Rikti_generator
+TypeDefEnd
+
+TypeDef Teleport_generator
+	BaseSkeleton	Rikti_generator\teleporter 
+	ParentType	Rikti_generator
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Rikti_generator
+	  Anim          Rikti_generator\skel_test 1
+	TEnd
+
+	Type		Shield_generator
+	  Anim          Rikti_generator\skel_test 1
+	  PlayFx        POWERS\ElectricityControl\Rikti_Charge.fx  0 Constant
+	TEnd
+
+	Type		Teleport_generator
+	  Anim          Rikti_generator\teleporter 1
+	TEnd
+MEnd
+
+
+
+SeqEnd
+

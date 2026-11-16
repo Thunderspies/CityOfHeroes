@@ -1,0 +1,369 @@
+Trick sun
+	ObjFlags FullBright NoLightAngle
+	TrickFlags NoColl Additive NoZWrite NoFog
+End
+
+Trick sunglare
+	SortBias 50000.000000
+	ObjFlags FullBright
+	TrickFlags NoColl NoZTest NoZWrite Additive NoFog
+End
+
+Trick moon
+	ObjFlags FullBright
+	TrickFlags NoColl NoZWrite NoFog
+End
+
+Trick sunskirt
+	ObjFlags NoLightAngle
+	TrickFlags NoColl NoZTest
+End
+
+Trick skyscroll
+	ScrollST1 0.0001 0.00002
+	ObjFlags NoLightAngle fullbright
+	TrickFlags NoColl DoubleSided NoZTest NoZWrite NoFog
+End
+
+Trick sky
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZTest NoZWrite NoFog
+End
+
+Trick stars
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZTest NoZWrite NoFog
+End
+
+Trick undercloud1
+	SortBias 100000.000000
+	ScrollST1 0.0009 0.0003
+	ObjFlags NoLightAngle
+	TrickFlags NoColl DoubleSided NoFog
+End
+
+Trick undercloud2
+	SortBias 100000.000000
+	ScrollST1 0.0008 0.0004
+	ObjFlags NoLightAngle
+	TrickFlags NoColl DoubleSided NoFog
+End
+
+Trick clouds2
+	SortBias 100000.000000
+	ScrollST0 0.00001 0
+	ObjFlags NoLightAngle
+	TrickFlags NoColl DoubleSided NoFog
+End
+
+Trick haze
+	ObjFlags NoLightAngle
+	TrickFlags NoColl DoubleSided NoZTest NoFog
+End
+
+Trick horizon
+//	JE: FogDist trick is no longer supported (wasn't used outside of here anyway?)
+//	FogDist 4000.0 16000.0
+	TrickFlags NoColl DoubleSided NoZTest
+End
+
+
+
+
+Texture clouds_default_a.tga
+	Blend clouds_default_b.tga
+	BlendType Multiply
+	ScaleST0 5 5
+End
+
+Texture stars_default_a.tga
+	Blend stars_default_b.tga
+	BlendType Multiply
+	ScaleST0 55 55
+End
+
+Texture clouds_Ruin01_a.tga
+	Blend clouds_Ruin01_b.tga
+	BlendType Multiply
+	ScaleST0 5 5
+End
+
+#####################Shadow_Shard##############################
+
+Trick shardskyscroll
+	ScrollST1 0.0002 0.0003
+	ObjFlags NoLightAngle
+	TrickFlags NoColl DoubleSided NoZTest NoZWrite NoFog
+	Rotate 0.5
+End
+
+Trick shardnoonscroll
+	ScrollST1 0.0003 0.0003
+	ObjFlags NoLightAngle
+	TrickFlags NoColl DoubleSided NoZTest NoZWrite NoFog
+End
+
+Trick shardduskscroll
+	ScrollST1 0.0003 0.0003
+	ObjFlags NoLightAngle
+	TrickFlags NoColl DoubleSided NoZTest NoZWrite NoFog
+End
+
+Trick shardaurorascroll
+	ScrollST1 .0002 0
+	#ScrollST0 .0001 0
+	ObjFlags NoLightAngle FullBright
+	TrickFlags NoColl NoFog Additive NoZTest NoZWrite #DoubleSided
+End
+
+Trick shardaurorascroll2
+	ScrollST1 .0004 0
+	#ScrollST0 .0002 0
+	ObjFlags NoLightAngle
+	TrickFlags NoColl NoFog Additive NoZTest NoZWrite #DoubleSided
+End
+
+Texture shadowshard_moon_02.tga
+	Flags Truecolor
+End
+
+Texture shadowshard_clouds_01_a.tga
+	Flags Truecolor
+	Blend shadowshard_clouds_01_b.tga
+	BlendType Multiply
+	ScaleST0 1.5 1.5
+End
+
+
+Texture rikti_clouds_01_a.tga
+	Flags Truecolor
+	Blend rikti_clouds_01_b.tga
+	BlendType Multiply
+	ScaleST0 1.5 1.5
+End
+
+Texture rikti_clouds_01_b.tga
+	Flags Truecolor
+End
+
+Texture shadowshard_clouds_01_b.tga
+	Flags Truecolor
+End
+
+Texture shadowshard_dusk_01_a.tga
+	Flags Truecolor
+	Blend shadowshard_dusk_01_b.tga
+	BlendType Multiply
+	ScaleST0 4 4
+End
+
+Texture shadowshard_dusk_01_b.tga
+	Flags Truecolor
+End
+
+Texture shadowshard_dusk_01_c.tga
+	Flags Truecolor
+	Blend shadowshard_dusk_01_b.tga
+	BlendType Multiply
+	ScaleST0 1.5 1.5
+End
+
+Texture shadowshard_noon_01_a.tga
+	Flags Truecolor
+	#Blend shadowshard_noon_01_b.tga
+	#BlendType Multiply
+	#ScaleST0 4 4
+End
+
+Texture shadowshard_aurora_01_b.tga
+	Flags Truecolor
+End
+
+Texture shadowshard_aurora_02_b.tga
+	Flags Truecolor
+End
+
+Texture shadowshard_aurora_01_a.tga
+	Flags Truecolor
+	Blend shadowshard_aurora_01_b.tga
+	BlendType Multiply
+	ScaleST0 0.1 1
+End
+
+
+######################Shadowshard_moons###################
+
+Trick SSMoon1
+	SortBias -20000
+	ObjFlags FullBright
+	TrickFlags NoColl NoFog
+End
+
+Trick SSMoon2
+	SortBias -22000
+	ObjFlags FullBright
+	TrickFlags NoColl NoFog
+End
+
+Trick SSMoon3
+	SortBias -24000
+	ObjFlags FullBright
+	TrickFlags NoColl NoFog
+End
+
+Trick SSMoon4
+	SortBias -26000
+	ObjFlags FullBright
+	TrickFlags NoColl NoFog
+End
+
+######################Villains Skies###################
+
+Texture V_clouds_default_a.tga
+	Blend V_clouds_default_b.tga
+	BlendType Multiply
+	ScaleST0 2.5 2.5
+End
+
+Texture V_clouds_default_b.tga
+	Flags Truecolor
+End
+
+Texture v_skybkgd_day.tga
+	Flags Truecolor
+End
+
+Texture v_recluse_dawn.tga
+	Flags Truecolor
+End
+
+Texture v_recluse_night.tga
+	Flags Truecolor
+End
+
+Texture v_recluse_noon.tga
+	Flags Truecolor
+End
+
+
+####################Roman Skies#######################
+
+Texture skybkgd_sunset_rome.tga
+	Flags Truecolor
+End
+
+Texture clouds_rome_a.tga
+	Blend clouds_rome_b.tga
+	BlendType Multiply
+	ScaleST0 7 4
+	Flags Truecolor
+End
+
+Texture clouds_rome_b.tga
+	Flags Truecolor
+End
+
+Trick skyscroll_rome
+	ScrollST1 0.0004 0.00004
+	ObjFlags NoLightAngle fullbright
+	TrickFlags NoColl DoubleSided NoZTest NoZWrite NoFog
+End
+
+##################Cimeroran Skies######################
+
+Texture clouds_cimerora_mid.tga
+	Flags Truecolor
+End
+
+Texture clouds_cimerora_high.tga
+	Flags Truecolor
+End
+
+Texture clouds_cimerora_large_b.tga
+	Flags Truecolor
+End
+
+Trick cimerora_skyscroll_01
+	ScrollST1 0.00009 -0.00007
+	ObjFlags NoLightAngle fullbright
+	TrickFlags NoColl NoFog NoZTest
+End
+
+Trick cimerora_skyscroll_02
+	ScrollST1 -0.00015 0.00015
+	ObjFlags NoLightAngle fullbright
+	TrickFlags NoColl NoFog NoZTest
+End
+
+Trick cimerora_skyscroll_03
+	ScrollST1 0.00015 0.000025
+	ObjFlags NoLightAngle fullbright
+	TrickFlags NoColl NoFog NoZTest
+End
+
+
+Texture clouds_cimerora_01_a.tga
+	Blend clouds_cimerora_mid.tga
+	BlendType Multiply
+	ScaleST0 2.5 2.5
+End
+
+Texture clouds_cimerora_02_a.tga
+	Blend clouds_cimerora_high.tga
+	BlendType Multiply
+	ScaleST0 1.4 1.4
+End
+
+Texture clouds_cimerora_03_a.tga
+	Blend clouds_cimerora_large_b.tga
+	BlendType Multiply
+	ScaleST0 4 4
+End
+
+#Cimerora - Oracle.
+Trick CloudRing
+	TrickFlags NoColl DoubleSided NoZTest
+End
+
+Texture skybkdg_cimerora_oracle_sunset_01
+	Flags TrueColor
+End
+
+////////////////////// Halloween Zombie Event Sky //////////////////////////////////
+
+Texture skybkdg_halloween_zombies.tga
+	Flags Truecolor
+End
+
+Texture clouds_halloween_zombies_Mask.tga  #clouds_halloween_zombies_A.tga
+	Blend clouds_halloween_zombies_A.tga
+	BlendType Multiply
+	ScaleST0 2.5 2.5
+End
+
+
+Trick hlwzm_skyscl_01
+	ScrollST1 -0.00007 0.0000
+	ObjFlags NoLightAngle fullbright
+	TrickFlags NoColl NoFog NoZTest
+End
+
+Trick hlwzm_skyscl_02
+	ScrollST1 -0.00019 0.00015
+	ObjFlags NoLightAngle fullbright
+	TrickFlags NoColl NoFog NoZTest
+End
+
+
+
+////////////////////// Praetoria - Imperial City Sky //////////////////////////////////
+
+Texture ImperialCity_Noon_Cloud_A
+	Flags Truecolor
+End
+
+Texture ImperialCity_Noon_Cloud_B
+	Flags Truecolor
+End
+
+

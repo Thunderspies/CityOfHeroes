@@ -1,0 +1,50 @@
+RootMod _portoks_capdev01
+End
+
+RootMod _portoks_capdev01_glow
+End
+
+RootMod portoks_capdev01_wire16_strt1
+End
+
+RootMod portoks_capdev01_wire32_strt1
+End
+
+RootMod portoks_capdev01_wire08_bend
+End
+
+RootMod portoks_capdev01_wire32_strt3
+End
+
+RootMod portoks_capdev01_wire16_strt2
+End
+
+RootMod portoks_capdev01_wire32_strt2
+End
+
+RootMod _prtok_catcher_volume
+End
+
+Def prtok_capture_device01_2&
+	Group _prtok_catcher_volume
+	End
+End
+
+Def prtok_capture_device01_4&
+	Group Omni/PARTICLE_5
+	End
+	Type WORLD\Objects\V_GhostCatcher\GhostCatcherFx.fx
+End
+
+Def prtok_capture_device01
+	Group _portoks_capdev01_glow
+	End
+	Group _portoks_capdev01
+	End
+	Group prtok_capture_device01_2&
+	End
+	Group prtok_capture_device01_4&
+		Pos 0 0.631104 0
+	End
+End
+

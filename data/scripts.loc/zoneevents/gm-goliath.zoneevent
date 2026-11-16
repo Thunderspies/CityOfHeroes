@@ -1,0 +1,295 @@
+Name GiantMonster-Goliath
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName "War Machine"
+EventVolume CouncilBase
+
+Stage Setup
+{
+	StartUp
+	{
+		Action
+		{
+			SpawnCreate Goliath
+			{
+				Location Goliath
+				Group Goliath
+				Team Goliath
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Goliath
+			}
+		}
+		Action
+		{
+			SpawnCreate GoliathGenerator
+			{
+				Location GoliathGenerator
+				Group GoliathGenerator
+				Team GoliathGenerator
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GoliathGenerator
+			}
+		}
+		Action
+		{
+			SpawnCreate GoliathGuards
+			{
+				Location GoliathGuards
+				Group GoliathGuards
+				Team GoliathGuards
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GoliathGuards
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage GoliathSpawn
+	}
+}
+
+Stage GoliathSpawn
+{
+	DisplayName "Defeat War Walkers"
+	Tooltip "Vandal has fortified this base with Council War Walkers, reverse engineered from Praetorian technology. If too many are destroyed, a Council Goliath War Walker will be deployed to protect the base."
+
+	Counter WarWalkers
+	{
+		Type Name
+		Count 20
+		Name Council_War_Walker
+	}
+
+	Trigger WarWalkers-Completed
+	{
+		Requires WarWalkers complete>
+		NextStage WarMachine
+	}
+
+	UICollection Stage1
+	{
+		UIItem WarWalkersDestroyed
+		{
+			Type BarBlue
+			Text "War Walkers Destroyed:"
+			ShortText "War Walkers:"
+			Current WarWalkers count>
+			Target 20
+		}
+	}
+}
+
+Stage WarMachine
+{
+	DisplayName "Destroy the Goliath War Walker!"
+	Tooltip "Vandal has deployed a Council Goliath War Walker to protect the base. Destroy it!"
+
+	StartUp
+	{
+		Action
+		{
+			TeamControl
+			{
+				Team Goliath
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GoliathGenerator
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GoliathGuards
+				Type Activate
+			}
+		}
+	}
+
+	Counter GoliathHealth
+	{
+		Type BossHealth
+		Team Goliath
+	}
+
+	Counter Goliath-Defeated
+	{
+		Type Team
+		Team Goliath
+		Count 1
+	}
+
+	Trigger Goliath-Completed
+	{
+		Requires Goliath-Defeated complete>
+		NextStage Cooldown-Success
+	}
+
+	Counter Generator-Defeated
+	{
+		Type Team
+		Team GoliathGenerator
+		Count 1
+	}
+
+	Trigger Generator-Completed
+	{
+		Requires Generator-Defeated complete>
+		Action
+		{
+			TeamControl
+			{
+				Team Goliath
+				Type DoBehavior
+				Behavior <<UsePower("Weaken")>>
+			}
+		}
+	}
+
+	UICollection Stage2
+	{
+		UIItem Stage2-GoliathHealth
+		{
+			Type BarRed
+			Text "Goliath's Health:"
+			ShortText "Goliath:"
+			Current GoliathHealth count>
+			OnClickFindEnt Goliath
+			Target 100
+		}
+	}
+
+	ShutDown
+	{
+		Action
+		{
+			TeamControl
+			{
+				Team Goliath
+				Type Deactivate
+			}
+		}
+	}
+}
+
+Stage Cooldown-Success
+{
+	DisplayName "Goliath War Walker Destroyed!"
+	Tooltip "The Goliath War Walker has been destroyed."
+
+
+	Timer Goliath-Cooldown-Timer
+	{
+		Duration 60:00
+	}
+
+	Trigger Cooldown-Completed
+	{
+		Requires Goliath-Cooldown-Timer complete>
+		NextStage Reset
+	}
+
+	UICollection Stage3
+	{
+		UIItem Stage3-Timer
+		{
+			Type Timer
+			Timer Goliath-Cooldown-Timer
+			Text "A new Goliath will be ready in:"
+			ShortText "Next Goliath:"
+		}
+	}
+}
+
+Stage Reset
+{
+	DisplayName "Reset"
+	Tooltip "If you can see this message, the Zone Event script is stuck."
+
+	StartUp
+	{
+		Action
+		{
+			TeamControl
+			{
+				Team Goliath
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GoliathGenerator
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GoliathGuards
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Reset WarWalkers-Completed
+			Reset Goliath-Completed
+			Reset Generator-Completed
+			Reset Cooldown-Completed
+		}
+	}
+
+	Trigger Reset-Completed
+	{
+		NextStage GoliathSpawn
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action
+		{
+			TeamControl
+			{
+				Team Goliath
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GoliathGenerator
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team GoliathGuards
+				Type Deactivate
+			}
+		}
+	}
+}	

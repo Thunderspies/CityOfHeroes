@@ -1,0 +1,3661 @@
+// Note: All ColInfos must have exactly 3 LODs defined
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// MALE ///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Male
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 2.0
+			Exten1 0.0
+			Exten2 3.0
+			Offset 0.0 -0.25 0.5
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 1.1
+			Exten1 2.0
+			Exten2 0.5
+			Offset 0.3 0 0.45
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 1.1
+			Exten1 2.0
+			Exten2 0.5
+			Offset -0.3 0 0.45
+			Direction 0 2 -0.2
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.5
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.1
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.3
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.5
+			Exten1 -.5
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 3.5
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Male
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// FEMALE /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Fem
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 1.0
+			Exten1 0.0
+			Exten2 2.0
+			Offset 0.0 -0.25 0.5
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius .85
+			Exten1 2.0
+			Exten2 0.5
+			Offset 0.3 0 0.45
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius .85
+			Exten1 2.0
+			Exten2 0.5
+			Offset -0.3 0 0.45
+			Direction 0 2 -0.2
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.25
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.1
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.2
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.5
+			Exten1 -.5
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.0 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 2.8
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 1.8
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Fem
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// HUGE ///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+
+ColInfo
+	Type Huge
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 2.0
+			Exten1 0.0
+			Exten2 3.0
+			Offset 0.0 -0.2 0.5
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 1.5
+			Exten1 2.0
+			Exten2 0.5
+			Offset 0.3 0.5 0.45
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 1.5
+			Exten1 2.0
+			Exten2 0.5
+			Offset -0.3 0.5 0.45
+			Direction 0 2 -0.2
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.5
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.0
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.3
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.5
+			Exten1 -.5
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 3.5
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Huge
+
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// FLAG ///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+// Colision info used when a player is colliding with a flag (must not have planes!)
+
+ColInfo
+	Type Flag
+	LOD
+		Bone HIPS
+			Type Balloon
+			Radius 1.8
+			Exten1 2.0
+			Exten2 0.5
+			Offset 0 0 0.45
+			Direction 0 2 -0.2
+		End
+	End // End of LOD 0
+	LOD
+		Bone HIPS
+			Type Balloon
+			Radius 1.8
+			Exten1 2.0
+			Exten2 0.5
+			Offset 0 0 0.45
+			Direction 0 2 -0.2
+		End
+	End // End of LOD 1
+	LOD
+		Bone HIPS
+			Type Balloon
+			Radius 1.8
+			Exten1 2.0
+			Exten2 0.5
+			Offset 0 0 0.45
+			Direction 0 2 -0.2
+		End
+	End // End of LOD 2
+End // End of Flag
+
+ColInfo
+	Type None
+	LOD
+		Bone HIPS
+			Type Balloon
+			Radius 0.1
+			Exten1 0.1
+			Exten2 0.5
+			Offset 0 0 0.45
+			Direction 0 2 -0.2
+		End
+	End // End of LOD 0
+	LOD
+		Bone HIPS
+			Type Balloon
+			Radius 0.1
+			Exten1 0.1
+			Exten2 0.5
+			Offset 0 0 0.45
+			Direction 0 2 -0.2
+		End
+	End // End of LOD 1
+	LOD
+		Bone HIPS
+			Type Balloon
+			Radius 0.1
+			Exten1 0.1
+			Exten2 0.5
+			Offset 0 0 0.45
+			Direction 0 2 -0.2
+		End
+	End // End of LOD 2
+End // End of Flag
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Villain_Widow //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Villain_Widow
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 1.0
+			Exten1 0.0
+			Exten2 2.0
+			Offset 0.0 -0.25 0.5
+			Direction 0 2.0 0.0
+		End
+
+
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.25
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.1
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.2
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.2
+			Exten1 -.5
+			Exten2 0.5
+		End
+
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.0 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 2.8
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 1.8
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.2
+			Exten1 -.5
+			Exten2 0.5
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.0 0
+			Direction 0 1 0
+		End
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 2.8
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 1.8
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Villain_Widow
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Villain_Widow_Hair //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Villain_Widow_Hair
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Villain_Widow_Hair
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Bella_Hair //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Bella_Hair
+	LOD // LOD 0, Use reasonably accurate collisions
+
+		Bone Head
+			Type Cylinder
+			Radius 0.32
+			Offset 0 -.4 -.1
+			Exten1 0.2
+			Exten2 0.2
+			Direction 0 1 .3
+		End
+		Bone Head
+			Type Cylinder
+			Radius 0.8
+			Offset 0 -.7 .5
+			Exten1 3.5
+			Exten2 2.5
+			Direction 1 0 0
+		End
+		Bone Head // BACK PLANE
+			Type Plane
+			Offset 0 0.20 0.2
+			Direction 0 -.2 -1
+		End
+		Bone Neck
+			Type Cylinder
+			Radius 0.35
+			Offset 0 -.4 -.1
+			Exten1 0.0
+			Exten2 0.2
+			Direction 0 1 .3
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Offset 0 .0 .1
+			Exten1 -.10
+			Exten2 .2
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone SPADR
+			NextBone UARMR
+			Type Balloon
+			Radius 0.4
+			Offset 0 -0.2 .1
+			Exten1 -0.1
+			Exten2 -0.1
+		End
+		Bone SPADL
+			NextBone UARML
+			SameAs SPADR
+		End
+		Bone Hips
+			Type Cylinder
+			Radius 1.8
+			Offset 0 -.1 1.3
+			Exten1 3.5
+			Exten2 2.5
+			Direction 1 0 0
+		End
+
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Villain_Widow_Hair
+
+ColInfo
+	Type Villain_Tabard
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 2.0
+			Exten1 0.0
+			Exten2 3.0
+			Offset 0.0 -0.25 0.5
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 0.8
+			Exten1 2.0
+			Exten2 3.5
+			Offset 0.3 0 -0.1
+			Direction 0 11 -0.5
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.8
+			Exten1 2.0
+			Exten2 3.5
+			Offset -0.3 0 -0.1
+			Direction 0 11 -0.5
+		End
+		Bone WAIST // Third one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.5
+			Exten1 2.0
+			Exten2 3.5
+			Offset -1.4 0 -0.1
+			Direction 0 11 -0.5
+		End
+		Bone WAIST // Fourth one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.5
+			Exten1 2.0
+			Exten2 3.5
+			Offset 1.4 0 -0.1
+			Direction 0 11 -0.5
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.5
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.1
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.3
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone LLEGR
+			Type Cylinder
+			Radius 0.5
+			Exten1 .1
+			Exten2 0.5
+		End
+		Bone LLEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.7
+			Exten1 0.0
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone LLEGL
+			SameAs ULEGR
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 3.5
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Villain_Tabard
+
+ColInfo
+	Type Villain_Tabard_Front
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 2.0
+			Exten1 0.0
+			Exten2 3.0
+			Offset 0.0 -0.25 0.5
+			Direction 0 2.0 0.0
+		End
+		Bone Chest // Fourth one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.70
+			Exten1 1
+			Exten2 1
+			Offset 0 0 0
+			Direction 0 0 0
+		End
+		Bone WAIST // Fourth one attached to the waist bone
+			Type Balloon // BACK R
+			Radius 0.7
+			Exten1 4.0
+			Exten2 3.5
+			Offset 0 0 -0.1
+			Direction 0 11 -0.5
+		End
+		Bone WAIST
+			Type Cylinder
+			Radius 0.70
+			Exten1 4.0
+			Exten2 3.5
+			Offset 1 0 -0.25
+			Direction 0 11 -0.5
+		End
+		Bone WAIST
+			Type Cylinder
+			Radius 0.70
+			Exten1 4.0
+			Exten2 3.5
+			Offset -1 0 -0.25
+			Direction 0 11 -0.5
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.5
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.1
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.3
+			Exten1 0
+			Exten2 0.4
+			Offset 0  0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone LLEGR
+			Type Cylinder
+			Radius 0.65
+			Exten1 2
+			Exten2 2.5
+		End
+		Bone LLEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.5
+			Exten1 0.0
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone LLEGL
+			SameAs ULEGR
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 3.5
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 -0.1 0.99
+		End
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type Cylinder
+			Radius 3.5
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 -0.1 0.99
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		//Bone HIPS // BACK PLANE
+			//Type Plane
+			//Offset 0 0 -0.5
+			//Direction 0 0 -1
+		//End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone WAIST
+			Type Cylinder
+			Radius 0.5
+			Exten1 4.0
+			Exten2 3.5
+			Offset 0 0 0
+			Direction 0 11 -0.5
+		End
+		Bone ULEGR
+			NextBone LLEGR
+			Type Cylinder
+			Radius 0.65
+			Exten1 2
+			Exten2 0.5
+		End
+		Bone LLEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 1
+			Exten1 0.0
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone LLEGL
+			SameAs ULEGR
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Villain_Tabard_Front
+
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// Scirocco //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Scirocco
+	LOD // LOD 0, Use reasonably accurate collisions
+
+		Bone CHEST
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 0.2
+		End
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 0.0
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 0.0
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 0.0
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 0.0
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HEAD
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 0.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 2.0 0.0
+		End
+
+		Bone CHEST
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 0.2
+		End
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 0.0
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 0.0
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 2
+End // End of Scirocco
+
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// Mirror Spirit //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type MirrorSpirit
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 0.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 2.0 0.0
+		End
+
+		//Bone HEAD
+			//Type Balloon
+			//Radius 0.07 // Radius 2.0
+			//Exten1 0.75
+			//Exten2 0.75
+			//Offset -0.5 0.35 -0.25
+			//Direction 90 0.0 0.0
+		//End
+
+		Bone Hips // First, Center
+			Type Balloon
+			Radius 0.2
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone Hips // Second, Center
+			Type Balloon
+			Radius 0.4
+			Exten1 0.0
+			Exten2 0.3
+			Offset 0 -2 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone ULEGR
+			NextBone LLEGR
+			Type Balloon
+			Radius 0.25
+			Exten1 -0.2
+			Exten2 1
+			Offset 0.0 0 0.0
+			Direction 1 0 1
+		End
+
+		Bone LLEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius 0.25
+			Exten1 0.0
+			Exten2 0.0
+		End
+		Bone ULEGL
+			NextBone LLEGL
+			SameAs ULEGR
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HEAD
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 0.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 2.0 0.0
+		End
+
+		//Bone HEAD
+			//Type Balloon
+			//Radius 0.07 // Radius 2.0
+			//Exten1 0.75
+			//Exten2 0.75
+			//Offset -0.5 0.35 -0.25
+			//Direction 90 0.0 0.0
+		//End
+
+		Bone Hips // First, Center
+			Type Balloon
+			Radius 0.2
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone Hips // Second, Center
+			Type Balloon
+			Radius 0.4
+			Exten1 0.0
+			Exten2 0.3
+			Offset 0 -2 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone ULEGR
+			NextBone LLEGR
+			Type Balloon
+			Radius 0.25
+			Exten1 -0.2
+			Exten2 1
+			Offset 0.0 0 0.0
+			Direction 1 0 1
+		End
+
+		Bone LLEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius 0.25
+			Exten1 0.0
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone LLEGL
+			SameAs ULEGR
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+Bone HEAD
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 0.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 2.0 0.0
+		End
+
+		//Bone HEAD
+			//Type Balloon
+			//Radius 0.07 // Radius 2.0
+			//Exten1 0.75
+			//Exten2 0.75
+			//Offset -0.5 0.35 -0.25
+			//Direction 90 0.0 0.0
+		//End
+
+		Bone Hips // First, Center
+			Type Balloon
+			Radius 0.2
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone Hips // Second, Center
+			Type Balloon
+			Radius 0.4
+			Exten1 0.0
+			Exten2 0.3
+			Offset 0 -2 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone ULEGR
+			NextBone LLEGR
+			Type Balloon
+			Radius 0.25
+			Exten1 -0.2
+			Exten2 1
+			Offset 0.0 0 0.0
+			Direction 1 0 1
+		End
+
+		Bone LLEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius 0.25
+			Exten1 0.0
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone LLEGL
+			SameAs ULEGR
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of MirrorSpirit
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Trenchcoat NPC /////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Trenchcoat
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 0.7
+			Exten1 0.5
+			Exten2 0
+			Offset 0.0 0 0
+			Direction 0 2.0 0.0
+		End
+
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.5
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.1
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.3
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius 0.4
+			Exten1 0.0
+			Exten2 0.1
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 3.0
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 0.99 -0.0
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+
+		Bone ULEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius 0.65
+			Exten1 1
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Trenchcoat
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// FEMALE TRENCH COAT/////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type TrenchcoatFem
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius .5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 0 0.0
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 0.50
+			Exten1 1.5
+			Exten2 0.5
+			Offset 0.3 0 0.35
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.50
+			Exten1 1.5
+			Exten2 0.5
+			Offset -0.3 0 0.3
+			Direction 0 2 -0.2
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.25
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.1
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.2
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.4
+			Exten1 -.1
+			Exten2 0.5
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone LLEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius 0.4
+			Exten1 0.0
+			Exten2 1.0
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.0 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 2.8
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 1.8
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Fem
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// HUGE TRENCH COAT///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+
+ColInfo
+	Type TrenchcoatHuge
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 1.0
+			Exten1 0.0
+			Exten2 3.0
+			Offset 0.0 -0.2 0.5
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 0.75
+			Exten1 2.0
+			Exten2 0.5
+			Offset 0.3 0.5 0.45
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.75
+			Exten1 2.0
+			Exten2 0.5
+			Offset -0.3 0.5 0.45
+			Direction 0 2 -0.2
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.5
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.0
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.3
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.5
+			Exten1 -.5
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 3.5
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Huge
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// RegalRikti /////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type RegalRikti
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 0.7
+			Exten1 0.5
+			Exten2 0
+			Offset 0.0 0 0
+			Direction 0 2.0 0.0
+		End
+
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.5
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.1
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.3
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius .75
+			Exten1 0.3
+			Exten2 0.5
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 3.0
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 0.99 -0.0
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+
+		Bone ULEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius .75
+			Exten1 0.3
+			Exten2 0.5
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of RegalRikti
+
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Arachnos MuMystic ///////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type MuMystic
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius 1.0
+			Exten1 0.0
+			Exten2 1.0
+			Offset 0.0 -0.25 0.5
+			Direction 0 2.0 0.0
+		End
+
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 0.9
+			Exten1 2.0
+			Exten2 0.5
+			Offset 0.3 0 0.25
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.9
+			Exten1 2.0
+			Exten2 0.5
+			Offset -0.3 0 0.25
+			Direction 0 2 -0.2
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 1
+			Exten1 -.5
+			Exten2 1.0
+			Offset 0.0 0 -0.25
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 2.5
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of MuMystic
+
+ColInfo
+	Type MuMystic_front
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 2
+			Exten1 5.0
+			Exten2 1.5
+			Offset 0.75 0 -1.2
+			Direction 0 2 -0.2
+		End
+
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 2
+			Exten1 5.0
+			Exten2 1.5
+			Offset -0.75 0 -1.2
+			Direction 0 2 -0.2
+		End
+
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 1.25
+			Exten1 1.5
+			Exten2 1.0
+			Offset 0.0 0 -0.5
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End
+End // End of MuMystic
+
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// Labeaux_Front //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Labeaux_Front
+	LOD // LOD 0, Use reasonably accurate collisions
+
+		Bone CHEST
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.25
+			Direction 0 1.0 0.2
+		End
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.2
+		End
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.2
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 -0.10
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 -0.25
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 -0.25
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 0.0
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 0.0
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HEAD
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 0.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 2.0 0.0
+		End
+
+		Bone CHEST
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 0.2
+		End
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 0.0
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 0.0
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 2
+End // End of Labeaux_Front
+
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// Diabolique_Front //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Diabolique_Front
+	LOD // LOD 0, Use reasonably accurate collisions
+
+		Bone CHEST
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.25
+			Direction 0 1.0 0.2
+		End
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.35
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.12
+		End
+
+		Bone LlegR
+			Type Cylinder
+			Radius 0.3 // Radius 2.0
+			Exten1 1.3
+			Exten2 0.0
+			Offset 0.0 -0.7 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.35
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.12
+		End
+
+		Bone LlegL
+			Type Cylinder
+			Radius 0.3 // Radius 2.0
+			Exten1 1.3
+			Exten2 0.0
+			Offset 0.0 -0.7 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 -0.10
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 -0.25
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 -0.25
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.35
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.12
+		End
+
+		Bone LlegR
+			Type Cylinder
+			Radius 0.3 // Radius 2.0
+			Exten1 1.3
+			Exten2 0.0
+			Offset 0.0 -0.7 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.35
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.12
+		End
+
+		Bone LlegL
+			Type Cylinder
+			Radius 0.3 // Radius 2.0
+			Exten1 1.3
+			Exten2 0.0
+			Offset 0.0 -0.7 0.0
+			Direction 0 1.0 0
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 0.0
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 0.0
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HEAD
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 0.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 2.0 0.0
+		End
+
+		Bone CHEST
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 0.2
+		End
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.35
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.12
+		End
+
+		Bone LlegR
+			Type Cylinder
+			Radius 0.3 // Radius 2.0
+			Exten1 1.3
+			Exten2 0.0
+			Offset 0.0 -0.7 0.0
+			Direction 0 1.0 0
+		End
+
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.35
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.12
+		End
+
+		Bone LlegL
+			Type Cylinder
+			Radius 0.3 // Radius 2.0
+			Exten1 1.3
+			Exten2 0.0
+			Offset 0.0 -0.7 0.0
+			Direction 0 1.0 0
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 0.0
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 0.0
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 2
+End // End of Diabolique_Front
+
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// Romulus_Front //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Romulus_Front
+	LOD // LOD 0, Use reasonably accurate collisions
+
+		Bone CHEST
+			Type Cylinder
+			Radius 0.75 // Radius 4.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.25
+			Direction 0 1.0 0.2
+		End
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.55 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.2
+		End
+		Bone UlegL
+			Type Cylinder
+			Radius 0.55 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 -0.2
+		End
+
+		Bone LlegR
+			Type Cylinder
+			Radius 0.55 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 0.2
+		End
+		Bone LlegL
+			Type Cylinder
+			Radius 0.55 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 -0.05
+			Direction 0 1.0 0.2
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 -0.10
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 -0.25
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 -0.25
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 0.0
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 0.0
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HEAD
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 0.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 2.0 0.0
+		End
+
+		Bone CHEST
+			Type Cylinder
+			Radius 0.5 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 0.2
+		End
+
+		Bone UlegR
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+		Bone UlegL
+			Type Cylinder
+			Radius 0.4 // Radius 2.0
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0.0 -0.25 0.0
+			Direction 0 1.0 -0.2
+		End
+
+
+		Bone Hips // First, Center
+			Type Cylinder
+			Radius 0.4
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0 -0.3 0.0
+			Direction 0 1.0 0.1
+		End
+		Bone Hips // Second, Right side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset 0.5 -0.3 0.0
+			Direction 0.3 1.0 0.1
+		End
+
+		Bone Hips // Second, Left side
+			Type Cylinder
+			Radius 0.5
+			Exten1 2.0
+			Exten2 0.0
+			Offset -0.5 -0.3 0.0
+			Direction -0.3 1.0 0.1
+		End
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+
+		Bone HIPS
+			SpecialForwardsFlag
+			Type balloon
+			Radius 2
+			Exten1 1.0
+			Exten2 0.0
+			Offset 0 -0.4 -1
+			Direction 0 1 -0.5
+		End
+	End // End of LOD 2
+End // End of Romulus_Front
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Wedding Veil /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type Wedding_Veil
+	LOD // LOD 0, Use reasonably accurate collisions
+
+		Bone HEAD
+			Type Cylinder
+			Radius .7
+			Exten1 0.0
+			Exten2 2.0
+			Offset 0.0 -0.25 0.5
+			Direction 0 2.0 0.0
+		End
+
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius .65
+			Exten1 2.0
+			Exten2 0.5
+			Offset 0.3 0 0.55
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius .65
+			Exten1 2.0
+			Exten2 0.5
+			Offset -0.3 0 0.55
+			Direction 0 2 -0.2
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.25
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.1
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.3
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.5
+			Exten1 -.5
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.0 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 2.8
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 1.8
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Fem
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// FEMALE Tuxedo/////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type TuxedoFem
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius .5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 0 0.0
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 0.60
+			Exten1 1.5
+			Exten2 0.5
+			Offset 0.4 0 0.6
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.60
+			Exten1 1.5
+			Exten2 0.5
+			Offset -0.4 0 0.6
+			Direction 0 2 -0.2
+		End
+		Bone  Hips
+			Type Cylinder
+			Radius .45
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -1.1 0.10
+			Direction 0 2.0 0.0
+		End
+		Bone Hips
+			Type Plane
+			Radius 1.5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -1.1 0.36
+			Direction 0 0.0 -1.0
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.3
+			Exten1 -.1
+			Exten2 0.5
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone LLEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius 0.4
+			Exten1 0.0
+			Exten2 1.0
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.0 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 2.8
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 1.8
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.2
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.4
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of TuxedoFem
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Male Tuxedo/////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type TuxedoMale
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius .5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 0 0.0
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 0.60
+			Exten1 1.5
+			Exten2 0.5
+			Offset 0.4 0 0.6
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.60
+			Exten1 1.5
+			Exten2 0.5
+			Offset -0.4 0 0.6
+			Direction 0 2 -0.2
+		End
+		Bone  Hips
+			Type Cylinder
+			Radius .45
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -1.1 0.0
+			Direction 0 2.0 0.0
+		End
+		Bone Hips
+			Type Plane
+			Radius 1.5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -1.1 0.36
+			Direction 0 0.0 -1.0
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.3
+			Exten1 -.1
+			Exten2 0.5
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone LLEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius 0.4
+			Exten1 0.0
+			Exten2 1.0
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.0 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 2.8
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 1.8
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.4
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.4
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of TuxedoMale
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Huge Tuxedo/////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type TuxedoHuge
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius .5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 0 0.0
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 0.60
+			Exten1 1.5
+			Exten2 0.5
+			Offset 0.4 0 0.6
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.60
+			Exten1 1.5
+			Exten2 0.5
+			Offset -0.4 0 0.6
+			Direction 0 2 -0.2
+		End
+		Bone  Hips
+			Type Cylinder
+			Radius .6
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -1.1 0.0
+			Direction 0 2.0 0.0
+		End
+		Bone Hips
+			Type Plane
+			Radius 1.5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -1.1 0.36
+			Direction 0 0.0 -1.0
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.5
+			Exten1 -.1
+			Exten2 0.5
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone LLEGR
+			NextBone FOOTR
+			Type Balloon
+			Radius 0.4
+			Exten1 0.0
+			Exten2 1.0
+		End
+		Bone LLEGL
+			NextBone FOOTL
+			SameAs LLEGR
+		End
+
+
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.0 0
+			Direction 0 1 0
+		End
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 2.8
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 1.8
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.6
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of TuxedoHuge
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Magic Collar Male///////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+ColInfo
+	Type MagicCollarMale
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius .5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 0 0.0
+			Direction 0 2.0 0.0
+		End
+		Bone WAIST
+			Type Cylinder // BACK L
+			Radius 0.60
+			Exten1 1.5
+			Exten2 0.5
+			Offset 0.4 0 0.6
+			Direction 0 2 -0.2
+		End
+		Bone WAIST // Second one attached to the waist bone
+			Type Cylinder // BACK R
+			Radius 0.60
+			Exten1 1.5
+			Exten2 0.5
+			Offset -0.4 0 0.6
+			Direction 0 2 -0.2
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Cylinder
+			Radius 0.4
+			Exten1 0
+			Exten2 0
+			Offset 0 -.1 0
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type balloon
+			Radius 0.4
+			Exten1 .1
+			Exten2 0
+			Offset 0 -.1 -.1
+		End
+		Bone LARML
+			NextBone HANDL
+			Type balloon
+			Radius 0.35
+			Exten1 .1
+			Exten2 0
+			Offset 0 -.1 -.1
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.5
+			Exten1 -.1
+			Exten2 0.5
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone Hips
+			Type sphere
+			Radius 1.1
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -0.7 0.2
+			Direction 0 0.0 0.0
+		End
+
+		Bone hips
+			Type Plane
+			Radius 1.5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -1.1 0.36
+			Direction 0 0.0 -1.0
+		End
+
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 3.5
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 0.99 -0.1
+		End
+
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.4
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.4
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of MagicCollarMale
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// MAGIC COLLAR HUGE ///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+
+ColInfo
+	Type MagicCollarHuge
+	LOD // LOD 0, Use reasonably accurate collisions
+		Bone HEAD
+			Type Cylinder
+			Radius .75
+			Exten1 0.0
+			Exten2 0.5
+			Offset 0.0 -0.2 0.0
+			Direction 0 2.0 0.0
+		End
+		Bone Chest
+			Type sphere // BACK L
+			Radius 1.2
+			Exten1 0.0
+			Exten2 0.0
+			Offset 0.0 -0.1 0.1
+			Direction 0 0 0
+		End
+		Bone UARMR
+			NextBone LARMR
+			Type Balloon
+			Radius 0.56
+			Exten1 0
+			Exten2 0
+			Offset 0 0 0.0
+		End
+		Bone UARML
+			NextBone LARML
+			SameAs UARMR
+		End
+		Bone LARMR
+			NextBone HANDR
+			Type Cylinder
+			Radius 0.6
+			Exten1 0
+			Exten2 0.4
+			Offset 0 0 0
+		End
+		Bone LARML
+			NextBone HANDL
+			SameAs LARMR
+		End
+		Bone ULEGR
+			NextBone FOOTR
+			Type Cylinder
+			Radius 0.5
+			Exten1 -.5
+			Exten2 1.0
+		End
+		Bone ULEGL
+			NextBone FOOTL
+			SameAs ULEGR
+		End
+
+		Bone Hips
+			Type sphere
+			Radius 1.5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -1.0 0.2
+			Direction 0 0.0 0.0
+		End
+
+		Bone hips
+			Type Plane
+			Radius 1.5
+			Exten1 0.0
+			Exten2 .5
+			Offset 0.0 -1.1 0.36
+			Direction 0 0.0 -1.0
+		End
+
+
+		// Special case: BACK PLANE enabled only while moving backwards
+		Bone HIPS
+			SpecialBackwardsFlag
+			Type Cylinder
+			Radius 3.5
+			Exten1 4.0
+			Exten2 4.0
+			Offset 0 0 2
+			Direction 0 0.99 -0.1
+		End
+	End // End of LOD 0
+	// LOD 1, Sacrafice some subtle effects for speed
+	//        The plane along the back won't allow the cape to get in front of the character at all.
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone UARMR // RIGHT ARM
+			NextBone LARMR
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone UARML // LEFT ARM
+			NextBone LARML
+			Type Balloon
+			Radius 0.3
+			Exten1 0
+			Exten2 0.5
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 1
+	// LOD 2, Just use two planes for collisions (super fast)
+	LOD
+		Bone HIPS // BACK PLANE
+			Type Plane
+			Offset 0 0 -0.5
+			Direction 0 0 -1
+		End
+		Bone // GROUND PLANE
+			Type Plane
+			Offset 0 0.1 0
+			Direction 0 1 0
+		End
+	End // End of LOD 2
+End // End of Huge

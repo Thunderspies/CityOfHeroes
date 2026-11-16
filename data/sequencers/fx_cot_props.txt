@@ -1,0 +1,50 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_cot_props
+	BaseSkeleton	FX_cot_props\skel_cot_props
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_cot_props_book_single
+	BaseSkeleton	FX_cot_props_book\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+TypeDef FX_cot_scroll
+	BaseSkeleton	FX_cot_props\cot_props_scroll
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+
+	Type		FX_cot_props
+	  Anim          FX_cot_props\skel_cot_props 1
+	TEnd
+
+	Type		FX_cot_scroll
+	  Anim          FX_cot_props\cot_props_scroll 1
+	TEnd
+
+	Type		FX_cot_props_book_single
+	  Anim          FX_cot_props_Book\skel_ready 1
+	TEnd
+MEnd
+
+
+
+
+
+SeqEnd
+

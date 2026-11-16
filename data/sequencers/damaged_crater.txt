@@ -1,0 +1,41 @@
+#############################################################
+
+Sequencer
+
+TypeDef Damaged_crater
+	BaseSkeleton	Damaged_Vehicle\Dmg_crater
+	ParentType	None
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+	Sets            CANTMOVE 
+
+	Type		Damaged_crater
+	  Anim          Damaged_Vehicle\Dmg_crater 1
+##	  PlayFx	WORLD\Ruins\Damaged_Vehicle_flame.fx 0 CONSTANT
+##	  PlayFx	POWERS\FireControl\BurnPet.fx 0 CONSTANT
+	TEnd
+MEnd
+
+SeqEnd
+

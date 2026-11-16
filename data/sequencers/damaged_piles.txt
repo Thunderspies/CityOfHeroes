@@ -1,0 +1,96 @@
+#############################################################
+
+Sequencer
+
+TypeDef sandbags
+	BaseSkeleton	Damaged_piles\Skel_sandbags
+	ParentType	None
+TypeDefEnd
+
+
+TypeDef NOfx_sandbags
+	BaseSkeleton	Damaged_piles\Skel_sandbags
+	ParentType	None
+TypeDefEnd
+
+TypeDef sandbags_mid
+	BaseSkeleton	Damaged_piles\sandbags_mid
+	ParentType	sandbags
+TypeDefEnd
+
+
+TypeDef NOfx_sandbags_mid
+	BaseSkeleton	Damaged_piles\sandbags_mid
+	ParentType	NOfx_sandbags
+TypeDefEnd
+
+TypeDef sandbags_low
+	BaseSkeleton	Damaged_piles\sandbags_low
+	ParentType	sandbags
+TypeDefEnd
+
+TypeDef NOfx_sandbags_low
+	BaseSkeleton	Damaged_piles\sandbags_low
+	ParentType	NOfx_sandbags
+TypeDefEnd
+
+
+
+
+
+TypeDef rubble
+	BaseSkeleton	Damaged_piles\rubble
+	ParentType	sandbags
+TypeDefEnd
+
+TypeDef NOfx_rubble
+	BaseSkeleton	Damaged_piles\rubble
+	ParentType	NOfx_sandbags
+TypeDefEnd
+
+TypeDef rubble_mid
+	BaseSkeleton	Damaged_piles\rubble_mid
+	ParentType	sandbags
+TypeDefEnd
+
+TypeDef NOfx_rubble_mid
+	BaseSkeleton	Damaged_piles\rubble_mid
+	ParentType	NOfx_sandbags
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		sandbags
+	  Anim          Damaged_piles\Skel_sandbags
+	  PlayFx	WORLD\Ruins\Damaged_Vehicle_flame.fx 0 CONSTANT
+	TEnd
+
+	Type		NOfx_sandbags
+	  Anim          Damaged_piles\Skel_sandbags
+	TEnd
+
+MEnd
+
+
+SeqEnd
+

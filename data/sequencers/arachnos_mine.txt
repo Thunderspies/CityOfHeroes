@@ -1,0 +1,102 @@
+#############################################################
+## Arachnos_mine.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Arachnos_mine
+	BaseSkeleton	V_Arachnos_mine\Skel_arachnos_mine
+	ParentType	None
+TypeDefEnd
+
+TypeDef Omega_Device
+	BaseSkeleton	V_Arachnos_mine\Skel_arachnos_mine
+	ParentType	Arachnos_mine
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+#############################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle NotSelectable
+
+	Type		Arachnos_mine
+	  Anim          V_Arachnos_mine\Skel_arachnos_mine 123
+	  PlayFx	V_COV\EnemyPowers\Arachnos\Flyer_Critter\MineDrone_simple.fx 0 CONSTANT
+	TEnd
+
+	Type		Omega_Device
+	  Anim          V_Arachnos_mine\Skel_arachnos_mine 123
+	TEnd
+MEnd
+
+## SPAWN ###########################################################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Ready
+	Priority        10
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale NotSelectable
+
+	Type		Arachnos_mine
+	  Anim          V_Arachnos_mine\Skel_arachnos_mine 3 122
+	  PlayFx	V_COV\EnemyPowers\Arachnos\Flyer_Critter\MineDrone_simple.fx 0 CONSTANT
+	TEnd
+
+	Type		Omega_Device
+	  Anim          V_Arachnos_mine\Skel_arachnos_mine 123
+	  PlayFx	V_COV\EnemyPowers\Arachnos\OmegaDevice\TeleportSpawn.fx
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,219 @@
+##Tricks##
+
+Trick InvisibleIce
+	TrickFlags EditorVisible
+End
+
+##Textures##
+
+Texture ice_sheet_BUMP_01.tga
+	Flags IsBumpmap
+	####Gloss .05
+End
+
+Texture ice_sheet_01.tga
+	BumpMap ice_sheet_BUMP_01.tga
+	Flags SurfaceSlick
+	surface ice
+End
+
+Texture Snow_Plate1.tga
+	Blend dcarpet.tga
+	BlendType Multiply
+	ScaleST0 6 6
+	surface snow
+	Flags Truecolor
+End
+
+Texture caverock_Snow.tga
+	surface ice
+End
+
+Texture Snow_Plate2_normal.tga
+	Flags Truecolor
+End
+
+Texture Snow_Plate2.tga
+	Base1 Snow_Plate2.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 Snow_Plate2.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1.7 1.85
+ 
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Snow_Plate2_normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Snow_Plate2.tga
+	MaskScroll 0 0
+	MaskScale .5 .5
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Snow_Plate2.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //Snow_Plate2.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 5 3
+	Multiply2reflect 0
+
+	DualColor2 none 
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //Snow_Plate2_normal.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 80 100 130
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 30
+
+	DiffuseScale 1.2
+	AmbientScale 2
+
+	Flags Truecolor // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 155
+
+	surface snow
+
+End
+
+Texture x_Ice_Plate1
+	Base1 Snow_Plate2.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 Snow_Plate2.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale .4 .55
+ 
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Snow_Plate2_normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Snow_Plate2.tga
+	MaskScroll 0 0
+	MaskScale .5 .5
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Snow_Plate2.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //Snow_Plate2.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 5 3
+	Multiply2reflect 0
+
+	DualColor2 none 
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //Snow_Plate2_normal.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 80 100 130
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 30
+
+	DiffuseScale 1.2
+	AmbientScale 2
+
+	Flags Truecolor // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 155
+
+	surface ice
+
+End
+
+
+
+Texture x_Ice_Plate1b
+	Base1 Snow_Plate2.tga
+	Base1Scroll 0 0
+	Base1Scale 15 15
+
+	Multiply1 Snow_Plate2.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 15 15  //.4 .55
+ 
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Snow_Plate2_normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 15 15
+
+	Mask Snow_Plate2.tga
+	MaskScroll 0 0
+	MaskScale 15 15 //.5 .5
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Snow_Plate2.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 Snow_Plate2.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 15 15
+	Multiply2reflect 0
+
+	DualColor2 none 
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 Snow_Plate2_normal.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 15 15
+
+	SpecularColor1 80 100 130
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 30
+
+	DiffuseScale 1.2
+	AmbientScale 2
+
+	Flags Truecolor // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 155
+
+	surface ice
+
+End

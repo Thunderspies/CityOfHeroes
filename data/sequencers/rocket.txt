@@ -1,0 +1,146 @@
+#############################################################
+
+Sequencer
+
+TypeDef Rocket 
+	BaseSkeleton	Rocket\skel_Rocket
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Interpolate	0
+	Flags		Cycle NotSelectable
+
+
+	Type		Rocket
+	  Anim          Rocket\skel_Rocket 1 5 
+	TEnd
+MEnd
+
+
+
+###################
+### Launch	 ##
+###################
+
+Move Launch
+	Requires	LAUNCH 
+	Interrupts	Ready Reload_cycle
+	NextMove        Launch_Cycle   
+	Priority        1
+	Interpolate	0
+	Flags		NoSizeScale  NotSelectable  ##NOCOLLISION
+
+	Type		Rocket
+	  Anim          Rocket\skel_Rocket 17 436
+	  PlayFx	Vehicles\Rocket\Rocket_tremors.fx 5 Constant
+	  PlayFx	Vehicles\Rocket\Rocket_launch.fx 2 Constant
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 350 constant
+	TEnd
+
+MEnd
+
+
+
+Move Launch_Cycle
+	Requires	LAUNCH 
+	Priority        1
+	Interpolate	0
+	Scale		0.25
+	Flags		Cycle NoSizeScale NotSelectable ##NOCOLLISION
+
+	Type		Rocket
+	  Anim          Rocket\skel_Rocket 436 437
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+
+###################
+### Reload	 ##
+###################
+
+Move Reload
+	Requires	RELOAD
+	Interrupts	Launch_Cycle
+	NextMove        Reload_cycle
+	Priority        1
+	Interpolate	0
+	Flags		NoSizeScale NotSelectable  ##NOCOLLISION
+
+
+	Type		Rocket
+	  Anim          Rocket\reload 1 197
+	  PlayFx	Vehicles\Rocket\Rocket_Reload.fx 2 Constant
+	TEnd
+
+MEnd
+
+Move Reload_cycle
+	Requires	RELOAD
+	Flags		Cycle 
+	Priority        1
+	Interpolate	0
+
+
+	Type		Rocket
+	  Anim          Rocket\skel_Rocket 1 5 
+	TEnd
+MEnd
+
+
+
+
+########  Test for Neil  #####################################
+
+
+
+###################
+### Launch	 ##
+#####################
+##
+##Move Test_Launch
+##	Requires	test1
+##	Interrupts	Ready Reload_cycle
+##	Priority        1
+##	Interpolate	0
+##
+##
+##	Type		Rocket
+##	  Anim          Rocket\skel_Rocket 17 436
+##	  PlayFx	Vehicles\Rocket\Rocket_tremors.fx 5 Constant
+##	  PlayFx	Vehicles\Rocket\Rocket_launch.fx 2 Constant
+##	TEnd
+##
+##MEnd
+
+
+
+
+
+
+SeqEnd
+

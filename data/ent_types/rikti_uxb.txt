@@ -1,0 +1,61 @@
+#########################################################
+## Rikti UXB (Unexploded Bomb)
+#########################################################
+
+Type
+
+## SEQUENCER #######################################################
+
+Sequencer        Rikti_UXB.txt
+SequencerType    Rikti_UXB
+
+## GRAPHICS #######################################################
+
+FadeOutStart     500
+FadeOutFinish    550
+ShadowType       None
+
+TicksToLingerAfterDeath        150
+TicksToFadeAwayAfterDeath      150
+
+Graphics	player_library/G_Rikti_Bomb.geo
+FX		EnemyFx\Rikti\UXB\UXB_GroundCracks.fx
+
+## HEALTH FX #######################################################
+
+HealthFx
+	Range	66 100
+	ContinuingFX	EnemyFx\Rikti\UXB\UXB_Bomb_Red.fx
+	#OneShotFX	EnemyFx\Rikti\Shuttle\FakeBomb\Bomb_Spawn.fx
+End
+
+HealthFx
+	Range	33 66
+	ContinuingFX	EnemyFx\Rikti\UXB\UXB_Bomb_Yellow.fx
+	#OneShotFX	<fxName>
+End
+
+HealthFx
+	Range	0.001 33
+	ContinuingFX	EnemyFx\Rikti\UXB\UXB_Bomb.fx
+	#OneShotFX	<fxName>
+End
+
+HealthFx
+	Range	0.0 0.001
+	#ContinuingFX	EnemyFx\Rikti\UXB\UXB_Bomb.fx
+	#OneShotFX	EnemyFx\Rikti\UXB\Explosion_UXB.fx
+	OneShotFX	EnemyFx\Rikti\UXB\UXB_Death.fx
+End
+
+## COLLISION AND PHYSICS #######################################################
+
+Selection        Capsule
+CapsuleSize    7 7 2
+CapsuleOffset  0 0 -0.5
+#Placement        DeadOn
+#CollisionType    LibraryPiece
+
+#########################################################
+
+End

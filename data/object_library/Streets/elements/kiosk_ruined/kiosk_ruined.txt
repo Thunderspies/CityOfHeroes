@@ -1,0 +1,47 @@
+Version 2
+RootMod _Ruin_kiosk_staticmap1_map
+End
+
+RootMod _Ruin_kiosk_staticmap1_base
+End
+
+Def kiosk_ruined_1&
+	Group object_library/Omni/PARTICLE_15
+	End
+	Type WORLD\Ruins\StreetSparks.fx
+End
+
+Def kiosk_ruined_2&
+	Group object_library/Omni/PARTICLE_15
+		Rot 0 -1.396263 -0.698132
+	End
+	Type WORLD\Ruins\StreetSparksSparce.fx
+End
+
+Def kiosk_ruined_3&
+	Group _Ruin_kiosk_staticmap1_map
+		Rot 0 2.617995 0
+	End
+	Property	"untracked"	"ZoneMapKiosk"	0
+End
+
+Def kiosk_ruined
+	Group _Ruin_kiosk_staticmap1_base
+	End
+	Group kiosk_ruined_1&
+		Pos 7 7.5 -1
+	End
+	Group kiosk_ruined_1&
+		Rot -0.872665 0 -1.047198
+		Pos -6.969465 4.5 0.858963
+	End
+	Group kiosk_ruined_2&
+		Pos -0.5 6.460083 -1.67067
+	End
+	Group kiosk_ruined_3&
+		Rot 0 -2.617995 0
+	End
+End
+
+
+

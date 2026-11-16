@@ -1,0 +1,91 @@
+#########################################################
+## Player.txt - Player model sequencer
+#########################################################
+
+Sequencer
+
+## MALE #######################################################
+
+TypeDef Cole_Clone
+	BaseSkeleton	male\skel_ready2
+	ParentType	none
+TypeDefEnd
+
+
+
+## GROUP TAGS - BASIC #######################################################
+
+Group	<Ready>
+
+
+Group	<HitIRQ>
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicDeath>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+
+#############################################################
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready
+	Priority        0
+
+	Type		Cole_Clone
+	  Anim          male\cole_float 1 50
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move KHF_Deathcycle
+	Requires	DEATH
+	Priority        101
+	Member 		<DeathIRQ> <RaiseDeadBackIRQ>
+	Interrupts	getup_back Alt_KHF_impact2 Ragdoll_belly Ready
+	Flags		Cycle NotSelectable
+	Interpolate     0
+	Sets            NOCOLLISION CANTMOVE DIENOW TARGET
+
+	Type		Cole_Clone
+	  Anim          male\Skel_ready2 10 15
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+MEnd
+
+#############################################################
+## Vanish Death (instant)
+#############################################################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Priority        102
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Cole_Clone
+	  Anim          male\Skel_ready2 1 10
+	 PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION DIENOW
+
+	Type		Cole_Clone
+	  Anim          male\Skel_ready2 10 15
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

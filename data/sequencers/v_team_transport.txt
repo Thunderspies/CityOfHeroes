@@ -1,0 +1,204 @@
+#############################################################
+## FX_banner.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef V_TeamTransport
+	BaseSkeleton	V_TeamTransport\Skel_Ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+###################
+### SPAWN AND LAND ##
+###################
+
+Move Ready
+	Requires	TEAMTRANSPORT
+	Include 	sequencers\Members\Readies.inc
+	Flags		NoSizeScale NotSelectable NOCOLLISION
+	NextMove	LiftOff_Start
+
+	Type            V_TeamTransport
+	  Anim          V_TeamTransport\V_Transport 1 1
+	  PlayFx	V_COV\Powers\RobotSpawns\bot_invisible.fx 1 constant
+     	TEnd
+MEnd
+
+##############################################
+Move LiftOff_Start
+	#Requires	TEAMTRANSPORT
+	Include 	sequencers\Members\Readies.inc
+	Flags		NoSizeScale NotSelectable NOCOLLISION
+	NextMove	LiftOff_Idle_One
+
+	Type            V_TeamTransport
+	  Anim          V_TeamTransport\V_Transport 1 80
+	  PlayFX	GENERIC\entityFadeIn.fx 1 Constant
+     	TEnd
+MEnd
+
+
+Move LiftOff_Idle_One
+	#Requires	TEAMTRANSPORT
+	#Include sequencers\Members\Readies.inc
+	Flags		NoSizeScale NotSelectable NOCOLLISION Cycle
+	CycleMove	LiftOff_Idle_One
+	Scale 0.6
+	Type            V_TeamTransport
+	  Anim          V_TeamTransport\V_Transport 81 160
+     	TEnd
+MEnd
+
+
+###################
+### DEATH - TAKE OFF ##
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        101
+	Interrupts	<DeathIRQ> LiftOff_Idle_One
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Flags		NoSizeScale NotSelectable NOCOLLISION
+	Sets            NOCOLLISION
+	SticksOnChild	DEATH GROUND
+
+	Type            V_TeamTransport
+	  Anim          V_TeamTransport\V_Transport 161 220
+	  PlayFx	GENERIC\Transport_Fade.fx 1 #constant
+     	TEnd
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		NotSelectable cycle #HideWeapon HideShield
+	Sets            NOCOLLISION
+	CycleMove	Default_postdeath
+	NextMove	Default_postdeath
+
+	Type            V_TeamTransport
+	  Anim          V_TeamTransport\V_Transport 220 220
+	#  PlayFx	V_COV\Powers\RobotSpawns\bot_invisible.fx 1 constant
+     	TEnd
+
+MEnd
+
+###################
+### SPAWN AND LAND ##
+###################
+
+#Move Ready
+#	Requires	TEAMTRANSPORT
+#	Member		<Ready>
+#	Flags		NoSizeScale NotSelectable NOCOLLISION reqinputs
+#	NextMove	LiftOff_Start
+#
+#	Type		V_TeamTransport
+#	  Anim          V_TeamTransport\V_Transport 1 1
+#	  PlayFx	V_COV\Powers\RobotSpawns\bot_invisible.fx 1 constant
+#     	TEnd
+#MEnd
+#
+###############################################
+#Move LiftOff_Start
+#	Requires	TEAMTRANSPORT
+#	Member		<Combat>
+#	Flags		NoSizeScale NotSelectable NOCOLLISION
+#	NextMove	LiftOff_Idle_One
+#
+#	Type            V_TeamTransport
+#	  Anim          V_TeamTransport\V_Transport 1 80
+#	  PlayFX	GENERIC\entityFadeIn.fx 1 Constant
+#     	TEnd
+#MEnd
+#
+#
+#Move LiftOff_Idle_One
+#	Requires	TEAMTRANSPORT
+#	Member		<Combat>
+#	Flags		NoSizeScale NotSelectable NOCOLLISION
+#   	  NextMove        LiftOff_Idle_Two
+#
+#	Type            V_TeamTransport
+#	  Anim          V_TeamTransport\V_Transport 81 160
+#     	TEnd
+#MEnd
+#
+#
+#Move LiftOff_Idle_Two
+#	Requires	TEAMTRANSPORT
+#	Member		<Combat>
+#	Flags		NoSizeScale NotSelectable NOCOLLISION
+#   	  NextMove        LiftOff_Idle_Three
+#
+#	Type            V_TeamTransport
+#	  Anim          V_TeamTransport\V_Transport 81 160
+#     	TEnd
+#MEnd
+#
+#
+#Move LiftOff_Idle_Three
+#	Requires	TEAMTRANSPORT
+#	Member		<Combat>
+#	Flags		NoSizeScale NotSelectable NOCOLLISION
+#   	  NextMove        LiftOff_Idle_Four
+#
+#	Type            V_TeamTransport
+#	  Anim          V_TeamTransport\V_Transport 81 160
+#     	TEnd
+#MEnd
+#
+#Move LiftOff_Idle_Four
+#	Requires	TEAMTRANSPORT
+#	Member		<Combat>
+#	Flags		NoSizeScale NotSelectable NOCOLLISION
+#   	  NextMove        LiftOff_Leave
+#
+#	Type            V_TeamTransport
+#	  Anim          V_TeamTransport\V_Transport 81 160
+#     	TEnd
+#MEnd
+#
+#Move LiftOff_Leave
+#	Requires	TEAMTRANSPORT
+#	Member		<Combat>
+#	Flags		NoSizeScale NotSelectable NOCOLLISION
+#	NextMove	LiftOff_Dead
+#
+#	Type            V_TeamTransport
+#	  Anim          V_TeamTransport\V_Transport 161 220
+#	 PlayFX		V_COV\Powers\RobotSpawns\bot_invisible.fx 161
+#     	TEnd
+#
+#MEnd
+#
+#Move LiftOff_Dead
+#	Requires	TEAMTRANSPORT
+#	Member		<Combat>
+#	Flags		NoSizeScale NotSelectable NOCOLLISION Cycle
+#	CycleMove	LiftOff_Dead
+#	NextMove	LiftOff_Dead
+#
+#	Type            V_TeamTransport
+#	  Anim          V_TeamTransport\V_Transport 220 220
+#	  PlayFx	V_COV\Powers\RobotSpawns\bot_invisible.fx 220
+#     	TEnd
+#
+#MEnd
+
+
+#############################################################
+
+SeqEnd

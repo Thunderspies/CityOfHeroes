@@ -1,0 +1,132 @@
+#############################################################
+## Lambda_Turret.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Lambda_Sector_Turret
+	BaseSkeleton	Lambda_Sector_Turret\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+Group	<Combat>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove	Ready
+	CycleMove	Ready
+	Scale		0.5
+
+	Type		Lambda_Sector_Turret
+	  Anim		Lambda_Sector_Turret\skel_ready 1 210
+	  PlayFX	WEAPONFX\LambdaTurrets\Rotate_Resume.fx 1
+	  PlayFX	WEAPONFX\LambdaTurrets\Rotate_Return.fx 60
+	  PlayFX	WEAPONFX\LambdaTurrets\Rotate_Start.fx 156
+
+	TEnd
+MEnd
+####################
+
+Move Lambda_Sector_Shell
+	Requires	COMBAT LAMBDA BURST
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		PitchToTarget NoSizeScale
+	NextMove        Ready
+
+	Type		Lambda_Sector_Turret
+	  Anim          Lambda_Sector_Turret\lambda_shell_fire  1 46
+	  PlayFX		WEAPONFX\LambdaTurrets\Shell_Servo.fx
+	  PitchEnd 	29
+	TEnd
+
+
+MEnd
+
+####################
+####################
+
+Move Lambda_Sector_Barrage
+	Requires	COMBAT LAMBDA RAPIDBLAST
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		PitchToTarget NoSizeScale
+	NextMove        Ready
+
+	Type		Lambda_Sector_Turret
+	  Anim          Lambda_Sector_Turret\lambda_barrage_fire  1 43
+	  PlayFX		WEAPONFX\LambdaTurrets\Barrage_Servo.fx
+	  PitchEnd 	29
+	TEnd
+
+
+MEnd
+
+####### Deaths  ######################################
+
+################################
+###### Vanish Death (instant)  ######
+################################
+
+Move Vanish_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable CANTMOVE NoSizeScale
+
+	 Type           Lambda_Sector_Turret
+	  Anim          Turrets_Missle\Missle_shoot 1  5
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	 PlayFX		WEAPONFX\LambdaTurrets\Death.fx
+	 PlayFx		Explosions\Large\Expolsion_large.fx 0
+	PlayFX		Explosions\TurretExplosion\LargeTurretExplosion.Fx
+	TEnd
+
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	 Type           Lambda_Sector_Turret
+	  Anim          Turrets_Missle\Missle_shoot 1  10
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx	WORLD\Ruins\MediumFireFast.fx 0 CONSTANT
+	TEnd
+MEnd
+
+################################
+####### Off Mode (for bases)   ###
+################################
+
+Move Off
+	Requires	OFF
+	Priority        1
+	Interrupts	<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+
+	 Type           Lambda_Sector_Turret
+	  Anim          Lambda_Sector_Turret\skel_ready 1 1
+	TEnd
+
+MEnd
+
+
+##############################################################
+
+SeqEnd

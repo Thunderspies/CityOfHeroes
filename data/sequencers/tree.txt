@@ -1,0 +1,5134 @@
+#############################################################
+
+Sequencer
+
+TypeDef Male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef Tree
+	BaseSkeleton	male\skel_ready2
+	ParentType	Male
+TypeDefEnd
+
+
+TypeDef Crystal
+	BaseSkeleton	Rikti_Flesh\skel_ready
+	ParentType	Tree
+TypeDefEnd
+
+TypeDef MindsOfMayhem_Eochai
+	BaseSkeleton	male\skel_ready2
+	ParentType	Tree
+TypeDefEnd
+
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<basicTHREAT>
+Group	<basicMENACE>
+Group	<basicLOOKOUT>
+Group	<basicCHEER>
+Group	<basicVANDAL>
+Group	<basic0BSERVE>
+Group	<basicLOITER>
+Group	<basicLOOT>
+Group	<basicRumble>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+
+######################################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	Scale           0.50
+
+	Type		Tree
+	  Anim          male\tree_ready 1
+	TEnd
+MEnd
+
+
+######################
+
+Move SkelReady
+	Requires	DANCE
+	Interrupts	<ReactIRQ>
+	NextMove        Ready
+	Priority        1
+
+	Type		Tree
+	  Anim          male\skel_ready2 1
+	TEnd
+MEnd
+
+
+
+###################
+### Run Forward ##
+###################
+
+Move RunPreReady
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        RunCycleReady
+	Priority        1
+
+	Type		Tree
+	  Anim          male\tree_walk 5 27
+	TEnd
+MEnd
+
+
+Move RunCycleReady
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        RunPostReady
+	Priority        1
+
+	Type		Tree
+	  Anim          male\tree_walk 1 27
+	TEnd
+MEnd
+
+
+Move RunPostReady
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+	Scale           1.20
+
+	Type		Tree
+	  Anim          male\tree_postwalk 6
+	TEnd
+MEnd
+
+###################
+###### Super Jump  ######
+###################
+
+Move jumpPre
+	Requires	JUMP
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	NextMove        jumpUp
+	Priority        1
+
+	Type		Tree
+	  Anim          male\superjump 3 6
+	TEnd
+MEnd
+
+
+Move jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        jumpApex
+	Priority        1
+
+	Type		Tree
+	  Anim          male\superjump 7 64
+	  PlayFx        FEET\SUPERJUMP1.FX
+	TEnd
+MEnd
+
+
+Move jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps>
+	NextMove        jumpFall
+	Priority        1
+
+	Type		Tree
+	  Anim          male\superjump 65 66
+	TEnd
+MEnd
+
+
+Move jumpFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+	Priority        1
+
+	Type		Tree
+	  Anim          male\superjump 67 93
+	TEnd
+MEnd
+
+
+Move jumpFall2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        1
+
+	Type		Tree
+	  Anim          male\superjump 93
+	TEnd
+MEnd
+
+
+Move JumpPost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        postReady_back
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\comb_postjump 1
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+###################
+###### Run Jump  ######
+###################
+
+Move HopPre
+	Requires	FORWARD JUMP
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> RjumpWalkPre <jumpFall> <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        Hop
+	Priority        2
+
+	Type		Tree
+	  Anim          male\test_hop 10 11
+	TEnd
+MEnd
+
+###################
+###### Run Jump  ######
+###################
+
+Move Hop
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        Hop2
+	Priority        1
+
+	Type		Tree
+	  Anim          male\test_hop 12 91
+	  PlayFx        FEET\JUMP1.FX
+	TEnd
+MEnd
+
+
+Move Hop2
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        HopApex
+	Priority        1
+
+	Type		Tree
+	  Anim          male\test_hop 91 92
+	  PlayFx        FEET\JUMP2.FX
+	TEnd
+MEnd
+
+
+Move HopApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps>
+	NextMove        HopFall
+	Priority        1
+
+	Type		Tree
+	  Anim          male\test_hop 92 93
+	TEnd
+MEnd
+
+
+Move HopFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		ReqInputs
+	NextMove        HopFall_2
+	Priority        1
+
+	Type		Tree
+	  Anim          male\test_hop 94 128
+	TEnd
+MEnd
+
+
+Move HopFall_2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        1
+
+	Type		Tree
+	  Anim          male\test_hop 128
+	TEnd
+MEnd
+
+###################
+###### Combat Mode ######
+###################
+
+Move PreCombat
+	Requires	COMBAT
+	Interrupts	<Ready> PostWepReady
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <BlockIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	Flags		NoSizeScale
+	Priority        1
+
+	Type		Tree
+	  Anim          male\combat_cycle 29 31
+	TEnd
+MEnd
+
+
+Move CombatReady
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle  NoSizeScale
+	NextMove        PostCombatReady
+	Priority        1
+	Scale           0.50
+
+	Type		Tree
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+
+Move PostCombatReady
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combatready 71
+	TEnd
+MEnd
+
+
+Move Combat_half
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Priority        1
+	Scale           0.70
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combat_cycle 15 31
+	TEnd
+
+MEnd
+
+
+Move CombatBlend
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <BlockIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	Priority        1
+	Scale           0.50
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+###################
+### Combat run Forward ##
+###################
+
+Move C_RunPre
+	Requires	FORWARD COMBAT
+	Interrupts	<Combat> <PostMoveCycle> <Claw> PreClaw <CombatAttack> <Block>
+	Member		<CombatMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        C_RunCycle
+	Priority        2
+
+	Type		Tree
+	  Anim          male\comb_run 4 9
+	TEnd
+MEnd
+
+
+Move C_RunCycle
+	Requires	FORWARD COMBAT
+	Member		<CombatMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_RunPost
+	Priority        2
+
+	Type		Tree
+	  Anim          male\comb_run 10 34
+	  PlayFx        FEET\NPCMALELEFT.FX  1
+	  PlayFx        FEET\NPCMALERIGHT.FX  6
+	TEnd
+MEnd
+
+
+Move C_RunPost
+	Member		<CombatMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\comb_run 39
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+###################
+###### Combat Super Jump  ######
+###################
+
+Move C_jumpPre
+	Requires	JUMP COMBAT
+	Interrupts	<PostMoveCycle> <Combat> <CombatMove> <iceslide> <Swim> <CombatAttack> <jumpFall> <Claw> C_RunJumpCycleB <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	NextMove        C_jumpUp
+	Priority        2
+
+	Type		Tree
+	  Anim          male\superjump 3 6
+	TEnd
+MEnd
+
+
+Move C_jumpUp
+	Requires	JUMP COMBAT
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        C_jumpApex
+	Priority        2
+
+	Type		Tree
+	  Anim          male\superjump 7 64
+	TEnd
+MEnd
+
+
+Move C_jumpApex
+	Requires	APEX COMBAT
+	Member		<DeathIRQ> <Jumps>
+	NextMove        C_jumpFall
+	Priority        2
+
+	Type		Tree
+	  Anim          male\superjump 65 66
+	TEnd
+MEnd
+
+
+Move C_jumpFall
+	Requires	AIR COMBAT
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        C_jumpFall2
+	Priority        2
+
+	Type		Tree
+	  Anim          male\superjump 67 89
+	TEnd
+MEnd
+
+
+Move C_jumpFall2
+	Requires	AIR COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        C_JumpPost
+	Priority        2
+
+	Type		Tree
+	  Anim          male\superjump 89
+	TEnd
+MEnd
+
+
+Move C_JumpPost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	Flags		ReqInputs NoSizeScale
+	NextMove        CombatReady
+	Priority        1
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\comb_postjump 1 69
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+###################
+###### Combat Run Jump  ######
+###################
+
+Move C_HopPre
+	Requires	FORWARD JUMP COMBAT
+	Interrupts	<PostMoveCycle> <Combat> <CombatMove> <iceslide> <Swim> <CombatAttack> C_runjumpPre <jumpFall> <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        C_Hop
+	Priority        3
+
+	Type		Tree
+	  Anim          male\test_hop 10 11
+	TEnd
+MEnd
+
+###################
+###### Combat Run Jump  ######
+###################
+
+Move C_Hop
+	Requires	JUMP COMBAT
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        C_Hop2
+	Priority        2
+
+	Type		Tree
+	  Anim          male\test_hop 12 91
+	TEnd
+MEnd
+
+
+Move C_Hop2
+	Requires	JUMP COMBAT
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        C_HopApex
+	Priority        2
+
+	Type		Tree
+	  Anim          male\test_hop 91 92
+	TEnd
+MEnd
+
+
+Move C_HopApex
+	Requires	APEX COMBAT
+	Member		<DeathIRQ> <Jumps>
+	NextMove        C_HopFall
+	Priority        2
+
+	Type		Tree
+	  Anim          male\test_hop 92 93
+	TEnd
+MEnd
+
+
+Move C_HopFall
+	Requires	AIR COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		ReqInputs
+	NextMove        C_HopFall_2
+	Priority        2
+
+	Type		Tree
+	  Anim          male\test_hop 94 128
+	TEnd
+MEnd
+
+
+Move C_HopFall_2
+	Requires	AIR COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        C_JumpPost
+	Priority        2
+
+	Type		Tree
+	  Anim          male\test_hop 128
+	TEnd
+MEnd
+
+####### powers  ###################################################################
+
+###################
+###### Telekinesis_quick  ######
+###################
+
+Move Telequick
+	Requires	COMBAT ATTACK TELEKINESIS
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Telequickpost
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\telekinesis 2 96
+	TEnd
+
+MEnd
+
+
+Move Telequickpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Tele_cycle
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\telekinesis 97
+	TEnd
+
+MEnd
+
+Move Tele_cycle
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        PostCombatReady
+	Priority        1
+
+
+	Type		Tree
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+
+
+###################
+###### Throw Knife  ######
+###################
+
+Move Throwkinfe
+	Requires	COMBAT THROWKNIFE
+	Interrupts	<AttackIRQ> <Block>
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack>
+	NextMove        Throwkinfepost
+	Priority        2
+
+	Type		Tree
+	  Anim          male\wm_throwknife 1 23
+	TEnd
+
+MEnd
+
+
+Move Throwkinfepost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\wm_throwknife 24
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### Terrify ######
+###################
+
+Move Terrify
+	Requires	COMBAT TERRIFY
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Terrify_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\terrify 1 60
+	TEnd
+
+MEnd
+
+
+Move Terrify_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\terrify 61
+	TEnd
+
+MEnd
+
+
+
+
+
+
+###################
+###### Baseball punch ######
+###################
+
+Move BBpunch
+	Requires	COMBAT BASEBALLPUNCH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        BBpunchpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\baseball_punch 1 43
+	TEnd
+
+MEnd
+
+
+Move BBpunchpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\baseball_punch 44
+	TEnd
+
+
+MEnd
+
+
+
+###################
+###### Fallout ######
+###################
+
+
+
+Move Fallout
+	Requires	STRONG RAISEDEAD
+	Priority        2
+	Interrupts	<RaiseDeadIRQ> <RaiseDeadBackIRQ>
+	NextMove        KHF_Deathcycle
+	Sets            NOCOLLISION CANTMOVE
+	Flags		NoSizeScale NotSelectable
+
+	Type		Tree
+	  Anim          male\fallout 1
+	TEnd
+MEnd
+
+###################
+###### Moment O Glory  ######
+###################
+
+Move Glory
+	Requires	MOMENTGLORY
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Glory2
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\glory 1 76
+	TEnd
+MEnd
+
+
+Move Glory2
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        PostGloryCycle_15
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\glory 77
+	TEnd
+MEnd
+
+
+Move PostGloryCycle_15
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	NextMove        PostGloryCycle
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combat_cycle 15 31
+	TEnd
+MEnd
+
+
+Move PostGloryCycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle NoSizeScale
+	Scale           0.50
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### Leadership  ######
+###################
+
+Move Leadership
+	Requires	LEADERSHIP
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Leadership2
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\leadership 1 108
+	TEnd
+MEnd
+
+
+Move Leadership2
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\leadership 109
+	TEnd
+MEnd
+
+###################
+###### Med Other Windup (tricorder) ######
+###################
+
+Move Pre_MedOther
+	Requires	STARTOFFENSESTANCE MEDOTHER
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <CombatAttack>
+	NextMove        MedOther
+	Priority        2
+
+	Type		Tree
+	  Anim          male\med_other 1 87
+	TEnd
+MEnd
+
+###################
+###### Med Other Windup (tricorder) ######
+###################
+
+Move MedOther
+	Requires	MEDOTHER
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack>
+	Flags		Cycle
+	NextMove        MedOther_post
+	Priority        1
+
+	Type		Tree
+	  Anim          male\med_other 88 138
+	TEnd
+MEnd
+
+
+Move MedOther_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+
+	Type		Tree
+	  Anim          male\med_other 139
+	TEnd
+MEnd
+
+###################
+###### Med Self Windup (tricorder) ######
+###################
+
+Move Pre_MedSelf
+	Requires	STARTOFFENSESTANCE MEDSELF
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <CombatAttack>
+	NextMove        MedSelf
+	Priority        2
+
+	Type		Tree
+	  Anim          male\med_self 1 116
+	TEnd
+MEnd
+
+###################
+###### Med Self Windup (tricorder) ######
+###################
+
+Move MedSelf
+	Requires	MEDSELF
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack>
+	Flags		Cycle
+	NextMove        MedSelf_post
+	Priority        1
+
+	Type		Tree
+	  Anim          male\med_self 118 244
+	TEnd
+MEnd
+
+
+Move MedSelf_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+
+	Type		Tree
+	  Anim          male\med_self 245
+	TEnd
+MEnd
+
+###################
+###### Med dead Windup (tricorder) ######
+###################
+
+Move Pre_MedDead
+	Requires	STARTOFFENSESTANCE MEDDEAD
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <CombatAttack>
+	NextMove        MedDead
+	Priority        2
+
+	Type		Tree
+	  Anim          male\med_dead 1 99
+	TEnd
+MEnd
+
+###################
+###### Med dead Windup (tricorder) ######
+###################
+
+Move MedDead
+	Requires	MEDDEAD
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack>
+	Flags		Cycle
+	NextMove        MedDead_post
+	Priority        1
+
+	Type		Tree
+	  Anim          male\med_dead 100 200
+	TEnd
+MEnd
+
+
+Move MedDead_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+
+	Type		Tree
+	  Anim          male\med_dead 201
+	TEnd
+MEnd
+
+###################
+###### TechWindup  ######
+###################
+
+Move Pre_TechWindup
+	Requires	COMBAT STARTOFFENSESTANCE TECHWINDUP
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <CombatAttack>
+	NextMove        TechWindup
+	Priority        3
+
+	Type		Tree
+	  Anim          male\sniperblast 1 39
+	TEnd
+MEnd
+
+###################
+###### TechWindup  ######
+###################
+
+Move TechWindup
+	Requires	COMBAT TECHWINDUP
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <CombatAttack>
+	Flags		Cycle
+	NextMove        TechWindup_post
+	Priority        2
+
+	Type		Tree
+	  Anim          male\sniperblast 40 60
+	TEnd
+MEnd
+
+
+Move TechWindup_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Priority        1
+
+	Type		Tree
+	  Anim          male\sniperblast 119
+	TEnd
+MEnd
+
+###################
+###### SniperBlast (hands)  ######
+###################
+
+Move SniperBlast
+	Requires	COMBAT STRONG CAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        SniperBlast2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\sniperblast 62 100
+	TEnd
+MEnd
+
+
+Move SniperBlast2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\sniperblast 101
+	TEnd
+MEnd
+
+Move Q_SniperBlast
+	Requires	COMBAT QUICK SNIPERBLAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Q_SniperBlast2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\sniperblast 1 100
+	TEnd
+MEnd
+
+Move Q_SniperBlast2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\sniperblast 101
+	TEnd
+MEnd
+
+###################
+###### WindUp  ######
+###################
+
+Move Pre_WindUp
+	Requires	COMBAT STARTOFFENSESTANCE WINDUP
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <CombatAttack>
+	NextMove        WindUp
+	Priority        3
+
+	Type		Tree
+	  Anim          male\windup_power 1 41
+	TEnd
+MEnd
+
+###################
+###### TechWindup  ######
+###################
+
+Move WindUp
+	Requires	COMBAT WINDUP
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <CombatAttack>
+	Flags		Cycle
+	NextMove        WindUp_post
+	Priority        2
+
+	Type		Tree
+	  Anim          male\windup_power 42 63
+	TEnd
+MEnd
+
+
+Move WindUp_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Priority        1
+
+	Type		Tree
+	  Anim          male\windup_power 64 77
+	TEnd
+MEnd
+
+###################
+###### WindUp Magic  ######
+###################
+
+Move Pre_Magic_WindUp
+	Requires	COMBAT STARTOFFENSESTANCE MAGICWINDUP
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ>
+	NextMove        Magic_WindUp
+	Priority        3
+
+	Type		Tree
+	  Anim          male\ground_summon 1 64
+	TEnd
+MEnd
+
+###################
+###### WindUp Magic  ######
+###################
+
+Move Magic_WindUp
+	Requires	COMBAT MAGICWINDUP
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Magic_WindUp_post
+	Priority        2
+
+	Type		Tree
+	  Anim          male\ground_summon 65 104
+	TEnd
+MEnd
+
+
+Move Magic_WindUp_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\ground_summon 105
+	TEnd
+MEnd
+
+###################
+###### UNyielding Stance (toggle) ######
+###################
+
+Move UNyield
+	Requires	UNYIELD
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<DeathIRQ>
+	NextMove        UNyield_cycle
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\unyield 1 61
+	TEnd
+MEnd
+
+
+Move UNyield_cycle
+	Requires	UNYIELD
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        UNyield_post
+	Priority        1
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\unyield 62 65
+	TEnd
+MEnd
+
+
+Move UNyield_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\unyield 66
+	TEnd
+MEnd
+
+###################
+###### UNyielding Attack  (Attack interuptable) ######
+###################
+
+Move UNyieldAttack
+	Requires	ATTACK UNYIELD
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        UNyieldAttack2
+	Priority        2
+
+	Type		Tree
+	  Anim          male\unyield 1 2
+	TEnd
+MEnd
+
+
+Move UNyieldAttack2
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	NextMove        UNyieldAttack_cycle
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\unyield 3 61
+	TEnd
+MEnd
+
+
+Move UNyieldAttack_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\unyield 62 65
+	TEnd
+MEnd
+
+################################
+###### Windblast  ######
+################################
+
+Move Windblast
+	Requires	COMBAT WINDBLAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Windblastpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\windblast 1 70
+	TEnd
+MEnd
+
+
+Move Windblastpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\windblast 70
+	TEnd
+MEnd
+
+################################
+###### Rapidblast  ######
+################################
+
+Move Rapid
+	Requires	COMBAT RAPIDBLAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Rapidpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\energy_rapid 1 59
+	TEnd
+MEnd
+
+
+Move Rapidpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\energy_rapid 60
+	TEnd
+MEnd
+
+################################
+###### DarkBlast or Megablast  ######
+################################
+
+Move Mega
+	Requires	COMBAT MEGABLAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Megapost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\darkblast 1 110
+	TEnd
+MEnd
+
+
+Move Megapost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\darkblast 111
+	TEnd
+MEnd
+
+###################
+###### Blow Cast  ######
+###################
+
+Move Blow
+	Requires	COMBAT BLOW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Blowpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\blow_cast 1 79
+	TEnd
+MEnd
+
+
+Move Blowpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\blow_cast 80
+	TEnd
+MEnd
+
+###################
+###### Blinding Cast  ######
+###################
+
+Move blinding
+	Requires	COMBAT BLINDING
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        blindingpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\blinding 1 88
+	TEnd
+MEnd
+
+
+Move blindingpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\blinding 89
+	TEnd
+MEnd
+
+###################
+###### Boost Aura (flameaura)  ######
+###################
+
+Move Boostaura
+	Requires	BOOSTAURA
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Boostaura2
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\ground_summon 1 40
+	TEnd
+MEnd
+
+
+Move Boostaura2
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        Boostaura3
+	Priority        1
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\flameaura 1 47
+	TEnd
+MEnd
+
+
+Move Boostaura3
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\flameaura 48
+	TEnd
+MEnd
+
+###################
+###### Long_Quick Boost Aura (built-in pause for TELEPORT)  ######
+###################
+
+Move Boostaura_long
+	Requires	QUICK STRONG BOOSTAURA
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Boostaura_long2
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\flameaura 1 54
+	TEnd
+MEnd
+
+
+Move Boostaura_long2
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        Boostaura_long3
+	Priority        1
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\fireaura_pose 1 30
+	TEnd
+MEnd
+
+
+Move Boostaura_long3
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\flameaura 55
+	TEnd
+MEnd
+
+###################
+###### Quick Boost Aura (short) ######
+###################
+
+Move Boostaura_quick
+	Requires	QUICK BOOSTAURA
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Boostaura_quick2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\flameaura 2 47
+	TEnd
+MEnd
+
+
+Move Boostaura_quick2
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\flameaura 48
+	TEnd
+MEnd
+
+###################
+###### Poison Mode (MR.Spikey)  ######
+###################
+
+Move PrePoison
+	Requires	COMBAT POISON
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PrePoison2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\pre_poison 1 88
+	TEnd
+MEnd
+
+
+Move PrePoison2
+	Requires	COMBAT POISON
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Priority        2
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\pre_poison 89
+	TEnd
+MEnd
+
+##################
+###### Poison Stab  ######
+###################
+
+Move Poisonstab_R
+	Requires	COMBAT ATTACK POISON
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Poisonstab_R2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\poison_stab 1 22
+	TEnd
+MEnd
+
+
+Move Poisonstab_R2
+	Requires	COMBAT POISON
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        poisoncycle_15
+	Priority        2
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\poison_stab 23 46
+	TEnd
+MEnd
+
+
+Move poisoncycle_15
+	Requires	COMBAT POISON
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        poisoncycle
+	Priority        2
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\claw_cycle 15 31
+	TEnd
+MEnd
+
+
+Move poisoncycle
+	Requires	COMBAT POISON
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        postReady_back
+	Priority        2
+	Scale           0.50
+
+	Type		Tree
+	  Anim          male\claw_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### Cast  ######
+###################
+
+Move Cast
+	Requires	COMBAT CAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Castpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\palmcast 1 30
+	TEnd
+MEnd
+
+
+Move Castpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\palmcast 31 45
+	TEnd
+MEnd
+
+###################
+###### 2Hand Cast  ######
+###################
+
+Move 2HandCast
+	Requires	COMBAT 2HAND CAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        2HandCastpost
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\2hand_cast 1 50
+	TEnd
+MEnd
+
+
+Move 2HandCastpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\2hand_cast 51
+	TEnd
+MEnd
+
+###################
+###### Ball Cast  ######
+###################
+
+Move BallCast
+	Requires	COMBAT BALLCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        BallCastpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\ball_cast 1 69
+	TEnd
+MEnd
+
+
+Move BallCastpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\ball_cast 70
+	TEnd
+MEnd
+
+###################
+###### magic throw  ######
+###################
+
+Move magicthrow
+	Requires	COMBAT MAGICTHROW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        magicthrowpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\frisbee 1 30
+	TEnd
+MEnd
+
+
+Move magicthrowpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\frisbee 31 70
+	TEnd
+MEnd
+
+###################
+###### Smash Cast Radius  ######
+###################
+
+Move SmashCast
+	Requires	COMBAT SMASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        SmashCastpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\2Hsmash 1 43
+	TEnd
+MEnd
+
+
+Move SmashCastpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Scale           0.80
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\2Hsmash 44
+	TEnd
+MEnd
+
+###################
+###### Disrupt  ######
+###################
+
+Move Disrupt
+	Requires	COMBAT DISRUPT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Disruptpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\disrupt 1 69
+	TEnd
+MEnd
+
+
+Move Disruptpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\disrupt 70
+	TEnd
+MEnd
+
+###################
+###### Levitate  ######
+###################
+
+Move Levitate
+	Requires	COMBAT LEVITATE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Levitate_cycle
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\levitate 1 54
+	TEnd
+MEnd
+
+
+Move Levitate_cycle
+	Requires	COMBAT LEVITATE
+	Member		<DeathIRQ>
+	NextMove        Levitatepost
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\levitate 55 94
+	TEnd
+MEnd
+
+
+Move Levitatepost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\levitate 95
+	TEnd
+MEnd
+
+###################
+###### Levitate + Forceram  ######
+###################
+
+Move Lev_Ram
+	Requires	COMBAT STRONG LEVITATE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Lev_Ram2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\levitate 1 98
+	TEnd
+MEnd
+
+
+Move Lev_Ram2
+	Member		<DeathIRQ>
+	NextMove        Lev_Ram2_post
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\forceram 5 30
+	TEnd
+MEnd
+
+
+Move Lev_Ram2_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\forceram 31 57
+	TEnd
+MEnd
+
+###################
+###### Telekinesis_Cycle  ######
+###################
+
+Move Telekinesis
+	Requires	COMBAT TELEKINESIS
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Telekinecycle
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\telekinesis 2 51
+	TEnd
+MEnd
+
+
+Move Telekinecycle
+	Requires	COMBAT TELEKINESIS
+	Member		<ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        PostTelekine
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\telekinesis 53 92
+	TEnd
+MEnd
+
+
+Move PostTelekine
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\telekinesis 93 105
+	TEnd
+MEnd
+
+
+###################
+###### Telekinesis + Magic Cast  ######
+###################
+
+Move Tele_Magic
+	Requires	COMBAT MAGIC TELEKINESIS
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Tele_Magic2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\telekinesis 1 75
+	TEnd
+MEnd
+
+
+Move Tele_Magic2
+	Member		<DeathIRQ>
+	NextMove        Tele_Magic_post
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\magic_L 5 30
+	TEnd
+MEnd
+
+
+Move Tele_Magic_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\magic_L 31 66
+	TEnd
+MEnd
+
+###################
+###### Asorb Pain  ######
+###################
+
+Move AsorbPain
+	Requires	COMBAT STRONG TELEKINESIS
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        AsorbPain2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\telekinesis 2 91
+	TEnd
+MEnd
+
+
+Move AsorbPain2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        AsorbPaincycle
+	Priority        1
+	Scale           0.20
+	Interpolate     8
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\sleep 9 56
+	TEnd
+MEnd
+
+
+Move AsorbPaincycle
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle NoSizeScale
+	Priority        1
+	Scale           0.20
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\sleep 55 85
+	TEnd
+MEnd
+
+###################
+###### Psionic Windup  ######
+###################
+
+Move Pre_PsiWindup
+	Requires	COMBAT STARTOFFENSESTANCE MYSICWINDUP
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <CombatAttack>
+	NextMove        PsiWindup
+	Priority        3
+
+	Type		Tree
+	  Anim          male\psionic 1 49
+	TEnd
+MEnd
+
+###################
+###### Psionic Windup  ######
+###################
+
+Move PsiWindup
+	Requires	COMBAT MYSICWINDUP
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <CombatAttack>
+	Flags		Cycle NoSizeScale
+	NextMove        PsiWindup_post
+	Priority        2
+
+	Type		Tree
+	  Anim          male\psionic 50 89
+	TEnd
+MEnd
+
+
+Move PsiWindup_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\psionic 165
+	TEnd
+MEnd
+
+###################
+###### Quick Psionic Blast (comes after psi windup)  ######
+###################
+
+Move PsiQuick
+	Requires	COMBAT QUICK PSIONICBLAST
+	Interrupts	<Ready> <Combat> <CombatMove> <CombatAttack> <WepAttack> PsiBlastpost <HitIRQ> <AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PsiQuick2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\psionic 97 125
+	TEnd
+MEnd
+
+
+Move PsiQuick2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\psionic 165
+	TEnd
+MEnd
+
+###################
+###### Psionics  ######
+###################
+
+Move Psionics
+	Requires	COMBAT PSIONIC
+	Interrupts	<Ready> <Combat> <CombatMove> <CombatAttack> <WepAttack> PostPsionics <HitIRQ> <AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PostPsionics
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\psionic 2 89
+	TEnd
+MEnd
+
+
+Move PostPsionics
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\psionic 162
+	TEnd
+MEnd
+
+###################
+###### Psionic Blast  ######
+###################
+
+Move PsiBlast
+	Requires	COMBAT PSIONICBLAST
+	Interrupts	<Ready> <Combat> <CombatMove> <CombatAttack> <WepAttack> PsiBlastpost <HitIRQ> <AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PsiBlast2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\psionic 2 50
+	TEnd
+MEnd
+
+
+Move PsiBlast2
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        PsiBlast3
+	Priority        1
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\psionic 96 114
+	TEnd
+MEnd
+
+
+Move PsiBlast3
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        PsiBlastpost
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\psionic 115 162
+	TEnd
+MEnd
+
+
+Move PsiBlastpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\psionic 163
+	TEnd
+MEnd
+
+###################
+###### Wall  ######
+###################
+
+Move Wall
+	Requires	COMBAT WALL
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Wallpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\wall 2 30
+	TEnd
+MEnd
+
+
+Move Wallpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\wall 31
+	TEnd
+MEnd
+
+###################
+###### Radius Effect  ######
+###################
+
+Move RadiusEffect
+	Requires	COMBAT RADIUSEFFECT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        RadiusEffePost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\radiuseffect 1 60
+	TEnd
+MEnd
+
+
+Move RadiusEffePost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        RadEffecycle
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\radiuseffect 61
+	TEnd
+MEnd
+
+
+Move RadEffecycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		Tree
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### Radius Attack  ######
+###################
+
+Move RadiusAttack
+	Requires	COMBAT RADIUSATTACK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PostRadAttack
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\radiusattack 1 30
+	TEnd
+MEnd
+
+
+Move PostRadAttack
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        RadAttackcycle
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\radiusattack 31
+	TEnd
+MEnd
+
+
+Move RadAttackcycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		Tree
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### Force Ram  ######
+###################
+
+Move ForceRam
+	Requires	COMBAT FORCE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PostForceRam
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\forceram 1 30
+	TEnd
+MEnd
+
+
+Move PostForceRam
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\forceram 31 57
+	TEnd
+MEnd
+
+###################
+###### Cage  ######
+###################
+
+Move Cage
+	Requires	COMBAT CAGE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Cagepost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\hand_clap 1 35
+	TEnd
+MEnd
+
+
+Move Cagepost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\hand_clap 36
+	TEnd
+MEnd
+
+###################
+###### EyeCast Windup  ######
+###################
+
+Move Pre_EyeWindup
+	Requires	COMBAT STARTOFFENSESTANCE POWERWINDUP
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <CombatAttack>
+	NextMove        EyeWindup
+	Priority        3
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\eye 1 39
+	TEnd
+MEnd
+
+###################
+###### EyeCast Windup  ######
+###################
+
+Move EyeWindup
+	Requires	COMBAT POWERWINDUP
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <CombatAttack>
+	Flags		Cycle NoSizeScale
+	NextMove        EyeWindup_post
+	Priority        2
+
+	Type		Tree
+	  Anim          male\eye 40 46
+	TEnd
+MEnd
+
+
+Move EyeWindup_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\eye 47
+	TEnd
+MEnd
+
+###################
+###### mouth_eye blast  ######
+###################
+
+Move Mouth
+	Requires	COMBAT HEADCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PostMouth
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\eye 1 49
+	TEnd
+MEnd
+
+
+Move PostMouth
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\eye 50 60
+	TEnd
+MEnd
+
+###################
+###### LONG mouth_eye blast  ######
+###################
+
+Move Mouth_Long
+	Requires	COMBAT HIGH HEADCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Mouth_2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\eye 1 46
+	TEnd
+MEnd
+
+
+Move Mouth_2
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        Mouth_8
+	Priority        1
+	Scale           0.20
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\eye 40 47
+	TEnd
+MEnd
+
+
+Move Mouth_8
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        PostMouth
+	Priority        1
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\eye 40 49
+	TEnd
+MEnd
+
+###################
+###### Sky Summon  ######
+###################
+
+Move S_Summon
+	Requires	COMBAT SKYSUMMON
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        S_Summonpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\sky_summon 1 60
+	TEnd
+MEnd
+
+
+Move S_Summonpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\sky_summon 61 73
+	TEnd
+MEnd
+
+###################
+###### Ground Summon  ######
+###################
+
+Move G_Summon
+	Requires	COMBAT GROUNDSUMMON
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Summonpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\teleport 1 60
+	TEnd
+MEnd
+
+
+Move G_Summonpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\teleport 61 144
+	TEnd
+MEnd
+
+###################
+###### Hybernate (Boostup + boostaura)   ######
+###################
+
+Move Hybernate
+	Requires	LAUNCH
+	Interrupts	<ReactIRQ> <AttackIRQ>
+	NextMove        Hybernate2
+	Priority        1
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\absorb 1 59
+	TEnd
+MEnd
+
+
+Move Hybernate2
+	Requires	LAUNCH
+	Interrupts	Hybernate3
+	Flags		Cycle NoSizeScale
+	NextMove        Hybernate_post
+	Priority        1
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\boostup_ice_pose 1 2
+	TEnd
+MEnd
+
+
+Move Hybernate_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	Interpolate     8
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\flameaura 13
+	TEnd
+MEnd
+
+###################
+###### Boost_up  ######
+###################
+
+Move Boostup
+	Requires	BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Boostuppost
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\absorb 1 10
+	TEnd
+MEnd
+
+
+Move Boostuppost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\absorb 11
+	TEnd
+MEnd
+
+###################
+###### Boost_down  ######
+###################
+
+Move Boost_D
+	Requires	BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Boost_Dpost
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\boost 1 10
+	TEnd
+MEnd
+
+
+Move Boost_Dpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\boost 11
+	TEnd
+MEnd
+
+###################
+###### Teleport  ######
+###################
+#Move Teleport
+#	Requires	Teleport
+#	Interrupts	<AttackIRQ>
+#	Flags		ReqInputs
+#        Member         <ReactIRQ> <DeathIRQ>
+#	Anim            models\pre_fly 2
+#	NextMove        Telecycle
+#Move Telecycle
+#	Requires	Teleport
+#	Interrupts	<AttackIRQ>
+#	Flags		Cycle
+#        Member         <ReactIRQ> <DeathIRQ>
+#	Anim            models\float2 1
+#	NextMove        TeleFall
+#Move TeleFall
+#	Requires	Air
+#	Sets		Predictable
+#        Member         <ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+#	Flags		Cycle
+#       NextMove        JumpPost
+#       Anim             models\flydown 1
+###################
+###### magic cast Left  ######
+###################
+
+Move Magic_L
+	Requires	COMBAT MAGIC CAST
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Magic_Lpost
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\magic_L 1 30
+	TEnd
+MEnd
+
+
+Move Magic_Lpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\magic_L 31 66
+	TEnd
+MEnd
+
+###################
+###### Steal power  ######
+###################
+
+Move Steal
+	Requires	COMBAT STEAL
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Stealpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\graspearth 1 57
+	TEnd
+MEnd
+
+
+Move Stealpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\graspearth 58
+	TEnd
+MEnd
+
+###################
+###### Bigger Steal power  ######
+###################
+
+Move BigSteal
+	Requires	COMBAT STRONG STEAL
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        BigStealpost
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\new_steal 1 124
+	TEnd
+MEnd
+
+
+Move BigStealpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\new_steal 125
+	TEnd
+MEnd
+
+###################
+###### Heal cast  ######
+###################
+
+Move Heal
+	Requires	COMBAT HEAL
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Healpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\heal 1 67
+	TEnd
+MEnd
+
+
+Move Healpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\heal 68
+	TEnd
+MEnd
+
+###################
+###### Astral sit ######
+###################
+#Move Astral_pre
+#	Requires	Combat Astral
+#	Interrupts	<<AttackIRQ>
+#       Member		<DeathIRQ>
+#	Anim            models\astro 1 62
+#	NextMove	Astralready
+#	Scale		0.7
+#	Sets		CantMove
+#Move Astralready
+#	Sets		Predictable
+#	Requires	Combat Astral
+#        Member		<DeathIRQ> <AttackIRQ>
+#	Anim            models\astro 63 75
+#	Flags		Cycle
+#	NextMove	Astral_getup
+#	Sets		CantMove
+###################
+###### Astral getup ######
+###################
+
+Move Astral_getup
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Tree
+	  Anim          male\astro 75
+	TEnd
+MEnd
+
+###################
+###### Create Elemental Weapon  ######
+###################
+
+Move Createwep
+	Requires	COMBAT WEAPON WEPSPAWN
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Createweppost
+	Priority        3
+	Scale           2.00
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\createwep2 1 105
+	TEnd
+MEnd
+
+
+Move Createweppost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        WepReady
+
+	Type		Tree
+	  Anim          male\createwep2 106
+	TEnd
+MEnd
+
+###################
+###### Stone Armor  ######
+###################
+
+Move Stonearmor
+	Requires	STONEARMOR
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Stonearmor2
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\stonearmor 1 100
+	TEnd
+MEnd
+
+
+Move Stonearmor2
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\stonearmor 101
+	TEnd
+MEnd
+
+###################
+###### Stomp  ######
+###################
+
+Move Stomp
+	Requires	COMBAT STOMP
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Stomp2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\stomp 1 62
+	TEnd
+MEnd
+
+
+Move Stomp2
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\stomp 63
+	TEnd
+MEnd
+
+####### powers  ###################################################################
+###################
+###### Brawling ######
+###################
+
+Move Brawl_R
+	Requires	COMBAT PUNCH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Brawlpost_R
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\zombie_swipe 1 40
+	TEnd
+MEnd
+
+
+Move Brawlpost_R
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Brawlcycle_A
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\zombie_swipe 41 111
+	TEnd
+MEnd
+
+
+Move Brawl_L
+	Requires	COMBAT PUNCH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Brawlpost_L
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\zombie_swipe 116 152
+	TEnd
+MEnd
+
+
+Move Brawlpost_L
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Brawlcycle_B
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\zombie_swipe 153 198
+	TEnd
+MEnd
+
+
+Move Brawlcycle_A
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	Priority        1
+	Scale           0.50
+
+	Type		Tree
+	  Anim          male\zombie_ready 1 31
+	TEnd
+MEnd
+
+
+Move Brawlcycle_B
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	Priority        1
+	Scale           0.50
+
+	Type		Tree
+	  Anim          male\zombie_ALT_ready 1 31
+	TEnd
+MEnd
+
+###################
+###### Grenade Lob  ######
+###################
+
+Move Grenadelob
+	Requires	COMBAT WEAPON GRENADE
+	Interrupts	<AttackIRQ> <Block>
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack>
+	NextMove        Grenadelobpost
+	Priority        3
+
+	Type		Tree
+	  Anim          male\grenade_lob 1 40
+	TEnd
+MEnd
+
+
+Move Grenadelobpost
+	Requires	COMBAT WEAPON
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\grenade_lob 41
+	TEnd
+MEnd
+
+###################
+###### Short Toss ######
+###################
+
+Move ShortToss
+	Requires	COMBAT SHORTTOSS
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        ShortToss_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\short_toss 1 114
+	TEnd
+MEnd
+
+
+Move ShortToss_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\short_toss 115
+	TEnd
+MEnd
+
+###################
+###### Windup Uppercut ######
+###################
+
+Move WindUpcut
+	Requires	COMBAT WINDUPPERCUT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        WindUpcut_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\windup_upcut 1 65
+	TEnd
+MEnd
+
+
+Move WindUpcut_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\windup_upcut 67
+	TEnd
+MEnd
+
+###################
+###### Taunt_A (beat chest) ######
+###################
+
+Move Taunt_A
+	Requires	COMBAT TAUNTA
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Taunt_A_cycle
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\comb_beatchest 1 91
+	TEnd
+MEnd
+
+
+Move Taunt_A_cycle
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        postReady_back
+	Priority        1
+
+	Type		Tree
+	  Anim          male\comb_beatchest 95 144
+	TEnd
+MEnd
+
+###################
+###### Taunt_B (come ON!) ######
+###################
+
+Move Taunt_B
+	Requires	COMBAT TAUNTB
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Taunt_B2
+	Priority        2
+	Interpolate     8
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\combat_comeon 9 79
+	TEnd
+MEnd
+
+
+Move Taunt_B2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Taunt_B_cycle
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combat_comeon 80 118
+	TEnd
+MEnd
+
+
+Move Taunt_B_cycle
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        postReady_back
+	Priority        1
+
+	Type		Tree
+	  Anim          male\combat_comeon 119 156
+	TEnd
+MEnd
+
+###################
+###### Taunt_C (2H come here!) ######
+###################
+
+Move Taunt_C
+	Requires	COMBAT TAUNT VARIATIONC
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Taunt_C2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\combat_comehere 5 59
+	TEnd
+MEnd
+
+
+Move Taunt_C2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Combat_half
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combat_comehere 60
+	TEnd
+MEnd
+
+######  Blocks   ############################################################################
+###################
+###### Block  ######
+###################
+
+Move Block
+	Requires	BLOCK
+	Interrupts	<Ready> <BasicMove> <PostMoveCycle> <BlockIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Block>
+	NextMove        CombatReady
+	Priority        1
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\block 1
+	TEnd
+MEnd
+
+###################
+###### Combat Block  ######
+###################
+
+Move C_Block_R
+	Requires	COMBAT BLOCK
+	Interrupts	<Combat> <CombatMove> <PostMoveCycle> <BlockIRQ> C_Dodge_L
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        CombatReady
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combat_block 1 50
+	TEnd
+MEnd
+
+
+Move C_Block_L
+	Requires	COMBAT BLOCK
+	Interrupts	<Combat> <CombatMove> <PostMoveCycle> <BlockIRQ> C_Dodge_R
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        CombatReady
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combat_block 53
+	TEnd
+MEnd
+
+
+Move C_Dodge_R
+	Requires	COMBAT BLOCK
+	Interrupts	<Combat> <CombatMove> <PostMoveCycle> <BlockIRQ> C_Block_L
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        CombatReady
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combat_dodge 1 49
+	TEnd
+MEnd
+
+
+Move C_Dodge_L
+	Requires	COMBAT BLOCK
+	Interrupts	<Combat> <CombatMove> <PostMoveCycle> <BlockIRQ> C_Block_R
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        CombatReady
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\combat_block 52
+	TEnd
+MEnd
+
+###################
+###### Brawl Block  ######
+###################
+
+Move B_Block_L
+	Requires	COMBAT BLOCK
+	Interrupts	<Left>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Brawlcycle2
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\brawl_block 1 53
+	TEnd
+MEnd
+
+
+Move B_Block_R
+	Requires	COMBAT BLOCK
+	Interrupts	<Right>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Brawlcycle
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Tree
+	  Anim          male\brawl_block 55
+	TEnd
+MEnd
+
+## hit reacts################################################################
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick2
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ> <Ready>
+	NextMove        postReady
+	Flags		HitReact
+	Priority        2
+
+	Type		Tree
+	  Anim          male\zombie_HQ_mid 1
+	TEnd
+MEnd
+
+###################
+###### Combat Hit Quick  ######
+###################
+
+Move C_HitQuick
+	Requires	COMBAT QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ> <Combat>
+	NextMove        CombatReady
+	Flags		HitReact
+	Priority        3
+
+	Type		Tree
+	  Anim          male\HQ_mid 3
+	TEnd
+MEnd
+
+
+Move C_HitQuick2
+	Requires	COMBAT HIGH QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ> <Combat>
+	NextMove        CombatReady
+	Priority        4
+
+	Type		Tree
+	  Anim          male\HQ_high 3
+	TEnd
+MEnd
+
+
+
+
+##########################
+###### Hit Placate React ######
+##########################
+
+Move Hit_Placate
+	Requires	Hit PLACATEHIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Hit_Placate_cycle
+##	Flags		HitReact
+	Priority        2
+
+	Type		Tree
+	  Anim          male\lookquick 1
+	TEnd
+
+MEnd
+
+
+Move Hit_Placate_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Interpolate     0
+##	Flags		HitReact
+
+	Type		Tree
+	  Anim          male\lookquick 1
+	TEnd
+
+MEnd
+
+
+
+
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Priority        5
+	Interpolate     3
+
+	Type		Tree
+	  Anim          male\knockback_fierce 3 16
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move KHF_travel
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+
+	Type		Tree
+	  Anim          male\knockback_fierce 16 17
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Priority        2
+
+	Type		Tree
+	  Anim          male\knockback_fierce 18 25
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move KHF_fallcycle
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\knockback_fierce 25 26
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move KHF_impact
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\knockback_fierce 27
+	  PlayFx        FEET\BIGBODYFALL.FX
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+
+Move getup_back
+	NextMove        getup_back2
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	Member 		<ReactIRQ> <RagdollBellyIRQ>
+
+	Type		Tree
+	  Anim          male\getup_back 5 7
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move getup_back2
+	NextMove        Ready
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	Member 		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ> <RagdollBellyIRQ>
+
+	Type		Tree
+	  Anim          male\getup_back 8 100
+	TEnd
+MEnd
+
+
+Move KHF_Deathcycle
+	Requires	DEATH
+	Member 		<RaiseDeadBackIRQ>
+	Interrupts	getup_back Alt_KHF_impact2 Ragdoll_belly
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION CANTMOVE DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\knockback_fierce 71 75
+	  Ragdoll	1
+	TEnd
+MEnd
+
+###################
+####### Alternate KHF Impact  ######
+####################
+
+Move Alt_KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove        Alt_KHF_fallcycle
+	Priority        2
+
+	Type		Tree
+	  Anim          male\knockback_fierce 18 25
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move Alt_KHF_fallcycle
+	Requires	AIR
+	Flags		Cycle
+	NextMove        Alt_KHF_impact
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\knockback_fierce 25 26
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move Alt_KHF_impact
+	NextMove        Alt_KHF_impact2
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\knockback_fierce 27
+	  PlayFx        FEET\BIGBODYFALL.FX
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move Alt_KHF_impact2
+	NextMove        getup_back
+	Scale           0.5
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\knockback_fierce 65 80
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+###################
+###### Impact Death   ######
+###################
+
+Move Impact_Death
+	Requires	DEATH
+	Interrupts	getup_back getup_back2
+	NextMove        Impact_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\knockback_fierce 27
+	  PlayFx        FEET\MALEDEATH4.FX
+	  Ragdoll	0
+	TEnd
+MEnd
+
+
+Move Impact_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+MEnd
+
+
+
+###############################
+###### Ragdoll Belly getup   ######
+##############################
+
+Move Ragdoll_belly
+	Requires	RAGDOLLBELLY
+	Interrupts	<ReactIRQ> <DeathIRQ> <RagdollBellyIRQ>
+	NextMove        KnockDown_cycle
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\getup_belly 1
+	TEnd
+
+MEnd
+
+
+###################
+###### Sweeps  ######
+###################
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\sweep 3 31
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+MEnd
+
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\knockback_fierce 26
+	  PlayFx        FEET\MALEDEATH6.FX
+	TEnd
+MEnd
+
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\sweep_flip 2 28
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+MEnd
+
+###################
+###### Stun  ######
+###################
+
+Move Stun
+	Requires	STUN HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ>
+	NextMove        Stun_cycle
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\stun_hit 2
+	TEnd
+MEnd
+
+
+Move Stun_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+	Scale           0.50
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\stun_cycle 1 31
+	TEnd
+MEnd
+
+Move Stun_forward
+	Requires	STUN  Forward
+	Interrupts	Stun Stun_cycle <BasicMove> <CombatMove> <WepMove> <TwoHandMove> dizzy <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Stun_cycle
+	Priority        8
+	Scale		0.5
+	Flags		Cycle
+	Interpolate	20
+
+	Type		Tree
+	  Anim          male\stun_walk 1 27 ##zombie_walk_armsdown 1 27
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Sleep_cycle
+	Priority        3
+	Scale           0.40
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\sleep 1 52
+	TEnd
+MEnd
+
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        2
+	Scale           0.20
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\sleep 55 85
+	TEnd
+MEnd
+
+###################
+###### choke Stun  ######
+###################
+
+Move chokeStun
+	Requires	STUN HIT CHOKESTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        chokeStun_cycle
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\choke 1
+	TEnd
+MEnd
+
+
+Move chokeStun_cycle
+	Requires	STUN CHOKESTUN
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\choke 1
+	TEnd
+MEnd
+
+###################
+###### Sonic Stun  ######
+###################
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        SonicStun_cycle
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\sonicpain 1
+	TEnd
+MEnd
+
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\sonicpain 1
+	TEnd
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        ElectroStun_cycle
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\electro 1
+	TEnd
+MEnd
+
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\electro 1
+	TEnd
+MEnd
+
+###################
+###### Lasso Stun  ######
+###################
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        LassoStun_cycle
+	Priority        3
+	Scale           0.60
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\wriggle 1 17
+	TEnd
+MEnd
+
+
+Move LassoStun_cycle
+	Requires	STUN LASSOSTUN
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+	Scale           0.60
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\wriggle 18
+	TEnd
+MEnd
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\freezestun 1 20
+	TEnd
+MEnd
+
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\freezestun 20 30
+	TEnd
+MEnd
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        3
+
+	Type		Tree
+	  Anim          male\freezestun 20 30
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### Levitate Stun  ######
+###################
+
+Move Lev_Stun
+	Requires	STUN HIT FLOATSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        Lev_Stun_cycle
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\pre_fly 2
+	TEnd
+MEnd
+
+
+Move Lev_Stun_cycle
+	Requires	STUN FLOATSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\float2 1
+	TEnd
+MEnd
+
+###################
+###### Lev_Stun Hit Quick  ######
+###################
+
+Move Lev_Stun_HitQuick
+	Requires	HIT
+	Interrupts	Lev_Stun Lev_Stun_cycle
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Lev_Stun_cycle
+	Flags		HitReact
+	Priority        1
+
+	Type		Tree
+	  Anim          male\float_HQ 2
+	TEnd
+MEnd
+
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	Fear
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+	Priority        2
+
+	Type		Tree
+	  Anim          male\zombie_fear_stun 1
+	TEnd
+
+MEnd
+
+Move FearStun_cycle
+	Requires	Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	Interpolate	8
+
+	Type		Tree
+	  Anim          male\zombie_fear_stun 25 60
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### Knock Down  ######
+###################
+
+Move KnockDown
+	Requires	HIT KNOCKDOWN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	NextMove        KnockDown2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\impact_belly 2
+	TEnd
+MEnd
+
+
+Move KnockDown2
+	NextMove        KnockDown_cycle
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\getup_belly 1
+	TEnd
+MEnd
+
+##	Member		<DeathIRQ> <ReactIRQ>
+
+Move KnockDown_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\claw_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### cage react\wriggle  ######
+###################
+
+Move cage_wriggle
+	Requires	HIT WRIGGLE
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        cage_wriggle2
+	Priority        2
+	Scale           0.60
+
+	Type		Tree
+	  Anim          male\wriggle 1 17
+	TEnd
+MEnd
+
+
+Move cage_wriggle2
+	Requires	HIT WRIGGLE
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        postReady
+	Priority        2
+	Scale           0.60
+
+	Type		Tree
+	  Anim          male\wriggle 18
+	TEnd
+MEnd
+
+###################
+###### electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+	Priority        2
+
+	Type		Tree
+	  Anim          male\electro 1
+	TEnd
+MEnd
+
+###################
+###### electro_pain_LONG  ######
+###################
+
+Move electro_react_Long
+	Requires	STRONG HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        electro_react_Long2
+	Flags		HitReact
+	Priority        3
+
+	Type		Tree
+	  Anim          male\electro 1 115
+	TEnd
+MEnd
+
+
+Move electro_react_Long2
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		Tree
+	  Anim          male\electro 1 20
+	TEnd
+MEnd
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\drain 40
+	TEnd
+MEnd
+
+###################
+###### drain react  ######
+###################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\drain 1
+	TEnd
+MEnd
+
+###################
+###### sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		Tree
+	  Anim          male\sonicpain 1
+	TEnd
+MEnd
+
+###################
+###### tele_attack react  ######
+###################
+
+Move tele_react
+	Requires	HIT TELEATTACK
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	Priority        2
+
+	Type		Tree
+	  Anim          male\tele_react 1
+	TEnd
+MEnd
+
+###################
+###### Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+	Priority        2
+	Scale           0.75
+
+	Type		Tree
+	  Anim          male\speed_react 3 34
+	TEnd
+MEnd
+
+###################
+###### Kungfu_speed react  ######
+###################
+
+Move KungfuSpeed_react
+	Requires	HIT KUNGFUSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react2
+	Priority        2
+
+	Type		Tree
+	  Anim          male\speed_react 3 39
+	TEnd
+MEnd
+
+#	Scale		0.75
+
+Move KungfuSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react3
+
+	Type		Tree
+	  Anim          male\drain 40 52
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+
+	Type		Tree
+	  Anim          male\HQ_high 3 25
+	TEnd
+MEnd
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+
+	Type		Tree
+	  Anim          male\speed_react 3 39
+	TEnd
+MEnd
+
+#	Scale		0.75
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react3
+
+	Type		Tree
+	  Anim          male\drain 40 53
+	TEnd
+MEnd
+
+
+Move ClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+
+	Type		Tree
+	  Anim          male\HQ_high 3 25
+	TEnd
+MEnd
+
+
+##################
+###### Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	Priority        2
+
+	Type		Tree
+	  Anim          male\absorb 1
+	TEnd
+MEnd
+
+Move hit_Boost_D
+	Requires	HIT BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	Priority        2
+
+	Type		Tree
+	  Anim          male\boost 1
+	TEnd
+MEnd
+
+#### Deaths  ########################################################################
+
+
+#######################
+###### Vanish Death   ######
+######################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Tree
+	  Anim          male\freezestun 20 30
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		Tree
+	  Anim          male\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\death_front 47 129
+	  PlayFx        FEET\MALEDEATH4.FX
+	TEnd
+MEnd
+
+
+Move Default_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\death_front 129 130
+	TEnd
+MEnd
+
+###################
+###### Hit Death   ######
+###################
+
+Move HitDeath
+	Requires	HIT DEATH
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        postdeath2
+	Priority        2
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\ko 3 100
+	  PlayFx        FEET\MALEDEATH4.FX
+	TEnd
+
+	Type		MindsOfMayhem_Eochai
+	  Anim          male\electro_death 1
+	  PlayFx        FEET\MALEDEATH4.FX
+	  PlayFx        ENEMYFX\Praetorian\MoM\Malaise_Nightmare_Death.fx
+	TEnd
+MEnd
+
+
+Move postdeath2
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\ko 100 111
+	TEnd
+
+	Type		MindsOfMayhem_Eochai
+	  Anim          male\electro_death 1
+	TEnd
+MEnd
+
+###################
+###### Hit Death 4  ######
+###################
+
+Move HitDeath4
+	Requires	HIT DEATH
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        postdeath4
+	Priority        2
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\death_front 3 129
+	  PlayFx        FEET\MALEDEATH3.FX
+	TEnd
+
+	Type		MindsOfMayhem_Eochai
+	  Anim          male\electro_death 1
+	  PlayFx        ENEMYFX\Praetorian\MoM\Malaise_Nightmare_Death.fx
+	TEnd
+MEnd
+
+
+Move postdeath4
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\death_front 129 130
+	TEnd
+
+	Type		MindsOfMayhem_Eochai
+	  Anim          male\electro_death 1
+	TEnd
+MEnd
+
+###################
+###### wep Hit Death   ######
+###################
+#Move HitDeath_wep
+#	Requires	Combat Weapon Hit Death
+#	Sets		NOcollision
+#	Interrupts	<ReactIRQ> <DeathIRQ>
+#       Member		<ReactIRQ> <DeathIRQ>
+#	Anim            models\ko 3 300
+#	NextMove        postdeath2
+#Move postdeath2
+#	Requires	Death
+#	Sets		DieNow Target NOcollision
+#	Anim            models\ko 200 300
+#	Flags		Cycle
+###################
+###### Electro Death  ######
+###################
+
+Move ElectroDeath
+	Requires	HIT DEATH ENERGY
+	Interrupts	<DeathIRQ>
+	NextMove        ElectroDeath2
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\electro_death 1 196
+	TEnd
+MEnd
+
+
+Move ElectroDeath2
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\electro_death 196 197
+	TEnd
+MEnd
+
+###################
+###### Disrupt Death  ######
+###################
+
+Move DisruptDeath
+	Requires	HIT DEATH DISRUPT
+	Interrupts	<DeathIRQ>
+	NextMove        DisruptDeath2
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\electro_death 1 47
+	TEnd
+MEnd
+
+
+Move DisruptDeath2
+	Requires	DEATH
+	NextMove        DisruptDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\ko 3 100
+	TEnd
+MEnd
+
+
+Move DisruptDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\ko 100 101
+	TEnd
+MEnd
+
+###################
+###### Choke Death  ######
+###################
+
+Move ChokeDeath
+	Requires	HIT DEATH MAGIC
+	Interrupts	<DeathIRQ> <BasicDeath>
+	NextMove        ChokeDeath2
+	Priority        5
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\choke 1 137
+	TEnd
+MEnd
+
+
+Move ChokeDeath2
+	Requires	DEATH
+	NextMove        ChokeDeath3
+	Priority        1
+	Interpolate     12
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\death_front 46
+	TEnd
+MEnd
+
+
+Move ChokeDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\death_front 128 129
+	TEnd
+MEnd
+
+###################
+###### Sonic Death  ######
+###################
+
+Move SonicDeath
+	Requires	HIT DEATH PSIONIC
+	Interrupts	<DeathIRQ>
+	NextMove        SonicDeath2
+	Priority        3
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\sonicpain 1 124
+	TEnd
+MEnd
+
+
+Move SonicDeath2
+	Requires	DEATH
+	NextMove        SonicDeath3
+	Priority        1
+	Interpolate     12
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\death_front 46
+	TEnd
+MEnd
+
+
+Move SonicDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\death_front 128 129
+	TEnd
+MEnd
+
+###################
+###### Speed Death  ######
+###################
+
+Move SpeedDeath
+	Requires	HIT DEATH SPEEDPUNCH
+	Interrupts	<DeathIRQ>
+	NextMove        SpeedDeath2
+	Priority        3
+	Scale           0.75
+	Interpolate     2
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\speed_react 3 65
+	TEnd
+MEnd
+
+
+Move SpeedDeath2
+	Requires	DEATH
+	NextMove        SpeedDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\knockback 3 38
+	TEnd
+MEnd
+
+
+Move SpeedDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\knockback 39 40
+	TEnd
+MEnd
+
+###################
+###### Kungfu_speed Death  ######
+###################
+
+Move KungfuSpeed_death
+	Requires	HIT DEATH KUNGFUSPEED
+	Interrupts	<DeathIRQ>
+	NextMove        KungfuSpeed_death2
+	Priority        3
+
+	Type		Tree
+	  Anim          male\speed_react 3 39
+	TEnd
+MEnd
+
+#	Scale		0.75
+
+Move KungfuSpeed_death2
+	NextMove        KungfuSpeed_death3
+
+	Type		Tree
+	  Anim          male\drain 40 52
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_death3
+	Requires	DEATH
+	NextMove        KungfuSpeed_death4
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\knockback 3 38
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_death4
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\knockback 39 40
+	TEnd
+MEnd
+
+###################
+###### Claw_speed Death  ######
+###################
+
+Move ClawSpeed_death
+	Requires	HIT DEATH CLAWSPEED
+	Interrupts	<DeathIRQ>
+	NextMove        ClawSpeed_death2
+	Priority        3
+
+	Type		Tree
+	  Anim          male\speed_react 3 19
+	TEnd
+MEnd
+
+#	Scale		0.75
+
+Move ClawSpeed_death2
+	Requires	DEATH
+	NextMove        ClawSpeed_death3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\drain 40 53
+	TEnd
+MEnd
+
+
+Move ClawSpeed_death3
+	Requires	DEATH
+	NextMove        ClawSpeed_death4
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Tree
+	  Anim          male\knockback 3 38
+	TEnd
+MEnd
+
+
+Move ClawSpeed_death4
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tree
+	  Anim          male\knockback 39 40
+	TEnd
+MEnd
+
+
+
+
+
+##### Encounters stuff   ########
+
+
+
+
+#################################
+### Spawn Quick (out of ground) #####
+#################################
+
+Move T_Spawn_Sleep
+	Requires	SPAWN GROUNDSUMMON
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Flags		Cycle NotSelectable
+	NextMove        T_Spawn
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE NOCOLLISION
+
+
+	Type		Tree
+	  Anim          male\zombie_alt_popup 1 2
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+Move T_Spawn
+	NextMove        T_Spawn2
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\zombie_alt_popup 12 35
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX
+	TEnd
+MEnd
+
+
+Move T_Spawn2
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        T_Spawn_cycle_half
+	Scale           0.80
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\zombie_alt_popup 36
+	TEnd
+MEnd
+
+
+Move T_Spawn_cycle_half
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        T_Spawn_cycle
+	Scale           0.60
+	Interpolate     0
+
+	Type		Tree
+	  Anim          male\zombie_ready 15 31
+	TEnd
+MEnd
+
+
+Move T_Spawn_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+
+	Type		Tree
+	  Anim          male\zombie_ready 1 31
+	TEnd
+MEnd
+
+
+###################
+### Spawn 3  #####
+###################
+
+Move T_3Spawn_Sleep
+	Requires	SPAWN GROUNDSUMMON VARIATIONC
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Flags		Cycle NotSelectable
+	NextMove        T_3Spawn
+	Sets            NOCOLLISION CANTMOVE
+	Priority        4
+	Interpolate     0
+
+
+	Type		Tree
+	  Anim          male\zombie_alt_popup 1 2
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+Move T_3Spawn
+	NextMove        T_3Spawn2
+	Scale           0.70
+	Sets            NOCOLLISION CANTMOVE
+	Interpolate	0
+
+	Type		Tree
+	  Anim          male\zombie_monster_popup 1 35
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  12
+	TEnd
+MEnd
+
+
+Move T_3Spawn2
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        T_3Spawn_cycle
+	Scale           0.70
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\zombie_monster_popup 36
+	TEnd
+MEnd
+
+
+Move T_3Spawn_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Tree
+	  Anim          male\zombie_monster_popup 58
+	TEnd
+MEnd
+
+
+
+#############################
+### Spawn Pet (popup in combat)  #####
+############################
+
+Move T_Spawn_Pet
+	Requires	LOW SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat>
+	NextMove        T_Spawn
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+
+	Type		Tree
+	  Anim          male\zombie_sleep 1 20
+	TEnd
+MEnd
+
+
+
+
+
+
+
+#################################
+### Spawn Uproot Tree #####
+#################################
+
+Move T_Spawn_rooted
+	Requires	SPAWN HIGH
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Flags		Cycle NotSelectable
+	NextMove        T_Spawn_uproot
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE NOCOLLISION
+
+	Type		Tree
+	  Anim          male\Tree_pose 1
+	  PlayFx        GENERIC\TREEHAIR.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move T_Spawn_uproot
+	NextMove        T_Spawn_uproot2
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\tree_ambush_uproot 6 96
+	  PlayFx        GENERIC\UPROOT_ZERO.FX
+	TEnd
+MEnd
+
+
+Move T_Spawn_uproot2
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        T_Spawn_uproot_cycle
+
+	Type		Tree
+	  Anim          male\tree_ambush_uproot 97 136
+	TEnd
+MEnd
+
+
+Move T_Spawn_uproot_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+
+	Type		Tree
+	  Anim          male\tree_ambush_uproot 137 140
+	TEnd
+MEnd
+
+
+###################################
+###### Spawn Scarecrow       ######
+##################################
+
+Move Scarecrow_sleep
+	Requires	SPAWN Magic High
+	Interrupts	<DeathIRQ>
+	NextMove        Scarecrow_Spawn
+	Priority        4
+	Sets            CANTMOVE NOCOLLISION
+	Flags		Cycle NotSelectable
+	Scale		0.1
+
+	Type		Tree
+	  Anim          male\scarecrow_awake 1 3
+	  PlayFx        GENERIC\scarecrow_pole.fx  0 Constant
+	TEnd
+
+MEnd
+
+
+Move Scarecrow_Spawn
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Scarecrow_Growl
+	Priority        1
+	Sets            CANTMOVE
+	Scale		0.7
+
+	Type		Tree
+	  Anim          male\scarecrow_awake 3
+	  PlayFx        GENERIC\scarecrow_pole.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Scarecrow_Growl
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Scarecrow_cycle
+	Interpolate	8
+
+	Type		Tree
+	  Anim          male\growl 1
+	TEnd
+MEnd
+
+
+Move Scarecrow_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Tree
+	  Anim          male\growl_cycle 1
+
+	TEnd
+MEnd
+
+###################################
+###### Spawn Pumpkin      ######
+##################################
+
+Move Pumpkin_sleep
+	Requires	SPAWN Magic Low
+	Interrupts	<DeathIRQ>
+	NextMove        Pumpkin_Spawn
+	Priority        4
+	Sets            CANTMOVE NOCOLLISION
+	Interpolate	0
+	Flags		Cycle NotSelectable
+
+	Type		Tree
+	  Anim          male\skel_ready2 1  5
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx        GENERIC\pumpkinspawn.fx  0 Constant
+	TEnd
+
+MEnd
+
+
+Move Pumpkin_Spawn
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Scarecrow_Growl
+	Priority        1
+	Sets            CANTMOVE
+	Scale		0.9
+	Interpolate	0
+
+	Type		Tree
+	  Anim          male\goblin_groundburst 1 85
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 1
+	TEnd
+
+MEnd
+
+#### Alt versions (quick)  #################
+
+Move Pumpkin_sleep_2
+	Requires	SPAWN Magic Low
+	Interrupts	<DeathIRQ>
+	NextMove        T_Spawn
+	Priority        4
+	Sets            CANTMOVE NOCOLLISION
+	Interpolate	0
+	Flags		Cycle NotSelectable
+
+	Type		Tree
+	  Anim          male\skel_ready2 1  5
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx        GENERIC\pumpkinspawn.fx  0 Constant
+	TEnd
+
+MEnd
+
+
+#####################
+### Basic Spawn  #####
+#####################
+
+Move Z_Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Z_Spawned_post
+	Priority        5
+	Interpolate     0
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+
+	Type		Tree
+	  Anim          male\zombie_popup 1 35
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  2
+	TEnd
+
+MEnd
+
+
+
+Move Z_Spawned_post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Z_Spawned_cycle
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+	Type		Tree
+	  Anim          male\zombie_popup 36
+	TEnd
+
+MEnd
+
+
+
+Move Z_Spawned_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Tree
+	  Anim          male\zombie_Alt_ready 1 31
+	TEnd
+
+
+MEnd
+
+
+
+
+
+
+###  Inc files ###############################################
+
+Include sequencers\player\encounters.inc
+
+Include sequencers\player\emotes.inc
+Include sequencers\player\emotes_air.inc
+
+SeqEnd

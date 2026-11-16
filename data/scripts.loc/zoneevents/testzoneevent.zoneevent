@@ -1,0 +1,275 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P792793840
+
+Stage Setup
+{
+    StartUp
+    {
+        Action StartSetup
+        {
+            DebugPrint <<Starting Stage Setup>>
+        }
+        Action CreateGlowies
+        {
+            GlowieCreate glowie
+            {
+                DisplayName P1248959604
+                Location Event
+                Quantity 45
+                ResetDelay 30
+                Model OO_RV_FC_Terminal01
+                Interact P677908605
+                Interrupt P2589200594
+                Complete P229772764
+                BarText P2466115647
+                InteractTime 4
+                VanishOnComplete
+                Value 50
+            }
+        }
+    }
+    Trigger End
+    {
+        NextStage KillOutcasts
+    }
+    ShutDown
+    {
+    }
+}
+
+Stage Reset
+{
+    DisplayName P528691065
+    StartUp
+    {
+        Action ResetStart
+        {
+            DebugPrint <<Starting stage Reset>>
+        }
+    }
+    Timer ResetTimer
+    {
+        Duration 0:10
+        Display
+    }
+    Trigger End
+    {
+        Requires ResetTimer complete>
+        NextStage KillOutcasts
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint <<Shutting down stage Reset>>
+        }
+    }
+}
+
+Stage KillOutcasts
+{
+    DisplayName P981121795
+    StartUp
+    {
+        Action StartKillOutcasts
+        {
+            DebugPrint <<Starting Stage KillOutcasts>>
+        }
+    }
+    Counter OutcastsKills
+    {
+    	Type VillainGroup
+    	Count 20
+    	VillainGroup Outcasts
+        DisplayProgress P680261878
+    }
+    Objective OutcastPoints
+    {
+    	Type VillainGroup
+    	VillainGroup Outcasts
+	Value 10
+    }
+    Trigger Done
+    {
+        Requires OutcastsKills complete>
+	Action GotoCouncil
+	{
+	    DebugPrint <<KillOutcasts done: switching to KillCouncil>>
+	}
+        NextStage KillCouncil
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint <<Shutting down Stage KillOutcasts>>
+        }
+    }
+}
+
+Stage KillCouncil
+{
+    DisplayName P3399659827
+    StartUp
+    {
+        Action StartKillCouncil
+        {
+            DebugPrint <<Starting Stage KillCouncil>>
+        }
+    }
+    Counter CouncilKills
+    {
+    	Type VillainGroup
+    	Count 10
+    	VillainGroup Council
+        DisplayProgress P3271925292
+    }
+    Objective CouncilPoints
+    {
+    	Type VillainGroup
+    	VillainGroup Council
+	Value 20
+    }
+    Timer CouncilTimer
+    {
+        Duration 3:00
+        Display
+    }
+    Trigger Success
+    {
+        Requires CouncilKills complete>
+	Action GotoOutcasts
+	{
+	    DebugPrint <<KillCouncil success: switching to GlowieClick>>
+	}
+        NextStage GlowieClick
+    }
+    Trigger Failed
+    {
+        Requires CouncilTimer complete>
+	Action GotoReset
+	{
+	    DebugPrint <<KillCouncil failed: switching to Reset>>
+	}
+        NextStage Reset
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint <<Shutting down Stage KillCouncil>>
+        }
+    }
+}
+
+Stage GlowieClick
+{
+    DisplayName P2448573227
+    Startup
+    {
+    	Action Debug
+    	{
+    	    DebugPrint <<Starting stage GlowieClick>>
+    	}
+    	Action GlowieSetup
+    	{
+    	    GlowieControl Place
+    	    {
+    	    	Type Place
+    	        Glowie glowie
+    	    }
+    	    GlowieControl Activate
+    	    {
+    	    	Type Activate
+    	    	Glowie glowie
+    	    }
+    	}
+    }
+    Counter GlowieClicks
+    {
+    	Type Click
+    	Count 5
+    	Glowie glowie
+        DisplayProgress P1145355939
+    }
+    Timer GlowieTimer
+    {
+        Duration 5:00
+        Display
+    }
+    Trigger Success
+    {
+        Requires GlowieClicks complete>
+	Action GotoReward
+	{
+	    DebugPrint <<GlowieClick success: switching to Reward>>
+	}
+        NextStage Reward
+    }
+    Trigger Failed
+    {
+        Requires GlowieTimer complete>
+	Action GotoReset
+	{
+	    DebugPrint <<GlowieClick failed: switching to Reset>>
+	}
+        NextStage Reset
+    }
+    ShutDown
+    {
+    	Action Debug
+    	{
+    	    DebugPrint <<Shutting down stage GlowieClick>>
+    	}
+    	Action GlowieTeardown
+    	{
+    	    GlowieControl Deactivate
+    	    {
+    	    	Type Deactivate
+    	    	Glowie glowie
+    	    }
+    	    GlowieControl Remove
+    	    {
+    	    	Type Remove
+		Glowie glowie
+	    }
+    	}
+    }
+}
+
+Stage Reward
+{
+    StartUp
+    {
+        Action RewardStart
+        {
+            DebugPrint <<Starting Reward stage>>
+        }
+        Action Bling
+        {
+            Reward TestZoneEvent
+        }
+        Action MoreBling
+        {
+            Reward BrainStormToAllRar
+        }
+    }
+    Trigger Reset
+    {
+        NextStage Reset
+        Action RewardReset
+        {
+            DebugPrint <<Switching to Reset from Reward>>
+        }
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint <<Shutting down Stage Reward>>
+        }
+    }
+}

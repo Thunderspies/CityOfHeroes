@@ -1,0 +1,94 @@
+Texture X_DA_mot_blend_01
+	Base1 DA_CliffTexture_02_B
+	Base1Scroll 0 0
+	Base1ScrollType  Normal
+	Base1Scale 6 6
+
+	Multiply1 grey
+	Multiply1Scroll 0 0
+	Multiply1ScrollType  Normal
+	Multiply1Scale  1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 DAmo_mot_blend_mask.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType  Normal
+	DualColor1Scale  1 1
+
+	BumpMap1 DA_CliffTexture_03_NS.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType  Normal
+	BumpMap1Scale 6 6
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType  Normal
+	AddGlow1Scale  1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask DAmo_mot_blend_mask
+	MaskScroll 0 0
+	MaskScrollType  Normal
+	MaskScale  1 1
+	MaskWeight  1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 Damo_mot_scale_01_b_test
+	Base2Scroll 0 0
+	Base2ScrollType  Normal
+	Base2Scale  17 17
+
+	Multiply2 DAmo_mot_blend_d
+	Multiply2Scroll 0 0
+	Multiply2ScrollType  Normal
+	Multiply2Scale  1 1
+	Multiply2Reflect 0
+
+	DualColor2 DAmo_mot_blend_mask.tga
+	DualColor2Scroll 0 0
+	DualColor2ScrollType  Normal
+	DualColor2Scale  1 1
+
+	BumpMap2 Damo_mot_scale_01_n
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType  Normal
+	BumpMap2Scale  17 17
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 200 200 200
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 2
+	SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Damo_mot_scale_01_b_test
+		BumpMap none //
+		Blend DAmo_mot_blend_d
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 12 12
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+

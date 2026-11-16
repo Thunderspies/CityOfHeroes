@@ -1,0 +1,83 @@
+Def grpvolume_DJ_Hospital
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 105.000000 25.000000 80.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Hospital"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Caregiver_Message"	0
+End
+
+Def grpvolume_DJ_Vault
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 105.000000 100.000000 100.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Vault"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Banker_Message"	0
+End
+
+Def grpvolume_DJ_Vault1
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 400.000000 50.000000 170.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Vault"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Banker_Message"	0
+End
+
+Def grp_DayJob_Vault
+	Group grpvolume_DJ_Vault
+		Pos 4843.412109 -37 -162.394775
+	End
+	Group grpvolume_DJ_Vault1
+		PYR 0 -90 -0
+		Pos 4791.412109 -125.142395 -254.394775
+	End
+End
+
+Def grpvolume_DJ_Hospital2
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 105.000000 50.000000 180.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Hospital"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Caregiver_Message"	0
+End
+
+Def grpvolume_DJ_Hospital3
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 125.000000 55.000000 125.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Hospital"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Caregiver_Message"	0
+End
+
+Def grp_Day_Job_Volumes
+	Group grpvolume_DJ_Hospital
+		PYR 0 89 -0
+		Pos 2640.416748 1145.916748 1461.583496
+	End
+	Group grp_DayJob_Vault
+		Pos -2415.995361 1184.416748 3291.478271
+	End
+	Group grpvolume_DJ_Hospital2
+		PYR 0 89 -0
+		Pos 2699.416748 1053.351563 1461.083496
+	End
+	Group grpvolume_DJ_Hospital3
+		PYR 0 134.000015 -0
+		Pos 2091.416748 1163.351807 3165.083496
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Day_Job_Volumes
+	Pos 260.583344 -1218.916748 -2333.083496
+End
+

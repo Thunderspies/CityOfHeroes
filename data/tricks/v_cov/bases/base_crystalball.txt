@@ -1,0 +1,60 @@
+
+Texture x_CrystalBall
+	Base1 a_misc_crystalball.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 test_reflect1.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+
+	DualColor1 a_misc_crystalball.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 a_misc_crystalball.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask arachnos_door_main_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll .1 .1
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255	255
+	SpecularExponent1 8
+	SpecularExponent2 20
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+End
+
+Texture a_misc_crystalball.tga
+	Blend test_reflect1.tga
+	BlendType Multiply
+End

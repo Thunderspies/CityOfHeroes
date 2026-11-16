@@ -1,0 +1,1915 @@
+ ############THIS IS FOR THE ARACHNOS EXTERIOR ELEVATORS#########
+
+
+###Arachnos Exterior Elevator Tricks###
+
+Trick elevlev_deco_lod_near
+	LodFar 60
+	LodFarFade 50	
+End
+
+Trick elevlev_deco_lod_far
+	LodNear 40
+	LodNearFade 50
+	LodFar 1400
+	LodFarFade 100
+End
+
+Trick elevlev_deco_support_lod_near
+	LodFar 60
+	LodFarFade 50
+End
+
+Trick elevlev_deco_support_lod_far
+	LodNear 40
+	LodNearFade 50
+	LodFar 900
+	LodFarFade 100
+End
+
+Trick elevtube_lod_near
+	LodFar 60
+	LodFarFade 50
+End
+
+Trick elevtube_lod_far
+	LodNear 40
+	LodNearFade 50
+	LodFar 1400
+	LodFarFade 100
+End
+
+Trick elevlev_deco_support_nolod
+	LodFar 900
+	LodFarFade 100
+End
+
+
+
+###Arachnos Exterior Elevator Shaders###
+
+###ELEVATOR TUBE###
+
+
+
+Texture x_arach_extelev_cap01
+	Base1 Arach_Elev_Wall_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wall_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //Arach_Elev_Wall_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wall_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_wall01
+	Base1 Arach_Elev_Wall_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	BumpMap1 none //Arach_Elev_Wall_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //Arach_Elev_Wall_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wall_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_cap02
+	Base1 Arach_Elev_Wall_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	BumpMap1 Arach_Elev_Wall_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //Arach_Elev_Wall_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wall_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_roof01
+	Base1 Arach_Elev_Wall_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wall_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //Arach_Elev_Wall_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wall_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+###ELEVATOR DOORFRAME AND DOOR###
+
+Texture x_arach_extelev_door01
+	Base1 Arach_Elev_Door_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Door_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Door_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_doorframe01
+	Base1 Arach_Elev_Doorframe_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Doorframe_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+	
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Doorframe_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_doorcover01
+	Base1 Arach_Elev_Wall_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wall_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //Arach_Elev_Wall_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wall_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_doorwrap01
+	Base1 Arach_Elev_Doorwrap_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Doorwrap_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //Arach_Elev_Wall_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Doorwrap_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_ramp01
+	Base1 Arach_Elev_Ramp_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Ramp_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_foundr
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Ramp_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+###ELEVATOR_DECORATIONS###
+
+ Texture x_arach_extelev_deco01
+	Base1 Arach_Elev_Deco_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Deco_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Arach_Elev_Deco_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Deco_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_decocap01
+	Base1 Arach_Elev_DecoCap_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_DecoCap_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_decohook01
+	Base1 Arach_Elev_Decohook_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Decohook_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Arach_Elev_Decohook_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+	
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Decohook_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+###ELEVATOR WIRES###
+
+Texture x_arach_extelev_wire01
+	Base1 Arach_Elev_Wire_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 2 2
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wire_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 2 2
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 180 200
+	SpecularColor2 0 0 0
+	SpecularExponent1 10
+	SpecularExponent2 10
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wire_01.tga
+		Blend none
+		Bumpmap Arach_Elev_Wire_01_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_wire02
+	Base1 Arach_Elev_Wire_02.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 2 2
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wire_02_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 2 2
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 180 200
+	SpecularColor2 0 0 0
+	SpecularExponent1 10
+	SpecularExponent2 10
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wire_02.tga
+		Blend none
+		Bumpmap Arach_Elev_Wire_02_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_wire03
+	Base1 Arach_Elev_Wire_03.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wire_03_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 180 200
+	SpecularColor2 0 0 0
+	SpecularExponent1 10
+	SpecularExponent2 10
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wire_03.tga
+		Blend none
+		Bumpmap Arach_Elev_Wire_03_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_wirecap01
+	Base1 Arach_Elev_Wire_Caps_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wire_Caps_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 180 200
+	SpecularColor2 0 0 0
+	SpecularExponent1 10
+	SpecularExponent2 10
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wire_Caps_01.tga
+		Blend none
+		Bumpmap Arach_Elev_Wire_Caps_01_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+###ELEVATOR WIRES EXTRA LARGE###
+
+
+Texture x_arach_extelev_wire01_XL
+	Base1 Arach_Elev_Wire_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 2 2
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wire_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 2 2
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 180 200
+	SpecularColor2 0 0 0
+	SpecularExponent1 10
+	SpecularExponent2 10
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wire_01.tga
+		Blend none
+		Bumpmap Arach_Elev_Wire_01_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 2 2
+		ScaleST1 2 2
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_wire02_XL
+	Base1 Arach_Elev_Wire_02.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 3 3
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wire_02_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 3 3
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 180 200
+	SpecularColor2 0 0 0
+	SpecularExponent1 10
+	SpecularExponent2 10
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wire_02.tga
+		Blend none
+		Bumpmap Arach_Elev_Wire_02_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 2 2
+		ScaleST1 2 2
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_wire03_XL
+	Base1 Arach_Elev_Wire_03.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 2 2
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wire_03_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 2 2
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 180 200
+	SpecularColor2 0 0 0
+	SpecularExponent1 10
+	SpecularExponent2 10
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wire_03.tga
+		Blend none
+		Bumpmap Arach_Elev_Wire_03_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 2 2
+		ScaleST1 2 2
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+###ELEVATOR RAMP AND EXTENSION###
+
+Texture x_arach_extelev_platform01
+	Base1 Arach_Elev_Wall_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wall_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //Arach_Elev_Wall_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wall_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_platform02
+	Base1 Arach_Elev_Wall_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wall_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //Arach_Elev_Wall_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wall_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_extelev_platformcap01
+	Base1 Arach_Elev_Wall_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Arach_Elev_Reflection_01.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Arach_Elev_Wall_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none //Arach_Elev_Wall_01_GLOW.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent1 30
+	SpecularExponent2 30
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+	AmbientMinVec .46 .40 .35 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // None NoRandomAddGlow FullBright AlwaysAddGlow
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Arach_Elev_Wall_01.tga
+		Blend Arach_Elev_Reflection_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End

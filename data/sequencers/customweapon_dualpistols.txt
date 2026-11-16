@@ -1,0 +1,134 @@
+#########################################################
+## CustomWeapon_DualPistols.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef PistolRight_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef PistolRight_01
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	PistolRight_Base
+TypeDefEnd
+
+TypeDef PistolRight_02
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	PistolRight_Base
+TypeDefEnd
+
+TypeDef PistolLeft_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef PistolLeft_01
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	PistolLeft_Base
+TypeDefEnd
+
+TypeDef PistolLeft_02
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	PistolLeft_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+	Priority	0
+
+	Type		PistolRight_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Pre
+	Requires	DUALHAND
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Priority        1
+
+	Type		PistolRight_Base
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolRight_Base.fx 0 CONSTANT
+	TEnd
+
+	Type		PistolRight_01
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolRight_01.fx 0 CONSTANT
+	TEnd
+
+	Type		PistolRight_02
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolRight_02.fx 0 CONSTANT
+	TEnd
+
+	Type		PistolLeft_Base
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolLeft_Base.fx 0 CONSTANT
+	TEnd
+
+	Type		PistolLeft_01
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolLeft_01.fx 0 CONSTANT
+	TEnd
+
+	Type		PistolLeft_02
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolLeft_02.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	DUALHAND
+	Member		<WepCombat>
+	Flags		Cycle
+	Priority        1
+
+	Type		PistolRight_Base
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolRight_Base.fx 0 CONSTANT
+	TEnd
+
+	Type		PistolRight_01
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolRight_01.fx 0 CONSTANT
+	TEnd
+
+	Type		PistolRight_02
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolRight_02.fx 0 CONSTANT
+	TEnd
+	Type		PistolLeft_Base
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolLeft_Base.fx 0 CONSTANT
+	TEnd
+
+	Type		PistolLeft_01
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolLeft_01.fx 0 CONSTANT
+	TEnd
+
+	Type		PistolLeft_02
+	  Anim		Prop_basic\skel_test 1
+	  PlayFx        WEAPONS\Custom_Pistols\FX_PistolLeft_02.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

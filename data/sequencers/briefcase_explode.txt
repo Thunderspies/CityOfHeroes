@@ -1,0 +1,74 @@
+#############################################################
+
+Sequencer
+
+TypeDef briefcase_explode
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+############
+## Ready  ##
+############
+
+Move Ready
+	Member		<Ready> <DeathIRQ> 
+	Flags		Cycle 
+
+	Type		briefcase_explode
+	  Anim          Prop_basic\skel_test 1
+	  PlayFX	Generic\briefcase_explode.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+
+##############################
+## Default Death (instant)  ##
+##############################	
+
+Move Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ> 
+	NextMove        Death_post
+	Priority        5
+	Sets            NOCOLLISION 
+	Flags		NotSelectable
+
+	Type		briefcase_explode
+	  Anim          Prop_basic\skel_test 1 
+	 PlayFx        Explosions\Large\Briefcase_Expolsion_large2.fx
+	TEnd
+
+MEnd
+
+Move Death_post
+	Requires	DEATH 
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION  DIENOW
+
+	Type		briefcase_explode
+	  Anim          Prop_basic\skel_test 1   
+	TEnd
+MEnd
+
+
+SeqEnd

@@ -1,0 +1,740 @@
+Name TheSeedOfHamidon
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P1188567604
+EventVolume ZE-SeedOfHamidon
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+
+// Create Spawns: Seed of Hamidon
+		Action
+		{
+			SpawnCreate SeedOfHamidon
+			{
+				Location SeedOfHamidon
+				Group SeedOfHamidon
+				Team SeedOfHamidon
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SeedOfHamidon
+			}
+		}	
+	}
+	Trigger End
+	{
+		NextStage SeedBattle
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Setup>>
+		}
+	}
+}
+
+Stage SeedBattle
+{
+	DisplayName P801445521
+	Tooltip P3585370982
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage SeedBattle>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SeedOfHamidon
+				Type Activate
+			}
+			Floater
+			{
+				Message P2077008991
+				Color 0066cc
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue GrantSeedling-Done 0
+		}
+		Action
+		{
+			SetScriptValue GrantUntouchable-Done 0
+		}
+		Action
+		{
+			SetScriptValue CaptionIntro-Done 0
+		}
+	}
+
+//This is used to update the UI as to The Seed's current health.
+	Counter SeedHealth
+	{
+		Type BossHealth
+		Team SeedOfHamidon
+	}
+
+//This is used to keep track of the defeat of the Seed of Hamidon.
+	Counter SeedDefeated
+	{
+		Type Name
+		Name DevouringEarthSeed_Seed_Of_Hamidon
+		VolumeName ZE_SeedOfHamidon
+		Direction Up
+		Count 1
+	}
+
+//This counter tracks the number of Bulwark Seedlings present within the event
+	Counter BulwarksPresent
+	{
+		Type Name
+		Name DevouringEarthSeed_Bulwark_Seedling
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+	Counter BulwarksPresent-Auto
+	{
+		Type Name
+		Name DevouringEarthSeed_Bulwark_Seedling_AutoFlight
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+//This counter tracks the number of Hematic Seedlings present within the event
+	Counter HematicsPresent
+	{
+		Type Name
+		Name DevouringEarthSeed_Hematic_Seedling
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+	Counter HematicsPresent-Auto
+	{
+		Type Name
+		Name DevouringEarthSeed_Hematic_Seedling_AutoFlight
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+//This counter tracks the number of Maturing Seedlings present within the event
+	Counter MaturingsPresent
+	{
+		Type Name
+		Name DevouringEarthSeed_Maturing_Seedling
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+	Counter MaturingsPresent-Auto
+	{
+		Type Name
+		Name DevouringEarthSeed_Maturing_Seedling_AutoFlight
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+//This counter tracks the number of Respiring Seedlings present within the event
+	Counter RespiringsPresent
+	{
+		Type Name
+		Name DevouringEarthSeed_Respiring_Seedling
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+	Counter RespiringsPresent-Auto
+	{
+		Type Name
+		Name DevouringEarthSeed_Respiring_Seedling_AutoFlight
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+//This counter tracks the number of Contaminating Seedlings present within the event
+	Counter ContaminatingsPresent
+	{
+		Type Name
+		Name DevouringEarthSeed_Contaminating_Seedling
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+	Counter ContaminatingsPresent-Auto
+	{
+		Type Name
+		Name DevouringEarthSeed_Contaminating_Seedling_AutoFlight
+//		VolumeName ZE_SeedOfHamidon
+		Direction Down
+		Count 0
+	}
+
+//This is the timer which grants the Seed its Seedling Summon.
+
+	Timer GrantSeedling-Timer
+	{
+		Duration 00:30
+	}
+
+//This is the timer which grants the Seed its Untouchable Aura.
+
+	Timer GrantUntouchable-Timer
+	{
+		Duration 00:01
+	}
+
+//This is the timer that revokes the Untouchable Aura.
+
+	Timer RevokeUntouchable-Timer
+	{
+		Duration 06:40
+	}
+
+//This trigger grants the Seed the Summon.
+	Trigger GrantSeedling
+	{
+		Requires GrantSeedling-Timer complete> GrantSeedling-Done scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue GrantSeedling-Done 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SeedOfHamidon
+				Type DoBehavior
+				Behavior <<UsePower("Grant_Create_Seedling"),DoNothing(Timer(2))>>
+			}
+		}
+	}
+
+//This trigger kicks off Vanessa's caption when the Seed gets below 95% health and at least 30 seconds have elapsed.
+	Trigger CaptionIntro
+	{
+		Requires SeedHealth count> 95 <= CaptionIntro-Done scriptvalue> 0 == && GrantUntouchable-Timer complete> &&
+
+		Action
+		{
+			SetScriptValue CaptionIntro-Done 1
+		}
+		Action
+		{
+			Caption VanessaIntro
+			{
+				Message P341673908
+				Volume ZE-SeedOfHamidon
+			}
+		}
+	}
+
+//This trigger grants the Seed Untouchable.
+	Trigger GrantUntouchable
+	{
+		Requires GrantUntouchable-Timer complete> GrantUntouchable-Done scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue GrantUntouchable-Done 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SeedOfHamidon
+				Type DoBehavior
+				Behavior <<UsePower("Grant_Untouchable"),DoNothing(Timer(2))>>
+			}
+		}
+	}
+
+//This trigger revokes the Seed's Untouchable.
+//	Trigger RevokeUntouchable
+//	{
+//		Requires RevokeUntouchable-Timer complete> GrantUntouchable-Done scriptvalue> 1 == &&
+//
+//		Action
+//		{
+//			SetScriptValue GrantUntouchable-Done 2
+//		}
+//		Action
+//		{
+//			TeamControl
+//			{
+//				Team SeedOfHamidon
+//				Type DoBehavior
+//				Behavior <<UsePower("Revoke_Untouchable"),DoNothing(Timer(2))>>
+//			}
+//		}
+//	}
+
+
+//This trigger sets up the success condition for the event.
+	Trigger Success
+	{
+		Requires SeedHealth count> 20 <= GrantSeedling-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<Seed of Hamidon Low.>>
+		}
+
+		NextStage SeedFinal
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection SeedBattleStage
+	{
+		UIItem SeedHealthBar
+		{
+			Type BarRed
+			Text P2610448982
+			ShortText P472596995
+			Current SeedHealth count>
+			OnClickFindEnt SeedOfHamidon
+			Target 100
+		}
+		UIItem SeedDefense
+		{
+			Type CenterText
+			Text P3490950179
+			ShortText P1223756150
+			HideIf GrantUntouchable-Done scriptvalue> 1 == RevokeUntouchable-Timer complete> &&
+		}
+		UIItem SeedLine
+		{
+			Type CenterText
+			Text P3916222277
+			ShortText P3916222277
+			HideIf GrantUntouchable-Done scriptvalue> 2 ==
+		}
+		UIItem BulwarkPresenceBar
+		{
+			Type BarGold
+			Text P3312098493
+			ShortText P3452728367
+			Current BulwarksPresent count> BulwarksPresent-Auto count> +  25 *
+			Target 100
+		}
+		UIItem MaturingPresenceBar
+		{
+			Type BarGold
+			Text P694115325
+			ShortText P402822971
+			Current MaturingsPresent count> MaturingsPresent-Auto count> + 25 *
+			Target 100
+		}
+		UIItem SeedLine2
+		{
+			Type CenterText
+			Text P3916222277
+			ShortText P3916222277
+		}
+		UIItem SeedDebuffs
+		{
+			Type CenterText
+			Text P281978014
+			ShortText P3565651664
+		}
+		UIItem SeedLine3
+		{
+			Type CenterText
+			Text P3916222277
+			ShortText P3916222277
+		}
+		UIItem HematicPresenceBar
+		{
+			Type BarGold
+			Text P3463025140
+			ShortText P3043489578
+			Current HematicsPresent count> HematicsPresent-Auto count> +  25 *
+			Target 100
+		}
+		UIItem RespiringPresenceBar
+		{
+			Type BarGold
+			Text P3063610327
+			ShortText P1291825364
+			Current RespiringsPresent count> RespiringsPresent-Auto count> + 25 *
+			Target 100
+		}
+		UIItem ContaminatingPresenceBar
+		{
+			Type BarGold
+			Text P1621680316
+			ShortText P3363418556
+			Current ContaminatingsPresent count> ContaminatingsPresent-Auto count> + 25 *
+			Target 100
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage SeedBattle>>
+		}
+//		Action
+//		{
+//			TeamControl
+//			{
+//				Team SeedOfHamidon
+//				Type Deactivate
+//			}
+//		}
+	}
+}
+Stage SeedFinal
+{
+	DisplayName P2350419781
+	Tooltip P2981578300
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage SeedFinal>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P792042581
+				Color 0066cc
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue RevokeDamage-Done 0
+		}
+		Action
+		{
+			SetScriptValue RevokeSeedling-Done 0
+		}
+		Action
+		{
+			SetScriptValue RevokeAuras-Done 0
+		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_03High_a_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+		Action
+		{
+			Caption VanessaOutro
+			{
+				Message P1069376436
+				Volume ZE-SeedOfHamidon
+			}
+		}
+	}
+
+//This is the timer which ensures that the pets no longer have their postdeath power when they are destroyed.
+
+	Timer RevokeDamage-Timer
+	{
+		Duration 00:01
+	}
+
+//This is the 2nd timer which ensures that the pets no longer have their postdeath power when they are destroyed.
+
+	Timer RevokeSeedlings-Timer
+	{
+		Duration 00:03
+	}
+
+//This is the timer which counts towards the Seed's P1354651601/reset.
+
+	Timer Enrage-Timer
+	{
+		Duration 10:00
+	}
+
+//This is used to update the UI as to The Seed's current health.
+	Counter SeedHealth
+	{
+		Type BossHealth
+		Team SeedOfHamidon
+	}
+
+//This is used to keep track of the defeat of the Seed of Hamidon.
+	Counter SeedDefeated
+	{
+		Type Name
+		Name DevouringEarthSeed_Seed_Of_Hamidon
+		VolumeName ZE_SeedOfHamidon
+		Direction Up
+		Count 1
+	}
+
+//This trigger removes the Summon from the Seed and destroys all of its pets.  It also switches out Corrosive Blast for Corrosive Barrage and adds the Seed's extra resistances for p2
+	Trigger RevokeDamage
+	{
+		Requires RevokeDamage-Done scriptvalue> 0 == RevokeDamage-Timer complete> &&
+
+		Action
+		{
+			SetScriptValue RevokeDamage-Done 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SeedOfHamidon
+				Type DoBehavior
+				Behavior <<UsePower("Revoke_Untouchable"),DoNothing(Timer(2)),UsePower("Revoke_Damage"),DoNothing(Timer(2)),UsePower("Revoke_Create_Seedling"),DoNothing(Timer(2)),UsePower("Revoke_Auras"),DoNothing(Timer(2))>>
+			}
+		}
+	}
+
+////This trigger removes the Summon from the Seed and destroys all of its pets.
+//	Trigger RevokeSeedling
+//	{
+//		Requires RevokeSeedling-Done scriptvalue> 0 == RevokeSeedlings-Timer complete> &&
+//
+//		Action
+//		{
+//			SetScriptValue RevokeSeedling-Done 1
+//		}
+//		Action
+//		{
+//			TeamControl
+//			{
+//				Team SeedOfHamidon
+//				Type DoBehavior
+//				Behavior <<UsePower("Revoke_Create_Seedling"),DoNothing(Timer(2))>>
+//			}
+//		}
+//	}
+//
+////This trigger removes the Auras from the Seed and adds in its extra Resists.  It also switches out Corrosive Blast for Corrosive Barrage
+//	Trigger RevokeAuras
+//	{
+//		Requires RevokeAuras-Done scriptvalue> 0 == RevokeSeedlings-Timer complete> &&
+//
+//		Action
+//		{
+//			SetScriptValue RevokeAuras-Done 1
+//		}
+//		Action
+//		{
+//			TeamControl
+//			{
+//				Team SeedOfHamidon
+//				Type DoBehavior
+//				Behavior <<UsePower("Revoke_Auras"),DoNothing(Timer(2))>>
+//			}
+//		}
+//	}
+
+//This trigger sets up the success condition for the event.
+	Trigger Success
+	{
+		Requires SeedDefeated complete>
+	
+		Action
+		{
+			DebugPrint <<Seed of Hamidon Defeated.>>
+		}
+
+		NextStage Rewards
+	}
+
+
+//This trigger sets up the success condition for the event.
+	Trigger Fail
+	{
+		Requires SeedDefeated complete> ! Enrage-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<Seed of Hamidon Flees!>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SeedOfHamidon
+				Type SetHealth
+				Health 1.0
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SeedOfHamidon
+				Type DoBehavior
+				Behavior <<UsePower("Grant_Auras"),DoNothing(Timer(2)),UsePower("Grant_Create_Seedling"),DoNothing(Timer(2))>>
+			}
+		}
+		NextStage SeedBattle
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection SeedFinalStage
+	{
+		UIItem SeedHealthBar
+		{
+			Type BarRed
+			Text P2610448982
+			ShortText P472596995
+			Current SeedHealth count>
+			OnClickFindEnt SeedOfHamidon
+			Target 100
+		}
+		UIItem SeedEnrageTimer
+		{
+			Type Timer
+			Timer Enrage-Timer
+			Text P2526697837
+			ShortText P2764776255
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage SeedFinal>>
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 10
+			}
+		}
+//		Action
+//		{
+//			TeamControl
+//			{
+//				Team SeedOfHamidon
+//				Type Deactivate
+//			}
+//		}
+	}
+}
+Stage Rewards
+{
+	DisplayName P3973291631
+	Tooltip P268552813
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Rewards>>
+		}
+		Action
+		{
+			Reward ZE_Seed_Rewards
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team SeedOfHamidon
+				Type Deactivate
+			}
+		}
+	}
+	Timer RewardTimer
+	{
+		Duration 00:20
+	}
+	Trigger End
+	{
+		Requires RewardTimer complete>
+		
+		NextStage Reset
+	}
+	UICollection RewardsStage
+	{
+		UIItem Directions
+		{
+			Type Text
+			Text P3833823979
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Rewards>>
+		}
+	}
+}
+	
+Stage Reset
+{
+//	DisplayName P1399496318
+//	Tooltip P4201315811
+
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Reset>>
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 60:00
+		Display
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		
+		NextStage SeedBattle
+	}
+//	UICollection ResetStage
+//	{
+//		UIItem ResetTimer
+//		{
+//			Type Timer
+//			Timer ResetTimer
+//			Text P1172035165
+//			ShortText P1896546779
+//		}
+//	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Reset>>
+		}
+	}
+}

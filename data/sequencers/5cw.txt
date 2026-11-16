@@ -1,0 +1,360 @@
+#############################################################
+## 5cw.txt - Robotic types
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef male
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	None
+TypeDefEnd
+
+TypeDef 5cw
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	male
+TypeDefEnd
+
+TypeDef Clockwork_King
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef Clockwork_Assembler
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef Nemesis_Heavy
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef Malta_Kronos
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef Malta_Hercules
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef Malta_ZeusTitan
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	Malta_Hercules
+TypeDefEnd
+
+TypeDef Malta_ZeusTitan_Combined
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	Malta_ZeusTitan
+TypeDefEnd
+
+TypeDef Unfold
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef Assemble
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef Drop
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef BPTotem
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef Warworks_Warwalker
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef MindsOfMayhem_Babbage
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef MindsOfMayhem_KronosTitan
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef MindsOfMayhem_Paladin
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+
+
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<IRQEmotesALL>
+Group	<Skill>
+Group	<SkillMode>
+Group	<MonsterGroup>
+Group	<MonsterMove>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Interpolate	5
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		5cw
+	  Anim          5cw\skel_monster_cycle 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+
+	Type		5cw
+	  Anim          5cw\monster_postback 5
+	TEnd
+MEnd
+
+###################
+### Fly Mode  ####
+###################
+
+Move Fall_Fready
+	Requires	FLY
+	Interrupts	<FlyFall>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+	Priority        1
+
+	Type		5cw
+	  Anim          5cw\pre_float 27
+	TEnd
+MEnd
+
+#############################################################
+
+Move postAir_C_W
+	Requires	FLY
+	Priority        1
+	Interrupts	C_PreFall W_PreFall
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+
+	Type		5cw
+	  Anim          5cw\pre_float 27
+	TEnd
+MEnd
+
+#############################################################
+
+Move Preflyready
+	Requires	FLY
+	Priority        1
+	Interrupts	<Ready>  <Jumps> <PostMoveCycle> <MoveIRQ>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+	Type		5cw
+	  Anim          5cw\pre_float 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move flyready
+	Requires	FLY
+	Priority        1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		Cycle
+	NextMove        PreFall
+
+	Type		5cw
+	  Anim          5cw\mon_float 1
+	TEnd
+MEnd
+
+
+#############################################################
+
+Move CombatReady_15
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		5cw
+	  Anim          5cw\combat_cycle 15 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        postReady_back
+	Scale           0.50
+
+	Type		5cw
+	  Anim          5cw\combat_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+##  COMBAT FLY READYS
+#############################################################
+
+Move C_flyready
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+	Priority        2
+
+	Type		5cw
+	  Anim          male\air_combatready 25 65
+	TEnd
+MEnd
+
+#############################################################
+
+Move C_flycycle_half
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flycycle
+	Scale           0.50
+	Wind		FLY
+
+	Type		5cw
+	  Anim          male\air_combat_cycle 16 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move C_flycycle
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+	Scale           0.50
+	Wind		FLY
+
+	Type		5cw
+	  Anim          male\air_combat_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move Fake_DualReady
+	Include sequencers\Members\Combat_DualWeapon.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		5cw
+	  Anim          male\dual_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move A_Fake_DualReady
+	Requires	FLY
+	Priority        1
+	Include sequencers\Members\Combat_DualWeapon_Air.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		5cw
+	  Anim          male\air_dual_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Include sequencers\5cw\motion.inc
+Include sequencers\5cw\powers.inc
+Include sequencers\5cw\deaths.inc
+Include sequencers\5cw\reactions.inc
+Include sequencers\5cw\spawns.inc
+Include sequencers\5cw\encounters.inc
+Include sequencers\5cw\doors.inc
+Include sequencers\player\emotes.inc
+Include sequencers\player\emotes_air.inc
+Include sequencers\player\Swim.inc
+
+#############################################################
+
+SeqEnd

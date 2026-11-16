@@ -1,0 +1,487 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage ResetStage
+DisplayName P1912899216
+EventVolume EventVolume_Family
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup for Family Zone Event>>
+		}
+		Action CreateStuff
+		{
+			SpawnCreate LongbowStage1
+			{
+				Location LongbowStage1
+				Group LongbowStage1
+				Team LongbowStage1
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowStage1
+			}
+			SpawnCreate FamilyStage2
+			{
+				Location FamilyStage2
+				Group FamilyStage2
+				Team FamilyStage2
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team FamilyStage2
+			}
+			SpawnCreate FamilyObjectsStage2
+			{
+				Location FamilyObjectsStage2
+				Group FamilyObjectsStage2
+				Team FamilyObjectsStage2
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team FamilyObjectsStage2
+			}
+			SpawnCreate LongbowSoldiersStage3
+			{
+				Location LongbowSoldiersStage3
+				Group LongbowSoldiersStage3
+				Team LongbowSoldiersStage3
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowSoldiersStage3
+			}
+			SpawnCreate LongbowObjectsStage3
+			{
+				Location LongbowObjectsStage3
+				Group LongbowObjectsStage3
+				Team LongbowObjectsStage3
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowObjectsStage3
+			}
+			SpawnCreate LongbowEliteBossStage3
+			{
+				Location LongbowEliteBossStage3
+				Group LongbowEliteBossStage3
+				Team LongbowEliteBossStage3
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowEliteBossStage3
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage Stage1
+	}
+}
+
+Stage Stage1
+{
+	DisplayName P4052956520
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage 1>>
+		}
+		Action TurnonLongbow
+		{
+			TeamControl LongbowStage1Activate
+			{
+				Type Activate
+				Team LongbowStage1
+			}
+		}
+	}
+	Counter LongbowKillCounter
+	{
+		Type Team
+		Count 15
+		Team LongbowStage1
+	}
+	Counter LongbowCaptionCounter
+	{
+		Type Team
+		Count 3
+		Team LongbowStage1
+	}
+	UICollection FirstStageUI
+	{
+		UIItem LongbowUIForStage1
+		{
+			Type BarBlue
+			Text P780490885
+			ShortText P780490885
+			Current LongbowKillCounter count>
+			HideIf LongbowKillCounter complete>
+			Target 15
+		}
+	}
+	Trigger IntroCaptions
+	{
+		Requires LongbowCaptionCounter complete>
+		Action
+		{
+			Caption LongbowExplanation
+			{
+				Message P2838751081
+				Volume EventVolume_Family
+			}
+		}
+	}
+	Trigger FirstStageDone
+	{
+		Requires LongbowKillCounter complete> 
+		Action LongbowNextstagePush
+		{
+			DebugPrint <<Stage One Complete>>
+			Floater Victory
+			{
+				Message P847522527
+				Color 00ff00
+			}
+		}
+		NextStage Stage2Family
+	}
+}
+
+Stage Stage2Family
+{
+	DisplayName P1828356499
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage 2>>
+		}
+		Action TurnOffLongbow
+		{
+			TeamControl LongbowTurnOff
+			{
+				Type Deactivate
+				Team LongbowStage1
+			}
+		}
+		Action TurnonFamily
+		{
+			TeamControl TurnonFamily
+			{
+				Type Activate
+				Team FamilyStage2
+			}
+		}
+		Action TurnonFamilyObjects
+		{
+			TeamControl TurnonFamilyObjects
+			{
+				Type Activate
+				Team FamilyObjectsStage2
+			}
+		}
+	}
+	Counter FamilyKillCounter
+	{
+		Type Team
+		Count 20
+		Team FamilyStage2
+	}
+	Counter FamilyObjectKillCounter
+	{
+		Type Team
+		Count 5
+		Team FamilyObjectsStage2
+	}
+	Counter FamilyCaptionCounter
+	{
+		Type Team
+		Count 5
+		Team FamilyStage2
+	}
+	UICollection SecondStageUI
+	{
+		UIItem FamilyKills
+		{
+			Type BarBlue
+			Text P3631366146
+			ShortText P3631366146
+			Current FamilyKillCounter count>
+			HideIf FamilyKillCounter complete>
+			Target 20
+		}
+		UIItem FamilyObjectKills
+		{
+			Type BarBlue
+			Text P3649819571
+			ShortText P3649819571
+			Current FamilyObjectKillCounter count>
+			HideIf FamilyObjectKillCounter complete>
+			Target 5
+		}
+	}
+	Trigger FamilyCaptions
+	{
+		Requires FamilyCaptionCounter complete>
+		Action
+		{
+			Caption FamilyAttackExplanation
+			{
+				Message P3352804701
+				Volume EventVolume_Family
+			}
+		}
+	}
+	Trigger LongbowAttackCaptions
+	{
+		Requires FamilyObjectKillCounter complete> FamilyKillCounter complete> &&
+		Action
+		{
+			Caption LongbowSurrounded
+			{
+				Message P2296241139
+				Volume EventVolume_Family
+			}
+		}
+	}
+	Trigger SecondStageDone
+	{
+		Requires FamilyObjectKillCounter complete> FamilyKillCounter complete> &&
+		NextStage Stage3Longbow
+	}
+}
+
+Stage Stage3Longbow
+{
+	DisplayName P984439373
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage 3>>
+		}
+		Action TurnOffFamily
+		{
+			TeamControl TurnOffFamily
+			{
+				Type Deactivate
+				Team FamilyStage2
+			}
+		}
+		Action TurnOffFamilyObjects
+		{
+			TeamControl TurnonFamilyObjects
+			{
+				Type Deactivate
+				Team FamilyObjectsStage2
+			}
+		}
+		Action TurnOnLongbowStage3
+		{
+			TeamControl TurnOnLongbowStage3
+			{
+				Type Activate
+				Team LongbowSoldiersStage3
+			}
+		}
+		Action TurnOnLongbowObjectsStage3
+		{
+			TeamControl TurnOnLongbowObjectsStage3
+			{
+				Type Activate
+				Team LongbowObjectsStage3
+			}
+		}
+		Action TurnOnLongbowEliteBossStage3
+		{
+			TeamControl TurnOnLongbowEliteBoss
+			{
+				Type Activate
+				Team LongbowEliteBossStage3
+			}
+		}
+	}
+	Counter LongbowSoldierStage3KillCounter
+	{
+		Type Team
+		Count 30
+		Team LongbowSoldiersStage3
+	}
+	Counter LongbowObjectStage3KillCounter
+	{
+		Type Team
+		Count 5
+		Team LongbowObjectsStage3
+	}
+	Counter LongbowEliteBossKillCounter
+	{
+		Type Team
+		Count 2
+		Team LongbowEliteBossStage3
+	}
+	UICollection ThirdStageUI
+	{
+		UIItem LongbowSoldiers3Kills
+		{
+			Type BarBlue
+			Text P2343807372
+			ShortText P2343807372
+			Current LongbowSoldierStage3KillCounter count>
+			HideIf LongbowSoldierStage3KillCounter complete>
+			Target 30
+		}
+		UIItem LongbowObjectsStage33Kills
+		{
+			Type BarBlue
+			Text P2511081617
+			ShortText P2511081617
+			Current LongbowObjectStage3KillCounter count>
+			HideIf LongbowObjectStage3KillCounter complete>
+			Target 5
+		}
+		UIItem LongbowEB3Kills
+		{
+			Type BarBlue
+			Text P1046352408
+			ShortText P1046352408
+			Current LongbowEliteBossKillCounter count>
+			HideIf LongbowEliteBossKillCounter complete>
+			Target 2
+		}
+	}
+	Trigger ThirdStageDone
+	{
+		Requires LongbowObjectStage3KillCounter complete> LongbowEliteBossKillCounter complete> && LongbowSoldierStage3KillCounter complete> &&
+		NextStage CompleteStage
+		Action
+		{
+			Reward StMartialZE
+		}
+		Action HydraEventcompleted
+		{
+			DebugPrint <<Zone Event is Complete>>
+			Floater Victory
+			{
+				Message P3995281480
+				Color 00ff00
+			}
+		}
+	}
+}
+
+Stage CompleteStage
+{
+	DisplayName P1440909311
+	StartUp
+	{
+		Action TurnOffLongbowStage3
+		{
+			TeamControl TurnOffLongbowStage3
+			{
+				Type Deactivate
+				Team LongbowSoldiersStage3
+			}
+		}
+		Action TurnOffLongbowObjectsStage3
+		{
+			TeamControl TurnOffLongbowObjectsStage3
+			{
+				Type Deactivate
+				Team LongbowObjectsStage3
+			}
+		}
+		Action TurnOffLongbowEliteBossStage3
+		{
+			TeamControl TurnOffLongbowEliteBoss
+			{
+				Type Deactivate
+				Team LongbowEliteBossStage3
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 3:00
+	}
+	UICollection EventReset
+	{
+		UIItem TimeToNextEvent
+		{
+			Type Timer
+			Timer ResetTimer
+			Text P3201275388
+			ShortText P2655158753
+		}
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		NextStage Setup
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action TurnOffFamily
+		{
+			TeamControl TurnOffFamily
+			{
+				Type Deactivate
+				Team FamilyStage2
+			}
+		}
+		Action TurnOffFamilyObjects
+		{
+			TeamControl TurnonFamilyObjects
+			{
+				Type Deactivate
+				Team FamilyObjectsStage2
+			}
+		}
+		Action TurnOffLongbow
+		{
+			TeamControl LongbowTurnOff
+			{
+				Type Deactivate
+				Team LongbowStage1
+			}
+		}
+		Action TurnOffLongbowStage3
+		{
+			TeamControl TurnOffLongbowStage3
+			{
+				Type Deactivate
+				Team LongbowSoldiersStage3
+			}
+		}
+		Action TurnOffLongbowObjectsStage3
+		{
+			TeamControl TurnOffLongbowObjectsStage3
+			{
+				Type Deactivate
+				Team LongbowObjectsStage3
+			}
+		}
+		Action TurnOffLongbowEliteBossStage3
+		{
+			TeamControl TurnOffLongbowEliteBoss
+			{
+				Type Deactivate
+				Team LongbowEliteBossStage3
+			}
+		}
+}

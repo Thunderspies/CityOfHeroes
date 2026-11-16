@@ -1,0 +1,40 @@
+######################################
+## 
+
+## 
+
+Type
+
+Sequencer	Door_safe.txt   	 		
+Graphics	player_library/G_Door_safe_Square.geo
+
+FadeOutStart	500				
+FadeOutFinish	550
+
+GeomScale	1.0 1.0 1.0			
+
+VisSphereRadius 21.12  
+
+ShadowType	None			
+
+LightAsDoorOutside	1
+CollisionType		Door
+
+CapsuleSize	14 14.1 14
+Selection	Capsule
+CapsuleOffset   0 1 3
+
+Placement         DeadOn 
+
+HealthFx
+	Range          0 50
+	OneShotFx       Explosions\Large\Encounter_Expolsion_large2.fx
+	ContinuingFx     generic/prop_safe_door_dmg.fx
+End
+
+HealthFx
+	Range          50 100
+	ContinuingFx	    generic/prop_safe_door.fx
+End
+
+End

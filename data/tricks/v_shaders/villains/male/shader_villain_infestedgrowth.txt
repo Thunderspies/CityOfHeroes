@@ -1,0 +1,220 @@
+//	Shader for infested growth mushrooms on Goliath Warwalkers and Avatar of Hamidon
+//	Including additional shaders for super low res version on Devoured enemies
+
+Texture WarWalker_Eyes_Infested_01_GlowScroll.tga
+	Flags RepeatS RepeatT
+End
+
+
+Texture X_WarWalker_Eyes_Infested_01			// Name of shader
+	Base1 WarWalker_Eyes_Infested_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none //DE_SacRef
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 WarWalker_Eyes_Infested_01_Normal
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 WarWalker_Eyes_Infested_01_GlowScroll //DE_RayBubbles_g
+	AddGlow1Scroll 0 0.012
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 .003
+	AddGlowMat2  0        // <- applies the addglow effect to the second material
+
+	Mask WarWalker_Eyes_Infested_01_Glow
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2  WarWalker_Eyes_Infested_01
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+
+	Multiply2 none //P_StainTile02
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 WarWalker_Eyes_Infested_01_Normal
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale .8
+	AmbientScale 2
+
+	Flags NoRandomAddGlow AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+End
+
+Trick DevouredGrowth
+	SortBias 1.5 //2222288.00
+//	ObjFlags ForceAlphaSort
+	TrickFlags NoColl Doublesided  //noZwrite //  //additive
+End
+
+Texture X_Devoured_Eyes_Infested_01			// Name of shader
+	Base1 Eye_Devoured
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none //DE_SacRef
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 Eye_Devoured_Mask
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Eye_Devoured_Normal
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 WarWalker_Eyes_Infested_01_GlowScroll //DE_RayBubbles_g
+	AddGlow1Scroll 0 0.012
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 .003
+	AddGlowMat2  0        // <- applies the addglow effect to the second material
+
+	Mask Eye_Devoured_GlowMask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2  Eye_Devoured
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+
+	Multiply2 none //P_StainTile02
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 Eye_Devoured_Mask
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Eye_Devoured_Normal
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale .8
+	AmbientScale 2
+
+	Flags NoRandomAddGlow AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+End
+
+Texture X_Devoured_Hair_Infested_01			// Name of shader
+	Base1 Hair_Devoured_02
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none //DE_SacRef
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hair_Devoured_Bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 DE_GlowSac1_g //DE_RayBubbles_g
+	AddGlow1Scroll 0 -0.012
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 .3
+	AddGlowMat2  0        // <- applies the addglow effect to the second material
+
+	Mask Hair_Devoured_GlowMask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2  Hair_Devoured_02
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+
+	Multiply2 none //P_StainTile02
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hair_Devoured_Bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale .8
+	AmbientScale 2
+
+	Flags NoRandomAddGlow AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+End

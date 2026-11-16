@@ -1,0 +1,92 @@
+Texture X_FW_Scraper_Column
+
+	Base1 FWSkyscraper_Column_d
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 P_StainTile02
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .25 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 FWSkyscraper_Column_n
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 0.125 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+
+	Mask FW_JunkyBlend_m
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale .15 .25
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 FWSkyscraper_ColumnClean_d
+	Base2Scroll 0 .0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+
+	Multiply2 P_StainTile02
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale .2 .1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.03125 0.03125
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+
+	ReflectivityBase 0
+  	ReflectivityScale 0
+  	ReflectivityPower 0
+
+	DiffuseScale .8
+	AmbientScale 2
+
+  #ObjFlags FancyWater 
+	Flags  none //AlwaysAddGlow  //FullBright  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 100
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base FWSkyscraper_Column_d
+		Blend P_StainTile02
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 .25 .1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End

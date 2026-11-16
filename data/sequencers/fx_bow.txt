@@ -1,0 +1,42 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_bow 
+	BaseSkeleton	FX_bow\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		FX_bow
+	  Anim          FX_bow\skel_ready 1 5 
+	TEnd
+
+
+MEnd
+
+
+Move shoot_male
+	Requires	COMBAT WEAPON OLDBOW 
+	Interrupts	Ready 
+	NextMove        Ready
+	Priority        3
+
+	Type		FX_bow
+	  Anim          FX_bow\shoot_male 1 40 
+	TEnd
+
+
+MEnd
+
+SeqEnd
+

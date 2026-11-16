@@ -1,0 +1,26 @@
+!!RC1.0
+#
+#	BLENDMODE_MULTIPLY_REG
+#
+{
+  rgb {
+    spare0 = unsigned(tex0) * unsigned(tex1);
+    scale_by_two();
+  }
+  alpha {
+    spare0 = unsigned(const0) * unsigned(tex1);
+  }
+}
+{
+  rgb {
+    spare0 = unsigned(spare0) * unsigned(col0);
+    scale_by_four();
+  }
+  alpha {
+    spare0 = unsigned(spare0) * unsigned(tex0);
+  }
+}
+clamp_color_sum();
+out.rgb = lerp(fog.a, color_sum, fog);
+#out.rgb = color_sum;
+out.a = spare0;

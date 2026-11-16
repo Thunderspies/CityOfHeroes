@@ -1,0 +1,119 @@
+#############################################################
+
+Sequencer
+
+TypeDef target_drone 
+	BaseSkeleton	target_drone\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		target_drone
+	  Anim          target_drone\skel_ready 1  
+	TEnd
+
+
+MEnd
+
+
+###################
+### Walk Forward ##
+###################
+
+#Move WalkPreReady
+#	Requires	FORWARD 
+#	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> 
+#	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+#	NextMove        WalkCycleReady
+#	Priority        1
+#
+#	Type		target_drone
+#	  Anim          target_drone\forward 2 24 
+#	  
+#	TEnd
+#
+#
+#
+#MEnd
+#
+#
+#Move WalkCycleReady
+#	Requires	FORWARD 
+#	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+#	Flags		Cycle 
+#	NextMove        WalkPostReady
+#	Priority        1
+#
+#	Type		target_drone
+#	  Anim          target_drone\forward 25 50 
+#	  
+#	TEnd
+#
+#	
+#MEnd
+#
+#
+#Move WalkPostReady
+#	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> 
+#	NextMove        Ready
+##
+#	Type		target_drone
+#	  Anim          target_drone\forward 55 
+#	  
+#	TEnd
+#MEnd
+
+
+
+
+SeqEnd
+

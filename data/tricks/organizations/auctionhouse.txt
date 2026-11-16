@@ -1,0 +1,1070 @@
+Texture x_AuctionHouseGlass
+	Base1 AuctionHouse_glass.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 ofc1_glass_b.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 3
+
+	DualColor1 AuctionHouse_glass.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 white
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight .5
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 0.05 0.7
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 0.1 0.15
+	Multiply2reflect 20
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 178 230 220
+	SpecularColor2 0 0 0  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+End
+
+Texture x_AuctionHouseRoofMetal //simplified 02/22/2007
+	Base1 AuctionHouseRoofMetal01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Shader_Reflect_Chrome_08.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 AuctionHouseRoofMetal01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 128 180 170
+	SpecularColor2 148 150 190  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base AuctionHouseRoofMetal01.tga
+		Blend none
+		Bumpmap AuctionHouseRoofMetal01_bump.tga
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_AuctionHouseMetal
+	Base1 AuctionHouseMetal01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 AuctionHouseMetal01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 178 230 220
+	SpecularColor2 178 180 220  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base AuctionHouseMetal01.tga
+		Blend none
+		Bumpmap AuctionHouseMetal01_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_AuctionHouseWallMetal
+	Base1 AuctionHouseWallMetal01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Shader_Reflect_Chrome_08.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none //AuctionHouseWallMetal01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 178 180 220 
+	SpecularColor2 178 180 220  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 40
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base AuctionHouseWallMetal01_fallback.tga
+		Blend Shader_Reflect_Chrome_08.tga
+		Bumpmap none
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1.5
+		DiffuseScale 1.5
+	End
+End
+
+Texture x_AuctionHouseRollUpDoor
+	Base1 AuctionHouseRollUpDoor.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 AuctionHouseRollUpDoor_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 178 230 220
+	SpecularColor2 178 180 220  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+End
+
+Texture x_AuctionHouseFloorStone
+	Base1 AuctionHouseFloorStone01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none //Shader_Reflect_chrome_08.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none //AuctionHouseFloorStone01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight .5
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 0.05 0.7
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 0.1 0.15
+	Multiply2reflect 20
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 180 180 140
+	SpecularColor2 0 0 0  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 50
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base AuctionHouseFloorStone01_fallback.tga
+		Blend Shader_Reflect_Chrome_08.tga
+		Bumpmap none
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_AuctionHouseStoneBench
+	Base1 AuctionHouseStoneBench.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none //Shader_Reflect_chrome_08.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none //AuctionHouseStoneBench_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight .5
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 0.05 0.7
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 0.1 0.15
+	Multiply2reflect 20
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 180 180 140
+	SpecularColor2 0 0 0  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 50
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base AuctionHouseStoneBench_fallback.tga
+		Blend Shader_Reflect_Chrome_08.tga
+		Bumpmap none
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_AuctionHouseStone
+	Base1 AuctionHouseStone01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 AuctionHouseStone01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight .5
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 0.05 0.7
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 0.1 0.15
+	Multiply2reflect 20
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 180 180 140
+	SpecularColor2 0 0 0  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 50
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+End
+
+Texture x_AuctionHouseLogo
+	Base1 AuctionHouse_Logo01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Shader_Reflect_Chrome_08.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 4
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 AuctionHouse_Logo01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 3
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 220 220 150
+	SpecularColor2 220 220 150  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base AuctionHouse_Logo01.tga
+		Blend none //Shader_Reflect_Chrome_08.tga
+		Bumpmap AuctionHouse_Logo01_bump.tga
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 0.5
+		DiffuseScale 0.4
+	End
+End
+
+Texture x_AuctionHouseBronze
+	Base1 AuctionHouse_Logo01_bronze.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Shader_Reflect_Chrome_08.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 4
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 AuctionHouse_Logo01_bronze_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 3
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 220 220 150
+	SpecularColor2 220 220 150  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base AuctionHouse_Logo01_bronze.tga
+		#Blend Shader_Reflect_Chrome_08.tga
+		Bumpmap AuctionHouse_Logo01_bronze_bump.tga
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_AuctionHouseText
+	Base1 AuctionHouse_Text01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Shader_Reflect_Chrome_08.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 4
+
+	DualColor1 AuctionHouse_Text01.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 AuctionHouse_Logo01_bronze_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 3
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 220 220 150
+	SpecularColor2 220 220 150  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 20
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base AuctionHouse_Text01.tga
+		#Blend Shader_Reflect_Chrome_08.tga
+		Bumpmap AuctionHouse_Logo01_bronze_bump.tga
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_BlackMarket_Cab
+
+	Base1 BlackMarket_Cab.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 None
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 BlackMarket_Cab_normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask BlackMarket_Cab_mask.tga // shader_grey_50_01
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0     // Optional flag indicating to use the ALPHA channel
+
+	Base2 BlackMarket_Cab.tga
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Shader_Reflect_chrome_09.tga
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 BlackMarket_Cab_normal.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 25 25 25
+	SpecularColor2 200 200 230
+	SpecularExponent1 20
+	SpecularExponent2 20
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 0
+		Base BlackMarket_Cab.tga
+		//Blend some_detail
+		Bumpmap BlackMarket_Cab_normal.tga
+		//BlendType Multiply
+		//ScaleST0 4 4
+		//ScaleST1 1 1
+		DiffuseScale 2
+		AmbientScale 2
+	End
+End
+
+Texture x_BlackMarket_Wheel
+
+	Base1 BlackMarket_Wheel.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 None
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+	
+	DualColor1 BlackMarket_Wheel.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 BlackMarket_Wheel_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask BlackMarket_Wheel_mask.tga // shader_grey_50_01
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask  0    // Optional flag indicating to use the ALPHA channel
+
+	Base2 BlackMarket_Wheel.tga
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Shader_Reflect_chrome_09.tga
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 // Optional flag indicating this is a spheremap
+
+	DualColor2 BlackMarket_Wheel.tga
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 BlackMarket_Wheel_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50  
+	SpecularColor2 200 200 230
+	SpecularExponent1 10
+	SpecularExponent2 20
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base BlackMarket_Wheel.tga
+		Blend BlackMarket_Wheel.tga
+		Bumpmap BlackMarket_Wheel_bump.tga
+		BlendType ColorBlendDual
+		//ScaleST0 4 4
+		//ScaleST1 1 1
+		DiffuseScale 2
+		AmbientScale 2
+	End
+End
+
+Texture x_BlackMarket_Trailer
+
+	Base1 BlackMarket_Trailer.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 None
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+	
+	DualColor1 BlackMarket_Trailer.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 BlackMarket_Trailer_normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask none // shader_grey_50_01
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0     // Optional flag indicating to use the ALPHA channel
+
+	Base2 BlackMarket_Trailer.tga
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Shader_Reflect_chrome_09.tga
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 // Optional flag indicating this is a spheremap
+
+	DualColor2 BlackMarket_Trailer.tga
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 BlackMarket_Trailer_normal.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 200 230
+	SpecularColor2 200 200 230
+	SpecularExponent1 20
+	SpecularExponent2 20
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 0
+		Base BlackMarket_Trailer.tga
+		//Blend some_detail
+		Bumpmap BlackMarket_Trailer_normal.tga
+		//BlendType Multiply
+		//ScaleST0 4 4
+		//ScaleST1 1 1
+		DiffuseScale 2
+		AmbientScale 2
+	End
+End
+
+Texture AuctionHouse_Logo01_bump.tga
+	Flags truecolor
+End
+
+Texture AuctionHouseRoofMetal01.tga
+	surface metal
+End
+
+Texture AuctionHouse_Logo01.tga
+	surface metal
+End
+
+Texture AuctionHouse_Logo01_bronze.tga
+	surface metal
+End
+
+Texture AuctionHouseMetal01.tga
+	surface metal
+End
+
+Texture AuctionHouseRollUpDoor.tga
+	surface metal
+End
+
+Texture AuctionHouseWallMetal01.tga
+	surface metal
+End
+
+Texture BlackMarket_Cab.tga
+	Flags Truecolor
+	surface metal
+End
+
+Texture BlackMarket_Cab_normal.tga
+	Flags Truecolor
+End
+
+Texture BlackMarket_Trailer.tga
+	Flags Truecolor
+	surface metal
+End
+
+Texture BlackMarket_Trailer_normal.tga
+	Flags Truecolor
+End
+

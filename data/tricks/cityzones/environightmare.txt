@@ -1,0 +1,185 @@
+####### ENVIRONIGHTMARE ###########
+ 
+ 
+Trick jnkwallbaseHI
+	LodFar 800
+	LodFarFade 200
+End
+
+Trick jnkwallbaseLO
+	LodFar 100
+	LodFarFade 50
+End
+
+Trick envirobrbdwiremed
+	LodFar 150
+	LodFarFade 65
+	TrickFlags NoColl
+End
+
+Trick enviroplanksml
+	LodFar 150
+	LodFarFade 65
+End
+
+Trick enviroplankmed
+	LodFar 200
+	LodFarFade 75
+End
+
+Trick enviroperchHI
+	LodFar 450
+	LodFarFade 80
+End
+
+Trick enviroperchLO
+	LodFar 200
+	LodFarFade 60
+End
+
+Trick enviropost01
+	LodNear 0
+	LodFar 300
+	LodFarFade 75
+End
+
+Trick enviropost02HI
+	LodNear 0
+	LodFar 100
+	LodFarFade 15
+End
+
+Trick enviropost02LO
+	LodNear 98
+	LodFar 300
+	LodFarFade 75
+End
+
+Trick enviropost03
+	LodNear 0
+	LodFar 320
+	LodFarFade 75
+End
+
+Trick envirograte01
+	LodFar 500
+	LodFarFade 100
+End
+
+###### JUNK TOWERS ###############
+
+Trick jnktwrbasesml
+	LodFar 800
+	LodFarFade 100
+End
+
+Trick jnktwrspikesml
+	LodFar 400
+	LodFarFade 100
+End
+
+Trick jnktwrrailingsml
+	LodFar 300
+	LodFarFade 100
+	TrickFlags NotSelectable
+End
+
+Trick jnktwrbeamsml
+	LodFar 200
+	LodFarFade 50
+End
+
+Trick jnktwrbaselrg
+	LodFar 900
+	LodFarFade 100
+End
+
+Trick jnktwrspikelrg
+	LodFar 450
+	LodFarFade 100
+End
+
+Trick jnktwrrailinglrg
+	LodFar 300
+	LodFarFade 100
+	TrickFlags NotSelectable
+End
+
+Trick jnktwrbeamlrg
+	LodFar 250
+	LodFarFade 50
+End
+
+
+###### ENVIRO BANKS ##############
+
+Trick enviroplates
+	LodFar 1800
+	LodFarFade 0
+End
+
+Texture enviro_fillplate_detail1.tga
+	Fade 0.95 -1
+End
+
+Texture enviro_fillplate1.tga
+	Blend enviro_fillplate_detail1.tga
+	BlendType Multiply
+	ScaleST0 12 12
+End
+
+Texture envirowall_01.tga
+	Flags ClampT
+End
+
+###### SLUDGE WATER #################
+
+Texture sludge_floor.tga
+	Surface INWATER
+End
+
+#Texture sludge_01.tga
+#	Blend sludge_01.tga
+#	BlendType Multiply
+#	BumpMap sludge_01_bump.tga
+#End
+
+#Texture sludge_01_bump.tga
+#	Flags IsBumpmap
+#End
+
+Texture sludge_01
+	Base1 sludge_01
+	Base1Scroll -0.0006 -0.0004
+	Base1Scale 1 1
+	Multiply1 sludge_01
+	Multiply1Scroll -0.0007 0.0003
+	Multiply1Scale 1.5 1.5
+	BumpMap1 sludge_01_bump
+	BumpMap1Scroll  0 0
+	BumpMap1Scale 1 1
+	BumpMap2 sludge_01_bump
+	BumpMap2Scroll  0.0004 0.00025
+	BumpMap2Scale 2 2
+	MaskWeight 1
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Color4 255 255 255
+	Color3 0 0 0
+	
+	ObjFlags FancyWater // This is the flag that says to render as water!
+		Fallback
+		UseFallback 1
+		Base sludge_01
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+

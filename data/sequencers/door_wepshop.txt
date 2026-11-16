@@ -1,0 +1,130 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_WepShop 
+	BaseSkeleton	bis\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove       Ready
+	CycleMove       AltReadyA
+
+	Type		Door_WepShop
+	  Anim          bis\skel_ready 1  
+	TEnd
+MEnd
+
+
+Move AltReadyA
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove       Ready
+	CycleMove       AltReadyB
+
+	Type		Door_WepShop
+	  Anim          bis\xarms 2  
+	TEnd
+MEnd
+
+
+Move AltReadyB
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove       Ready
+	CycleMove       AltReadyA
+
+	Type		Door_WepShop
+	  Anim          bis\watch 2  
+	TEnd
+MEnd
+
+###################
+###### Click on Doctor ######
+###################
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Opened
+	Priority        1
+
+	Type		Door_WepShop
+	  Anim          bis\close_wave 2  
+	TEnd
+MEnd
+
+
+Move Opened
+	Requires	OPEN 
+	Flags		Cycle 
+	NextMove        Shut
+	Priority        1
+
+	Type		Door_WepShop
+	  Anim          bis\skel_ready 1  
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_WepShop
+	  Anim          bis\xarms 2  
+	TEnd
+MEnd
+
+###################
+###### Scared Ready ######
+###################	
+
+Move PreSReady
+	Requires	TEST3 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> <Scared> 
+	NextMove        ScaredReady
+	Priority        1
+
+	Type		Door_WepShop
+	  Anim          bis\scared 2 10 
+	TEnd
+MEnd
+
+
+Move ScaredReady
+	Requires	TEST3 
+	Member		<ReactIRQ> <DeathIRQ> <Scared> 
+	Flags		Cycle 
+	NextMove        PostSReady
+	Priority        1
+
+	Type		Door_WepShop
+	  Anim          bis\scared 11 89 
+	TEnd
+MEnd
+
+
+Move PostSReady
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> 
+	NextMove        Ready
+
+	Type		Door_WepShop
+	  Anim          bis\scared 90  
+	TEnd
+MEnd
+
+SeqEnd
+

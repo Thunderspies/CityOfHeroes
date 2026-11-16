@@ -1,0 +1,60 @@
+#########################################################
+## CustomWeapon_Broadsword.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef RularuWeapon_Eyelid
+	BaseSkeleton	CustomWeapons_Rularuu_Eyelid\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Priority	1
+	Flags		Cycle NoSizeScale
+	CycleMove	Ready
+	CycleMove	Ready
+	CycleMove	Blink1
+	Scale		0.75
+
+	Type		RularuWeapon_Eyelid
+	  Anim		CustomWeapons_Rularuu_Eyelid\skel_ready 1 31
+	TEnd
+MEnd
+
+Move Blink1
+	Member		<Ready>
+	Priority	1
+	Flags		Cycle NoSizeScale
+	CycleMove	Ready
+	CycleMove	Ready
+	CycleMove	Blink2
+
+	Type		RularuWeapon_Eyelid
+	  Anim		CustomWeapons_Rularuu_Eyelid\skel_ready 32
+	TEnd
+MEnd
+
+Move Blink2
+	Member		<Ready>
+	Priority	1
+	Flags		NoSizeScale
+	NextMove	Ready
+
+	Type		RularuWeapon_Eyelid
+	  Anim		CustomWeapons_Rularuu_Eyelid\skel_ready 32
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

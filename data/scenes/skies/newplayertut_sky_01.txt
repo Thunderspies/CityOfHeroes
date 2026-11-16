@@ -1,0 +1,88 @@
+
+ignoreLightClamping 0
+
+#########################
+#
+#	Sky_Praetoria_Dynamic_A
+#
+#########################
+# Sky Color Domes
+# 
+# 00 - 1st Light
+# 01 = Pre-dawn
+# 02 = Dawn
+# 03 = Early Sunrise
+# 04 = Mid Sunrise
+# 05 = Late Sunrise
+# 06 = Morning
+# 07 = Mid Morning
+# 08 = Noon
+# 09 = Late Noon
+# 10 = Early Evening
+
+
+sun
+	MoonName sun__		 0 153 100 40   # speed, pitch, yaw, roll # The first moon is the sun 
+	MoonName moon__		 0 0 100 40   # speed, pitch, yaw, roll # The first moon is the sun 
+
+	CloudFadeTime 8 15 #19.5
+	CloudFadeMin 0
+
+	LampLightTime 0 24
+End
+
+
+cloud 
+	Name		prae_cloud_noon_A__
+	CloudFadeTime 0 24        //overrides the "sun" fade time, for individual cloud control
+	CloudFadeMin 0 
+end
+
+
+cloud 
+	Name		prae_sunskirt
+end
+
+
+###########################################################
+
+
+//-------------------------------------------------------------------------------------------------
+//  SUNTIME 12
+//================================================================================================= 
+
+suntime	
+	Time 								12
+	SkyName 						prae_skydm_12_NightGlow__
+	diffuse1   					200 160 120
+	diffuse2   					0 0 0
+	ambient   					200 150 110  #55 75 135
+	FogColor  					180 140 110
+	BackGroundColor 		180 140 110
+	#HighFogColor 			124 169 187
+	FogDist 						5 3500
+	SunScale						.7
+	MoonScale						1
+	ShadowColor					0 0 20 
+	ShadowAlpha					80
+	
+//-------------------------------------------------------------------------------------------------
+// Depth of Field
+//=================================================================================================	 
+		DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     200    #Changes the focus (mid) distance 
+		DOFFarDist       3800   #Changes the far distance 
+      
+		DOFNearValue    .0      #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   .30      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     .47      #Changes the blurriness at the far point                              
+//=================================================================================================	
+End
+
+
+
+
+                         
+
+
+

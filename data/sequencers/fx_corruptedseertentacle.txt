@@ -1,0 +1,889 @@
+#############################################################
+## FX_CorruptedSeerTentacle.txt
+#############################################################
+
+Sequencer
+
+TypeDef FX_CorruptedSeerTentacle_01
+	BaseSkeleton	FX_CorruptedSeerTentacle\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_CorruptedSeerTentacle_02
+	BaseSkeleton	FX_CorruptedSeerTentacle\skel_ready
+	ParentType	FX_CorruptedSeerTentacle_01
+TypeDefEnd
+
+TypeDef FX_CorruptedSeerTentacle_03
+	BaseSkeleton	FX_CorruptedSeerTentacle\skel_ready
+	ParentType	FX_CorruptedSeerTentacle_01
+TypeDefEnd
+
+TypeDef FX_CorruptedSeerTentacle_04
+	BaseSkeleton	FX_CorruptedSeerTentacle\skel_ready
+	ParentType	FX_CorruptedSeerTentacle_01
+TypeDefEnd
+
+TypeDef FX_CorruptedSeerTentacle_05
+	BaseSkeleton	FX_CorruptedSeerTentacle\skel_ready
+	ParentType	FX_CorruptedSeerTentacle_01
+TypeDefEnd
+
+TypeDef FX_CorruptedSeerTentacle_06
+	BaseSkeleton	FX_CorruptedSeerTentacle\skel_ready
+	ParentType	FX_CorruptedSeerTentacle_01
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+### Note: All sequencer stuff must match exactly w\ player sequencer
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Scale		.5
+	NextMove	CombatReady
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_ready 1 80
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_ready 1 80
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_ready 1 80
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_ready 1 80
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_ready 1 80
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_ready 1 80
+	TEnd
+
+
+MEnd
+
+#############################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready> PostWepReady
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle nosizescale
+	CycleMove	Combat_Cycle
+	Scale		0.5
+	NextMove	Post_Combat
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle.fx		1 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_ready 1 80
+	TEnd
+
+MEnd
+
+Move Combat_Cycle
+	Requires	COMBAT
+	Priority        1
+	Scale		0.5
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle nosizescale
+	NextMove	Post_Combat
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle.fx		1 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_ready 1 80
+	TEnd
+
+MEnd
+
+Move Post_Combat
+	Member		<Ready> <DeathIRQ>
+	NextMove	Ready
+	Flags		nosizescale
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle.fx		1 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_ready 1 80
+	  PlayFX	ENEMYFX\Awakened\Electricity_Idle_Short.fx	1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_ready 1 80
+	TEnd
+
+MEnd
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkPre
+	Requires	FORWARD
+	Priority	1
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <CombatAttack>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	WalkCycle
+	NextMove	WalkPost
+	Interpolate	5
+	Scale		2
+
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_run_pre 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_run_pre 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_run_pre 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_run_pre 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_run_pre 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_run_pre 1
+	TEnd
+
+MEnd
+
+Move WalkCycle
+	Requires	FORWARD
+	Priority        1
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		Cycle
+	NextMove        WalkPost
+
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_run_forward 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_run_forward 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_run_forward 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_run_forward 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_run_forward 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_run_forward 1
+	TEnd
+
+MEnd
+
+
+Move WalkPost
+	Include sequencers\Members\readies.inc
+	NextMove        CombatReady
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_runpost 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_runpost 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_runpost 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_runpost 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_runpost 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_runpost 1
+	TEnd
+
+MEnd
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<ReactIRQ> <Combat> Ready
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_hitquick 1 30
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_hitquick 1 30
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_hitquick 1 30
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_hitquick 1 30
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_hitquick 1 30
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_hitquick 1 30
+	TEnd
+MEnd
+
+####Corrupted Seer - Powers ########################################################
+
+Move Psychic_Lash_Pre
+	Requires	COMBAT PSIONIC LASH HIGH
+	Priority        4
+	Interrupts	<Combat>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Psychic_Lash
+	flags           CANTMOVE nosizescale
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psychic_lash 1 29
+	  PlayFX	fx\ENEMYFX\Awakened\PsychicLash_Windup.fx 	1 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psychic_lash 1 29
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psychic_lash 1 29
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psychic_lash 1 29
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psychic_lash 1 29
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psychic_lash 1 29
+	TEnd
+
+MEnd
+
+Move Psychic_Lash
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Psychic_Lash_post
+	flags            nosizescale CANTMOVE
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psychic_lash 30 50
+	  PlayFX	ENEMYFX\Awakened\PsychicLash_Attack.fx 		1 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psychic_lash 30 50
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psychic_lash 30 50
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psychic_lash 30 50
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psychic_lash 30 50
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psychic_lash 30 50
+	TEnd
+
+MEnd
+
+Move Psychic_Lash_post
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	Scale		0.70
+	flags            nosizescale
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psychic_lash 51 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psychic_lash 51 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psychic_lash 51 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psychic_lash 51 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psychic_lash 51 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psychic_lash 51 75
+	TEnd
+
+MEnd
+
+#### Psionic Blast########################################################
+
+Move Psionic_Blast_Pre
+	Requires	COMBAT PSIONICBLAST ALTERNATE
+	Priority        3
+	Interrupts	<Combat>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Psionic_Blast
+	flags           CANTMOVE nosizescale
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psionic_blast 1 29
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup.fx 25
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psionic_blast 1 29
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup_Small.fx 25
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psionic_blast 1 29
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup.fx 25
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psionic_blast 1 29
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup.fx 25
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psionic_blast 1 29
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup.fx 25
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psionic_blast 1 29
+	TEnd
+
+MEnd
+
+Move Psionic_Blast
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Psionic_Blast_Attack
+	flags            nosizescale CANTMOVE
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psionic_blast 30 57
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psionic_blast 30 57
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psionic_blast 30 57
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psionic_blast 30 57
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psionic_blast 30 57
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psionic_blast 30 57
+	TEnd
+
+MEnd
+
+Move Psionic_Blast_Attack
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Psionic_Blast_post
+	flags            nosizescale CANTMOVE
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psionic_blast 58 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psionic_blast 58 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psionic_blast 58 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psionic_blast 58 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psionic_blast 58 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psionic_blast 58 75
+	TEnd
+
+MEnd
+
+Move Psionic_Blast_post
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	Scale		0.65
+	flags            nosizescale
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psionic_blast 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psionic_blast 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psionic_blast 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psionic_blast 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psionic_blast 75
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psionic_blast 75
+	TEnd
+
+MEnd
+
+#### Psionic Shockwave ########################################################
+
+Move Psionic_Shockwave_Pre
+	Requires	COMBAT PSIONIC LASH LOW ALTERNATE
+	Priority        5
+	Interrupts	<Combat>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Psionic_Shockwave
+	flags           CANTMOVE nosizescale
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psionic_shockwave 1 41
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup.fx 	10 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psionic_shockwave 1 41
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup_Small.fx 10 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psionic_shockwave 1 41
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup_Small.fx 10 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psionic_shockwave 1 41
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup_Small.fx 10 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psionic_shockwave 1 41
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Windup_Small.fx 10 CONSTANT
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psionic_shockwave 1 41
+	TEnd
+
+MEnd
+
+Move Psionic_Shockwave
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Psionic_Shockwave_post
+	flags           nosizescale CANTMOVE
+	Scale		0.50
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psionic_shockwave 42 65
+	  PlayFX	fx\ENEMYFX\Awakened\PsychicLash_Cooldown.fx 1
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psionic_shockwave 42 65
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Cooldown_Small.fx 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psionic_shockwave 42 65
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Cooldown_Small.fx 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psionic_shockwave 42 65
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Cooldown_Small.fx 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psionic_shockwave 42 65
+	  PlayFX	fx\ENEMYFX\Awakened\PsionicShockwave_Cooldown_Small.fx 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psionic_shockwave 42 65
+	TEnd
+
+MEnd
+
+Move Psionic_Shockwave_post
+	Member		<DeathIRQ> <AttackIRQ>
+	Scale		0.70
+	NextMove        CombatReady
+	flags           nosizescale
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_psionic_shockwave 66 108
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_psionic_shockwave 66 108
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_psionic_shockwave 66 103
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_psionic_shockwave 66 107
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_psionic_shockwave 66 105
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_psionic_shockwave 66 102
+	TEnd
+
+MEnd
+
+#### Consume #######################################################
+
+Move Consume_Pre
+	Requires	COMBAT PSIONIC BOOSTUP ALTERNATE
+	Priority        4
+	Interrupts	<Combat>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Consume
+	flags           CANTMOVE nosizescale
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_consume 1 33
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_consume 1 33
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_consume 1 33
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_consume 1 33
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_consume 1 33
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_consume 1 33
+	TEnd
+
+MEnd
+
+Move Consume
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Consume_Attack
+	flags            nosizescale CANTMOVE
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_consume 34 60
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1 CONSTANT
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_SFX.fx 1
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_consume 34 60
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_consume 34 60
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_consume 34 60
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_consume 34 60
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1 CONSTANT
+
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_consume 34 60
+
+	TEnd
+
+MEnd
+
+Move Consume_Attack
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Consume_post
+	flags            nosizescale CANTMOVE
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_consume 61 102
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_consume 61 102
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_consume 61 102
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_consume 61 102
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_consume 61 102
+	  PlayFX	ENEMYFX\Awakened\Consume_Attack_Tentacle.fx 1
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_consume 61 102
+	TEnd
+
+MEnd
+
+Move Consume_post
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        CombatReady
+	flags            nosizescale
+
+	Type		FX_CorruptedSeerTentacle_01
+	  Anim          FX_CorruptedSeerTentacle\tentacle01_consume 103 150
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_02
+	  Anim          FX_CorruptedSeerTentacle\tentacle02_consume 103 155
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_03
+	  Anim          FX_CorruptedSeerTentacle\tentacle03_consume 103 152
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_04
+	  Anim          FX_CorruptedSeerTentacle\tentacle04_consume 103 150
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_05
+	  Anim          FX_CorruptedSeerTentacle\tentacle05_consume 103 152
+	TEnd
+
+	Type		FX_CorruptedSeerTentacle_06
+	  Anim          FX_CorruptedSeerTentacle\tentacle06_consume 103 150
+	TEnd
+
+MEnd
+
+###################################################
+
+SeqEnd
+

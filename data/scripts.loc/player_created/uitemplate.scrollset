@@ -1,0 +1,3866 @@
+//
+// MAKE SURE YOU RUN   scripts\xlatePlayer_Created.bat before you check in. JM
+//
+
+{
+
+	Button
+	{
+		Name "P1981005982"
+		ToolTip "P2238007597"
+		SpecialAction AddButton
+
+		ElementList
+		{
+			Name "P30671714"
+			ToolTip "P2877024930"
+			Template BossTemplate
+			Button 1
+		}
+		ElementList
+		{
+			Name "P3284808684"
+			ToolTip "P2775808545"
+			Template CollectionTemplate
+			Button 1
+		}
+
+		ElementList
+		{
+			Name "P2354967036"
+			ToolTip "P4107028897"
+			Template DefeatAllTemplate
+			Button 1
+		}
+
+		ElementList
+		{
+			Name "P1985349211"
+			ToolTip "P1950499102"
+			Template RescueTemplate
+			
+			Button 1
+		}
+	}
+
+	Button
+	{
+		Name "P3149546515"
+		ToolTip "P1565357126"
+		SpecialAction AddButton
+
+		ElementList
+		{
+			Name "P12486503"
+			ToolTip "P1584406892"
+			Template AllyTemplate
+			
+			Button 1
+		}
+
+		ElementList
+		{
+			Name "P2338823450"
+			ToolTip "P2453940541"
+			Template AmbushTemplate
+			
+			Button 1
+		}
+
+		ElementList
+		{
+			Name "P1798429218"
+			ToolTip "P852414379"
+			Template EscortTemplate
+			
+			Button 1
+		}
+		ElementList
+		{
+			Name "P76210366"
+			ToolTip "P1348291679"
+			Template PatrolTemplate
+			
+			Button 1
+		}
+
+		ElementList
+		{
+			Name "P485020923"
+			ToolTip "P3177962179"
+			Template RumbleTemplate
+			
+			Button 1
+		}
+
+		ElementList
+		{
+			Name "P3982757068"
+			ToolTip "P2155730869"
+			Template DestroyObjectTemplate
+			
+			Button 1
+		}
+
+		ElementList
+		{
+			Name "P363527984"
+			ToolTip "P2792240289"
+			Template DefendObjectTemplate
+			
+			Button 1
+		}
+		ElementList
+		{
+			Name "P2218081262"
+			ToolTip "P1559586557"
+			Template GiantMonsterTemplate
+			
+			Button 1
+		}
+
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name StoryArcTemplate
+		DisplayName "P4255688915"
+		ToolTip "P3970747156"
+		Struct StoryArc
+		
+
+		ElementList
+		{
+			Name "P1247790863"
+			Default "P1719429314"
+			ToolTip "P4091615475"
+			CharLimit 75
+			CopyrightCheck 1
+
+			Field Title
+		}
+		ElementList
+		{
+			Name "P1663929137"
+			ToolTip "P360013978"
+			CharLimit 300
+
+			Field Description
+			AllowHTML 2
+		}
+
+		Button
+		{
+			Name "P372082671"
+			ToolTip "P1105123978"
+
+			ElementList
+			{
+				Name "P3042836257"
+				ToolTip "P1459131317"
+				CharLimit 30
+				CopyrightCheck 1
+
+				Field ContactDisplayName
+			}
+
+			ElementList
+			{
+				Name "P1738593806"
+				ToolTip "P400765766"
+				Field ContactType
+				SpecialAction EnumContactType
+
+				Element
+				{
+					DisplayName "P753088835"
+					Text Default
+				}
+				Element
+				{
+					DisplayName "P1236015348"
+					Text Contact
+
+					ElementList
+					{
+						Name "P1564119161"
+						ToolTip "P3570839156"
+
+						SpecialAction BuildContactList
+						Button 1
+						Field ContactCategory
+						Required 1 // This will make 'none' invalid
+					}
+				}
+				Element
+				{
+					DisplayName "P1911831732"
+					Text Critter
+
+					ElementList
+					{
+						Name "P1255361809"
+						ToolTip "P151632630"
+
+						SpecialAction BuildEntityListContact
+						Button 1
+						Field ContactCategory
+						Required 1 // This will make 'none' invalid
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+				Element
+				{
+					DisplayName "P2108159343"
+					Text Object
+
+					ElementList
+					{
+						Name "P3605083247"
+						ToolTip "P2544944679"
+
+						SpecialAction BuildModelListContact
+						Field ContactCategory
+						Required 1 // This will make 'none' invalid
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+				Element
+				{
+					DisplayName "P1271717977"
+					Text CustomContact
+
+					ElementList
+					{
+						Name "P2672596278"
+						ToolTip "P889412283"
+
+						SpecialAction BuildCustomCritterAndContactList
+						Field ContactCategory
+						Button 1
+						Required 1 // This will make 'none' invalid
+						DontUnlockCheck 1
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+			}
+			ElementList
+			{
+				Name "P3357642543"
+				ToolTip "P1669198528"
+				CharLimit 50
+				CopyrightCheck 1
+
+				Field ContactGroup	// ignored
+			}
+			ElementList
+			{
+				Name "P851451980"
+				ToolTip "P1434264975"
+				CharLimit 300
+				AllowHTML 1
+
+				Field AboutContact
+			}
+		}
+
+		Button
+		{
+			Name "P349203958"
+			ToolTip "P3535223800"
+			Optional 1
+
+			ElementList
+			{
+				Name "P1292801582"
+				ToolTip "P3732308473"
+				
+				SpecialAction EnumArcStatus
+				Field Status
+			}
+
+			ElementList
+			{
+				Name "P1461992763"
+				ToolTip "P2424255279"
+				
+				SpecialAction EnumMorality
+				Field Morality
+				Default Neutral
+
+			}
+			ElementList
+			{
+				Name "P2402446553"
+				ToolTip "P103944933"
+				
+				KeywordSelector 1
+				Field AuthorKeyword
+			}
+		}
+		Button
+		{
+			Name "P2025636931"
+			ToolTip "P719666729"
+			Optional 1
+
+			ElementList
+			{
+				Name "P1382292"
+				ToolTip "P747391188"
+				CharLimit 60
+				Field SouvenirClue
+			}
+			ElementList
+			{
+				Name "P1073433622"
+				ToolTip "P1097232882"
+				CharLimit 3000
+				Field SouvenirClueDesc
+				AllowHTML 1
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name MissionSettingsTemplate
+		DisplayName "P2967582626"
+		ToolTip "P2542853540"
+		Struct Mission
+
+		ElementList
+		{
+			Name "P1255361809"
+			ToolTip "P3707193155"
+			Field EnemyGroupType
+			TabbedSelection 1
+			ReplaceNoneWith "P2713311984"
+			
+			Element
+			{
+				DisplayName "P3917592017"
+				Text 	Standard
+
+				ElementList
+				{
+					Name "P1255361809"
+					ToolTip "P2769387642"
+					SpecialAction BuildVillainGroupList
+					Field VillainGroup
+				}
+			}
+			Element
+			{
+				DisplayName "P4062712749"
+				Text Custom
+
+				ElementList
+				{
+					Name "P2370434884"
+					ToolTip "P3518430535"
+
+					SpecialAction BuildCustomVillainGroupList
+					Field VillainGroup
+					Required 1 // This will make 'none' invalid
+					Button 1
+					DontUnlockCheck 1
+					FieldRestrictionAlreadyDefined 1
+				}
+			}
+		}
+		ElementList
+		{
+			Name "P1026575050"
+			ToolTip "P111453729"
+			Field MapSet
+			SpecialAction BuildMapList
+			ReplaceNoneWith "P2713311984"
+
+		}
+
+		Button
+		{
+			Name "P995260592"
+			ToolTip "P1801577270"
+			Optional 1
+
+			ElementList
+			{
+				Name "P1445377620"
+				ToolTip "P113274839"
+				SpecialAction BuildLevelList
+				ReplaceNoneWith "P753088835"
+				Field MinLevel
+			}
+			ElementList
+			{
+				Name "P376032802"
+				ToolTip "P489206411"
+				SpecialAction BuildLevelList
+				ReplaceNoneWith "P753088835"
+				Field MaxLevel
+			}
+
+			ElementList
+			{
+				Name "P3500142445"
+				ToolTip "P789025352"
+				SpecialAction EnumPacing
+				Default Flat
+				Field Pacing
+			}
+			ElementList
+			{
+				Name "P3330294222"
+				ToolTip "P3392262036"
+
+				Element
+				{
+					DisplayName "P3050699932"
+					Text 0
+				}
+				Element
+				{
+					DisplayName "P3029437750"
+					Text 5
+				}
+				Element
+				{
+					DisplayName "P3321094520"
+					Text 10
+				}
+				Element
+				{
+					DisplayName "P2197267730"
+					Text 15
+				}
+				Element
+				{
+					DisplayName "P878923283"
+					Text 30
+				}
+				Element
+				{
+					DisplayName "P802629904"
+					Text 45
+				}
+				Element
+				{
+					DisplayName "P2571354641"
+					Text 60
+				}
+				Element
+				{
+					DisplayName "P3042136150"
+					Text 90
+				}
+				Element
+				{
+					DisplayName "P1671085315"
+					Text 120
+				}
+				
+				Field CompletionTime
+			}
+			ElementList
+			{
+				Name "P2127178713"
+				ToolTip "P3483646939"
+				Element
+				{
+					DisplayName "P3566336117"
+					Text 0
+				}
+				Element
+				{
+					DisplayName "P522307737"
+					Text 1
+				}
+				Field MissionNoTeleportExit
+			}
+		}
+		Button
+		{
+			Name "P2372826327"
+			Optional 1
+			ToolTip "P1906708643"
+			ElementList
+			{
+				Name "P2125455069"
+				ToolTip "P3738419953"
+				CharLimit 60
+				Field StartClue
+			}
+			ElementList
+			{
+				Name "P152630490"
+				ToolTip "P478452396"
+				CharLimit 1000
+				Field StartClueDescription
+				AllowHTML 1
+			}
+		}
+		Button
+		{
+			Name "P3336338855"
+			Optional 1
+			ToolTip "P2391605295"
+			ElementList
+			{
+				Name "P2125455069"
+				ToolTip "P3115039932"
+				CharLimit 60
+				Field Clue
+			}
+			ElementList
+			{
+				Name "P152630490"
+				ToolTip "P1292077831"
+				CharLimit 1000
+				Field ClueDescription
+				AllowHTML 1
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name WriteDialogTemplate
+		DisplayName "P2458990516"
+		ToolTip "P3814113753"
+		Struct Mission
+
+		ElementList
+		{
+			Name "P4254605386"
+			ToolTip "P1073732984"
+			CharLimit 1000
+			
+			Field ContactIntro
+			AllowHTML 1
+		}
+		ElementList
+		{
+			Name "P381861420"
+			ToolTip "P724572821"
+			CharLimit 1000
+			
+			Field ContactSendOff
+			AllowHTML 1
+		}
+		ElementList
+		{
+			Name "P1399135934"
+			ToolTip "P5613982"
+			Default "P0"
+			CharLimit 100
+
+			Field CompassActiveTask
+			AllowHTML 1
+		}
+		ElementList
+		{
+			Name "P502170569"
+			ToolTip "P324938060"
+			CharLimit 1000
+			
+			Field ContactStillBusy
+			AllowHTML 1
+		}
+		ElementList
+		{
+			Name "P154629560"
+			ToolTip "P2962217292"
+			CharLimit 1000
+		
+			Field ContactReturnSuccess
+			AllowHTML 1
+		}
+		Button
+		{
+			Name "P1181403063"
+			ToolTip "P365531013"
+			Optional 1
+
+			ElementList
+			{
+				Name "P862715059"
+				ToolTip "P740850530"
+				CharLimit 75
+				Field Title
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P2552922919"
+				ToolTip "P3462353641"
+				CharLimit 75
+				Field SubTitle
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P2874580579"
+				ToolTip "P310871727"
+				CharLimit 100
+				Default "P3029133314"
+
+				Field MissionAccept
+			}
+			ElementList
+			{
+				Name "P620706377"
+				ToolTip "P3468343518"
+				CharLimit 300
+
+				Field MissionEntryDialog
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P3985222173"
+				ToolTip "P1068860783"
+				CharLimit 300
+			
+				Field MissionSuccessDialog
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P3227426206"
+				ToolTip "P1000004730"
+				Default "P0"
+				CharLimit 300
+				Field MissionFailDialog
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P3824003569"
+				ToolTip "P3449159315"
+				CharLimit 1000
+				
+				Field ContactReturnFail
+				AllowHTML 1
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name AmbushTemplate
+		DisplayName "P2416614906"
+		ToolTip "P2793249375"
+		Struct Detail
+		DetailType Ambush
+		Icon Ambush_Icon.tga 
+		IconGlow Ambush_Icon_Glow.tga
+
+		ElementList
+		{
+			Name "P3922634868"
+			ToolTip "P411600551"
+			CharLimit 75
+			CopyrightCheck 1
+
+			Field Name
+		}
+		ElementList
+		{
+			Name "P898523855" 
+			ToolTip "P2049027322"
+			
+			SpecialAction BuildAmbushTrigger
+			ReplaceNoneWith "P3959941072"
+			Field Trigger
+		}
+
+		Button
+		{
+			Name "P473154195"
+			ToolTip "P1230210459"
+			Optional 1
+
+			ElementList
+			{
+				Name "P1255361809"
+				ToolTip "P939426191"
+				Field EnemyGroupType
+				TabbedSelection 1
+
+				Element
+				{
+					DisplayName "P3917592017"
+					Text 	Standard
+
+					ElementList
+					{
+						Name "P591301051"
+						ToolTip "P939442325"
+						
+						ReplaceNoneWith "P2780899354"
+						SpecialAction BuildVillainGroupList
+						Field VillainGroup
+					}
+				}
+				Element
+				{
+					DisplayName "P4062712749"
+					Text Custom
+
+					ElementList
+					{
+						Name "P2370434884"
+						ToolTip "P2850423075"
+
+						SpecialAction BuildCustomVillainGroupList
+						ReplaceNoneWith "P2780899354"
+						Field VillainGroup
+						Button 1
+						DontUnlockCheck 1
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+			}
+			ElementList
+			{
+				Name "P2791125050"
+				ToolTip "P1870564715"
+
+				SpecialAction EnumAlignment
+				Field Alignment
+				Default Enemy
+			}
+			ElementList
+			{
+				Name "P523253932"
+				ToolTip "P1240756332"
+
+				SpecialAction EnumDifficulty
+				Field Difficulty
+				Default Easy
+			}
+		}
+		Button 
+		{
+			Name "P1120787796"
+			ToolTip "P3173638902"
+			Optional 1
+
+			ElementList
+			{
+				Name "P3585149149"
+				ToolTip "P3548877372"
+				CharLimit 300
+
+				Field ActiveSpeech
+			}
+		}
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name BossTemplate
+		DisplayName "P2664220932"
+		ToolTip "P2704942724"
+		Struct Detail
+		DetailType Boss
+		Icon Boss_Icon.tga
+		IconGlow Boss_Icon_glow.tga
+
+		ElementList
+		{
+			Name "P1359223233"
+			ToolTip "P1649216245"
+			CharLimit 75
+			CopyrightCheck 1
+
+			Field Name
+		}
+		ElementList
+		{
+			Name "P2214146286"
+			ToolTip "P3999123565"
+			Field EntityType
+			TabbedSelection 1
+
+			Element
+			{
+				DisplayName "P3917592017"
+				Text Standard
+
+				ElementList
+				{
+					Name "P4219912035"
+					ToolTip "P1029455087"
+
+					SpecialAction BuildBossEntityList
+					Button 1
+					Field EntityGroup
+					ReplaceNoneWith "P2713311984"
+
+				}
+			}
+			Element
+			{
+				DisplayName "P4062712749"
+				Text Custom
+
+				ElementList
+				{
+					Name "P2370434884"
+					ToolTip "P2850423075"
+
+					SpecialAction BuildCustomCritterList
+					Field EntityGroup
+					Button 1
+					DontUnlockCheck 1
+					FieldRestrictionAlreadyDefined 1
+				}
+			}
+		}
+
+		Button 
+		{
+			Name "P154993707"
+			ToolTip "P295343735"
+			Optional 1
+
+			ElementList
+			{
+				Name "P2363474820"
+				ToolTip "P1470978865"
+				CheckBoxList 1
+				Field MissionReqCheckBox
+
+				Element
+				{
+					DisplayName "P1563333174"
+					Text Required
+					Active 1
+				}
+			}
+			ElementList
+			{
+				Name "P2921299587" 
+				ToolTip "P1894335046"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+//				ReplaceNoneWith "P4273580311"
+
+			}
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P4111004844"
+
+				Field Quantity
+				Default 1
+			}
+			ElementList
+			{
+				Name "P2923404543"
+				ToolTip "P2740431591"
+				
+				SpecialAction EnumAlignment
+				Field Alignment
+				Default Enemy
+			}
+			ElementList
+			{
+				Name "P260424405"
+				ToolTip "P3369181906"
+				
+				SpecialAction EnumPlacement
+				Field Placement
+				Default Back
+			}
+			ElementList
+			{
+				Name "P1800146608"
+				ToolTip "P1100159560"
+				
+				SpecialAction EnumDifficulty
+				Field Difficulty
+				Default Easy
+			}
+
+			ElementList
+			{
+				Name "P1255361809"
+				ToolTip "P939426191"
+				Field EnemyGroupType
+				TabbedSelection 1
+
+				Element
+				{
+					DisplayName "P3917592017"
+					Text 	Standard
+
+					ElementList
+					{
+						Name "P2324184175"
+						ToolTip "P2331116237"
+
+						SpecialAction BuildVillainGroupList
+						Field VillainGroup
+						
+						ReplaceNoneWith "P2071074472" 
+					}
+				}
+				Element
+				{
+					DisplayName "P4062712749"
+					Text Custom
+
+					ElementList
+					{
+						Name "P2370434884"
+						ToolTip "P2850423075"
+
+						SpecialAction BuildCustomVillainGroupList
+						Field VillainGroup
+						Required 1 // This will make 'none' invalid
+						Button 1
+						DontUnlockCheck 1
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+			}
+			ElementList
+			{
+				Name "P632451536"
+				ToolTip "P387653794"
+				
+				SpecialAction BuildAnimList
+				Field BossAnimation
+				ReplaceNoneWith "P753088835"
+			}
+			ElementList
+			{
+				Name "P1023358296"
+				ToolTip "P2824955898"
+			
+				SpecialAction BuildAnimList
+				Field DefaultAnimation
+				ReplaceNoneWith "P753088835"
+
+			}
+			ElementList
+			{
+				Name "P808855328"
+				ToolTip "P682673272"
+
+				Element
+				{
+					DisplayName "P3983355187"
+					Text 0
+				}
+
+				Element
+				{
+					DisplayName "P3811360262"
+					Text 1
+				}
+				Element
+				{
+					DisplayName "P2183407804"
+					Text .75
+				}
+				Element
+				{
+					DisplayName "P524819041"
+					Text .50
+				}
+				Element
+				{
+					DisplayName "P445079468"
+					Text .25
+				}
+				Element
+				{
+					DisplayName "P474882334"
+					Text .10
+				}
+				Element
+				{
+					DisplayName "P3019450110"
+					Text .05
+				}
+
+				Field BossRunsWhenHPISBelow
+			}
+			ElementList
+			{
+				Name "P2366452416"
+				ToolTip "P3450130285"
+				
+
+				Element
+				{
+					DisplayName "P1292896925"
+					Text 0
+				}
+
+				Element
+				{
+					DisplayName "P3768066464"
+					Text 1
+				}
+				Element
+				{
+					DisplayName "P1536388214"
+					Text 2
+				}
+				Element
+				{
+					DisplayName "P3694503733"
+					Text 3
+				}
+				Element
+				{
+					DisplayName "P1776567470"
+					Text 4
+				}
+				Element
+				{
+					DisplayName "P2063667261"
+					Text 5
+				}
+				Element
+				{
+					DisplayName "P681266105"
+					Text 6
+				}
+
+				Element
+				{
+					DisplayName "P2940043514"
+					Text 7
+				}
+				Element
+				{
+					DisplayName "P1774170927"
+					Text 8
+				}
+				Element
+				{
+					DisplayName "P3994646636"
+					Text 9
+				}
+				Element
+				{
+					DisplayName "P3836729683"
+					Text 10
+				}
+				Element
+				{
+					DisplayName "P1661538832"
+					Text 11
+				}
+				Element
+				{
+					DisplayName "P814958996"
+					Text 12
+				}
+
+				Field BossRunsWhenAllyCountIsBelow
+			}
+			ElementList
+			{
+				Name "P3088998689"
+				ToolTip "P964804664"
+				CharLimit 100
+
+				Field BossRunsAwaySpeech
+			}
+			ElementList
+			{
+				Name "P1811004186"
+				ToolTip "P1739037982"
+
+				Element
+				{
+					DisplayName "P280145310"
+					Text 1
+				}
+				Element
+				{
+					DisplayName "P3463840094"
+					Text 0
+				}
+
+				Field BossOnlyRequiredForComplete
+				Default 0
+			}
+		}
+
+		Button 
+		{
+			Name "P883736576"
+			ToolTip "P413081859"
+			Optional 1
+
+			ElementList
+			{
+				Name "P1758409905"
+				ToolTip "P1233900738"
+				CharLimit 50
+				CopyrightCheck 1
+
+				Field OverrideGroup
+			}
+			ElementList
+			{
+				Name "P1512914307"
+				ToolTip "P2772807531"
+				CharLimit 750
+
+				Field Description
+				AllowHTML 2
+			}
+			ElementList
+			{
+				Name "P1215555202"
+				ToolTip "P4031626825"
+				CharLimit 75
+				Field CompassDescription
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P4076396695"
+				ToolTip "P2222240383"
+				CharLimit 75
+				Field CompassDescriptionSingular
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P1366413467"
+				ToolTip "P3166652708"
+				CharLimit 300
+				Field RewardText
+			}
+			ElementList
+			{
+				Name "P3437205676"
+				ToolTip "P4014914919"
+				CharLimit 500
+
+				Field InactiveSpeech
+			}
+			ElementList
+			{
+				Name "P2728036334"
+				ToolTip "P2283128240"
+				CharLimit 100
+
+				Field ActiveSpeech
+			}
+			ElementList
+			{
+				Name "P2485820726"
+				ToolTip "P4011498691"
+				CharLimit 100
+
+				Field FirstBloodSpeech
+			}
+			ElementList
+			{
+				Name "P3892811061"
+				ToolTip "P1556566811"
+				CharLimit 100
+
+				Field ThreeFourthsHealthSpeech
+			}
+			ElementList
+			{
+				Name "P386494499"
+				ToolTip "P2432473008"
+				CharLimit 100
+
+				Field HalfHealthSpeech
+			}
+			ElementList
+			{
+				Name "P3513153956"
+				ToolTip "P1571243054"
+				CharLimit 100
+
+				Field QuarterHealthSpeech
+			}
+			ElementList
+			{
+				Name "P890632964"
+				CharLimit 100
+
+				ToolTip "P125594859"
+
+				Field DeathSpeech
+			}
+			ElementList
+			{
+				Name "P2625603592"
+				ToolTip "P4269853282"
+				CharLimit 100
+
+				Field DefeatedPlayerSpeech
+			}
+		}
+		Button
+		{
+			Name "P1282464397"
+			Optional 1
+			ToolTip "P2507507985"
+			ElementList
+			{
+				Name "P2125455069"
+				ToolTip "P2565205188"
+				CharLimit 60
+				Field Clue
+			}
+			ElementList
+			{
+				Name "P152630490"
+				ToolTip "P3779880706"
+				CharLimit 300
+				Field ClueDescription
+				AllowHTML 1
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name GiantMonsterTemplate
+		DisplayName "P112405066"
+		ToolTip "P3005327099"
+		Struct Detail
+		DetailType GiantMonster
+		Icon Boss_Icon.tga
+		IconGlow Boss_Icon_glow.tga
+
+		ElementList
+		{
+			Name "P2486713920"
+			ToolTip "P4183731325"
+			CharLimit 75
+			CopyrightCheck 1
+
+			Field Name
+		}
+
+		ElementList
+		{
+			Name "P3926663192"
+			ToolTip "P2735084662"
+
+			SpecialAction BuildGiantMonsterEntityList
+			Field EntityGroup
+			ReplaceNoneWith "P2713311984"
+
+		}
+
+		Button 
+		{
+			Name "P4180134608"
+			ToolTip "P2641767090"
+			Optional 1
+
+			ElementList
+			{
+				Name "P2363474820"
+				ToolTip "P292861742"
+				CheckBoxList 1
+				Field MissionReqCheckBox
+
+				Element
+				{
+					DisplayName "P1563333174"
+					Text Required
+					Active 1
+				}
+			}
+			ElementList
+			{
+				Name "P2921299587" 
+				ToolTip "P173518173"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+//				ReplaceNoneWith "P4273580311"
+
+			}
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P2183908627"
+
+				Field Quantity
+				Default 1
+			}
+			ElementList
+			{
+				Name "P2923404543"
+				ToolTip "P2094623680"
+				
+				SpecialAction EnumAlignment
+				Field Alignment
+				Default Enemy
+			}
+			ElementList
+			{
+				Name "P1800146608"
+				ToolTip "P2901991269"
+				
+				SpecialAction EnumDifficulty
+				Field Difficulty
+				Default Easy
+			}
+
+			ElementList
+			{
+				Name "P1255361809"
+				ToolTip "P939426191"
+				Field EnemyGroupType
+				TabbedSelection 1
+
+				Element
+				{
+					DisplayName "P3917592017"
+					Text 	Standard
+
+					ElementList
+					{
+						Name "P2324184175"
+						ToolTip "P2331116237"
+
+						SpecialAction BuildVillainGroupList
+						Field VillainGroup
+						
+						ReplaceNoneWith "P3990716878" 
+					}
+				}
+				Element
+				{
+					DisplayName "P4062712749"
+					Text Custom
+
+					ElementList
+					{
+						Name "P2370434884"
+						ToolTip "P2850423075"
+
+						SpecialAction BuildCustomVillainGroupList
+						Field VillainGroup
+						Required 1 // This will make 'none' invalid
+						Button 1
+						DontUnlockCheck 1
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+			}
+			ElementList
+			{
+				Name "P874432862"
+				ToolTip "P1587894180"
+				
+				SpecialAction BuildAnimList
+				Field BossAnimation
+				ReplaceNoneWith "P753088835"
+			}
+			ElementList
+			{
+				Name "P1023358296"
+				ToolTip "P2680905220"
+			
+				SpecialAction BuildAnimList
+				Field DefaultAnimation
+				ReplaceNoneWith "P753088835"
+
+			}
+			ElementList
+			{
+				Name "P1811004186"
+				ToolTip "P328583792"
+
+				Element
+				{
+					DisplayName "P2155506207"
+					Text 1
+				}
+				Element
+				{
+					DisplayName "P3463840094"
+					Text 0
+				}
+
+				Field BossOnlyRequiredForComplete
+				Default 0
+			}
+		}
+
+		Button 
+		{
+			Name "P4052805505"
+			ToolTip "P3258954307"
+			Optional 1
+
+			ElementList
+			{
+				Name "P4071996192"
+				ToolTip "P3048357103"
+				CharLimit 50
+				CopyrightCheck 1
+
+				Field OverrideGroup
+			}
+			ElementList
+			{
+				Name "P1269277432"
+				ToolTip "P4079621429"
+				CharLimit 750
+
+				Field Description
+				AllowHTML 2
+			}
+			ElementList
+			{
+				Name "P1215555202"
+				ToolTip "P4031626825"
+				CharLimit 75
+				Field CompassDescription
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P4076396695"
+				ToolTip "P2222240383"
+				CharLimit 75
+				Field CompassDescriptionSingular
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P4245352441"
+				ToolTip "P3516372456"
+				CharLimit 300
+				Field RewardText
+			}
+			ElementList
+			{
+				Name "P1875895271"
+				ToolTip "P278274542"
+				CharLimit 500
+
+				Field InactiveSpeech
+			}
+			ElementList
+			{
+				Name "P249673868"
+				ToolTip "P2753264739"
+				CharLimit 100
+
+				Field ActiveSpeech
+			}
+			ElementList
+			{
+				Name "P3223999148"
+				ToolTip "P2454325963"
+				CharLimit 100
+
+				Field FirstBloodSpeech
+			}
+			ElementList
+			{
+				Name "P1149020759"
+				ToolTip "P2929096455"
+				CharLimit 100
+
+				Field ThreeFourthsHealthSpeech
+			}
+			ElementList
+			{
+				Name "P2627557368"
+				ToolTip "P2207064181"
+				CharLimit 100
+
+				Field HalfHealthSpeech
+			}
+			ElementList
+			{
+				Name "P1525833343"
+				ToolTip "P3458446064"
+				CharLimit 100
+
+				Field QuarterHealthSpeech
+			}
+			ElementList
+			{
+				Name "P890632964"
+				CharLimit 100
+
+				ToolTip "P125594859"
+
+				Field DeathSpeech
+			}
+			ElementList
+			{
+				Name "P850802111"
+				ToolTip "P3632682210"
+				CharLimit 100
+
+				Field DefeatedPlayerSpeech
+			}
+		}
+		Button
+		{
+			Name "P3758876143"
+			Optional 1
+			ToolTip "P1557512341"
+			ElementList
+			{
+				Name "P2125455069"
+				ToolTip "P2565205188"
+				CharLimit 60
+				Field Clue
+			}
+			ElementList
+			{
+				Name "P152630490"
+				ToolTip "P3779880706"
+				CharLimit 300
+				Field ClueDescription
+				AllowHTML 1
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name CollectionTemplate
+		DisplayName "P3004196578"
+		ToolTip "P1400483791"
+		Struct Detail
+		DetailType Collection
+		Icon Object_Icon.tga
+		IconGlow Object_Icon_Glow.tga
+
+		ElementList
+		{
+			Name "P1193391190"
+			ToolTip "P2336735964"
+			CharLimit 75
+			CopyrightCheck 1
+
+			Field Name
+		}
+		ElementList
+		{
+			Name "P2514263417"
+			ToolTip "P4033064648"
+
+			SpecialAction BuildModelList
+			Field ObjectLocation
+			ReplaceNoneWith "P2713311984"
+		}
+		Button
+		{
+			Name "P473154195"
+			Optional 1
+			ToolTip "P1584309611"
+
+			ElementList
+			{
+				Name "P2363474820"
+				ToolTip "P2988075979"
+				CheckBoxList 1
+				Field MissionReqCheckBox
+
+				Element
+				{
+					DisplayName "P1563333174"
+					Text Required
+					Active 1
+				}
+			}
+
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P657518306"
+
+				Field Quantity
+				Default 1
+			}
+
+			ElementList
+			{
+				Name "P2582146370"
+				ToolTip "P805625716"
+			
+				SpecialAction EnumPlacement
+				Field Placement
+			}
+			ElementList
+			{
+				Name "P1256200488"
+				ToolTip "P3196449168"
+			
+				Field ObjectInteractionTime
+				Default 4
+				ValMax 99
+			}
+			ElementList
+			{
+				Name "P3251828722"
+				ToolTip "P4257529027"
+
+				Field ObjectRemoveOnComplete
+				Element
+				{
+					DisplayName "P2550859399"
+					Text 1
+
+				}
+				Element
+				{
+					DisplayName "P3873336300"
+					Text 0
+				}
+				Default 0
+			}
+			ElementList
+			{
+				Name "P3430768944" 
+				ToolTip "P1349418659"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+				ReplaceNoneWith "P4273580311"
+			}
+			ElementList
+			{
+				Name "P3738814544"
+				ToolTip "P3741838107"
+
+				Field ObjectFadeIn
+				Element
+				{
+					DisplayName "P3546647780"
+					Text 0
+
+				}
+				Element
+				{
+					DisplayName "P3738814544"
+					Text 1
+				}
+				Default 0
+			}
+
+		}
+		Button
+		{
+			Name "P2612594937"
+			Optional 1
+			ToolTip "P1587674339"
+
+			ElementList
+			{
+				Name "P1215555202"
+				ToolTip "P1920235011"
+				CharLimit 75
+
+				Field CompassDescription
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P4076396695"
+				ToolTip "P3947660352"
+				CharLimit 75
+
+				Field CompassDescriptionSingular
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P2156697384"
+				ToolTip "P2005770718"
+				CharLimit 100
+
+				Field ObjectBeginInteraction
+			}
+			ElementList
+			{
+				Name "P928467803"
+				ToolTip "P1069930480"
+				CharLimit 100
+
+				Field ObjectInterrupted
+			}
+			ElementList
+			{
+				Name "P1315709471"
+				ToolTip "P1877548270"
+				CharLimit 100
+
+				Field ObjectComplete
+			}
+			ElementList
+			{
+				Name "P3457637641"
+				CharLimit 75
+
+				ToolTip "P1528422866"
+
+				Field ObjectInteractionBar
+			}
+		}
+		Button
+		{
+			Name "P3173404979"
+			Optional 1
+			ToolTip "P864874674"
+			ElementList
+			{
+				Name "P2125455069"
+				ToolTip "P1875339353"
+				CharLimit 60
+				Field Clue
+			}
+			ElementList
+			{
+				Name "P152630490"
+				ToolTip "P1003526260"
+				CharLimit 300
+				Field ClueDescription
+				AllowHTML 1
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name DefendObjectTemplate
+		DisplayName "P1885571446"
+		Tooltip "P438374681"
+		Struct Detail
+		DetailType DefendObject
+		Icon DefendableObject_Icon.tga
+		IconGlow DefendableObject_Icon_Glow.tga
+
+		ElementList
+		{
+			Name "P878141227"
+			ToolTip "P3287912967"
+
+			SpecialAction BuildObjectEntityList
+			Field Entity
+			ReplaceNoneWith "P2713311984"
+		}	
+
+		ElementList
+		{
+			Name "P784128309"
+			ToolTip "P1390131514"
+			CharLimit 75
+			Field Name
+			CopyrightCheck 1
+		}
+
+		Button
+		{
+			Name "P473154195"
+			Optional 1
+			ToolTip "P2606253359"
+
+			ElementList
+			{
+				Name "P2363474820"
+				ToolTip "P2082261569"
+				CheckBoxList 1
+				Field MissionReqCheckBox
+
+				Element
+				{
+					DisplayName "P1563333174"
+					Text Required
+					Active 1
+				}
+			}
+			ElementList
+			{
+				Name "P2921299587" 
+				ToolTip "P3002937303"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+//				ReplaceNoneWith "P4273580311"
+			}
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P2453335570"
+
+				Field Quantity
+				Default 1
+			}
+
+			ElementList
+			{
+				Name "P1255361809"
+				ToolTip "P939426191"
+				Field EnemyGroupType
+				TabbedSelection 1
+
+				Element
+				{
+					DisplayName "P3917592017"
+					Text 	Standard
+					ElementList
+					{
+						Name "P1210429558"
+						ToolTip "P2953127859"
+
+						SpecialAction BuildVillainGroupList
+						Field VillainGroup
+					}
+				}
+				Element
+				{
+					DisplayName "P4062712749"
+					Text Custom
+
+					ElementList
+					{
+						Name "P2370434884"
+						ToolTip "P2850423075"
+
+						SpecialAction BuildCustomVillainGroupList
+						Field VillainGroup
+						Required 1 // This will make 'none' invalid
+						Button 1
+						DontUnlockCheck 1
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+			}
+			ElementList
+			{
+				Name "P710122716"
+				ToolTip "P1629170807"
+				SpecialAction EnumAlignment
+				Field Alignment
+				Default Enemy
+			}
+			ElementList
+			{
+				Name "P2582146370"
+				ToolTip "P805625716"
+				
+				SpecialAction EnumPlacement
+				Field Placement
+			}
+			ElementList
+			{
+				Name "P1800146608"
+				ToolTip "P3987612121"
+				
+				SpecialAction EnumDifficulty
+				Field Difficulty
+				Default Easy
+			}
+			ElementList
+			{
+				Name "P1023358296"
+				ToolTip "P1514598260"
+				
+				SpecialAction BuildAnimList
+				Field DefaultAnimation
+				ReplaceNoneWith "P753088835"
+			}
+		}
+		Button 
+		{
+			Name "P1286552112"
+			Optional 1
+			ToolTip "P2490491988"
+
+			ElementList
+			{
+				Name "P3357527778"
+				ToolTip "P2162501430"
+				CharLimit 300
+
+				Field Description
+				AllowHTML 2
+			}
+			ElementList
+			{
+				Name "P1215555202"
+				ToolTip "P3896048281"
+				CharLimit 75
+				
+				Field CompassDescription
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P4076396695"
+				ToolTip "P2716395303"
+				CharLimit 75
+				
+				Field CompassDescriptionSingular
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P3388985018"
+				ToolTip "P524848421"
+				CharLimit 100
+				Field RewardText
+			}
+			ElementList
+			{
+				Name "P1263072358"
+				ToolTip "P364678517"
+				CharLimit 100
+
+				Field Attacker1Speech
+			}
+			ElementList
+			{
+				Name "P3318215557"
+				ToolTip "P2728153576"
+				CharLimit 100
+
+				Field Attacker2Speech
+			}
+			ElementList
+			{
+				Name "P1900163366"
+				ToolTip "P2073022257"
+				CharLimit 100
+
+
+				Field AttackerAlertSpeech
+			}
+			ElementList
+			{
+				Name "P3722780432"
+				CharLimit 100
+				ToolTip "P1191177531"
+
+				Field InactiveSpeech
+			}
+			ElementList
+			{
+				Name "P1970989979"
+				ToolTip "P228107203"
+				CharLimit 100
+
+				Field ActiveSpeech
+			}
+			ElementList
+			{
+				Name "P1534676185"
+				ToolTip "P3719152485"
+				CharLimit 100
+
+				Field ThreeFourthsHealthSpeech
+			}
+			ElementList
+			{
+				Name "P1245141589"
+				ToolTip "P3804196014"
+				CharLimit 100
+
+				Field HalfHealthSpeech
+			}
+			ElementList
+			{
+				Name "P2726465558"
+				ToolTip "P1405975212"
+				CharLimit 100
+
+				Field QuarterHealthSpeech
+			}
+			ElementList
+			{
+				Name "P179292786"
+				ToolTip "P1620590377"
+				CharLimit 100
+
+				Field DeathSpeech
+			}
+		}
+	}
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name DestroyObjectTemplate
+		DisplayName "P4062270863"
+		Tooltip "P3474537270"
+		Struct Detail
+		DetailType DestructObject
+		Icon Destructibleobject_Icon.tga
+		IconGlow Destructibleobject_Icon_Glow.tga
+
+		ElementList
+		{
+			Name "P2534562428"
+			ToolTip "P36719835"
+			CharLimit 75
+			Field Name
+			CopyrightCheck 1
+		}
+		ElementList
+		{
+			Name "P2381962338"
+			ToolTip "P651539223"
+
+			SpecialAction BuildObjectEntityList
+			Field Entity
+			ReplaceNoneWith "P2713311984"
+		}
+
+		Button
+		{
+			Name "P473154195"
+			Optional 1
+			ToolTip "P4257011817"
+
+			ElementList
+			{
+				Name "P2363474820"
+				ToolTip "P1746528821"
+				CheckBoxList 1
+				Field MissionReqCheckBox
+
+				Element
+				{
+					DisplayName "P1563333174"
+					Text Required					
+					Active 1
+				}
+			}
+
+			ElementList
+			{
+				Name "P2921299587" 
+				ToolTip "P3002937303"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+//				ReplaceNoneWith "P4273580311"
+			}
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P2372214506"
+
+				Field Quantity
+				Default 1
+			}
+
+			ElementList
+			{
+				Name "P1255361809"
+				ToolTip "P939426191"
+				Field EnemyGroupType
+				TabbedSelection 1
+
+				Element
+				{
+					DisplayName "P3917592017"
+					Text 	Standard
+
+					ElementList
+					{
+						Name "P4054000551"
+						ToolTip "P1557718942"
+
+						SpecialAction BuildVillainGroupList
+						Field VillainGroup
+					}
+				}
+				Element
+				{
+					DisplayName "P4062712749"
+					Text Custom
+
+					ElementList
+					{
+						Name "P2370434884"
+						ToolTip "P2850423075"
+
+						SpecialAction BuildCustomVillainGroupList
+						Field VillainGroup
+						Required 1 // This will make 'none' invalid
+						Button 1
+						DontUnlockCheck 1
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+			}
+			ElementList
+			{
+				Name "P2582146370"
+				ToolTip "P805625716"
+				
+				SpecialAction EnumPlacement
+				Field Placement
+			}
+			ElementList
+			{
+				Name "P1800146608"
+				ToolTip "P627712263"
+				
+				SpecialAction EnumDifficultyWithSingle
+				Field Difficulty
+				Default Easy
+			}
+			ElementList
+			{
+				Name "P1023358296"
+				ToolTip "P1863391442"
+				
+				SpecialAction BuildAnimList
+				Field DefaultAnimation
+				ReplaceNoneWith "P753088835"
+			}
+		}		
+		Button
+		{
+			Name "P1286552112"
+			Optional 1
+			ToolTip "P341362421"
+
+			ElementList
+			{
+				Name "P784709849"
+				ToolTip "P1516636976"
+				CharLimit 300
+
+				Field Description
+				AllowHTML 2
+			}
+			ElementList
+			{
+				Name "P1215555202"
+				ToolTip "P812214487"
+				CharLimit 75
+
+				Field CompassDescription
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P4076396695"
+				ToolTip "P1535091320"
+				CharLimit 75
+				Field CompassDescriptionSingular
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P255279334"
+				ToolTip "P2065230842"
+				CharLimit 100
+				Field RewardText
+			}
+			ElementList
+			{
+				Name "P1099190974"
+				ToolTip "P2981886686"
+				CharLimit 100
+				Field GuardInactiveSpeech
+			}
+			ElementList
+			{
+				Name "P3190967070"
+				ToolTip "P515844796"
+				CharLimit 100
+
+				Field GuardActiveSpeech
+			}
+			ElementList
+			{
+				Name "P3722780432"
+				ToolTip "P797839537"
+				CharLimit 100
+
+				Field InactiveSpeech
+			}
+			ElementList
+			{
+				Name "P532235243"
+				ToolTip "P797839537"
+				CharLimit 100
+
+				Field ActiveSpeech
+			}
+			ElementList
+			{
+				Name "P1581015378"
+				ToolTip "P3719152485"
+				CharLimit 100
+
+				Field ThreeFourthsHealthSpeech
+			}
+			ElementList
+			{
+				Name "P1245141589"
+				ToolTip "P3804196014"
+				CharLimit 100
+
+				Field HalfHealthSpeech
+			}
+			ElementList
+			{
+				Name "P2726465558"
+				ToolTip "P1405975212"
+				CharLimit 100
+
+				Field QuarterHealthSpeech
+			}
+			ElementList
+			{
+				Name "P179292786"
+				ToolTip "P1620590377"
+				CharLimit 100
+
+				Field DeathSpeech
+			}
+		}
+		Button
+		{
+			Name "P305548016"
+			Optional 1
+			ToolTip "P2849650178"
+			ElementList
+			{
+				Name "P2125455069"
+				ToolTip "P86100923"
+				CharLimit 60
+				Field Clue
+			}
+			ElementList
+			{
+				Name "P152630490"
+				ToolTip "P3233794288"
+				CharLimit 300
+				Field ClueDescription
+				AllowHTML 1
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name PatrolTemplate
+		DisplayName "P207038023"
+		Tooltip "P2281623209"
+		Struct Detail
+		DetailType Patrol
+		Icon Patrol_Icon.tga
+		IconGlow Patrol_Icon_Glow.tga
+
+		ElementList
+		{
+			Name "P1920652735"
+			ToolTip "P2869546690"
+			CharLimit 75
+			CopyrightCheck 1
+			Field Name
+		}
+
+		ElementList
+		{
+			Name "P1255361809"
+			ToolTip "P939426191"
+			Field EnemyGroupType
+			TabbedSelection 1
+
+			Element
+			{
+				DisplayName "P3917592017"
+				Text 	Standard
+
+				ElementList
+				{
+					Name "P3583939748"
+					ToolTip "P816959773"
+
+					SpecialAction BuildVillainGroupList
+					Field VillainGroup
+				}
+			}
+			Element
+			{
+				DisplayName "P4062712749"
+				Text Custom
+
+				ElementList
+				{
+					Name "P2370434884"
+					ToolTip "P2850423075"
+
+					SpecialAction BuildCustomVillainGroupList
+					Field VillainGroup
+					Required 1 // This will make 'none' invalid
+					Button 1
+					DontUnlockCheck 1
+					FieldRestrictionAlreadyDefined 1
+				}
+			}
+		}
+		Button
+		{
+			Name "P473154195"
+			Optional 1
+			ToolTip "P154605639"
+
+			ElementList
+			{
+				Name "P2921299587" 
+				ToolTip "P3002937303"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+//				ReplaceNoneWith "P4273580311"
+			}
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P605387905"
+
+				Field Quantity
+				Default 1
+			}
+			ElementList
+			{
+				Name "P4046427308"
+				ToolTip "P1947227315"
+				SpecialAction EnumAlignment
+				Field Alignment
+				Default Enemy
+			}
+			ElementList
+			{
+				Name "P2503671806"
+				ToolTip "P2319846846"
+
+				SpecialAction EnumPlacement
+				Field Placement
+			}
+			ElementList
+			{
+				Name "P101416057"
+				ToolTip "P1362899309"
+			
+				SpecialAction EnumDifficulty
+				Field Difficulty
+				Default Easy
+			}
+		}
+		Button 
+		{
+			Name "P828545962"
+			Optional 1
+			ToolTip "P191553162"
+
+			ElementList
+			{
+				Name "P3854068188"
+				ToolTip "P265486315"
+				CharLimit 100
+
+				Field Patroller1Speech
+			}
+			ElementList
+			{
+				Name "P1798794815"
+				ToolTip "P2531559526"
+				CharLimit 100
+
+				Field Patroller2Speech
+			}
+		}
+	}
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name RescueTemplate
+		DisplayName "P382976372"
+		Tooltip "P2519781276"
+		Struct Detail
+		DetailType Rescue
+		Icon Captive_Icon.tga
+		IconGlow Captive_Icon_Glow.tga
+
+		ElementList
+		{
+			Name "P4039449758"
+			ToolTip "P1232056126"
+			CopyrightCheck 1
+			CharLimit 75
+
+			Field Name
+		}
+		ElementList
+		{
+			Name "P574109105"
+			ToolTip "P3110451485"
+			TabbedSelection 1
+			Field EntityType
+
+			Element
+			{
+				DisplayName "P3917592017"
+				Text Standard
+
+				ElementList 
+				{
+					Name "P2478488017"
+					ToolTip "P4111316909"
+			
+					SpecialAction BuildEntityList
+					Button 1
+					Field EntityGroup
+					ReplaceNoneWith "P2713311984"
+
+				}
+			}
+			Element
+			{
+				DisplayName "P4062712749"
+				Text Custom
+
+				ElementList
+				{
+					Name "P3215171730"
+					ToolTip "P1706038391"
+
+					SpecialAction BuildCustomCritterAndContactList
+					Field EntityGroup
+					Button 1
+					DontUnlockCheck 1
+					FieldRestrictionAlreadyDefined 1
+				}
+			}
+		}
+		Button
+		{
+			Name "P473154195"
+			Optional 1
+			ToolTip "P785404164"
+
+			ElementList
+			{
+				Name "P2363474820"
+				ToolTip "P2363255207"
+				CheckBoxList 1
+				Field MissionReqCheckBox
+
+				Element
+				{
+					DisplayName "P1563333174"
+					Text Required
+					Active 1
+				}
+			}
+			ElementList
+			{
+				Name "P2921299587" 
+				ToolTip "P3002937303"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+//				ReplaceNoneWith "P4273580311"
+			}
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P3879072661"
+
+				Field Quantity
+				Default 1
+			}
+
+			ElementList
+			{
+				Name "P1255361809"
+				ToolTip "P939426191"
+				Field EnemyGroupType
+				TabbedSelection 1
+
+				Element
+				{
+					DisplayName "P3917592017"
+					Text 	Standard
+					ElementList
+					{
+						Name "P2324184175"
+						ToolTip "P383915492"
+						
+						SpecialAction BuildVillainGroupList
+						Field VillainGroup
+					}
+				}
+				Element
+				{
+					DisplayName "P4062712749"
+					Text Custom
+
+					ElementList
+					{
+						Name "P2370434884"
+						ToolTip "P2850423075"
+
+						SpecialAction BuildCustomVillainGroupList
+						Field VillainGroup
+						Required 1 // This will make 'none' invalid
+						Button 1		
+						DontUnlockCheck 1
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+			}
+			ElementList
+			{
+				Name "P2775128866"
+				ToolTip "P4134032034"
+			
+				SpecialAction EnumPlacement
+				Field Placement
+			}
+			ElementList
+			{
+				Name "P1800146608"
+				ToolTip "P2574465046"
+		
+				SpecialAction EnumDifficultyWithSingle
+				Field Difficulty
+				Default Easy
+			}
+			ElementList
+			{
+				Name "P4260606834"
+				ToolTip "P1000966340"
+				
+				SpecialAction EnumAlignment
+				Field Alignment
+				Default Enemy
+			}
+		}
+
+		Button 
+		{
+			Name "P30917982"
+			Optional 1
+			ToolTip "P3872577642"
+
+			ElementList
+			{
+				Name "P2478488017"
+				ToolTip "P2465127765"
+				CharLimit 50
+				CopyrightCheck 1
+				Field OverrideGroup
+			}
+			ElementList
+			{
+				Name "P4276062821"
+				ToolTip "P1377408476"
+				CharLimit 300
+
+				Field Description
+				AllowHTML 2
+			}
+			ElementList
+			{
+				Name "P1215555202"
+				ToolTip "P1159788639"
+				CharLimit 75
+
+				Field CompassDescription
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P4076396695"
+				ToolTip "P2284117722"
+				CharLimit 75
+				Field CompassDescriptionSingular
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P3818571427"
+				ToolTip "P3902947723"
+				CharLimit 100
+
+				Field RewardText
+			}
+			ElementList
+			{
+				Name "P1904132732"
+				ToolTip "P2466518091"
+				CharLimit 100
+
+				Field InactiveSpeech
+			}
+			ElementList
+			{
+				Name "P3190967070"
+				ToolTip "P2604369351"
+				CharLimit 100
+
+				Field ActiveSpeech
+			}
+			ElementList
+			{
+				Name "P743743554"
+				ToolTip "P1226029907"
+				CharLimit 100
+
+				Field PersonInactiveSpeech
+			}
+			ElementList
+			{
+				Name "P1731264722"
+				ToolTip "P3219063766"
+				CharLimit 100
+
+				Field PersonActiveSpeech
+			}
+			ElementList
+			{
+				Name "P3500593485"
+				ToolTip "P249607646"
+				CharLimit 100
+
+				Field PersonRescuedSpeech
+			}
+		}
+		Button
+		{
+			Name "P3686465696"
+			Optional 1
+			ToolTip "P3782841120"
+
+			ElementList
+			{
+				Name "P1023358296"
+				ToolTip "P2628237586"
+				
+				SpecialAction BuildAnimList
+				Field DefaultAnimation
+
+			}
+			ElementList 
+			{
+				Name "P3002092639"
+				ToolTip "P3537919989"
+
+				SpecialAction BuildAnimList
+				Field PersonAnimation
+			}
+			ElementList
+			{
+				Name "P807624283"
+				ToolTip "P2563184568"
+
+				SpecialAction BuildAnimList
+				Field PersonRescuedAnimation
+			}
+		}
+		Button
+		{
+			Name "P3449227369"
+			Optional 1
+			ToolTip "P4166044897"
+			ElementList
+			{
+				Name "P2125455069"
+				ToolTip "P2993444220"
+				CharLimit 60
+				Field Clue
+			}
+			ElementList
+			{
+				Name "P152630490"
+				ToolTip "P3978013300"
+				CharLimit 300
+				Field ClueDescription
+				AllowHTML 1
+			}
+		}
+
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name AllyTemplate
+		DisplayName "P2746236723"
+		Tooltip "P2770724933"
+		Struct Detail
+		DetailType Ally
+		Icon ally_icon.tga
+		IconGlow ally_icon_glow.tga
+
+		ElementList
+		{
+			Name "P3591105958"
+			ToolTip "P2579678727"
+			CharLimit 75
+			CopyrightCheck 1
+
+			Field Name
+		}
+		ElementList
+		{
+			Name "P83281033"
+			ToolTip "P77474347"
+			TabbedSelection 1
+			Field EntityType
+
+			Element
+			{
+				DisplayName "P3917592017"
+				Text Standard
+
+				ElementList 
+				{
+					Name "P3147747262"
+					ToolTip "P43300680"
+			
+					SpecialAction BuildEntityList
+					Button 1
+					Field EntityGroup
+				}
+			}
+			Element
+			{
+				DisplayName "P4062712749"
+				Text Custom
+
+				ElementList
+				{
+					Name "P3340265435"
+					ToolTip "P3817235673"
+
+					SpecialAction BuildCustomCritterAndContactList
+					Field EntityGroup
+					Button 1
+					DontUnlockCheck 1
+					FieldRestrictionAlreadyDefined 1
+				}
+			}
+		}
+
+		Button
+		{
+			Name "P473154195"
+			Optional 1
+			ToolTip "P264076992"
+
+			ElementList
+			{
+				Name "P2363474820"
+				ToolTip "P1757490703"
+				CheckBoxList 1
+				Field MissionReqCheckBox
+
+				Element
+				{
+					DisplayName "P1563333174"
+					Text Required
+					Active 1
+				}
+			}
+			ElementList
+			{
+				Name "P2921299587" 
+				ToolTip "P3002937303"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+//				ReplaceNoneWith "P4273580311"
+			}
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P3570059240"
+
+				Field Quantity
+				Default 1
+			}
+
+			ElementList
+			{
+				Name "P1255361809"
+				ToolTip "P939426191"
+				Field EnemyGroupType
+				TabbedSelection 1
+
+				Element
+				{
+					DisplayName "P3917592017"
+					Text 	Standard
+
+					ElementList
+					{
+						Name "P2324184175"
+						ToolTip "P3281611941"
+						
+						SpecialAction BuildVillainGroupList
+						Field VillainGroup
+					}
+				}
+				Element
+				{
+					DisplayName "P4062712749"
+					Text Custom
+
+					ElementList
+					{
+						Name "P2370434884"
+						ToolTip "P2850423075"
+
+						SpecialAction BuildCustomVillainGroupList
+						Field VillainGroup
+						Required 1 // This will make 'none' invalid
+						Button 1
+						DontUnlockCheck 1
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+			}
+			ElementList
+			{
+				Name "P1376625097"
+				ToolTip "P3334939594"
+			
+				SpecialAction EnumPlacement
+				Field Placement
+			}
+			ElementList
+			{
+				Name "P1800146608"
+				ToolTip "P3969796441"
+		
+				SpecialAction EnumDifficultyWithSingle
+				Field Difficulty
+				Default Easy
+			}
+			ElementList
+			{
+				Name "P933960356"
+				ToolTip "P111178453"
+	
+				SpecialAction EnumPersonBehavior
+				Field PersonRescuedBehavior
+				Default Follow
+			}
+			ElementList
+			{
+				Name "P3332507179"
+				ToolTip "P3533371193"
+
+				SpecialAction EnumPersonCombat
+				Field PersonCombatStance
+				Default NonCombat
+			}
+			ElementList
+			{
+				Name "P3377338064"
+				ToolTip "P4177155291"
+	
+				SpecialAction BuildAmbushTrigger
+				Field PersonBetrayalTrigger
+				ReplaceNoneWith "P2597455865"
+			}
+			ElementList
+			{
+				Name "P266297955"
+				ToolTip "P464535738"
+				Field PersonSaysOnBetrayal
+				CharLimit 100
+			}
+		}
+
+		Button 
+		{
+			Name "P3033244021"
+			Optional 1
+			ToolTip "P87949666"
+
+			ElementList
+			{
+				Name "P3147747262"
+				ToolTip "P3004424111"
+				CharLimit 50
+				CopyrightCheck 1
+				Field OverrideGroup
+			}
+			ElementList
+			{
+				Name "P1759579572"
+				ToolTip "P3674934636"
+				CharLimit 300
+
+				Field Description
+				AllowHTML 2
+			}
+			ElementList
+			{
+				Name "P1215555202"
+				ToolTip "P1269032591"
+				CharLimit 75
+				
+				Field CompassDescription
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P4076396695"
+				ToolTip "P2260572517"
+				CharLimit 75
+
+				Field CompassDescriptionSingular
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P1335042951"
+				ToolTip "P479787397"
+				Field RewardText
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P1904132732"
+				ToolTip "P1279367908"
+				CharLimit 100
+
+				Field InactiveSpeech
+			}
+			ElementList
+			{
+				Name "P3190967070"
+				ToolTip "P1073589809"
+				CharLimit 100
+
+				Field ActiveSpeech
+			}
+			ElementList
+			{
+				Name "P242179767"
+				ToolTip "P3283232660"
+
+				Field PersonInactiveSpeech
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P2362340401"
+				ToolTip "P3468235004"
+
+				Field PersonActiveSpeech
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P4129885214"
+				ToolTip "P1681075601"
+
+				Field PersonRescuedSpeech
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P2620483399"
+				ToolTip "P3359788795"
+				CharLimit 100
+
+				Field PersonStrandedSpeech
+
+			}
+			ElementList
+			{
+				Name "P2358727476"
+				ToolTip "P2168768456"
+
+				Field PersonReacquiredSpeech
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P2876577718"
+				ToolTip "P1630011030"
+				CharLimit 100
+
+				Field FirstBloodSpeech
+			}
+			ElementList
+			{
+				Name "P3251600821"
+				ToolTip "P359261054"
+				CharLimit 100
+
+				Field ThreeFourthsHealthSpeech
+			}
+			ElementList
+			{
+				Name "P55944207"
+				ToolTip "P722939739"
+				CharLimit 100
+
+				Field HalfHealthSpeech
+			}
+			ElementList
+			{
+				Name "P3308957064"
+				ToolTip "P428095477"
+				CharLimit 100
+
+				Field QuarterHealthSpeech
+			}
+			ElementList
+			{
+				Name "P2743417245"
+				CharLimit 100
+
+				ToolTip "P2083388978"
+
+				Field DeathSpeech
+			}
+			ElementList
+			{
+				Name "P653255793"
+				ToolTip "P2943369818"
+				CharLimit 100
+
+				Field DefeatedPlayerSpeech
+			}
+		}
+		Button
+		{
+			Name "P3686465696"
+			Optional 1
+			ToolTip "P1642965376"
+
+			ElementList
+			{
+				Name "P1023358296"
+				ToolTip "P1875530216"
+				
+				SpecialAction BuildAnimList
+				Field DefaultAnimation
+				ReplaceNoneWith "P753088835"
+			}
+			ElementList 
+			{
+				Name "P986437713"
+				ToolTip "P2678637006"
+
+				SpecialAction BuildAnimList
+				Field PersonAnimation
+				ReplaceNoneWith "P753088835"
+			}
+			ElementList
+			{
+				Name "P1651120616"
+				ToolTip "P2347891962"
+
+				SpecialAction BuildAnimList
+				Field PersonRescuedAnimation
+				ReplaceNoneWith "P753088835"
+			}
+			ElementList
+			{
+				Name "P3152208781"
+				ToolTip "P3902890106"
+		
+				SpecialAction BuildAnimList
+				Field PersonStrandedAnimation
+				ReplaceNoneWith "P753088835"
+			}
+		}
+		Button
+		{
+			Name "P1020646572"
+			Optional 1
+			ToolTip "P3380959574"
+			ElementList
+			{
+				Name "P2125455069"
+				ToolTip "P2993444220"
+				CharLimit 60
+				Field Clue
+			}
+			ElementList
+			{
+				Name "P152630490"
+				ToolTip "P3978013300"
+				CharLimit 300
+				Field ClueDescription
+				AllowHTML 1
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
+
+	Region
+	{
+		Name EscortTemplate
+		DisplayName "P1885133506"
+		Tooltip "P1573909498"
+		Struct Detail
+		DetailType Escort
+		Icon Escort_Icon.tga
+		IconGlow Escort_Icon_Glow.tga
+
+		ElementList
+		{
+			Name "P1209244249"
+			ToolTip "P2317165794"
+			CharLimit 75
+			CopyrightCheck 1
+
+			Field Name
+		}
+		ElementList
+		{
+			Name "P2599334774"
+			ToolTip "P1414168468"
+			TabbedSelection 1
+			Field EntityType
+
+			Element
+			{
+				DisplayName "P3917592017"
+				Text Standard
+
+				ElementList 
+				{
+					Name "P2516727876"
+					ToolTip "P1363382198"
+			
+					SpecialAction BuildEntityList
+					Button 1
+					Field EntityGroup
+				}
+			}
+			Element
+			{
+				DisplayName "P4062712749"
+				Text Custom
+
+				ElementList
+				{
+					Name "P1451618554"
+					ToolTip "P428834728"
+
+					SpecialAction BuildCustomCritterAndContactList
+					Field EntityGroup
+					Button 1
+					DontUnlockCheck 1
+					FieldRestrictionAlreadyDefined 1
+				}
+			}
+		}
+
+		Button
+		{
+			Name "P473154195"
+			Optional 1
+			ToolTip "P356049995"
+
+			ElementList
+			{
+				Name "P2363474820"
+				ToolTip "P2363255207"
+				CheckBoxList 1
+				Field MissionReqCheckBox
+
+				Element
+				{
+					DisplayName "P1563333174"
+					Text Required
+					Active 1
+				}
+			}
+			ElementList
+			{
+				Name "P2921299587" 
+				ToolTip "P3002937303"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+//				ReplaceNoneWith "P4273580311"
+			}
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P3570720553"
+
+				Field Quantity
+				Default 1
+			}
+
+			ElementList
+			{
+				Name "P1255361809"
+				ToolTip "P939426191"
+				Field EnemyGroupType
+				TabbedSelection 1
+
+				Element
+				{
+					DisplayName "P3917592017"
+					Text 	Standard
+
+					ElementList
+					{
+						Name "P2324184175"
+						ToolTip "P489844021"
+						
+						SpecialAction BuildVillainGroupList
+						Field VillainGroup
+					}
+				}
+				Element
+				{
+					DisplayName "P4062712749"
+					Text Custom
+
+					ElementList
+					{
+						Name "P2370434884"
+						ToolTip "P2850423075"
+
+						SpecialAction BuildCustomVillainGroupList
+						Field VillainGroup
+						Required 1 // This will make 'none' invalid
+						Button 1
+						DontUnlockCheck 1
+						FieldRestrictionAlreadyDefined 1
+					}
+				}
+			}
+			ElementList
+			{
+				Name "P2474027836"
+				ToolTip "P2835976262"
+			
+				SpecialAction EnumPlacement
+				Field Placement
+			}
+			ElementList
+			{
+				Name "P1800146608"
+				ToolTip "P3742859614"
+		
+				SpecialAction EnumDifficultyWithSingle
+				Field Difficulty
+				Default Easy
+			}
+			ElementList
+			{
+				Name "P1807333049"
+				ToolTip "P515236448"
+				
+				Element
+				{
+					DisplayName "P753088835"
+					Text Enemy
+				}
+				Element
+				{
+					DisplayName "P3317451042"
+					Text Rogue
+				}
+
+				Field Alignment
+				SpecialAction EnumAlignment
+				Default Enemy
+			}
+			ElementList
+			{
+				Name "P3332507179"
+				ToolTip "P1908945877"
+
+				SpecialAction EnumPersonCombat
+				Field PersonCombatStance
+				Default NonCombat
+			}
+			ElementList
+			{
+				Name "P3092951421"
+				ToolTip "P1541210583"
+	
+				SpecialAction BuildDestinationList
+				Field EscortDestination
+				ReplaceNoneWith "P1316320543"
+			}
+			ElementList
+			{
+				Name "P4108908131"
+				ToolTip "P1794323481"
+	
+				SpecialAction EnumPersonBehavior
+				Field PersonArrivedBehavior
+				Default RunToNearestDoor
+			}
+			ElementList
+			{
+				Name "P3377338064"
+				ToolTip "P4177155291"
+	
+				SpecialAction BuildAmbushTrigger
+				Field PersonBetrayalTrigger
+				ReplaceNoneWith "P2597455865"
+			}
+			ElementList
+			{
+				Name "P266297955"
+				ToolTip "P464535738"
+				Field PersonSaysOnBetrayal
+				CharLimit 100
+			}
+		}
+
+		Button 
+		{
+			Name "P676106285"
+			Optional 1
+			ToolTip "P2667158594"
+
+			ElementList
+			{
+				Name "P2516727876"
+				ToolTip "P2112136105"
+				CharLimit 50
+				CopyrightCheck 1
+				Field OverrideGroup
+			}
+			ElementList
+			{
+				Name "P3791597609"
+				ToolTip "P4000622662"
+				CharLimit 300
+
+				Field Description
+				AllowHTML 2
+			}
+			ElementList
+			{
+				Name "P1215555202"
+				ToolTip "P1424807514"
+				CharLimit 75
+				
+				Field CompassDescription
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P4076396695"
+				ToolTip "P3965051310"
+				CharLimit 75
+
+				Field CompassDescriptionSingular
+				AllowHTML 1
+			}
+			ElementList
+			{
+				Name "P2780041888"
+				ToolTip "P307907438"
+				Field EscortObjectiveText
+				AllowHTML 1
+				CharLimit 75
+
+			}
+			ElementList
+			{
+				Name "P937285277"
+				ToolTip "P650893433"
+				Field EscortObjectiveTextSingular
+				AllowHTML 1
+				CharLimit 75
+			}
+			ElementList
+			{
+				Name "P717192560"
+				ToolTip "P2430100456"
+				Field RewardText
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P3121339600"
+				ToolTip "P42939288"
+				Field EscortMapWayPoint
+			}
+			ElementList
+			{
+				Name "P1904132732"
+				ToolTip "P3731237865"
+				CharLimit 100
+
+				Field InactiveSpeech
+
+			}
+			ElementList
+			{
+				Name "P3190967070"
+				ToolTip "P1637937006"
+				CharLimit 100
+
+				Field ActiveSpeech
+			}
+			ElementList
+			{
+				Name "P768808278"
+				ToolTip "P988034759"
+
+				Field PersonInactiveSpeech
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P273237353"
+				ToolTip "P592402462"
+
+				Field PersonActiveSpeech
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P2466599657"
+				ToolTip "P2796698154"
+
+				Field PersonRescuedSpeech
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P3213700262"
+				ToolTip "P2864937682"
+				CharLimit 100
+
+				Field PersonStrandedSpeech
+
+			}
+			ElementList
+			{
+				Name "P721168957"
+				ToolTip "P2034984994"
+
+				Field PersonReacquiredSpeech
+				CharLimit 100
+			}
+			ElementList
+			{
+				Name "P3533653044"
+				ToolTip "P149410370"
+				CharLimit 100
+
+				Field PersonArriveAtDestinationSpeech
+
+			}
+			ElementList
+			{
+				Name "P625141362"
+				ToolTip "P3792402957"
+				CharLimit 100
+
+				Field FirstBloodSpeech
+			}
+			ElementList
+			{
+				Name "P215547948"
+				ToolTip "P3312172418"
+				CharLimit 100
+
+				Field ThreeFourthsHealthSpeech
+			}
+			ElementList
+			{
+				Name "P3460553110"
+				ToolTip "P1198353575"
+				CharLimit 100
+
+				Field HalfHealthSpeech
+			}
+			ElementList
+			{
+				Name "P137154577"
+				ToolTip "P3940815234"
+				CharLimit 100
+
+				Field QuarterHealthSpeech
+			}
+			ElementList
+			{
+				Name "P714802176"
+				CharLimit 100
+
+				ToolTip "P159908299"
+
+				Field DeathSpeech
+			}
+			ElementList
+			{
+				Name "P3111865493"
+				ToolTip "P2290644949"
+				CharLimit 100
+
+				Field DefeatedPlayerSpeech
+			}
+		}
+		Button
+		{
+			Name "P3686465696"
+			Optional 1
+			ToolTip "P3061597896"
+
+			ElementList
+			{
+				Name "P1023358296"
+				ToolTip "P2824955898"
+				
+				SpecialAction BuildAnimList
+				Field DefaultAnimation
+				ReplaceNoneWith "P753088835"
+			}
+			ElementList 
+			{
+				Name "P1135676300"
+				ToolTip "P2039318298"
+
+				SpecialAction BuildAnimList
+				Field PersonAnimation
+				ReplaceNoneWith "P753088835"
+			}
+			ElementList
+			{
+				Name "P3041163085"
+				ToolTip "P1294295586"
+
+				SpecialAction BuildAnimList
+				Field PersonRescuedAnimation
+				ReplaceNoneWith "P753088835"
+			}
+			ElementList
+			{
+				Name "P3264753744"
+				ToolTip "P4206677526"
+		
+				SpecialAction BuildAnimList
+				Field PersonStrandedAnimation
+				ReplaceNoneWith "P753088835"
+			}
+			ElementList
+			{
+				Name "P3679917694"
+				ToolTip "P2155552670"
+
+				SpecialAction BuildAnimList
+				Field PersonArrivedAnimation
+				ReplaceNoneWith "P753088835"
+			}
+		}
+		Button
+		{
+			Name "P3503363335"
+			Optional 1
+			ToolTip "P3830557233"
+			ElementList
+			{
+				Name "P2125455069"
+				ToolTip "P2993444220"
+				CharLimit 60
+				Field Clue
+			}
+			ElementList
+			{
+				Name "P152630490"
+				ToolTip "P3978013300"
+				CharLimit 300
+				Field ClueDescription
+				AllowHTML 1
+			}
+		}
+	}
+
+	Region
+	{
+		Name RumbleTemplate
+		DisplayName "P339022338"
+		Tooltip "P371538363"
+		Struct Detail
+		DetailType Rumble
+		Icon Battle_Icon.tga
+		IconGlow Battle_Icon_Glow.tga
+
+		ElementList
+		{
+			Name "P1416161895"
+			ToolTip "P2521536834"
+			CharLimit 75
+			CopyrightCheck 1
+			Field Name
+		}
+
+		ElementList
+		{
+			Name "P3864483534"
+			ToolTip "P939426191"
+			Field EnemyGroupType
+			TabbedSelection 1
+
+			Element
+			{
+				DisplayName "P3917592017"
+				Text 	Standard
+
+				ElementList
+				{
+					Name "P2431482138"
+					ToolTip "P715072222"
+
+					SpecialAction BuildVillainGroupList
+					Field VillainGroup
+				}
+			}
+			Element
+			{
+				DisplayName "P4062712749"
+				Text Custom
+
+				ElementList
+				{
+					Name "P2370434884"
+					ToolTip "P2850423075"
+
+					SpecialAction BuildCustomVillainGroupList
+					Field VillainGroup
+					Required 1 // This will make 'none' invalid
+					Button 1
+					DontUnlockCheck 1
+					FieldRestrictionAlreadyDefined 1
+				}
+			}
+		}
+
+		ElementList
+		{
+			Name "P2489024968"
+			ToolTip "P939426191"
+			Field EnemyGroupType2
+			TabbedSelection 1
+
+			Element
+			{
+				DisplayName "P3917592017"
+				Text 	Standard
+
+				ElementList
+				{
+					Name "P4216026509"
+					ToolTip "P1953873844"
+
+					SpecialAction BuildVillainGroupList
+					Field VillainGroup2
+				}
+			}
+			Element
+			{
+				DisplayName "P4062712749"
+				Text Custom
+
+				ElementList
+				{
+					Name "P2370434884"
+					ToolTip "P2850423075"
+
+					SpecialAction BuildCustomVillainGroupList
+					Field VillainGroup2
+					Required 1 // This will make 'none' invalid
+					Button 1
+					DontUnlockCheck 1
+					FieldRestrictionAlreadyDefined 1
+				}
+			}
+		}
+		Button
+		{
+			Name "P473154195"
+			Optional 1
+			ToolTip "P2287222959"
+
+			ElementList
+			{
+				Name "P2921299587" 
+				ToolTip "P3002937303"
+				
+				SpecialAction BuildAmbushTrigger
+				Field Trigger
+//				ReplaceNoneWith "P4273580311"
+			}
+			ElementList
+			{
+				Name "P1720022112"
+				ToolTip "P3730490843"
+
+				Field Quantity
+				Default 1
+			}
+			ElementList
+			{
+				Name "P1485559723"
+				ToolTip "P2866082350"
+
+				SpecialAction EnumPlacement
+				Field Placement
+			}
+			ElementList
+			{
+				Name "P499607594"
+				ToolTip "P630241690"
+			
+				SpecialAction EnumDifficulty
+				Field Difficulty
+				Default Easy
+			}
+			ElementList
+			{
+				Name "P1017036025"
+				ToolTip "P2960066506"
+
+				SpecialAction EnumRumbleType
+				Field BattleType
+				Default Real_Fight
+			}
+		}
+		Button 
+		{
+			Name "P3471171474"
+			Optional 1
+			ToolTip "P2399018683"
+
+			ElementList
+			{
+				Name "P107527868"
+				ToolTip "P1392764304"
+				CharLimit 100
+
+				Field InactiveSpeech
+			}
+			ElementList
+			{
+				Name "P3788032800"
+				ToolTip "P665887633"
+				CharLimit 100
+
+				Field ActiveSpeech
+			}
+			ElementList
+			{
+				Name "P1532069174"
+				ToolTip "P1295490279"
+				CharLimit 100
+
+				Field Attacker1Speech
+			}
+			ElementList
+			{
+				Name "P524290833"
+				ToolTip "P3290894015"
+				CharLimit 100
+
+				Field AttackerAlertSpeech
+			}
+		}
+	}
+
+
+	Region
+	{
+		Name DefeatAllTemplate
+		DisplayName "P2354967036"
+		Tooltip "P4279261845"
+		Struct Detail
+		Limit 1
+		DetailType DefeatAll
+		Icon defeat_icon.tga
+		IconGlow defeat_icon_glow.tga
+
+		ElementList
+		{
+			Name "P3895331187"
+			ToolTip "P4085205499"
+			Field MissionRequirements
+
+			Element
+			{
+				DisplayName "P206627364"
+				Text DefeatAllVillains
+			}
+			Element
+			{
+				DisplayName "P1697864462"
+				Text DefeatAllVillainsInEndRoom
+			}
+		}
+
+		Button 
+		{
+			Name "P4250053062"
+			Optional 1
+			ToolTip "P2492342866"
+
+			ElementList
+			{
+				Name "P1602130955"
+				ToolTip "P28235440"
+				CharLimit 100
+				AllowHTML 1
+
+				Field MissionDefeatAll
+			}
+
+		}
+	}
+}

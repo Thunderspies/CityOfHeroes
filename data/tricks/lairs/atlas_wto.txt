@@ -1,0 +1,74 @@
+
+Texture x_phlnx_floor_atlas
+	Base1 phlnx_floor1.tga
+	Base1Scroll 0 0
+	Base1Scale 8 8 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask bldby_crater03_dual.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 bldby_crater03.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base grey
+		Blend phlnx_floor1.tga
+		Bumpmap none
+		BlendType multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 18 18    // texture scale on the "Blend" texture
+		ScaleST1 18 18    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End

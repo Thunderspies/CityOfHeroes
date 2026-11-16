@@ -1,0 +1,277 @@
+Name MissionScript_Teleporter
+FirstStage Setup
+StopStage Stop
+RestartStage Stop
+
+//The script has several teleports. The volumes are as follows:
+//Volume Names: TeleportOne, TeleportTwo, TeleportThree, TeleportFour
+//Script Markers: TeleportOne, TeleportTwo, TeleportThree, TeleportFour
+//Objectives: ScriptActivateTeleportOne, ScriptActivateTeleportTwo, ScriptActivateTeleportThree, ScriptActivateTeleportFour, ScriptStopAllTeleports
+//When you complete an objective, if the player is in the associated volume name, they will be teleported to the associated marker. So, if you have ActivateTeleportOne completed, going into the volume name TeleportOne will send the players to the TeleportOne script marker. If you trigger ActivateTeleportTwo, then the TeleportOne volume is disabled, and the TeleportTwo volume is enabled. 
+//If, at any time, you want to stop the entire event, you can trigger the objective StopAllTeleports, which will stop the event. 
+
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<I'm on the start up stage now and waiting for the objective SCRIPTACTIVATETELEPORTONE to go off.>>
+		}
+		Action CreatePorters
+		{
+			PorterCreate TeleportOne
+			PorterCreate TeleportTwo
+			PorterCreate TeleportThree
+			PorterCreate TeleportFour
+			PorterCreate TeleportTwoBackUp
+			PorterCreate TeleportThreeBackUp
+			PorterCreate TeleportFourBackUp
+		}
+		Action TurnOffTeleporters
+		{
+			PorterControl
+			{
+				Porter TeleportOne
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportTwo
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportThree
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportFour
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportTwoBackUp
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportThreeBackUp
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportFourBackUp
+				Type Deactivate
+			}
+		}
+	}
+	Trigger GoToTeleportOneStage
+	{
+		Requires ScriptActivateTeleportOne objectivesucceeded>
+		NextStage TeleportOneStage
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Everything is stopped. That's it. The END. >>
+		}
+		Action TurnOffTeleporters
+		{
+			PorterControl
+			{
+				Porter TeleportOne
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportTwo
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportThree
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportFour
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportTwoBackUp
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportThreeBackUp
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportFourBackUp
+				Type Deactivate
+			}
+		}
+	}
+
+}
+
+Stage TeleportOneStage
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<I'm on the stage now that has the first teleporter. I'm now waiting for ScriptActivateTeleportTwo to go to the next stage, OR ScriptStopAllTeleports to stop everything. YOU BETTER NOT ACTIVATE THEM BOTH AT THE SAME TIME! Please don't make me go through that. >>
+		}
+		Action TurnOnTeleporterOne
+		{
+			PorterControl
+			{
+				Porter TeleportOne
+				Type Activate
+			}
+		}
+	}
+	Trigger GoToTeleportTwoStage
+	{
+		Requires ScriptActivateTeleportTwo objectivesucceeded>
+		NextStage TeleportTwoStage
+	}
+	Trigger StopThisEvent
+	{
+		Requires ScriptStopAllTeleports objectivesucceeded>
+		NextStage Stop
+	}
+}
+
+Stage TeleportTwoStage
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<I'm on the stage now that has the second teleporter. I'm now waiting for ScriptActivateTeleportThree to go to the next stage, OR ScriptStopAllTeleports to stop everything. YOU BETTER NOT ACTIVATE THEM BOTH AT THE SAME TIME! Please don't make me go through that. >>
+		}
+		Action TurnOnTeleporterTwoAndDeactivateOthers
+		{
+			PorterControl
+			{
+				Porter TeleportOne
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportTwo
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter TeleportTwoBackUp
+				Type Activate
+			}
+		}
+	}
+	Trigger GoToTeleportThreeStage
+	{
+		Requires ScriptActivateTeleportThree objectivesucceeded>
+		NextStage TeleportThreeStage
+	}
+	Trigger StopThisEvent
+	{
+		Requires ScriptStopAllTeleports objectivesucceeded>
+		NextStage Stop
+	}
+}
+
+Stage TeleportThreeStage
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<I'm on the stage now that has the third teleporter. I'm now waiting for ScriptActivateTeleportFour to go to the next stage, OR ScriptStopAllTeleports to stop everything. YOU BETTER NOT ACTIVATE THEM BOTH AT THE SAME TIME! Please don't make me go through that. >>
+		}
+		Action TurnOnTeleporterThreeAndDeactivateOthers
+		{
+			PorterControl
+			{
+				Porter TeleportTwo
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportTwoBackUp
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportThree
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter TeleportThreeBackUp
+				Type Activate
+			}
+		}
+	}
+	Trigger GoToTeleportFourStage
+	{
+		Requires ScriptActivateTeleportFour objectivesucceeded>
+		NextStage TeleportFourStage
+	}
+	Trigger StopThisEvent
+	{
+		Requires ScriptStopAllTeleports objectivesucceeded>
+		NextStage Stop
+	}
+}
+
+Stage TeleportFourStage
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<I'm on the stage now that has the fourth teleporter. There are no more stages after this, so if you want to finish this up, activate ScriptStopAllTeleports. >>
+		} 
+		Action TurnOnTeleporterFourAndDeactivateOthers
+		{
+			PorterControl
+			{
+				Porter TeleportThree
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportThreeBackUp
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter TeleportFour
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter TeleportFourBackUp
+				Type Activate
+			}
+		}
+	}
+	Trigger StopThisEvent
+	{
+		Requires ScriptStopAllTeleports objectivesucceeded>
+		NextStage Stop
+	}
+}

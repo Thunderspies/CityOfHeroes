@@ -1,0 +1,71 @@
+//	Debug Normal Map errors
+
+//	Normal Map test cases
+
+Texture Spadr_NMtest_Normal.tga
+	Flags TrueColor
+End
+
+Texture X_Spadr_NMtest			// Name of shader
+	Base1 Spadr_NMtest		// Diffuse Texture
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 None				// not sure
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 white	// TwoColor Mask Texture
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Spadr_NMtest_Normal	// Bump map or Normal map Texture
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask white	// Reflection Texture
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 0.3
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Spadr_NMtest		//
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Shader_Reflect_Chrome_01 	// Shader_Reflect_Generic_04
+	Multiply2Scroll 0.0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect  1 			// Optional flag indicating this is a spheremap
+
+	DualColor2 white	//
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Spadr_NMtest_Normal	//
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255		// Color of spec highlite for color1
+	SpecularColor2 255 255 255		//
+	SpecularExponent1 10			// Glossiness of color 1
+	SpecularExponent2 4
+
+//	ReflectionDesaturate  0		// Remove these and it will use ugly reflection
+//	ReflectionTint  0
+//	ReflectivityBase 1.0
+//	ReflectivityScale 0.7
+//	ReflectivityPower 3.0
+
+End

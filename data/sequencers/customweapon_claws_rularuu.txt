@@ -1,0 +1,75 @@
+#########################################################
+## CustomWeapon_Axe.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Claws_Rularuu
+	BaseSkeleton	CustomWeapons_Rularuu_Claws\skel_Ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		Claws_Rularuu
+	  Anim		CustomWeapons_Rularuu_Claws\skel_Ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Spawn
+	Requires	DUALHAND SPAWNSIDE
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Priority        2
+	Flags		NoDraw
+
+	Type		Claws_Rularuu
+	  Anim		CustomWeapons_Rularuu_Claws\skel_Ready 1 9
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Pre
+	Requires	DUALHAND
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Priority        1
+	Scale		0.5
+
+	Type		Claws_Rularuu
+	  Anim		CustomWeapons_Rularuu_Claws\skel_Ready 1
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	DUALHAND
+	Member		<WepCombat>
+	Flags		Cycle
+	Priority        1
+	Scale		0.5
+
+	Type		Claws_Rularuu
+	  Anim		CustomWeapons_Rularuu_Claws\skel_Ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

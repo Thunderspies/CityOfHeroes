@@ -1,0 +1,53 @@
+#
+#
+# R.V. - Destroyed Hero Statues
+
+Texture RV_DestStatue_wiremesh_01.tga
+	Blend Statue_Stone_Detail_Dirty.tga
+	BlendType Multiply
+	ScaleST0 .8 .8
+End
+
+#######################
+# Tricks for Recluse/Destroyed Versions
+
+Trick XLStatwire
+	LodFar 500
+	LodFarFade 200
+	TrickFlags  AlphaCutout NoColl
+End
+
+Trick XLStatwireSolid
+	LodFar 500
+	LodFarFade 200
+	TrickFlags  AlphaCutout
+End
+
+Trick XLStatAuto
+
+	TrickFlags  NoColl 
+	AutoLOD
+		AllowedError 0
+		LodFarFade 50
+		LodFar 200
+	End
+
+	AutoLOD
+		AllowedError 71
+		LodFarFade 50
+		LodNearFade 50
+		LodNear 200
+		LodFar 600
+	End
+
+	AutoLOD
+		AllowedError 95
+		LodFarFade 150
+		LodNearFade 200
+		LodNear 600
+		LodFar 1500
+	End
+End
+
+########################
+

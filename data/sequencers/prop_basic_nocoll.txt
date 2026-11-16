@@ -1,0 +1,233 @@
+#############################################################
+
+Sequencer
+
+TypeDef Prop_basic_NoColl 
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	none
+TypeDefEnd
+
+TypeDef Bees 
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	Prop_basic_NoColl
+TypeDefEnd
+
+TypeDef golfball
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	Prop_basic_NoColl
+TypeDefEnd
+
+TypeDef AE_CoT_Enemy_Portal_01
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	Prop_basic_NoColl
+TypeDefEnd
+
+TypeDef AE_CoT_Enemy_Prison_01
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	Prop_basic_NoColl
+TypeDefEnd
+
+
+TypeDef Explosions 
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	Prop_basic_NoColl
+TypeDefEnd
+
+TypeDef Brute_Explosions 
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	Prop_basic_NoColl
+TypeDefEnd
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle NoSizeScale
+	Sets		NoCollision
+
+	Type		Prop_basic_NoColl
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+
+	Type		Bees
+	  Anim          Prop_basic\bee_ready 1 10 
+	TEnd
+
+	Type		golfball
+	  Anim          Prop_basic\golfball_400 
+	TEnd
+
+	Type		Explosions
+	  Anim          Prop_basic\explosions 1
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 40
+	PlayFx        Weaponfx\incoming_explosions.fx 20
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 80
+	PlayFx        Weaponfx\incoming_explosions.fx 60
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 124
+	PlayFx        Weaponfx\incoming_explosions.fx 105
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 165
+	PlayFx        Weaponfx\incoming_explosions.fx 145
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 199
+	PlayFx        Weaponfx\incoming_explosions.fx 179
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 242
+	PlayFx        Weaponfx\incoming_explosions.fx 229
+	TEnd
+
+	Type		Brute_Explosions
+	  Anim          Prop_basic\explosions 1
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 40
+	PlayFx        ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall_incoming.fx 20
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 80
+	PlayFx        ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall_incoming.fx 60
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 124
+	PlayFx        ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall_incoming.fx 104
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 165
+	PlayFx        ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall_incoming.fx 145
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 199
+	PlayFx        ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall_incoming.fx 181
+	  PlayFx        Explosions\Large\Expolsion_pattern.fx 242
+	PlayFx        ENEMYFX\Rularuu\Brute\CometProjectile\Encounter_FireBall_incoming.fx 229
+	TEnd
+MEnd
+
+Move Death
+	Requires	DEATH
+	Interrupts	<Ready>
+	Priority        5
+	NextMove	Ready
+	Sets		NoCollision
+
+	Type		Prop_basic_NoColl
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+
+	Type		AE_CoT_Enemy_Portal_01
+	  Anim          Prop_basic\bee_ready 1 10 
+	  PlayFx        WORLD\Lairs\cot\CoT_Portal_Door_Death\CoT_Portal_Door_Death.fx
+	TEnd
+
+	Type		AE_CoT_Enemy_Prison_01
+	  Anim          Prop_basic\bee_ready 1 10 
+	  PlayFx        WORLD\Lairs\cot\CoT_Prison_Door_Death\CoT_Prison_Door_Death.fx
+	TEnd
+MEnd
+
+
+
+
+#########
+
+Move Levitate
+	Requires	COMBAT MAGIC TELEKINESIS 
+	Interrupts	<Ready> 
+	Priority        3
+
+	Type		Prop_basic_NoColl
+	  Anim          Prop_basic\prop_levitate 1  
+	TEnd
+MEnd
+
+############
+
+Move Theft_Toss
+	Requires	SHORTTOSS 
+	Interrupts	<Ready> 
+	NextMove        Theft_Toss_Cycle
+	Priority        1
+
+	Type		Prop_basic_NoColl
+	  Anim          Prop_basic\prop_box_ditch 1  
+	TEnd
+MEnd
+
+
+Move Theft_Toss_Cycle
+	Flags		Cycle 
+
+	Type		Prop_basic_NoColl
+	  Anim          Prop_basic\prop_box_ditch 40 50 
+	TEnd
+MEnd
+
+
+###################
+### Spawn Sleep  #####
+###################
+#
+#Move Spawn_Sleep
+#	Requires	QUICK SPAWN 
+#	Interrupts	<Ready> <Combat> <WepCombat> 
+#	Flags		Cycle 
+#	NextMove        Spawn
+#	Priority        2
+#	Interpolate     0
+#
+#	Type		Bees
+#	  Anim          Prop_basic\bee_spawn 1 5 
+#	TEnd
+#MEnd
+#
+#
+####################
+#### Spawn   #####
+####################
+#
+#Move Spawn
+#	NextMove        Ready
+##	Scale           0.50
+#
+#	Type		Bees
+#	  Anim          Prop_basic\bee_spawn 1  
+#	TEnd
+#MEnd
+
+
+
+
+
+
+SeqEnd
+

@@ -1,0 +1,85 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Snake
+	BaseSkeleton	FX_Snake\skel_Snake
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle PickRandomly
+	#Interpolate	15
+	Scale		1.5
+
+	Type		FX_Snake
+	  Anim          FX_Snake\Snake_Slither 1 
+	TEnd
+MEnd
+
+Move Slither
+	Requires	handcuff
+	Interrupts	<Ready>  
+	Flags		Cycle PickRandomly MoveScale
+	Priority        1
+	#Interpolate	15
+	MoveRate      0.7
+
+	Type		FX_Snake
+	  Anim          FX_Snake\Snake_Slither 1  
+	TEnd
+MEnd
+
+Move Slither01
+	Requires	handcuff
+	Interrupts	<Ready>  
+	Flags		Cycle PickRandomly MoveScale
+	Priority        1
+	#Interpolate	15
+#	Scale		1.5
+	MoveRate      0.7
+
+	Type		FX_Snake
+	  Anim          FX_Snake\Snake_Slither01 1  
+	TEnd
+MEnd
+
+
+#Move Walk
+#	Requires	FORWARD 
+#	Interrupts	<Ready>
+#	Member		<BasicMove> 
+#	Flags		Cycle 
+#	Scale		.75
+#	Priority        1
+#	#Interpolate	30
+#
+#	Type		FX_BodyBag
+#	  Anim          FX_BodyBag\BodyBag_Walk 1 
+#	TEnd
+#MEnd
+#
+#Move Toss
+#	Requires	test2 
+#	Interrupts	<Ready>
+#	Member		<BasicMove> 
+#	Flags		Cycle 
+#	Scale		1
+#	Priority        1
+#	#Interpolate	30
+#
+#	Type		FX_BodyBag
+#	  Anim          FX_BodyBag\BodyBag_Toss 1 
+#	TEnd
+#MEnd
+
+
+
+SeqEnd

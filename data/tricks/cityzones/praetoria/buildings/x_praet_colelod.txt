@@ -1,0 +1,40 @@
+Texture X_Praet_ColeLOD
+
+	Base1 P_Cole_LOD
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	AddGlow1 P_Cole_LOD_G
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	SpecularColor1 20 20 20
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 50
+	SpecularExponent2 50
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0	
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Cole_LOD
+		Blend none
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End

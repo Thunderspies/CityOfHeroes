@@ -1,0 +1,144 @@
+RootMod _arcns_dr_center_btm
+End
+
+RootMod _arcns_dr_center_top
+End
+
+RootMod _arcns_ground_plane
+End
+
+RootMod _arcns_dr_lft_top
+End
+
+RootMod _arcns_dr_left_btm
+End
+
+RootMod _arcns_door_frame
+End
+
+RootMod _arcns_dr_rght_top
+End
+
+RootMod _arcns_dr_rght_btm
+End
+
+RootMod _arcns_center_btm_glow
+End
+
+RootMod _arcns_frame_detail
+End
+
+RootMod _arcns_frame_inner
+End
+
+RootMod _arcns_frame_detaillod
+End
+
+RootMod _arcns_door_main_lod
+End
+
+RootMod _arcns_door_blacklod
+End
+
+RootMod _arcns_center_btm_glow2
+End
+
+Def arnsdr_dr_dummy01_1&
+	Group _arcns_frame_detail
+	End
+	Group _arcns_frame_detaillod
+	End
+	Group _arcns_frame_inner
+	End
+	Group _arcns_door_blacklod
+	End
+	Group _arcns_door_frame
+	End
+End
+
+Def arnsdr_dr_dummy01
+	Group arnsdr_dr_dummy01_1&
+	End
+	Group _arcns_door_main_lod
+	End
+	Group _arcns_dr_rght_top
+	End
+	Group _arcns_dr_center_top
+	End
+	Group _arcns_dr_lft_top
+	End
+	Group _arcns_dr_center_btm
+	End
+	Group _arcns_dr_left_btm
+	End
+	Group _arcns_dr_rght_btm
+	End
+	Group _arcns_center_btm_glow
+	End
+	Group _arcns_center_btm_glow2
+	End
+End
+
+Def arac_door_01_2&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def arac_door_01_3&
+	Group Omni/PARTICLE_25
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"door_spider"	0
+End
+
+Def arac_door_01_1&
+	Group Omni/ExitPoint
+		Rot 0 -3.141592 0
+		Pos -0.193466 0 1.384125
+	End
+	Group Omni/ExitPoint
+		Rot 0 -3.141592 0
+		Pos 1.795959 0 2.332092
+	End
+	Group Omni/ExitPoint
+		Rot 0 -3.141592 0
+		Pos -2.264359 0 1.961151
+	End
+	Group Omni/EmergeFromMe
+		Rot 0 3.141592 0
+		Pos 0 1 -5
+	End
+	Group arac_door_01_2&
+		Rot 0 3.141592 0
+	End
+	Group arac_door_01_3&
+		Rot 0 3.141592 0
+		Pos 0 0 -4
+	End
+End
+
+Def arac_door_01_4&
+	Group _arcns_frame_detail
+	End
+	Group _arcns_door_blacklod
+	End
+	Group _arcns_frame_detaillod
+	End
+	Group _arcns_frame_inner
+	End
+	Group _arcns_door_frame
+	End
+End
+
+Def arac_door_01
+	Group arac_door_01_1&
+		Pos 0 0 4
+	End
+	Group arac_door_01_4&
+	End
+	Group Omni/Vol_Trigger_Gen/Voltrigen_generic_trigger_01
+		Pos 0 0 1.183838
+	End
+End
+

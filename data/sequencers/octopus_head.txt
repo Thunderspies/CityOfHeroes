@@ -1,0 +1,136 @@
+ #############################################################
+
+Sequencer
+
+TypeDef Tentacle_head
+	BaseSkeleton	Tentacle_head\skel_test
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<basicTHREAT>
+Group	<basicMENACE>
+Group	<basicLOOKOUT>
+Group	<basicCHEER>
+Group	<basicVANDAL>
+
+
+
+Move ReadyA
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+
+	Type		Tentacle_head
+	  Anim          Tentacle_head\skel_test 1
+	TEnd
+MEnd
+
+Move Death
+	Requires	DEATH
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Interrupts	<DeathIRQ>
+	Priority        5
+	Interpolate	20
+	Scale           0.50
+	NextMove	Death_Post
+
+	Type		Tentacle_head
+	  Anim          Tentacle_head\skel_test 1
+	  PlayFx	ENEMYFX\Hydra\Hydra_Head_Death\Hydra_Head_Death.fx
+	TEnd
+MEnd
+
+Move Death_post
+	Priority        6
+	Scale           0.50
+	Interpolate	20
+	Flags		Cycle
+
+	Type		Tentacle_head
+	  Anim          Tentacle_head\skel_test 1
+	TEnd
+MEnd
+
+###################
+###### Submerge and Emerge   ######
+###################
+
+Move Submerge
+	Requires	LOW POSE
+	Interrupts	<Ready> <AttackIRQ>
+	NextMove        PostSubmerge
+	Priority        4
+	Scale           0.80
+	Sets            NOCOLLISION
+
+	Type		Tentacle_head
+	  Anim          Tentacle\spinning_death 2 133
+	  PlayFx        TENTACLE\TENTACLEATTACK.FX
+	TEnd
+MEnd
+
+
+Move PostSubmerge
+	Requires	LOW POSE
+	Flags		Cycle
+	Priority        4
+	Scale           0.50
+	Sets            NOCOLLISION TARGET
+	NextMove	Emerge
+
+	Type		Tentacle_head
+	  Anim          Tentacle\spinning_death 133 140
+	TEnd
+MEnd
+
+Move Emerge
+	Priority        1
+	Scale           0.50
+	Sets            NOCOLLISION TARGET
+
+	Type		Tentacle_head
+	  Anim          Tentacle\spawn 8
+	TEnd
+MEnd
+
+SeqEnd
+

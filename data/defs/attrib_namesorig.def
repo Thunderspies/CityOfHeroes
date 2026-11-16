@@ -1,0 +1,373 @@
+
+//
+// DANGER!
+//
+// Order is important. If you reorder them, then you will need to force
+// a recreation of all your bin files.
+//
+
+//
+// DANGER!
+//
+// Be very careful to make these names universally unique! They cannot
+// be the same as any other token names which appear in power, class,
+// or origin files. Nor can they be the same as each other: you can't
+// use "Subdual" for damage and "Subdual" for defense.
+//
+// Naming one of them "Power" would make a huge mess. I suggest putting a
+// suffix like _Attack, _Boost, or something like that to make sure they're
+// unique.
+//
+
+{
+
+	////////////////////////////////////////////////////////////////////////
+	//
+	// Specifies the damage types and defense types available for use in
+	// powers.
+	//
+	// The first string (no spaces) is a universally unique name. These
+	// strings are not  seen by end users. They are merely convenient for
+	// power definition.
+	//
+	// The second string (in quotes) is the display (translatable) name
+	// which may someday be seen by end users. It does not need to be unique.
+	//
+	// Classes can be defined using these tags (instead of the canonical
+	// DamageType01, DamageType02,...).
+	//
+	// Attrib names should prepend a k on the front, (e.g. kSubdual)
+	//
+	// Currently, no more than 20 damage and 20 defense are supported.
+	//
+
+	//       unique_name             "Display String"
+
+	Damage   Smashing                "Smashing"
+	Damage   Lethal                  "Lethal"
+	Damage   Fire                    "Fire"
+	Damage   Cold                    "Cold"
+	Damage   Energy                  "Energy"
+	Damage   Negative_Energy         "Negative_Energy"
+	Damage   Psionic                 "Psionic"
+	Damage   Heal                    "Healing"
+	Damage   Special                 "Special"
+	Damage   Toxic                   "Toxic"
+	Damage   Radiation               "Radiation"
+	Damage   Electrical              "Electrical"
+	Damage   Unique1                 "Unique"
+	Damage   Unique2                 "Unique"
+	Damage   Unique3                 "Unique"
+
+
+	Defense  Ranged_Attack           "Ranged"
+	Defense  Melee_Attack            "Melee"
+	Defense  AOE_Attack              "Area"
+	Defense  Smashing_Attack         "Smashing"
+	Defense  Lethal_Attack           "Lethal"
+	Defense  Fire_Attack             "Fire"
+	Defense  Cold_Attack             "Cold"
+	Defense  Energy_Attack           "Energy"
+	Defense  Negative_Energy_Attack  "Negative_Energy"
+	Defense  Psionic_Attack          "Psionic"
+	Defense	 Toxic_Attack		 "Toxic"
+
+	Elusivity  Ranged_Elude           "Ranged"
+	Elusivity  Melee_Elude            "Melee"
+	Elusivity  AOE_Elude              "Area"
+	Elusivity  Smashing_Elude         "Smashing"
+	Elusivity  Lethal_Elude           "Lethal"
+	Elusivity  Fire_Elude             "Fire"
+	Elusivity  Cold_Elude             "Cold"
+	Elusivity  Energy_Elude           "Energy"
+	Elusivity  Negative_Energy_Elude  "Negative_Energy"
+	Elusivity  Psionic_Elude          "Psionic"
+	Elusivity  Toxic_Elude		  "Toxic"
+
+	////////////////////////////////////////////////////////////////////////
+	//
+	// Specifies the various boost (aka enhancement) types which exist.
+	// Each boost specifies (in its BoostsAllowed field) which set it belongs
+	// to. The types of boosts allowed on a power are defined in its
+	// BoostsAllowed field. This can be a list.
+	//
+	// The first string (no spaces) is a universally unique name. These
+	// strings are not seen by end users. They are merely convenient for
+	// power definition.
+	//
+	// The second string (in quotes) is the display (translatable) name
+	// which is seen by end users. It does not need to be unique.
+	//
+	// You should prepend a k on the front to use it, (e.g. kAccuracy_Boost)
+	//
+	//
+	// In addition to any boost names defined below, a name is
+	// magically defined for each origin type. The string is the Name
+	// attribute of the origin followed by _Boost. For example,
+	// "Mutation_Boost". These names are used to mark Boost powers as being
+	// available to an origin. You put these names in the BoostsAllowed
+	// field of the boost power.
+	//
+
+
+	//    unique_name               "Display String"                "Icon Name"
+
+	Boost Accuracy_Boost            "Enhance Accuracy"              "E_POG_ACCURACY.tga"
+	Boost Buff_Defense_Boost        "Enhance Defense"               "E_POG_BUFF_DEFENSE.tga"
+	Boost Buff_ToHit_Boost          "Enhance ToHit Buffs"           "E_POG_BUFF_TO_HIT.tga"
+	Boost Confuse_Boost             "Enhance Confuse"               "E_POG_CONFUSION_DURATION.tga"
+	Boost Damage_Boost              "Enhance Damage"                "E_POG_DAMAGE.tga"
+	Boost Debuff_Defense_Boost      "Enhance Defense DeBuff"        "E_POG_DEBUFF_DEFENSE.tga"
+	Boost Debuff_ToHit_Boost        "Enhance ToHit DeBuffs"         "E_POG_DEBUFF_TO_HIT.tga"
+	Boost Fear_Boost                "Enhance Fear"                  "E_POG_FEAR_DURATION.tga"
+	Boost SpeedFlying_Boost         "Enhance Flying Speed"          "E_POG_FLY_SPEED.tga"
+	Boost Heal_Boost                "Enhance Heal"                  "E_POG_HEAL.tga"
+	Boost Immobilized_Boost         "Enhance Immobilization"        "E_POG_IMMOBILIZATION_DURATION.tga"
+	Boost Jump_Boost                "Enhance Jump"                  "E_POG_JUMP_DISTANCE.tga"
+	Boost Knockback_Boost           "Enhance KnockBack"             "E_POG_KNOCKBACK_DISTANCE.tga"
+	Boost Recharge_Boost            "Enhance Recharge Speed"        "E_POG_RECHARGE_TIME.tga"
+	Boost SpeedRunning_Boost        "Enhance Running Speed"         "E_POG_RUN_SPEED.tga"
+	Boost Sleep_Boost               "Enhance Sleep"                 "E_POG_SLEEP_DURATION.tga"
+	Boost Stunned_Boost             "Enhance Disorient"             "E_POG_STUN_DURATION.tga"
+	Boost Range_Boost               "Enhance Range"                 "E_POG_RANGE_INCREASE.tga"
+	Boost EnduranceDiscount_Boost   "Reduce Endurance Cost"         "E_POG_END_DISCOUNT.tga"
+	Boost Buff_Damage_Boost         "Enhance Damage Buffs"          "E_POG_BUFF_DAMAGE.tga"
+	Boost Debuff_Damage_Boost       "Enhance Damage DeBuffs"        "E_POG_DEBUFF_DAMAGE.tga"
+	Boost Radius_Boost              "Enhance Radius"                "E_POG_RADIUS.tga"
+	Boost Cone_Boost                "Enhance Range"                 "E_POG_RANGE_INCREASE.tga"
+	Boost Taunt_Boost               "Enhance Taunt"                 "E_POG_TAUNT_DURATION.tga"
+	Boost Slow_Boost                "Enhance Slow Movement"         "E_POG_SLOW_MOVEMENT.tga"
+	Boost Hold_Boost                "Enhance Hold"                  "E_POG_HOLD_DURATION.tga"
+	Boost Intangible_Boost          "Enhance Intangibility"         "E_POG_INTAGIBILITY_DURATION.tga"
+	Boost Interrupt_Boost           "Reduce Interrupt Time"         "E_POG_INTERRUPT_TIMES.tga"
+	Boost Recovery_Boost            "Enhance Endurance Modification" "E_POG_RECOVERY.tga"
+	Boost Endurance_Drain_Boost     "Enhance Endurance Modification" "E_POG_RECOVERY.tga"
+	Boost Res_Damage_Boost          "Enhance Damage Resistance"     "E_POG_BUFF_DEFENSE.tga"
+	Boost Hamidon_Boost             "Enhance Multiple"              "E_POG_DAMAGE.tga"
+	Boost Incarnate_Judgement_Boost	"Incarnate: Judgement Capable"	"E_POG_DAMAGE.tga"
+	Boost Incarnate_Interface_Boost	"Incarnate: Interface Capable"	"E_POG_DAMAGE.tga"
+	Boost Incarnate_Lore_Boost	"Incarnate: Lore Capable"	"E_POG_DAMAGE.tga"
+	Boost Incarnate_Destiny_Boost	"Incarnate: Destiny Capable"	"E_POG_DAMAGE.tga"
+
+	////////////////////////////////////////////////////////////////////////
+	//
+	// Specifies the various power groups which exist.
+	// A power group is a set of powers which are mutually exclusive. If
+	// you execute a power which is a member of group, then all the
+	// active toggle powers in that group are shut off. (Click and Auto
+	// powers are not shut off; their use shuts off Toggles.)
+	//
+	// The group(s) which a power is a member of is defined in the
+	// GroupMembership field of the power definition. This can be a list.
+	//
+	// The first string (no spaces) is a universally unique name. These
+	// strings are not seen by end users. They are merely convenient for
+	// power definition.
+	//
+	// The second string (in quotes) is the display (translatable) name
+	// which may someday be seen by end users. It does not need to be unique.
+	//
+	// You should prepend a k on the front to use it, (e.g. kTravel_Group)
+	//
+
+	//    unique_name               "Display String"
+
+	Group Flying_Group              "Flight Group"
+	Group Speed_Group               "Speed Group"
+	Group Sprint_Group              "Sprint Group"
+	Group Leap_Group                "Leaping Group"
+	Group FlyingRoot_Group          "Rooted Group"
+	Group SpeedRoot_Group           "Rooted Group"
+	Group SprintRoot_Group          "Rooted Group"
+	Group LeapRoot_Group            "Rooted Group"
+	Group Rock_Armor_Group          "Rock Armor Group"
+	Group Brimstone_Armor_Group     "Brimstone Armor Group"
+	Group Crystal_Armor_Group       "Crystal Armor Group"
+	Group Mineral_Armor_Group       "Mineral Armor Group"
+	Group Stealth_Group             "Stealth Group"
+	Group Hide_Group                "Hide Group"
+	Group Rest_Group                "Rest Group"
+	Group Kheldian_Group            "Kheldian Group"
+	Group Ascendant_Group           "Ascendant Group"
+	Group Darkness_Group            "Darkness Group"
+	Group Ammo_Group		"Ammo Group"
+	Group HAC_Group			"Hyper-Advanced Clockwork Mode"
+	Group VanityPet_Group		"Vanity Pet Group"
+	Group CombatPet_Group		"Combat Pet Group"
+	Group Primalist_Group		"Primalist Group"
+	Group Bio_Group			"Bio Armor Adaptation Group"
+	Group CombatPet_Group		"Combat Pet Group"
+
+	////////////////////////////////////////////////////////////////////////
+	//
+	// Specifies the various character modes which exist.
+	// A character mode
+	//
+	// The modes(s) required for a power are specified in the ModesRequired
+	// field of the power definition.  This can be a list. If the
+	// ModesAllowed list is empty, then there are no required modes.
+	//
+	// The first string (no spaces) is a universally unique name. These
+	// strings are not seen by end users. They are merely convenient for
+	// power definition.
+	//
+	// The second string (in quotes) is the display (translatable) name
+	// which may someday be seen by end users. It does not need to be unique.
+	//
+	// You should prepend a k on the front to use it, (e.g. kWerewolf_Mode)
+	//
+
+	//    unique_name               "Display String"
+
+	// SPECIAL CODE-AFFECTING MODES!  DO NOT REORDER!
+	Mode ServerTrayOverride		"Server Tray Override"
+	// END SPECIAL CODE-AFFECTING MODES!  DO NOT REORDER!
+
+	Mode Peacebringer_Blaster_Mode  "Bright Nova"
+	Mode Peacebringer_Tanker_Mode   "White Dwarf"
+	Mode Peacebringer_Light_Mode    "Light Form"
+	Mode Warshade_Blaster_Mode      "Dark Nova"
+	Mode Warshade_Tanker_Mode       "Black Hole"
+	Mode Shivan_Mode                "Shivan Form"
+	Mode Disable_Travel             "No Travel Powers"
+	Mode Disable_Pool               "No Pool Powers"
+	Mode Disable_Temp               "No Temporary Powers"
+	Mode Disable_Teleport           "No Travel Teleport"
+	Mode Disable_Portals	        "Disable Portals"
+	Mode Disable_All                "Disable all Powers"
+	Mode Disable_Inspiration        "Disable Inspirations"
+	Mode Disable_Inspiration_Small  "Disable Small Inspirations"
+	Mode Disable_Inspiration_Medium "Disable Medium Inspirations"
+	Mode Disable_Inspiration_Large  "Disable Large Inspirations"
+	Mode Disable_Inspiration_Special "Disable Special Inspirations"
+	Mode Disable_SetBonus		"Disable Set Bonuses"
+	Mode Disable_Recall		"Disable Recall Teleportation"
+	Mode Disable_Walk		"Disable Walk"
+	Mode Disable_Suicide		"Disable Self Destruct"
+	Mode Disable_RocketBoard	"Disable Rocket Board"
+	Mode Disable_FlyingCarpet	"Disable Flying Carpet"
+	Mode Disable_VoidSkiff		"Disable Void Skiff"
+	Mode Arena                      "Arena"
+	Mode Disable_Awaken             "Disable Awaken"
+	Mode Disable_Toggle             "Disable Toggle"
+	Mode Mastermind_Upgrade_1       "Upgraded"
+	Mode Mastermind_Upgrade_2       "Empowered"
+	Mode Domination                 "Domination"
+	Mode Domination_Active          "Domination"
+	Mode Vengeance_Mode		"Vengeance does not Stack"
+	Mode Proc_Mode			"Bonus Effects are time limited."
+	Mode No_Shopping		"Auction House TP Powers only works so often."
+	Mode Disable_Epic               "Disable Ancillary and Patron Powers."
+
+	Mode Raid_Defender_Mode         "Raid Defender"
+	Mode Raid_Attacker_Mode         "Raid Attacker"
+
+	Mode Range_Finder_Mode          "Target Locked"
+	Mode Temporal_Disruption        "Temporal Disruption"
+	Mode DD_StatusMode_1		"Dual Blade Status Mode 1"
+	Mode DD_StatusMode_2		"Dual Blade Status Mode 2"
+	Mode DD_DebuffMode_1		"Dual Blade Debuff Mode 1"
+	Mode DD_DebuffMode_2		"Dual Blade Debuff Mode 2"
+	Mode DD_BonusAoEMode_1		"Dual Blade AoE Mode 1"
+	Mode DD_BonusAoEMode_2		"Dual Blade AoE Mode 2"
+	Mode DD_BonusDoTMode_1		"Dual Blade DoT Mode 1"
+	Mode DD_BonusDoTMode_2		"Dual Blade DoT Mode 2"
+	Mode KillTK		        "Telekinetic Failure"
+
+	Mode Defiant                    "Defiance"
+	Mode LostCure                   "Lost Cure"
+	Mode Midnight_Disguise          "Midnight Disguise"
+	Mode Chain_Induction		"Chain Induction"
+	Mode Chain_Stun_Mode		"Stun Mode"
+	Mode Chain_Jolt_Mode		"Jolt Mode"
+	Mode Chain_Confuse_Mode		"Confuse Mode"
+	Mode Sequestor_1		"Sequestor step one"
+	Mode Sequestor_2		"Sequestor step two"
+	Mode Sequestor_3		"Sequestor step three"
+	Mode NoNukes			"No Nukes"
+	Mode HAC_Offense		"Hyper-Advanced Clockwork Offfensive Mode"
+	Mode HAC_Defense		"Hyper-Advanced Clockwork Defensive Mode"
+	Mode Disable_Juggernaut		"Forcably End Juggernaut Mode"
+	Mode Tower_Protection		"Tower Protection"
+
+	Mode Panacea			"Have Panacea_F Slotted"
+	Mode Grounded			"Target Dimensionally Grounded"
+	Mode LethalAmmo			"Piercing Ammo Loaded"
+	Mode IceAmmo			"Cryo Ammo Loaded"
+	Mode FireAmmo			"Incendiary Ammo Loaded"
+	Mode ToxicAmmo			"Chemical Ammo Loaded"
+	Mode ArchitectMissionMode	"On an Architect Mission"
+	Mode CoOpTeam		         "Co-Op Team Mode"
+	Mode Broken		         "Broken"
+	Mode DisableFortuneBuffs	"Disable Mystic Fortune Buffs"
+	Mode InCostume			"In Costume"
+	
+	Mode Wintery_Aegis		"Wintery Aegis"
+	Mode RoidedIDF			"Roided IDF"
+	Mode Harmonic_Destabilizer	"Harmonic Destabilizer"
+	Mode Hidden_Attack		"Hidden Attack"
+	Mode SiphonMode			"Siphon Mode"
+	Mode TurretStage1		"Turret Stage 1 Damage"
+	Mode TurretStage2		"Turret Stage 2 Damage"
+	Mode TurretStage3		"Turret Stage 3 Damage"
+	Mode TurretStage4		"Turret Stage 4 Damage"
+	Mode TurretStage5		"Turret Maximum Damage"
+	Mode Defeated_OilSlick		"Defeated Oil Slick"
+
+	Mode MarkedForDeath		"Marked for Death"
+	Mode Enraged			"Enraged"
+        Mode TargetingReticule		"Targeting Reticule"
+	Mode NotInCombat		"Entity is not currently engaged in combat"
+	Mode UltimateInspire		"You have been Ultimately Inspired"
+	Mode FastMode			"Your next RBW swing will not have the long Wind Up."
+
+	// Avatar of Hamidon Modes
+	Mode Infected_01		"You've been infected by the Hamidon Plague"
+	Mode Infected_02		"You've been infected by the Hamidon Plague"
+	Mode Infected_03		"You've been infected by the Hamidon Plague"
+
+	// Incarnate Equip Modes
+	Mode Incarnate_Equipped		"Incarnate Mode"
+
+	// Keyes Island Modes
+	Mode OnePowerCell		"One Power Cell"
+	Mode TwoPowerCell		"Two Power Cells"
+	Mode ThreePowerCell		"Three Power Cells"
+	Mode EntangledA			"Alpha Entanglement"
+	Mode EntangledB			"Beta Entanglement"
+
+	// Primalist Modes
+	Mode HunterMode			"In Hunter Form"
+	Mode ProwlerMode		"In Prowler Form"
+	Mode ProwlerCloakMode		"In Prowler Form with Primal Cloak Active"
+
+	// Incarnate Lockout Modes
+	Mode HybridLockout		"Your Hybrid power has been used recently and is recharging."
+
+	// Bio Armor Modes
+	Mode RestedAdaptation		"You have no active Adaptation and are in a rested state."
+	Mode DefensiveAdaptation	"You have Defensive Adaptation active."
+	Mode OffensiveAdaptation	"You have Offensive Adaptation active."
+
+	// Wind Control Modes
+	Mode ClearSkies			"Clear Skies"
+	Mode CloudedSkies		"Clouded Skies"
+
+	// Origin Power Pool Modes
+	Mode SpeedofSoundOn		"Speed of Sound Active"
+	Mode MightyLeapOn		"Mighty Leap Active"
+	Mode JetpackOn			"Jetpack Active"
+	Mode MysticFlightOn		"Mystic Flight Active"
+	Mode FreeRunningOn		"Freerunning Active"
+
+	////////////////////////////////////////////////////////////////////////
+	//
+	// Specifies the various attrib mod stacking keys that exist.
+
+	StackKey TestStack		"Test Stacking"
+	StackKey HybridSupport		"Hybrid Support"
+	StackKey HybridDefense		"Hybrid Defense"
+	StackKey RecoveryBuff		"Recovery Buff"
+	StackKey EnduranceCostBuff	"Endurance Cost Buff"
+	StackKey KineticAssaultImpulse	"Kinetic Assault Impulse"
+}

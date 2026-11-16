@@ -1,0 +1,19 @@
+#########################################################
+##	Door
+#########################################################
+
+FxInfo
+
+Input
+	InpName Origin
+End
+
+LifeSpan 5
+Condition
+	Event
+		Type Local
+		At origin
+		Sound Door_Roman_Close 200 150 .9
+	End
+End
+

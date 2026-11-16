@@ -1,0 +1,43 @@
+###########################################################
+
+FxInfo
+
+	Flags DontSuppress
+
+###########################################################
+
+	Condition
+		On Time
+		Time 0
+
+		Event
+			Ename HeadAnchor
+			At Head
+			Type Local
+			POther 0
+			Bhvr behaviors/GenericParticleFade.bhvr
+			BhvrOverride
+				PositionOffset 0 0.5 0.1
+			End
+			Part :Helmet_Fire_Flame_Body_Additive.part
+			Part :Helmet_Fire_Flame_Body_Additive2.part
+			Part :Helmet_Fire_Flame_Core.part
+		End
+
+		Event
+			Ename HeadAnchor
+			At Head
+			Type Local
+			POther 0
+			Bhvr behaviors/GenericParticleFade.bhvr
+			BhvrOverride
+				PositionOffset 0 0.75 -0.1
+			End
+			Part :Helmet_Fire_Flame_Body.part
+
+		End
+	End
+
+###########################################################
+
+End

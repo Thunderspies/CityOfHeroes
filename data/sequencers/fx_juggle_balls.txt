@@ -1,0 +1,100 @@
+#############################################################
+## HEADER
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_JuggleRig_Male
+	BaseSkeleton	FX_Juggle_Balls\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_JuggleRig_Female
+	BaseSkeleton	FX_Juggle_Balls\skel_ready
+	ParentType	FX_JuggleRig_Male
+TypeDefEnd
+
+TypeDef FX_JuggleRig_Huge
+	BaseSkeleton	FX_Juggle_Balls\skel_ready
+	ParentType	FX_JuggleRig_Male
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## READY ###########################################################
+
+Move Juggle_Pre
+	Requires	EMOTE JUGGLE
+	Priority	2
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove	Juggle_Cycle
+	Interpolate	5
+
+	Type		FX_JuggleRig_Male
+	  Anim          FX_Juggle_Balls\male_Ready 5 64
+	TEnd
+
+	Type		FX_JuggleRig_Female
+	  Anim          FX_Juggle_Balls\fem_Ready 5 64
+	TEnd
+
+	Type		FX_JuggleRig_Huge
+	  Anim          FX_Juggle_Balls\huge_ready 5 64
+	TEnd
+MEnd
+
+#############################################################
+
+Move Juggle_Cycle
+	Requires	EMOTE JUGGLE ONE
+	Priority	3
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove	Juggle_Cycle2
+	Interpolate	0
+
+	Type		FX_JuggleRig_Male
+	  Anim          FX_Juggle_Balls\male_Ready 65 161
+	TEnd
+
+	Type		FX_JuggleRig_Female
+	  Anim          FX_Juggle_Balls\fem_Ready 65 161
+	TEnd
+
+	Type		FX_JuggleRig_Huge
+	  Anim          FX_Juggle_Balls\huge_ready 65 161
+	TEnd
+MEnd
+
+#############################################################
+
+Move Juggle_Cycle2
+	Requires	EMOTE JUGGLE TWO
+	Priority	3
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove	Juggle_Cycle
+	Interpolate	0
+
+	Type		FX_JuggleRig_Male
+	  Anim          FX_Juggle_Balls\male_Ready 65 161
+	TEnd
+
+	Type		FX_JuggleRig_Female
+	  Anim          FX_Juggle_Balls\fem_Ready 65 161
+	TEnd
+
+	Type		FX_JuggleRig_Huge
+	  Anim          FX_Juggle_Balls\huge_ready 65 161
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd
+

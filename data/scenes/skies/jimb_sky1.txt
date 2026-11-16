@@ -1,0 +1,46 @@
+
+sun
+	MoonName sun__		# The first moon is the sun 
+	MoonName moon__
+
+	CloudFadeTime 5 19 #19.5
+	CloudFadeMin 20
+
+
+
+
+	LampLightTime 4.8 19.5
+End
+
+cloud 
+	Name		clouds1__
+end
+
+cloud 
+	Name		sunskirt
+end
+
+#############
+
+
+suntime	##  NOON  ##
+	Time 0 
+	diffuse		300 320 220 
+	ambient		100 100 160 
+	FogColor	61 135 179 
+	BackGroundColor 61 135 179
+	FogDist		800 1780 
+	SunScale	1
+	MoonScale	0
+	ShadowColor	0 0 40
+	ShadowAlpha	100
+	SkyName		stars__
+
+	DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+	DOFFocusDist     480    #Changes the focus (mid) distance 
+	DOFFarDist       2080   #Changes the far distance 
+      
+	DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+	DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+	DOFFarValue     .6       #Changes the blurriness at the far point
+End

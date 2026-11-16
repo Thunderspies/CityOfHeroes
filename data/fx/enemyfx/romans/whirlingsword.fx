@@ -1,0 +1,73 @@
+#############################################################
+## HEADER
+#############################################################
+
+FxInfo
+
+Lifespan 100
+
+#############################################################
+
+Condition
+	On 	Time
+	Time 	13
+
+	Event
+		Type	local
+		At	Origin
+		Sound Roman_soldier_whirling_sword_attack_1 100 100 .9
+	End
+End
+
+Condition
+	On 	Time
+	Time 	35
+
+	Event
+		EName	Streak
+		Type	local
+		At	Mystic
+		Geom	swoosh
+		bhvr	behaviors\Medieval1.bhvr
+		Lifespan 1
+	End
+End
+
+Condition
+	On	Time
+	Time	36
+
+	Event
+		ENAME	Ring
+		Type	Posit
+		At	WepR
+		part1	POWERS\MedievalWeapons\MedievalRing.part
+		part1	POWERS\MedievalWeapons\MedievalGlow.part
+		Lifespan 1
+	End
+
+	Event
+		ENAME	Sparks
+		Type	Start
+		At	WepR
+		part	POWERS\MedievalWeapons\MedievalSparks.part
+		Lifespan 3
+	End
+End
+
+Condition
+	On	Time
+	Time	37
+
+	Event
+		ENAME	Ring
+		Type	Start
+		At	Root
+		part	POWERS\MedievalWeapons\SwordTwirlRing.part
+		Lifespan 3
+	End
+End
+
+#############################################################
+
+End

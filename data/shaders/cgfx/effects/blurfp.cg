@@ -1,0 +1,101 @@
+// TBD! OPTION ARB_precision_hint_fastest;
+
+// #define EXTEND_COLORS
+// #define CAPTHEM
+#define SMALL_FILTER
+// #define BRIGHTEN
+
+#include "constants_vfx.cgh"
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+    #if defined(BLUR_VER)
+        float2 texCoord0          : TEXCOORD0;
+    #else	
+        float4 texCoord0          : TEXCOORD0;
+    #endif
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform float4 g_Effects_TextTransformFP	TIE( ENV0 );
+};
+
+void SAMPLE(inout float4 H2, fpInput IN, float offs, float weight)
+{
+    #if defined(BLUR_VER)
+        float4 H0 = float4((( IN.g_Effects_TextTransformFP.zy * offs ) + IN.texCoord0 ),0,0);    
+    #else
+        float4 H0 = (( IN.g_Effects_TextTransformFP.xzzz * offs ) + IN.texCoord0 );
+    #endif
+
+	float4 H1 = tex2D( IN.texSampler0, H0.xy );
+	#if defined(EXTEND_COLORS)
+		float4 t = (( H1 * 4 ) - 3 );
+		H1 += ( max( t, 0 ) * 0.5 );
+	#endif
+	H2 = (( H1 * weight ) + H2 );
+}
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float4 oColor;
+    float4 H2 = 0;
+
+    #if defined(SMALL_FILTER)
+
+        #if defined(BRIGHTEN)
+
+            SAMPLE(H2, IN, -3, 0.12);
+            SAMPLE(H2, IN, -2, 0.18);
+            SAMPLE(H2, IN, -1, 0.20);
+            SAMPLE(H2, IN,  0, 0.22);
+            SAMPLE(H2, IN,  1, 0.20);
+            SAMPLE(H2, IN,  2, 0.18);
+            SAMPLE(H2, IN,  3, 0.12);
+
+        #else
+
+            SAMPLE(H2, IN, -3, 0.06963716);
+            SAMPLE(H2, IN, -2, 0.13009916);
+            SAMPLE(H2, IN, -1, 0.18929282);
+            SAMPLE(H2, IN,  0, 0.22194172);
+            SAMPLE(H2, IN,  1, 0.18929282);
+            SAMPLE(H2, IN,  2, 0.13009916);
+            SAMPLE(H2, IN,  3, 0.06963716);
+
+        #endif // BRIGHTEN
+
+    #else
+
+        SAMPLE(H2, IN, -5, 0.00881223);
+        SAMPLE(H2, IN, -4, 0.0271436);
+        SAMPLE(H2, IN, -3, 0.0651141);
+        SAMPLE(H2, IN, -2, 0.121649);
+        SAMPLE(H2, IN, -1, 0.176998);
+        SAMPLE(H2, IN,  0, 0.200565);
+        SAMPLE(H2, IN,  1, 0.176998);
+        SAMPLE(H2, IN,  2, 0.121649);
+        SAMPLE(H2, IN,  3, 0.0651141);
+        SAMPLE(H2, IN,  4, 0.0271436);
+        SAMPLE(H2, IN,  5, 0.00881223);
+
+    #endif
+
+    //H2 = 0;
+    //SAMPLE(H2, IN, 0, 1);
+
+    #if defined(CAPTHEM)
+        H2 = min( H2, 1 );
+    #endif
+
+    oColor = H2;
+    //oColor.w = 1;
+
+    return oColor;
+}

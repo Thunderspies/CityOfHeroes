@@ -1,0 +1,101 @@
+#############################################################
+## CustomShields_Talsorian.txt
+#############################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Shield_Talsorian
+	BaseSkeleton	CustomShield_Talsorian\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoSizeScale
+	Priority	0
+
+	Type		Shield_Talsorian
+	  Anim		CustomShield_Talsorian\skel_ready 1 5
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	SHIELD #SPAWNBACK
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Flags		NoSizeScale
+
+	Type		Shield_Talsorian
+	  Anim		CustomShield_Talsorian\skel_ready 6 65
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	SHIELD
+	Priority        1
+	#Interrupts	<Ready>
+	NextMove	BackToReady
+	Member		<WepCombat>
+	Flags		Cycle NoSizeScale
+
+	Type		Shield_Talsorian
+	  Anim		CustomShield_Talsorian\skel_ready 66 66
+	TEnd
+MEnd
+
+#############################################################
+
+Move BackToReady
+	Member		<Ready>
+	NextMove	Ready
+	Flags		NoSizeScale
+	Scale		0.5
+
+	Type		Shield_Talsorian
+	  Anim		CustomShield_Talsorian\skel_ready 63
+	TEnd
+MEnd
+
+#########################################################
+
+
+Move Death
+	Requires	DEATH
+	Priority        10
+	Interrupts	<Ready> <WepCombat>
+	NextMove	Death_Cycle
+	Flags		NoSizeScale
+
+	Type		Shield_Talsorian
+	  Anim		CustomShield_Talsorian\skel_ready 67
+	TEnd
+MEnd
+
+Move Death_Cycle
+	Requires	DEATH
+	Priority        10
+	Flags		Cycle
+	NextMove	Ready
+	Flags		NoSizeScale
+
+	Type		Shield_Talsorian
+	  Anim		CustomShield_Talsorian\skel_ready 1 5
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

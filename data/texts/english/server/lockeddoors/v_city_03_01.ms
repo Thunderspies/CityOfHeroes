@@ -1,0 +1,4 @@
+
+"PvPDisabled_Sharkhead" "PvP Zones are currently disabled."
+"RogueTalkJanus_SISub"		"You shouldn't just jump into some guys' sub without asking. You have no idea where it's going to take you. Talk to Submariner Janus."
+"BlueDoorWarning_SISub",	"<color deepskyblue>The submarine in front of you leads to Paragon City.  Many of the noble and heroic citizens of this fine city fight for a bright future in which the people can live safe, happy lives.  Here you will find both Heroes who combat great evils and Vigilantes who do what they must to maintain the peace.  Are you brave enough to face the challenges of this city of heroes?</color>"

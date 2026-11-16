@@ -1,0 +1,275 @@
+Texture x_Jimb
+	Base1 sf_chest_tights
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 8 8
+
+	Multiply1 test_reflect1
+	Multiply1Scroll 0.003 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 4 4
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 chest_checker
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 sf_chest_tights_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask chest_blend
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	MaskSwappable 0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 sf_chest_tights
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 chest_checker
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+	DualColor2Swappable 1
+
+	BumpMap2 sf_chest_tights_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 0 255 0
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 2.0
+	AmbientScale 2.0
+
+#	Color3 140 200 0
+#	Color4 0 255 255
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+End
+
+Texture x_JimbCape
+	Base1 Cape_01
+	Base1Scale 1 1
+#	Base1Scroll -0.001 0.001
+	Multiply1 test_reflect1 // dirtngrass_detail
+	Multiply1Reflect 1
+#	Multiply1Scroll 0.01 0
+#	Multiply1Scale 4 4
+	DualColor1 Cape_Special_DVD_01
+	BumpMap1 Cape_01_bump
+	BumpMap1Scale 1 1
+	Mask Cape_Special_DVD_01 // hollows_lava02
+#	MaskScale 4 4
+#	MaskScroll -0.002 0.00
+	AlphaMask	0 // Use the ALPHA channel of the Mask texture instead of all 4 channels
+	MaskWeight	0.5
+#	MaskScroll -0.001 0.001
+	Base2 lava
+	Base2Scroll -0.001 -0.0005
+#	Base2Scroll -0.1 0.05
+#	Base2ScrollType Oval
+	Multiply2 lava
+	Multiply2Scroll 0 -0.002
+	DualColor2 Cape_Special_DVD_01
+	BumpMap2 Cape_01_bump
+End
+
+Texture x_Jimb_chrome
+	Base1 test_marble
+#		Base1Scroll 0.001 0.0
+#	Multiply1 test_reflect1
+	Multiply1Reflect 1
+#		Multiply1Scroll -0.002 0
+#		Multiply1Scale 4 4
+	DualColor1 white // dummy
+	BumpMap1 chest_leather_01_bump
+#		BumpMap1Scroll 0.001 0
+	Mask chest_blend #chest_leather_01_bump
+	AlphaMask 0
+	Base2 test_marble
+#		Base1Scroll 0.001 0.0
+#	Multiply2 test_reflect1
+	Multiply2Reflect 0
+#	Multiply2Scroll 0.001 0
+	BumpMap2 chest_leather_01_bump
+
+	SpecularColor1 0 0 255 // 100 20
+	SpecularColor2 255 0 0 // 100 20
+	SpecularExponent1 8
+	SpecularExponent2 8
+End
+
+Texture x_Jimb_chrome2
+	Flags NoRandomAddGlow
+	Base1 test_marble
+#		Base1Scroll 0.001 0.0
+	Multiply1 test_reflect1
+	Multiply1Reflect 1
+#		Multiply1Scroll -0.002 0
+#		Multiply1Scale 4 4
+	DualColor1 white
+#	AddGlow1 white
+	BumpMap1 generic1_sheen_high
+#		BumpMap1Scroll 0.001 0
+	Mask white
+	Base2 test_marble
+#		Base1Scroll 0.001 0.0
+	Multiply2 test_reflect1
+	Multiply2Reflect 1
+	Multiply2Scroll 0.001 0
+	BumpMap2 chest_leather_01_bump
+#	flags FullBright
+	Fallback
+		UseFallback 1
+		BlendType Multiply
+		Base test_marble
+		Blend test_reflect1
+//		BumpMap generic1_sheen_high
+	End
+	DiffuseScale 2
+	AmbientScale 4
+End
+
+Texture x_Jimb_Building
+	Base1 deco_16_window_A
+	AddGlow1 deco_16_window_glow
+#	DualColor1 white
+#	BumpMap1 generic1_sheen_high
+#		BumpMap1Scroll 0.001 0
+	Mask white
+	Base2 test_marble
+#		Base1Scroll 0.001 0.0
+#	Multiply2 test_reflect1
+#	Multiply2Reflect 1
+#	Multiply2Scroll 0.001 0
+#	BumpMap2 chest_leather_01_bump
+	DiffuseScale 2
+	AmbientScale 2
+#	BaseAddGlow 128
+#	MinAddGlow 0
+#	MaxAddGlow 128
+	Flags AlwaysAddGlow
+	Fallback
+		UseFallback 1
+		BlendType AddGlow
+		Base deco_16_window_A
+		Blend deco_16_window_glow
+	End
+End
+
+Texture x_Jimb_sphere
+	Base1 white // newwater1
+	Base1Scroll 0.0006 0.0004
+	Base1Scale 2 2
+	Multiply1 white // newwater1
+	Multiply1Scroll 0.0007 -0.0003
+	BumpMap1 dummy_bump // newwater1bmp
+	BumpMap1Scroll  0.0003 -0.0002
+	BumpMap2 dummy_bump // newwater1bmp
+	BumpMap2Scroll  -0.0004 -0.00025
+	BumpMap2Scale 2 2
+	MaskWeight 0.8
+
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Color4 100 180 255
+	Color3 255 255 255
+	
+	ObjFlags FancyWater
+	Flags NoColl
+End
+
+Texture x_Jimb_newgrass
+	Base1 grass_path_3way_02
+	Multiply1 dirtngrass_detail
+	Multiply1Scale 8 8
+	BumpMap1 bumpmap_test // chest_leather_01_bump
+	BumpMap1Scale 8 8
+	DiffuseScale 2
+	AmbientScale 4
+	Fallback
+		UseFallback 1
+		Base grass_path_3way_02
+		Blend dirtngrass_detail
+		ScaleST0 8 8
+		BumpMap bumpmap_test
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+Trick jchrome_crystal2
+	//Sway 0.200000 0.5 // 0.20944
+	SwayRoll 0.8 0.5
+	SwayPitch 0.3 0.4
+	//SwayRandomize 1.000 0
+End
+
+Trick ScrollingTextureTest
+	ScrollST1 1 1
+End
+
+Trick AlphaCutoutTest
+	TrickFlags AlphaCutout
+End
+
+Trick jimb_test_box
+//	TrickFlags ALPHACUTOUT
+End
+
+Trick jimb_test_box12
+//	TrickFlags ALPHACUTOUT
+End
+
+Trick jimb_sphere2
+	TrickFlags Subtractive
+End
+
+Trick jimb_test_big_box
+	LODFar 1000
+
+End
+
+Texture buildingLightPattern
+	Flags NoMip
+End
+
+Texture bumpmap_test
+	Flags IsBumpmap TrueColor
+End
+
+Texture bumpmap_test_small
+	Flags IsBumpmap TrueColor
+End
+
+Texture bumpmap_test_dxt
+	Flags IsBumpmap
+End
+

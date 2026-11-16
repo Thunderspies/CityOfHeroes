@@ -1,0 +1,1430 @@
+## URBAN: Maintained Shaders
+
+////////////////////////////////////////////////////////////
+// Texture Tricks  / Flags 
+
+
+Texture Urbn_RdMnt_2L_Asphalt_Strt_Color.tga
+	Flags TrueColor
+	Surface ASPHALT
+End
+
+Texture Urbn_RdMnt_2L_Asphalt_3way_Color.tga
+	Flags TrueColor
+	Surface ASPHALT
+End
+
+Texture Urbn_RdMnt_2L_Asphalt_4way_Color.tga
+	Flags TrueColor
+	Surface ASPHALT
+End
+
+Texture Urbn_RdMnt_2L_Asphalt_45_4wy_Color.tga
+	Flags TrueColor
+	Surface ASPHALT
+End
+
+Texture Urbn_RdMnt_Sidewalk_Color
+	Flags TrueColor
+	Surface CONCRETE
+End
+
+Texture Urbn_RdMnt_SideWalkFill_Color
+	Flags TrueColor
+	Surface CONCRETE
+End
+
+Texture Urbn_RdMnt_Metal_Detail
+	Flags TrueColor
+	Surface METALPLATE
+End
+
+Texture Urbn_RdMnt_StormDrains_A.tga
+	Surface METALPLATE
+End
+
+Texture Urbn_RdMnt_4L_Asphalt_DrivewayA_Color
+	Surface ASPHALT
+	Flags TrueColor
+End
+
+
+//Glow
+
+
+
+Texture Urbn_RdMnt_StormDrains_Glow
+	Flags TrueColor
+End
+
+Texture Urbn_RdMnt_2L_Asphalt_Strt_Glow
+	Flags TrueColor
+End
+
+Texture Urbn_RdMnt_Sidewalk_Glow
+	Flags TrueColor
+End
+
+// Alpha Cutout for Storm Drains ["_Stm" suffix ] (Had to separate from road object due to trick being "object based" not "texture based")  Caused aphasort issues when applied to road.
+Trick StmAC
+	TrickFlags AlphaCutout
+End
+
+
+
+//Texture Urbn_RdMnt_2L_LOD_Sheet_A
+//	Flags TrueColor
+//End
+
+
+
+
+////////////////////////////////////////////////////////////
+// LOD Values // Using OLD system temporarily until fix.  //
+
+Trick UbnRdLODHI
+	//ObjTexBias -4
+	LodNear 		0
+	LodFar 			400
+	//TrickFlags NoColl
+End
+
+Trick UbnRdLODLN
+	//ObjTexBias -4
+	LodNear 		0
+	LodFar 			400
+	TrickFlags NoColl
+End
+
+Trick UbnRdLODLO
+	//ObjTexBias -4
+	LodNear 		400
+	LodFar 			2200
+End
+
+
+
+////////////////////////////////////////////////////////////
+Texture X_Urbn_RdMnt_2L_Asphalt_Strt
+	Base1 Urbn_RdMnt_2L_Asphalt_Strt_Color.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Asphalt_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 5 10
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_Asphalt_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 5 10
+
+	AddGlow1 Urbn_RdMnt_2L_Asphalt_Strt_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_2L_Asphalt_Strt_Color.tga
+		Blend Urbn_RdMnt_Asphalt_Detail
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 5 10
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+////////////////////////////////////////////////////////////
+Texture X_Urbn_RdMnt_2L_Asphalt_3way
+	Base1 Urbn_RdMnt_2L_Asphalt_3way_Color.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Asphalt_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 10 10
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_Asphalt_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 10 10
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_2L_Asphalt_3way_Color.tga
+		Blend Urbn_RdMnt_Asphalt_Detail
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 10 10
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+////////////////////////////////////////////////////////////
+Texture X_Urbn_RdMnt_2L_Asphalt_4way
+	Base1 Urbn_RdMnt_2L_Asphalt_4way_Color.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Asphalt_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 10 10
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_Asphalt_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 10 10
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none	
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_2L_Asphalt_4way_Color.tga
+		Blend Urbn_RdMnt_Asphalt_Detail
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 10 10
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+////////////////////////////////////////////////////////////
+
+Texture X_Urbn_RdMnt_2L_Asphalt_45_4way
+	Base1 Urbn_RdMnt_2L_Asphalt_45_4wy_Color.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Asphalt_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 10 10
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_Asphalt_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 10 10
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none	
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_2L_Asphalt_45_4wy_Color.tga
+		Blend Urbn_RdMnt_Asphalt_Detail
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 10 10
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+////////////////////////////////////////////////////////////////////////////
+Texture X_Urbn_RdMnt_2L_Sidewalk_Strt
+	Base1 Urbn_RdMnt_Sidewalk_Detail  
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Sidewalk_Color
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 .125
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_Sidewalk_Normal
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Urbn_RdMnt_Sidewalk_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 .125
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 90 90
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 2
+	SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_Sidewalk_Detail  
+		Blend Urbn_RdMnt_Sidewalk_Color
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 .125
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture X_Urbn_RdMnt_SidewalkFill
+	Base1 Urbn_RdMnt_SideWalkFill_Detail
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_SideWalkFill_Color.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 0.125 0.125
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_SideWalkFill_Detail
+		Blend Urbn_RdMnt_SideWalkFill_Color.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 0.125 0.125
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture X_Urbn_RdMnt_SidewalkXing_Detail
+	Base1 Urbn_RdMnt_SidewalkXing_Detail
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Sidewalk_Color
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 .125
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_SidewalkXing_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 2
+	SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_SidewalkXing_Detail
+		Blend Urbn_RdMnt_Sidewalk_Color
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 .125
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture X_Urbn_RdMnt_StormDrains_A
+	Base1 Urbn_RdMnt_StormDrains_A
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Metal_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 12 12
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 Urbn_RdMnt_StormDrains_A
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_StormDrains_A_Normal
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Urbn_RdMnt_StormDrains_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 4
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_StormDrains_A
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+////////////////////////////////////////////////////////////
+Texture X_Urbn_RdMnt_2L_LOD_Sheet_A
+	Base1 Urbn_RdMnt_2L_LOD_Sheet_A
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 grey
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_2L_LOD_Sheet_A
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+Texture X_Urbn_RdMnt_Roadlines_A
+	Base1 Urbn_RdMnt_Roadlines_A
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 Urbn_RdMnt_Roadlines_A
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_Asphalt_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Urbn_RdMnt_2L_Asphalt_Strt_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .125 .125
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 4
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_Roadlines_A
+		Blend white
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+////////////////////////////////////////////////////////////
+Texture X_Urbn_RdMnt_4L_Asphalt_Drvway_01
+	Base1 Urbn_RdMnt_4L_Asphalt_DrivewayA_Color.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Asphalt_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 10 10
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_Asphalt_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 10 10
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Urbn_RdMnt_4L_Asphalt_DrivewayA_Color.tga
+		Blend Urbn_RdMnt_Asphalt_Detail
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 10 10
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+//Updated Roads
+
+Texture RdCM_AsphaltSheet_01_D
+	Flags TrueColor
+	Surface Asphalt
+End
+
+Texture RdCM_AsphaltSheet_01_G
+	Flags TrueColor
+	Surface Asphalt
+End
+
+Texture RdCM_Asphalt_TempLODFill_01_D
+	Flags TrueColor
+	Surface Asphalt
+End
+
+	
+Texture X_RdCM_AsphaltSheet_01
+	Base1 RdCM_AsphaltSheet_01_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Asphalt_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 64 64
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_Asphalt_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 64 64
+
+	AddGlow1 RdCM_AsphaltSheet_01_G
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none	
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base RdCM_AsphaltSheet_01_D //RdCM_AsphaltSheet_01_D
+		Blend Urbn_RdMnt_Asphalt_Detail
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 64 64
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture RdCM_LODSheet_01_G.tga
+	Flags TrueColor
+	Surface Asphalt
+End
+
+
+Texture X_RdCM_LODSheet_01
+	Base1 RdCM_LODSheet_01_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 grey
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 64 64
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 64 64
+
+	AddGlow1 RdCM_LODSheet_01_G.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none	
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base RdCM_LODSheet_01_D
+		Blend RdCM_LODSheet_01_G.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+Texture X_RdCM_Ruined_LODSheet_01
+	Base1 RdCM_LODSheet_Ruined_01_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 RdCM_Asphalt_Ruined_D
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 24 24 //64 64
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 64 64
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none	
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1.2
+	AmbientScale 2.25
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base RdCM_LODSheet_Ruined_01_D
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+//Ruined Updated Roads
+
+Texture RdCM_AsphaltSheet_Ruined_01_D
+	Flags TrueColor
+	Surface Asphalt
+End
+
+
+Texture RdCM_AsphaltSheet_Destroyed_01_D
+	Flags TrueColor
+	Surface Asphalt
+End
+
+
+
+Texture X_RdCM_AsphaltSheet_Destroyed_01
+	Base1 RdCM_AsphaltSheet_Destroyed_01_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Urbn_RdMnt_Asphalt_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 64 64
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Urbn_RdMnt_Asphalt_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 64 64
+
+	AddGlow1 RdCM_AsphaltSheet_01_G
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask RdCM_AsphaltSheet_Destroyed_01_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 RdCM_AsphaltSheet_Destroyed_01_D	
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 PlazaRuin_Fill_Concrete_01B_D.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 24 24
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 32 32
+
+	BumpMap2 Urbn_RdMnt_Asphalt_Normal.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 64 64
+
+	SpecularColor1 150 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base RdCM_AsphaltSheet_Destroyed_01_D
+		Blend Urbn_RdMnt_Asphalt_Detail
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 64 64
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End

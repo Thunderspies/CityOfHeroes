@@ -1,0 +1,73 @@
+#############################################################
+## FX_banner.txt
+#############################################################
+
+Sequencer
+
+######################################################
+
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef fem
+	BaseSkeleton	fem\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef huge
+	BaseSkeleton	huge\skel_ready
+	ParentType	male
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move MA_Tier2_Alt1
+	Requires	HIT
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        MA_Tier2_Alt1_Post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          male\storm_kick 1 25
+	TEnd
+
+	Type		fem
+	  Anim          fem\storm_kick 1 25
+	TEnd
+
+	Type		Huge
+	  Anim          huge\storm_kick 1 25
+	TEnd
+MEnd
+
+Move MA_Tier2_Alt1_Post
+	Requires	HIT
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		NoSizeScale ReqInputs
+
+	Type		male
+	  Anim          male\storm_kick 26
+	TEnd
+
+	Type		fem
+	  Anim          fem\storm_kick 26
+	TEnd
+
+	Type		Huge
+	  Anim          huge\storm_kick 26
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

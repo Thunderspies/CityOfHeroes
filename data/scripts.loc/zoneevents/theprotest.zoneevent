@@ -1,0 +1,2263 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P154466690
+EventVolume EventVolume_Prot
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action CreateStuff
+		{
+			WaypointCreate ProtestWaypoint map_enticon_mission_a P154466690
+			SpawnCreate DestroyerSpawn
+			{
+				Location DestroyerWave
+				Group DestroyerWave
+				Team Destroyerteam
+				MoveToMarker ProtestMarker
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Destroyerteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   4
+				Count   2,   2,   5
+				Count   3,   3,   7
+				Count   8,   3,   9
+				Count   10,   4,   10
+				Count   12,   6,   15
+				Count   21,   7,   19
+				Count   23,   9,   22
+				Count   38,   10,   24
+				Count   43,   10,   26
+			}
+			SpawnCreate MayhemSpawn
+			{
+				Location MayhemWave
+				Group MayhemWave
+				Team Mayhemteam
+				SpawnBehavior <<IgnoreCombatMods>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Mayhemteam
+			}
+			SpawnCreate MayhemAllySpawn
+			{
+				Location MayhemAllyWave
+				Group MayhemAllyWave
+				Team MayhemAllyteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(1)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team MayhemAllyteam
+			}
+			SpawnCreate PoliceSpawn
+			{
+				Location PoliceWave
+				Group PoliceWave
+				Team Policeteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(2),Combat(TargetInstigator(1))>>
+				MoveToMarker ProtestMarker
+				KillBehavior <<DoNothing(Timer(Rand(1,5))),Praetorian_TeleportOut(Timer(1)),PL_DestroyMe>>
+			}
+			SpawnCreate PoliceAllySpawn
+			{
+				Location PoliceWave
+				Group PoliceAllyWave
+				Team PoliceAllyteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(1),Combat(TargetInstigator(1))>>
+				MoveToMarker ProtestMarker
+				KillBehavior <<DoNothing(Timer(Rand(1,5))),Praetorian_TeleportOut(Timer(1)),PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team PoliceAllyteam
+				MinRespawnTime 1
+				MaxRespawnTime 30
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   3
+				Count   2,   2,   3
+				Count   3,   2,   3
+				Count   8,   2,   4
+				Count   10,   3,   4
+				Count   12,   4,   6
+				Count   21,   5,   8
+				Count   23,   7,   9
+				Count   38,   9,   11
+				Count   42,   10,   12
+			}
+			SpawnCreate PoliceBossSpawn
+			{
+				Location PoliceBossWave
+				Group PoliceBossWave
+				Team PoliceBossteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(2),Praetorian_TeleportIn(Timer(1)),Combat(TargetInstigator(1))>>
+				KillBehavior <<DoNothing(Timer(Rand(1,5))),Praetorian_TeleportOut(Timer(1)),PL_DestroyMe>>
+			}
+			SpawnCreate GuardSpawn
+			{
+				Location GuardWave
+				Group GuardWave
+				Team Guardteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(1),Praetorian_TeleportIn(Timer(1)),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			SpawnCreate ResistanceSpawn
+			{
+				Location ResistanceWave
+				Group ResistanceWave
+				Team Resistanceteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(3),Protest_Loyalist(CombatOverride(Defensive))>>
+				MoveToMarker ProtestMarker
+				KillBehavior <<PL_DestroyMe>>
+			}
+			SpawnCreate ResistanceAllySpawn
+			{
+				Location ResistanceAllyWave
+				Group ResistanceAllyWave
+				Team ResistanceAllyteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(1),Protest_Loyalist(CombatOverride(Defensive))>>
+				MoveToMarker ProtestMarker
+				KillBehavior <<PL_DestroyMe>>
+			}
+			SpawnCreate ProtestBossSpawn
+			{
+				Location ProtestBossWave
+				Group ProtestBossWave
+				Team ProtestBossteam
+				MoveToMarker ProtestMarker
+				KillBehavior <<PL_DestroyMe>>
+			}
+			SpawnCreate SeerSpawn
+			{
+				Location SeerWave
+				Group SeerWave
+				Team Seerteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(2),Seer_Teleport_In(Timer(1)),StandStill(CombatOverride(Defensive))>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			SpawnCreate SeerAllySpawn
+			{
+				Location SeerWave
+				Group SeerWave
+				Team SeerAllyteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(1),Seer_Teleport_In(Timer(1)),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			SpawnCreate SeerAngrySpawn
+			{
+				Location SeerWave
+				Group SeerWave
+				Team SeerAngryteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(2),Seer_Teleport_In(Timer(1)),StandStill(CombatOverride(Aggressive))>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SeerAngryteam
+				MinRespawnTime 1
+				MaxRespawnTime 60
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   4
+				Count   3,   2,   4
+				Count   6,   3,   4
+				Count   18,   3,   5
+				Count   21,   3,   6
+				Count   24,   3,   7
+				Count   26,   3,   8
+				Count   28,   4,   9
+				Count   30,   4,   10
+				Count   31,   5,   12
+				Count   33,   5,   13
+				Count   34,   6,   14
+				Count   36,   6,   15
+				Count   37,   7,   16
+				Count   38,   7,   17
+				Count   39,   8,   18
+				Count   40,   8,   19
+				Count   41,   9,   20
+				Count   43,   10,   21
+			}
+			TeamCreate
+			{
+				Team SeerAllyteam
+				MinRespawnTime 5
+				MaxRespawnTime 60
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   3
+				Count   3,   2,   3
+				Count   6,   3,   3
+				Count   18,   3,   4
+				Count   21,   3,   5
+				Count   24,   3,   6
+				Count   26,   3,   7
+				Count   28,   4,   8
+				Count   30,   4,   9
+				Count   31,   5,   10
+				Count   33,   5,   11
+				Count   34,   6,   12
+				Count   36,   6,   13
+				Count   37,   7,   14
+				Count   38,   7,   15
+				Count   39,   8,   16
+				Count   40,   8,   17
+				Count   41,   9,   18
+				Count   42,   9,   19
+				Count   43,   10,   20
+			}
+			TeamCreate
+			{
+				Team Seerteam
+				MinRespawnTime 1
+				MaxRespawnTime 60
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   4
+				Count   3,   2,   4
+				Count   6,   3,   4
+				Count   18,   3,   5
+				Count   21,   3,   6
+				Count   24,   3,   7
+				Count   26,   3,   8
+				Count   28,   4,   9
+				Count   30,   4,   10
+				Count   31,   5,   12
+				Count   33,   5,   13
+				Count   34,   6,   14
+				Count   36,   6,   15
+				Count   37,   7,   16
+				Count   38,   7,   17
+				Count   39,   8,   18
+				Count   40,   8,   19
+				Count   41,   9,   20
+				Count   43,   10,   21
+			}
+			TeamCreate
+			{
+				Team ProtestBossteam
+				MinRespawnTime 1
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   3
+				Count   3,   2,   3
+				Count   6,   3,   3
+				Count   18,   3,   4
+				Count   21,   4,   5
+				Count   24,   4,   6
+				Count   26,   4,   7
+				Count   28,   4,   8
+				Count   30,   4,   9
+				Count   31,   5,   10
+				Count   33,   5,   11
+				Count   34,   6,   12
+				Count   36,   6,   13
+				Count   37,   7,   14
+				Count   38,   7,   15
+				Count   39,   8,   16
+				Count   40,   8,   17
+				Count   41,   9,   18
+				Count   42,   9,   19
+				Count   43,   10,   20
+			}
+			TeamCreate
+			{
+				Team PoliceBossteam
+				MinRespawnTime 1
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   3
+				Count   8,   3,   4
+				Count   21,   4,   5
+				Count   24,   4,   6
+				Count   26,   4,   7
+				Count   28,   4,   8
+				Count   30,   4,   9
+				Count   31,   5,   10
+				Count   33,   5,   11
+				Count   34,   6,   12
+				Count   36,   6,   13
+				Count   37,   7,   14
+				Count   38,   7,   15
+				Count   39,   8,   16
+				Count   40,   8,   17
+				Count   41,   9,   18
+				Count   42,   9,   19
+				Count   43,   10,   20
+			}
+			TeamCreate
+			{
+				Team Resistanceteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   3,   7
+				Count   2,   4,   7
+				Count   3,   5,   8
+				Count   4,   6,   10
+				Count   5,   7,   12
+				Count   6,   8,   15
+				Count   10,   9,   18
+				Count   26,   11,   22
+				Count   28,   11,   23
+				Count   35,   12,   25
+				Count   44,   13,   27
+			}
+			TeamCreate
+			{
+				Team ResistanceAllyteam
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   3,   7
+				Count   2,   4,   7
+				Count   3,   5,   8
+				Count   4,   6,   10
+				Count   5,   7,   12
+				Count   6,   8,   15
+				Count   10,   9,   18
+				Count   26,   11,   22
+				Count   28,   11,   23
+				Count   35,   12,   25
+				Count   44,   13,   27
+
+			}
+			TeamCreate
+			{
+				Team Guardteam
+				MinRespawnTime 1
+				MaxRespawnTime 1000
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   3
+				Count   2,   2,   4
+				Count   3,   3,   6
+				Count   8,   3,   7
+				Count   10,   4,   8
+				Count   12,   6,   12
+				Count   21,   7,   15
+				Count   23,   9,   18
+				Count   38,   10,   20
+				Count   41,   9,   19
+				Count   42,   10,   20
+				Count   43,   10,   21
+			}
+			TeamCreate
+			{
+				Team Policeteam
+				MinRespawnTime 1
+				MaxRespawnTime 30
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   2,   2
+				Count   3,   2,   4
+				Count   8,   2,   5
+				Count   10,   3,   5
+				Count   12,   4,   8
+				Count   21,   5,   10
+				Count   23,   7,   12
+				Count   38,   9,   14
+				Count   41,   9,   13
+				Count   42,   10,   14
+				Count   43,   10,   15
+			}
+			GlowieCreate glowie
+			{
+				DisplayName P3383862618
+				Location ComputerTerminal
+				Quantity 6
+				ResetDelay 30000
+				Model OO_RV_FC_Terminal01
+				Interact P707482882
+				Interrupt P3992009480
+				Complete P1184143596
+				BarText P1055551140
+				InteractTime 5
+				VanishOnComplete
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage Protest
+	}
+}
+
+Stage Reset
+{
+	DisplayName P2935190303
+	StartUp
+	{
+		Action ResetStart
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+				}
+			}
+			DebugPrint <<Starting stage Reset>>
+			RemoveWaypoints
+			WaypointPlace ProtestWaypoint ProtestMarker
+		}
+		Action KillCritters
+		{
+			TeamControl StopResistance
+			{
+				Type DoBehavior
+				Team Resistanceteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopResistanceAlly
+			{
+				Type DoBehavior
+				Team ResistanceAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopPolice
+			{
+				Type DoBehavior
+				Team Policeteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopGuards
+			{
+				Type DoBehavior
+				Team Guardteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopBossPolice
+			{
+				Type DoBehavior
+				Team PoliceBossteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopBossGuards
+			{
+				Type DoBehavior
+				Team ProtestBossteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopYellowSeers
+			{
+				Type DoBehavior
+				Team Seerteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopAllySeers
+			{
+				Type DoBehavior
+				Team SeerAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopSeers
+			{
+				Type DoBehavior
+				Team SeerAngryteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopMayhem
+			{
+				Type DoBehavior
+				Team MayhemTeam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopDestroyer
+			{
+				Type DoBehavior
+				Team DestroyerTeam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopMayhemAlly
+			{
+				Type DoBehavior
+				Team MayhemAllyTeam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopPoliceAlly
+			{
+				Type DoBehavior
+				Team PoliceAllyTeam
+				Behavior <<PL_DestroyMe>>
+			}
+			RemoveWaypoints
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopMayhemteam
+			{
+				Type Deactivate
+				Team Mayhemteam
+			}
+			TeamControl StopResistanceAlly
+			{
+				Type Deactivate
+				Team ResistanceAllyteam
+			}
+			TeamControl StopResistance
+			{
+				Type Deactivate
+				Team Resistanceteam
+			}
+			TeamControl StopPolice
+			{
+				Type Deactivate
+				Team Policeteam
+			}
+			TeamControl StopGuards
+			{
+				Type Deactivate
+				Team Guardteam
+			}
+			TeamControl StopBossPolice
+			{
+				Type Deactivate
+				Team PoliceBossteam
+			}
+			TeamControl StopBossProtest
+			{
+				Type Deactivate
+				Team ProtestBossteam
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopAllySeers
+			{
+				Type Deactivate
+				Team SeerAllyteam
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team SeerAngryteam
+			}
+			TeamControl StopDestroyer
+			{
+				Type Deactivate
+				Team DestroyerTeam
+			}
+			TeamControl StopMayhemAlly
+			{
+				Type Deactivate
+				Team MayhemAllyTeam
+			}
+			TeamControl PoliceAllyTeam
+			{
+				Type Deactivate
+				Team PoliceAllyTeam
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 60:00
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		NextStage Protest
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down stage Reset>>
+		}
+	}
+	UICollection Protestreset
+	{
+		UIItem TimeToNextEvent
+		{
+			Type Timer
+			Timer ResetTimer
+			Text P3201275388
+			ShortText P2655158753
+		}
+	}
+}
+
+Stage ResetImmediateAndRecycle
+{
+	StartUp
+	{
+		Action ResetStart
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+				}
+			}
+			DebugPrint <<Starting event reset due to presence of a map event>>
+			RemoveWaypoints
+		}
+		Action KillCritters
+		{
+			TeamControl StopResistance
+			{
+				Type DoBehavior
+				Team Resistanceteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopResistanceAlly
+			{
+				Type DoBehavior
+				Team ResistanceAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopPolice
+			{
+				Type DoBehavior
+				Team Policeteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopGuards
+			{
+				Type DoBehavior
+				Team Guardteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopBossPolice
+			{
+				Type DoBehavior
+				Team PoliceBossteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopBossGuards
+			{
+				Type DoBehavior
+				Team ProtestBossteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopYellowSeers
+			{
+				Type DoBehavior
+				Team Seerteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopAllySeers
+			{
+				Type DoBehavior
+				Team SeerAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopSeers
+			{
+				Type DoBehavior
+				Team SeerAngryteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopMayhem
+			{
+				Type DoBehavior
+				Team MayhemTeam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopDestroyer
+			{
+				Type DoBehavior
+				Team Destroyerteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopMayhemAlly
+			{
+				Type DoBehavior
+				Team MayhemAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopPoliceAlly
+			{
+				Type DoBehavior
+				Team PoliceAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopMayhemteam
+			{
+				Type Deactivate
+				Team Mayhemteam
+			}
+			TeamControl StopResistanceAlly
+			{
+				Type Deactivate
+				Team ResistanceAllyteam
+			}
+			TeamControl StopResistance
+			{
+				Type Deactivate
+				Team Resistanceteam
+			}
+			TeamControl StopPolice
+			{
+				Type Deactivate
+				Team Policeteam
+			}
+			TeamControl StopGuards
+			{
+				Type Deactivate
+				Team Guardteam
+			}
+			TeamControl StopBossPolice
+			{
+				Type Deactivate
+				Team PoliceBossteam
+			}
+			TeamControl StopBossProtest
+			{
+				Type Deactivate
+				Team ProtestBossteam
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopAllySeers
+			{
+				Type Deactivate
+				Team SeerAllyteam
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team SeerAngryteam
+			}
+			TeamControl StopDestroyer
+			{
+				Type Deactivate
+				Team Destroyerteam
+			}
+			TeamControl StopMayhemAlly
+			{
+				Type Deactivate
+				Team MayhemAllyteam
+			}
+			TeamControl StopPoliceAlly
+			{
+				Type Deactivate
+				Team PoliceAllyteam
+			}
+		}
+	}
+
+//Start Event Reactivation Block
+
+	Timer WaitTimer
+	{
+		Duration 1:00
+	}
+	Trigger ClearToStart
+	{
+		Requires WaitTimer complete> ZoneEventMutex InstanceTokenVal system> UNKNOWN eq &&
+		Action
+		{
+			DebugPrint <<Event Restart Due To Other Event Ending>>
+		}
+		NextStage Protest
+	}
+	Trigger ResetWait
+	{
+		Requires WaitTimer complete> ZoneEventMutex InstanceTokenVal system> UNKNOWN eq ! &&
+		Action
+		{
+			Reset WaitTimer ResetWait
+		}
+	}
+
+//End Event Reactivation Block
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down stage ResetImmediateAndRecycle>>
+		}
+	}
+}
+
+Stage Protest
+{
+	DisplayName P154466690
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage Protest>>
+		}
+		Action TurnOnSpawns
+		{
+			TeamControl StartResistance
+			{
+				Type Activate
+				Team Resistanceteam
+			}
+			TeamControl StartMayhemteam
+			{
+				Type Activate
+				Team Mayhemteam
+			}
+			RemoveWaypoints
+			WaypointPlace ProtestWaypoint ProtestMarker
+		}
+		Action TurnToMyTeam
+		{
+			TeamControl DirectMayhemteam
+			{
+				Type DoBehavior
+				Team Mayhemteam
+				Behavior <<DoNothing(Gang(1),Untargetable(1),Unselectable(1),Invincible(1))>>
+			}
+		}
+	}
+	Timer SeerTimer
+	{
+		Duration 0:14
+	}
+	Counter ProtestKills
+	{
+		Type VillainGroup
+		Count 6
+		VillainGroup PraetorianAngryCitizens
+		VolumeName EventVolume_Prot
+	}
+	Counter SeerKills
+	{
+		Type team
+		Count 1
+		team Seerteam
+	}
+	Trigger SpawnInSeers
+	{
+		Requires SeerTimer complete>
+		Action StartSeers
+		{
+			TeamControl StartSeers
+			{
+				Type Activate
+				Team Seerteam
+			}
+		}
+	}
+	Trigger LoyalistSuccess
+	{
+		Requires ProtestKills complete>
+		Action ProtestKillsDone
+		{
+			DebugPrint <<ProtestKills success: switching to ProtestLoyalist>>
+			Floater Victory
+			{
+				Message P3612170673
+				Color 00ff00
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage ProtestLoyalist
+	}
+	Trigger ResistanceSuccess
+	{
+		Requires SeerKills complete>
+		Action SeerKillsDone
+		{
+			DebugPrint <<SeerKills success: switching to ProtestResistance>>
+			Floater Victory
+			{
+				Message P838902829
+				Color 00ff00
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage ProtestResistance
+	}
+	UICollection ProtestOption
+	{
+		UIItem ProtestKills
+		{
+			Type CenterText
+			Text P2725170890
+		}
+		UIItem SeparatorLine
+		{
+			Type CenterText
+			Text P3072676397
+		}
+		UIItem SeerKills
+		{
+			Type CenterText
+			Text P1235620222
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Protest>>
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+
+Stage ProtestResistance
+{
+	DisplayName P900505883
+	AwardKarma
+	KarmaThreshold	5
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage ProtestResistance>>
+			RemoveWaypoints
+			WaypointPlace ProtestWaypoint ProtestMarker
+		}
+		Action TurnSpawns
+		{
+			TeamControl AllyTheResistanceteam
+			{
+				Type DoBehavior
+				Team Resistanceteam
+				Behavior <<Gang(1),Protest_Loyalist(CombatOverride(Defensive),Timer(Rand(30,60))),PL_DestroyMe>>
+			}
+		}
+		Action TurnOffSpawns
+		{
+			TeamControl StopResistanceteam
+			{
+				Type Deactivate
+				Team Resistanceteam
+			}
+		}
+		Action StartKillProtest
+		{
+			TeamControl EarlySeers
+			{
+				Type DoBehavior
+				Team Seerteam
+				Behavior <<Combat(Timer(Rand(1,6))),Seer_Teleport_Out(Timer(1)),PL_DestroyMe>>
+			}
+		}
+		Action StartKillProtesting
+		{
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StartSeers
+			{
+				Type Activate
+				Team SeerAngryteam
+			}
+		}
+	}
+	Objective ObjSeerKills
+	{
+		Type VillainGroup
+		VillainGroup PraetorianSeers
+		KarmaValue 5
+		KarmaLife  30
+	}
+	Counter SeerKills
+	{
+		Type VillainGroup
+		Count 25
+		VillainGroup PraetorianSeers
+	}
+	Timer VisibleTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Timer AllyPause
+	{
+		Duration 0:01
+	}
+	Timer UpgradeTimer
+	{
+		Duration 3:30
+	}
+	Trigger Upgrade
+	{
+		Requires AllyPause complete>
+		Action AddingAllies
+		{
+			TeamControl StartAllyResistanceteam
+			{
+				Type Activate
+				Team ResistanceAllyteam
+			}
+		}
+	}
+	Trigger ResistanceSuccess
+	{
+		Requires SeerKills complete>
+		//Requires SeerKills complete>
+		Action SeerKillsDone
+		{
+			TeamControl EndSeers
+			{
+				Type DoBehavior
+				Team SeerAngryteam
+				Behavior <<Combat(Timer(Rand(1,6))),Seer_Teleport_Out(Timer(1)),PL_DestroyMe>>
+			}
+			TeamControl EndSeers
+			{
+				Type Deactivate
+				Team SeerAngryteam
+			}
+			DebugPrint <<SeerKills success: switching to PPDBosses>>
+			Floater Victory
+			{
+				Message P1620128281
+				Color 00ff00
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage ProtestCauseMayhem
+	}
+	Trigger Upgrade
+	{
+		Requires UpgradeTimer complete>
+		Action AddingPPD
+		{
+			Floater Victory
+			{
+				Message P124186627
+				Color 00ff00
+				Volume EventVolume_Prot
+			}
+			TeamControl StartPolice
+			{
+				Type Activate
+				Team Policeteam
+			}
+		}
+	}
+	Trigger Failure
+	{
+		Requires VisibleTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<Protest ended without resolution. You lose.>>
+			Floater Victory
+			{
+				Message P3698378773
+				Color ff0000
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage ProtestFailed
+	}
+	UICollection SeerChoiceCount
+	{
+		UIItem SeerKills
+		{
+			Type BarBlue
+			Text P1630064408
+			ShortText P795899662
+			Current SeerKills count>
+			Target 25
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Protest>>
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+
+Stage ProtestCauseMayhem
+{
+	DisplayName P1620128281
+	ToolTip P2643254797
+	AwardKarma
+	KarmaThreshold	5
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage ProtestCauseMayhem>>
+			RemoveWaypoints
+		}
+		Action TurnToMyTeam
+		{
+			TeamControl DirectMayhemteam
+			{
+				Type DoBehavior
+				Team Mayhemteam
+				Behavior <<DoNothing(Gang(2),Untargetable(0),Unselectable(0),Invincible(0))>>
+			}
+		}
+	}
+	Objective ObjMayhemteam
+	{
+		Type Team
+		Team Mayhemteam
+		KarmaValue 2
+		KarmaLife  30
+	}
+	Counter MayhemKills
+	{
+		Type Team
+		Count 12
+		Team Mayhemteam
+	}
+	Timer VisibleTimer
+	{
+		Duration 5:00
+		Display
+	}
+	Trigger ProtestCauseMayhemSuccess
+	{
+		Requires MayhemKills complete>
+		Action ProtestKillsDone
+		{
+			DebugPrint <<ProtestCauseMayhem success: switching to PPDBosses>>
+			Floater Victory
+			{
+				Message P2562507994
+				Color 00ff00
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage PPDBosses
+	}
+	Trigger Failure
+	{
+		Requires VisibleTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<Protest ended without resolution. You lose.>>
+			Floater Victory
+			{
+				Message P3698378773
+				Color ff0000
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage ProtestFailed
+	}
+	UICollection ProtestCauseSomeMayhem
+	{
+		UIItem MayhemKillsCounter
+		{
+			Type BarBlue
+			Text P3790301394
+			ShortText P3710652773
+			Current MayhemKills count>
+			Target 12
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage ProtestCauseMayhem>>
+			TeamControl StopMayhemteam
+			{
+				Type Deactivate
+				Team Mayhemteam
+			}
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+
+
+Stage PPDBosses
+{
+	DisplayName P3245085584
+	AwardKarma
+	KarmaThreshold	5
+	StartUp
+	{
+		Action StartKillClockwork
+		{
+			DebugPrint <<Starting Stage PPDBosses>>
+			RemoveWaypoints
+			WaypointPlace ProtestWaypoint ProtestMarker
+		}
+		Action TurnOnPoliceBoss
+		{
+			TeamControl StartPoliceBoss
+			{
+				Type Activate
+				Team PoliceBossteam
+			}
+		}
+	}
+	Objective ObjPPDBossKills
+	{
+		Type team
+		Team PoliceBossteam
+		KarmaValue 10
+		KarmaLife  40
+	}
+	Counter PoliceBossKills
+	{
+		Type team
+		Count 24
+		Team PoliceBossteam
+	}
+	Timer VisibleTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Trigger Done
+	{
+		Requires PoliceBossKills complete>
+		Action GotoProtest
+		{
+			TeamControl StopSeers
+			{
+				Type DoBehavior
+				Team SeerAngryteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team SeerAngryteam
+			}
+			DebugPrint <<PPDBosses done: switching to RewardResistance>>
+			Floater Victory
+			{
+				Message P2595194300
+				Color ff0000
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage RewardResistance
+	}
+	Trigger Failure
+	{
+		Requires VisibleTimer complete>
+		Action GotoReset
+		{
+			TeamControl StopSeers
+			{
+				Type DoBehavior
+				Team SeerAngryteam
+				Behavior <<Combat(Timer(Rand(1,6))),Seer_Teleport_Out(Timer(1)),PL_DestroyMe>>
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team SeerAngryteam
+			}
+			Floater Victory
+			{
+				Message P2773628717
+				Color ff0000
+				Volume EventVolume_Prot
+			}
+			DebugPrint <<The Police quashed the protest. You lose.>>
+		}
+		NextStage ProtestFailed
+	}
+	UICollection ProtestBossKillCount
+	{
+		UIItem ProtestBossKill
+		{
+			Type BarBlue
+			Text P3042794925
+			ShortText P3821155351
+			Current PoliceBossKills count>
+			Target 24
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage PPDBosses>>
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+
+
+Stage ProtestLoyalist
+{
+	DisplayName P198514718
+	AwardKarma
+	KarmaThreshold	5
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage ProtestLoyalist Swap Seers>>
+			RemoveWaypoints
+			WaypointPlace ProtestWaypoint ProtestMarker
+		}
+		Action TurnSpawns
+		{
+			TeamControl AllySeers
+			{
+				Type DoBehavior
+				Team Seerteam
+				Behavior <<Gang(1),Combat(Timer(Rand(30,60))),Seer_Teleport_Out(Timer(1)),PL_DestroyMe>>
+			}
+		}
+		Action TurnOffSpawns
+		{
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+		}
+	}
+	Objective ObjProtestKills
+	{
+		Type VillainGroup
+		VillainGroup PraetorianAngryCitizens
+		KarmaValue 2
+		KarmaLife  30
+	}
+	Counter ProtestKills
+	{
+		Type VillainGroup
+		Count 40
+		VillainGroup PraetorianAngryCitizens
+		VolumeName EventVolume_Prot
+	}
+	Counter SubKills
+	{
+		Type VillainGroup
+		Count 10
+		VillainGroup PraetorianAngryCitizens
+		VolumeName EventVolume_Prot
+	}
+	Timer VisibleTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Trigger LoyalistSubKills
+	{
+		Requires SubKills complete>
+		Action ProtestKillsDone
+		{
+			DebugPrint <<Unleashing more Seers>>
+			TeamControl StartSeers
+			{
+				Type Activate
+				Team SeerAllyteam
+			}
+		}
+	}
+	Trigger LoyalistSuccess
+	{
+		Requires ProtestKills complete>
+		Action ProtestKillsDone
+		{			
+			DebugPrint <<ProtestKills success: switching to ProtestBosses>>
+			Floater Victory
+			{
+				Message P3243444188
+				Color 00ff00
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage ProtestPreventMayhem
+	}
+	Trigger Failure
+	{
+		Requires VisibleTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<Protest ended without resolution. You lose.>>
+			Floater Victory
+			{
+				Message P3698378773
+				Color ff0000
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage ProtestFailed
+	}
+	UICollection ProtestChoiceCount
+	{
+		UIItem ProtesterKills
+		{
+			Type BarGold
+			Text P3964744572
+			ShortText P220742214
+			Current ProtestKills count>
+			Target 40
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Protest>>
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+
+Stage ProtestPreventMayhem
+{
+	DisplayName P58067812
+	AwardKarma
+	KarmaThreshold	5
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage ProtestPreventMayhem>>
+			RemoveWaypoints
+		}
+		Action TurnOnDestroyerSpawns
+		{
+			TeamControl StartDestroyerteam
+			{
+				Type Activate
+				Team Destroyerteam
+			}
+		}
+		Action TurnToMyTeam
+		{
+			TeamControl DirectMayhemteam
+			{
+				Type DoBehavior
+				Team Mayhemteam
+				Behavior <<DoNothing(Gang(1),Untargetable(0),Unselectable(0),Invincible(0))>>
+			}
+		}
+	}
+	Objective ObjDestroyerteam
+	{
+		Type Team
+		Team Destroyerteam
+		KarmaValue 2
+		KarmaLife  30
+	}
+	Counter MayhemKills
+	{
+		Type Team
+		Count 15
+		Team Mayhemteam
+	}
+	Counter DestroyerKills
+	{
+		Type Team
+		Count 20
+		Team Destroyerteam
+	}
+	Counter LesserDestroyerKills
+	{
+		Type Team
+		Count 10
+		Team Destroyerteam
+	}
+	Timer VisibleTimer
+	{
+		Duration 5:00
+		Display
+	}
+	Timer InvisibleTimer
+	{
+		Duration 3:00
+		Display
+	}
+	Trigger LoyalistUpgrade
+	{
+		Requires InvisibleTimer complete> LesserDestroyerKills complete> ||
+		Action SummonThePolice
+		{
+			Floater Victory
+			{
+				Message P2049167170
+				Color 00ff00
+				Volume EventVolume_Prot
+			}
+			TeamControl StartPoliceAlly
+			{
+				Type Activate
+				Team PoliceAllyteam
+			}
+		}
+	}
+	Trigger LoyalistSuccess
+	{
+		Requires VisibleTimer complete> DestroyerKills complete> ||
+		Action ProtestKillsDone
+		{
+			DebugPrint <<ProtestPreventMayhem success: switching to ProtestBosses>>
+			TeamControl DirectMayhemteamNoMore
+			{
+				Type DoBehavior
+				Team Mayhemteam
+				Behavior <<DoNothing(Gang(1),Untargetable(1),Unselectable(1),Invincible(1))>>
+			}
+			Floater Victory
+			{
+				Message P181998513
+				Color 00ff00
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage ProtestBosses
+	}
+	Trigger Failure
+	{
+		Requires MayhemKills complete>
+		Action GotoReset
+		{
+			DebugPrint <<Protest ended without resolution. You lose.>>
+			Floater Victory
+			{
+				Message P3698378773
+				Color ff0000
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage ProtestFailed
+	}
+	UICollection MayhemCauseCount
+	{
+		UIItem MayhemCauses
+		{
+			Type BarGold
+			Text P4176695425
+			ShortText P2305947765
+			Current DestroyerKills count>
+			Target 20
+		}
+		UIItem MayhemCauses
+		{
+			Type BarRed
+			Text P3790301394
+			ShortText P3710652773
+			Current MayhemKills count>
+			Target 15
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			TeamControl StopDestroyerteam
+			{
+				Type Deactivate
+				Team Destroyerteam
+			}
+			TeamControl StopMayhemAllyteam
+			{
+				Type Deactivate
+				Team MayhemAllyteam
+			}
+			DebugPrint <<Shutting down Stage ProtestPreventMayhem>>
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+
+Stage ProtestBosses
+{
+	DisplayName P3691873215
+	AwardKarma
+	KarmaThreshold	5
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage ProtestBosses>>
+			RemoveWaypoints
+			WaypointPlace ProtestWaypoint ProtestMarker
+		}
+		Action TurnOnProtestBoss
+		{
+			TeamControl StartResistance
+			{
+				Type Activate
+				Team ProtestBossteam
+			}
+			TeamControl StartSeers
+			{
+				Type Activate
+				Team SeerAllyteam
+			}
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team Policeteam
+			}
+			TeamControl AlliedPPD
+			{
+				Type DoBehavior
+				Team Policeteam
+				Behavior <<Gang(1),Combat(Timer(Rand(30,60))),Praetorian_TeleportOut(Timer(1)),PL_DestroyMe>>
+			}
+		}
+	}
+	Objective ObjProtestBossKills
+	{
+		Type team
+		Team ProtestBossteam
+		KarmaValue 10
+		KarmaLife  40
+	}
+	Counter ProtestBossKills
+	{
+		Type team
+		Count 20
+		Team ProtestBossteam
+	}
+	Timer VisibleTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Trigger LoyalistSuccess
+	{
+		Requires ProtestBossKills complete>
+		Action ProtestKillsDone
+		{
+			DebugPrint <<ProtestKills success: switching to RewardLoyalists>>
+			Floater Victory
+			{
+				Message P3823520799
+				Color 00ff00
+				Volume EventVolume_Prot
+			}
+		}
+		NextStage RewardLoyalists
+	}
+	Trigger Failure
+	{
+		Requires VisibleTimer complete>
+		Action GotoReset
+		{
+			Floater Victory
+			{
+				Message P798536355
+				Color ff0000
+				Volume EventVolume_Prot
+			}
+			DebugPrint <<The Protest Bosses escaped. You lose.>>
+		}
+		NextStage ProtestFailed
+	}
+	UICollection ProtestKillsCount
+	{
+		UIItem ProtestKills
+		{
+			Type BarGold
+			Text P3354187754
+			ShortText P3438367242
+			Current ProtestBossKills count>
+			Target 20
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage ProtestBosses>>
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+
+Stage RewardLoyalists
+{
+	DisplayName P3422061349
+	StartUp
+	{
+		Action GlowieTeardown
+		{
+			RemoveWaypoints
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie glowie
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie glowie
+			}
+		}
+
+		Action KillCritters
+		{
+			TeamControl StopResistance
+			{
+				Type DoBehavior
+				Team Resistanceteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopResistanceAlly
+			{
+				Type DoBehavior
+				Team ResistanceAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopProtestBoss
+			{
+				Type DoBehavior
+				Team ProtestBossteam
+				Behavior <<PL_DestroyMe>>
+			}
+			RemoveWaypoints
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopMayhemteam
+			{
+				Type Deactivate
+				Team Mayhemteam
+			}
+			TeamControl StopResistance
+			{
+				Type Deactivate
+				Team Resistanceteam
+			}
+			TeamControl StopResistanceAlly
+			{
+				Type Deactivate
+				Team ResistanceAllyteam
+			}
+			TeamControl StopResistanceBoss
+			{
+				Type Deactivate
+				Team ProtestBossteam
+			}
+		}
+		Action RewardStart
+		{
+			RemoveWaypoints
+			DebugPrint <<Starting Reward stage>>
+		}
+		Action PhatLewt
+		{
+			RewardGroup reward
+			{
+				Reward class2
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					NumStagesRequired 1
+					RewardTable ZE_Protest_Base_Low
+				}
+				Reward class2_5
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					NumStagesRequired 3
+					RewardTable ZE_Protest_Base_Low
+				}
+				Reward class3
+				{
+					PercentileNeeded 0.33
+					PointsNeeded 17
+					NumStagesRequired 3
+					RewardTable ZE_Protest_Base_Medium
+				}
+				Reward class4
+				{
+					PercentileNeeded 0.66
+					PointsNeeded 22
+					NumStagesRequired 3
+					RewardTable ZE_Protest_Base_High
+				}
+			}
+		}
+	}
+	UICollection ProtestLoyalWin
+	{
+		UIItem LoyalistWin
+		{
+			Type CenterText
+			Text P2684897763
+			ShortText P3874835759
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:30
+		Display
+	}
+	Trigger Reset
+	{
+		Requires ResetTimer complete>
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint <<Switching to Reset from Reward>>
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Reward>>
+		}
+	}
+}
+
+Stage RewardResistance
+{
+	DisplayName P2808208889	
+	StartUp
+	{
+		Action GlowieTeardown
+		{
+			RemoveWaypoints
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie glowie
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie glowie
+			}
+		}
+
+		Action KillCritters
+		{
+			TeamControl StopPolice
+			{
+				Type DoBehavior
+				Team Policeteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopGuards
+			{
+				Type DoBehavior
+				Team Guardteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopBossPolice
+			{
+				Type DoBehavior
+				Team PoliceBossteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopBossGuards
+			{
+				Type DoBehavior
+				Team ProtestBossteam
+				Behavior <<PL_DestroyMe>>
+			}
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopMayhemteam
+			{
+				Type Deactivate
+				Team Mayhemteam
+			}
+			TeamControl StopMDestroyerteam
+			{
+				Type Deactivate
+				Team Destroyerteam
+			}
+			TeamControl StopPolice
+			{
+				Type Deactivate
+				Team Policeteam
+			}
+			TeamControl StopPoliceAlly
+			{
+				Type Deactivate
+				Team PoliceAllyteam
+			}
+			TeamControl StopGuards
+			{
+				Type Deactivate
+				Team Guardteam
+			}
+			TeamControl StopBossPolice
+			{
+				Type Deactivate
+				Team PoliceBossteam
+			}
+			TeamControl StopBossGuards
+			{
+				Type Deactivate
+				Team ProtestBossteam
+			}
+		}
+
+		Action RewardStart
+		{
+			RemoveWaypoints
+			DebugPrint <<Starting Reward stage>>
+		}
+		Action PhatLewt
+		{
+			RewardGroup reward
+			{
+				Reward class2
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					RewardTable ZE_Protest_Base_Low
+					NumStagesRequired 1
+				}
+				Reward class2_5
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					NumStagesRequired 3
+					RewardTable ZE_Protest_Base_Low
+				}
+				Reward class3
+				{
+					PercentileNeeded 0.33
+					PointsNeeded 15
+					NumStagesRequired 3
+					RewardTable ZE_Protest_Base_Medium
+				}
+				Reward class4
+				{
+					PercentileNeeded 0.66
+					PointsNeeded 20
+					NumStagesRequired 3
+					RewardTable ZE_Protest_Base_High
+				}
+			}
+		}
+	}
+	UICollection ProtestResistanceWin
+	{
+		UIItem ResistanceWin
+		{
+			Type CenterText
+			Text P3892431908
+			ShortText P3874835759
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:30
+		Display
+	}
+	Trigger Reset
+	{
+		Requires ResetTimer complete>
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint <<Switching to Reset from Reward>>
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Reward>>
+		}
+	}
+}
+
+
+Stage ProtestFailed
+{
+	StartUp
+	{
+		Action GlowieTeardown
+		{
+			RemoveWaypoints
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie glowie
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie glowie
+			}
+		}
+	}
+	Trigger Reset
+	{
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint <<Switching to Reset from ProtestFailed>>
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage ProtestFailed>>
+		}
+	}
+}
+
+
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			RemoveWaypoints
+			DebugPrint <<Starting Stop stage>>
+		}
+		Action GlowieTeardown
+		{
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie glowie
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie glowie
+			}
+		}
+		Action KillCritters
+		{
+			TeamControl StopResistance
+			{
+				Type DoBehavior
+				Team Resistanceteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopResistanceAlly
+			{
+				Type DoBehavior
+				Team ResistanceAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopMDestroyerteam
+			{
+				Type Deactivate
+				Team Destroyerteam
+			}
+			TeamControl StopPolice
+			{
+				Type DoBehavior
+				Team Policeteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopGuards
+			{
+				Type DoBehavior
+				Team Guardteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopBossPolice
+			{
+				Type DoBehavior
+				Team PoliceBossteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopBossGuards
+			{
+				Type DoBehavior
+				Team ProtestBossteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopYellowSeers
+			{
+				Type DoBehavior
+				Team Seerteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopAllySeers
+			{
+				Type DoBehavior
+				Team SeerAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopSeers
+			{
+				Type DoBehavior
+				Team SeerAngryteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopMayhem
+			{
+				Type DoBehavior
+				Team Mayhemteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopMayhemAlly
+			{
+				Type DoBehavior
+				Team MayhemAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			TeamControl StopPoliceAlly
+			{
+				Type DoBehavior
+				Team PoliceAllyteam
+				Behavior <<PL_DestroyMe>>
+			}
+			RemoveWaypoints
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopResistanceAlly
+			{
+				Type Deactivate
+				Team ResistanceAllyteam
+			}
+			TeamControl StopResistance
+			{
+				Type Deactivate
+				Team Resistanceteam
+			}
+			TeamControl StopPolice
+			{
+				Type Deactivate
+				Team Policeteam
+			}
+			TeamControl StopPoliceAlly
+			{
+				Type Deactivate
+				Team PoliceAllyteam
+			}
+			TeamControl StopGuards
+			{
+				Type Deactivate
+				Team Guardteam
+			}
+			TeamControl StopBossPolice
+			{
+				Type Deactivate
+				Team PoliceBossteam
+			}
+			TeamControl StopBossProtest
+			{
+				Type Deactivate
+				Team ProtestBossteam
+			}
+			TeamControl StopYellowSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopAllySeers
+			{
+				Type Deactivate
+				Team SeerAllyteam
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team SeerAngryteam
+			}
+			TeamControl StopMayhem
+			{
+				Type Deactivate
+				Team Mayhemteam
+			}
+			TeamControl StopMayhemAlly
+			{
+				Type Deactivate
+				Team MayhemAllyteam
+			}
+			TeamControl StopDestroyer
+			{
+				Type Deactivate
+				Team DestoyerTeam
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting down Stage Stop>>
+		}
+	}
+}

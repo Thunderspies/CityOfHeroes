@@ -1,0 +1,300 @@
+#########################
+#
+#	sun
+#
+#########################
+
+sun
+	MoonName sun__		# The first moon is the sun 
+	MoonName moon__
+
+	CloudFadeTime 4.5 20 #19.5
+	CloudFadeMin 80
+
+	LampLightTime 4.8 19.5
+End
+
+cloud 
+	Name		rikti_clouds1__   //original version: clouds1__
+end
+
+cloud 
+	Name		sunskirt
+end
+
+
+###########################################################
+
+suntime	## NIGHT ##
+	Time 24	
+	diffuse 55 75 25 //120 140 60 //0 150 125     // original value 50 148 315 
+	ambient 40 55 20 //80 100 20 //0 80 75      // original value 0 20 160 
+	FogColor 10 15 5  //10 30 0
+	BackGroundColor  16 69 53  //12 62 53
+	FogDist 2000 2100
+	SkyName   rikti_night__
+	SunScale	0
+	MoonScale	2
+	ShadowColor	0 0 0
+	ShadowAlpha	50
+
+		DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     480    #Changes the focus (mid) distance 
+		DOFFarDist       1080   #Changes the far distance 
+      
+		DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   .1      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     1       #Changes the blurriness at the far point
+End
+
+
+suntime	##ENDING NIGHT##
+	Time 4 
+	diffuse 55 75 25 //original values 100 198 355 
+	ambient 40 55 20 //original values 0 20 160
+	FogColor 10 15 5
+	BackGroundColor 16 69 53
+	FogDist 2000 2100
+	SkyName rikti_night__
+	SunScale	2
+	MoonScale	2
+	ShadowColor	0 0 20
+	ShadowAlpha	50
+
+		DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     480    #Changes the focus (mid) distance 
+		DOFFarDist       1080   #Changes the far distance 
+      
+		DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   .1      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     1       #Changes the blurriness at the far point
+End
+
+suntime	##ENDING NIGHT##
+	Time 4.6 
+	diffuse 55 75 25 //original values 100 198 355 
+	ambient 40 55 20 //original values 0 20 160
+	FogColor 10 15 5
+	BackGroundColor 16 69 53
+	FogDist 1500 1700
+	SkyName rikti_night__
+	SunScale	2
+	MoonScale	2
+	ShadowColor	0 0 20
+	ShadowAlpha	50
+
+		DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     480    #Changes the focus (mid) distance 
+		DOFFarDist       1080   #Changes the far distance 
+      
+		DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   .1      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     1       #Changes the blurriness at the far point
+End
+
+
+##suntime	## BEGIN SUNRISE ##
+	##Time 4.6  
+	##diffuse 80 200 155 //220 220 220 
+	##ambient 60 125 60 //110 110 170 
+	##FogColor 16 69 53 
+	##BackGroundColor 16 69 53
+	###HighFogColor 124 169 187
+	##FogDist 500 1780	
+	##SunScale	2
+	##MoonScale	2
+	##ShadowColor	0 0 20
+	##ShadowAlpha	80
+		 
+		##DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		##DOFFocusDist     480    #Changes the focus (mid) distance 
+		##DOFFarDist       1080   #Changes the far distance 
+      
+		##DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+		##DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		##DOFFarValue     .65       #Changes the blurriness at the far point
+##`
+
+suntime	## DAWN SKY DOME ##            
+	Time 		5 		
+	diffuse		75 100 0 //140 140 60  //220 220 220
+	ambient 	50 70 0 //0 80 20  //110 110 170 
+	FogColor 	40 45 20 //61 135 179 
+	BackGroundColor 100 100 100 //16 69 53 //61 135 179 
+	FogDist 	1600 1780 
+	SkyName         rikti_dawn__
+	SunScale	2
+	MoonScale	2
+	ShadowColor	0 0 20
+	ShadowAlpha	50 //100
+
+		DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     480    #Changes the focus (mid) distance 
+		DOFFarDist       2080   #Changes the far distance 
+      
+		DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     .6       #Changes the blurriness at the far point
+End
+
+##suntime	## START OF "PURE" DAY LIGHT (kills dawn dome)##
+	## Time 		6 		
+	##diffuse		151 151 81 //151 131 81  //210 210 210
+	##ambient 	151 141 81 //151 121 81
+	##FogColor 	93 103 47 //93 73 47 //61 135 179 
+	##BackGroundColor 93 73 47  //61 135 179 
+	##FogDist		800 1780 
+	##SunScale	1
+	##MoonScale	2
+	##ShadowColor	0 0 20
+	##ShadowAlpha	100
+
+		##DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		##DOFFocusDist     480    #Changes the focus (mid) distance 
+		##DOFFarDist       2080   #Changes the far distance 
+      
+		##DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+		##DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		##DOFFarValue     .6       #Changes the blurriness at the far point
+
+##End
+
+suntime	##  NOON  ##
+	Time 12 
+	diffuse		151 151 24 //300 320 220 
+	ambient		151 151 81 //132 98 54 //100 100 160 
+	FogColor	93 103 47 //132 98 54 //61 135 179 
+	BackGroundColor  93 103 47 //86 94 56 //177 146 0  //61 135 179
+	FogDist		1800 2000 
+	SkyName         rikti_day
+	SunScale	1
+	MoonScale	0
+	ShadowColor	0 0 40
+	ShadowAlpha	100
+
+		DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     480    #Changes the focus (mid) distance 
+		DOFFarDist       2080   #Changes the far distance 
+      
+		DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     .6       #Changes the blurriness at the far point
+End
+
+suntime ## END MARK FOR DAY, BEGIN DUSK TRANSITION  ##
+	Time 18.3 	
+	diffuse	160 147 38 //300 320 220
+	ambient 132 98 54 //100 100 160 
+	FogColor 132 120 54 //132 98 54
+	BackGroundColor 104 68 21 //61 135 179
+	FogDist 1800 2000 
+	SunScale	1
+	MoonScale	1
+	ShadowColor	0 0 40
+	ShadowAlpha	100
+
+		DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     480    #Changes the focus (mid) distance 
+		DOFFarDist       2080   #Changes the far distance 
+      
+		DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     .6       #Changes the blurriness at the far point
+End
+
+##suntime	## ORANGE DUSK DOME & COLOR  ##
+	##Time 19.0 	
+	##diffuse 177 108 0 //335 334 178 
+	##ambient 57 35 1 //150 80 220
+	##FogColor 0 0 0 //228 175 125
+	##BackGroundColor 109 83 55 //228 175 95
+	##FogDist 1900 2000
+	##SkyName rikti_dusk__
+	##SunScale	2
+	##MoonScale	1
+	##ShadowColor	13 8 50
+	##ShadowAlpha	80
+
+		##DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		##DOFFocusDist     900    #Changes the focus (mid) distance 
+		##DOFFarDist       1080   #Changes the far distance 
+      
+		##DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+		##DOFFocusValue   .3     #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		##DOFFarValue     .7       #Changes the blurriness at the far point
+##End
+
+
+suntime	##  PURPLE DUSK DOME & COLOR ##
+	Time 21	
+	diffuse	70 80 40 //254 182 57 
+	ambient 40 60 0 //92 19 110 	
+	FogColor 25 30 0
+	BackGroundColor 228 175 95
+	FogDist 2000 2100
+	SkyName rikti_night__
+	SunScale	2.3
+	MoonScale	1
+	ShadowColor	0 0 20
+	ShadowAlpha	50
+
+		DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     900    #Changes the focus (mid) distance 
+		DOFFarDist       1080   #Changes the far distance 
+      
+		DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   .3     #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     .7       #Changes the blurriness at the far point
+End
+
+##suntime	##  TWILIGHT DOME TRANSITION TO NIGHT ##
+	##Time 21.8
+	##diffuse	52 200 57 
+	##ambient 92 19 110 	
+	##FogColor 128 95 170
+	##BackGroundColor 128 95 170
+	##FogDist 500 1780
+	##SkyName rikti_night__
+	##SunScale	0
+	##MoonScale	1
+	##ShadowColor	0 0 20
+	##ShadowAlpha	50
+	##ShadowAlpha	50
+
+		##DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		##DOFFocusDist     480    #Changes the focus (mid) distance 
+		##DOFFarDist       2080   #Changes the far distance 
+      
+		##DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+		##DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		##DOFFarValue     .6       #Changes the blurriness at the far point
+##End
+
+
+suntime	##  NIGHT  ##
+	Time 22.9
+	diffuse 55 75 25 //52 81 175
+	ambient 40 55 20 //18 19 95
+	FogColor 10 15 5
+	BackGroundColor 16 69 53
+	FogDist 2000 2100
+	SkyName rikti_night__
+	SunScale	0
+	MoonScale	2
+	ShadowColor	0 0 20
+	ShadowAlpha	30
+
+		DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     480    #Changes the focus (mid) distance 
+		DOFFarDist       1080   #Changes the far distance 
+      
+		DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   .1      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     1       #Changes the blurriness at the far point
+
+End
+
+
+
+
+

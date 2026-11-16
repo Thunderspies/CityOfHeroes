@@ -1,0 +1,124 @@
+RootMod _tek1_armeture_arm
+End
+
+RootMod _tek1_head_scanner1
+End
+
+RootMod _tek1_fanblades
+End
+
+RootMod _tek1_generator1
+End
+
+RootMod _tek1_fancase
+End
+
+RootMod _tek1_head_scanner1_lights
+End
+
+RootMod _tek1_head_plasma
+End
+
+RootMod _tek1_head_plasma_light
+End
+
+RootMod _tek1_head_surgical
+End
+
+RootMod _tek1_armeture_base
+End
+
+RootMod _tek1_fanblades_off
+End
+
+Def tek1_generator1
+	Group _tek1_generator1
+	End
+End
+
+Def tek1_fan_7&
+	Group Omni/_sound
+	End
+	Sound BigFan_loop 0.296875 40.024391 40.024391
+	Flags Ungroupable
+End
+
+Def tek1_fan
+	Group _tek1_fanblades
+	End
+	Group _tek1_fancase
+	End
+	Group tek1_fan_7&
+		Pos 0 -0.000015 0
+	End
+End
+
+Def tek1_machine_plasma_2&
+	Group Omni/Particle
+	End
+	Type WORLD\Lairs\tech\tech_plasma.fx
+End
+
+Def tek1_machine_plasma_1&
+	Group _tek1_head_plasma_light
+	End
+	Group tek1_machine_plasma_2&
+		Pos 0 -3.29464 0
+	End
+	Group tek1_machine_plasma_2&
+		Rot 0 3.141592 -3.141592
+		Pos 0 -0.45182 0
+	End
+	Group _tek1_head_plasma
+	End
+End
+
+Def tek1_machine_plasma
+	Group _tek1_armeture_arm
+		Rot -0.959931 0 0
+		Pos 0 4.351021 0
+	End
+	Group tek1_machine_plasma_1&
+		Rot 0.610865 0 0
+		Pos 0 6.971222 4.402313
+	End
+	Group _tek1_armeture_base
+	End
+End
+
+Def tek1_machine_surgical
+	Group _tek1_armeture_arm
+		Rot -0.959931 0 0
+		Pos 0 4.351021 0
+	End
+	Group _tek1_head_surgical
+		Pos 0 7.454689 4.462494
+	End
+	Group _tek1_armeture_base
+	End
+End
+
+Def tek1_machine_scanner
+	Group _tek1_armeture_arm
+		Rot -0.959931 0 0
+		Pos 0 4.351021 0
+	End
+	Group _tek1_head_scanner1
+		Rot -0.523599 0 0
+		Pos 0 6.950706 3.906464
+	End
+	Group _tek1_head_scanner1_lights
+		Rot -0.523599 0 0
+		Pos 0 6.950706 3.906464
+	End
+	Group _tek1_armeture_base
+	End
+End
+
+Def tek1_fan_off
+	Group _tek1_fanblades_off
+	End
+	Group _tek1_fancase
+	End
+End
+

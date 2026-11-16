@@ -1,0 +1,294 @@
+//ROME - NATURE PARTS
+//
+//
+//================================
+//Sandbar Color + Dual Detail Texture
+
+Texture Rome_CustomGrnd_Town_01_C.tga
+	Flags TrueColor
+End
+
+Texture rmn_stone_path_DET_01_Normal
+	Flags TrueColor
+End
+
+Texture Grnd_MudCracked_01_DET_Normal.tga
+	Flags TrueColor
+End
+
+
+
+
+
+
+///////////////////////////////////////
+// Detail Texture Mip Map Adjustments
+
+Texture Grnd_MudCracked_01_DET.tga
+	Fade 1 0.15
+End
+
+Texture Grnd_MudCracked_02_DET.tga
+	Fade 1 0.15
+End
+
+
+///////////////////////////////////////
+Texture x_Rome_Grnd_Sandbar_01
+	Base1 Grnd_Sandbar_Color
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Grnd_MudCracked_01_DET.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 40 27
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none #Grnd_MudCracked_01_DET_Normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 40 27
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Grnd_Sandbar_Mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Grnd_Sandbar_Color
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Grnd_MudCracked_02_DET.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 36 36
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Grnd_Sandbar_Color
+		Blend Grnd_MudCracked_01_DET.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 40 27
+		ScaleST1 1 1
+		DiffuseScale .5
+		AmbientScale .5
+	End
+End
+
+
+
+//================================
+//Slope Color + Dual Detail Texture
+
+Texture x_Rome_Grnd_CustomPath_01
+	Base1 Cliff_Mediterranean_CustomPath_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Grnd_MudCracked_01_DET.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 32 55
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Cliff_Mediterranean_CustomPath_Mask_01
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Cliff_Mediterranean_CustomPath_01
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 Grnd_MudCracked_02_DET.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 32 55
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Cliff_Mediterranean_CustomPath_01
+		Blend Grnd_MudCracked_01_DET.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 32 55
+		ScaleST1 1 1
+		DiffuseScale .5
+		AmbientScale .5
+	End
+End
+
+//Town Center
+
+Texture X_Rome_CustomGrnd_Town_01
+	Base1 Rome_CustomGrnd_Town_01_C
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 Grnd_MudCracked_02_DET.tga //rmn_stone_path_DET_01
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 48 48 //38 38
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none //rmn_stone_path_DET_01_Normal
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 38 38
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Rome_CustomGrnd_Town_01_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1.0
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Rome_CustomGrnd_Town_01_C
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 rmn_stone_path_DET_01 //Grnd_MudCracked_02_DET.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 38 38 //48 48
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 rmn_stone_path_DET_01_Normal //none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 38 38 
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base Rome_CustomGrnd_Town_01_C.tga
+		Blend Grnd_MudCracked_02_DET.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 55 55
+		ScaleST1 1 1
+		DiffuseScale .1
+		AmbientScale 1.0
+	End
+End

@@ -1,0 +1,116 @@
+#########################################################
+## CustomWeapon_Two_Handed.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef TitanWeapon_Base
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef TitanWeapon_Atomic_Smasher
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Concrete_Mallet
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Demonic_Axe
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Fusion_Hammer
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Garage_Brand
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Minotaur_Axe
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Plasma_Sword
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Purgatory_Sword
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Railroad_Pike
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Razor_Sword
+	BaseSkeleton	CustomWeapons_TitanWeapons\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+TypeDef TitanWeapon_Flaming_Sword
+	BaseSkeleton	CustomWeapons_TitanWeapons_Flaming\skel_ready
+	ParentType	TitanWeapon_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoSizeScale nodraw
+	Priority	0
+
+	Type		TitanWeapon_Base
+	Anim	CustomWeapons_TitanWeapons\skel_ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	2HLARGE SPAWNBACK
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat> <TwoHandCombat>
+	NextMove	Combat_Cycle
+	Flags		NoSizeScale nodraw
+
+	Type		TitanWeapon_Base
+		Anim	CustomWeapons_TitanWeapons\skel_ready 1
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	2HLARGE
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat> <TwoHandCombat>
+	Flags		Cycle NoSizeScale
+	NextMove	Ready
+
+	Type		TitanWeapon_Base
+		Anim	CustomWeapons_TitanWeapons\skel_ready 1
+	TEnd
+MEnd
+
+##########################################################
+
+SeqEnd

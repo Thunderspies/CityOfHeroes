@@ -1,0 +1,133 @@
+#############################################################
+## SeedHamidon.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Seed_Hamidon
+	BaseSkeleton	SeedHamidon\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle nosizescale
+	Scale		0.5
+
+	Type		Seed_Hamidon
+	  Anim          SeedHamidon\ready 1 60
+	  PlayFX	ENEMYFX\V_SeedHamidon\Seed_Hamidon_Locomotion_SFX.fx 1 CONSTANT
+	TEnd
+MEnd
+#
+#####################
+##### run Forward ##
+#####################
+#
+#Move RunPre
+#	Requires	FORWARD
+#	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+#	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+#	Flags		ReqInputs nosizescale
+#	NextMove        RunCycle
+#	Priority        1
+#	Interpolate	30
+#	Scale		0.5
+#
+#	Type		Seed_Hamidon
+#	  Anim          SeedHamidon\ready 1 60
+#	TEnd
+#
+#
+#MEnd
+#
+#
+#Move RunCycle
+#	Requires	FORWARD
+#	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+#	Flags		Cycle nosizescale
+#	NextMove        RunPost
+#	Priority        1
+#	Scale		0.5
+#
+#
+#	Type		Seed_Hamidon
+#	  Anim          SeedHamidon\ready 1 60
+#	  PlayFX	ENEMYFX\V_SeedHamidon\Seed_Hamidon_Locomotion_SFX.fx 1 CONSTANT
+#	TEnd
+#
+#MEnd
+#
+#Move RunPost
+#	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+#	NextMove        Ready
+#	Interpolate	30
+#	Flags		nosizescale
+#	Scale		0.5
+#
+#	Type		Seed_Hamidon
+#	  Anim          SeedHamidon\ready 1 60
+#	TEnd
+#
+#MEnd
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Priority	101
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Death_PostCycle
+	Sets		DIENOW TARGET
+	flags		nosizescale NotSelectable
+	Scale		0.65
+
+	Type		Seed_Hamidon
+	  Anim          SeedHamidon\death 1 60
+	 PlayFX	fx\ENEMYFX\V_SeedHamidon\SeedHamidon_Death.fx 1
+	TEnd
+MEnd
+
+Move Death_PostCycle
+	Requires	DEATH
+	Flags		Cycle NotSelectable
+	Sets		DIENOW TARGET NOCOLLISION
+
+	Type		Seed_Hamidon
+	  Anim          SeedHamidon\death 1 60
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

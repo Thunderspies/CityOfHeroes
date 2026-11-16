@@ -1,0 +1,923 @@
+#############################################################
+## Demon_Tails.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Tail_Demonling
+	BaseSkeleton	FX_DemonTail\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Tail_DemonLieut
+	BaseSkeleton	FX_DemonTail\skel_ready
+	ParentType	Tail_Demonling
+TypeDefEnd
+
+TypeDef Tail_DemonPrince
+	BaseSkeleton	FX_DemonTail\skel_ready
+	ParentType	Tail_Demonling
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+#############################################################
+## READIES - THIS MOVE MUST BE FIRST IN SEQUENCER
+#############################################################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+Move A_C_FlyReady
+	Member		<FlyReady> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Idle_Break_Rare
+	Requires	TAIL ALTREADY TWO
+	Interrupts	<Ready>
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	NextMove	Ready
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_idle_break_rare 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+###### FAKE COMBAT READIES #######################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	NextMove        Idle_Cycle
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+
+MEnd
+
+############# FAKE COMBAT HALF FINGERS ##########################################
+
+Move Combat_half_fingers
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	NextMove        Idle_Cycle
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_ready_to_idle 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+
+MEnd
+
+### DEATH ###########################################################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        101
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Flags		NotSelectable NOCOLLISION
+	Sets            NOCOLLISION
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle  1 19
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_death 1
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		NotSelectable Cycle
+	Sets            NOCOLLISION
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 20 20
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle 103 103
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_death 60 60
+	TEnd
+
+MEnd
+
+###################
+###### Energy Torrent ######
+###################
+
+Move Energy_Torrent
+	Requires	COMBAT ENERGYTORRENT
+	Priority	2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        E_Torrent_post
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demons_demonprince_energy_torrent 1 65
+	TEnd
+MEnd
+
+Move E_Torrent_post
+	Requires	COMBAT
+	Priority	1
+	NextMove        Idle_Cycle
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demons_demonprince_energy_torrent 65
+	TEnd
+MEnd
+
+###################
+###### Throw Knife  ######
+###################
+
+Move Throwkinfe
+	Requires	COMBAT THROWKNIFE
+	Priority	2
+	Interrupts	<AttackIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack>
+	NextMove        Ready
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demons_demonprince_knife_throw 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_knife_throw 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demons_demonprince_knife_throw 1
+	TEnd
+MEnd
+
+#############################
+###### claw slash (no draw) ######
+############################
+
+Move clawslash
+	Requires	COMBAT CLAW ALTERNATE
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        clawslash_post
+	Sets            CANTMOVE
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_claw_swipe 1 45
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+
+
+
+Move clawslash_post
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_claw_swipe 60
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+
+MEnd
+
+###################
+###### Smash Cast Radius  ######
+###################
+
+Move SmashCast
+	Requires	COMBAT SMASH
+	Priority	2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        SmashCastpost
+	Sets            CANTMOVE
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle_curl_up 1 44
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+Move SmashCastpost
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        Combat_half_fingers
+	Scale           0.80
+
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle_curl_up 44
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+
+MEnd
+
+###################
+###### Cast  ######
+###################
+
+Move Cast
+	Requires	COMBAT CAST
+	Priority	2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Castpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle_curl_up 1 44
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+Move Castpost
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        Combat_half_fingers
+	Flags		NoSizeScale
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle_curl_up 44
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+
+MEnd
+
+###################
+###### Blinding Cast  ######
+###################
+
+Move blinding
+	Requires	COMBAT BLINDING
+	Priority	2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        blindingpost
+	Sets            CANTMOVE
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle_curl_up 1 44
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+Move blindingpost
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        Combat_half_fingers
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle_curl_up 44
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+###################
+###### Blow Cast  ######
+###################
+
+Move Blow
+	Requires	COMBAT BLOW
+	Priority	2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Blowpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle_curl_up 1 44
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+Move Blowpost
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        Combat_half_fingers
+	Scale		0.5
+	Flags		NoSizeScale
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demon_demonLieut_idle_cycle_curl_up 44
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+###################
+#####  Enchant
+###################
+
+Move Enchant_Upgrade
+	Requires	HIT BOOSTUP ONE
+	Priority	3
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Interpolate	15
+
+	Type		Tail_Demonling
+	  Anim		FX_DemonTail\demon_demonling_idle_cycle 1
+	  PlayFX	V_COV\Powers\DemonSummoning\Demonling_Enchant_SFX.fx
+	  PlayFX	V_COV\Powers\DemonSummoning\Demonling_BreathLoIn_SFX.fx 45
+	  PlayFX	V_COV\Powers\DemonSummoning\Demonling_BreathLoOut_SFX.fx 70
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim		FX_DemonTail\demons_Lieutenant_idle_break_rare 1
+	  PlayFX	V_COV\Powers\DemonSummoning\DemonLieu_Enchant_SFX.fx
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	  PlayFX	V_COV\Powers\DemonSummoning\DemonPrince_Enchant_SFX.fx
+	TEnd
+MEnd
+
+###################
+###### Power Buff ######
+###################
+
+Move Power_Buff
+	Requires	HIT DEMONUPGRADE
+	Priority	3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Power_Buffpost
+	Interpolate 	15
+
+	Type		Tail_Demonling
+	  Anim		FX_DemonTail\demon_demonling_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_AbyssalEmpowerment_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathHiOut_SFX.fx 40
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_whip_buff 60 160
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_AbyssalEmpowerment_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiOut_SFX.fx 43
+	TEnd
+
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_AbyssalEmpowerment_SFX.fx
+	TEnd
+
+MEnd
+
+Move Power_Buffpost
+	NextMove        Ready
+
+	Type		Tail_Demonling
+	  Anim		FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_whip_buff 160
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+MEnd
+
+###################
+###### Whip Buff ######
+###################
+
+Move Whip_Buff
+	Requires	HIT DEMONBUFF
+	Priority	2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Whip_Buffpost
+
+	Type		Tail_Demonling
+	  Anim		FX_DemonTail\demon_demonling_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLing_HellOnEarth_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathHiOut_SFX.fx 135
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_whip_buff 1 160
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_HellOnEarth_SFX.fx
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_HellOnEarth_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiIn_SFX.fx 115
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiOut_SFX.fx 135
+	TEnd
+
+MEnd
+
+Move Whip_Buffpost
+	NextMove        Ready
+
+	Type		Tail_Demonling
+	  Anim		FX_DemonTail\demon_demonling_idle_cycle 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_whip_buff 160
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_idle_cycle 1
+	TEnd
+
+MEnd
+
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ> <IRQEmotesCombat>
+	NextMove        Idle_Cycle
+	Priority	2
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demons_demonprince_hit_react 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_demonprince_hit_react 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demons_demonprince_hit_react 1
+	TEnd
+MEnd
+
+
+Move HitQuick2
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ> <IRQEmotesCombat>
+	NextMove        Idle_Cycle
+	Priority	2
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demons_demonprince_hit_react 2
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_demonprince_hit_react 2
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demons_demonprince_hit_react 2
+	TEnd
+MEnd
+
+####################
+#### Run Forward ##
+####################
+
+Move RunPreReady
+	Requires	FORWARD
+	Priority	1
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <CombatAttack> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RunCycle
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_run_forward 3 25
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_run_forward 3 25
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_run_forward 3 25
+	TEnd
+
+MEnd
+
+Move RunCycle
+	Requires	FORWARD
+	Priority	1
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        RunPostReady
+
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_run_forward 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_run_forward 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_run_forward 1
+	TEnd
+
+MEnd
+
+Move RunPostReady
+	NextMove        Ready
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_run_post 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_run_post 1
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_run_post 1
+	TEnd
+
+MEnd
+
+###################
+###### Jump  ######
+###################
+
+Move jumpPre
+	Requires	JUMP
+	Priority	1
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <WepMove> <jumpFall> <Block> <HitIRQ> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpUp
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_jump 10 90
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_jump 5 13
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_jump 10 90
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Priority	1
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        jumpApex
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_jump 91 92
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_jump 14 64
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_jump 91 92
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Priority	1
+	Member		<DeathIRQ> <Jumps>
+	NextMove        jumpFall
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_jump 93 94
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_jump 64 65
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_jump 93 94
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Priority	1
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_jump 95 117
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_jump 65 93
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_jump 95 117
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Priority	1
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_jump 118 120
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_jump 93 93
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_jump 118 120
+	TEnd
+MEnd
+
+Move JumpPost
+	Include sequencers\Members\Readies.inc
+	NextMove 	Idle_Cycle
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demon_demonling_jumppost 1
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_Lieutenant_jump_post 4
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demon_demonprince_jumppost 1
+	TEnd
+
+MEnd
+
+## FLY FORWARD ###################################w########################
+
+Move flypre
+	Requires	FORWARD	FLY
+	Interrupts	<AttackIRQ> <BasicMove>
+	Priority	2
+	Flags		ReqInputs
+	NextMove	fly
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demons_demonling_fly 4 24
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_demonling_fly 4 24
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demons_demonling_fly 4 24
+	TEnd
+MEnd
+
+Move fly
+	Requires	FORWARD	FLY
+	Priority	2
+	Flags		Cycle ReqInputs
+	NextMove	flypost
+	Wind		FLY
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demons_demonling_fly 25 81
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_demonling_fly 25 81
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demons_demonling_fly 25 81
+	TEnd
+
+MEnd
+
+Move flyPost
+	Requires	FLY
+	Flags		ReqInputs
+	NextMove	Ready
+	Priority	1
+	#Scale		1.30
+
+	Type		Tail_Demonling
+	  Anim          FX_DemonTail\demons_demonling_fly 82
+	TEnd
+
+	Type		Tail_DemonLieut
+	  Anim          FX_DemonTail\demons_demonling_fly 82
+	TEnd
+
+	Type		Tail_DemonPrince
+	  Anim          FX_DemonTail\demons_demonling_fly 82
+	TEnd
+
+MEnd
+
+###########################################################
+
+SeqEnd

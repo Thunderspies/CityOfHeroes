@@ -1,0 +1,54 @@
+// TBD! OPTION ARB_precision_hint_fastest;
+// TBD! OPTION ARB_fog_linear;
+
+#include "constants_vfx.cgh"
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+    float4 primaryColor           : COLOR;
+    float2 texCoord0              : TEXCOORD0;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform sampler2D texSampler1 : TEXUNIT1;
+    uniform sampler2D texSampler2 : TEXUNIT2;
+    uniform float4 g_Effects_GfxPerfTestParam0FP	TIE( ENV0 ); //program.local[0];
+    uniform float4 g_Effects_GfxPerfTestParam1FP	TIE( ENV1 ); //program.local[1];
+    uniform float4 g_Effects_GfxPerfTestParam2FP	TIE( ENV2 ); //program.local[2];
+};
+
+
+float4 SAMPLE(sampler2D texSampler, float2 texCoord, float4 constVal )
+{
+	float2 texcoord2 = (( texCoord * constVal.zw ) + constVal.xy );
+	return tex2D( texSampler, texcoord2 );
+}
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+
+    float4 tex1 = SAMPLE(IN.texSampler0, IN.texCoord0, IN.g_Effects_GfxPerfTestParam0FP );
+    float4 tex2 = SAMPLE(IN.texSampler1, IN.texCoord0, IN.g_Effects_GfxPerfTestParam0FP );
+    float4 tex3 = SAMPLE(IN.texSampler2, IN.texCoord0, IN.g_Effects_GfxPerfTestParam0FP );
+
+    float4 a = ( tex1 + tex2 + tex3 );
+    float4 b = ( tex1 * tex2 * tex2 ); //should't the last one be tex3 ???
+    float4 c = lerp( tex3, tex2, tex1 );
+    float4 d = lerp( c, a, b );
+
+    d = ( ( d + a ) * b );
+    d = ( ( d * c ) + a );
+    d = ( ( d - c ) * a );
+    d *= IN.primaryColor;
+
+    float4 oColor = float4( d.xyz, IN.g_Effects_GfxPerfTestParam1FP.x);
+    return oColor;
+}
+

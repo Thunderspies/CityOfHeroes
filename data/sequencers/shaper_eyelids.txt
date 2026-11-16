@@ -1,0 +1,227 @@
+#############################################################
+
+Sequencer
+
+TypeDef eye 
+	BaseSkeleton	Shaper_Eye\skel_Shaper_Eye
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+######### Anim List
+##
+## Awaken	0 70
+## Idle		80 160
+## Attack	170 220	
+## Wander	230 320
+## HitQuick	330 350
+## Blink	350 370
+## Death	380 440
+##
+##
+
+
+####################
+### Ready ##
+###################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale
+#	interpolate	15
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 80 160
+	TEnd
+
+MEnd
+
+Move Blink_Lids
+	Requires	EYE TELEPORT  
+	Interrupts	<Ready>
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		NoSizeScale
+	Priority        1
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 350 370
+	TEnd
+
+MEnd
+
+Move Wander_Lids
+	Requires	EYE VERYCLOSE  
+	Interrupts	<Ready>
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		NoSizeScale
+	Priority        1
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 230 320
+	TEnd
+
+MEnd
+
+############################
+##### Sleep and awaken #####
+############################
+
+Move Sleep
+	Requires	LOW SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat> 
+	Flags		Cycle NotSelectable 
+	NextMove        awaken
+	Priority        3
+	Interpolate     15
+	Sets            CANTMOVE NOCOLLISION
+#	scale           .5
+
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 1 1
+	TEnd
+MEnd
+
+
+Move Awaken
+	Sets            CANTMOVE 
+#	Scale           .5
+
+
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 1 70
+	TEnd
+MEnd
+
+
+########################
+###### Hit Quick  ######
+########################	
+
+Move HitQuick
+	Requires	QUICK HIT 
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ> 
+	Flags		HitReact
+	Priority        2
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 330 350
+	TEnd
+
+MEnd
+
+
+###########################
+###### Default Death ######
+###########################	
+
+Move Default_Death
+	Requires	DEATH 
+	Interrupts	<DeathIRQ> 
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION 
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 380 439
+	TEnd
+
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH 
+	Member		<RaiseDeadIRQ> 
+	Flags		Cycle 
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET 
+	Wind		DEATHWIND
+	scale .0001
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 440 440
+	TEnd
+
+
+MEnd 
+
+############################
+###### Attack ######
+##########################
+
+
+Move Attack
+	Requires	COMBAT PSIONIC
+	Interrupts	<AttackIRQ> 
+	Member		<DeathIRQ> 
+	NextMove        Attack_Post
+	Priority        3
+	Sets            CANTMOVE 
+##	Flags		PitchToTarget ## Bad Woomer! NO! NO! NO!
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 170 200
+	TEnd
+
+MEnd
+
+
+Move Attack_Post
+	Requires	COMBAT 
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove        Combat_Cycle
+	Priority        1
+	##Interpolate     0
+
+	Type		eye
+	  Anim          Shaper_Eye\skel_Shaper_Eye 201 220
+	TEnd
+
+MEnd
+
+SeqEnd ## Don't cut
+

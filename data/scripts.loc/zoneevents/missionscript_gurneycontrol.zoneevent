@@ -1,0 +1,73 @@
+Name MissionScript_Gurney
+FirstStage Setup
+StopStage Stop
+RestartStage Stop
+
+//This script allows you to change the gurneys  in a mission. 
+
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<I'm on the start up stage now and waiting for the objective ScriptTurnOnGurney to go off.>>
+		}
+  		Action
+		{
+			GurneyCreate MissionGurney
+			{
+			}
+		}
+	}
+	Trigger GoToGurneyStage
+	{
+		Requires ScriptTurnOnGurney objectivesucceeded>
+		NextStage GurneyOnStage
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Special gurney is now OFF.>>
+		}
+  		Action
+		{
+			GurneyControl
+			{
+				Type Deactivate
+				Gurney MissionGurney
+			}
+		}
+	}
+
+}
+
+Stage GurneyOnStage
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<I'm on the stage now where if a player dies, they'll go to the MissionGurney. If you want me to be turned off, you need to activate the objective ScriptTurnOffGurney.>>
+		}
+		Action TurningOntheGurneys
+		{
+			GurneyControl
+			{
+				Type Activate
+				Gurney MissionGurney
+			}
+		}
+	}
+	Trigger StopThisEvent
+	{
+		Requires ScriptTurnOffGurney objectivesucceeded>
+		NextStage Stop
+	}
+}

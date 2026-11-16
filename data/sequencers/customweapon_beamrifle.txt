@@ -1,0 +1,249 @@
+#########################################################
+## CustomWeapon_PulseRifle.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef BeamRifle_Base
+	BaseSkeleton	CustomWeapons_BeamRifles\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef BeamRifle_BeamRifle
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifle01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_LegacyRifle
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleLegacyRifle01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_Shock
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleShock01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_Shard
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleShard01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_Dust
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleDust01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_Rune
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleRune01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_Resistance
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleResistance01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_Devastator
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleDevastator01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_Retro
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleRetro01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_Steampunk
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleSteampunk01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+TypeDef BeamRifle_Celestial
+	BaseSkeleton	CustomWeapons_BeamRifles\BeamRifleCelestial01_skelready
+	ParentType	BeamRifle_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		BeamRifle_Base
+	  Anim		CustomWeapons_BeamRifles\skel_ready 1
+	TEnd
+
+	Type		BeamRifle_LegacyRifle
+	  Anim		CustomWeapons_BeamRifles\BeamRifleLegacyRifle01_skelready 1
+	TEnd
+
+	Type		BeamRifle_BeamRifle
+	  Anim		CustomWeapons_BeamRifles\BeamRifle01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Shock
+	  Anim		CustomWeapons_BeamRifles\BeamRifleShock01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Rune
+	  Anim		CustomWeapons_BeamRifles\BeamRifleRune01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Resistance
+	  Anim		CustomWeapons_BeamRifles\BeamRifleResistance01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Shard
+	  Anim		CustomWeapons_BeamRifles\BeamRifleShard01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Dust
+	  Anim		CustomWeapons_BeamRifles\BeamRifleDust01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Devastator
+	  Anim		CustomWeapons_BeamRifles\BeamRifleDevastator01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Retro
+	  Anim		CustomWeapons_BeamRifles\BeamRifleRetro01_skelready 1
+	TEnd
+
+ 	Type		BeamRifle_Steampunk
+	  Anim		CustomWeapons_BeamRifles\BeamRifleSteampunk01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Celestial
+	  Anim		CustomWeapons_BeamRifles\BeamRifleCelestial01_skelready 1
+	TEnd
+
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	TWOHAND SPAWNBACK
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		BeamRifle_Base
+	  Anim		CustomWeapons_BeamRifles\skel_ready 1 9
+	TEnd
+
+	Type		BeamRifle_LegacyRifle
+	  Anim		CustomWeapons_BeamRifles\BeamRifleLegacyRifle01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_BeamRifle
+	  Anim		CustomWeapons_BeamRifles\BeamRifle01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_Shock
+	  Anim		CustomWeapons_BeamRifles\BeamRifleShock01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_Rune
+	  Anim		CustomWeapons_BeamRifles\BeamRifleRune01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_Resistance
+	  Anim		CustomWeapons_BeamRifles\BeamRifleResistance01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_Shard
+	  Anim		CustomWeapons_BeamRifles\BeamRifleShard01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_Dust
+	  Anim		CustomWeapons_BeamRifles\BeamRifleDust01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_Devastator
+	  Anim		CustomWeapons_BeamRifles\BeamRifleDevastator01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_Retro
+	  Anim		CustomWeapons_BeamRifles\BeamRifleRetro01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_Steampunk
+	  Anim		CustomWeapons_BeamRifles\BeamRifleSteampunk01_skelready 1 9
+	TEnd
+
+	Type		BeamRifle_Celestial
+	  Anim		CustomWeapons_BeamRifles\BeamRifleCelestial01_skelready 1 9
+	TEnd
+
+MEnd
+
+Move Combat_Cycle
+	Requires	TWOHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle
+
+	Type		BeamRifle_Base
+	  Anim		CustomWeapons_BeamRifles\skel_ready 1
+	TEnd
+
+	Type		BeamRifle_LegacyRifle
+	  Anim		CustomWeapons_BeamRifles\BeamRifleLegacyRifle01_skelready 1
+	TEnd
+
+	Type		BeamRifle_BeamRifle
+	  Anim		CustomWeapons_BeamRifles\BeamRifle01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Shock
+	  Anim		CustomWeapons_BeamRifles\BeamRifleShock01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Rune
+	  Anim		CustomWeapons_BeamRifles\BeamRifleRune01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Resistance
+	  Anim		CustomWeapons_BeamRifles\BeamRifleResistance01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Shard
+	  Anim		CustomWeapons_BeamRifles\BeamRifleShard01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Dust
+	  Anim		CustomWeapons_BeamRifles\BeamRifleDust01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Devastator
+	  Anim		CustomWeapons_BeamRifles\BeamRifleDevastator01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Retro
+	  Anim		CustomWeapons_BeamRifles\BeamRifleRetro01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Steampunk
+	  Anim		CustomWeapons_BeamRifles\BeamRifleSteampunk01_skelready 1
+	TEnd
+
+	Type		BeamRifle_Celestial
+	  Anim		CustomWeapons_BeamRifles\BeamRifleCelestial01_skelready 1
+	TEnd
+
+MEnd
+
+#########################################################
+
+SeqEnd

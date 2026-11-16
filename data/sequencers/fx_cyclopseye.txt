@@ -1,0 +1,90 @@
+#########################################################
+## CustomWeapon_Axe.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef CyclopsEye
+	BaseSkeleton	FX_CyclopsEye\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<Combat>
+
+#########################################################
+
+Move Ready
+	Member		<DeathIRQ> <Ready>
+	Flags		Cycle
+	Priority	0
+	Scale		0.5
+
+	Type		CyclopsEye
+	  Anim		FX_CyclopsEye\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Combat_Pre
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready>
+	Member		<DeathIRQ> <Combat>
+	NextMove	Combat_Cycle
+	Scale		0.5
+
+	Type		CyclopsEye
+	  Anim		FX_CyclopsEye\combat 1
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle
+	Scale		0.5
+
+	Type		CyclopsEye
+	  Anim		FX_CyclopsEye\combat 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Death
+	Requires	DEATH
+	Priority	2
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle ReqInputs
+	Scale		0.5
+	NextMove	Ready
+
+	Type		CyclopsEye
+	  Anim		FX_CyclopsEye\skel_ready 1 1
+	TEnd
+MEnd
+
+#############################################################
+
+#Move Revive
+#	Interrupts	<RaiseDeadIRQ>
+#	Member		<Ready>
+#	NextMove	Ready
+#	Scale		0.5
+#
+#	Type		CyclopsEye
+#	  Anim		FX_CyclopsEye\skel_ready 1
+#	TEnd
+#MEnd
+
+#########################################################
+
+SeqEnd

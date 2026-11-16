@@ -1,0 +1,478 @@
+Texture X_KI_Reactor_01
+	Base1 KI_Reactor_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 KI_Reactor_Metal_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 3 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 KI_Reactor_01_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 KI_Reactor_01_G
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale .125 .125
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 200 200 200
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+	
+	//REF VALUES
+	//----------------
+	ReflectivityBase		0.03
+	ReflectivityScale		0.05
+	ReflectivityPower		.3
+	
+	DiffuseScale 1
+	AmbientScale 2
+	
+
+  #ObjFlags FancyWater 
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base KI_Reactor_01
+		Blend KI_Reactor_01_G
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End
+
+
+
+
+Texture X_KI_Reactor_Metal_D_01
+	Base1 KI_Reactor_Metal_D_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 KI_Reactor_Metal_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 2 2
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 KI_Reactor_Metal_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .125 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale .125 .125
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 200 200 200
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+	
+	//REF VALUES
+	//----------------
+	ReflectivityBase		0.01
+	ReflectivityScale		0.01
+	ReflectivityPower		.05
+	
+	DiffuseScale 1
+	AmbientScale 2
+	
+
+  #ObjFlags FancyWater 
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base KI_Reactor_Metal_D_01
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End
+
+
+
+
+
+Texture X_KI_Reactor_Interface
+	Base1 KI_Reactor_Interface
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 3 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 KI_Reactor_Interface
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale .125 .125
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 200 200 200
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+	
+	//REF VALUES
+	//----------------
+	ReflectivityBase		0.03
+	ReflectivityScale		0.05
+	ReflectivityPower		.3
+	
+	DiffuseScale 1
+	AmbientScale 2
+	
+
+  #ObjFlags FancyWater 
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base KI_Reactor_01
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End
+
+
+
+
+
+Texture X_KI_Reactor_LOD_01
+	Base1 KI_Reactor_LOD_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 KI_Reactor_Metal_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 3 5
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 KI_Reactor_01_NS_LOD
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 KI_Reactor_01_G
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale .125 .125
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 50 50 50
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+	
+	//REF VALUES
+	//----------------
+	ReflectivityBase		0.03
+	ReflectivityScale		0.05
+	ReflectivityPower		.3
+	
+	DiffuseScale 1
+	AmbientScale 2
+	
+
+  #ObjFlags FancyWater 
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base KI_Reactor_LOD_01
+		Blend KI_Reactor_01_G
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End
+
+
+
+
+Texture X_KI_Reactor_Metal_D_LOD_01
+	Base1 KI_Reactor_Metal_D_LOD_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 KI_Reactor_Metal_Detail
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 2 2
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 KI_Reactor_Metal_NS_LOD
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .125 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale .125 .125
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.0625 0.0625 //(1/16th scale)
+
+	SpecularColor1 50 50 50
+	SpecularColor2 205 225 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 16
+	
+	//REF VALUES
+	//----------------
+	ReflectivityBase		0.01
+	ReflectivityScale		0.01
+	ReflectivityPower		.05
+	
+	DiffuseScale 1
+	AmbientScale 2
+	
+
+  #ObjFlags FancyWater 
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base KI_Reactor_Metal_D_LOD_01
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.7
+		AmbientScale 0.7
+	End
+End

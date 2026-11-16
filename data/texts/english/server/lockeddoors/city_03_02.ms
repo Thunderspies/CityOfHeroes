@@ -1,0 +1,3 @@
+
+"VigilanteTalkJanus_IPSub"	"You shouldn't just jump into some guys' sub without asking. You have no idea where it's going to take you. Talk to Submariner Janus."
+"RedDoorWarning_IPSub",		"<color red>The submarine in front of you leads to the Rogue Isles.  Throughout the Isles, you'll find Villains performing heinous deeds and Rogues who think of no one other than themselves.  Are you strong enough to take on the dangers of this city of villains?</color>"

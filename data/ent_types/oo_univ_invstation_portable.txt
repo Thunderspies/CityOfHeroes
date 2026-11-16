@@ -1,0 +1,48 @@
+#########################################################
+## Portable Invention Station
+#########################################################
+
+Type
+
+#########################################################
+
+Sequencer        Univ_InvStation_Portable_Objective.txt
+SequencerType    Univ_InvStation_Portable
+
+HealthFx
+	Range	0.0001 100
+	LibraryPiece	_Univ_InvStation_Portable_NoClicky
+End
+
+HealthFx
+	Range	0 0.0001
+	LibraryPiece	V_Mayhem_Scorch_Fire_Sml_01
+	OneShotFX	explosions/MetalExplosion/BlackMetalShrapnelMineExplosion.Fx
+End
+
+#########################################################
+
+CapsuleSize	2 4.0 2
+CapsuleOffset	0 0 0
+
+FadeOutStart	600
+FadeOutFinish	675
+ShadowType	None
+ShadowType	Splat
+ShadowTexture	PlayerShadowCircle
+ShadowQuality	High
+ShadowSize	0 10 0
+
+Placement	DeadOn
+
+Selection	Capsule
+CollisionType	LibraryPiece
+
+TicksToLingerAfterDeath		60
+TicksToFadeAwayAfterDeath	30
+
+Pushable	0
+
+#########################################################
+
+End

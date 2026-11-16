@@ -1,0 +1,43 @@
+###################################################
+## Arachnos Cable Piece - LARGE 1
+###################################################
+
+Type
+
+Sequencer        Prop_Basic.txt
+SequencerType    Prop_Basic
+
+HealthFx
+	Range	50 100
+	LibraryPiece	CablePiece_lrg_01
+End
+
+HealthFx
+	Range	0.001 50
+	LibraryPiece	CablePiece_lrg_01_dmg
+	#ContinuingFX	<fxName>
+	#OneShotFX	<fxName>
+End
+
+HealthFx
+	Range	0 0.001
+	#LibraryPiece	
+	#ContinuingFX	<fxName>
+	OneShotFX	\Explosions\ArachnosWebCablePieces\Explosion_L_01.fx
+End
+
+CapsuleSize    3.8 7.3 3.8
+CapsuleOffset  0 0 0
+
+FadeOutStart     500
+FadeOutFinish    550
+ShadowType       None
+
+Placement        DeadOn
+Selection        LibraryPiece
+CollisionType    LibraryPiece
+
+TicksToLingerAfterDeath        25
+TicksToFadeAwayAfterDeath      1
+
+End

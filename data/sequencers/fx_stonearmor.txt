@@ -1,0 +1,37 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_stonearmor 
+	BaseSkeleton	FX_stonearmor\skel_rock
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		NoInterp 
+	NextMove        Ready
+
+	Type		FX_stonearmor
+	  Anim          FX_stonearmor\skel_rock 23 55 
+	TEnd
+MEnd
+
+
+Move Ready2
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		FX_stonearmor
+	  Anim          FX_stonearmor\skel_rock 55 79 
+	TEnd
+MEnd
+
+SeqEnd
+

@@ -1,0 +1,79 @@
+######################################
+## Team Transport Vehicle (Praetorian Skiff)
+##
+
+
+Type
+
+Sequencer	Team_Transport.txt #Skiff_pilot.txt
+SequencerType	Hero_Transport #Longbow_Skiff
+
+#Graphics	player_library/TeamTransporter.geo
+#Graphics	player_library/G_FX_Eagle_Skiff.geo
+Graphics	player_library/P_TeamTransport.geo
+
+
+FadeOutStart	500
+FadeOutFinish	550
+
+Selection	Capsule
+NoStrafe 1
+
+Flags	UseCapsuleForRangeFinding
+
+VisSphereRadius 21.12
+Placement         DeadOn
+
+GeomScale	2 2 2
+CapsuleSize	8.0 8.1 8.0
+
+#Fx	GENERIC\Transport_Fade.fx
+FX	GENERIC\Transport_FX.fx
+
+HealthFX
+	Range	0 0.0001
+End
+
+FullBodyPortrait 1
+
+CollisionType None
+
+NotSelectable 1
+
+End
+
+
+#Type
+#
+#Sequencer	Skiff_pilot.txt
+#SequencerType	Longbow_Skiff
+#
+#FadeOutStart	500
+#FadeOutFinish	550
+#
+#Selection	Capsule
+#NoStrafe 1
+#
+#Flags	UseCapsuleForRangeFinding
+#
+#VisSphereRadius 21.12
+#Placement        DeadOn
+#
+#GeomScale	2 2 2
+#CapsuleSize	8.0 8.1 8.0
+#
+#Fx		GENERIC/FX_Eagle_skiff.fx
+#
+#FullBodyPortrait 1
+#
+#CollisionType    None
+#
+#NotSelectable 1
+#
+#HealthFx
+#	Range	0 100
+#	LibraryPiece	P_Chaser
+#	#ContinuingFX	<fxName>
+#	#OneShotFX	<fxName>
+#
+#End

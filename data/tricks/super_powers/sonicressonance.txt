@@ -1,0 +1,533 @@
+####################################################
+## Textures
+####################################################
+
+Texture SonicRing_Noisey.tga
+	Flags ClampS RepeatT
+End
+
+Texture Sonic_Waveform.tga
+	Flags Truecolor ClampS RepeatT
+End
+
+Texture SonicNoise.tga
+	Flags Truecolor RepeatS RepeatT #NoMip
+End
+
+Texture SonicNoise2.tga
+	Flags Truecolor RepeatS RepeatT #NoMip
+End
+
+Texture Sonic_PulseScroller.tga
+	Flags Truecolor RepeatS RepeatT
+End
+
+Texture Sonic_PulseScroller2.tga
+	Flags Truecolor RepeatS RepeatT
+End
+
+Texture Sonic_PulseScroller3.tga
+	Flags Truecolor RepeatS RepeatT
+End
+
+####################################################
+## Tricks
+####################################################
+
+Trick SonicRing1
+	ScrollST0 0 0.125
+	ObjFlags FullBright
+	TrickFlags Additive NoColl DoubleSided NoZWrite
+	ScrollST0 0 1
+End
+
+Trick SonicRing1Dark
+	ScrollST0 0 0.125
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite
+	ScrollST0 0 1
+End
+
+
+Trick SonicWaveformRing1
+	ObjFlags FullBright
+	TrickFlags Additive NoColl DoubleSided NoZWrite
+	ScrollST0 0 -0.025
+End
+
+Trick SonicWaveformRing1Dark
+#	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite
+	ScrollST0 0 -0.025
+End
+
+
+Trick SonicBubble1
+	ObjFlags FullBright
+	TrickFlags Additive NoColl DoubleSided NoZWrite
+	ScrollST0 0 -0.01
+End
+
+Trick SonicBubble1Dark
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite
+	ScrollST0 0 -0.01
+End
+
+Trick SonicBubble2
+	ObjFlags FullBright
+	TrickFlags Additive NoColl DoubleSided NoZWrite
+	ScrollST0 0 -0.01
+End
+
+Trick SonicBubble2Dark
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite
+	ScrollST0 0 -0.01
+End
+
+
+Trick SonicWaveformBubble1
+	ObjFlags FullBright
+	TrickFlags Additive NoColl DoubleSided NoZWrite
+	ScrollST0 0 -0.01
+End
+
+Trick SonicWaveformBubble1Dark
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite
+	ScrollST0 0 -0.01
+End
+####################################################
+## Materials
+####################################################
+
+Texture X_Sonic_Ring1
+	Base1 SonicRing_Noisey.tga
+	Base1Scroll 0 1
+	Base1Scale 1 4
+
+#	Multiply1 Sonic_PulseScroller3.tga
+#	Multiply1Scroll 0 -0.125
+#	Multiply1Scale 1 4
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 -1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 245 190
+	SpecularColor2 125 150 250
+	SpecularExponent 45
+
+	DiffuseScale 0.5
+	AmbientScale 1
+
+	Flags FullBright NoMip Truecolor
+	MinAddGlow 1
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base SonicRing_Noisey.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 1 4
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+####################################################
+
+Texture X_Sonic_Waveform1
+	Base1 Sonic_Waveform.tga
+	Base1Scroll 0.0 0
+	Base1Scale 1.0 1.0
+
+	Multiply1 Sonic_PulseScroller.tga
+	Multiply1Scroll 0 -0.005
+	Multiply1Scale 1 0.25
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 -1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 245 190
+	SpecularColor2 125 150 250
+	SpecularExponent 45
+
+	DiffuseScale 0.5
+	AmbientScale 1
+
+	Flags FullBright
+	MinAddGlow 1
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base Sonic_PulseScroller2.tga
+		Blend Sonic_Waveform.tga
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 1 1.5
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+####################################################
+
+Texture X_Sonic_WaveformRay1
+	Base1 Sonic_Waveform.tga
+	Base1Scroll 0.0 0
+	Base1Scale 1.0 1.0
+
+	Multiply1 Sonic_PulseScroller2.tga
+	Multiply1Scroll 0 -0.025
+	Multiply1Scale 1 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 -1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 245 190
+	SpecularColor2 125 150 250
+	SpecularExponent 45
+
+	DiffuseScale 0.5
+	AmbientScale 1
+
+	Flags FullBright
+	MinAddGlow 1
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base Sonic_PulseScroller2.tga
+		Blend Sonic_Waveform.tga
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 1 0.5
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+####################################################
+
+Texture X_SonicNoise1
+	Base1 SonicNoise.tga
+	Base1Scroll 1.33 1.99
+	Base1Scale 16 16
+
+	Multiply1 Sonic_PulseScroller3.tga
+	Multiply1Scroll 0 -0.005
+	Multiply1Scale 16 0.25
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 -1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 245 190
+	SpecularColor2 125 150 250
+	SpecularExponent 45
+
+	DiffuseScale 0.5
+	AmbientScale 1
+
+	Flags FullBright NoMip Truecolor
+	MinAddGlow 1
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base Sonic_PulseScroller3.tga
+		Blend SonicNoise.tga
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 32 32
+		ScaleST1 16 0.25
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+####################################################
+
+Texture X_SonicNoise2
+	Base1 SonicNoise2.tga
+	Base1Scroll 0.001 0.001
+	Base1Scale 24 24
+
+	Multiply1 Sonic_PulseScroller3.tga
+	Multiply1Scroll 0 -0.005
+	Multiply1Scale 16 0.125
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 -1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 245 190
+	SpecularColor2 125 150 250
+	SpecularExponent 45
+
+	DiffuseScale 0.5
+	AmbientScale 1
+
+	Flags FullBright NoMip Truecolor
+	MinAddGlow 1
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base Sonic_PulseScroller3.tga
+		Blend SonicNoise2.tga
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 32 32
+		ScaleST1 16 0.25
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+####################################################
+
+Texture X_SonicWaveformBubble1
+	Base1 Sonic_Waveform.tga
+	Base1Scroll 0.0 0.0
+	Base1Scale 1.5 1
+
+	Multiply1 Sonic_PulseScroller2.tga
+	Multiply1Scroll 0 -0.01
+	Multiply1Scale 1 0.5
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 -1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 245 190
+	SpecularColor2 125 150 250
+	SpecularExponent 45
+
+	DiffuseScale 0.5
+	AmbientScale 1
+
+	Flags FullBright
+	MinAddGlow 1
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base Sonic_PulseScroller2.tga
+		Blend Sonic_Waveform.tga
+		Bumpmap none
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 1 0.5
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End

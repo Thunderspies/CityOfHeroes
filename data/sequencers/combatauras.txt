@@ -1,0 +1,70 @@
+#########################################################
+## CustomWeapon_Shields.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef CombatAura_Base
+	BaseSkeleton	CombatAura_CyborgCombatHUD\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<Combat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		CombatAura_Base
+	  Anim		CombatAura_CyborgCombatHUD\skel_ready 1 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready>
+	Member		<Combat>
+	NextMove	Combat_Cycle
+	Scale		0.625
+
+	Type		CombatAura_Base
+	  Anim		CombatAura_CyborgCombatHUD\skel_ready 1 16
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	COMBAT
+	Priority        1
+	Member		<Combat>
+	Flags		Cycle
+	NextMove	Combat_PutAway
+
+	Type		CombatAura_Base
+	  Anim		CombatAura_CyborgCombatHUD\skel_ready 16 20
+	TEnd
+MEnd
+
+Move Combat_PutAway
+	Member		<Combat>
+	NextMove	Ready
+	Scale		0.5
+
+	Type		CombatAura_Base
+	  Anim		CombatAura_CyborgCombatHUD\skel_ready 21
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

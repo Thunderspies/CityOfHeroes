@@ -1,0 +1,93 @@
+#############################################################
+## FX_PraetorianClockwork_ChestCannon.txt
+#############################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef ShoulderEmitter_Male
+	BaseSkeleton	FX_PraetorianClockwork_ShoulderEmitter_Male\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef ShoulderEmitter_Huge
+	BaseSkeleton	FX_PraetorianClockwork_ShoulderEmitter_Huge\skel_ready
+	ParentType	ShoulderEmitter_Male
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<Combat>
+
+#########################################################
+
+Move Ready
+	Member		<DeathIRQ> <Ready>
+	Flags		Cycle
+	Priority	0
+
+	Type		ShoulderEmitter_Male
+	  Anim		FX_PraetorianClockwork_ShoulderEmitter_Male\skel_ready 2 2
+	TEnd
+
+	Type		ShoulderEmitter_Huge
+	  Anim		FX_PraetorianClockwork_ShoulderEmitter_Huge\skel_ready 2 2
+	TEnd
+MEnd
+
+#############################################################
+
+Move Combat
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready>
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle
+	CycleMove	Combat_Cycle
+	NextMove	Post_Combat
+
+	Type		ShoulderEmitter_Male
+	  Anim		FX_PraetorianClockwork_ShoulderEmitter_Male\skel_ready 2 46
+	TEnd
+
+	Type		ShoulderEmitter_Huge
+	  Anim		FX_PraetorianClockwork_ShoulderEmitter_Huge\skel_ready 2 46
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle
+	NextMove	Post_Combat
+
+	Type		ShoulderEmitter_Male
+	  Anim		FX_PraetorianClockwork_ShoulderEmitter_Male\skel_ready 46 51
+	TEnd
+
+	Type		ShoulderEmitter_Huge
+	  Anim		FX_PraetorianClockwork_ShoulderEmitter_Huge\skel_ready 46 51
+	TEnd
+MEnd
+
+#############################################################
+
+Move Post_Combat
+	Member		<Ready>
+	NextMove	Ready
+
+	Type		ShoulderEmitter_Male
+	  Anim		FX_PraetorianClockwork_ShoulderEmitter_Male\skel_ready 51
+	TEnd
+
+	Type		ShoulderEmitter_Huge
+	  Anim		FX_PraetorianClockwork_ShoulderEmitter_Huge\skel_ready 51
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

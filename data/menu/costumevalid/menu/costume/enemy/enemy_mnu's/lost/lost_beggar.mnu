@@ -1,0 +1,317 @@
+//
+// Uses VAR_META_COSTUME_CATEGORY to determine which meta group head/upper/lower to be in.
+//
+Button
+	Code			CodeCostumeCategory
+	Value			COSTUME_HEAD
+	String			"Head"
+	Var				VAR_HEAD_CATEGORY
+	StringTable
+					"Standard"
+	EndStringTable
+End
+
+
+
+
+	Default	Value			GEO_HEAD 
+	Default	String		"Head"
+
+	Button
+		Code		CodeMutuallyExclusiveCategory
+	End
+
+	
+	Button
+		Code			CodeAllAtOnceAdjustor
+		Var				VAR_HEAD_SELECTOR
+		StringTable		"Normal1"
+						"Normal"
+						"Skin_Lost_Mask"
+						"None"
+					"Normal2"
+						"Normal"
+						"Skin_Lost_01"
+						"None"
+					"Normal3"
+						"Normal"
+						"Skin_Lost_02"
+						"None"
+					"Normal4"
+						"Normal"
+						"Skin_Lost_03"
+						"None"
+					"Bald1"
+						"Bald"
+						"Skin_Lost_Mask"
+						"None"
+					"Bald2"
+						"Bald"
+						"Skin_Lost_01"
+						"None"
+					"Bald3"
+						"Bald"
+						"Skin_Lost_02"
+						"None"
+					"Bald4"
+						"Bald"
+						"Skin_Lost_03"
+						"None"
+		
+					
+											
+		EndStringTable
+	End
+
+
+
+
+
+	Default		Value		GEO_HAIR
+	Default		String	"Hair"
+Button
+	Code		CodeMutuallyExclusiveCategory
+End
+
+	Button
+		Code			CodeAllAtOnceAdjustor
+		Var				VAR_HAIR_SELECTOR
+		StringTable		"None"
+							"None"
+							"None"
+							"None"
+					"Hair1"
+							"Dreads"
+							"Afro_01a"
+							"None"
+					"Hair2"
+							"Long_01"
+							"Long_01a"
+							"Long_01b"
+					"Hair3"
+							"Stocking"
+							"BM_Stocking_01a"
+							"BM_Stocking_01b"
+					"Hair4"
+							"Winter"
+							"BM_Winter_01a"
+							"BM_Winter_01b"
+
+
+
+						
+		EndStringTable		
+	End
+
+
+			
+Default		Value	GEO_EYE_DETAIL
+Default		String		"Eye_Detail"
+Button
+	Code		CodeMutuallyExclusiveCategory
+End
+
+	Button
+		Code			CodeAllAtOnceAdjustor
+		Var				VAR_EYES_SELECTOR
+		StringTable		"None",
+							"None",
+							"None",
+							"None",
+				
+		EndStringTable
+	End
+
+
+
+
+
+
+Button
+	Code			CodeCostumeCategory
+	Value			COSTUME_UPPER_BODY
+	String			"Upper Body"
+	Var				VAR_UPPER_BODY_CATEGORY
+	StringTable
+					"Standard"
+	EndStringTable
+End
+
+	Default	Value		GEO_SHIRT
+	Default	String		"Chest"
+
+	Button
+		Code		CodeMutuallyExclusiveCategory
+	End
+
+
+	Button
+		Code			CodeAllAtOnceAdjustor
+		Var				VAR_SHIRT_SELECTOR
+		StringTable		"Chest1"
+						"Straight_Untied"
+						"Skin_Lost_Straight_01a"	
+						"Skin_Lost_Straight_01b"
+					"Chest2"
+						"Straight_Tied"
+						"Skin_Lost_Straight_01a"	
+						"Skin_Lost_Straight_01b"
+					"Chest3"
+						"Jacket"
+						"Lost_Jacket_01a"	
+						"Lost_Jacket_01b"
+					"Chest4"
+						"Jacket2"
+						"Lost_Jacket2_01a"	
+						"Lost_Jacket2_01b"
+					"Chest5"
+						"Hooded"
+						"Lost_Hooded_01a"	
+						"None"
+						
+		EndStringTable
+	End
+
+
+
+	Default		Value	GEO_GLOVE
+	Default		String		"Gloves"
+
+Button
+	Code		CodeMutuallyExclusiveCategory
+End
+
+
+	Button
+		Code			CodeAllAtOnceAdjustor
+		Var				VAR_GLOVE_SELECTOR
+
+		StringTable		"Bare"
+						"Bare"
+						"Skin_Lost_Straight_01a"
+						"Skin_Lost_Straight_01b"
+					"Gloved"
+						"Bare"
+						"Skin_Fingerless_01a"
+						"Skin_Fingerless_01b"
+					"Wrapped"
+						"Bare"
+						"Skin_Lost_Wrapped_01a"
+						"None"
+					"None"
+						"None"
+						"None"
+						"None"
+
+		EndStringTable
+	End
+
+
+
+	
+Default		Value	GEO_SPADR
+Default		String		"Shoulders"
+
+Button
+	Code		CodeMutuallyExclusiveCategory
+End
+
+	Button
+		Code			CodeAllAtOnceAdjustor
+		Var				VAR_SPADR_SELECTOR
+		StringTable		"None",
+							"None",
+							"None",
+							"None",
+					"Tire",
+							"Tire",
+							"Lost_Tire",
+							"None",
+					"Lid",
+							"Lid",
+							"Lost_Lid_01a",
+							"Lost_Lid_01b",
+
+		EndStringTable
+	End
+
+
+
+Button
+	Code			CodeCostumeCategory
+	Value			COSTUME_LOWER_BODY
+	String			"Lower Body"
+	Var				VAR_LOWER_BODY_CATEGORY
+	StringTable
+					"Standard"
+	EndStringTable
+End
+ 
+	Default		Value	GEO_PANTS
+	Default		String		"Pants"
+
+	Button
+		Code		CodeMutuallyExclusiveCategory
+	End
+
+
+
+	Button
+		Code			CodeAllAtOnceAdjustor
+		Var				VAR_PANT_SELECTOR
+		StringTable		"Pants"
+						"Pants"
+						"Skin_Lost_Pants_01a"
+						"Skin_Lost_Pants_01b"
+					"Pants2"
+						"Pants"
+						"Lost_Pants2_01a"
+						"None"
+
+
+						
+		EndStringTable
+	End
+
+
+
+	Default		Value	GEO_BOOT
+	Default		String		"Boots"
+
+Button
+	Code		CodeMutuallyExclusiveCategory
+End
+
+
+	Button
+		Code			CodeAllAtOnceAdjustor
+		Var				VAR_BOOT_SELECTOR
+
+		StringTable		"Pants"
+						"Pants"
+						"Lost_Pants"
+						"None"
+					"Pants2"
+						"Pants"
+						"Lost_Pants2"
+						"None"
+					"None"
+						"None"
+						"None"
+						"None"
+
+	
+		EndStringTable
+	End
+
+//Boot color:
+//Choose Primary
+//Choose Accent
+//color picker placed
+
+
+
+
+
+
+

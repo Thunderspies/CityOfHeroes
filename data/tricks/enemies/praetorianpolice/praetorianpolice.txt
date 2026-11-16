@@ -1,0 +1,74 @@
+Texture X_ForceGloves
+	Base1 formshieldpattern01
+	Base1Scroll 0 0.005
+	Base1ScrollType Normal
+	Base1Scale 4 4
+End
+
+Texture X_ForceGloves_Pulse01
+	Base1 formshieldpattern01
+	Base1Scroll 0 0.005
+	Base1ScrollType Normal
+	Base1Scale 4 4
+
+	Multiply1 Sonic_WaveformBubble1_PulseScroller.tga
+	Multiply1Scroll 0.0 -0.033
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 0.25
+End
+
+Texture X_ForceGloves_Pulse02
+	Base1 formshieldpattern01
+	Base1Scroll 0 0.005
+	Base1ScrollType Normal
+	Base1Scale 4 4
+
+	Multiply1 InterlaceLines_01.tga
+	Multiply1Scroll 0.0 -0.033
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 0.5
+End
+
+Texture X_forcecage_hazardbar01
+	Base1 ForceCage_HazardBarGradient01
+	Base1Scroll 0 0.025
+	Base1ScrollType Normal
+	Base1Scale 1 0.01
+
+	Multiply1 forcecage_hazardbar01
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+End
+
+Trick LensFlare_Streak
+	SortBias 1.0
+	ObjFlags FullBright
+	TrickFlags CameraFace NoColl NoZWrite Additive
+End
+
+Trick FormShield_Radial
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided Additive NoZWrite
+	StAnim 2.0 1.0 TScroll_1x16_LastFrameHold FRAMESNAP LOCAL_TIMER
+End
+
+Trick ForceGlove
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided Additive NoZWrite
+End
+
+Texture formshieldpattern01.tga
+	Flags RepeatS RepeatT #TrueColor
+End
+
+Texture ForceCage_HazardBarGradient01.tga
+	Flags RepeatS RepeatT #TrueColor
+End
+
+Texture formshield_radialpulse01.tga
+	Flags ClampS ClampT
+	Blend formshieldpattern01.tga
+	ScaleST0 64 4
+End
+

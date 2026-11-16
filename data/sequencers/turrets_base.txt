@@ -1,0 +1,99 @@
+#############################################################
+
+Sequencer
+
+TypeDef Turrets_Ball 
+	BaseSkeleton	Turrets_Ball\Skel_Ball_Turrets
+	ParentType	None
+TypeDefEnd
+
+
+TypeDef Turrets_Base 
+	BaseSkeleton	Turrets_Ball\base
+	ParentType	Turrets_Ball
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready		##(HIDDEN)
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle NotSelectable 
+	Interpolate	20
+	Sets            NOCOLLISION
+
+
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\popup 1 5  
+	TEnd
+
+	Type		Turrets_Base
+	  Anim          Turrets_Ball\base_popup 1 5
+	TEnd
+
+
+MEnd
+
+
+
+###################
+###### AssultRifle Burst  ######
+###################
+
+Move 1st_Burst		##(POP UP)
+	Requires	TURRETBASERISE
+	Interrupts	<AttackIRQ> 
+	Member		<DeathIRQ> 
+	NextMove        Active_mode
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\popup 6 25
+	TEnd
+
+	Type		Turrets_Base
+	  Anim          Turrets_Ball\base_popup 6 25  
+	TEnd
+
+MEnd
+
+####################
+####### Active Mode  ######
+####################
+
+Move Active_mode	
+##	Member		<Ready>  <DeathIRQ>
+	Flags		Cycle
+	Sets            CANTMOVE
+
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\active 1 100
+	TEnd
+
+MEnd
+
+
+
+
+SeqEnd
+

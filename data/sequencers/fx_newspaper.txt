@@ -1,0 +1,59 @@
+#############################################################
+## FX_newspaper.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_newspaper
+	BaseSkeleton	FX_newspaper\Skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_newspaper_male
+	BaseSkeleton	FX_newspaper\Skel_test
+	ParentType	FX_newspaper
+TypeDefEnd
+
+TypeDef FX_newspaper_huge
+	BaseSkeleton	FX_newspaper\Skel_test
+	ParentType	FX_newspaper
+TypeDefEnd
+
+
+TypeDef FX_newspaper_female
+	BaseSkeleton	FX_newspaper\Skel_test
+	ParentType	FX_newspaper
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		FX_newspaper
+	  Anim          FX_newspaper\Skel_test 1 156
+	TEnd
+
+	Type		FX_newspaper_male
+	  Anim          FX_newspaper\male_cycle 1 156
+	TEnd
+
+	Type		FX_newspaper_huge
+	  Anim          FX_newspaper\huge_cycle 1 156
+	TEnd
+
+	Type		FX_newspaper_female
+	  Anim          FX_newspaper\fem_cycle 1 156
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

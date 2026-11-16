@@ -1,0 +1,45 @@
+#############################################################
+
+Sequencer
+
+TypeDef Fx_Natterling_melt
+	BaseSkeleton	Fx_Natterling_melt\Skel_Fx_Natterling_melt
+	ParentType	None
+TypeDefEnd
+
+TypeDef melt_B
+	BaseSkeleton	Fx_Natterling_melt\Skel_Fx_Natterling_melt
+	ParentType	Fx_Natterling_melt
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> <AttackIRQ>
+	Flags		NoSizeScale
+	
+
+
+	Type		Fx_Natterling_melt 
+	  Anim          Fx_Natterling_melt\Skel_Fx_Natterling_melt 1 65
+	  Scale		1
+	TEnd
+
+	Type		melt_B 
+	  Anim          Fx_Natterling_melt\melt_B 1 65
+	  Scale		0.5
+	TEnd
+
+MEnd
+
+
+
+SeqEnd
+
+
+
+

@@ -1,0 +1,226 @@
+#########################
+#
+#	sun
+#
+#########################
+
+sun
+	MoonName RuinBrown_sun__ 		# The first moon is the sun 
+	MoonName recluse_moon__ 
+
+	CloudFadeTime 25 24 #4.5 20 #19.5
+	CloudFadeMin 210
+	
+	FogHeightRange	665 980  # miny, maxy
+	FogDist		500 700	
+
+	LampLightTime 4 18.5
+End
+
+cloud 
+	Name		V_clouds1__
+end
+
+cloud 
+	Name RuinBrown_sunskirt__
+end
+
+
+suntime	#############Dawn Hold#####
+	Time 4	
+	diffuse  155 135 135 //115 85 85
+	ambient  160 140 140 //115 85 85
+	FogColor 65 34 35
+	HighFogColor 65 34 30
+	BackGroundColor 65 34 30 //16 11 15 
+	FogDist 10 1500 //2300
+	SkyName Stars__
+	SunScale	0
+	MoonScale	1.4
+	ShadowColor	0 0 0
+	ShadowAlpha	50
+      DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+      DOFFocusDist     480    #Changes the focus (mid) distance 
+      DOFFarDist       1080   #Changes the far distance 
+      
+      DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+      DOFFocusValue   .1      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+      DOFFarValue     1       #Changes the blurriness at the far point
+End
+
+suntime	############# Dawn Switch #####
+	Time 		5 		
+	diffuse		175 155 155
+	ambient 	200 180 160 #110 110 170 #ambient 50 50 50 
+	FogColor 	 110 70 80 #109 132 146 #61 135 179 #104 149 167
+	HighFogColor 	 108 98 75
+	BackGroundColor 110 70 80 #160 160 255
+	FogDist 	50 1600 //1900 
+	SkyName Recluse_Night__ //Recluse_Dawn__
+	SunScale	.5
+	MoonScale	1
+	ShadowColor	0 0 20
+	ShadowAlpha	100
+      DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+      DOFFocusDist     480    #Changes the focus (mid) distance 
+      DOFFarDist       1080   #Changes the far distance 
+      
+      DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+      DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+      DOFFarValue     .65       #Changes the blurriness at the far point
+End
+
+################## Sunrise ###########
+suntime	
+	Time 6.5
+	diffuse	250 180 100
+	ambient 250 180 100
+	
+	FogColor 180 120 65 #100 135 135          
+	FogDist 120 1700 //2100
+	HighFogColor 100 80 80 //110 80 80
+
+	BackGroundColor 180 125 65 //157 57 9 //80 105 125         
+	SkyName Recluse_Noon__ //SkyName RuinBrown_day__
+	SunScale	.8
+	MoonScale	1
+	ShadowColor	0 0 20
+	ShadowAlpha	100
+
+      DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+      DOFFocusDist     480    #Changes the focus (mid) distance 
+      DOFFarDist       2080   #Changes the far distance 
+      
+      DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+      DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+      DOFFarValue     .6       #Changes the blurriness at the far point
+	   
+  
+End
+
+################## Day Main ###########
+suntime	
+	Time 10
+	diffuse	300 235 190
+	ambient 230 165 120
+	
+	FogColor 167 127 105 #100 135 135          
+	FogDist 175 1780 //1800
+	HighFogColor 167 127 105 //110 80 80
+	BackGroundColor 167 127 109 //157 57 9 //80 105 125         
+	SkyName Recluse_Noon__ //SkyName RuinBrown_day__
+	SunScale	.8
+	MoonScale	1
+	ShadowColor	0 0 20
+	ShadowAlpha	100
+
+      DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+      DOFFocusDist     480    #Changes the focus (mid) distance 
+      DOFFarDist       2080   #Changes the far distance 
+      
+      DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+      DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+      DOFFarValue     .6       #Changes the blurriness at the far point
+	   
+  
+End
+
+##################### Day Hold ###########
+suntime 
+	Time 17.0 #Hold for afternoon	
+	diffuse	210 160 100
+	ambient 210 145 100
+	
+	FogColor 117 87 70 #100 135 135          
+	FogDist 175 1600 //1800
+	HighFogColor 117 87 70 //110 80 80
+	BackGroundColor 121 87 70 //157 57 9 //80 105 125         
+	SkyName Recluse_Noon__ //SkyName RuinBrown_day__
+	SunScale	.8
+	MoonScale	1
+	ShadowColor	0 0 20
+	ShadowAlpha	100
+
+      DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+      DOFFocusDist     480    #Changes the focus (mid) distance 
+      DOFFarDist       2080   #Changes the far distance 
+      
+      DOFNearValue    .15       #Changes the blurriness at the near point  (0 - 1 scale)
+      DOFFocusValue   .05      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+      DOFFarValue     .6       #Changes the blurriness at the far point
+	   
+  
+End
+
+suntime	##################### Dusk #1  ###########
+	Time 18.5
+	diffuse 275 160  80   
+	ambient 210 155 110 
+	FogColor 160 100 47
+	HighFogColor 179 100 43 //210 140 120
+	BackGroundColor 165 100 47
+	FogDist 200 1500 //1700
+	SkyName Recluse_Noon__
+	SunScale	1.2
+	MoonScale	1
+	ShadowColor	13 8 50
+	ShadowAlpha	80
+
+      DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+      DOFFocusDist     900    #Changes the focus (mid) distance 
+      DOFFarDist       1280   #Changes the far distance 
+      
+      DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+      DOFFocusValue   .3     #Changes the blurriness at the focus (mid) point (should leave at 0) 
+      DOFFarValue     .7       #Changes the blurriness at the far point
+End
+
+
+
+
+suntime	##################### Dusk #2  ###########
+	Time 19.3
+	diffuse 260 150 110   
+	ambient 220 140 140 
+	FogColor 125 55 50
+	HighFogColor 175 57 09 //210 140 120
+	BackGroundColor 125 45 40 //170 77 29
+	FogDist 200 1400 //1700
+	SkyName Recluse_Night__
+	SunScale	2
+	MoonScale	1
+	ShadowColor	13 8 50
+	ShadowAlpha	80
+
+      DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+      DOFFocusDist     900    #Changes the focus (mid) distance 
+      DOFFarDist       1280   #Changes the far distance 
+      
+      DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+      DOFFocusValue   .3     #Changes the blurriness at the focus (mid) point (should leave at 0) 
+      DOFFarValue     .7       #Changes the blurriness at the far point
+End
+
+
+
+suntime	 ##################### Night Begin  ###########
+	Time 20.5	
+	diffuse  150 90 90 //115 85 85
+	ambient  180 140 170 //115 85 85
+	FogColor 35 4 5
+	HighFogColor 35 10 0
+	BackGroundColor 35 10 0 //16 11 15
+	FogDist 10 1350 //1700
+	SkyName Stars__
+	SunScale	0
+	MoonScale	2
+	ShadowColor	0 0 0
+	ShadowAlpha	50
+      DOFNearDist      100    #Changes the near distance for first point (should leave at 0.73) 
+      DOFFocusDist     680    #Changes the focus (mid) distance 
+      DOFFarDist       1080   #Changes the far distance 
+      
+      DOFNearValue    .2       #Changes the blurriness at the near point  (0 - 1 scale)
+      DOFFocusValue   .1      #Changes the blurriness at the focus (mid) point (should leave at 0) 
+      DOFFarValue     1       #Changes the blurriness at the far point
+End

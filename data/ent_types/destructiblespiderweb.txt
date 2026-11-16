@@ -1,0 +1,50 @@
+######################################
+## 
+
+## 
+
+Type
+
+Sequencer	Door_safe.txt   
+SequencerType	DestructibleSpiderWeb
+
+Graphics	player_library/G_Door_safe_Square.geo
+
+FadeOutStart	500				
+FadeOutFinish	550
+
+GeomScale	1.0 1.0 1.0			
+
+VisSphereRadius 21.12  
+
+ShadowType	None			
+
+LightAsDoorOutside	1
+CollisionType		Door
+
+CapsuleSize	14 14.1 14
+Selection	Capsule
+CapsuleOffset   0 1 3
+
+ReticleHeightBias 2		
+ReticleBaseBias 4
+
+Placement         DeadOn 
+
+HealthFx
+	Range          0 1
+	OneShotFx	Explosions\SpiderWeb\SpiderWebBurst.Fx
+	LibraryPiece	anoid_web_destruct000
+End
+
+HealthFx
+	Range          1 50
+	LibraryPiece	anoid_web_destruct050
+End
+
+HealthFx
+	Range          50 100
+	LibraryPiece        anoid_web_destruct100
+End
+
+End

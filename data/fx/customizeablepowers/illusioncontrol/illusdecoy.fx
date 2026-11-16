@@ -1,0 +1,80 @@
+#########################################################
+##	template
+
+FxInfo
+Lifespan 100
+
+#########################################################
+####################### AUDIO ###########################
+#########################################################
+
+Condition
+	On	Time
+	Time	6
+
+
+	Event
+		Type	Local
+		At 	Origin
+		Sound deceive1 80 80 .8
+	End
+End
+
+
+
+
+
+
+
+#########################################################
+###################  Hand Casts  ########################
+#########################################################
+
+
+Condition
+	On	Time
+	Time	6
+
+	Event
+		ENAME	LeftHand
+		Type	Posit
+		At	WepL
+		part	CustomizeablePowers\IllusionControl\IllusCastGlow01.part
+		Lifespan 48
+
+	End
+
+End
+
+Condition
+	On	Time
+	Time	25
+
+	Event
+		ENAME	LeftHand
+		Type	Posit
+		At	WepL
+		part	CustomizeablePowers\IllusionControl\IllusCastGlow02.part
+		Lifespan 20
+
+	End
+
+End
+
+Condition
+	On	Time
+	Time	45
+
+	Event
+		ENAME	LeftHand
+		Type	Posit
+		At	WepL
+		part	CustomizeablePowers\IllusionControl\IllusBlindGlow02.part
+		Lifespan 10
+
+	End
+
+End
+
+
+End

@@ -1,0 +1,83 @@
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef door1 
+	BaseSkeleton	door1\skel_door1
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<Ready>
+
+#############################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		door1
+	  Anim          door1\skel_door1 1 2 
+	TEnd
+MEnd
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		door1
+	  Anim          door1\skel_door1 5 25 
+	TEnd
+MEnd
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		door1
+	  Anim          door1\skel_door1 26 53 
+	TEnd
+MEnd
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		door1
+	  Anim          door1\skel_door1 54 69 
+	TEnd
+MEnd
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		door1
+	  Anim          door1\skel_door1 70 99 
+	TEnd
+MEnd
+
+Move Shut2
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Ready
+	Priority        1
+
+	Type		door1
+	  Anim          door1\skel_door1 100 132 
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

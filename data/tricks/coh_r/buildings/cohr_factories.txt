@@ -1,0 +1,941 @@
+#################################################################
+#
+#  Industrial Buildings - Window Shaders. (Windows Only) 
+#  -------------------------------------------------------
+#  Windows Include Mask, Generic Bump2, Multiply2 (reflect) 
+#  and Addglow2
+#
+#  (COHR - rroth)
+#################################################################
+
+
+//////////////////////////
+// Factory 01 Windows
+
+Texture fact01_mid01_wdw
+	Base1 fact01_mid01_wdw.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact01_mid01_wdw_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .125 .5
+
+	Mask fact01_mid01_wdw_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 185
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact01_mid01_wdw
+		Blend fact01_mid01_wdw_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+Texture fact01_plain01_wdw
+	Base1 fact01_plain01_wdw.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact01_plain01_wdw_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .125 .5
+
+	Mask fact01_plain01_wdw_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 185
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact01_plain01_wdw
+		Blend fact01_plain01_wdw_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture fact01_plain01_wdw2
+	Base1 fact01_plain01_wdw2.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact01_plain01_wdw2_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 1
+
+	Mask fact04_trim01_top_wdw_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .3
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 10
+	MaxAddGlow 145
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact01_plain01_wdw2.tga
+		Blend fact04_trim01_top_wdw.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+//////////////////////////
+// Factory 03 Windows
+
+Texture fact03_top01_wdw01
+	Base1 fact03_top01_wdw01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact03_top01_wdw01_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .125 .5
+
+	Mask fact03_top01_wdw01_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 10
+	MaxAddGlow 135
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact03_top01_wdw01
+		Blend fact03_top01_wdw01_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture fact03_base_wdw01
+	Base1 fact03_base_wdw01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact03_base_wdw01_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .5 
+
+	Mask fact03_base_wdw01_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 10
+	MaxAddGlow 125
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact03_base_wdw01
+		Blend fact03_base_wdw01_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+//////////////////////////
+// Factory 04 Windows
+
+Texture fact04_trim01_top_wdw
+	Base1 fact04_trim01_top_wdw.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact04_trim01_top_wdw_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 1
+
+	Mask fact04_trim01_top_wdw_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 10
+	MaxAddGlow 135
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact04_trim01_top_wdw
+		Blend fact04_trim01_top_wdw_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture fact04_plain01_wdw
+	Base1 fact04_plain01_wdw.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact04_plain01_wdw_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 1 
+
+	Mask fact04_plain01_wdw_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 10
+	MaxAddGlow 125
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact04_plain01_wdw
+		Blend fact04_plain01_wdw_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+//////////////////////////
+// Factory 05 Windows
+
+Texture fact05_base01_wdw
+	Base1 fact05_base01_wdw.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact05_base01_wdw_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 1
+
+	Mask fact05_base01_wdw_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 10
+	MaxAddGlow 135
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact05_base01_wdw
+		Blend fact05_base01_wdw_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture fact05_trim01_wdw
+	Base1 fact05_trim01_wdw.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact05_trim01_wdw_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25  .5
+
+	Mask fact05_trim01_wdw_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .3
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 10
+	MaxAddGlow 172
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact05_trim01_wdw
+		Blend fact05_trim01_wdw_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+//////////////////////////
+// Factory 09 Windows
+
+Texture fact09_plain01_wdw
+	Base1 fact09_plain01_wdw.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact09_plain01_wdw_advglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .5
+
+	Mask fact09_plain01_wdw_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 10
+	MaxAddGlow 175
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact09_plain01_wdw
+		Blend fact09_plain01_wdw_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture fact09_base_wdw
+	Base1 fact09_base_wdw.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none  
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .15
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 fact09_base_wdw_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1  1
+
+	Mask fact09_base_wdw_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .3
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5D.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 2 2
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 fact_generic_window_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 48
+	SpecularExponent2 48
+
+	DiffuseScale 2.0 
+	AmbientScale 4.0 
+
+	Flags oldtint // NoRandomAddGlow FullBright
+	MinAddGlow 10
+	MaxAddGlow 172
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base fact09_base_wdw
+		Blend fact09_base_wdw_glow.tga
+		Bumpmap none
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+

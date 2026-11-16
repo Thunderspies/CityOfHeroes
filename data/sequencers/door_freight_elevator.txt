@@ -1,0 +1,88 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Freight_Elevator
+	BaseSkeleton	Door_Freight_Elevator\Skel_Door_Freight_Elevator
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle
+
+	Type		Door_Freight_Elevator
+	  Anim          Door_Freight_Elevator\Skel_Door_Freight_Elevator 0 4
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+	Scale           1.00
+
+	Type		Door_Freight_Elevator
+	  Anim          Door_Freight_Elevator\Skel_Door_Freight_Elevator 5 35 
+	  #PlayFX	fx\doors\woodopen.fx
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Scale           1.00
+	Sets            WALKTHROUGH 
+
+	Type		Door_Freight_Elevator
+	  Anim          Door_Freight_Elevator\Skel_Door_Freight_Elevator 36 55
+	  #PlayFX	fx\doors\woodopen.fx
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle
+	Sets            WALKTHROUGH 
+
+	Type		Door_Freight_Elevator
+	  Anim          Door_Freight_Elevator\Skel_Door_Freight_Elevator 55 60 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Freight_Elevator
+	  Anim          Door_Freight_Elevator\Skel_Door_Freight_Elevator 60 85 
+	  #PlayFX	fx\doors\woodclose.fx
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Freight_Elevator
+	  Anim          Door_Freight_Elevator\Skel_Door_Freight_Elevator 86 90 
+	TEnd
+MEnd
+
+SeqEnd

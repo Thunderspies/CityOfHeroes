@@ -1,0 +1,372 @@
+Name UndergroundRaid
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName "Underground Raid"
+EventVolume UREventVolume // ZoneEventName = UndergroundRaid
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint "Starting Stage Setup"
+		}
+		Action CreateStuff
+		{
+			SpawnCreate URPPDSpawn
+			{
+				Location URPPDWave
+				Group URPPDWave
+				Team URPPDteam
+				MoveToMarker URPPDExtRunTo
+				SpawnBehavior Combat(TargetInstigator(1))
+				KillBehavior RunIntoDoor
+			}
+			TeamCreate
+			{
+				Team URPPDteam
+				Heartbeat 10
+				RespawnMinCount 10
+				RespawnRate 8
+			}
+			SpawnCreate URPPDBoss
+			{
+				Location URPPDBossWave
+				Group URPPDBossWave
+				Team URPPDBossteam
+				//SpawnBehavior PL_Combat
+				MoveToMarker URPPDExtRunTo
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team URPPDBossteam
+				RespawnRate 4
+			}
+			SpawnCreate URPPDBossGuard
+			{
+				Location URPPDBossGuardWave
+				Group URPPDBossGuardWave
+				Team URPPDBossGuardteam
+				//SpawnBehavior PL_Combat
+				MoveToMarker URPPDExtRunTo
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team URPPDBossGuardteam
+				RespawnRate 4
+			}
+			SpawnCreate URResistanceSpawn
+			{
+				Location URResistanceWave
+				Group URResistanceWave
+				Team URResistanceteam
+				MoveToMarker URResistanceRunTo
+				SpawnBehavior PL_Combat
+				KillBehavior RunIntoDoor
+			}
+			TeamCreate
+			{
+				Team URResistanceteam
+				Heartbeat 3
+				RespawnMinCount 30
+				RespawnRate 8
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage DefeatURPPDteam
+	}
+}
+Stage DefeatURPPDteam
+{
+	DisplayName "Beat Back the PPD"
+	ToolTip "Kill the invaders!"
+	StartUp
+	{
+		Action StartKillURResistance
+		{
+			DebugPrint "Starting Stage DefeatURResistance"
+		}
+		Action TurnOnNPCs
+		{
+			TeamControl StartURPPD
+			{
+				Type Activate
+				Team URPPDteam
+			}
+		}
+	}
+	Counter URPoliceExtKills
+	{
+		Type Team
+		Count 20
+		Team URPPDteam
+		VolumeName UREventVolume
+		//Counter Up
+		DisplayProgress "PPD to defeat:"
+	}
+	Trigger Done
+	{
+		Requires URPoliceExtKills complete>
+		Action GotoURInterior
+		{
+			DebugPrint "DefeatURResistance done: switching to URInterior"
+		}
+		NextStage URInterior
+	}
+	UICollection PPDkills
+	{
+		UIItem PPDkillsbar
+		{
+			Type BarBlue
+			Text "PPD defeated:"
+			ShortText "PPD"
+			Current URPoliceExtKills count>
+			Target 20
+		}
+	}
+
+	ShutDown
+	{
+		Action Shutdown
+		{
+			TeamControl StopURPPDteam
+			{
+				Type Deactivate
+				Team URPPDteam
+			}
+			DebugPrint "Shutting down Stage DefeatURPPDteam"
+		}
+	}
+}
+Stage FightURPPDBoss
+{
+	DisplayName "Defeat PPD Boss!"
+	StartUp
+	{
+		Action StartFightURPPDBoss
+		{
+			DebugPrint "Starting Stage FightURPPDBoss"
+		}
+		Action TurnOnURPPDBoss
+		{
+			TeamControl StartURPPDBoss
+			{
+				Type Activate
+				Team URPPDBossteam
+			}
+			TeamControl StartURResistanceteam
+			{
+				Type Activate
+				Team URResistanceteam
+			}
+		}
+	}
+	Counter URPPDBossKills
+	{
+		Type Team
+		Count 1
+		Team URPPDBossteam
+		VolumeName UREventVolume
+		DisplayProgress "Defeat the PPD Boss:"
+	}
+	Timer URPPDBossTimer
+	{
+		Duration 5:00
+		Display
+	}
+	Trigger Done
+	{
+		Requires URPPDBossKills complete>
+		Action Finale
+		{
+			Floater FlushedOut
+			{
+				Message "Zone Event Success!"
+				Color 00ff00
+				Volume UREventVolume
+			}
+			DebugPrint "FightURPPDBoss done: switching to RewardWinners"
+		}
+		NextStage RewardWinners
+	}
+	Trigger URPPDBossDestroyedFail
+	{
+		Requires URPPDBossTimer complete>
+		Action GotoReset
+		{
+			Floater FlushedOut
+			{
+				Message "Failure! The PPD Boss Escaped!"
+				Color ff0000
+				Volume UREventVolume
+			}
+			DebugPrint "FightURPPDBoss failed: Zone Reset"
+		}
+		NextStage Reset
+	}
+	ShutDown
+	{
+		Action TurnOffNPCs
+		{
+			TeamControl StopPPDteam
+			{
+				Type Deactivate
+				Team URPPDteam
+			}
+			TeamControl StopURSyndicateIntteam
+			{
+				Type Deactivate
+				Team URResistanceteam
+			}
+			TeamControl StopURPPDBossteam
+			{
+				Type Deactivate
+				Team URPPDBossteam
+			}
+		}
+		Action Shutdown
+		{
+			DebugPrint "Shutting down Stage FightURPPDBoss"
+		}
+	}
+}
+Stage RewardWinners
+{
+	StartUp
+	{
+		Action RewardStart
+		{
+			DebugPrint "Starting Reward stage"
+		}
+		Action Bling
+		{
+			Reward BrainStormToAllRar
+		}
+		Action TurnOffNPCs
+		{
+			TeamControl StopURResistance
+			{
+				Type Deactivate
+				Team URPPDBossteam
+			}
+		}
+	}
+	Trigger Reset
+	{
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint "Switching to Reset from Reward"
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint "Shutting down Stage Reward"
+		}
+	}
+}
+Stage Reset
+{
+	DisplayName "Event Resetting"
+	StartUp
+	{
+		Action GlowieTeardown
+		{
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie GlowieURExplosives
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieURExplosives
+			}
+		}
+		Action TurnOffNPCs
+		{
+			TeamControl StopPPDteam
+			{
+				Type Deactivate
+				Team URPPDteam
+			}
+			TeamControl StopURSyndicateIntteam
+			{
+				Type Deactivate
+				Team URResistanceteam
+			}
+			TeamControl StopURPPDBossteam
+			{
+				Type Deactivate
+				Team URPPDBossteam
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 1:00
+		Display
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action GotoReset
+		{
+			DebugPrint "FightURPPDBoss failed: Zone Reset"
+		}
+		NextStage DefeatURPPDteam
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint "Shutting down stage Reset"
+		}
+	}
+}
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint "Starting Stop stage"
+		}
+		Action TurnOffNPCs
+		{
+			TeamControl StopPPDteam
+			{
+				Type Deactivate
+				Team URPPDteam
+			}
+			TeamControl StopURSyndicateIntteam
+			{
+				Type Deactivate
+				Team URResistanceteam
+			}
+			TeamControl StopURPPDBossteam
+			{
+				Type Deactivate
+				Team URPPDBossteam
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint "Shutting down Stage Stop"
+		}
+	}
+}

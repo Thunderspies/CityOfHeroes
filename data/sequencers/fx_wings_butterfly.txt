@@ -1,0 +1,1026 @@
+#############################################################
+## HEADER
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_wings_butterfly
+	BaseSkeleton	FX_wings_bugs\skel_wings_bugs
+	ParentType	FX_wings_bugs
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+## READY ###########################################################
+
+Move Ready ##(closed)
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_ready 1 200
+	TEnd
+MEnd
+
+#### basic flight  ######################
+
+##Move Wing_Fall_Fready
+##	Requires	WINGS FLY
+##	Interrupts	<FlyFall>
+##	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+##	NextMove        Wing_flyready
+##	Priority        2
+##	Interpolate	5
+##
+##	Type		FX_wings
+##	  Anim          FX_wings\fly_up 105 180
+##	TEnd
+##
+##MEnd
+
+Move Wing_Preflyready	##(from ground)
+	Requires	FLY
+	Interrupts	<Ready> <Jumps> <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_flyready
+	Priority        1
+	Scale		3
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 6 31
+	TEnd
+MEnd
+
+Move Wing_flyready
+	Requires	FLY
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Wing_flyready_A
+	CycleMove	Wing_flyready_B
+	CycleMove	Wing_flyready
+	NextMove        Wing_PreFall
+	Priority        1
+	Scale		3
+	Interpolate	0
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 32
+	TEnd
+MEnd
+
+Move Wing_flyready_A
+	Requires	FLY
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Wing_flyready_B
+	CycleMove	Wing_flyready
+	CycleMove	Wing_flyready_A
+	NextMove        Wing_PreFall
+	Priority        1
+	Scale		2.5
+	Interpolate	0
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 32
+	TEnd
+MEnd
+
+Move Wing_flyready_B
+	Requires	FLY
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Wing_flyready
+	CycleMove	Wing_flyready_A
+	CycleMove	Wing_flyready_B
+	NextMove        Wing_PreFall
+	Priority        1
+	Scale		5
+	Interpolate	0
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 32
+	TEnd
+MEnd
+
+###################
+### Wing Fly forward  ####
+###################
+
+Move Wing_flypre
+	Requires	FORWARD FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_flyCycle
+	Priority        2
+	Wind		FLY
+	Scale		1
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 6 21
+	TEnd
+MEnd
+
+Move Wing_flyCycle
+	Requires	FORWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Wing_flyCycle_A
+	CycleMove	Wing_flyCycle
+	CycleMove	Wing_flyCycle_B
+	NextMove        Wing_flyPost
+	Priority        2
+	Wind		FLY
+	Scale		1
+	Interpolate	0
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 22 28
+	TEnd
+MEnd
+
+Move Wing_flyCycle_A
+	Requires	FORWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Wing_flyCycle_B
+	CycleMove	Wing_flyCycle
+	CycleMove	Wing_flyCycle_A
+	NextMove        Wing_flyPost
+	Priority        2
+	Wind		FLY
+	Scale		1.7
+	Interpolate	0
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 22 28
+	TEnd
+MEnd
+
+Move Wing_flyCycle_B
+	Requires	FORWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Wing_flyCycle_A
+	CycleMove	Wing_flyCycle_B
+	CycleMove	Wing_flyCycle
+	NextMove        Wing_flyPost
+	Priority        2
+	Wind		FLY
+	Scale		.9
+	Interpolate	0
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 22 28
+	TEnd
+MEnd
+
+Move Wing_flyPost
+	Requires	FLY
+	Member		<ReactIRQ> <DeathIRQ> <PostFLYCycle> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_flyready
+	Priority        1
+	Scale		4
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 6
+	TEnd
+MEnd
+
+
+###################
+## Wing fly Backward ##
+###################
+
+Move Wing_BackflyPre
+	Requires	BACKWARD FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <iceslide>
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_BackflyCycle
+	Priority        2
+	Interpolate	1
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 6 21
+	TEnd
+MEnd
+
+Move Wing_BackflyCycle
+	Requires	BACKWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_flyPost
+	Priority        2
+	Interpolate	0
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 22 28
+	TEnd
+MEnd
+
+###################
+## Wing fly Left ##
+###################
+
+Move Wing_LeftflyPre
+	Requires	STEPLEFT FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <iceslide>
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_LeftflyCycle
+	Priority        2
+	Interpolate	1
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 6 21
+	TEnd
+MEnd
+
+Move Wing_LeftflyCycle
+	Requires	STEPLEFT FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_flyPost
+	Priority        2
+	Interpolate	0
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 22 28
+	TEnd
+MEnd
+
+###################
+## Wing fly Right ##
+###################
+
+Move Wing_RightflyPre
+	Requires	STEPRIGHT FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <iceslide>
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_RightflyCycle
+	Priority        2
+	Interpolate	1
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 6 21
+	TEnd
+MEnd
+
+Move Wing_RightflyCycle
+	Requires	STEPRIGHT FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_flyPost
+	Priority        2
+	Interpolate	0
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward_fast 22 28
+	TEnd
+MEnd
+
+###################
+### Wing Fly Up  ####
+###################
+
+Move Wing_flyUPpre
+	Requires	JUMP FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_flyUPCycle
+	Priority        2
+	Wind		FLYUP
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward 7 10
+	TEnd
+MEnd
+
+Move Wing_flyUPCycle
+	Requires	JUMP FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_flyPost
+	Priority        2
+	Wind		FLYUP
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_forward 11 17
+	TEnd
+MEnd
+
+###################
+####### Wing Fly Down  ######
+####################
+
+Move Wing_PreFall
+	Requires	AIR
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_Land
+	Priority        1
+	Interpolate	15
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_fall_postjump 1 59
+	TEnd
+MEnd
+
+###################
+###### Wing Land  ######
+###################
+
+Move Wing_Land		##(JumpPost)
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate     1
+	SticksOnChild	LAND
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_fall_postjump 70
+	TEnd
+MEnd
+
+#############################################################
+
+Move Wings_Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	Flags		Cycle
+	NextMove	Wing_Preflyready
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fly_ready 1 2
+	TEnd
+MEnd
+
+## BEAST 	###########################################################
+Move Wing_Beast_Ready_Pre
+	Requires	BEASTRUN #COMBAT
+	Priority	2
+	Interrupts	<Ready> <Combat>
+	Include sequencers\Members\BeastCombat.inc
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+#############################################################
+## RUN FORWARD	###########################################################
+
+Move Wing_Beast_Forward
+	Requires	BEASTRUN FORWARD #COMBAT
+	Priority	3
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ> <TravelDualHandMove>
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <WepCombat> <DualHandCombat> <CombatMove> <WepMove> <DualHandMove> <TravelMove> <TravelWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Beast_Forward_Cycle
+	NextMove	Wing_Beast_Forward_Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+Move Wing_Beast_Forward_Cycle
+	Requires	BEASTRUN FORWARD #COMBAT
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Interrupts	Wing_Beast_Forward
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+## RUN BACKWARD	###########################################################
+
+Move Wing_Beast_Back
+	Requires	BEASTRUN BACKWARD #COMBAT
+	Priority	3
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <WepCombat> <DualHandCombat> <CombatMove> <WepMove> <DualHandMove> <TravelMove> <TravelWepMove>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ> <TravelDualHandMove>
+	Flags		Cycle
+	CycleMove	Wing_Beast_Back_Cycle
+	NextMove	Wing_Beast_Back_Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+Move Wing_Beast_Back_Cycle
+	Requires	BEASTRUN BACKWARD #COMBAT
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <FlyReady> <TravelDualHandMove> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+## RUN LEFT ###########################################################
+
+Move Wing_Beast_Left
+	Requires	BEASTRUN STEPLEFT #COMBAT
+	Priority	3
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+	CycleMove	Wing_Beast_Left_Cycle
+	NextMove	Wing_Beast_Left_Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+Move Wing_Beast_Left_Cycle
+	Requires	BEASTRUN STEPLEFT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Wing_Beast_Right
+	Requires	BEASTRUN STEPRIGHT #COMBAT
+	Priority	3
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+	CycleMove	Wing_Beast_Right_Cycle
+	NextMove	Wing_Beast_Right_Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+Move Wing_Beast_Right_Cycle
+	Requires	BEASTRUN STEPRIGHT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+## JUMP UP ###########################################################
+
+Move beast_run_jumpPre
+	Requires	BEASTRUN JUMP AIR
+	Priority	3
+	Interrupts	<MoveIRQ> <IRQJumps> <Ready> <GroundMoveALL> <Skill> <iceslide> <Swim> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		HideWeapon HideShield
+	NextMove	beast_run_jumpUp
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+Move beast_run_jumpUp
+	Requires	BEASTRUN JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+## JUMP POST ###########################################################
+
+Move beast_run_jumpPost
+	Include sequencers\Members\BeastCombat.inc
+	NextMove	Beast_Ready_Fast_One
+	Flags		HideWeapon HideShield
+	Scale		1.1
+	SticksOnChild	LAND
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+## JUMP UP INTO FORWARD TRANSITION ###########################################################
+
+Move beast_run_jumpToHop
+	Requires	BEASTRUN FORWARD JUMP AIR
+	Priority	4
+	Interrupts	<TravelJump>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	beast_run_hop_cycle
+	Interpolate	15
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+
+## HOP FORWARD ###########################################################
+
+Move beast_run_hopPre
+	Requires	BEASTRUN FORWARD JUMP AIR
+	Priority	4
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	beast_run_hop
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+Move beast_run_hop
+	Requires	BEASTRUN JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	beast_run_hop_cycle
+	Scale		0.75
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+Move beast_run_hop_cycle
+	Requires	BEASTRUN JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+########################################################################################
+
+#### basic flight HOVERBOARD ######################
+
+Move Wing_Hoverboard_Fall_Fready
+	Requires	FLY HOVERBOARD
+	Interrupts	<FlyFall>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_Hoverboard_flyready
+	Priority        12
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+
+MEnd
+
+Move Wing_Hoverboard_Preflyready	##(from ground)
+	Requires	FLY HOVERBOARD
+	Interrupts	<Ready> <Jumps> <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_Hoverboard_flyready
+	Priority        12
+	Scale		1.5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+
+MEnd
+
+Move Wing_Hoverboard_flyready
+	Requires	FLY HOVERBOARD
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_PreFall
+	Priority        12
+	Scale		1.5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+## RUN FORWARD	###########################################################
+
+Move Wing_Hoverboard_Forward
+	Requires	HOVERBOARD FLY FORWARD #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Hoverboard_Forward_Cycle
+	NextMove	Wing_Hoverboard_Forward_Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+Move Wing_Hoverboard_Forward_Cycle
+	Requires	HOVERBOARD FLY FORWARD #COMBAT
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Interrupts	Wing_Hoverboard_Forward
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+## RUN BACKWARD	###########################################################
+
+Move Wing_Hoverboard_Back
+	Requires	HOVERBOARD FLY BACKWARD #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Hoverboard_Back_Cycle
+	NextMove	Wing_Hoverboard_Back_Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+Move Wing_Hoverboard_Back_Cycle
+	Requires	HOVERBOARD FLY BACKWARD #COMBAT
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <FlyReady> <TravelDualHandMove> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+## RUN LEFT ###########################################################
+
+Move Wing_Hoverboard_Left
+	Requires	HOVERBOARD FLY STEPLEFT #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Hoverboard_Left_Cycle
+	NextMove	Wing_Hoverboard_Left_Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+Move Wing_Hoverboard_Left_Cycle
+	Requires	HOVERBOARD FLY STEPLEFT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Wing_Hoverboard_Right
+	Requires	HOVERBOARD FLY STEPRIGHT #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Hoverboard_Right_Cycle
+	NextMove	Wing_Hoverboard_Right_Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+Move Wing_Hoverboard_Right_Cycle
+	Requires	HOVERBOARD FLY STEPRIGHT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+## JUMP UP ###########################################################
+
+Move Hoverboard_run_jumpPre
+	Requires	Hoverboard JUMP FLY
+	Priority	14
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	#Flags		HideWeapon HideShield
+	NextMove	Hoverboard_run_jumpUp
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+Move Hoverboard_run_jumpUp
+	Requires	Hoverboard JUMP FLY
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle #HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+
+MEnd
+
+Move Hoverboard_run_jumpPost
+	#Include sequencers\Members\BeastCombat.inc
+	NextMove	Hoverboard_flyready
+	#Flags		HideWeapon HideShield
+	Scale		1.1
+	SticksOnChild	LAND
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+
+################################################
+#### MAGIC CARPET MOTION ######
+################################################################
+
+
+
+Move Wing_MagicCarpet_Fall_Fready
+	Requires	FLY MagicCarpet
+	Interrupts	<FlyFall>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_MagicCarpet_flyready
+	Priority        12
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+
+MEnd
+
+Move Wing_MagicCarpet_Preflyready	##(from ground)
+	Requires	FLY MagicCarpet
+	Interrupts	<Ready> <Jumps> <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_MagicCarpet_flyready
+	Priority        12
+	Scale		1.5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+
+MEnd
+
+Move Wing_MagicCarpet_flyready
+	Requires	FLY MagicCarpet
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_PreFall
+	Priority        12
+	Scale		1.5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+## RUN FORWARD	###########################################################
+
+Move Wing_MagicCarpet_Forward
+	Requires	MagicCarpet FLY FORWARD #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready  MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_MagicCarpet_Forward_Cycle
+	NextMove	Wing_MagicCarpet_Forward_Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+Move Wing_MagicCarpet_Forward_Cycle
+	Requires	MagicCarpet FLY FORWARD #COMBAT
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Interrupts	Wing_MagicCarpet_Forward
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+## RUN BACKWARD	###########################################################
+
+Move Wing_MagicCarpet_Back
+	Requires	MagicCarpet FLY BACKWARD #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_MagicCarpet_Back_Cycle
+	NextMove	Wing_MagicCarpet_Back_Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+Move Wing_MagicCarpet_Back_Cycle
+	Requires	MagicCarpet FLY BACKWARD #COMBAT
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <FlyReady> <TravelDualHandMove> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+## RUN LEFT ###########################################################
+
+Move Wing_MagicCarpet_Left
+	Requires	MagicCarpet FLY STEPLEFT #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_MagicCarpet_Left_Cycle
+	NextMove	Wing_MagicCarpet_Left_Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+Move Wing_MagicCarpet_Left_Cycle
+	Requires	MagicCarpet FLY STEPLEFT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Wing_MagicCarpet_Right
+	Requires	MagicCarpet FLY STEPRIGHT #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_MagicCarpet_Right_Cycle
+	NextMove	Wing_MagicCarpet_Right_Cycle
+	Interpolate	5
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+Move Wing_MagicCarpet_Right_Cycle
+	Requires	MagicCarpet FLY STEPRIGHT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+MEnd
+
+## JUMP UP ###########################################################
+
+Move MagicCarpet_run_jumpPre
+	Requires	MagicCarpet JUMP FLY
+	Priority	14
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	#Flags		HideWeapon HideShield
+	NextMove	MagicCarpet_run_jumpUp
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+
+Move MagicCarpet_run_jumpUp
+	Requires	MagicCarpet JUMP FLY
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle #HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+
+MEnd
+
+Move MagicCarpet_run_jumpPost
+	#Include sequencers\Members\BeastCombat.inc
+	NextMove	MagicCarpet_flyready
+	#Flags		HideWeapon HideShield
+	Scale		1.1
+	SticksOnChild	LAND
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+MEnd
+############################################################
+
+SeqEnd

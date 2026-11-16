@@ -1,0 +1,77 @@
+Texture x_dest_artifact_main
+	Base1 v_dest_artifact_case.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 v_dest_artifact_case_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1 
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 texture_name.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 190 185	160
+	SpecularColor2 255 255	255
+	SpecularExponent1 8
+	#SpecularExponent2 2
+
+	DiffuseScale 1
+	AmbientScale 2
+
+		Fallback
+		UseFallback 1
+		Base  v_dest_artifact_case.tga
+		Blend none
+		Bumpmap v_dest_artifact_case_bump.tga
+		BlendType multiply
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+End
+
+Trick vdestartglass
+	Autolod	
+	LodFar 800
+	LodFarFade 200
+	End
+	TrickFlags ReflectTex1
+End
+
+Texture v_dest_artifact_glass.tga
+	Blend universal_window_reflect3.tga
+	BlendType Multiply
+End
+

@@ -1,0 +1,210 @@
+RootMod FiFthcol_generator1
+End
+
+RootMod FiFthcol_tankcap1
+End
+
+RootMod _FiFthcol_fanblades
+End
+
+RootMod FiFthcol_oiltank1
+End
+
+RootMod _fifthclmn_mainframe2_glow
+End
+
+RootMod fifthclmn_mainframe1
+End
+
+RootMod _fifthclmn_mainframe2
+End
+
+RootMod fifthclmn_techbox1
+End
+
+RootMod _fifthclmn_techbox02
+End
+
+RootMod _fifthclmn_techbox02whirl
+End
+
+RootMod _fifthclmn_handscan
+End
+
+RootMod _fifthclmn_keypad2
+End
+
+RootMod fifthclmn_keypad1
+End
+
+RootMod _FiFthcol_fancase
+End
+
+RootMod fifthclmn_turret1
+End
+
+RootMod FiFthcol_generator2
+End
+
+RootMod _5th_pump1
+End
+
+RootMod _5th_pumpcage
+End
+
+RootMod _5th_pumpcollision
+End
+
+RootMod Fifthcol_Portal_Inactive
+End
+
+RootMod _Fifthcol_Portal_Active
+End
+
+RootMod _Fifthcol_Portal_destroyed
+End
+
+RootMod _Fifthcol_Portal_chunk_05
+End
+
+RootMod _Fifthcol_Portal_chunk_01
+End
+
+RootMod _Fifthcol_Portal_chunk_06
+End
+
+RootMod _Fifthcol_Portal_chunk_07
+End
+
+RootMod _Fifthcol_Portal_chunk_03
+End
+
+RootMod _Fifthcol_Portal_chunk_02
+End
+
+RootMod _Fifthcol_Portal_chunk_04
+End
+
+RootMod _Fifthcol_Portal_Active_LOD01
+End
+
+RootMod _Fifthcol_Portal_Inactive_LOD01
+End
+
+RootMod FifthCol_Telsa
+End
+
+RootMod GEO_5thColumnPortalOffsets
+End
+
+RootMod _FifthCol_Empwrmnt_Mach_frnt
+End
+
+RootMod _FifthCol_portal_Collision
+End
+
+RootMod FX_EmpowermentAltPivots
+End
+
+Def FiFthcol_bigfan1_2&
+	Group Omni/_sound
+	End
+	Sound Fan3_loop 0.296875 61.207813 61.207813
+	Flags Ungroupable
+End
+
+Def FiFthcol_bigfan1
+	Group _FiFthcol_fanblades
+	End
+	Group _FiFthcol_fancase
+	End
+	Group FiFthcol_bigfan1_2&
+	End
+End
+
+Def 5th_techbox_spinner
+	Group _fifthclmn_techbox02whirl
+		Rot 0 -3.141592 0
+	End
+	Group _fifthclmn_techbox02
+		Rot 0 -3.141592 0
+	End
+End
+
+Def 5th_mainframetop_2&
+	Group Omni/_sound
+	End
+	Sound process1_loop 0.226563 36.828377 36.828377
+	Flags Ungroupable
+End
+
+Def 5th_mainframetop
+	Group _fifthclmn_mainframe2_glow
+		Rot 0 3.141592 0
+	End
+	Group _fifthclmn_mainframe2
+		Rot 0 3.141592 0
+	End
+	Group 5th_mainframetop_2&
+		Rot 0 3.141592 0
+	End
+End
+
+Def 5th_handscanner_14&
+	Group Omni/_sound
+	End
+	Sound ControlRoom1_loop 0.343750 19.695112 19.695112
+	Flags Ungroupable
+End
+
+Def 5th_handscanner
+	Group _fifthclmn_handscan
+		Rot 0 3.141592 0
+	End
+	Group _fifthclmn_keypad2
+		Rot 0 3.141592 0
+	End
+	Group 5th_handscanner_14&
+		Rot 0 3.141592 0
+	End
+End
+
+Def 5th_pump1_1&
+	Group _5th_pump1
+	End
+	Type GENERIC\pump_01.fx
+End
+
+Def 5th_pump1
+	Group _5th_pumpcage
+	End
+	Group _5th_pumpcollision
+	End
+	Group 5th_pump1_1&
+	End
+End
+
+Def Fifthcol_Portal_Active_1&
+	Group Omni/PARTICLE_50
+	End
+	Type ENEMYFX\5thColumn\Portal\FifthCol_Portal.fx
+End
+
+Def Fifthcol_Portal_Active
+	Group _Fifthcol_Portal_Active
+	End
+	Group Fifthcol_Portal_Active_1&
+	End
+	TexSwap x_FifthCol_Prtl_Glow_02 x_FifthCol_Prtl_Glow_02b 1
+End
+
+RootMod _FifthCol_Empwrmnt_Mach_back
+End
+
+Def FifthCol_Empowerment_Mach
+	Group _FifthCol_Empwrmnt_Mach_frnt
+	End
+	Group _FifthCol_Empwrmnt_Mach_back
+	End
+End
+

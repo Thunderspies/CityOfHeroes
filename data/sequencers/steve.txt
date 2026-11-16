@@ -1,0 +1,48 @@
+#############################################################
+
+Sequencer
+
+TypeDef steve
+	BaseSkeleton	steve\Skel_test
+	ParentType	None
+TypeDefEnd
+
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready		
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle 
+##	Scale		0.1
+
+
+	Type		steve
+	  Anim          steve\Skel_test 1
+	TEnd
+
+MEnd
+
+
+
+SeqEnd
+

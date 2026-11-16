@@ -1,0 +1,366 @@
+#########################################################
+## Player.txt - Player model sequencer
+#########################################################
+
+Sequencer
+
+## MALE #######################################################
+
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef Sprocket
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+#############################################################
+## readies.inc - This should ALWAYS be the first include in any sequencer
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready2
+	CycleMove	ReadyIdleChance
+
+	Type		male
+	  Anim          male\Skel_ready2 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready2
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	ReadyIdleChance
+	CycleMove	Ready_Look
+	CycleMove	Ready_2Hips
+
+	Type		male
+	  Anim          male\Skel_ready2 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move ReadyIdleChance
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready2
+	CycleMove	Ready2
+	CycleMove	Ready2
+	CycleMove	IdleBridge
+
+	Type		male
+	  Anim          male\Skel_ready2 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready_Look
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready2
+	CycleMove	Ready_2Hips
+	Scale		0.5
+
+	Type		male
+	  Anim          male\idle_look 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready_2Hips
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_2Hips_look
+	Priority        0
+	Scale		0.5
+	Interpolate	15
+
+	Type		male
+	  Anim          male\stand_2Hhips 1 64
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready_2Hips_look
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_2Hips_post
+	CycleMove	Ready_Xarms
+	CycleMove	Ready_Xarms
+	Priority        0
+	Scale		0.5
+
+	Type		male
+	  Anim          male\idle_2hips_look 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready_2Hips_post
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_Look
+	Priority        0
+	Scale		0.5
+	Interpolate	15
+
+	Type		male
+	  Anim          male\stand_2Hhips 109
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready_Xarms
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_Xarms_look
+	Priority        0
+	Scale		0.6
+	Interpolate	15
+
+	Type		male
+	  Anim          male\stand_Xarms 1 68
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready_Xarms_look
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_Xarms_post
+	CycleMove	Ready_Xarms_look
+	Priority        0
+	Scale		0.5
+
+	Type		male
+	  Anim          male\idle_xarms_look 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready_Xarms_post
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_2Hips_look
+	Priority        0
+	Scale		0.8
+	Interpolate	15
+
+	Type		male
+	  Anim          male\stand_Xarms 90
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+	Scale           0.80
+	Interpolate     8
+
+	Type		male
+	  Anim          male\post_ready 7 24
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+
+	Type		male
+	  Anim          male\postback 3
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady_right
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+
+	Type		male
+	  Anim          male\postback_right 1
+	TEnd
+MEnd
+
+## BACK TO READY ###########################################################
+
+Move BackToNeutralReady
+	Requires	CLEAR
+	Priority	1
+	Interrupts	<Ready> <MonsterGroup> <ReactIRQ> <Combat> <WepCombat> <TwoHandCombat> <PostMoveCycle> <Block>
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready_2Hips_look
+	Interpolate     15
+	Scale		0.5
+
+	Type		male
+	  Anim          male\stand_2Hhips 1 64
+	TEnd
+MEnd
+
+## STAND CYCLE ###########################################################
+
+Move Stand_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\what 99 100
+	TEnd
+MEnd
+
+## CROSS ARMS CYCLE ###########################################################
+
+Move Xarms_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\no 110 115
+	TEnd
+MEnd
+
+## HANDS ON HIPS CYCLE ###########################################################
+
+Move Hips_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\thumbsup 99 100
+	TEnd
+MEnd
+
+## THREAT CYCLE ###########################################################
+
+Move Threat_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\threat_cycle 1
+	TEnd
+MEnd
+
+## ACTION CYCLE ###########################################################
+
+Move Action_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		male
+	  Anim          male\action_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+## SPAWN
+#############################################################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Priority        10
+	Interrupts	<MonsterGroup> <Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_post
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale NotSelectable
+
+	Type		Sprocket
+	  Anim          male\sprocket_spawn 1 101
+	  PlayFx        GENERIC\FX_sprocket_spawn.FX 0
+	TEnd
+MEnd
+
+Move Spawned_post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Spawned_cycle
+	Flags		NoSizeScale
+
+	Type		Sprocket
+	  Anim          male\sprocket_spawn 102 126
+	  Scale		0.50
+	TEnd
+MEnd
+
+Move Spawned_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Sprocket
+	  Anim          male\sprocket_spawn 127 186
+	  Scale		0.50
+	TEnd
+MEnd
+
+#############################################################
+
+#Include sequencers\player\Spawns.inc
+
+Include sequencers\player\motion.inc
+Include sequencers\player\Swim.inc
+
+Include sequencers\NonCombatPets\Idles1.inc
+
+#Include sequencers\player\powers.inc
+#Include sequencers\player\powers_air.inc
+#Include sequencers\player\powers_prestige.inc
+#Include sequencers\player\Korea.inc
+#Include sequencers\player\Taunts.inc
+#Include sequencers\player\Staff_Powers.inc
+#Include sequencers\player\sonic.inc
+#Include sequencers\player\signature.inc
+#Include sequencers\player\Brian_powers.inc
+#Include sequencers\player\CBruce_powers.inc
+##Include sequencers\player\skills.inc
+#Include sequencers\player\Crabpack.inc
+#
+#Include sequencers\player\weapons.inc
+#Include sequencers\player\weapons_a.inc
+#Include sequencers\player\Shields\Shields_Core.inc
+#Include sequencers\player\Shields\Shields_Powers.inc
+#Include sequencers\player\Shields\Shields_Weapons.inc
+
+Include sequencers\player\deaths.inc
+#Include sequencers\player\reactions.inc
+#Include sequencers\player\reactions_air.inc
+#Include sequencers\player\blocks.inc
+
+#Include sequencers\player\encounters.inc
+#Include sequencers\player\monster.inc
+#
+#Include sequencers\player\Stances.inc
+#Include sequencers\player\emotes.inc
+#Include sequencers\player\emotes_air.inc
+#Include sequencers\player\emotes_CostumeChange.inc
+#Include sequencers\player\Boombox.inc
+#
+#Include sequencers\player\Events.inc
+#
+#Include sequencers\player\test.inc
+
+#########################################################
+
+SeqEnd

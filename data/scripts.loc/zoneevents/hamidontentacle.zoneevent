@@ -1,0 +1,411 @@
+Name HamidonTentacle
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName "???"
+EventVolume HamidonTentacleVol // ZoneEventName = PraetorianTutorial
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action CreateStuff
+		{
+			SpawnCreate TentacleSpawn
+			{
+				Location TentacleWave
+				Group TentacleWave
+				Team Tentacleteam
+				KillBehavior DestroyMe
+			}
+			TeamCreate Team_Tentacleteam
+			{
+				Team Tentacleteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   1
+			}
+			SpawnCreate BigTentacleSpawn
+			{
+				Location TentacleWave
+				Group TentacleWave
+				Team BigTentacleteam
+				KillBehavior DestroyMe
+			}
+			TeamCreate Team_BigTentacleteam
+			{
+				Team BigTentacleteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   5
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage WaveAtTheCamera
+	}
+}
+Stage WaveAtTheCamera
+{
+	DisplayName "What the..."
+	ToolTip "Just look at the bones!"
+	StartUp
+	{
+		Action StartKillDestroyers
+		{
+			DebugPrint <<Spawning the Tentacle>>
+		}
+		Action TurnOnNPCs
+		{
+			TeamControl StartTentacle
+			{
+				Type Activate
+				Team Tentacleteam
+			}
+		}
+	}
+	Timer NextTimer
+	{
+		Duration 0:05
+	}
+	Trigger End
+	{
+		Requires NextTimer complete>
+		Action TurnOffNPCs
+		{
+			TeamControl StopTentacle
+			{
+				Type Deactivate
+				Team Tentacleteam
+			}
+		}
+		Action GotoReset
+		{
+			DebugPrint <<Awaiting the next attack: WaitInTheTrees>>
+		}
+		NextStage WaitInTheTrees
+	}
+	ShutDown
+	{
+	}
+}
+Stage TimerTime
+{
+	DisplayName "Waiting..."
+	ToolTip "Just a simple timer!"
+	StartUp
+	{
+		Action StartTheTimer
+		{
+			DebugPrint <<Tick tock, timer is counting>>
+		}
+		Action TurnOffNPCs
+		{
+			TeamControl StopTentacle
+			{
+				Type Deactivate
+				Team Tentacleteam
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 30:00
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action GotoWait
+		{
+			DebugPrint <<Watching the carnage: WaitInTheTrees>>
+		}
+		NextStage WaitInTheTrees
+	}
+	ShutDown
+	{
+	}
+}
+Stage WaitInTheTrees
+{
+	DisplayName "Counting..."
+	ToolTip "What is this?"
+	StartUp
+	{
+		Action StartKillCounts
+		{
+			DebugPrint <<Waiting for the right Conditions>>
+		}
+		Action TurnOffNPCs
+		{
+			TeamControl StopTentacle
+			{
+				Type Deactivate
+				Team Tentacleteam
+			}
+		}
+	}
+	Counter SeerKills
+	{
+		Type VillainGroup
+		Count 12
+		VillainGroup PraetorianSeers
+	}
+	Counter PoliceKills
+	{
+		Type VillainGroup
+		Count 100
+		VillainGroup PraetorianPolice
+	}
+	Timer KillsTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Trigger Restart
+	{
+		Requires PoliceKills complete>
+		Action GotoSTReset
+		{
+			DebugPrint <<WaitInTheTrees done: switching to TentacleChaos>>
+		}
+		NextStage TentacleChaos
+	}
+	Trigger StartChaos
+	{
+		Requires SeerKills complete>
+		Action GotoSTReset
+		{
+			DebugPrint <<WaitInTheTrees done: switching to TimerTime>>
+		}
+		NextStage WaitInTheTrees
+	}
+	Trigger Done
+	{
+		Requires IdleTimer complete>
+		Action GotoWaveAtTheCamera
+		{
+			DebugPrint <<WaitInTheTrees done: switching to WaveAtTheCamera>>
+		}
+		NextStage WaveAtTheCamera
+	}
+	UICollection GEOption
+	{
+		UIItem PoliceKills
+		{
+			Type BarBlue
+			Text "Current Count:"
+			ShortText "Count"
+			Current PoliceKills count>
+			Target 100
+		}
+	}
+	ShutDown
+	{
+	}
+}
+Stage TentacleChaos
+{
+	DisplayName "What the..."
+	ToolTip "Just look at the bones!"
+	StartUp
+	{
+		Action StartFirstWave
+		{
+			DebugPrint <<Spawning the Tentacles>>
+		}
+		Action TurnOnNPCs
+		{
+			TeamControl StartTentacle
+			{
+				Type Activate
+				Team Tentacleteam
+			}
+		}
+	}
+	Timer WaveOneTimerEND
+	{
+		Duration 0:05
+	}
+	Timer WaveTwoTimer
+	{
+		Duration 0:08
+	}
+	Timer WaveTwoTimerEND
+	{
+		Duration 0:13
+	}
+	Timer WaveThreeTimer
+	{
+		Duration 0:16
+	}
+	Timer WaveThreeTimerEND
+	{
+		Duration 0:21
+	}
+	Timer ResetTimer
+	{
+		Duration 0:22
+	}
+	Trigger WaveOneEND
+	{
+		Requires WaveOneTimerEND complete>
+		Action JustStopTentacleAgain
+		{
+			TeamControl StopTentacleAgain
+			{
+				Type Deactivate
+				Team Tentacleteam
+			}
+		}
+	}
+	Trigger WaveTwo
+	{
+		Requires WaveTwoTimer complete>
+		Action StartSecondWave
+		{
+			DebugPrint <<Wave Two>>
+		}
+		Action TurnOnNPCs
+		{
+			TeamControl StartTentacle
+			{
+				Type Activate
+				Team Tentacleteam
+			}
+		}
+	}
+	Trigger WaveTwoEND
+	{
+		Requires WaveTwoTimerEND complete>
+		Action JustStopTentacleAgain
+		{
+			TeamControl StopTentacleAgain
+			{
+				Type Deactivate
+				Team Tentacleteam
+			}
+		}
+	}
+	Trigger WaveThree
+	{
+		Requires WaveThreeTimer complete>
+		Action StartThirdWave
+		{
+			DebugPrint <<Wave Three>>
+		}
+		Action TurnOnNPCs
+		{
+			TeamControl StartTentacle
+			{
+				Type Activate
+				Team Tentacleteam
+			}
+		}
+	}
+
+	Trigger WaveThreeEND
+	{
+		Requires WaveThreeTimerEND complete>
+		Action JustStopTentacleAgain
+		{
+			TeamControl StopTentacleAgain
+			{
+				Type Deactivate
+				Team Tentacleteam
+			}
+		}
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action JustStopTentacleAgain
+		{
+			TeamControl StopTentacleAgain
+			{
+				Type Deactivate
+				Team Tentacleteam
+			}
+		}
+		Action GotoReset
+		{
+			DebugPrint <<Awaiting the next attack: TimerTime>>
+		}
+		NextStage TimerTime
+	}
+	ShutDown
+	{
+	}
+}
+
+Stage Reset
+{
+	DisplayName "Tentacle Event Resetting"
+	ToolTip "Byebye for now, Tentacle."
+	StartUp
+	{
+		Action TurnOffCritters
+		{
+			TeamControl StopTentacle
+			{
+				Type Deactivate
+				Team Tentacleteam
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:10
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<Tentacle Event Reset Timer Complete>>
+		}
+		NextStage TimerTime
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Reset>>
+		}
+	}
+}
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint <<Starting Stop Stage>>
+		}
+		Action GotoStopTentacleAgain
+		{
+			TeamControl StopTentacleAgain
+			{
+				Type Deactivate
+				Team BigTentacleteam
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting down Stage Stop>>
+		}
+	}
+}

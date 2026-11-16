@@ -1,0 +1,145 @@
+#############################################################
+
+Sequencer
+
+TypeDef flyer 
+	BaseSkeleton	V_Arachnos_Flyer\SKEL_arachnos_flyer
+	ParentType	None
+TypeDefEnd
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ> 
+	Flags		Cycle 
+	interpolate	30
+
+	Type		flyer
+	  Anim          V_Arachnos_Flyer\SKEL_arachnos_flyer 1  
+	TEnd
+
+MEnd
+
+
+
+#####################
+###  Hover mode    ######
+#####################
+
+Move Hover_A
+	Requires	FLY 
+	Interrupts	<Ready>  
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ> 
+	Flags		Cycle
+	CycleMove	Hover_B
+	CycleMove	Hover_C
+	CycleMove	Hover_A
+	Priority        1
+	Scale		0.3
+	Interpolate	30
+
+	Type		flyer
+	  Anim          V_Arachnos_Flyer\hover_A 1  
+	TEnd
+
+MEnd
+
+
+Move Hover_B
+	Requires	FLY 
+	Interrupts	<Ready>  
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ> 
+	Flags		Cycle
+	CycleMove	Hover_C
+	CycleMove	Hover_A
+	CycleMove	Hover_B
+	Priority        1
+	Scale		0.5
+	Interpolate	30
+
+	Type		flyer
+	  Anim          V_Arachnos_Flyer\hover_B 1  
+	TEnd
+
+MEnd
+
+
+Move Hover_C
+	Requires	FLY 
+	Interrupts	<Ready>  
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ> 
+	Flags		Cycle
+	CycleMove	Hover_B
+	CycleMove	Hover_A
+	CycleMove	Hover_C
+	Priority        1
+	Scale		0.3
+	Interpolate	30
+
+	Type		flyer
+	  Anim          V_Arachnos_Flyer\hover_C 1  
+	TEnd
+
+MEnd
+
+
+
+
+
+
+
+
+
+SeqEnd
+
+
+
+
+
+
+
+

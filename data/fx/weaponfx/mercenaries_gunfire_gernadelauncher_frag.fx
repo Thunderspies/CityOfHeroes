@@ -1,0 +1,153 @@
+#############################################################
+## Mercenaries_Gunfire_GernadeLauncher_Frag.fx
+#############################################################
+
+FxInfo
+
+LifeSpan 200
+
+#############################################################
+
+Condition
+	On 	Time
+	Time 	7
+
+	Event
+		EName 	weporigin
+		Type	local
+		At	WepR
+		Geom	Mastermind_Military_Rifle
+	End
+
+	Event
+		Type	start
+		At	weporigin
+		Altpiv	1
+		BHVR	WEAPONS\WeaponRotate.bhvr
+		Part1	WEAPONFX\SpecOpps_ShotgunMuzzflash.part
+		Part2	WEAPONFX\SpecOpps_Shotgunsmoke.part
+		Part3	WEAPONFX\SpecOpps_ShotgunMuzzflashSmall.part
+		Sound Mercenary_Grenade 120.0 120.0 1.0
+		Lifespan 12
+	End
+
+End
+
+#############################################################
+
+Condition
+	On 	Time
+	Time 	7
+
+	Event
+		EName 	Prime
+		Type	start
+		At	weporigin
+		Altpiv	1
+		geom	grenade
+		bhvr	behaviors\Mercenaries_MorterLobbprojectile2.bhvr
+		Part1	:BeanBagDust2.part
+		Magnet	T_Root
+		LookAt	T_Root
+	End
+End
+
+##################################
+
+Condition
+	On 	PrimeHit
+
+	Event
+		Type	Start
+		At	T_Root
+		BHVR	Behaviors\CameraShake01Subtle.bhvr
+	End
+
+	Event
+		EName 	Fire
+		Type	Posit
+		At	T_Root
+		BHVR	WEAPONs\WeaponRotate.bhvr
+		Part1	:FireExplosion.part
+		Lifespan 8
+	End
+
+	Event
+		EName 	Sparks
+		Type	Posit
+		At	T_Root
+		BHVR	WEAPONs\WeaponRotate.bhvr
+		Part1	:GernadeLauncherSparks.part
+		Sound grexplo2 120.0 120.0 1.0
+		Lifespan 5
+
+	End
+
+	Event
+		EName 	Sparks
+		Type	Posit
+		At	T_Root
+		BHVR	WEAPONs\WeaponRotate.bhvr
+		Part	:FireExplosionFlash.part
+		Sound grexplo2 120.0 120.0 1.0
+		Lifespan 5
+	End
+
+	Event
+		Ename	ExplosiveForce
+		Type	Start
+		At	T_Root
+		BhvrOverride
+			PhysForceType		Out
+			PhysForceRadius		20
+			PhysForcePower		500
+			PhysForcePowerJitter	50
+		End
+		Lifespan 1
+	End
+End
+
+#############################################################
+
+Condition
+	On	Primehit
+
+	Repeat	24
+
+	Event
+		EName	Sparkout
+		Type 	Start
+		At	T_Root
+		BhvrOverride
+			PositionOffset	0 1.5 0
+		End
+		ChildFX	V_COV\PhysicsEnabled\ShrapnelSparkExplode.fx
+
+	End
+
+	Event
+		HardwareOnly
+		EName	Sparkout
+		Type 	Start
+		At	T_Root
+		BhvrOverride
+			PositionOffset	0 1.5 0
+		End
+		ChildFX	V_COV\PhysicsEnabled\ShrapnelSparkExplode.fx
+	End
+End
+
+#############################################################
+
+Condition
+	On 	PrimeHit
+
+	Event
+		Ename 	Prime
+		Type	Destroy
+	End
+End
+
+#############################################################
+
+End

@@ -1,0 +1,183 @@
+#############################################################
+
+Sequencer
+
+TypeDef Fx_Titian 
+	BaseSkeleton	Fx_Titian\Skel_FX_Titian
+	ParentType	None
+TypeDefEnd
+
+TypeDef Fx_Titian_Fist_R 
+	BaseSkeleton	Fx_Titian\Skel_FX_Titian
+	ParentType	Fx_Titian
+TypeDefEnd
+
+TypeDef Fx_Titian_Fist_L 
+	BaseSkeleton	Fx_Titian\Skel_FX_Titian
+	ParentType	Fx_Titian
+TypeDefEnd
+
+TypeDef Fx_Titian_Doors 
+	BaseSkeleton	Fx_Titian\Skel_FX_Titian
+	ParentType	Fx_Titian
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle 
+	Scale           1
+
+	Type		Fx_Titian
+	  Anim          Fx_Titian\Skel_FX_Titian 1 5 
+	TEnd
+MEnd
+
+
+#################################
+###### Missle Doors  ######
+#################################	
+
+Move Missle
+	Requires	ROCKETLAUNCHER BLAST FIERCE  
+	Interrupts	<AttackIRQ> QuadGuns QuickSniper Flamethrower Blast Burst
+	NextMove        Ready
+	Priority        4
+
+
+	Type		Fx_Titian
+	  Anim          Fx_Titian\Skel_FX_Titian 1 5 
+	TEnd
+
+
+	Type		Fx_Titian_Doors
+	  Anim          Fx_Titian\Skel_FX_Titian 6 
+	TEnd
+MEnd
+
+
+
+#################################
+###### Quick Sniper Shoot  ######
+#################################	
+
+Move QuickSniper
+	Requires	COMBAT QUICK SNIPERBLAST  
+	Interrupts	<AttackIRQ> Missle QuadGuns Flamethrower Blast Burst
+	NextMove        Ready
+	Priority        4
+
+
+	Type		Fx_Titian
+	  Anim          Fx_Titian\Skel_FX_Titian 1 5 
+	TEnd
+
+
+	Type		Fx_Titian_Fist_R
+	  Anim          Fx_Titian\snipershoot 1
+	TEnd
+MEnd
+
+
+
+#################################
+###### Quad Guns  ######
+#################################	
+
+Move QuadGuns
+	Requires	MACHINEGUN BLAST FIERCE  
+	Interrupts	<AttackIRQ> Missle QuickSniper Flamethrower Blast Burst 
+	NextMove        Ready
+	Priority        4
+
+
+	Type		Fx_Titian
+	  Anim          Fx_Titian\quadguns 1 
+	TEnd
+
+	Type		Fx_Titian_Doors
+	  Anim          Fx_Titian\Skel_FX_Titian 1 5 
+	TEnd
+
+MEnd
+
+
+
+###################
+###### Blast  ######
+##################	
+
+Move Blast
+	Requires	ROBOTBLAST 
+	Interrupts	<AttackIRQ> Missle QuickSniper Flamethrower Burst 
+	NextMove        Ready
+	Priority        1
+
+
+	Type		Fx_Titian
+	  Anim          Fx_Titian\blast 1 100 
+	TEnd
+
+MEnd
+
+###################
+###### Burst  ######
+##################	
+
+Move Burst
+	Requires	ROBOTBURST 
+	Interrupts	<AttackIRQ> Missle QuickSniper Flamethrower Blast
+	NextMove        Ready
+	Priority        1
+
+
+	Type		Fx_Titian
+	  Anim          Fx_Titian\blast 1 100 
+	TEnd
+
+MEnd
+
+
+
+###########################################
+###### Flamethrower (long) ######
+###########################################	
+
+Move Flamethrower
+	Requires	COMBAT FLAMETHROWER 
+	Interrupts	<AttackIRQ> Missle QuickSniper Blast Burst
+	NextMove        Ready
+	Priority        2
+
+
+	Type		Fx_Titian
+	  Anim          Fx_Titian\flamethrower 1
+	TEnd
+
+MEnd
+
+
+SeqEnd
+
+
+
+

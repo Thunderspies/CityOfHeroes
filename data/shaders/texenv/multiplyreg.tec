@@ -1,0 +1,23 @@
+{ // Texture unit 0
+//	Mode Modulate
+	rgb {
+		// mult
+		result = primary * texture.rgb
+		scale 2
+	}
+	alpha {
+		// mult
+		result = constant.alpha *  texture.alpha
+	}
+}
+{ // Texture unit 1
+	rgb {
+		// mult
+		result = previous.rgb * texture.rgb
+		scale 4
+	}
+	alpha {
+		// mult
+		result = previous.alpha * texture.alpha
+	}
+}

@@ -1,0 +1,68 @@
+Def grpvolume_DJ-Ranger
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 950.000000 250.000000 560.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_DUSTRanger"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.DUST_Ranger_Message"	0
+End
+
+Def grpvolume_DJ-Psychologist
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 1000.000000 360.000000 1120.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Psychologist"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Psychologist_Message"	0
+End
+
+Def grpvolume_DJ-Survivalist
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 400.000000 120.000000 530.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Survivalist"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Survivalist_Message"	0
+End
+
+Def grpvolume_DJ_Gravedigger
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 1440.000000 200.000000 900.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Graveyard"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Grave_Digger_Message"	0
+End
+
+Def grp_DJ-Mortician
+	Group grpvolume_DJ_Gravedigger
+		PYR 0 -90 -0
+		Pos -4.166748 -70.992073 135.5
+	End
+End
+
+Def grp_DayJobs
+	Group grpvolume_DJ-Ranger
+		Pos -2418 -32.153435 -386
+	End
+	Group grpvolume_DJ-Psychologist
+		PYR 0 -32 -0
+		Pos 685 126.511177 4447
+	End
+	Group grpvolume_DJ-Survivalist
+		Pos -11 -11.153496 -130
+	End
+	Group grp_DJ-Mortician
+		Pos -3935 17.015411 2497
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_DayJobs
+	Pos 1807 57.153435 -2234
+End
+

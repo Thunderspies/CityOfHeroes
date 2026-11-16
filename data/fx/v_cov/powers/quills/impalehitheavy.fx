@@ -1,0 +1,292 @@
+#########################################################
+##	
+##
+
+FxInfo
+
+Input  
+	InpName	neck
+End
+
+Input  
+	InpName	head
+End
+
+Input  
+	InpName	chest
+End
+
+Input  
+	InpName	hips
+End
+
+Input  
+	InpName	UArmL
+End
+
+Input  
+	InpName	UArmR
+End
+
+LifeSpan	50
+##################################
+##################################
+##################################
+
+Condition
+	On 	Time
+	Time 	0
+
+
+
+	Event
+		
+		Type	Local
+		At	chest
+		Sound Quills6 70 70 .7
+	End
+End
+
+##################################
+##################################
+##################################
+
+Condition
+	On 	Time
+	Time 	0
+	
+
+	Event
+
+		EName	Gas
+		Type	Local
+		At	chest
+		#Part	:QuillsScatter.part		
+		Part1	:MustardGasHitA.part
+		Part2	:MustardGasSpecksHitA.part
+		Part3	:MustardGasBubblesA.part
+		LifeSpan	30
+		
+	End
+
+	Event
+
+		EName	Gas1
+		Type	Local
+		At	UArmL
+				
+		Part2	:MustardGasSpecksHitA.part
+		Part3	:MustardGasBubblesA.part
+		LifeSpan	25
+	End
+
+	Event
+
+		EName	Gas2
+		Type	Local
+		At	UArmR
+				
+		Part2	:MustardGasSpecksHitA.part
+		Part3	:MustardGasBubblesA.part
+		LifeSpan	25
+	End
+
+#	Event
+#
+#		Type	Local
+#		At	chest
+#				
+#		Part1	:PoisonSpark.part
+#		Lifespan	1
+#	End
+#
+#	Event
+#		Type	Local
+#		At	chest
+#				
+#		Part1	:PoisonSpark2.part
+#		Lifespan	1
+#	End
+
+	Event
+
+		EName	HeadConfusionClouds
+		Type	Local
+		At	Head
+				
+		Part1	:MustardGasHeadA.part
+		Part2	:MustardGasSpecksHeadA.part
+		Part3	:MustardGasBubblesHeadA.part
+		LifeSpan	25
+	End
+
+
+#	Event	
+#		ENAME	CrossHairNode
+#		Type	Local
+#		At	Chest
+#		Part1	Powers/MartialArts/MAHitStar01.part
+#		Part2	Powers/MartialArts/MAHitStar02.part
+#		Part3	Powers/MartialArts/MAHitStar03.part
+#		Part4	Powers/MartialArts/MAHitGlow01.part
+#		Part5	Powers/MartialArts/MAHitRays01.part
+#		Lifespan 200
+#		
+#	End
+
+	Event
+
+		
+		Type	local
+		At	chest
+		Bhvr	:QuillHit01.bhvr
+		Geom	Spine01
+#		Lookat	Target
+		
+	End
+
+End
+
+
+Condition
+	On 	Time
+	Time 	0
+	Repeat	11
+	
+	Event
+
+		EName	GasSpurts
+		Type	Local
+		At	chest
+				
+		ChildFX	V_COV\PhysicsEnabled\PoisonDarkSplash.fx
+		Lifespan	75
+	End
+
+	Event
+		HardwareOnly
+		EName	GasSpurts
+		Type	Local
+		At	chest
+				
+		ChildFX	V_COV\PhysicsEnabled\PoisonDarkSplash.fx
+		Lifespan	75
+	End
+End
+
+Condition
+	On 	Time
+	Time 	0
+	Repeat	4
+	
+	Event
+
+		EName	GasHurts
+		Type	Local
+		At	chest
+				
+		ChildFX	V_COV\PhysicsEnabled\PoisonQuillDarkScatter.fx
+		Lifespan	75
+	End
+	
+	Event
+		HardwareOnly
+		EName	GasHurts
+		Type	Local
+		At	chest
+				
+		ChildFX	V_COV\PhysicsEnabled\PoisonQuillDarkScatter.fx
+		Lifespan	75
+	End
+End
+
+Condition
+	On 	Time
+	Time 	2
+
+	Event
+
+		
+		Type	local
+		At	chest
+		Bhvr	:QuillHit01.bhvr
+		Geom	Spine03
+#		Lookat	Target
+		
+	End
+
+End
+
+Condition
+	On 	Time
+	Time 	3
+
+	Event
+
+		
+		Type	local
+		At	chest
+		Bhvr	:QuillHit01.bhvr
+		Geom	Spine07
+#		Lookat	Target
+		
+	End
+
+End
+
+Condition
+	On 	Time
+	Time 	5	
+
+	Event
+
+		
+		Type	local
+		At	chest
+		Bhvr	:QuillHit01.bhvr
+		Geom	Spine06
+#		Lookat	Target
+		Sound poisonhit2 50 50 .7
+	End
+
+End
+
+Condition
+	On 	Cycle
+	Time 	3
+	Chance	.2
+
+	Event
+
+		
+		Type	local
+		At	chest
+		Bhvr	:QuillHit02.bhvr
+		Geom	Spine01
+		Geom	Spine07
+		Geom	Spine06
+#		Lookat	Target
+		LifeSpan	20		
+	End
+
+End
+
+Condition
+	On 	Cycle
+	Time 	3
+	Chance	.1
+
+	Event
+
+		
+		Type	local
+		At	chest
+		Bhvr	:QuillHit01.bhvr
+		Geom	Spine03
+#		Lookat	Target
+		LifeSpan	20		
+	End
+
+End
+
+End				

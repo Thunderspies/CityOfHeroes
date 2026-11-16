@@ -1,0 +1,34 @@
+// This file specifies the knobs for the damage decay system
+ 
+// DecayDelay specifies a damage source's grace period before its damage starts decaying.  Any time a source deals
+//  fresh damage, this grace period starts over.  A negative value indicates no damage is valid to decay, 
+//  effectively disabling decaying damage.
+//
+// RegenFactor specifies a bonus or penalty to the health regen used to decay.  A value of 0.5 would mean that
+//  only half of the health actually regenerated would be used to decay damage.  A value of 0.0 would disable
+//  decaying damage.
+//
+// FullDiscardDelay specifies a damage source's grace period before its damage is completely discarded.  Any time
+//  a source deals damage, this grace period starts over.  A negative value disables this specific discard system.
+//
+// DiscardDamage specifies the minimum amount of damage tracked for any one source.  This is relative to the
+//  target's max health.  0.1 would mean any source that has dealt less than 10% of the target's max health
+//  will have the damage discarded during regen.  A value of 0.0 disables this specific discard system.
+
+
+//	// This config mimics the original system
+//	{
+//		DecayDelay			-1
+//		FullDiscardDelay	-1
+//		DiscardDamage		0.0
+//		RegenFactor			0.0
+//	}
+
+
+// New config
+{
+	DecayDelay			20
+	FullDiscardDelay	-1
+	DiscardDamage		0.001
+	RegenFactor			1.0
+}

@@ -1,0 +1,60 @@
+/******************************************************************************
+	Variants
+
+	This header defines the values and selectors used to conditionally compile shader variants.
+	
+	THIS FILE SHOULD BE THE FIRST INCLUDE FILE
+*****************************************************************************/
+
+#ifndef _VARIANTS_CGH_
+#define _VARIANTS_CGH_
+
+
+// VERTEX_LIT MODES
+#define NONE			0
+#define VERT_COLOR		1	// use vertex supplied incoming COLOR attribute (@todo could alter code to make this and next same)
+#define PRELIT			2	// use baked instance lighting coming in on ATTR11
+#define DIFFUSE			3
+#define FF_LIT_GL		4	// calculate fully lit vetex and modulate by vetex color to emulate OpenGL fixed function using gl state (alpha is vertex color alpha)
+#define FF_UNLIT_GL		5	// unlit so just pass vetex color to emulate OpenGL fixed function using gl state (alpha is vertex color alpha)
+#define PRELIT_WHITE	6	// @todo this is currently a hack for multi9 which always expects a vertex color as a variant w/o is never built
+
+// PIXEL_LIT MODES
+//#define NONE			0
+#define LIT				1	// per pixel lighting using geometry (no bumpmaps)
+#define BUMP_SPEC		2	// per pixel bump mapping of specular only
+#define BUMP_ALL		3	// per pixel bump mapping of diffuse and specular
+#define BUMP_ALL_HQ		4	// per pixel bump mapping of diffuse and specular (high quality)
+
+// TC_XFORM MODES			Texture Coordinate Transformations
+//#define NONE			0
+#define TC_OFFSET		1	// apply texture coord offset shader param constants
+#define TC_MATRIX		2	// apply texture matrices from OpenGL state
+
+// REFLECT MODES			Reflection data generation modes and selectors
+//#define NONE			0
+#define FAUX_0_0		1	// calculate legacy faux reflection tex coords and check material selectors to subsitute for uv0,uv1
+#define FAUX_0_1		2	// calculate legacy faux reflection tex coords and check material selectors to subsitute for uv0,uv1
+#define FAUX_MULTI		3	// calculate legacy faux reflection tex coords and check material selectors to provide 'multiply' tex coords to MULTI shader
+
+// LIGHT_SPACE				Coordinate space in which to generate source lighting vectors		
+#define VIEW			0	// note that SKIN implies VIEW light space
+#define MODEL			1
+
+// MULTI9 MODES
+#define	MULTI_FULL		0	// Full two materal multi mode shader
+#define	MULTI_BUILDING	1	// 'Buildng' variant (material 1 w/o scroll scales + material 2 reflection)
+#define MULTI_SINGLE	2	// Only material 1 (evaluated normally) is active
+#define MULTI_REDUCED	3	// Reduced instruction count MULTI for use on some older ATI cards
+
+// TIE'd constants have to match the register values in the sShaderParamSpecTbl table
+// from the runtime code
+#define USE_CONSTANT_TIES
+
+#ifdef USE_CONSTANT_TIES
+	#define TIE( x ) : x
+#else
+	#define TIE( x )
+#endif
+
+#endif  //_VARIANTS_CGH_

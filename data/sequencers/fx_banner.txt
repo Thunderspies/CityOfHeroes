@@ -1,0 +1,59 @@
+#############################################################
+## FX_banner.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_banner
+	BaseSkeleton	FX_banner\skel_FX_banner
+	ParentType	None
+TypeDefEnd
+
+TypeDef FreeHanging
+	BaseSkeleton	FX_banner\skel_FX_banner
+	ParentType	FX_banner
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move ReadyA
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove       ReadyA
+	CycleMove       ReadyB
+
+	Type		FX_banner
+	  Anim          FX_banner\skel_FX_banner 1
+	TEnd
+
+	Type		FreeHanging
+	  Anim          FX_banner\FX_banner_C 1
+	  Scale		0.4
+	TEnd
+MEnd
+
+Move ReadyB
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove       ReadyA
+	CycleMove       ReadyB
+
+	Type		FX_banner
+	  Anim          FX_banner\FX_banner_B 1
+	TEnd
+
+	Type		FreeHanging
+	  Anim          FX_banner\FX_banner_C 1
+	  Scale		0.4
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

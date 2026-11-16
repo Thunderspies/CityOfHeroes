@@ -1,0 +1,253 @@
+#########################################################
+##	template
+
+FxInfo
+
+Input
+	InpName	Root
+End
+
+Input
+	InpName	Hair
+End
+
+Input
+	InpName	Eyes
+End
+
+Input
+	InpName	Neck
+End
+
+Input
+	InpName	Chest
+End
+
+Input
+	InpName	SpadR
+End
+
+Input
+	InpName	SpadL
+End
+
+Input
+	InpName	UarmR
+End
+
+Input
+	InpName	UarmL
+End
+
+Input
+	InpName	LarmR
+End
+
+Input
+	InpName	LarmL
+End
+
+Input
+	InpName	WepR
+End
+
+Input
+	InpName	WepL
+End
+
+Input
+	InpName	Hips
+End
+
+Input
+	InpName	UlegR
+End
+
+Input
+	InpName	UlegL
+End
+
+Input
+	InpName	LlegR
+End
+
+Input
+	InpName	LlegL
+End
+
+Input
+	InpName	FootR
+End
+
+Input
+	InpName	FootL
+End
+
+Input
+	InpName	ToeL
+End
+
+Input
+	InpName	ToeR
+End
+
+Input
+	InpName Origin
+End
+
+
+#LifeSpan 30
+
+
+#########################################################
+####################### AUDIO ###########################
+#########################################################
+
+Condition
+	On	Time
+	Time	10
+
+
+	Event
+		Type	Local
+		At 	Origin
+		Sound glow8_loop 40 40 .5
+	End
+End
+
+#########################################################
+#################### BODY GLOW 1 ########################
+#########################################################
+
+Condition
+	On	Time
+	Time	10
+
+	Event
+		ENAME	RightLarmGlow
+		Type	Local
+		At	WepR
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow02.part
+		POther LarmR
+		Lifespan 0
+
+	End
+
+	Event
+		ENAME	LeftLarmGlow
+		Type	Local
+		At	WepL
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow02.part
+		POther LarmL
+		Lifespan 0
+
+	End
+
+End
+
+Condition
+	On	Time
+	Time	15
+
+	Event
+		ENAME	RightUarmGlow
+		Type	Local
+		At	SpadR
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow02.part
+		POther LarmR
+		Lifespan 0
+
+	End
+
+	Event
+		ENAME	LeftUarmGlow
+		Type	Local
+		At	SpadL
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow02.part
+		POther LarmL
+		Lifespan 0
+
+	End
+
+
+	Event
+		ENAME	ChestGlow
+		Type	Local
+		At	Hips
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow02.part
+		POther Neck
+		Lifespan 0
+
+	End
+
+End
+
+Condition
+	On	Time
+	Time	18
+
+	Event
+		ENAME	HeadGlow
+		Type	Local
+		At	Hair
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow02.part
+		POther Chest
+		Lifespan 0
+
+	End
+
+End
+
+Condition
+	On	Time
+	Time	5
+
+	Event
+		ENAME	LeftULegGlow
+		Type	Local
+		At	LlegL
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow02.part
+		POther Ulegl
+		Lifespan 0
+
+	End
+
+	Event
+		ENAME	RightULegGlow
+		Type	Local
+		At	LlegR
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow02.part
+		POther UlegR
+		Lifespan 0
+
+	End
+
+End
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		ENAME	LeftLLegGlow
+		Type	Local
+		At	FootL
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow01a.part
+		POther Llegl
+
+	End
+
+	Event
+		ENAME	RightLLegGlow
+		Type	Local
+		At	FootR
+		part	CustomizeablePowers\Gadgets\CloakSuitGlow01a.part
+		POther LlegR
+
+	End
+
+
+End
+
+
+End

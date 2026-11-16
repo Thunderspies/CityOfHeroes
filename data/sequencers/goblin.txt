@@ -1,0 +1,2979 @@
+#############################################################
+## Golbin Sequencer
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef goblin
+	BaseSkeleton	steve\skel_test
+	ParentType	male
+TypeDefEnd
+
+TypeDef goblin_beast
+	BaseSkeleton	Goblin\Skel_Goblin
+	ParentType	goblin
+TypeDefEnd
+
+TypeDef goblin_beast_DiveDeath
+	BaseSkeleton	Goblin\Skel_Goblin
+	ParentType	goblin_beast
+TypeDefEnd
+
+TypeDef goblin_Boss
+	BaseSkeleton	Goblin\Skel_Goblin
+	ParentType	goblin_beast
+TypeDefEnd
+
+TypeDef goblin_multi_arms
+	BaseSkeleton	Beast\goblin_multi_arms_bones
+	ParentType	goblin_beast
+TypeDefEnd
+
+TypeDef goblin_Man
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef Electro_goblin_beast
+	BaseSkeleton	Goblin\Skel_Goblin
+	ParentType	goblin
+TypeDefEnd
+
+TypeDef Pet_ElectricGremlin
+	BaseSkeleton	Goblin\Skel_Goblin
+	ParentType	Electro_goblin_beast
+TypeDefEnd
+
+TypeDef MindsOfMayhem_BatZul
+	BaseSkeleton	Goblin\Skel_Goblin
+	ParentType	goblin_beast
+TypeDefEnd
+
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<MonsterGroup>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+## READY ###########################################################
+
+Move Ready_Spawned
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\goblin_dual_cycle 1
+	TEnd
+
+	Type		goblin_beast
+	  Anim          beast\goblin_dual_cycle 1
+	TEnd
+MEnd
+
+## READY ###########################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\goblin_dual_cycle 1
+	TEnd
+
+	Type		goblin_beast
+	  Anim          beast\goblin_dual_cycle 1
+	TEnd
+MEnd
+
+###### Motion  ###########################################################
+##  Note: Goblin uses both motion here and from the motion.inc files	##
+##	You Must name each move with a unique prefix "G_" and set the	##
+##	priority one higher than the highest priority motion in		##
+##   dual.inc file. Include interupts members 				##
+##########################################################################
+
+
+###################
+### run Forward ##
+###################
+
+Move G_RunPre
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <Block> <HitIRQ> <CombatAttack> <Combat> <Claw>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        G_RunCycle
+	Priority        7
+	Interpolate	8
+
+	Type		male
+	  Anim          male\goblin_run2 1
+	  PlayFx        FEET\MALERIGHT.FX  10
+	  Scale		1.2
+	  MoveRate      0.2
+	TEnd
+
+	Type		Pet_ElectricGremlin
+	  Anim          male\goblin_run2 1
+	  Scale		1.2
+	  MoveRate      0.2
+	TEnd
+
+	Type		goblin_Boss
+	  Anim          male\goblin_run 1
+	  PlayFx        FEET\MALELEFT.FX  10
+	  PlayFx        FEET\MALERIGHT.FX  21
+	  Scale		1.2
+	  MoveRate      0.2
+	TEnd
+MEnd
+
+Move G_RunCycle
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	CycleMove	G_RunCycle
+	CycleMove	G_RunCycle_alt2
+	CycleMove	G_RunCycle
+	CycleMove	G_RunCycle_flip
+	NextMove        G_RunPost
+	Priority        7
+	Interpolate	8
+
+	Type		male
+	  Anim          male\goblin_run2 1
+	  PlayFx        FEET\MALELEFT.FX  10
+	  PlayFx        FEET\MALERIGHT.FX  21
+	  Scale		1.2
+	  MoveRate      0.2
+	TEnd
+
+	Type		Pet_ElectricGremlin
+	  Anim          male\goblin_run2 1
+	  Scale		1.2
+	  MoveRate      0.2
+	TEnd
+
+	Type		goblin_Boss
+	  Anim          male\goblin_run 1
+	  PlayFx        FEET\MALELEFT.FX  10
+	  PlayFx        FEET\MALERIGHT.FX  21
+	  Scale		1.2
+	  MoveRate      0.2
+	TEnd
+MEnd
+
+Move G_RunCycle_alt2
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	CycleMove	G_RunCycle_alt2
+	CycleMove	G_RunCycle
+	CycleMove	G_RunCycle_alt2
+	NextMove        G_RunPost
+	Priority        7
+
+	Type		male
+	  Anim          male\goblin_run 1
+	  PlayFx        FEET\MALELEFT.FX  10
+	  PlayFx        FEET\MALERIGHT.FX  21
+	  Scale		1.2
+	  MoveRate      0.2
+	TEnd
+
+	Type  		Pet_ElectricGremlin
+	  Anim          male\goblin_run 1
+	  Scale		1.2
+	  MoveRate      0.2
+	TEnd
+MEnd
+
+Move G_RunCycle_flip
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	CycleMove	G_RunCycle
+	NextMove        G_RunPost
+	Priority        7
+
+	Type		male
+	  Anim          male\goblin_flip 1
+	  Scale		0.8
+	  MoveRate      0.5
+	TEnd
+
+	Type		goblin_Boss
+	  Anim          male\goblin_run 1
+	  PlayFx        FEET\MALELEFT.FX  10
+	  PlayFx        FEET\MALERIGHT.FX  21
+	  Scale		1.2
+	  MoveRate      0.2
+	TEnd
+MEnd
+
+Move G_RunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		male
+	  Anim          Beast\goblin_dual_postrun 1
+	  PlayFx	FEET\LAND3.FX:LAND  3
+	  PlayFx	FEET\MALERIGHT.FX:FOOTFALLRIGHT 12
+	TEnd
+
+	Type		Pet_ElectricGremlin
+	  Anim          Beast\goblin_dual_postrun 1
+	TEnd
+MEnd
+
+
+###################
+## run Backward ##
+###################
+
+Move G_BackRunPre
+	Requires	BACKWARD
+	Interrupts	<Ready> <WepCombat> <WepAttack> <DualHandCombat> <DualHandAttack> <PostMoveCycle> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        G_BackRunCycle
+	Priority        7
+
+	Type		male
+	  Anim          male\Mart_back 1 18
+	  scale		1.2
+	  MoveRate      0.7
+	TEnd
+MEnd
+
+Move G_BackRunCycle
+	Requires	BACKWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        G_RunPost
+	Priority        7
+
+	Type		male
+	  Anim          male\Mart_back 3 18
+	  scale		1.2
+	  MoveRate      0.7
+	TEnd
+MEnd
+
+
+###################
+###### Jump  ######
+###################
+
+Move G_jumpPre
+	Requires	JUMP
+	Interrupts	HopPre jumpPre <PostMoveCycle> <Ready> <BasicMove> <WepMove> <jumpFall> <Block> <HitIRQ> <Combat> <CombatMove> <CombatAttack>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        G_jumpUp
+	Priority        1
+
+	Type		male
+	  Anim          Beast\jump 10 90
+	TEnd
+MEnd
+
+Move G_jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        G_jumpApex
+	Priority        1
+
+	Type		male
+	  Anim          Beast\jump 91 92
+	TEnd
+MEnd
+
+Move G_jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps>
+	NextMove        G_jumpFall
+	Priority        1
+
+	Type		male
+	  Anim          Beast\jump 93 94
+	TEnd
+MEnd
+
+Move G_jumpFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        G_jumpFall2
+	Priority        1
+
+	Type		male
+	  Anim          Beast\jump 95 117
+	TEnd
+MEnd
+
+Move G_jumpFall2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        G_JumpPost
+	Priority        1
+
+	Type		male
+	  Anim          Beast\jump 118 120
+	TEnd
+MEnd
+
+Move G_JumpPost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	Interpolate     0
+	NextMove        Ready
+
+	Type		male
+	  Anim          Beast\goblin_flipbackdodge 41 87
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+
+## FLING ###########################################################
+
+Move G_Fling_R
+	Requires	COMBAT MAGICTHROW STRONG
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Fling_R_post
+	Flags		PitchToTarget CANTMOVE NoSizeScale
+	Interpolate	8
+
+	Type		male
+	  Anim          Beast\fling 1 30
+	  PitchAngle	-0.40
+	TEnd
+MEnd
+
+Move G_Fling_R_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle_half
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\fling 31
+	TEnd
+MEnd
+
+
+## THROW KNIFE ###########################################################
+
+Move G_Throwkinfe
+	Requires	COMBAT THROWKNIFE
+	Priority        2
+	Interrupts	<AttackIRQ> <Block>
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack>
+	NextMove        G_Throwkinfepost
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          Beast\knife_throw 1 23
+	TEnd
+MEnd
+
+Move G_Throwkinfepost
+	Requires	COMBAT
+	Priority        1
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle_half
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\knife_throw 24
+	TEnd
+MEnd
+
+
+
+## HOWL CAST ###########################################################
+
+Move Howl_cast
+	Requires	COMBAT YELL STRONG ATTACK LOW HIGH
+	Priority        7
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Howl_cast_post
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\howl 1 50
+	TEnd
+MEnd
+
+Move Howl_cast_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+
+	Type		male
+	  Anim          Beast\howl 51
+	TEnd
+MEnd
+
+
+## RAISE DEAD ###########################################################
+
+Move G_RaiseDead
+	Requires	RAISEDEAD
+	Priority        2
+	Interrupts	<ReactIRQ> <RaiseDeadIRQ> <RaiseDeadBackIRQ>
+	NextMove        G_RaiseDead_post
+	Flags		CANTMOVE NoSizeScale NotSelectable
+	Interpolate	8
+
+	Type		male
+	  Anim          beast\goblin_raisedead_jumpfall 1 90
+	TEnd
+MEnd
+
+Move G_RaiseDead_post
+	Requires	RAISEDEAD
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        G_RaiseDead_Cycle
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          beast\goblin_raisedead_jumpfall 91
+	TEnd
+MEnd
+
+Move G_RaiseDead_Cycle
+	Requires	RAISEDEAD
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\goblin_dual_cycle 1
+	TEnd
+
+	Type		goblin_beast
+	  Anim          beast\goblin_dual_cycle 1
+	TEnd
+MEnd
+
+
+## BERSERKER RAISE DEAD ###########################################################
+
+Move Berserker
+	Requires	RAISEDEAD ANGRY HIGH
+	Priority        4
+	Interrupts	<ReactIRQ> <RaiseDeadIRQ> <RaiseDeadBackIRQ>
+	NextMove        Berserker_RAGE
+	Flags		CANTMOVE NoSizeScale NotSelectable
+	Interpolate	8
+
+	Type		male
+	  Anim          beast\goblin_raisedead_jumpfall 1 100
+	TEnd
+MEnd
+
+Move Berserker_RAGE
+	Requires	RAISEDEAD ANGRY HIGh  ######BERSERKERRAISEDEAD
+	NextMove        Berserker_RAGE2
+	Flags		CANTMOVE NoSizeScale NotSelectable
+
+	Type		male
+	  Anim          Beast\beatchest 1
+	TEnd
+MEnd
+
+Move Berserker_RAGE2
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Ready
+	Flags		NoSizeScale Cycle
+
+	Type		male
+	  Anim          Beast\feetclaw 1
+	TEnd
+MEnd
+
+
+## KAMIKAZE ###########################################################
+
+Move Kamikaze
+	Requires	KAMIKAZE
+	Priority        1
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Kamikaze2
+	Flags		CANTMOVE NoSizeScale
+
+	Type		male
+	  Anim          Beast\pre_poison 1 56
+	TEnd
+MEnd
+
+Move Kamikaze2
+	Interpolate     0
+	Flags		Cycle CANTMOVE NoSizeScale NotSelectable
+	Scale           0.50
+
+	Type		male
+	  Anim          Beast\pre_poison 89
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+
+## POISON ###########################################################
+
+Move G_PrePoison
+	Requires	COMBAT POISON
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_PrePoison2
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\pre_poison 1 88
+	TEnd
+MEnd
+
+Move G_PrePoison2
+	Requires	COMBAT POISON
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle
+	Scale           0.50
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\pre_poison 89
+	TEnd
+MEnd
+
+
+## STOP CAST ###########################################################
+
+Move G_Stop
+	Requires	COMBAT STOPCAST
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Stop_cycle
+	Flags		PitchToTarget
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\stop 1 32
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+Move G_Stop_cycle
+	Member		<DeathIRQ>
+	NextMove        G_Stop_post
+	Flags		PitchToTarget
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\stop 33 60
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+Move G_Stop_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        G_Fake_Combat_Cycle_half
+	Scale           0.50
+	Interpolate     0
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          Beast\stop 61
+	  PitchEnd	64
+	  PitchAngle	0.5
+	TEnd
+MEnd
+
+
+## CLAW SPEED (no draw) ###########################################################
+
+Move G_clawspeed
+	Requires	COMBAT CLAW CLAWSPEED
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_clawspeed_post
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          beast\claw_speed 1 54
+	TEnd
+MEnd
+
+Move G_clawspeed_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle_half
+	Interpolate     0
+
+	Type		male
+	  Anim          beast\claw_speed 55
+	TEnd
+MEnd
+
+
+
+## CAST ###########################################################
+
+Move G_Cast
+	Requires	COMBAT CAST
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Castpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          Beast\palmcast 1 30
+	  PitchStart	0
+	  PitchAngle	-0.5
+	TEnd
+
+MEnd
+
+Move G_Castpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle_half
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\palmcast 31 45
+	TEnd
+MEnd
+
+
+## BOOSTUP ###########################################################
+
+Move G_Boostup
+	Requires	BOOSTUP
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        G_Boostuppost
+
+	Type		male
+	  Anim          Beast\windup_power 1 65
+	TEnd
+MEnd
+
+Move G_Boostuppost
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\windup_power 66
+	TEnd
+MEnd
+
+
+###################
+###### Sky Summon  ######
+###################
+
+Move G_S_Summon
+	Requires	COMBAT SKYSUMMON
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_S_Summonpost
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\sky_summon 1 60
+	TEnd
+MEnd
+
+Move G_S_Summonpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\sky_summon 61
+	TEnd
+MEnd
+
+
+#############################################################
+
+Move G_Fake_Combat_Cycle	##(fake combat mode, instead of going to goblin idles)
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	Scale           0.50
+
+	Type		male
+	  Anim          Beast\combat_cycle 1 31
+	TEnd
+MEnd
+
+Move G_Fake_Combat_Cycle_half	##(fake combat mode, instead of going to goblin idles)
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	NextMove	G_Fake_Combat_Cycle
+	Priority        2
+	Scale           0.50
+	Interpolate	15
+
+	Type		male
+	  Anim          Beast\combat_cycle 16 31
+	TEnd
+MEnd
+
+############################
+###### CrabPack Mele  ######
+############################
+
+Move G_CrabPack_Mele
+	Requires	Combat CRABPACKMELE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_CrabPack_Mele2
+	Priority        4
+	Sets            CANTMOVE
+	SticksOnChild   Combat CRABPACKMELE RIGHT
+
+	Type		male
+	  Anim          male\CrabPack_MeleRight 1 25
+	TEnd
+MEnd
+
+Move G_CrabPack_Mele2
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle
+	Priority        2
+	Interpolate	0
+
+	Type		male
+	  Anim          male\CrabPack_MeleRight 26
+	TEnd
+MEnd
+
+##
+
+Move G_CrabPack_MeleLeft
+	Requires	Combat CRABPACKMELE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_CrabPack_MeleLeft2
+	Priority        4
+	Sets            CANTMOVE
+	SticksOnChild   Combat CRABPACKMELE LEFT				#Driving child animation so they remain in sync
+
+	Type		male
+	  Anim          male\CrabPack_MeleLeft 1 23
+	TEnd
+MEnd
+
+Move G_CrabPack_MeleLeft2
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle
+	Priority        2
+	Interpolate	0
+
+	Type		male
+	  Anim          male\CrabPack_MeleLeft 24
+	TEnd
+MEnd
+
+
+
+#################################
+###### CrabPack Mele Bust  ######
+#################################
+
+Move G_CrabPack_MeleBurst
+	Requires	Combat CRABPACKMELEBURST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_CrabPack_MeleBurst2
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          male\CrabPack_MeleBurst 1 50
+	TEnd
+MEnd
+
+Move G_CrabPack_MeleBurst2
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle
+	Priority        2
+	Interpolate	0
+
+	Type		male
+	  Anim          male\CrabPack_MeleBurst 51
+	TEnd
+MEnd
+
+
+#################################
+###### Quick spit  ######
+#################################
+
+Move G_Spit
+	Requires	COMBAT BLOW CAST QUICK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Spitpost
+	Priority        5
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+	Interpolate	8
+
+	Type		male
+	  Anim          beast\quickspit 1 34
+	TEnd
+MEnd
+
+Move G_Spitpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle
+	Priority        2
+	Interpolate     0
+
+	Type		male
+	  Anim          beast\quickspit 35
+	TEnd
+MEnd
+
+
+###################
+###### Blow Cast  ######
+###################
+
+Move G_Blow
+	Requires	COMBAT BLOW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Blowpost
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		male
+	  Anim          beast\blow_cast 1 79
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+Move G_Blowpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle_half
+	Priority        2
+	Scale           0.5
+	Interpolate     0
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          beast\blow_cast 80
+	  PitchEnd	85
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+
+###################
+###### mouth_eye blast  ######
+###################
+
+Move G_Mouth
+	Requires	COMBAT HEADCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_PostMouth
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+	Interpolate	9
+
+	Type		male
+	  Anim          beast\eye 1 49
+	  PitchStart	1
+	  PitchAngle	0.1
+	TEnd
+MEnd
+
+Move G_PostMouth
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        G_Fake_Combat_Cycle
+	Priority        2
+	Interpolate     0
+
+	Type		male
+	  Anim          beast\eye 50 60
+	TEnd
+MEnd
+
+
+
+###################
+###### hypnotize ######
+###################
+
+Move G_Hypnotize
+	Requires	COMBAT HYPNOTIZE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Hypnotize2
+	Priority        3
+	Scale           1.50
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim         beast\hypnotize 1 133
+	TEnd
+MEnd
+
+Move G_Hypnotize2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        G_Hypnotize_post
+	Priority        1
+	Scale           1.50
+	Interpolate     0
+	Flags		PitchToTarget
+
+	Type		male
+	  Anim          beast\hypnotize 134 175
+	  PitchEnd	187
+	TEnd
+MEnd
+
+Move G_Hypnotize_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	NextMove        G_Fake_Combat_Cycle
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+
+	Type		male
+	  Anim          beast\hypnotize 176
+	TEnd
+MEnd
+
+
+
+#####################
+### Toss Gnome ###
+######################
+
+Move TossGnome
+	Requires	SHORTTOSS Strong Body
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        TossGnome_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\goblin_toss_Gnome 1 85
+	TEnd
+MEnd
+
+
+Move TossGnome_post
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\goblin_toss_Gnome 86
+	TEnd
+MEnd
+
+
+
+#############################
+###### Toung Strike   ######
+############################
+
+Move ToungStrike
+	Requires	TOUNGSTRIKE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        ToungStrike_post
+	Priority        1
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		male
+	  Anim          Beast\toung_strike 1 32
+	  PitchStart	4
+	TEnd
+MEnd
+
+Move ToungStrike_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+	Flags		PitchToTarget NoSizeScale
+
+	Type		male
+	  Anim          Beast\toung_strike 33
+	  PitchEnd	42
+	TEnd
+MEnd
+
+
+##########################
+###### Chomp   ####
+##########################
+
+Move Chomp
+	Requires	Chomp
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Chomp_post
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\hordling_bite 1 20
+	  PlayFX	Feet\HordelingChomp.fx
+	TEnd
+MEnd
+
+Move Chomp_post
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\hordling_bite 21
+	TEnd
+MEnd
+
+
+#### Weapons  #####################################################################
+
+#########################
+###### Dagger Jump Stab ######
+#########################
+
+Move 1st_Daggers_JumpStab
+	Requires	SPAWNSIDE Dual Knife CHOP
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_JumpStab2
+	Priority        5
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\goblin_draw_dualdaggers 1 30
+	TEnd
+MEnd
+
+
+Move 1st_Daggers_JumpStab2
+##	Requires	NO BITS
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_JumpStab_post
+	Priority        1
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\goblin_jump_stab 1 50
+	TEnd
+MEnd
+
+Move 1st_Daggers_JumpStab_post
+##	Requires	NO BITS
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\goblin_jump_stab 51
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_Daggers_JumpStab
+	Requires	Dual Knife CHOP
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_JumpStab_post
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\goblin_jump_stab 1 50
+	TEnd
+MEnd
+
+
+#########################
+###### Dagger Reverse Stab ######
+#########################
+
+Move 1st_Daggers_ReverseStab
+	Requires	SPAWNSIDE DUAL KNIFE STAB
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_ReverseStab2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\goblin_draw_dualdaggers 1 30
+	TEnd
+MEnd
+
+Move 1st_Daggers_ReverseStab2
+##	Requires	NO BITS
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_ReverseStab_post
+	Priority        1
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\goblin_reverse_stab 1 50
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+MEnd
+
+
+Move 1st_Daggers_ReverseStab_post
+##	Requires	NO BITS
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\goblin_reverse_stab 51
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_Daggers_ReverseStab
+	Requires	Dual Knife Stab
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Daggers_ReverseStab_post
+	Priority        4
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	interpolate	8
+
+	Type		male
+	  Anim          Beast\goblin_reverse_stab 1 50
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+MEnd
+
+
+###############################
+####### Dagger leapkick ######
+################################
+#
+#Move 1st_Dagger_leapkick
+#	Requires	test6  ##SPAWNSIDE Dual Knife Combat Punch
+#	Interrupts	<AttackIRQ> <Ready> PostWepReady
+#	Member		<ReactIRQ> <DeathIRQ> <Ready> <AttackIRQ> ##<PreMove> ## <Combat>
+#	NextMove        Ready
+#	Priority        20 ##5
+#	Sets            CANTMOVE
+#	Scale		1
+#
+#	Type		male
+#	  Anim          male\goblin_leapkick 1
+#	  PlayFx        FEET\LAND1.FX  42
+#	TEnd
+#
+#MEnd
+
+
+###############################
+####### Dagger Spin AOE ######
+###############################
+#
+#Move 1st_Dagger_Spin
+#	Requires	test4  ##SPAWNSIDE Dual Knife Combat Punch
+#	Interrupts	<AttackIRQ> <Ready> PostWepReady
+#	Member		<ReactIRQ> <DeathIRQ> <Ready> <AttackIRQ> ##<PreMove> ## <Combat>
+###	NextMove        G_JumpPost
+#	Priority        21 ##5
+#	Sets            CANTMOVE
+#	Scale		1
+#
+#	Type		male
+#	  Anim          male\short_sweepkick 1  ###kick_highspin 1
+#	TEnd
+#
+#MEnd
+
+
+###############################################
+####### dagger thrust   ######
+################################################
+#
+#Move Dagger_thrust
+#	Requires	test5
+#	Interrupts	<AttackIRQ>
+###	Member		<DeathIRQ>
+#	NextMove        Ready
+#	Priority        20
+#	Sets            CANTMOVE
+#
+#	Type		male
+#	  Anim          male\goblin_daggerstab 1 40
+#	TEnd
+#
+#MEnd
+
+
+###################
+###### Goblin Draw Axe ######
+###################
+
+Move Draw_Axe
+	Requires	COMBAT WEAPON SPAWNBACK
+	Priority        3
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ>
+	NextMove        Draw_Axe_post
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\goblin_draw_axe 1 30
+	TEnd
+MEnd
+
+Move Draw_Axe_post
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ> <PostMoveCycle>
+	NextMove        Ready
+
+	Type		male
+	  Anim          Beast\goblin_draw_axe 31
+	TEnd
+MEnd
+
+
+#########################
+######  Goblin  Sword Slash  ######
+#########################
+
+Move 1st_SwordSlash
+	Requires	COMBAT WEAPON AXE SPAWNBACK SLASH
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordSlash2
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\goblin_draw_axe 1 30
+	TEnd
+
+MEnd
+
+Move 1st_SwordSlash2
+##	Requires	NO BITS
+	Member		<DeathIRQ>
+	NextMove        1st_SwordSlash_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim         Beast\goblin_sword_slash 1 50
+	  PlayFX	fx\WEAPONS\swordwhooshbig.fx 1 16
+	TEnd
+MEnd
+
+Move 1st_SwordSlash_post
+##	Requires	NO BITS
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\goblin_sword_slash 51
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_SwordSlash
+	Requires	COMBAT WEAPON AXE SLASH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordSlash_post
+	Priority        5
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	interpolate	8
+
+	Type		male
+	  Anim          Beast\goblin_sword_slash 1 50
+	  PlayFX	fx\WEAPONS\swordwhooshbig.fx 1 16
+	TEnd
+MEnd
+
+
+
+#########################
+###### Goblin Sword Reverse  ######
+#########################
+
+Move 1st_SwordRev
+	Requires	COMBAT WEAPON SPAWNBACK SWIPE AXE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordRev2
+	Priority        6
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\goblin_draw_axe 1 30
+	TEnd
+MEnd
+
+Move 1st_SwordRev2
+	Requires	COMBAT WEAPON
+	Member		<DeathIRQ>
+	NextMove        1st_SwordRev_post
+	Priority        2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\goblin_sword_reverse 1 50
+	TEnd
+MEnd
+
+Move 1st_SwordRev_post
+	Requires	COMBAT WEAPON
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready> <PostMoveCycle>
+	NextMove        Ready
+	Priority        2
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\goblin_sword_reverse 51
+	TEnd
+MEnd
+
+#####
+
+Move 2nd_SwordRev
+	Requires	COMBAT WEAPON SWIPE AXE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_SwordRev_post
+	Priority        5
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	interpolate	8
+
+	Type		male
+	  Anim          Beast\goblin_sword_reverse 1 50
+	TEnd
+MEnd
+
+
+####  Special Powers  #######################################
+#####################
+######## smother attack ######
+#####################
+##
+##Move Smother_launch
+##	Requires	COMBAT THROWKNIFE
+##	Interrupts	<AttackIRQ>
+##	Member		<DeathIRQ>
+##	NextMove        Smothercycle
+##	Priority        4
+##	Sets            CANTMOVE
+##
+##	Type		male
+##	  Anim          male\goblin_dive 1 19
+##	TEnd
+##
+##MEnd
+##
+##
+##Move Smothercycle
+##	Requires	COMBAT
+##	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+##	Flags		Cycle
+##	Priority        1
+##
+##
+##	Type		male
+##	  Anim          male\brawlcycle 1 31
+##	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+##	TEnd
+##
+##MEnd
+##
+##
+
+###############################################
+###### transform_into_Monster (dive)  ######
+##############################################
+
+Move Dive_N_Transform
+	Requires	COMBAT POISON STRONG
+	Interrupts	<AttackIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Vanish_Death  ##groundburst_Spawn
+	Priority        7
+	Sets            NOCOLLISION CANTMOVE
+
+	Type		male
+	  Anim          male\goblin_dive 1
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  39
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 39
+	TEnd
+
+	Type		Pet_ElectricGremlin
+	  Anim          male\goblin_dive 1
+	TEnd
+MEnd
+
+
+###################
+### Transform Spawn  #####
+###################
+
+Move Transform_Spawn
+	Requires	QUICK SPAWN
+	Interrupts	Ready_Spawned
+	NextMove        groundburst_land
+	Flags		NotSelectable
+	Priority        2
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          male\goblin_groundburst 1 54
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  1
+	TEnd
+
+	Type		goblin_Boss
+	  Anim          male\zombie_monster_popup 1 24
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  11
+	TEnd
+
+	Type		Pet_ElectricGremlin
+	  Anim          male\zombie_monster_popup 1 24
+	TEnd
+MEnd
+
+
+########################
+### groundburst Spawn  #####
+########################
+
+Move groundburst_sleep
+	Requires	SPAWN GROUNDSUMMON
+	Priority        2
+	Interrupts	Ready_Spawned
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		Cycle NotSelectable
+	NextMove	groundburst_Spawn
+	Interpolate	0
+	Sets            NOCOLLISION CANTMOVE
+
+	Type		male
+	  Anim          male\zombie_alt_popup 1 2
+	TEnd
+MEnd
+
+Move groundburst_Spawn
+	Flags		NotSelectable
+	NextMove        groundburst_land
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          male\goblin_groundburst 1 54
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  1
+	TEnd
+
+	Type		goblin_Boss
+	  Anim          male\zombie_monster_popup 1 24
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  12
+	TEnd
+
+	Type		Pet_ElectricGremlin
+	  Anim          male\zombie_monster_popup 1 24
+	TEnd
+MEnd
+
+Move groundburst_land
+	Flags		NotSelectable
+	NextMove	groundburst_Roar
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\postjump 1 35
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+Move groundburst_Roar
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	NextMove	groundburst_cycle
+	Interpolate	9
+
+	Type		male
+	  Anim          Beast\Growl 1
+	TEnd
+MEnd
+
+Move groundburst_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		male
+	  Anim          Beast\Skel_ready 1
+	TEnd
+MEnd
+
+
+########################
+### Waterburst Spawn  #####
+########################
+
+Move Waterburst_sleep
+	Requires	SPAWN GROUNDSUMMON LOW
+	Priority        3
+	Interrupts	Ready_Spawned
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		Cycle NotSelectable
+	NextMove	Waterburst_Spawn
+	Interpolate	0
+	Sets            NOCOLLISION CANTMOVE
+
+	Type		male
+	  Anim          male\zombie_alt_popup 1 2
+	TEnd
+MEnd
+
+Move Waterburst_Spawn
+	Flags		NotSelectable
+	NextMove        Waterburst_land
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          male\zombie_monster_popup 1 24
+	  PlayFx        Volumes\Water\DeepSplash\Encounter_DeepSplash.fx  14
+	TEnd
+MEnd
+
+Move Waterburst_land
+	Flags		NotSelectable
+	NextMove	groundburst_Roar
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\postjump 1 35
+	  PlayFx        Volumes\Water\ShallowSplash\Encounter_shallowsplash.fx  1
+	TEnd
+MEnd
+
+
+
+######  Blocks  ##############################################
+
+##
+#####################
+######## leap Block  ######
+#####################
+##
+##Move G_Dodge_jump
+##	Requires	BLOCK
+##	Interrupts	<Ready> <BasicMove> <PostMoveCycle> <BlockIRQ> ##<AttackIRQ>
+##	Member		<DeathIRQ> <AttackIRQ> <Block> <ReactIRQ>
+##	NextMove        G_Dodge_jump_2
+##	Priority        2
+##
+##	Type		male
+##	  Anim          Beast\goblin_jumpdodge 1 30
+##	TEnd
+##
+##MEnd
+##
+##Move G_Dodge_jump_2
+##	Member		<ReactIRQ> <DeathIRQ> <Ready> <AttackIRQ>
+##	Priority        2
+##	Scale           0.50
+##
+##	Type		male
+##	  Anim          Beast\goblin_flipbackdodge 41 87
+##	  PlayFx        FEET\LAND1.FX
+##	TEnd
+##
+##	Type		goblin_Man
+##	  Anim          male\goblin_flipbackdodge 41 87
+##	  PlayFx        FEET\LAND1.FX
+##	TEnd
+##
+##MEnd
+##
+##Move G_Dodge_flip
+##	Requires	BLOCK
+##	Interrupts	<Ready> <BasicMove> <PostMoveCycle> <BlockIRQ> ##<AttackIRQ>
+##	Member		<DeathIRQ> <AttackIRQ> <Block> <ReactIRQ>
+##	NextMove        Ready
+##	Priority        2
+##
+##	Type		male
+##	  Anim          Beast\goblin_flipbackdodge 1 87
+##	TEnd
+##
+##
+##MEnd
+
+
+#### hit reacts  ###################################################################
+
+
+###################
+###### Hit Quick  ######
+###################
+
+Move G_HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Flags		HitReact
+	Priority        4
+
+	Type		male
+	  Anim          Beast\goblin_dual_HQ 2
+	TEnd
+
+	Type		goblin_Man
+	  Anim          male\HQ_high 3
+	TEnd
+MEnd
+
+
+##########################
+###### Hit Placate React ######
+##########################
+
+Move G_Hit_Placate
+	Requires	Hit PLACATEHIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        G_Hit_Placate_cycle
+##	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          beast\lookquick 1
+	TEnd
+MEnd
+
+Move G_Hit_Placate_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Interpolate     0
+##	Flags		HitReact
+
+	Type		male
+	  Anim          beast\lookquick 1
+	TEnd
+MEnd
+
+
+#######  Deaths  #################################33
+
+###################
+###### Default Death   ######
+###################
+
+Move G_Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<ExplodeIRQ>
+	NextMove        G_Default_postdeath
+	Priority        2
+	Sets            NOCOLLISION
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          Beast\death_front 47 129
+	TEnd
+
+	Type		Electro_goblin_beast
+	  Anim          Beast\electro 1
+	TEnd
+
+#	Type		Pet_ElectricGremlin
+#	  Anim          Beast\electro 1 30
+#	TEnd
+
+	Type		goblin_beast_DiveDeath
+	  Anim          male\goblin_dive 1
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  39
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 39
+	TEnd
+MEnd
+
+Move G_Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NoSizeScale
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		male
+	  Anim          Beast\death_front 129 130
+	TEnd
+
+	Type		Electro_goblin_beast
+	  Anim          Beast\electro 1
+	TEnd
+
+#	Type		Pet_ElectricGremlin
+#	  Anim          Beast\electro 31 31
+#	TEnd
+
+	Type		goblin_beast_DiveDeath
+	  Anim          Beast\death_front 123 124
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+###################
+###### Hit Death  ######
+###################
+
+Move G_HitDeath4
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        G_postdeath4
+	Priority        3
+	Flags		NOCOLLISION NoSizeScale
+
+	Type		male
+	  Anim          Beast\death_front 3 122
+	TEnd
+
+	Type		Electro_goblin_beast
+	  Anim          Beast\electro 1
+	TEnd
+
+#	Type		Pet_ElectricGremlin
+#	  Anim          Beast\electro 1 30
+#	TEnd
+
+	Type		goblin_beast_DiveDeath
+	  Anim          male\goblin_dive 1
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  39
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 39
+	TEnd
+
+	Type		MindsOfMayhem_BatZul
+	  Anim          Beast\electro 1
+	  PlayFx        ENEMYFX\Praetorian\MoM\Malaise_Nightmare_Death.fx
+	TEnd
+MEnd
+
+Move G_postdeath4
+	#Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NoSizeScale
+	Priority        10
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		male
+	  Anim          Beast\death_front 123 124
+	TEnd
+
+	Type		Electro_goblin_beast
+	  Anim          Beast\electro 1
+	TEnd
+
+#	Type		Pet_ElectricGremlin
+#	  Anim          Beast\electro 31 31
+#	TEnd
+
+	Type		MindsOfMayhem_BatZul
+	  Anim          Beast\death_front 46
+	TEnd
+
+MEnd
+
+
+#### specific encounters stuff  ############################
+
+
+######## Idle mode  #################################
+
+###################
+### Idle Ready  ##
+###################
+
+Move B_IdleReady
+	Requires	ENCOUNTER IDLE
+	Interrupts	<MonsterGroup> <Ready> <Combat> <WepCombat>
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+
+	Type		male
+	  Anim          male\MonComb_cycle 1
+	TEnd
+MEnd
+
+###################
+### Idle Walk Forward ##
+###################
+
+Move B_IWalkPre
+	Requires	ENCOUNTER FORWARD IDLE
+	Interrupts	B_IdleReady <MonsterGroup> <Ready> <BasicMove> ##<CombatMove> <WepMove> <TwoHandMove>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		ReqInputs
+	NextMove        B_IWalkCycle
+	Priority        6
+	Interpolate	12
+
+	Type		male
+	  Anim          male\MonComb_walk 1
+	  Scale         0.5
+	  MoveRate	0.146
+	  Scale           1.1
+	TEnd
+MEnd
+
+Move B_IWalkCycle
+	Requires	ENCOUNTER FORWARD IDLE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	NextMove        B_IWalkPost
+	Priority        6
+
+	Type		male
+	  Anim          male\MonComb_walk 1
+	  Scale         0.5
+	  MoveRate	0.146
+	  Scale           1.1
+	TEnd
+MEnd
+
+Move B_IWalkPost
+	Requires	IDLE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ> <PostMoveCycle>
+	NextMove        B_IdleReady   ##Ready
+	Priority        5
+
+
+	Type		male
+	  Anim          male\MonComb_postwalk 1
+	  Scale		2
+	TEnd
+MEnd
+
+
+###############################
+###### hide & popup	 ######
+###############################
+
+Move HidePopup_A
+	Requires	SPAWN HIDE LOOKOUT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle PICKRANDOMLY
+	CycleMove	HidePopup_B
+	CycleMove	HidePopup_A
+	Priority        3
+	Interpolate	20
+
+	Type		male
+	  Anim          male\suspicious 1 ##50
+	TEnd
+MEnd
+
+Move HidePopup_B
+	Requires	ENCOUNTER HIDE LOOKOUT SPAWN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle PICKRANDOMLY
+	CycleMove	HidePopup_C
+	CycleMove	HidePopup_A
+	CycleMove	HidePopup_B
+	Priority        3
+
+	Type		male
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+
+Move HidePopup_C
+	Requires	ENCOUNTER HIDE LOOKOUT SPAWN
+	Interrupts	<Ready> <Combat>
+	Flags		Cycle
+	CycleMove	HidePopup_D
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          male\goblin_dive 1 42
+	TEnd
+MEnd
+
+Move HidePopup_D
+	Requires	ENCOUNTER HIDE LOOKOUT SPAWN
+	Interrupts	<Ready> <Combat>
+	Flags		Cycle
+	CycleMove	HidePopup_E
+	NextMove	HidePopup_E
+	Priority        3
+	Scale		0.1
+	Interpolate	0
+	Sets            NOCOLLISION CANTMOVE
+	Flags		NotSelectable
+
+	Type		male
+	  Anim          male\Skel_ready2 1 60
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+Move HidePopup_E
+	Requires	ENCOUNTER HIDE LOOKOUT SPAWN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	CycleMove	HidePopup_F
+	Priority        3
+	Interpolate	0
+
+	Type		male
+	  Anim          male\zombie_monster_popup 3 24
+	TEnd
+MEnd
+
+Move HidePopup_F
+	Requires	ENCOUNTER HIDE LOOKOUT SPAWN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	CycleMove	HidePopup_A
+	Priority        3
+	Interpolate	0
+
+	Type		male
+	  Anim          Beast\postjump 1 35
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+
+
+###############################
+###### Training Bow 	 ######
+###############################
+
+Move TrainBow_mid
+	Requires	ENCOUNTER TRAIN ARCHERY
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle PICKRANDOMLY
+	CycleMove	TrainBow_cone
+	CycleMove	TrainBow_heavy
+	CycleMove	TrainBow_mid
+	Priority        2
+	SticksOnChild   COMBAT WEAPON DUAL REV Bow Mid Encounter
+
+	Type		male
+	  Anim          male\bow_midshoot 1 120
+	  PlayFX	WEAPONS\Bow\Encounter_bowstring_mid.fx 0
+	TEnd
+MEnd
+
+Move TrainBow_heavy
+	Requires	ENCOUNTER TRAIN ARCHERY
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle PICKRANDOMLY
+	CycleMove	TrainBow_mid
+	CycleMove	TrainBow_cone
+	CycleMove	TrainBow_heavy
+	Priority        2
+	SticksOnChild   COMBAT WEAPON DUAL REV Bow Strong Encounter
+
+	Type		male
+	  Anim          male\bow_snipershoot 1 130
+	  PlayFX	WEAPONS\Bow\Encounter_bowstring_sniper.fx 0
+	TEnd
+MEnd
+
+Move TrainBow_cone
+	Requires	ENCOUNTER TRAIN ARCHERY
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle PICKRANDOMLY
+	CycleMove	TrainBow_heavy
+	CycleMove	TrainBow_mid
+	CycleMove	TrainBow_cone
+	Priority        2
+	SticksOnChild   COMBAT WEAPON DUAL REV Bow CONE Encounter
+
+	Type		male
+	  Anim          male\bow_coneshoot 1 120
+	  PlayFX	WEAPONS\Bow\Encounter_bowstring_cone.fx 0
+	TEnd
+MEnd
+
+
+###################
+### Menace Eat  #####
+###################
+
+Move Menace_eat
+	Requires	ENCOUNTER EAT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        1
+	CycleMove	Menace_nibble
+	CycleMove       Menace_lookquick
+	CycleMove       Menace_lookquick_slow
+
+	Type		male
+	  Anim          Beast\eat 1
+	  PlayFx        GENERIC\meatbone.fx  0 CONSTANT
+	TEnd
+MEnd
+
+Move Menace_nibble
+	Requires	ENCOUNTER EAT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Menace_lookquick
+	CycleMove       Menace_nibble_blend
+
+	Type		male
+	  Anim          Beast\nibble 1
+	  PlayFx        GENERIC\meatbone.fx  0 CONSTANT
+	TEnd
+MEnd
+
+Move Menace_nibble_blend
+	Requires	ENCOUNTER EAT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Menace_lookquick_slow
+
+	Type		male
+	  Anim          Beast\nibble 11
+	  PlayFx        GENERIC\meatbone.fx  0 CONSTANT
+	TEnd
+MEnd
+
+Move Menace_lookquick
+	Requires	ENCOUNTER EAT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Menace_eat
+
+	Type		male
+	  Anim          Beast\eat_lookquick 4
+	  PlayFx        GENERIC\meatbone.fx  0 CONSTANT
+	TEnd
+MEnd
+
+Move Menace_lookquick_slow
+	Requires	ENCOUNTER EAT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Menace_eat
+	Scale		0.6
+
+	Type		male
+	  Anim          Beast\eat_lookquick 4
+	  PlayFx        GENERIC\meatbone.fx  0 CONSTANT
+	TEnd
+MEnd
+
+
+###################
+### Tribal Dance   #####
+###################
+##
+##Move TribalDance_A
+##	Requires	ENCOUNTER DANCE STRONG CHANTING
+##	Interrupts	<Ready> <Combat>
+##	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+##	Flags		Cycle ##NoSizeScale
+##	CycleMove	TribalDance_A
+##	CycleMove	TribalDance_B
+##	CycleMove	TribalDance_C
+##	Priority        3
+##
+##	Type		male
+##	  Anim          Beast\tribaldance 1
+##	TEnd
+##MEnd
+##
+##Move TribalDance_B
+##	Requires	ENCOUNTER DANCE STRONG CHANTING
+##	Interrupts	<Ready> <Combat>
+##	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+##	Flags		Cycle ##NoSizeScale
+##	CycleMove	TribalDance_C
+##	CycleMove	TribalDance_A
+##	CycleMove	TribalDance_B
+##	Priority        3
+##	Scale		1.2
+##
+##	Type		male
+##	  Anim          Beast\tribaldance_alt 1
+##	TEnd
+##MEnd
+##
+##Move TribalDance_C
+##	Requires	ENCOUNTER DANCE STRONG CHANTING
+##	Interrupts	<Ready> <Combat>
+##	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+##	Flags		Cycle ##NoSizeScale
+##	CycleMove	TribalDance_C
+##	CycleMove	TribalDance_A
+##	CycleMove	TribalDance_B
+##	Priority        3
+##
+##
+##	Type		male
+##	  Anim          Beast\tribaldance_alt 1
+##	TEnd
+##MEnd
+
+
+####################
+#### totem lift   #####
+####################
+
+Move Totem_lift
+	Requires	ENCOUNTER WORK 2HAND LOW MID
+	Interrupts	<Ready> <Combat>
+##	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	Priority        4
+	NextMove	Totem_lift_toss
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\goblin_totem_lift 1
+	  PlayFx        GENERIC\Fx_redcap_totem.fx  0 CONSTANT
+	TEnd
+MEnd
+
+Move Totem_lift_toss	## (This move must finish)
+	NextMove        Ready
+	Flags		NoSizeScale
+	Sets            CANTMOVE
+	Interpolate	8
+
+	Type		male
+	  Anim          Beast\goblin_totem_lift_toss 1 90
+	  PlayFx        GENERIC\Fx_redcap_totem_toss.fx  0
+	TEnd
+MEnd
+
+
+###################
+### totem lift Side   #####
+##################
+
+Move Totem_lift_side
+	Requires	ENCOUNTER WORK 2HAND LOW MID
+	Interrupts	<Ready> <Combat>
+##	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	NextMove	Totem_lift_drop
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\goblin_totem_liftside 1
+	  PlayFx        GENERIC\Fx_redcap_totem_side.fx  0 CONSTANT
+	TEnd
+MEnd
+
+Move Totem_lift_drop	## (This move must finish)
+	NextMove        Ready
+	Flags		NoSizeScale
+	Sets            CANTMOVE
+	Interpolate	8
+
+	Type		male
+	  Anim          Beast\goblin_totem_liftside_drop 1 65
+	  PlayFx        GENERIC\Fx_redcap_totem_side_drop.fx  0
+	TEnd
+MEnd
+
+
+###################
+### 2 Hand Dig   #####
+###################
+
+Move 2Hdig
+	Requires	ENCOUNTER WORK HAND STRONG
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	Priority        3
+
+	Type		male
+	  Anim          Beast\goblin_2Hdig 1 32
+	  PlayFx        GENERIC\2Hdig_dirt.fx  0
+	TEnd
+MEnd
+
+
+###################
+### 1 Hand Dig   #####
+###################
+
+Move 1Hdig
+	Requires	ENCOUNTER WORK HAND STRONG
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle ##NoSizeScale
+	Priority        3
+
+	Type		male
+	  Anim          Beast\goblin_1Hdig 1 40
+	  PlayFx        GENERIC\1Hdig_dirt.fx  0
+	TEnd
+MEnd
+
+
+## LAVAMAN POP UP ###########################################################
+
+Move Lava_popup_Static_sleep
+	Requires	ENCOUNTER SLEEP SNEAK LAUNCH LOW
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		Cycle NotSelectable
+	NextMove	Lava_popup_Static
+	Priority        4
+	Interpolate	0
+	Sets            NOCOLLISION CANTMOVE
+
+	Type		male
+	  Anim          Beast\lava_jump_static 1 5
+	  PlayFx	WORLD\Ruins\MediumFireFast.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Lava_popup_Static
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	NextMove	Lava_popup_post
+	Interpolate	0
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE NOCOLLISION
+
+	Type		male
+	  Anim          Beast\lava_jump_static 11 31
+	  PlayFx	POWERS\FireControl\FireBallTarget1.fx 1 CONSTANT
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 1
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 3
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 5
+	TEnd
+MEnd
+
+
+## LAVAMAN POP UP (Short) ###########################################################
+
+Move Lava_popup_Short_sleep
+	Requires	ENCOUNTER SLEEP SNEAK LAUNCH MID
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		Cycle NotSelectable
+	NextMove	Lava_popup_Short
+	Priority        4
+	Interpolate	0
+	Sets            NOCOLLISION CANTMOVE
+
+	Type		male
+	  Anim          Beast\lava_jump_short 1 5
+	TEnd
+MEnd
+
+Move Lava_popup_Short
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	NextMove	Lava_popup_post
+	Interpolate	0
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE NOCOLLISION
+
+	Type		male
+	  Anim          Beast\lava_jump_short 5 49
+	  PlayFx	POWERS\FireControl\FireAura.fx 6 CONSTANT
+	  PlayFx	POWERS\FireControl\FireBallTarget1.fx 1 CONSTANT
+	  PlayFx	Volumes\Lava\DeepSplash\Encounter_DeepSplash.fx 1
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 7
+	TEnd
+MEnd
+
+
+## LAVAMAN POP UP ###########################################################
+
+Move Lava_popup_long_sleep
+	Requires	ENCOUNTER SLEEP SNEAK LAUNCH HIGH
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		Cycle NotSelectable
+	NextMove	Lava_popup_long
+	Priority        4
+	Interpolate	0
+	Sets            NOCOLLISION CANTMOVE
+
+	Type		male
+	  Anim          Beast\lava_jump 1 4
+	TEnd
+MEnd
+
+Move Lava_popup_long
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	NextMove	Lava_popup_post
+	Interpolate	0
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE NOCOLLISION
+
+	Type		male
+	  Anim          Beast\lava_jump 5 54
+	  PlayFx	POWERS\FireControl\FireAura.fx 6 CONSTANT
+	  PlayFx	Volumes\Lava\DeepSplash\Encounter_DeepSplash.fx 1
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 7
+	TEnd
+MEnd
+
+Move Lava_popup_post
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL> <PostMoveCycle>
+	Priority        3
+	Interpolate	1
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\postjump 1 30
+	  PlayFx        FEET\LAND1.FX
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 1
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 3
+	TEnd
+MEnd
+
+
+## BATZUL SPAWN ###########################################################
+
+Move Bazul_sleep
+	Requires	SPAWN BAZULSLEEP
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	NextMove	Bazul_wake
+	Interpolate	0
+	Flags		CANTMOVE Cycle NotSelectable NOCOLLISION
+
+	Type		male
+	  Anim          Beast\bazul_spawn 1 2
+	TEnd
+MEnd
+
+Move Bazul_wake
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	NextMove	Bazul_Angry_A
+	Interpolate	0
+	Flags		NoSizeScale NotSelectable CANTMOVE NOCOLLISION
+	Scale		0.5
+
+	Type		male
+	  Anim          Beast\bazul_spawn 1 192
+
+	TEnd
+MEnd
+
+Move Bazul_Angry_A
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Interpolate	0
+	Flags		CYCLE
+	CycleMove	Bazul_Angry_B
+	CycleMove	Bazul_Angry_C
+	Interpolate	20
+
+	Type		male
+	  Anim          Beast\Growl 1
+	TEnd
+MEnd
+
+Move Bazul_Angry_B
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Interpolate	0
+	Flags		CYCLE
+	CycleMove	Bazul_Angry_A
+	CycleMove	Bazul_Angry_C
+	Interpolate	20
+
+	Type		male
+	  Anim          Beast\paw_R 1
+	TEnd
+MEnd
+
+Move Bazul_Angry_C
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Interpolate	0
+	Flags		CYCLE
+	CycleMove	Bazul_Angry_B
+	CycleMove	Bazul_Angry_A
+	Interpolate	20
+
+	Type		male
+	  Anim          Beast\paw_L 1
+	TEnd
+MEnd
+
+
+#############################################################
+## HIT REACTIONS
+#############################################################
+
+## KNOCKBACK ###########################################################
+
+Move G_KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        G_KHF_travel
+	Priority        6
+	Interpolate     3
+
+	Type		male
+	  Anim          Beast\knockback_fierce 3 16
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move G_KHF_travel
+	Requires	AIR
+	Flags		Cycle
+	NextMove        G_KHF_impact
+	Priority        1
+
+	Type		male
+	  Anim          Beast\knockback_fierce 16 17
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move G_KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove        G_KHF_fallcycle
+	Priority        2
+
+	Type		male
+	  Anim          Beast\knockback_fierce 18 25
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move G_KHF_fallcycle
+	Requires	AIR
+	Flags		Cycle
+	NextMove        G_KHF_impact
+	Priority        1
+
+	Type		male
+	  Anim          Beast\knockback_fierce 25 26
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move G_KHF_impact
+	NextMove        G_getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\knockback_fierce 27
+	  PlayFx        FEET\BIGBODYFALL.FX
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move G_getup_back
+	NextMove        G_getup_back2
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	Member 		<ReactIRQ> <RagdollBellyIRQ>
+
+	Type		male
+	  Anim          Beast\getup_back 5 7
+	TEnd
+MEnd
+
+Move G_getup_back2
+	NextMove        G_getup_back_post
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	Member 		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ> <RagdollBellyIRQ>
+
+	Type		male
+	  Anim          Beast\getup_back 8 86
+	TEnd
+MEnd
+
+Move G_getup_back_post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale		1  ##1.5
+	Interpolate	15
+
+	Type		male
+	  Anim          male\goblin_dual_cycle 1    ##MonComb_cycle 1
+	  Scale		1
+	TEnd
+
+	Type		goblin_beast
+	  Anim          beast\goblin_dual_cycle 1
+	  Scale		1
+	TEnd
+MEnd
+
+Move G_KHF_Deathcycle
+	Requires	DEATH
+	Interrupts	getup_back Ragdoll_belly
+	Flags		Cycle
+	Priority        2
+	Interpolate     0
+	Sets            NOCOLLISION CANTMOVE DIENOW TARGET
+
+	Type		male
+	  Anim          Beast\knockback_fierce 71 75
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+###################
+###### Impact Death   ######
+###################
+
+Move G_Impact_Death
+	Requires	DEATH
+	Interrupts	getup_back getup_back2
+	NextMove        Impact_postdeath
+	Priority        2
+	Sets            NOCOLLISION
+
+	Type		male
+	  Anim          Beast\knockback_fierce 27
+	  PlayFx        FEET\MALEDEATH4.FX
+	  Ragdoll	0
+	TEnd
+MEnd
+
+Move G_Impact_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		male
+	  Anim          Beast\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+MEnd
+
+
+###############################
+###### Ragdoll Belly getup   ######
+##############################
+
+Move G_Ragdoll_belly
+	Requires	RAGDOLLBELLY
+	Interrupts	<ReactIRQ> <DeathIRQ> <RagdollBellyIRQ>
+	NextMove        KnockDown_cycle
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\getup_belly 1
+	TEnd
+MEnd
+
+
+###################
+###### Sweeps  ######
+###################
+
+Move G_Sweep_low
+	Requires	SWEEP LOW HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        G_Sweep_impact
+	Priority        4
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\sweep 3 31
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+MEnd
+
+Move G_Sweep_impact
+	Member		<DeathIRQ>
+	NextMove        G_getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\impact_back 1
+	  PlayFx        FEET\MALEDEATH6.FX
+	TEnd
+MEnd
+
+Move G_Sweep_High
+	Requires	SWEEP HIGH HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        G_Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\sweep_flip 2 28
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+MEnd
+
+#######  add this when you can access penguin again  ################
+
+
+
+##########################
+###### Hoof\Paw Attack  ####
+##########################
+
+Move Hoof_R
+	Requires	Claw Swipe
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Hoof_R_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\paw_R 5 25
+	TEnd
+MEnd
+
+Move Hoof_R_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready_A
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\paw_R 26
+	TEnd
+MEnd
+
+##########
+
+Move Hoof_L
+	Requires	Claw Swipe
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Hoof_L_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\paw_L 1 25
+	TEnd
+MEnd
+
+Move Hoof_L_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready_B
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\paw_L 26
+	TEnd
+MEnd
+
+Move Ready_B
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		NoSizeScale
+	Scale           1
+	NextMove	Ready
+
+	Type		male
+	  Anim          Beast\beatchest 1
+	TEnd
+MEnd
+
+
+
+##########################
+###### bladeclaw Attack  ####
+##########################
+
+Move bladeclaw_L
+	Requires	BLADECLAW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        bladeclaw_L_post
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\goblin_daggerslash_L 1 20
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+MEnd
+
+Move bladeclaw_L_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\goblin_daggerslash_L 21
+	TEnd
+MEnd
+
+##########
+
+Move bladeclaw_dual
+	Requires	BLADECLAW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        bladeclaw_dual_post
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\goblin_daggerstabbie 1 20
+	  PlayFX	Generic\SFX_stab.fx 11
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+MEnd
+
+Move bladeclaw_dual_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\goblin_daggerstabbie 21
+	TEnd
+MEnd
+
+######
+
+Move bladeclaw_R
+	Requires	BLADECLAW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        bladeclaw_R_post
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\goblin_sword_slash 1 20
+	  PlayFX	Generic\SFX_stab.fx 15
+	TEnd
+MEnd
+
+Move bladeclaw_R_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		male
+	  Anim          Beast\goblin_sword_slash 21
+	TEnd
+MEnd
+
+
+#####################
+### Basic Spawn  #####
+#####################
+
+Move Z_Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Z_Spawned_post
+	Priority        5
+	Interpolate     0
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          male\zombie_monster_popup 1 24
+	  PlayFx        GENERIC\GROUNDBURST_ZERO.FX  12
+	TEnd
+
+	Type		Pet_ElectricGremlin
+	  Anim          male\zombie_monster_popup 1 24
+	TEnd
+MEnd
+
+Move Z_Spawned_post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Z_Spawned_cycle
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          Beast\postjump 1 35
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+Move Z_Spawned_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+##	Flags		Cycle
+
+	Type		male
+	  Anim          Beast\postjump 36
+	TEnd
+MEnd
+
+
+###  Inc files ###############################################
+
+Include sequencers\player\motion.inc
+Include sequencers\player\Swim.inc
+
+Include sequencers\player\powers.inc
+Include sequencers\player\powers_air.inc
+
+#Include sequencers\player\deaths.inc
+Include sequencers\player\reactions.inc
+Include sequencers\player\reactions_air.inc
+
+Include sequencers\player\Weapons\Weapons_DualWield.inc
+
+Include sequencers\player\encounters.inc
+
+Include sequencers\player\emotes.inc
+Include sequencers\player\emotes_air.inc
+Include sequencers\player\Events.inc
+
+#############################################################
+
+SeqEnd

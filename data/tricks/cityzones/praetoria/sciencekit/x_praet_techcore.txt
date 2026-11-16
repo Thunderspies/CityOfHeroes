@@ -1,0 +1,85 @@
+Texture X_Praet_TechCore
+
+	Base1 p_techglowcyan.tga
+	Base1Scroll 0.2 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+	
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 p_techglowcyan.tga
+	AddGlow1Scroll .12 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1.05
+
+	Mask P_Tech_Core_d.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 P_Tech_Core_d.tga
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 P_TechRef01.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 P_tech_Core_n.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+  	#ObjFlags FancyWater 
+	Flags  NoRandomAddGlow AlwaysAddGlow //FullBright AlwaysAddGlow OldTint
+	MinAddGlow 100
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tech_Core_d.tga
+		Blend black
+		Bumpmap none
+		BlendType Addglow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End

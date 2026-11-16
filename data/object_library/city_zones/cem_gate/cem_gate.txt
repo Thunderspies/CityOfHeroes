@@ -1,0 +1,130 @@
+RootMod _cem_gate_sign01
+End
+
+RootMod _cem_gate2_det01
+End
+
+RootMod _cem_gate_lod01
+End
+
+RootMod _cem_gate_sc_lod
+End
+
+RootMod _cem_gate_sc_det
+End
+
+RootMod _cem_gate_top_det
+End
+
+RootMod _cem_gate2_hinge
+End
+
+RootMod _cem_gate_frame
+End
+
+RootMod _cem_gate_spire_lod
+End
+
+RootMod _cem_gate_spire_det
+End
+
+RootMod _cem_gate_top2
+End
+
+RootMod cem_gate_door
+End
+
+Def cem_gate_door01_1&
+	Group _cem_gate2_det01
+	End
+	Group _cem_gate2_hinge
+	End
+	Group _cem_gate_lod01
+	End
+End
+
+Def cem_gate_door01
+	Group cem_gate_door01_1&
+	End
+End
+
+Def cem_gate_frame01_2&
+	Group _cem_gate_spire_det
+	End
+	Group _cem_gate_spire_lod
+	End
+End
+
+Def cem_gate_frame01_4&
+	Group _cem_gate_sc_lod
+	End
+	Group _cem_gate_sc_det
+	End
+End
+
+Def cem_gate_frame01_3&
+	Group _cem_gate_top2
+	End
+	Group _cem_gate_sign01
+		Pos -2.5 0 0
+	End
+	Group _cem_gate_frame
+	End
+	Group cem_gate_frame01_4&
+	End
+End
+
+Def cem_gate_frame01_1&
+	Group cem_gate_frame01_2&
+	End
+	Group cem_gate_frame01_3&
+	End
+	Group _cem_gate_top_det
+	End
+End
+
+Def cem_gate_frame01
+	Group cem_gate_frame01_1&
+	End
+End
+
+Def cem_gate_full01_2&
+	Group Omni/PARTICLE_25
+		Pos 0.011841 0.011841 -0.011841
+	End
+	Lod
+		Scale	.5
+	End
+	Type V_COV\PhysicsEnabled\PhysJointFX\CemetaryGates.fx
+End
+
+Def cem_gate_full01_1&
+	Group cem_gate_frame01
+	End
+	Group cem_gate_full01_2&
+	End
+End
+
+Def cem_gate_full01
+	Group cem_gate_full01_1&
+	End
+End
+
+Def cem_gate_static01_1&
+	Group cem_gate_door01
+		Rot 0 -2.094395 0
+		Pos -13.5 0 0
+	End
+	Group cem_gate_door01
+		Rot 0 -1.22173 0
+		Pos 13.5 0 0
+	End
+	Group cem_gate_frame01
+	End
+End
+
+Def cem_gate_static01
+	Group cem_gate_static01_1&
+	End
+End
+

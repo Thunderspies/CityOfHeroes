@@ -1,0 +1,100 @@
+##############################
+#Particle System 
+#
+System
+
+#####################################
+############  Emitting  #############
+#####################################
+
+NewPerFrame		1
+#Burst			1
+#MoveScale		1
+
+#TimeToFull		1
+#KickStart		1
+
+WorldOrLocalPosition	1
+FrontOrLocalFacing	0			# 0 = Front; 1 = Local - face up the y axis of the particle system's matrix  
+Stickiness		1.0
+
+KillOnZero		1 			#Tokened 0 = False  1 = True
+
+EmissionType		1
+ EmissionRadius		1.0 
+ EmissionHeight		0.0
+ EmissionStartJitter	.25 .0 .25
+
+#BurbleAmplitude		1
+#BurbleFrequency		1.0
+#BurbleType		1
+#BurbleThreshold		4.0
+
+StartSize		1.0
+StartSizejitter		1
+ExpandRate		.2
+ExpandType		0
+ EndSize		.25
+
+FadeInBy		5
+FadeOutStart		5
+FadeOutBy   		12
+
+
+#####################################
+#############  Motion  ##############
+#####################################
+
+#InitialVelocity		0.0 -0.05 0.0
+#InitialVelocityJitter	0.1 0.0 0.1
+VelocityJitter		0.0 0.0 0.0
+
+TightenUp		.3
+
+Drag			.05
+#Magnetism		0.0025
+#Gravity		       -0.0005
+
+#Spin			1		# turn this many degrees per frame 	
+#SpinJitter		2		# Add or subtract as much as this from Spin   
+#OrientationJitter	180
+
+#####################################
+###########  Appearance  ############
+#####################################
+
+StreakType		7 			#1 Velocty  3 Origin
+ StreakScale		20
+ StreakOrient		1 			#1 Orient   0 No Orient
+ StreakDirection	0			#0 Pull     1 Push 
+
+#SortBias		1
+#VisRadius		1
+#VisDist		1
+
+#####################################
+############  Textures  #############
+#####################################
+
+Blend_mode		1 			#Tokened: 0 = Normal 1 = Additive  	
+Alpha			255
+
+TextureName		Heart_SmokeWispDense.tga #ForceBall.tga #EnergyStream.tga
+#TexScroll1		0 .001 0 
+#TexScrollJitter1	0 0.001 0	
+#AnimFrames1		1		
+#AnimPace1		1
+
+TextureName2		FadeBorder.tga #glow.tga #FireWeapon_c_Cropped.tga
+
+StartColor		217 116 69
+ColorChangeType		0
+
+BeColor1		133 46 25
+ByTime1			15
+
+#BeColor2		50 50 50
+#ByTime2			30
+
+
+End

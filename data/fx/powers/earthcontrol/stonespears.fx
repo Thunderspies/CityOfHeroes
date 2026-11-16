@@ -1,0 +1,126 @@
+#########################################################
+## Stone Control - Stalagmite Hit
+#########################################################
+
+FxInfo
+
+LifeSpan 200
+
+## SOUND FX #######################################################
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		Type	Local
+		At	LARMR
+		Bhvr	CustomizeablePowers\StoneMelee\stonehands.bhvr
+		geom	StoneHandR
+		Lifespan 35
+	End
+End
+
+Condition
+	On 	Time
+	Time 	10
+
+	Event
+		EName	Streak1
+		Type	local
+		At	origin
+		Sound punch13 100.0 100.0 0.65
+	End
+End
+
+Condition
+	On 	Time
+	Time 	26
+
+	Event
+		EName	prime
+		Type	start
+		At	mystic
+		Sound quake2 120 120 0.9
+	End
+End
+
+#########################################################
+
+Condition
+	On 	Time
+	Time 	29
+
+	Event
+		EName	CameraShake
+		Type	start
+		At	mystic
+		Bhvr	Behaviors\CameraShakeStomp.bhvr
+	End
+End
+
+Condition
+	On	Time
+	Time	29
+
+	Event
+		EName	crack
+		Type	start
+		At	mystic
+		Bhvr	Powers\Earthcontrol\StalagmiteCracks.bhvr
+		Splat	ImpactCracks.tga
+		Lifespan 100
+	End
+End
+
+#############################################################
+
+Condition
+	On 	Time
+	Time 	29
+
+	Event
+		EName	cracks
+		Type	start
+		At	mystic
+		Part2	:superStrengthDust1.part
+		part3	:superStrengthDust2.part
+	End
+End
+
+Condition
+	On 	Time
+	Time 	31
+
+	Event
+		EName	prime
+		Type	start
+		At	mystic
+		Part	:StalagmiteRocks01x.part
+		Part	:StalagmiteRocks02x.part
+	End
+End
+
+#############################################################
+
+Condition
+	On 	Time
+	Time 	31
+
+	Event
+		Ename	ExplosiveForce
+		Type	Start
+		At	mystic
+		BhvrOverride
+			PhysForceType		Out
+			PhysForceRadius		60
+			PhysForcePower		200
+			PhysForcePowerJitter	100
+		End
+		Lifespan 1
+	End
+End
+
+#########################################################
+
+End

@@ -1,0 +1,42 @@
+
+
+Type
+
+Sequencer        Prop_Basic.txt
+SequencerType    Prop_Basic
+
+HealthFx
+	Range       25.0001 100 
+	LibraryPiece    V_Destmdr_mudoor_100
+End
+
+HealthFx
+	Range       0.006 25 
+	LibraryPiece     V_Destmdr_mudoor_050
+	OneShotFx     Explosions\Huge_Rock\MuDoor_Smoke.fx
+End
+
+HealthFx
+	Range       0 0.005 
+	LibraryPiece	V_Destmdr_mudoor_000
+	OneShotFx     Explosions\Huge_Rock\MuDoor_Explosion.fx
+	Flags		NoCollision
+End
+
+
+CapsuleSize    24 26 24
+CapsuleOffset  0 0 0
+
+FadeOutStart     500
+FadeOutFinish    550
+ShadowType       None
+StaticLighting		1
+
+Placement        DeadOn
+CollisionType	 LibraryPiece 
+Selection	 capsule 
+
+TicksToLingerAfterDeath        100000000
+TicksToFadeAwayAfterDeath      1
+
+End

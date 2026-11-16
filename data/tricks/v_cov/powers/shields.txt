@@ -1,0 +1,68 @@
+
+Trick ShieldTest
+	
+	ObjFlags FullBright FancyWater
+	TrickFlags NoColl Additive DoubleSided NoZWrite
+	#AlphaRef 100.00
+	SortBias 50000.0
+End
+
+Texture x_shields
+	Base1 mercury2
+	Base1Scroll .0005 -.0005
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 mercury
+	Multiply1Scroll -0.0005 -0.0005
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 white
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 mercury
+	BumpMap1Scroll -.0005 -.0005
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask mercurymask
+	MaskScroll 0.0004 -0.0005
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+#	Base2 mercury.tga
+#	Base2Scroll 0 .25
+#	Base2ScrollType Normal
+#	Base2Scale 1 1
+#
+#	Multiply2 mercury2.tga
+#	Multiply2Scroll 0 -.3
+#	Multiply2ScrollType Normal
+#	Multiply2Scale 1 1
+#	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+#	DualColor2 texture_name
+#	DualColor2Scroll 0 0
+#	DualColor2ScrollType Normal
+#	DualColor2Scale 1 1
+
+	BumpMap2 mercury2
+	BumpMap2Scroll .0005 .0005
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+#	SpecularColor1 255 55 55
+#	SpecularColor2 255 55 55 // BLACK means inherit color from SpecularColor1
+#	SpecularExponent 2
+
+
+
+
+End
+

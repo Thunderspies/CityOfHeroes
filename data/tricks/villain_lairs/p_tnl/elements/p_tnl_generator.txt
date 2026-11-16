@@ -1,0 +1,272 @@
+Texture P_Tnl_Generator.tga
+	Surface Metal
+End
+
+Texture P_Tnl_Generator_Pipes.tga
+	Surface MetalPlate
+End
+
+Texture P_Tnl_Generator_Grate.tga
+	Surface Catwalk
+End
+
+Texture x_P_Tnl_Generator_Base   //Links to an object's Material Name in max.
+	Base1 P_Tnl_Generator
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 P_Tnl_Generator_Det.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 2 2
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tnl_Generator_NS.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none  	//Enables blending between Material 1 and 2.  White is Material1, Black is Material2
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 None
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 15
+	SpecularColor2 0 0 0  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 256
+	SpecularExponent2 16
+
+	DiffuseScale 1
+	AmbientScale 2
+
+  	//ObjFlags FancyWater //Commented out. Enable to turn on refraction. 
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tnl_Generator
+		Blend P_Tnl_Generator_Det.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture x_P_Tnl_Generator_Pipes   //Links to an object's Material Name in max.
+	Base1 P_Tnl_Generator_Pipes.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 P_Tnl_Generator_Det.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape 
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tnl_Generator_Pipes_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none  	//Enables blending between Material 1 and 2.  White is Material1, Black is Material2
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 None
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 20
+	SpecularColor2 0 0 0  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 256
+	SpecularExponent2 16
+
+	DiffuseScale 1
+	AmbientScale 2
+
+  	//ObjFlags FancyWater //Commented out. Enable to turn on refraction. 
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tnl_Generator_Pipes.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture x_P_Tnl_Generator_Grate   //Links to an object's Material Name in max.
+	Base1 P_Tnl_Generator_grate
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 P_Tnl_Generator_Det.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremape 
+
+	DualColor1 P_Tnl_Generator_grate
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 P_Tnl_Generator_Grate_NS
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none  	//Enables blending between Material 1 and 2.  White is Material1, Black is Material2
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 None
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 10 10 15
+	SpecularColor2 0 0 0  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 16
+	SpecularExponent2 16
+
+	DiffuseScale 1
+	AmbientScale 2
+
+  	//ObjFlags FancyWater //Commented out. Enable to turn on refraction. 
+	Flags None // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_Tnl_Generator_grate
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Trick PGenFan
+              Rotate 0.2
+End
+
+

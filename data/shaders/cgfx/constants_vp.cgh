@@ -1,0 +1,69 @@
+/******************************************************************************
+	Constants_VP
+
+	This header defines the common uniform shader constants and uniform buffers
+	for vertex programs.
+
+	See shaders.html for more information on shader/material details and
+	Cg usage.
+*****************************************************************************/
+
+#ifndef _CONSTANTS_VP_CGH_
+#define _CONSTANTS_VP_CGH_
+
+//--------------------------------------------------
+// Vertex Program Constants
+//--------------------------------------------------
+
+//~~~~~~~~~~~~~~~~~~~~
+// 'Classic' CoX Params
+//~~~~~~~~~~~~~~~~~~~~
+// These are currently the same assignments as the legacy ARB programs used
+
+//~~~~~~~~~~~~~~~~~~~~
+// 'Classic' CoX Params
+//~~~~~~~~~~~~~~~~~~~~
+// These are currently the same assignments as the legacy ARB programs used
+
+uniform float4x4	g_ProjectionMatrix			TIE( state.matrix.projection );  // Projection matrix
+uniform float4x4	g_ModelViewProjection		TIE( state.matrix.mvp );
+uniform float4x4	g_ModelViewMatrix			TIE( state.matrix.modelview );
+uniform float4x4	g_TextureMatrix0			TIE( state.matrix.texture[0] );
+uniform float4x4	g_TextureMatrix1			TIE( state.matrix.texture[1] );
+
+uniform float4		g_LightDirVP				TIE( ENV0 );	// Light vector in view or model space @todo make sure this already normalized!
+uniform float4		g_ReflectionParamVP			TIE( ENV1 );	// selectors for regular or legacy faux sphere mapping uv coords
+uniform float4		g_ViewerPositionVP			TIE( ENV2 );	// viewer position
+uniform float4		g_AmbientParameterVP		TIE( ENV4 );	// ambient color
+uniform float4		g_DiffuseParameterVP		TIE( ENV5 );	// diffuse Color * Kd
+
+uniform float4		g_TexScroll0VP				TIE( ENV14 );	// Amount to scroll texture coordinates
+uniform float4		g_TexScroll1VP				TIE( ENV15 );	// Amount to scroll texture coordinates
+
+uniform float4		g_BoneMatrixArrVP[48]		TIE( ENV16 );	// c[16..63] Matrix for each bone has 3 rows
+
+uniform float4		g_Light0PositionVP			TIE( state.light[0].position );
+uniform float4		g_Light0DiffuseVP			TIE( state.light[0].diffuse );
+uniform float4		g_Light1DiffuseVP			TIE( state.light[1].diffuse );
+uniform float4		g_Light0AmbientVP			TIE( state.light[0].ambient );
+uniform float4		g_Light0SpecularVP			TIE( state.light[0].specular );
+uniform float4		g_MaterialShininessVP		TIE( state.material.shininess );
+
+uniform float4		g_clipPlane0VP				TIE( state.clip[0].plane );
+uniform float4		g_clipPlane1VP				TIE( state.clip[1].plane );
+uniform float4		g_clipPlane2VP				TIE( state.clip[2].plane );
+uniform float4		g_clipPlane3VP				TIE( state.clip[3].plane );
+uniform float4		g_clipPlane4VP				TIE( state.clip[4].plane );
+uniform float4		g_clipPlane5VP				TIE( state.clip[5].plane );
+
+//~~~~~~~~~~~~~~~~~~~~
+// 'Ultra' CoX Params
+//~~~~~~~~~~~~~~~~~~~~
+
+uniform float3		g_InverseCubemapViewMatrixVP[3]	TIE( ENV6 );	// c[6..8] used by cubemap reflections
+uniform float4		g_PlanarReflectionPlaneVP		TIE( ENV9 );
+
+//------------------------------------------------------------------------
+//-----------------------------------------------------------------------
+
+#endif  //_CONSTANTS_VP_CGH_

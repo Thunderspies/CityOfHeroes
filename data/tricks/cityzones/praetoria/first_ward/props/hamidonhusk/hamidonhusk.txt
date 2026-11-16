@@ -1,0 +1,137 @@
+//Re-applying Seed of Hamidon texture for environment prop.  Adjusted Ambient scale (1.0 to 2.0)
+
+Texture X_SeedHusk_Interior_01
+	Base1 N_Emblem_Seed_01_B.tga
+	Base1Scroll 0 0
+	Base1ScrollType  Normal
+	Base1Scale  1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType  Normal
+	Multiply1Scale  6 6
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType  Normal
+	DualColor1Scale  1 1
+
+	BumpMap1 N_Emblem_Seed_01_NM.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale  1 1
+
+	AddGlow1 DE_DeadWoodB_d
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale  7 6
+	AddGlowMat2  1 //<- applies the addglow effect to the second material instead of the first material
+
+	Mask black
+	MaskScroll 0 0
+	MaskScrollType  Normal
+	MaskScale  1 1
+	MaskWeight  0.07
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 DE_DeadWoodB.tga
+	Base2Scroll 0 0
+	Base2ScrollType  Normal
+	Base2Scale  7 6
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType  Normal
+	Multiply2Scale  7 6
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType  Normal
+	DualColor2Scale  1 1
+
+	BumpMap2 DE_DeadWoodB_n.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale  7 6
+
+	SpecularColor1 136 231 255
+	SpecularColor2 66 231 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 24
+	SpecularExponent2 12
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+End
+
+Texture X_SeedHusk_Exterior_01
+	Base1 N_Chest_Seed_01_B.tga
+	Base1Scroll 0 0
+	Base1ScrollType  Normal
+	Base1Scale  1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType  Normal
+	Multiply1Scale  1 1
+	Multiply1Reflect 0
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType  Normal
+	DualColor1Scale  1 1
+
+	BumpMap1 N_Chest_Seed_01_NM.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale  1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale  4 4
+	AddGlowMat2  1
+
+	Mask N_Chest_Seed_01_MK.tga
+	MaskScroll 0 0
+	MaskScrollType  Normal
+	MaskScale  1 1
+	MaskWeight 1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 DE_DeadWoodB.tga
+	Base2Scroll 0 0
+	Base2ScrollType  Normal
+	Base2Scale  7 6
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType  Normal
+	Multiply2Scale  9 9
+	Multiply2Reflect 0
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType  Normal
+	DualColor2Scale  1 1
+
+	BumpMap2 DE_DeadWoodB_n.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale  7 6
+
+	SpecularColor1 116 231 255
+	SpecularColor2 66 231 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 55
+	SpecularExponent2 3
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow
+End

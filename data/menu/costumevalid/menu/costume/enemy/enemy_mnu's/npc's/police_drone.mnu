@@ -1,0 +1,34 @@
+//
+// Uses VAR_META_COSTUME_CATEGORY to determine which meta group head/upper/lower to be in.
+//
+
+Button
+	Code			CodeCostumeCategory
+	Value			COSTUME_UPPER_BODY
+	String			"Upper Body"
+	Var				VAR_UPPER_BODY_CATEGORY
+	StringTable
+					"Standard"
+	EndStringTable
+End
+
+	Default	Value		GEO_SHIRT
+	Default	String		"Chest"
+
+	Button
+		Code		CodeMutuallyExclusiveCategory
+	End
+
+
+	Button
+		Code			CodeAllAtOnceAdjustor
+		Var				VAR_SHIRT_SELECTOR
+		StringTable		"Chest"
+						"Police_Drone"
+						"Police_Drone_01a"	
+						"Police_Drone_01b"
+
+		EndStringTable
+	End
+
+

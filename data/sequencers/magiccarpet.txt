@@ -1,0 +1,398 @@
+#############################################################
+## magiccarpet.inc
+#############################################################
+
+Sequencer
+
+## MALE #######################################################
+
+TypeDef magiccarpet
+	BaseSkeleton	Magic_Carpet\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<IRQEmotesALL>
+Group	<Skill>
+Group	<SkillMode>
+Group	<MonsterGroup>
+Group	<MonsterMove>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle nosizescale
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1
+	TEnd
+MEnd
+
+## FLY READY ###########################################################
+
+Move MagicCarpet_Preflyready
+	Requires	MAGICCARPET FLY
+	Priority	12
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <iceslide> <Swim> <jumpFall> <Block> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <DualHandMove> <IRQEmotesDualhand> <RunsALL> <GroundMoveALL> <FlyDualHandMove> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <BlockIRQ>
+	NextMove	MagicCarpet_flyready
+	Flags		Nosizescale #hideshield #hideweapon
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\magiccarpet_prefly 2 78
+	#Playfx		fx\GENERIC\entityFadeIn.fx 0 constant
+	TEnd
+
+MEnd
+
+Move MagicCarpet_flyready
+	Requires	MAGICCARPET FLY
+	Priority	12
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <BlockIRQ> #<FlyCombat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle #hideshield #hideweapon
+	NextMove	Ready
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+
+
+## FLY FORWARD FROM RUN ###########################################################
+
+Move MagicCarpet_flypre_Launch
+	Requires	FORWARD FLY MAGICCARPET
+	Priority	14
+	Interrupts	RunPre RunCycle <GroundMoveALL> <Launch> <FlyCombat> <FlyCombatAttack> <PostFLYCycle> <iceslide> <MoveIRQ> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand>  <DualHandMove> <RunsALL> <GroundMoveALL> <FlyDualHandMove> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_fly
+	Wind		FLY
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\magiccarpet_prefly 1
+	TEnd
+
+
+MEnd
+
+## FLY FORWARD ###########################################################
+
+Move MagicCarpet_flypre
+	Requires	FORWARD	FLY MAGICCARPET
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MAGICCARPET_flyready MAGICCARPET_flypre MAGICCARPET_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_fly
+	Wind		FLY
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_fly
+	Requires	FORWARD	FLY MAGICCARPET
+	Priority	13
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove> MAGICCARPET_flypre
+	Flags		Cycle ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_flypost
+	Wind		FLY
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_flyPost
+	Requires	FLY MAGICCARPET
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ> <FlyCombatMove> <FlyWepMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_flyready
+	Priority	12
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+
+## FLY BACKWARD	###########################################################
+
+Move MagicCarpet_BackflyPre
+	Requires	BACKWARD FLY MAGICCARPET
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <iceslide> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyDualHandMove> DualWield_BackflyPre <FlyDualHandMove> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #MAGICCARPET_fly MAGICCARPET_flyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyCombatMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_BackflyCycle
+	Priority	13
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_BackflyCycle
+	Requires	BACKWARD FLY MAGICCARPET
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyCombatMove>
+	Flags		Cycle #hideshield #hideweapon
+	NextMove	MagicCarpet_BackflyPost
+	Priority	13
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_BackflyPost
+	Requires	FLY MAGICCARPET
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ> <FlyCombatMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_flyready
+	Priority	12
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+## FLY UP ###########################################################
+
+Move MagicCarpet_flyUPpre
+	Requires	JUMP FLY MAGICCARPET
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <iceslide> <MoveIRQ> <FlyCombat> <Jumps> <FlyCombatAttack> <WepMove> <Jumps> <AttackIRQ> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> DualWield_jumpPre <FlyDualHandMove> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #MAGICCARPET_fly MAGICCARPET_flyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyCombatMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_flyUPCycle
+	Priority	13
+	Scale		0.90
+	Wind		FLYUP
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_flyUPCycle
+	Requires	JUMP FLY MAGICCARPET
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyCombatMove> MAGICCARPET_flyUPpre
+	Flags		Cycle #hideshield #hideweapon
+	NextMove	MagicCarpet_flyUPPost
+	Priority	13
+	Wind		FLYUP
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_flyUPPost
+	Requires	FLY MAGICCARPET
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ> <FlyCombatMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_flyready
+	Priority	12
+	Wind		FLY
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+## FLY RIGHT ###########################################################
+
+Move MagicCarpet_RightflyPre
+	Requires	STEPRIGHT FLY MAGICCARPET
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <iceslide> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyDualHandMove> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <ShieldFLYMove> <SwimMove> <IRQEmotesALL> a_sweep_low leftflyCycle #MAGICCARPET_fly MAGICCARPET_flyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyCombatMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_RightflyCycle
+	Priority	13
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_RightflyCycle
+	Requires	STEPRIGHT FLY MAGICCARPET
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyCombatMove>
+	Flags		Cycle #hideshield #hideweapon
+	NextMove	MagicCarpet_RightflyPost
+	Priority	13
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_RightflyPost
+	Requires	FLY MAGICCARPET
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ> <FlyCombatMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_flyready
+	Priority	12
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+## FLY LEFT ###########################################################
+
+Move MagicCarpet_LeftflyPre
+	Requires	STEPLEFT FLY MAGICCARPET
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <iceslide> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyDualHandMove> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <ShieldFLYMove> <SwimMove> <IRQEmotesALL> a_sweep_low #MAGICCARPET_fly MAGICCARPET_flyready rightflyCycle
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyCombatMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_LeftflyCycle
+	Priority	13
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_LeftflyCycle
+	Requires	STEPLEFT FLY MAGICCARPET
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyCombatMove>
+	Flags		Cycle #hideshield #hideweapon
+	NextMove	MagicCarpet_LeftflyPost
+	Priority	13
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+Move MagicCarpet_LeftflyPost
+	Requires	FLY MAGICCARPET
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ> <FlyCombatMove>
+	Flags		ReqInputs #hideshield #hideweapon
+	NextMove	MagicCarpet_flyready
+	Priority	12
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+
+## FALL ###########################################################
+
+Move MagicCarpet_PreFall
+	Requires	MAGICCARPET AIR
+	Priority	2
+	#Interrupts	<MoveIRQ>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <Fall>
+	NextMove	MagicCarpet_PreFall_Post
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 5
+	TEnd
+
+MEnd
+
+Move MagicCarpet_PreFall_Post
+	Requires	MAGICCARPET AIR
+	Priority	2
+	#Interrupts	<MoveIRQ>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ>  <Fall>
+	Flags		Cycle
+	NextMove	PreFall
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 60
+	TEnd
+
+MEnd
+
+## FLY FROM FALL ###########################################################s
+
+Move MagicCarpet_Fall_Fready
+	Requires	FLY MAGICCARPET
+	Priority	2
+	Interrupts	<Fall>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove	MagicCarpet_flyready
+
+	Type		magiccarpet
+	  Anim          Magic_Carpet\skel_ready 1 10
+	TEnd
+
+MEnd

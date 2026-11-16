@@ -1,0 +1,35 @@
+
+
+Type
+
+Sequencer        Prop_Basic.txt
+SequencerType    Prop_Basic
+		
+#ConstantState        INSTANTDEATH	
+
+HealthFx
+	Range       0.0001 100 
+	LibraryPiece    V_Dest_cacoon01_100
+End
+
+HealthFx
+	Range       0 0.0001 
+	LibraryPiece    V_dest_cacoon01_opened
+	OneShotFx     Explosions\Cocoon\SmutchBurst.fx
+End
+
+CapsuleSize    3.8 13.5 3.8
+CapsuleOffset  0 0 0
+
+FadeOutStart     500
+FadeOutFinish    550
+ShadowType       None
+
+Placement        DeadOn
+CollisionType	LibraryPiece
+Selection	LibraryPiece 
+
+TicksToLingerAfterDeath        500000
+TicksToFadeAwayAfterDeath      300
+
+End

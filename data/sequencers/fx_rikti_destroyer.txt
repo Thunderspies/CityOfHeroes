@@ -1,0 +1,185 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Rikti_destroyer 
+	BaseSkeleton	FX_Rikti_destroyer\skel_test
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+	Scale		0.5
+
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\zero_ready 1    ##skel_test 1408 1420 
+	TEnd
+MEnd
+
+
+
+###################
+### Fly In      ##
+###################
+
+Move Fly_in
+	Requires	SPAWN 
+	Interrupts	<Ready> 
+	NextMove        Hover_Ready
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\skel_test 1 900 
+	TEnd
+MEnd
+
+
+Move Hover_Ready
+	Requires	SPAWN 
+	Flags		Cycle 
+	NextMove        Rise_up
+	Priority        1
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\skel_test 901 910 
+	TEnd
+MEnd
+
+
+Move Rise_up
+	NextMove        Ready
+	Scale           0.50
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\skel_test 911 1407 
+	TEnd
+MEnd
+
+######## For doug to test  ########################
+
+Move doug_test
+	Requires	THREAT 
+	Interrupts	<Ready> 
+	Flags		Cycle 
+	Priority        1
+	Interpolate     0
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\dougtest 1  
+	TEnd
+MEnd
+
+
+
+
+
+
+###################
+### Fly By	 ##
+###################
+
+Move Fly_By
+	Requires	FLY FAR 
+	Interrupts	<Ready> 
+	NextMove        Fly_By_pause
+	Priority        2
+	Interpolate     0
+	Scale		0.25
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\fly_in_out 1 360
+	TEnd
+MEnd
+
+Move Fly_By_pause
+	NextMove        Fly_By_away
+	Interpolate     0
+	Scale		1
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\fly_in_out_pause 1 900
+	TEnd
+MEnd
+
+
+Move Fly_By_away
+	NextMove        Fly_By_post
+	Interpolate     0
+	Scale		0.25
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\fly_in_out 460 799
+	TEnd
+MEnd
+
+Move Fly_By_post
+	Member		<Ready>
+	Flags		Cycle
+	Interpolate     0
+	Scale           1
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\fly_in_out 799 800
+	TEnd
+MEnd
+
+
+
+###################
+### Fly Mid	 ##
+###################
+
+Move Fly_Mid
+	Requires	FLY MID
+	Interrupts	<Ready> 
+	NextMove        Fly_Mid_post
+	Priority        2
+	Interpolate     0
+	Scale		0.25
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\fly_mid 1 360
+	TEnd
+MEnd
+
+Move Fly_Mid_post
+	Member		<Ready>
+	Flags		Cycle
+	Interpolate     0
+	Scale           1
+
+	Type		FX_Rikti_destroyer
+	  Anim          FX_Rikti_destroyer\fly_mid 360 370
+	TEnd
+MEnd
+
+
+
+
+SeqEnd

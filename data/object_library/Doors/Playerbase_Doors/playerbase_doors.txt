@@ -1,0 +1,181 @@
+RootMod _baseportaldoor_inside
+End
+
+RootMod _baseportaldoor_outside
+End
+
+RootMod _baseportaldoor_coll_poly
+End
+
+Def baseportaldoor_outsde_2&
+	Group Omni/PARTICLE_200
+	End
+	Type V_COV\World\Bases\Portal\VillainBasePortal.fx
+End
+
+Def baseportaldoor_outsde_1&
+	Group baseportaldoor_outsde_2&
+		Pos -0.028305 0.02832 0.02832
+	End
+End
+
+Def baseportaldoor_outsde_4&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EmergeAnimationBits"	"Magic ARENAEMERGE"	0
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterAnimationBits"	"Magic RUNIN WARP"	0
+	Property	"EnterMe"	"0"	0
+	Property	"dontRunIntoMe"	"true"	0
+End
+
+Def baseportaldoor_outsde_7&
+	Group Omni/MissionBeacons/_PlayerSpawn
+	End
+	Property	"ExitPoint"	"true"	0
+End
+
+Def baseportaldoor_outsde_6&
+	Group baseportaldoor_outsde_7&
+		PYR 0 89.999985 0
+		Pos -6 -2.069073 0.522766
+	End
+	Group baseportaldoor_outsde_7&
+		PYR 0 44.999992 0
+		Pos -4 -2.069073 -5.477234
+	End
+	Group baseportaldoor_outsde_7&
+		PYR 0 -5.000031 0
+		Pos 0 -2.069073 -6.477234
+	End
+	Group baseportaldoor_outsde_7&
+		PYR 0 -40.000015 0
+		Pos 4 -2.069073 -4.477234
+	End
+	Group baseportaldoor_outsde_7&
+		PYR 0 -89.999985 0
+		Pos 6 -2.069073 0.522766
+	End
+	Group baseportaldoor_outsde_7&
+		PYR 0 -144.999969 0
+		Pos 4 -2.069073 4.522766
+	End
+	Group baseportaldoor_outsde_7&
+		PYR 0 -179.999969 0
+		Pos 0 -2.069073 6.522766
+	End
+	Group baseportaldoor_outsde_7&
+		PYR 0 134.999969 0
+		Pos -4 -2.069073 4.522766
+	End
+End
+
+Def baseportaldoor_outsde_3&
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 40.000000 16.000000 40.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_SuperGroupBase"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Monitor_Duty_Message"	0
+End
+
+Def baseportaldoor_outsde
+	Group _baseportaldoor_outside
+	End
+	Group baseportaldoor_outsde_1&
+		Pos 0.028305 -0.02832 -0.02832
+	End
+	Group baseportaldoor_outsde_4&
+	End
+	Group baseportaldoor_outsde_6&
+		Pos 0 2.069061 -0.522766
+	End
+	Group baseportaldoor_outsde_3&
+	End
+	Lod
+		Scale 1.062781
+	End
+	Property	"Door"	"Door"	0
+End
+
+Def baseportal_door_inside_f_n_p_2&
+	Group Omni/PARTICLE_10
+	End
+	Type V_COV\World\Bases\Portal\VillainBasePortalWorld.fx
+End
+
+Def baseportal_door_inside_f_n_p_1&
+	Group baseportal_door_inside_f_n_p_2&
+		Pos -0.030197 -0.030151 0.030182
+	End
+End
+
+Def baseportal_door_inside_f_n_p_3&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EmergeAnimationBits"	"ARENAEMERGE"	0
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterAnimationBits"	"RUNIN WARP"	0
+	Property	"EnterMe"	"0"	0
+	Property	"dontRunIntoMe"	"true"	0
+End
+
+Def baseportal_door_inside_f_n_p_5&
+	Group Omni/MissionBeacons/_PlayerSpawn
+	End
+	Property	"ExitPoint"	"true"	0
+End
+
+Def baseportal_door_inside_f_n_p_4&
+	Group baseportal_door_inside_f_n_p_5&
+		PYR 0 -40.000015 0
+		Pos 4 -2.069073 -4.477234
+	End
+	Group baseportal_door_inside_f_n_p_5&
+		PYR 0 -5.000031 0
+		Pos 0 -2.069073 -6.477234
+	End
+	Group baseportal_door_inside_f_n_p_5&
+		PYR 0 44.999992 0
+		Pos -4 -2.069073 -5.477234
+	End
+	Group baseportal_door_inside_f_n_p_5&
+		PYR 0 89.999985 0
+		Pos -6 -2.069073 0.522766
+	End
+	Group baseportal_door_inside_f_n_p_5&
+		PYR 0 134.999969 0
+		Pos -4 -2.069073 4.522766
+	End
+	Group baseportal_door_inside_f_n_p_5&
+		PYR 0 -179.999969 0
+		Pos 0 -2.069073 6.522766
+	End
+	Group baseportal_door_inside_f_n_p_5&
+		PYR 0 -144.999969 0
+		Pos 4 -2.069073 4.522766
+	End
+	Group baseportal_door_inside_f_n_p_5&
+		PYR 0 -89.999985 0
+		Pos 6 -2.069073 0.522766
+	End
+End
+
+Def baseportal_door_inside_f_n_p
+	Group _baseportaldoor_inside
+	End
+	Group baseportal_door_inside_f_n_p_1&
+		Pos 0.030197 0.030151 -0.030182
+	End
+	Group baseportal_door_inside_f_n_p_3&
+		Pos 0 0.000011 0
+	End
+	Group baseportal_door_inside_f_n_p_4&
+		Pos 0 2.069073 -0.522766
+	End
+	Group _baseportaldoor_coll_poly
+	End
+	Property	"Door"	"Door"	0
+End
+

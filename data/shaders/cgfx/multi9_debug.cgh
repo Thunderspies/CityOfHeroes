@@ -1,0 +1,510 @@
+/******************************************************************************
+	Multi Debug
+
+	This header defines the values and selectors used to
+	provide the shader debug fundtionality and variants for the multi9 blend
+	mode.
+*****************************************************************************/
+
+#ifndef _MULTI9_DEBUG_CGH_
+#define _MULTI9_DEBUG_CGH_
+
+// @todo is it necessary to have a version of this for the BIT_BUILDING variant
+// which does not apply scroll scales to most textures? Those scroll scales should
+// still be being set into the contstants but will just be identity xform.
+// The extra operations don't concern us for the debug shader
+float4 debug_show_texture_multi(VP2FP IN)
+{
+	float4 out_color = float4(0,0,0,0);
+
+    // base texture coords
+    float2 uv0			= IN.uv0_uv1.xy;
+    float2 uv_reflect	= IN.uv0_uv1.zw;		// faux spheremap reflection uv calc'd by vertex shader
+
+    // Use the reflection selector to determine the 'multiply' texture coordinates
+    // are either the base or the faux spheremap refection coords supplied in uv1
+    float2 uv_multiply1;
+    if (isBumpMultiReflectUV1Set())
+        uv_multiply1	= uv_reflect;
+    else
+        uv_multiply1	= uv0;
+
+    float2 uv_multiply2;
+    if (isBumpMultiReflectUV2Set())
+        uv_multiply2	= uv_reflect;
+    else
+        uv_multiply2	= uv0;
+	
+	float selected_texture = g_DebugEnableFlagSetsFP.w;
+	
+	if (selected_texture == 0)
+		out_color = tex2D( sampler_base_1, scroll_scale(0,uv0) );
+	else if (selected_texture == 1)
+		out_color = tex2D( sampler_dual_1, scroll_scale(1,uv0) );
+	else if (selected_texture == 2)
+		out_color = tex2D( sampler_normal_and_gloss_1, scroll_scale(2,uv0));
+	else if (selected_texture == 3)
+		out_color = tex2D( sampler_multiply_1, scroll_scale(3,uv_multiply1));
+	else if (selected_texture == 4)
+		out_color = tex2D( sampler_mask, scroll_scale(4,uv0));
+	else if (selected_texture == 5)
+		out_color = tex2D( sampler_base_2, scroll_scale(5,uv0) );
+	else if (selected_texture == 6)
+		out_color = tex2D( sampler_dual_2, scroll_scale(6,uv0));
+	else if (selected_texture == 7)
+		out_color = tex2D( sampler_normal_and_gloss_2, scroll_scale(7,uv0));
+	else if (selected_texture == 8)
+		out_color = tex2D( sampler_multiply_2, scroll_scale(8,uv_multiply2));
+	else if (selected_texture == 9)
+		out_color = tex2D( sampler_glow, scroll_scale(9,uv0));
+	else
+		out_color.a = -1;
+	
+	if (out_color.a >= 0)
+	{
+		if ( debug_is_mode_show_rgb() )
+			out_color.a = 1;
+		else if ( debug_is_mode_show_alpha() )
+		{
+			out_color.rgb = out_color.a;
+			out_color.a = 1;
+		}
+	}
+	else
+		out_color = float4(0.9f, 0.5f, 0.5f, 1.0f);	// error color, invalid selector
+		
+	// texture isn't used
+	return out_color;
+}
+
+// calculate a standard 4 texture multi sub material blend (except lighting/normal maps is done separately)
+// controlled by debug flags
+float4 debug_calc_multi_blend(
+							in float4 color0,			// const color 0 for tinting
+							in float4 color1,			// const color 1 for tinting
+							in float4 tex_base,			// base texture tap
+							in float4 tex_multiply,		// multiply texture tap
+							in float4 tex_dual,			// dual texture tap
+							in float4 vertex_color		// prebaked ligthing (if any)
+						)
+{
+	float4 result = 1;
+
+	// adjust inputs for debug flags
+	debug_apply_settings( color0, color1, tex_base, tex_multiply, tex_dual, vertex_color.rgb );
+		
+	// calculate tinted 'dual' material color
+	if (isBumpMultiBitOldTint())
+	{
+		// (1 - tex_base.a)*color0.rgb + tex_base.a*tex_base.rgb
+		result.rgb			= lerp(color0.rgb, tex_base.rgb, tex_base.a);
+		result.a			= color0.a;			// apply color0.a, the lod alpha
+	}
+	else
+	{
+		float3 dual_color	= lerp( color1.rgb, color0.rgb, tex_dual.rgb );		// tint the dual texture with const colors
+		float3 tint_mult	= lerp( dual_color.rgb, float3(1), tex_base.a );	// determine modulation factor on base
+		result.rgb  		= tex_base.rgb * tint_mult;							// modulate base with tint factor
+		result.a			= tex_dual.a*color0.a;								// material alpha modulated by lod alpha
+	}
+	
+	// apply 'Multiply' texture which is typically a detail texture but may be a 'faux' reflection
+	result *= tex_multiply;	// note also multiplying alpha!
+	
+	// modulate by vertex color
+	// This will be prebaked ambient group lighting in case of #define RGBS or 
+	// a constant 1.0 which the compiler will then optimize away
+	result.rgb *= vertex_color.rgb;		
+
+	return result;
+}
+
+// calculate a multi sub material blend with ultra reflection (except lighting/normal maps is done separately)
+// controlled by debug flags
+float4 debug_calc_multi_blend_reflect(
+							in float4 color0,			// const color 0 for tinting
+							in float4 color1,			// const color 1 for tinting
+							in float4 tex_base,			// base texture tap
+							in float4 tex_dual,			// dual texture tap
+							in float4 vertex_color,		// prebaked ligthing (if any)
+							in float3 reflection_color,	// reflection color
+							in float  reflectivity		// strength of reflection
+						)
+{
+	float4 result = 1;
+
+	// -- adjust inputs for debug flags
+	float4 unused_tex_multiply = 0;	// unused tex_multiply
+	debug_apply_settings( color0, color1, tex_base, unused_tex_multiply, tex_dual, vertex_color.rgb );
+		
+	// -- calculate tinted 'dual' material color
+	float3 tint_mult;
+	if (isBumpMultiBitOldTint())
+	{
+		// (1 - tex_base.a)*color0.rgb + tex_base.a*tex_base.rgb
+		result.rgb			= lerp(color0.rgb, tex_base.rgb, tex_base.a);
+		result.a			= color0.a;			// apply color0.a, the lod alpha
+		tint_mult			= color1.rgb;		// @todo probably not necessary to support oldtint on ultra reflection materials
+	}
+	else
+	{
+		float3 dual_color	= lerp( color1.rgb, color0.rgb, tex_dual.rgb );		// tint the dual texture with const colors
+		tint_mult			= lerp( dual_color.rgb, float3(1), tex_base.a );	// determine modulation factor on base
+		result.rgb  		= tex_base.rgb * tint_mult;							// modulate base with tint factor
+		result.a			= tex_dual.a*color0.a;								// material alpha modulated by lod alpha
+	}
+	
+	// -- mix in ultra reflection color
+
+	// desaturate reflection lookup? Useful when artists want the material color
+	// to completely dominate reflection...e.g. 'gold man' where no colors in the
+	// reflection get mixed in it's just all shades of gold
+	if ( isBumpMultiDesaturateReflection() )
+	{
+		float3 luma_convert = float3( .3, .59, .11 );	// rough intensity calc
+		float  intensity = dot( reflection_color, luma_convert );
+		reflection_color = float3(intensity, intensity, intensity);
+	}
+
+	// tint reflection color?
+	if ( isBumpMultiTintReflectionSet() )
+	{
+		reflection_color *= tint_mult;		// tint by the tint modulation from the blend
+	}
+
+	// mix reflection into the material blend
+	result.rgb = lerp( result.rgb, reflection_color, reflectivity );
+	
+	// -- modulate by vertex color
+	// This will be prebaked ambient group lighting in case of #define RGBS or 
+	// a constant 1.0 which the compiler will then optimize away
+	result.rgb *= vertex_color.rgb;		
+
+	return result;
+}
+
+// calc material blend for sub material 1 standard (i.e not BIT_BUILDING or Ultra reflection)
+// only does material calculation, no lighting or shadowing
+float4 debug_calc_blend_multi_1(
+							in float2 uv0,			// 'base' input texture coordinate from vertex program
+							in float2 uv_mult,		// 'multiply' input texture coordinate from vertex program, either faux reflect or detail 
+							in float4 vertex_color	// prebaked lighting, if any
+						)
+{
+	// standard 'MULTI' material applies scroll/scale values to all texture coordinates (unlike BUILDING variant)
+	float2 uv_base			= scroll_scale( 0, uv0 );
+	float4 tex_base			= tex2D( sampler_base_1, uv_base );
+	float2 uv_multiply		= scroll_scale( 1, uv_mult );
+	float4 tex_multiply		= tex2D( sampler_multiply_1, uv_multiply );				
+	float2 uv_dual			= scroll_scale( 3, uv0 );
+	float4 tex_dual			= tex2D( sampler_dual_1, uv_dual );
+	// not doing lighting here so we don't lookup from normal map 1, texunit 2, here
+	return debug_calc_multi_blend(g_Env0FP, g_Env1FP, tex_base, tex_multiply, tex_dual, vertex_color);
+}
+
+// calc material blend for sub material 2 standard (i.e not BIT_BUILDING or Ultra reflection)
+// only does material calculation, no lighting or shadowing
+float4 debug_calc_blend_multi_2(
+							in float2 uv0,			// 'base' input texture coordinate from vertex program
+							in float2 uv_mult,		// 'multiply' input texture coordinate from vertex program, either faux reflect or detail 
+							in float4 vertex_color	// prebaked lighting, if any
+						)
+{
+	// standard 'MULTI' material applies scroll/scale values to all texture coordinates (unlike BUILDING variant)
+	float2 uv_base			= scroll_scale( 5, uv0 );
+	float4 tex_base			= tex2D( sampler_base_2, uv_base );
+	float2 uv_multiply		= scroll_scale( 6, uv_mult );
+	float4 tex_multiply		= tex2D( sampler_multiply_2, uv_multiply );				
+	float2 uv_dual			= scroll_scale( 8, uv0 );
+	float4 tex_dual			= tex2D( sampler_dual_2, uv_dual );
+	// not doing lighting here so we don't lookup from normal map 2, texunit 7, here
+	return debug_calc_multi_blend(g_ConstColor0FP, g_ConstColor1FP, tex_base, tex_multiply, tex_dual, vertex_color);
+}
+
+// calculate multi sub material 2 blend with ultra reflection
+// only does material calculation, no lighting or shadowing
+float4 debug_calc_blend_multi_reflect_2(
+							in float2 uv0,				// 'base' input texture coordinate from vertex program
+							in float4 vertex_color,		// prebaked lighting, if any
+							in float3 reflection_color,	// reflection color
+							in float  reflectivity		// strength of reflection
+						)
+{
+	// standard 'MULTI' material applies scroll/scale values to all texture coordinates (unlike BUILDING variant)
+	float2 uv_base			= scroll_scale( 5, uv0 );
+	float4 tex_base			= tex2D( sampler_base_2, uv_base );
+	float2 uv_dual			= scroll_scale( 8, uv0 );
+	float4 tex_dual			= tex2D( sampler_dual_2, uv_dual );
+	// not doing lighting here so we don't lookup from normal map 2, texunit 7, here
+	return debug_calc_multi_blend_reflect(g_ConstColor0FP, g_ConstColor1FP, tex_base, tex_dual, vertex_color, reflection_color, reflectivity);
+}
+
+/*
+	multi debug material and lighting application
+*/
+float4 debug_apply_multi( VP2FP IN )
+{
+	float4 out_color = 1;
+    
+	// populate lighting vectors and tangent basis conversions as necessary
+	// renormalize direction vectors received from interpolators
+#if defined(HIGH_QUALITY)
+    float3 normal_vs	= normalize(IN.normal_vs.xyz);   
+	float4 tangent_vs	= float4( normalize(IN.tangent_vs.xyz), IN.tangent_vs.w );	// normalize tangent but keep binormal sign in w
+    float3 light_vs		= g_LightDirFP.xyz;  // light direction in view space, should already be normalized
+	float3 position_vs	= IN.position_vs.xyz;
+
+	LightingVectorsHQ	light_vectors	= populate_lighting_vectors_hq( normal_vs, tangent_vs, position_vs, light_vs );
+	float3				light_ts		= light_vectors.light_ts;
+	float3				half_ts			= light_vectors.half_ts;
+#else
+	float3 light_ts		= normalize(IN.light_ts.xyz);	// renormalize from interpolation
+	float3 view_ts		= normalize(IN.view_ts.xyz);
+	float3 half_ts		= normalize( view_ts + light_ts );
+#endif
+
+    // determine fragment raw shadowing factor once up front for application to all material lighting
+    float shade_factor = 1; // set to one and compiler will optimize away operations
+#ifdef USE_SHADOWMAP
+    if ( debug_is_enabled_shadowed() )
+    {
+        shade_factor = shadow_csm( IN.position_vs.xyz, IN.fragment_pos );
+    }
+#endif
+
+    // setup light prop structs with the lighting constants and properties for
+    // material 1 and material 2
+    LightProps light1, light2;
+    setup_light_properties( shade_factor, light1, light2 );
+
+	// base texture coords
+	float2 uv0			= IN.uv0_uv1.xy;
+	float2 uv_reflect	= IN.uv0_uv1.zw;		// faux spheremap reflection uv calc'd by vertex shader
+
+	// Use the reflection selector to determine the 'multiply' texture coordinates
+	// are either the base or the faux spheremap refection coords supplied in uv1
+	float2 uv_multiply1;
+	if (isBumpMultiReflectUV1Set())
+		uv_multiply1	= uv_reflect;
+	else
+		uv_multiply1	= uv0;
+
+	float2 uv_multiply2;
+	if (isBumpMultiReflectUV2Set())
+		uv_multiply2	= uv_reflect;
+	else
+		uv_multiply2	= uv0;
+
+	// @todo #ifdef RGBS on blend mode (currently decide by vertex shader whether to
+	// pass prelit colors or 1.0)
+#if VERTEX_LIT != NONE				
+	float4 color_prelit = IN.color;	
+#else
+	float4 color_prelit = 1;			// compiler will optimize away modulations
+#endif
+
+//---------------------------------------------------------
+#if MULTI_MODE == MULTI_SINGLE			// SINGLE MATERIAL - Material 1
+//---------------------------------------------------------
+	float4 normal_and_gloss_1 = map_color_to_normal( tex2D(sampler_normal_and_gloss_1, scroll_scale(2,uv0) ) );
+
+	if ( debug_is_enabled_sub_material_1() ) 
+		out_color = debug_calc_blend_multi_1( uv0, uv_multiply1, color_prelit );
+		
+	if ( debug_do_lighting() )
+		out_color.rgb = debug_apply_bumpmap_lighting( out_color.rgb, IN, normal_and_gloss_1, light1 );
+
+	#ifdef ADDGLOW
+	if ( debug_is_enabled_blend_addglow() )
+	{
+		// check glow mask and add glow texture if appropriate to result
+		float2 uv_addglow = scroll_scale( 9, uv0 );
+		add_glow( out_color, sampler_glow, uv_addglow, sampler_glow_mask, uv0, g_MiscParamFP, g_Env1FP.rgb );
+	}
+	#endif
+
+//---------------------------------------------------------
+#elif MULTI_MODE == MULTI_BUILDING		// "BUILDING" MATERIAL - Material 1 + [Multiply or Reflection]
+//---------------------------------------------------------		
+	// "BUILDING" simpler material without needing scroll scales on most texture coords
+	
+	// if this variant has been disabled return 0 so they disappear
+	if ( !debug_is_enabled_material_building() )
+		return 0;
+		
+	// Do normal map lookups once up front (used for lighting and perturbed reflections)
+	float4 normal_and_gloss_1 = map_color_to_normal( tex2D(sampler_normal_and_gloss_1, uv0) );
+
+	// -- Sub Material 1
+	// calc "building" material blend for sub material 1
+	// only multiply texture still gets a scroll scale nn the texture coordinates
+	float4 tex_base			= tex2D( sampler_base_1, uv0 );
+	float4 tex_multiply		= tex2D( sampler_multiply_1, scroll_scale( 1, uv_multiply1 ) );				
+	float4 tex_dual			= tex2D( sampler_dual_1, uv0 );
+
+	float4 material_1		= debug_calc_multi_blend(g_Env0FP, g_Env1FP, tex_base, tex_multiply, tex_dual, color_prelit);
+	float4 material_2		= material_1;
+	
+	// apply lighting, only sub material 1 gets lit in BUILDING variant
+	if ( debug_do_lighting() )
+	{
+		material_1.rgb = debug_apply_bumpmap_lighting( material_1.rgb, IN, normal_and_gloss_1, light1 );
+	}
+	
+	// -- Sub Material 2
+	// Just a multiply detail or a reflection (no dual blend, no lighting)
+	
+	// Currently only HIGH_QUALITY gets ultra reflections
+	// engine was updated to always add HIGH_QUALITY bit regardless of distance for ultra mode reflections
+	#if defined(USE_CUBEMAP) && defined(HIGH_QUALITY)
+	if ( debug_is_enabled_reflection() )
+	{
+		// Calculate reflection
+		// @todo currently 'building' variant doesn't perturb reflection by base normal map, just uses geo normal
+		// I don't see that there any reason this shouldn't be the same as the full material case?
+		float3	reflection_color	= sample_reflection_cubemap( position_vs, normal_vs ).rgb;
+
+		#ifdef USE_PLANAR_REFLECTION
+			float4 reflection_planar = sample_reflection_planar_hq( IN.fragment_pos.xy, normal_vs, normal_vs );
+			float  planar_strength	 = IN.normal_vs.w;
+
+			// combine cubemap reflection with planar reflection
+			// (note that planar reflection may have a mask in the alpha channel, e.g character only reflection)	  
+			float reflectivity_planar = planar_strength * reflection_planar.a;
+			reflection_color = lerp(reflection_color, reflection_planar.xyz, reflectivity_planar);
+		#endif
+
+		float  reflectivity = calc_reflectivity_hq( light_vectors.u_to_eye, normal_vs, g_FresnelParamsFP ); // using geo normal here, advantage to using perturbed?
+
+		// @todo also not supporting destaturation or tinting of reflection in this case but we should be
+		// mix reflection into material_2
+		material_2.rgb = lerp( material_1.rgb, reflection_color, reflectivity );
+	}
+	else
+	{
+		float4 tex_multiply2	= tex2D( texture6, scroll_scale( 6, uv_multiply2 ) );
+		material_2				= material_1*tex_multiply2;
+	}
+	#else
+		float4 tex_multiply2	= tex2D( texture6, scroll_scale( 6, uv_multiply2 ) );
+		material_2				= material_1*tex_multiply2;
+	#endif // !USE_CUBEMAP
+
+	#ifdef ADDGLOW
+	if ( debug_is_enabled_blend_addglow() )
+	{
+		// Calculate 'add glow' and apply to sub-material 1 or 2 as directed
+		add_glow_multi( uv0, material_1, material_2 );
+	}
+	#endif
+
+	// now mix two materials according to the mask texture
+	if ( debug_is_enabled_sub_material_1() && debug_is_enabled_sub_material_2() )
+	{
+		float4 texMask = tex2D(texture4, uv0 );
+		out_color = mix_material_colors( texMask, material_1, material_2 );
+	}
+	else if ( debug_is_enabled_sub_material_1() )
+	{
+		out_color = material_1;
+	}
+	else if ( debug_is_enabled_sub_material_2() )
+	{
+		out_color = material_2;
+	}
+//---------------------------------------------------------
+#elif MULTI_MODE == MULTI_FULL				// DUAL MATERIAL - Material 1 + [Material 2 + Reflection]
+//---------------------------------------------------------
+	// Do normal map lookups once up front (used for lighting and perturbed reflections)
+	float4 normal_and_gloss_1 = map_color_to_normal( tex2D(sampler_normal_and_gloss_1, scroll_scale(2,uv0) ) );
+	float4 normal_and_gloss_2 = map_color_to_normal( tex2D(sampler_normal_and_gloss_2, scroll_scale(7,uv0) ) );
+
+	float4 material_1, material_2;
+	// Currently only HIGH_QUALITY gets ultra reflections
+	// engine was updated to always add HIGH_QUALITY bit regardless of distance for ultra mode reflections
+	#if defined(USE_CUBEMAP) && defined(HIGH_QUALITY)	
+	if ( debug_is_enabled_reflection() )
+	{
+		// Calculate reflection
+		float3 perturbed_normal_ts	= calc_perturbed_normal(normal_and_gloss_1.xyz, normal_and_gloss_2.xyz, position_vs );
+		float3 perturbed_normal_vs	= convert_ts_to_vs( perturbed_normal_ts, light_vectors );
+		float3 reflection_color		= sample_reflection_cubemap( position_vs, perturbed_normal_vs ).rgb;
+
+		#ifdef USE_PLANAR_REFLECTION
+			float4 reflection_planar = sample_reflection_planar_hq( IN.fragment_pos.xy, perturbed_normal_vs, light_vectors.normal_vs );
+			float  planar_strength	 = IN.normal_vs.w;
+
+			// combine cubemap reflection with planar reflection
+			// (note that planar reflection may have a mask in the alpha channel, e.g character only reflection)	  
+			float reflectivity_planar = planar_strength * reflection_planar.a;
+			reflection_color = lerp(reflection_color, reflection_planar.xyz, reflectivity_planar);
+		#endif
+
+		float  reflectivity			= calc_reflectivity_hq( light_vectors.u_to_eye, normal_vs, g_FresnelParamsFP ); // using geo normal here, advantage to using perturbed?
+
+		material_1 = debug_calc_blend_multi_1( uv0, uv_multiply1, color_prelit );
+		material_2 = debug_calc_blend_multi_reflect_2( uv0, color_prelit, reflection_color, reflectivity );
+	}
+	else
+	{
+		material_1 = debug_calc_blend_multi_1( uv0, uv_multiply1, color_prelit );
+		material_2 = debug_calc_blend_multi_2( uv0, uv_multiply2, color_prelit );
+	}	
+	#else
+	{
+		material_1 = debug_calc_blend_multi_1( uv0, uv_multiply1, color_prelit );
+		material_2 = debug_calc_blend_multi_2( uv0, uv_multiply2, color_prelit );
+	}	
+	#endif // !USE_CUBEMAP
+	
+	// apply lighting
+	if ( debug_do_lighting() )
+	{
+		material_1.rgb = debug_apply_bumpmap_lighting( material_1.rgb, IN, normal_and_gloss_1, light1 );
+		material_2.rgb = debug_apply_bumpmap_lighting( material_2.rgb, IN, normal_and_gloss_2, light2 );
+	}
+	
+	#ifdef ADDGLOW
+	if ( debug_is_enabled_blend_addglow() )
+	{
+		// Calculate 'add glow' and apply to sub-material 1 or 2 as directed
+		add_glow_multi( uv0, material_1, material_2 );
+	}
+	#endif
+
+	// now mix two materials according to the mask texture
+	if ( debug_is_enabled_sub_material_1() && debug_is_enabled_sub_material_2() )
+	{
+		float4 texMask = tex2D(sampler_mask, scroll_scale(4,uv0) );
+		out_color = mix_material_colors( texMask, material_1, material_2 );
+	}
+	else if ( debug_is_enabled_sub_material_1() )
+	{
+		out_color = material_1;
+	}
+	else if ( debug_is_enabled_sub_material_2() )
+	{
+		out_color = material_2;
+	}
+	else
+		return 0;	// object disappear
+
+//---------------------------------------------------------
+#elif MULTI_MODE == MULTI_REDUCED				// REDUCED MATERIAL - Material 1 + [Material 2 lighting + Material 1 dual]
+//---------------------------------------------------------
+	// mode to save instructions on low end ATI cards
+	// @todo, at the moment we should never be selecting this as a debug shader variant
+	// but it might be useful to have a test case to force it on to make sure it isn't broken
+	out_color = float4(0.9f, 0.5f, 0.5f, 1.0f);	// error color,
+//---------------------------------------------------------
+#else
+//---------------------------------------------------------
+	#error illegal shader variant
+//---------------------------------------------------------
+#endif
+
+	return out_color;
+}
+
+
+#endif  //_MULTI9_DEBUG_CGH_

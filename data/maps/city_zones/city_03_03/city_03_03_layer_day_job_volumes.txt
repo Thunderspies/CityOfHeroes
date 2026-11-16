@@ -1,0 +1,38 @@
+Def grpvolume_DJ_University
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 290.000000 75.000000 120.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_University"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Scholar_Message"	0
+End
+
+Def grpvolume_DJ_Hospital
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 90.000000 155.000000 190.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Hospital"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Caregiver_Message"	0
+End
+
+Def grp_Day_Job_Volumes
+	Group grpvolume_DJ_University
+		Rot 0 1.570796 -0
+		Pos 18 -10.5 1
+	End
+	Group grpvolume_DJ_Hospital
+		Pos 379.5 -30 219.5
+	End
+	Group Omni/EncounterSpawns/Universal/EG_Invisible_Critter_of_Death_Hero
+		Pos 45.5 -8 -4
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Day_Job_Volumes
+	Pos -1177.5 -151.5 1998.5
+End
+

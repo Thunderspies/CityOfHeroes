@@ -1,0 +1,177 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Head
+	BaseSkeleton	FX_Head\skel_head
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+
+Move Ready
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle 
+
+
+	Type		FX_Head
+	  Anim          FX_Head\skel_head 1 60
+	TEnd
+MEnd
+
+
+
+
+
+###################
+#### run Forward ##
+####################
+
+Move G_RunPre
+	Requires	FORWARD 
+	Interrupts	<Ready>   
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ> 
+	Flags		ReqInputs
+	NextMove        G_RunCycle
+	Priority        10
+	Interpolate	8
+
+	Type		FX_Head
+	  Anim          FX_Head\skel_head 1 60
+	TEnd
+
+MEnd
+
+
+Move G_RunCycle
+	Requires	FORWARD 
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle
+	NextMove	G_RunPost
+	Priority        10
+	Interpolate	8
+
+
+	Type		FX_Head
+	  Anim          FX_Head\skel_head 1 60
+	TEnd
+
+MEnd
+
+
+Move G_RunPost
+	Interrupts	RunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> 
+	NextMove        Ready 
+	Interpolate	8
+
+	Type		FX_Head
+	  Anim          FX_Head\head_postrun 1
+	TEnd
+MEnd
+
+
+
+
+#################################
+####### Draw Severed Head  ######
+#################################
+#
+#Move Draw_Head
+#	Requires	SPAWNSIDE Head
+#	Interrupts	<Ready>  
+#	Member		<ReactIRQ> <DeathIRQ> <Ready> <AttackIRQ>
+#	Priority        2
+#
+#
+#	Type		FX_Head
+#	  Anim          FX_Head\headcast 1 
+#	TEnd
+#
+#MEnd
+
+
+
+################################
+###### Severed Head Cast  ######
+################################
+
+Move 1st_HeadCast
+	Requires	SPAWNSIDE Head Headcast
+	Interrupts	<AttackIRQ> 
+	NextMove	1st_HeadCast_post
+	Priority        3
+
+
+	Type		FX_Head
+	  Anim          FX_Head\headcast 1 90
+	  PlayFx        GENERIC\head_spawn.FX  0 
+	TEnd
+
+MEnd
+
+
+Move 1st_HeadCast_post
+	Member		<AttackIRQ> 
+	NextMove	Ready
+
+
+	Type		FX_Head
+	  Anim          FX_Head\headcast 91 
+	  PlayFx        GENERIC\head_spawn.FX  0 
+	TEnd
+
+MEnd
+
+
+#####
+
+Move 2nd_HeadCast
+	Requires	Head Headcast 
+	Interrupts	<AttackIRQ>
+	NextMove	2nd_HeadCast_post
+	Priority        2
+
+
+	Type		FX_Head
+	  Anim          FX_Head\headcast_quick 1 43
+	TEnd
+
+MEnd
+
+Move 2nd_HeadCast_post
+	Member     <AttackIRQ>
+	NextMove	Ready
+
+
+	Type		FX_Head
+	  Anim          FX_Head\headcast_quick 44
+	TEnd
+
+MEnd
+
+
+
+
+
+SeqEnd
+

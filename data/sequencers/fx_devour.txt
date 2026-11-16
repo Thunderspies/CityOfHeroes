@@ -1,0 +1,47 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Devour 
+	BaseSkeleton	FX_Devour\skel_FX_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+Group	<AttackIRQ>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle 
+
+	Type		FX_Devour
+	  Anim          FX_Devour\skel_FX_ready 1  
+	TEnd
+MEnd
+
+
+#################################
+###### Quick spit  ######
+#################################	
+
+Move Spit
+	Requires	COMBAT BLOW CAST QUICK  
+	Interrupts	<AttackIRQ> 
+	NextMove        Ready
+	Priority        4
+
+
+	Type		FX_Devour
+	  Anim          FX_Devour\quickspit 1  
+	TEnd
+MEnd
+
+
+
+
+SeqEnd
+

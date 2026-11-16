@@ -1,0 +1,63 @@
+// TBD! this file could be DEPRECATED, as the path that binds it currently always fails bool useLogSampling=false;
+
+// #define EXTEND_COLORS
+// #define CAPTHEM
+// #define HIGH_RANGE
+
+#include "constants_vfx.cgh"
+#include "utilEffects.cgh"  //placed after #defines for util routines
+
+// TBD! OPTION ARB_precision_hint_fastest;
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+    float2 texCoord0              : TEXCOORD0;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform float4 g_Effects_TextTransformFP	TIE( ENV0 ); // program.local[0];
+};
+
+
+void SAMPLE(inout float3 c, fpInput IN, float dx, float dy)
+{
+    // 	MAD texcoord, g_Effects_TextTransformFP.xyzz, {dx,dy}, fragment.texcoord[0];
+	float2 texcoord = ( IN.g_Effects_TextTransformFP.xy * float2(dx, dy));
+	float4 t = tex2D( IN.texSampler0, texcoord + IN.texCoord0 );
+	c += t.xyz;
+}
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float3 c = 0;
+    SAMPLE(c,IN,-3,-3);
+    SAMPLE(c,IN,-3,-1);
+    SAMPLE(c,IN,-3, 1);
+    SAMPLE(c,IN,-3, 3);
+    SAMPLE(c,IN,-1,-3);
+    SAMPLE(c,IN,-1,-1);
+    SAMPLE(c,IN,-1, 1);
+    SAMPLE(c,IN,-1, 3);
+    SAMPLE(c,IN, 1,-3);
+    SAMPLE(c,IN, 1,-1);
+    SAMPLE(c,IN, 1, 1);
+    SAMPLE(c,IN, 1, 3);
+    SAMPLE(c,IN, 3,-3);
+    SAMPLE(c,IN, 3,-1);
+    SAMPLE(c,IN, 3, 1);
+    SAMPLE(c,IN, 3, 3);
+    c *= 0.0625;
+
+    float cDotL = dot(c, LUMINANCE_VECTOR_LOW);
+    float4 logSample = log2( cDotL + 0.01 );
+
+    float4 oColor = utilFinalColor( logSample );
+    return oColor;
+}

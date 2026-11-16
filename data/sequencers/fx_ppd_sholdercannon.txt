@@ -1,0 +1,65 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_PPD_sholdercannon
+	BaseSkeleton	FX_PPD_SholderCannon\skel_sholdercannon
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		FX_PPD_sholdercannon
+	  Anim          FX_PPD_SholderCannon\skel_sholdercannon 121 130
+	TEnd
+
+
+MEnd
+
+
+
+#####################
+#### SHOULDER_Blast ###
+#####################
+
+Move shoot
+	Requires	COMBAT WEAPON DUAL SHOULDERBLAST
+	Interrupts	Ready
+	NextMove        Ready
+	Priority        5
+
+	Type		FX_PPD_sholdercannon
+	  Anim          FX_PPD_SholderCannon\skel_sholdercannon 1 121
+	TEnd
+
+
+MEnd
+
+
+#####################
+#### Robot_SHOULDER_Blast ###
+#####################
+
+Move Robot_shoot
+	Requires	CHESTCANNON
+	Interrupts	Ready
+	NextMove        Ready
+	Priority        1
+
+	Type		FX_PPD_sholdercannon
+	  Anim          FX_PPD_SholderCannon\robot_shoot 1
+	TEnd
+
+
+MEnd
+
+SeqEnd
+

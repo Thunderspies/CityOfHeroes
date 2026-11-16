@@ -1,0 +1,94 @@
+Texture x_MM_Fountain_Trim
+	Base1 FW_MM_Concrete_Trim_02 //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\MM_Hospital\FW_MM_Concrete_Trim_02.tga
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale  1 1 // 1 1
+
+	Multiply1 FW_MM_Brick_Wall_Z //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\MM_Hospital\FW_MM_Brick_Wall_Z.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  0.5 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none //
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 FW_MM_Concrete_Trim_02_NS //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\MM_Hospital\FW_MM_Concrete_Trim_02_NS.tga
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale  1 1 // 1 1
+
+	AddGlow1 none //
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  0.25 0.25
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none //
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 // 1 1
+	MaskWeight  1 // 1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none //
+	Base2Scroll 0 0 // 0 0
+	Base2ScrollType  Normal //Normal
+	Base2Scale  8 5
+
+	Multiply2 none //
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none //
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 3
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 250 250 250
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1.2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow    FallbackForceOpaque // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base FW_MM_Concrete_Trim_02 //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\MM_Hospital\FW_MM_Concrete_Trim_02.tga
+		BumpMap none //Texture_Library\WORLD\city_zones\Praetoria\Buildings\Office\Modern_SkyScrapers\Style_C_Textures\bld_ofc_SkyC03_Trim01_N.tga
+		Blend FW_MM_Brick_Wall_Z //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\MM_Hospital\FW_MM_Brick_Wall_Z.tga
+		BlendType Multiply
+		ScaleST0 0.5 1.0
+		ScaleST1 1 1.0
+		DiffuseScale 0.4
+		AmbientScale 0.4
+	End
+End
+

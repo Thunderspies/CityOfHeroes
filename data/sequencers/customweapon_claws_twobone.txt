@@ -1,0 +1,60 @@
+#############################################################
+## CustomWeapon_Claws_TwoBone.txt
+#############################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef TwoBoneClawsRight_Base
+	BaseSkeleton	CustomWeapons_Claws_TwoBone\Skel_ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		TwoBoneClawsRight_Base
+	  Anim		CustomWeapons_Claws_TwoBone\Skel_ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	DUALHAND SPAWNSIDE
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Flags		NoDraw
+
+	Type		TwoBoneClawsRight_Base
+	  Anim		CustomWeapons_Claws_TwoBone\Skel_ready 1 16
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	DUALHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle
+
+	Type		TwoBoneClawsRight_Base
+	  Anim		CustomWeapons_Claws_TwoBone\Skel_ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

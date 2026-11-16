@@ -1,0 +1,148 @@
+#############################################################
+
+Sequencer
+
+TypeDef Prop_Egg
+	BaseSkeleton	Prop_Egg\skel_egg
+	ParentType	None
+TypeDefEnd
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> <DeathIRQ> 
+	Flags		Cycle 
+	CycleMove	Ready_A
+	CycleMove	Ready_B
+	CycleMove	Ready_C
+
+	Type		Prop_Egg
+	  Anim          Prop_Egg\skel_egg 1 5
+	  PlayFX	Feet\eggcrack4.fx 0 CONSTANT
+	
+	TEnd
+MEnd
+
+Move Ready_A
+	Member		<Ready> <DeathIRQ> 
+	CycleMove	Ready_B
+	CycleMove	Ready_C
+	CycleMove	Ready_A
+
+	Type		Prop_Egg
+	  Anim          Prop_Egg\skel_egg 6 38
+	  PlayFX	Feet\eggcrack4.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Ready_B
+	Member		<Ready> <DeathIRQ> 
+	CycleMove	Ready_C
+	CycleMove	Ready_B
+	CycleMove	Ready_A
+
+	Type		Prop_Egg
+	  Anim          Prop_Egg\skel_egg 39 87
+	  PlayFX	feet\eggcrack1.fx
+	  PlayFX	Feet\eggcrack4.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+
+Move Ready_C
+	Member		<Ready> <DeathIRQ> 
+	CycleMove	Ready_A
+	CycleMove	Ready_B
+	CycleMove	Ready_C
+
+	Type		Prop_Egg
+	  Anim          Prop_Egg\skel_egg 87 140
+	  PlayFX	feet\eggcrack2.fx
+	  PlayFX	Feet\eggcrack4.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+################################
+###### Default Death (instant)  ######
+################################	
+
+Move Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ> 
+	NextMove        Death_post
+	Priority        5
+	Sets            NOCOLLISION 
+	Flags		NotSelectable
+
+	Type		Prop_Egg
+	  Anim          Prop_Egg\skel_egg 1 5
+	 PlayFx        V_COV\Destructible_Objects\SnakeEgg\SnakeEggBurst.fx
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	 PlayFx        V_COV\Destructible_Objects\SnakeEgg\DeadEgg.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Death_post
+	Requires	DEATH 
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION  DIENOW
+
+
+	Type		Prop_Egg
+	  Anim          Prop_Egg\skel_egg 1 5  
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx        V_COV\Destructible_Objects\SnakeEgg\DeadEgg.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+######  Encounter  #################################
+
+####################
+### Egg Sleep  #####
+####################
+
+Move Egg_Sleep
+	Requires	LOW SPAWN 
+	Interrupts	<Ready> <Combat> 
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle CANTMOVE
+	NextMove	Ready
+	Priority        4
+	Interpolate	0
+
+
+
+	Type		Prop_Egg
+	  Anim          Prop_Egg\skel_egg 1 5 
+	TEnd
+MEnd
+
+
+
+
+SeqEnd

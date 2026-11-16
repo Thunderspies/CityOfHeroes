@@ -1,0 +1,98 @@
+// TBD! this file could be DEPRECATED, as the path that binds it currently is commented out
+//			brightPass(&pbBlurBuffer2, &pbBlurBuffer); // Want FLOAT
+
+// TBD! OPTION ARB_precision_hint_fastest;
+
+#ifndef DO_TONEMAP
+    #define DO_TONEMAP
+#endif
+// #define DESATURATE
+// #define ORIGINAL_BLOOM
+
+#if defined(ORIGINAL_BLOOM)
+    #define HIGH_RANGE
+#endif
+
+#if defined(DO_TONEMAP)
+    #define DO_TONEMAPPING(s, g, l) DoToneMapping(s, g, l)
+#else
+    #define DO_TONEMAPPING(s, g, l) 
+#endif
+
+#include "constants_vfx.cgh"
+#include "utilEffects.cgh"  //placed after #defines for util routines
+
+
+//--------------------------------------------------
+// Input struct def created by _Arb2Cg.py
+//--------------------------------------------------
+struct fpInput
+{
+	float4 primaryColor           : COLOR0;
+	float4 secondaryColor         : COLOR1;
+    float4 fragmentPos            : WPOS;
+    float  fragmentFogCoord       : FOG;
+    float4 texCoord0              : TEXCOORD0;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform sampler2D texSampler1 : TEXUNIT1;
+    uniform float4 g_Effects_ExpectedLumFP    TIE( ENV0 ); // 0.18 is good for night time 0.5 for daytime
+};
+
+void DoToneMapping(inout float4 sample, in float4 middleGray, in float4 avgLum)
+{
+    const float scaleScale = 0.7;
+    const float TONEMAP_WEIGHT = middleGray.y;
+
+    //		vSample.rgb *= g_fMiddleGray/(fAdaptedLum + 0.001f);
+    float Lum = 1.0 / ( avgLum.x + 0.1 );  // This value needs to be pretty big if there's much black allowed in the scene
+    // 0.18 -> 0.36
+    // 0.5 -> 0.5
+    float effMiddleGray = (( middleGray.x - 0.5 ) * 0.4 ) + 0.5;
+    float scale = ( effMiddleGray * Lum ) - 1;
+
+    sample *= (( scale * TONEMAP_WEIGHT * scaleScale ) + 1 );
+
+    #if 0
+        //		vSample.rgb /= (1.0f+vSample);
+        //  This would remap the linear color space onto some other space, makes everything greyish and doesn't look
+        //  good for out balance of lighting
+        float3 t = 1.0 / ( sample.xyz + 1 );
+        sample *= t;
+    #endif
+
+    #if 0
+        // Subtract out black pixels
+        sample = max( sample - 0.3, 0 );
+        //sample *= 3;
+    #endif
+}
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float4 oColor;
+
+    float4 sample = tex2D( IN.texSampler0, IN.texCoord0.xy );
+    float4 avgLum = tex2D( IN.texSampler1, float2(0.5, 0)  );
+
+    DO_TONEMAPPING(sample, IN.g_Effects_ExpectedLumFP, avgLum);
+
+    sample = utilFinalColor(sample);
+
+    #if defined(DESATURATE)
+        // Shift things towards grey
+        float dotLum = dot(sample.xyz, LUMINANCE_VECTOR_LOW); // DP3
+        sample.xyz = lerp(dotLum, sample.x, 0.3 );
+    #endif
+
+    oColor = sample;
+
+    // oColor.xyz = sample - 1;
+    // oColor.xyz = 0;
+
+    return oColor;
+}

@@ -1,0 +1,31 @@
+######################################
+## Destructible Object
+## 
+Type
+
+Sequencer	Prop_Basic.txt  	 		
+
+Graphics	player_library/V_Destructible_Props_Supplies_02.geo			
+ConstantState        INSTANTDEATH	
+
+FadeOutStart	300				
+FadeOutFinish	400
+
+VisSphereRadius 15.12  
+
+GeomScale	1.0 1.0 1.0			
+
+Placement         DeadOn
+CapsuleSize	9 9.1 9
+CapsuleOffset -.25 -1.8 -.75
+Selection	Capsule
+
+TicksToLingerAfterDeath			40
+TicksToFadeAwayAfterDeath		1
+
+HealthFx
+	Range		        0 0.0001 
+	OneShotFx		Explosions\WoodExplosion\Large_WoodExplosion.Fx
+End
+
+End

@@ -1,0 +1,40 @@
+#############################################################
+
+Sequencer
+
+TypeDef pump_01 
+	BaseSkeleton	pump_01\skel_pump
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		pump_01
+	  Anim          pump_01\skel_pump 1  
+	TEnd
+MEnd
+
+SeqEnd
+

@@ -1,0 +1,918 @@
+#############################################################
+
+Sequencer
+
+TypeDef Sentinel
+	BaseSkeleton	Sentinel\Skel_Sentinel
+	ParentType	None
+TypeDefEnd
+
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+
+#############################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Sentinel
+	  Anim          Sentinel\ready_long 1
+	TEnd
+MEnd
+
+Move Simple_Ready	##(just a simple bounce, no tilt)
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Sentinel
+	  Anim          Sentinel\Skel_Sentinel 1
+	TEnd
+MEnd
+
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkPreReady
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        WalkCycleReady
+	Priority        1
+
+	Type		Sentinel
+	  Anim          Sentinel\forward 10 59
+	TEnd
+
+MEnd
+
+
+Move WalkCycleReady
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        WalkPostReady
+	Priority        1
+
+	Type		Sentinel
+	  Anim          Sentinel\forward 60 120
+	TEnd
+
+
+MEnd
+
+
+Move WalkPostReady
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Sentinel
+	  Anim          Sentinel\forward 125
+	TEnd
+MEnd
+
+
+
+######## powers & attacks  ######################################
+
+
+##############################
+###### Summon more Sentinel  ######
+#############################
+
+Move Summon
+	Requires	SUMMON CAST Low
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Summon_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Sentinel
+	  Anim          Sentinel\spawn_summon 1 100
+	TEnd
+
+MEnd
+
+
+Move Summon_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Simple_Ready
+	Interpolate     0
+
+	Type		Sentinel
+	  Anim          Sentinel\spawn_summon 101
+	TEnd
+
+MEnd
+
+
+##############################
+###### Summoned pet  ######
+#############################
+
+Move Pet
+	Requires	SUMMON Spawn Low
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Pet_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Sentinel
+	  Anim          Sentinel\ready_long 1 30
+#	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+Move Pet_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		Sentinel
+	  Anim          Sentinel\ready_long 1
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### Spike Cast  ######
+###################
+
+Move SpikeCast
+	Requires	COMBAT CAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        SpikeCastpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Sentinel
+	  Anim          Sentinel\spike_shake 1 50  ##spike_shoot 1 40
+	TEnd
+
+MEnd
+
+
+Move SpikeCastpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Simple_Ready
+	Interpolate     0
+
+	Type		Sentinel
+	  Anim          Sentinel\spike_shake 51 ##spike_shoot 41
+	TEnd
+
+MEnd
+
+
+
+####################
+####### Eye Cast  ######
+####################
+
+Move EyeCast
+	Requires	COMBAT HEADCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        EyeCastpost
+	Priority        2
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Sentinel
+	  Anim          Sentinel\eye_cast_slow 1 75
+	  PitchStart	1
+	TEnd
+
+MEnd
+
+
+Move EyeCastpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Simple_Ready
+	Interpolate     0
+	Flags		PitchToTarget
+
+	Type		Sentinel
+	  Anim          Sentinel\eye_cast_slow 76
+	  PitchEnd	80
+	TEnd
+
+MEnd
+
+
+
+
+###################
+####### Snap Attack  ######
+####################
+
+Move Snap_L
+	Requires	COMBAT Punch
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Snap_L_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Sentinel
+	  Anim          Sentinel\snap_L 1 40
+	  PlayFx        ENEMYFX\Rularuu\Sentinel\SentinalChomp.fx 19 Constant
+	TEnd
+
+MEnd
+
+
+Move Snap_L_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Simple_Ready
+	Interpolate     0
+
+	Type		Sentinel
+	  Anim          Sentinel\snap_L 41
+	TEnd
+
+MEnd
+
+
+Move Snap_R
+	Requires	COMBAT Punch
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Snap_R_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Sentinel
+	  Anim          Sentinel\snap_R 1 40
+	  PlayFx        ENEMYFX\Rularuu\Sentinel\SentinalChomp.fx 19 Constant
+	TEnd
+
+MEnd
+
+
+Move Snap_R_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Simple_Ready
+	Interpolate     0
+
+	Type		Sentinel
+	  Anim          Sentinel\snap_R 41
+	TEnd
+
+MEnd
+
+
+
+###### hit reacts ################################################
+
+
+####################
+####### Hit Quick  ######
+####################
+
+Move HitQuick_R
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Simple_Ready
+	Priority        2
+	Flags		PICKRANDOMLY
+
+	Type		Sentinel
+	  Anim          Sentinel\HQ_R 1
+	TEnd
+MEnd
+
+
+Move HitQuick_L
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Simple_Ready
+	Priority        2
+	Flags		PICKRANDOMLY
+
+	Type		Sentinel
+	  Anim          Sentinel\HQ_L 1
+	TEnd
+MEnd
+
+
+
+###### special Hit reacts  ###################################################
+
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	Fear
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+	Priority        2
+
+	Type		Sentinel
+	  Anim          Sentinel\fear_stun 1
+	TEnd
+
+MEnd
+
+Move FearStun_cycle
+	Requires	Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	Interpolate	8
+
+	Type		Sentinel
+	  Anim          Sentinel\fear_stun 40 88
+	TEnd
+
+MEnd
+
+
+###################
+###### Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Speed_react2
+	Priority        2
+
+	Type		Sentinel
+	  Anim          Sentinel\speed_hit 1
+	TEnd
+MEnd
+
+
+Move Speed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Simple_Ready
+
+	Type		Sentinel
+	  Anim          Sentinel\HQ_R 2
+	TEnd
+MEnd
+
+###################
+###### Kungfu_speed react  ######
+###################
+
+Move KungfuSpeed_react
+	Requires	HIT KUNGFUSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react2
+	Priority        2
+
+	Type		Sentinel
+	  Anim          Sentinel\speed_hit 1 36
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react3
+
+	Type		Sentinel
+	  Anim          Sentinel\block 1 12
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Simple_Ready
+
+	Type		Sentinel
+	  Anim          Sentinel\HQ_L 2
+	TEnd
+MEnd
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+
+	Type		Sentinel
+	  Anim          Sentinel\electro 104 140
+	  TEnd
+MEnd
+
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react3
+
+	Type		Sentinel
+	  Anim          Sentinel\block 1 13
+	TEnd
+MEnd
+
+
+Move ClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Simple_Ready
+
+	Type		Sentinel
+	  Anim          Sentinel\HQ_R 2
+	TEnd
+MEnd
+
+
+
+
+
+
+###### stuns  #################################################################
+
+
+###################
+###### Stun ######
+###################
+
+Move Stun
+	Requires	STUN HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	NextMove        Stun_cycle
+	Priority        2
+
+	Type		Sentinel
+	  Anim          Sentinel\freeze 25 40
+	TEnd
+MEnd
+
+
+Move Stun_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	Flags		Cycle
+	NextMove        Simple_Ready
+	Priority        1
+
+
+	Type		Sentinel
+	  Anim          Sentinel\freeze 25 40
+	TEnd
+MEnd
+
+Move Dizzy_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+
+
+	Type		Sentinel
+	  Anim          Sentinel\freeze 25 40
+	TEnd
+MEnd
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Sleep2
+	Priority        3
+
+	Type		Sentinel
+	  Anim          Sentinel\sleep 1 20
+	TEnd
+MEnd
+
+
+Move Sleep2
+	Requires	STUN SLEEP
+	Interrupts	<ReactIRQ> <AttackIRQ> <HitIRQ>
+	Member		<DeathIRQ> <ReactIRQ>
+	NextMove        Sleep_cycle
+	Priority        2
+	Interpolate     0
+	Flags		ReqInputs
+
+	Type		Sentinel
+	  Anim          Sentinel\sleep 21 60
+	TEnd
+MEnd
+
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Simple_Ready
+	Priority        2
+
+
+	Type		Sentinel
+	  Anim          Sentinel\sleep 60 120
+	TEnd
+MEnd
+
+###################
+###### choke Stun  ######
+###################
+
+Move chokeStun
+	Requires	STUN HIT CHOKESTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        chokeStun_cycle
+	Priority        3
+
+	Type		Sentinel
+	  Anim          Sentinel\electro 2 79
+	TEnd
+MEnd
+
+
+Move chokeStun_cycle
+	Requires	STUN CHOKESTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Block
+	Priority        2
+
+	Type		Sentinel
+	  Anim          Sentinel\electro 80 140
+	TEnd
+MEnd
+
+###################
+###### Sonic Stun  ######
+###################
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        SonicStun_cycle
+	Priority        3
+
+	Type		Sentinel
+	  Anim          Sentinel\electro 2 79
+	TEnd
+MEnd
+
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Block
+	Priority        2
+
+	Type		Sentinel
+	  Anim          Sentinel\electro 80 140
+	TEnd
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        ElectroStun_cycle
+	Priority        3
+
+	Type		Sentinel
+	  Anim          Sentinel\electro 2 79
+	TEnd
+MEnd
+
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Block
+	Priority        2
+
+	Type		Sentinel
+	  Anim          Sentinel\electro 80 140
+	TEnd
+MEnd
+
+###################
+###### Lasso Stun  ######
+###################
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        LassoStun_cycle
+	Priority        3
+
+	Type		Sentinel
+	  Anim          Sentinel\freeze 1 24
+	TEnd
+MEnd
+
+
+Move LassoStun_cycle
+	Requires	STUN LASSOSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Block
+	Priority        2
+
+	Type		Sentinel
+	  Anim          Sentinel\freeze 25 40
+	TEnd
+MEnd
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+
+	Type		Sentinel
+	  Anim          Sentinel\freeze 1 24
+	TEnd
+
+MEnd
+
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        Block
+	Priority        3
+
+	Type		Sentinel
+	  Anim          Sentinel\freeze 25 40
+	TEnd
+MEnd
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        Block
+	Priority        3
+
+	Type		Sentinel
+	  Anim          Sentinel\freeze 25 40
+	TEnd
+
+
+MEnd
+
+
+
+
+
+
+
+####blocks ####################################################################
+
+
+###################
+###### Block  ######
+###################
+
+Move Block
+	Requires	BLOCK
+	Interrupts	<Ready> <BasicMove> <PostMoveCycle> <BlockIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Block>
+	NextMove        Block_cycle
+	Priority        1
+
+	Type		Sentinel
+	  Anim          Sentinel\block 1 39
+	TEnd
+
+MEnd
+
+
+
+
+Move Block_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Interpolate     0
+
+	Type		Sentinel
+	  Anim          Sentinel\block 40 88
+	TEnd
+MEnd
+
+
+
+
+
+######### deaths  #################################################
+
+
+
+###############################################
+###### Vaporize Death (vanish + freezestun)   ######
+###############################################
+#
+#Move Vaporize_Death
+#	Requires	DEATH   ###  HIDE FIERCE
+#	Interrupts	<DeathIRQ>
+#	NextMove        Vaporize_postdeath2
+#	Priority        7
+#	Sets            NOCOLLISION
+#	Flags		NotSelectable
+#
+#	Type		Sentinel
+#	  Anim          Sentinel\electro 1
+#	 PlayFx        GENERIC\entityFadeOut.fx 0 CONSTANT
+#	TEnd
+#
+#MEnd
+#
+#Move Vaporize_postdeath2
+#	Requires	DEATH
+#	Flags		Cycle NotSelectable
+#	Priority        1
+#	Sets            NOCOLLISION DIENOW
+#
+#
+#	Type		Sentinel
+#	  Anim          Sentinel\electro 1
+###	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+#	TEnd
+#MEnd
+#
+#
+#
+#Move Vaporize_postdeath
+#	Requires	DEATH
+#	Flags		Cycle NotSelectable
+#	Priority        1
+#	Sets            NOCOLLISION DIENOW
+#
+#
+#	Type		Sentinel
+###	  Anim          Sentinel\freeze 24
+#	  Anim          Sentinel\electro 80
+#	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+#	TEnd
+#MEnd
+
+
+###############################################
+###### Quick fix Vaporize Death (vanish + freezestun)   ######
+###############################################
+
+Move Death
+	Requires	DEATH   ###  HIDE FIERCE
+	Interrupts	<DeathIRQ>
+	NextMove        postdeath
+	Priority        7
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Sentinel
+	  Anim          Sentinel\electro 1
+	TEnd
+
+MEnd
+
+
+
+Move postdeath
+	Requires	DEATH
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		Sentinel
+##	  Anim          Sentinel\freeze 24
+	  Anim          Sentinel\electro 80
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+#### Basic spawn  ##############################33
+
+
+
+#####################
+### Basic Spawn  #####
+#####################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale NotSelectable
+
+
+	Type		Sentinel
+	  Anim          Sentinel\Skel_Sentinel 200
+	  PlayFX	Generic\entityFadeIn.fx 0
+	  PlayFx	V_COV\Powers\Ninjitsu\Zero_OniSummon.fx 0
+	TEnd
+
+
+MEnd
+
+
+
+
+
+
+
+
+
+
+SeqEnd		##(leave at the bottom. DO NOT MOVE!!!)###

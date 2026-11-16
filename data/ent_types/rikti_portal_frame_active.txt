@@ -1,0 +1,44 @@
+#########################################################
+##  Ent_Type Template
+#########################################################
+
+Type
+
+#########################################################
+
+Sequencer        Prop_Basic.txt
+SequencerType    Prop_Basic
+
+HealthFx
+	Range	0.0001 100
+	LibraryPiece	Rikti_Portal_Frame
+	ContinuingFX	ENEMYFX\Rikti\RiktiPortal\RiktiPortal_Stabilized.fx
+	#ContinuingFX	ENEMYFX\Rikti\RiktiPortal\RiktiPortal_NonStabilized.fx
+	#OneShotFX	<fxName>
+End
+
+HealthFx
+	Range	0 0.0001
+	LibraryPiece	Rikti_Portal_Frame
+	ContinuingFX	ENEMYFX\Rikti\RiktiPortal\RiktiPortal_NonStabilized.fx
+	#OneShotFX	<fxName>
+End
+
+CapsuleSize    3.8 7.3 3.8
+CapsuleOffset  0 0 0
+NotSelectable  1
+
+FadeOutStart     500
+FadeOutFinish    550
+ShadowType       None
+
+Placement        DeadOn
+Selection        LibraryPiece
+CollisionType    LibraryPiece
+
+TicksToLingerAfterDeath		9999999
+TicksToFadeAwayAfterDeath	90
+
+#########################################################
+
+End

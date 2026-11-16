@@ -1,0 +1,245 @@
+############# ROADS ##################
+
+Trick covroadhi
+	LodFar 1800
+	LodFarFade 0
+	//ObjFlags ForceOpaque
+End
+
+
+############### TEXTURES ################
+##
+##Texture road_detail_cobble_01.tga
+##	Fade 1 -2
+##End
+##
+##Texture road_asphalt_filler_01.tga
+##	Blend road_detail_cobble_01.tga
+##	BlendType Multiply
+##	ScaleST0 4 4
+##End
+##
+##
+###End
+########################################
+
+Texture road_cobble_01_bump.tga
+	Flags IsBumpmap
+	#Fade 1 -2
+End
+
+Texture road_detail_cobble_01.tga
+	Fade 1 -2
+End
+
+
+##Dumbed-Down CoV Road Texture##
+
+Texture road_asphalt_filler_01.tga
+		BlendType Multiply
+		Blend road_detail_cobble_01.tga
+		ScaleST0 4 4
+		Bumpmap road_cobble_01_bump.tga
+		DiffuseScale 0.7
+		AmbientScale 0.7
+End
+
+Texture x_road_asphalt_filler_02
+	Base1 road_asphalt_filler_01.tga
+	Base1Scale .5 .5
+
+	Multiply1 road_detail_cobble_01.tga
+	Multiply1Scale 8 8  //.52 .52
+		
+	BumpMap1 road_cobble_01_bump.tga
+	BumpMap1Scale 8 8
+
+		DiffuseScale 1
+		AmbientScale 3.6
+End
+
+
+
+
+######SIDEWALK####
+
+Texture goth_sidewalk_01_bump.tga
+	Flags IsBumpmap
+	#Fade 1 -2
+End
+
+Texture goth_sidewalk_01.tga
+		BlendType Multiply
+		Blend goth_sidewalk_detail_01.tga
+		ScaleST0 1 1
+		Bumpmap goth_sidewalk_01_bump.tga
+		DiffuseScale 0.6
+		AmbientScale 0.6
+End
+
+//Renders too dark, so boosting
+Texture curb_01.tga
+		DiffuseScale 1.3
+		AmbientScale 1.3
+End
+
+######Raised Wall/Plaza Wall######
+
+Texture goth_plaza_wall_01_bump.tga
+	Flags IsBumpmap
+	#Fade 1 -2
+End
+
+//Renders Incorrectly
+Texture goth_plaza_wall_01.tga
+		BlendType Multiply
+		Blend goth_sidewalk_detail_01.tga
+		ScaleST0 1 1
+		Bumpmap goth_plaza_wall_01_bump.tga
+		DiffuseScale 0.6
+		AmbientScale 0.6
+End
+
+######Alley01####
+
+Texture ground_alley_01_bump.tga
+	Flags IsBumpmap
+	#Fade 1 -2
+End
+
+Texture ground_alley_01.tga
+		BlendType Multiply
+		Bumpmap ground_alley_01_bump.tga
+		DiffuseScale 1
+		AmbientScale 1
+End
+
+#Texture ground_alley_01
+#	Base1 ground_alley_01.tga
+#	Base1Scroll 0 0
+#
+#	Multiply1 goth_sidewalk_detail_01.tga
+#	#Multiply1 dplaster1.tga
+#	Multiply1Scroll 0 0
+#	Multiply1Scale 16 16
+#
+#	DualColor1 texture_name.tga
+#	DualColor1Scroll 0 0
+#	DualColor1Scale 1 1
+#
+#	BumpMap1 ground_alley_01_bump.tga
+#	BumpMap1Scroll 0 0
+#	BumpMap1Scale 1 1
+#
+#	Mask texture_name.tga
+#	MaskScroll 0 0 
+#	MaskScale 1 1
+#	#AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+#
+#	Base2 texture_name.tga
+#	Base2Scroll 0 0
+#	Base2Scale 1 1
+#
+#	Multiply2 texture_name.tga
+#	Multiply2Scroll 0 0
+#	Multiply2Scale 32 32
+#	Multiply2reflect 0 
+#
+#	DualColor2 texture_name.tga
+#	Color3 0 0 0
+#	Color4 0 0 0
+#	DualColor2Scroll 0 0
+#	DualColor2Scale 1 1
+#
+#
+#	BumpMap2 texture_name.tga
+#	BumpMap2Scroll 0 0
+#	BumpMap2Scale 1 1
+#
+#	SpecularColor1 255 255 255
+#	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+#	SpecularExponent 8
+#
+#	DiffuseScale 2
+#	AmbientScale 2
+#
+#	Flags None // NoRandomAddGlow FullBright
+#	MinAddGlow 0
+#	MaxAddGlow 128
+#
+#End
+
+
+
+
+###################v_alley_ruinasphalt_01 -- Diry Streets FOR MERCY##########
+
+
+Texture x_v_alley_ruinasphalt_01
+	Base1 v_alley_ruinasphalt_01
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 alley_det.tga
+	#Multiply1 dplaster1.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 16 16
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 v_alley_ruinasphalt_01_bump
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0 
+	MaskScale 1 1
+	#AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 32 32
+	Multiply2reflect 0 
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 8
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Fallback
+		UseFallback 1
+		Base v_alley_ruinasphalt_01
+		Blend alley_det.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 16 16
+		ScaleST1 1 1
+		DiffuseScale .8
+		AmbientScale .8
+	End
+
+End
+

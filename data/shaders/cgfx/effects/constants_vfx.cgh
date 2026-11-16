@@ -1,0 +1,24 @@
+/******************************************************************************
+	Constants_VP
+
+	This header defines the common uniform shader constants and uniform buffers
+	for visual effects (VFX) fragment programs
+
+	See shaders.html for more information on shader/material details and
+	Cg usage.
+*****************************************************************************/
+
+#ifndef _CONSTANTS_VFX_CGH_
+#define _CONSTANTS_VFX_CGH_
+
+#define USE_CONSTANT_TIES
+
+#ifdef USE_CONSTANT_TIES
+	#define TIE( x ) : x
+#else
+	#define TIE( x )
+#endif
+
+
+
+#endif //_CONSTANTS_VFX_CGH_

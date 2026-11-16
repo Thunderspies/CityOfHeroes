@@ -1,0 +1,272 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName "Dave Sector"
+//EventVolume EventVolume // ZoneEventName = 50plusLambdaSector
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint "Starting Stage Setup"
+		}
+		Action CreateStuff
+		{
+			SpawnCreate Stage_1
+			{
+				Location Stage_1
+				Group Stage_1
+				Team Stage1Team
+				SpawnBehavior PL_Combat
+				MoveToMarker Player_Spawn
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Stage1Team
+				Heartbeat 15
+				RespawnMinCount 5
+				RespawnRate 1
+			}
+			SpawnCreate Payload_Spawn
+			{
+				Location Payload_Spawn
+				Group Payload_Spawn
+				Team PayloadTeam
+				MoveToMarker Player_Spawn
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team PayloadTeam
+				Heartbeat 15
+			}
+			
+		}
+	}
+	Trigger End
+	{
+		NextStage Stage_1
+	}
+}
+Stage Stage_1
+{
+	DisplayName "I AM THE AWESOME ONE"
+	StartUp
+	{
+		Action TurnOnStage1
+		{
+			TeamControl Stage_1
+			{
+				Type Activate
+				Team Stage1Team
+			}
+		}
+		Action PayloadOn
+		{
+			TeamControl Stage_1
+			{
+				Type Activate
+				Team PayloadTeam
+			}
+		}
+		Action Shutdown
+		{
+			DebugPrint "Starting Stage 1"
+		}
+	}
+	Timer Stage1Timer
+	{
+		Duration 45:00
+		Display
+	}
+	Trigger Done
+	{
+		Requires Stage1Timer complete>    //Trigger condition
+		Action StageCompleteFloater
+		{
+			Floater PortOut
+			{
+				Message "YOU FUCKED EM UP BRO!"
+				Color 00FF00
+			}
+		}
+		Action GotoWeaponCache
+		{
+			DebugPrint "DefeatIDF done: switching to WeaponCache"
+		}
+		NextStage Reset
+	}
+	ShutDown
+	{
+		
+	}
+}
+Stage Reset
+{
+	DisplayName "Event Complete"
+	StartUp
+	{
+		Action StartSuccessPort
+		{
+			Floater PortOut
+			{
+				Message "Zone Event Reset in 25..."
+				Color ff0000
+				//Volume TrainingFacilityPorter
+			}
+		}
+	}
+	Timer Countdown1
+	{
+		Duration 5
+	}
+	Trigger CountdownComplete1
+	{
+		Requires Countdown1 complete>
+		Action StartReset
+		{
+			Floater PortOut
+			{
+				Message "20..."
+				Color ff0000
+			}
+		}
+	}
+	Timer Countdown2
+	{
+		Duration 10
+	}
+	Trigger CountdownComplete2
+	{
+		Requires Countdown2 complete>
+		Action StartReset
+		{
+			Floater PortOut
+			{
+				Message "15..."
+				Color ff0000
+			}
+		}
+	}
+	Timer Countdown3
+	{
+		Duration 15
+	}
+	Trigger CountdownComplete3
+	{
+		Requires Countdown3 complete>
+		Action StartReset
+		{
+			Floater PortOut
+			{
+				Message "10..."
+				Color ff0000
+			}
+		}
+	}
+	Timer Countdown4
+	{
+		Duration 20
+	}
+	Trigger CountdownComplete4
+	{
+		Requires Countdown4 complete>
+		Action StartReset
+		{
+			Floater PortOut
+			{
+				Message "5..."
+				Color ff0000
+			}
+		}
+	}
+	Timer Countdown5
+	{
+		Duration 25
+		Display
+	}
+	Timer CountdownDelay
+	{
+		Duration 29
+		Display
+	}
+	Trigger CountdownComplete5
+	{
+		Requires Countdown5 complete>
+		Action StartReset
+		{
+			Floater PortOut
+			{
+				Message "Zone Event Resetting"
+				Color ff0000
+			}
+		}
+		Action BootPlayers
+		{
+			DoorControl InitLock
+			{
+				Type Lock
+				Door MunitionsDepotDoor
+			}
+			DoorControl InitLock
+			{
+				Type Lock
+				Door TrainingFacilityDoor 
+			}
+			PorterControl InitPort
+			{
+				Type Activate
+				Porter MunitionsDepotPorter
+			}
+			PorterControl InitPort
+			{
+				Type Activate
+				Porter TrainingFacilityPorter
+			}
+		}
+	}
+	Trigger CountdownCompleteDelay
+	{
+		Requires CountdownDelay complete>
+		Action GotoReset
+		{
+			DebugPrint "Resetting"
+		}
+		NextStage DefeatIDF
+	}
+}
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint "Starting Stop stage"
+		}
+		
+		Action TurnOffCritters
+		{
+			TeamControl Stage1Team
+			{
+				Type Deactivate
+				Team Stage1Team
+			}
+		}
+		
+		
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint "Shutting down Stage Stop"
+		}
+	}
+}

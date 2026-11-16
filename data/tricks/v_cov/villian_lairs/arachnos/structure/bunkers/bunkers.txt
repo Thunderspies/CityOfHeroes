@@ -1,0 +1,348 @@
+Texture x_arac_bnk_black
+	Base1 bunkerbase_main.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+
+	DualColor1 none //bunkerbase_main.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 bunkerbase_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask bunkerbase_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 bunkerbase_main.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale .7 .7
+	Multiply2reflect 1
+
+	DualColor2 none //bunkerbase_main.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none //bunkerbase_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255 //185 110 255
+	SpecularColor2 20 110 50 //50 170 100
+	SpecularExponent 30
+
+	DiffuseScale 2
+	AmbientScale 3
+
+	AmbientMinVec .70 .70 .60 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Fallback
+		UseFallback 1
+		Base bunkerbase_main_fallback.tga
+		//Blend some_detail
+		Bumpmap bunkerbase_bump
+		//BlendType Multiply
+		//ScaleST0 4 4
+		//ScaleST1 1 1
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+Texture x_arac_bnk_found  //simplified to use optimized building shader
+	Base1 bunkerfound_main.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+
+	DualColor1 none //bunkerfound_main.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 bunkerfound_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask bunkerfound_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none //bunkerfound_main.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scale .4 .4
+	Multiply2reflect 2
+
+	DualColor2 none //bunkerfound_main.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none //bunkerfound_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 60 255
+	SpecularColor2 50 170 100
+	SpecularExponent 30 //90
+
+	DiffuseScale 0.6 //1.5
+	AmbientScale 1.8 //2.5
+	
+	AmbientMinVec .31 .31 .31 //ALL other arachnos materials should match this Ambient Min!
+
+	Fallback
+		Base bunkerfound_main_LOD.tga
+		DiffuseScale 3 //1.5
+		AmbientScale 3.5 //2.5
+	End
+End
+
+Texture x_arac_bnk_white
+	Base1 bunkerwhite_main.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1.3 1.1
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 bunkerwhite_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask bunkerwhite_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.3 1.1
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 texture_name.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 0 70
+	SpecularColor2 80 20 0
+	SpecularExponent 30
+
+	DiffuseScale .7
+	AmbientScale .7
+	
+	AmbientMinVec .25 .22 .29 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Fallback
+		UseFallback 1
+		Base bunkerwhite_main.tga
+		Blend goth_reflect_02.tga
+		//Bumpmap some_bumpmap
+		BlendType Multiply
+		//ScaleST0 4 4
+		ScaleST1 1.3 1.1
+		DiffuseScale 1.3
+		AmbientScale 1.3
+	End
+End
+
+Texture x_arac_floor  //simplified to use optimized building shader
+	Base1 bunkerfloor_main.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 v_caverock_det.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 5 5
+
+	DualColor1 none //bunkerfloor_main.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 bunkerfloor_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask bunkerfloor_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none //bunkerfloor_main.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect4.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale .5 .5
+	Multiply2reflect 3
+
+	DualColor2 none //bunkerfloor_main.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none //bunkerfloor_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 55 40 30
+	SpecularColor2 120 100 110
+	SpecularExponent 10
+
+	DiffuseScale 0.5 //dropped 
+	AmbientScale 1 //dropped
+
+	AmbientMinVec .23 .20 .20 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+End
+
+Texture x_arac_floor_a  //simplified
+	Base1 bunkerfloor_a.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none //universal_window_reflect3.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+
+	DualColor1 none //bunkerfloor_a.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 bunkerfloor_a_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //bunkerfloor_a_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none //bunkerfloor_a.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //universal_window_reflect3.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale .7 .7
+	Multiply2reflect 1
+
+	DualColor2 none //bunkerfloor_a.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none //bunkerfloor_a_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	#SpecularColor 248 191 206
+	#SpecularExponent 
+
+	//SpecularColor1 20 20 20
+	SpecularColor1 195 165 255
+	SpecularColor2 120 100 110
+	SpecularExponent 14
+
+	DiffuseScale 0.75 //dropped 
+	AmbientScale 1.45 //dropped
+
+	AmbientMinVec .28 .28 .26 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+End
+
+Trick AracFill
+AutoLOD
+		AllowedError 0
+		lodfar 1300
+		lodfarfade 300
+	End
+	Groupflags ParentFade
+End
+
+Trick arac_bnk_sm
+	LodFar 350
+	LodFarFade 150
+End
+
+Trick arac_bnk_lod
+AutoLOD
+		AllowedError 0
+		lodfar 4000
+		lodfarfade 300
+	End
+End
+
+Trick curbpanels_lod
+	AutoLOD
+		AllowedError 0
+		lodfar 200
+		lodfarfade 50
+	End
+End
+
+Trick arac_pipes
+	LodFar 120
+	LodFarFade 50
+End
+
+Trick arac_pipes_lod
+	LodFar 400
+	LodNear 120
+	LodNearFade 30
+End
+
+Trick arac_bnk_roof
+	LodFar 350
+	LodFarFade 150
+	GroupFlags ParentFade
+End
+
+Texture bunkerbase_bump.tga
+	flags isbumpmap
+End
+

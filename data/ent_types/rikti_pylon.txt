@@ -1,0 +1,60 @@
+#########################################################
+## Rikti Pylon
+#########################################################
+
+Type
+
+## SEQUENCER #######################################################
+
+Sequencer        Rikti_Pylon.txt
+SequencerType    Rikti_Pylon
+
+## GRAPHICS #######################################################
+
+Graphics	player_library/G_Rikti_Pylon.geo
+
+FadeOutStart     500
+FadeOutFinish    550
+ShadowType       None
+
+TicksToLingerAfterDeath        15
+TicksToFadeAwayAfterDeath      1
+
+FX		EnemyFx\Rikti\Pylon\RikitPylon_BaseGeo.fx
+
+## HEALTH FX #######################################################
+
+HealthFx
+	Range	66 100
+	ContinuingFX	EnemyFx\Rikti\Pylon\RikitPylon_persistent.fx
+End
+
+#HealthFx
+#	Range	33 66
+#	ContinuingFX	EnemyFx\Rikti\UXB\UXB_Bomb_Yellow.fx
+#	#OneShotFX	<fxName>
+#End
+#
+#HealthFx
+#	Range	0.001 33
+#	ContinuingFX	EnemyFx\Rikti\UXB\UXB_Bomb.fx
+#	#OneShotFX	<fxName>
+#End
+
+HealthFx
+	Range	0.0 0.001
+	#ContinuingFX	
+	OneShotFX	ENEMYFX\Rikti\Pylon\RiktiPylon_Explosion.fx
+End
+
+## COLLISION AND PHYSICS #######################################################
+
+Selection	Capsule
+CapsuleSize	12.0 34.0 12.0
+CapsuleOffset	0.0 0.0 0.0
+Placement	DeadOn
+#CollisionType	LibraryPiece
+
+#########################################################
+
+End

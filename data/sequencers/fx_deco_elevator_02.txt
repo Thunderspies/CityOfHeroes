@@ -1,0 +1,174 @@
+#############################################################
+## FX_Deco_Elevators.txt
+#############################################################
+
+Sequencer
+
+TypeDef FX_Deco_Elevator_02
+	BaseSkeleton	FX_Deco_Elevator_02\skel_ready1
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<Ready>
+
+#############################################################
+
+Move Ready
+	Member	<Ready>
+	Include sequencers\Members\Readies.inc
+	Priority	1
+	NextMove	Ready_Stance
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 320 340
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance
+	NextMove	Ready_Stance_Stance
+		Scale		0.25
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 340 520
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Stance
+
+	NextMove	Ready_Stance_One
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 520 540
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_One
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Ready_Stance_Two
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 520 540
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Two
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Ready_Stance_Three
+		Scale		0.25
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 540 800
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Three
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Ready_Stance_Four
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 800 810
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Four
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Ready_Stance_Five
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 800 810
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Five
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Ready_Stance_Six
+		Scale		0.25
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 1 140
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Six
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Ready_Stance_Seven
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 140 160
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Seven
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Ready_Stance_Eight
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 140 160
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Eight
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Ready_Stance_Nine
+		Scale		0.25
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 160 320
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Nine
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Ready
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_02
+	  Anim          FX_Deco_Elevator_02\ready1 320 340
+
+	TEnd
+
+MEnd
+###################################################
+
+SeqEnd
+

@@ -1,0 +1,98 @@
+#############################################################
+## FX_Gun_Uzi.txt - Sequencer for Uzi
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_Gun_Uzi
+	BaseSkeleton	FX_Gun_Uzi\Skel_Gun_Uzi
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+#############################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		FX_Gun_Uzi
+	  Anim          FX_Gun_Uzi\Skel_Gun_Uzi 1
+	TEnd
+MEnd
+
+
+#############################################################
+
+Move ShootClip_Draw
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOTCLIP SPAWNHIP
+	Interrupts	<Ready>
+	NextMove        ShootClip
+	Priority        6
+	Sets            CANTMOVE
+
+	Type		FX_Gun_Uzi
+	  Anim          FX_Gun_Uzi\Skel_Gun_Uzi 1 30
+	TEnd
+MEnd
+
+Move ShootClip
+	Member		<BasicMove>
+	NextMove	ShootClip_Post
+	Priority        5
+	Interpolate	0
+
+	Type		FX_Gun_Uzi
+	  Anim          FX_Gun_Uzi\Thug_ShootClip 1 100
+	TEnd
+MEnd
+
+Move ShootClip_Post
+	Member		<BasicMove>
+	NextMove	Ready
+	Priority        4
+	Interpolate	0
+
+	Type		FX_Gun_Uzi
+	  Anim          FX_Gun_Uzi\Thug_ShootClip 101
+	TEnd
+MEnd
+
+
+######## Back to ready (for other moves)  ######################
+
+Move BackToReady
+	Requires	BACKTOREADY
+	Interrupts	<BasicMove>
+	NextMove        Ready
+	Priority        1
+
+	Type		FX_Gun_Uzi
+	  Anim          FX_Gun_Uzi\Skel_Gun_Uzi 1 3
+	TEnd
+MEnd
+
+
+#############################################################
+
+SeqEnd

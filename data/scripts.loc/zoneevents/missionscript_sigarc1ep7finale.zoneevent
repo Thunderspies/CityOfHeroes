@@ -1,0 +1,352 @@
+Name MissionScript_SigArc1Ep7Finale
+FirstStage Setup
+StopStage Stop
+DisplayName P393872433
+RestartStage Stop
+
+//This zone event script is used for the zone event in the finale of Sig Arc 1, Episode 7. 
+//This zone event is working on conjuction with the mission objectives that are being fired off in the finale mission of this event. The mission is mission 5 in the file scripts\Contacts\SignatureStoryArcs\OneWillDie_Story1\Hero\task\_src\SL_8_9_Issue7_Coop_Arc.xls
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Zone event for Sig Arc 1, Issue 7 is now beginning.>>
+		}
+		Action CreateStuff
+		{
+			SpawnCreate BruteFountainSpawn
+			{
+				Location BruteFountainSpawn
+				Group BruteFountainSpawn
+				Team BruteFountainSpawn
+				SpawnBehavior <<MoveToPos(random:player)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BruteFountainSpawn
+				MinRespawnTime 30
+				MaxRespawnTime 30
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   1
+				Count   4,   2,   2
+				Count   6,   3,   3
+				Count   8,   4,   4
+			}
+			SpawnCreate WispFountainSpawn
+			{
+				Location WispFountainSpawn
+				Group WispFountainSpawn
+				Team WispFountainSpawn
+				SpawnBehavior <<MoveToPos(random:player)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WispFountainSpawn
+				MinRespawnTime 30
+				MaxRespawnTime 30
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   1
+				Count   4,   2,   2
+				Count   6,   3,   3
+				Count   8,   4,   4
+			}
+			SpawnCreate SentryFountainSpawn
+			{
+				Location SentryFountainSpawn
+				Group SentryFountainSpawn
+				Team SentryFountainSpawn
+				SpawnBehavior <<MoveToPos(random:player)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SentryFountainSpawn
+				MinRespawnTime 30
+				MaxRespawnTime 30
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   1
+				Count   4,   2,   2
+				Count   6,   3,   3
+				Count   8,   4,   4
+			}
+			SpawnCreate NatterlingFountainSpawn
+			{
+				Location NatterlingFountainSpawn
+				Group NatterlingFountainSpawn
+				Team NatterlingFountainSpawn
+				SpawnBehavior <<MoveToPos(random:player)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NatterlingFountainSpawn
+				MinRespawnTime 30
+				MaxRespawnTime 30
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   1
+				Count   4,   2,   2
+				Count   6,   3,   3
+				Count   8,   4,   4
+			}
+			SpawnCreate ApocalypseBeamPulse
+			{
+				Location ApocalypseBeamPulse
+				Group ApocalypseBeamPulse
+				Team ApocalypseBeamPulse
+				SpawnBehavior <<DoNotGoToSleep,Invincible(1)>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ApocalypseBeamPulse
+			}
+		}
+	}
+	Trigger GoToKillStage
+	{
+		NextStage KillStage
+	}
+}
+
+Stage KillStage
+{
+	DisplayName P393872433
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Starting the first kill stage>>
+		}
+
+	}
+	UICollection MainStageUI
+	{
+		UIItem KillAllExplain
+		{
+			Type Text
+			Text P499165198
+		}
+	}
+	Trigger PenelopeYinStage
+	{
+		Requires ScriptArtifacts objectivesucceeded>
+		NextStage PenelopeYinStage
+	}
+}
+
+Stage PenelopeYinStage
+{
+	DisplayName P393872433
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Starting the stage to destroy the artifacts.>>
+		}
+		Action CreatingApocalypseBeam
+		{
+			TeamControl TriggerBeams
+			{
+				Type Activate
+				Team ApocalypseBeamPulse
+			}
+		}
+	}
+	UICollection PenelopeYinStageUI
+	{
+		UIItem DestroyArtifactsExplanation
+		{
+			Type Text
+			Text P3166168681
+		}
+		UIItem PenelopeYinProtectInformation
+		{
+			Type Text
+			Text P1786215497
+		}
+		UIItem RulaWadeBlast
+		{
+			Type Timer
+			Timer RulaWadeBlastTimer
+			Text P1778128284
+			ShortText P1778128284
+		}
+	}
+	Trigger GotoFinal
+	{
+		Requires RularuuArtifacts objectivesucceeded>
+		NextStage FinalStage
+	}
+// The following is a timer to notify players when RulaWade's map-wide power will be going off.
+	Timer RulaWadeNotification1Timer
+	{
+		Duration 00:20
+	}
+	Timer RulaWadeNotification2Timer
+	{
+		Duration 00:25
+	}
+	Timer RulaWadeBlastTimer
+	{
+		Duration 00:30
+	}	
+	Trigger Notification1
+	{
+		Requires RulaWadeNotification1Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3632586613
+				Color 00ff99
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger Notification2
+	{
+		Requires RulaWadeNotification2Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P2002429356
+				Color 00ff99
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger BlastReleased
+	{
+		Requires RulaWadeBlastTimer complete>
+		Action FireApocalypseBeamCannon
+		{
+			DebugPrint <<ApocalypseBeamCannon HIT!>>
+			TeamControl
+			{	
+				Type DoBehavior
+				Team ApocalypseBeamPulse
+				Behavior <<UsePower("Apocalypse_Blast")>>
+			}
+		}
+		Action
+		{
+			Reset RulaWadeNotification1Timer
+			Reset RulaWadeNotification2Timer
+			Reset RulaWadeBlastTimer
+		}
+		Action
+		{
+			Delay 1
+			Reset BlastReleased
+			Reset Notification1
+			Reset Notification2
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P602259241
+				Color 00ff99
+				AlertType PriorityAlert
+			}
+		}
+	}
+}
+
+Stage FinalStage
+{
+	DisplayName P393872433
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Starting the final stage>>
+		}
+		Action TurnonFountainSpawns
+		{
+			TeamControl TriggerBrutes
+			{
+				Type Activate
+				Team BruteFountainSpawn
+			}
+			TeamControl TriggerWisps
+			{
+				Type Activate
+				Team WispFountainSpawn
+			}
+			TeamControl TriggerNatterlings
+			{
+				Type Activate
+				Team NatterlingFountainSpawn
+			}
+			TeamControl TriggerSentry
+			{
+				Type Activate
+				Team SentryFountainSpawn
+			}
+		}
+	}
+	UICollection FinalStageUI
+	{
+		UIItem DefeatRulaWade
+		{
+			Type Text
+			Text P777308515
+		}
+		UIItem RulaWadeHelp
+		{
+			Type Text
+			Text P3181780991
+		}
+		UIItem RulaWadeHelp
+		{
+			Type Text
+			Text P2068045563
+		}
+	}
+	Trigger PenelopeYinStage
+	{
+		Requires ScriptWadeDefeated objectivesucceeded>
+		NextStage StopStage
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Turning everything off>>
+		}
+		Action TurnOffFountainSpawns
+		{
+			TeamControl UnTriggerBrutes
+			{
+				Type Deactivate
+				Team BruteFountainSpawn
+			}
+			TeamControl UnTriggerWisps
+			{
+				Type Deactivate
+				Team WispFountainSpawn
+			}
+			TeamControl UnTriggerNatterlings
+			{
+				Type Deactivate
+				Team NatterlingFountainSpawn
+			}
+			TeamControl UnTriggerSentry
+			{
+				Type Deactivate
+				Team SentryFountainSpawn
+			}
+		}
+	}
+}

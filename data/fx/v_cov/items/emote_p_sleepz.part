@@ -1,0 +1,100 @@
+##############################################
+############  P A R T I C L E S  #############
+##############################################
+
+System
+
+#Flags
+
+#####################################
+############  Emitting  #############
+#####################################
+
+NewPerFrame		.075	
+#Burst			1
+#MoveScale		1
+
+#TimeToFull		1
+#KickStart		1
+
+WorldOrLocalPosition	0
+FrontOrLocalFacing	0			# 0 = Front; 1 = Local - face up the y axis of the particle system's matrix  
+#Stickiness		.3
+
+#KillOnZero		1
+#DieLikeThis		:BobbleDeath.part	# can call a separate death particle effect
+#DeathAgeToZero		0			# 0 or 1
+
+EmissionType		0 
+ EmissionRadius		0.0 
+ EmissionHeight		0.0
+#EmissionStartJitter	0.01 0.01 0.01 
+
+#BurbleAmplitude		0
+# BurbleFrequency	0.0
+# BurbleType		0
+# BurbleThreshold	0.0
+
+StartSize		.1
+StartSizeJitter		0.05
+ExpandRate		0.0075
+ ExpandType		1                      
+  EndSize		.4
+
+FadeInBy 		15
+FadeOutStart		20
+FadeOutBy   		50
+
+#####################################
+#############  Motion  ##############
+#####################################
+
+InitialVelocity		0.0 0.04 -0.05		
+InitialVelocityJitter	0.02 0.01 0.02	
+VelocityJitter		0.0 0.0 0.0	# Per frame random change in speed and direction per particle
+
+#TightenUp		0.2		# Pull or push particles toward or away from cam (+ or -)   
+
+Spin			0		# turn this many degrees per frame 	
+SpinJitter		0		# Add or subtract as much as this from Spin   
+OrientationJitter	20		# Rangle: 0 = up and down, to 128 = appear at random ori
+
+Drag			.015
+#Magnetism		0.0			
+Gravity			-0.00075			
+
+#####################################
+###########  Appearance  ############
+#####################################
+
+StreakType		0 	
+StreakScale		15
+StreakOrient		1	
+StreakDirection		1  
+
+#SortBias		1
+#VisRadius		1
+#VisDist		1
+
+#####################################
+############  Textures  #############
+#####################################
+
+Blend_mode		1 			
+Alpha			255
+
+TextureName		zzz.tga
+#TexScroll1		0 0 0 
+#TexScrollJitter1	0 0 0	
+#AnimFrames1		1		
+#AnimPace1		1	
+
+#TextureName2		FireWeapon_c_Cropped.tga
+
+StartColor		255 255 255
+ColorChangeType		0 
+
+ByTime1			10  
+BeColor1		255 176 19
+
+End

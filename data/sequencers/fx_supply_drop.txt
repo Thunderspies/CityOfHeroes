@@ -1,0 +1,37 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Supply_Drop 
+	BaseSkeleton	FX_Supply_Drop\skel_Supply_Drop
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	NextMove	Ready_post
+
+
+	Type		FX_Supply_Drop
+	  Anim          FX_Supply_Drop\skel_Supply_Drop 1 376
+	TEnd
+MEnd
+
+
+##Move Ready_post
+##	Flags		Cycle
+####
+##
+##	Type		FX_Supply_Drop
+##	  Anim          FX_Supply_Drop\skel_Supply_Drop 376 377
+##	TEnd
+##MEnd
+
+SeqEnd
+

@@ -1,0 +1,31 @@
+#############################################################
+## FX_banner.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_DimensionShift
+	BaseSkeleton	FX_DummyOffsets\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move ReadyA
+	Member		<Ready>
+	#Flags		Cycle
+
+	Type		FX_DimensionShift
+	  Anim         	FX_DummyOffsets\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,87 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_sewer2 
+	BaseSkeleton	Door_sewer2\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_sewer2
+	  Anim          Door_sewer2\skel_ready 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_sewer2
+	  Anim          Door_sewer2\skel_ready 6 20 
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Interpolate     0
+	Sets            WALKTHROUGH 
+
+	Type		Door_sewer2
+	  Anim          Door_sewer2\skel_ready 21 35 
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	NextMove        Shut
+	Sets            WALKTHROUGH 
+
+	Type		Door_sewer2
+	  Anim          Door_sewer2\skel_ready 36 40 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_sewer2
+	  Anim          Door_sewer2\skel_ready 41 59 
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		Door_sewer2
+	  Anim          Door_sewer2\skel_ready 60 76 
+	TEnd
+MEnd
+
+SeqEnd
+

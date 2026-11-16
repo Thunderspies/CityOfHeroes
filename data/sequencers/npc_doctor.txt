@@ -1,0 +1,532 @@
+#############################################################
+
+Sequencer
+
+TypeDef NPC_doctor 
+	BaseSkeleton	bis\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+Group	<Scared>
+Group	<Scaredmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	NextMove        AltReady
+
+	Type		NPC_doctor
+	  Anim          bis\skel_ready 1  
+	TEnd
+MEnd
+
+
+Move AltReady
+	Member		<Ready> 
+	NextMove        Ready
+
+	Type		NPC_doctor
+	  Anim          bis\watch 1  
+	TEnd
+MEnd
+
+
+Move AltReadyA
+	Requires	ALTREADY 
+	Interrupts	Ready 
+	Member		<Ready> 
+	NextMove        Ready
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\xarms 2  
+	TEnd
+MEnd
+
+
+Move AltReadyB
+	Requires	ALTREADY 
+	Interrupts	Ready 
+	Member		<Ready> 
+	NextMove        Ready
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\watch 2  
+	TEnd
+MEnd
+
+
+Move AltReadyC
+	Requires	ALTREADY 
+	Interrupts	Ready 
+	Member		<Ready> 
+	NextMove        Ready
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\close_wave 2  
+	TEnd
+MEnd
+
+
+Move AltReadyD
+	Requires	ALTREADY 
+	Interrupts	Ready 
+	Member		<Ready> 
+	NextMove        Ready
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\far_wave 2  
+	TEnd
+MEnd
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkPre
+	Requires	FORWARD 
+	Interrupts	<Ready> <PostMoveCycle> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	NextMove        WalkCycle
+	Priority        1
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\walk 2 19 
+	TEnd
+MEnd
+
+
+Move WalkCycle
+	Requires	FORWARD 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle 
+	NextMove        WalkPost
+	Priority        1
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\walk 23 70 
+	TEnd
+MEnd
+
+
+Move WalkPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> 
+	NextMove        Ready
+
+	Type		NPC_doctor
+	  Anim          bis\walk 80  
+	TEnd
+MEnd
+
+
+Move WalkPre2
+	Requires	FORWARD 
+	Interrupts	<Ready> <PostMoveCycle> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	NextMove        WalkCycle2
+	Priority        1
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\slouchwalk 2 19 
+	TEnd
+MEnd
+
+
+Move WalkCycle2
+	Requires	FORWARD 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle 
+	NextMove        WalkPost
+	Priority        1
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\slouchwalk 23 70 
+	TEnd
+MEnd
+
+
+Move WalkPre3
+	Requires	FORWARD 
+	Interrupts	<Ready> <PostMoveCycle> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	NextMove        WalkCycle3
+	Priority        1
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\phonewalk 47 48 
+	TEnd
+MEnd
+
+
+Move WalkCycle3
+	Requires	FORWARD 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle 
+	NextMove        WalkPost
+	Priority        1
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\phonewalk 1  
+	TEnd
+MEnd
+
+
+Move WalkPre4
+	Requires	FORWARD 
+	Interrupts	<Ready> <PostMoveCycle> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	NextMove        WalkCycle4
+	Priority        1
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\wavewalk 94 95 
+	TEnd
+MEnd
+
+
+Move WalkCycle4
+	Requires	FORWARD 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle 
+	NextMove        WalkPost
+	Priority        1
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\wavewalk 1  
+	TEnd
+MEnd
+
+###################
+###### Scared Ready ######
+###################	
+
+Move PreSReady
+	Requires	TEST3 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> <Scared> 
+	NextMove        ScaredReady
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\scared 2 10 
+	TEnd
+MEnd
+
+
+Move ScaredReady
+	Requires	TEST3 
+	Member		<ReactIRQ> <DeathIRQ> <Scared> 
+	Flags		Cycle 
+	NextMove        PostSReady
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\scared 11 89 
+	TEnd
+MEnd
+
+
+Move PostSReady
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> 
+	NextMove        Ready
+
+	Type		NPC_doctor
+	  Anim          bis\scared 90  
+	TEnd
+MEnd
+
+###################
+### Scared Run ##
+###################
+
+Move SrunPre
+	Requires	FORWARD TEST3 
+	Interrupts	<PostMoveCycle> <Scared> <BasicMove> 
+	Member		<ReactIRQ> <DeathIRQ> <Scaredmove> 
+	NextMove        SrunCycle
+	Priority        2
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\scaredrun2 5 9 
+	TEnd
+MEnd
+
+
+Move SrunCycle
+	Requires	FORWARD TEST3 
+	Member		<ReactIRQ> <DeathIRQ> <Scaredmove> 
+	NextMove        SrunCycleB
+	Priority        2
+	Scale           1.50
+
+	Type		NPC_doctor
+	  Anim          bis\scaredrun2 10 28 
+	TEnd
+MEnd
+
+
+Move SrunCycleB
+	Requires	FORWARD TEST3 
+	Member		<ReactIRQ> <DeathIRQ> <Scaredmove> 
+	Flags		Cycle 
+	NextMove        SrunPost
+	Priority        2
+	Scale           1.60
+
+	Type		NPC_doctor
+	  Anim          bis\crazyrun 1 97 
+	TEnd
+MEnd
+
+
+Move SrunPost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> 
+	NextMove        ScaredReady
+
+	Type		NPC_doctor
+	  Anim          bis\scaredrun2 32  
+	TEnd
+MEnd
+
+###################
+### Scared Run3 ##
+###################
+
+Move SrunPre3
+	Requires	FORWARD TEST3 
+	Interrupts	<PostMoveCycle> <Scared> <BasicMove> 
+	Member		<ReactIRQ> <DeathIRQ> <Scaredmove> 
+	NextMove        SrunCycle3
+	Priority        2
+
+	Type		NPC_doctor
+	  Anim          bis\armsrun 25  
+	TEnd
+MEnd
+
+
+Move SrunCycle3
+	Requires	FORWARD TEST3 
+	Member		<ReactIRQ> <DeathIRQ> <Scaredmove> 
+	Flags		Cycle 
+	NextMove        SrunPost
+	Priority        2
+	Scale           1.60
+
+	Type		NPC_doctor
+	  Anim          bis\armsrun 1 25 
+	TEnd
+MEnd
+
+###################
+### Scared Run4 ##
+###################
+
+Move SrunPre4
+	Requires	FORWARD TEST3 
+	Interrupts	<PostMoveCycle> <Scared> <BasicMove> 
+	Member		<ReactIRQ> <DeathIRQ> <Scaredmove> 
+	NextMove        SrunCycle4
+	Priority        2
+
+	Type		NPC_doctor
+	  Anim          bis\run 25  
+	TEnd
+MEnd
+
+
+Move SrunCycle4
+	Requires	FORWARD TEST3 
+	Member		<ReactIRQ> <DeathIRQ> <Scaredmove> 
+	Flags		Cycle 
+	NextMove        SrunPost
+	Priority        2
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\run 1 25 
+	TEnd
+MEnd
+
+###################
+### Scared Run5 ##
+###################
+
+Move SrunPre5
+	Requires	FORWARD TEST3 
+	Interrupts	<PostMoveCycle> <Scared> <BasicMove> 
+	Member		<ReactIRQ> <DeathIRQ> <Scaredmove> 
+	NextMove        SrunCycle5
+	Priority        2
+
+	Type		NPC_doctor
+	  Anim          bis\bookrun 25  
+	TEnd
+MEnd
+
+
+Move SrunCycle5
+	Requires	FORWARD TEST3 
+	Member		<ReactIRQ> <DeathIRQ> <Scaredmove> 
+	Flags		Cycle 
+	NextMove        SrunPost
+	Priority        2
+	Scale           1.45
+
+	Type		NPC_doctor
+	  Anim          bis\bookrun 1 25 
+	TEnd
+MEnd
+
+###################
+###### Far Wave ######
+###################	
+
+Move FarWave
+	Requires	FAR WAVE 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> 
+	Priority        2
+
+	Type		NPC_doctor
+	  Anim          bis\far_wave 2  
+	TEnd
+MEnd
+
+###################
+###### Close Wave ######
+###################	
+
+Move CloseWave
+	Requires	CLOSE WAVE 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> 
+	Priority        2
+
+	Type		NPC_doctor
+	  Anim          bis\close_wave 2  
+	TEnd
+MEnd
+
+###################
+###### JunkA  ######
+###################	
+
+Move JunkA
+	Requires	TEST1 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> 
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\far_wave 2  
+	TEnd
+MEnd
+
+###################
+###### JunkB   ######
+###################	
+
+Move JunkB
+	Requires	TEST2 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> 
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\far_wave 2  
+	TEnd
+MEnd
+
+###################
+###### JunkC   ######
+###################	
+
+Move JunkC
+	Requires	TEST4 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> 
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\watch 2  
+	TEnd
+MEnd
+
+###################
+###### JunkD   ######
+###################	
+
+Move JunkD
+	Requires	TEST4 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> 
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\phone 2  
+	TEnd
+MEnd
+
+###################
+###### JunkE   ######
+###################	
+
+Move JunkE
+	Requires	TEST5 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> 
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\xarms 2  
+	TEnd
+MEnd
+
+###################
+###### JunkF   ######
+###################	
+
+Move JunkF
+	Requires	TEST6 
+	Interrupts	<Ready> 
+	Member		<ReactIRQ> <DeathIRQ> 
+	Priority        1
+
+	Type		NPC_doctor
+	  Anim          bis\test   
+	TEnd
+MEnd
+
+SeqEnd
+

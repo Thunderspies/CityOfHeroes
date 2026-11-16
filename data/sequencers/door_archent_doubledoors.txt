@@ -1,0 +1,116 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_ArchEnt_DoubleDoors
+	BaseSkeleton	Door_ArchEnt_DoubleDoors\Skel_Door_ArchEnt_DoubleDoors
+	ParentType	None
+TypeDefEnd
+
+TypeDef Door_ArchEnt_DoubleDoors_Exterior
+	BaseSkeleton	Door_ArchEnt_DoubleDoors\Skel_Door_ArchEnt_DoubleDoors
+	ParentType	Door_ArchEnt_DoubleDoors
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		Door_ArchEnt_DoubleDoors
+	  Anim          Door_ArchEnt_DoubleDoors\Skel_Door_ArchEnt_DoubleDoors 1 1
+	TEnd
+
+	Type		Door_ArchEnt_DoubleDoors_Exterior
+	  Anim          Door_ArchEnt_DoubleDoors\Exterior_Door_ArchEnt_DoubleDoors 1 1
+	TEnd
+MEnd
+
+Move Open
+	Requires	OPEN
+	Interrupts	<Ready>
+	NextMove        Open2
+	Priority        1
+	Scale           1
+
+	Type		Door_ArchEnt_DoubleDoors
+	  Anim          Door_ArchEnt_DoubleDoors\Skel_Door_ArchEnt_DoubleDoors 2 20
+	  PlayFX	fx\doors\woodopen.fx
+	TEnd
+	Type		Door_ArchEnt_DoubleDoors_Exterior
+	  Anim          Door_ArchEnt_DoubleDoors\Exterior_Door_ArchEnt_DoubleDoors 2 20
+	  PlayFX	fx\doors\woodopen.fx
+	TEnd
+MEnd
+
+Move Open2
+	Requires	OPEN
+	NextMove        Opened
+	Priority        1
+	Scale           1
+	Sets            WALKTHROUGH
+
+	Type		Door_ArchEnt_DoubleDoors
+	  Anim          Door_ArchEnt_DoubleDoors\Skel_Door_ArchEnt_DoubleDoors 21 28
+	  #PlayFX	fx\doors\woodopen.fx
+	TEnd
+
+	Type		Door_ArchEnt_DoubleDoors_Exterior
+	  Anim          Door_ArchEnt_DoubleDoors\Exterior_Door_ArchEnt_DoubleDoors 21 28
+	  #PlayFX	fx\doors\woodopen.fx
+	TEnd
+MEnd
+
+Move Opened
+	Flags		Cycle
+	Sets            WALKTHROUGH
+
+	Type		Door_ArchEnt_DoubleDoors
+	  Anim          Door_ArchEnt_DoubleDoors\Skel_Door_ArchEnt_DoubleDoors 29 32
+	TEnd
+
+	Type		Door_ArchEnt_DoubleDoors_Exterior
+	  Anim          Door_ArchEnt_DoubleDoors\Exterior_Door_ArchEnt_DoubleDoors 29 32
+	TEnd
+MEnd
+
+Move Shut
+	Requires	SHUT
+	Interrupts	Opened
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH
+
+	Type		Door_ArchEnt_DoubleDoors
+	  Anim          Door_ArchEnt_DoubleDoors\Skel_Door_ArchEnt_DoubleDoors 33 54
+	  PlayFX	fx\doors\woodclose.fx
+	TEnd
+
+	Type		Door_ArchEnt_DoubleDoors_Exterior
+	  Anim          Door_ArchEnt_DoubleDoors\Exterior_Door_ArchEnt_DoubleDoors 33 54
+	  PlayFX	fx\doors\woodclose.fx
+	TEnd
+MEnd
+
+Move Shut2
+	Requires	SHUT
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_ArchEnt_DoubleDoors
+	  Anim          Door_ArchEnt_DoubleDoors\Skel_Door_ArchEnt_DoubleDoors 55 64
+	TEnd
+
+	Type		Door_ArchEnt_DoubleDoors_Exterior
+	  Anim          Door_ArchEnt_DoubleDoors\Exterior_Door_ArchEnt_DoubleDoors 55 64
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

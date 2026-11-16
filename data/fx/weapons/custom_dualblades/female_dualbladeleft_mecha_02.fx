@@ -1,0 +1,53 @@
+#############################################################
+## Costume Anim Entity - Katana - Base
+#############################################################
+
+FxInfo
+
+Flags InheritAlpha DontSuppress
+
+#############################################################
+
+#Condition
+#	On 	Time
+#	Time 	0
+#
+#	Event
+#		Type	Local
+#		At	WepL
+#		Bhvr	WEAPONS\Custom_DualBlades\Female_WepLScaleAndFlip.bhvr
+#		Anim	CustomWeapon_BladeRight_Talsorian_Grip01
+#	End
+#	Event
+#		Type	Local
+#		At	WepL
+#		Bhvr	WEAPONS\Custom_DualBlades\Female_WepLScaleAndFlip.bhvr
+#		Anim	CustomWeapon_BladeRight_Talsorian_Blade01
+#	End
+#End
+
+Condition
+        On		Triggerbits
+        Triggerbits	DUALHAND
+        DoMany		1
+
+	Event
+		EName	TalsorianBlades_Glow
+		Type	Local
+		At	WepL
+                While   DUALHAND
+                Flags   OneAtATime
+		Bhvr	WEAPONS\Custom_DualBlades\Female_WepRScale.bhvr
+		Anim	CustomWeapon_BladeLeft_Mecha_02
+		BhvrOverride
+			PositionOffset	0.08 0.03 -0.05
+			PyrRotate 180 180 0
+			#Scale	0.85 0.85 0.85
+		End
+		ChildFX WEAPONS\Custom_Broadsword\Mecha_Sword02_CHILD.fx
+	End
+End
+
+#############################################################
+
+End

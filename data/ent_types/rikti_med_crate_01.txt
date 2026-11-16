@@ -1,0 +1,45 @@
+#########################################################
+## Rikti Medical Supplies Crate
+#########################################################
+
+Type
+
+#########################################################
+
+Sequencer	Prop_Basic.txt
+SequencerType	Prop_Basic
+
+#########################################################
+
+HealthFx
+	Range	0.001 100
+	LibraryPiece	Rikti_med_crate_01
+	#ContinuingFX	<fxName>
+	#OneShotFX	<fxName>
+End
+
+HealthFX
+	Range	0 0.001
+	OneShotFX	Explosions/RiktiMedCrate/RiktiMedCrate_Explosion.fx
+End
+
+#########################################################
+
+CapsuleSize	3.8 7.3 3.8
+CapsuleOffset	0 0 0
+
+FadeOutStart	500
+FadeOutFinish	550
+ShadowType	None
+StaticLighting	1
+
+Placement	DeadOn
+Selection	LibraryPiece
+CollisionType	LibraryPiece
+
+TicksToLingerAfterDeath		25
+TicksToFadeAwayAfterDeath	1
+
+#########################################################
+
+End

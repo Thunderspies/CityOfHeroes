@@ -1,0 +1,37 @@
+######################################
+## V_Organelle_Cage
+## 
+Type
+
+HealthFX
+	Range		0.0001 100
+	LibraryPiece	V_Organelle_Cage
+End
+
+HealthFx
+	Range			0 0.0001  	
+	OneShotFx		V_COV\Destructible_Objects\GrowthBomb\OrganelleExplosion.fx
+End
+
+CapsuleSize 10 11 10
+CapsuleOffset   0 0 14
+
+Sequencer	Prop_basic.txt   	 		
+
+FadeOutStart	500				
+FadeOutFinish	550
+
+ShadowType	None			
+
+GeomScale	1.0 1.0 1.0			
+
+Placement         DeadOn  
+
+CollisionType	LibraryPiece
+Selection	Capsule
+
+TicksToLingerAfterDeath			40
+TicksToFadeAwayAfterDeath		1
+
+
+End

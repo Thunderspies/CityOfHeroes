@@ -1,0 +1,33 @@
+######################################
+## hoverbot
+##
+Type
+
+Sequencer	hoverbot.txt
+SequencerType	FX_Void
+#Graphics	player_library/G_hoverbot.geo
+
+FadeOutStart	180
+FadeOutFinish	200
+
+GeomScale	1 1 1
+
+Placement       SetBack
+Selection	Capsule
+CapsuleSize	6 6 6
+CapsuleOffset   0 4 -4
+
+
+FX		ENEMYFX\Praetorian\DD\Wisp_LifegivingEssence.fx
+
+ReticleHeightBias 1.0
+
+TicksToLingerAfterDeath			60
+TicksToFadeAwayAfterDeath		5
+
+HealthFx
+	Range			0 0.001
+	OneShotFx		ENEMYFX\Praetorian\DD\Wisp_LifegivingEssence_Death.fx
+End
+
+End

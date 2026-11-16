@@ -1,0 +1,1479 @@
+#############################################################
+
+Sequencer
+
+TypeDef hoverbot
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef riktidrone
+	BaseSkeleton	Rikti_drone\Skel_rikti_drone
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef FX_hoverbot_flyby
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef Arachno_Drone
+	BaseSkeleton	hoverbot\Arachno_drone_bones
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef Force_Field
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef HunterSeeker
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef Robot_Seeker
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	HunterSeeker
+TypeDefEnd
+
+TypeDef Robot_Seeker_tall
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	Robot_Seeker
+TypeDefEnd
+
+TypeDef BPSpirtMasks
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef IDF_Mark_I
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef IDF_Mark_II
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef IDF_Mark_III
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef Burr_Hamidon_Bulwark
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef Burr_Hamidon_Contaminating
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef Burr_Hamidon_Hematic
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef Burr_Hamidon_Maturing
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef Burr_Hamidon_Respiring
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef fx_void
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef fx_vortex
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+TypeDef Animus
+	BaseSkeleton	hoverbot\skel_ready2
+	ParentType	hoverbot
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+
+
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           1
+
+	Type		hoverbot
+	  Anim          hoverbot\skel_ready2 1
+	TEnd
+
+MEnd
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkPreReady
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        WalkCycleReady
+	Priority        1
+
+	Type		hoverbot
+	  Anim          hoverbot\run 2 24
+
+	TEnd
+
+	Type		riktidrone
+	  Anim          hoverbot\run 25 50
+	  PlayFX	enemyFX\Rikti\riktidronefly2.fx
+	TEnd
+MEnd
+
+Move WalkCycleReady
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        WalkPostReady
+	Priority        1
+
+	Type		hoverbot
+	  Anim          hoverbot\run 25 50
+
+	TEnd
+MEnd
+
+Move WalkPostReady
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		hoverbot
+	  Anim          hoverbot\run 55
+
+	TEnd
+MEnd
+
+#############################################################
+## LOITER ATTACK HIGH LOW
+#############################################################
+
+## HIT QUICK ###########################################################
+
+Move HitQuick
+	Requires	HIT QUICK
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		hoverbot
+	  Anim          hoverbot\HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+
+	Type		animus
+	  Anim          hoverbot\HQ 2
+	  #PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+MEnd
+
+Move HitQuick_mid
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		hoverbot
+	  Anim          hoverbot\HQ_mid 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+
+	Type		animus
+	  Anim          hoverbot\HQ_mid 2
+	  #PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+MEnd
+
+###################
+###### electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+
+	Type		hoverbot
+	  Anim          hoverbot\electro 1 57
+	TEnd
+MEnd
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		hoverbot
+	  Anim          hoverbot\drain 1
+	TEnd
+MEnd
+
+###################
+###### drain react  ######
+###################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+
+	Type		hoverbot
+	  Anim          hoverbot\electro 41 68
+	TEnd
+MEnd
+
+###################
+###### sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		hoverbot
+	  Anim          hoverbot\electro 1 57
+	TEnd
+MEnd
+
+###################
+###### choke react  ######
+###################
+
+Move choke_react
+	Requires	HIT MAGIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		hoverbot
+	  Anim          hoverbot\electro 1 57
+	TEnd
+MEnd
+
+###################
+###### tele_attack react  ######
+###################
+#Move tele_react
+#	Requires       	Hit Teleattack
+#	Interrupts	<ReactIRQ>
+#       Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	Anim            models\tele_react 1
+#	NextMove	CombatReady
+###################
+###### Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Speed_react2
+
+	Type		hoverbot
+	  Anim          hoverbot\speed_react 1
+	TEnd
+MEnd
+
+Move Speed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		hoverbot
+	  Anim          hoverbot\HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+	
+	Type		animus
+	  Anim          hoverbot\HQ 2
+	  #PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+	
+MEnd
+
+###################
+###### Kungfu_speed react  ######
+###################
+
+Move KungfuSpeed_react
+	Requires	HIT KUNGFUSPEED
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react2
+
+	Type		hoverbot
+	  Anim          hoverbot\electro 1 36
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react3
+
+	Type		hoverbot
+	  Anim          hoverbot\drain 1 12
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		hoverbot
+	  Anim          hoverbot\HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+	
+	Type		animus
+	  Anim          hoverbot\HQ 2
+	  #PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+	
+MEnd
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+
+	Type		hoverbot
+	  Anim          hoverbot\electro 1 36
+	TEnd
+MEnd
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react3
+
+	Type		hoverbot
+	  Anim          hoverbot\drain 1 13
+	TEnd
+MEnd
+
+Move ClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		hoverbot
+	  Anim          hoverbot\HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+	
+	Type		animus
+	  Anim          hoverbot\HQ 2
+	  #PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+	TEnd
+	
+
+MEnd
+
+##################
+###### Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		hoverbot
+	  Anim          hoverbot\electro 1 57
+	TEnd
+MEnd
+
+
+######## powers ##########################################
+
+
+###################
+###### Shoot  ######
+###################
+
+Move Shoot_L
+	Requires	SHOOT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Shoot_L_post
+	Priority        1
+	Sets            CANTMOVE
+	Interpolate	0
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_L 1 55
+	TEnd
+MEnd
+
+Move Shoot_L_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_L 56
+	TEnd
+MEnd
+
+Move Shoot_R
+	Requires	SHOOT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Shoot_R_post
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_R 1 55
+	TEnd
+MEnd
+
+Move Shoot_R_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_R 56
+	TEnd
+MEnd
+
+##################
+###### Shoot  ######
+###################
+
+Move Bullrush_Pre
+	Requires	COMBAT BULLRUSH ENDGAME ALTERNATE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bullrush_Post
+
+	Sets            CANTMOVE
+	Interpolate	0
+
+	Type		hoverbot
+	  Anim          hoverbot\seed_hamidon_burr_bullrush 1 30
+	TEnd
+MEnd
+
+Move Bullrush_Post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		hoverbot
+	  Anim          hoverbot\seed_hamidon_burr_bullrush 31
+	TEnd
+MEnd
+
+#############################################################
+## DEATHS
+#############################################################
+
+## VANISH DEATH  ###########################################################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		hoverbot
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Bulwark
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_bulwark.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Contaminating
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Contaminating.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Hematic
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Hermatic.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Maturing
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Maturing.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Respiring
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Respiring.fx 0 CONSTANT
+	TEnd
+	
+	Type		fx_void
+	 Anim          5cw\freezestun 20 30  ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VoidOrb_Death.fx 0 constant
+	TEnd
+
+	Type		fx_vortex
+	 Anim          5cw\freezestun 20 30  ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VortexOrb_Death.fx 0 constant
+	TEnd
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+	Type		hoverbot
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Bulwark
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Contaminating
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Hematic
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Maturing
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Respiring
+	  Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		fx_void
+	 Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VoidOrb_Death.fx 0 constant
+	TEnd
+
+	Type		fx_vortex
+	 Anim          5cw\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VortexOrb_Death.fx 0 constant
+	TEnd
+MEnd
+
+###################
+###### Default Death   ######
+##################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	NextMove        cam_Air_death_fall
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		hoverbot
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+
+	Type		HunterSeeker
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		BPSpirtMasks
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+
+	Type		Burr_Hamidon_Bulwark
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_bulwark.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Contaminating
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Contaminating.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Hematic
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Hermatic.fx 0 constant
+	TEnd
+
+	Type		Burr_Hamidon_Maturing
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Maturing.fx 0 constant
+	TEnd
+
+	Type		Burr_Hamidon_Respiring
+	 Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Respiring.fx 0 constant
+	TEnd
+
+	Type		fx_void
+	 Anim          hoverbot\spin 1 5 #45 45   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VoidOrb_Death.fx 0 constant
+	TEnd
+
+	Type		fx_vortex
+	 Anim          hoverbot\spin 1 5 #45 45   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VortexOrb_Death.fx 0 constant
+	TEnd
+
+	Type		Animus
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+MEnd
+
+################################
+### Special Camera Death (Air) ##
+################################
+
+Move cam_Pre_Air_Death
+	Requires	AIR DEATH
+	Priority        2
+	Interrupts	<ReactIRQ> <DeathIRQ> Air_Death
+	Flags		ReqInputs NotSelectable
+	NextMove        cam_Air_death_fall
+	SticksOnChild   DEATH
+
+	Type		hoverbot
+	  Anim          hoverbot\spin 45 50    ##air_death 1 5
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	TEnd
+
+	Type		HunterSeeker
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		BPSpirtMasks
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Bulwark
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_bulwark.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Contaminating
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Contaminating.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Hematic
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Hermatic.fx 0 constant
+	TEnd
+
+	Type		Burr_Hamidon_Maturing
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Maturing.fx 0 constant
+	TEnd
+
+	Type		Burr_Hamidon_Respiring
+	 Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Respiring.fx 0 constant
+	TEnd
+
+	Type		fx_void
+	 Anim          hoverbot\spin 45 50 #45 45   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VoidOrb_Death.fx 0 constant
+	TEnd
+
+	Type		fx_vortex
+	 Anim          hoverbot\spin 45 50 #45 45   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VortexOrb_Death.fx 0 constant
+	TEnd
+MEnd
+
+Move cam_Air_death_fall
+	Requires	AIR DEATH ###Camera
+	Priority        2
+	Flags		Cycle NotSelectable
+	NextMove        cam_Air_death_impact
+	SticksOnChild   DEATH
+
+	Type		hoverbot
+	  Anim          hoverbot\spin 1 50     ##air_death 26 100
+	TEnd
+
+	Type		HunterSeeker
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		BPSpirtMasks
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Bulwark
+	  Anim          hoverbot\spin 1 50     ##air_death 26 100
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Contaminating
+	  Anim          hoverbot\spin 1 50     ##air_death 26 100
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Hematic
+	  Anim          hoverbot\spin 1 50     ##air_death 26 100
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Maturing
+	  Anim          hoverbot\spin 1 50     ##air_death 26 100
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Respiring
+	  Anim          hoverbot\spin 1 50     ##air_death 26 100
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		fx_void
+	 Anim          hoverbot\spin 1 50 #45 45   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VoidOrb_Death.fx 0 constant
+	TEnd
+
+	Type		fx_vortex
+	 Anim          hoverbot\spin 1 50 #45 45   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VortexOrb_Death.fx 0 constant
+	TEnd
+MEnd
+
+Move cam_Air_death_impact
+	Requires	DEATH ###Camera
+	Priority        1
+	NextMove        cam_Air_death_cycle
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+	SticksOnChild   DEATH
+
+	Type		hoverbot
+	  Anim          hoverbot\air_death 26 50
+	  PlayFX	Explosions\TurretExplosion\LargeTurretExplosion.Fx
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		HunterSeeker
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		BPSpirtMasks
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Bulwark
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_bulwark.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Contaminating
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Contaminating.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Hematic
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Hermatic.fx 0 constant
+	TEnd
+
+	Type		Burr_Hamidon_Maturing
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Maturing.fx 0 constant
+	TEnd
+
+	Type		Burr_Hamidon_Respiring
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Respiring.fx 0 constant
+	TEnd
+
+	Type		fx_void
+	 Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VoidOrb_Death.fx 0 constant
+	TEnd
+
+	Type		fx_vortex
+	 Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VortexOrb_Death.fx 0 constant
+	TEnd
+MEnd
+
+Move cam_Air_death_cycle
+	Requires	DEATH
+	Priority        1
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION DIENOW
+	SticksOnChild   DEATH
+
+	Type		hoverbot
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+
+	Type		HunterSeeker
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		BPSpirtMasks
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Bulwark
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Contaminating
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Hematic
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Maturing
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Respiring
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		fx_void
+	  Anim          hoverbot\air_death 1 1 #26 26
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		fx_vortex
+	  Anim          hoverbot\air_death 1 1 #26 26
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+	Type		Animus
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+###################
+###### Hit Death   ######
+###################
+
+Move Burr_HitDeath
+	Requires	HIT DEATH
+	Priority        102
+	Interrupts	<DeathIRQ> <ReactIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        cam_Air_death_cycle
+	Sets            DIENOW TARGET
+
+	Type		hoverbot
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+
+
+	Type		Burr_Hamidon_Bulwark
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_bulwark.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Contaminating
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	PlayFx        ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Contaminating.fx 0 CONSTANT
+	TEnd
+
+	Type		Burr_Hamidon_Hematic
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Hermatic.fx 0 constant
+	TEnd
+
+	Type		Burr_Hamidon_Maturing
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Maturing.fx 0 constant
+	TEnd
+
+	Type		Burr_Hamidon_Respiring
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\V_SeedHamidon\Burr_Death\Burr_Death_Respiring.fx 0 constant
+	TEnd
+
+	Type		fx_void
+	  Anim          hoverbot\spin 45 60   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VoidOrb_Death.fx 0 constant
+	TEnd
+
+	Type		fx_vortex
+	  Anim          hoverbot\spin 45 60   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	Playfx	ENEMYFX\Praetorian\MoM\VortexOrb_Death.fx 0 constant
+	TEnd
+
+	Type		Animus
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+### fx encounters  (for animated fx)  ########################
+
+##############################
+### Skiff: Air 2 Air attacks  #####
+##############################
+
+Move Dogfight
+	Requires	ENCOUNTER LOITER ATTACK HIGH
+	Priority        4
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	Scale		0.5
+	Interpolate	0
+
+	Type		hoverbot
+	  Anim          hoverbot\bank_A 1
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_Skiff_flyby_A2.fx 0 Constant
+	TEnd
+MEnd
+
+##################################
+### Skiff: Air 2 Ground attacks  #####
+##################################
+
+Move Air2Ground_A1
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority        5
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_B2
+	CycleMove	Air2Ground_A2
+	NextMove	DriftDown
+	Scale		0.5
+	Interpolate	30
+
+	Type		hoverbot
+	  Anim          hoverbot\groundshoot_A 1 80   ##223
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 30
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 40
+	TEnd
+MEnd
+
+Move Air2Ground_A2
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority	5
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_A1
+	CycleMove	Air2Ground_B1
+	CycleMove	Air2Ground_C
+	NextMove	DriftDown
+	Scale		0.5
+	Interpolate	30
+
+	Type		hoverbot
+	  Anim          hoverbot\groundshoot_A 81 223
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 28
+	PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 39
+	TEnd
+MEnd
+
+Move Air2Ground_B1
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority        5
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_A2
+	CycleMove	Air2Ground_B2
+	NextMove	DriftDown
+	Scale		0.7
+	Interpolate	30
+
+	Type		hoverbot
+	  Anim          hoverbot\groundshoot_B 1 80
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 40
+	TEnd
+MEnd
+
+Move Air2Ground_B2
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority        5
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_B1
+	CycleMove	Air2Ground_C
+	CycleMove	Air2Ground_A1
+	CycleMove	Air2Ground_C
+	NextMove	DriftDown
+	Scale		0.7
+	Interpolate	30
+
+	Type		hoverbot
+	  Anim          hoverbot\groundshoot_B 81 200
+	PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 39
+	PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 119
+	TEnd
+MEnd
+
+
+Move Air2Ground_C
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority        5
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_A1
+	CycleMove	Air2Ground_B2
+	CycleMove	Air2Ground_B1
+	NextMove	DriftDown
+	Scale		0.7
+	Interpolate	30
+
+	Type		hoverbot
+	  Anim          hoverbot\groundshoot_C 1
+	  PlayFx        WEAPONFX\Enc_Skiff_machineguns.fx 45
+	TEnd
+MEnd
+
+Move DriftDown
+##	Member		<ReactIRQ> <DeathIRQ> ##<AttackIRQ>
+	NextMove	Ready
+	Interpolate	40
+
+	Type		hoverbot
+	  Anim          hoverbot\skel_ready2 1
+	TEnd
+
+MEnd
+
+
+
+#### Basic spawn  ##############################33
+
+
+
+#####################
+### Basic Spawn  #####
+#####################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale CANTMOVE  NotSelectable
+
+
+	Type		hoverbot
+	  Anim          hoverbot\spawn_behind 1   ##spawn_robotback 1
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+
+	Type		Force_Field
+	  Anim          hoverbot\spawn_above 1
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+
+	Type		Robot_Seeker
+	  Anim          hoverbot\spawn_robotback 1
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+
+	Type		Robot_Seeker_Tall
+	  Anim          hoverbot\spawn_robotback_Tall 1
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+
+	Type		Animus
+	  Anim          hoverbot\skel_ready2 1
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+MEnd
+
+###################
+###### IDF Mark Drone Shoot  ######
+###################
+
+Move IDF_Mark_Shoot_L
+	Requires	SHOOT DRONE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        IDF_Mark_Shoot_L_post
+	Priority        2
+	Sets            CANTMOVE
+	Interpolate	0
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_L 1 55
+	TEnd
+MEnd
+
+Move IDF_Mark_Shoot_L_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_L 56
+	TEnd
+MEnd
+
+Move IDF_Mark_Shoot_R
+	Requires	SHOOT DRONE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        IDF_Mark_Shoot_R_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_R 1 55
+	TEnd
+MEnd
+
+Move IDF_Mark_Shoot_R_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_R 56
+	TEnd
+MEnd
+
+###################
+###### Antimatter Turret Drone Shoot  ######
+###################
+
+Move Antimatter_Turret_Shoot_L
+	Requires	SHOOT TURRET
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Antimatter_Turret_Shoot_L_post
+	Priority        2
+	Sets            CANTMOVE
+	Interpolate	0
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_L 1 55
+	TEnd
+MEnd
+
+Move Antimatter_Turret_Shoot_L_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_L 56
+	TEnd
+MEnd
+
+Move Antimatter_Turret_Shoot_R
+	Requires	SHOOT TURRET
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Antimatter_Turret_Shoot_R_post
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_R 1 55
+	TEnd
+MEnd
+
+Move Antimatter_Turret_Shoot_R_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		hoverbot
+	  Anim          hoverbot\shoot_R 56
+	TEnd
+MEnd
+
+
+##################
+###### IDF Mark Boost_up react  ######
+###################
+
+Move IDF_Mark_Drone_Hit_Boostup
+	Requires	MEDOTHER DRONE
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Priority        2
+	NextMove        KungfuSpeed_react3
+
+	Type		hoverbot
+	  Anim          hoverbot\drain 1 12
+	TEnd
+MEnd
+
+##################
+###### Antimatter Fast Repair Boost_up react  ######
+###################
+
+Move Antimatter_Turret_Hit_Boostup
+	Requires	BOOSTAURA TURRET
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		hoverbot
+	  Anim          hoverbot\electro 1 57
+	TEnd
+MEnd
+
+###Praetorian Teleport In  #########################################################
+
+Move Hoverbot_TeleportIn
+	Requires	ENCOUNTER TELEPORT DOWN
+	Priority	3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	NextMove        Hoverbot_TeleportIn_LookQuick
+	Sets            CANTMOVE
+	Flags		NotSelectable
+
+	Type		hoverbot
+	  Anim          hoverbot\ready 1   ##spawn_robotback 1
+	  PlayFX	Generic\entityFadeIn.fx 0
+	  PlayFx        ENEMYFX\Seers\Summon_Portal_In.fx 0
+	TEnd
+
+MEnd
+
+Move Hoverbot_TeleportIn_LookQuick
+	Requires	ENCOUNTER TELEPORT DOWN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	NextMove	Hoverbot_TeleportIn_PostReady
+
+	Type		hoverbot
+	  Anim          hoverbot\ready 1
+	TEnd
+
+MEnd
+
+Move Hoverbot_TeleportIn_PostReady
+	Requires	ENCOUNTER TELEPORT DOWN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle
+	Scale		0.5
+
+	Type		hoverbot
+	  Anim          hoverbot\ready 1
+	TEnd
+
+MEnd
+
+####Hoverbot_ Teleport Out  #########################################################
+
+Move Hoverbot_TeleportOut
+	Requires	ENCOUNTER TELEPORT UP
+	Priority	3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	NextMove        Hoverbot_TeleportOut_Post
+	Sets            CANTMOVE
+	Flags		NotSelectable
+
+	Type		hoverbot
+	  Anim          hoverbot\ready 1
+	  PlayFx        ENEMYFX\Seers\Summon_Portal_Out.fx 0
+	TEnd
+
+MEnd
+
+Move Hoverbot_TeleportOut_Post
+	Requires	ENCOUNTER TELEPORT UP
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle
+	Scale		0.5
+
+	Type		hoverbot
+	  Anim          hoverbot\ready 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+MEnd
+
+############################################################################
+
+
+SeqEnd		##(leave at the bottom. DO NOT MOVE!!!)###

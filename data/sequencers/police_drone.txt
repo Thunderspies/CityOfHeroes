@@ -1,0 +1,182 @@
+#############################################################
+
+Sequencer
+
+TypeDef Police_Drone
+	BaseSkeleton	Police_Drone\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Police_Drone_Alpha_Strike
+	BaseSkeleton	Police_Drone\skel_ready
+	ParentType	Police_Drone
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+#############################################################
+
+Move Ready
+	Member		<Ready> <DeathIRQ>
+	Flags		Cycle
+
+	Type		Police_Drone
+	  Anim          Police_Drone\skel_ready 1
+	TEnd
+
+	Type		Police_Drone_Alpha_Strike
+	  Anim          hoverbot\police_drone_temp_death 33 44
+	  PlayFx	Generic\FX_policedrone_alphastrike.fx 1 0 constant
+	TEnd
+MEnd
+
+###################
+###### Default Death   ######
+##################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        101
+	Interrupts	<DeathIRQ>
+	NextMove        cam_Air_death_fall
+	Sets            NOCOLLISION
+
+	Type		Police_Drone
+	  Anim          hoverbot\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+
+	Type		Police_Drone_Alpha_Strike
+	  Anim          hoverbot\police_drone_temp_death 33 44
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+MEnd
+
+################################
+### Special Camera Death (Air) ##
+################################
+
+Move cam_Pre_Air_Death
+	Requires	AIR DEATH
+	Priority        102
+	Interrupts	<ReactIRQ> <DeathIRQ> Air_Death
+	Flags		ReqInputs
+	NextMove        cam_Air_death_fall
+	SticksOnChild   DEATH
+
+	Type		Police_Drone
+	  Anim          hoverbot\spin 45 50
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	TEnd
+MEnd
+
+Move cam_Air_death_fall
+	Requires	AIR DEATH ###Camera
+	Flags		Cycle
+	NextMove        cam_Air_death_impact
+	SticksOnChild   DEATH
+
+	Type		Police_Drone
+	  Anim          hoverbot\spin 1 50
+	TEnd
+MEnd
+
+Move cam_Air_death_impact
+	Requires	DEATH ###Camera
+	NextMove        cam_Air_death_cycle
+	Sets            NOCOLLISION
+	SticksOnChild   DEATH
+
+	Type		Police_Drone
+	  Anim          hoverbot\air_death 26 50
+	  PlayFX	Explosions\TurretExplosion\LargeTurretExplosion.Fx
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+Move cam_Air_death_cycle
+	Requires	DEATH
+	Flags		Cycle
+	Sets            NOCOLLISION DIENOW TARGET
+	SticksOnChild   DEATH
+
+	Type		Police_Drone
+	  Anim          hoverbot\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+MEnd
+
+####################
+#### Revive - GREG Event ####
+####################
+
+Move AlphaStrikeDrone_PowerUp
+	Requires	COMBAT CHARGE UP
+	Priority        3
+	Interrupts	Ready
+	#Include sequencers\Members\Reactions.inc
+	NextMove        AlphaDrone_CombatCycle
+	Flags		NoSizeScale CANTMOVE
+
+	Type		Police_Drone_Alpha_Strike
+	  Anim          hoverbot\police_drone_temp_alive 1
+	  PlayFx	Generic\FX_policedrone2.fx 15 CONSTANT
+	TEnd
+MEnd
+
+Move AlphaDrone_CombatCycle
+	Requires	COMBAT CHARGE UP
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        PowerDown
+
+	Type		Police_Drone_Alpha_Strike
+	  Anim          Police_Drone\skel_ready 1
+	  PlayFx	Generic\FX_policedrone2.fx 0 CONSTANT
+	TEnd
+MEnd
+
+####################################
+#### Temp Death - GREG Event ####
+################################
+
+Move PowerDown
+	NextMove        Ready
+	Member		<DeathIRQ>
+	Flags		NoSizeScale CANTMOVE
+
+	Type		Police_Drone_Alpha_Strike
+	  Anim          hoverbot\police_drone_temp_death 1 44
+	TEnd
+MEnd
+
+##########################################################################################################################
+
+SeqEnd
+

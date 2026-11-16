@@ -1,0 +1,166 @@
+#############################################################
+## Rikti_Shuttle.txt - Rikti Attack Shuttle
+#############################################################
+
+Sequencer
+
+TypeDef Rikti_Shuttle
+	BaseSkeleton	Rikti_Shuttle\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Rikti_ShuttleGeometry
+	BaseSkeleton	Rikti_Shuttle\skel_ready
+	ParentType	Rikti_Shuttle
+TypeDefEnd
+
+TypeDef Rikti_Shuttle_Stationary
+	BaseSkeleton	Rikti_Shuttle\skel_ready
+	ParentType	Rikti_Shuttle
+TypeDefEnd
+
+TypeDef Rikti_Shuttle_ChildExplosion
+	BaseSkeleton	Rikti_Shuttle\skel_ready
+	ParentType	Rikti_Shuttle
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+## TEST - DELETE OR COMMENT THIS OUT!!! ###########################################################
+
+#Move TestAnim1
+#	Interrupts	<DeathIRQ>
+#	Member		<RaiseDeadIRQ>
+#	Priority        1
+#	NextMove	TestAnim2
+#
+#	Type		Rikti_Shuttle
+#	  Anim		Rikti_Shuttle\death1 1 271
+#	  PlayFX	EnemyFx\Rikti\Shuttle\Persistent_Death.fx 1 CONSTANT
+#	  PlayFX	Explosions\VehicleExplosion\Explosion_RiktiShuttle_Initial.fx 1 #Initial Explosion\Starboard Engine
+#	  PlayFX	Explosions\VehicleExplosion\Explosion_RiktiShuttle_Final.fx 266	#Final explosion
+#	TEnd
+#MEnd
+#
+#Move TestAnim2
+#	Member		<RaiseDeadIRQ>
+#	Priority        1
+#	NextMove	TestAnim1
+#
+#	Type		Rikti_Shuttle
+#	  Anim		Rikti_Shuttle\death1 272 450
+#	TEnd
+#MEnd
+
+## READY ###########################################################
+
+Move Ready
+	Member		<DeathIRQ> <Ready>
+	Priority	0
+	Flags		Cycle
+	NextMove	Ready
+
+	Type		Rikti_Shuttle
+	  Anim		Rikti_Shuttle\idle 1 16
+	  #PlayFX	EnemyFx\Rikti\Shuttle\Persistent.fx 1 CONSTANT
+	  PlayFX	EnemyFx\Rikti\Shuttle\Thrusters_Idle.fx 1 CONSTANT
+	TEnd
+MEnd
+
+## READY ###########################################################
+
+Move Forward_Pre
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ> <MoveIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Priority	1
+	NextMove	Forward_Cycle
+
+	Type		Rikti_Shuttle
+	  Anim		Rikti_Shuttle\idle 1
+	  #PlayFX	EnemyFx\Rikti\Shuttle\Persistent.fx #1 CONSTANT
+	  PlayFX	EnemyFx\Rikti\Shuttle\Thrusters_Forward.fx 1 CONSTANT
+	TEnd
+MEnd
+
+Move Forward_Cycle
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	Priority	1
+	Flags		Cycle REQINPUTS
+
+	Type		Rikti_Shuttle
+	  Anim		Rikti_Shuttle\idle 1 31
+	  #PlayFX	EnemyFx\Rikti\Shuttle\Persistent.fx #1 CONSTANT
+	  PlayFX	EnemyFx\Rikti\Shuttle\Thrusters_Forward.fx 1 CONSTANT
+	TEnd
+MEnd
+
+## DEATH ###########################################################
+
+Move Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	Sets		NOCOLLISION #TARGET
+	NextMove	Death_Cycle
+	Flags		NOTSELECTABLE
+
+	Type		Rikti_Shuttle
+	  Anim		Rikti_Shuttle\death1 1 271
+	TEnd
+
+	Type		Rikti_Shuttle_Stationary
+	  Anim		Rikti_Shuttle\skel_ready 1 1
+	  PlayFX	Explosions\VehicleExplosion\Explosion_RiktiShuttle_Initial.fx 1 #Initial Explosion\Starboard Engine
+	  PlayFX	Explosions\VehicleExplosion\Explosion_RiktiShuttle_Final.fx 266	#Final explosion
+	TEnd
+
+	Type		Rikti_Shuttle_ChildExplosion
+	  Anim		Rikti_Shuttle\death1 1 271
+	  PlayFX	Explosions\VehicleExplosion\Explosion_RiktiShuttle_Initial.fx 1 #Initial Explosion\Starboard Engine
+	  PlayFX	Explosions\VehicleExplosion\Explosion_RiktiShuttle_Final.fx 251	#Final explosion
+	TEnd
+MEnd
+
+Move Death_Cycle
+	Member		<Ready> <RaiseDeadIRQ>
+	Priority        1
+	Sets		NOCOLLISION DIENOW #TARGET
+	Flags		CYCLE NOTSELECTABLE
+
+	Type		Rikti_Shuttle
+	  Anim		Rikti_Shuttle\death1 271 272
+	TEnd
+
+	Type		Rikti_Shuttle_Stationary
+	  Anim		Rikti_Shuttle\skel_ready 1 1
+	TEnd
+
+	Type		Rikti_Shuttle_ChildExplosion
+	  Anim		Rikti_Shuttle\death1 271 272
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,304 @@
+Version 2
+Scenefile scenes/v_cityscene_IOM_StMartial.txt
+
+Def grp37060
+	Group Omni/PARTICLE_25
+		PYR 0 89.999985 0
+	End
+	Type Vehicles\Helicopter\Heicopter.fx
+End
+
+Def grp37065
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def grp37066
+	Group Omni/_EmergeFromMe
+		Pos 4.5 -0.585831 -0.000001
+	End
+	Group Omni/Entrypoint
+		Pos 9 -0.500351 -0.000003
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+End
+
+Def grp37069
+	Group Omni/PARTICLE_15
+	End
+	Property	"Generator"	"HelicopterPilotGenerator_Mr_G"	0
+End
+
+Def grp37068
+	Group grp37069
+		PYR 0 20.000008 0
+		Pos 1 0 -1.5
+	End
+	Group Doors/5th_Col_doors/_Doors_5col_Volume_Trigger
+		PYR 0 30.000015 0
+		Pos -0.5 0 -1
+	End
+End
+
+Def grp37067
+	Group grp37068
+		PYR 0 60.000031 0
+		Pos -2.359802 0 2.632782
+	End
+	Property	"Door"	"Door"	0
+End
+
+Def grp37061
+	Group grp37065
+		PYR 0 179.999969 0
+		Pos 1.5 0 2
+	End
+	Group grp37066
+		Pos 10 6 1.499969
+	End
+	Group grp37067
+		PYR 0 -40.000015 0
+		Pos 2 0 10.5
+	End
+	Group Omni/ExitPoint
+		PYR 0 89.999985 -0
+		Pos 14.671143 4.961426 4.023773
+	End
+	Group Omni/ExitPoint
+		PYR 0 89.999985 -0
+		Pos 15.671143 4.961426 2.023743
+	End
+	Group Omni/ExitPoint
+		PYR 0 89.999985 -0
+		Pos 14.171021 4.961426 0.023865
+	End
+End
+
+Def grp37056
+	Group V_COV/Streets/Airport/Helo01/_Helo01_L02
+	End
+	Group V_COV/Streets/Airport/Helo01/_Helo01_L03
+	End
+	Group V_COV/Streets/Airport/Helo01/_Helo01_L01
+	End
+	Group grp37060
+	End
+	Group grp37061
+		PYR 0 -89.999985 0
+		Pos 1.999991 0 -29.5
+	End
+	TexSwap Helo_FC_Decal Vanguard_Helo_Logo01 1
+	TexSwap Mi-26_Halo1 x_Vanguard_Helicopter 1
+End
+
+Def grp37070
+	Group Omni/EncounterSpawns/Base_Missions/ES_MissionLayout
+		PYR 0 -135 -0
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp37071
+	Group Omni/EncounterSpawns/Base_Missions/ES_MissionLayout
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp37073
+	Group Omni/EncounterSpawns/Base_Missions/ES_MissionLayout
+		PYR 0 22.500004 -0
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp37074
+	Group grp37073
+		Pos -3.75 0 6.25
+	End
+	Group Omni/MissionLabels/Mission_Room_01
+		Pos 3.75 0 -6.25
+	End
+End
+
+Def grp37072
+	Group Omni/EncounterSpawns/Base_Missions/ES_MissionLayout
+		PYR 0 -45 -0
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp37075
+	Group Omni/EncounterSpawns/Base_Missions/ES_MissionLayout
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp37076
+	Group Omni/EncounterSpawns/Base_Missions/ES_MissionLayout
+		PYR 0 45 -0
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grpvolume37032
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 16.000000 16.000000 16.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"OBJ_TriggerVolume_Inside"	0
+End
+
+Def grpsound45681
+	Group Omni/_sound
+	End
+	Sound PowerStation2_loop 0.500000 386.807220 35.000000 
+	Flags Ungroupable
+End
+
+Def grpsound45682
+	Group Omni/_sound
+	End
+	Sound RotatingDish_loop 1.000000 55.682419 35.000000 
+	Flags Ungroupable
+End
+
+Import maps/Missions/unique/i24_Unique_Maps/Villain_Arc/Arc_1/IOM_Vanguard_Prison_layer_Geometry.txt
+Import maps/Missions/unique/i24_Unique_Maps/Villain_Arc/Arc_1/IOM_Vanguard_Prison_layer_Spawns.txt
+Import maps/Missions/unique/i24_Unique_Maps/Villain_Arc/Arc_1/IOM_Vanguard_Prison_layer_BlueWall.txt
+Ref grp37056
+	PYR 0 14.000001 -0
+	Pos 3759 187.838623 3409
+End
+
+Ref Omni/MissionBeacons/PlayerSpawn
+	PYR 0 -157.5 -0
+	Pos 3752 189.726974 3381.5
+End
+
+Ref Omni/MissionBeacons/PlayerSpawn
+	PYR 0 -157.5 -0
+	Pos 3751.5 191.107437 3385.5
+End
+
+Ref Omni/MissionBeacons/PlayerSpawn
+	PYR 0 -157.5 -0
+	Pos 3749 191.279785 3387
+End
+
+Ref Omni/MissionBeacons/MapSwap_MissionExit
+	PYR 0 -160 -0
+	Pos 3747 189.808563 3383.5
+End
+
+Ref Omni/MissionLabels/Mission_Room_03
+	Pos 2324 -547.119751 677.5
+End
+
+Ref grp37070
+	Pos 2181 -547.119751 629
+End
+
+Ref grp37071
+	Pos 2315 -547.119751 687.5
+End
+
+Ref grp37074
+	PYR 0 112.5 0
+	Pos 2607 -611.122681 299
+End
+
+Ref grp37072
+	Pos 2618.5 -579.119751 536
+End
+
+Ref grp37074
+	PYR 0 32.5 -0
+	Pos 2793 -611.119751 274
+End
+
+Ref grp37074
+	Pos 2502.25 -611.119751 234.25
+End
+
+Ref grp37074
+	PYR 0 -67.5 -0
+	Pos 3003 -611.119568 152
+End
+
+Ref grp37074
+	PYR 0 -67.5 -0
+	Pos 3005 -611.119568 250
+End
+
+Ref grp37075
+	PYR 0 50.000008 -0
+	Pos 2526 -611.119751 -133
+End
+
+Ref grp37075
+	PYR 0 70 -0
+	Pos 2505.5 -611.119751 -14.5
+End
+
+Ref grp37075
+	Pos 2533.5 -611.119751 127
+End
+
+Ref grp37075
+	PYR 0 -40.000008 -0
+	Pos 2692.5 -611.119751 -74
+End
+
+Ref grp37075
+	PYR 0 -40.000008 -0
+	Pos 2828.5 -611.119751 -75
+End
+
+Ref grp37075
+	PYR 0 -40.000008 -0
+	Pos 2853.5 -611.119751 -250
+End
+
+Ref grp37075
+	PYR 0 89.999992 -0
+	Pos 2454.5 -611.119751 -245
+End
+
+Ref Omni/MissionLabels/Mission_Room_01
+	Pos 3604 -611.119751 142
+End
+
+Ref grp37076
+	Pos 3598 -611.122681 148
+End
+
+Ref Omni/MissionLabels/Mission_Room_01
+	Pos 3376 -675.119751 -30
+End
+
+Ref grpvolume37032
+	Pos 2214.5 -548.119751 550
+End
+
+Ref Omni/ValidBeacon
+	Pos 3783 125.975037 3860
+End
+
+Ref grpsound45681
+	Pos 3505.433105 186.597229 3873.51416
+End
+
+Ref grpsound45682
+	Pos 4102.676758 252.62085 3324.350586
+End
+
+
+

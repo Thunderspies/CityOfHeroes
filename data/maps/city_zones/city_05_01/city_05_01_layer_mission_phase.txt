@@ -1,0 +1,34 @@
+Def grpvolume_CaptainNolan_Mission
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 400.000000 400.000000 400.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"CaptainNolan_Phase"	0
+	Property	"VolumePower"	"Temporary_Powers.Phasing.DAPrologueMissionPhase"	0
+End
+
+Def grpvolume106204
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 200.000000 200.000000 200.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"CaptainNolan_Mission1_Part2"	0
+End
+
+Def grp_Mission_Phase
+	Group Omni/NAV
+	End
+	Group grpvolume_CaptainNolan_Mission
+		PYR 0 45 -0
+		Pos -41.5 -224.000061 -69.5
+	End
+	Group grpvolume106204
+		Pos 2183 -187.361572 -499
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Mission_Phase
+	Pos -967 160 -2365
+End
+

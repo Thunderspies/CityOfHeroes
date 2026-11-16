@@ -1,0 +1,114 @@
+#############################################################
+
+Sequencer
+
+TypeDef swat 
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+####Sets		Walkthrough
+###################
+### shield Idle
+###################
+
+Move Shield_idle
+	Flags		Cycle 
+	Scale           0.70
+	Interpolate     0
+	CycleMove       Shield_idle_B
+	CycleMove       Shield_idle_C
+
+	Type		swat
+	  Anim          male\shield_idle 1  
+	TEnd
+MEnd
+
+
+Move Shield_idle_B
+	Flags		Cycle 
+	Scale           0.70
+	Interpolate     0
+	CycleMove       Shield_idle
+	CycleMove       Shield_idle_C
+
+	Type		swat
+	  Anim          male\shield_lookleft 1  
+	TEnd
+MEnd
+
+
+Move Shield_idle_C
+	Flags		Cycle 
+	Scale           0.70
+	Interpolate     0
+	CycleMove       Shield_idle
+	CycleMove       Shield_idle_B
+
+	Type		swat
+	  Anim          male\shield_lookright 1  
+	TEnd
+MEnd
+
+###################
+### Shield Idle Forward ##
+###################
+
+Move WalkPreReady
+	Requires	FORWARD IDLE 
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	NextMove        WalkCycleReady
+	Priority        2
+	Scale           0.50
+
+	Type		swat
+	  Anim          male\shield_march 9 25 
+	TEnd
+MEnd
+
+
+Move WalkCycleReady
+	Requires	FORWARD IDLE 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle 
+	NextMove        WalkPostReady
+	Priority        2
+	Scale           0.50
+
+	Type		swat
+	  Anim          male\shield_march 1 25 
+	TEnd
+MEnd
+
+
+Move WalkPostReady
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ> 
+	NextMove        Ready
+
+	Type		swat
+	  Anim          male\shield_march 24 25 
+	TEnd
+MEnd
+
+SeqEnd
+

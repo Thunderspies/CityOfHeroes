@@ -1,0 +1,306 @@
+#############################################################
+
+Sequencer
+
+TypeDef tank_A
+	BaseSkeleton	tank_A\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef tank_B
+	BaseSkeleton	tank_B\skel_test
+	ParentType	tank_A
+TypeDefEnd
+
+TypeDef tank_C
+	BaseSkeleton	tank_C\skel_test
+	ParentType	tank_A
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		tank_A
+	  Anim          tank_A\ready 1  
+	TEnd
+
+	Type		tank_B
+	  Anim          tank_B\shoot_ready 1  
+	TEnd
+
+	Type		tank_C
+	  Anim          tank_C\skel_test 1 
+	TEnd
+MEnd
+
+###################
+### run Forward ##
+###################
+
+Move Forward_Pre
+	Requires	FORWARD 
+	Interrupts	<Ready> <PostMoveCycle> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		ReqInputs NoInterp
+	NextMove        Forward_Cycle
+	Priority        1
+	Interpolate	0
+
+	Type		tank_A
+	  Anim          tank_A\forward 1  
+ 	  #PlayFX	fx\EntitySounds\tank1.fx  ###note: steve make longer pre
+	TEnd
+
+	Type		tank_B
+	  Anim          tank_B\shoot_forward 1  
+ 	  #PlayFX	fx\EntitySounds\tank1.fx
+	TEnd
+MEnd
+
+
+Move Forward_Cycle
+	Requires	FORWARD 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoInterp
+	NextMove        Forward_Post
+	Priority        1
+	Interpolate	0
+
+	Type		tank_A
+	  Anim          tank_A\forward 1 4
+	  PlayFx        Powers\SuperSpeed\tank_sprint.fx  0 Constant
+	  PlayFx	Vehicles\Tank\Tank_tremors.fx 0 Constant
+	  PlayFX	fx\EntitySounds\tank.fx 0 constant
+	TEnd
+
+	Type		tank_B
+	  Anim          tank_B\shoot_forward 1 4
+	  PlayFx        Powers\SuperSpeed\tank_sprint.fx  0 Constant
+	  PlayFx	Vehicles\Tank\Tank_tremors.fx 0 Constant
+	  PlayFX	fx\EntitySounds\tank.fx 0 constant
+	TEnd
+MEnd
+
+
+Move Forward_Post
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> 
+	NextMove        Ready
+
+	Type		tank_A
+	  Anim          tank_A\ready 1 
+	  PlayFX	fx\EntitySounds\tank2.fx 0 Constant
+	TEnd
+
+	Type		tank_B
+	  Anim          tank_B\shoot_ready 1 
+	  PlayFX	fx\EntitySounds\tank2.fx 0 Constant
+	TEnd
+MEnd
+
+
+
+###################
+### run Backward ##
+###################
+
+Move Backward_Pre
+	Requires	BACKWARD 
+	Interrupts	<Ready> <PostMoveCycle> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		ReqInputs NoInterp
+	NextMove        Backward_Cycle
+	Priority        1
+	Interpolate	0
+
+	Type		tank_A
+	  Anim          tank_A\forward 1  
+	  #PlayFX	fx\EntitySounds\tank1.fx
+	TEnd
+
+
+	Type		tank_B
+	  Anim          tank_B\shoot_forward 1  
+	  #PlayFX	fx\EntitySounds\tank1.fx
+	TEnd
+MEnd
+
+
+Move Backward_Cycle
+	Requires	BACKWARD 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoInterp
+	NextMove        Backward_Post
+	Priority        1
+	Interpolate	0
+
+	Type		tank_A
+	  Anim          tank_A\forward 1 4
+	  PlayFx        Powers\SuperSpeed\tank_sprint.fx  0 Constant
+	  PlayFx	Vehicles\Tank\Tank_tremors.fx 0 Constant
+	  PlayFX	fx\EntitySounds\tank.fx 0 constant
+	TEnd
+
+	Type		tank_B
+	  Anim          tank_B\shoot_forward 1 4
+	  PlayFx        Powers\SuperSpeed\tank_sprint.fx  0 Constant
+	  PlayFx	Vehicles\Tank\Tank_tremors.fx 0 Constant
+	  PlayFX	fx\EntitySounds\tank.fx 0 Constant
+	TEnd
+MEnd
+
+
+Move Backward_Post
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> 
+	NextMove        Ready
+
+	Type		tank_A
+	  Anim          tank_A\ready 1 
+	  PlayFX	fx\EntitySounds\tank2.fx 0 Constant
+	TEnd
+
+	Type		tank_B
+	  Anim          tank_B\shoot_forward 1  
+	  PlayFX	fx\EntitySounds\tank2.fx 0 Constant
+	TEnd
+MEnd
+
+
+###### Encounter ############################
+
+
+
+###################
+### Shoot Cannon   #####
+###################
+
+Move Shoot_Cannon
+	Requires	Test1  ##ATTACK
+	Interrupts	<Ready> <Combat> 
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+##	Flags		Cycle 
+	NextMove	Ready
+	Priority        1
+	Interpolate     0
+
+	Type		tank_A
+	  Anim          tank_A\shoot 1 
+	  PlayFx        Weaponfx\Tank_shoot.fx 1
+	  PlayFx	Vehicles\Tank\Boom_shake_small.fx 0 
+	TEnd
+
+
+	Type		tank_C
+	  Anim          tank_A\shoot 1 
+	  PlayFx        Weaponfx\Tank_shoot.fx 1
+	TEnd
+MEnd
+
+
+###################
+### Shoot Missle  #####
+###################
+
+Move Shoot_Missle
+	Requires	Test2  ##ATTACK High
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+##	Flags		Cycle 
+	NextMove	Ready
+	Priority        2
+	Interpolate     0
+
+	Type		tank_A
+	  Anim          tank_A\missle_shoot 1 160
+ 	  PlayFx        Weaponfx\Tank_Missle.fx 1
+	TEnd
+
+	Type		tank_B
+	  Anim          tank_B\shoot_forward 1  
+ 	  PlayFx        Weaponfx\Tank_Missle.fx 1
+	TEnd
+MEnd
+
+
+###################
+### Default Death #####
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ> 
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+	Interpolate     0
+
+	Type		tank_A
+	  Anim          tank_A\missle_shoot 1 350
+ 	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx	Explosions\Large\Expolsion_large.fx 0
+	  PlayFx	WORLD\Ruins\Dead_tank.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+
+Move Default_postdeath
+	Requires	DEATH 
+	Member		<RaiseDeadIRQ> 
+	Flags		Cycle 
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET 
+
+	Type		tank_A
+	  Anim          tank_A\missle_shoot 1 350
+ 	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx	WORLD\Ruins\Dead_tank.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+
+###################
+### Encounter Straif_Death  #####
+###################
+
+#Move Enc_Straif_Death
+#	Requires	Test4  ## ???
+#	Interrupts	<Ready> <Combat> 
+#	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+###	Flags		Cycle 
+#	NextMove	Enc_Death
+#	Priority        1
+#	Interpolate     0
+#
+#	Type		tank_A
+#	  Anim          tank_A\ready_long 1 111
+#	  PlayFx	Vehicles\Rikti_dropship\Dropship_straif.fx 0 
+#	TEnd
+#
+#MEnd
+
+
+
+
+SeqEnd
+

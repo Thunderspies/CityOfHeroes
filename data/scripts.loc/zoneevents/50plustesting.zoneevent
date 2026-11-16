@@ -1,0 +1,155 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P659448730
+//EventVolume SummerEventHeist
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action CreateGlowies
+		{			
+			GlowieCreate HitterTerminal
+			{
+				DisplayName "Become the Hitter"
+				Location HitterTerminal
+				Quantity 1
+				ResetDelay 1
+				Model OO_Tek1_Computer_01
+				Interact "Learning your role..."
+				Interrupt "Role learning suspended..."
+				Complete "You have learned your role!"
+				BarText "Learning your role..."
+				InteractTime 4
+				CharRequires <<kTurretStage1 Mode? !>>
+				CharRequiresFailedText "The role of the Hitter cannot be claimed at this time. If Role Selection is suppressed at this time, please wait for it to expire before trying to claim a role. If you or another player has already claimed the Hitter role, it cannot be claimed again until the current owner acquires a new role."
+				Reward SummerEvent_Heist_BecomeHitter
+			}
+			GlowieCreate HackerTerminal
+			{
+				DisplayName "Become the Hacker"
+				Location HackerTerminal
+				Quantity 1
+				ResetDelay 1
+				Model OO_Tek1_Computer_01
+				Interact "Learning your role..."
+				Interrupt "Role learning suspended..."
+				Complete "You have learned your role!"
+				BarText "Learning your role..."
+				InteractTime 4
+				CharRequires <<kTurretStage2 Mode? !>>
+				CharRequiresFailedText "The role of the Hacker cannot be claimed at this time. If Role Selection is suppressed at this time, please wait for it to expire before trying to claim a role. If you or another player has already claimed the Hacker role, it cannot be claimed again until the current owner acquires a new role."
+				Reward SummerEvent_Heist_BecomeHacker
+			}
+			GlowieCreate GrifterTerminal
+			{
+				DisplayName "Become the Grifter"
+				Location GrifterTerminal
+				Quantity 1
+				ResetDelay 1
+				Model OO_Tek1_Computer_01
+				Interact "Learning your role..."
+				Interrupt "Role learning suspended..."
+				Complete "You have learned your role!"
+				BarText "Learning your role..."
+				InteractTime 4
+				CharRequires <<kTurretStage3 Mode? !>>
+				CharRequiresFailedText "The role of the Grifter cannot be claimed at this time. If Role Selection is suppressed at this time, please wait for it to expire before trying to claim a role. If you or another player has already claimed the Grifter role, it cannot be claimed again until the current owner acquires a new role."
+				Reward SummerEvent_Heist_BecomeGrifter
+			}
+			GlowieCreate ThiefTerminal
+			{
+				DisplayName "Become the Thief"
+				Location ThiefTerminal
+				Quantity 1
+				ResetDelay 1
+				Model OO_Tek1_Computer_01
+				Interact "Learning your role..."
+				Interrupt "Role learning suspended..."
+				Complete "You have learned your role!"
+				BarText "Learning your role..."
+				InteractTime 4
+				CharRequires <<kTurretStage4 Mode? !>>
+				CharRequiresFailedText "The role of the Thief cannot be claimed at this time. If Role Selection is suppressed at this time, please wait for it to expire before trying to claim a role. If you or another player has already claimed the Thief role, it cannot be claimed again until the current owner acquires a new role."
+				Reward SummerEvent_Heist_BecomeThief
+			}
+		}
+		Action GlowiePlace
+		{
+			DebugPrint <<Better see some Glowies!>>			
+			GlowieControl HitterTerminal
+			{
+				Type Place
+				Glowie HitterTerminal
+			}
+			GlowieControl HackerTerminal
+			{
+				Type Place
+				Glowie HackerTerminal
+			}
+			GlowieControl GrifterTerminal
+			{
+				Type Place
+				Glowie GrifterTerminal
+			}
+			GlowieControl ThiefTerminal
+			{
+				Type Place
+				Glowie ThiefTerminal
+			}
+		}
+		Action GlowieActivate
+		{
+			GlowieControl HitterTerminal
+			{
+				Type Activate
+				Glowie HitterTerminal
+			}
+			GlowieControl HackerTerminal
+			{
+				Type Activate
+				Glowie HackerTerminal
+			}
+			GlowieControl GrifterTerminal
+			{
+				Type Activate
+				Glowie GrifterTerminal
+			}
+			GlowieControl ThiefTerminal
+			{
+				Type Activate
+				Glowie ThiefTerminal
+			}
+		}
+	}
+
+	Trigger End
+	{
+		NextStage Test
+	}
+}
+
+Stage Test
+{
+	StartUp
+	{
+		Action StartTest
+		{
+			DebugPrint <<Starting Stage Test>>
+		}
+
+	}
+}
+
+Stage Stop
+{
+}
+
+Stage Reset
+{
+}

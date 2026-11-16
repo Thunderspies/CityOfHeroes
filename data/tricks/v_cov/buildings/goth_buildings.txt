@@ -1,0 +1,2827 @@
+##GOTH BUILDING LODS
+
+Trick gothbuildingxl
+	TintColor0 33 28 28
+	AutoLod
+	End
+	LodFar 1300
+	LodFarFade 200
+End
+
+Trick gothwinlod
+ LodFar 120
+ LodFarFade 20
+End
+
+Trick gothwinrfx
+ LodFar 450
+ LodFarFade 70
+TrickFlags ReflectTex0 NoColl Additive
+End
+
+##SHADERS...OF DOOM!##################################
+################# Mason Blocks Background ###############
+Texture masonblocks03_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_mason
+	Base1 masonblocks03.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 masonblocks03_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base masonblocks03.tga
+		Blend none
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+
+##############ROOFTOP################
+
+Texture rooftop01_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_rooftop01
+	Base1 rooftop01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 white
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 rooftop01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 200 200
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 30
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture goth_roof_02_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_roof
+	Base1 goth_roof_02.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_roof_02_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 103
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+##################WINDOWS START HERE AND CRAP##################
+Texture goth_window_02_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_02
+	Base1 goth_window_02.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_02_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_02_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_02_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+	
+	Fallback
+		UseFallback 1
+		Base goth_window_02.tga
+		Blend goth_window_02_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+############################
+Texture goth_window_04_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_04
+	Base1 goth_window_04.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_04_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_04_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_04_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 2.3 2.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_window_04.tga
+		Blend goth_window_04_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+###########################
+Texture goth_window_04_top_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_04_top
+	Base1 goth_window_04_top.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_04_top_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_04_top_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_04_top_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 2.3 2.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+	
+	Fallback
+		UseFallback 1
+		Base goth_window_04_top.tga
+		Blend goth_window_04_top_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+##########################3
+Texture goth_window_05_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_05
+	Base1 goth_window_05.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_05_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_05_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_05_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 2.3 2.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_window_05.tga
+		Blend goth_window_05_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+#############################
+Texture goth_window_08_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_08
+	Base1 goth_window_08.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_08_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_08_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_08_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 2.3 2.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_window_08.tga
+		Blend goth_window_08_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+###############################
+Texture goth_window_08_top_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_08_top
+	Base1 goth_window_08_top.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_08_top_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_08_top_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_08_top_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 2.3 2.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_window_08_top.tga
+		Blend goth_window_08_top_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+################################
+Texture goth_window_09_tile_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_09_tile
+	Base1 goth_window_09_tile.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_09_tile_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_09_tile_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_09_tile_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_01
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.3 1.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+	
+	Fallback
+		UseFallback 1
+		Base goth_window_09_tile.tga
+		Blend goth_window_09_tile_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+
+Texture x_goth_window_09_tile_a
+	Base1 goth_window_09_tile.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_09_tile_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_09_tile_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_09_tile_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_01
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.3 1.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_window_09_tile.tga
+		Blend goth_window_09_tile_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+##########################
+Texture goth_window_10_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_10
+	Base1 goth_window_10.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_10_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_10_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_10_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 2.3 2.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_window_10.tga
+		Blend goth_window_10_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+############################
+Texture goth_window_10_long_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_10_long
+	Base1 goth_window_10_long.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_10_long_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_10_long_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_10_long_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 2.3 2.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1
+	maxaddglow 1
+
+	Fallback
+		UseFallback 1
+		Base goth_window_10_long.tga
+		Blend goth_window_10_long_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+#############################3
+Texture goth_window_13_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_wdw_13
+	Base1 goth_window_13.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_window_13_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_window_13_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_window_13_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 2.3 2.3
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_window_13.tga
+		Blend goth_window_13_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+##################################TRIMS########################
+
+Texture goth_trim_03_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_trim_03
+	Base1 goth_trim_03.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_trim_03_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture goth_trim_04_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_trim_04
+	Base1 goth_trim_04.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_trim_04_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture goth_trim_05_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_trim_05
+	Base1 goth_trim_05.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_trim_05_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture goth_trim_10_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_trim_10
+	Base1 goth_trim_10.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_trim_10_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_trim_10_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_trim_10_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture goth_trim_08_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_trim_08
+	Base1 goth_trim_08.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_trim_08_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture goth_runner_03_top_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_runner_03_top
+	Base1 goth_runner_03_top.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_runner_03_top_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_runner_03_top.tga
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+Texture goth_runner_03_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_runner_03
+	Base1 goth_runner_03.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_runner_03_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+	
+	Fallback
+		UseFallback 1
+		Base goth_runner_03.tga
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+
+
+
+Texture goth_runner_05_btm_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_runner_05_btm
+	Base1 goth_runner_05_btm.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_runner_05_btm_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_runner_05_btm.tga
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+
+
+Texture goth_runner_05_top_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_runner_05_top
+	Base1 goth_runner_05_top.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_runner_05_top_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+	
+	Fallback
+		UseFallback 1
+		Base goth_runner_05_top.tga
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+
+
+Texture goth_runner_07_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_runner_07
+	Base1 goth_runner_07.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_runner_07_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+	
+	Fallback
+		UseFallback 1
+		Base goth_runner_07.tga
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+
+#####################UNIQUES###########################
+
+Texture goth_design_03_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_design_03
+	Base1 goth_design_03.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_design_03_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+
+Texture goth_arch_02_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_arch_02
+	Base1 goth_arch_02.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_arch_02_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture goth_arch_01_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_arch_01
+	Base1 goth_arch_01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_arch_01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture goth_arch_03_top_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_arch_03_top
+	Base1 goth_arch_03_top.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_arch_03_top_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_arch_03_top.tga
+		Blend alpha.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+Texture goth_arch_03_btm_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_arch_03_btm
+	Base1 goth_arch_03_btm.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_arch_03_btm_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_arch_03_btm.tga
+		Blend alpha.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+Texture goth_arch_04_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_arch_04
+	Base1 goth_arch_04.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 goth_arch_04_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_arch_04_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+
+End
+
+
+Texture goth_arch_05_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_arch_05
+	Base1 goth_arch_05.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_arch_05_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_arch_05_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.5 1.5
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture goth_arch_05_tile_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_arch_05_tile
+	Base1 goth_arch_05_tile.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_arch_05_tile_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_arch_05_tile_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.5 1.5
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+
+
+Texture x_goth_arch_06
+	Base1 goth_arch_06.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_arch_05_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_arch_05_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_arch_05_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.5 1.5
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+	
+	Fallback
+		UseFallback 1
+		Base goth_arch_05.tga
+		Blend goth_arch_05_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+
+
+
+Texture x_goth_arch_06_tile
+	Base1 goth_arch_06_tile.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_arch_05_tile_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_arch_05_tile_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.5 1.5
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture x_goth_roof_bottom
+	Base1 goth_roof_bottomgless.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_roof_bottomgless_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.5 1.5
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+
+Texture goth_design_01_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_design_01
+	Base1 goth_design_01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_design_01_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_design_01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_design_01_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.3 1.3
+	Multiply2reflect 2 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+	Fallback
+		UseFallback 1
+		Base goth_design_01.tga
+		Blend goth_design_01_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+Texture goth_topwindow_01_bump.tga
+	flags isbumpmap
+End
+
+Texture x_goth_topwindow_01
+	Base1 goth_topwindow_01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 goth_topwindow_01_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_topwindow_01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask goth_topwindow_01_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.3 1.3
+	Multiply2reflect 2 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+	
+	Fallback
+		UseFallback 1
+		Base goth_topwindow_01.tga
+		Blend goth_topwindow_01_glow.tga
+		BlendType AddGlow
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+
+Texture x_goth_design_02
+	Base1 goth_design_02.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_design_02_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.5 1.5
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture x_goth_roofpiece_01
+	Base1 goth_roofpiece_01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 goth_roofpiece_01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.5 1.5
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture x_goth_tilestone
+	Base1 tilestone.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 texture_name.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 rooftop01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.5 1.5
+	Multiply2reflect 1
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+Texture v_rooftop_brickwall_bump.tga
+	flags isbumpmap
+End
+
+Texture x_v_rooftop_brickwall
+	Base1 v_rooftop_brickwall.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 v_caverock_det.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.001 0.001  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 v_rooftop_brickwall_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1.7 1.7
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent 10
+
+	DiffuseScale 1.7
+	AmbientScale 2.5
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	maxaddglow 120
+
+End
+
+///////////////////////////////////////////////////////////////
+//    ##   ## ## ## ##    ####  ##              ##       ##  // 
+//    ##  ##  ## ## ##   ###### ##              ##       ##  // 
+//    ## ##      ## ##   ##  #  ##              ##       ##  // 
+//    ####    ## ## ##   ##     ##  ##  ##  ##  ##  ###  ##  // 
+//    ####    ## ## ##    ###   ## ##   ##  ##  ## ####  ##  // 
+//    ####    ## ## ##     ###  ####    ##  ##  ## ##    ##  // 
+//    ## ##   ## ## ##       ## ####    ##  ##  ##  ##   ##  // 
+//    ##  ##  ## ## ##    #  ## ## ##   ##  ##  ##   ##      // 
+//    ##  ##  ## ## ##   ###### ##  ##  ######  ## ####  ##  // 
+//    ##   ## ## ## ##    ####  ##   ##  ####   ## ###   ##  // 
+//                                                           //
+//   +hi$ +rix0r phi13 haZ b33N r0xx0r3d by Av3ryz0r         //
+///////////////////////////////////////////////////////////////

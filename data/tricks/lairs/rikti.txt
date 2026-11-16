@@ -1,0 +1,316 @@
+Texture x_Rikti_Port_Destroyed
+	Base1 Rikti_Port.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Rikti_Port_Destroyed_Detail.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 0
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 Rikti_Port_glow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Rikti_Port.tga
+		Blend Rikti_Port_Destroyed_Detail.tga
+		Bumpmap none
+		BlendType Multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Trick RiktiCompTable
+	Sway 0.25 0.04
+End
+
+Trick RiktiPodGlow
+	ObjFlags FullBright 
+	ScrollST1 0.005 0
+	TrickFlags Additive nozwrite NoColl 
+End
+
+Trick RiktiCompTableGlow
+	Sway 0.25 0.04
+	ObjFlags FullBright 
+	ScrollST1 0.005 .0025
+	TrickFlags Additive nozwrite NoColl 
+End
+
+Trick RiktiDisplay
+	ObjFlags FullBright 
+	ScrollST1 0 -0.02
+	TrickFlags Additive nozwrite NoColl 
+End
+
+Texture Rikti_Port.tga
+	Blend Rikti_Port_glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+	Surface Metal
+	Flags AlwaysAddGlow
+End
+
+Texture Rikti_Hall_Elements01.tga
+	Blend Rikti_Hall_Elements01_glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+	Surface Metal
+	Flags AlwaysAddGlow
+End
+
+Texture Rikti_Wall01.tga
+	Blend Rikti_Wall01_glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+	Surface Metal
+	Flags AlwaysAddGlow
+End
+
+Texture Rikti_Cieling_LightStrip.tga
+	Blend Rikti_Cieling_LightStrip_Glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	Flags AlwaysAddGlow truecolor
+	AmbientScale 1
+End
+
+Texture Rikti_Wall_TopCurve.tga
+	Blend none
+	BlendType Multiply // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+	Surface Metal
+End
+
+Texture Rikti_Tunnel01.tga
+	Blend Rikti_Tunnel01_glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+	Surface Metal
+	Flags AlwaysAddGlow
+End
+
+Texture Rikti_Doorway.tga
+	Blend Rikti_Doorway_glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+	Surface Metal
+	Flags AlwaysAddGlow
+End
+
+Texture Rikti_Spires01.tga
+	Blend Rikti_Spires01_glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+	Surface Metal
+	Flags AlwaysAddGlow
+End
+
+Texture Rikti_Computer_Pod.tga
+	Blend Rikti_Computer_Pod_Glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+	Surface Metal
+	Flags AlwaysAddGlow truecolor
+End
+
+Texture Rikti_Computer_Pod_Glow2.tga
+	Blend Rikti_Computer_DetGlow.tga
+	BlendType Multiply // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 .2 .2 
+	ScaleST1 1 1
+	DiffuseScale 1
+	Flags AlwaysAddGlow
+	AmbientScale 1
+End
+
+Texture Rikti_Computer_FloorStrip.tga
+	Blend Rikti_Computer_FloorStrip_Glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	Flags AlwaysAddGlow
+	AmbientScale 1
+End
+
+Texture Rikti_Computer_Table.tga
+	Blend Rikti_Computer_Table_Glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	Flags AlwaysAddGlow
+	AmbientScale 1
+End
+
+Texture Rikti_Computer_Table_Glow2.tga
+	Blend Rikti_Computer_DetGlow.tga
+	BlendType Multiply // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 .5 .5 
+	ScaleST1 1 1
+	DiffuseScale 1
+	Flags AlwaysAddGlow
+	AmbientScale 1
+End
+
+Texture Rikti_Computer_Display01.tga
+	Blend Rikti_Computer_Display_Chars01.tga
+	BlendType Multiply // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 4 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+#	Surface Metal
+	Flags AlwaysAddGlow
+End
+
+Texture Rikti_Computer_Display02.tga
+	Blend Rikti_Computer_Display_Chars01.tga
+	BlendType Multiply // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 4 4 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+#	Surface Metal
+	Flags AlwaysAddGlow truecolor
+End
+
+Texture Rikti_Computer_Terminal.tga
+	Blend Rikti_Computer_Terminal_Glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	Flags AlwaysAddGlow truecolor
+	AmbientScale 1
+End
+
+Texture Rikti_Computer_Terminal_Glow2.tga
+	Blend Rikti_Computer_Display_Chars01.tga
+	BlendType Multiply // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 8 8 
+	ScaleST1 1 1
+	DiffuseScale 1
+	Flags AlwaysAddGlow
+	AmbientScale 1
+End
+
+Texture Rikti_Bunk.tga
+	Blend Rikti_Bunk_Glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	Flags AlwaysAddGlow truecolor
+	AmbientScale 1
+End
+
+Texture Rikti_Med_Crate_01.tga
+	Blend Rikti_Med_Crate_01_glow.tga
+	BlendType AddGlow // ColorBlendDual, Multiply, AddGlow, or AlphaDetail
+	Bumpmap none
+	ScaleST0 1 1 
+	ScaleST1 1 1
+	DiffuseScale 1
+	AmbientScale 1
+	Surface Metal
+	Flags AlwaysAddGlow
+End
+

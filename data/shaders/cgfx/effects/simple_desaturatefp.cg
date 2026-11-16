@@ -1,0 +1,26 @@
+// TBD! OPTION ARB_precision_hint_fastest;
+
+#include "constants_vfx.cgh"
+#include "utilEffects.cgh"  //placed after #defines for util routines
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main(
+            float2 texCoord0                : TEXCOORD0,
+            uniform sampler2D texSampler0   : TEXUNIT0,
+            uniform float4 g_Effects_DesaturateParamFP TIE( ENV3 )	// program.local[3]
+ ) : COLOR
+{
+    float4 oColor;
+
+    float4 sample = DoDesaturate( tex2D( texSampler0, texCoord0 ), g_Effects_DesaturateParamFP, LUMINANCE_VECTOR );
+
+    oColor = utilFinalColor(sample);
+
+    return oColor;
+}
+

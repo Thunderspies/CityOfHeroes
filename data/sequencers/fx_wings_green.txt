@@ -1,0 +1,2726 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_wings_green
+	BaseSkeleton	FX_wings\skel_wings_flap
+	ParentType	None
+TypeDefEnd
+
+
+TypeDef FX_wings_tiny
+	BaseSkeleton	FX_wings\bones_tiny_wings
+	ParentType	FX_wings_green
+TypeDefEnd
+
+TypeDef FX_wings_celestial
+	BaseSkeleton	FX_Celestial_Wings\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_wings_celestial_open
+	BaseSkeleton	FX_Celestial_Wings\skel_ready
+	ParentType	FX_wings_celestial
+TypeDefEnd
+
+TypeDef FX_backpack_mecha_01A
+	BaseSkeleton	FX_backpack_mecha_01A\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_backpack_mecha_01B
+	BaseSkeleton	FX_backpack_mecha_01A\skel_ready
+	ParentType	FX_backpack_mecha_01A
+TypeDefEnd
+
+TypeDef FX_backpack_mecha_01C
+	BaseSkeleton	FX_backpack_mecha_01C\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_backpack_Retro_SciFi
+	BaseSkeleton	FX_backpack_mecha_01A\skel_ready
+	ParentType	FX_backpack_mecha_01A
+TypeDefEnd
+
+TypeDef FX_backpack_Elemental_Order
+	BaseSkeleton	FX_backpack_mecha_01A\skel_ready
+	ParentType	FX_backpack_mecha_01A
+TypeDefEnd
+
+TypeDef FX_backpack_Super_Pack
+	BaseSkeleton	FX_backpack_mecha_01A\skel_ready
+	ParentType	FX_backpack_mecha_01A
+TypeDefEnd
+
+TypeDef FX_backpack_t9i24_01A
+	BaseSkeleton	FX_backpack_mecha_01A\skel_ready
+	ParentType	FX_backpack_mecha_01A
+TypeDefEnd
+
+TypeDef FX_backpack_t9i24_01B
+	BaseSkeleton	FX_backpack_mecha_01A\skel_ready
+	ParentType	FX_backpack_mecha_01A
+TypeDefEnd
+
+TypeDef FX_backpack_t9i24_01C
+	BaseSkeleton	FX_backpack_mecha_01A\skel_ready
+	ParentType	FX_backpack_mecha_01A
+TypeDefEnd
+
+TypeDef FX_backpack_t9i24_01D
+	BaseSkeleton	FX_backpack_mecha_01A\skel_ready
+	ParentType	FX_backpack_mecha_01A
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+### Note: All sequencer stuff for wings must match exactly w\ player sequencer
+
+
+###########################
+###### Folded (no flight)  ######
+##########################
+
+Move Ready ##(closed)
+	Interrupts	Wing_Emote_Mutant_Growl_Pre <IRQEmotesCombat> <IRQEmotesRighthand> <IRQEmotesLefthand> <IRQEmotesDualhand> <IRQEmotesShield>
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_flap 2 5
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+
+
+MEnd
+
+
+#### basic flight  ######################
+
+Move Wing_Fall_Fready
+	Requires	FLY
+	Interrupts	<FlyFall>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_flyready
+	Priority        2
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_up 105 180
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_ready 24 38
+	TEnd
+
+MEnd
+
+Move Wing_Preflyready	##(from ground)
+	Requires	FLY
+	Interrupts	<Ready> <Jumps> <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_flyready
+	Priority        2
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\pre_float 1 115
+	  PlayFX		Feet/FlightWingHover.fx
+	  PlayFX		Feet/FlightWingHover.fx 30
+	  PlayFX		Feet/FlightWingHover.fx 60
+	  PlayFX		Feet/FlightWingHover.fx 90
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 1 14
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_ready 1 23
+	TEnd
+
+MEnd
+
+Move Wing_flyready
+	Requires	FLY
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_PreFall
+	Priority        2
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\float_cycle 1 40
+	  PlayFX		Feet\FlightWingHover.fx 15
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_ready 24 38
+	TEnd
+
+
+MEnd
+
+
+###################
+### Wing Fly forward  ####
+###################
+
+Move Wing_flypre
+	Requires	FORWARD FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_flyCycle
+	Priority        3
+	Wind		FLY
+	Scale		1.5
+
+
+	Type		FX_wings_green
+	  Anim          FX_wings\wing_pre_post_forward 15 39
+	  PlayFX		Feet\FlightWingFly.fx
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_forward 1 15
+	TEnd
+
+
+MEnd
+
+Move Wing_flyCycle
+	Requires	FORWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_flyPost
+	Priority        3
+	Wind		FLY
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_forward 40 79
+	  PlayFX		Feet\FlightWingFly.fx 18
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_forward 1 15
+	TEnd
+
+
+MEnd
+
+Move Wing_flyPost
+	Requires	FLY
+	Member		<ReactIRQ> <DeathIRQ> <PostFLYCycle> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_flyready
+	Priority        1
+	Interpolate	5
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\wing_pre_post_forward 40
+	  PlayFX		Feet\FlightWingHover.fx 15
+	  PlayFX		Feet\FlightWingHover.fx 40
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_ready 24 38
+	TEnd
+
+
+
+MEnd
+
+
+###################
+## Wing fly Backward ##
+###################
+
+Move Wing_BackflyPre
+	Requires	BACKWARD FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <iceslide>
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_BackflyCycle
+	Priority        3
+	Scale		2
+
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_back 1 39
+	  PlayFX		Feet\FlightWingFly.fx
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_ready 24 38
+	TEnd
+
+
+
+MEnd
+
+Move Wing_BackflyCycle
+	Requires	BACKWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_BackflyPost
+	Priority        3
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_back 40 79
+	  PlayFX		Feet\FlightWingFly.fx 18
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_ready 24 38
+	TEnd
+
+
+MEnd
+
+Move Wing_BackflyPost
+	Requires	FLY
+	Member		<ReactIRQ> <DeathIRQ> <PostFLYCycle> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_flyready
+	Priority        2
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_back 80 163
+	  PlayFX		Feet\FlightWingHover.fx 15
+	  PlayFX		Feet\FlightWingHover.fx 30
+	  PlayFX		Feet\FlightWingHover.fx 60
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_ready 24 38
+	TEnd
+
+
+MEnd
+
+
+###################
+### Wing Fly Up  ####
+###################
+
+Move Wing_flyUPpre
+	Requires	JUMP FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_flyUPCycle
+	Priority        3
+	Wind		FLYUP
+	Scale		2
+#	SticksOnChild	JUMP
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_up 1 39
+	  PlayFX		Feet\FlightWingHover.fx 15
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_up 1 15
+	TEnd
+
+
+MEnd
+
+Move Wing_flyUPCycle
+	Requires	JUMP FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_flyUPPost
+	Priority        3
+	Wind		FLYUP
+	Scale		1.5
+#	SticksOnChild	JUMP
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_up 40 79
+	  PlayFX		Feet\FlightWingFly.fx 18
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_up 1 15
+	TEnd
+
+
+MEnd
+
+Move Wing_flyUPPost
+	Requires	FLY
+	Member		<ReactIRQ> <DeathIRQ> <PostFLYCycle> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_flyready
+	Priority        2
+	Wind		FLY
+	Scale		2
+#	SticksOnChild	UP
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_up 80 180
+	  PlayFX		Feet\FlightWingHover.fx 15
+	  PlayFX		Feet\FlightWingHover.fx 40
+	  PlayFX		Feet\FlightWingHover.fx 70
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\fly_ready 16 28
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\fly_ready 24 38
+	TEnd
+
+
+MEnd
+
+
+###################
+###### Wing Fly Down  ######
+###################
+
+Move Wing_PreFall
+	Requires	AIR
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_Land
+	Priority        2
+	Interpolate	15
+	Scale		0.75
+
+	Type		FX_wings_green
+	  #Anim          FX_wings\fly_down 1 30
+	  Anim          FX_wings\fly_up 40 79
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+
+###############
+## Wing Jump - Up ##
+###############
+
+Move Wing_Jump_Pre
+	Requires	JUMP
+	Interrupts	Pre_SkillMode <PostMoveCycle> <Ready>  <BasicMove> <Skill> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ> <StunMove> Wing_Beast_Forward_Cycle Wing_Beast_Left_Cycle Wing_Beast_Right_Cycle Wing_Ninja_Forward_Cycle Wing_Ninja_Left_Cycle Wing_Ninja_Right_Cycle
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        Wing_Jump_Up
+	Priority        1
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_up 1 39
+	  PlayFX		Feet\FlightWingFly.fx
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_Jump_Up
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_Jump_Fall
+	Priority        1
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_up 40 79
+	  PlayFX		Feet\FlightWingFly.fx 10
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+####################
+## Wing Jump - Forward ##
+####################
+
+Move Wing_Jump_Forward_Pre
+	Requires	JUMP FORWARD
+	Interrupts	Pre_SkillMode <PostMoveCycle> <Ready>  <BasicMove> <Skill> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ> <StunMove> Wing_Beast_Forward_Cycle Wing_Beast_Left_Cycle Wing_Beast_Right_Cycle
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        Wing_Jump_Forward
+	Priority        2
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_forward 1 39
+	  PlayFX		Feet\FlightWingHover.fx
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move Wing_Jump_Forward
+	Requires	JUMP FORWARD
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_Jump_Forward_Fall
+	Priority        2
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_forward 40 79
+	  PlayFX		Feet\FlightWingFly.fx 10
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+
+####################
+## Wing Jump - Backward ##
+####################
+
+Move Wing_Jump_Backward_Pre
+	Requires	JUMP BACKWARD
+	Interrupts	Pre_SkillMode <PostMoveCycle> <Ready>  <BasicMove> <Skill> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ> <StunMove> Wing_Beast_Back_Cycle Wing_Beast_Left_Cycle Wing_Beast_Right_Cycle
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        Wing_Jump_Backward
+	Priority        2
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_back 1 39
+	  PlayFX		Feet\FlightWingHover.fx
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_Jump_Backward
+	Requires	JUMP BACKWARD
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_Jump_Backward_Fall
+	Priority        2
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_back 40 79
+	  PlayFX		Feet\FlightWingFly.fx 10
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+
+###################
+## Wing Falling ##
+###################
+
+Move Wing_RunFall
+	Requires	BIGFALL
+	Interrupts	<BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <Combat> <WepCombat> <TwoHandCombat> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Wing_RunFall_2
+	Priority        1
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_back 40 79
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+MEnd
+
+
+Move Wing_RunFall_2
+	Requires	AIR
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ> <jumpFall>
+	Flags		Cycle
+	NextMove        Wing_Land
+	Priority        1
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_forward 40 79
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+
+Move Wing_Fly_Fall
+	Requires	AIR APEX
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_Land
+	Priority        2
+	Scale		2.0
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_up 40 79
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+
+Move Wing_Jump_Fall
+	Requires	AIR
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_Land
+	Priority        1
+	Scale		2.0
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_up 40 79
+	  PlayFX		Feet\FlightWingHover.fx
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+
+Move Wing_Jump_Forward_Fall
+	Requires	AIR
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_Land
+	Priority        1
+	Scale		2.0
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_forward 40 79
+	  PlayFX		Feet\FlightWingHover.fx
+	  PlayFX		Feet\FlightWingHover.fx 15
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+
+Move Wing_Jump_Backward_Fall
+	Requires	AIR
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_Land
+	Priority        1
+	Scale		2.0
+
+	Type		FX_wings_green
+	  Anim          FX_wings\fly_back 40 79
+	  PlayFX		Feet\FlightWingHover.fx
+	  PlayFX		Feet\FlightWingHover.fx 15
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+
+###############
+## Wing Land ##
+###############
+
+Move Wing_Land		##(JumpPost)
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Wing_Land_post #Ready
+	Scale		1.0
+
+	Type		FX_wings_green
+	  Anim          FX_wings\land 1 20
+	  PlayFX		Feet\FlightWingHover.fx
+	  PlayFX		Feet\FlightWingHover.fx 12
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+MEnd
+
+Move Wing_Land_post		##(JumpPost)
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Ready #Wing_Land2
+	Interpolate     15
+	Scale		1.0
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_flap 2 5
+	  # PlayFX		Feet\FlightWingFly.fx
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+#Move Wing_Land2
+#	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+#	NextMove	Ready
+##	Flags		Cycle
+#
+#	Type		FX_wings_green
+#	  ##Anim          FX_wings\skel_wings_flap 2 5
+#  	  Anim          FX_wings\fly_up 80 180
+#	TEnd
+#
+#MEnd
+
+## BEAST 	###########################################################
+Move Wing_Beast_Ready_Pre
+	Requires	BEASTRUN #COMBAT
+	Priority	2
+	Interrupts	<Ready> <Combat>
+	Include sequencers\Members\BeastCombat.inc
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN FORWARD	###########################################################
+
+Move Wing_Beast_Forward
+	Requires	BEASTRUN FORWARD #COMBAT
+	Priority	3
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ> <TravelDualHandMove>
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <WepCombat> <DualHandCombat> <CombatMove> <WepMove> <DualHandMove> <TravelMove> <TravelWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Beast_Forward_Cycle
+	NextMove	Wing_Beast_Forward_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+MEnd
+
+Move Wing_Beast_Forward_Cycle
+	Requires	BEASTRUN FORWARD #COMBAT
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Interrupts	Wing_Beast_Forward
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN BACKWARD	###########################################################
+
+Move Wing_Beast_Back
+	Requires	BEASTRUN BACKWARD #COMBAT
+	Priority	3
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <WepCombat> <DualHandCombat> <CombatMove> <WepMove> <DualHandMove> <TravelMove> <TravelWepMove>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim><IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ> <TravelDualHandMove>
+	Flags		Cycle
+	CycleMove	Wing_Beast_Back_Cycle
+	NextMove	Wing_Beast_Back_Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_Beast_Back_Cycle
+	Requires	BEASTRUN BACKWARD #COMBAT
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <FlyReady> <TravelDualHandMove> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN LEFT ###########################################################
+
+Move Wing_Beast_Left
+	Requires	BEASTRUN STEPLEFT #COMBAT
+	Priority	3
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+	CycleMove	Wing_Beast_Left_Cycle
+	NextMove	Wing_Beast_Left_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_Beast_Left_Cycle
+	Requires	BEASTRUN STEPLEFT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Wing_Beast_Right
+	Requires	BEASTRUN STEPRIGHT #COMBAT
+	Priority	3
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+	CycleMove	Wing_Beast_Right_Cycle
+	NextMove	Wing_Beast_Right_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_Beast_Right_Cycle
+	Requires	BEASTRUN STEPRIGHT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+
+## JUMP UP ###########################################################
+
+Move beast_run_jumpPre
+	Requires	BEASTRUN JUMP AIR
+	Priority	3
+	Interrupts	<MoveIRQ> <IRQJumps> <Ready> <GroundMoveALL> <Skill> <iceslide> <Swim> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		HideWeapon HideShield
+	NextMove	beast_run_jumpUp
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move beast_run_jumpUp
+	Requires	BEASTRUN JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+## JUMP POST ###########################################################
+
+Move beast_run_jumpPost
+	Include sequencers\Members\BeastCombat.inc
+	NextMove	Beast_Ready_Fast_One
+	Flags		HideWeapon HideShield
+	Scale		1.1
+	SticksOnChild	LAND
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+## JUMP UP INTO FORWARD TRANSITION ###########################################################
+
+Move beast_run_jumpToHop
+	Requires	BEASTRUN FORWARD JUMP AIR
+	Priority	4
+	Interrupts	<TravelJump>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	beast_run_hop_cycle
+	Interpolate	15
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+
+MEnd
+
+
+## HOP FORWARD ###########################################################
+
+Move beast_run_hopPre
+	Requires	BEASTRUN FORWARD JUMP AIR
+	Priority	4
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	beast_run_hop
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move beast_run_hop
+	Requires	BEASTRUN JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	beast_run_hop_cycle
+	Scale		0.75
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move beast_run_hop_cycle
+	Requires	BEASTRUN JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+###########################################################
+
+
+## NINJA 	###########################################################
+Move Wing_NINJA_Ready_Pre
+	Requires	NINJARUN #COMBAT
+	Priority	2
+	Interrupts	<Ready> <Combat>
+	Include sequencers\Members\NINJACombat.inc
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN FORWARD	###########################################################
+
+Move Wing_NINJA_Forward
+	Requires	NINJARUN FORWARD #COMBAT
+	Priority	3
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ> <TravelDualHandMove>
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <WepCombat> <DualHandCombat> <CombatMove> <WepMove> <DualHandMove> <TravelMove> <TravelWepMove>
+	Flags		Cycle
+	CycleMove	Wing_NINJA_Forward_Cycle
+	NextMove	Wing_NINJA_Forward_Cycle
+	Interpolate	5
+
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_NINJA_Forward_Cycle
+	Requires	NINJARUN FORWARD #COMBAT
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Interrupts	Wing_NINJA_Forward
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+## RUN BACKWARD	###########################################################
+
+Move Wing_NINJA_Back
+	Requires	NINJARUN BACKWARD #COMBAT
+	Priority	3
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <WepCombat> <DualHandCombat> <CombatMove> <WepMove> <DualHandMove> <TravelMove> <TravelWepMove>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim><IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ> <TravelDualHandMove>
+	Flags		Cycle
+	CycleMove	Wing_NINJA_Back_Cycle
+	NextMove	Wing_NINJA_Back_Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+MEnd
+
+Move Wing_NINJA_Back_Cycle
+	Requires	NINJARUN BACKWARD #COMBAT
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <FlyReady> <TravelDualHandMove> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN LEFT ###########################################################
+
+Move Wing_NINJA_Left
+	Requires	NINJARUN STEPLEFT #COMBAT
+	Priority	3
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+	CycleMove	Wing_NINJA_Left_Cycle
+	NextMove	Wing_NINJA_Left_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_NINJA_Left_Cycle
+	Requires	NINJARUN STEPLEFT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Wing_NINJA_Right
+	Requires	NINJARUN STEPRIGHT #COMBAT
+	Priority	3
+	Interrupts	<Ready> <Combat> <MoveIRQ> <BasicMove> <SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+	CycleMove	Wing_NINJA_Right_Cycle
+	NextMove	Wing_NINJA_Right_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_NINJA_Right_Cycle
+	Requires	NINJARUN STEPRIGHT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+
+## JUMP UP ###########################################################
+
+Move NINJA_run_jumpPre
+	Requires	NINJARUN JUMP AIR
+	Priority	3
+	Interrupts	<MoveIRQ> <IRQJumps> <Ready> <GroundMoveALL> <Skill> <iceslide> <Swim> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		HideWeapon HideShield
+	NextMove	NINJA_run_jumpUp
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move NINJA_run_jumpUp
+	Requires	NINJARUN JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+## JUMP POST ###########################################################
+
+Move NINJA_run_jumpPost
+	Include sequencers\Members\NINJACombat.inc
+	NextMove	NINJA_Ready_Fast_One
+	Flags		HideWeapon HideShield
+	Scale		1.1
+	SticksOnChild	LAND
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+## JUMP UP INTO FORWARD TRANSITION ###########################################################
+
+Move NINJA_run_jumpToHop
+	Requires	NINJARUN FORWARD JUMP AIR
+	Priority	4
+	Interrupts	<TravelJump>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	NINJA_run_hop_cycle
+	Interpolate	15
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+
+## HOP FORWARD ###########################################################
+
+Move NINJA_run_hopPre
+	Requires	NINJARUN FORWARD JUMP AIR
+	Priority	4
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	NINJA_run_hop
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move NINJA_run_hop
+	Requires	NINJARUN JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	NINJA_run_hop_cycle
+	Scale		0.75
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move NINJA_run_hop_cycle
+	Requires	NINJARUN JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+########################################################################################
+
+#### basic flight HOVERBOARD ######################
+
+Move Wing_Hoverboard_Fall_Fready
+	Requires	FLY HOVERBOARD
+	Interrupts	<FlyFall>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_Hoverboard_flyready
+	Priority        12
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move Wing_Hoverboard_Preflyready	##(from ground)
+	Requires	FLY HOVERBOARD
+	Interrupts	<Ready> <Jumps> <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_Hoverboard_flyready
+	Priority        12
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move Wing_Hoverboard_flyready
+	Requires	FLY HOVERBOARD
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_PreFall
+	Priority        12
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN FORWARD	###########################################################
+
+Move Wing_Hoverboard_Forward
+	Requires	HOVERBOARD FLY FORWARD #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Hoverboard_Forward_Cycle
+	NextMove	Wing_Hoverboard_Forward_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_Hoverboard_Forward_Cycle
+	Requires	HOVERBOARD FLY FORWARD #COMBAT
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Interrupts	Wing_Hoverboard_Forward
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN BACKWARD	###########################################################
+
+Move Wing_Hoverboard_Back
+	Requires	HOVERBOARD FLY BACKWARD #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Hoverboard_Back_Cycle
+	NextMove	Wing_Hoverboard_Back_Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_Hoverboard_Back_Cycle
+	Requires	HOVERBOARD FLY BACKWARD #COMBAT
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <FlyReady> <TravelDualHandMove> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN LEFT ###########################################################
+
+Move Wing_Hoverboard_Left
+	Requires	HOVERBOARD FLY STEPLEFT #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Hoverboard_Left_Cycle
+	NextMove	Wing_Hoverboard_Left_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_Hoverboard_Left_Cycle
+	Requires	HOVERBOARD FLY STEPLEFT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Wing_Hoverboard_Right
+	Requires	HOVERBOARD FLY STEPRIGHT #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_Hoverboard_Right_Cycle
+	NextMove	Wing_Hoverboard_Right_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_Hoverboard_Right_Cycle
+	Requires	HOVERBOARD FLY STEPRIGHT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## JUMP UP ###########################################################
+
+Move Hoverboard_run_jumpPre
+	Requires	Hoverboard JUMP FLY
+	Priority	14
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> hoverboard_flyready <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove>  Hoverboard_flypre Hoverboard_Preflyready <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove>
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	#Flags		HideWeapon HideShield
+	NextMove	Hoverboard_run_jumpUp
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Hoverboard_run_jumpUp
+	Requires	Hoverboard JUMP FLY
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle #HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move Hoverboard_run_jumpPost
+	#Include sequencers\Members\BeastCombat.inc
+	NextMove	Hoverboard_flyready
+	#Flags		HideWeapon HideShield
+	Scale		1.1
+	SticksOnChild	LAND
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+MEnd
+
+#######################################################
+############## MAGIC CARPET ############
+############################################
+
+############ MAGIC CARPET MOTION ##############
+
+
+Move Wing_MagicCarpet_Fall_Fready
+	Requires	FLY MAGICCARPET
+	Interrupts	<FlyFall>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_MagicCarpet_flyready
+	Priority        12
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move Wing_MagicCarpet_Preflyready	##(from ground)
+	Requires	FLY MagicCarpet
+	Interrupts	<Ready> <Jumps> <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	NextMove        Wing_MagicCarpet_flyready
+	Priority        12
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move Wing_MagicCarpet_flyready
+	Requires	FLY MagicCarpet
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_PreFall
+	Priority        12
+	Scale		1.5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN FORWARD	###########################################################
+
+Move Wing_MagicCarpet_Forward
+	Requires	MagicCarpet FLY FORWARD #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_MagicCarpet_Forward_Cycle
+	NextMove	Wing_MagicCarpet_Forward_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_MagicCarpet_Forward_Cycle
+	Requires	MagicCarpet FLY FORWARD #COMBAT
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Interrupts	Wing_MagicCarpet_Forward
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN BACKWARD	###########################################################
+
+Move Wing_MagicCarpet_Back
+	Requires	MagicCarpet FLY BACKWARD #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_MagicCarpet_Back_Cycle
+	NextMove	Wing_MagicCarpet_Back_Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_MagicCarpet_Back_Cycle
+	Requires	MagicCarpet FLY BACKWARD #COMBAT
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <FlyReady> <TravelDualHandMove> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN LEFT ###########################################################
+
+Move Wing_MagicCarpet_Left
+	Requires	MagicCarpet FLY STEPLEFT #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_MagicCarpet_Left_Cycle
+	NextMove	Wing_MagicCarpet_Left_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_MagicCarpet_Left_Cycle
+	Requires	MagicCarpet FLY STEPLEFT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Wing_MagicCarpet_Right
+	Requires	MagicCarpet FLY STEPRIGHT #COMBAT
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	Flags		Cycle
+	CycleMove	Wing_MagicCarpet_Right_Cycle
+	NextMove	Wing_MagicCarpet_Right_Cycle
+	Interpolate	5
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move Wing_MagicCarpet_Right_Cycle
+	Requires	MagicCarpet FLY STEPRIGHT #COMBAT
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <TravelMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+## JUMP UP ###########################################################
+
+Move MagicCarpet_run_jumpPre
+	Requires	MagicCarpet JUMP FLY
+	Priority	14
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <Jumps> <MoveIRQ> <FlyCombat> <FlyCombatAttack> <iceslide> <FlyWepCombat> <FlyWepAttack> <PostFLYCycle> <WepMove> <TwoHandCombat> <TwoHandMove> <FlyDualHandCombat> <IRQEmotesDualhand> <DualHandMove> <RunsALL> <GroundMoveALL> <FlyMoveALL> <FlyWepCombat> <IRQEmotesRighthand> <FlyCombat> <IRQEmotesCombat> <IRQEmotesLefthand> <IRQEncounters> <ShieldMove> <IRQSlide> <ShieldFLYMove> <FlyReady> <SwimMove> <IRQEmotesALL> a_sweep_low #<FlyDualHandMove> MagicCarpet_flyready MagicCarpet_flypre MagicCarpet_Preflyready
+	Member		<DeathIRQ> #<ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt> <FlyCombatMove> <FlyWepMove>
+	#Flags		HideWeapon HideShield
+	NextMove	MagicCarpet_run_jumpUp
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+
+Move MagicCarpet_run_jumpUp
+	Requires	MagicCarpet JUMP FLY
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle #HideWeapon HideShield
+	NextMove	Wing_Jump_Fall
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+
+MEnd
+
+Move MagicCarpet_run_jumpPost
+	#Include sequencers\Members\BeastCombat.inc
+	NextMove	MagicCarpet_flyready
+	#Flags		HideWeapon HideShield
+	Scale		1.1
+	SticksOnChild	LAND
+
+	Type		FX_wings_green
+	  Anim          FX_wings\skel_wings_beast_run 15 30
+	TEnd
+
+	Type		FX_wings_celestial
+	  Anim          FX_Celestial_Wings\skel_ready 2 6
+	TEnd
+
+	Type		FX_wings_celestial_open
+	  Anim          FX_Celestial_Wings\skel_ready 7
+	TEnd
+
+	Type		FX_backpack_mecha_01A
+	  Anim          FX_backpack_mecha_01A\ready 1 10
+	TEnd
+
+	Type		FX_backpack_mecha_01C
+	  Anim          FX_backpack_mecha_01C\ready 1 10
+	TEnd
+
+MEnd
+#################
+SeqEnd

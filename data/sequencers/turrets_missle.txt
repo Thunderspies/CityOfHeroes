@@ -1,0 +1,266 @@
+#############################################################
+
+Sequencer
+
+TypeDef Turrets_Missle
+	BaseSkeleton	Turrets_Missle\Skel_Missle_turrets
+	ParentType	None
+TypeDefEnd
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove	Alt_Ready_pause2
+	CycleMove	Alt_Ready_pause
+	CycleMove	Alt_Ready
+	Interpolate	13
+
+
+	Type		Turrets_Missle
+	  Anim          Turrets_Missle\Missle_idle 1
+	  Scale		0.2
+	TEnd
+
+MEnd
+
+Move Alt_Ready
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove	Alt_Ready_pause2
+	CycleMove	Alt_Ready_pause
+
+
+	Type		Turrets_Missle
+	  Anim          Turrets_Missle\Missle_idle_Alt 1
+	  Scale		0.3
+	TEnd
+
+MEnd
+
+Move Alt_Ready_pause
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove	Alt_Ready
+	CycleMove	Ready
+	CycleMove	Alt_Ready
+
+
+	Type		Turrets_Missle
+	  Anim          Turrets_Missle\Missle_ready 1 80
+	TEnd
+MEnd
+
+Move Alt_Ready_pause2
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove	Ready
+	CycleMove	Alt_Ready
+	Interpolate	20
+
+
+	Type		Turrets_Missle
+	  Anim          Turrets_Missle\Missle_ready 1 100
+	TEnd
+MEnd
+
+
+
+
+
+####################
+####### Shoot Burst  ######
+####################
+
+Move PreBurst
+	Requires	COMBAT WEAPON GUN MACHINEGUN
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Burst
+	Priority        4
+	Interpolate	13
+	Flags		PitchToTarget
+
+	Type		Turrets_Missle
+	  Anim         Turrets_Missle\Missle_shoot  1 19
+	TEnd
+
+MEnd
+
+Move Burst
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        Active_cycle
+	Priority        1
+	Flags		PitchToTarget
+
+	Type		Turrets_Missle
+	  Anim          Turrets_Missle\Missle_shoot  20 50
+	TEnd
+
+
+MEnd
+
+
+
+######################
+####### Flamethrower ######
+######################
+
+Move Flame
+	Requires	COMBAT WEAPON GUN FLAMETHROWER MID
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Flame_2
+	Priority        4
+	Interpolate	20
+
+	Type		Turrets_Missle
+	  Anim          Turrets_Missle\Missle_flame  1 90
+	TEnd
+
+
+MEnd
+
+Move Flame_2
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Flame_cycle
+	Priority        1
+
+	Type		Turrets_Missle
+	  Anim          Turrets_Missle\Missle_flame  1 90
+	TEnd
+
+MEnd
+
+
+Move Flame_cycle
+	Requires	COMBAT
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+	NextMove	Ready
+	Priority        1
+
+
+	Type		Turrets_Missle
+	  Anim          Turrets_Missle\Missle_flame 1 90
+	  Scale		0.1
+	TEnd
+
+
+MEnd
+
+
+
+
+
+
+####################
+####### Active   ######
+####################
+
+Move Active_cycle
+	Requires	COMBAT
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+	NextMove	Ready
+	Priority        1
+	Flags		PitchToTarget
+
+
+
+	Type		Turrets_Missle
+	  Anim          Turrets_Missle\Missle_activeready  1 90
+	  Scale		0.1
+	TEnd
+
+
+MEnd
+
+
+
+####### Deaths  ######################################
+
+################################
+###### Vanish Death (instant)  ######
+################################
+
+Move Vanish_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	 Type           Turrets_Missle
+	  Anim          Turrets_Missle\Missle_shoot 1  5
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+##	 PlayFx		Explosions\Large\Expolsion_large.fx 0
+	PlayFX		Explosions\TurretExplosion\LargeTurretExplosion.Fx
+	TEnd
+
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	 Type           Turrets_Missle
+	  Anim          Turrets_Missle\Missle_shoot 1  10
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+##	  PlayFx	WORLD\Ruins\MediumFireFast.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+
+
+################################
+####### Off Mode (for bases)   ###
+################################
+
+Move Off
+	Requires	OFF
+	Interrupts	<Ready> <AttackIRQ> <DeathIRQ>
+	Flags		Cycle
+	NextMove	Ready
+	Priority        1
+	Interpolate	35
+
+	 Type           Turrets_Missle
+	  Anim          Turrets_Missle\Missle_off 1 50
+	TEnd
+
+MEnd
+
+
+
+
+
+SeqEnd
+

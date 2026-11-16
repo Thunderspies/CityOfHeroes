@@ -1,0 +1,81 @@
+#############################################################
+
+Sequencer
+
+TypeDef V_Arachnos_Cam 
+	BaseSkeleton	V_Arachnos_Cam\Skel_Arachnos_Cam
+	ParentType	None
+TypeDefEnd
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready		
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle NotSelectable
+	CycleMove	Ready_2
+	CycleMove	Ready_3
+	Sets            NOCOLLISION
+	Scale		0.5
+
+	Type		V_Arachnos_Cam
+	  Anim          V_Arachnos_Cam\Skel_Arachnos_Cam 1
+	TEnd
+
+MEnd
+
+Move Ready_2		
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle NotSelectable 
+	CycleMove	Ready
+	CycleMove	Ready_3
+	Sets            NOCOLLISION
+	Scale		0.7
+
+	Type		V_Arachnos_Cam
+	  Anim          V_Arachnos_Cam\Skel_Arachnos_Cam 1
+	TEnd
+
+MEnd
+
+
+Move Ready_3		
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle NotSelectable 
+	CycleMove	Ready_2
+	CycleMove	Ready
+	Sets            NOCOLLISION
+	Scale		0.3
+
+	Type		V_Arachnos_Cam
+	  Anim          V_Arachnos_Cam\Skel_Arachnos_Cam 1
+	TEnd
+
+MEnd
+
+
+
+
+
+
+SeqEnd
+

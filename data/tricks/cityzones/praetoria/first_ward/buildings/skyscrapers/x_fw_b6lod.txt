@@ -1,0 +1,51 @@
+
+Texture x_FW_b6LOD
+	Base1 setb_6_d.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 setB_6_dc
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	Multiply1 white
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+	AddGlowMat2  0        // <- applies the addglow effect to the second material instead of the first material
+
+	SpecularColor1 20 20 20
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 50
+	SpecularExponent2 50
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags FallbackForceOpaque // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0	
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base setb_6_d.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End

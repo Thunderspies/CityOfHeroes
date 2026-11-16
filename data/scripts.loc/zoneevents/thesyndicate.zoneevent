@@ -1,0 +1,1820 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P3032772646
+EventVolume SyndicateEventVolume // ZoneEventName = TheSyndicate
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action CreateStuff
+		{
+			WaypointCreate ExteriorPoint map_enticon_mission_b P3032772646
+			WaypointCreate FrontDoorWayPoint map_enticon_mission_b P933025263
+			WaypointCreate RooftopWayPoint map_enticon_mission_b P875762932
+			DoorCreate STBottomFloorDoor // Requires ZoneEventName.Door.MarkerName ZoneEvent>
+			                             // Requires TheSyndicate.Door.STBottomFloorDoor ZoneEvent>
+			PorterCreate STInteriorPorter // This needs a named volume with the name given here as well as a scriptmarker with the same name.
+			DoorCreate STRooftopDoor // Requires ZoneEventName.Door.MarkerName ZoneEvent>  
+			                         // Requires TheSyndicate.Door.STRooftopDoor ZoneEvent>
+			DoorControl InitLock
+			{
+				Type Lock
+				Door STBottomFloorDoor
+			}
+			DoorControl InitLock
+			{
+				Type Lock
+				Door STRooftopDoor 
+			}
+			PorterControl InitPort
+			{
+				Type Activate
+				Porter STInteriorPorter
+			}
+			SpawnCreate STPPDSpawn
+			{
+				Location STPPDWave
+				Group STPPDWave
+				Team STPPDteam
+				MoveToMarker STPPDExtRunTo
+				SpawnBehavior <<IgnoreCombatMods, Combat>>
+				KillBehavior <<RunIntoDoor>>
+			}
+			TeamCreate
+			{
+				Team STPPDteam
+				MinRespawnTime 5
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   3
+				Count   2,   2,   3
+				Count   3,   2,   3
+				Count   4,   3,   4
+			}
+			SpawnCreate STBossRoof
+			{
+				Location STBossRoofWave
+				Group STBossRoofWave
+				Team STBossRoofteam
+				//SpawnBehavior PL_Combat
+				//MoveToMarker STSyndicateExtWave
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team STBossRoofteam
+			}
+			SpawnCreate STPPDvsSynRoof
+			{
+				Location STPPDvsSynRoofWave
+				Group STPPDvsSynRoofWave
+				Team STPPDvsSynRoofteam
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team STPPDvsSynRoofteam
+			}
+			SpawnCreate STSyndicateExtSpawnShort
+			{
+				Location STSyndicateExtShortWave
+				Group STSyndicateExtShortWave
+				Team STSyndicateExtteamShort
+				MoveToMarker STSyndicateExtRunTo
+				SpawnBehavior <<IgnoreCombatMods, Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team STSyndicateExtteamShort
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   3
+				Count   2,   3,   4
+				Count   3,   4,   6
+				Count   8,   4,   7
+				Count   10,   5,   8
+				Count   12,   7,   12
+				Count   21,   8,   15
+				Count   23,   9,   18
+				Count   38,   10,   20
+			}
+			SpawnCreate STSyndicateExtSpawn
+			{
+				Location STSyndicateExtWave
+				Group STSyndicateExtWave
+				Team STSyndicateExtteam
+				MoveToMarker STSyndicateExtRunTo
+				SpawnBehavior <<IgnoreCombatMods, Combat>>
+				KillBehavior <<RunIntoDoor>>
+			}
+			TeamCreate
+			{
+				Team STSyndicateExtteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   5
+				Count   2,   3,   6
+				Count   3,   4,   7
+				Count   8,   4,   8
+				Count   10,   5,   9
+				Count   12,   7,   13
+				Count   21,   8,   16
+				Count   23,   9,   19
+				Count   38,   10,   21
+			}
+			SpawnCreate STSyndicateIntSpawn
+			{
+				Location STSyndicateIntWave
+				Group STSyndicateIntWave
+				Team STSyndicateIntteam
+				SpawnBehavior <<IgnoreCombatMods, Combat>>
+				KillBehavior <<IgnoreCombatMods, Combat(Timer(Rand(0,30))), RunIntoDoor>>
+			}
+			TeamCreate
+			{
+				Team STSyndicateIntteam
+			}
+			SpawnCreate STBombSquad
+			{
+				Location STBombSquadWave
+				Group STBombSquadWave
+				Team STBombSquadteam
+				SpawnBehavior <<IgnoreCombatMods, Combat>>
+				KillBehavior <<IgnoreCombatMods, Combat(Timer(Rand(0,30))), RunIntoDoor>>
+			}
+			TeamCreate
+			{
+				Team STBombSquadteam
+			}
+
+			SpawnCreate STJessInt
+			{
+				Location STJessIntWave
+				Group STJessIntWave
+				Team STJessIntTeam
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team STJessIntTeam
+			}
+			SpawnCreate STJennaInt
+			{
+				Location STJennaIntWave
+				Group STJennaIntWave
+				Team STJennaIntTeam
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team STJennaIntTeam
+			}
+			SpawnCreate STJasonInt
+			{
+				Location STJasonIntWave
+				Group STJasonIntWave
+				Team STJasonIntTeam
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team STJasonIntTeam
+			}
+			
+			SpawnCreate STJessRoof
+			{
+				Location STJessRoofWave
+				Group STJessRoofWave
+				Team STJessRoofteam
+				SpawnBehavior <<Invisible, Untargetable, Invincible, Unselectable>>
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team STJessRoofteam
+			}
+			SpawnCreate STJennaRoof
+			{
+				Location STJennaRoofWave
+				Group STJennaRoofWave
+				Team STJennaRoofteam
+				SpawnBehavior <<Invisible, Untargetable, Invincible, Unselectable>>
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team STJennaRoofteam
+			}
+			SpawnCreate STJasonRoof
+			{
+				Location STJasonRoofWave
+				Group STJasonRoofWave
+				Team STJasonRoofteam
+				SpawnBehavior <<Invisible, Untargetable, Invincible, Unselectable>>
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team STJasonRoofteam
+			}
+			SpawnCreate STSyndicateIntVsSpawn
+			{
+				Location STSyndicateIntVsWave
+				Group STSyndicateIntVsWave
+				Team STSyndicateIntVsteam
+				KillBehavior <<IgnoreCombatMods, Combat(Timer(Rand(3,33))), RunIntoDoor>>
+			}
+			TeamCreate
+			{
+				Team STSyndicateIntVsteam
+			}
+//			SpawnCreate STBossesIntSpawn
+//			{
+//				Location STBossesIntWave
+//				Group STBossesIntWave
+//				Team STBossesIntteam
+//				SpawnBehavior <<IgnoreCombatMods, Combat>>
+//				KillBehavior <<IgnoreCombatMods, Combat(Timer(Rand(0,10))), RunIntoDoor>>
+//			}
+//			TeamCreate
+//			{
+//				//Does Not Respawn
+//				Team STBossesIntteam
+//			}
+			SpawnCreate STSyndicateRoofSpawn
+			{
+				Location STSyndicateRoofWave
+				Group STSyndicateRoofWave
+				Team STSyndicateRoofteam
+				SpawnBehavior <<IgnoreCombatMods, Combat>>
+				MoveToMarker STBossRoofWave
+				KillBehavior <<RunIntoDoor>>
+			}
+			TeamCreate
+			{
+				Team STSyndicateRoofteam
+				MinRespawnTime 1
+				MaxRespawnTime 5
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   2,   3
+				Count   3,   3,   4
+				Count   8,   3,   5
+				Count   10,   4,   6
+				Count   12,   6,   10
+				Count   21,   7,   12
+				Count   23,   9,   15
+				Count   38,   10,   17
+			}
+			SpawnCreate STSyndicateRoofXtraSpawn
+			{
+				Location STSyndicateRoofXtraWave
+				Group STSyndicateRoofXtraWave
+				Team STSyndicateRoofXtrateam
+				SpawnBehavior <<IgnoreCombatMods, Combat>>
+				MoveToMarker STBossRoofWave
+				KillBehavior <<RunIntoDoor>>
+			}
+			TeamCreate
+			{
+				Team STSyndicateRoofXtrateam
+				MinRespawnTime 1
+				MaxRespawnTime 15
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   3
+				Count   2,   1,   4
+				Count   3,   1,   5
+				Count   8,   2,   6
+				Count   10,   3,   7
+				Count   12,   4,   9
+				Count   21,   5,   10
+				Count   23,   6,   11
+				Count   38,   7,   13
+			}
+			SpawnCreate STWindRoofSpawn
+			{
+				Location STWindRoof
+				Group STWindRoof
+				Team STWindRoofHazard
+				//SpawnBehavior PL_Combat
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team STWindRoofHazard
+			}
+
+// Create Spawns: Rooftop Watcher
+			SpawnCreate Watcher
+			{
+				Location Watcher
+				Group Watcher
+				Team Watcher
+				SpawnBehavior <<DoNotGoToSleep>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Watcher
+			}
+
+			SpawnCreate Killer
+			{
+				Location Killer
+				Group Killer
+				Team Killer
+				SpawnBehavior <<DoNotGoToSleep>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Killer
+			}
+
+			GlowieCreate GlowieSTExplosives
+			{
+				DisplayName P3745198907
+				Location STExplosives
+				Quantity 3
+				ResetDelay 3000
+				Model OO_All_Bomb_Large_01
+						//OO_RV_FC_Terminal01
+				Interact P2546923069
+				Interrupt P2589200594
+				Complete P2802615419
+				BarText P215768542
+				InteractTime 4
+				VanishOnComplete
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage DefeatSTSyndicateExtShort
+	}
+}
+
+Stage DefeatSTSyndicateExtShort
+{
+	DisplayName P2395509531
+	ToolTip P1832549638
+	StartUp
+	{
+		Action StartKillSTSyndicateExt
+		{
+			DebugPrint <<Starting Stage DefeatSTSyndicateExt>>
+		}
+		Action TurnOnNPCs
+		{
+			TeamControl StartSTSyndicateExt
+			{
+				Type Activate
+				Team STSyndicateExtteamShort
+			}
+			RemoveWaypoints
+			WaypointPlace ExteriorPoint STSyndicateExtRunTo
+		}
+	}
+	Counter STSyndicateExtKills
+	{
+		Type VillainGroup
+		Count 10
+		VillainGroup Syndicate
+		VolumeName STExterior
+	}
+	Trigger Done
+	{
+		Requires STSyndicateExtKills complete>
+		Action GotoSTInterior
+		{
+			TeamControl StartSTSyndicateExt
+			{
+				Type Deactivate
+				Team STSyndicateExtteamShort
+			}
+			DebugPrint <<DefeatSTSyndicateExtShort done: switching to DefeatSTSyndicateExt>>
+		}
+		NextStage DefeatSTSyndicateExt
+	}
+	UICollection STSyndicateExtShortCount
+	{
+		UIItem SeparatorLine
+		{
+			Type CenterText
+			Text P3695764949
+		}
+	}
+	ShutDown
+	{
+	}
+
+	
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+
+Stage DefeatSTSyndicateExt
+{
+	DisplayName P3390037460
+	ToolTip P719353115
+	AwardKarma
+	KarmaThreshold	10
+	StartUp
+	{
+		Action StartKillSTSyndicateExt
+		{
+			DebugPrint <<Starting Stage DefeatSTSyndicateExt>>
+		}
+		Action TurnOnNPCs
+		{
+			TeamControl StartSTSyndicateExt
+			{
+				Type Activate
+				Team STSyndicateExtteam
+			}
+			TeamControl StartSTPPD
+			{
+				Type Activate
+				Team STPPDteam
+			}
+			RemoveWaypoints
+			WaypointPlace ExteriorPoint STSyndicateExtRunTo
+		}
+	}
+	Objective ObjSTSyndicateExtKills
+	{
+		Type team
+		Team STSyndicateExtteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Counter STSyndicateExtKills
+	{
+		Type Team
+		Count 40
+		Team STSyndicateExtteam
+		VolumeName STExterior
+	}
+	Counter STPoliceExtKills
+	{
+		Type Team
+		Count 40
+		Team STPPDteam
+		VolumeName STExterior
+	}
+	Trigger Restart
+	{
+		Requires STPoliceExtKills complete>
+		Action GotoSTReset
+		{
+			Floater TooManyPPDDied
+			{
+				Message P2336881779
+				Color ff0000
+				Volume SyndicateEventVolume
+			}
+			RewardGroup reward
+			{
+				Reward class0
+				{
+				}
+			}
+			DebugPrint <<DefeatSTSyndicateExt done: switching to STExterior>>
+		}
+		NextStage Reset
+	}
+	Trigger Done
+	{
+		Requires STSyndicateExtKills complete>
+		Action GotoSTInterior
+		{
+			DebugPrint <<DefeatSTSyndicateExt done: switching to STInterior>>
+		}
+		NextStage STInterior
+	}
+	UICollection STSyndicateExtCount
+	{
+		UIItem SyndicateKills
+		{
+			Type BarBlue
+			Text P3141645715
+			ShortText P3557448881
+			Current STSyndicateExtKills count>
+			Target 40
+		}
+	
+		UIItem PPDRemaining
+		{
+			Type BarRed
+			Text P1725369113
+			ShortText P1492594559
+			Current 40 STPoliceExtKills count> -
+			Target 40
+		}
+	}
+	ShutDown
+	{
+	}
+
+	
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+Stage STInterior
+{
+	DisplayName P1926285534
+	ToolTip P2165446330
+	AwardKarma
+	KarmaThreshold	5
+	StartUp
+	{
+		Action StartDestroyCache
+		{
+			DebugPrint <<Starting Stage STInterior>>
+			RemoveWaypoints
+			WaypointPlace FrontDoorWayPoint ZESyndicateFrontDoors
+		}
+		Action Setupglowies
+		{
+			GlowieControl Place
+			{
+				Type Place
+				Glowie GlowieSTExplosives
+			}
+	  		GlowieControl Activate
+	  		{
+	  			Type Activate
+	  			Glowie GlowieSTExplosives
+	  		}
+		}
+		Action TurnOffSTSyndicateExt
+		{
+			TeamControl StopSTSyndicateExt
+			{
+				Type Deactivate
+				Team STSyndicateExtteam
+			}
+			TeamControl StopSTPPDSpawn
+			{
+				Type Deactivate
+				Team STPPDteam
+			}
+		}
+		Action SpawnInteriorNPCs
+		{
+			TeamControl StartSTSyndicateInt
+			{
+				Type Activate
+				Team STSyndicateIntteam
+			}
+//			TeamControl StartSTBossesInt
+//			{
+//				Type Activate
+//				Team STBossesIntteam
+//			}
+			TeamControl StartSTJessIntTeam
+			{
+				Type Activate
+				Team STJessIntTeam
+			}
+			TeamControl StartSTJennaIntTeam
+			{
+				Type Activate
+				Team STJennaIntTeam
+			}
+			TeamControl StartSTJasonIntTeam
+			{
+				Type Activate
+				Team STJasonIntTeam
+			}
+			TeamControl StartSTJessRoofteam
+			{
+				Type Activate
+				Team STJessRoofteam
+			}
+			TeamControl StartSTJennaRoofteam
+			{
+				Type Activate
+				Team STJennaRoofteam
+			}
+			TeamControl StartSTJasonRoofteam
+			{
+				Type Activate
+				Team STJasonRoofteam
+			}
+		}
+		Action OpenUpSTBottomFloor
+		{
+			Floater UnlockMessage
+			{
+				Message P2236433038
+				Color ffff00
+				Volume SyndicateEventVolume
+			}
+			DoorControl Unlock
+			{
+				Type Unlock
+				Door STBottomFloorDoor
+			}
+			PorterControl StopPort
+			{
+				Type Deactivate
+				Porter STInteriorPorter
+			}
+		}
+	}
+	Objective ObjSTExplosivesPlaced
+	{
+		Type Glowie
+		Glowie GlowieSTExplosives
+		KarmaValue 10
+		KarmaLife  35
+	}
+	Objective ObjSTSyndicateIntKills
+	{
+		Type team
+		Team STSyndicateIntteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjSTBossesIntKills
+	{
+		Type team
+		Team STBossesIntteam
+		KarmaValue 10
+		KarmaLife  35
+	}
+	Counter STExplosivesPlaced
+	{
+		Type Click
+		Count 3
+		Glowie GlowieSTExplosives
+	}
+	Timer STExplosivessTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Counter STSyndicateIntKillsLow
+	{
+		Type Team
+		Count 25
+		Team STSyndicateIntteam
+		VolumeName STInteriorPorter
+	}
+	Counter STSyndicateIntKills
+	{
+		Type Team
+		Count 55
+		Team STSyndicateIntteam
+		VolumeName STInteriorPorter
+	}
+	Counter STBossesJennaKill
+	{
+		Type Team
+		Count 1
+		Team STJennaIntTeam
+		VolumeName STInteriorPorter
+	}
+	Counter STBossesJessKill
+	{
+		Type Team
+		Count 1
+		Team STJessIntTeam
+		VolumeName STInteriorPorter
+	}
+	Counter STBossesJasonKill
+	{
+		Type Team
+		Count 1
+		Team STJasonIntTeam
+		VolumeName STInteriorPorter
+	}
+	Trigger DoneJennaDown
+	{
+		Requires STBossesJennaKill complete>
+		Action TakeOutJenna
+		{
+			TeamControl StopSTJennaRoofteam
+			{
+				Type Deactivate
+				Team STJennaRoofteam
+			}
+			DebugPrint <<Jenna removed from roof>>
+		}
+	}
+	Trigger DoneJessDown
+	{
+		Requires STBossesJessKill complete>
+		Action TakeOutJess
+		{
+			TeamControl StopSTJessRoofteam
+			{
+				Type Deactivate
+				Team STJessRoofteam
+			}
+			DebugPrint <<Jess removed from roof>>
+		}
+	}
+	Trigger DoneJasonTeam
+	{
+		Requires STBossesJasonKill complete> 
+		Action GotoFightSTBossRoof
+		{
+			TeamControl StopSTJasonRoofteam
+			{
+				Type Deactivate
+				Team STJasonRoofteam
+			}
+		}
+	}
+	Trigger DoneAllBosses
+	{
+		Requires STBossesJennaKill complete> STBossesJessKill complete> && STBossesJasonKill complete> && STSyndicateIntKillsLow complete> &&
+		Action
+		{
+			Floater FlushedOut
+			{
+				Message P2803652647
+				Color ffff00
+				Volume STInteriorPorter
+			}
+			DebugPrint <<STInterior success (LT Kills): switching to FightSTBossRoof>>
+		}
+		NextStage FightSTBossRoof
+	}
+	Trigger DoneSTSyndicateIntKills
+	{
+		Requires STSyndicateIntKills complete>
+		Action GotoFightSTBossRoof
+		{
+			Floater FlushedOut
+			{
+				Message P2803652647
+				Color ffff00
+				Volume STInteriorPorter
+			}
+			DebugPrint <<STInterior success (Syndicate Kills): switching to FightSTBossRoof>>
+		}
+		NextStage FightSTBossRoof
+	}
+	Trigger STExplosivessDestroyedSuccess
+	{
+		Requires STExplosivesPlaced complete> STSyndicateIntKillsLow complete> &&
+		Action GlowieClicksDone
+		{
+			TeamControl StartSTBombSquad
+			{
+				Type Activate
+				Team STBombSquadteam
+			}
+			Floater FlushedOut
+			{
+				Message P2803652647
+				Color ffff00
+				Volume STInteriorPorter
+			}
+			DebugPrint <<STInterior success (Explosives): switching to FightSTBossRoof>>
+		}
+		NextStage FightSTBossRoof
+	}
+	Trigger STInteriorFail
+	{
+		Requires STExplosivessTimer complete>
+		Action GotoReset
+		{
+			Floater Escaped
+			{
+				Message P2622055254
+				Color ff0000
+				Volume STInteriorPorter
+			}
+			DebugPrint <<STInterior failed: Zone Reset>>
+		}
+		NextStage Reset
+	}	
+	UICollection STSyndicateIntMysteryCount
+	{
+		UIItem MysteryCount
+		{
+			Type Text
+			Text P1952911869
+		}
+	}
+	ShutDown
+	{
+		Action GlowieTeardown
+		{
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie GlowieSTExplosives
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieSTExplosives
+			}
+		}
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage STInterior>>
+		}
+	}
+}
+
+Stage FightSTBossRoof
+{
+	DisplayName P578901204
+	ToolTip P2081932236
+	AwardKarma
+	KarmaThreshold	10
+	StartUp
+	{
+		Action StartFightSTBossRoof
+		{
+			DebugPrint <<Starting Stage FightSTBossRoof>>
+			RemoveWaypoints
+			WaypointPlace RooftopWayPoint STBossRoofWave
+		}
+		Action TurnOnSTBossRoof
+		{
+			TeamControl StartWatcher
+			{
+				Type Activate
+				Team Watcher
+			}
+			TeamControl StartKiller
+			{
+				Type Activate
+				Team Killer
+			}
+			TeamControl StartSTBossRoof
+			{
+				Type Activate
+				Team STBossRoofteam
+			}
+			TeamControl StartSTSyndicateRoof
+			{
+				Type Activate
+				Team STSyndicateRoofteam
+			}
+			TeamControl StartSTPPDvsSynRoof
+			{
+				Type Activate
+				Team STPPDvsSynRoofteam
+			}
+			TeamControl KickassJess
+			{
+				Type DoBehavior
+				Team STJessRoofteam
+				Behavior <<Invisible(0), Unselectable(0), Untargetable(0), Invincible(0),CombatOverride(Aggressive))>>
+			}
+			TeamControl KickassJenna
+			{
+				Type DoBehavior
+				Team STJennaRoofteam
+				Behavior <<Invisible(0), Unselectable(0), Untargetable(0), Invincible(0),CombatOverride(Aggressive))>>
+			}
+			TeamControl KickassJason
+			{
+				Type DoBehavior
+				Team STJasonRoofteam
+				Behavior <<Invisible(0), Unselectable(0), Untargetable(0), Invincible(0),CombatOverride(Aggressive))>>
+			}
+		}
+		Action TurnOffNPCs
+		{
+			TeamControl StopSTSyndicateInt
+			{
+				Type Deactivate
+				Team STSyndicateIntteam
+			}
+			TeamControl StopSTJessInt
+			{
+				Type Deactivate
+				Team STJessIntTeam
+			}
+			TeamControl StopSTJennaInt
+			{
+				Type Deactivate
+				Team STJennaIntTeam
+			}
+			TeamControl StopSTJasonInt
+			{
+				Type Deactivate
+				Team STJasonIntTeam
+			}
+		}
+		Action TurnOffSTExplosives
+		{
+	  		GlowieControl Deactivate
+	  		{
+	  			Type Deactivate
+	  			Glowie GlowieSTExplosives
+	  		}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieSTExplosives
+			}
+		}
+		Action OpenUpSTRooftopDoor
+		{
+			DoorControl Unlock
+			{
+				Type Unlock
+				Door STRooftopDoor
+			}
+		}
+	}
+	Objective ObjSTPPDvsSynRoofteamKills
+	{
+		Type team
+		Team STPPDvsSynRoofteam
+		KarmaValue 10
+		KarmaLife  25
+	}
+	Objective ObjSTSyndicateIntKills
+	{
+		Type team
+		Team STSyndicateIntteam
+		KarmaValue 10
+		KarmaLife  45
+	}
+	Objective ObjSTSyndicateExtKills
+	{
+		Type team
+		Team STSyndicateRoofteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjSTBossRoofKills
+	{
+		Type team
+		Team STBossRoofteam
+		KarmaValue 30
+		KarmaLife  35
+	}
+	Objective JennaRoofKill
+	{
+		Type Team
+		Team STJennaRoofteam
+		KarmaValue 20
+		KarmaLife 15
+	}
+	Objective JessRoofKill
+	{
+		Type Team
+		Team STJessRoofteam
+		KarmaValue 20
+		KarmaLife 15
+	}
+	Objective JasonRoofKill
+	{
+		Type Team
+		Team STJasonRoofteam
+		KarmaValue 20
+		KarmaLife 15
+	}
+	Counter STBossRoofKills
+	{
+		Type team
+		Count 1
+		Team STBossRoofteam
+	}
+	Counter STBossRoofHealth
+	{
+		Type BossHealth
+		Team STBossRoofteam
+	}
+	Counter ObjSTSyndicateRoofKills
+	{
+		Type Team
+		Count 25
+		Team STSyndicateRoofteam
+	}
+	Counter ObjSTSyndicateRoofXtraKills
+	{
+		Type Team
+		Count 25
+		Team STSyndicateRoofXtrateam
+	}
+	Counter JennaRoof
+	{
+		Type Team
+		Count 1
+		Team STJennaRoofteam
+	}
+	Counter JessRoof
+	{
+		Type Team
+		Count 1
+		Team STJessRoofteam
+	}
+	Counter JasonRoof
+	{
+		Type Team
+		Count 1
+		Team STJasonRoofteam
+	}
+	Timer STBossRoofTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Timer STWindRoofHazardTimer
+	{
+		Duration 0:20
+	}
+	Trigger OneOrTheOther
+	{
+		Requires STBossRoofKills complete> ObjSTSyndicateRoofKills complete> ||
+		Action UnleashMoreMobs
+		{
+			TeamControl StartSTSyndicateRoofXtrateam
+			{
+				Type Activate
+				Team STSyndicateRoofXtrateam
+			}
+			DebugPrint <<Unleashing More Mobs>>
+		}
+		Action WarningForHazard
+		{
+			Floater WindWarning
+			{
+				Message P2790685736
+				Color ff0000
+				Volume SyndicateEventVolume
+			}
+		}
+		Action TurnOnHazard
+		{
+			Delay 10
+			TeamControl StartWindHazard
+			{
+				Type Activate
+				Team STWindRoofHazard
+			}
+		}
+	}
+	Trigger STBossRoofDestroyedFail
+	{
+		Requires STBossRoofTimer complete>
+		Action GotoReset
+		{
+			Floater FlushedOut
+			{
+				Message P4233942386
+				Color ff0000
+				Volume SyndicateEventVolume
+			}
+			DebugPrint <<FightSTBossRoof failed: Zone Reset>>
+		}
+		NextStage Reset
+	}
+	Trigger Done
+	{
+		Requires ObjSTSyndicateRoofKills count> ObjSTSyndicateRoofXtraKills count> + JennaRoof count> + JessRoof count> + JasonRoof count> + 25 >= STBossRoofKills complete> &&
+		Action GotoProtest
+		{
+			Floater FlushedOut
+			{
+				Message P650838951
+				Color 00ff00
+				Volume SyndicateEventVolume
+			}
+			DebugPrint <<FightSTBossRoof done: switching to RewardWinners>>
+		}
+		NextStage RewardWinners
+	}
+	UICollection STSyndicateRoofCount
+	{
+		UIItem BossRoofKillsCount
+		{
+			Type BarRed
+			Text P3143032732
+			ShortText P3379963429
+			Current STBossRoofHealth count>
+			Target 100
+		}
+		UIItem RoofGuardCount
+		{
+			Type BarBlue
+			Text P2700143158
+			ShortText P2397001397
+			Current ObjSTSyndicateRoofKills count> ObjSTSyndicateRoofXtraKills count> + JennaRoof count> + JessRoof count> + JasonRoof count> +
+			Target 25
+		}
+	}
+	ShutDown
+	{
+		Action TurnOffNPCs
+		{
+			TeamControl StopSTPPDvsSynRoof
+			{
+				Type Deactivate
+				Team STPPDvsSynRoofteam
+			}
+			TeamControl StopPPDteam
+			{
+				Type Deactivate
+				Team STPPDteam
+			}
+			TeamControl StopSTSyndicateIntteam
+			{
+				Type Deactivate
+				Team STSyndicateIntteam
+			}
+			TeamControl StopSTBossRoofteam
+			{
+				Type Deactivate
+				Team STBossRoofteam
+			}
+			TeamControl StopSTSyndicateRoofteam
+			{
+				Type Deactivate
+				Team STSyndicateRoofteam
+			}
+			TeamControl StopSTSyndicateRoofXtrateam
+			{
+				Type Deactivate
+				Team STSyndicateRoofXtrateam
+			}
+			TeamControl StartSTJessRoofteam
+			{
+				Type Deactivate
+				Team STJessRoofteam
+			}
+			TeamControl StartSTJesnnaRoofteam
+			{
+				Type Deactivate
+				Team STJennaRoofteam
+			}
+			TeamControl StartSTJasoRoofteam
+			{
+				Type Deactivate
+				Team STJasonRoofteam
+			}
+			TeamControl StopSTBombSquad
+			{
+				Type Deactivate
+				Team STBombSquadteam
+			}
+			TeamControl StopWatcher
+			{
+				Type Deactivate
+				Team Watcher
+			}
+			TeamControl StopKiller
+			{
+				Type Deactivate
+				Team Killer
+			}
+		}
+		Action LockTheDoors
+		{
+			DoorControl InitLockSTBottomFloor
+			{
+				Type Lock
+				Door STBottomFloorDoor
+			}
+			DoorControl InitLockSTRooftop
+			{
+				Type Lock
+				Door STRooftopDoor 
+			}
+			PorterControl InitPortSTBottomFloor
+			{
+				Type Activate
+				Porter STInteriorPorter
+			}
+		}
+		Action TurnOffHazards
+		{
+			TeamControl StopWindHazard
+			{
+				Type Deactivate
+				Team STWindRoofHazard
+			}
+		}
+		Action ResetStart
+		{
+			Floater PortOut
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message P3357996744
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ff0000
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume STInteriorPorter
+			}
+		}
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage FightSTBossRoof>>
+		}
+	}
+}
+
+Stage RewardWinners
+{
+	DisplayName P2269381005
+	StartUp
+	{
+		Action RewardStart
+		{
+			DebugPrint <<Starting Reward stage>>
+			RemoveWaypoints
+		}
+
+		Action PhatLewt
+		{
+			RewardGroup reward
+			{
+				Reward class2
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					NumStagesRequired 2
+					RewardTable ZE_Syndicate_Base_Low
+				}
+				Reward class2_5
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					NumStagesRequired 3
+					RewardTable ZE_Syndicate_Base_Low
+				}
+				Reward class3
+				{
+					PercentileNeeded 0.33
+					PointsNeeded 19
+					NumStagesRequired 3
+					RewardTable ZE_Syndicate_Base_Medium
+				}
+				Reward class4
+				{
+					PercentileNeeded 0.66
+					PointsNeeded 25
+					NumStagesRequired 3
+					RewardTable ZE_Syndicate_Base_High
+				}
+			}
+		}
+
+		Action TurnOffNPCs
+		{
+			TeamControl StopSTSyndicateExt
+			{
+				Type Deactivate
+				Team STBossRoofteam
+			}
+		}
+	}
+	UICollection PlayerWin
+	{
+		UIItem PlayerVictory
+		{
+			Type CenterText
+			Text P4031330413
+			ShortText P3874835759
+		}
+	}
+	Timer StageResetTimer
+	{
+		Duration 0:30
+		Display
+	}
+	Trigger Reset
+	{
+		Requires StageResetTimer complete>
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint <<Switching to Reset from Reward>>
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Reward>>
+		}
+	}
+}
+
+Stage Reset
+{
+	DisplayName P1686846641
+	ToolTip P190629907
+	StartUp
+	{
+		Action GlowieTeardown
+		{
+			RemoveWaypoints
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie GlowieSTExplosives
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieSTExplosives
+			}
+		}
+		Action ResetStart
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+				}
+			}
+			Floater PortOut
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message P3357996744
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ff0000
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume STInteriorPorter
+			}
+			DebugPrint <<Starting stage Reset>>
+			DoorControl InitLockSTBottomFloor
+			{
+				Type Lock
+				Door STBottomFloorDoor
+			}
+			DoorControl InitLockSTRooftop
+			{
+				Type Lock
+				Door STRooftopDoor 
+			}
+			PorterControl InitPortSTBottomFloor
+			{
+				Type Activate
+				Porter STInteriorPorter
+			}
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopSTSyndicateExt
+			{
+				Type Deactivate
+				Team STSyndicateExtteamShort
+			}
+			TeamControl StopSTSyndicateRoofXtrateam
+			{
+				Type Deactivate
+				Team STSyndicateRoofXtrateam
+			}			
+			TeamControl StopSTPPDvsSynRoof
+			{
+				Type Deactivate
+				Team STPPDvsSynRoofteam
+			}
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team STPPDteam
+			}
+			TeamControl StopSTSyndicateExt
+			{
+				Type Deactivate
+				Team STSyndicateExtteam
+			}
+			TeamControl StopSTSyndicateIntteam
+			{
+				Type Deactivate
+				Team STSyndicateIntteam
+			}
+			TeamControl StopSTJennaIntTeam
+			{
+				Type Deactivate
+				Team STJennaIntTeam
+			}
+			TeamControl StopSTJessIntTeam
+			{
+				Type Deactivate
+				Team STJessIntTeam
+			}
+			TeamControl StopSTJasonIntTeam
+			{
+				Type Deactivate
+				Team STJasonIntTeam
+			}
+//			TeamControl StopSTBossesIntteam
+//			{
+//				Type Deactivate
+//				Team STBossesIntteam
+//			}
+			TeamControl StopSTBossRoofteam
+			{
+				Type Deactivate
+				Team STBossRoofteam
+			}
+			TeamControl StopSTSyndicateRoofteam
+			{
+				Type Deactivate
+				Team STSyndicateRoofteam
+			}
+			TeamControl StartSTJessRoofteam
+			{
+				Type Deactivate
+				Team STJessRoofteam
+			}
+			TeamControl StartSTJennaRoofteam
+			{
+				Type Deactivate
+				Team STJennaRoofteam
+			}
+			TeamControl StartSTJasoRoofteam
+			{
+				Type Deactivate
+				Team STJasonRoofteam
+			}
+			TeamControl StopSTBombSquad
+			{
+				Type Deactivate
+				Team STBombSquadteam
+			}
+			TeamControl StopWatcher
+			{
+				Type Deactivate
+				Team Watcher
+			}
+			TeamControl StopKiller
+			{
+				Type Deactivate
+				Team Killer
+			}
+		}
+		Action TurnOffHazards
+		{
+			TeamControl StopWindHazard
+			{
+				Type Deactivate
+				Team STWindRoofHazard
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 60:00
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<Syndicate Zone Event Reset Timer Complete>>
+		}
+		NextStage DefeatSTSyndicateExtShort
+	}
+	UICollection STResetTimerDisplay
+	{
+		UIItem TimeToNextEvent
+		{
+			Type Timer
+			Timer ResetTimer
+			Text P3201275388
+			ShortText P2655158753
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down stage Reset>>
+		}
+	}
+}
+
+Stage ResetImmediateAndRecycle
+{
+	StartUp
+	{
+		Action GlowieTeardown
+		{
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie GlowieSTExplosives
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieSTExplosives
+			}
+		}
+		Action ResetStart
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+				}
+			}
+			RemoveWaypoints
+			DebugPrint <<Starting event reset due to presence of a map event>>
+			Floater PortOut
+			{
+				Message P3357996744
+				Color ff0000
+				Volume STInteriorPorter
+			}
+			DoorControl InitLockSTBottomFloor
+			{
+				Type Lock
+				Door STBottomFloorDoor
+			}
+			DoorControl InitLockSTRooftop
+			{
+				Type Lock
+				Door STRooftopDoor 
+			}
+			PorterControl InitPortSTBottomFloor
+			{
+				Type Activate
+				Porter STInteriorPorter
+			}
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopSTSyndicateExt
+			{
+				Type Deactivate
+				Team STSyndicateExtteamShort
+			}
+			TeamControl StopSTSyndicateRoofXtrateam
+			{
+				Type Deactivate
+				Team STSyndicateRoofXtrateam
+			}
+			TeamControl StopSTPPDvsSynRoof
+			{
+				Type Deactivate
+				Team STPPDvsSynRoofteam
+			}
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team STPPDteam
+			}
+			TeamControl StopSTSyndicateExt
+			{
+				Type Deactivate
+				Team STSyndicateExtteam
+			}
+			TeamControl StopSTSyndicateIntteam
+			{
+				Type Deactivate
+				Team STSyndicateIntteam
+			}
+			TeamControl StopSTJennaIntTeam
+			{
+				Type Deactivate
+				Team STJennaIntTeam
+			}
+			TeamControl StopSTJessIntTeam
+			{
+				Type Deactivate
+				Team STJessIntTeam
+			}
+			TeamControl StopSTJasonIntTeam
+			{
+				Type Deactivate
+				Team STJasonIntTeam
+			}
+			TeamControl StopSTBossRoofteam
+			{
+				Type Deactivate
+				Team STBossRoofteam
+			}
+			TeamControl StopSTSyndicateRoofteam
+			{
+				Type Deactivate
+				Team STSyndicateRoofteam
+			}
+			TeamControl StartSTJessRoofteam
+			{
+				Type Deactivate
+				Team STJessRoofteam
+			}
+			TeamControl StartSTJennaRoofteam
+			{
+				Type Deactivate
+				Team STJennaRoofteam
+			}
+			TeamControl StartSTJasoRoofteam
+			{
+				Type Deactivate
+				Team STJasonRoofteam
+			}
+			TeamControl StopSTBombSquad
+			{
+				Type Deactivate
+				Team STBombSquadteam
+			}
+			TeamControl StopWatcher
+			{
+				Type Deactivate
+				Team Watcher
+			}
+			TeamControl StopKiller
+			{
+				Type Deactivate
+				Team Killer
+			}
+		}
+		Action TurnOffHazards
+		{
+			TeamControl StopWindHazard
+			{
+				Type Deactivate
+				Team STWindRoofHazard
+			}
+		}
+	}
+
+//Start Event Reactivation Block
+
+	Timer WaitTimer
+	{
+		Duration 1:00
+	}
+	Trigger ClearToStart
+	{
+		Requires WaitTimer complete> ZoneEventMutex InstanceTokenVal system> UNKNOWN eq &&
+		Action
+		{
+			DebugPrint <<Event Restart Due To Other Event Ending>>
+		}
+		NextStage DefeatSTSyndicateExtShort
+	}
+	Trigger ResetWait
+	{
+		Requires WaitTimer complete> ZoneEventMutex InstanceTokenVal system> UNKNOWN eq ! &&
+		Action
+		{
+			Reset WaitTimer ResetWait
+		}
+	}
+
+//End Event Reactivation Block
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down stage ResetImmediateAndRecycle>>
+		}
+	}
+}
+		
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			RemoveWaypoints
+			DebugPrint <<Starting Stop stage>>
+		}
+		Action GlowieTeardown
+		{
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie GlowieSTExplosives
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieSTExplosives
+			}
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team STPPDteam
+			}
+			TeamControl StopSTSyndicateExt
+			{
+				Type Deactivate
+				Team STSyndicateExtteam
+			}
+			TeamControl StopSTSyndicateIntteam
+			{
+				Type Deactivate
+				Team STSyndicateIntteam
+			}
+			TeamControl StopSTJennaIntTeam
+			{
+				Type Deactivate
+				Team STJennaIntTeam
+			}
+			TeamControl StopSTJessIntTeam
+			{
+				Type Deactivate
+				Team STJessIntTeam
+			}
+			TeamControl StopSTJasonIntTeam
+			{
+				Type Deactivate
+				Team STJasonIntTeam
+			}
+			TeamControl StopSTBossRoofteam
+			{
+				Type Deactivate
+				Team STBossRoofteam
+			}
+			TeamControl StopSTSyndicateRoofteam
+			{
+				Type Deactivate
+				Team STSyndicateRoofteam
+			}
+		}
+		Action LockTheDoors
+		{
+			DoorControl InitLockSTBottomFloor
+			{
+				Type Lock
+				Door STBottomFloorDoor
+			}
+			DoorControl InitLockSTRooftop
+			{
+				Type Lock
+				Door STRooftopDoor 
+			}
+			PorterControl InitPortSTBottomFloor
+			{
+				Type Activate
+				Porter STInteriorPorter
+			}
+		}
+		Action TurnOffHazards
+		{
+			TeamControl StopWindHazard
+			{
+				Type Deactivate
+				Team STWindRoofHazard
+			}
+		}
+		Action ResetStart
+		{
+			Floater PortOut
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message P3357996744
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ff0000
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume STInteriorPorter
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting down Stage Stop>>
+		}
+	}
+}

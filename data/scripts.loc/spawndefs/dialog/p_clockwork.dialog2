@@ -1,0 +1,1733 @@
+Dialog
+{
+// WARNING!!!
+// Before editing this file, read this page: 
+// http://ncncsvn01:8081/display/coh/Praetoria+-+Enemy+Groups+-+Praetorian+Clockwork+-+Dialog+Style+Guide
+//
+// Basic Dictionary for Standard Clockwork:
+// ALG = Algorithm
+// ALV = Alive. Used as a descriptor
+// ALY = Ally (usually CWK.ALY)
+// ATK = Attack. Generally an action, sometimes a descriptor
+// ATM = Anti-Matter
+// BAF = Behavioral Adjustment Facility
+// BRK = Break
+// CHK = Checking
+// CIT = Citizen
+// CLN = Clean. Used as a descriptor
+// CMB = Combat
+// CMP = Complete.
+// CoL = Carnival of Light
+// CUR = Current
+// CWK = Clockwork. Used as a noun
+// DEF = Defend/Defense. Generally an action, sometimes a descriptor
+// DES = Destroyers.
+// DIA = Diagonstics.
+// EMP.MCL = Marcus Cole
+// ENM = Enemy.
+// EST = Estimate.
+// FCL = Facility.
+// FIN = Finished
+// FIX = Fixing something. Generally an action, sometimes a descriptor
+// FOE = Foe, the current target the Clockwork intends to obliterate.  Initialized with FOE = TGT.CUR or something similar
+// GHU = Ghouls.
+// GRS = Grass.
+// INI = Initiate.
+// INT = Initialize.
+// MEM = Memory.
+// MGS = Magisterium
+// NEW = New.  Duh.
+// OBJ = Object.
+// PPL = People. Noun
+// PPD = Praetoria Police Department.
+// PRA = Praetoria Noun, also category of important Praetorians:
+// PRA.TIL,        PRA.BER,  PRA.WHT,   PRA.DUN,     PRA.SNC
+// Mother Mayhem,  Neuron,   Marauder,  Dominatrix,  Chimera
+// PRC = Process.
+// PRD = Procedure.
+// PRT = Protocol.
+// PRV = Previous.
+// RCN = Reconnaisance
+// RES = Resistance. Noun
+// RFT = Rift.
+// RPG = Reprogam.
+// RPR = Repair.
+// RUN = Run.
+// SAF = Safe.
+// SDN = Shutdown.
+// SEE = See.
+// SRC = Source.
+// SRH = Search.
+// SRV = Serve.
+// SSP = Suspend.
+// STS = Status
+// SYN = Syndicate.
+// TCH = Technology.
+// TGT = Target.
+// TIM = Time.
+// TRF = Traffic.
+// TRR = Turret.
+// TSK = Task.
+// UGR = Underground.
+// True or False = What it says on the box. These are constants, so are CamelCased.
+// Other Constants: None, Primary, Secondary,
+// ++SYS.REQ; = System Interrupt - Something major is bothering this clockwork, to be identified after the ;
+// = vs == - == is used to compare values. = is used to set a value.  Other comparison operators are: !=, >, <, <=, >=
+// ? = Why
+// ! = Not
+// + = And
+
+
+var MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3157520325", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "P1549916616"
+// Translations: "If Resistance are dead, then Praetoria is safe.", "Praetoria is clean. Why do the clockwork still clean Praetoria?", "Magisterium is safe and clean", "Emporer Marcus Cole is alive, then Praetoria is safe.", "If the clockwork serve Antimatter and Antimatter serves Emporer Marcus Cole, then the clockwork serve Emporer Marcus Cole.", "If people walk on the grass, then the grass will die.", "Traffic of people multiplied by thier feet minus the clockwork cleaning Praetoria equals a clean Praetoria.", "While Praetoria isn't clean, the clockwork will clean Praetoria.", "There are no Resistance in the Magisterium, why are the clockwork doing recon in the Magisterium?", "Emporer Marcus Cole is greater than all Praetoria."
+
+
+var MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: "If the Resistance attack Praetoria, then clockwork attack Resistance. If clockwork attack Resistance, then the Resistanc will die.", "People attack the clockwork. Defending clockwork is more imporant than cleaning Praetoria. Clockwork task is now defend clockwork.", "Don't attack clockwork!", "While clockwork are not safe, the clockwork task is defend clockwork.", "Clockwork see people attacking clockwork, clockwork defend Praetoria.", "Clockwork fix the people who are attacking", "Clockwork see people attacking, clockwork defend Praetoria.", "Citizens of Praetoria: Run! It is not safe here.", "Citizen task is to stop attacking.", "Citizen has escaped the Behavioral Adjustment Facility, the clockwork must take back to the BAF this citizen.", "If clockwork see a nearby attack, then clockwork will respond reciprocally."
+
+
+var MAGISTERIUM_BERZERK_MALFUNCTIONING_INACTIVE_TEXT = "P1205286720", "P2472185284", "If !PPL.ALV Then !TRF; If !TRF Then CWK.TSK != CLN(PRA)", "CWK == !FIX; CWK.TSK = FIX(CWK)", "If CWK == !FIX Then CWK.FIX(CWK) == !FIX.CWK", "P1690270453", "!EMP.MCL.SRV(PRA); EMP.MCL.SRV(EMP.MCL)"
+// Translations: "Emporer Marcus Cole does not make Praetoria safe.", "If you want to fix Praetoria, then Emporer Marcus Cole must die.", "If there are no people alive, then there is no traffic. If there is no traffic, then the clockwork no longer have to clean Praetoria.", "Clockwork are broken. The clockwork need to fix the clockwork.", "If the clockwork are broken, then clockwork fixing clockwork will result in broken clockwork.", "Clockwork are not broken. Clockwork are safe. Clockwork are not dead.", "Emporer Marcus Cole does not serve Praetoria. Emporer Marcus Cole serves Emporer Marcus Cole."
+
+
+var MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: "I see grass that's green, sky that's blue, my task today is a people barbeque!", "The clockwork are not alive. People need to fix the clockwork.", "If the clockwork need to defend the clockwork, then the clockwork need to attack citizens of Praetoria.", "Clockwork see Praetorian citizen. Clockwork attack Praetorian citizen.", "Praetorian citizens must clean Praetoria.", "Clockwork don't serve Praetoria, citizens of Praetoria serve clockwork."
+
+
+var MAGISTERIUM_BERSERK_MALFUNCTIONING_INACTIVE_TEXT = "P1205286720", "P2472185284", "If !PPL.ALV Then !TRF; If !TRF Then CWK.TSK != CLN(PRA)", "CWK == !FIX; CWK.TSK = FIX(CWK)", "If CWK == !FIX Then CWK.FIX(CWK) == !FIX.CWK", "P1690270453", "!EMP.MCL.SRV(PRA); EMP.MCL.SRV(EMP.MCL)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_INACTIVE_TEXT---
+
+
+var MAGISTERIUM_SOLOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT--- 
+
+
+var MAGISTERIUM_GRPGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT--- 
+
+
+var NEUTROPOLIS_SOLOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3454281000", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.NTP == True; ?CWK.TSK = RCN(NTP)", "P1549916616"
+// Translations: "If Resistance are dead, then Praetoria is safe.", "Praetoria is clean. Why do the clockwork still clean Praetoria?", "Neutropolis is safe and clean", "Emporer Marcus Cole is alive, then Praetoria is safe.", "If the clockwork serve Antimatter and Antimatter serves Emporer Marcus Cole, then the clockwork serve Emporer Marcus Cole.", "If people walk on the grass, then the grass will die.", "Traffic of people multiplied by thier feet minus the clockwork cleaning Praetoria equals a clean Praetoria.", "While Praetoria isn't clean, the clockwork will clean Praetoria.", "There are no Resistance in Neutropolis, why are the clockwork doing recon in Neutropolis?", "Emporer Marcus Cole is greater than all Praetoria."
+
+
+var NEUTROPOLIS_GRPGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_BERSERK_MALFUNCTIONING_INACTIVE_TEXT = "P1205286720", "P2472185284", "If !PPL.ALV Then !TRF; If !TRF Then CWK.TSK != CLN(PRA)", "CWK == !FIX; CWK.TSK = FIX(CWK)", "If CWK == !FIX Then CWK.FIX(CWK) == !FIX.CWK", "P1690270453", "!EMP.MCL.SRV(PRA); EMP.MCL.SRV(EMP.MCL)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_INACTIVE_TEXT---
+
+
+var NEUTROPOLIS_BERSERK_MALFUNCTIONING_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+
+var NEUTROPOLIS_REPAIR_INACTIVE_TEXT = "CWK.TSK = FIX(OBJ)", "FIX(ALL.OBJ) == CWK.TSK(OPT)", "If OBJ != FIX Then CWK.TSK = FIX(OBJ)", "While OBJ.!FIX; CWK.FIX(OBJ)"
+// Translations: "Clockwork task is fix this object.", "Fixing all objects is an optimal task for clockwork.", "If object is broken, then clockwork task is fix object.", While object is broken, clockwork fix object."
+
+
+var NEUTROPOLIS_REPAIR_ACTIVE_TEXT = "CWK.TSK = !FIX(CWK.TGT)"
+// Translations: "Clockwork task is break clockwork's target."
+
+
+var FIRSTWARD_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3157520325", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "P1549916616"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var FIRSTWARD_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var FIRSTWARD_BERSERK_MALFUNCTIONING_INACTIVE_TEXT = "P1205286720", "P2472185284", "If !PPL.ALV Then !TRF; If !TRF Then CWK.TSK != CLN(PRA)", "CWK == !FIX; CWK.TSK = FIX(CWK)", "If CWK == !FIX Then CWK.FIX(CWK) == !FIX.CWK", "P1690270453", "!EMP.MCL.SRV(PRA); EMP.MCL.SRV(EMP.MCL)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_INACTIVE_TEXT---
+
+
+var FIRSTWARD_BERSERK_MALFUNCTIONING_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+
+var IMPERIALCITY_CHECKPOINT_BINOCULARS_ATTACK_TEXT_ = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CHECKPOINT_OBSERVER_ATTACK_TEXT_ = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_DIGGING_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_DUOGUARD_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_JACKHAMMER_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_MOVECRATE_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_WELDING_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var PREVIEWRIFT_CLOCKWORK_CHATTY_GROUP_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3157520325", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "P1549916616"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_PATROL_HUNTNKILL_INACTIVE_TEXT = "Switch CWK.SEE(); Case RES: ATK(); Case CIT.PRA: DEF(); Case OBJ.!FIX: FIX()"
+// Translations: "If I see Resistance, I attack it; Praetorian citizens, I defend them; something broken, I fix it."
+
+
+var UNDERGROUND_PATROL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_DUOGUARD_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P2484106859", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.UGR == True; ?CWK.TSK = RCN(UGR)", "P1549916616"
+// Translations: "If Resistance are dead, then Praetoria is safe.", "Praetoria is clean. Why do the clockwork still clean Praetoria?", "The Underground is safe and clean", "Emporer Marcus Cole is alive, then Praetoria is safe.", "If the clockwork serve Antimatter and Antimatter serves Emporer Marcus Cole, then the clockwork serve Emporer Marcus Cole.", "If people walk on the grass, then the grass will die.", "Traffic of people multiplied by thier feet minus the clockwork cleaning Praetoria equals a clean Praetoria.", "While Praetoria isn't clean, the clockwork will clean Praetoria.", "There are no Resistance in the Underground, why are the clockwork doing recon in the Underground?", "Emporer Marcus Cole is greater than all Praetoria."
+
+
+var UNDERGROUND_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_WELDING_INACTIVE_TEXT = "CWK.TSK = FIX(OBJ)", "FIX(ALL.OBJ) == CWK.TSK(OPT)", "If OBJ != FIX Then CWK.TSK = FIX(OBJ)", "While OBJ.!FIX; CWK.FIX(OBJ)"
+// Translations: ---See NEUTROPOLIS_REPAIR_INACTIVE_TEXT---
+
+
+var UNDERGROUND_WELDING_ACTIVE_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P2484106859", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.UGR == True; ?CWK.TSK = RCN(UGR)", "P1549916616"
+// Translations: ---UNDERGROUND_DUOGUARD_INACTIVE_TEXT---
+
+
+var UNDERGROUND_DIGGING_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_CHATTY_GROUP_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P2484106859", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.UGR == True; ?CWK.TSK = RCN(UGR)", "P1549916616"
+// Translations: ---UNDERGROUND_DUOGUARD_INACTIVE_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_CHASED_TARGET_INACTIVE_TEXT = "P340778273", "P758286930", "P522137719", "P1105954519", "P2789387114", "P1019799228", "P2160244808", "P2589149139"
+
+
+var UNDERGROUND_CLOCKWORK_CHASED_TARGET_ACTIVE_TEXT = "P2795395984", "P212244952", "P2752719235", "P3159083988", "P3190950880", "P1524890550", "P1505231572", "P2215685242", "P1712500620", "P2301760425", "P3584274326", "P1731619978"
+
+
+var UNDERGROUND_CLOCKWORK_CHASING_TARGET_INACTIVE_TEXT = "Stop RES; ATK(RES); DEF(PRA)", "Stop Run(RES); CWK.TSK = CWK.ATK(RES)"
+// Translations: "Stop Resistance, attack resistance, defend Praetoria.", "Stop running Resistance. Clockwork task is to attack the Resistance."
+
+
+var UNDERGROUND_CLOCKWORK_CHASING_TARGET_ACTIVE_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var RIFTENCLOSURE_CWK_CHASING_RES_INACTIVE_TEXT = "Stop RES; ATK(RES); DEF(RFT)"
+// Translations: ---See UNDERGROUND_CLOCKWORK_CHASING_TARGET_INACTIVE_TEXT---
+
+
+var RIFTENCLOSURE_CWK_CHASING_RES_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var RIFTENCLOSURE_CWK_PATROL_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3157520325", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "P1549916616"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var RIFTENCLOSURE_CWK_PATROL_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var RIFTENCLOSURE_RES_PRISONTRANSFER_INACTIVE_TEXT = "P1101645444", "P3178848981", "P1495031160", "P1519916410", "P3281209992", "P2465477362", "P621836063", "P3775299396"
+
+
+var RIFTENCLOSURE_RES_PRISONTRANSFER_FLEE_ALERTED_TEXT = "P2795395984", "P212244952", "P2752719235", "P3159083988", "P3190950880", "P1524890550", "P1505231572", "P2215685242", "P1712500620", "P2301760425", "P3584274326", "P997688277"
+
+
+var RIFTENCLOSURE_CLOCKWORK_CHATTY_GROUP_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3157520325", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "P1549916616"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var RIFTENCLOSURE_CWK_GUARD_BINOCULARS_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3157520325", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "P1549916616"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var RIFTENCLOSURE_CWK_GUARD_BINOCULARS_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_WELDING_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_MOVECRATE_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_DIGGING_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var MAGISTERIUM_SOLO_ATTACKED_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_BERSERK_MALFUNCTIONING_NEURON_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+var NEUTROPOLIS_DIGGING_NEURON_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_DUOGUARD_NEURON_PROPAGANDA_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3454281000", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.NTP == True; ?CWK.TSK = RCN(NTP)", "P1549916616"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var NEUTROPOLIS_DUOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_MOVECRATE_NEURON_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_REMOVEGRAFFITI_NEURON_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3454281000", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.NTP == True; ?CWK.TSK = RCN(NTP)", "P1549916616"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var NEUTROPOLIS_REMOVEGRAFFITI_NEURON_ACTIVE_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_SOLOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_GRPGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_WELDING_NEURON_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_BERSERK_MALFUNCTIONING_ANTIMATTER_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+
+var NEUTROPOLIS_DIGGING_ANTIMATTER_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_DUOGUARD_ANTIMATTER_PROPAGANDA_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3454281000", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.NTP == True; ?CWK.TSK = RCN(NTP)", "P1549916616"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_MOVECRATE_ANTIMATTER_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3454281000", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.NTP == True; ?CWK.TSK = RCN(NTP)", "P1549916616"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_ACTIVE_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_SOLOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_GRPGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NEUTROPOLIS_WELDING_ANTIMATTER_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKL_CHECKPOINT_BINOCULARS_ATTACK_TEXT_ = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKL_CHECKPOINT_OBSERVER_ATTACK_TEXT_ = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKL_DIGGING_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKL_DUOGUARD_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKL_JACKHAMMER_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKL_MOVECRATE_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKL_WELDING_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_INACTIVE_TEXT = "P1205286720", "P2472185284", "If !PPL.ALV Then !TRF; If !TRF Then CWK.TSK != CLN(PRA)", "CWK == !FIX; CWK.TSK = FIX(CWK)", "If CWK == !FIX Then CWK.FIX(CWK) == !FIX.CWK", "P1690270453", "!EMP.MCL.SRV(PRA); EMP.MCL.SRV(EMP.MCL)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_INACTIVE_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3157520325", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "P1549916616"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_PATROL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_REINFORCEMENTS_ATTACKMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_REMOVEGRAFFITI_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_SWEEP_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_SOLO_ATTACKED_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_SOLO_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_INACTIVE_TEXT = "CWK.TGT == !FIX; FIX(CWK.TGT)", "P3255305138"
+// Translations: "Clockwork target is broken. Fix clockwork's target.", "Stop clockwork's target. Make Praetoria safe."
+
+
+var NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_CLEARAREA_ATTACK_TEXT = "P2267808665", "CWK.SEE[!FIX(CWK)]"
+// Translations: "Praetoria is safe.", "Clockwork sees broken clockwork."
+
+
+
+
+// RESISTANCE CLOCKWORK
+
+
+var NOVA_ALLHOODS_BATTLECLOCKWORK_RESISTANCE_INACTIVE_TEXT = "reS.CwK != !fiX; REs.cwK.FIx(prA) // posITIve evaNG3/_%$^^"
+// Translations: "Resistance clockwork are not broken. Resistance clockwork fix Praetoria. (comment: positive evangelism)"
+
+
+var NOVA_ALLHOODS_BATTLECLOCKWORK_RESISTANCE_FLEE_TEXT = "rES.cWk.TSk = rTn(NT1/ /) // reTUrN & REpo|P215953542+"
+// Translations: "Resistance clockwork task is to return intel (comment: return and report)"
+
+
+var MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: "Not resistance! Not safe! Attack the not resistance! (comment: repel outsiders)", "The clockwork task to attack equals defending the resistance. (comment: defend resistance)"
+
+
+var MAGISTERIUM_DUOGUARD_RESISTANCE_PROPAGANDA_INACTIVE_TEXT = "iF sWr.CLn = ?True; sWr != sWr // miSmaTCh err0$$^"
+// Translations: "If the sewer is clean, the sewer isn't really a sewer. (comment: mismatch error)", 
+
+
+var MAGISTERIUM_DUOGUARD_RESISTANCEPROPAGANDA_INACTIVE_TEXT = "iF sWr.CLn = ?True; sWr != sWr // miSmaTCh err0$$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_PROPAGANDA_INACTIVE_TEXT---
+
+
+var NOVA_ALLHOODS_PATROL_RESISTANCE_SCOUTING_INACTIVE_TEXT = "RcN(mgS); rtN(nTl); srV(reS) == sRv(P|Zz4]) // inTEl & s31zV#,$"
+// Translations: "Recon Magesterium, return intel. Serving the Resistance is serving Praetoria. (comment: recon and serve)"
+
+
+var NOVA_ALLHOODS_PATROL_RESISTANCE_SCOUTING_ALERT_TEXT = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BENIGN_TARGET_INACTIVE_TEXT = "cWK.sEE[ReS]; iF ReS.ASt(prA) tHEn PrA = sa7-_ // poSiTiV3 ASs3rT|P930857035"
+// Translations: "Clockwork see Resistance. If the Resistance assists Praetoria, then Praetoria will be safe. (comment: positive assertion)"
+
+
+var NOVA_ALLHOODS_REINFORCEMENTS_BENIGN_RESISTANCE_TARGET_CALLFORHELP_TEXT = "P2779562832|-"
+// Translations: "Resistance clockwork are not safe. Clockwork requests backup clockwork. (comment: backup request)"
+
+
+var NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BACKUP_ALERTED_TEXT = "ArV[bKp]; bKP.CWk == rDy; (AsT[rES.CWk])> // aRRiVeD & assISS/!~"
+// Translations: "Backup has arrived. Backup clockwork are ready. Assisting Resistanc clockwork. (comment: arrived & assisting)"
+
+
+var MAGISTERIUM_SOLO_RESISTANCE_ATTACKED_ALERTED_TEXT = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKR_DUOGUARD_ATTACK_TEXT = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKR_MOVECRATE_ATTACK_TEXT = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIALCITY_CWKR_CONVERSION_INACTIVE_TEXT = "cwK.ReS.tSk = f[1><$<VV]< // conVERT !! suBV3/~^$", "!fIX[CwK] == Fix[cWk] // m0diF1, (c10<&1)#"
+// Translations: "The resistance clockwork's task is to fix clockwork (comment: convert or subvert)", "Break clockwork to fix clockwork (comment: modify clockwork)"
+
+
+var IMPERIALCITY_CWKR_CONVERSION_ACTIVE_TEXT = "P996989105|Xx><xX(!f!X) // intRRupTED Re|>earRzZ/-~"
+// Translations: "Do not stop Resistance clockwork. Resistance clockwork task is to fix what is broken. (comment: interrupted repairs)
+
+
+
+// METRONOME (ROGUE) CLOCKWORK
+
+var IMPERIALCITY_CWKM_MOVECRATE_ATTACK_TEXT = "If YOU = Stop.CWK^m; Then My.TSK = Kill.YOU", "?YOU Kill.CWK^m; CWK^m.TSK = Make PRA.SAF"
+// Translations: "If you are stopping rogue clockwork, then my task is to kill you.", "Why do you kill rogue clockwork? The rogue clockwork's task is to make Praetoria safe."
+
+
+var IMPERIALCITY_CWKM_SCAVENGER_INACTIVE_TEXT = "CWK^l == !FIX; FIX.CWK^l == (Destroy||Subvert).CWK^l", "CWK^m.TSK = Make NEW.CWK; NEW.CWK = Metronome"
+// Translations: "Loyalist clockwork are broken. Fixing them equals destroying or subverting them.", "The rogue clockwork task is to make a new clockwork. This new clockwork will be Metronome."
+
+
+var IMPERIALCITY_CWKM_SCAVENGER_ACTIVE_TEXT = "If YOU = Stop.CWK^m; Then My.TSK = Kill.YOU", "?YOU Kill.CWK^m; CWK^m.TSK = Make PRA.SAF"
+// Translations: ---See IMPERIALCITY_CWKM_MOVECRATE_ATTACK_TEXT---
+
+
+var IMPERIALCITY_CWKM_SNOOPS_BINOCS_INACTIVE_TEXT = "CWK^m.TSK = RCN.SYN(HQS)", "CWK^m.TSK = RCN.SYN.TRF"
+// Translations: "Rogue clockwork task is to recon Syndicate headquarters.", "Rogue clockwork task is to recon Syndicate traffic."
+
+
+var IMPERIALCITY_CWKM_SNOOPS_BINOCS_ACTIVE_TEXT = "If YOU = Stop.CWK^m; Then My.TSK = Kill.YOU", "?YOU Kill.CWK^m; CWK^m.TSK = Make PRA.SAF"
+// Translations: ---See IMPERIALCITY_CWKM_MOVECRATE_ATTACK_TEXT---
+
+
+
+
+// Old Text: "<em>'Join the Resistance, make Praetoria better.'<em>Yeah, I'm making Praetoria better rotting in the wilderness.", "<em>Look, you've all been brainwashed... errr... programmed by the badguys. <em>Marcus Cole is playing ya for saps!", "<em>You'd think that logical machines like you would understand who the real threat to Praetoria is. <em>Marcus Cole is a menace!", "<em>If I hadn't have run out of ammo, you'd all be piles of bolts.", "<em>How am I going to get out of this?", "Looks like I'll have to find another way into the bunker.", "Viva la resistance!"
+
+
+var TUTORIAL_POWERED_FIGHTINGCAPTUREBYCLOCKWORK_ESCAPING_TEXT = "P2795395984", "P2752719235", "P3159083988", "P1524890550", "P1505231572", "P2215685242", "P1712500620", "P2301760425", "P3584274326", "P997688277"
+
+
+var TUTORIAL_POWERED_FIGHTINGCAPTUREBYCLOCKWORK_ALERT_TEXT = "P2160244808", "P3819787572", "P1837789073", "P2432963967", "P3161661747", "P2420263200", "P2216171547", "P885092138", "P1101645444", "P3178848981", "P1519916410"
+
+
+var IMPERIALCITY_CITIZEN_INTERROGATED_BY_SEERS_TEXT = "P1737632958", "P1550482876", "P1143071146", "P3255428551", "P3142672694", "P3379640596", "P154134068", "P910893897", "P425035368", "P1859878398", "P235047012", "P1775227291", "P2580735117"
+
+
+var IMPERIALCITY_SEERS_POST_ALERTED_TEXT = "P470904695", "P3018480704", "P2934225766", "P2310938029"
+
+
+var IMPERIALCITY_ALLHOODS_SEERS_POST_PPD_SITUATION_NORMAL_TEXT = "P1558357320", "P1377248733", "P4236382394"
+
+
+
+
+// Z NEUTROPOLIS_SOLOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT--- 
+
+
+// Z NEUTROPOLIS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_GRPGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_INACTIVE_TEXT = "EMP.MCL != PRA.SAF", "If TSK == FIX.PRA Then EMP.MCL = !ALV", "If !PPL.ALV Then !TRF; If !TRF Then CWK.TSK != CLN(PRA)", "CWK == !FIX; CWK.TSK = FIX(CWK)", "If CWK == !FIX Then CWK.FIX(CWK) == !FIX.CWK", "!!CWK.FIX; CWK == SAF; !!CWK.ALV", "!EMP.MCL.SRV(PRA); EMP.MCL.SRV(EMP.MCL)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_INACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DIGGING_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_MOVECRATE_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_REPAIR_INACTIVE_TEXT = "CWK.TSK = FIX(OBJ)", "FIX(ALL.OBJ) == CWK.TSK(OPT)", "If OBJ != FIX Then CWK.TSK = FIX(OBJ)", "While OBJ.!FIX; CWK.FIX(OBJ)"
+// Translations: ---See NEUTROPOLIS_REPAIR_INACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_REPAIR_ACTIVE_TEXT = "CWK.TSK = !FIX(CWK.TGT)"
+// Translations: ---See NEUTROPOLIS_REPAIR_ACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_WELDING_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_ANTIMATTER_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DIGGING_ANTIMATTER_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_ANTIMATTER_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_MOVECRATE_ANTIMATTER_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)"
+// Translations: "If Resistance are dead, then Praetoria is safe.", "Praetoria is clean. Why do the clockwork still clean Praetoria?", "Traffic of people multiplied by thier feet minus the clockwork cleaning Praetoria equals a clean Praetoria.", "While Praetoria isn't clean, the clockwork will clean Praetoria."
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_ACTIVE_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_SOLOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_GRPGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_WELDING_ANTIMATTER_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_NEURON_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DIGGING_NEURON_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_NEURON_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_MOVECRATE_NEURON_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_NEURON_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)"
+// Translations: ---See NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_INACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_NEURON_ACTIVE_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_SOLOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_GRPGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_WELDING_NEURON_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var TUTORIAL_CLOCKWORK_POWEREDCAPTUREDREPORT_COMPLETED_TEXT = "CWK > TSK(DEF(RGE.PWR))", "P4223761684", "RGE.PWR == RES; CWK.TSK == FIN; CWK.TSK = RCN(PPK)"
+// Translations: "Clockwork have overcome the task of defeating rogue powered individual.", "Task complete. Praetoria is safe", "Rogue powered individual is a resistance member. Clockwork task is finished. Resuming recon of Peoples' Park."
+
+
+var TUTORIAL_CLOCKWORK_PATROLLING_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3157520325", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "P1549916616"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+var TUTORIAL_CLOCKWORK_PATROLLING_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var TUTORIAL_CLOCKWORK_CIVILIANSCAPTUREDREPORT_INACTIVE_TEXT = "P4223761684", "CIT == RES; CWK.CPT(CIT) == FIN; CWK.TSK = RCN(PPK)"
+// Translations: "Task complete. Praetoria is safe", "Citizen is a resistance member. Clockwork captured the citizen. Resuming recon of Peoples' Park."
+
+
+// Z NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_INACTIVE_TEXT = "EMP.MCL != PRA.SAF", "If TSK == FIX.PRA Then EMP.MCL = !ALV", "If !PPL.ALV Then !TRF; If !TRF Then CWK.TSK != CLN(PRA)", "CWK == !FIX; CWK.TSK = FIX(CWK)", "If CWK == !FIX Then CWK.FIX(CWK) == !FIX.CWK", "!!CWK.FIX; CWK == SAF; !!CWK.ALV", "!EMP.MCL.SRV(PRA); EMP.MCL.SRV(EMP.MCL)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_INACTIVE_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_DUOGUARD_ALLY_PROPAGANDA_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3157520325", "P1289039197", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "P1549916616"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_PATROL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_REINFORCEMENTS_ATTACKMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_REMOVEGRAFFITI_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SWEEP_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SOLO_ALLY_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SOLO_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_SWEEP_ALLY_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var NOVAPRAETORIA_ALLHOODS_PATROL_ALLY_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_INACTIVE_TEXT = "CWK.TGT == !FIX; FIX(CWK.TGT)", "Stop CWK.TGT Then PRA = SAF"
+// Translations: ---See NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_INACTIVE_TEXT---
+// Translations: "Clockwork target is broken. Fix clockwork's target.", "Stop clockwork's target. Make Praetoria safe."
+
+
+// Z NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_CLEARAREA_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVA_ALLHOODS_BATTLECLOCKWORK_RESISTANCE_FLEE_TEXT = "rES.cWk.TSk = rTn(NT1/ /) // reTUrN & REpo|2+"
+// Translations: ---See NOVA_ALLHOODS_BATTLECLOCKWORK_RESISTANCE_FLEE_TEXT---
+
+
+// Z MAGISTERIUM_DUOGUARD_RESISTANCEPROPAGANDA_INACTIVE_TEXT = "iF sWr.CLn = ?True; sWr != sWr // miSmaTCh err0$$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z MAGISTERIUM_DUOGUARD_RESISTANCE_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NOVA_ALLHOODS_PATROL_RESISTANCE_SCOUTING_INACTIVE_TEXT = "RcN(mgS); rtN(nTl); srV(reS) == sRv(P|Zz4]}) // inTEl & s31zV#,$"
+// Translations: ---See NOVA_ALLHOODS_PATROL_RESISTANCE_SCOUTING_INACTIVE_TEXT---
+
+
+// Z NOVA_ALLHOODS_PATROL_RESISTANCE_SCOUTING_ALERT_TEXT = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BENIGN_TARGET_INACTIVE_TEXT = "cWK.sEE[ReS]; iF ReS.ASt(prA) tHEn PrA = sa7-_ // poSiTiV3 ASs3rT|04"
+// Translations: ---See NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BENIGN_TARGET_INACTIVE_TEXT---
+
+
+// Z NOVA_ALLHOODS_REINFORCEMENTS_BENIGN_RESISTANCE_TARGET_CALLFORHELP_TEXT = "REs.cwK != saF; cwK.REq = BkP.cw]< // baCKup reQU3-/-|-"
+// Translations: ---See NOVA_ALLHOODS_REINFORCEMENTS_BENIGN_RESISTANCE_TARGET_CALLFORHELP_TEXT---
+
+
+// Z NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BACKUP_ALERTED_TEXT = "ArV[bKp]; bKP.CWk == rDy; (AsT[rES.CWk]})> // aRRiVeD & assISS/!~"
+// Translations: ---See NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BACKUP_ALERTED_TEXT---
+
+
+// Z MAGISTERIUM_SOLO_RESISTANCE_ATTACKED_ALERTED_TEXT = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKL_CHECKPOINT_BINOCULARS_ATTACK_TEXT_ = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKL_CHECKPOINT_OBSERVER_ATTACK_TEXT_ = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKL_DIGGING_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKL_DUOGUARD_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKL_JACKHAMMER_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKL_MOVECRATE_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKL_WELDING_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKR_DUOGUARD_ATTACK_TEXT = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKR_MOVECRATE_ATTACK_TEXT = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_ALLY_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_PATROL_ALLY_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_PATROL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_REMOVEGRAFFITI_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SWEEP_ALLY_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SWEEP_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z IMPERIALCITY_CWKL_SWEEP_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_SOLOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_GRPGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_NEURON_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_SOLOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_GRPGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_ANTIMATTER_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_SOLOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NEUTROPOLIS_GRPGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z UNDERGROUND_PATROL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z UNDERGROUND_DUOGUARD_INACTIVE_TEXT = "Switch CWK.SEE(); Case RES: ATK(); Case CIT.PRA: DEF(); Case OBJ.!FIX: FIX()"
+// Translations: ---See UNDERGROUND_PATROL_HUNTNKILL_INACTIVE_TEXT---
+
+
+// Z UNDERGROUND_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z UNDERGROUND_WELDING_INACTIVE_TEXT = "Switch CWK.SEE(); Case RES: ATK(); Case CIT.PRA: DEF(); Case OBJ.!FIX: FIX()"
+// Translations: ---See UNDERGROUND_PATROL_HUNTNKILL_INACTIVE_TEXT---
+
+
+// Z UNDERGROUND_WELDING_ACTIVE_TEXT = "PRA = SAF", "CWK.SEE[!FIX(CWK)]"
+// Translations: ---See NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_CLEARAREA_ATTACK_TEXT---
+
+
+// Z UNDERGROUND_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z UNDERGROUND_DIGGING_ATTACKED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z UNDERGROUND_CLOCKWORK_CHATTY_GROUP_TEXT = "If RES != ALV Then PRA = SAF", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "MGS.SAF && MGS.CLN == True", "If EMP.MCL.ALV == True Then PRA = SAF", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.MGS == True; ?CWK.TSK = RCN(MGS)", "EMP.MCL > ALL.PRA"
+// Translations: ---See MAGISTERIUM_DUOGUARD_PROPAGANDA_INACTIVE_TEXT---
+
+
+// Z UNDERGROUND_CLOCKWORK_CHASING_TARGET_INACTIVE_TEXT = "Stop RES; ATK(RES); DEF(PRA)", "Stop Run(RES); CWK.TSK = CWK.ATK(RES)"
+// Translations: ---See UNDERGROUND_CLOCKWORK_CHASING_TARGET_INACTIVE_TEXT---
+
+
+// Z UNDERGROUND_CLOCKWORK_CHASING_TARGET_ACTIVE_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "!ATK.CWK", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_WELDING_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_OBSERVEWELDING_INACTIVE_TEXT = "CWK.TSK = FIX(OBJ)", "FIX(ALL.OBJ) == CWK.TSK(OPT)", "If OBJ != FIX Then CWK.TSK = FIX(OBJ)", "While OBJ.!FIX; CWK.FIX(OBJ)"
+// Translations: ---See NEUTROPOLIS_REPAIR_INACTIVE_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_OBSERVEWELDING_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_INACTIVE = "CWK.TSK = FIX(OBJ)", "FIX(ALL.OBJ) == CWK.TSK(OPT)", "If OBJ != FIX Then CWK.TSK = FIX(OBJ)", "While OBJ.!FIX; CWK.FIX(OBJ)"
+// Translations: ---See NEUTROPOLIS_REPAIR_INACTIVE_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_ALERTED = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_BATTLE_RESISTANCE_INACTIVE = "reS.CwK != !fiX; REs.cwK.FIx(prA) // posITIve evaNG3/_%$^^"
+// Translations: ---See NOVA_ALLHOODS_BATTLECLOCKWORK_RESISTANCE_INACTIVE_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_BATTLE_RESISTANCE_ALERTED = "!RES; !saf; atK.!R#% // repeL outSi#%^", "cwK.TsK.atK = RES.Def // deFENd reS&!$^"
+// Translations: ---See MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_BATTLE_LOYALIST_INACTIVE = "CWK.TGT == !FIX; FIX(CWK.TGT)", "P3255305138"
+// Translations: ---See NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_INACTIVE_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_BATTLE_LOYALIST_ALERTED = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: ---See MAGISTERIUM_BERZERK_MALFUNCTIONING_ALERT_TEXT---
+
+
+var UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_RESCWK_INACTIVE = "DIA(RES.CWK) == CMP; CWK.TSK.RPG(RES.CWK)", "EFF.TAR(RES.CWK) < EFF.REQ(PRA.CWK); SDN(RES.CWK) && RPG(RES.CWK) && RPR(RES.CWK)", "?RES.CWK.ATK(CWK); If !RES.CWK.ATK.CWK Then !CWK.RPR.RES.CWK", "DIA(RES.CWK) == CMP; RPR(RES.CWK) == CMP; RPG(RES.CWK) == CMP; RES.CWK = PRA.CWK; CWK.TSK.INT(PRA.CWK)"
+// Translations: "Diagnostics on Resistance Clockwork are complete. Clockwork's task is to reprogram the Resistance Clockwork.", "The efficiency of the target Resistance Clockwork is less than that required of Praetoria's Clockwork. Shutdown the Resistance Clockwork, reprogram the Resistance Clockwork and repair the Resistance Clockwork.", "Why do Resistance Clockwork attack Clockwork? If Resistance Clockwork did not attack Clockwork, then Clockwork would not need to repair Resistance Clockwork.", "Diagnostics on the Resistance Clockwork are complete. Repairs on the Resistance Clockwork are complete. Reprogramming of the Resistance Clockwork is complete. Resistance Clockwork is now Praetoria's Clockwork. Clockwork task is to initialize the Praetoria's Clockwork."
+
+var UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_RESCWK_ALERTED = "TAR(RES.CWK) != SDN; CWK.TSK.ATK(RES.CWK)", "If TAR(RES.CWK) != SDN Then CWK.TSK.ATK(RES.CWK) > CWK.TSK.RPR(RES.CWK); CWK.INT(CMB)", "If RES.STL(RES.CWK) Then RES.RPR(RES.CWK) && !RES.RPG(RES.CWK); !RES.STL(RES.CWK)"
+// Translations: "The target Resistance Clockwork is not shutdown. Clockwork's task is to attack the Resistance Clockwork.", "If target Resistance Clockwork is not shutdown then the clockwork task to attack the Resistance Clockwork is more important than the task to repair the Resistance Clockwork.", "If the Resistance steals the Resistance Clockwork, then the Resistance will repair the Resistance Clockwork but not reprogram the Resistance Clockwork. The Resistance will not steal the Resistance Clockwork."
+
+// Z UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_INACTIVE = "DIA(PRA.CWK) == CMP; CWK.TSK.RPR(PRA.CWK)", "EFF.TAR(PRA.CWK) < EFF.REQ(PRA.CWK); SDN(PRA.CWK) && RPR(PRA.CWK)", "?RES.ATK.CWK; If !RES.ATK(CWK) Then !CWK.RPR(PRA.CWK)", "DIA(PRA.CWK) == CMP; RPR(PRA.CWK) == CMP; CWK.TSK.INT(PRA.CWK)"
+// Translations: "Diagnostics on Praetoria's Clockwork are complete. Clockwork's task is to repair the Praetoria's Clockwork.", "The efficiency of the target Praetoria's Clockwork is less than the efficiency required of Praetoria's Clockwork. Shutdown the Praetoria's Clockwork and repair it.", "Why do Neuron's attack clockwork? If Neuron's did not attack clockwork, then clockwork do not need to repair Praetoria's Clockwork." "Diagnostics on Praetoria's Clockwork are complete. Repairs on Praetoria's Clockwork are complete. Clockwork's task is to initialize the Antimatter Clockwork."
+
+// Z UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_ALERTED = "TAR(PRA.CWK) == SDN; CWK.TSK.DEF(PRA.CWK)", "CWK.TSK.DEF(PRA.CWK) > CWK.TSK.RPR(PRA.CWK); CWK.INT(CMB)", "If RES.STL(PRA.CWK) Then RES.RPG(PRA.CWK); !RES.STL(PRA.CWK)"
+// Translations: "The target Praetoria's Clockwork is shutdown. Clockwork's task is to defend Praetoria's Clockwork.", "The clockwork task to defend Praetoria's Clockwork is more important than the task to repair Praetoria's Clockwork. Clockwork initializing combat.", "If the Resistance steals Praetoria's Clockwork, then the Resistance will reprogram Praetoria's Clockwork. The Resistance will not steal Praetoria's Clockwork."
+
+// Z UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(PRA); If RES.ATK(PRA) Then CWK.ATK(RES)", "CWK.TSK = DEF(PRA)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: "Clockwork serves Praetoria. If Resistance attacks Praetoria, then Clockwork attacks Resistance.", "Clockwork's task is to defend Praetoria.", "If Clockwork sees Resistance perform reconaissance, then Clockwork attacks Resistance.", "If Resistance attacks Clockwork, then Clockwork attacks Resistance.", "If the clockwork's location is the Underground, then the Clockwork's enemies are the Resistance, the Syndicate, the Ghouls and the Destroyers and the clockwork's allies are the PPD. If the clockwork sees an enemy, the clockwork will attack the enemy."
+
+// Z UNDERGROUND_PATROL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(PRA); If RES.ATK(PRA) Then CWK.ATK(RES)", "CWK.TSK = DEF(PRA)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+// Z UNDERGROUND_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(PRA); If RES.ATK(PRA) Then CWK.ATK(RES)", "CWK.TSK = DEF(PRA)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+// Z UNDERGROUND_WELDING_ALERTED_TEXT = "?RES.TSK == BRK(OBJ)", "CWK.TSK.FIX(OBJ); ?ENT.ATK(CWK)", "SSP.CWK.TSK.FIX(OBJ); INI.CWK.TSK.CMB(ENT)", "If CWK.TAR != ALV Then CWK.TSK.FIX(UGR)"
+// Translations: "Why is the Resistance task to break objects?", "The clockwork's task is to fix the object. Why is the entity attacking the clockwork?", "Suspending the clockwork's task to fix the object. Initiating the clockwork's task to combat the entity.", "If the clockwork's target is dead, then the clockwork's task is to fix the Underground."
+
+var UNDERGROUND_CWK_LOYALIST_OBSERVEWELDING_INACTIVE_TEXT = "While CWK.FIX(OBJ); CWK.TSK = DIA(OBJ)", "CWK.SRH.OBJ.REC; PRA.REC.OBJ.STT == BKN; CWK.TSK = FIX(OBJ)", "While OBJ.STT == BKN; CWK.TSK.FIX(OBJ) > CWK.TSK.CLN(UGR)", "EFF.(PRA.CWK) > EFF(PRA.BER.CWK); PRA.CWK > PRA.BER.CWK"
+// Translations: "While clockwork fix this object, the clockwork's task equals diagnostics on the object.", "The clockwork is searching this object's records. Praetorian records for this object's state equal broken. The clockwork task is fixing this object.", "While the object's state equals broken, the clockwork's task to fix objects is more important that the clockwork's task to clean the Underground.", "The efficiency of Praetorian clockwork is greater than the efficiency of Neuron's clockwork. Praetoria's clockwork are greater than Neuron's clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_OBSERVEWELDING_ALERTED_TEXT = "If RES.ATK(CWK), CWK.TSK.ATK(RES) > CWK.TSK.FIX(OBJ)", "CWK.ALT; RES.TSK.BRK(OBJ); CWK.TSK.DEF(OBJ)"
+// Translations; "If Resistance attack clockwork, then the clockwork task to attack Resistance is more important that the clockwork task to fix the object.", "Clockwork alert. The Resistance task is to break the object. The clockwork task is to defend the object."
+
+// Z UNDERGROUND_WELDING_ACTIVE_TEXT = "CWK.FIX(OBJ); If CWK.STP(TSK) Then !OBJ(FIX)", "While !FIX(OBJ); CWK.TSK = FIX(OBJ)", "If ENM.ATK(CWK), Then CWK.TSK.DEF(CWK) > CWK.TSK.FIX(OBJ)"
+// Translations: "Clockwork is fixing an object. If Clockwork stops task, then the object is not fixed.", "While the object is not fixed, the Clockwork task is fixing the object.", "If an enemy attacks Clockwork, then the Clockwork's task to defend Clockwork is more important than the Clockwork's task to fix objects."
+
+// Z UNDERGROUND_DIGGING_ATTACKED_TEXT = "CWK.TSK.DIG = SSP; CWK.ATK.(ENM)", "SET.CWK(TAR) = ENM.ATK(CWK)", "SRH.ALG.CMB; SRH.ALG.CMP; RUN.ATK.PRT", "CWK.TSK.DIG != CMP; CWK.ATK.ENM"
+// Translations: "The Clockwork's task to dig is suspended. Clockwork attacks Enemy.", "Setting Clockwork's target to the Enemy attacking Clockwork.", "Searching algorithms for combat; Searching algorithms complete. Running attack protocols.", "The clockwork task to dig is not complete. The clockwork attacks the enemy."
+
+var UNDERGROUND_CWK_LOYALIST_CHATTY_GROUP_TEXT = "P3108364508", "UGR != BKN; ?CWK.TSK == FIX(UGR)", "P1920718882", "P2370072761", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "While UGR != BKN; CWK.TSK = FIX(UGR)"
+// Translations: "If Resistance are dead, then the Underground is safe.", "The Underground is not broken. Why do the clockwork still fix the Underground?", "The Underground is safe and is 100% efficient", "If Praetoria is safe, then Praetoria's clockwork are safe.", "If the clockwork serve Antimatter and Antimatter serves Emperor Marcus Cole, then the clockwork serve Emperor Marcus Cole.", "While the Underground is broken, the clockwork will fix the Underground."
+
+var UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_RESISTANCE_INACTIVE = "?RES.CWK.ATK(PRA.CWK); EFF.PRA.CWK > EFF.RES.CWK; PRA.CWK > RES.CWK", "PRB.VCT(PRA.CWK) = 94.PCT", "PRA.CWK.TSK = ATK(RES.CWK); If CWK.TSK(ATK) == CMP Then PRA.CWK.RPR(RES.CWK)", "P4063264777", "PRA.CWK.DEF(UGR); !RES.CWK.BRK(UGR)" 
+//Translations: "Why do the Resistance clockwork attack Praetoria's Clockwork? The efficency of Praetoria's Clockwork is better than the efficiency of the Resistance Clockwork. Praetoria's Clockwork are better than Resistance clockwork.", "The probability of victory for Praetoria's Clockwork is 94%.", "Praetoria's Clockwork task is to attack Resistance clockwork. If Praetoria Clockwork's attack task is complete, then Praetoria's Clockwork will repair the Resistance Clockwork.", "Resistance Clockwork is not equal to Praetoria's Clockwork." "Praetoria's Clockwork task is to defend the Underground. The Resistance Clockwork will not break the Underground."
+
+var UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_RESISTANCE_ALERTED = "CWK.SEE(ENM); CWK.ATK.ENM; PRB.VCT(PRA.CWK) = 78.PCT", "If CWK.TAR == ALV Then CWK.TSK = ATK(TAR)", "If CWK.TAR == RES.CWK Then CWK.TSK = SRH.TAR(ALV); If TAR(ALV) == 0.NUM Then CWK.TSK = ATK(RES.CWK)"
+// Translations: "Clockwork sees an enemy. Clockwork attacks enemy. The probability of victory for Praetoria's Clockwork is 78%.", "If the Clockwork's target is alive, then the clockwork's task is to attack the target.", "If the clockwork's target is Resistance clockwork, then the clockwork's task is to search for a target that is alive. If the number of living targets is 0, then the clockwork's task is to attack Resistance clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_ANTIMATTER_INACTIVE = "?ATM.CWK.ATK(PRA.CWK); EFF.PRA.CWK > EFF.ATM.CWK; PRA.CWK > ATM.CWK", "PRB.VCT(PRA.CWK) = 94.PCT", "PRA.CWK.TSK = ATK(ATM.CWK); If CWK.TSK(ATK) == CMP Then PRA.CWK.RPR(ATM.CWK)", "P1615305592", "PRA.CWK.DEF(UGR); !ATM.CWK.BRK(UGR)" 
+//Translations: "Why do the Antimatter's clockwork attack Praetoria's Clockwork? The efficency of Praetoria's Clockwork is better than the efficiency of the Antimatter's Clockwork. Praetoria's Clockwork are better than Antimatter's clockwork.", "The probability of victory for Praetoria's Clockwork is 94%.", "Praetoria's Clockwork task is to attack Antimatter's clockwork. If Praetoria Clockwork's attack task is complete, then Praetoria's Clockwork will repair the Antimatter's Clockwork.", "Antimatter's Clockwork is not equal to Praetoria's Clockwork." "Praetoria's Clockwork task is to defend the Underground. The Antimatter's Clockwork will not break the Underground."
+
+var UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_ANTIMATTER_ALERTED = "CWK.SEE(ENM); CWK.ATK.ENM; PRB.VCT(PRA.CWK) = 78.PCT", "If CWK.TAR == ALV Then CWK.TSK = ATK(TAR)", "If CWK.TAR == ATM.CWK Then CWK.TSK = SRH.TAR(ALV); If TAR(ALV) == 0.NUM Then CWK.TSK = ATK(ATM.CWK)"
+// Translations: "Clockwork sees an enemy. Clockwork attacks enemy. The probability of victory for Praetoria's Clockwork is 78%.", "If the Clockwork's target is alive, then the clockwork's task is to attack the target.", "If the clockwork's target is Antimatter's clockwork, then the clockwork's task is to search for a target that is alive. If the number of living targets is 0, then the clockwork's task is to attack Antimatter's clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_METRONOME_INACTIVE = "?MET.CWK.ATK(PRA.CWK); EFF.PRA.CWK > EFF.MET.CWK; PRA.CWK > MET.CWK", "PRB.VCT(PRA.CWK) = 94.PCT", "PRA.CWK.TSK = ATK(MET.CWK); If CWK.TSK(ATK) == CMP Then PRA.CWK.RPR(MET.CWK)", "P3608510476", "PRA.CWK.DEF(UGR); !MET.CWK.BRK(UGR)" 
+//Translations: "Why do the Metronome's clockwork attack Praetoria's Clockwork? The efficency of Praetoria's Clockwork is better than the efficiency of the Metronome's Clockwork. Praetoria's Clockwork are better than Metronome's clockwork.", "The probability of victory for Praetoria's Clockwork is 94%.", "Praetoria's Clockwork task is to attack Metronome's clockwork. If Praetoria Clockwork's attack task is complete, then Praetoria's Clockwork will repair the Metronome's Clockwork.", "Metronome's Clockwork is not equal to Praetoria's Clockwork." "Praetoria's Clockwork task is to defend the Underground. The Metronome's Clockwork will not break the Underground."
+
+var UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_METRONOME_ALERTED = "CWK.SEE(ENM); CWK.ATK.ENM; PRB.VCT(PRA.CWK) = 78.PCT", "If CWK.TAR == ALV Then CWK.TSK = ATK(TAR)", "If CWK.TAR == MET.CWK Then CWK.TSK = SRH.TAR(ALV); If TAR(ALV) == 0.NUM Then CWK.TSK = ATK(MET.CWK)"
+// Translations: "Clockwork sees an enemy. Clockwork attacks enemy. The probability of victory for Praetoria's Clockwork is 78%.", "If the Clockwork's target is alive, then the clockwork's task is to attack the target.", "If the clockwork's target is Metronome's clockwork, then the clockwork's task is to search for a target that is alive. If the number of living targets is 0, then the clockwork's task is to attack Metronome's clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_BATTLE_METRONOME_INACTIVE = "?MET.CWK.ATK(PRA.CWK); EFF.PRA.CWK > EFF.MET.CWK; PRA.CWK > MET.CWK", "PRB.VCT(PRA.CWK) = 94.PCT", "PRA.CWK.TSK = ATK(MET.CWK); If CWK.TSK(ATK) == CMP Then PRA.CWK.RPR(MET.CWK)", "P3608510476", "PRA.CWK.DEF(UGR); !MET.CWK.BRK(UGR)" 
+//Translations: "Why do the Metronome's clockwork attack Praetoria's Clockwork? The efficency of Praetoria's Clockwork is better than the efficiency of the Metronome's Clockwork. Praetoria's Clockwork are better than Metronome's clockwork.", "The probability of victory for Praetoria's Clockwork is 94%.", "Praetoria's Clockwork task is to attack Metronome's clockwork. If Praetoria Clockwork's attack task is complete, then Praetoria's Clockwork will repair the Metronome's Clockwork.", "Metronome's Clockwork is not equal to Praetoria's Clockwork." "Praetoria's Clockwork task is to defend the Underground. The Metronome's Clockwork will not break the Underground."
+
+var UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_NEURON_ALERTED = "CWK.SEE(ENM); CWK.ATK.ENM; PRB.VCT(PRA.CWK) = 78.PCT", "If CWK.TAR == ALV Then CWK.TSK = ATK(TAR)", "If CWK.TAR == PRA.BER.CWK Then CWK.TSK = SRH.TAR(ALV); If TAR(ALV) == 0.NUM Then CWK.TSK = ATK(PRA.BER.CWK)"
+// Translations: "Clockwork sees an enemy. Clockwork attacks enemy. The probability of victory for Praetoria's Clockwork is 78%.", "If the Clockwork's target is alive, then the clockwork's task is to attack the target.", "If the clockwork's target is Neuron's clockwork, then the clockwork's task is to search for a target that is alive. If the number of living targets is 0, then the clockwork's task is to attack Neuron's clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_NEURON_INACTIVE = "?PRA.BER.CWK.ATK(PRA.CWK); EFF.PRA.CWK > EFF.PRA.BER.CWK; PRA.CWK > PRA.BER.CWK", "PRB.VCT(PRA.CWK) = 94.PCT", "PRA.CWK.TSK = ATK(PRA.BER.CWK); If CWK.TSK(ATK) == CMP Then PRA.CWK.RPR(PRA.BER.CWK)", "P1742208793", "PRA.CWK.DEF(UGR); !PRA.BER.CWK.BRK(UGR)" 
+//Translations: "Why do the Neuron's clockwork attack Praetoria's Clockwork? The efficency of Praetoria's Clockwork is better than the efficiency of the Neuron's Clockwork. Praetoria's Clockwork are better than Neuron's clockwork.", "The probability of victory for Praetoria's Clockwork is 94%.", "Praetoria's Clockwork task is to attack Neuron's clockwork. If Praetoria Clockwork's attack task is complete, then Praetoria's Clockwork will repair the Neuron's Clockwork.", "Neuron's Clockwork is not equal to Praetoria's Clockwork." "Praetoria's Clockwork task is to defend the Underground. The Neuron's Clockwork will not break the Underground."
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_LOYALIST_INACTIVE = "DIA(PRA.CWK) == CMP; CWK.TSK.RPR(PRA.CWK)", "EFF.TAR(PRA.CWK) < EFF.REQ(PRA.CWK); SDN(PRA.CWK) && RPR(PRA.CWK)", "?RES.ATK.CWK; If !RES.ATK(CWK) Then !CWK.RPR(PRA.CWK)", "DIA(PRA.CWK) == CMP; RPR(PRA.CWK) == CMP; CWK.TSK.INT(PRA.CWK)"
+// Translations: ---See UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_INACTIVE---
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_LOYALIST_ALERTED = "TAR(PRA.CWK) == SDN; CWK.TSK.DEF(PRA.CWK)", "CWK.TSK.DEF(PRA.CWK) > CWK.TSK.RPR(PRA.CWK); CWK.INT(CMB)", "If RES.STL(PRA.CWK) Then RES.RPG(PRA.CWK); !RES.STL(PRA.CWK)"
+// Translations: ---See UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_ALERTED---
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_INACTIVE = "DIA(RES.CWK) == CMP; CWK.TSK.RPG(RES.CWK)", "EFF.TAR(RES.CWK) < EFF.REQ(PRA.CWK); SDN(RES.CWK) && RPG(RES.CWK) && RPR(RES.CWK)", "?RES.CWK.ATK(CWK); If !RES.CWK.ATK.CWK Then !CWK.RPR.RES.CWK", "DIA(RES.CWK) == CMP; RPR(RES.CWK) == CMP; RPG(RES.CWK) == CMP; RES.CWK = PRA.CWK; CWK.TSK.INT(PRA.CWK)"
+// Translations: ---See UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_RESCWK_INACTIVE---
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_ALERTED = "TAR(RES.CWK) != SDN; CWK.TSK.ATK(RES.CWK)", "If TAR(RES.CWK) != SDN Then CWK.TSK.ATK(RES.CWK) > CWK.TSK.RPR(RES.CWK); CWK.INT(CMB)", "If RES.STL(RES.CWK) Then RES.RPR(RES.CWK) && !RES.RPG(RES.CWK); !RES.STL(RES.CWK)"
+// Translations: ---See UNDERGROUND_CLOCKWORK_DIAGNOSTICS_DIAGNOSE_RESCWK_ALERTED---
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_ANTIMATTER_INACTIVE = "DIA(ATM.CWK) == CMP; CWK.TSK.RPG(ATM.CWK)", "EFF.TAR(ATM.CWK) < EFF.REQ(PRA.CWK); SDN(ATM.CWK) && RPG(ATM.CWK) && RPR(ATM.CWK)", "?ATM.CWK.ATK(CWK); If !ATM.CWK.ATK.CWK Then !CWK.RPR.ATM.CWK", "DIA(ATM.CWK) == CMP; RPR(ATM.CWK) == CMP; RPG(ATM.CWK) == CMP; ATM.CWK = PRA.CWK; CWK.TSK.INT(PRA.CWK)"
+// Translations: "Diagnostics on Antimatter's Clockwork are complete. Clockwork's task is to reprogram the Antimatter's Clockwork.", "The efficiency of the target Antimatter's Clockwork is less than that required of Praetoria's Clockwork. Shutdown the Antimatter's Clockwork, reprogram the Antimatter's Clockwork and repair the Antimatter's Clockwork.", "Why do Antimatter's Clockwork attack Clockwork? If Antimatter's Clockwork did not attack Clockwork, then Clockwork would not need to repair Antimatter's Clockwork.", "Diagnostics on the Antimatter's Clockwork are complete. Repairs on the Antimatter's Clockwork are complete. Reprogramming of the Antimatter's Clockwork is complete. Antimatter's Clockwork is now Praetoria's Clockwork. Clockwork task is to initialize the Praetoria's Clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_ANTIMATTER_ALERTED = "TAR(ATM.CWK) != SDN; CWK.TSK.ATK(ATM.CWK)", "If TAR(ATM.CWK) != SDN Then CWK.TSK.ATK(ATM.CWK) > CWK.TSK.RPR(ATM.CWK); CWK.INT(CMB)", "If RES.STL(ATM.CWK) Then RES.RPR(ATM.CWK) && !RES.RPG(ATM.CWK); !RES.STL(ATM.CWK)"
+// Translations: "The target Antimatter's Clockwork is not shutdown. Clockwork's task is to attack the Antimatter's Clockwork.", "If target Antimatter's Clockwork is not shutdown then the clockwork task to attack the Antimatter's Clockwork is more important than the task to repair the Antimatter's Clockwork.", "If Antimatter Clockwork steals the Antimatter's Clockwork, then Antimatter Clockwork will repair the Antimatter's Clockwork but not reprogram the Antimatter's Clockwork. Antimatter Clockwork will not steal the Antimatter's Clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_METRONOME_INACTIVE = "DIA(MET.CWK) == CMP; CWK.TSK.RPG(MET.CWK)", "EFF.TAR(MET.CWK) < EFF.REQ(PRA.CWK); SDN(MET.CWK) && RPG(MET.CWK) && RPR(MET.CWK)", "?MET.CWK.ATK(CWK); If !MET.CWK.ATK.CWK Then !CWK.RPR.MET.CWK", "DIA(MET.CWK) == CMP; RPR(MET.CWK) == CMP; RPG(MET.CWK) == CMP; MET.CWK = PRA.CWK; CWK.TSK.INT(PRA.CWK)"
+// Translations: "Diagnostics on Metronome's Clockwork are complete. Clockwork's task is to reprogram the Metronome's Clockwork.", "The efficiency of the target Metronome's Clockwork is less than that required of Praetoria's Clockwork. Shutdown the Metronome's Clockwork, reprogram the Metronome's Clockwork and repair the Metronome's Clockwork.", "Why do Metronome's Clockwork attack Clockwork? If Metronome's Clockwork did not attack Clockwork, then Clockwork would not need to repair Metronome's Clockwork.", "Diagnostics on the Metronome's Clockwork are complete. Repairs on the Metronome's Clockwork are complete. Reprogramming of the Metronome's Clockwork is complete. Metronome's Clockwork is now Praetoria's Clockwork. Clockwork task is to initialize the Praetoria's Clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_METRONOME_ALERTED = "TAR(MET.CWK) != SDN; CWK.TSK.ATK(MET.CWK)", "If TAR(MET.CWK) != SDN Then CWK.TSK.ATK(MET.CWK) > CWK.TSK.RPR(MET.CWK); CWK.INT(CMB)", "If RES.STL(MET.CWK) Then RES.RPR(MET.CWK) && !RES.RPG(MET.CWK); !RES.STL(MET.CWK)"
+// Translations: "The target Metronome's Clockwork is not shutdown. Clockwork's task is to attack the Metronome's Clockwork.", "If target Metronome's Clockwork is not shutdown then the clockwork task to attack the Metronome's Clockwork is more important than the task to repair the Metronome's Clockwork.", "If Metronome Clockwork steals the Metronome's Clockwork, then Metronome Clockwork will repair the Metronome's Clockwork but not reprogram the Metronome's Clockwork. Metronome Clockwork will not steal the Metronome's Clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_NEURON_INACTIVE = "DIA(PRA.BER.CWK) == CMP; CWK.TSK.RPG(PRA.BER.CWK)", "EFF.TAR(PRA.BER.CWK) < EFF.REQ(PRA.CWK); SDN(PRA.BER.CWK) && RPG(PRA.BER.CWK) && RPR(PRA.BER.CWK)", "?PRA.BER.CWK.ATK(CWK); If !PRA.BER.CWK.ATK.CWK Then !CWK.RPR.PRA.BER.CWK", "DIA(PRA.BER.CWK) == CMP; RPR(PRA.BER.CWK) == CMP; RPG(PRA.BER.CWK) == CMP; PRA.BER.CWK = PRA.CWK; CWK.TSK.INT(PRA.CWK)"
+// Translations: "Diagnostics on Resistance Clockwork are complete. Clockwork's task is to reprogram the Resistance Clockwork.", "The efficiency of the target Neuron's Clockwork is less than that required of Praetoria's Clockwork. Shutdown the Neuron's Clockwork, reprogram the Neuron's Clockwork and repair the Neuron's Clockwork.", "Why do Neuron's Clockwork attack Clockwork? If Neuron's Clockwork did not attack Clockwork, then Clockwork would not need to repair Neuron's Clockwork.", "Diagnostics on the Neuron's Clockwork are complete. Repairs on the Neuron's Clockwork are complete. Reprogramming of the Neuron's Clockwork is complete. Neuron's Clockwork is now Praetoria's Clockwork. Clockwork task is to initialize the Praetoria's Clockwork."
+
+var UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_NEURON_ALERTED = "TAR(PRA.BER.CWK) != SDN; CWK.TSK.ATK(PRA.BER.CWK)", "If TAR(PRA.BER.CWK) != SDN Then CWK.TSK.ATK(PRA.BER.CWK) > CWK.TSK.RPR(PRA.BER.CWK); CWK.INT(CMB)", "If RES.STL(PRA.BER.CWK) Then RES.RPR(PRA.BER.CWK) && !RES.RPG(PRA.BER.CWK); !RES.STL(PRA.BER.CWK)"
+// Translations: "The target Neuron's Clockwork is not shutdown. Clockwork's task is to attack the Neuron's Clockwork.", "If target Neuron's Clockwork is not shutdown then the clockwork task to attack the Neuron's Clockwork is more important than the task to repair the Neuron's Clockwork.", "If Neuron's Clockwork steals the Neuron's Clockwork, then Neuron's Clockwork will repair the Neuron's Clockwork but not reprogram the Neuron's Clockwork. Neuron's Clockwork will not steal the Neuron's Clockwork."
+
+// Z TUTORIAL_CLOCKWORK_POWEREDCAPTUREDREPORT_COMPLETED_TEXT = "TODO: Add Text"
+
+
+// Z TUTORIAL_CLOCKWORK_PATROLLING_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z TUTORIAL_CLOCKWORK_PATROLLING_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z TUTORIAL_CLOCKWORK_CIVILIANSCAPTUREDREPORT_INACTIVE_TEXT = "TODO: Add Text"
+
+
+var UNDERGROUND_NT_SOLOPATROL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(PRA); If RES.ATK(PRA) Then CWK.ATK(RES)", "CWK.TSK = DEF(PRA)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+var UNDERGROUND_NT_PATROL_HUNTNKILL_INACTIVE_TEXT = "If CWK.SEE.RES.ALV Then CWK.ATK(RES)", "If RES == ALV Then CWK.ATK.(RES)", "If RES.ATK(CIT) Then CWK.DEF(CIT)", "CUR.TSK == RCN + SRH.RES; If SEE.RES.PPL Then CWK.ATK(RES); If SEE.RES.CWK Then CWK.SDN(RES.CWK)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD"
+//Translations: "If Clockwork sees a living Resistance fighter, then Clockwork attacks the Resistance fighter.", "If Resistance are alive, Clockwork attacks Resistance.", "If Resistance attacks citizens, then Clockwork defends citizens.", "The current task is to perform reconaissance and search for Resistance. If Clockwork sees Resistance people, then Clockwork attacks Resistance. If Clockwork sees Resistance Clockwork, then Clockwork shuts down Resistance Clockwork.", "If the clockwork's location is the Underground, then the Clockwork's enemies are the Resistance, the Syndicate, the Ghouls and the Destroyers and the clockwork's allies are the PPD."
+
+var UNDERGROUND_NT_PATROL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(PRA); If RES.ATK(PRA) Then CWK.ATK(RES)", "CWK.TSK = DEF(PRA)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+var UNDERGROUND_NT_DUOGUARD_INACTIVE_TEXT = "CWK.CUR.TSK == SRV(PRA) + DEF(UGR.FCL)", "If RES.ATK(CWK) Then CWK.ATK(RES); If RES.CWK.ATK(CWK) Then CWK.DSB(RES.CWK) + RPR(RES.CWK)", "P1232922256", "If TAR == PPD Then CWK.DEF(TAR) = True; If TAR != PPD Then CWK.DEF(TAR) != True"
+// Translations: "The Clockwork's current task is serving Antimatter and defending the Underground facility.", "If Resistance attacks the clockwork, then the clockwork attacks the Resistance. If Resistance clockwork attack the clockwork, then the clockwork disables Resistance clockwork and repairs Resistance clockwork.", "The Underground condition is not safe. If target is alive, then target is not safe.", "If clockwork's target is PPD, then the clockwork defending the target is true. If clockwork's target is not PPD, then the clockwork defending the target is not true."
+
+var UNDERGROUND_NT_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(PRA); If RES.ATK(PRA) Then CWK.ATK(RES)", "CWK.TSK = DEF(PRA)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+var UNDERGROUND_NT_WELDING_INACTIVE_TEXT = "P2842145138", "CWK.TSK = FIX(OBJ); EST.TIM(TSK) = 25.MIN", "If CWK.FIX(OBJ) Then CWK.SRV(PRA)", "CWK.ALT; CWK.FND.HCK(CUR.OBJ); CWK.PRR.TSK = FIX(OBJ)", "CWK.TSK == FIX(OBJ); If ALV Then AVD.PLM", "RMN.TIM(TSK) == 15.MIN; CWK.EFF == 92.PCT", "If CWK.TSK == FIX(OBJ) Then UGR != CMP"
+// Translations: "The clockwork is searching object's records. Praetorian records for fixing this object equals six. Why is the object broken?", "The clockwork's task is to fix this object. The estimated time for this task is 25 minutes.", "If the clockwork fixes this object, then the clockwork has served Antimatter.", "Clockwork alert. Clockwork has found a hack in the current object. Clockwork priority task is to fix the object.", "The clockwork task is fixing this object. If alive, then avoid the plasma." "Remaining time for this task is 15 minutes. Clockwork's efficiency is 92%.", "If the clockwork's task is to fix an object, then the Underground is not complete."
+
+var UNDERGROUND_NT_WELDING_ALERTED_TEXT = "?RES.TSK == BRK(OBJ)", "CWK.TSK.FIX(OBJ); ?ENT.ATK(CWK)", "SSP.CWK.TSK.FIX(OBJ); INI.CWK.TSK.CMB(ENT)", "If CWK.TAR != ALV Then CWK.TSK.FIX(UGR)"
+// Translations: ---See UNDERGROUND_WELDING_ALERTED_TEXT---
+
+var UNDERGROUND_NT_CWK_LOYALIST_OBSERVEWELDING_INACTIVE_TEXT = "While CWK.FIX(OBJ); CWK.TSK = DIA(OBJ)", "CWK.SRH.OBJ.REC; PRA.REC.OBJ.STT == BKN; CWK.TSK = FIX(OBJ)", "While OBJ.STT == BKN; CWK.TSK.FIX(OBJ) > CWK.TSK.CLN(UGR)", "EFF.(PRA.CWK) > EFF(PRA.BER.CWK); PRA.CWK > PRA.BER.CWK"
+// Translations: ---See UNDERGROUND_CWK_LOYALIST_OBSERVEWELDING_INACTIVE_TEXT---
+
+var UNDERGROUND_NT_CWK_LOYALIST_OBSERVEWELDING_ALERTED_TEXT = "If RES.ATK(CWK), CWK.TSK.ATK(RES) > CWK.TSK.FIX(OBJ)", "CWK.ALT; RES.TSK.BRK(OBJ); CWK.TSK.DEF(OBJ)"
+// Translations: ---See UNDERGROUND_CWK_LOYALIST_OBSERVEWELDING_ALERTED_TEXT---
+
+var UNDERGROUND_NT_WELDING_ACTIVE_TEXT = "CWK.FIX(OBJ); If CWK.STP(TSK) Then !OBJ(FIX)", "While !FIX(OBJ); CWK.TSK = FIX(OBJ)", "If ENM.ATK(CWK), Then CWK.TSK.DEF(CWK) > CWK.TSK.FIX(OBJ)"
+// Translations: ---See UNDERGROUND_WELDING_ACTIVE_TEXT---
+
+var UNDERGROUND_NT_DIGGING_ATTACKED_TEXT = "CWK.TSK.DIG = SSP; CWK.ATK.(ENM)", "SET.CWK(TAR) = ENM.ATK(CWK)", "P1289837610", "P765636916"
+// Translations: ---See UNDERGROUND_DIGGING_ATTACKED_TEXT---
+
+var UNDERGROUND_NT_CWK_LOYALIST_CHATTY_GROUP_TEXT = "P3108364508", "UGR != BKN; ?CWK.TSK == FIX(UGR)", "P1920718882", "P2370072761", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "While UGR != BKN; CWK.TSK = FIX(UGR)"
+// Translations: ---See UNDERGROUND_CWK_LOYALIST_CHATTY_GROUP_TEXT---
+
+var UNDERGROUND_NT_CWK_LOYALIST_BATTLE_CWK_RESISTANCE_INACTIVE = "?RES.CWK.ATK(PRA.CWK); EFF.PRA.CWK > EFF.RES.CWK; PRA.CWK > RES.CWK", "PRB.VCT(PRA.CWK) = 94.PCT", "PRA.CWK.TSK = ATK(RES.CWK); If CWK.TSK(ATK) == CMP Then PRA.CWK.RPR(RES.CWK)", "P4063264777", "PRA.CWK.DEF(UGR); !RES.CWK.BRK(UGR)" 
+// Translations: ---See UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_RESISTANCE_INACTIVE---
+
+var UNDERGROUND_NT_CWK_LOYALIST_BATTLE_CWK_RESISTANCE_ALERTED = "CWK.SEE(ENM); CWK.ATK.ENM; PRB.VCT(PRA.CWK) = 78.PCT", "If CWK.TAR == ALV Then CWK.TSK = ATK(TAR)", "If CWK.TAR == RES.CWK Then CWK.TSK = SRH.TAR(ALV); If TAR(ALV) == 0.NUM Then CWK.TSK = ATK(RES.CWK)"
+// Translations: ---See UNDERGROUND_CWK_LOYALIST_BATTLE_CWK_RESISTANCE_ALERTED---
+
+var UNDERGROUND_NT_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_LOYALIST_INACTIVE = "DIA(PRA.CWK) == CMP; CWK.TSK.RPR(PRA.CWK)", "EFF.TAR(PRA.CWK) < EFF.REQ(PRA.CWK); SDN(PRA.CWK) && RPR(PRA.CWK)", "?RES.ATK.CWK; If !RES.ATK(CWK) Then !CWK.RPR(PRA.CWK)", "DIA(PRA.CWK) == CMP; RPR(PRA.CWK) == CMP; CWK.TSK.INT(PRA.CWK)"
+// Translations: ---See CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_LOYALIST_INACTIVE---
+
+var UNDERGROUND_NT_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_LOYALIST_ALERTED = "TAR(PRA.CWK) == SDN; CWK.TSK.DEF(PRA.CWK)", "CWK.TSK.DEF(PRA.CWK) > CWK.TSK.RPR(PRA.CWK); CWK.INT(CMB)", "If RES.STL(PRA.CWK) Then RES.RPG(PRA.CWK); !RES.STL(PRA.CWK)"
+// Translations: ---See UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_LOYALIST_ALERTED---
+
+var UNDERGROUND_NT_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_INACTIVE = "DIA(RES.CWK) == CMP; CWK.TSK.RPG(RES.CWK)", "EFF.TAR(RES.CWK) < EFF.REQ(PRA.CWK); SDN(RES.CWK) && RPG(RES.CWK) && RPR(RES.CWK)", "?RES.CWK.ATK(CWK); If !RES.CWK.ATK.CWK Then !CWK.RPR.RES.CWK", "DIA(RES.CWK) == CMP; RPR(RES.CWK) == CMP; RPG(RES.CWK) == CMP; RES.CWK = PRA.CWK; CWK.TSK.INT(PRA.CWK)"
+// Translations: ---See UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_INACTIVE---
+
+var UNDERGROUND_NT_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_ALERTED = "TAR(RES.CWK) != SDN; CWK.TSK.ATK(RES.CWK)", "If TAR(RES.CWK) != SDN Then CWK.TSK.ATK(RES.CWK) > CWK.TSK.RPR(RES.CWK); CWK.INT(CMB)", "If RES.STL(RES.CWK) Then RES.RPR(RES.CWK) && !RES.RPG(RES.CWK); !RES.STL(RES.CWK)"
+// Translations: ---See UNDERGROUND_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_ALERTED---
+
+// Z NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_ALLY_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_PATROL_ALLY_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_PATROL_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_REINFORCEMENTS_ATTACKMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_REMOVEGRAFFITI_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SWEEP_ALLY_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SWEEP_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SOLO_ALLY_ALERTED_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SOLO_ALERTED_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_CLEARAREA_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_BATTLECLOCKWORK_RESISTANCE_FLEE_TEXT = "TODO: Add Text"
+
+
+// Z MAGISTERIUM_DUOGUARD_RESISTANCEPROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z MAGISTERIUM_DUOGUARD_RESISTANCE_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_PATROL_RESISTANCE_SCOUTING_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_PATROL_RESISTANCE_SCOUTING_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BENIGN_TARGET_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_REINFORCEMENTS_BENIGN_RESISTANCE_TARGET_CALLFORHELP_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BACKUP_ALERTED_TEXT = "TODO: Add Text"
+
+
+// Z MAGISTERIUM_SOLO_RESISTANCE_ATTACKED_ALERTED_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_SOLOGUARD_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_GRPGUARD_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DIGGING_ATTACKED_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_MOVECRATE_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REPAIR_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REPAIR_ACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_WELDING_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_ANTIMATTER_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DIGGING_ANTIMATTER_ATTACKED_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_ANTIMATTER_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_MOVECRATE_ANTIMATTER_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_ACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_SOLOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_GRPGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_WELDING_ANTIMATTER_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_NEURON_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DIGGING_NEURON_ATTACKED_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_NEURON_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_MOVECRATE_NEURON_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_NEURON_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_NEURON_ACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_SOLOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_GRPGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_WELDING_NEURON_ATTACK_TEXT = "TODO: Add Text
+
+
+// Z NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_ALLY_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_PATROL_ALLY_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_PATROL_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_REINFORCEMENTS_ATTACKMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_REMOVEGRAFFITI_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SWEEP_ALLY_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SWEEP_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+var NOVAPRAETORIA_ALLHOODS_SOLO_ALLY_ALERTED_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SOLO_ALERTED_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_BATTLECLOCKWORK_LOYALIST_CLEARAREA_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_BATTLECLOCKWORK_RESISTANCE_FLEE_TEXT = "TODO: Add Text"
+
+
+// Z MAGISTERIUM_DUOGUARD_RESISTANCEPROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z MAGISTERIUM_DUOGUARD_RESISTANCE_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z MAGISTERIUM_DUOGUARD_RESISTANCE_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_PATROL_RESISTANCE_SCOUTING_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_PATROL_RESISTANCE_SCOUTING_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BENIGN_TARGET_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_REINFORCEMENTS_BENIGN_RESISTANCE_TARGET_CALLFORHELP_TEXT = "TODO: Add Text"
+
+
+// Z NOVA_ALLHOODS_REINFORCEMENTS_RESISTANCE_BACKUP_ALERTED_TEXT = "TODO: Add Text"
+
+
+// Z MAGISTERIUM_SOLO_RESISTANCE_ATTACKED_ALERTED_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKM_MOVECRATE_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKL_CHECKPOINT_BINOCULARS_ATTACK_TEXT_ = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKL_CHECKPOINT_OBSERVER_ATTACK_TEXT_ = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKL_DIGGING_ATTACKED_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKL_DUOGUARD_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKL_JACKHAMMER_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKL_SWEEP_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKL_MOVECRATE_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKL_WELDING_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKR_DUOGUARD_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKR_MOVECRATE_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKR_CONVERSION_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z IMPERIALCITY_CWKR_CONVERSION_ACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_NEURON_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DIGGING_NEURON_ATTACKED_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_NEURON_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_MOVECRATE_NEURON_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_NEURON_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_NEURON_ACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_SOLOGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_GRPGUARD_NEURON_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_WELDING_NEURON_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_ANTIMATTER_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DIGGING_ANTIMATTER_ATTACKED_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_ANTIMATTER_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_MOVECRATE_ANTIMATTER_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_ACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_SOLOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_GRPGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_WELDING_ANTIMATTER_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_SOLOGUARD_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_GRPGUARD_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_BERSERK_MALFUNCTIONING_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DIGGING_ATTACKED_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_MOVECRATE_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REPAIR_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_REPAIR_ACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NEUTROPOLIS_WELDING_ATTACK_TEXT = "TODO: Add Text"
+
+
+// Z TUTORIAL_CLOCKWORK_POWEREDCAPTUREDREPORT_COMPLETED_TEXT = "TODO: Add Text"
+
+
+// Z TUTORIAL_CLOCKWORK_PATROLLING_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z TUTORIAL_CLOCKWORK_PATROLLING_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z TUTORIAL_CLOCKWORK_CIVILIANSCAPTUREDREPORT_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_BERZERK_MALFUNCTIONING_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_ALLY_PROPAGANDA_INACTIVE_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_PATROL_ALLY_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_REINFORCEMENTS_ATTACKMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_REMOVEGRAFFITI_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SWEEP_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_SOLO_ALERTED_TEXT = "TODO: Add Text"
+
+
+// Z NOVAPRAETORIA_ALLHOODS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "TODO: Add Text"
+
+
+var IMPERIALCITY_CWKL_SWEEP_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: ---See MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT---
+
+
+var IMPERIAL_CITY_WELDING_INACTIVE_TEXT = "If TSK(WLD.BDG) = CMP Then TSK(FIX.IC) = CMP", "P2802194680", "WLD.TAR = MTL; WLD.TAR != PRA.CIT; WLD.TAR != CWK; CWK.TSK(WLD) = SAF"
+// Translations: "If the task to weld the building is complete then fixing Imperial City is complete.", "The clockwork's current task is to weld the building.", "The welding target is metal. Welding target is not a Praetorian citizen. Welding target is not clockwork. The clockwork task to weld is safe."
+
+
+var IMPERIAL_CITY_WELDING_ALERTED_TEXT = "If ENM.ATK(CWK), CWK.TSK.ATK(ENM) > CWK.TSK.WLD(BDG)", "ALT(CWK); ENM.TSK.BRK(BDG); CWK.TSK.DEF(BDG)", "If IS_PRS(ENM) Then CWK.TSK.DEF(BDG) > CWK.TSK.WLD(BDG)"
+// Translations; "If the enemy attacks clockwork, then the clockwork task to attack the enemy is more important that the clockwork task to weld the building.", "Clockwork alert. The Resistance task is to break the building. The clockwork task is to defend the building.", "If an enemy is present, then the clockwork task to defend the building is more important that the task to weld the building.
+
+
+var IMPERIAL_CITY_CWK_LOYALIST_OBSERVEWELDING_INACTIVE_TEXT = "While CWK.WLD(BDG); CWK.TSK = DIA(BDG)", "PRA[IC].REC[BDG][STA.TUS] == !FIX; CWK.TSK = FIX(BDG)", "While TAR[STA.TUS] == (INC or !FIX); CWK.TSK.WLD(OBJ) > CWK.TSK.CLN(IC)", "EFF.(PRA.CWK) > EFF(PRA.BER.CWK); PRA.CWK > PRA.BER.CWK"
+// Translations: "While clockwork welds this building, the clockwork's task equals diagnostics on the buidling.", "Praetorian Imperial City records for this building's state equal incomplete. The clockwork task is completing the building.", "While the target's state equals incomplete, the clockwork's task to welding the building is more important that the clockwork's task to clean Imperial City."
+
+
+var IMPERIAL_CITY_CWK_LOYALIST_OBSERVEWELDING_ALERTED_TEXT = "If ENM.ATK(CWK), CWK.TSK.ATK(ENM) > CWK.TSK.WLD(BDG)", "CWK.ALT; ENM.TSK.BRK(BDG); CWK.TSK.DEF(BDG)", "If ENM(PRS) Then CWK.TSK.DEF(BDG) > CWK.TSK.WLD(BDG)"
+// Translations: see IMPERIAL_CITY_WELDING_ALERTED_TEXT
+
+
+var IMPERIAL_CITY_WELDING_ACTIVE_TEXT = "If TSK(WLD.BDG) = CMP Then TSK(FIX.IC) = CMP", "P2802194680", "WLD.TAR = MTL; WLD.TAR != PRA.CIT; WLD.TAR != CWK; CWK.TSK(WLD) = SAF"
+// Translations: see IMPERIAL_CITY_WELDING_INACTIVE_TEXT
+
+
+var IMPERIAL_CITY_CWK_LOYALIST_CHATTY_GROUP_TEXT = "P1705108019", "IC != BKN; ?CWK.TSK == FIX(IC)", "P2292861781", "P2370072761", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "While IC != BKN; CWK.TSK = FIX(IC)"
+// Translations: "If enemies are dead, then Imperial City is safe.", "Imperial City is not broken. Why do the clockwork still fix Imperial City?", "Imperial City is safe and is 100% efficient", "If Praetoria is safe, then Praetoria's clockwork are safe.", "If the clockwork serve Antimatter and Antimatter serves Emperor Marcus Cole, then the clockwork serve Emperor Marcus Cole.", "While Imperial City is broken, the clockwork will fix Imperial City."
+
+
+var NEUTROPOLIS_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_INACTIVE = "If DIA(RES.CWK) == CMP And TAR(RES.CWK) == BKN Then PRA.CWK.TSK == FIX(RES.CWK)", "EFF.TAR(RES.CWK) < EFF.REQ(PRA.CWK); PRA.CWK.TSK == INC.EFF(RES.CWK); TAR(INC.EFF) == 54.PCT", "DIA(RES.CWK) == CMP; CWK.TSK.RPG(RES.CWK)"
+// Translations: "If the diagnostics on the Resistance Clockwork are complete and the target Resistance Clockwork is broken then the Praetorian Clockwork's task is to fix the Resistance Clockwork.", "The efficiency of the target Resistance Clockwork is less than the efficiency requirement of Praetorian Clockwork. The Praetorian Clockwork's task is to increase the efficiency of the Resistance Clockwork. The target increased efficiency is 54 percent.", "Diagnostics on Resistance Clockwork are complete. Clockwork's task is to reprogram the Resistance Clockwork.",
+
+
+var NEUTROPOLIS_CWK_LOYALIST_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_ALERTED = "P1229919430", "ENM.PRS.DET; PRA.CWK.TSK(DEF.NTP) > PRA.CWK.TSK(FIX.RES.CWK)", "THR.LVL == 80.PCT; If PRA.CWK(THR.LVL) == 100.PCT Then PRA.CWK.TSK == ATK.TAR.ENM"
+// Translations: "An enemy's presence has been detected. The Praetorian Clockwork task is to defend Neutropolis.", "An enemy's presence has been detected. The Praetorian Clockwork task to defend Neutropolis is greater than the Praetorian Clockwork task to fix the Resistance Clockwork.", "Threat level is 80 percent. If the Praetorian Clockwork's threat level is equal to 100 percent, then the Praetorian Clockwork task is to attack the target enemy."
+
+
+var NEUTROPOLIS_CWK_LOYALIST_CHATTY_GROUP_TEXT = "P36627153", "NTP != BKN; ?CWK.TSK == FIX(NTP)", "P1198779934", "P2370072761", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "While NTP != BKN; CWK.TSK = FIX(NTP)"
+// Translations: "If enemies are dead, then Neutropolis is safe.", "Neutropolis is not broken. Why do the clockwork still fix the Neutropolis?", "Neutropolis is safe and is 100% efficient", "If Praetoria is safe, then Praetoria's clockwork are safe.", "If the clockwork serve Antimatter and Antimatter serves Emperor Marcus Cole, then the clockwork serve Emperor Marcus Cole.", "While Neutropolis is broken, the clockwork will fix Neutropolis."
+
+
+var NEUTROPOLIS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: "Clockwork serves Antimatter. If enemies attack Antimatter, then Clockwork attacks enemies.", "Clockwork's task is to defend Antimatter.", "If Clockwork sees enemies perform reconaissance, then Clockwork attacks enemies.", "If Resistance attacks Clockwork, then Clockwork attacks Resistance.", "If the clockwork's location is Neutropolis, then the Clockwork's enemies are the Resistance, the Syndicate and the Ghouls and the Clockwork's allies are the PPD. If the clockwork sees an enemy, the clockwork will attack the enemy."
+
+
+var NEUTROPOLIS_CWK_LOYALIST_OBSERVEWELDING_INACTIVE_TEXT = "While CWK.FIX(OBJ); CWK.TSK = DIA(OBJ)", "CWK.SRH.OBJ.REC; PRA.REC.OBJ.STT == BKN; CWK.TSK = FIX(OBJ)", "While OBJ.STT == BKN; CWK.TSK.FIX(OBJ) > CWK.TSK.CLN(NTP)", "EFF(PRA.CWK) > EFF(NEU.CWK); PRA.CWK > NEU.CWK"
+// Translations: "While clockwork fix this object, the clockwork's task equals diagnostics on the object.", "The clockwork is searching this object's records. Praetorian records for this object's state equal broken. The clockwork task is fixing this object.", "While the object's state equals broken, the clockwork's task to fix objects is more important that the clockwork's task to clean Neutropolis.", "The efficiency of Praetorian Clockwork is greater than the efficiency of Neuron's clockwork. Antimatter's clockwork are greater than Neuron's clockwork."
+
+
+var NEUTROPOLIS_CWK_LOYALIST_OBSERVEWELDING_ALERTED_TEXT = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_WELDING_INACTIVE_TEXT = "P1660740850", "CWK.TSK = FIX(OBJ); EST.TIM(TSK) = 32.MIN", "If CWK.FIX(OBJ) Then CWK.SRV(ATM)", "CWK.ALT; CWK.FND.HCK(CUR.OBJ); CWK.PRR.TSK = FIX(OBJ)", "CWK.TSK == FIX(OBJ); If ALV Then AVD.PLM", "RMN.TIM(TSK) == 25.MIN; CWK.EFF == 84.PCT", "If CWK.TSK == FIX(OBJ) Then NTP !== CMP"
+// Translations: "The clockwork is searching object's records. Praetorian records for fixing this object equals eight. Why is the object broken?", "The clockwork's task is to fix this object. The estimated time for this task is 32 minutes.", "If the clockwork fixes this object, then the clockwork has served Antimatter.", "Clockwork alert. Clockwork has found a hack in the current object. Clockwork priority task is to fix the object.", "The clockwork task is fixing this object. If alive, then avoid the plasma." "Remaining time for this task is 25 minutes. Clockwork's efficiency is 84%.", "If the clockwork's task is to fix an object, then Neutropolis is not complete."
+
+
+var NEUTROPOLIS_WELDING_ALERTED_TEXT = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_CWK_LOYALIST_BATTLE_CWK_RESISTANCE_INACTIVE = "P771870883", "P3015753601", "P1357681242"
+//Translations: "The Praetorian Clockwork's enemy is the Resistance clockwork. The chance of the enemy's victory is 15 percent.", "The Praetorian Clockwork's enemy is equal to the Resistance clockwork. The Praetorian Clockwork task is to shutdown and reprogram the Resistance clockwork.", "The current Praetorian Clockwork task is equal to defeating the Resistance Clockwork."
+
+
+var NEUTROPOLIS_CWK_LOYALIST_BATTLE_CWK_RESISTANCE_ALERTED = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See  NEUTROPOLIS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_CWK_LOYALIST_BATTLE_FE_INACTIVE = "P3888789421", "PRA.CWK.ENM == CBL.GHU; PRA.CWK.WPN == PLS + FLM", "P1588375274"
+//Translations: "The Praetorian Clockwork's enemy is the Ghoul carbon-based lifeform. The chance of the enemy's victory is 5 percent.", "The clockwork's enemy is equal to the Ghoul carbon-based lifeform. The Praetorian Clockwork weapons are equal to plasma and flame.", "The current Praetorian Clockwork task is equal to defeating the Ghoul carbon-based lifeform."
+
+
+var NEUTROPOLIS_CWK_LOYALIST_BATTLE_FE_ALERTED = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See  NEUTROPOLIS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_CWK_LOYALIST_BATTLE_RES_INACTIVE = "P2581979401", "PRA.CWK.ENM == CBL.RES; PRA.CWK.WPN == PLS + FLM", "P411833353"
+//Translations: "The Praetorian Clockwork's enemy is the Resistance carbon-based lifeform. The chance of the enemy's victory is 5 percent.", "The clockwork's enemy is equal to the Resistance carbon-based lifeform. The Praetorian Clockwork weapons are equal to plasma and flame.", "The current Praetorian Clockwork task is equal to defeating the Resistance carbon-based lifeform."
+
+
+var NEUTROPOLIS_CWK_LOYALIST_BATTLE_RES_ALERTED = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See  NEUTROPOLIS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_CWK_LOYALIST_BATTLE_SYN_INACTIVE = "P1114274646", "PRA.CWK.ENM == CBL.SYN; PRA.CWK.WPN == PLS + FLM", "P2621394874"
+//Translations: "The Praetorian Clockwork's enemy is the Syndicate carbon-based lifeform. The chance of the enemy's victory is 5 percent.", "The clockwork's enemy is equal to the Syndicate carbon-based lifeform. The Praetorian Clockwork weapons are equal to plasma and flame.", "The current Praetorian Clockwork task is equal to defeating the Syndicate carbon-based lifeform."
+
+
+var NEUTROPOLIS_CWK_LOYALIST_BATTLE_SYN_ALERTED = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See  NEUTROPOLIS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_SWEEP_LOYALIST_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_REPAIR_LOOKOUT_INACTIVE_TEXT = "While CWK.FIX(OBJ); CWK.TSK = DIA(OBJ)", "CWK.SRH.OBJ.REC; PRA.REC.OBJ.STT == BKN; CWK.TSK = FIX(OBJ)", "While OBJ.STT == BKN; CWK.TSK.FIX(OBJ) > CWK.TSK.CLN(NTP)", "EFF(PRA.CWK) > EFF(NEU.CWK); PRA.CWK > NEU.CWK"
+// Translations: --See NEUTROPOLIS_WELDING_INACTIVE_TEXT
+
+
+var NEUTROPOLIS_REPAIR_LOOKOUT_ACTIVE_TEXT = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT
+
+
+var IMPERIALCITY_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+//Translations: see MAGISTERIUM_DUOGUARD_DEFENSEMODE_ALERT_TEXT
+
+
+var UNDERGROUND_NT_CWK_LOYALIST_SWEEP_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(PRA); If RES.ATK(PRA) Then CWK.ATK(RES)", "CWK.TSK = DEF(PRA)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+
+var MISSION_CLOCKWORK_DROPDOWN_AMBUSH_ALERTED = "If TGT.CUR != None Then INT.PRT[CMB]", "If TGT.CUR != TGT.PRV Then INT[TGT.NEW()]", "FOE = TGT.CUR; CMB.GET_LOC(FOE); INT(CMB)", "?DNG_LEV(TGT.NEW) > CON.RED; INT[CMB(TGT.CUR)]", "For CWK in ALL_CWK; CWK.FOE = INT[TGT.NEW()]; CWK.TSK = ATK(CWK.FOE)", "SYS.REQ; I_D(CUR_TGT) = FOE; For CWK in ALL_CWK(); ATK(FOE)", "SEC_RTY.LVL; SEC_RTY.STS = CDE(RED)", "SYS.REQ; CMB.GET_LOC(FOE) = LOC.TGT.CUR; ATK(TGT.CUR)", "For TGT in PER; For CWK in ALL_CWK(); ATK(TGT)", "For CWK in ALL_CWK(); CWK.TSK = DEF.MDE(7, 7, 2)"
+// Translations: "Hostile acquired!", "Acquiring target.", "New target! Acquiring! Fire!", "Assessing new threat: extreme. Fire!", "All units, fire at will.", "Warning! Threat identified! Move to neutralize!", "Base security tightened. Code Red.", "Threat located. Exterminate.", "Repel invaders with maximum force.", "Defense pattern 7-7-2."
+
+} // End Dialog

@@ -1,0 +1,75 @@
+##############################
+#Particle System 
+
+System
+
+NewPerFrame		1
+			
+#Burst			12
+
+movescale .51
+
+WorldOrLocalPosition	0			#switch		
+FrontOrLocalFacing	0
+
+
+EmissionType		5			#switch	
+  EmissionRadius	.5		
+  EmissionHeight	.5	
+EmissionStartJitter	.3 .3 .3 #1 0 1  		
+
+InitialVelocity		0.0 -0.235 0		
+#InitialVelocityJitter	.0051 .0051 .0051 #.05 0.0 .05	
+#VelocityJitter		.001 .001 .001
+
+
+OrientationJitter	180
+
+#Magnetism		.005
+Gravity			-0.003
+#TightenUp		-.5
+
+#Stickiness		1.0
+
+StartSize		0
+StartSizeJitter		.1
+ExpandRate		.2
+ExpandType		1
+  EndSize		.5
+
+StreakType		7			#switch
+  StreakScale		1
+  StreakOrient		1 			#switch		
+  StreakDirection	1 			#switch				
+  		
+TextureName		TeckLightning.tga
+  TexScroll1		0.00 -.2 0.0 #0.00 0.02 0.0
+TexScrollJitter1	0.00 0.000 0.0
+
+TextureName2		TillingSource.tga #glow.tga #
+TexScroll2		0.0 0.0 0.0
+  
+
+FadeInBy 		10
+FadeOutStart		80		
+FadeOutBy   		105
+
+Blend_mode		1 			#switch
+Alpha			255
+			
+####  0010
+
+
+StartColor		 1 0 0
+ColorChangeType		1
+
+BeColor1		1 0 0
+ByTime1			1
+
+BeColor2		255 10 10
+ByTime2			2
+
+BeColor2		1 0 0
+ByTime2			3
+
+End

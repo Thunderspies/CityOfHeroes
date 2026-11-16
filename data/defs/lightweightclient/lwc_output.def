@@ -1,0 +1,45 @@
+// Lightweight client stage output definitions
+
+// The Output line uses a regular expression for the second word and the output file for the third word
+// See http://en.wikipedia.org/wiki/Regular_expression#POSIX
+// The regular expressions are checked in the order listed and will stop at the first match.
+// The '.*' means match anything (catch-all) and should be listed last
+// NOTE: We don't currently support more than one regular expressions outputting to the same file
+
+stage1_spec
+{    
+    Output player_library\\animations\\.*                               stage1a.txt
+    Output texture_library\\[fgw].*                                     stage1b.txt
+    Output texture_library\\[i-p].*                                     stage1c.txt
+    Output texture_library\\v_players\\avatar\\super_shared\\[a-j].*    stage1d.txt
+    Output texture_library\\v_players\\avatar\\super_shared\\.*         stage1e.txt
+    Output texture_library\\.*                                          stage1f.txt
+    Output .*                                                           stage1.txt
+}
+    
+stage2_spec
+{
+    Output sound\\ogg\\[a-n].*                              stage2a.txt
+    Output sound\\.*                                        stage2b.txt
+    Output texture_library\\world\\.*                       stage2c.txt
+    Output .*                                               stage2.txt
+}
+
+stage3_spec
+{
+    Output sound\\ogg\\[d-p].*                              stage3a.txt
+    Output sound\\ogg\\.*                                   stage3b.txt
+    Output object_library\\.*                               stage3c.txt
+    Output texture_library\\world\\villain_lairs\\.*        stage3d.txt
+    Output texture_library\\world\\v_cov\\.*                stage3e.txt
+    Output texture_library\\world\\[h-s].*                  stage3f.txt
+    Output texture_library\\world\\.*                       stage3g.txt
+    Output .*                                               stage3.txt
+}
+
+stage4_spec
+{
+    Output .* stage4.txt
+}
+
+

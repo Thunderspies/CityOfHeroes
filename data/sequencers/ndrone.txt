@@ -1,0 +1,1371 @@
+#############################################################
+
+Sequencer
+
+TypeDef Ndrone
+	BaseSkeleton	Ndrone\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+	CycleMove       Ready_A
+	CycleMove       Ready_C
+
+	Type		Ndrone
+	  Anim          Ndrone\skel_ready 1
+	TEnd
+MEnd
+
+
+Move Ready_A
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+	CycleMove       Ready
+	CycleMove       Ready_B
+
+	Type		Ndrone
+	  Anim          Ndrone\ready_A 1
+	TEnd
+MEnd
+
+
+Move Ready_B
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+	CycleMove       Ready
+	CycleMove       Ready_A
+
+	Type		Ndrone
+	  Anim          Ndrone\ready_B 1
+	TEnd
+MEnd
+
+
+Move Ready_C
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove       Ready
+	CycleMove       Ready_B
+
+	Type		Ndrone
+	  Anim          Ndrone\ready_C 1
+	TEnd
+MEnd
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkCycle
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <CombatAttack>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        WalkPost
+	Priority        1
+	Scale           2.00
+
+	Type		Ndrone
+	  Anim          Ndrone\walk 1
+	TEnd
+MEnd
+
+
+Move WalkPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+	Scale           0.50
+
+	Type		Ndrone
+	  Anim          Ndrone\postwalk 1
+	TEnd
+MEnd
+
+######### powers ########################################
+
+
+
+#########################
+###### Mace ######
+########################
+
+Move Mace_L
+	Requires	COMBAT ATTACK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Macepost_L
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Ndrone
+	  Anim          Ndrone\maceswing_L 1 25
+	TEnd
+MEnd
+
+
+Move Macepost_L
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+
+	Type		Ndrone
+	  Anim          Ndrone\maceswing_L 26
+	TEnd
+MEnd
+
+
+Move Mace_R
+	Requires	COMBAT ATTACK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Macepost_R
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Ndrone
+	  Anim          Ndrone\maceswing_R 1 25
+	TEnd
+MEnd
+
+
+Move Macepost_R
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+
+	Type		Ndrone
+	  Anim          Ndrone\maceswing_R 26
+	TEnd
+MEnd
+
+
+
+
+#########################
+###### Blade Spin (AOE) ######
+########################
+
+Move bladespin
+	Requires	COMBAT RADIUSATTACK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        bladespin2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Ndrone
+	  Anim          Ndrone\bladespinA 1 47
+	TEnd
+MEnd
+
+
+
+Move bladespin2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+
+	Type		Ndrone
+	  Anim          Ndrone\bladespinA 48
+	TEnd
+MEnd
+
+
+
+######################
+###### Cannon Shoot  ######
+#####################
+
+Move Cannon
+	Requires	COMBAT CAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Cannonpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Ndrone
+	  Anim          Ndrone\cannon 1 50
+	TEnd
+
+MEnd
+
+
+Move Cannonpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		Ndrone
+	  Anim         Ndrone\cannon 51
+	TEnd
+
+MEnd
+
+
+######################
+###### Burst   ######
+#####################
+
+Move Burst
+	Requires	COMBAT SHOOT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Burstpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Ndrone
+	  Anim          Ndrone\burst 1 50
+	TEnd
+
+MEnd
+
+
+Move Burstpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		Ndrone
+	  Anim         Ndrone\burst 51
+	TEnd
+
+MEnd
+
+##### hit reacts   ################################################
+
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\HQ 2
+	TEnd
+MEnd
+
+
+Move HitQuick_strong
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\HQ_strong 2
+	TEnd
+MEnd
+
+
+
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	NextMove        KHF_travel
+	Priority        2
+	Interpolate     4
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 25 31
+	TEnd
+MEnd
+
+
+Move KHF_travel
+	Requires	HIT KNOCKBACK
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        KHF_fallcycle
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 1 31
+	TEnd
+MEnd
+
+
+Move KHF_fallcycle
+	Requires	AIR
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 35 36
+	TEnd
+MEnd
+
+
+Move KHF_impact
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		Ndrone
+	  Anim          Ndrone\HQ_mid 3
+	TEnd
+MEnd
+
+###################
+###### electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 57
+	TEnd
+MEnd
+
+###################
+###### electro_pain_LONG  ######
+###################
+
+Move electro_react_Long
+	Requires	STRONG HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        electro_react_Long2
+	Priority        3
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 115
+	TEnd
+MEnd
+
+
+Move electro_react_Long2
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        weak_post
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 20
+	TEnd
+MEnd
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 40
+	TEnd
+MEnd
+
+###################
+###### drain react  ######
+###################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 41 68
+	TEnd
+MEnd
+
+###################
+###### sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 57
+	TEnd
+MEnd
+
+###################
+###### choke react  ######
+###################
+
+Move choke_react
+	Requires	HIT MAGIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 57
+	TEnd
+MEnd
+
+###################
+###### tele_attack react  ######
+###################
+#Move tele_react
+#	Requires       	Hit Teleattack
+#	Interrupts	<ReactIRQ>
+#       Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	Anim            models\tele_react 1
+#	NextMove	CombatReady
+###################
+###### Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Speed_react2
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\speed_react 1
+	TEnd
+MEnd
+
+
+Move Speed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Ndrone
+	  Anim          Ndrone\HQ_strong 2
+	TEnd
+MEnd
+
+###################
+###### Kungfu_speed react  ######
+###################
+
+Move KungfuSpeed_react
+	Requires	HIT KUNGFUSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react2
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 36
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react3
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 1 12
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Ndrone
+	  Anim          Ndrone\HQ_strong 1
+	TEnd
+MEnd
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 36
+	TEnd
+MEnd
+
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react3
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 1 13
+	TEnd
+MEnd
+
+
+Move ClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Ndrone
+	  Anim          Ndrone\HQ_strong 1
+	TEnd
+MEnd
+
+###################
+###### levitate react  ######
+###################
+
+Move lev_react
+	Requires	HIT LEVITATE
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        lev_fall
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\lev_float 1
+	TEnd
+MEnd
+
+
+Move lev_fall
+	Requires	AIR
+	Member		<DeathIRQ>
+	Flags		ReqInputs
+	NextMove        lev_fall_B
+	Priority        1
+
+	Type		Ndrone
+	  Anim          Ndrone\lev_fall 1 34
+	TEnd
+MEnd
+
+
+Move lev_fall_B
+	Requires	AIR
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        splat
+	Priority        1
+
+	Type		Ndrone
+	  Anim          Ndrone\lev_fall 35 65
+	TEnd
+MEnd
+
+
+Move splat
+	Member		<DeathIRQ>
+	NextMove        stuck
+
+	Type		Ndrone
+	  Anim          Ndrone\impact_head 1 50
+	TEnd
+MEnd
+
+
+Move stuck
+	Member		<DeathIRQ>
+	NextMove        lev_getup
+
+	Type		Ndrone
+	  Anim          Ndrone\impact_head 55 85
+	TEnd
+MEnd
+
+
+Move lev_getup
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        lev_getup2
+
+	Type		Ndrone
+	  Anim          Ndrone\popup 1
+	TEnd
+MEnd
+
+
+Move lev_getup2
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Ndrone
+	  Anim          Ndrone\post_popup 1
+	TEnd
+MEnd
+
+##################
+###### Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 57
+	TEnd
+MEnd
+
+###################
+###### Boost_down react  ######
+###################
+
+Move Boost_D
+	Requires	HIT BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 57
+	TEnd
+MEnd
+
+#### Deaths  ########################################################################
+
+
+#######################
+###### Vanish Death   ######
+######################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Ndrone
+	  Anim          Ndrone\skel_ready 1
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		Ndrone
+	  Anim          Ndrone\skel_ready 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\death_stumble_R 1 64
+	TEnd
+MEnd
+
+
+Move Default_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\death_stumble_R 65
+	TEnd
+MEnd
+
+###################
+###### Hit Death   ######
+###################
+
+Move HitDeath
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ> <ReactIRQ>
+	NextMove        postdeath2
+	Priority        2
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\death_stumble_R 1 64
+	TEnd
+MEnd
+
+
+Move postdeath2
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\death_stumble_R 65
+	TEnd
+MEnd
+
+
+Move HitDeath_KB
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        postdeath_KB2
+	Priority        2
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\death_KB 1 52
+	TEnd
+MEnd
+
+
+Move postdeath_KB2
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\death_KB 53
+	TEnd
+MEnd
+
+
+Move HitDeath_front
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        postdeath_front2
+	Priority        2
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\death_front 1 70
+	TEnd
+MEnd
+
+
+Move postdeath_front2
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\death_front 71 72
+	TEnd
+MEnd
+
+###################
+###### knockback DEATH  ######
+###################
+
+Move Death_KHF
+	Requires	HIT DEATH KNOCKBACK
+	Interrupts	<DeathIRQ>
+	NextMove        D_KHF_travel
+	Priority        3
+	Interpolate     0
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 25 31
+	TEnd
+MEnd
+
+
+Move D_KHF_travel
+	Requires	DEATH KNOCKBACK
+	Flags		Cycle
+	NextMove        D_KHF_Apex
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 1 31
+	TEnd
+MEnd
+
+
+Move D_KHF_Apex
+	Requires	APEX DEATH
+	NextMove        D_KHF_fall
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 32 33
+	TEnd
+MEnd
+
+
+Move D_KHF_fall
+	Requires	AIR DEATH
+	NextMove        D_KHF_fallcycle
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 34 35
+	TEnd
+MEnd
+
+
+Move D_KHF_fallcycle
+	Requires	AIR DEATH
+	Flags		Cycle
+	NextMove        D_KHF_impact
+	Priority        2
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 35 36
+	TEnd
+MEnd
+
+
+Move D_KHF_impact
+	Requires	DEATH
+	NextMove        D_K_Deathcycle
+	Priority        1
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 37 65
+	TEnd
+MEnd
+
+
+Move D_K_Deathcycle
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\knockback_fierce 65 67
+	TEnd
+MEnd
+
+###################
+###### Electro Death  ######
+###################
+
+Move ElectroDeath
+	Requires	HIT DEATH ENERGY
+	Interrupts	<DeathIRQ>
+	NextMove        ElectroDeath2
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1
+	TEnd
+MEnd
+
+
+Move ElectroDeath2
+	Requires	DEATH
+	NextMove        ElectroDeath2
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 1 33
+	TEnd
+MEnd
+
+
+Move ElectroDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 33 35
+	TEnd
+MEnd
+
+###################
+###### Disrupt Death  ######
+###################
+
+Move DisruptDeath
+	Requires	HIT DEATH DISRUPT
+	Interrupts	<DeathIRQ>
+	NextMove        DisruptDeath2
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 47
+	TEnd
+MEnd
+
+
+Move DisruptDeath2
+	Requires	DEATH
+	NextMove        DisruptDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\death_stumble_R 1 64
+	TEnd
+MEnd
+
+
+Move DisruptDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\death_stumble_R 65 66
+	TEnd
+MEnd
+
+###################
+###### Choke Death  ######
+###################
+
+Move ChokeDeath
+	Requires	HIT DEATH MAGIC
+	Interrupts	<DeathIRQ> <BasicDeath>
+	NextMove        ChokeDeath2
+	Priority        3
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 47
+	TEnd
+MEnd
+
+
+Move ChokeDeath2
+	Requires	DEATH
+	NextMove        ChokeDeath3
+	Priority        1
+	Interpolate     12
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 1 33
+	TEnd
+MEnd
+
+
+Move ChokeDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 33 34
+	TEnd
+MEnd
+
+###################
+###### Sonic Death  ######
+###################
+
+Move SonicDeath
+	Requires	HIT DEATH PSIONIC
+	Interrupts	<DeathIRQ>
+	NextMove        SonicDeath2
+	Priority        3
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 47
+	TEnd
+MEnd
+
+
+Move SonicDeath2
+	Requires	DEATH
+	NextMove        SonicDeath3
+	Priority        1
+	Interpolate     12
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 1 33
+	TEnd
+MEnd
+
+
+Move SonicDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 33 34
+	TEnd
+MEnd
+
+###################
+###### Speed Death  ######
+###################
+
+Move SpeedDeath
+	Requires	HIT DEATH SPEEDPUNCH
+	Interrupts	<DeathIRQ>
+	NextMove        SpeedDeath2
+	Priority        3
+	Interpolate     2
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\speed_react 1
+	TEnd
+MEnd
+
+
+Move SpeedDeath2
+	Requires	DEATH
+	NextMove        SpeedDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\death_KB 1 52
+	TEnd
+MEnd
+
+
+Move SpeedDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\death_KB 53 55
+	TEnd
+MEnd
+
+###################
+###### Kungfu_speed Death  ######
+###################
+
+Move KungfuSpeed_death
+	Requires	HIT DEATH KUNGFUSPEED
+	Interrupts	<ReactIRQ>
+	NextMove        KungfuSpeed_death2
+	Priority        3
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 36
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_death2
+	Requires	DEATH
+	NextMove        KungfuSpeed_death3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 1 12
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_death3
+	Requires	DEATH
+	NextMove        KungfuSpeed_death4
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\death_KB 1 52
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_death4
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\death_KB 53 55
+	TEnd
+MEnd
+
+###################
+###### Claw_speed Death  ######
+###################
+
+Move ClawSpeed_death
+	Requires	HIT DEATH CLAWSPEED
+	Interrupts	<ReactIRQ>
+	NextMove        ClawSpeed_death2
+	Priority        3
+
+	Type		Ndrone
+	  Anim          Ndrone\electro 1 36
+	TEnd
+MEnd
+
+
+Move ClawSpeed_death2
+	Requires	DEATH
+	NextMove        ClawSpeed_death3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\drain 1 12
+	TEnd
+MEnd
+
+
+Move ClawSpeed_death3
+	Requires	DEATH
+	NextMove        ClawSpeed_death4
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Ndrone
+	  Anim          Ndrone\death_KB 1 52
+	TEnd
+MEnd
+
+
+Move ClawSpeed_death4
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            DIENOW TARGET
+
+	Type		Ndrone
+	  Anim          Ndrone\death_KB 53 55
+	TEnd
+MEnd
+
+
+#### Encounters stuff  ############################################
+
+
+###################################
+###### Spawn Teleport        ######
+##################################
+
+Move Teleport_hide
+	Requires	SPAWN TELEPORT
+	Interrupts	<DeathIRQ>
+	NextMove        Teleport_Spawn
+	Priority        3
+	Sets            CANTMOVE
+	Flags		Cycle
+
+	Type		Ndrone
+	  Anim          Ndrone\skel_ready 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+Move Teleport_Spawn
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Ready
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Ndrone
+	  Anim          Ndrone\skel_ready 1
+	  PlayFx        POWERS\Teleport\Teleport.fx  0
+	  PlayFx        GENERIC\entityFadeIn.fx  0
+	TEnd
+
+MEnd
+
+
+####Praetorian Teleport In  #########################################################
+
+#Move Praetorian_TeleportIn
+#	Requires	ENCOUNTER TELEPORT DOWN
+#	Include sequencers\Interrupts\Encounters_Idle.inc
+#	Include sequencers\Members\Encounters_Cycles.inc
+#	NextMove        Praetorian_TeleportIn_PostReady
+#	Sets            CANTMOVE
+#	Flags		NotSelectable
+#
+#	Type		Ndrone
+#	  Anim          Ndrone\skel_ready 1
+#	#  PlayFx        GENERIC\entityFadeIn.fx 0
+#	  PlayFx        ENEMYFX\Seers\Summon_Portal_In.fx 0 CONSTANT
+#	TEnd
+#MEnd
+#
+#Move Praetorian_TeleportIn_PostReady
+#	Requires	ENCOUNTER TELEPORT DOWN
+#	Include sequencers\Members\Encounters_Scripted.inc
+#	Flags		Cycle
+#	Scale		0.5
+#
+#	Type		Ndrone
+#	  Anim          Ndrone\skel_ready 1
+#	TEnd
+#
+#MEnd
+
+Move Praetorian_TeleportIn
+	Requires	ENCOUNTER TELEPORT DOWN
+	Include sequencers\Interrupts\Encounters_Scripted.inc
+	Include sequencers\Members\Encounters_Scripted.inc
+	NextMove        Praetorian_TeleportIn_Post
+	Sets            CANTMOVE
+	Flags		NotSelectable
+
+	Type		Ndrone
+	  Anim          Ndrone\skel_ready 1 80
+	  #PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx        ENEMYFX\Seers\Summon_Portal_In.fx 0
+	TEnd
+MEnd
+
+Move Praetorian_TeleportIn_Post
+	Requires	ENCOUNTER TELEPORT DOWN
+	Include sequencers\Members\Encounters_Scripted.inc
+	Flags		Cycle
+	Sets            CANTMOVE
+	Scale		0.5
+
+	Type		Ndrone
+	  Anim          Ndrone\skel_ready 1
+	TEnd
+MEnd
+
+
+####Praetorian Teleport Out  #########################################################
+
+Move Praetorian_TeleportOut
+	Requires	ENCOUNTER TELEPORT UP
+	Include sequencers\Interrupts\Encounters_Scripted.inc
+	Include sequencers\Members\Encounters_Scripted.inc
+	NextMove        Praetorian_TeleportOut_Post
+	Sets            CANTMOVE
+	Flags		NotSelectable
+
+	Type		Ndrone
+	  Anim          Ndrone\skel_ready 1 80
+	  #PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  PlayFx        ENEMYFX\Seers\Summon_Portal_Out.fx 0
+	TEnd
+MEnd
+
+Move Praetorian_TeleportOut_Post
+	Requires	ENCOUNTER TELEPORT UP
+	Include sequencers\Members\Encounters_Scripted.inc
+	Flags		NotSelectable Cycle
+	Sets            CANTMOVE
+	Scale		0.5
+
+	Type		Ndrone
+	  Anim          Ndrone\skel_ready 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+
+
+
+
+SeqEnd
+
+

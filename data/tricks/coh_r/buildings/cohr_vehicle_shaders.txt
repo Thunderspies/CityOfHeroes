@@ -1,0 +1,2882 @@
+// Vehicle updated shaders. (COHR)
+//
+
+Texture carsheen_bump_02.tga
+	Flags IsBumpmap
+	Gloss 1
+End
+
+Texture carsheen_bump_03.tga
+	Flags IsBumpmap
+	Gloss 0.8
+End
+
+
+
+##########################
+#
+# Lux1 - Side & frnt/rear
+#
+##########################
+
+# Front / Rear
+
+Texture lux1_frnt_rear
+	
+	Base1 lux1_frnt_rear.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask lux1_frnt_rear_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 lux1_frnt_rear
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1  1 
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 5
+
+	SpecularColor1 250 250 250
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+
+# Side
+
+Texture lux1_side
+	Surface METAL
+	
+	Base1 lux1_side
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+	
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask lux1_side_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 lux1_side
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.0 1.0
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+##########################
+#
+# Lux2 - Side & frnt/rear
+#
+##########################
+
+# Front / Rear
+
+Texture lux2_frnt_rear
+	Surface METAL
+	
+	Base1 lux2_frnt_rear.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask lux2_frnt_rear_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 lux2_frnt_rear
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1  1 
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 5
+
+	SpecularColor1 250 250 250
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+
+# Side
+
+Texture lux2_side
+	Surface METAL
+	
+	Base1 lux2_side
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask lux2_side_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 lux2_side
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.0 1.0
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+##########################
+#
+# Sport1 - Side & frnt/rear
+#
+##########################
+
+# Front / Rear
+
+Texture sport1_frnt_rear
+	Surface METAL
+	
+	Base1 sport1_frnt_rear.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask sport1_frnt_rear_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 sport1_frnt_rear
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1  1 
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 5
+
+	SpecularColor1 250 250 250
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+
+# Side
+
+Texture sport1_side
+	Surface METAL
+	
+	Base1 sport1_side
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask sport1_side_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 sport1_side
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.0 1.0
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+##########################
+#
+# Compact - Side & frnt/rear
+#
+##########################
+
+# Front / Rear
+
+Texture compact_frnt_rear
+	Surface METAL
+	
+	Base1 compact_frnt_rear.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask compact_frnt_rear_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 compact_frnt_rear
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1  1 
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 5
+
+	SpecularColor1 250 250 250
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+
+# Side
+
+Texture compact_side
+	Surface METAL
+	
+	Base1 compact_side
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask compact_side_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 compact_side
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.0 1.0
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+##########################
+#
+# Sport2 - Side & frnt/rear
+#
+##########################
+
+# Front / Rear
+
+Texture sport2_frnt_rear
+	Surface METAL
+	
+	Base1 sport2_frnt_rear.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask sport2_frnt_rear_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 sport2_frnt_rear
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1  1 
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 5
+
+	SpecularColor1 250 250 250
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+# Side
+
+
+Texture sport2_side
+	Surface METAL
+	
+	Base1 sport2_side
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 sport2_side_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask sport2_side_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 sport2_side
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.0 1.0
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+	
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+
+
+
+##########################
+#
+# Cubevan - Side & frnt/rear
+#
+##########################
+
+# Front 
+
+Texture Cubevan_frnt
+	Surface METAL
+	
+	Base1 Cubevan_frnt
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 8 8 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Cubevan_frnt_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Cubevan_frnt
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.0 1.0
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+	
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+
+
+# Side
+
+Texture Cubevan_side
+	Surface METAL
+	
+	Base1 Cubevan_side
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 carsheen_bump_02.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Cubevan_side_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Cubevan_side
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.5 1.5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 48
+	SpecularExponent2 256
+
+	ReflectivityBase 0.2
+	ReflectivityScale 0.3
+	ReflectivityPower 6
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+# TRUCK BOX/Container
+
+Texture Cubevan_box
+	Surface METAL
+	
+	Base1 Cubevan_box.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Cubevan_box_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.5 1.5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 1
+
+	SpecularColor1 100 100 100
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 16
+	SpecularExponent2 128
+
+
+
+	DiffuseScale 1.0
+	AmbientScale 2
+
+	Flags Replaceable  // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+####################################################################################
+#        Damaged Cars
+####################################################################################
+
+
+##################################
+#
+# Damaged Lux1 - Side & frnt/rear
+#
+##################################
+
+
+# Side
+
+Texture lux1_side_dam
+	Surface METAL
+	
+	Base1 lux1_side_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 lux1_side_dam_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask lux1_side_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 lux1_side_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 lux1_side_dam_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+Texture lux1_frnt_rear_dam
+	Surface METAL
+	
+	Base1 lux1_frnt_rear_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 lux1_frnt_rear_dam_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask lux1_frnt_rear_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 lux1_frnt_rear_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 lux1_frnt_rear_dam_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none  // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+##################################
+#
+# Damaged Lux2 - Side & frnt/rear
+#
+##################################
+
+
+# Side
+
+Texture lux2_side_dam
+	Surface METAL
+	
+	Base1 lux2_side_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 lux2_side_dam_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask lux2_side_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 lux2_side_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 lux2_side_dam_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none  // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+Texture lux2_frnt_rear_dam
+	Surface METAL
+	
+	Base1 lux2_frnt_rear_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 lux2_frnt_rear_dam_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask lux2_frnt_rear_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 lux2_frnt_rear_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 lux2_frnt_rear_dam_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+##################################
+#
+# Damaged Sport1 - Side & frnt/rear
+#
+##################################
+
+
+# Side
+
+Texture Sport1_side_dam
+	Surface METAL
+	
+	Base1 Sport1_side_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Sport1_side_dam_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Sport1_side_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Sport1_side_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Sport1_side_dam_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+Texture Sport1_frnt_rear_dam
+	Surface METAL
+	
+	Base1 Sport1_frnt_rear_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Sport1_frnt_rear_dam_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Sport1_frnt_rear_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Sport1_frnt_rear_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Sport1_frnt_rear_dam_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none  // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+##################################
+#
+# Damaged Sport2 - Side & frnt/rear
+#
+##################################
+
+
+# Side
+
+Texture Sport2_side_dam
+	Surface METAL
+	
+	Base1 Sport2_side_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Sport2_side_dam_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Sport2_side_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Sport2_side_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Sport2_side_dam_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none  // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+Texture Sport2_frnt_rear_dam
+	Surface METAL
+	
+	Base1 Sport2_frnt_rear_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Sport2_frnt_rear_dam_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Sport2_frnt_rear_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Sport2_frnt_rear_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Sport2_frnt_rear_dam_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none  // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+##################################
+#
+# Damaged Compact - Side & frnt/rear
+#
+##################################
+
+
+# Side
+
+Texture Compact_side_dam
+	Surface METAL
+	
+	Base1 Compact_side_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Compact_side_dam_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Compact_side_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Compact_side_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Compact_side_dam_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags Replaceable  // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+Texture Compact_frnt_rear_dam
+	Surface METAL
+	
+	Base1 Compact_frnt_rear_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Compact_frnt_rear_dam_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Compact_frnt_rear_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Compact_frnt_rear_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Compact_frnt_rear_dam_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 50 50 50
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2.0
+
+	Flags none  // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+##########################
+#
+# Cubevan DAMAGED - Side & frnt/rear
+#
+##########################
+
+# Front / Rear
+
+Texture Cubevan_frnt_dam
+	Surface METAL
+	
+	Base1 Cubevan_frnt_dam.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Cubevan_frnt_dam_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Cubevan_frnt_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Cubevan_frnt_dam.tga
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.5 1.5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Cubevan_frnt_dam_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 100 100 100
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+
+
+# Side
+
+Texture Cubevan_side_dam
+	Surface METAL
+	
+	Base1 Cubevan_side_dam
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none 
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Cubevan_side_dam_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask Cubevan_side_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Cubevan_side_dam
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5C.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.5 1.5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Cubevan_side_dam_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 100 100 100
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 64
+	SpecularExponent2 32
+
+
+	DiffuseScale 1.0
+	AmbientScale 2
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.5
+	End
+End
+
+
+# Front / Rear
+
+Texture Cubevan_box_dam
+	Surface METAL
+	
+	Base1 Cubevan_box_dam.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Cubevan_box_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1.5 1.5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 5 1
+
+	SpecularColor1 100 100 100
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 16
+	SpecularExponent2 128
+
+
+	DiffuseScale 1.0
+	AmbientScale 2
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base BrickBuild_Window_02.tga
+		Blend BrickBuild_Window_02_NGlow.tga
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+####################################################################################
+#        V_Trucks.  Shiny Windows & Bumps
+####################################################################################
+
+
+##################################
+#
+# shr_dtrk_01
+#
+##################################
+
+
+Texture shr_dtrk_01
+	Surface Metal
+
+	Base1 shr_dtrk_01.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 shr_dtrk_01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask shr_dtrk_01_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .8
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 shr_dtrk_01
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 250 250 250
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 8
+	SpecularExponent2 64
+
+
+	DiffuseScale 1.0
+	AmbientScale 2
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base shr_dtrk_01b1.tga
+		Blend none
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+##################################
+#
+# shr_dtrk_01b
+#
+##################################
+
+
+Texture shr_dtrk_01b
+	Surface Metal
+
+	Base1 shr_dtrk_01b.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 shr_dtrk_01b_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask shr_dtrk_01_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .8
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 shr_dtrk_01b
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 250 250 250
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 8
+	SpecularExponent2 64
+
+	DiffuseScale 1.0
+	AmbientScale 2
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base shr_dtrk_01b1.tga
+		Blend none
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+##################################
+#
+# shr_dtrk_01c
+#
+##################################
+
+Texture shr_dtrk_01c
+	Surface Metal
+
+	Base1 shr_dtrk_01c.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 shr_dtrk_01c_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask shr_dtrk_01_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .8
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 shr_dtrk_01c
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 250 250 250
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 8
+	SpecularExponent2 64
+
+
+	DiffuseScale 1.0
+	AmbientScale 2
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base shr_dtrk_01b1.tga
+		Blend none
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+##################################
+#
+# shr_dtrk_01
+#
+##################################
+
+Texture shr_dtrk_128
+	Base1 shr_dtrk_128.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .1 .1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1 
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .25 .25
+
+	Mask shr_dtrk_128_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .8
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 grey
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 universal_window_reflect5.tga
+	Multiply2Scroll 0 -0.00009
+	Multiply2ScrollType Normal
+	Multiply2Scale 4 4
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 carsheen_bump_02.tga
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 250 250 250
+	SpecularColor2 255 255 220 // BLACK means inherit color from SpecularColor1
+	
+	SpecularExponent1 8
+	SpecularExponent2 16
+
+
+	DiffuseScale 1.0
+	AmbientScale 2
+
+	Flags none // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	#Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	#Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base shr_dtrk_01b1.tga
+		Blend none
+		Bumpmap BrickBuild_Window_02_bump
+		BlendType AddGlow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End

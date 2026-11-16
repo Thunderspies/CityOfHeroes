@@ -1,0 +1,88 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Level_A
+	BaseSkeleton	Door_Level_A\skel_door_level_a
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		Door_Level_A
+	  Anim          Door_Level_A\skel_door_level_a 1 5
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN
+	Interrupts	<Ready>
+	NextMove        Open2
+	Priority        1
+	Scale           0.70
+
+	Type		Door_Level_A
+	  Anim          Door_Level_A\skel_door_level_a 5 15
+	  PlayFX	Doors\Level_A_Open.FX
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN
+	NextMove        Opened
+	Priority        1
+	Scale           0.70
+	Sets            WALKTHROUGH
+
+	Type		Door_Level_A
+	  Anim          Door_Level_A\skel_door_level_a 16 20
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle
+	Sets            WALKTHROUGH
+
+	Type		Door_Level_A
+	  Anim          Door_Level_A\skel_door_level_a 20 35
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT
+	Interrupts	Opened
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH
+
+	Type		Door_Level_A
+	  Anim          Door_Level_A\skel_door_level_a 35 41
+	  PlayFX	Doors\Level_A_Close.FX
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Level_A
+	  Anim          Door_Level_A\skel_door_level_a 42 50
+	TEnd
+MEnd
+
+SeqEnd
+

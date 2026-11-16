@@ -1,0 +1,134 @@
+#
+FxInfo
+
+	LifeSpan 100
+
+
+###########################################################
+Condition
+	On 	Time
+	Time	10
+	Event
+		Type	Local
+		At	Root
+		Sound 	SorceryPowerPool_SpiritWard_01 100 100 .8
+	End
+End
+
+	Condition
+		On Time
+		Time 0
+
+		Event
+			At WepR
+			Type Local
+			Bhvr behaviors/GenericParticleFade.bhvr
+			Part :Enchant_Hands_Fire.part
+			Part :Enchant_Hands_Fire_Add.part
+			Part :Enchant_Hands_Hellfire_Highlight.part
+			LifeSpan 65
+		End
+
+	End
+
+	Condition
+		On Time
+		Time 20
+
+		Event
+			At Root
+			Type Start
+			EName ConeOffset
+			Geom FX_ConeOffsets
+		End
+
+		Event
+			AltPiv 1
+			At ConeOffset
+			Type Local
+			EName RuneAnchor
+			BhvrOverride
+				PositionOffset 0.5 5 3
+			End
+		End
+
+		Event
+			At RuneAnchor
+			Type Local
+			BhvrOverride
+				PyrRotate -90 180 0
+			End
+			Part :Enchant_Rune_Smoke_Add.part
+			Part :Enchant_Rune_Smoke.part
+		End
+
+	End
+
+	Condition
+		On Time
+		Time 40
+
+		Event
+			At RuneAnchor
+			Type Local
+			Bhvr behaviors/GenericParticleFade.bhvr
+			BhvrOverride
+				PyrRotate -90 180 0
+			End
+			Part :Enchant_Rune.part
+		End
+
+	End
+
+	Condition
+		On Time
+		Time 51
+
+		Event
+			At RuneAnchor
+			Type Start
+			EName Prime
+			LookAt T_Chest
+			Magnet T_Chest
+			POther T_Chest
+			Bhvr behaviors\BeanBagProjectile.bhvr
+			BhvrOverride
+				TrackRate 1.5
+			End
+			LifeSpan 80
+		End
+
+		Event
+			At Prime
+			Type Posit
+			EName PrimeHit2
+			BhvrOverride
+				PyrRotate -90 180 0
+			End
+			Part :Enchant_Rune_Projectile.part
+			Part :Enchant_Rune_Projectile_Add.part
+			Part :Enchant_Rune_Blur_Projectile_Add.part
+			Part :Enchant_Rune_SmokeTrail.part
+			Part :Enchant_Rune_SmokeTrail2.part
+			Part :Enchant_Rune_TwinkleStars.part
+			Part :Enchant_Rune_TwinkleStars2.part
+		End
+
+	End
+
+	Condition
+		On PrimeHit
+
+		Event
+			Type Destroy
+			EName Prime
+		End
+
+		Event
+			Type Destroy
+			EName PrimeHit2
+		End
+
+	End
+
+End

@@ -1,0 +1,1116 @@
+#############################################################
+
+Sequencer
+
+TypeDef Shark
+	BaseSkeleton	Shark\Skel_shark
+	ParentType	None
+TypeDefEnd
+
+#TypeDef hammerhead
+#	BaseSkeleton	Shark\Skel_shark
+#	ParentType	Sharks
+#TypeDefEnd
+
+TypeDef SharkEncounter
+	BaseSkeleton	SharkEncounter\Skel_Ready
+	ParentType	Shark
+TypeDefEnd
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+###################
+### Ready ##
+###################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+
+	Type		Shark
+	  Anim          Shark\Skel_shark 1 60
+	TEnd
+
+MEnd
+
+
+####################
+#### run Forward ##
+####################
+
+Move RunPre
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        RunCycle
+	Priority        1
+
+	Type		Shark
+	  Anim          Shark\swim_fast 1 33
+	  MoveRate      0.7
+	TEnd
+
+
+MEnd
+
+
+Move RunCycle
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        RunPost
+	Priority        1
+
+
+	Type		Shark
+	  Anim          Shark\swim_fast 1 33
+	  MoveRate      0.7
+	TEnd
+
+
+
+MEnd
+
+
+Move RunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Shark
+	  Anim          Shark\Skel_shark 1 60
+	TEnd
+
+MEnd
+
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkCycle
+	Requires	FORWARD WALK
+	Interrupts	<Ready> <PostMoveCycle> RunPre RunCycle
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle MoveScale
+	NextMove        WalkPost
+	Priority        2
+
+
+
+	Type		Shark
+	  Anim          Shark\swim 1 60
+	MoveRate      0.3
+	TEnd
+
+
+
+MEnd
+
+
+
+Move WalkPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle>
+	NextMove        Ready
+	Interpolate	30
+
+	Type		Shark
+	  Anim          Shark\Skel_shark 1 60
+	TEnd
+
+
+MEnd
+
+
+###################
+###### Super Jump  ######
+###################
+
+Move jumpPre
+	Requires	JUMP
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ> <StunMove>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpUp
+	Priority        1
+
+	Type		Shark
+	  Anim          Shark\jump 1 6
+	  ## PlayFx        FEET\jump1.FX
+	TEnd
+
+MEnd
+
+
+Move jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        jumpApex
+	Priority        1
+
+	Type		Shark
+	  Anim          Shark\jump 6 36
+
+	TEnd
+
+
+MEnd
+
+
+Move jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpFall
+	Priority        1
+
+	Type		Shark
+	  Anim          Shark\jump 36 37
+	TEnd
+
+
+MEnd
+
+
+Move jumpFall  ##transition to falling
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+	Priority        1
+	scale		0.3
+
+	Type		Shark
+	  Anim          Shark\jump 37 50
+	TEnd
+
+
+MEnd
+
+
+Move jumpFall2	##falling
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        1
+
+	Type		Shark
+	  Anim          Shark\jump 50 80
+	TEnd
+
+MEnd
+
+
+Move JumpPost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        postReady_back
+	Interpolate     6
+	Scale		0.7
+
+	Type		Shark
+	  Anim          Shark\jump 81 100
+	  ## PlayFx        FEET\LAND1.FX
+	TEnd
+
+
+MEnd
+
+
+
+
+
+
+################## Encounters #####################
+
+
+######## Idle mode  #################################
+
+Move IdleReady
+	Requires	test7 ##IDLE
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+
+	Type		Shark
+	  Anim          Shark\Skel_shark 1 60
+	TEnd
+
+MEnd
+
+###################
+### Idle Walk Forward ##
+###################
+
+Move IWalkPre
+	Requires	FORWARD test7 ##IDLE
+	Interrupts	<Ready> <BasicMove> ##<CombatMove> <WepMove> <TwoHandMove>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		ReqInputs
+	NextMove        IWalkCycle
+	Priority        2
+
+	Type		Shark
+	  Anim          Shark\swim 1 60
+	  MoveRate	0.146
+	TEnd
+MEnd
+
+
+Move IWalkCycle
+	Requires	FORWARD test7 ##IDLE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	NextMove        IWalkPost
+	Priority        2
+
+
+	Type		Shark
+	  Anim          Shark\swim 1 60
+	  MoveRate	0.146
+	TEnd
+
+MEnd
+
+
+Move IWalkPost
+	Requires	test7 ##IDLE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ> <PostMoveCycle>
+	NextMove        Idle   ##Ready
+	Priority        1
+
+	Type		Shark
+	  Anim          Shark\Skel_shark 1 60
+	TEnd
+
+
+MEnd
+
+
+########## Powers  #############
+
+
+#################################
+###### Attack 01 ######
+#################################
+
+Move attack_01
+	Requires	test1
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        attack_01_post
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Shark
+	  Anim          Shark\attack_01 1 25
+	TEnd
+
+MEnd
+
+
+Move attack_01_post
+	## Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_Cycle
+	Priority        1
+	Interpolate     0
+
+	Type		Shark
+	  Anim          Shark\attack_01 26
+	TEnd
+MEnd
+
+
+Move Combat_Cycle  ## faking combat mode
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+
+	Type		Shark
+	  Anim          Shark\combat_ready 1 60
+	TEnd
+
+MEnd
+
+######################### Hit Reactions ##############################
+
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Hit_cycle
+	Flags		HitReact
+	Priority        2
+
+	Type		Shark
+	  Anim          Shark\hit_soft 1
+	TEnd
+
+
+MEnd
+
+
+###################
+###### Combat Hit Quick  ######
+###################
+
+Move C_HitQuick
+	Requires	QUICK HIT COMBAT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        combat_cycle
+	Flags		HitReact
+	Priority        3
+
+	Type		Shark
+	  Anim          Shark\hit_soft 1
+	TEnd
+
+
+MEnd
+
+
+###################
+###### knockback Hit  ######
+###################
+
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Priority        5
+	Sets            CANTMOVE
+
+
+	Type		Shark
+	  Anim          Shark\knockback 1 6
+    	  PlayFx	Volumes\Water\DeepSplash\Mystic_DeepSplash.fx 1
+	TEnd
+
+
+MEnd
+
+Move KHF_travel
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+	Sets            CANTMOVE
+
+
+	Type		Shark
+	  Anim          Shark\knockback 6 41
+	TEnd
+
+
+MEnd
+
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Priority        2
+	Sets            CANTMOVE
+
+
+	Type		Shark
+	  Anim          Shark\knockback 41 42
+	TEnd
+
+MEnd
+
+
+Move KHF_fallcycle
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+	Sets            CANTMOVE
+	scale		1.5
+
+
+	Type		Shark
+	  Anim          Shark\knockback 6 41
+	TEnd
+
+MEnd
+
+
+Move KHF_impact
+	NextMove        getup_back
+	Sets            CANTMOVE
+	scale		0.3
+
+	Type		Shark
+	  Anim          Shark\knockback 58 80
+	  ## PlayFx        FEET\MALEDEATH7.FX
+  	  PlayFx	Volumes\Water\DeepSplash\Mystic_DeepSplash.fx 1
+	TEnd
+
+MEnd
+
+
+###################
+###### Sweeps  ######
+###################
+
+
+Move Sweep_low
+	Requires	test4 ## SWEEP LOW HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Shark
+	  Anim          Shark\sweep 1 21
+    	  PlayFx	Volumes\Water\DeepSplash\Mystic_DeepSplash.fx 1
+	TEnd
+
+
+MEnd
+
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Shark
+	  Anim          Shark\sweep 21
+  	  PlayFx	Volumes\Water\DeepSplash\Mystic_DeepSplash.fx 1
+	TEnd
+
+MEnd
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Shark
+	  Anim          Shark\sweep 1 21
+  	  PlayFx	Volumes\Water\DeepSplash\Mystic_DeepSplash.fx 1
+	TEnd
+
+
+MEnd
+
+
+###################
+######Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ> <Ready> <HitIRQ>
+	Member		<ReactIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Flags		HitReact NoSizeScale
+	Priority        6
+	scale		1.5
+
+
+	Type		Shark
+	  Anim          Shark\electropain 1
+	TEnd
+
+
+MEnd
+
+
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+	Flags		HitReact NoSizeScale
+	scale		1.5
+
+	Type		Shark
+	  Anim          Shark\electropain 1 40
+	TEnd
+
+
+MEnd
+
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react3
+	Flags		NoSizeScale
+	scale		1.5
+
+	Type		Shark
+	  Anim          Shark\SKEL_shark 40 41
+	TEnd
+
+
+MEnd
+
+
+Move ClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react4
+	Flags		NoSizeScale
+
+	Type		Shark
+	  Anim          Shark\knockback 1 6
+	TEnd
+MEnd
+
+Move ClawSpeed_react4
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Combat_Cycle
+	Flags		NoSizeScale
+	scale		1.0
+
+	Type		Shark
+	  Anim          Shark\knockback 47 80
+	  PlayFx	Volumes\Water\DeepSplash\Mystic_DeepSplash.fx 1
+	TEnd
+MEnd
+
+############### Stuns ####################
+
+
+
+###################
+###### Stun ######
+###################
+
+Move Stun
+	Requires	test8 ## STUN HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	NextMove        Stun_cycle
+	Priority        2
+
+	Type		Shark
+	  Anim          Shark\hit_hard 1 12
+	TEnd
+
+
+MEnd
+
+
+
+
+
+Move Stun_cycle
+	Requires	test8 ##  STUN
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	Flags		Cycle
+	NextMove        Ready
+	Interpolate	25
+	Priority        1
+	Scale           0.50
+
+	Type		Shark
+	  Anim          Shark\stun 1
+	TEnd
+
+
+
+MEnd
+
+Move Dizzy_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+	Scale           0.50
+
+	Type		Shark
+	  Anim          Shark\stun 1
+	TEnd
+
+
+MEnd
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Sleep2
+	Priority        3
+	Scale           0.40
+
+	Type		Shark
+	  Anim          Shark\hit_hard 1 12
+	TEnd
+
+
+MEnd
+
+
+Move Sleep2
+	Requires	STUN SLEEP
+	Interrupts	<ReactIRQ> <AttackIRQ> <HitIRQ>
+	Member		<DeathIRQ> <ReactIRQ>
+	NextMove        Sleep_cycle
+	Priority        2
+	Scale           0.20
+	Interpolate     0
+	Flags		ReqInputs
+
+	Type		Shark
+	  Anim          Shark\stun 1
+	TEnd
+
+
+MEnd
+
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        2
+	Scale           0.20
+
+	Type		Shark
+	  Anim          Shark\stun 1
+	TEnd
+
+MEnd
+
+###################
+###### choke Stun  ######
+###################
+
+Move chokeStun
+	Requires	test9 ## STUN HIT CHOKESTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        chokeStun_cycle
+	Priority        3
+
+	Type		Shark
+	  Anim          Shark\hit_hard 1 12
+	TEnd
+
+
+MEnd
+
+
+Move chokeStun_cycle
+	Requires	test9 ## STUN CHOKESTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	CycleMove	chokeStun_cycle_2
+	CycleMove	chokeStun_cycle_3
+	CycleMove	chokeStun_cycle
+
+	Priority        2
+	Interpolate     20
+
+	Type		Shark
+	  Anim          Shark\pain 1
+	TEnd
+
+MEnd
+
+Move chokeStun_cycle_2
+	Requires	test9 ## STUN CHOKESTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	CycleMove	chokeStun_cycle_3
+	CycleMove	chokeStun_cycle
+	CycleMove	chokeStun_cycle_2
+	Scale           2
+
+	Priority        2
+	Interpolate     20
+
+	Type		Shark
+	  Anim          Shark\pain 1
+	TEnd
+
+
+MEnd
+
+Move chokeStun_cycle_3
+	Requires	test9 ## STUN CHOKESTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	CycleMove	chokeStun_cycle
+	CycleMove	chokeStun_cycle_2
+	CycleMove	chokeStun_cycle_3
+	Scale           0.5
+
+	Priority        2
+	Interpolate     20
+
+	Type		Shark
+	  Anim          Shark\pain 1
+	TEnd
+
+
+MEnd
+
+###################
+###### Sonic Stun  ######
+###################
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        SonicStun_cycle
+	Priority        3
+
+	Type		Shark
+	  Anim          Shark\hit_hard 1 12
+	TEnd
+
+
+MEnd
+
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+
+	Priority        2
+
+
+	Type		Shark
+	  Anim          Shark\pain 1
+	TEnd
+
+
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        ElectroStun_cycle
+	Priority        3
+
+	Type		Shark
+	  Anim          Shark\hit_hard 1 12
+	TEnd
+
+
+MEnd
+
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+
+	Priority        2
+
+	Type		Shark
+	  Anim          Shark\pain 1
+	TEnd
+
+
+MEnd
+
+###################
+###### Lasso Stun  ######
+###################
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        LassoStun_cycle
+	Priority        3
+	Scale           0.60
+
+	Type		Shark
+	  Anim          Shark\hit_hard 1 12
+	TEnd
+MEnd
+
+
+Move LassoStun_cycle
+	Requires	STUN LASSOSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+
+	Priority        2
+	Scale           0.60
+
+	Type		Shark
+	  Anim          Shark\pain 1
+	TEnd
+
+
+
+MEnd
+
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	test6 ##STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+
+	Type		Shark
+	  Anim          Shark\freezestun 1 26
+	TEnd
+MEnd
+
+Move FreezeStun_cycle
+	Requires	test6 STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+
+	Scale           0.01
+	Priority        3
+
+	Type		Shark
+	  Anim          Shark\freezestun 26 30
+	TEnd
+
+
+MEnd
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle
+
+	Priority        3
+
+	Type		Shark
+	  Anim          Shark\stun 1
+	TEnd
+
+
+MEnd
+
+
+
+
+###################
+###### Levitate Stun  ######
+###################
+
+Move Lev_Stun
+	Requires	STUN HIT FLOATSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Lev_Stun_cycle
+	Interpolate     15
+	Priority        3
+
+	Type		Shark
+	  Anim          Shark\stun 1
+	TEnd
+
+
+MEnd
+
+
+Move Lev_Stun_cycle
+	Requires	STUN FLOATSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        2
+
+	Type		Shark
+	  Anim          Shark\stun 1
+	TEnd
+
+
+MEnd
+
+
+###################
+###### Lev_Stun Hit Quick  ######
+###################
+
+## add me later!
+
+
+
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	Fear
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+	Priority        2
+
+	Type		Shark
+	  Anim          Shark\hit_hard 1 12
+	TEnd
+
+
+MEnd
+
+
+Move FearStun_cycle
+	Requires	Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	Interpolate	8
+
+	Type		Shark
+	  Anim          Shark\pain 1
+	TEnd
+
+
+
+
+MEnd
+
+
+
+################### Deaths  #####################
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Shark
+	  Anim          Shark\death 1
+	  ## PlayFx        FEET\MALEDEATH1.FX
+	TEnd
+
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+
+	Type		Shark
+	  Anim          Shark\death 59 60
+	TEnd
+
+
+MEnd
+
+######################################
+########### Spirit Shark anims
+#######################################
+
+Move Spirit_Shark_Frenzy
+	Requires	SPIRITSHARKFRENZY
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	nextmove	Spirit_Shark_Frenzy
+	Priority        3
+
+
+	Type		Shark
+	  Anim          Shark\spirit_frenzy
+	TEnd
+
+
+
+MEnd
+
+
+
+SeqEnd ## Don't cut
+

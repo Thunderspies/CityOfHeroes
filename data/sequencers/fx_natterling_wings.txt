@@ -1,0 +1,113 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Natterling_wings
+	BaseSkeleton	FX_Natterling_wings\Skel_FX_Natterling_wings
+	ParentType	None
+TypeDefEnd
+
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+
+
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle 
+
+
+	Type		FX_Natterling_wings
+	  Anim          FX_Natterling_wings\Skel_FX_Natterling_wings 1 5  
+	TEnd
+
+MEnd
+
+
+
+
+#### powers & attacks  ######################
+
+
+###################
+###### Flap  ######
+###################	
+
+Move Flap
+	Requires	Fly 
+	Interrupts	<Ready>
+	Flags		Cycle
+	Priority        5
+
+
+	Type		FX_Natterling_wings
+	  Anim          FX_Natterling_wings\Skel_FX_Natterling_wings 6 11  
+	  PlayFX	EnemyFX\Rularuu\Natterling\natterflight.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+
+###################
+###### Fold wings  ######
+###################	
+
+#Move Fold_wings
+#	Requires	HEAL MENACE STRONG 
+#	Interrupts	<AttackIRQ> Ready Flap
+#	Flags		Cycle
+#	Priority        2
+#
+#
+#	Type		FX_Natterling_wings
+#	  Anim          FX_Natterling_wings\fold_wings 1 
+#	TEnd
+#
+#MEnd
+
+
+SeqEnd		##(leave at the bottom. DO NOT MOVE!!!)###

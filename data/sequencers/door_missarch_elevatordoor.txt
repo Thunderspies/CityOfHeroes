@@ -1,0 +1,87 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_MissArch_ElevatorDoor
+	BaseSkeleton	Door_MissArch_ElevatorDoor\Skel_Door_MissArch_ElevatorDoor
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		Door_MissArch_ElevatorDoor
+	  Anim          Door_MissArch_ElevatorDoor\Skel_Door_MissArch_ElevatorDoor 0 1
+	TEnd
+MEnd
+
+Move Open
+	Requires	OPEN
+	Interrupts	<Ready>
+	NextMove        Open2
+	Priority        1
+	Scale           1
+
+	Type		Door_MissArch_ElevatorDoor
+	  Anim          Door_MissArch_ElevatorDoor\Skel_Door_MissArch_ElevatorDoor 2 32
+	  PlayFX	Doors\MissionArchitectElevatorDoors_Open.txt
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN
+	NextMove        Opened
+	Priority        1
+	Scale           1
+	Sets            WALKTHROUGH
+
+	Type		Door_MissArch_ElevatorDoor
+	  Anim          Door_MissArch_ElevatorDoor\Skel_Door_MissArch_ElevatorDoor 33 42
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle
+	Sets            WALKTHROUGH
+
+	Type		Door_MissArch_ElevatorDoor
+	  Anim          Door_MissArch_ElevatorDoor\Skel_Door_MissArch_ElevatorDoor 43 46
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT
+	Interrupts	Opened
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH
+
+	Type		Door_MissArch_ElevatorDoor
+	  Anim          Door_MissArch_ElevatorDoor\Skel_Door_MissArch_ElevatorDoor 47 61
+	  PlayFX	Doors\MissionArchitectElevatorDoors_Close.txt
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_MissArch_ElevatorDoor
+	  Anim          Door_MissArch_ElevatorDoor\Skel_Door_MissArch_ElevatorDoor 62 85
+	TEnd
+MEnd
+
+SeqEnd
+

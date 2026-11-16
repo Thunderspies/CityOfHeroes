@@ -1,0 +1,101 @@
+// addGlowfp.cg
+// 'BLENDMODE_ADDGLOW' material. See shaders.txt for more information
+#include "variants.cgh"
+
+// definitions required for this program,
+// so we don't bother putting them in a variant
+#define VERTEX_LIT		VERT_COLOR
+
+// "HIGH_QUALITY" for simple materials w/o bump mapping
+// means to use a per pixel lighting variant of this material
+#if defined(BIT_HIGH_QUALITY)
+	#define PIXEL_LIT		LIT
+#else
+	#define PIXEL_LIT		NONE
+#endif
+
+/*
+ #fragment let slimshady know this is a fragment program
+ Variants to be verified/analyzed by slimshady script:
+	#option	BIT_HIGH_QUALITY				// all the variants are also optionally compiled with these defined
+	#option	BIT_SHADOWMAP
+	#option	BIT_DEBUG					
+*/
+
+#include "shadows.cgh"
+#include "constants_fp.cgh"
+#include "functions.cgh"
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+#include "nexus.cgh"			// (#extract) define vertex program structure/semantics <=> fragment program input
+
+#ifndef BIT_DEBUG
+
+uniform sampler2D sampler_base		: TEXUNIT0;
+uniform sampler2D sampler_glow		: TEXUNIT1;
+uniform sampler2D sampler_glow_mask	: TEXUNIT2;
+
+//----------------------------------------------------------------------------
+// main
+//----------------------------------------------------------------------------
+float4 main( VP2FP IN ) : COLOR
+{
+	float2 uv0 = IN.uv0_uv1.xy;
+	float2 uv1 = IN.uv0_uv1.zw;
+
+	// Compute material color: 'BLENDMODE_ADDGLOW'
+	// Compute tinted base texture old school style without a dual texture (e.g. BMB_OLDTINTMODE)
+	float4 tex_base = tex2D( sampler_base, uv0 );
+	float4 out_color = calc_old_tint(g_Env0FP, tex_base );
+	out_color.rgb	*= 4 * IN.color.rgb;	// modulate with vertex color * 4 (matches old assets and reg combiner programs)
+
+#if PIXEL_LIT == LIT
+	// per pixel lighting variant of this material
+	#ifdef USE_SHADOWMAP
+		// determine fragment raw shadowing factor
+		float shade_factor = shadow_csm( IN.position_vs.xyz, IN.fragment_pos );
+	#else
+		float shade_factor = 1; // set to one and compiler will optimize away operations
+	#endif
+
+	// Compute per-pixel lighting
+	float3 lightdir				= normalize( g_Light0PositionFP.xyz );
+	float3 half_vs				= normalize( lightdir + normalize(-IN.position_vs.xyz) );
+	float4 normal_gloss			= float4(IN.normal_vs.xyz, 1);
+
+	LightProps light = get_gl_light0_properties(shade_factor, 1.0f);
+
+	float3 light_factors = calc_lighting_factors( normal_gloss, lightdir, half_vs, light.spec_color_and_exp.a );
+	#ifdef USE_SHADOWMAP
+		light_factors = shadow_light_factors( light_factors, light.shade_factor ); // apply shadow factors to light factors
+	#endif
+	out_color.rgb = apply_lighting( out_color.rgb, light_factors, light );
+#else
+	#ifdef USE_SHADOWMAP
+		float shade_factor = shadow_csm( IN.position_vs.xyz, IN.fragment_pos );
+		float clamped_factor = clamp( shade_factor, g_ShadowParamsFP.w, 1.0 );
+		out_color.rgb *= clamped_factor;
+	#endif
+#endif
+
+	// check glow mask and add glow texture if appropriate to outColor
+	add_glow_orig( out_color, sampler_glow, uv1, sampler_glow_mask, uv0, g_GlowParamFP );
+
+	out_color.rgb = calc_fogged_color( out_color.rgb, IN.fogCoord );
+
+	return out_color;
+}
+#else
+//--------------------------------------------------
+// Debug Variant
+//--------------------------------------------------
+
+#include "debug.cgh"
+
+float4 main( VP2FP IN ) : COLOR
+{
+	return debug_common_simple_main( BLENDMODE_ADDGLOW, IN );
+}
+#endif // BIT_DEBUG

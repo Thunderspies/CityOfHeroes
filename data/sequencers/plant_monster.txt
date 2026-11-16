@@ -1,0 +1,805 @@
+#############################################################
+## Plant_Monster.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Plant_Monster_Body
+	BaseSkeleton	Plant_Monster_Body\Skel_Plant_Monster_Body
+	ParentType	None
+TypeDefEnd
+
+TypeDef FlyTrap_AnimFX
+	BaseSkeleton	Plant_Monster_Body\Skel_Plant_Monster_Body
+	ParentType	Plant_Monster_Body
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+#############################################################
+## READY
+#############################################################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Skel_Plant_Monster_Body 1
+	TEnd
+MEnd
+
+#############################################################
+## MOVEMENT
+#############################################################
+
+## RUN FORWARD ###########################################################
+
+Move RunPre
+	Requires	FORWARD
+	Priority	1
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        RunCycle
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\spider_walk 1
+	  MoveRate      0.2
+	TEnd
+MEnd
+
+Move RunCycle
+	Requires	FORWARD
+	Priority        1
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        RunPost
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\spider_walk 1
+	  MoveRate      0.15
+	TEnd
+MEnd
+
+Move RunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Flags		NoSizeScale
+	scale		0.4
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\hit_quick 17
+	TEnd
+MEnd
+
+###################
+#### Walk Forward ##
+####################
+
+Move WalkPre
+	Requires	FORWARD WALK
+	Priority        2
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale NoSizeScale
+	NextMove        WalkCycle
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\spider_walk 1
+	  MoveRate      0.2
+	TEnd
+MEnd
+
+Move WalkCycle
+	Requires	FORWARD WALK
+	Priority        2
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale NoSizeScale
+	NextMove        WalkPost
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\spider_walk 1
+	  MoveRate      0.2
+	TEnd
+MEnd
+
+Move WalkPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\hit_quick 10
+	TEnd
+MEnd
+
+###################
+###### Super Jump  ######
+###################
+
+Move jumpPre
+	Requires	JUMP
+	Priority        1
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ> <StunMove>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		NoSizeScale
+	NextMove        jumpUp
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\jump 1 4
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Priority        1
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        jumpApex
+	Scale		0.5
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\jump 5 25
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Priority        1
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpFall
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\jump 25 26   ##2fr
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Priority        1
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs NoSizeScale
+	NextMove        jumpFall2
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\jump 26 44  ##trans
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Priority        1
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        JumpEnd
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\jump 45 65
+	TEnd
+MEnd
+
+Move JumpEnd
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        postReady_back
+	Interpolate     6
+	Scale		1.2
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\jump 66 90
+	TEnd
+MEnd
+
+#############################################################
+## HIT REACTIONS
+#############################################################
+
+## HIT QUICK ###########################################################
+
+Move HitQuick
+	Requires	HIT QUICK
+	Priority        2
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact NoSizeScale
+	NextMove        Ready
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\hit_quick 1
+	TEnd
+MEnd
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	HIT FEAR
+	Priority        2
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		NoSizeScale
+	NextMove        FearStun_cycle
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\hit_quick 3 12
+	TEnd
+MEnd
+
+Move FearStun_cycle
+	Requires	FEAR
+	Priority        1
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        Ready
+	scale		1.5
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\spider_stun 1
+	TEnd
+MEnd
+
+###################
+###### Pain  ######
+###################
+
+Move Pain
+	Requires	HIT ENERGY
+	Priority        2
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Pain_cycle
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\hit_quick 3 12
+	TEnd
+MEnd
+
+Move Pain_cycle
+	Requires	ENERGY
+	Priority        1
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Flags		NoSizeScale
+	scale		1.5
+	NextMove        weak_post
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\spider_pain 1
+	TEnd
+
+	Type		Tarantula
+	  Anim          Spider\spider_pain_tall 1
+	TEnd
+MEnd
+
+###################
+###### Pain2  ######
+###################
+
+Move Pain2
+	Requires	HIT PSIONIC
+	Priority        2
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		NoSizeScale
+	NextMove        Pain2_cycle
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\hit_quick 3 12
+	TEnd
+MEnd
+
+Move Pain2_cycle
+	Requires	PSIONIC
+	Priority        1
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle NoSizeScale
+	scale		1.5
+	NextMove        weak_post
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\spider_pain2 1
+	TEnd
+MEnd
+
+####################
+#### Stunned Walk ##
+####################
+
+Move WalkStunPre
+	Requires	STUN FORWARD
+	Priority        2
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale NoSizeScale
+	NextMove        WalkStunCycle
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\spider_walk_stun 1
+	  MoveRate      0.15
+	TEnd
+MEnd
+
+Move WalkStunCycle
+	Requires	STUN FORWARD
+	Priority        2
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale NoSizeScale
+	NextMove        WalkStunPost
+	interpolate	0
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\spider_walk_stun 1
+	  MoveRate      0.15
+	TEnd
+MEnd
+
+Move WalkStunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	Flags		NoSizeScale
+	interpolate	15
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\weak 31 70
+	TEnd
+MEnd
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Priority        4
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	Flags		NoSizeScale
+	NextMove        FreezeStun_cycle
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Freeze 1 28
+	TEnd
+MEnd
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Priority        3
+	Member		<DeathIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        weak_post
+	Scale           0.01
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Freeze 29 30
+	TEnd
+MEnd
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Priority        5
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Flags		NoSizeScale
+	Sets            CANTMOVE
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\knockback 26 31
+	TEnd
+MEnd
+
+Move KHF_travel
+	Requires	AIR
+	Priority        1
+	Flags		Cycle NoSizeScale
+	NextMove        KHF_impact
+	Sets            CANTMOVE
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\knockback 1 31
+	TEnd
+MEnd
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Priority        2
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\knockback 31 32
+	TEnd
+MEnd
+
+Move KHF_fallcycle
+	Requires	AIR
+	Priority        1
+	Flags		Cycle
+	NextMove        KHF_impact
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	interpolate	20
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\knockback 100 130
+	TEnd
+MEnd
+
+Move KHF_impact
+	NextMove        getup_back
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	scale		2.0
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\knockback 32 46
+	TEnd
+MEnd
+
+Move getup_back
+	NextMove        Ready
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\knockback 47 90
+	TEnd
+MEnd
+
+###################
+###### Sweeps  ######
+###################
+
+Move Sweep_low
+	Requires	SWEEP HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	scale		2.5
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\Spider_sweep 1 33
+	TEnd
+MEnd
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	Interpolate     5
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\knockback 47 90
+	TEnd
+MEnd
+
+###################
+######Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ> <Ready> <HitIRQ>
+	Member		<ReactIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact NoSizeScale
+	Priority        6
+	scale		1.5
+
+	Type		Plant_Monster_Body
+	  Anim          Spider\Spider_multihit 1
+	TEnd
+MEnd
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		NoSizeScale
+	Nextmove	Sleep_Cycle
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\hit_quick 3 12
+	TEnd
+MEnd
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Priority        2
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove	weak_post
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\sleep 1
+	TEnd
+MEnd
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact NoSizeScale
+	nextmove	weak_post2
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\weak 1
+	TEnd
+MEnd
+
+Move weak_post2
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		NoSizeScale
+	NextMove        Ready
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\weak 31 75
+	TEnd
+MEnd
+
+
+#############################################################
+## POWERS
+#############################################################
+
+#################################
+###### Bite Attacks ######
+#################################
+
+Move Bite
+	Requires	COMBAT TERRIFY
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Slashpost_R
+	Flags		NoSizeScale
+	Sets            CANTMOVE
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Bite 1 30
+	TEnd
+MEnd
+
+Move Bite_Post
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	Flags		NoSizeScale
+	NextMove        Combat_Cycle
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Bite 31
+	TEnd
+MEnd
+
+############################
+###### Thorn Cone ######
+##########################
+
+Move Thorn_Cone
+	Requires	COMBAT THROWKNIFE CONE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Thorn_Cone_Post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Thorns 1 26
+	TEnd
+MEnd
+
+Move Thorn_Cone_Post
+	Requires	COMBAT
+	Priority        1
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	Flags		NoSizeScale
+	NextMove        Combat_Cycle
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Thorns 27
+	TEnd
+MEnd
+
+############################
+###### Thorn Shot ######
+##########################
+
+Move Thorn_Swipe
+	Requires	COMBAT THROWKNIFE POINT
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Thorn_Swipe_Post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Swipe 1 30
+	TEnd
+MEnd
+
+Move Thorn_Swipe_Post
+	Requires	COMBAT
+	Priority        1
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove        Combat_Cycle
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Swipe 31
+	TEnd
+MEnd
+
+#############################################################
+## SPAWNS
+#############################################################
+
+## SPAWNED AS PET ############################################################
+
+Move SpawnedAsPet
+	Requires	SPAWNEDASPET
+	Priority        100
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	Scale           0.5
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Spawn 31
+	  PlayFx        V_COV\Powers\PlantControl\Flytrap\PlantMonster_Spawn.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+## VINE PET SUMMON ###########################################################
+
+Move Vine
+	Requires	SUMMON SPAWN FEET
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Vinepost
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	SticksOnChild	SUMMON SPAWN FEET
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Vine 1 62
+	TEnd
+MEnd
+
+Move Vinepost
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove        Combat_Cycle
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Vine 63 81
+	TEnd
+MEnd
+
+## SPAWN ###########################################################
+
+Move Spawn_Sleep
+	Requires	LOW SPAWN
+	Priority        3
+	Interrupts	<Ready> <Combat> <WepCombat>
+	NextMove        Spawn_Ambush
+	Interpolate     0
+	SticksOnChild	LOW SPAWN
+	Flags		Cycle NotSelectable
+	Sets            CANTMOVE NOCOLLISION
+	scale           0.5
+
+	Type		Plant_Monster_Body
+	  Anim		Plant_Monster_Body\Spawn 1 30
+	  PlayFx        V_COV\Powers\PlantControl\Flytrap\PlantMonster_Spawn.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Spawn_Ambush
+	Sets            CANTMOVE
+	Scale           0.5
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Spawn 31
+	  PlayFx        V_COV\Powers\PlantControl\Flytrap\PlantMonster_Spawn.fx 0 CONSTANT
+	TEnd
+MEnd
+
+### DEFAULT DEATH ##########################################################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Sets            NOCOLLISION
+	Flags		NoSizeScale
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Death 1
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Priority        1
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NoSizeScale
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+
+	Type		Plant_Monster_Body
+	  Anim          Plant_Monster_Body\Death 110 111
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

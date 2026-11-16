@@ -1,0 +1,119 @@
+
+#### CoV BASES ##########
+
+Trick basewalls01
+	LodFar 800
+	LodFarFade 200
+End
+
+Trick basewalls02
+	LodFar 800
+	LodFarFade 200
+End
+
+Trick basewallsglo
+	LodFar 800
+	LodFarFade 200
+	ObjFlags FullBright
+End
+
+
+Trick stackable
+	TrickFlags NoDraw
+	GroupFlags StackableFloor
+End
+
+## Floors, ceilings
+Trick basewalls
+	LodFar 800
+	LodFarFade 200
+End
+
+
+
+## IAN, this stuff is tagged on the detail objects in tech01. fix please.
+Trick basewalls_base_tech_A_TrimHi_Str_Con__basewalls
+	LodFar 800
+	LodFarFade 200
+End
+
+Trick basesrecess01
+	LodFar 800
+	LodFarFade 200
+	#ObjFlags FullBright
+	TrickFlags NoColl ##Additive
+End
+
+Trick basebuildbox01
+	LodFar 1600
+	LodFarFade 200
+	#ObjFlags FullBright
+	TrickFlags NoColl #NotSelectable
+End
+
+Trick basesgrndmnt
+	SortBias 20000
+	LodFar 800
+	LodFarFade 200
+	ObjFlags FullBright
+	TrickFlags NoColl Additive NoZWrite
+End
+
+Texture x_base_tint_generic
+	Base1 bases_ground_generic.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 white.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+
+	DualColor1 bases_ground_generic_dual.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 texture_name.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	AddGlow1 texture_name.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask texture_name.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 texture_name.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 texture_name.tgan
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1 
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 texture_name.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	#SpecularColor 248 191 206
+	#SpecularExponent 5
+
+	SpecularColor1 242 255 240
+	#SpecularColor2 255 100 100
+	SpecularExponent 5
+	DiffuseScale 1
+	AmbientScale 1
+
+
+End

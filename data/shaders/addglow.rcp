@@ -1,0 +1,23 @@
+!!RC1.0
+#
+#	BLENDMODE_ADDGLOW
+#
+{
+  rgb {
+    discard = unsigned_invert(tex0.a) * unsigned(const0);
+    discard = unsigned(tex0.a) * unsigned(tex0);
+    spare0 = sum();
+  }
+  alpha {
+    spare0 = unsigned(const0);
+  }
+}
+{
+  rgb {
+    spare0 = unsigned(col0) * unsigned(spare0);
+    scale_by_four();
+  }
+}
+clamp_color_sum();
+out.rgb = lerp(fog.a, color_sum, fog) + tex1;
+out.a = spare0;

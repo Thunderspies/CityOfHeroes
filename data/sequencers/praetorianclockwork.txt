@@ -1,0 +1,640 @@
+#########################################################
+## Player.txt - Player model sequencer
+#########################################################
+
+Sequencer
+
+## MALE #######################################################
+
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef huge
+	BaseSkeleton	huge\skel_ready
+	ParentType	male
+TypeDefEnd
+
+TypeDef fem
+	BaseSkeleton	fem\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef PraetorianClockworkMale
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef PraetorianClockworkHuge
+	BaseSkeleton	huge\skel_ready
+	ParentType	huge
+TypeDefEnd
+
+TypeDef PraetorianClockworkFem
+	BaseSkeleton	fem\skel_ready2
+	ParentType	fem
+TypeDefEnd
+
+TypeDef PraetorianClockwork_Victoria
+	BaseSkeleton	fem\skel_ready2
+	ParentType	PraetorianClockworkFem
+TypeDefEnd
+
+TypeDef Praetorian_Nightstar
+	BaseSkeleton	fem\skel_ready2
+	ParentType	PraetorianClockworkFem
+TypeDefEnd
+
+## GROUP TAGS - BASIC #######################################################
+
+Group	<Ready>
+
+## READY - This move HAS to be first in this sequencer ###########################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready
+	CycleMove	Ready
+	CycleMove	Ready2
+	CycleMove	Ready_Break1
+
+	Type		male
+	  Anim          male\Clockwork_Ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready2
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready
+	CycleMove	Ready2
+	CycleMove	Ready_Break2
+	CycleMove	Ready_Break3
+
+	Type		male
+	  Anim          male\Clockwork_Ready 1
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Ready_Break1
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove	Ready
+
+	Type		male
+	  Anim          male\clockwork_ready_to_look 1
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Look.fx 1
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_LookReturn.fx 98
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Look.fx 195
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_LookReturn.fx 287
+	TEnd
+
+	Type		Praetorian_Siege
+	  Anim          male\Clockwork_Ready 1
+	TEnd
+
+	Type		Praetorian_Nightstar
+	  Anim          male\Clockwork_Ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready_Break2
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove	Ready
+
+	Type		male
+	  Anim          male\clockwork_ready_to_headset 1
+	  # PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Headset.fx
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Headset1.fx 1
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Headset2.fx 63
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Headset3.fx 125
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Headset4.fx 155
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Headset5.fx 205
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_HeadsetVoice1.fx 25
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_HeadsetVoice2.fx 75
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_HeadsetVoice3.fx 115
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_HeadsetVoice4.fx 150
+	TEnd
+
+	Type		huge
+	  Anim          male\clockwork_ready_to_look 1
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Look.fx 1
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_LookReturn.fx 98
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_Look.fx 195
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_LookReturn.fx 287
+	TEnd
+
+	Type		Praetorian_Siege
+	  Anim          male\Clockwork_Ready 1
+	TEnd
+
+	Type		Praetorian_Nightstar
+	  Anim          male\Clockwork_Ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready_Break3
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove	Ready
+
+	Type		male
+	  Anim          male\clockwork_ready_to_fixarm 1
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArm1.fx 1
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 66
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 79
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 87
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 97
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 103
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 109
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 117
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 124
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 128
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArmBeep.fx 134
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Idle_FixArm2.fx 135
+	TEnd
+
+	Type		Praetorian_Siege
+	  Anim          male\Clockwork_Ready 1
+	TEnd
+
+	Type		Praetorian_Nightstar
+	  Anim          male\Clockwork_Ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+	Scale           0.80
+	Interpolate     8
+
+	Type		male
+	  Anim          male\clockwork_post_ready 7 24
+	TEnd
+
+	Type		fem
+	  Anim          fem\post_ready 10
+	TEnd
+
+	Type		Crystal
+	  Anim          male\MonComb_cycle 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+
+	Type		male
+	  Anim          male\clockwork_post_ready_back 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\post_ready 1
+	TEnd
+
+	Type		Crystal
+	  Anim          male\MonComb_cycle 1
+	TEnd
+MEnd
+
+#############################################################
+## FAKE COMBAT CYCLE (DOESN'T REQUIRE COMBAT BIT)
+#############################################################
+
+Move CombatReady_Half
+	Requires	COMBAT
+	Include sequencers\Members\Readies_Fake.inc
+	NextMove        Fake_CombatCycle
+	Scale           0.50
+	SticksOnChild	COMBAT
+
+	Type		male
+	  Anim          male\combat_cycle 15 31
+	TEnd
+MEnd
+
+Move CombatReady
+	Requires	COMBAT
+	Include sequencers\Members\Readies_Fake.inc
+	Flags		Cycle
+	NextMove        ChestCombatToReady
+	Scale           0.50
+	SticksOnChild	COMBAT
+
+	Type		male
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+## DEATHS
+#############################################################
+
+Move ClockworkDeath1_Pre
+	Requires	HIT DEATH
+	Priority        22
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        ClockworkDeath1
+	#Flags		NotSelectable
+	Sets            NOCOLLISION DIENOW TARGET
+	Interpolate	5
+
+	Type		male
+	  Anim          male\electro 1
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Death_SFX.fx
+	TEnd
+MEnd
+
+Move ClockworkDeath1
+	NextMove        ClockworkDeath1_Post
+	#Flags		NotSelectable
+	Sets            NOCOLLISION
+
+	Type		male
+	  Anim          male\death_front 50 65
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move ClockworkDeath1_Post
+	NextMove        ClockworkDeath_Dead
+	#Flags		NotSelectable
+	Sets            NOCOLLISION
+	Interpolate	0
+
+	Type		male
+	  Anim          male\death_front 65
+	  Ragdoll	1
+	TEnd
+
+	Type		Praetorian_Nightstar
+	  Anim          fem\death_front 65
+	 # Ragdoll	1
+	TEnd
+MEnd
+
+#############################################################
+
+Move ClockworkDeath2
+	Requires	HIT DEATH
+	Priority        22
+	Interrupts	<DeathIRQ>
+	NextMove        ClockworkDeath2_Post
+	#Flags		NotSelectable
+	Sets            NOCOLLISION DIENOW TARGET
+	Interpolate	5
+
+	Type		male
+	  Anim          male\death_front 1 45
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Death_SFX.fx
+	TEnd
+MEnd
+
+Move ClockworkDeath2_Post
+	NextMove        ClockworkDeath_Dead
+	#Flags		NotSelectable
+	Sets            NOCOLLISION
+	Interpolate	0
+
+	Type		male
+	  Anim          male\death_front 45
+	  Ragdoll	1
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	TEnd
+
+	Type		Praetorian_Nightstar
+	  Anim          fem\death_front 45
+	 # Ragdoll	1
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	TEnd
+MEnd
+
+##############################################################
+
+Move ClockworkDeath3
+	Requires	HIT DEATH
+	Priority        22
+	Interrupts	<DeathIRQ>
+	NextMove        ClockworkDeath_Dead
+	#Flags		NotSelectable
+	Sets            NOCOLLISION DIENOW TARGET
+	Interpolate	5
+
+	Type		male
+	  Anim          male\death_front 53 101
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Death_SFX.fx
+	TEnd
+
+	Type		Praetorian_Nightstar
+	  Anim          fem\death_front 53 101
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Death_SFX.fx
+	TEnd
+MEnd
+
+########Dead On The Ground Cycle####################################################
+
+Move ClockworkDeath_Dead
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle nosizescale
+	NextMove	Revive_belly_Pre_rooted
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		male
+	  Anim          male\death_front 128 129
+	  Ragdoll	1
+	TEnd
+
+	Type		Praetorian_Nightstar
+	  Anim          fem\death_twitch 1
+	#  Ragdoll	1
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+
+#############################################################
+
+Move KHF_Death
+	Requires	HIT DEATH KNOCKBACK
+	Priority        32
+	Interrupts	<DeathIRQ>
+	NextMove        ClockworkDeath_Dead
+	#Flags		NotSelectable
+	Sets            NOCOLLISION DIENOW TARGET
+	Interpolate	0
+
+	Type		male
+	  Anim          male\knockback_fierce 1 71
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	  PlayFX	ENEMYFX\Clockwork\antimatter\Clockwork_Death_SFX.fx
+	  Ragdoll	1
+	TEnd
+MEnd
+
+#############################################################
+
+Move KHF_Deathcycle
+	Requires	DEATH
+	Priority        1
+	Member 		<RaiseDeadBackIRQ>
+	Interrupts	getup_back Alt_KHF_impact2 Ragdoll_belly
+	Flags		Cycle
+	NextMove	Revive_belly_Pre_rooted
+	Sets            NOCOLLISION CANTMOVE DIENOW TARGET
+	Interpolate     0
+
+	Type		male
+	  Anim          male\knockback_fierce 71 75
+	  Ragdoll	1
+	TEnd
+
+	Type		Praetorian_Nightstar
+	  Anim          fem\knockback_fierce 71 75
+	  PlayFX	ENEMYFX\Praetorian\Clockwork\Death01.fx 0 CONSTANT
+	#  Ragdoll	1
+	TEnd
+MEnd
+
+#####################
+### Basic Spawn  #####
+#####################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<MonsterGroup> <Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_post
+	Priority        10
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale NotSelectable
+
+	Type		male
+	  Anim          male\absorb 1
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+
+MEnd
+
+Move Spawned_post
+	Member		<Ready> <ReactIRQ> <HitIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Spawned_cycle
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          male\boost 1
+	TEnd
+
+MEnd
+
+Move Spawned_cycle
+	Member		<Ready> <ReactIRQ> <HitIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\Skel_ready2 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\Skel_ready 1 60
+	TEnd
+
+MEnd
+
+
+## FLY READY ###########################################################
+
+Move Preflyready
+	Requires	FLY
+	Priority	1
+	Interrupts	<Ready>	<Jumps>	<PostMoveCycle>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove	flyready
+
+	Type		male
+	  Anim		male\pre_fly 2
+	  PlayFx	FEET\FLIGHT2.FX
+	TEnd
+
+	Type		huge
+	  Anim		huge\pre_fly 2
+	  PlayFx	FEET\FLIGHT2.FX
+	TEnd
+
+	Type		fem
+	  Anim		fem\pre_fly 2
+	  PlayFx	FEET\FLIGHT2.FX
+	TEnd
+
+	Type		Rularuu_male
+	  Anim		male\mystic_float 1
+	TEnd
+
+	Type		Wisp
+	  Anim		wisp\float 1
+	TEnd
+MEnd
+
+Move flyready
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		Cycle
+	NextMove	PreFall
+
+	Type		male
+	  Anim		male\float2 1
+	TEnd
+
+	Type		huge
+	  Anim		huge\float 1
+	TEnd
+
+	Type		fem
+	  Anim		fem\fly_ready 1
+	TEnd
+
+	Type		Rularuu_male
+	  Anim		male\mystic_float 1
+	TEnd
+
+	Type		Wisp
+	  Anim		wisp\float 1
+	TEnd
+MEnd
+
+## FLY FROM FALL ###########################################################
+
+Move Fall_Fready
+	Requires	FLY
+	Priority	1
+	Interrupts	<Fall>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove	flyready
+
+	Type		male
+	  Anim		male\flydown 180
+	TEnd
+
+	Type		huge
+	  Anim		huge\flydown 180
+	TEnd
+
+	Type		fem
+	  Anim		fem\fly_down 180
+	TEnd
+
+	Type		Wisp
+	  Anim		wisp\float 1
+	TEnd
+MEnd
+
+## FALL ###########################################################
+
+Move PreFall
+	Requires	AIR
+	Priority	1
+	#Interrupts	<MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>  <Fall>
+	Flags		Cycle
+	NextMove	JumpPost
+
+	Type		male
+	  Anim		male\flydown 1
+	TEnd
+
+	Type		huge
+	  Anim		huge\flydown 1
+	TEnd
+
+	Type		fem
+	  Anim		fem\fly_down 1
+	TEnd
+
+	Type		Praetorian_Nightstar
+	  Anim		fem\fly_down 1
+	TEnd
+
+
+
+MEnd
+
+
+
+#############################################################
+
+Include sequencers\PraetorianClockwork\powers_clockwork.inc
+Include sequencers\PraetorianClockwork\motion_clockwork.inc
+Include sequencers\PraetorianClockwork\motion_fly_clockwork.inc
+Include sequencers\PraetorianClockwork\reactions_clockwork.inc
+
+#Include sequencers\player\deaths.inc
+#Include sequencers\player\reactions_air.inc
+#Include sequencers\player\blocks.inc
+
+#Include sequencers\player\Spawns.inc
+#
+#Include sequencers\player\Swim.inc
+#
+#Include sequencers\player\powers.inc
+#Include sequencers\player\powers_air.inc
+
+#Include sequencers\player\powers_prestige.inc
+#Include sequencers\player\Korea.inc
+#Include sequencers\player\Taunts.inc
+#Include sequencers\player\Staff_Powers.inc
+#Include sequencers\player\sonic.inc
+#Include sequencers\player\signature.inc
+#Include sequencers\player\Brian_powers.inc
+#Include sequencers\player\CBruce_powers.inc
+#Include sequencers\player\skills.inc
+#Include sequencers\player\Crabpack.inc
+#
+#Include sequencers\player\weapons.inc
+#Include sequencers\player\weapons_a.inc
+#Include sequencers\player\Shields\Shields_Core.inc
+#Include sequencers\player\Shields\Shields_Powers.inc
+#Include sequencers\player\Shields\Shields_Weapons.inc
+#
+#Include sequencers\player\monster.inc
+
+Include sequencers\player\encounters.inc
+#Include sequencers\player\emotes.inc
+#Include sequencers\player\emotes_air.inc
+#Include sequencers\player\emotes_CostumeChange.inc
+#Include sequencers\player\Stances.inc
+#Include sequencers\player\Boombox.inc
+
+#Include sequencers\player\Events.inc
+#
+#Include sequencers\player\test.inc
+
+#########################################################
+
+SeqEnd

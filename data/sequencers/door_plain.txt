@@ -1,0 +1,190 @@
+#############################################################
+## Door_Maint_Shafts_B_Two_Door.txt
+#############################################################
+
+Sequencer
+
+TypeDef Door_Plain_Right
+	BaseSkeleton	Door_Plain_Right\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Door_Plain_Left
+	BaseSkeleton	Door_Plain_Left\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Door_Plain_Double
+	BaseSkeleton	Door_Plain_Double\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Door_Atlas_Generic_Double
+	BaseSkeleton	Door_Atlas_Generic_Double\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		Door_Plain_Right
+	  Anim		Door_Plain_Right\skel_ready 1 5
+	TEnd
+
+	Type		Door_Plain_Left
+	  Anim		Door_Plain_Left\skel_ready 1 5
+	TEnd
+
+	Type		Door_Plain_Double
+	  Anim		Door_Plain_Double\skel_ready 1 5
+	TEnd
+
+	Type		Door_Atlas_Generic_Double
+	  Anim		Door_Atlas_Generic_Double\skel_ready 1 5
+	TEnd
+MEnd
+
+### OPEN ###########################################################
+
+Move Open
+	Requires	OPEN
+	Priority	1
+	Interrupts	<Ready>
+	NextMove	Open2
+	Flags		NoSizeScale
+
+	Type		Door_Plain_Right
+	  Anim		Door_Plain_Right\skel_ready 2 18
+	  PlayFX	Doors\Mag_Open.FX
+	TEnd
+
+	Type		Door_Plain_Left
+	  Anim		Door_Plain_Left\skel_ready 2 18
+	  PlayFX	Doors\Mag_Open.FX
+	TEnd
+
+	Type		Door_Plain_Double
+	  Anim		Door_Plain_Double\skel_ready 2 18
+	  PlayFX	Doors\Mag_Open.FX
+	TEnd
+
+	Type		Door_Atlas_Generic_Double
+	  Anim		Door_Atlas_Generic_Double\skel_ready 2 18
+	  PlayFX	Doors\Mag_Open.FX
+	TEnd
+
+MEnd
+
+Move Open2
+	Requires	OPEN
+	Priority	1
+	NextMove	Opened
+	Sets		WALKTHROUGH
+	Flags		NoSizeScale
+
+	Type		Door_Plain_Right
+	  Anim		Door_Plain_Right\skel_ready 18 22
+	TEnd
+
+	Type		Door_Plain_Left
+	  Anim		Door_Plain_Left\skel_ready 18 22
+	TEnd
+
+	Type		Door_Plain_Double
+	  Anim		Door_Plain_Double\skel_ready 18 22
+	TEnd
+
+	Type		Door_Atlas_Generic_Double
+	  Anim		Door_Atlas_Generic_Double\skel_ready 18 22
+	TEnd
+
+MEnd
+
+Move Opened
+	Flags		Cycle NoSizeScale
+	Sets		WALKTHROUGH
+
+	Type		Door_Plain_Right
+	  Anim		Door_Plain_Right\skel_ready 22 32
+	TEnd
+
+	Type		Door_Plain_Left
+	  Anim		Door_Plain_Left\skel_ready 22 32
+	TEnd
+
+	Type		Door_Plain_Double
+	  Anim		Door_Plain_Double\skel_ready 22 32
+	TEnd
+
+	Type		Door_Atlas_Generic_Double
+	  Anim		Door_Atlas_Generic_Double\skel_ready 22 32
+	TEnd
+
+MEnd
+
+## SHUT ###########################################################
+
+Move Shut
+	Requires	SHUT
+	Priority	1
+	Interrupts	Opened
+	NextMove	Shut2
+	Sets		WALKTHROUGH
+	Flags		NoSizeScale
+
+	Type		Door_Plain_Right
+	  Anim		Door_Plain_Right\skel_ready 33 48
+	  PlayFX	Doors\Mag_Close.FX
+	TEnd
+
+	Type		Door_Plain_Left
+	  Anim		Door_Plain_Left\skel_ready 33 48
+	  PlayFX	Doors\Mag_Close.FX
+	TEnd
+
+	Type		Door_Plain_Double
+	  Anim		Door_Plain_Double\skel_ready 33 48
+	  PlayFX	Doors\Mag_Close.FX
+	TEnd
+
+	Type		Door_Atlas_Generic_Double
+	  Anim		Door_Atlas_Generic_Double\skel_ready 33 48
+	  PlayFX	Doors\Mag_Close.FX
+	TEnd
+
+MEnd
+
+Move Shut2
+	Requires	SHUT
+	NextMove	Ready
+	Flags		NoSizeScale
+
+	Type		Door_Plain_Right
+	  Anim		Door_Plain_Right\skel_ready 49 58
+	TEnd
+
+	Type		Door_Plain_Left
+	  Anim		Door_Plain_Left\skel_ready 49 58
+	TEnd
+
+	Type		Door_Plain_Double
+	  Anim		Door_Plain_Double\skel_ready 49 58
+	TEnd
+
+	Type		Door_Atlas_Generic_Double
+	  Anim		Door_Atlas_Generic_Double\skel_ready 49 58
+	TEnd
+
+MEnd
+
+#############################################################
+
+SeqEnd

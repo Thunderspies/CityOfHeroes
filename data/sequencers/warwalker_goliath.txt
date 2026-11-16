@@ -1,0 +1,1235 @@
+#############################################################
+## WarWalker_Goliath.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Warworks_Goliath
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	None
+TypeDefEnd
+
+TypeDef Avatar_Hamidon
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	None
+TypeDefEnd
+
+TypeDef MindsOfMayhem_Avatar
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	Avatar_Hamidon
+TypeDefEnd
+
+TypeDef MindsOfMayhem_LIWW
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	Warworks_Goliath
+TypeDefEnd
+
+
+
+
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Interpolate	5
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		Warworks_Goliath
+	  Anim          5cw\skel_monster_cycle 1
+	TEnd
+
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+
+	Type		Warworks_Goliath
+	  Anim          5cw\monster_postback 5
+   	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Foot_Left.fx 10
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Foot_Right.fx 18
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_walkpost 5
+  	  PlayFX		Events\EndGame\Underground\Hamidon_Foot_Left.fx 10
+  	  PlayFX		Events\EndGame\Underground\Hamidon_Foot_Right.fx 18
+	TEnd
+MEnd
+
+#############################################################
+
+Move CombatReady_15
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		Warworks_Goliath
+	  Anim          5cw\combat_cycle 15 31
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_combat_ready 15 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        postReady_back
+	Scale           0.50
+
+	Type		Warworks_Goliath
+	  Anim          5cw\combat_cycle 1 31
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_combat_ready 1 31
+	TEnd
+MEnd
+
+## WALK FORWARD###########################################################
+
+Move WalkPre
+	Requires	FORWARD
+	Priority        1
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <CombatAttack> <MoveIRQ> <HitIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs AlwaysSizeScale MoveScale
+	NextMove        WalkCycle
+	scale 		1.8
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_walk 3 48
+	  MoveRate      0.75  ## 0.7 x 30 = I animated this to move at 21 feet per second
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Foot_Right.fx 1
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Foot_Left.fx 24
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_walk 3 48
+	  MoveRate      0.75  ## 0.7 x 30 = I animated this to move at 21 feet per second
+	  PlayFX	Events\EndGame\Underground\Hamidon_Foot_Left.fx 1
+	  PlayFX	Events\EndGame\Underground\Hamidon_Foot_Right.fx 24
+	TEnd
+
+MEnd
+
+Move WalkCycle
+	Requires	FORWARD
+	Priority        1
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale AlwaysSizeScale
+	NextMove        WalkPost
+	scale 		1.8
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_walk 1 48
+	  MoveRate      0.75 ## 0.7 x 30 = I animated this to move at 21 feet per second
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Foot_Right.fx 8
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Foot_Left.fx 32
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_walk 1 48
+	  MoveRate      0.75 ## 0.7 x 30 = I animated this to move at 21 feet per second
+	  PlayFX		Events\EndGame\Underground\Hamidon_Foot_Right.fx 1
+	  PlayFX		Events\EndGame\Underground\Hamidon_Foot_Left.fx 24
+	TEnd
+MEnd
+
+Move WalkPost
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	interpolate	7
+	Scale		1
+
+	Type		Warworks_Goliath
+	  Anim          5cw\monster_postrun 10
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Stop.fx 1
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_walkpost 10
+  	  PlayFX	Events\EndGame\Underground\Hamidon_Stop.fx
+	TEnd
+
+MEnd
+###################################################
+
+Move Goliath_Warwalker_IdleWalkPre
+	Requires	WALK FORWARD
+	Priority        2
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <CombatAttack> <MoveIRQ> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs  MoveScale AlwaysSizeScale
+	NextMove        Goliath_Warwalker_IdleWalkCycle
+	Scale 		1.8
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_walk 3 48
+	  MoveRate      0.75  ## 0.7 x 30 = I animated this to move at 21 feet per second
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_walkpost 3 48
+	  MoveRate      0.75  ## 0.7 x 30 = I animated this to move at 21 feet per second
+	TEnd
+MEnd
+
+Move Goliath_Warwalker_IdleWalkCycle
+	Requires	WALK FORWARD
+	Priority        2
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale AlwaysSizeScale
+	NextMove        Goliath_Warwalker_IdleWalkPost
+	scale 		1.8
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_walk 1 48
+	  MoveRate      0.75  ## 0.7 x 30 = I animated this to move at 21 feet per second
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_walk 1 48
+	  MoveRate      0.75  ## 0.7 x 30 = I animated this to move at 21 feet per second
+	TEnd
+MEnd
+
+Move Goliath_Warwalker_IdleWalkPost
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Interpolate     8
+
+	Type		Warworks_Goliath
+	  Anim          5cw\monster_postrun 10
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_walkpost 10
+	TEnd
+MEnd
+###################
+###### Jump  ######
+###################
+
+Move jumpPre
+	Requires	JUMP
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <Combat> <CombatMove> <CombatAttack> <jumpFall> <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpUp
+	Priority        1
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Goliath_WarWalker_jump 10 90
+	 PlayFX		ENEMYFX\Praetorian\Warworks\Fly_Thrusters.fx 0 CONSTANT
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_jump 10 90
+	# PlayFX		ENEMYFX\Praetorian\Warworks\Fly_Thrusters.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        jumpApex
+	Priority        1
+
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Goliath_WarWalker_jump 91 92
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_jump 91 92
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps>
+	NextMove        jumpFall
+	Priority        1
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Goliath_WarWalker_jump 93 94
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_jump 93 94
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+	Priority        1
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Goliath_WarWalker_jump 95 117
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_jump 95 117
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Priority        1
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Goliath_WarWalker_jump 118 120
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_jump 118 120
+	TEnd
+MEnd
+#########################################################
+Move JumpPost
+	Include sequencers\Members\Readies.inc
+	Interpolate     0
+	NextMove	Ready
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Goliath_WarWalker_jumppost 1 29
+	  PlayFX	ENEMYFX\Praetorian\Warworks\Landing_Dust.fx   0
+	  PlayFX	ENEMYFX\Praetorian\Warworks\Goliath_Foot_Left.fx 1
+	  PlayFX	ENEMYFX\Praetorian\Warworks\Goliath_Foot_Right.fx 4
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_jumppost 1 29
+	  PlayFX	ENEMYFX\Praetorian\Warworks\Landing_Dust.fx   0
+	  PlayFX	Events\EndGame\Underground\Hamidon_Foot_Left.fx 1
+	  PlayFX	Events\EndGame\Underground\Hamidon_Foot_Right.fx 4
+	TEnd
+MEnd
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Priority	101
+	Interrupts	<DeathIRQ>
+	NextMove        Death_PostCycle
+	Sets		DIENOW TARGET
+	flags		nosizescale
+	Scale		0.65
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_death 1 71
+	  PlayFX	ENEMYFX\Praetorian\Warworks\Goliath_Death.fx 1
+
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\Avatar_Hamidon_death_front 1 123
+	  PlayFX	Events\EndGame\Underground\Death.fx 1
+	TEnd
+
+MEnd
+
+Move Death_PostCycle
+	Requires	DEATH
+	Flags		Cycle NotSelectable
+	Sets		DIENOW TARGET
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_death 71 75
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\Avatar_Hamidon_death_front 123 123
+	TEnd
+
+	Type		MindsOfMayhem_Avatar
+	  Anim          5cw\electro 1
+	TEnd
+
+	Type		MindsOfMayhem_LIWW
+	  Anim          5cw\electro 1
+	TEnd
+MEnd
+
+###################
+###### Hit Death   ######
+###################
+
+Move HitDeath
+	Requires	HIT DEATH
+	Priority        102
+	Interrupts	<DeathIRQ> <ReactIRQ>
+	NextMove        Death_PostCycle
+	Sets            DIENOW TARGET
+	flags		nosizescale
+	Scale		0.65
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_death 1 71
+	  #PlayFX	powers\FireControl\VillainExplosion.fx 0
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Death.fx 1
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\Avatar_Hamidon_death_front 3 123
+	  PlayFX	Events\EndGame\Underground\Death.fx 1
+	  PlayFX	Events\EndGame\Underground\Hamidon_Death_SFX.fx
+	TEnd
+
+	Type		MindsOfMayhem_Avatar
+	  Anim          5cw\electro 1
+	  PlayFx        ENEMYFX\Praetorian\MoM\Malaise_Nightmare_Death.fx
+	TEnd
+
+	Type		MindsOfMayhem_LIWW
+	  Anim          5cw\electro 1
+	  PlayFx        ENEMYFX\Praetorian\MoM\Malaise_Nightmare_Death.fx
+	TEnd
+MEnd
+
+##################
+###### Boost_up react  ######
+###################
+
+Move Hit_Boostup_Warwalker
+	Requires	BOOSTAURA NOTROOTED QUICK
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+
+	Type		Warworks_Goliath
+	  Anim          5cw\drain 1
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_boostup 1
+	TEnd
+MEnd
+
+
+###################
+###### electro\pain react  ######
+###################
+
+Move WarWalker_electro_react
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        postReady_back
+	Priority        2
+
+	Type		Warworks_Goliath
+	  Anim          5cw\electro 1
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_hq 1
+	TEnd
+
+MEnd
+
+## HIT QUICK ###########################################################
+
+Move WarWalker_HitQuick
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        CombatReady
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_hit_react 1
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Warwalker_HitReacts.fx
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_hq 1 36
+	  PlayFX	Events\EndGame\Underground\Hamidon_HitVOX_SFX.fx
+	TEnd
+
+MEnd
+
+Move WarWalker_HitQuick2
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        CombatReady
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_hit_react 1
+	 # PlayFX		ENEMYFX\Praetorian\Warworks\Warwalker_HitReacts.fx
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_hq 1 36
+	 # PlayFX		ENEMYFX\Praetorian\Warworks\Warwalker_HitReacts.fx
+	TEnd
+
+MEnd
+
+###################
+###   knockback
+###################
+Move WarWalker_KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ> <HitIRQ>
+	NextMove        WarWalker_KHF_cycle
+	Sets            CANTMOVE
+	Priority        2
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_knockback 1 32
+	TEnd
+
+MEnd
+
+Move WarWalker_KHF_cycle
+	Member 		<ReactIRQ>
+	NextMove        WarWalker_getup_back
+	Sets            CANTMOVE
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_knockback 33 55
+	TEnd
+
+MEnd
+
+Move WarWalker_getup_back
+	NextMove        CombatReady
+	Sets            CANTMOVE
+	Member 		<ReactIRQ>
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_knockback 55 95
+	TEnd
+MEnd
+
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move WarWalker_FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        WarWalker_FreezeStun_cycle
+	Priority        4
+
+	Type		Warworks_Goliath
+	  Anim          5cw\freezestun 1 20
+	TEnd
+MEnd
+
+
+Move WarWalker_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        WarWalker_weak_post
+	Priority        3
+
+	Type		Warworks_Goliath
+	  Anim          5cw\freezestun 20 30
+	TEnd
+MEnd
+
+###################
+###### weak post  ######
+###################
+
+Move WarWalker_weak_post
+	Include sequencers\Members\Reactions.inc
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		Warworks_Goliath
+	  Anim          5cw\drain 40
+	TEnd
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_boostup 40
+	TEnd
+
+MEnd
+
+###################
+###### Powered Down - Pose Only for Environment  ######
+###################
+
+Move WarWalker_powereddown_pose
+	Requires	ENCOUNTER ENDGAME
+	Priority 	2
+	Include sequencers\Interrupts\Encounters_Idle.inc
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle NoSizeScale
+
+	Type		Warworks_Goliath
+	  Anim          5cw\goliath_warwalker_powereddown 1 1
+	TEnd
+
+MEnd
+
+###################
+######Sweeping Ray ######
+###################
+
+Move WarWalker_Sweeping_Ray
+	Requires	COMBAT MAGICTHROW ENDGAME HIGH
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        WarWalker_Sweeping_Raypost
+	Sets            CANTMOVE
+	Flags		nosizescale
+
+	Type		Warworks_Goliath
+	  Anim          5cw\sweeping_ray 1 180
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Foot.fx 40
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoHi.fx 65
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 130
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Foot.fx 178
+	TEnd
+MEnd
+
+Move WarWalker_Sweeping_Raypost
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		nosizescale
+
+	Type		Warworks_Goliath
+	  Anim          5cw\sweeping_ray 180 198
+	TEnd
+MEnd
+
+###################
+######Lethal Force Authorized ######
+###################
+
+Move WarWalker_Lethal_Force
+	Requires	COMBAT MAGICTHROW ENDGAME LOW
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        WarWalker_Lethal_Forcepost
+	Sets            CANTMOVE
+	Flags		nosizescale
+
+	Type		Warworks_Goliath
+	  Anim          5cw\sweeping_ray 1 180
+	TEnd
+MEnd
+
+Move WarWalker_Lethal_Forcepost
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		nosizescale
+
+	Type		Warworks_Goliath
+	  Anim          5cw\sweeping_ray 180 198
+	TEnd
+MEnd
+
+## Targeting Reticle ###########################################################
+
+Move Warwalker_TargetingReticle
+	Requires	COMBAT HEADCAST ENDGAME
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Warwalker_TargetingReticle_Post
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Warworks_Goliath
+	  Anim          male\eye 1 50
+	  PitchStart	1
+	  PitchAngle	0.1
+	TEnd
+
+MEnd
+
+Move Warwalker_TargetingReticle_Post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatBlend
+	Flags		NoSizeScale ReqInputs
+
+	Type		Warworks_Goliath
+	  Anim          male\eye 50 60
+	TEnd
+
+MEnd
+
+###################
+###### Crowd Dispersal ####
+###################
+
+Move Warwalker_Crowd_Dispersal
+	Requires	COMBAT BLAST ENDGAME LOW
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Warwalker_Crowd_Dispersal_post
+	Sets            CANTMOVE
+	Flags		nosizescale
+
+	Type		Warworks_Goliath
+	  Anim          5cw\radiuseffect 1 60
+	TEnd
+MEnd
+
+Move Warwalker_Crowd_Dispersal_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Warwalker_Crowd_Dispersal_Cycle
+	Flags		nosizescale
+
+	Type		Warworks_Goliath
+	  Anim          5cw\radiuseffect 60
+	TEnd
+MEnd
+
+Move Warwalker_Crowd_Dispersal_Cycle
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		Warworks_Goliath
+	  Anim          5cw\combat_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### Arrest Mode ######
+###################
+
+Move WarWalker_Arrest_Pre
+	Requires	COMBAT RADIUSEFFECT ENDGAME
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        WarWalker_Arrest_Post
+	Sets            CANTMOVE
+
+	Type		Warworks_Goliath
+	  Anim          5cw\radiuseffect 1 60
+	TEnd
+MEnd
+
+Move WarWalker_Arrest_Post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        WarWalker_Arrest_Cycle
+
+	Type		Warworks_Goliath
+	  Anim          5cw\radiuseffect 60
+	TEnd
+MEnd
+
+Move WarWalker_Arrest_Cycle
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		Warworks_Goliath
+	  Anim          5cw\combat_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### Foot Stomp  ######
+###################
+
+Move Warwalker_Stomp
+	Requires	COMBAT STOMP ENDGAME LOW
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Warwalker_Stomp2
+	Sets            CANTMOVE
+
+	Type		Warworks_Goliath
+	  Anim          5cw\stomp 1 62
+	  PlayFX		ENEMYFX\Praetorian\Warworks\GroundSlam_Goliath_Attack.fx
+	TEnd
+MEnd
+
+Move Warwalker_Stomp2
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Combatready
+
+	Type		Warworks_Goliath
+	  Anim          5cw\stomp 62
+	TEnd
+MEnd
+
+###################
+###### Particle Lance  ######
+###################
+
+Move Warworks_Particle_Lance
+	Requires	COMBAT LOW SNIPERBLAST ENDGAME
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Warworks_Particle_Lance2
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Warworks_Goliath
+	  Anim          5cw\charged_shot 1 100
+   	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+   	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_FootSoft.fx 15
+	PitchAngle	0
+	  PitchEnd	81
+	TEnd
+MEnd
+
+Move Warworks_Particle_Lance2
+	Requires	COMBAT
+	Priority        1
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady_15
+
+	Type		Warworks_Goliath
+	  Anim          5cw\charged_shot 100
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 10
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_FootSoft.fx 30
+	TEnd
+MEnd
+
+########################
+###### Warworks_ParticleBurst     ######
+########################
+
+Move Warworks_ParticleBurst
+	Requires	COMBAT BLAST ENDGAME
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Warworks_ParticleBurst2
+	Sets            CANTMOVE
+	#Flags		PitchToTarget
+
+	Type		Warworks_Goliath
+	  Anim          5cw\pistol_hipshoot 1 35
+   	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+   	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_FootSoft.fx 8
+	  PitchAngle	0
+	TEnd
+
+MEnd
+
+Move Warworks_ParticleBurst2
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Goliath_WepReady
+	#Flags		PitchToTarget
+
+
+	Type		Warworks_Goliath
+	  Anim          5cw\pistol_hipshoot 35
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+   	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_FootSoft.fx 5
+	  PitchAngle	0
+	  PitchEnd	40
+	TEnd
+MEnd
+
+
+######################
+
+Move Goliath_WepReady
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		Warworks_Goliath
+	  Anim          5cw\wep_cycle 1 31
+	TEnd
+MEnd
+
+######################
+
+
+
+######################
+###### pummel  ######
+#####################
+
+Move Goliath_Pummel_pre
+	Requires	COMBAT HAND SWIPE ENDGAME
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Goliath_Pummel
+	Sets            CANTMOVE
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Pummel 1 110
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoHi.fx 50
+	TEnd
+MEnd
+
+Move Goliath_Pummel
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Pummel 110
+	TEnd
+MEnd
+
+###################
+###### War_Walker_Smash ######
+###################
+
+Move Goliath_Smash_R
+	SticksOnChild	PUNCH RIGHT
+	Requires	COMBAT PUNCH ENDGAME
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		Cantmove
+	NextMove        Goliath_Smash_R_post
+
+	Type		Warworks_Goliath
+	  Anim          5cw\smash_right 1 110
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+   	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoAttack.fx 35
+   	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Smash.fx 45
+	TEnd
+MEnd
+
+Move Goliath_Smash_R_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+
+	Type		Warworks_Goliath
+	  Anim          5cw\smash_right 111
+  	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+	TEnd
+MEnd
+
+##############################################################
+
+Move Goliath_Smash_L
+	SticksOnChild	PUNCH LEFT
+	Requires	COMBAT PUNCH ENDGAME
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		Cantmove
+	NextMove        Goliath_Smash_L_post
+
+	Type		Warworks_Goliath
+	  Anim          5cw\smash_left 1 110
+ 	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_ServoAttack.fx 35
+   	  PlayFX		ENEMYFX\Praetorian\Warworks\Goliath_Smash.fx 45
+	TEnd
+MEnd
+
+Move Goliath_Smash_L_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+
+	Type		Warworks_Goliath
+	  Anim          5cw\smash_left 111
+  	  PlayFX	ENEMYFX\Praetorian\Warworks\Goliath_ServoLo.fx 1
+	TEnd
+MEnd
+
+
+#############################################################
+
+Move Goliath_Smashcycle_15
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Goliath_Smashcycle
+	Priority        1
+	Scale           0.50
+
+	Type		Warworks_Goliath
+	  Anim          5cw\claw_cycle 15 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move Goliath_Smashcycle
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        postReady_back
+	Priority        1
+	Scale           0.50
+
+	Type		Warworks_Goliath
+	  Anim          5cw\claw_cycle 1
+	TEnd
+MEnd
+
+#########################
+###War Walker Air Drop######
+#########################
+
+Move WarWalker_Air_Drop_Pre
+	Requires	SPAWN ENDGAME ALTERNATE
+	Priority 	3
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		NoSizeScale CANTMOVE NOCOLLISION
+	NextMove	WarWalker_Air_Drop
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Goliath_WarWalker_Air_Drop 1 25
+	PlayFX		GENERIC\entityFadeIn.fx 0 constant
+	 PlayFX		ENEMYFX\Praetorian\Warworks\Fly_Thrusters.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+Move WarWalker_Air_Drop
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		NotSelectable NoSizeScale
+	Sets            CANTMOVE
+	NextMove	WarWalker_Air_Drop_Post
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Goliath_WarWalker_Air_Drop 26
+	 PlayFX		ENEMYFX\Praetorian\Warworks\Fly_Thrusters.fx 0 CONSTANT
+	TEnd
+
+MEnd
+
+Move WarWalker_Air_Drop_Post
+	Interrupts	<AttackIRQ> <Ready> <Combat> <WepCombat>
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		NotSelectable NoSizeScale
+	Sets            CANTMOVE
+	Scale		0.50
+	NextMove	Ready
+
+	Type		Warworks_Goliath
+	  Anim          5cw\Goliath_WarWalker_jumppost 1 29
+	  PlayFX	ENEMYFX\Praetorian\Warworks\Landing_Dust.fx   0
+	  PlayFX	ENEMYFX\Praetorian\Warworks\Goliath_Foot_Left.fx 1
+	  PlayFX	ENEMYFX\Praetorian\Warworks\Goliath_Foot_Right.fx 4
+	TEnd
+MEnd
+
+#########################################
+###### Avatar of Hamidon Powers  ######
+#########################################
+Move Avatar_Hamidon_Cripple
+	Requires	COMBAT HEADCAST ENDGAME ALTERNATE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Avatar_Hamidon_Cripple_Post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_cripple 1 50
+	  PlayFX	Events\EndGame\Underground\Cripple_VOX_SFX.fx
+	TEnd
+MEnd
+
+Move Avatar_Hamidon_Cripple_Post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		NoSizeScale ReqInputs
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_cripple 50 105
+	TEnd
+
+MEnd
+##################################
+Move Avatar_Hamidon_Devour
+	Requires	COMBAT STOMP ENDGAME
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Avatar_Hamidon_Devour2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\Avatar_Hamidon_Devour 1 46
+	  PlayFX	Events\EndGame\Underground\Devour_VOX_SFX.fx
+	TEnd
+MEnd
+
+Move Avatar_Hamidon_Devour2
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		NoSizeScale
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\Avatar_Hamidon_Devour 47
+	TEnd
+MEnd
+
+#########################################
+###### Avatar of Hamidon Infection  ######
+#########################################
+
+Move Avatar_Hamidon_Infection
+	Requires	COMBAT RADIUSEFFECT ENDGAME ALTERNATE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Avatar_Hamidon_Infection2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\Avatar_Hamidon_Infection 1 75
+	  PlayFX	Events\EndGame\Underground\Infection_VOX_SFX.fx
+	TEnd
+MEnd
+
+Move Avatar_Hamidon_Infection2
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		NoSizeScale
+	Interpolate	3
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\Avatar_Hamidon_Infection 76
+	TEnd
+MEnd
+
+###################
+###### Avatar Crush ######
+###################
+
+Move Avatar_Hamidon_Crush_R
+	Requires	COMBAT PUNCH ENDGAME ALTERNATE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		CANTMOVE nosizescale
+	NextMove        Avatar_Hamidon_Crush_R_post
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_crush 1 90
+ 	  PlayFX	Events\EndGame\Underground\Crush_VOX_SFX.fx
+   	  PlayFX	Events\EndGame\Underground\Hamidon_Smash.fx 45
+	TEnd
+MEnd
+
+Move Avatar_Hamidon_Crush_R_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		nosizescale
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_crush 91 110
+	TEnd
+MEnd
+
+##############################################################
+
+Move Avatar_Hamidon_Crush_L
+	Requires	COMBAT PUNCH ENDGAME ALTERNATE
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		CANTMOVE nosizescale
+	NextMove        Avatar_Hamidon_Crush_L_post
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_crush 110 200
+ 	  PlayFX	Events\EndGame\Underground\Crush_VOX_SFX.fx
+   	  PlayFX	Events\EndGame\Underground\Hamidon_Smash.fx 45
+	TEnd
+MEnd
+
+Move Avatar_Hamidon_Crush_L_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		nosizescale
+
+	Type		Avatar_Hamidon
+	  Anim          5cw\avatar_hamidon_crush 201 229
+
+	TEnd
+MEnd
+#########################
+
+SeqEnd

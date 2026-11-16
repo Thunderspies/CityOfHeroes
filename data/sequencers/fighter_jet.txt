@@ -1,0 +1,44 @@
+#############################################################
+
+Sequencer
+
+TypeDef Fighter_Jet
+	BaseSkeleton	Fighter_Jet\skel_ready
+	ParentType	None
+TypeDefEnd
+#################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+#################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove	Ready
+
+	Type		Fighter_Jet
+	  Anim          Fighter_Jet\skel_ready 1
+	  PlayFX		Vehicles\Fighter_Jet\Fighter_Jet.fx 0 constant
+	Playfx		"POWERS\flight\Flight.fx" 0 constant
+	TEnd
+MEnd
+#################
+
+SeqEnd
+

@@ -1,0 +1,514 @@
+Version 2
+Scenefile scenes/V_cityscene_Sharkhead.txt
+
+Loadscreen maps/Missions/unique/SignatureStoryArcs/PandorasBox_Story_2/Issue1/Atlantic_Ocean_Sky_Raiders.txt
+
+Def grpsound1
+	Group Omni/_sound
+	End
+	Sound Cargo1_loop 0.648438 750291.875000 750291.875000 
+	Flags Ungroupable
+End
+
+Def grpsound2
+	Group Omni/_sound
+	End
+	Sound Cargo3_loop 0.296875 298.954834 298.954834 
+	Flags Ungroupable
+End
+
+Def grpsound3
+	Group Omni/_sound
+	End
+	Sound Cargo2_loop 0.500000 371.149170 371.149170 
+	Flags Ungroupable
+End
+
+Def grpsound4
+	Group Omni/_sound
+	End
+	Sound Cargo4_loop 0.187500 118.985588 118.985588 
+	Flags Ungroupable
+End
+
+Def grpsound58186
+	Group Omni/_sound
+	End
+	Sound SkyPlatform_loop 0.000000 401.984009 401.984009 
+	Flags Ungroupable
+End
+
+Def grpvolume57935
+	Group Omni/collision_box/tray_collision_box_16x16
+	End
+	Volume 2000.000000 600.000000 2000.000000
+	Flags Ungroupable
+End
+
+Def grp_INTERIORS
+	Group villains/skyraider/destroyer/interior/Destroyer_Interior_01
+		PYR 0 13.749991 -0
+		Pos -390.937195 117.515015 1357.174561
+	End
+End
+
+Def grp68785
+	Group villains/skyraider/destroyer/MissileDestroyer_01
+		PYR 0 -156.250015 -0
+		Pos 62.035835 -6.514803 124.330109
+	End
+End
+
+Def grp_Fleet
+	Group grp68785
+		PYR 0 -0.000003 -0
+		Pos -31.513855 0 5.556732
+	End
+End
+
+Def grp_EXTERIORS
+	Group grp_Fleet
+		PYR 0 -85.000008 -0
+		Pos -225.67691 6.514803 -343.759888
+	End
+End
+
+Def grp_PlayerShip
+	Group grp_INTERIORS
+		Pos -334.28125 -911.515015 -41.828369
+	End
+	Group grp_EXTERIORS
+		Pos -832 12 -1792
+	End
+End
+
+Def grp97651
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"ShipExit"	0
+End
+
+Def grp97652
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoSpawn"	"ShipOutside"	0
+	Property	"Requires"	"SpokeWithLastri MissionObjective?"	0
+End
+
+Def grp97653
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"ShipOutside"	0
+End
+
+Def grp61930
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoSpawn"	"ShipExit"	0
+End
+
+Def grp61932
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Property	"EncounterSpawn"	"Lastri"	0
+End
+
+Def grp61931
+	Group grp61932
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp61934
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Property	"EncounterSpawn"	"Castillo1"	0
+End
+
+Def grp61933
+	Group grp61934
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp61955
+	Obj Omni/DF_Ad_Orientator
+	Property	"CutSceneCamera"	"Castillo"	0
+End
+
+Def grp61938
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Property	"EncounterSpawn"	"Castillo2"	0
+End
+
+Def grp61937
+	Group grp61938
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp61942
+	Group Omni/EncounterSpawns/Encounter_E_03
+		PYR 0 20.000004 -0
+		Pos 37 -0.125 172.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_04
+		PYR 0 -35.249996 -0
+		Pos -50.5 0 13
+	End
+	Group Omni/EncounterSpawns/Encounter_E_05
+		PYR 0 22 -0
+		Pos -72.5 0 -69.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_02
+		PYR 0 -53.25 -0
+		Pos -69.5 0 10
+	End
+	Group Omni/EncounterSpawns/Encounter_E_01
+		PYR 0 -73.000023 -0
+		Pos -58.5 0 -20.5
+	End
+End
+
+Def grp61943
+	Group Omni/EncounterSpawns/Encounter_E_08
+		PYR 0 -170.000015 -0
+		Pos -12.731293 -0.125 192.682617
+	End
+	Group Omni/EncounterSpawns/Encounter_E_09
+		PYR 0 9.750003 -0
+		Pos -11.906311 -0.125 197.714355
+	End
+	Group Omni/EncounterSpawns/Encounter_E_10
+		PYR 0 9.250001 -0
+		Pos 21.593689 -26.125 249.214355
+	End
+	Group Omni/EncounterSpawns/Encounter_E_07
+		PYR 0 76.000008 -0
+		Pos 27.093689 -26.125 247.214355
+	End
+	Group Omni/EncounterSpawns/Encounter_E_06
+		PYR 0 -54.000004 -0
+		Pos -4.406311 0 -5.785645
+	End
+End
+
+Def grp61944
+	Group Omni/EncounterSpawns/Encounter_E_13
+		PYR 0 16.999996 -0
+		Pos 33.241577 -0.125 289.257324
+	End
+	Group Omni/EncounterSpawns/Encounter_E_14
+		PYR 0 -124.249992 -0
+		Pos 26.241577 -0.125 284.757324
+	End
+	Group Omni/EncounterSpawns/Encounter_E_15
+		PYR 0 155 -0
+		Pos 36.241577 -0.125 281.257324
+	End
+	Group Omni/EncounterSpawns/Encounter_E_12
+		PYR 0 69.000008 -0
+		Pos 43.241577 -0.125 257.757324
+	End
+	Group Omni/EncounterSpawns/Encounter_E_11
+		PYR 0 24.249998 -0
+		Pos -8.758423 -26.125 161.257324
+	End
+End
+
+Def grp61945
+	Group Omni/EncounterSpawns/Encounter_E_18
+		PYR 0 102.000008 -0
+		Pos -30.258423 -0.125 240.257324
+	End
+	Group Omni/EncounterSpawns/Encounter_E_19
+		PYR 0 23 -0
+		Pos -22.258423 -0.125 163.757324
+	End
+	Group Omni/EncounterSpawns/Encounter_E_20
+		PYR 0 136 -0
+		Pos -5.25824 -26.125 278.257324
+	End
+	Group Omni/EncounterSpawns/Encounter_E_17
+		PYR 0 -43.249989 -0
+		Pos -8.258423 -26.125 281.757324
+	End
+	Group Omni/EncounterSpawns/Encounter_E_16
+		PYR 0 100 -0
+		Pos 47.241577 -0.125 229.257324
+	End
+End
+
+Def grp61941
+	Group grp61942
+	End
+	Group grp61943
+		Pos 9.906311 0 4.285645
+	End
+	Group grp61944
+		Pos 2.258423 0 -13.257256
+	End
+	Group grp61945
+		Pos 16.758423 0 -11.257256
+	End
+	Property	"EncounterSpawn"	"Workers"	0
+End
+
+Def grp61946
+	Group grp61941
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp61950
+	Group Omni/EncounterSpawns/Encounter_E_03
+		PYR 0 130 0
+		Pos 0.5 0 -4.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_04
+		PYR 0 130 0
+		Pos 5 0 -6
+	End
+	Group Omni/EncounterSpawns/Encounter_E_05
+		PYR 0 130 0
+		Pos 7.5 0 -3
+	End
+	Group Omni/EncounterSpawns/Encounter_E_02
+		PYR 0 130 0
+		Pos 4.5 0 0.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_01
+		PYR 0 130 0
+	End
+End
+
+Def grp61951
+	Group Omni/EncounterSpawns/Encounter_E_08
+		PYR 0 130 0
+		Pos 0.5 0 -4.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_09
+		PYR 0 130 0
+		Pos 5 0 -6
+	End
+	Group Omni/EncounterSpawns/Encounter_E_10
+		PYR 0 130 0
+		Pos 7.5 0 -3
+	End
+	Group Omni/EncounterSpawns/Encounter_E_07
+		PYR 0 130 0
+		Pos 4.5 0 0.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_06
+		PYR 0 130 0
+	End
+End
+
+Def grp61952
+	Group Omni/EncounterSpawns/Encounter_E_13
+		PYR 0 130 0
+		Pos 0.5 0 -4.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_14
+		PYR 0 130 0
+		Pos 5 0 -6
+	End
+	Group Omni/EncounterSpawns/Encounter_E_15
+		PYR 0 130 0
+		Pos 7.5 0 -3
+	End
+	Group Omni/EncounterSpawns/Encounter_E_12
+		PYR 0 130 0
+		Pos 4.5 0 0.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_11
+		PYR 0 130 0
+	End
+End
+
+Def grp61953
+	Group Omni/EncounterSpawns/Encounter_E_18
+		PYR 0 130 0
+		Pos 0.5 0 -4.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_19
+		PYR 0 130 0
+		Pos 5 0 -6
+	End
+	Group Omni/EncounterSpawns/Encounter_E_20
+		PYR 0 130 0
+		Pos 7.5 0 -3
+	End
+	Group Omni/EncounterSpawns/Encounter_E_17
+		PYR 0 130 0
+		Pos 4.5 0 0.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_16
+		PYR 0 130 0
+	End
+End
+
+Def grp61949
+	Group grp61950
+	End
+	Group grp61951
+		Pos 9.906311 0 4.285645
+	End
+	Group grp61952
+		Pos 2.258423 0 -13.257256
+	End
+	Group grp61953
+		Pos 16.758423 0 -11.257256
+	End
+	Property	"EncounterSpawn"	"CastilloFinal"	0
+End
+
+Def grp61954
+	Group grp61949
+		PYR 0 -43.999992 -0
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Import maps/Missions/unique/SignatureStoryArcs/PandorasBox_Story_2/Issue1/Castillo_Platform_layer_Geometry.txt
+Import maps/Missions/unique/SignatureStoryArcs/PandorasBox_Story_2/Issue1/Castillo_Platform_layer_Spawns.txt
+Import maps/Missions/unique/SignatureStoryArcs/PandorasBox_Story_2/Issue1/Castillo_Platform_layer_Beacons.txt
+Import maps/Missions/unique/SignatureStoryArcs/PandorasBox_Story_2/Issue1/Castillo_Platform_layer_blackmap.txt
+Ref grpsound1
+	Pos 3711 -291.256195 1.5
+End
+
+Ref grpsound2
+	Pos 3710 -290.478943 578.5
+End
+
+Ref grpsound3
+	Pos 3713 -291.310699 1152.5
+End
+
+Ref grpsound4
+	Pos 3755 -258.164856 482
+End
+
+Ref Omni/MissionBeacons/PlayerSpawn
+	PYR 0 14 -0
+	Pos 106.5 -806.125 3005
+End
+
+Ref grpsound58186
+	Pos 78.404022 185.346817 111.91423
+End
+
+Ref grpvolume57935
+	Pos -85 -241.500122 288
+End
+
+Ref grp_PlayerShip
+	Pos 832 -12 1792
+End
+
+Ref Omni/MissionBeacons/PlayerSpawn
+	PYR 0 14 -0
+	Pos 105 -806.125 3007
+End
+
+Ref Omni/MissionBeacons/PlayerSpawn
+	PYR 0 14 -0
+	Pos 109 -806.125 3005.5
+End
+
+Ref Omni/MissionBeacons/MapSwap_MissionExit
+	Pos 106 -806.125 3003.5
+End
+
+Ref Omni/MissionLabels/Mission_Start
+	Pos 176 -806.25 3307
+End
+
+Ref Omni/MissionLabels/Mission_Room_01
+	Pos 176 -806.25 3307
+End
+
+Ref grp97651
+	Pos 22 -790.125 2894
+End
+
+Ref grp97651
+	Pos 20.5 -790.125 2896
+End
+
+Ref grp97651
+	Pos 24.5 -790.125 2895
+End
+
+Ref grp97652
+	Pos 20.5 -790.125 2891.5
+End
+
+Ref Doors/Ship_Doors/Door_Ship_01_L
+	PYR 0 -62.000008 -0
+	Pos -187.5 11.727112 -392.5
+End
+
+Ref grp97653
+	PYR 0 120.999992 -0
+	Pos -183 11.727112 -395
+End
+
+Ref grp97653
+	PYR 0 120.999992 -0
+	Pos -183.5 11.727112 -397
+End
+
+Ref grp97653
+	PYR 0 120.999992 -0
+	Pos -181 11.727112 -393.5
+End
+
+Ref grp61930
+	Pos -183.5 11.727112 -395
+End
+
+Ref grp61931
+	Pos 162 -806.25 3218
+End
+
+Ref grp61933
+	PYR 0 -12 -0
+	Pos 71 104 93
+End
+
+Ref grp61955
+	PYR 22.50773 -100.530731 0
+	Pos 210.326172 173.504898 188.914352
+End
+
+Ref grp61937
+	PYR 0 85.749992 -0
+	Pos 65 165.363586 133.5
+End
+
+Ref grp61946
+	Pos 124 -806.125 3053
+End
+
+Ref grp61954
+	Pos 234.5 159.299988 193.5
+End
+
+
+

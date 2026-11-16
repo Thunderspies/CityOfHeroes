@@ -1,0 +1,1833 @@
+Trick VGtray
+	GroupFlags VisTray
+	ObjFlags ForceOpaque Fullbright
+End
+
+Trick VanguardShells
+	TrickFlags NoZWrite
+End
+
+Texture Vanguard_Target_Numbers.tga
+	flags replaceable
+End
+
+Texture Vanguard_Catwalk01.tga
+	Flags truecolor
+	surface metal
+End
+
+Texture Vanguard_Platform.tga
+	surface metal
+End
+
+Texture Vanguard_FloorStripe_Silver.tga
+	surface metal
+End
+
+Texture Vanguard_Medical.tga
+	surface metal
+End
+
+Texture Vanguard_Heavy_Lift.tga
+	surface metal
+End
+
+Texture Vanguard_Banners01.tga
+	Flags truecolor
+End
+
+Texture Vanguard_Walls01_normal.tga
+	Flags truecolor
+End
+
+Texture Vanguard_WallTrim_bump.tga
+	Flags truecolor
+End
+
+Texture x_Vanguard_Concrete
+	Base1 Vanguard_Concrete.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Concrete_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Concrete.tga
+		Blend none
+		Bumpmap Vanguard_Concrete_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Walls
+	Base1 Vanguard_Walls01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Walls01_normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Walls01.tga
+		Blend none
+		Bumpmap Vanguard_Walls01_normal.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_WallTrim
+	Base1 Vanguard_WallTrim.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_WallTrim_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_WallTrim_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_WallTrim.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 Shader_Reflect_Chrome_09.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 3
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 Vanguard_WallTrim_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 200 100 230   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_WallTrim.tga
+		Blend none
+		Bumpmap Vanguard_WallTrim.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Pilar
+	Base1 Vanguard_Pilar.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Pilar_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_Pilar_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_Pilar.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 Shader_Reflect_Chrome_09.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 Vanguard_Pilar_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base VVanguard_Pilar.tga
+		Blend none
+		Bumpmap Vanguard_Pilar_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Catwalks
+	Base1 Vanguard_Catwalk01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 1
+
+	DualColor1 Vanguard_Catwalk01.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Catwalk01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0    // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Catwalk01.tga
+		Blend none
+		Bumpmap Vanguard_Catwalk01_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Metal
+	Base1 Vanguard_Metal.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Vanguard_Reflect_Chrome_01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 3
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 White
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 5
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 10 23
+	SpecularColor2 200 100 230   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_WallTrim.tga
+		Blend none
+		Bumpmap Vanguard_WallTrim.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Metal_Dark
+	Base1 Vanguard_Metal_dark.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Vanguard_Reflect_Chrome_01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 3
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 White
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 5
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 10 23
+	SpecularColor2 200 100 230   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Metal_Dark.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_FloorStripe_Purple
+	Base1 Vanguard_FloorStripe_Silver.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Vanguard_Reflect_Chrome_01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 3
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_FloorStripe_Silver.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_FloorStripe_Silver_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_FloorStripe_Silver.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 Vanguard_Reflect_Chrome_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 3
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 Vanguard_FloorStripe_Silver.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 10 23
+	SpecularColor2 128 85 170   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_FloorStripe_Silver.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_FloorStripe_Silver
+	Base1 Vanguard_FloorStripe_Silver.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Vanguard_Reflect_Chrome_01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 3
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_FloorStripe_Silver.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 3
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 10 23
+	SpecularColor2 128 85 170   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_FloorStripe_Silver.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Tile
+	Base1 Vanguard_Tile.tga
+	Base1Scroll 0 0
+	Base1Scale 4 4 
+
+	Multiply1 Vanguard_Reflect_Chrome_01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Tile_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 4 4 
+
+	Mask Vanguard_Tile_bump.tga
+	MaskScroll 0 0
+	MaskScale 4 4 
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_Tile.tga
+	Base2Scroll 0 0
+	Base2Scale 4 4 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 3 3
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 Vanguard_Tile_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 4 4 
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 170 170 160
+	SpecularColor2 0 0 0   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Tile.tga
+		Blend none
+		Bumpmap Vanguard_Tile_bump.tga
+		BlendType multiply	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 4 4     // texture scale on the "Blend" texture
+		ScaleST1 4 4     // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Medical
+	Base1 Vanguard_Medical.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Vanguard_Reflect_Chrome_01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 3
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_Medical_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_Medical.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 5
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 10 23
+	SpecularColor2 200 100 230   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Medical.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Light_Surgical
+	Base1 Vanguard_Metal.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Vanguard_Reflect_Chrome_01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 3
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 Vanguard_Light_Surgical_Addglow.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 white
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 5
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 10 23
+	SpecularColor2 200 100 230   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_WallTrim.tga
+		Blend none
+		Bumpmap Vanguard_WallTrim.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Heavy_Lift
+	Base1 Vanguard_Heavy_Lift.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 white
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Heavy_Lift_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 5
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 70 70 50
+	SpecularColor2 200 100 230   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Heavy_Lift.tga
+		Blend none
+		Bumpmap Vanguard_Heavy_Lift_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Platforms
+	Base1 Vanguard_Platform.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 white
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Platform_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 5
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 70 70 50
+	SpecularColor2 200 100 230   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Platform.tga
+		Blend none
+		Bumpmap Vanguard_Platform_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 2
+	End
+End
+
+Texture x_Vanguard_FloorLight
+	Base1 Vanguard_FloorLight.tga
+	Base1Scroll 0 .025
+	Base1Scale 1 1  
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1   
+	Multiply1reflect 0
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags Fullbright // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_FloorLight.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Banners
+	Base1 Vanguard_Banners01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1  
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1   
+	Multiply1reflect 0
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_Banners01_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_Banners01.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 Shader_Reflect_Chrome_09.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Banners01.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Warhead_Crate_Top_Front
+	Base1 Vanguard_Crate_Top_Front.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_Crate_Top_Front_Mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_Crate_Top_Front.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 Shader_Reflect_Generic_06.tga // original value Shader_Reflect_Chrome_09.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Crate_Top_Front.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Crate_Side
+	Base1 Vanguard_Crate_Side.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_Crate_Side_Mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none //Vanguard_Crate_Side.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2  Shader_Reflect_Generic_06.tga // original value Shader_Reflect_Chrome_09.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Crate_Side.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_conference_table
+	Base1 Vanguard_conference_table.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask vanguard_conference_table_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_conference_table.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 Shader_Reflect_Chrome_09.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_conference_table.tga
+		Blend none
+		Bumpmap none
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+#### VANGUARD RECLAMATORS ####
+
+Texture x_Vanguard_Rec_Base
+	Base1 Vanguard_Reclamation_Base.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 Vanguard_Reclamation_Base.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Reclamation_Base_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_Reclamation_Base_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_Reclamation_Base.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 Shader_Reflect_Chrome_09.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 Vanguard_Reclamation_Base.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 Vanguard_Reclamation_Base_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Reclamation_Base.tga
+		Blend none
+		Bumpmap Vanguard_Reclamation_Base_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Rec_Body
+	Base1 Vanguard_Reclamation_Body.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Reclamation_Body_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_Reclamation_Body_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_Reclamation_Body.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 Shader_Reflect_Chrome_09.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 Vanguard_Reclamation_Body_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Reclamation_Body.tga
+		Blend none
+		Bumpmap Vanguard_Reclamation_Body_bump.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+Texture x_Vanguard_Rec_Ring
+	Base1 Vanguard_Reclamation_Ring.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Shader_Reflect_Chrome_09.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 1
+
+	DualColor1 Vanguard_Reclamation_Ring.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Reclamation_Ring_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_Reclamation_Ring_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_Reclamation_Ring.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 Vanguard_Reclamation_Ring_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 150 230
+	SpecularColor2 40 30 46   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 1   // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_Reclamation_Ring.tga
+		Blend Shader_Reflect_Chrome_09.tga 
+		Bumpmap none //Vanguard_Reclamation_Ring_bump.tga
+		BlendType multiply //ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale .5
+		DiffuseScale .5
+	End
+End
+
+Texture x_Vanguard_TankMetal
+	Base1 Vanguard_Tank_Impervium.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 Vanguard_Reflect_Chrome_01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 3
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Vanguard_Tank_Impervium_normal.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 5
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 10 23
+	SpecularColor2 200 100 230   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_WallTrim.tga
+		Blend none
+		Bumpmap Vanguard_WallTrim.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+
+### VANGUARD HELICOPTER ###
+
+Texture x_Vanguard_Helicopter
+	Base1 Vanguard_Helo01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 3
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask Vanguard_Helo01_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 Vanguard_Helo01.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2  Vanguard_Reflect_Chrome_01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 3
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 10 23
+	SpecularColor2 20 10 23   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_WallTrim.tga
+		Blend none
+		Bumpmap Vanguard_WallTrim.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End
+
+
+Trick Projector_TScroll
+	ObjFlags Fullbright
+	StAnim 0.25 1.0 Example_TScroll_4x4_Snap FRAMESNAP
+End

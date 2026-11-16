@@ -1,0 +1,152 @@
+texture arcns_banners01.tga
+	blend arcns_flag_det.tga
+	blendtype Multiply
+	scaleST0 8 8
+End
+
+ 
+
+Trick arcnslodflagA
+	Alpharef 120
+	LodFar 500
+	LodFarFade 0
+	GroupFlags ParentFade
+End
+
+Trick arcnslodbnrxlrg
+	Alpharef 120
+	LodFar 1300
+	LodFarFade 200
+	TrickFlags NoColl Alphacutout
+	GroupFlags ParentFade
+End
+
+Trick arcnslodbnrlrg
+	Alpharef 120
+	LodFar 800
+	LodFarFade 150
+	TrickFlags NoColl Alphacutout
+	GroupFlags ParentFade
+End
+
+Trick arcnslodbnrmd
+	Alpharef 120
+	LodFar 500
+	LodFarFade 100
+	TrickFlags NoColl Alphacutout
+	GroupFlags ParentFade
+End
+
+Trick arcnslodbnrsm
+	Alpharef 120
+	LodFar 300
+	LodFarFade 75
+	TrickFlags NoColl Alphacutout
+	GroupFlags ParentFade
+End
+
+Trick arcnslodpole
+	LodFar 150
+	LodFarFade 50
+	GroupFlags ParentFade
+End
+
+Trick arcnslodpole2
+	LodFar 75
+	LodFarFade 25
+	GroupFlags ParentFade
+End
+
+Texture arcns_flag_01.tga
+	Flags ClampS ClampT
+End
+
+Texture arcns_flag_02.tga
+	Flags ClampS ClampT
+End
+
+Texture arcns_flag_03.tga
+	Flags ClampS ClampT
+End
+
+Texture arcns_flag_pole01_bump.tga
+	Flags IsBumpmap
+End
+
+Texture arcns_flag_pole01.tga
+	BumpMap arcns_flag_pole01_bump.tga
+End
+
+Texture x_Arac_DoNotEnter
+	Base1 Arac_DoNotEnter.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1 
+	Multiply1reflect 3
+
+	DualColor1 Arac_DoNotEnter.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1 
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 5
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 10 23
+	SpecularColor2 200 100 230   // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None // NoRandomAddGlow FullBright
+	surface metal
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+	Fallback
+		UseFallback 0    // Tells it whether or not to use this fallback or the automatically generated one
+		Base Vanguard_WallTrim.tga
+		Blend none
+		Bumpmap Vanguard_WallTrim.tga
+		BlendType ColorBlendDual	// One of: Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1    // texture scale on the "Blend" texture
+		ScaleST1 1 1    // texture scale on the "Base" texture
+		AmbientScale 1
+		DiffuseScale 1
+	End
+End

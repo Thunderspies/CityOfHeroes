@@ -1,0 +1,105 @@
+##############################
+#Particle System 
+#
+System
+
+#####################################
+############  Emitting  #############
+#####################################
+
+NewPerFrame		.5
+#Burst			1
+#MoveScale		1
+
+#TimeToFull		1
+#KickStart		1
+
+WorldOrLocalPosition	0
+FrontOrLocalFacing	0			# 0 = Front; 1 = Local - face up the y axis of the particle system's matrix  
+#Stickiness		.3
+
+KillOnZero		1 			#Tokened 0 = False  1 = True
+
+EmissionType		4
+ EmissionRadius		3 
+ EmissionHeight		0.0
+ EmissionStartJitter	5.5 1.5 5.5
+
+BurbleAmplitude		1
+BurbleFrequency		1.0
+BurbleType		0
+BurbleThreshold		0
+
+StartSize		5
+StartSizejitter		1
+ExpandRate		.13
+ExpandType		0
+ EndSize		.25
+
+FadeInBy		20
+FadeOutStart		20
+FadeOutBy   		40
+
+
+#####################################
+#############  Motion  ##############
+#####################################
+
+InitialVelocity		0.0 0.3 0.0
+InitialVelocityJitter	0.05 0.05 0.05
+VelocityJitter		0.0 0.01 0.0
+
+TightenUp		-5
+
+#Drag			.7
+Magnetism		0.003
+#Gravity		       -0.001
+
+#Spin			1		# turn this many degrees per frame 	
+#SpinJitter		2		# Add or subtract as much as this from Spin   
+#OrientationJitter	180
+
+#####################################
+###########  Appearance  ############
+#####################################
+
+StreakType		1 			#1 Velocty  3 Origin
+ StreakScale		20
+ StreakOrient		1 			#1 Orient   0 No Orient
+ StreakDirection	0			#0 Pull     1 Push 
+
+#SortBias		1
+#VisRadius		1
+#VisDist		1
+
+#####################################
+############  Textures  #############
+#####################################
+
+Blend_mode		1 			#Tokened: 0 = Normal 1 = Additive  	
+Alpha			150
+
+TextureName		Heart_SmokeWisp.tga #ForceBall.tga #EnergyStream.tga
+#TexScroll1		0 .01 0 
+#TexScrollJitter1	0 0.0 0	
+#AnimFrames1		1		
+#AnimPace1		1
+
+TextureName2		smoke.tga #ForceBall.tga #EnergyStream.tga
+TexScroll2		0 .007 0.01 
+TexScrollJitter2	0 0.0 0	
+#AnimFrames1		1		
+#AnimPace1		1
+
+
+StartColor		133 47 26
+ColorChangeType		0
+
+BeColor1		117 226 255
+ByTime1			20
+
+BeColor2		133 47 26
+ByTime2			50
+
+
+End

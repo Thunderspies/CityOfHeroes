@@ -1,0 +1,211 @@
+#############################################################
+## FX_PraetorianClockwork_ChestCannon.txt
+#############################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef WristBlaster_Male
+	BaseSkeleton	FX_PraetorianClockwork_WristBlaster_Male\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef WristBlaster_Fem
+	BaseSkeleton	FX_PraetorianClockwork_WristBlaster_Fem\skel_ready
+	ParentType	WristBlaster_Male
+TypeDefEnd
+
+TypeDef WristBlaster_Huge
+	BaseSkeleton	FX_PraetorianClockwork_WristBlaster_Huge\skel_ready
+	ParentType	WristBlaster_Male
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<Combat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		WristBlaster_Male
+	  Anim		FX_PraetorianClockwork_WristBlaster_Male\skel_ready 1 1
+	TEnd
+
+	Type		WristBlaster_Fem
+	  Anim		FX_PraetorianClockwork_WristBlaster_Fem\skel_ready 1 1
+	TEnd
+
+	Type		WristBlaster_Huge
+	  Anim		FX_PraetorianClockwork_WristBlaster_Huge\skel_ready 1 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Combat
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready>
+	Member		<Combat>
+	NextMove	Combat_Cycle
+
+	Type		WristBlaster_Male
+	  Anim		FX_PraetorianClockwork_WristBlaster_Male\skel_ready 1 36
+	TEnd
+
+	Type		WristBlaster_Fem
+	  Anim		FX_PraetorianClockwork_WristBlaster_Fem\skel_ready 1 36
+	TEnd
+
+	Type		WristBlaster_Huge
+	  Anim		FX_PraetorianClockwork_WristBlaster_Huge\skel_ready 1 36
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	COMBAT
+	Member		<Combat>
+	Flags		Cycle
+	NextMove	Post_Combat
+
+	Type		WristBlaster_Male
+	  Anim		FX_PraetorianClockwork_WristBlaster_Male\skel_ready 36 41
+	TEnd
+
+	Type		WristBlaster_Fem
+	  Anim		FX_PraetorianClockwork_WristBlaster_Fem\skel_ready 36 41
+	TEnd
+
+	Type		WristBlaster_Huge
+	  Anim		FX_PraetorianClockwork_WristBlaster_Huge\skel_ready 36 41
+	TEnd
+MEnd
+
+#############################################################
+
+Move Post_Combat
+	Member		<Ready>
+	NextMove	Ready
+
+	Type		WristBlaster_Male
+	  Anim		FX_PraetorianClockwork_WristBlaster_Male\skel_ready 41
+	TEnd
+
+	Type		WristBlaster_Fem
+	  Anim		FX_PraetorianClockwork_WristBlaster_Fem\skel_ready 41
+	TEnd
+
+	Type		WristBlaster_Huge
+	  Anim		FX_PraetorianClockwork_WristBlaster_Huge\skel_ready 41
+	TEnd
+MEnd
+
+#############################################################
+
+Move Encounter_Clockwork_Welding
+	Requires	ENCOUNTER POSE REPAIR STAND
+	Priority        4
+	Interrupts	<Ready>
+	Member		<Combat>
+	Flags		Cycle
+	CycleMove	Encounter_Clockwork_Welding_Cycle
+
+	Type		WristBlaster_Male
+	  Anim		FX_PraetorianClockwork_WristBlaster_Male\skel_ready 1 36
+	TEnd
+
+	Type		WristBlaster_Fem
+	  Anim		FX_PraetorianClockwork_WristBlaster_Fem\skel_ready 1 36
+	TEnd
+
+	Type		WristBlaster_Huge
+	  Anim		FX_PraetorianClockwork_WristBlaster_Huge\skel_ready 1 36
+	TEnd
+MEnd
+
+Move Encounter_Clockwork_Welding_Cycle
+	Requires	ENCOUNTER POSE REPAIR STAND
+	Member		<Combat>
+	Flags		Cycle
+	NextMove	Post_Combat
+
+	Type		WristBlaster_Male
+	  Anim		FX_PraetorianClockwork_WristBlaster_Male\skel_ready 36 41
+	TEnd
+
+	Type		WristBlaster_Fem
+	  Anim		FX_PraetorianClockwork_WristBlaster_Fem\skel_ready 36 41
+	TEnd
+
+	Type		WristBlaster_Huge
+	  Anim		FX_PraetorianClockwork_WristBlaster_Huge\skel_ready 36 41
+	TEnd
+MEnd
+
+#########################################################
+
+Move Encounter_Diagnostic_Arm_Open
+	Requires	POSE OBSERVE HIGH
+	Priority        3
+	Interrupts	<Ready>
+	Member		<Combat>
+	NextMove	Encounter_Diagnostic_Arm_Open_Cycle
+
+	Type		WristBlaster_Male
+	  Anim		FX_PraetorianClockwork_WristBlaster_Male\skel_ready 1 36
+	TEnd
+
+	Type		WristBlaster_Fem
+	  Anim		FX_PraetorianClockwork_WristBlaster_Fem\skel_ready 1 36
+	TEnd
+
+	Type		WristBlaster_Huge
+	  Anim		FX_PraetorianClockwork_WristBlaster_Huge\skel_ready 1 36
+	TEnd
+MEnd
+
+Move Encounter_Diagnostic_Arm_Open_Cycle
+	Requires	POSE OBSERVE HIGH
+	Member		<Combat>
+	Flags		Cycle
+	NextMove	Encounter_Diagnostic_Arm_Open_Close
+
+	Type		WristBlaster_Male
+	  Anim		FX_PraetorianClockwork_WristBlaster_Male\skel_ready 36 41
+	TEnd
+
+	Type		WristBlaster_Fem
+	  Anim		FX_PraetorianClockwork_WristBlaster_Fem\skel_ready 36 41
+	TEnd
+
+	Type		WristBlaster_Huge
+	  Anim		FX_PraetorianClockwork_WristBlaster_Huge\skel_ready 36 41
+	TEnd
+MEnd
+
+
+Move Encounter_Diagnostic_Arm_Open_Close
+	Member		<Ready>
+	NextMove	Ready
+
+	Type		WristBlaster_Male
+	  Anim		FX_PraetorianClockwork_WristBlaster_Male\skel_ready 41
+	TEnd
+
+	Type		WristBlaster_Fem
+	  Anim		FX_PraetorianClockwork_WristBlaster_Fem\skel_ready 41
+	TEnd
+
+	Type		WristBlaster_Huge
+	  Anim		FX_PraetorianClockwork_WristBlaster_Huge\skel_ready 41
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

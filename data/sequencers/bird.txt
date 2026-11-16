@@ -1,0 +1,145 @@
+#############################################################
+
+Sequencer
+
+TypeDef bird		##(default = seqgull)
+	BaseSkeleton	FX_seagull\skel_test
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready_A
+	Member		<Ready> 
+	Flags		Cycle 
+	Scale           0.50
+	CycleMove       Ready_B
+
+	Type		bird
+	  Anim          FX_seagull\skel_test 1  
+	TEnd
+MEnd
+
+
+Move Ready_B
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove       Ready_C
+
+	Type		bird
+	  Anim          FX_seagull\shake_head 1  
+	TEnd
+MEnd
+
+
+Move Ready_C
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove       Ready_D
+
+	Type		bird
+	  Anim          FX_seagull\turn 1  
+	TEnd
+MEnd
+
+
+Move Ready_D
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove       Ready_A
+
+	Type		bird
+	  Anim          FX_seagull\shake_body 1  
+	TEnd
+MEnd
+
+###################
+### Run Forward ##
+###################
+
+Move RunPreReady
+	Requires	FORWARD 
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	NextMove        RunCycleReady
+	Priority        1
+
+
+	Type		bird
+	  Anim          FX_seagull\takeoff 1 
+	  PlayFx	GENERIC\FX_birdwings.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+
+Move RunCycleReady
+	Requires	FORWARD 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle 
+	NextMove        Ready
+	Priority        1
+
+	Type		bird
+	  Anim          FX_seagull\takeoff 27
+	  PlayFx	GENERIC\FX_birdwings.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+
+
+###################
+### flyaway    ##
+###################
+
+Move flyaway 
+	Requires	test1  ##FORWARD 
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	NextMove        flyaway_cycle
+	Priority        1
+	scale		3
+	SticksOnChild   FORWARD 
+
+	Type		bird
+	  Anim          FX_seagull\flyaway 1 
+	  PlayFx	GENERIC\FX_birdwings.fx 0 CONSTANT
+	  PlayFx        GENERIC\bird_flyaway.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move flyaway_cycle
+	Requires	test1 
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle 
+	NextMove        Ready
+	Priority        1
+
+	Type		bird
+	  Anim          FX_seagull\flyaway 200
+	  PlayFx	GENERIC\FX_birdwings.fx 0 CONSTANT
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+SeqEnd
+

@@ -1,0 +1,701 @@
+#########################################################
+## CustomWeapon_Pistols.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef PistolRight_SemiAuto
+	BaseSkeleton	CustomWeapons_Pistols_SemiAuto\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef PistolLeft_SemiAuto
+	BaseSkeleton	CustomWeapons_Pistols_SemiAuto\skel_ready
+	ParentType	PistolRight_SemiAuto
+TypeDefEnd
+
+TypeDef PistolRight_Maelstrom
+	BaseSkeleton	CustomWeapons_Pistols_SemiAuto\MaelstromPistol_Ready
+	ParentType	PistolRight_SemiAuto
+TypeDefEnd
+
+TypeDef PistolLeft_Maelstrom
+	BaseSkeleton	CustomWeapons_Pistols_SemiAuto\MaelstromPistol_Ready
+	ParentType	PistolRight_Maelstrom
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 1
+	TEnd
+
+	Type		PistolRight_Maelstrom
+	  Anim		CustomWeapons_Pistols_SemiAuto\MaelstromPistol_Ready 1 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	DUALHAND #SPAWNHIP
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Flags		NoDraw
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 11
+	TEnd
+
+	Type		PistolRight_Maelstrom
+	  Anim		CustomWeapons_Pistols_SemiAuto\MaelstromPistol_Ready 1 11
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	DUALHAND
+#	Priority        1
+#	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 11
+	TEnd
+
+	Type		PistolRight_Maelstrom
+	  Anim		CustomWeapons_Pistols_SemiAuto\MaelstromPistol_Ready 1 11
+	TEnd
+MEnd
+
+#############################################################
+## PISTOLS
+#############################################################
+
+Move Pistols_Right_Draw
+	Requires	SHOOT RIGHT SPAWNBACK
+	Priority        3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	Pistols_Right_Pre
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move Pistols_Right_Pre
+	Requires	SHOOT RIGHT
+	Priority        2
+	Interrupts	<Ready> <WepCombat>
+	NextMove	Pistols_Right
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 10
+	TEnd
+MEnd
+
+Move Pistols_Right
+	NextMove	Pistols_Right_PostCycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+
+	Type		PistolRight_Maelstrom
+	  Anim		CustomWeapons_Pistols_SemiAuto\MaelstromPistol_Fire 1
+	TEnd
+
+	Type		PistolLeft_Maelstrom
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+Move Pistols_Right_PostCycle
+	Requires	SHOOT RIGHT
+	Flags		Cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Pistols_Left_Draw
+	Requires	SHOOT LEFT SPAWNBACK
+	Priority        3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	Pistols_Left_Pre
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move Pistols_Left_Pre
+	Requires	SHOOT LEFT
+	Priority        2
+	Interrupts	<Ready> <WepCombat>
+	NextMove	Pistols_Left
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 10
+	TEnd
+MEnd
+
+Move Pistols_Left
+	NextMove	Pistols_Left_PostCycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1
+	TEnd
+
+	Type		PistolRight_Maelstrom
+	  Anim		CustomWeapons_Pistols_SemiAuto\MaelstromPistol_Fire 1
+	TEnd
+
+	Type		PistolLeft_Maelstrom
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+Move Pistols_Left_PostCycle
+	Requires	SHOOT LEFT
+	Flags		Cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+## DUAL WIELD
+#############################################################
+
+Move DualWield_Draw
+	Requires	SHOOT STRONG SPAWNBACK
+	Priority        3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	DualWield_Pre
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move DualWield_Pre
+	Requires	SHOOT STRONG
+	Priority        2
+	Interrupts	<Ready> <WepCombat>
+	NextMove	DualWield
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 19
+	TEnd
+MEnd
+
+Move DualWield
+	NextMove	DualWield_PostCycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1
+	TEnd
+MEnd
+
+Move DualWield_PostCycle
+	Requires	SHOOT STRONG
+	Flags		Cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+## EMPTY CLIPS
+#############################################################
+
+Move EmptyClips_Draw
+	Requires	SHOOT CONE SPAWNBACK
+	Priority        3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	EmptyClips_Pre
+	Flags		NoSizeScale
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move EmptyClips_Pre
+	Requires	SHOOT CONE
+	Priority        2
+	Interrupts	<Ready> <WepCombat>
+	NextMove	EmptyClips_1
+	Flags		NoSizeScale
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 13
+	TEnd
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 15
+	TEnd
+MEnd
+
+Move EmptyClips_1 #Shot 1
+	NextMove	EmptyClips_2
+	Interpolate	0
+	Flags		NoSizeScale
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 5 #Frame 13
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 5 #Frame 15
+	TEnd
+MEnd
+
+Move EmptyClips_2 #Shot 2
+	NextMove	EmptyClips_3
+	Interpolate	0
+	Flags		NoSizeScale
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 5 #Frame 17
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 5 #Frame 19
+	TEnd
+MEnd
+
+Move EmptyClips_3 #Shot 3
+	NextMove	EmptyClips_4
+	Interpolate	0
+	Flags		NoSizeScale
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 9 #Frame 21
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 9 #Frame 23
+	TEnd
+MEnd
+
+Move EmptyClips_4 #Shot 4
+	NextMove	EmptyClips_5
+	Interpolate	0
+	Flags		NoSizeScale
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 5 #Frame 29
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 5 #Frame 31
+	TEnd
+MEnd
+
+Move EmptyClips_5 #Shot 5
+	NextMove	EmptyClips_6
+	Interpolate	0
+	Flags		NoSizeScale
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 5 #Frame 33
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 10 #Frame 35
+	TEnd
+MEnd
+
+Move EmptyClips_6 #Shot 6
+	NextMove	EmptyClips_7
+	Interpolate	0
+	Flags		NoSizeScale
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 10 #Frame 37
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 5 #Frame 44
+	TEnd
+MEnd
+
+Move EmptyClips_7 #Shot 7
+	NextMove	EmptyClips_PostCycle
+	Interpolate	0
+	Flags		NoSizeScale
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\open 1 13 #Frame 46
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\open 1 13 #Frame 48
+	TEnd
+MEnd
+
+Move EmptyClips_PostCycle
+	Requires	SHOOT CONE
+	Flags		Cycle NoSizeScale
+	NextMove	Combat_Cycle
+	Interpolate	1
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+## BULLET RAIN
+#############################################################
+
+Move BulletRain_Draw
+	Requires	SHOOT LAUNCH SPAWNBACK
+	Priority        3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	BulletRain_Pre
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move BulletRain_Pre
+	Requires	SHOOT LAUNCH
+	Priority        2
+	Interrupts	<Ready> <WepCombat>
+	NextMove	BulletRain_1
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 5
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 15
+	TEnd
+MEnd
+
+Move BulletRain_1
+	NextMove	BulletRain_2
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 19
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 19
+	TEnd
+MEnd
+
+Move BulletRain_2
+	NextMove	BulletRain_3
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 19
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 19
+	TEnd
+MEnd
+
+Move BulletRain_3
+	NextMove	BulletRain_PostCycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 19
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1 19
+	TEnd
+MEnd
+
+Move BulletRain_PostCycle
+	Requires	SHOOT LAUNCH
+	Flags		Cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+## SUPPRESSEIVE FIRE
+#############################################################
+
+Move SuppressiveFire_Right_Draw
+	Requires	SHOOT MID RIGHT SPAWNBACK
+	Priority        4
+	Interrupts	<Ready> <WepCombat>
+	NextMove	SuppressiveFire_Right_Pre
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move SuppressiveFire_Right_Pre
+	Requires	SHOOT MID RIGHT
+	Priority        3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	SuppressiveFire_Right
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 15
+	TEnd
+MEnd
+
+Move SuppressiveFire_Right
+	NextMove	SuppressiveFire_Right_PostCycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+Move SuppressiveFire_Right_PostCycle
+	Requires	SHOOT MID
+	Flags		Cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move SuppressiveFire_Left_Draw
+	Requires	SHOOT MID LEFT SPAWNBACK
+	Priority        4
+	Interrupts	<Ready> <WepCombat>
+	NextMove	SuppressiveFire_Left_Pre
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move SuppressiveFire_Left_Pre
+	Requires	SHOOT MID LEFT
+	Priority        3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	SuppressiveFire_Left
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 14
+	TEnd
+MEnd
+
+Move SuppressiveFire_Left
+	NextMove	SuppressiveFire_Left_PostCycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1
+	TEnd
+MEnd
+
+Move SuppressiveFire_Left_PostCycle
+	Requires	SHOOT MID
+	Flags		Cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+## EXECUTIONER'S SHOT
+#############################################################
+
+Move ExecutionersShot_Draw
+	Requires	PISTOLS EXECUTE SPAWNBACK
+	Priority        3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	ExecutionersShot_Pre
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move ExecutionersShot_Pre
+	Requires	PISTOLS EXECUTE
+	Priority        2
+	Interrupts	<Ready> <WepCombat>
+	NextMove	ExecutionersShot
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 38
+	TEnd
+MEnd
+
+Move ExecutionersShot
+	NextMove	ExecutionersShot_PostCycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+Move ExecutionersShot_PostCycle
+	Requires	PISTOLS EXECUTE
+	Flags		Cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+## PIERCING ROUND
+#############################################################
+
+Move PiercingRounds_Draw
+	Requires	PISTOLS SHOOT SNIPERBLAST SPAWNBACK
+	Priority	4
+	Interrupts	<Ready> <WepCombat>
+	NextMove	PiercingRounds_Pre
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move PiercingRounds_Pre
+	Requires	PISTOLS SHOOT SNIPERBLAST
+	Priority	3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	PiercingRounds
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 48
+	TEnd
+MEnd
+
+Move PiercingRounds
+	NextMove	PiercingRounds_PostCycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 1
+	TEnd
+
+	Type		PistolLeft_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+Move PiercingRounds_PostCycle
+	Requires	PISTOLS SHOOT SNIPERBLAST
+	Flags		Cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+## HAIL OF BULLETS
+#############################################################
+
+Move HailOfBullets_Draw
+	Requires	PISTOLS SHOOT SPIN SPAWNBACK
+	Priority	4
+	Interrupts	<Ready> <WepCombat>
+	NextMove	HailOfBullets_Pre
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 27
+	TEnd
+MEnd
+
+Move HailOfBullets_Pre
+	Requires	PISTOLS SHOOT SPIN
+	Priority	3
+	Interrupts	<Ready> <WepCombat>
+	NextMove	HailOfBullets_Cycle
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 9
+	TEnd
+MEnd
+
+Move HailOfBullets_Cycle
+	Requires	PISTOLS SHOOT SPIN
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\fire 2 4
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,1186 @@
+
+Texture SE_Sand_01_B.tga
+	Surface SAND
+End
+
+Texture X_SE_Ground_M
+	Base1 SE_Sand_01_B //DA_Grass_01_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 15 12 //8 3
+
+	Multiply1 SE_Ground_D
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Sand_01_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 15 12 //8 3 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask SE_Ground_M
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 SE_Sand_02_B
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 SE_Ground_D
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 SE_Sand_02_NS
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  25 23
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 20 20 20
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Sand_01_B
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+
+
+
+Texture X_SE_Concrete_01
+	Base1 SE_Concrete_01_B 
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 AP_ConcreteGrunge_01_d
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_01_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 50 50 50
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_01_B 
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+
+Texture X_SE_Concrete_02
+	Base1 SE_Concrete_02_B 
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 AP_ConcreteGrunge_01_d
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_02_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 50 50 50
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 10 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_02_B 
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+
+
+Texture X_SE_Metal_01_B
+	Base1 SE_Metal_01_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 3 3
+
+	Multiply1 none
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Metal_01_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 3 3 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	ReflectivityBase 1
+	ReflectivityScale 1
+	ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 250 250 250
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 32 //32
+	SpecularExponent2 10
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Metal_01_B
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+Texture X_SE_Concrete_Trim_01
+	Base1 SE_Concrete_Trim_01_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_Trim_01_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 20 20 20
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 32 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_Trim_01_B
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+
+Texture X_SE_Concrete_Trim_02
+	Base1 SE_Concrete_Trim_02_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_Trim_02_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 20 20 20
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 32 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_Trim_02_B
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+Texture X_SE_Concrete_03
+	Base1 SE_Concrete_03_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 AP_ConcreteGrunge_01_d
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_03_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 20 20 20
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 32 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_03_B
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+
+Texture X_SE_Concrete_Trim_03
+	Base1 SE_Concrete_Trim_03_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 AP_ConcreteGrunge_01_d
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_Trim_03_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 20 20 20
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 32 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_Trim_03_B
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+
+
+Texture X_SE_Concrete_04
+	Base1 SE_Concrete_04_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 AP_ConcreteGrunge_01_d
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  .5 .5 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_04_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 32 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_04_B
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+Texture X_SE_Concrete_05
+	Base1 SE_Concrete_05_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 none //AP_ConcreteGrunge_01_d
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  .5 .5 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_05_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 32 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_05_B 
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+Texture X_SE_Concrete_06
+	Base1 SE_Concrete_06_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 AP_ConcreteGrunge_01_d
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  .5 .5 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_06_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 32 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_06_B
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+Texture X_SE_Concrete_Relief_01
+	Base1 SE_Concrete_Relief_01_B
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale 1 1
+
+	Multiply1 AP_ConcreteGrunge_01_d
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  .5 .5 
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 SE_Concrete_Relief_01_NS
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale 1 1 
+	
+	AddGlow1 none 
+	AddGlow1Scroll 0 0 
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 
+	MaskWeight  1 
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 
+	Base2ScrollType  Normal //Normal
+	Base2Scale  25 23
+
+	Multiply2 none
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 10 10 10
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 32 //32
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SE_Concrete_Relief_01_B
+		BumpMap none //
+		Blend DA_CliffTexture_01_Detail
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 105 105
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End

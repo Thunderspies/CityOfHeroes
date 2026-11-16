@@ -1,0 +1,304 @@
+//
+// This file defines the diminishing returns given for a particular
+// power attribute when used in a certain kind of enhancement.
+//
+// Each ReturnSet represents the diminishing returns for a given set of
+// Enhancement types. 
+// 
+// Each power is marked with these same enhancement types. For each 
+// enhancement type a power supports, a ReturnSet is looked up. Then, for
+// each attribute listed in each AttribReturnSet, the given Returns are used.
+//
+// After going over all the enhancement types a power supports, attributes
+// which don't have diminishing return information get it from the ReturnSet
+// marked as Default. Only on ReturnSet can be marked as Default.
+//
+// If you don't wish to apply diminishing returns to some attributes, make
+// a AttribReturnSet which lists that attribute but has no Return lines in it.
+//
+
+ReturnSet
+{
+	Boost kRange_Boost
+
+	AttribReturnSet
+	{
+		// The set of attributes which will use the diminishing returns below.
+		// These names are the same as the ones used in Power definitions.
+		//
+		// Attributes can be comma separated, or appear on multiple lines.
+		//
+		Attrib kRange
+
+		// The diminishing returns table for the above attributes.
+		//
+		// There may be an arbitrary of Returns.
+		//
+		// Starting at X.XX, you get Y.YY of the the original bonus
+		Return          .40           .90
+		Return          .50           .70
+		Return          .60           .15
+	}
+}
+
+ReturnSet
+{
+	Boost kBuff_Defense_Boost
+
+	AttribReturnSet
+	{
+		// The set of attributes which will use the diminishing returns below.
+		// These names are the same as the ones used in Power definitions.
+		//
+		// Attributes can be comma separated, or appear on multiple lines.
+		//
+		Attrib kDefense
+		Attrib kRanged_Attack, kMelee_Attack, kAOE_Attack, kSmashing_Attack, kLethal_Attack, kFire_Attack, kCold_Attack, kEnergy_Attack, kNegative_Energy_Attack, kPsionic_Attack
+
+		// The diminishing returns table for the above attributes.
+		//
+		// There may be an arbitrary of Returns.
+		//
+		// Starting at X.XX, you get Y.YY of the the original bonus
+		Return          .40           .90
+		Return          .50           .70
+		Return          .60           .15
+	}
+}
+
+ReturnSet
+{
+	Boost kRes_Damage_Boost
+
+	AttribReturnSet
+	{
+		// The set of attributes which will use the diminishing returns below.
+		// These names are the same as the ones used in Power definitions.
+		//
+		// Attributes can be comma separated, or appear on multiple lines.
+		//
+		Attrib kSmashing, kLethal, kFire, kCold, kEnergy, kNegative_Energy, kPsionic, kSpecial, kToxic, kRadiation, kElectrical, kUnique1, kUnique2, kUnique3
+
+		// The diminishing returns table for the above attributes.
+		//
+		// There may be an arbitrary of Returns.
+		//
+		// Starting at X.XX, you get Y.YY of the the original bonus
+		Return          .40           .90
+		Return          .50           .70
+		Return          .60           .15
+	}
+}
+
+ReturnSet
+{
+	Boost kBuff_ToHit_Boost
+
+	AttribReturnSet
+	{
+		// The set of attributes which will use the diminishing returns below.
+		// These names are the same as the ones used in Power definitions.
+		//
+		// Attributes can be comma separated, or appear on multiple lines.
+		//
+		Attrib kToHit
+
+		// The diminishing returns table for the above attributes.
+		//
+		// There may be an arbitrary of Returns.
+		//
+		// Starting at X.XX, you get Y.YY of the the original bonus
+		Return          .40           .90
+		Return          .50           .70
+		Return          .60           .15
+	}
+}
+
+ReturnSet
+{
+	Boost kDebuff_ToHit_Boost
+
+	AttribReturnSet
+	{
+		// The set of attributes which will use the diminishing returns below.
+		// These names are the same as the ones used in Power definitions.
+		//
+		// Attributes can be comma separated, or appear on multiple lines.
+		//
+		Attrib kToHit
+
+		// The diminishing returns table for the above attributes.
+		//
+		// There may be an arbitrary of Returns.
+		//
+		// Starting at X.XX, you get Y.YY of the the original bonus
+		Return          .40           .90
+		Return          .50           .70
+		Return          .60           .15
+	}
+}
+
+ReturnSet
+{
+	Boost kInterrupt_Boost
+
+	AttribReturnSet
+	{
+		// The set of attributes which will use the diminishing returns below.
+		// These names are the same as the ones used in Power definitions.
+		//
+		// Attributes can be comma separated, or appear on multiple lines.
+		//
+		Attrib kInterruptTime
+
+		// The diminishing returns table for the above attributes.
+		//
+		// There may be an arbitrary of Returns.
+		//
+		// Starting at X.XX, you get Y.YY of the the original bonus
+		Return          .80           .90
+		Return          1.0           .70
+		Return          1.2           .15
+	}
+}
+
+ReturnSet
+{
+	Boost kKnockback_Boost
+
+	AttribReturnSet
+	{
+		// The set of attributes which will use the diminishing returns below.
+		// These names are the same as the ones used in Power definitions.
+		//
+		// Attributes can be comma separated, or appear on multiple lines.
+		//
+		Attrib kKnockup
+		Attrib kKnockback
+
+		// The diminishing returns table for the above attributes.
+		//
+		// There may be an arbitrary of Returns.
+		//
+		// Starting at X.XX, you get Y.YY of the the original bonus
+		Return          1.2           .90
+		Return          1.5           .70
+		Return          1.8           .15
+	}
+}
+
+ReturnSet
+{
+	Default 1
+
+	AttribReturnSet
+	{
+		Default 1
+
+		// Starting at X.XX, you get Y.YY of the the original bonus
+		Return          .70           .90
+		Return          .90           .70
+		Return         1.00           .15
+	}
+}
+
+//
+// For your convenience, here are all of the existing attribs (as of 7 Sep 2005)
+//
+// Attrib kSmashing, kLethal, kFire, kCold, kEnergy, kNegative_Energy, kPsionic, kSpecial, kToxic, kRadiation, kElectrical, kUnique1, kUnique2, kUnique3
+// Attrib kHeal
+// Attrib kHitPoints
+// Attrib kEndurance
+// Attrib kInsight
+// Attrib kIdea
+// Attrib kRage
+// Attrib kToHit
+// Attrib kRanged_Attack, kMelee_Attack, kAOE_Attack, kSmashing_Attack, kLethal_Attack, kFire_Attack, kCold_Attack, kEnergy_Attack, kNegative_Energy_Attack, kPsionic_Attack
+// Attrib kSpeedRunning
+// Attrib kRunSpeed
+// Attrib kSpeedFlying
+// Attrib kFlySpeed
+// Attrib kSpeedSwimming
+// Attrib kSpeedJumping
+// Attrib kJumpHeight
+// Attrib kMovementControl
+// Attrib kMovementFriction
+// Attrib kStealth
+// Attrib kStealthRadius
+// Attrib kStealthRadiusPlayer
+// Attrib kPerceptionRadius
+// Attrib kRegeneration
+// Attrib kRecovery
+// Attrib kInsightRecovery
+// Attrib kThreatLevel
+// Attrib kTaunt
+// Attrib kPlacate
+// Attrib kConfused
+// Attrib kConfuse
+// Attrib kAfraid
+// Attrib kTerrorized
+// Attrib kTerrorize
+// Attrib kHeld
+// Attrib kImmobilized
+// Attrib kImmobilize
+// Attrib kStunned
+// Attrib kStun
+// Attrib kSleep
+// Attrib kFly
+// Attrib kJumppack
+// Attrib kTeleport
+// Attrib kUntouchable
+// Attrib kIntangible
+// Attrib kOnlyAffectsSelf
+// Attrib kNullBool
+// Attrib kEvade
+// Attrib kKnockup
+// Attrib kKnockback
+// Attrib kRepel
+// Attrib kAccuracy
+// Attrib kRadius
+// Attrib kArc
+// Attrib kRange
+// Attrib kTimeToActivate
+// Attrib kRechargeTime
+// Attrib kInterruptTime
+// Attrib kEnduranceDiscount
+
+//
+// These are all the currently defined boost types (as of 7 Sep 2005)
+// (See attrib_names.def for the list)
+//
+// Boost kAccuracy_Boost
+// Boost kBuff_Defense_Boost
+// Boost kBuff_ToHit_Boost
+// Boost kConfuse_Boost
+// Boost kDamage_Boost
+// Boost kDebuff_Defense_Boost
+// Boost kDebuff_ToHit_Boost
+// Boost kFear_Boost
+// Boost kSpeedFlying_Boost
+// Boost kHeal_Boost
+// Boost kImmobilized_Boost
+// Boost kJump_Boost
+// Boost kKnockback_Boost
+// Boost kRecharge_Boost
+// Boost kSpeedRunning_Boost
+// Boost kSleep_Boost
+// Boost kStunned_Boost
+// Boost kRange_Boost
+// Boost kEnduranceDiscount_Boost
+// Boost kBuff_Damage_Boost
+// Boost kDebuff_Damage_Boost
+// Boost kRadius_Boost
+// Boost kCone_Boost
+// Boost kTaunt_Boost
+// Boost kSlow_Boost
+// Boost kHold_Boost
+// Boost kIntangible_Boost
+// Boost kInterrupt_Boost
+// Boost kRecovery_Boost
+// Boost kEndurance_Drain_Boost
+// Boost kRes_Damage_Boost
+// Boost kHamidon_Boost
+
+// End of File

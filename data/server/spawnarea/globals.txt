@@ -1,0 +1,5250 @@
+/* SpawnArea definition
+ *  Recognized fields:
+ *	MaxActiveEntities
+ *		Maximum number of active non-player entities on this map.
+ *		This field accepts an integer.
+ *
+ *  Recongized blocks:
+ *	NPC block
+ *		Defines a type of entity that does not attack the player.
+ *	Critter block
+ *		Defines a type of entity that does attack the player.
+ *	Generator block
+ *		Defines a type of entity generator.
+ */
+
+SpawnArea Global
+	// Redundent fields?
+	MaxActiveEntities 1000000
+	MaxCritterCount 850
+	MaxNPCCount 500
+	MaxCritterPerPlayer 850		// This can go.  Mission maps determine max critter count some other way now.
+	MaxTriggerCount 5		// This can go.  Not used anymore.
+	MaxCritterSpawnCount infinite
+
+	/* NPC definition
+	 *  Defines a type of entity that does not attack the player.
+	 *  A user defined entity type name is expected after the keyword "NPC".
+	 *
+	 *  Recongzined fields:
+	 *	Type
+	 *		Defines the visual look as well as the stats of type of entity.
+	 *		This field accepts a string which corresponds to a type of "Villain"
+	 *		as defined in game\data\menu\NPC.dta
+	 *	AITypes
+	 *		Defines the flowchart an entity of this type uses.
+	 *		This field accepts a list of flowchart names and the frequency for which
+	 *		they will be attached to this type of entities.
+	 *	MaxActiveEntities
+	 *		Defines the maximum number of active entities of this type.
+	 *		This field accepts an integer.
+	 *
+	 *  Reconginzed blocks:
+	 *	None.
+	 */
+
+/******************************************
+ * NPCs
+ */
+	// NPC <User defined name>
+	NPC MaleNPC
+		// Business Male
+		Type MaleNPC_01, MaleNPC_02, MaleNPC_03, MaleNPC_04, MaleNPC_05, MaleNPC_06, MaleNPC_07, MaleNPC_08,
+		Type MaleNPC_09, MaleNPC_10, MaleNPC_11, MaleNPC_12, MaleNPC_13, MaleNPC_14, MaleNPC_15, MaleNPC_16,
+		Type MaleNPC_17, MaleNPC_18, MaleNPC_19, MaleNPC_20, MaleNPC_21, MaleNPC_22, MaleNPC_23, MaleNPC_24,
+		Type MaleNPC_25, MaleNPC_26, MaleNPC_27, MaleNPC_28, MaleNPC_29, MaleNPC_30, MaleNPC_31, MaleNPC_32,
+		Type MaleNPC_33, MaleNPC_34, MaleNPC_35, MaleNPC_36, MaleNPC_37, MaleNPC_38, MaleNPC_39, MaleNPC_40,
+		Type MaleNPC_41, MaleNPC_42, MaleNPC_43, MaleNPC_44, MaleNPC_45, MaleNPC_46, MaleNPC_47, MaleNPC_48,
+		Type MaleNPC_49, MaleNPC_50,
+
+		//Casual Male
+		Type MaleNPC_51, MaleNPC_52, MaleNPC_53, MaleNPC_54, MaleNPC_55, MaleNPC_56, MaleNPC_57, MaleNPC_58,
+		Type MaleNPC_59, MaleNPC_60, MaleNPC_61, MaleNPC_62, MaleNPC_63, MaleNPC_64, MaleNPC_65, MaleNPC_66,
+		Type MaleNPC_67, MaleNPC_68, MaleNPC_69, MaleNPC_70, MaleNPC_71, MaleNPC_72, MaleNPC_73, MaleNPC_74,
+		Type MaleNPC_75, MaleNPC_76, MaleNPC_77, MaleNPC_78, MaleNPC_79, MaleNPC_80, MaleNPC_81, MaleNPC_82,
+		Type MaleNPC_83, MaleNPC_84, MaleNPC_85, MaleNPC_86, MaleNPC_87, MaleNPC_88, MaleNPC_89, MaleNPC_90,
+		Type MaleNPC_91, MaleNPC_92, MaleNPC_93, MaleNPC_94, MaleNPC_95, MaleNPC_96, MaleNPC_97, MaleNPC_98,
+		Type MaleNPC_99, MaleNPC_100,
+
+		//Unkempt Male
+		Type MaleNPC_101, MaleNPC_102, MaleNPC_103, MaleNPC_104, MaleNPC_105, MaleNPC_106, MaleNPC_107,
+		Type MaleNPC_108, MaleNPC_109, MaleNPC_110, MaleNPC_111, MaleNPC_112, MaleNPC_113, MaleNPC_114,
+		Type MaleNPC_115, MaleNPC_116, MaleNPC_117, MaleNPC_118, MaleNPC_119, MaleNPC_120, MaleNPC_121,
+		Type MaleNPC_122, MaleNPC_123, MaleNPC_124, MaleNPC_125, MaleNPC_126, MaleNPC_127, MaleNPC_128,
+		Type MaleNPC_129, MaleNPC_130, MaleNPC_131, MaleNPC_132, MaleNPC_133, MaleNPC_134, MaleNPC_135,
+		Type MaleNPC_136, MaleNPC_137, MaleNPC_138, MaleNPC_138, MaleNPC_139, MaleNPC_140, MaleNPC_141,
+		Type MaleNPC_142, MaleNPC_143, MaleNPC_144, MaleNPC_145, MaleNPC_146, MaleNPC_147, MaleNPC_148,
+		Type MaleNPC_149, MaleNPC_150,
+
+		//Doctor
+		Type MaleNPC_200, MaleNPC_201, MaleNPC_202, MaleNPC_203,
+
+		//Sanitation
+		Type MaleNPC_210, MaleNPC_211, MaleNPC_212, MaleNPC_213,
+
+		//Smuggler_Cargo
+		Type MaleNPC_104, MaleNPC_112,
+
+		//Construction Workers
+		Type MaleNPC_240, MaleNPC_241, NPC_Male_242, NPC_Male_243, NPC_Male_244, NPC_Male_245, NPC_Male_246, NPC_Male_247, NPC_Male_248, NPC_Male_249, NPC_Male_250
+
+		// Max active ents of this type
+		MaxActiveEntities 100
+		RunSpeed 0.7
+	End
+
+	NPC FemaleNPC
+		//Business Female
+		Type FemaleNPC_01, FemaleNPC_02, FemaleNPC_03, FemaleNPC_04, FemaleNPC_05, FemaleNPC_06, FemaleNPC_07,
+		Type FemaleNPC_08, FemaleNPC_09, FemaleNPC_10, FemaleNPC_11, FemaleNPC_12, FemaleNPC_13, FemaleNPC_14,
+		Type FemaleNPC_15, FemaleNPC_16, FemaleNPC_17, FemaleNPC_18, FemaleNPC_19, FemaleNPC_20, FemaleNPC_21,
+		Type FemaleNPC_22, FemaleNPC_23, FemaleNPC_24, FemaleNPC_25, FemaleNPC_26, FemaleNPC_27, FemaleNPC_28,
+		Type FemaleNPC_29, FemaleNPC_30, FemaleNPC_31, FemaleNPC_32, FemaleNPC_33, FemaleNPC_34, FemaleNPC_35,
+
+		//Casual Female
+		Type FemaleNPC_51, FemaleNPC_52, FemaleNPC_53, FemaleNPC_54, FemaleNPC_55, FemaleNPC_56, FemaleNPC_57,
+		Type FemaleNPC_58, FemaleNPC_59, FemaleNPC_60, FemaleNPC_61, FemaleNPC_62, FemaleNPC_63, FemaleNPC_64,
+		Type FemaleNPC_65, FemaleNPC_66, FemaleNPC_67, FemaleNPC_68, FemaleNPC_69, FemaleNPC_70, FemaleNPC_71,
+		Type FemaleNPC_72, FemaleNPC_73, FemaleNPC_74, FemaleNPC_75, FemaleNPC_76, FemaleNPC_77, FemaleNPC_78,
+		Type FemaleNPC_79, FemaleNPC_80, FemaleNPC_81, FemaleNPC_82, FemaleNPC_83, FemaleNPC_84, FemaleNPC_85,
+
+		//Unkempt Female
+		Type FemaleNPC_101, FemaleNPC_102, FemaleNPC_103, FemaleNPC_104, FemaleNPC_105, FemaleNPC_106,
+		Type FemaleNPC_107, FemaleNPC_108, FemaleNPC_109, FemaleNPC_110, FemaleNPC_111, FemaleNPC_112,
+		Type FemaleNPC_113, FemaleNPC_114, FemaleNPC_115, FemaleNPC_116, FemaleNPC_117, FemaleNPC_118,
+		Type FemaleNPC_119, FemaleNPC_120, FemaleNPC_121, FemaleNPC_122, FemaleNPC_123, FemaleNPC_124,
+		Type FemaleNPC_125, FemaleNPC_129, FemaleNPC_130,
+		Type FemaleNPC_131, FemaleNPC_132, FemaleNPC_133, FemaleNPC_134, FemaleNPC_135, FemaleNPC_136,
+		Type FemaleNPC_137, FemaleNPC_138, FemaleNPC_139, FemaleNPC_140, FemaleNPC_141, FemaleNPC_142,
+		Type FemaleNPC_143, FemaleNPC_144, FemaleNPC_145, FemaleNPC_146, FemaleNPC_147, FemaleNPC_148,
+		Type FemaleNPC_149, FemaleNPC_150,
+
+		//Doctor
+		Type FemaleNPC_200, FemaleNPC_201,
+
+		//Nurse
+		Type FemaleNPC_210, FemaleNPC_211,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+
+	NPC MissionMaleNPC
+		// Business Male
+		Type MaleNPC_01, MaleNPC_02, MaleNPC_03, MaleNPC_04, MaleNPC_05, MaleNPC_06, MaleNPC_07, MaleNPC_08,
+		Type MaleNPC_09, MaleNPC_10, MaleNPC_11, MaleNPC_12, MaleNPC_13, MaleNPC_14, MaleNPC_15, MaleNPC_16,
+		Type MaleNPC_17, MaleNPC_18, MaleNPC_19, MaleNPC_20, MaleNPC_21, MaleNPC_22, MaleNPC_23, MaleNPC_24,
+		Type MaleNPC_25, MaleNPC_26, MaleNPC_27, MaleNPC_28, MaleNPC_29, MaleNPC_30, MaleNPC_31, MaleNPC_32,
+		Type MaleNPC_33, MaleNPC_34, MaleNPC_35, MaleNPC_36, MaleNPC_37, MaleNPC_38, MaleNPC_39, MaleNPC_40,
+		Type MaleNPC_41, MaleNPC_42, MaleNPC_43, MaleNPC_44, MaleNPC_45, MaleNPC_46, MaleNPC_47, MaleNPC_48,
+		Type MaleNPC_49, MaleNPC_50,
+
+		//Casual Male
+		Type MaleNPC_51, MaleNPC_52, MaleNPC_53, MaleNPC_54, MaleNPC_55, MaleNPC_56, MaleNPC_57, MaleNPC_58,
+		Type MaleNPC_59, MaleNPC_60, MaleNPC_61, MaleNPC_62, MaleNPC_63, MaleNPC_64, MaleNPC_65, MaleNPC_66,
+		Type MaleNPC_67, MaleNPC_68, MaleNPC_69, MaleNPC_70, MaleNPC_71, MaleNPC_72, MaleNPC_73, MaleNPC_74,
+		Type MaleNPC_75, MaleNPC_76, MaleNPC_77, MaleNPC_78, MaleNPC_79, MaleNPC_80, MaleNPC_81, MaleNPC_82,
+		Type MaleNPC_83, MaleNPC_84, MaleNPC_85, MaleNPC_86, MaleNPC_87, MaleNPC_88, MaleNPC_89, MaleNPC_90,
+		Type MaleNPC_91, MaleNPC_92, MaleNPC_93, MaleNPC_94, MaleNPC_95, MaleNPC_96, MaleNPC_97, MaleNPC_98,
+		Type MaleNPC_99, MaleNPC_100,
+
+		//Unkempt Male
+		Type MaleNPC_101, MaleNPC_102, MaleNPC_103, MaleNPC_104, MaleNPC_105, MaleNPC_106, MaleNPC_107,
+		Type MaleNPC_108, MaleNPC_109, MaleNPC_110, MaleNPC_111, MaleNPC_112, MaleNPC_113, MaleNPC_114,
+		Type MaleNPC_115, MaleNPC_116, MaleNPC_117, MaleNPC_118, MaleNPC_119, MaleNPC_120, MaleNPC_121,
+		Type MaleNPC_122, MaleNPC_123, MaleNPC_124, MaleNPC_125, MaleNPC_126, MaleNPC_127, MaleNPC_128,
+		Type MaleNPC_129, MaleNPC_130, MaleNPC_131, MaleNPC_132, MaleNPC_133, MaleNPC_134, MaleNPC_135,
+		Type MaleNPC_136, MaleNPC_137, MaleNPC_138, MaleNPC_138, MaleNPC_139, MaleNPC_140, MaleNPC_141,
+		Type MaleNPC_142, MaleNPC_143, MaleNPC_144, MaleNPC_145, MaleNPC_146, MaleNPC_147, MaleNPC_148,
+		Type MaleNPC_149, MaleNPC_150,
+
+		//Doctor
+		Type MaleNPC_200, MaleNPC_201, MaleNPC_202, MaleNPC_203,
+
+		//Sanitation
+		Type MaleNPC_210, MaleNPC_211, MaleNPC_212, MaleNPC_213,
+
+		//Smuggler_Cargo
+		Type MaleNPC_104, MaleNPC_112,
+
+		//Construction Workers
+		Type MaleNPC_240, MaleNPC_241, NPC_Male_242, NPC_Male_243, NPC_Male_244, NPC_Male_245, NPC_Male_246, NPC_Male_247, NPC_Male_248, NPC_Male_249, NPC_Male_250
+
+
+		// Max active ents of this type
+		MaxActiveEntities 100
+		RunSpeed 0.7
+	End
+
+	NPC MissionFemaleNPC
+		//Business Female
+		Type FemaleNPC_01, FemaleNPC_02, FemaleNPC_03, FemaleNPC_04, FemaleNPC_05, FemaleNPC_06, FemaleNPC_07,
+		Type FemaleNPC_08, FemaleNPC_09, FemaleNPC_10, FemaleNPC_11, FemaleNPC_12, FemaleNPC_13, FemaleNPC_14,
+		Type FemaleNPC_15, FemaleNPC_16, FemaleNPC_17, FemaleNPC_18, FemaleNPC_19, FemaleNPC_20, FemaleNPC_21,
+		Type FemaleNPC_22, FemaleNPC_23, FemaleNPC_24, FemaleNPC_25, FemaleNPC_26, FemaleNPC_27, FemaleNPC_28,
+		Type FemaleNPC_29, FemaleNPC_30, FemaleNPC_31, FemaleNPC_32, FemaleNPC_33, FemaleNPC_34, FemaleNPC_35,
+
+		//Casual Female
+		Type FemaleNPC_51, FemaleNPC_52, FemaleNPC_53, FemaleNPC_54, FemaleNPC_55, FemaleNPC_56, FemaleNPC_57,
+		Type FemaleNPC_58, FemaleNPC_59, FemaleNPC_60, FemaleNPC_61, FemaleNPC_62, FemaleNPC_63, FemaleNPC_64,
+		Type FemaleNPC_65, FemaleNPC_66, FemaleNPC_67, FemaleNPC_68, FemaleNPC_69, FemaleNPC_70, FemaleNPC_71,
+		Type FemaleNPC_72, FemaleNPC_73, FemaleNPC_74, FemaleNPC_75, FemaleNPC_76, FemaleNPC_77, FemaleNPC_78,
+		Type FemaleNPC_79, FemaleNPC_80, FemaleNPC_81, FemaleNPC_82, FemaleNPC_83, FemaleNPC_84, FemaleNPC_85,
+
+		//Unkempt Female
+		Type FemaleNPC_101, FemaleNPC_102, FemaleNPC_103, FemaleNPC_104, FemaleNPC_105, FemaleNPC_106,
+		Type FemaleNPC_107, FemaleNPC_108, FemaleNPC_109, FemaleNPC_110, FemaleNPC_111, FemaleNPC_112,
+		Type FemaleNPC_113, FemaleNPC_114, FemaleNPC_115, FemaleNPC_116, FemaleNPC_117, FemaleNPC_118,
+		Type FemaleNPC_119, FemaleNPC_120, FemaleNPC_121, FemaleNPC_122, FemaleNPC_123, FemaleNPC_124,
+		Type FemaleNPC_125, FemaleNPC_129, FemaleNPC_130,
+		Type FemaleNPC_131, FemaleNPC_132, FemaleNPC_133, FemaleNPC_134, FemaleNPC_135, FemaleNPC_136,
+		Type FemaleNPC_137, FemaleNPC_138, FemaleNPC_139, FemaleNPC_140, FemaleNPC_141, FemaleNPC_142,
+		Type FemaleNPC_143, FemaleNPC_144, FemaleNPC_145, FemaleNPC_146, FemaleNPC_147, FemaleNPC_148,
+		Type FemaleNPC_149, FemaleNPC_150,
+
+		//Doctor
+		Type FemaleNPC_200, FemaleNPC_201,
+
+		//Nurse
+		Type FemaleNPC_210, FemaleNPC_211,
+
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_School
+
+		Type MaleNPC_51, MaleNPC_52, MaleNPC_53, MaleNPC_54, MaleNPC_55, MaleNPC_57, MaleNPC_58,
+		Type MaleNPC_59, MaleNPC_60, MaleNPC_61, MaleNPC_62, MaleNPC_63, MaleNPC_64, MaleNPC_65, MaleNPC_66,
+		Type MaleNPC_67, MaleNPC_69, MaleNPC_70, MaleNPC_71, MaleNPC_72, MaleNPC_73, MaleNPC_74,
+		Type MaleNPC_75, MaleNPC_76, MaleNPC_77, MaleNPC_78, MaleNPC_79, MaleNPC_80, MaleNPC_86, MaleNPC_90,
+		Type MaleNPC_92, MaleNPC_93, MaleNPC_94, MaleNPC_99, MaleNPC_100,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+
+	NPC NPC_Male_Business
+		Type MaleNPC_01, MaleNPC_02, MaleNPC_03, MaleNPC_04, MaleNPC_05, MaleNPC_06, MaleNPC_07, MaleNPC_08,
+		Type MaleNPC_09, MaleNPC_10, MaleNPC_11, MaleNPC_12, MaleNPC_13, MaleNPC_14, MaleNPC_15, MaleNPC_16,
+		Type MaleNPC_17, MaleNPC_18, MaleNPC_19, MaleNPC_20, MaleNPC_21, MaleNPC_22, MaleNPC_23, MaleNPC_24,
+		Type MaleNPC_25, MaleNPC_26, MaleNPC_27, MaleNPC_28, MaleNPC_29, MaleNPC_30, MaleNPC_31, MaleNPC_32,
+		Type MaleNPC_33, MaleNPC_34, MaleNPC_35, MaleNPC_36, MaleNPC_37, MaleNPC_38, MaleNPC_39, MaleNPC_40,
+		Type MaleNPC_41, MaleNPC_42, MaleNPC_43, MaleNPC_44, MaleNPC_45, MaleNPC_46, MaleNPC_47, MaleNPC_48,
+		Type MaleNPC_49, MaleNPC_50,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Business_Slim
+		Type MaleNPC_01, MaleNPC_02, MaleNPC_03, MaleNPC_04, MaleNPC_05, MaleNPC_06, MaleNPC_07, MaleNPC_08,
+		Type MaleNPC_09, MaleNPC_10, MaleNPC_11, MaleNPC_12, MaleNPC_13, MaleNPC_14, MaleNPC_15, MaleNPC_16,
+		Type MaleNPC_17, MaleNPC_18, MaleNPC_19, MaleNPC_20, MaleNPC_21, MaleNPC_22, MaleNPC_23, MaleNPC_24,
+		Type MaleNPC_25, MaleNPC_26, MaleNPC_27, MaleNPC_28, MaleNPC_29, MaleNPC_30,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Business
+		Type FemaleNPC_01, FemaleNPC_02, FemaleNPC_03, FemaleNPC_04, FemaleNPC_05, FemaleNPC_06, FemaleNPC_07,
+		Type FemaleNPC_08, FemaleNPC_09, FemaleNPC_10, FemaleNPC_11, FemaleNPC_12, FemaleNPC_13, FemaleNPC_14,
+		Type FemaleNPC_15, FemaleNPC_16, FemaleNPC_17, FemaleNPC_18, FemaleNPC_19, FemaleNPC_20, FemaleNPC_21,
+		Type FemaleNPC_22, FemaleNPC_23, FemaleNPC_24, FemaleNPC_25, FemaleNPC_26, FemaleNPC_27, FemaleNPC_28,
+		Type FemaleNPC_29, FemaleNPC_30, FemaleNPC_31, FemaleNPC_32, FemaleNPC_33, FemaleNPC_34, FemaleNPC_35,
+
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_School
+		Type FemaleNPC_51, FemaleNPC_52, FemaleNPC_53, FemaleNPC_54, FemaleNPC_55, FemaleNPC_56, FemaleNPC_57,
+		Type FemaleNPC_58, FemaleNPC_59, FemaleNPC_60, FemaleNPC_67, FemaleNPC_68, FemaleNPC_69, FemaleNPC_71,
+		Type FemaleNPC_72, FemaleNPC_73, FemaleNPC_74, FemaleNPC_80
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Casual
+		Type MaleNPC_51, MaleNPC_52, MaleNPC_53, MaleNPC_54, MaleNPC_55, MaleNPC_56, MaleNPC_57, MaleNPC_58,
+		Type MaleNPC_59, MaleNPC_60, MaleNPC_61, MaleNPC_62, MaleNPC_63, MaleNPC_64, MaleNPC_65, MaleNPC_66,
+		Type MaleNPC_67, MaleNPC_68, MaleNPC_69, MaleNPC_70, MaleNPC_71, MaleNPC_72, MaleNPC_73, MaleNPC_74,
+		Type MaleNPC_75, MaleNPC_76, MaleNPC_77, MaleNPC_78, MaleNPC_79, MaleNPC_80, MaleNPC_81, MaleNPC_82,
+		Type MaleNPC_83, MaleNPC_84, MaleNPC_85, MaleNPC_86, MaleNPC_87, MaleNPC_88, MaleNPC_89, MaleNPC_90,
+		Type MaleNPC_91, MaleNPC_92, MaleNPC_93, MaleNPC_94, MaleNPC_95, MaleNPC_96, MaleNPC_97, MaleNPC_98,
+		Type MaleNPC_99, MaleNPC_100,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Praetorian_Neat
+		Type MaleNPC_01, MaleNPC_02, MaleNPC_03, MaleNPC_04, MaleNPC_05, MaleNPC_06, MaleNPC_07, MaleNPC_08,
+		Type MaleNPC_09, MaleNPC_10, MaleNPC_11, MaleNPC_12, MaleNPC_13, MaleNPC_14, MaleNPC_15,
+		Type MaleNPC_17, MaleNPC_18, MaleNPC_19, MaleNPC_20, MaleNPC_21, MaleNPC_22, MaleNPC_23, MaleNPC_24,
+		Type MaleNPC_25, MaleNPC_26, MaleNPC_27, MaleNPC_28, MaleNPC_29, MaleNPC_30, MaleNPC_31, MaleNPC_32,
+		Type MaleNPC_33, MaleNPC_34, MaleNPC_35, MaleNPC_39, MaleNPC_40,
+		Type MaleNPC_41, MaleNPC_42, MaleNPC_43, MaleNPC_44, MaleNPC_45, MaleNPC_46, MaleNPC_47, MaleNPC_48,
+		Type MaleNPC_49, MaleNPC_50,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Praetorian_Neat_Biz
+		Type Citizen_Biz_Male_01, Citizen_Biz_Male_02, Citizen_Biz_Male_03, Citizen_Biz_Male_04, Citizen_Biz_Male_05,
+		Type Citizen_Biz_Male_06, Citizen_Biz_Male_07, Citizen_Biz_Male_08, Citizen_Biz_Male_09, Citizen_Biz_Male_10,
+		Type Citizen_Biz_Male_11, Citizen_Biz_Male_12, Citizen_Biz_Male_13, Citizen_Biz_Male_14, Citizen_Biz_Male_15,
+		Type Citizen_Biz_Male_16, Citizen_Biz_Male_17, Citizen_Biz_Male_18, Citizen_Biz_Male_19, Citizen_Biz_Male_20,
+		Type Citizen_Biz_Male_21, Citizen_Biz_Male_22, Citizen_Biz_Male_23, Citizen_Biz_Male_24, Citizen_Biz_Male_25,
+		Type Citizen_Biz_Male_26, Citizen_Biz_Male_27, Citizen_Biz_Male_28, Citizen_Biz_Male_29, Citizen_Biz_Male_30,
+		Type Citizen_Biz_Male_31, Citizen_Biz_Male_32, Citizen_Biz_Male_33, Citizen_Biz_Male_34, Citizen_Biz_Male_35,
+		Type Citizen_Biz_Male_36, Citizen_Biz_Male_37, Citizen_Biz_Male_38, Citizen_Biz_Male_39, Citizen_Biz_Male_40,
+		Type Citizen_Biz_Male_41, Citizen_Biz_Male_42, Citizen_Biz_Male_43, Citizen_Biz_Male_44, Citizen_Biz_Male_45,
+		Type Citizen_Biz_Male_46, Citizen_Biz_Male_47, Citizen_Biz_Male_48, Citizen_Biz_Male_49, Citizen_Biz_Male_50,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Casual_Slim
+		Type MaleNPC_51, MaleNPC_52, MaleNPC_53, MaleNPC_54, MaleNPC_55, MaleNPC_56, MaleNPC_57, MaleNPC_58,
+		Type MaleNPC_59, MaleNPC_60, MaleNPC_61, MaleNPC_62, MaleNPC_63, MaleNPC_64, MaleNPC_65, MaleNPC_66,
+		Type MaleNPC_67, MaleNPC_68, MaleNPC_69, MaleNPC_70, MaleNPC_71, MaleNPC_72, MaleNPC_73, MaleNPC_74,
+		Type MaleNPC_75, MaleNPC_76, MaleNPC_77, MaleNPC_78, MaleNPC_79, MaleNPC_80, MaleNPC_82, MaleNPC_83,
+		Type MaleNPC_84, MaleNPC_85, MaleNPC_86,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Casual
+		Type FemaleNPC_51, FemaleNPC_52, FemaleNPC_53, FemaleNPC_54, FemaleNPC_55, FemaleNPC_56, FemaleNPC_57,
+		Type FemaleNPC_58, FemaleNPC_59, FemaleNPC_60, FemaleNPC_61, FemaleNPC_62, FemaleNPC_63, FemaleNPC_64,
+		Type FemaleNPC_65, FemaleNPC_66, FemaleNPC_67, FemaleNPC_68, FemaleNPC_69, FemaleNPC_70, FemaleNPC_71,
+		Type FemaleNPC_72, FemaleNPC_73, FemaleNPC_74, FemaleNPC_75, FemaleNPC_76, FemaleNPC_77, FemaleNPC_78,
+		Type FemaleNPC_79, FemaleNPC_80, FemaleNPC_81, FemaleNPC_82, FemaleNPC_83, FemaleNPC_84, FemaleNPC_85,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Praetorian_Neat
+		Type FemaleNPC_01, FemaleNPC_02, FemaleNPC_03, FemaleNPC_04, FemaleNPC_05, FemaleNPC_06, FemaleNPC_07,
+		Type FemaleNPC_08, FemaleNPC_09, FemaleNPC_10, FemaleNPC_11, FemaleNPC_12, FemaleNPC_13, FemaleNPC_14,
+		Type FemaleNPC_15, FemaleNPC_16, FemaleNPC_17, FemaleNPC_18, FemaleNPC_19, FemaleNPC_20, FemaleNPC_21,
+		Type FemaleNPC_22, FemaleNPC_23, FemaleNPC_24, FemaleNPC_25, FemaleNPC_26, FemaleNPC_27, FemaleNPC_28,
+		Type FemaleNPC_29, FemaleNPC_30, FemaleNPC_31, FemaleNPC_32, FemaleNPC_33, FemaleNPC_34, FemaleNPC_35,
+		Type FemaleNPC_65, FemaleNPC_68, FemaleNPC_73,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Praetorian_Neat_Biz
+		Type Citizen_Biz_Fem_01, Citizen_Biz_Fem_02, Citizen_Biz_Fem_03, Citizen_Biz_Fem_04, Citizen_Biz_Fem_05,
+		Type Citizen_Biz_Fem_06, Citizen_Biz_Fem_07, Citizen_Biz_Fem_08, Citizen_Biz_Fem_09, Citizen_Biz_Fem_10,
+		Type Citizen_Biz_Fem_11, Citizen_Biz_Fem_12, Citizen_Biz_Fem_13, Citizen_Biz_Fem_14, Citizen_Biz_Fem_15,
+		Type Citizen_Biz_Fem_16, Citizen_Biz_Fem_17, Citizen_Biz_Fem_18, Citizen_Biz_Fem_19, Citizen_Biz_Fem_20,
+		Type Citizen_Biz_Fem_21, Citizen_Biz_Fem_22, Citizen_Biz_Fem_23, Citizen_Biz_Fem_24, Citizen_Biz_Fem_25,
+		Type Citizen_Biz_Fem_26, Citizen_Biz_Fem_27, Citizen_Biz_Fem_28, Citizen_Biz_Fem_29, Citizen_Biz_Fem_30,
+		Type Citizen_Biz_Fem_31, Citizen_Biz_Fem_32, Citizen_Biz_Fem_33, Citizen_Biz_Fem_34, Citizen_Biz_Fem_35,
+		Type Citizen_Biz_Fem_36, Citizen_Biz_Fem_37, Citizen_Biz_Fem_38, Citizen_Biz_Fem_39, Citizen_Biz_Fem_40,
+		Type Citizen_Biz_Fem_41, Citizen_Biz_Fem_42, Citizen_Biz_Fem_43, Citizen_Biz_Fem_44, Citizen_Biz_Fem_45,
+		Type Citizen_Biz_Fem_46, Citizen_Biz_Fem_47, Citizen_Biz_Fem_48, Citizen_Biz_Fem_49, Citizen_Biz_Fem_50,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Casual_Slim
+		Type FemaleNPC_51, FemaleNPC_52, FemaleNPC_53, FemaleNPC_54, FemaleNPC_55, FemaleNPC_56, FemaleNPC_57,
+		Type FemaleNPC_58, FemaleNPC_59, FemaleNPC_60, FemaleNPC_61, FemaleNPC_62, FemaleNPC_63, FemaleNPC_64,
+		Type FemaleNPC_65, FemaleNPC_66, FemaleNPC_67, FemaleNPC_68, FemaleNPC_69, FemaleNPC_70, FemaleNPC_71,
+		Type FemaleNPC_72, FemaleNPC_73, FemaleNPC_74,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Fancy
+		Type MaleNPC_51, MaleNPC_52, MaleNPC_53, MaleNPC_54, MaleNPC_55, MaleNPC_56, MaleNPC_57, MaleNPC_58,
+		Type MaleNPC_59, MaleNPC_60, MaleNPC_61, MaleNPC_62, MaleNPC_63, MaleNPC_64, MaleNPC_65, MaleNPC_66,
+		Type MaleNPC_67, MaleNPC_68, MaleNPC_69, MaleNPC_70, MaleNPC_71, MaleNPC_72, MaleNPC_73, MaleNPC_74,
+		Type MaleNPC_75, MaleNPC_76, MaleNPC_77, MaleNPC_78, MaleNPC_79, MaleNPC_80, MaleNPC_81, MaleNPC_82,
+		Type MaleNPC_83, MaleNPC_84, MaleNPC_85, MaleNPC_86, MaleNPC_87, MaleNPC_88, MaleNPC_89, MaleNPC_90,
+		Type MaleNPC_91, MaleNPC_92, MaleNPC_93, MaleNPC_94, MaleNPC_95, MaleNPC_96, MaleNPC_97, MaleNPC_98,
+		Type MaleNPC_99, MaleNPC_100,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Fancy
+		Type FemaleNPC_01, FemaleNPC_02, FemaleNPC_03, FemaleNPC_04, FemaleNPC_05, FemaleNPC_06, FemaleNPC_07,
+		Type FemaleNPC_08, FemaleNPC_09, FemaleNPC_10, FemaleNPC_11, FemaleNPC_12, FemaleNPC_13, FemaleNPC_14,
+		Type FemaleNPC_15, FemaleNPC_16, FemaleNPC_17, FemaleNPC_18, FemaleNPC_19, FemaleNPC_20, FemaleNPC_21,
+		Type FemaleNPC_22, FemaleNPC_23, FemaleNPC_24, FemaleNPC_25, FemaleNPC_26, FemaleNPC_27, FemaleNPC_28,
+		Type FemaleNPC_29, FemaleNPC_30, FemaleNPC_31, FemaleNPC_32, FemaleNPC_33, FemaleNPC_34, FemaleNPC_35,
+		Type FemaleNPC_61, FemaleNPC_62, FemaleNPC_65, FemaleNPC_67, FemaleNPC_68, FemaleNPC_69, FemaleNPC_70,
+		Type FemaleNPC_73, FemaleNPC_74, FemaleNPC_75, FemaleNPC_79, FemaleNPC_80, FemaleNPC_81, FemaleNPC_82
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Arena
+		Type MaleNPC_101, MaleNPC_102, MaleNPC_103, MaleNPC_104, MaleNPC_105, MaleNPC_106, MaleNPC_107,
+		Type MaleNPC_108, MaleNPC_109, MaleNPC_110, MaleNPC_111, MaleNPC_112, MaleNPC_113, MaleNPC_114,
+		Type MaleNPC_115,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Arena
+		Type FemaleNPC_101, FemaleNPC_102, FemaleNPC_103, FemaleNPC_104, FemaleNPC_105, FemaleNPC_106,
+		Type FemaleNPC_107, FemaleNPC_108, FemaleNPC_109, FemaleNPC_110, FemaleNPC_111, FemaleNPC_112,
+		Type FemaleNPC_113, FemaleNPC_114, FemaleNPC_115,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Sanitation
+		Type MaleNPC_210, MaleNPC_211, MaleNPC_212, MaleNPC_213,
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Unkempt
+		Type MaleNPC_101, MaleNPC_102, MaleNPC_103, MaleNPC_104, MaleNPC_105, MaleNPC_106, MaleNPC_107,
+		Type MaleNPC_108, MaleNPC_109, MaleNPC_110, MaleNPC_111, MaleNPC_112, MaleNPC_113, MaleNPC_114,
+		Type MaleNPC_115, MaleNPC_116, MaleNPC_117, MaleNPC_118, MaleNPC_119, MaleNPC_120, MaleNPC_121,
+		Type MaleNPC_122, MaleNPC_123, MaleNPC_124, MaleNPC_125, MaleNPC_126, MaleNPC_127, MaleNPC_128,
+		Type MaleNPC_129, MaleNPC_130, MaleNPC_131, MaleNPC_132, MaleNPC_133, MaleNPC_134, MaleNPC_135,
+		Type MaleNPC_136, MaleNPC_137, MaleNPC_138, MaleNPC_138, MaleNPC_139, MaleNPC_140, MaleNPC_141,
+		Type MaleNPC_142, MaleNPC_143, MaleNPC_144, MaleNPC_145, MaleNPC_146, MaleNPC_147, MaleNPC_148,
+		Type MaleNPC_149, MaleNPC_150,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+		NPC NPC_Male_Unkempt_Slim
+		Type MaleNPC_101, MaleNPC_102, MaleNPC_103, MaleNPC_104, MaleNPC_105, MaleNPC_108, MaleNPC_109,
+		Type MaleNPC_110, MaleNPC_111, MaleNPC_112, MaleNPC_113, MaleNPC_114, MaleNPC_115, MaleNPC_116,
+		Type MaleNPC_117, MaleNPC_118, MaleNPC_119, MaleNPC_120, MaleNPC_121, MaleNPC_122, MaleNPC_123,
+		Type MaleNPC_124, MaleNPC_128, MaleNPC_129, MaleNPC_130, MaleNPC_131, MaleNPC_132, MaleNPC_133,
+		Type MaleNPC_134, MaleNPC_136, MaleNPC_137, MaleNPC_138, MaleNPC_138, MaleNPC_139, MaleNPC_140,
+		Type MaleNPC_141, MaleNPC_142, MaleNPC_143, MaleNPC_144, MaleNPC_145, MaleNPC_146, MaleNPC_147,
+		Type MaleNPC_148, MaleNPC_149, MaleNPC_150,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Midnight
+		Type Midnight_Minion_Force_01, Midnight_Minion_Force_02, Midnight_Minion_Ruin_01, Midnight_Minion_Ruin_02,
+		Type Midnight_Minion_Soul_01, Midnight_Minion_Soul_02
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Midnight
+		Type Midnight_Female_01, Midnight_Female_02, Midnight_Female_03, Midnight_Female_04, Midnight_Female_05,
+		Type Midnight_Female_06
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Military_Green_Camo
+		Type Military_Green_Camo_01, Military_Green_Camo_02, Military_Green_Camo_03, Military_Green_Camo_04,
+		Type Military_Green_Camo_05, Military_Green_Camo_06, Military_Green_Camo_07, Military_Green_Camo_08,
+		Type Military_Green_Camo_09, Military_Green_Camo_10, Military_Green_Camo_11, Military_Green_Camo_12,
+		Type Military_Green_Camo_13, Military_Green_Camo_14, Military_Green_Camo_15, Military_Green_Camo_16,
+		Type Military_Green_Camo_17, Military_Green_Camo_18, Military_Green_Camo_19, Military_Green_Camo_20,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+
+	NPC NPC_Male_Military_Green
+		Type Military_Green_01, Military_Green_02, Military_Green_03, Military_Green_04, Military_Green_05,
+		Type Military_Green_06, Military_Green_07, Military_Green_08, Military_Green_09, Military_Green_10,
+		Type Military_Green_11, Military_Green_12, Military_Green_13, Military_Green_14, Military_Green_15,
+		Type Military_Green_16, Military_Green_17, Military_Green_18, Military_Green_19, Military_Green_20,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+
+	NPC NPC_Male_Military_Desert_Camo
+		Type Military_Desert_Camo_01, Military_Desert_Camo_02, Military_Desert_Camo_03, Military_Desert_Camo_04,
+		Type Military_Desert_Camo_05, Military_Desert_Camo_06, Military_Desert_Camo_07, Military_Desert_Camo_08,
+		Type Military_Desert_Camo_09, Military_Desert_Camo_10,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+
+	NPC NPC_Male_Military_Urban_Camo
+		Type Military_Urban_Camo_01, Military_Urban_Camo_02, Military_Urban_Camo_03, Military_Urban_Camo_04,
+		Type Military_Urban_Camo_05, Military_Urban_Camo_06, Military_Urban_Camo_07, Military_Urban_Camo_08,
+		Type Military_Urban_Camo_09, Military_Urban_Camo_10,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Roman_Good
+		Type Roman_Peasant_Male_01, Roman_Peasant_Male_02, Roman_Peasant_Male_03, Roman_Peasant_Male_04,
+		Type Roman_Peasant_Male_05, Roman_Peasant_Male_06, Roman_Peasant_Male_07, Roman_Peasant_Male_08,
+		Type Roman_Commoner_01, Roman_Commoner_02, Roman_Commoner_03, Roman_Commoner_04, Roman_Reeve_01,
+		Type Roman_Reeve_02, Roman_Reeve_03, Roman_Reeve_04, Roman_Minstrel_01, Roman_Minstrel_02, Roman_Minstrel_03,
+		Type Roman_Minstrel_04, Roman_Grunt_01, Roman_Grunt_02, Roman_Grunt_03, Roman_Grunt_04, Roman_Guard_01,
+		Type Roman_Guard_02, Roman_Guard_03, Roman_Guard_04, Roman_Slave_01, Roman_Slave_02, Roman_Slave_03,
+		Type Roman_Slave_04, Roman_Senator_01, Roman_Senator_02, Roman_Senator_03, Roman_Senator_04, Roman_Constable_01,
+		Type Roman_Constable_02, Roman_Constable_03, Roman_Constable_04,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Roman_Guard_Good
+		Type Roman_Guard_01, Roman_Guard_02, Roman_Guard_03, Roman_Guard_04, Roman_Constable_01, Roman_Constable_02,
+		Type Roman_Constable_03, Roman_Constable_04, Roman_Grunt_01, Roman_Grunt_02, Roman_Grunt_03, Roman_Grunt_04,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Roman_Guard_Bad
+		Type Roman_Romulus_Grunt_01, Roman_Romulus_Grunt_02, Roman_Romulus_Grunt_03, Roman_Romulus_Grunt_04,
+		Type Roman_Romulus_Guard_01, Roman_Romulus_Guard_02, Roman_Romulus_Guard_03, Roman_Romulus_Guard_04,
+		Type Roman_Romulus_Constable_01, Roman_Romulus_Constable_02, Roman_Romulus_Constable_03, Roman_Romulus_Constable_04
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC	NPC_Male_Roman_Bad
+		Type Roman_Romulus_Commoner_01, Roman_Romulus_Commoner_02, Roman_Romulus_Commoner_03, Roman_Romulus_Commoner_04,
+		Type Roman_Romulus_Reeve_01, Roman_Romulus_Reeve_02, Roman_Romulus_Reeve_03, Roman_Romulus_Reeve_04,
+		Type Roman_Romulus_Minstrel_01, Roman_Romulus_Minstrel_02, Roman_Romulus_Minstrel_03, Roman_Romulus_Minstrel_04,
+		Type Roman_Romulus_Grunt_01, Roman_Romulus_Grunt_02, Roman_Romulus_Grunt_03, Roman_Romulus_Grunt_04, Roman_Romulus_Guard_01,
+		Type Roman_Romulus_Guard_02, Roman_Romulus_Guard_03, Roman_Romulus_Guard_04, Roman_Romulus_Slave_01, Roman_Romulus_Slave_02,
+		Type Roman_Romulus_Slave_03, Roman_Romulus_Slave_04, Roman_Romulus_Constable_01, Roman_Romulus_Constable_02, Roman_Romulus_Constable_03,
+		Type Roman_Romulus_Constable_04,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC	 NPC_Female_Roman_Good
+		Type Roman_Peasant_Female_01, Roman_Peasant_Female_02, Roman_Peasant_Female_03, Roman_Peasant_Female_04, Roman_Peasant_Female_05,
+		Type Roman_Peasant_Female_06, Roman_Peasant_Female_07, Roman_Peasant_Female_08, Roman_Peasant_Female_09, Roman_Peasant_Female_10,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC	NPC_Romans_Good
+		Type Roman_Peasant_Male_01, Roman_Peasant_Male_02, Roman_Peasant_Male_03, Roman_Peasant_Male_04, Roman_Peasant_Male_05,
+		Type Roman_Peasant_Male_06, Roman_Peasant_Male_07, Roman_Peasant_Male_08, Roman_Commoner_01, Roman_Commoner_02, Roman_Commoner_03,
+		Type Roman_Commoner_04, Roman_Reeve_01, Roman_Reeve_02, Roman_Reeve_03, Roman_Reeve_04, Roman_Minstrel_01, Roman_Minstrel_02,
+		Type Roman_Minstrel_03, Roman_Minstrel_04, Roman_Grunt_01, Roman_Grunt_02, Roman_Grunt_03, Roman_Grunt_04, Roman_Guard_01,
+		Type Roman_Guard_02, Roman_Guard_03, Roman_Guard_04, Roman_Slave_01, Roman_Slave_02, Roman_Slave_03, Roman_Slave_04, Roman_Senator_01,
+		Type Roman_Senator_02, Roman_Senator_03, Roman_Senator_04, Roman_Constable_01, Roman_Constable_02, Roman_Constable_03, Roman_Constable_04,
+		Type Roman_Peasant_Female_01, Roman_Peasant_Female_02, Roman_Peasant_Female_03, Roman_Peasant_Female_04, Roman_Peasant_Female_05,
+		Type Roman_Peasant_Female_06, Roman_Peasant_Female_07, Roman_Peasant_Female_08, Roman_Peasant_Female_09, Roman_Peasant_Female_10,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+
+	NPC NPC_Male_Military_SpecialOps
+		Type Military_SpecOps_01, Military_SpecOps_02, Military_SpecOps_03, Military_SpecOps_04, Military_SpecOps_05, Military_SpecOps_06,
+		Type Military_SpecOps_07, Military_SpecOps_08, Military_SpecOps_09, Military_SpecOps_10,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC	NPC_Praetorian_Neat
+		Type MaleNPC_51, MaleNPC_52, MaleNPC_53, MaleNPC_54, MaleNPC_55, MaleNPC_56, MaleNPC_57, MaleNPC_58,
+		Type MaleNPC_59, MaleNPC_60, MaleNPC_61, MaleNPC_62, MaleNPC_63, MaleNPC_64, MaleNPC_65, MaleNPC_66,
+		Type MaleNPC_67, MaleNPC_68, MaleNPC_69, MaleNPC_70, MaleNPC_71, MaleNPC_72, MaleNPC_73, MaleNPC_74,
+		Type MaleNPC_75, MaleNPC_76, MaleNPC_77, MaleNPC_78, MaleNPC_79, MaleNPC_80, MaleNPC_81, MaleNPC_82,
+		Type MaleNPC_83, MaleNPC_84, MaleNPC_85, MaleNPC_86, MaleNPC_87, MaleNPC_88, MaleNPC_89, MaleNPC_90,
+		Type MaleNPC_91, MaleNPC_92, MaleNPC_93, MaleNPC_94, MaleNPC_95, MaleNPC_96, MaleNPC_97, MaleNPC_98,
+		Type MaleNPC_99, MaleNPC_100,
+		Type FemaleNPC_01, FemaleNPC_02, FemaleNPC_03, FemaleNPC_04, FemaleNPC_05, FemaleNPC_06, FemaleNPC_07,
+		Type FemaleNPC_08, FemaleNPC_09, FemaleNPC_10, FemaleNPC_11, FemaleNPC_12, FemaleNPC_13, FemaleNPC_14,
+		Type FemaleNPC_15, FemaleNPC_16, FemaleNPC_17, FemaleNPC_18, FemaleNPC_19, FemaleNPC_20, FemaleNPC_21,
+		Type FemaleNPC_22, FemaleNPC_23, FemaleNPC_24, FemaleNPC_25, FemaleNPC_26, FemaleNPC_27, FemaleNPC_28,
+		Type FemaleNPC_29, FemaleNPC_30, FemaleNPC_31, FemaleNPC_32, FemaleNPC_33, FemaleNPC_34, FemaleNPC_35,
+		Type FemaleNPC_61, FemaleNPC_62, FemaleNPC_65, FemaleNPC_67, FemaleNPC_68, FemaleNPC_69, FemaleNPC_70,
+		Type FemaleNPC_73, FemaleNPC_74, FemaleNPC_75, FemaleNPC_79, FemaleNPC_80, FemaleNPC_81, FemaleNPC_82,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC	NPC_Praetorian_Neat_Biz
+		Type Citizen_Biz_Male_01, Citizen_Biz_Male_02, Citizen_Biz_Male_03, Citizen_Biz_Male_04, Citizen_Biz_Male_05,
+		Type Citizen_Biz_Male_06, Citizen_Biz_Male_07, Citizen_Biz_Male_08, Citizen_Biz_Male_09, Citizen_Biz_Male_10,
+		Type Citizen_Biz_Male_11, Citizen_Biz_Male_12, Citizen_Biz_Male_13, Citizen_Biz_Male_14, Citizen_Biz_Male_15,
+		Type Citizen_Biz_Male_16, Citizen_Biz_Male_17, Citizen_Biz_Male_18, Citizen_Biz_Male_19, Citizen_Biz_Male_20,
+		Type Citizen_Biz_Male_21, Citizen_Biz_Male_22, Citizen_Biz_Male_23, Citizen_Biz_Male_24, Citizen_Biz_Male_25,
+		Type Citizen_Biz_Male_26, Citizen_Biz_Male_27, Citizen_Biz_Male_28, Citizen_Biz_Male_29, Citizen_Biz_Male_30,
+		Type Citizen_Biz_Male_31, Citizen_Biz_Male_32, Citizen_Biz_Male_33, Citizen_Biz_Male_34, Citizen_Biz_Male_35,
+		Type Citizen_Biz_Male_36, Citizen_Biz_Male_37, Citizen_Biz_Male_38, Citizen_Biz_Male_39, Citizen_Biz_Male_40,
+		Type Citizen_Biz_Male_41, Citizen_Biz_Male_42, Citizen_Biz_Male_43, Citizen_Biz_Male_44, Citizen_Biz_Male_45,
+		Type Citizen_Biz_Male_46, Citizen_Biz_Male_47, Citizen_Biz_Male_48, Citizen_Biz_Male_49, Citizen_Biz_Male_50,
+		Type Citizen_Biz_Fem_01, Citizen_Biz_Fem_02, Citizen_Biz_Fem_03, Citizen_Biz_Fem_04, Citizen_Biz_Fem_05,
+		Type Citizen_Biz_Fem_06, Citizen_Biz_Fem_07, Citizen_Biz_Fem_08, Citizen_Biz_Fem_09, Citizen_Biz_Fem_10,
+		Type Citizen_Biz_Fem_11, Citizen_Biz_Fem_12, Citizen_Biz_Fem_13, Citizen_Biz_Fem_14, Citizen_Biz_Fem_15,
+		Type Citizen_Biz_Fem_16, Citizen_Biz_Fem_17, Citizen_Biz_Fem_18, Citizen_Biz_Fem_19, Citizen_Biz_Fem_20,
+		Type Citizen_Biz_Fem_21, Citizen_Biz_Fem_22, Citizen_Biz_Fem_23, Citizen_Biz_Fem_24, Citizen_Biz_Fem_25,
+		Type Citizen_Biz_Fem_26, Citizen_Biz_Fem_27, Citizen_Biz_Fem_28, Citizen_Biz_Fem_29, Citizen_Biz_Fem_30,
+		Type Citizen_Biz_Fem_31, Citizen_Biz_Fem_32, Citizen_Biz_Fem_33, Citizen_Biz_Fem_34, Citizen_Biz_Fem_35,
+		Type Citizen_Biz_Fem_36, Citizen_Biz_Fem_37, Citizen_Biz_Fem_38, Citizen_Biz_Fem_39, Citizen_Biz_Fem_40,
+		Type Citizen_Biz_Fem_41, Citizen_Biz_Fem_42, Citizen_Biz_Fem_43, Citizen_Biz_Fem_44, Citizen_Biz_Fem_45,
+		Type Citizen_Biz_Fem_46, Citizen_Biz_Fem_47, Citizen_Biz_Fem_48, Citizen_Biz_Fem_49, Citizen_Biz_Fem_50,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Unkempt
+		Type FemaleNPC_101, FemaleNPC_102, FemaleNPC_103, FemaleNPC_104, FemaleNPC_105, FemaleNPC_106,
+		Type FemaleNPC_107, FemaleNPC_108, FemaleNPC_109, FemaleNPC_110, FemaleNPC_111, FemaleNPC_112,
+		Type FemaleNPC_113, FemaleNPC_114, FemaleNPC_115, FemaleNPC_116, FemaleNPC_117, FemaleNPC_118,
+		Type FemaleNPC_119, FemaleNPC_120, FemaleNPC_121, FemaleNPC_122, FemaleNPC_123, FemaleNPC_124,
+		Type FemaleNPC_125, FemaleNPC_129, FemaleNPC_130, FemaleNPC_131, FemaleNPC_132, FemaleNPC_133,
+		Type FemaleNPC_134, FemaleNPC_135, FemaleNPC_136, FemaleNPC_137, FemaleNPC_138, FemaleNPC_139,
+		Type FemaleNPC_140, FemaleNPC_141, FemaleNPC_142, FemaleNPC_143, FemaleNPC_144, FemaleNPC_145,
+		Type FemaleNPC_146, FemaleNPC_147, FemaleNPC_148, FemaleNPC_149, FemaleNPC_150,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+		NPC NPC_Female_Unkempt_Slim
+		Type FemaleNPC_101, FemaleNPC_102, FemaleNPC_103, FemaleNPC_104, FemaleNPC_105, FemaleNPC_108,
+		Type FemaleNPC_109, FemaleNPC_110, FemaleNPC_111, FemaleNPC_112, FemaleNPC_113, FemaleNPC_114,
+		Type FemaleNPC_115, FemaleNPC_116, FemaleNPC_117, FemaleNPC_118, FemaleNPC_119, FemaleNPC_120,
+		Type FemaleNPC_121, FemaleNPC_122, FemaleNPC_123, FemaleNPC_124, FemaleNPC_125, FemaleNPC_129,
+		Type FemaleNPC_130, FemaleNPC_131, FemaleNPC_132, FemaleNPC_133, FemaleNPC_134, FemaleNPC_135,
+		Type FemaleNPC_136, FemaleNPC_137, FemaleNPC_138, FemaleNPC_139, FemaleNPC_140, FemaleNPC_141,
+		Type FemaleNPC_142, FemaleNPC_143, FemaleNPC_144, FemaleNPC_145, FemaleNPC_146, FemaleNPC_147,
+		Type FemaleNPC_148, FemaleNPC_149, FemaleNPC_150,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+
+	NPC NPC_Male_Construction_Workers
+		Type MaleNPC_240, MaleNPC_241, NPC_Male_242, NPC_Male_243, NPC_Male_244, NPC_Male_245, NPC_Male_246, NPC_Male_247, NPC_Male_248, NPC_Male_249, NPC_Male_250
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Doctor
+		Type MaleNPC_200, MaleNPC_201, MaleNPC_202, MaleNPC_203,
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Doctor
+		Type FemaleNPC_200, FemaleNPC_201,
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+
+	End
+
+	NPC NPC_Female_Nurse
+		Type FemaleNPC_210, FemaleNPC_211,
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+	End
+
+	NPC Ghost_MaleNPC
+		// Type <Villain name in NPC.dta>
+		Type Ghost_MaleNPC_01, Ghost_MaleNPC_02, Ghost_MaleNPC_03, Ghost_MaleNPC_04, Ghost_MaleNPC_05,
+		Type Ghost_MaleNPC_06, Ghost_MaleNPC_07, Ghost_MaleNPC_08, Ghost_MaleNPC_09, Ghost_MaleNPC_10
+		MaxActiveEntities 100
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Male_Police
+		Type MaleNPC_220, MaleNPC_221, MaleNPC_222, MaleNPC_223, MaleNPC_224, MaleNPC_225,
+		Type MaleNPC_226, MaleNPC_227,
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Female_Police
+		Type FemaleNPC_220, FemaleNPC_221, FemaleNPC_222,
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Police_Drone
+		Type Police_Drone
+
+		MaxActiveEntities 600
+		RunSpeed 1.4
+		GroundOffset 10
+	End
+
+	NPC Ghost_FemaleNPC
+		Type Ghost_FemaleNPC_01, Ghost_FemaleNPC_02, Ghost_FemaleNPC_03, Ghost_FemaleNPC_04, Ghost_FemaleNPC_05,
+		Type Ghost_FemaleNPC_06, Ghost_FemaleNPC_07, Ghost_FemaleNPC_08, Ghost_FemaleNPC_09, Ghost_FemaleNPC_10
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC temp
+		Type Ghost_01
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC ContactNPC
+		Type MaleNPC54
+		MaxActiveEntities 100
+		RunSpeed 0.7
+	End
+
+	NPC ContactNPCTest
+		Type Contact_BM_01
+		MaxActiveEntities 100
+		RunSpeed 0.7
+	End
+
+	NPC NPC_Police_Personnel
+		//Police
+		Type FemaleNPC_220, FemaleNPC_221, FemaleNPC_222,
+		//Police
+		Type MaleNPC_220, MaleNPC_221, MaleNPC_222, MaleNPC_223, MaleNPC_224, MaleNPC_225,
+		Type MaleNPC_226, MaleNPC_227
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC HospitalPersonnel
+		Type MaleNPC_200, MaleNPC_201, MaleNPC_202, MaleNPC_203,
+		Type FemaleNPC_200, FemaleNPC_201,
+		Type FemaleNPC_210, FemaleNPC_211,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC SwatTeam
+		Type MaleNPC_230, MaleNPC_231,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC CargoSmuggler
+		Type MaleNPC_104, MaleNPC_112,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC HelicopterPilot
+		Type Model_Helicopter_Pilot, Model_Helicopter_Pilot_Female,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC HelicopterPilot_Arachnos
+		Type Model_Arachnos_Pilot
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC HelicopterPilot_Longbow
+		Type Longbow_Female_Boss_01, Longbow_Female_Boss_02, Longbow_Female_Boss_04, Longbow_Male_Boss_01, Longbow_Male_Boss_02, Longbow_Male_Boss_03
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC HelicopterPilot_Vanguard
+		Type Vanguard_Shield_Male_Minion_01, Vanguard_Shield_Huge_Minion_01, Vanguard_Shield_Female_Minion_01, Vanguard_Shield_Male_Lt_01,
+		Type Vanguard_Shield_Female_Lt_01, Vanguard_Shield_Huge_Lt_01, Vanguard_Shield_Female_Lt_02, Vanguard_Shield_Male_Boss_02,
+		Type Vanguard_Shield_Huge_Boss_02, Vanguard_Shield_Male_Boss_01, Vanguard_Shield_Female_Boss_01,
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+
+	NPC NPC_Male_Mannequin
+		Type Mannequin_Mage_Male, Mannequin_Mut_Male, Mannequin_Tech_Male, Mannequin_Sci_Male, Mannequin_Nat_Male
+
+		MaxActiveEntities 600
+		RunSpeed 0.0
+	End
+
+	NPC NPC_Female_Mannequin
+		Type Mannequin_Mage_Female, Mannequin_Mut_Female, Mannequin_Tech_Female, Mannequin_Sci_Female, Mannequin_Nat_Female
+
+		MaxActiveEntities 600
+		RunSpeed 0.0
+	End
+
+	NPC Pet
+		Type Pet
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC Puddle
+		Type Puddle
+
+		MaxActiveEntities 125
+	End
+
+
+	NPC Seagull
+		Type Seagull
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC PoliceDrone_Down
+		Type PoliceDrone_Down
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC Prop_BoomBox
+		Type Prop_BoomBox
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC Rocket
+		Type Rocket
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+
+
+	NPC Prop_MoneyCart
+		Type Prop_MoneyCart
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC cas_slot_09
+		Type cas_slot_09
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC V_Arachnos_Flyer
+		Type V_Arachnos_Flyer
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC Rularuu_Sentries
+		Type Rularuu_Sentinel_03
+
+		MaxActiveEntities 125
+		RunSpeed 2.5
+	End
+
+	NPC V_Arachnos_Flyer_Critter
+		Type V_Arachnos_Flyer_Critter
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC Floating_Fire
+		Type Floating_Fire
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC Garbage_Can
+		Type Garbage_Can
+
+		MaxActiveEntities 125
+	End
+
+	NPC Prop_Entity
+		Type Prop_Entity
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC Target
+		Type Target
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC steve
+		Type steve
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC chris
+		Type chris
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC brian
+		Type brian
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC XX_brian_rikti01
+		Type XX_brian_rikti01
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC XX_brian_rikti02
+		Type XX_brian_rikti02
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC XX_brian_rikti03
+		Type XX_brian_rikti03
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC XX_brian_rikti04
+		Type XX_brian_rikti04
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC FX_RobotSpawn
+		Type FX_RobotSpawn
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC FX_Expolde_Flammable
+		Type FX_Expolde_Flammable
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC FX_Expolde_TNT
+		Type FX_Expolde_TNT
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC Turrets
+		Type Quad_Turrets, Missle_Turrets, Dual_Turrets, Quad_Turrets_evil, Missle_Turrets_evil, Dual_Turrets_evil, Base_Turrets
+
+		MaxActiveEntities 600
+		RunSpeed 0
+	End
+
+	NPC Junk_Piles
+		Type OO_Clockwork_Junk_Pile, OO_Clockwork_Junk_Pile_small
+		MaxActiveEntities 600
+		RunSpeed 0
+	End
+
+	NPC Prop_Totem
+		Type Prop_Totem
+		MaxActiveEntities 600
+		RunSpeed 0
+	End
+
+	NPC ArachnosPTT_Healer
+		Type ArachnosPTT_Healer
+
+		MaxActiveEntities 600
+		RunSpeed 0
+	End
+
+	NPC ArachnosPTT_Power
+		Type ArachnosPTT_Power
+
+		MaxActiveEntities 600
+		RunSpeed 0
+	End
+
+	NPC ArachnosPTT_Protector
+		Type ArachnosPTT_Protector
+
+		MaxActiveEntities 600
+		RunSpeed 0
+	End
+
+	NPC ArachnosPTT_TemporalManipulator
+		Type ArachnosPTT_TemporalManipulator
+
+		MaxActiveEntities 600
+		RunSpeed 0
+	End
+
+	NPC ArachnosPTT_TeslaCoil
+		Type ArachnosPTT_TeslaCoil
+
+		MaxActiveEntities 600
+		RunSpeed 0
+	End
+
+	NPC Rikti_HeavyAssaultSuit
+		Type Rikti_HeavyAssaultSuit
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+		GroundOffset 0
+	End
+
+	NPC Rikti_MotherShipShield
+		Type Rikti_MotherShipShield
+
+		MaxActiveEntities 600
+		RunSpeed 0.7
+		GroundOffset 0
+	End
+
+	NPC Ouroboros_Usher_Hero
+		Type Wedding_Usher_Hero
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	NPC Ouroboros_Usher_Villain
+		Type Wedding_Usher_Villain
+
+		MaxActiveEntities 125
+		RunSpeed 0.7
+	End
+
+	//NPC door_Katie_Douglas
+		//Type Seer_1381_NoRing
+		//MaxActiveEntites 125
+		//RunSpeed 0.7
+	//End
+
+/*
+ * NPCs
+ ******************************************/
+
+/******************************************
+ * Cars
+ */
+
+	Car Car_Def
+		Type Car_Def
+
+		MaxActiveEntities 1
+		RunSpeed 1
+	End
+
+	Car Cars_PPD
+		Type Cars_PPD
+
+		MaxActiveEntities 1
+		RunSpeed 1
+	End
+
+	Car Car_Lux
+		Type Car_Lux1, Car_Lux2, Car_Lux3, Car_Lux4, Car_Lux5
+		Type Car_Lux21, Car_Lux22, Car_Lux23, Car_Lux24, Car_Lux25
+
+		MaxActiveEntities 15
+		RunSpeed 1
+	End
+
+	Car Dmg_Car_Lux
+		Type Dmg_Car_Lux1
+
+		MaxActiveEntities 15
+		RunSpeed 1
+	End
+
+	Car Car_Compact
+		Type Car_Compact1, Car_Compact2, Car_Compact3, Car_Compact4, Car_Compact5
+
+		MaxActiveEntities 15
+		RunSpeed 1
+	End
+
+	Car Dmg_Car_Compact
+		Type Dmg_Car_Compact
+
+		MaxActiveEntities 15
+		RunSpeed 1
+	End
+
+	Car Car_Sport
+		Type Car_Sport1, Car_Sport2, Car_Sport3, Car_Sport4, Car_Sport5
+		Type Car_Sport21, Car_Sport22, Car_Sport23, Car_Sport24, Car_Sport25
+
+		MaxActiveEntities 15
+		RunSpeed 1
+	End
+
+	Car Car_Truck
+		Type Car_Truck1, Car_Truck2, Car_Truck3, Car_Truck4, Car_Truck5
+
+		MaxActiveEntities 15
+		RunSpeed 1
+	End
+
+
+	Car tank_A
+		Type tank_A
+
+		MaxActiveEntities 20
+		RunSpeed 1.25
+		BeaconTypeNumber 13
+	End
+
+	Car Dmg_tank_A
+		Type Dmg_tank_A
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+		BeaconTypeNumber 13
+	End
+
+	Car tank_B
+		Type tank_B
+
+		MaxActiveEntities 20
+		RunSpeed 1.25
+		BeaconTypeNumber 13
+	End
+
+	Car Dmg_tank_B
+		Type Dmg_tank_B
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+		BeaconTypeNumber 13
+	End
+
+	Car tank_C
+		Type tank_C
+
+		MaxActiveEntities 20
+		RunSpeed 1.25
+		BeaconTypeNumber 13
+	End
+
+	Car Millitary_truck
+		Type Millitary_truck
+
+		MaxActiveEntities 20
+		RunSpeed 1.25
+	End
+
+	Car Dmg_Millitary_Truck
+		Type Millitary_Truck
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Dmg_Crater
+		Type Dmg_Crater
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Dmg_Crater_Mid
+		Type Dmg_Crater_Mid
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Dmg_Crater_Low
+		Type Dmg_Crater_Low
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Dmg_HalfCrater
+		Type Dmg_HalfCrater
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Dmg_HalfCrater_Mid
+		Type Dmg_HalfCrater_Mid
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Dmg_HalfCrater_Low
+		Type Dmg_HalfCrater_Low
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+
+	Car Dmg_Sandbag
+		Type Dmg_Sandbag
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+
+	Car Dmg_Sandbag_Mid
+		Type Dmg_Sandbag_Mid
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+
+	Car Dmg_Sandbag_Low
+		Type Dmg_Sandbag_Low
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+
+	Car Dmg_Rubble
+		Type Dmg_Rubble
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+
+	Car Dmg_Rubble_Mid
+		Type Dmg_Rubble_Mid
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Dmg_Rubble_Low
+		Type Dmg_Rubble_Low
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+
+
+	Car Crater
+		Type Crater
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Crater_Mid
+		Type Crater_Mid
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Crater_Low
+		Type Crater_Low
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car HalfCrater
+		Type HalfCrater
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car HalfCrater_Mid
+		Type HalfCrater_Mid
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car HalfCrater_Low
+		Type HalfCrater_Low
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+
+	Car Sandbag
+		Type Sandbag
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Sandbag_Mid
+		Type Sandbag_Mid
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+
+	Car Sandbag_Low
+		Type Sandbag_Low
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+
+
+	Car Explosion_pattern
+		Type Explosion_pattern
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Brute_Explosion_pattern
+		Type Brute_Explosion_pattern
+
+		MaxActiveEntities 20
+		RunSpeed 0.0
+	End
+
+	Car Car_Monorail
+		Type Car_Monorail
+
+		MaxActiveEntities 20
+		RunSpeed 1.25
+	End
+
+	Car Car_Blimp
+		Type Car_Blimp
+
+		MaxActiveEntities 20
+		RunSpeed .2
+	End
+
+	Car Car_Helicopter
+		Type Helicopter
+
+		MaxActiveEntities 20
+		RunSpeed 3.0
+	End
+
+	Car Car_Hamidon_Seed
+		Type Seed_Hamidon
+
+		MaxActiveEntities 20
+		RunSpeed 3.0
+	End
+
+	Car Car_Avatar_Hamidon
+		Type Avatar_Hamidon_Large
+
+		MaxActiveEntities 20
+		RunSpeed 1.0
+	End
+
+	Car Car_Jet
+		Type Fighter_Jet
+
+		MaxActiveEntities 20
+		RunSpeed 16.0
+	End
+
+	Car Car_Arachnos_Flyer
+		Type V_Arachnos_Flyer
+
+		MaxActiveEntities 20
+		RunSpeed 5.0
+	End
+
+	Car Car_Rularuu_Sentry
+		Type Rularuu_Sentinel_03
+
+		MaxActiveEntities 20
+		RunSpeed 1.0
+	End
+
+	Car Car_Island
+		Type SS_SpaceIsland
+
+		MaxActiveEntities 20
+		RunSpeed 2.0
+	End
+
+/*
+ * Cars
+ ******************************************/
+
+/******************************************
+ * Boats
+ */
+
+	Car Boat_01_01
+		Type Boat_01_01
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_01_02
+		Type Boat_01_02
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_01_03
+		Type Boat_01_03
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_02_01
+		Type Boat_02_01
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_02_02
+		Type Boat_02_02
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_02_03
+		Type Boat_02_03
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_03_01
+		Type Boat_03_01
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_03_02
+		Type Boat_03_02
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_03_03
+		Type Boat_03_03
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_04_01
+		Type Boat_04_01
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_04_02
+		Type Boat_04_02
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_04_03
+		Type Boat_04_03
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_05_01
+		Type Boat_05_01
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_05_02
+		Type Boat_05_02
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+	Car Boat_05_03
+		Type Boat_05_03
+
+		MaxActiveEntities 15
+		RunSpeed .2
+	End
+
+
+	Car Seagulls_Flock
+		Type Seagulls_Flock
+		MaxActiveEntities 20
+		RunSpeed 3
+	End
+
+/*
+ * Boats
+ ******************************************/
+
+/******************************************
+ * Doors
+ */
+	Door Door_TEST
+		Type Door_TEST
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Crunchy
+		Type Door_Crunchy
+		MaxActiveEntities 5001
+	End
+	
+		Door Door_Diablolique
+			Type Door_Diablolique
+			MaxActiveEntities 5001
+	End
+
+	Door Door_ArchEnt_SingleDoorLeft
+		Type Door_ArchEnt_SingleDoorLeft
+		MaxActiveEntities 5001
+	End
+
+	Door Door_ArchEnt_SingleDoorRight
+		Type Door_ArchEnt_SingleDoorRight
+		MaxActiveEntities 5001
+	End
+
+	Door Door_ArchEnt_DoubleDoors
+		Type Door_ArchEnt_DoubleDoors
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Ext_ArchEnt_DoubleDoors
+		Type Door_Ext_ArchEnt_DoubleDoors
+		MaxActiveEntities 5001
+	End
+
+	Door Door_MissArch_ElevatorDoor
+		Type Door_MissArch_ElevatorDoor
+		MaxActiveEntities 5001
+	End
+
+	Door Door_MissArch_ElevatorDoor_Hosp
+		Type Door_MissArch_ElevatorDoor_Hosp
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Brian
+		Type Door_Brian
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Arach_Ext_Elev
+		Type Door_Arach_Ext_Elev
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Shop01
+		Type Door_Shop01
+		MaxActiveEntities 5001
+	End
+
+	Door Door_sewer1
+		Type Door_sewer1
+		MaxActiveEntities 5001
+	End
+
+	Door Door_sewer2
+		Type Door_sewer2
+		MaxActiveEntities 5001
+	End
+
+	Door Door_5col_Mission
+		Type Door_5col_Mission
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Rocks
+		Type Door_Rocks
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Cave_Mission
+		Type Door_Cave_Mission
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Spider
+		Type Door_Spider
+		MaxActiveEntities 5001
+	End
+
+	Door Door_TV
+		Type Door_TV
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Truck
+		Type Door_Truck
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Arachnos_flyer
+		Type Door_Arachnos_flyer
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Sewer_Hatch
+		Type Door_Sewer_Hatch
+		MaxActiveEntities 5001
+	End
+
+	Door briefcase_explode
+		Type briefcase_explode
+		MaxActiveEntities 5001
+	End
+
+	Door Xmas_gift
+		Type Xmas_gift
+		MaxActiveEntities 5001
+	End
+
+	Door Door_safe
+		Type Door_safe
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Rollup_Med
+		Type Door_Rollup_Med
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Rollup_Small
+		Type Door_Rollup_Small
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Rollup_Small_Arachnos
+		Type Door_Rollup_Small_Arachnos
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Smuggler
+		Type MaleNPC_104
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Smuggler_2
+		Type MaleNPC_112
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Swing
+		Type MaleNPC_112
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Swing_Dual
+		Type MaleNPC_112
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Elevator_Bus
+		Type MaleNPC_112
+		MaxActiveEntities 5001
+	End
+
+	Door Door_HelicopterPilot
+		Type Model_Helicopter_Pilot, Model_Helicopter_Pilot_Female,
+		MaxActiveEntities 5001
+	End
+
+	Door Door_HelicopterPilot_Arachnos
+		Type Model_Arachnos_Pilot,
+		MaxActiveEntities 5001
+	End
+
+	Door Door_HelicopterPilot_Longbow
+		Type Longbow_Female_Boss_01, Longbow_Female_Boss_02, Longbow_Female_Boss_04, Longbow_Male_Boss_01,
+		Type Longbow_Male_Boss_02, Longbow_Male_Boss_03,
+		MaxActiveEntities 5001
+	End
+
+	Door Door_HelicopterPilot_Vanguard
+		Type Vanguard_Shield_Male_Minion_01, Vanguard_Shield_Huge_Minion_01, Vanguard_Shield_Female_Minion_01,
+		Type Vanguard_Shield_Male_Lt_01, Vanguard_Shield_Female_Lt_01, Vanguard_Shield_Huge_Lt_01, Vanguard_Shield_Female_Lt_02,
+		Type Vanguard_Shield_Male_Boss_02, Vanguard_Shield_Huge_Boss_02, Vanguard_Shield_Male_Boss_01, Vanguard_Shield_Female_Boss_01,
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Mr_G
+		Type Model_Mister_G_NoRing
+		MaxActiveEntities 5001
+	End
+
+	Door Door_BasePortal
+		Type Door_BasePortal
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Portal_stone
+		Type Door_Portal_stone
+		MaxActiveEntities 5001
+	End
+
+	Door DoorCathedralOfPainInner
+		Type DoorCathedralOfPainInner
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Helicopter_Freedom
+		Type Door_Helicopter_Freedom
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Freight_Elevator
+		Type Door_Freight_Elevator
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Swat_Van
+		Type Door_Swat_Van
+		MaxActiveEntities 5001
+	End
+
+	Door Door_NemesisDrill_Port
+		Type Door_NemesisDrill_Port
+		MaxActiveEntities 5001
+	End
+
+	Door Door_NemesisDrill_Starboard
+		Type Door_NemesisDrill_Starboard
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Ouroboros_Usher_Hero
+		Type Wedding_Usher_Hero
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Ouroboros_Usher_Villain
+		Type Wedding_Usher_Villain
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Roman_Center
+		Type Door_Roman_Center
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Roman_Left
+		Type Door_Roman_Left
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Roman_Right
+		Type Door_Roman_Right
+		MaxActiveEntities 5001
+	End
+
+	Door Door_PreatorianTech_Elevator_01
+		Type Door_PreatorianTech_Elevator_01
+		MaxActiveEntities 5001
+	End
+
+	Door Door_PreatorianTech_Interior_01
+		Type Door_PreatorianTech_Interior_01
+		MaxActiveEntities 5001
+	End
+
+	Door Door_PreatorianTech_Lobby_Left_01
+		Type Door_PreatorianTech_Lobby_Left_01
+		MaxActiveEntities 5001
+	End
+
+	Door Door_PreatorianTech_Lobby_Right_01
+		Type Door_PreatorianTech_Lobby_Right_01
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Mag
+		Type Door_Mag
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Mag_Interior
+		Type Door_Mag_Interior
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Tech_LobbyDoors
+		Type Door_Tech_LobbyDoors
+		MaxActiveEntities 5001
+	End
+
+	Door Door_RooftopAccess_Up_Left01
+		Type Door_RooftopAccess_Up_Left01
+		MaxActiveEntities 5001
+	End
+
+	Door Door_RooftopAccess_Down_Left01
+		Type Door_RooftopAccess_Down_Left01
+		MaxActiveEntities 5001
+	End
+
+	Door Door_RooftopAccess_Up_Right01
+		Type Door_RooftopAccess_Up_Right01
+		MaxActiveEntities 5001
+	End
+
+	Door Door_RooftopAccess_Down_Right01
+		Type Door_RooftopAccess_Down_Right01
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Wall_Sockets_B
+		Type Door_Wall_Sockets_B
+		MaxActiveEntities 5001
+	End
+
+	Door Maint_Shafts_B
+		Type Maint_Shafts_B
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Maint_Shafts_B_Two_Door_Left
+		Type Door_Maint_Shafts_B_Two_Door_Left
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Maint_Shafts_B_Two_Door_Right
+		Type Door_Maint_Shafts_B_Two_Door_Right
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Level_C_Large
+		Type Door_Level_C_Large
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Level_A
+		Type Door_Level_A
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Precinct
+		Type Door_Precinct
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Blast
+		Type Door_Blast
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Precinct_Left
+		Type Door_Precinct_Left
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Blast_Left
+		Type Door_Blast_Left
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Gold_Left
+		Type Door_Gold_Left
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Gold_Right
+		Type Door_Gold_Right
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Gold_Double
+		Type Door_Gold_Double
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Service_Left
+		Type Door_Service_Left
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Service_Right
+		Type Door_Service_Right
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Service_Double
+		Type Door_Service_Double
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Plain_Left
+		Type Door_Plain_Left
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Plain_Right
+		Type Door_Plain_Right
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Plain_Double
+		Type Door_Plain_Double
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Tech_Blast_Large
+		Type Door_Tech_Blast_Large
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Tech_Blast_Regular
+		Type Door_Tech_Blast_Regular
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Warehouse_Sliding
+		Type Door_Warehouse_Sliding
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Warehouse_Regular
+		Type Door_Warehouse_Regular
+		MaxActiveEntities 5001
+	End
+
+	Door Door_BrickA
+		Type Door_BrickA
+		MaxActiveEntities 5001
+	End
+
+	Door Door_BrickB
+		Type Door_BrickB
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Lambda_Blast_Large
+		Type Door_Lambda_Blast_Large
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Lambda_Blast_Large_Outside
+		Type Door_Lambda_Blast_Large_Outside
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Lambda_Blast_Regular
+		Type Door_Lambda_Blast_Regular
+		MaxActiveEntities 5001
+	End
+
+	Door Door_FW_DoubleDoor
+		Type Door_FW_DoubleDoor
+		MaxActiveEntities 5001
+	End
+
+	Door Door_FW_Revolving
+		Type Door_FW_Revolving
+		MaxActiveEntities 5001
+	End
+
+	Door Door_FW_SingleFrame_One
+		Type Door_FW_SingleFrame_One
+		MaxActiveEntities 5001
+	End
+
+	Door Door_FW_SingleFrame_Two
+		Type Door_FW_SingleFrame_Two
+		MaxActiveEntities 5001
+	End
+
+	Door Door_FW_SingleFrame_Three
+		Type Door_FW_SingleFrame_Three
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Bunker_Blast
+		Type Door_Bunker_Blast
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Bunker_Vent
+		Type Door_Bunker_Vent
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Antimatter_Rollup
+		Type Door_Antimatter_Rollup
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Antimatter_Sliding
+		Type Door_Antimatter_Sliding
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Antimatter_Sliding_Up_Small
+		Type Door_Antimatter_Sliding_Up_Small
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Antimatter_Piston
+		Type Door_Antimatter_Piston
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Lambda_Complex_B
+		Type Door_Lambda_Complex_B
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Lambda_Complex_A
+		Type Door_Lambda_Complex_A
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Destroyer_Inside
+		Type Door_Destroyer_Inside
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Destroyer_Outside
+		Type Door_Destroyer_Outside
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Mansion
+		Type Door_Mansion
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Mansion_Bookcase
+		Type Door_Mansion_Bookcase
+		MaxActiveEntities 5001
+	End
+
+	Door door_Katie_Douglas
+		Type Seer_1381_NoRing
+		MaxActiveEntities 5001
+	End
+
+	Door Door_Atlas_Generic_Double
+		Type Door_Atlas_Generic_Double
+		MaxActiveEntities 5001
+	End
+/*
+ * Doors
+ ******************************************/
+
+/******************************************
+ * AutoDoors
+ */
+
+	AutoDoor Door_Cot
+		Type Door_Cot
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Cot_Slanted
+		Type Door_Cot_Slanted
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_elevator
+		Type Door_elevator
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_mekman_elevator
+		Type Door_mekman_elevator
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor 5c_Door
+		Type door1
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor cav_door01
+		Type cav_door01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_techelevator
+		Type Door_techelevator
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_techelevator_arachnos
+		Type Door_techelevator_arachnos
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Arachnos_Elevator
+		Type Door_Arachnos_Elevator
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_keepout
+		Type Door_keepout
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor flyaway_seagull
+		Type flyaway_seagull
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor V_Spider_Swarm
+		Type V_Spider_Swarm
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor V_Spider_Swarm_small
+		Type V_Spider_Swarm_small
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor V_Spider_Swarm_tiny
+		Type V_Spider_Swarm_tiny
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_cave
+		Type Door_cave
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_cave_02
+		Type Door_cave_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_cave_02_Smooth
+		Type Door_cave_02_Smooth
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Big_cave
+		Type Door_Big_cave
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Big_cave_Smooth
+		Type Door_Big_cave_Smooth
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_reclpad
+		Type Door_reclpad
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_reclpad_Arcane
+		Type Door_reclpad
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor V_Door_reclpad
+		Type V_Door_reclpad
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_tech02
+		Type Door_tech02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_sewer_int
+		Type Door_sewer_int
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Cot_wood
+		Type Door_Cot_wood
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_5col
+		Type Door_5col
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ship_01
+		Type Door_Left_Ship_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_City_01
+		Type Door_Left_City_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_City_02
+		Type Door_Left_City_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_City_03
+		Type Door_Left_City_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_City_04
+		Type Door_Left_City_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_City_05
+		Type Door_Left_City_05
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_City_06
+		Type Door_Left_City_06
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ind_01
+		Type Door_Left_Ind_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ind_02
+		Type Door_Left_Ind_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ind_03
+		Type Door_Left_Ind_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ind_04
+		Type Door_Left_Ind_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ind_05
+		Type Door_Left_Ind_05
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Res_01
+		Type Door_Left_Res_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Res_02
+		Type Door_Left_Res_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Res_03
+		Type Door_Left_Res_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ruin_01
+		Type Door_Left_Ruin_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ruin_02
+		Type Door_Left_Ruin_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ruin_03
+		Type Door_Left_Ruin_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ruin_04
+		Type Door_Left_Ruin_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ruin_05
+		Type Door_Left_Ruin_05
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Ruin_06
+		Type Door_Left_Ruin_06
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Slum_01
+		Type Door_Left_Slum_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Slum_02
+		Type Door_Left_Slum_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Slum_03
+		Type Door_Left_Slum_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Store_01
+		Type Door_Left_Store_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Store_02
+		Type Door_Left_Store_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Store_03
+		Type Door_Left_Store_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Store_04
+		Type Door_Left_Store_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Whare_01
+		Type Door_Left_Whare_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Whare_02
+		Type Door_Left_Whare_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Whare_03
+		Type Door_Left_Whare_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Whare_04
+		Type Door_Left_Whare_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Left_Whare_05
+		Type Door_Left_Whare_05
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ship_01
+		Type Door_Right_Ship_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_City_01
+		Type Door_Right_City_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_City_02
+		Type Door_Right_City_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_City_03
+		Type Door_Right_City_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_City_04
+		Type Door_Right_City_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_City_05
+		Type Door_Right_City_05
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_City_06
+		Type Door_Right_City_06
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ind_01
+		Type Door_Right_Ind_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ind_02
+		Type Door_Right_Ind_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ind_03
+		Type Door_Right_Ind_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ind_04
+		Type Door_Right_Ind_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ind_05
+		Type Door_Right_Ind_05
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Res_01
+		Type Door_Right_Res_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Res_02
+		Type Door_Right_Res_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Res_03
+		Type Door_Right_Res_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ruin_01
+		Type Door_Right_Ruin_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ruin_02
+		Type Door_Right_Ruin_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ruin_03
+		Type Door_Right_Ruin_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ruin_04
+		Type Door_Right_Ruin_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ruin_05
+		Type Door_Right_Ruin_05
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Ruin_06
+		Type Door_Right_Ruin_06
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Slum_01
+		Type Door_Right_Slum_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Slum_02
+		Type Door_Right_Slum_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Slum_03
+		Type Door_Right_Slum_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Store_01
+		Type Door_Right_Store_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Store_02
+		Type Door_Right_Store_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Store_03
+		Type Door_Right_Store_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Store_04
+		Type Door_Right_Store_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Whare_01
+		Type Door_Right_Whare_01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Whare_02
+		Type Door_Right_Whare_02
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Whare_03
+		Type Door_Right_Whare_03
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Whare_04
+		Type Door_Right_Whare_04
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_Right_Whare_05
+		Type Door_Right_Whare_05
+		MaxActiveEntities 5001
+	End
+
+#####
+
+
+
+	AutoDoor Door_glass
+		Type Door_glass
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_tech01
+		Type Door_tech01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_train
+		Type Door_train
+		MaxActiveEntities 5001
+		PriorityList PL_TrainInStation
+	End
+
+	AutoDoor Door_subwaytrain
+		Type Door_subwaytrain
+		MaxActiveEntities 5001
+		PriorityList PL_TrainInStation
+	End
+
+	AutoDoor Door_warehouse01
+		Type Door_warehouse01
+		MaxActiveEntities 5001
+	End
+
+	AutoDoor Door_iris
+		Type Door_iris
+		MaxActiveEntities 5001
+	End
+
+
+/*
+ * AutoDoors
+ ******************************************/
+
+/******************************************
+ * MapTransferDoors
+ */
+	MapTransferDoor Door_XferShop01
+		Type Door_Shop01
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Mission_Door_TEST
+		Type Door_TEST
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_swat
+		Type Door_swat
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_smuggler
+		Type Door_smuggler
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_smuggler_2
+		Type Door_smuggler_2
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_WepShop
+		Type Door_WepShop
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_official
+		Type Door_official
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_HelicopterPilot
+		Type Door_HelicopterPilot
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_HelicopterPilot_Arachnos
+		Type Door_HelicopterPilot_Arachnos
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_HelicopterPilot_Longbow
+		Type Door_HelicopterPilot_Longbow
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_HelicopterPilot_Vanguard
+		Type Door_HelicopterPilot_Vanguard
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_Mr_G
+		Type Door_Mr_G
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_doctor
+		Type Door_doctor
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_Ouroboros_Usher_Hero
+		Type Door_Ouroboros_Usher_Hero
+		MaxActiveEntities 5001
+	End
+
+	MapTransferDoor Door_Ouroboros_Usher_Villain
+		Type Door_Ouroboros_Usher_Villain
+		MaxActiveEntities 5001
+	End
+
+/*
+ * MapTransferDoors
+ ******************************************/
+/*
+
+
+
+/******************************************
+ * Generators
+ */
+	 * Group <name>
+	 *	Member
+	 *		SpawnPercentage	<number between 0~100>
+	 *		CountMin <number>
+	 *		CountMax <number>
+	 *		GeneratedTypes <name>, <name>, ...
+	 *	End
+	 * End
+	 *
+	 */
+
+	/* Generator definition
+	 *  Defines a type of entity generator.
+ 	 *  A user defined generator type name is expected after the keyword "Generator".
+	 *  When a map is loaded, only generators with a corresponding
+	 *  Generator definition will be active.
+	 *
+	 *  Recongized fields:
+	 *	MaxSpawnCount
+	 *		Defines how many entities the generator can spawn before
+	 *		becoming inactive.  This field accepts an integer or the
+	 *		string "infinite".
+	 *		This field does not do anything currently.  The value
+	 *		is assumed to be infinite.
+	 *	MaxActiveEntities
+	 *		Defines the maximum number of active entities the generator
+	 *		can control.  When a generator reachs this limit, it must
+	 *		wait until one its active entities to be destroyed before
+	 *		it can spawn another.
+	 *		This field accepts an integer.
+	 *	ActivationInterval
+	 *		Defines how often the generator is given a chance to spawn
+	 *		an entity.  The interval should be specified in terms of
+	 *		game ticks (currently at 30 ticks/sec).
+	 *		This field accepts an integer.
+	 *	GeneratedTypes
+	 *		Defines the types of entities this type of generator can
+	 *		spawn.  This field accepts a list of user defined entity
+	 *		names and their spawning frequencies.
+	 *
+	 *		Note that the entity name must have already been defined
+	 *		using a NPC definition or a Critter definition before it is
+	 *		used here.
+	 *
+	 */
+
+	Generator NPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes MaleNPC, FemaleNPC,
+	End
+
+	Generator Door_Arach_Ext_Elev
+		MaxSpawnCount infinite
+		MaxActiveEntities 10
+		ActivationInterval 150
+		GeneratedTypes Door_Arach_Ext_Elev
+	End
+
+
+	Generator ArenaNPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 10
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Arena, NPC_Female_Arena
+	End
+
+	Generator BusinessNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Business, NPC_Female_Business
+	End
+
+	Generator MidnightNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Midnight, NPC_Female_Midnight
+	End
+
+	Generator PraetorianNeatNPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 10
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Praetorian_Neat, NPC_Female_Praetorian_Neat
+	End
+
+	Generator PraetorianNeatBizNPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 10
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Praetorian_Neat_Biz, NPC_Female_Praetorian_Neat_Biz
+	End
+
+	Generator RomanGoodNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Romans_Good
+	End
+
+	Generator RomanBadNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Roman_Bad
+	End
+
+	Generator RomanFemaleNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Female_Roman_Good
+	End
+
+	Generator RomanGuardBadNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Roman_Guard_Bad
+	End
+
+		Generator RomanGuardGoodNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Roman_Guard_Good
+	End
+
+
+	Generator CasualNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Casual, NPC_Female_Casual
+	End
+
+	Generator FancyNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Business, NPC_Female_Fancy
+	End
+
+	Generator UnkemptNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Unkempt, NPC_Female_Unkempt
+	End
+
+	Generator SanitationNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Sanitation
+	End
+
+	Generator PoliceNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Police, NPC_Female_Police
+	End
+
+	Generator ConstructionNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Construction_Workers
+	End
+
+	Generator DoctorNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Doctor, NPC_Female_Doctor
+	End
+
+	Generator NurseNPCGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Female_Nurse
+	End
+
+	Generator MilitaryNPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Military_Green_Camo, NPC_Male_Military_Green, NPC_Male_Military_Desert_Camo, NPC_Male_Military_Urban_Camo, NPC_Male_Military_SpecialOps
+	End
+
+	Generator MilitaryGreenCamoNPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Military_Green_Camo
+	End
+
+	Generator MilitaryGreenNPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Military_Green
+	End
+
+	Generator MilitaryDesertNPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Military_Desert_Camo
+	End
+
+	Generator MilitaryUrbanNPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Military_Urban_Camo
+	End
+
+	Generator MilitarySpecialOpsNPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes NPC_Male_Military_SpecialOps
+	End
+
+	Generator ContactNPC
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 150
+		GeneratedTypes ContactNPC
+	End
+
+	Generator SwatGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes SwatTeam
+	End
+
+	Generator HelicopterPilotGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes door_HelicopterPilot
+	End
+
+	Generator HelicopterPilotGenerator_Arachnos
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes door_HelicopterPilot_Arachnos
+	End
+
+	Generator HelicopterPilotGenerator_Longbow
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes door_HelicopterPilot_Longbow
+	End
+
+	Generator HelicopterPilotGenerator_Vanguard
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes door_HelicopterPilot_Vanguard
+	End
+
+	Generator HelicopterPilotGenerator_Mr_G
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes door_Mr_G
+	End
+
+	Generator CargoSmugglerGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes door_smuggler
+	End
+
+	Generator OuroborosUsherHero
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes door_Ouroboros_Usher_Hero
+	End
+
+	Generator OuroborosUsherVillain
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes door_Ouroboros_Usher_Villain
+	End
+
+	Generator CargoSmugglerGenerator2
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes door_smuggler_2
+	End
+
+	Generator DoorSwingGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Swing
+	End
+
+	Generator DoorSwingDualGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Swing_Dual
+	End
+
+	Generator DoorElevatorBusGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Elevator_Bus
+	End
+
+	Generator DoorBasePortal
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_BasePortal
+	End
+
+
+	Generator DoorCathedralOfPainInner
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes DoorCathedralOfPainInner
+	End
+
+	Generator DoorPortalStone
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Portal_stone
+	End
+
+	Generator DoorHelicopterFreedom
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Helicopter_Freedom
+	End
+
+	Generator ManneguinGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes NPC_Male_Mannequin, NPC_Female_Mannequin
+	End
+
+	Generator SeagullGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Seagull
+	End
+
+	Generator V_Spider_Swarm
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes V_Spider_Swarm
+	End
+
+	Generator V_Spider_Swarm_small
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes V_Spider_Swarm_small
+	End
+
+	Generator V_Spider_Swarm_tiny
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes V_Spider_Swarm_tiny
+	End
+
+	Generator PoliceDroneDownGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes PoliceDrone_Down
+	End
+
+
+
+	Generator PropMoneyCartGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Prop_MoneyCart
+	End
+
+	Generator cas_slot_09Generator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes cas_slot_09
+	End
+
+	Generator RocketGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Rocket
+	End
+
+	Generator PropBoomboxGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Prop_BoomBox
+	End
+
+	Generator ArachnosFlyerGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes V_Arachnos_Flyer
+	End
+
+	Generator ArachnosFlyerCritter
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes V_Arachnos_Flyer_Critter
+	End
+
+	Generator FloatingFireGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Floating_Fire
+	End
+
+	Generator TargetGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Target
+	End
+
+	Generator steveGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes steve
+	End
+
+	Generator chrisGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes chris
+	End
+
+	Generator brianGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes brian
+	End
+
+	Generator FX_RobotSpawnGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes FX_RobotSpawn
+	End
+
+	Generator FX_ExpoldeGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes FX_Expolde_Flammable, FX_Expolde_TNT
+	End
+
+
+	Generator TurretsGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Turrets
+	End
+
+	Generator JunkPileGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Junk_Piles
+	End
+
+	Generator PropTotemGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Prop_Totem
+	End
+
+	Generator CarDefGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Def
+	End
+
+	Generator Cars_PPD_Generator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Cars_PPD
+	End
+
+	Generator CarGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Lux, Car_Compact, Car_Sport, Car_Truck
+	End
+
+	Generator TankGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes tank_A, tank_B, Millitary_truck
+	End
+
+	Generator DamagedCarGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Dmg_tank_A, Dmg_tank_B, Dmg_Millitary_Truck, Dmg_Car_Lux, Dmg_Car_Compact, Explosion_pattern, Brute_Explosion_pattern
+	End
+
+	Generator DamagedPropGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Dmg_Crater, Dmg_Crater_Mid, Dmg_Crater_Low, Dmg_HalfCrater, Dmg_HalfCrater_Mid, Dmg_HalfCrater_Low, Dmg_Sandbag, Dmg_Sandbag_Mid, Dmg_Sandbag_Low, Dmg_Rubble, Dmg_Rubble_Mid, Dmg_Rubble_Low,
+	End
+
+	Generator PropGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Crater, Crater_Mid, Crater_Low, HalfCrater, HalfCrater_Mid, HalfCrater_Low, Sandbag, Sandbag_Mid, Sandbag_Low
+	End
+
+	Generator BoatGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Boat_01_01, Boat_01_02, Boat_01_03
+		GeneratedTypes Boat_02_01, Boat_02_02, Boat_02_03
+		GeneratedTypes Boat_03_01, Boat_03_02, Boat_03_03
+		GeneratedTypes Boat_04_01, Boat_04_02, Boat_04_03
+		GeneratedTypes Boat_05_01, Boat_05_02, Boat_05_03
+
+	End
+
+	Generator SeagullsFlockGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Seagulls_Flock
+
+
+	End
+
+	Generator MonorailGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Monorail
+	End
+
+	Generator BlimpGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Blimp
+	End
+
+	Generator HelicopterGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Helicopter
+	End
+
+	Generator HamidonSeedGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Hamidon_Seed
+	End
+
+	Generator HamidonAvatarGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Avatar_Hamidon
+	End
+
+	Generator JetGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Jet
+	End
+
+	Generator ArachnosFlyerGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Arachnos_Flyer
+	End
+
+	Generator RularuuSentryGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Car_Rularuu_Sentry
+	End
+
+	Generator CityDoorGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes 5c_Door
+	End
+
+	Generator CityMissionDoorGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Mission_Door_TEST
+	End
+
+	Generator Door_TEST
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_TEST
+	End
+
+	Generator Door_Crunchy
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Crunchy
+	End
+	
+		Generator Door_Diablolique
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Diablolique
+	End
+
+	Generator Door_ArchEnt_SingleDoorLeft
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_ArchEnt_SingleDoorLeft
+	End
+
+	Generator Door_ArchEnt_SingleDoorRight
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_ArchEnt_SingleDoorRight
+	End
+
+	Generator Door_ArchEnt_DoubleDoors
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_ArchEnt_DoubleDoors
+	End
+
+	Generator Door_Ext_ArchEnt_DoubleDoors
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Ext_ArchEnt_DoubleDoors
+	End
+
+	Generator Door_MissArch_ElevatorDoor
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_MissArch_ElevatorDoor
+	End
+
+	Generator Door_MissArch_ElevatorDoor_Hosp
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_MissArch_ElevatorDoor_Hosp
+	End
+
+	Generator Door_Brian
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Brian
+	End
+
+	Generator Door_Cot
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Cot
+	End
+
+
+	Generator Door_Cot_Slanted
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Cot_Slanted
+	End
+
+	Generator Door_techelevator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_techelevator
+	End
+
+
+	Generator Door_techelevator_arachnos
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_techelevator_arachnos
+	End
+
+	Generator Door_Arachnos_Elevator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Arachnos_Elevator
+	End
+
+	Generator Door_keepout
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_keepout
+	End
+
+	Generator flyaway_seagull
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes flyaway_seagull
+	End
+
+
+	Generator Door_Rocks
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Rocks
+	End
+
+	Generator Door_Spider
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Spider
+	End
+
+	Generator Door_Truck
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Truck
+	End
+
+	Generator Door_Arachnos_flyer
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Arachnos_flyer
+	End
+
+	Generator Door_Sewer_Hatch
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Sewer_Hatch
+	End
+
+	Generator briefcase_explode
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes briefcase_explode
+	End
+
+	Generator Xmas_gift
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Xmas_gift
+	End
+
+	Generator Door_safe
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_safe
+	End
+
+	Generator Door_Rollup_Med
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Rollup_Med
+	End
+
+	Generator Door_Rollup_Small
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Rollup_Small
+	End
+
+	Generator Door_Rollup_Small_Arachnos
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Rollup_Small_Arachnos
+	End
+
+	Generator Door_Smuggler
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Smuggler
+	End
+
+	Generator Door_HelicopterPilot
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_HelicopterPilot
+
+	End
+
+	Generator Door_HelicopterPilot_Arachnos
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_HelicopterPilot_Arachnos
+
+	End
+
+	Generator Door_HelicopterPilot_Longbow
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_HelicopterPilot_Longbow
+
+	End
+
+		Generator Door_HelicopterPilot_Vanguard
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_HelicopterPilot_Vanguard
+
+	End
+
+	Generator Door_Ouroboros_Usher_Hero
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Ouroboros_Usher_Hero
+
+	End
+
+	Generator Door_Ouroboros_Usher_Villain
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Ouroboros_Usher_Villain
+
+	End
+
+	Generator Door_Smuggler_2
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Smuggler_2
+	End
+
+	Generator Door_Cave_Mission
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Cave_Mission
+	End
+
+	Generator Door_cave
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_cave
+	End
+
+
+	Generator Door_cave_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_cave_02
+	End
+
+	Generator Door_cave_02_Smooth
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_cave_02_Smooth
+	End
+
+	Generator Door_Big_cave
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Big_cave
+	End
+
+	Generator Door_Big_cave_Smooth
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Big_cave_Smooth
+	End
+
+	Generator Door_reclpad
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_reclpad
+	End
+
+	Generator Door_reclpad_Arcane
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_reclpad_Arcane
+	End
+
+	Generator V_Door_reclpad
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes V_Door_reclpad
+	End
+
+	Generator Door_tech02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_tech02
+	End
+
+	Generator Door_sewer_int
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_sewer_int
+	End
+
+	Generator Door_Cot_wood
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Cot_wood
+	End
+
+	Generator Door_5col
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_5col
+	End
+
+
+	Generator Door_5col_Mission
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_5col_Mission
+	End
+
+	Generator Door_Left_Ship_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ship_01
+
+	End
+
+	Generator Door_Left_City_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_City_01
+
+	End
+
+	Generator Door_Left_City_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_City_02
+
+	End
+
+	Generator Door_Left_City_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_City_03
+
+	End
+
+	Generator Door_Left_City_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_City_04
+
+	End
+
+	Generator Door_Left_City_05
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_City_05
+
+	End
+
+	Generator Door_Left_City_06
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_City_06
+
+	End
+
+
+	Generator Door_Left_Ind_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ind_01
+
+	End
+
+	Generator Door_Left_Ind_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ind_02
+
+	End
+
+	Generator Door_Left_Ind_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ind_03
+
+	End
+
+	Generator Door_Left_Ind_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ind_04
+
+	End
+
+
+	Generator Door_Left_Ind_05
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ind_05
+
+	End
+
+	Generator Door_Left_Res_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Res_01
+
+	End
+
+	Generator Door_Left_Res_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Res_02
+
+	End
+
+	Generator Door_Left_Res_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Res_03
+
+	End
+
+
+	Generator Door_Left_Ruin_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ruin_01
+
+	End
+
+	Generator Door_Left_Ruin_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ruin_02
+
+	End
+
+	Generator Door_Left_Ruin_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ruin_03
+
+	End
+
+
+	Generator Door_Left_Ruin_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ruin_04
+
+	End
+
+
+	Generator Door_Left_Ruin_05
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ruin_05
+
+	End
+
+	Generator Door_Left_Ruin_06
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Ruin_06
+
+	End
+
+	Generator Door_Left_Slum_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Slum_01
+
+	End
+
+	Generator Door_Left_Slum_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Slum_02
+
+	End
+
+
+	Generator Door_Left_Slum_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Slum_03
+
+	End
+
+
+	Generator Door_Left_Store_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Store_01
+
+	End
+
+	Generator Door_Left_Store_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Store_02
+
+	End
+
+	Generator Door_Left_Store_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Store_03
+
+	End
+
+
+	Generator Door_Left_Store_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Store_04
+
+	End
+
+
+	Generator Door_Left_Whare_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Whare_01
+
+	End
+
+	Generator Door_Left_Whare_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Whare_02
+
+	End
+
+	Generator Door_Left_Whare_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Whare_03
+
+	End
+
+	Generator Door_Left_Whare_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Whare_04
+
+	End
+
+	Generator Door_Left_Whare_05
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Left_Whare_05
+
+	End
+
+	Generator Door_Right_Ship_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ship_01
+
+	End
+
+	Generator Door_Right_City_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_City_01
+
+	End
+
+	Generator Door_Right_City_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_City_02
+
+	End
+
+	Generator Door_Right_City_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_City_03
+
+	End
+
+	Generator Door_Right_City_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_City_04
+
+	End
+
+	Generator Door_Right_City_05
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_City_05
+
+	End
+
+	Generator Door_Right_City_06
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_City_06
+
+	End
+
+
+	Generator Door_Right_Ind_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ind_01
+
+	End
+
+	Generator Door_Right_Ind_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ind_02
+
+	End
+
+	Generator Door_Right_Ind_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ind_03
+
+	End
+
+	Generator Door_Right_Ind_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ind_04
+
+	End
+
+
+	Generator Door_Right_Ind_05
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ind_05
+
+	End
+
+	Generator Door_Right_Res_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Res_01
+
+	End
+
+	Generator Door_Right_Res_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Res_02
+
+	End
+
+	Generator Door_Right_Res_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Res_03
+
+	End
+
+
+	Generator Door_Right_Ruin_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ruin_01
+
+	End
+
+	Generator Door_Right_Ruin_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ruin_02
+
+	End
+
+	Generator Door_Right_Ruin_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ruin_03
+
+	End
+
+
+	Generator Door_Right_Ruin_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ruin_04
+
+	End
+
+
+	Generator Door_Right_Ruin_05
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ruin_05
+
+	End
+
+	Generator Door_Right_Ruin_06
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Ruin_06
+
+	End
+
+	Generator Door_Right_Slum_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Slum_01
+
+	End
+
+	Generator Door_Right_Slum_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Slum_02
+
+	End
+
+
+	Generator Door_Right_Slum_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Slum_03
+
+	End
+
+
+	Generator Door_Right_Store_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Store_01
+
+	End
+
+	Generator Door_Right_Store_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Store_02
+
+	End
+
+	Generator Door_Right_Store_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Store_03
+
+	End
+
+
+	Generator Door_Right_Store_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Store_04
+
+	End
+
+
+	Generator Door_Right_Whare_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Whare_01
+
+	End
+
+	Generator Door_Right_Whare_02
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Whare_02
+
+	End
+
+	Generator Door_Right_Whare_03
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Whare_03
+
+	End
+
+	Generator Door_Right_Whare_04
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Whare_04
+
+	End
+
+	Generator Door_Right_Whare_05
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Right_Whare_05
+
+	End
+
+	Generator Door_glass
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_glass
+	End
+
+	Generator Door_tech01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_tech01
+	End
+
+	Generator Door_train
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_train
+	End
+
+	Generator Door_subwaytrain
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_subwaytrain
+	End
+
+	Generator NPC_doctor
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes HospitalPersonnel
+	End
+
+	Generator Door_warehouse01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_warehouse01
+	End
+
+	Generator Door_elevator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_elevator
+	End
+
+	Generator Door_mekman_elevator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_mekman_elevator
+	End
+
+	Generator Door_swat
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_swat
+	End
+
+	Generator SmugglerGenerator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_smuggler
+	End
+
+	Generator Smuggler2Generator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_smuggler_2
+	End
+
+	Generator Door_WepShop
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_WepShop
+	End
+
+	Generator Door_official
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_official
+	End
+
+	Generator Door_doctor
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_doctor
+	End
+
+	Generator Door_Shop01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Shop01
+		Nofade 1
+	End
+
+	Generator Door_sewer1
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_sewer1
+		Nofade 1
+	End
+
+	Generator Door_sewer2
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_sewer2
+		Nofade 1
+	End
+
+	Generator Door_PreatorianTech_Elevator_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_PreatorianTech_Elevator_01
+		Nofade 1
+	End
+
+	Generator Door_PreatorianTech_Interior_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_PreatorianTech_Interior_01
+		Nofade 1
+	End
+
+	Generator Door_PreatorianTech_Lobby_Left_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_PreatorianTech_Lobby_Left_01
+		Nofade 1
+	End
+
+	Generator Door_PreatorianTech_Lobby_Right_01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_PreatorianTech_Lobby_Right_01
+		Nofade 1
+	End
+
+	Generator Door_Mag
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Mag
+	End
+
+	Generator Door_Mag_Interior
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Mag_Interior
+	End
+
+	Generator Door_Tech_LobbyDoors
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Tech_LobbyDoors
+	End
+
+	Generator Door_RooftopAccess_Up_Left01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_RooftopAccess_Up_Left01
+		Nofade 1
+	End
+
+	Generator Door_RooftopAccess_Down_Left01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_RooftopAccess_Down_Left01
+		Nofade 1
+	End
+
+
+	Generator Door_RooftopAccess_Up_Right01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_RooftopAccess_Up_Right01
+		Nofade 1
+	End
+
+	Generator Door_RooftopAccess_Down_Right01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_RooftopAccess_Down_Right01
+		Nofade 1
+	End
+
+	Generator Door_Wall_Sockets_B
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Wall_Sockets_B
+	End
+
+	Generator Maint_Shafts_B
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Maint_Shafts_B
+	End
+
+	Generator Door_Maint_Shafts_B_Two_Door_Left
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Maint_Shafts_B_Two_Door_Left
+		Nofade 1
+	End
+
+	Generator Door_Maint_Shafts_B_Two_Door_Right
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Maint_Shafts_B_Two_Door_Right
+		Nofade 1
+	End
+
+	Generator Door_Level_C_Large
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Level_C_Large
+	End
+
+	Generator Door_Level_A
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Level_A
+	End
+
+	Generator Door_Precinct
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Precinct
+	End
+
+	Generator Door_Blast
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Blast
+	End
+
+	Generator Door_Precinct_Left
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Precinct_Left
+	End
+
+	Generator Door_Blast_Left
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Blast_Left
+	End
+
+	Generator Door_Gold_Left
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Gold_Left
+	End
+
+	Generator Door_Gold_Right
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Gold_Right
+		Nofade 1
+	End
+
+	Generator Door_Gold_Double
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Gold_Double
+		Nofade 1
+	End
+
+	Generator Door_Service_Left
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Service_Left
+	End
+
+	Generator Door_Service_Right
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Service_Right
+		Nofade 1
+	End
+
+	Generator Door_Service_Double
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Service_Double
+		Nofade 1
+	End
+
+	Generator Door_Plain_Left
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Plain_Left
+	End
+
+	Generator Door_Plain_Right
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Plain_Right
+		Nofade 1
+	End
+
+	Generator Door_Plain_Double
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Plain_Double
+		Nofade 1
+	End
+
+	Generator Door_Atlas_Generic_Double
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Atlas_Generic_Double
+		Nofade 1
+	End
+	
+	Generator Door_Tech_Blast_Large
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Tech_Blast_Large
+	End
+
+	Generator Door_Tech_Blast_Regular
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Tech_Blast_Regular
+	End
+
+	Generator Door_Warehouse_Sliding
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Warehouse_Sliding
+	End
+
+	Generator Door_Warehouse_Regular
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Warehouse_Regular
+	End
+
+	Generator Door_BrickA
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_BrickA
+	End
+
+	Generator Door_BrickB
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_BrickB
+	End
+
+	Generator Door_Lambda_Blast_Large
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Lambda_Blast_Large
+	End
+
+	Generator Door_Lambda_Blast_Large_Outside
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Lambda_Blast_Large_Outside
+	End
+
+	Generator Door_Lambda_Blast_Regular
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Lambda_Blast_Regular
+	End
+
+	Generator Door_FW_DoubleDoor
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_FW_DoubleDoor
+	End
+
+	Generator Door_FW_Revolving
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_FW_Revolving
+	End
+
+	Generator Door_FW_SingleFrame_One
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_FW_SingleFrame_One
+	End
+
+	Generator Door_FW_SingleFrame_Two
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_FW_SingleFrame_Two
+	End
+
+	Generator Door_FW_SingleFrame_Three
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_FW_SingleFrame_Three
+	End
+
+	Generator Door_Bunker_Blast
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Bunker_Blast
+	End
+
+	Generator Door_Bunker_Vent
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Bunker_Vent
+	End
+
+	Generator Door_Antimatter_Rollup
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Antimatter_Rollup
+	End
+
+	Generator Door_Antimatter_Sliding
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Antimatter_Sliding
+	End
+
+	Generator Door_Antimatter_Sliding_Up_Small
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Antimatter_Sliding_Up_Small
+	End
+
+	Generator Door_Antimatter_Piston
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Antimatter_Piston
+	End
+
+	Generator Door_Lambda_Complex_B
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Lambda_Complex_B
+	End
+
+	Generator Door_Lambda_Complex_A
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Lambda_Complex_A
+	End
+
+	Generator Door_Destroyer_Inside
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Destroyer_Inside
+	End
+
+	Generator Door_Destroyer_Outside
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Destroyer_Outside
+	End
+
+	Generator Door_Mansion
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Mansion
+	End
+
+	Generator Door_Mansion_Bookcase
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Mansion_Bookcase
+	End
+
+
+	// This is really really dumb.
+	// The game should be able to figure out if the door should perform a map transfer or not based on info other than the ENTTYPE.
+	// The game's inability to do so causes each door type and generator type to have to be declared twice.
+
+	Generator Door_XferShop01
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_XferShop01
+		Nofade 1
+	End
+
+	Generator Door_iris
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_iris
+	End
+
+	Generator Door_reclpad
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_reclpad
+	End
+
+	Generator CaveDoorGenerator
+
+		MaxSpawnCount 1
+		MaxActiveEntities 5
+		ActivationInterval 300
+		GeneratedTypes cav_door01
+	End
+
+	Generator 5cDoorGenerator
+
+		MaxSpawnCount 1
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes 5c_Door
+	End
+
+	Critter Dummy
+		Type Thug_20
+
+		MaxActiveEntities 20
+	End
+
+	Generator Door_Freight_Elevator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Freight_Elevator
+	End
+
+	Generator Door_Swat_Van
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Swat_Van
+	End
+
+	Generator Door_NemesisDrill_Port
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_NemesisDrill_Port
+	End
+
+	Generator Door_NemesisDrill_Starboard
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_NemesisDrill_Starboard
+	End
+
+	Generator Door_Roman_Center
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Roman_Center
+	End
+
+	Generator Door_Roman_Left
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Roman_Left
+	End
+
+	Generator Door_Roman_Right
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Door_Roman_Right
+	End
+
+	Generator ArachnosPTT_Power
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes ArachnosPTT_Power
+	End
+
+	Generator ArachnosPTT_Healer
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes ArachnosPTT_Healer
+	End
+
+	Generator ArachnosPTT_Protector
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes ArachnosPTT_Protector
+	End
+
+	Generator ArachnosPTT_TemporalManipulator
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes ArachnosPTT_TemporalManipulator
+	End
+
+	Generator ArachnosPTT_TeslaCoil
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes ArachnosPTT_TeslaCoil
+	End
+
+	Generator Rikti_HeavyAssaultSuit
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Rikti_HeavyAssaultSuit
+	End
+
+	Generator Rikti_MotherShipShield
+
+		MaxSpawnCount infinite
+		MaxActiveEntities 1
+		ActivationInterval 300
+		GeneratedTypes Rikti_MotherShipShield
+	End
+
+	//Generator door_Katie_Douglas
+
+		//MaxSpawnCount infinite
+		//MaxActiveEntities 1
+		//ActivationInterval 3000
+		//GeneratredTypes door_Katie_Douglas
+	//End
+
+End

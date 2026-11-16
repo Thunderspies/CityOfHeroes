@@ -1,0 +1,265 @@
+#############################################################
+## NonCombatPet_RiktiMonkey.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Rikti_Monkey
+	BaseSkeleton	Rikti_Monkey\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<basicTHREAT>
+Group	<basicMENACE>
+Group	<basicLOOKOUT>
+Group	<basicCHEER>
+Group	<basicVANDAL>
+Group	<basic0BSERVE>
+Group	<basicLOITER>
+Group	<basicLOOT>
+Group	<basicRumble>
+Group	<RagdollBellyIRQ>
+
+#############################################################
+## Ready
+#############################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\skel_ready 1
+	TEnd
+MEnd
+
+###################
+### Run Forward ##
+###################
+
+Move RunPreReady
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <CombatAttack> <Combat>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        RunCycleReady
+	Priority        1
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\run 1 25
+	TEnd
+MEnd
+
+
+Move RunCycleReady
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        RunPostReady
+	Priority        1
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\run 30 81
+	TEnd
+MEnd
+
+Move RunPostReady
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\skel_ready 1
+	TEnd
+MEnd
+
+###################
+###### Jump  ######
+###################
+
+Move jumpPre
+	Requires	JUMP
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <Combat> <CombatMove> <CombatAttack> <jumpFall> <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpUp
+	Priority        1
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\jump 10 90
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        jumpApex
+	Priority        1
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\jump 91 92
+	  PlayFx        FEET\SUPERJUMP1.FX
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps>
+	NextMove        jumpFall
+	Priority        1
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\jump 93 94
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+	Priority        1
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\jump 95 117
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        1
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\jump 118 120
+	TEnd
+MEnd
+
+Move JumpPost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	Interpolate     0
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\postjump 1
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\death_front 47 129
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move Default_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Monkey
+	  Anim          Rikti_Monkey\death_front 129 130
+	  Ragdoll	1
+	TEnd
+MEnd
+
+#######  basic spawns   #########################################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Priority        10
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale NotSelectable
+
+	Type		Rikti_Monkey
+	  Anim          male\goblin_groundburst 1 54
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 1
+	  PlayFx	Volumes\Lava\ShallowSplash\Encounter_ShallowSplash.fx 3
+	TEnd
+MEnd
+
+Move Spawned_post
+	NextMove	Spawned_cycle
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE
+
+	Type		Rikti_Monkey
+	  Anim          Beast\postjump 1 35
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+Move Spawned_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale		1
+
+	Type		Rikti_Monkey
+	  Anim          Beast\Skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

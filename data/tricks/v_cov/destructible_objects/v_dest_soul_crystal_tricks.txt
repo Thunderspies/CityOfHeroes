@@ -1,0 +1,169 @@
+Texture x_base_trtarc_crystal01
+	Base1 vdestsoulcryst_crystal.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none #vdestsoulcryst_reflect01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1 
+
+	DualColor1 vdestsoulcryst_crystal.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 vdestsoulcryst_crystal_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask vdestsoulcryst_crystal_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 vdestsoulcryst_crystal.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+
+	Multiply2 vdestsoulcryst_reflect01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 0.4 0.3
+	Multiply2reflect 1 
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 texture_name.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 190 185	160
+	SpecularColor2 255 255	255
+	SpecularExponent1 2
+	#SpecularExponent2 2
+
+	DiffuseScale 3
+	AmbientScale 4
+
+		Fallback
+		UseFallback 1
+		Base  vdestsoulcryst_crystal.tga
+		Blend none
+		Bumpmap vdestsoulcryst_crystal_bump.tga
+		BlendType multiply
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+End
+
+Texture x_base_trtarc_crystal02
+	Base1 vdestsoulcryst_crystal_main.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none #vdestsoulcryst_reflect01.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1 
+
+	DualColor1 vdestsoulcryst_crystal_main.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	BumpMap1 vdestsoulcryst_crystal_main_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	AddGlow1 vdestsoulcryst_rune_crystal.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask vdestsoulcryst_crystal_main_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 0	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 vdestsoulcryst_crystal_main.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+
+	Multiply2 vdestsoulcryst_reflect01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 0.5
+	Multiply2reflect 1 
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 texture_name.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 190 185	160
+	SpecularColor2 255 255	255
+	SpecularExponent1 2
+	#SpecularExponent2 2
+
+	Flags AlwaysAddGlow Fullbright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+
+	DiffuseScale 3
+	AmbientScale 4
+
+		Fallback
+		UseFallback 1
+		Base  vdestsoulcryst_crystal_main.tga
+		Blend none
+		Bumpmap vdestsoulcryst_crystal_main_bump.tga
+		BlendType multiply
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+End
+
+trick vdestsoulcrystlod
+	Rotate 0.03
+	#Sway 1.200000 0.020944
+	ObjFlags FullBright
+	trickflags #additive nozwrite
+	Autolod
+	Lodfar 800
+	Lodfarfade 200
+	End
+End
+
+Trick vdestsoulcrystrunesA
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+	Rotate 0.022
+	Autolod	
+	LodFar 800
+	LodFarFade 200
+	End
+End
+
+Trick vdestsoulcrystrunesB
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+	Rotate -0.01
+	Autolod	
+	LodFar 800
+	LodFarFade 200
+	End
+End
+

@@ -1,0 +1,148 @@
+#############################################################
+
+Sequencer
+
+
+TypeDef Spirit_Frenzy 
+	BaseSkeleton	Shark\Skel_shark
+	ParentType	None
+TypeDefEnd
+
+TypeDef Spirit_charge 
+	BaseSkeleton	Shark\Skel_shark
+	ParentType	None
+TypeDefEnd
+
+TypeDef Spirit_circle 
+	BaseSkeleton	Shark\Skel_shark
+	ParentType	None
+TypeDefEnd
+
+#TypeDef hammerhead
+#	BaseSkeleton	Shark\Skel_shark
+#	ParentType	Sharks
+#TypeDefEnd
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+###################
+### Ready ##
+###################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale #pickrandomly
+	cyclemove	ready
+
+	Type		Spirit_Frenzy
+	  Anim          Shark\Spirit_Frenzy 1
+	  scale		1.5	
+	TEnd
+
+	Type		Spirit_charge
+	  Anim          Shark\Spirit_charge 33
+	  scale		1.5	
+	TEnd
+
+	Type		Spirit_circle
+	  Anim          Shark\Spirit_circle 1
+	  scale		2.5	
+	TEnd
+
+
+MEnd
+
+
+Move Ready2
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale #pickrandomly
+#	cyclemove	ready
+
+	Type		Spirit_Frenzy
+	  Anim          Shark\Spirit_Frenzy 1
+	  scale		1.5	
+	TEnd
+
+	Type		Spirit_charge
+	  Anim          Shark\Spirit_charge 72
+	  scale		1.5	
+	TEnd
+
+	Type		Spirit_circle
+	  Anim          Shark\Spirit_circle 1
+	  scale		2.5	
+	TEnd
+
+
+MEnd
+
+
+Move Ready3
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale #pickrandomly
+#	cyclemove	ready
+
+	Type		Spirit_Frenzy
+	  Anim          Shark\Spirit_Frenzy 1
+	  scale		1.5	
+	TEnd
+
+	Type		Spirit_charge
+	  Anim          Shark\Spirit_charge 95
+	  scale		1.5	
+	TEnd
+
+	Type		Spirit_circle
+	  Anim          Shark\Spirit_circle 1
+	  scale		2.5	
+	TEnd
+
+
+MEnd
+
+
+
+
+SeqEnd ## Don't cut
+

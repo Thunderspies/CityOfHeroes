@@ -1,0 +1,191 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_5th_ballturret
+	BaseSkeleton	FX_5th_ballturret\skel_test
+	ParentType	None
+TypeDefEnd
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready		##(HIDDEN)
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle NotSelectable
+	Interpolate	20
+	Sets            NOCOLLISION
+
+
+	Type		FX_5th_ballturret
+	  Anim          FX_5th_ballturret\popup 1 5
+	TEnd
+
+
+MEnd
+
+####################
+####### Active Mode  ######
+####################
+
+Move Active_mode	##(simulating 30 sec. combatmode delay)
+##	Requires	COMBAT WEAPON GUN
+	Member		<Ready>  <DeathIRQ>
+	NextMove	Post_Active
+	Priority        3
+	Scale		0.33
+	Flags		PitchToTarget
+
+
+	Type		FX_5th_ballturret
+	  Anim          FX_5th_ballturret\active 1 100
+	TEnd
+
+MEnd
+
+
+Move Post_Active
+	Member		<Ready> <AttackIRQ> <DeathIRQ>
+	NextMove	Ready
+
+	Type		FX_5th_ballturret
+	  Anim          FX_5th_ballturret\popup 100
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### AssultRifle Burst  ######
+###################
+
+Move 1st_Burst		##(POP UP & shoot)
+	Requires	COMBAT WEAPON GUN MACHINEGUN
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Active_mode
+	Priority        4
+	Flags		PitchToTarget
+
+	Type		FX_5th_ballturret
+	  Anim          FX_5th_ballturret\popup 6 80
+	  PitchStart	50
+	TEnd
+
+MEnd
+
+###
+
+Move 2nd_Burst		##(Just shoot)
+	Requires	COMBAT WEAPON GUN MACHINEGUN
+	Interrupts	Active_mode
+	Member		<DeathIRQ>
+	NextMove        Active_mode
+	Priority        4
+	Flags		PitchToTarget
+
+	Type		FX_5th_ballturret
+	  Anim          FX_5th_ballturret\active 6 80
+	TEnd
+
+MEnd
+
+
+
+
+
+###### Deaths  ######################################
+
+
+###################
+###### Default Death   ######
+###################
+#
+#Move Default_Death
+#	Requires	DEATH
+#	Interrupts	<DeathIRQ>
+#	NextMove        Default_postdeath
+#	Priority        1
+#	Sets            NOCOLLISION
+#	Flags		NotSelectable
+#
+#	Type		FX_5th_ballturret
+#	  Anim          FX_5th_ballturret\active 1 50
+#	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+#	TEnd
+#MEnd
+#
+#
+#Move Default_postdeath
+#	Requires	DEATH
+#	Flags		Cycle NotSelectable
+#	Priority        1
+#	Sets            NOCOLLISION DIENOW
+#
+#	Type		FX_5th_ballturret
+#	  Anim          FX_5th_ballturret\active 1 50
+#	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+#	TEnd
+#MEnd
+
+###################
+###### Hit Death   ######
+###################
+
+Move HitDeath
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ> <ReactIRQ>
+	NextMove        postdeath2
+	Priority        2
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		FX_5th_ballturret
+	  Anim          FX_5th_ballturret\active 1 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+##	  PlayFx	Explosions\Large\Expolsion_large.fx 0
+	PlayFX		Explosions\TurretExplosion\TurretExplosion.Fx
+	TEnd
+
+MEnd
+
+
+Move postdeath2
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+	Type		FX_5th_ballturret
+	  Anim          FX_5th_ballturret\active 1 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+
+
+
+
+SeqEnd
+

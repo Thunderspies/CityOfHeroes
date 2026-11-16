@@ -1,0 +1,107 @@
+#############################################################
+
+Sequencer
+
+TypeDef flyaway_seagull 
+	BaseSkeleton	FX_seagull\skel_test
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready_A
+	Member		<Ready> 
+	Flags		Cycle 
+	Scale           0.50
+	CycleMove       Ready_B
+
+	Type		flyaway_seagull
+	  Anim          FX_seagull\skel_test 1  
+	
+	TEnd
+MEnd
+
+
+Move Ready_B
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove       Ready_C
+
+	Type		flyaway_seagull
+	  Anim          FX_seagull\shake_head 1  
+	TEnd
+MEnd
+
+
+Move Ready_C
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove       Ready_D
+
+	Type		flyaway_seagull
+	  Anim          FX_seagull\turn 1  
+	TEnd
+MEnd
+
+
+Move Ready_D
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove       Ready_A
+
+	Type		flyaway_seagull
+	  Anim          FX_seagull\shake_body 1 
+
+	TEnd
+MEnd
+
+##########################################################
+########################
+##  fly away & die  ####
+########################
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        RunCycleReady
+	Priority        1
+
+	Type		flyaway_seagull
+	  Anim          FX_seagull\takeoff 1  
+	  PlayFx        GENERIC\FX_BIRDWINGS.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+Move RunCycleReady
+	Requires	OPEN 
+	Flags		Cycle 
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET 
+
+	Type		flyaway_seagull
+	  Anim          FX_seagull\takeoff 27  
+	  PlayFx        GENERIC\FX_BIRDWINGS.FX  0 CONSTANT
+	TEnd
+MEnd
+
+SeqEnd
+

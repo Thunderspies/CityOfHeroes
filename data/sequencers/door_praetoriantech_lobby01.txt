@@ -1,0 +1,121 @@
+#############################################################
+## Door_PraetorianTech_Lobby01.txt
+#############################################################
+
+Sequencer
+
+TypeDef Door_PraetorianTech_Lobby_Right
+	BaseSkeleton	Door_PraetorianTech_Lobby_Right01\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Door_PraetorianTech_Lobby_Left
+	BaseSkeleton	Door_PraetorianTech_Lobby_Left01\skel_ready
+	ParentType	Door_PraetorianTech_Lobby_Right
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Flags		Cycle NoSizeScale
+
+	Type		Door_PraetorianTech_Lobby_Right
+	  Anim		Door_PraetorianTech_Lobby_Right01\skel_ready 1 3
+	TEnd
+
+	Type		Door_PraetorianTech_Lobby_Left
+	  Anim		Door_PraetorianTech_Lobby_Left01\skel_ready 1 3
+	TEnd
+MEnd
+
+### OPEN ###########################################################
+
+Move Open
+	Requires	OPEN
+	Priority	1
+	Interrupts	Ready
+	NextMove	Open2
+	Flags		NoSizeScale
+
+	Type		Door_PraetorianTech_Lobby_Right
+	  Anim		Door_PraetorianTech_Lobby_Right01\skel_ready 3 33
+	  PlayFX	Doors\Tech_LobbyDoors_Open.FX
+	TEnd
+
+	Type		Door_PraetorianTech_Lobby_Left
+	  Anim		Door_PraetorianTech_Lobby_Left01\skel_ready 3 33
+	  PlayFX	Doors\Tech_LobbyDoors_Open.FX
+	TEnd
+MEnd
+
+Move Open2
+	Requires	OPEN
+	Priority	1
+	NextMove	Opened
+	Sets		WALKTHROUGH
+	Flags		NoSizeScale
+
+	Type		Door_PraetorianTech_Lobby_Right
+	  Anim		Door_PraetorianTech_Lobby_Right01\skel_ready 33 53
+	TEnd
+
+	Type		Door_PraetorianTech_Lobby_Left
+	  Anim		Door_PraetorianTech_Lobby_Left01\skel_ready 33 53
+	TEnd
+MEnd
+
+Move Opened
+	Flags		Cycle NoSizeScale
+	Sets		WALKTHROUGH
+
+	Type		Door_PraetorianTech_Lobby_Right
+	  Anim		Door_PraetorianTech_Lobby_Right01\skel_ready 51 53
+	TEnd
+
+	Type		Door_PraetorianTech_Lobby_Left
+	  Anim		Door_PraetorianTech_Lobby_Left01\skel_ready 51 53
+	TEnd
+MEnd
+
+## SHUT ###########################################################
+
+Move Shut
+	Requires	SHUT
+	Priority	1
+	Interrupts	Opened
+	NextMove	Shut2
+	Sets		WALKTHROUGH
+	Flags		NoSizeScale
+
+	Type		Door_PraetorianTech_Lobby_Right
+	  Anim		Door_PraetorianTech_Lobby_Right01\skel_ready 53 66
+	  PlayFX	Doors\Tech_LobbyDoors_Close.FX
+	TEnd
+
+	Type		Door_PraetorianTech_Lobby_Left
+	  Anim		Door_PraetorianTech_Lobby_Left01\skel_ready 53 66
+	  PlayFX	Doors\Tech_LobbyDoors_Close.FX
+	TEnd
+MEnd
+
+Move Shut2
+	Requires	SHUT
+	NextMove	Ready
+	Flags		NoSizeScale
+
+	Type		Door_PraetorianTech_Lobby_Right
+	  Anim		Door_PraetorianTech_Lobby_Right01\skel_ready 66 83
+	TEnd
+
+	Type		Door_PraetorianTech_Lobby_Left
+	  Anim		Door_PraetorianTech_Lobby_Left01\skel_ready 66 83
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

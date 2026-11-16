@@ -1,0 +1,72 @@
+ScriptDef
+{
+	ScriptName DeadlyApocalypse
+
+	// Vars 
+	var DeadlyOneTimeToken = DeadlyOneTimeTokenHero
+	var MinInvasion = 120
+	var MaxInvasion = 240
+	var InvaderLevel = 30
+	var SigilCount = 4
+	var SigilPrepareTime = 4
+	var SigilDuration = 20
+	var BossDuration = 20
+	var MaxDefenders = 25
+	var MaxDefenderWander = 100
+	var DefenderKillsNeeded = 50
+	var DefenderSpawnHeartbeat = 5
+	var UIHijackTime = 30
+	var AlertMessage = P4119245391
+	var DoneMessage = P3533159173
+	var AlertSound = DeadlyApocalypse
+	var CleanupSound = DeadlyApocalypse_Cleanup
+	var SigilVulnerable = P282677131
+	var SigilDefeated = P2035461143
+	var SigilVulnerability = P1022518716
+	var DestroySigils = P828407805
+	var DestroyBoss = P4194363977
+	var BossDist = P2863523611
+	var TitleText = P1321920310
+	var TitleHint = P2580696009
+	var MinionList_1 = "Event_DADarkFiend_RedCapMinion1;Event_DADarkFiend_RedCapMinion2;Event_DADarkFiend_RedCapMinion3;Event_DADarkFiend_RedCapMinion4;Event_DADarkFiend_WerewolfMinion;Event_DADarkFiend_ShadowMinion;Event_DADarkFiend_WailerMinion;Event_DADarkFiend_VampireMinion"
+	var LTList_1 = "Event_DADarkFiend_VampireLieutenant;Event_DADarkFiend_RedCapLieutenant1;Event_DADarkFiend_ShadowLieutenant;Event_DADarkFiend_RedCapLieutenant2;Event_DADarkFiend_WerewolfLieutenant;Event_DADarkFiend_WailerLieutenant"
+	var BossList_1 = "Event_DADarkFiend_WailerBoss;Event_DADarkFiend_WerewolfBoss;Event_DADarkFiend_RedCapBoss1;Event_DADarkFiend_ShadowBoss;Event_DADarkFiend_RedCapBoss2;Event_DADarkFiend_VampireBoss"
+	var EBList_1 = "Event_DADarkFiend_VampireEliteBoss;Event_DADarkFiend_RedCapEB;Event_DADarkFiend_WerewolfEliteBoss;Event_DADarkFiend_WailerEliteBoss"
+	var SigilName_1 = Event_DADarkFiendSigil
+	var SigilMapIcon_1 = map_button_halloween_sigil_DF
+	var SigilUIIcon_1 = sp_icon_halloween_sigil_DF.tga
+	var MinionList_2 = "Event_DAWomenScorned_WitchMinion;Event_DAWomenScorned_CrazedMinion"
+	var LTList_2 = "Event_DAWomenScorned_WitchLieutenant;Event_DAWomenScorned_WitchLieutenant;Event_DAWomenScorned_WitchLieutenant;Event_DAWomenScorned_EidolonLieutenant1;Event_DAWomenScorned_EidolonLieutenant2;Event_DAWomenScorned_EidolonLieutenant3;Event_DAWomenScorned_CrazedLieutenant;Event_DAWomenScorned_CrazedLieutenant;Event_DAWomenScorned_CrazedLieutenant"
+	var BossList_2 = "Event_DAWomenScorned_WitchBoss;Event_DAWomenScorned_CrazedBoss"
+	var EBList_2 = "Event_DAWomenScorned_WitchEliteBoss"
+	var SigilName_2 = Event_DAWomenScornedSigil
+	var SigilMapIcon_2 = map_button_halloween_sigil_WS
+	var SigilUIIcon_2 = sp_icon_halloween_sigil_WS.tga
+	var MinionList_3 = "Event_DATransparentTerrors_SailorGhostMinion;Event_DATransparentTerrors_GhostMinionMale;Event_DATransparentTerrors_GhostMinionFemale;Event_DATransparentTerrors_UnseelieMinion"
+	var LTList_3 = "Event_DATransparentTerrors_SailorGhostLieutenant;Event_DATransparentTerrors_GhostLieutenantMale;Event_DATransparentTerrors_GhostLieutenantFemale;Event_DATransparentTerrors_UnseelieLieutenant"
+	var BossList_3 = "Event_DATransparentTerrors_SailorGhostBoss;Event_DATransparentTerrors_GhostBossMale;Event_DATransparentTerrors_GhostBossFemale;Event_DATransparentTerrors_UnseelieBoss"
+	var EBList_3 = "Event_DATransparentTerrors_SailorGhostEliteBoss;Event_DATransparentTerrors_GhostEliteBoss"
+	var SigilName_3 = Event_DATransparentTerrorsSigil
+	var SigilMapIcon_3 = map_button_halloween_sigil_TT
+	var SigilUIIcon_3 = sp_icon_halloween_sigil_TT.tga
+	var MinionList_4 = "Event_DAMonsterMayhem_HydraMinion;Event_DAMonsterMayhem_ShivanMinion;Event_DAMonsterMayhem_RockmanMinion"
+	var LTList_4 = "Event_DAMonsterMayhem_HydraLieutenant;Event_DAMonsterMayhem_ShivanLieutenant;Event_DAMonsterMayhem_RockmanLieutenant"
+	var BossList_4 = "Event_DAMonsterMayhem_HydraBoss;Event_DAMonsterMayhem_ShivanBoss"
+	var EBList_4 = "Event_DAMonsterMayhem_ShivanEliteBoss"
+	var SigilName_4 = Event_DAMonsterMayhemSigil
+	var SigilMapIcon_4 = map_button_halloween_sigil_MM
+	var SigilUIIcon_4 = sp_icon_halloween_sigil_MM.tga
+	var PowerList_1 = "None;Event.Glyph_of_Resistance.Glyph_of_Resistance_Stage_1;Event.Glyph_of_Resistance.Glyph_of_Resistance_Stage_2;Event.Glyph_of_Resistance.Glyph_of_Resistance_Stage_3;Event.Glyph_of_Resistance.Glyph_of_Resistance_Stage_4"
+	var PowerList_2 = "None;Event.Glyph_of_Defense.Glyph_of_Defense_Stage_1;Event.Glyph_of_Defense.Glyph_of_Defense_Stage_2;Event.Glyph_of_Defense.Glyph_of_Defense_Stage_3;Event.Glyph_of_Defense.Glyph_of_Defense_Stage_4"
+	var PowerList_3 = "None;Event.Glyph_of_Might.Glyph_of_Might_Stage_1;Event.Glyph_of_Might.Glyph_of_Might_Stage_2;Event.Glyph_of_Might.Glyph_of_Might_Stage_3;Event.Glyph_of_Might.Glyph_of_Might_Stage_4"
+	var PowerList_4 = "None;Event.Glyph_of_Restoration.Glyph_of_Restoration_Stage_1;Event.Glyph_of_Restoration.Glyph_of_Restoration_Stage_2;Event.Glyph_of_Restoration.Glyph_of_Restoration_Stage_3;Event.Glyph_of_Restoration.Glyph_of_Restoration_Stage_4"
+	var SpawnFX_1 = WORLD/Lairs/cot/Enemy_Spawn.fx
+	var SpawnFX_2 = WORLD/Lairs/cot/Enemy_Spawn.fx
+	var SpawnFX_3 = WORLD/Lairs/cot/Enemy_Spawn.fx
+	var SpawnFX_4 = WORLD/Lairs/cot/Enemy_Spawn.fx
+	var SpawnFXSpecialCaseCritters = "none"
+	var SpawnFXSpecialCaseFX = "none"
+	var SigilTranslucentPower = Event.Sigil_Transparency.Transparency
+	var FinalBossList = "Event_DAGiantMonster_Adamastor;Event_DAGiantMonster_Jurassik;Event_DAGiantMonster_Kraken;Event_DAGiantMonster_Eochai;Event_DAGiantMonster_JackInIrons;Event_DAGiantMonster_Caleb"
+	var PowerActivationCounts = "3;12;18;25"
+}

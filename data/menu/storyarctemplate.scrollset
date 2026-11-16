@@ -1,0 +1,1400 @@
+{
+
+	Region
+	{
+		Name StoryArcTemplate
+		DisplayName "StoryArc"
+		outer_ht 50
+		inner_ht 50
+		inner_wd 350
+		ToolTip "StoryArcSettingsToolTip"
+		PageName StoryArcSummary
+		
+		RegionSet
+		{
+			Name AddMission
+			Button
+			{
+				Name "TitleSettings"
+				ToolTip "TitleSettingsToolTip"
+
+				ElementList
+				{
+					Name "StoryArcTitle"
+					TextBlock "DefaultStoryArcTitle"
+					ToolTip "StoryArcTitleToolTip"
+					CharLimit 128
+
+					Field Title
+				}
+				ElementList
+				{
+					Name "StoryArcDesc"
+					ToolTip "StoryArcDescToolTip"
+					CharLimit 128
+
+					Field Description
+				}
+			}
+			Button
+			{
+				Name "StoryArcContact"
+				ToolTip "StoryArcContactToolTip"
+
+				ElementList
+				{
+					Name "BuildContactList"
+					ToolTip "ContactSelectToolTip"
+
+					Field ContactCategory
+				}
+			}
+			Button
+			{
+				Name "MoralityString"
+				ToolTip "MoralityStringToolTip"
+
+				ElementList
+				{
+					Name "EnumMorality"
+					ToolTip "MoralitySelectToolTip"
+
+					Field Morality
+				}
+			}
+		}
+	}
+
+	Region
+	{
+		Name MissionTemplate
+		DisplayName "Mission"
+		ToolTip "MissionRegionToolTip"
+		PageName MissionSummary
+
+		RegionSet
+		{
+			Name "AddDetail"
+			Button
+			{
+				Name "MissionTextString"
+				ToolTip "MissionTextStringToolTip"
+
+				ElementList
+				{
+					Name "MissionTitleString"
+					ToolTip "MissionTextStringToolTip"
+					TextBlock "DefaultMissionTitle"
+
+					Field Title
+				}
+				ElementList
+				{
+					Name "MissionSubTitleString"
+					ToolTip "MissionSubTitleStringToolTip"
+
+					Field SubTitle
+				}
+				ElementList
+				{
+					Name "CompassActiveTaskString"
+					ToolTip "CompassActiveTaskStringToolTip"
+
+					Field CompassActiveTask
+				}
+				ElementList
+				{
+					Name "MissionEntryDialog"
+					ToolTip "MissionEntryDialogToolTip"
+
+					Field MissionEntryDialog
+				}
+				ElementList
+				{
+					Name "MissionSuccessDialog"
+					ToolTip "MissionSuccessDialogToolTip"
+					
+					Field MissionSuccessDialog
+				}
+				ElementList
+				{
+					Name "MissionFailDialog"
+					ToolTip "MissionFailDialogToolTip"
+					
+					Field MissionFailDialog
+				}
+			}
+			Button 
+			{
+				Name "MissionSettings"
+				ToolTip "MissionSettingsToolTip"
+
+				ElementList
+				{
+					Name "BuildMissionRequirements"
+					ToolTip "MissionRequirementsToolTip"
+
+					Field MissionRequirements
+					CheckBoxList 1
+
+					Element
+					{
+						DisplayName "DefeatAllVillains"
+						Text "DefeatAllVillains"
+					}
+					Element
+					{
+						DisplayName "DefeatAllVillainsInEndRoom"
+						Text "DefeatAllVillainsInEndRoom"
+					}
+				}
+				ElementList
+				{
+					Name "BuildVillainGroupList"
+					ToolTip "VillainGroupListToolTip"
+
+					Field VillainGroup
+				}
+				ElementList
+				{
+					Name "EnumPacing"
+					ToolTip "PacingListToolTip"
+
+					Field Pacing
+				}
+				ElementList
+				{
+					Name "TimeToComplete"
+					ToolTip "TimeToCompleteToolTip"
+					Field "CompletionTime"
+					ValMin 0
+					ValMax 240 // 4 hours
+
+					Field CompletionTime
+				}
+			}
+			Button 
+			{
+				Name "MissionMap"
+				ToolTip "MissionMapToolTip"
+
+				ElementList
+				{
+					Name "MapSetString"
+					ToolTip "MapSetToolTip"
+					
+					Field MapSet
+					Element
+					{
+						DisplayName "RandomString"
+						Text "Random"
+					}
+				}
+			}
+			Button 
+			{
+				Name "MissionContactDialog"
+				ToolTip "MissionContactDialogToolTip"
+
+				ElementList
+				{
+					Name "ContactIntroduction"
+					ToolTip "ContactIntroductionToolTip"
+					
+					Field ContactIntro
+				}
+				ElementList
+				{
+					Name "ContactSendOff"
+					ToolTip "ContactSendOffToolTip"
+					
+					Field ContactSendOff
+				}
+				ElementList
+				{
+					Name "ContactAcceptMission"
+					ToolTip "ContactAcceptMissionAcceptToolTip"
+					
+					Field MissionAccept
+				}
+				ElementList
+				{
+					Name "ContactStillBusy"
+					ToolTip "ContactStillBusyToolTip"
+					
+					Field ContactStillBusy
+				}
+				ElementList
+				{
+					Name "ContactReturnSuccess"
+					ToolTip "ContactReturnSuccessToolTip"
+					
+					Field ContactReturnSuccess
+				}
+				ElementList
+				{
+					Name "ContactReturnFail"
+					ToolTip "ContactReturnFailToolTip"
+					
+					Field ContactMissionFail
+				}
+			}
+		}
+	}
+
+	Region
+	{
+		Name DetailTemplate
+		DisplayName "Detail"
+
+		ToolTip "DetailRegionToolTip"
+		PageName DetailSummary
+
+		RegionSet
+		{
+			Name "AmbushDetail"
+			Button 
+			{
+				Name "DetailText"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "DetailName"
+					ToolTip "ToolTip"
+					Field Name
+				}
+				ElementList
+				{
+					Name "CompassDescriptionSingular"
+					ToolTip "ToolTip"
+					Field CompassDescriptionSingular
+				}
+				ElementList
+				{
+					Name "CompassDescriptionPlural"
+					ToolTip "ToolTip"
+					Field CompassDescription
+				}
+				ElementList
+				{
+					Name "RewardText"
+					ToolTip "ToolTip"
+					Field RewardText
+				}
+			}
+			Button
+			{
+				Name "DetailSettings"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "BuildAmbushTrigger" 
+					ToolTip "ToolTip"
+					
+					Field AmbushTrigger
+				}
+				ElementList
+				{
+					Name "BuildVillainGroupList"
+					ToolTip "ToolTip"
+					
+					Field VillainGroup
+				}
+				ElementList
+				{
+					Name "EnumAlignment"
+					ToolTip "ToolTip"
+
+					Field Alignment
+				}
+				ElementList
+				{
+					Name "EnumPlacement"
+					ToolTip "ToolTip"
+
+					Field Placement
+				}
+				ElementList
+				{
+					Name "EnumDifficulty"
+					ToolTip "ToolTip"
+
+					Field Difficulty
+				}
+			}
+			Button 
+			{
+				Name "DetailDialog"
+				ElementList
+				{
+					Name "AmbushAttackText"
+					ToolTip "ToolTip"
+
+					Field ActiveSpeech
+				}
+			}
+		}
+
+		RegionSet
+		{
+			Name "BossDetail"
+			Button 
+			{
+				Name "BossSettings"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "DetailName"
+					ToolTip "ToolTip"
+
+					Field Name
+				}
+				ElementList
+				{
+					Name "BuildBossEntityList"
+					ToolTip "ToolTip"
+
+					Field EntityGroup
+				}
+				ElementList
+				{
+					Name "BuildDefaultAnimationList"
+					ToolTip "ToolTip"
+
+					Field BossAnimation
+				}
+				ElementList
+				{
+					Name "RunAwayHP"
+					ToolTip "ToolTip"
+
+					Field BossRunsWhenHPISBelow
+				}
+				ElementList
+				{
+					Name "RunAllyCount"
+					ToolTip "ToolTip"
+
+					Field BossRunsWhenAllyCountIsBelow
+				}
+				ElementList
+				{
+					Name "BossOnly"
+					ToolTip "ToolTip"
+
+					Element
+					{
+						DisplayName "Only Boss need to complete"
+						Text 1
+					}
+					Element
+					{
+						DisplayName "Entire Encounter needed to complete"
+						Text 0
+					}
+
+					Field BossOnlyRequiredForComplete
+				}
+			}
+			Button 
+			{
+				Name "DetailText"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "CompassDescriptionSingular"
+					ToolTip "ToolTip"
+					Field CompassDescriptionSingular
+				}
+				ElementList
+				{
+					Name "CompassDescriptionPlural"
+					ToolTip "ToolTip"
+					Field CompassDescription
+				}
+				ElementList
+				{
+					Name "RewardText"
+					ToolTip "ToolTip"
+					Field RewardText
+				}
+			}
+			Button
+			{
+				Name "DetailSettings"
+				ToolTip "ToolTip"
+
+
+				ElementList
+				{
+					Name "QuantityString"
+					ToolTip "ToolTip"
+
+					Field Quantity
+				}
+				ElementList
+				{
+					Name "BuildVillainGroupList"
+					ToolTip "ToolTip"
+
+					Field VillainGroup
+				}
+				ElementList
+				{
+					Name "EnumAlignment"
+					ToolTip "ToolTip"
+
+					Field Alignment
+				}
+				ElementList
+				{
+					Name "EnumPlacement"
+					ToolTip "ToolTip"
+
+					Field Placement
+				}
+				ElementList
+				{
+					Name "EnumDifficulty"
+					ToolTip "ToolTip"
+
+					Field Difficulty
+				}
+				ElementList
+				{
+					Name "BuildDefaultAnimationList"
+					ToolTip "ToolTip"
+				
+					Field DefaultAnimation
+				}
+			}
+			Button 
+			{
+				Name "BossDialog"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "SpawnText"
+					ToolTip "ToolTip"
+
+					Field InactiveSpeech
+				}
+				ElementList
+				{
+					Name "AttackText"
+					ToolTip "ToolTip"
+
+					Field ActiveSpeech
+				}
+				ElementList
+				{
+					Name "FirstBlood"
+					ToolTip "ToolTip"
+
+					Field FirstBloodSpeech
+				}
+				ElementList
+				{
+					Name "ThreeQuartersHealth"
+					ToolTip "ToolTip"
+
+					Field ThreeFourthsHealthSpeech
+				}
+				ElementList
+				{
+					Name "HalfHealth"
+					ToolTip "ToolTip"
+
+					Field HalfHealthSpeech
+				}
+				ElementList
+				{
+					Name "QuarterHealth"
+					ToolTip "ToolTip"
+
+					Field QuarterHealthSpeech
+				}
+				ElementList
+				{
+					Name "BossIsDead"
+					ToolTip "ToolTip"
+
+					Field DeathSpeech
+				}
+				ElementList
+				{
+					Name "BossKilledPlayer"
+					ToolTip "ToolTip"
+
+					Field DefeatedPlayerSpeech
+				}
+				ElementList
+				{
+					Name "BossHeld"
+					ToolTip "ToolTip"
+
+					Field HeldSpeech
+				}
+				ElementList
+				{
+					Name "BossFreed"
+					ToolTip "ToolTip"
+
+					Field FreedSpeech
+				}
+				ElementList
+				{
+					Name "BossAfraid"
+					ToolTip "ToolTip"
+
+					Field AfraidSpeech
+				}
+			}
+		}
+		RegionSet
+		{
+			Name "Collection"
+			Button 
+			{
+				Name "DetailText"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "DetailName"
+					ToolTip "ToolTip"
+					Field Name
+				}
+				ElementList
+				{
+					Name "CompassDescriptionSingular"
+					ToolTip "ToolTip"
+					Field CompassDescriptionSingular
+				}
+				ElementList
+				{
+					Name "CompassDescriptionPlural"
+					ToolTip "ToolTip"
+					Field CompassDescription
+				}
+				ElementList
+				{
+					Name "RewardText"
+					ToolTip "ToolTip"
+					Field RewardText
+				}
+			}
+			Button
+			{
+				Name "DetailSettings"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "BuildModelList"
+					ToolTip "ToolTip"
+
+					Field Entity
+				}
+				ElementList
+				{
+					Name "QuantityString"
+					ToolTip "ToolTip"
+
+					Field Quantity
+				}
+				ElementList
+				{
+					Name "EnumPlacement"
+					ToolTip "ToolTip"
+
+					Field Placement
+				}
+				ElementList
+				{
+					Name "EnumPlacement"
+					ToolTip "ToolTip"
+
+					Field ObjectLocation
+				}
+				ElementList
+				{
+					Name "DetailRemoval"
+					ToolTip "ToolTip"
+
+					Field ObjectRemoveOnComplete
+					Element
+					{
+						DisplayName "RemoveDetail"
+						Text 1
+
+					}
+					Element
+					{
+						DisplayName "DoNotRemoveDetail"
+						Text 0
+					}
+				}
+			}
+			Button
+			{
+				Name "CollectionTexts"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "BeginInteractonText"
+					ToolTip "ToolTip"
+
+					Field ObjectBeginInteraction
+				}
+				ElementList
+				{
+					Name "InterruptInteractonText"
+					ToolTip "ToolTip"
+
+					Field ObjectInterrupted
+				}
+				ElementList
+				{
+					Name "CompleteInteractonText"
+					ToolTip "ToolTip"
+
+					Field ObjectComplete
+				}
+				ElementList
+				{
+					Name "InteractBarText"
+					ToolTip "ToolTip"
+
+					Field ObjectInteractionBar
+				}
+				ElementList
+				{
+					Name "ObjectWaitingText"
+					ToolTip "ToolTip"
+
+					Field ObjectWaiting
+				}
+				ElementList
+				{
+					Name "ObjectResetText"
+					ToolTip "ToolTip"
+
+					Field ObjectReset
+				}
+			}
+		}
+
+		RegionSet
+		{
+			Name "DestroyObjectDetail"
+		
+			Button 
+			{
+				Name "DetailText"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "DetailName"
+					ToolTip "ToolTip"
+					Field Name
+				}
+				ElementList
+				{
+					Name "CompassDescriptionSingular"
+					ToolTip "ToolTip"
+					Field CompassDescriptionSingular
+				}
+				ElementList
+				{
+					Name "CompassDescriptionPlural"
+					ToolTip "ToolTip"
+					Field CompassDescription
+				}
+				ElementList
+				{
+					Name "RewardText"
+					ToolTip "ToolTip"
+					Field RewardText
+				}
+			}
+			Button
+			{
+				Name "DetailSettings"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "BuildEntityList"
+					ToolTip "ToolTip"
+
+					Field EntityGroup
+				}
+				ElementList
+				{
+					Name "QuantityString"
+					ToolTip "ToolTip"
+
+					Field Quantity
+				}
+				ElementList
+				{
+					Name "BuildVillainGroupList"
+					ToolTip "ToolTip"
+
+					Field VillainGroup
+				}
+				ElementList
+				{
+					Name "EnumAlignment"
+					ToolTip "ToolTip"
+
+					Field Alignment
+				}
+				ElementList
+				{
+					Name "EnumPlacement"
+					ToolTip "ToolTip"
+
+					Field Placement
+				}
+				ElementList
+				{
+					Name "EnumDifficulty"
+					ToolTip "ToolTip"
+
+					Field Difficulty
+				}
+				ElementList
+				{
+					Name "BuildDefaultAnimationList"
+					ToolTip "ToolTip"
+				
+					Field DefaultAnimation
+				}
+			}
+			Button 
+			{
+				Name "DestroyObjectDialog"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "SpawnText"
+					ToolTip "ToolTip"
+
+					Field InactiveSpeech
+				}
+				ElementList
+				{
+					Name "AttackText"
+					ToolTip "ToolTip"
+
+					Field ActiveSpeech
+				}
+				ElementList
+				{
+					Name "FirstBlood"
+					ToolTip "ToolTip"
+
+					Field FirstBloodSpeech
+				}
+				ElementList
+				{
+					Name "ThreeQuartersHealth"
+					ToolTip "ToolTip"
+
+					Field ThreeFourthsHealthSpeech
+				}
+				ElementList
+				{
+					Name "HalfHealth"
+					ToolTip "ToolTip"
+
+					Field HalfHealthSpeech
+				}
+				ElementList
+				{
+					Name "QuarterHealth"
+					ToolTip "ToolTip"
+
+					Field QuarterHealthSpeech
+				}
+				ElementList
+				{
+					Name "Destroyed"
+					ToolTip "ToolTip"
+
+					Field DeathSpeech
+				}
+				ElementList
+				{
+					Name "PlayerDefeated"
+					ToolTip "ToolTip"
+
+					Field DefeatedPlayerSpeech
+				}
+			}
+		}
+
+		RegionSet
+		{
+			Name "DefendObjectDetail"
+		
+			Button 
+			{
+				Name "DetailText"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "DetailName"
+					ToolTip "ToolTip"
+					Field Name
+				}
+				ElementList
+				{
+					Name "CompassDescriptionSingular"
+					ToolTip "ToolTip"
+					Field CompassDescriptionSingular
+				}
+				ElementList
+				{
+					Name "CompassDescriptionPlural"
+					ToolTip "ToolTip"
+					Field CompassDescription
+				}
+				ElementList
+				{
+					Name "RewardText"
+					ToolTip "ToolTip"
+					Field RewardText
+				}
+			}
+			Button
+			{
+				Name "DetailSettings"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "BuildEntityList"
+					ToolTip "ToolTip"
+
+					Field EntityGroup
+				}
+				ElementList
+				{
+					Name "QuantityString"
+					ToolTip "ToolTip"
+
+					Field Quantity
+				}
+				ElementList
+				{
+					Name "BuildVillainGroupList"
+					ToolTip "ToolTip"
+
+					Field VillainGroup
+				}
+				ElementList
+				{
+					Name "EnumAlignment"
+					ToolTip "ToolTip"
+
+					Field Alignment
+				}
+				ElementList
+				{
+					Name "EnumPlacement"
+					ToolTip "ToolTip"
+
+					Field Placement
+				}
+				ElementList
+				{
+					Name "EnumDifficulty"
+					ToolTip "ToolTip"
+
+					Field Difficulty
+				}
+				ElementList
+				{
+					Name "BuildDefaultAnimationList"
+					ToolTip "ToolTip"
+				
+					Field DefaultAnimation
+				}
+			}
+			Button 
+			{
+				Name "DefendObjectDialog"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "Attacker 1"
+					ToolTip "ToolTip"
+
+					Field AttackerDialog1
+				}
+				ElementList
+				{
+					Name "Attacker 2"
+					ToolTip "ToolTip"
+
+					Field AttackerDialog2
+				}
+				ElementList
+				{
+					Name "Attacker Hero Alert"
+					ToolTip "ToolTip"
+
+					Field AttackerHeroAlertDialog
+				}
+				ElementList
+				{
+					Name "SpawnText"
+					ToolTip "ToolTip"
+
+					Field InactiveSpeech
+				}
+				ElementList
+				{
+					Name "AttackText"
+					ToolTip "ToolTip"
+
+					Field ActiveSpeech
+				}
+				ElementList
+				{
+					Name "FirstBlood"
+					ToolTip "ToolTip"
+
+					Field FirstBloodSpeech
+				}
+				ElementList
+				{
+					Name "ThreeQuartersHealth"
+					ToolTip "ToolTip"
+
+					Field ThreeFourthsHealthSpeech
+				}
+				ElementList
+				{
+					Name "HalfHealth"
+					ToolTip "ToolTip"
+
+					Field HalfHealthSpeech
+				}
+				ElementList
+				{
+					Name "QuarterHealth"
+					ToolTip "ToolTip"
+
+					Field QuarterHealthSpeech
+				}
+				ElementList
+				{
+					Name "Destroyed"
+					ToolTip "ToolTip"
+
+					Field DeathSpeech
+				}
+				ElementList
+				{
+					Name "PlayerDefeated"
+					ToolTip "ToolTip"
+
+					Field DefeatedPlayerSpeech
+				}
+			}
+		}
+		RegionSet
+		{
+			Name "PatrolDetail"
+
+			Button 
+			{
+				Name "DetailText"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "DetailName"
+					ToolTip "ToolTip"
+					Field Name
+				}
+				ElementList
+				{
+					Name "CompassDescriptionSingular"
+					ToolTip "ToolTip"
+					Field CompassDescriptionSingular
+				}
+				ElementList
+				{
+					Name "CompassDescriptionPlural"
+					ToolTip "ToolTip"
+					Field CompassDescription
+				}
+				ElementList
+				{
+					Name "RewardText"
+					ToolTip "ToolTip"
+					Field RewardText
+				}
+			}
+
+			Button
+			{
+				Name "DetailSettings"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "QuantityString"
+					ToolTip "ToolTip"
+
+					Field Quantity
+				}
+				ElementList
+				{
+					Name "BuildVillainGroupList"
+					ToolTip "ToolTip"
+
+					Field VillainGroup
+				}
+				ElementList
+				{
+					Name "EnumAlignment"
+					ToolTip "ToolTip"
+
+					Field Alignment
+				}
+				ElementList
+				{
+					Name "EnumPlacement"
+					ToolTip "ToolTip"
+
+					Field Placement
+				}
+				ElementList
+				{
+					Name "EnumDifficulty"
+					ToolTip "ToolTip"
+
+					Field Difficulty
+				}
+				ElementList
+				{
+					Name "BuildDefaultAnimationList"
+					ToolTip "ToolTip"
+				
+					Field DefaultAnimation
+				}
+			}
+			Button 
+			{
+				Name "PatrolText"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "Patroller 1"
+					ToolTip "ToolTip"
+
+					Field pchPatroller1
+				}
+				ElementList
+				{
+					Name "Patroller 2"
+					ToolTip "ToolTip"
+
+					Field pchPatroller2
+				}
+			}
+		}
+		
+		RegionSet
+		{
+			Name "PersonDetail"
+
+			Button 
+			{
+				Name "DetailText"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "DetailName"
+					ToolTip "ToolTip"
+					Field Name
+				}
+				ElementList
+				{
+					Name "CompassDescriptionSingular"
+					ToolTip "ToolTip"
+					Field CompassDescriptionSingular
+				}
+				ElementList
+				{
+					Name "CompassDescriptionPlural"
+					ToolTip "ToolTip"
+					Field CompassDescription
+				}
+				ElementList
+				{
+					Name "RescueObjectiveTextSingular"
+					ToolTip "ToolTip"
+					Field RescueObjectiveTextSingular
+				}
+				ElementList
+				{
+					Name "RescueObjectivePlural"
+					ToolTip "ToolTip"
+					Field RescueObjectiveText
+				}
+				ElementList
+				{
+					Name "LeadToObjectiveTextSingular"
+					ToolTip "ToolTip"
+					Field LeadToObjectiveTextSingular
+				}
+				ElementList
+				{
+					Name "LeadToObjectivePlural"
+					ToolTip "ToolTip"
+					Field LeadToObjectiveText
+				}
+				ElementList
+				{
+					Name "RewardText"
+					ToolTip "ToolTip"
+					Field RewardText
+				}
+				ElementList
+				{
+					Name "Way Point Text"
+					ToolTip "ToolTip"
+					Field WayPointText
+				}
+				ElementList
+				{
+					Name "StatusString"
+					ToolTip "ToolTip"
+					Field StatusString
+				}
+			}
+
+			Button
+			{
+				Name "PersonDetailSettings"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "QuantityString"
+					ToolTip "ToolTip"
+
+					Field Quantity
+				}
+				ElementList
+				{
+					Name "BuildVillainGroupList"
+					ToolTip "ToolTip"
+
+					Field VillainGroup
+				}
+				ElementList
+				{
+					Name "EnumAlignment"
+					ToolTip "ToolTip"
+
+					Field Alignment
+				}
+				ElementList
+				{
+					Name "EnumPlacement"
+					ToolTip "ToolTip"
+
+					Field Placement
+				}
+				ElementList
+				{
+					Name "EnumDifficulty"
+					ToolTip "ToolTip"
+
+					Field Difficulty
+				}
+				ElementList
+				{
+					Name "BuildDefaultAnimationList"
+					ToolTip "ToolTip"
+				
+					Field DefaultAnimation
+				}
+			}
+
+			Button
+			{
+				Name "PersonDetailPerson"
+				ToolTip "ToolTip"
+
+				ElementList 
+				{
+					Name "BuildEntityList"
+					ToolTip "ToolTip"
+
+					Field EntityGroup
+				}
+				ElementList 
+				{
+					Name "BuildAnimList"
+					ToolTip "ToolTip"
+
+					Field PersonAnimation
+				}
+				ElementList
+				{
+					Name "EnumPersonCombat"
+					ToolTip "ToolTip"
+
+					Field PersonCombatStance
+				}
+				ElementList
+				{
+					Name "Success On"
+					ToolTip "tip"
+
+					Field PersonSucceedsOn
+
+					Element
+					{
+						DisplayName "Rescue"
+						Text "Rescue"
+
+						ElementList
+						{
+							Name "EnumPersonBehavior"
+							ToolTip "ToolTip"
+
+							Field PersonRescuedBehavior
+						}
+					}
+					Element
+					{
+						DisplayName "Delivery"
+						Text "Delivery"
+					}
+				}
+				ElementList
+				{
+					Name "EnumPersonBehavior"
+					ToolTip "ToolTip"
+
+					Field PersonArrivedBehavior
+				}
+				ElementList
+				{
+					Name "Betrayal"
+					ToolTip "ToolTip"
+
+					Field PersonBetraysOnArrival
+					Element
+					{
+						DisplayName "Does Not Betray"
+						Text 0
+					}
+					Element
+					{
+						DisplayName "Betrays on Arrival"
+						Text 1
+					}
+				}
+			}
+			Button
+			{
+				Name "PersonDialog"
+				ToolTip "ToolTip"
+
+				ElementList
+				{
+					Name "Inactive"
+					ToolTip "ToolTip"
+
+					Field PersonInactiveSpeech
+				}
+				ElementList
+				{
+					Name "Active"
+					ToolTip "ToolTip"
+
+					Field PersonActiveSpeech
+				}
+				ElementList
+				{
+					Name "Rescued"
+					ToolTip "ToolTip"
+
+					Field PersonRescuedSpeech
+				}
+				ElementList
+				{
+					Name "BuildAnimList"
+					ToolTip "ToolTip"
+
+					Field PersonRescuedAnimation
+				}
+				ElementList
+				{
+					Name "Stranded"
+					ToolTip "ToolTip"
+
+					Field PersonStrandedSpeech
+				}
+				ElementList
+				{
+					Name "BuildAnimList"
+					ToolTip "ToolTip"
+
+					Field PersonStrandedAnimation
+				}
+				ElementList
+				{
+					Name "ReqacquiredSpeech"
+					ToolTip "ToolTip"
+
+					Field PersonReacquiredSpeech
+				}
+				ElementList
+				{
+					Name "ReqacquiredClickSpeech"
+					ToolTip "ToolTip"
+
+					Field PersonClickAfterReaquireSpeech
+				}
+				ElementList
+				{
+					Name "Arrived"
+					ToolTip "ToolTip"
+
+					Field PersonArriveAtDestinationSpeech
+				}
+				ElementList
+				{
+					Name "BuildAnimList"
+					ToolTip "ToolTip"
+
+					Field PersonArrivedAnimation
+				}
+			}
+		}
+	}
+}

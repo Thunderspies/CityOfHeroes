@@ -1,0 +1,273 @@
+RootMod _basetraptech_gas_tell_vent
+End
+
+RootMod _basetraptech_testobject
+End
+
+RootMod _basetraptech_slowfield_tell
+End
+
+RootMod _basetraptech_gas_tell_repulsor_glow
+End
+
+RootMod _basetraptech_tell_tesla
+End
+
+RootMod _basetraptech_gas_tell_tesla_glow
+End
+
+RootMod _basetraptech_slowfield_tell2
+End
+
+RootMod _basetraptech_gas_tell_pipe
+End
+
+RootMod _basetraptech_slowfield_tell3
+End
+
+RootMod _basetraptech_slowfield_tell4
+End
+
+RootMod _basetraptech_gas_tell_tesla_glow_off
+End
+
+RootMod _basetraptech_tell_gas_emitter
+End
+
+RootMod _basetraptech_gas_tell_gas_glow
+End
+
+RootMod _basetraptech_tell_slow_emitter_glow
+End
+
+RootMod _basetraptech_tell_slow_emitter
+End
+
+RootMod _basetraptech_tell_gas_emitter_alpha
+End
+
+RootMod _basetrap_voltrig_16x16x16
+End
+
+RootMod _basetrap_voltrig_32x32x32
+End
+
+RootMod _basetraptech_gas_tell_repulsor
+End
+
+RootMod _basetrap_voltrig_24x24x24
+End
+
+RootMod _basetraptech_blast01
+End
+
+RootMod _basetraptech_blast02
+End
+
+RootMod _basetrap_voltrig_w_32x32x48
+End
+
+RootMod _basetraptech_gas_tell_gas_glowoff
+End
+
+RootMod _basetraptech_gas_tell_repulsor_glowoff
+End
+
+Def basetraptech_gas_w_n_p_1&
+	Group _basetrap_voltrig_16x16x16
+	End
+	Property	"NamedVolume"	"AttackableVolume"	0
+End
+
+Def basetraptech_gas_w_n_p
+	Group _basetraptech_gas_tell_pipe
+	End
+	Group basetraptech_gas_w_n_p_1&
+		Pos 0 -8.5 8
+	End
+End
+
+Def basetraptech_slowfield_f_n_p_1&
+	Group _basetraptech_tell_slow_emitter_glow
+	End
+	Group _basetraptech_tell_gas_emitter
+	End
+	Group _basetraptech_tell_gas_emitter_alpha
+	End
+End
+
+Def basetraptech_slowfield_f_n_p_3&
+	Group _basetrap_voltrig_32x32x32
+	End
+	Property	"NamedVolume"	"AttackableVolume"	0
+End
+
+Def basetraptech_slowfield_f_n_p
+	Group basetraptech_slowfield_f_n_p_1&
+	End
+	Group _basetraptech_slowfield_tell4
+		Pos -8 0 -8
+	End
+	Group _basetraptech_slowfield_tell4
+		Pos -8 0 8
+	End
+	Group _basetraptech_slowfield_tell4
+		Pos 8 0 8
+	End
+	Group _basetraptech_slowfield_tell4
+		Pos 8 0 -8
+	End
+	Group basetraptech_slowfield_f_n_p_3&
+	End
+End
+
+Def basetraptech_slowfield_f_n_u
+	Group _basetraptech_tell_gas_emitter
+	End
+	Group _basetraptech_gas_tell_gas_glowoff
+	End
+	Group _basetraptech_tell_gas_emitter_alpha
+	End
+End
+
+Def basetraptech_gas_w_x_x
+	Group _basetraptech_blast02
+		Rot 0 1.570797 -1.570796
+	End
+End
+
+Def basetraptech_gas_w_n_u
+	Group _basetraptech_gas_tell_pipe
+	End
+End
+
+Def basetraptech_repulsor_w_x_x
+	Group _basetraptech_blast02
+		Rot 0 -1.570796 1.570796
+	End
+End
+
+Def basetraptech_repulsor_w_n_u
+	Group _basetraptech_gas_tell_gas_glowoff
+		Rot 0.698132 1.570797 -1.570797
+	End
+	Group _basetraptech_gas_tell_repulsor
+		Rot 0.698132 1.570797 -1.570797
+	End
+End
+
+Def basetraptech_repulsor_w_n_p_1&
+	Group _basetraptech_gas_tell_repulsor_glow
+		Rot 0.698132 -3.141592 -1.570797
+	End
+	Group _basetraptech_gas_tell_repulsor
+		Rot 0.698132 -3.141592 -1.570797
+	End
+End
+
+Def basetraptech_repulsor_w_n_p_2&
+	Group _basetrap_voltrig_24x24x24
+		Rot 0 -1.570796 1.570796
+	End
+	Property	"NamedVolume"	"AttackableVolume"	0
+End
+
+Def basetraptech_repulsor_w_n_p
+	Group basetraptech_repulsor_w_n_p_1&
+		Rot 0 -1.570796 0
+	End
+	Group basetraptech_repulsor_w_n_p_2&
+		Pos 0 1 0
+	End
+End
+
+Def basetraptech_tesla_c_n_p_1&
+	Group _basetraptech_gas_tell_tesla_glow
+		Rot 0 0 3.141592
+	End
+	Group _basetraptech_tell_tesla
+		Rot 0 0 3.141592
+	End
+End
+
+Def basetraptech_tesla_c_n_p_2&
+	Group _basetrap_voltrig_32x32x32
+		Rot 0 0 3.141592
+	End
+	Property	"NamedVolume"	"AttackableVolume"	0
+End
+
+Def basetraptech_tesla_c_n_p
+	Group basetraptech_tesla_c_n_p_1&
+	End
+	Group basetraptech_tesla_c_n_p_2&
+	End
+End
+
+Def basetraptech_tesla_c_n_u
+	Group _basetraptech_gas_tell_tesla_glow_off
+		Rot 0 -3.141592 3.141592
+	End
+	Group _basetraptech_tell_tesla
+		Rot 0 -3.141592 3.141592
+	End
+End
+
+Def basetraptech_tesla_c_x_x
+	Group _basetraptech_blast02
+		Rot 0 0 3.141592
+	End
+End
+
+Def basetraptech_slowfield_f_x_x
+	Group _basetraptech_blast02
+		Rot 0 1.570796 0
+	End
+End
+
+Def basetraptech_trip_f_n_p_3&
+	Group _basetraptech_gas_tell_repulsor_glow
+		Rot 0 2.96706 0
+	End
+	Group _basetraptech_gas_tell_repulsor
+		Rot 0 2.96706 0
+	End
+End
+
+Def basetraptech_trip_f_n_p_1&
+	Group basetraptech_trip_f_n_p_3&
+	End
+End
+
+Def basetraptech_trip_f_n_p_4&
+	Group _basetrap_voltrig_32x32x32
+	End
+	Property	"NamedVolume"	"AttackableVolume"	0
+End
+
+Def basetraptech_trip_f_n_p
+	Group basetraptech_trip_f_n_p_1&
+		Pos -1 0 -2.5
+	End
+	Group basetraptech_trip_f_n_p_4&
+		Pos -1 0 -2.5
+	End
+End
+
+Def basetraptech_trip_f_n_u
+	Group _basetraptech_gas_tell_repulsor_glowoff
+		Rot 0 2.96706 0
+		Pos -1 0 -2
+	End
+	Group _basetraptech_gas_tell_repulsor
+		Rot 0 2.96706 0
+		Pos -1 0 -2
+	End
+End
+
+Def basetraptech_trip_f_x_x
+	Group _basetraptech_blast01
+		Pos -1 0 -2
+	End
+End
+

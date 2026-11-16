@@ -1,0 +1,26 @@
+#############################################################
+## groceries_r.fx
+#############################################################
+
+FxInfo
+
+Flags InheritAlpha
+
+#####  Groceries prop   #######################################
+
+Condition
+	On 	Time
+	Time 	0
+
+	Event
+		EName	Prop
+		Type	Local
+		At	WepR
+		Geom	Prop_Groceries
+		Sound PaperBagRustle_Loop 30 30 0.15
+	End
+End
+
+#############################################################
+
+End

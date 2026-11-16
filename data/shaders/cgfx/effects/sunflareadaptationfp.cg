@@ -1,0 +1,41 @@
+// TBD! this file could be DEPRECATED, as for when newSunFlare command is used, many asserts about bad formatted pbuffer
+
+#include "constants_vfx.cgh"
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+    float4 texCoord0              : TEXCOORD0;
+    float4 texCoord1              : TEXCOORD1;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform sampler2D texSampler1 : TEXUNIT1;
+    uniform float4 g_TimeStepFP		TIE( ENV0 ); // program.local[0];
+};
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float4 oColor;
+
+    float4 depthTexture = tex2D( IN.texSampler0, IN.texCoord0.xy );
+    float4 lastAlpha    = tex2D( IN.texSampler1, IN.texCoord1.xy );
+
+    float depthFactor = ( depthTexture.x >= 0.999 ) ? 1.0 : 0.0;
+
+    // find sign of change
+    depthFactor = (( depthFactor * 2 ) + -1 ) * 0.1;
+    lastAlpha = saturate( (( depthFactor * IN.g_TimeStepFP.x ) + lastAlpha ) );
+
+    oColor = float4(lastAlpha.xyz, 1);
+    //oColor.xyz = 1;
+
+    return oColor;
+}
+

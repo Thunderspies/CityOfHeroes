@@ -1,0 +1,91 @@
+#########################################################
+## CustomWeapon_Shields.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Shields_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef Shields_Tech1
+	BaseSkeleton	CustomShield_Tech1\skel_ready
+	ParentType	Shields_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		Shields_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+
+	Type		Shields_Tech1
+	  Anim		CustomShield_Tech1\skel_ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+#Move Combat_Draw
+#	Requires	SHIELD SPAWNBACK
+#	Priority        2
+#	Interrupts	<Ready>
+#	Member		<WepCombat>
+#	NextMove	Combat_Cycle
+#	Flags		NoDraw
+#
+#	Type		Shields_Base
+#	  Anim		Prop_basic\skel_test 1 10
+#	TEnd
+#MEnd
+
+Move Combat_Cycle
+	Requires	SHIELD
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle
+
+	Type		Shields_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+
+	Type		Shields_Tech1
+	  Anim		CustomShield_Tech1\skel_ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Death
+	Requires	DEATH
+	Priority        10
+	Interrupts	<Ready> <WepCombat>
+	Flags		Cycle NoDraw
+	NextMove	Ready
+
+	Type		Shields_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+
+	Type		Shields_Tech1
+	  Anim		CustomShield_Tech1\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

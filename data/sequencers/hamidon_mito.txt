@@ -1,0 +1,345 @@
+#############################################################
+## Mitochondria
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Hamidon_Mito
+	BaseSkeleton	Hamidon_Mito\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef Mito_Green
+	BaseSkeleton	Hamidon_Mito\skel_test
+	ParentType	Hamidon_Mito
+TypeDefEnd
+
+TypeDef Mito_Yellow
+	BaseSkeleton	Hamidon_Mito\skel_test
+	ParentType	Hamidon_Mito
+TypeDefEnd
+
+TypeDef Mito_Blue
+	BaseSkeleton	Hamidon_Mito\skel_test
+	ParentType	Hamidon_Mito
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<basicTHREAT>
+Group	<basicMENACE>
+Group	<basicLOOKOUT>
+Group	<basicCHEER>
+Group	<basicVANDAL>
+
+#############################################################
+## SPAWN
+#############################################################
+
+## SPAWN - Animation is 400 frames total length ###########################################################
+
+Move Spawn_Pre
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	CycleMove	Spawn1
+	CycleMove	Spawn2
+	CycleMove	Spawn3
+	Sets		CANTMOVE
+	Flags		CYCLE
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\skel_test 1 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Spawn1
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Scale		0.5
+	NextMove	Spawn1_Post
+	Sets		CANTMOVE
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_A 1 75
+	TEnd
+
+	Type		Mito_Green
+	  Anim          Hamidon_Mito\path_A 1 75
+	TEnd
+
+	Type		Mito_Yellow
+	  Anim          Hamidon_Mito\path_B 1 75
+	TEnd
+
+	Type		Mito_Blue
+	  Anim          Hamidon_Mito\path_A 1 75
+	TEnd
+MEnd
+
+Move Spawn1_Post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Scale		0.5
+	NextMove	ReadyA
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_A 75
+	TEnd
+
+	Type		Mito_Green
+	  Anim          Hamidon_Mito\path_A 75
+	TEnd
+
+	Type		Mito_Yellow
+	  Anim          Hamidon_Mito\path_B 75
+	TEnd
+
+	Type		Mito_Blue
+	  Anim          Hamidon_Mito\path_A 75
+	TEnd
+MEnd
+
+#############################################################
+
+Move Spawn2
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Scale		0.5
+	NextMove	Spawn2_Post
+	Sets		CANTMOVE
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_B 1 113
+	TEnd
+
+	Type		Mito_Green
+	  Anim          Hamidon_Mito\path_B 1 113
+	TEnd
+
+	Type		Mito_Yellow
+	  Anim          Hamidon_Mito\path_A 1 113
+	TEnd
+
+	Type		Mito_Blue
+	  Anim          Hamidon_Mito\path_B 1 113
+	TEnd
+MEnd
+
+Move Spawn2_Post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Scale		0.5
+	NextMove	ReadyA
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_A 113
+	TEnd
+
+	Type		Mito_Green
+	  Anim          Hamidon_Mito\path_B 113
+	TEnd
+
+	Type		Mito_Yellow
+	  Anim          Hamidon_Mito\path_A 113
+	TEnd
+
+	Type		Mito_Blue
+	  Anim          Hamidon_Mito\path_B 113
+	TEnd
+MEnd
+
+#############################################################
+
+Move Spawn3
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Scale		0.5
+	NextMove	Spawn3_Post
+	Sets		CANTMOVE
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_A 1 150
+	TEnd
+
+	Type		Mito_Green
+	  Anim          Hamidon_Mito\path_A 1 150
+	TEnd
+
+	Type		Mito_Yellow
+	  Anim          Hamidon_Mito\path_B 1 150
+	TEnd
+
+	Type		Mito_Blue
+	  Anim          Hamidon_Mito\path_B 1 150
+	TEnd
+MEnd
+
+Move Spawn3_Post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Scale		0.5
+	NextMove	ReadyA
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_A 150
+	TEnd
+
+	Type		Mito_Green
+	  Anim          Hamidon_Mito\path_A 150
+	TEnd
+
+	Type		Mito_Yellow
+	  Anim          Hamidon_Mito\path_B 150
+	TEnd
+
+	Type		Mito_Blue
+	  Anim          Hamidon_Mito\path_B 150
+	TEnd
+MEnd
+
+#############################################################
+
+Move ReadyA
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PICKRANDOMLY
+	Scale		0.5
+	CycleMove	ReadyB
+	CycleMove	ReadyD
+	CycleMove	ReadyC
+	CycleMove	ReadyA
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_A 1
+	TEnd
+MEnd
+
+Move ReadyB
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PICKRANDOMLY
+	Scale		0.5
+	CycleMove	ReadyA
+	CycleMove	ReadyC
+	CycleMove	ReadyD
+	CycleMove	ReadyB
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_B 1
+	TEnd
+MEnd
+
+Move ReadyC
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PICKRANDOMLY
+	Scale		0.8
+	CycleMove	ReadyA
+	CycleMove	ReadyB
+	CycleMove	ReadyD
+	CycleMove	ReadyC
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_B 1
+	TEnd
+MEnd
+
+Move ReadyD
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PICKRANDOMLY
+	Scale		0.2
+	CycleMove	ReadyC
+	CycleMove	ReadyA
+	CycleMove	ReadyD
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_A 1
+	TEnd
+MEnd
+
+
+## RANDOM MENACE ###########################################################
+
+Move MENACE_A
+	Requires	MENACE
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		PICKRANDOMLY
+	NextMove	ReadyB
+	Scale		1.5
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_A 100
+	TEnd
+MEnd
+
+Move MENACE_B
+	Requires	MENACE
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		PICKRANDOMLY
+	NextMove	ReadyC
+	Scale		1.3
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_B 200
+	TEnd
+MEnd
+
+Move MENACE_C
+	Requires	MENACE
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		PICKRANDOMLY
+	NextMove	ReadyD
+	Scale		1
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_B 350
+	TEnd
+MEnd
+
+Move MENACE_D
+	Requires	MENACE
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		PICKRANDOMLY
+	NextMove	ReadyA
+	Scale		1
+
+	Type		Hamidon_Mito
+	  Anim          Hamidon_Mito\path_A 50
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

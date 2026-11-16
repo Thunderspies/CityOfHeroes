@@ -1,0 +1,2022 @@
+// This is a popup menu file.
+//
+// These menus associate a string (which is displayed on the menu) with a
+// command which is parsed as if you typed it into the command window.
+//
+// Popup menus can be defined using the fairly simple syntax you see below.
+// They can have submenus, options, titles, and dividers.
+//
+// When specifying the name of an submenu, option, or title, you can put
+// an apersand (&) before the character which you want to be the hotkey for
+// that option. Be careful not to specify the same hotkey for multiple items
+// within a menu (or else the hotkey won't work for one of them).
+//
+// The top-level menu name (e.g. QuickChat) is not seen by the player and
+// shouldn't be translated. This is the internal name used by the game to
+// look up the menu definition.
+//
+// To launch any popup menu you can execute "/popmenu MenuName" in the chat
+// window. It will pop up wherever the cursor is.
+//
+// You can put multiple menu definitions in this file or make new files
+// in this directory. They must have a .mnu extension.
+//
+
+Menu Example
+{
+	// This is an example which uses a title and a divider. They can appear
+	// anywhere in a menu or submenu (as well as multiple times).
+
+	Title  "Example Menu"
+
+	// Each option on a menu has two parameters, the first is the name
+	// to be displayed on the menu, with an ampersand (&) before the hotkey.
+	// The second is the command which will be executed as if you typed
+	// it into the command window.
+
+	// Also note that the same hotkeys are used here as in a later submenu.
+	// This is OK since only one submenu is active at a time.
+	Option "&Hi"                 "say Hi!$$e Hi"
+	Option "&ATTACK!"            "say ATTACK!$$e attack"
+
+	Divider
+
+	// This defines a submenu.
+	// Again, the name given will be displayed on the menu, and it will
+	// respond to the given hotkey (&).
+	Menu "More &Combat"
+	{
+		Option "&ATTACK!"        "say ATTACK!$$e attack"
+		Option "&SPOON!"         "say <color yellow><bgcolor red>SPOON!$$e attack"
+		Option "&RUN!"           "say <color white><bgcolor red>RUN!"
+	}
+}
+
+// Current emotes (from \game\data\defs\emotes.def) for reference. Use them
+// like "e Wings" to do the wings animation.
+
+Menu QuickChat
+{
+	Menu Converse
+	{
+		Menu Greetings
+		{
+			Option "Hi"				"say Hi!$$e Hi"
+			Option "Hello <$target>"		"say Hello, $target$$e Hi"
+			Option "Introduce <Self>"		"say Pleased to meet you! I am $name, a level $level $origin $archetype.$$e Hi"
+			Option "Looking for team"		"local <scale .75>level $level $archetype$$say Looking for team"
+			Option "Welcome"			"say Welcome!$$e Welcome"
+		}
+		Menu Combat
+		{
+			Option "On my mark..."			"say On my mark...$$e RaiseHand"
+			Option "ATTACK!"			"say ATTACK!$$e attack"
+			Option "Don't attack!"			"say Don't attack!$$e DontAttack"
+			Option "Stop!"				"say Stop!$$e RaiseHand"
+			Option "Come get some!"			"say Come get some!$$e tauntA"
+		}
+		Menu Travel
+		{
+			Option "Lead on!"			"say Lead On!$$e ThumbsUp"
+			Option "Onward!"			"say Onward!$$e point"
+			Option "Follow me!"			"say Follow me!$$e point"
+			Option "Stop!"				"say Stop!$$e RaiseHand"
+			Option "Wait here"			"say Wait here$$e RaiseHand"
+			Option "Let's go!"			"say Let's go!$$e yes"
+			Option "On my way"			"say On my way..."
+			Option "Over here!"			"say Over here!$$e OverHere"
+			Option "Where to?"			"say Where to?$$e shrug"
+			Option "Ready?"				"say Ready?"
+			Option "Get a mission?"			"say Get a mission?"
+		}
+		Menu Speech
+		{
+			Option "Yes"				"say Yes$$e yes"
+			Option "Yes sir!"			"say Yes Sir!$$e salute"
+			Option "No"				"say No$$e No"
+			Option "Huh?"				"say Huh?$$e shrug"
+			Option "Good job!"			"say Good job!$$e ThumbsUp"
+			Option "Sorry"				"say Sorry$$e sorry"
+			Option "Thank you"			"say Thank you$$e ThankYou"
+			Option "You're Welcome"			"say You're welcome$$e YoureWelcome"
+			Option "No Problem"			"say No Problem$$e ThumbsUp"
+			Option "Grrrrrrr!"			"say Grrrrrrrr!$$e tarzan"
+			Option "Arrrrggggh!"			"say Arrrrggggh!$$e Frustrated"
+			Option "Excellent!"			"say Excellent!$$e clap"
+			Option "Mua Ha Ha Ha!"			"say Mua ha ha ha!$$e EvilLaugh"
+		}
+		Divider
+		Option "Chat"				"e Talk"
+		Option "Lecture"			"e Lecture"
+		Option "Explain"			"e Explain"
+		Divider
+		Option "Nod"				"e Nod"
+		Option "Thumbs Up"			"e Thumbsup"
+		Option "Shrug"				"e Shrug"
+		Option "Thanks"				"e ThankYou"
+		Option "Welcome"			"e Welcome"
+		Option "You're Welcome"			"e YoureWelcome"
+		Divider
+		Option "Disagree"			"e Disagree"
+		Option "Shake Head"			"e No"
+		Option "Yada Yada Yada"			"e Yata"
+		Option "Talk to the Hand"		"e TalkToHand"
+	}
+	Menu Interact
+	{
+		Option "Salute"				"e Salute"
+		Option "Military Salute"		"e MilitarySalute"
+		LockedOption
+		{
+			DisplayName "Praetorian Salute"
+			Command "e PraetorianSalute"
+			Authbit RogueAccess
+			StoreProduct cucppsal
+		}
+		Option "At Ease"			"e AtEase"
+		Divider
+		Option "Bow"				"e Bow"
+		Option "Fancy Bow"			"e FancyBow"
+		Option "Clap"				"e Clap"
+		Option "Praise"				"e Praise"
+		Option "Camera"				"e Camera"
+		Divider
+		Option "You bow down!"			"e Bowdown"
+		Option "Surrender"			"e Surrender"
+		Option "Get Some"			"e GetSome"
+		Option "Go Away"			"e GoAway"
+		Option "Taunt 1"			"e Taunt1"
+		Option "Taunt 2"			"e Taunt2"
+		Option "Chicken"			"e Chicken"
+		Option "Slash Throat"			"e SlashThroat"
+		LockedOption
+		{
+			DisplayName "Bring It!"
+			Command "e Bringit"
+			Authbit MartialArtsPack
+			StoreProduct cucpmabi
+		}
+		Option "Threaten"			"e SmackYou"
+		Option "Hands Up"			"e Handsup"
+		Option "Smack"				"e Smack"
+		Option "Slap"				"e slap"
+		Option "Slap React"			"e SlapReact"
+		Option "Alakazam!"			"e Alakazam"
+		Option "Alakazam! React"		"e Alakazamreact"
+		Option "Bat Smash"			"e Batsmash"
+		Option "Bat Smash React"		"e Batsmashreact"
+		LockedOption
+		{
+			DisplayName "Ultimate Power"
+			Command "e ultimatepower"
+			RewardToken EmoteUltimatePower
+		}
+		LockedOption
+		{
+			DisplayName "Facepalm"
+			Command "e facepalm"
+			Authbit Facepalm
+		}
+		Divider
+		Menu Judge
+		{
+			Option "Score 1"			"e Score1"
+			Option "Score 2"			"e Score2"
+			Option "Score 3"			"e Score3"
+			Option "Score 4"			"e Score4"
+			Option "Score 5"			"e Score5"
+			Option "Score 6"			"e Score6"
+			Option "Score 7"			"e Score7"
+			Option "Score 8"			"e Score8"
+			Option "Score 9"			"e Score9"
+			Option "Score 10"			"e Score10"
+		}
+		Menu Decide
+		{
+			Option "Coin Toss"			"e CoinToss"
+			Option "Roll Dice"			"e Dice"
+			Option "Observe Dice"			"e ObserveDice"
+			LockedOption
+			{
+				DisplayName "High Roller"
+				Command "e Dice7"
+				Badge CouncilRobotBadge StMartialTour1
+			}
+			Divider
+			Option "Rock"				"e Rock"
+			Option "Paper"				"e Paper"
+			Option "Scissors"			"e Scissors"
+		}
+		Menu Environment
+		{
+			Option "Peer In"			"e Peerin"
+			Option "Touch Screen"			"e Touchscreen"
+			Option "Type"				"e Typing"
+			Option "Research"			"e Research"
+			Option "Research Low"			"e Researchlow"
+			Option "Dig"				"e Dig"
+			Option "Jackhammer"			"e Jackhammer"
+			Option "Spraypaint"			"e Spraypaint"
+			Option "Warm Hands"			"e WarmHands"
+			Option "Pick Lock"			"e PickLock"
+			LockedOption
+			{
+				DisplayName "Throw Snowflakes"
+				Command "e Snowflakes"
+				Badge SnowflakeEmoteBadge
+			}
+			Divider
+			Option "Sit Chair 1"			"e SitChair1"
+			Option "Sit Chair 2"			"e SitChair2"
+			Option "Sit Chair 3"			"e SitChair3"
+			Option "Sit Bench 1"			"e SitBench1"
+			Option "Sit Bench 2"			"e SitBench2"
+			Option "Sit Bench 3"			"e SitBench3"
+			Option "Sit Bench 4"			"e SitBench4"
+			Option "Sit Executive Chair"		"e SitExecutiveChair"
+			Option "Sit Stool"			"e SitStool"
+			Option "Sit Table 1"			"e SitTable1"
+			Option "Sit Table 2"			"e SitTable2"
+			Option "Sit Ledge"			"e Ledgesit"
+			Divider
+			Option "Wall Lean"			"e WallLean"
+			Option "Assume the Position"		"e Assumepositionwall"
+		}
+	}
+	Menu Actions
+	{
+		Option "Wave"				"e Wave"
+		Option "Big Wave"			"e BigWave"
+		Option "Raise Hand"			"e RaiseHand"
+		Option "Point"				"e Point"
+		Option "Attack"				"e attack"
+		Divider
+		Option "Cheer"				"e Cheer"
+		Option "Wave Fist"			"e WaveFist"
+		Option "Crack Knuckles"			"e Knuckles"
+		Option "Whistle"			"e Whistle"
+		Option "Victory"			"e Victory"
+		Option "Winner"				"e Winner"
+		Option "The Wave"			"e TheWave"
+		Divider
+		Option "Angry"				"e Angry"
+		Option "Frustrated"			"e Frustrated"
+		Option "Curse You"			"e CurseYou"
+		Option "Roar"				"e Roar"
+		Option "Howl"				"e Howl"
+		Option "Tarzan"				"e Tarzan"
+
+		LockedOption
+		{
+			DisplayName "Growl"
+			Command "e Growl"
+			Authbit MutantPack
+			StoreProduct cucpmuge
+		}
+		LockedOption
+		{
+			DisplayName "Show Off"
+			Command "e Boast"
+			Authbit MutantPack
+			StoreProduct cucpmuse
+		}
+		Divider
+		Option "Dust Off"			"e Dustoff"
+		Option "Read Book"			"e Readbook"
+		Option "Burp"				"e Burp"
+		Divider
+		Option "Laughs"				"e laugh"
+		Option "Giggle"				"e BigLaugh"
+		Option "Drat"				"e Drat"
+		Option "Shucks"				"e Shucks"
+		Option "Grief"				"e Grief"
+		Option "Flipping Coin"			"e FlippingCoin"
+		LockedOption
+		{
+			DisplayName "Drink Enriche"
+			Command "e DrinkEnriche"
+			Authbit RogueAccess
+			StoreProduct cucpdren
+		}
+		LockedOption
+		{
+			DisplayName "Open Gift"
+			Command "e OpenGift"
+			Authbit RecreationPack
+			StoreProduct cucpppog
+		}
+
+		LockedOption
+		{
+			DisplayName "Ghoul Flex"
+			Command "e ghoulflex"
+			RewardToken EmoteGhoulFlex
+		}
+		LockedOption
+		{
+			DisplayName "Tantrum"
+			Command "e tantrum"
+			RewardToken EmoteTantrum
+		}
+		LockedOption
+		{
+			DisplayName "Collapse"
+			Command "e collapse"
+			RewardToken EmoteCollapse
+		}
+		LockedOption
+		{
+			DisplayName "Swoon"
+			Command "e swoon"
+			RewardToken EmoteSwoon
+		}
+		Divider
+		Menu Athletics
+		{
+			Option "Backflip"			"e Backflip"
+			Option "Flex 1"				"e Flex1"
+			Option "Flex 2"				"e Flex2"
+			Option "Flex 3"				"e Flex3"
+			Option "Jumping Jacks"			"e JumpingJacks"
+			Option "Kata"				"e Kata"
+			LockedOption
+			{
+				DisplayName "Pushups"
+				Command "e Pushup"
+				Authbit MartialArtsPack
+				StoreProduct cucpmapu
+			}
+		}
+		Menu Wedding
+		{
+			LockedOption
+			{
+				DisplayName "Propose"
+				Command "e Propose"
+				Authbit WeddingPack
+				StoreProduct cucpwppr
+			}
+			LockedOption
+			{
+				DisplayName "Throw Rice"
+				Command "e ThrowRice"
+				Authbit WeddingPack
+				StoreProduct cucpwpth
+			}
+			LockedOption
+			{
+				DisplayName "Throw Confetti"
+				Command "e ThrowConfetti"
+				Authbit WeddingPack
+				StoreProduct cucpwptc
+			}
+			LockedOption
+			{
+				DisplayName "Throw Rose Petals"
+				Command "e ThrowRosePetals"
+				Authbit WeddingPack
+				StoreProduct cucpwptr
+			}
+		}
+		Menu Animal
+		{
+			LockedOption
+			{
+				DisplayName "Hiss"
+				Command "e hiss"
+				Authbit AnimalPack
+				StoreProduct cucpaphe
+			}
+			LockedOption
+			{
+				DisplayName "Sniff"
+				Command "e sniff"
+				Authbit AnimalPack
+				StoreProduct cucpapsn
+			}
+			LockedOption
+			{
+				DisplayName "Savage"
+				Command "e savage"
+				Authbit AnimalPack
+				StoreProduct cucpapse
+			}
+		}
+
+		Menu Holiday
+		{
+			LockedOption
+			{
+				DisplayName "Offer Gift"
+				Command "e offergift"
+				storeproduct cucphpog
+				Authbit HolidayPack
+			}
+			LockedOption
+			{
+				DisplayName "Receive Gift"
+				Command "e receivegift"
+				storeproduct cucphpag
+				Authbit HolidayPack
+			}
+			LockedOption
+			{
+				DisplayName "Throw Snowflakes"
+				Command "e ThrowSnowflakes"
+				storeproduct cucphpsn
+				Authbit HolidayPack
+			}
+
+			LockedOption
+			{
+				DisplayName "Fireworks - Rocket Flare"
+				Command "e fireworkrocket"
+				StoreProduct cucpnyrf
+			}
+			LockedOption
+			{
+				DisplayName "Fireworks - Bloom"
+				Command "e fireworkbloom"
+				StoreProduct cucpnybl
+			}
+			LockedOption
+			{
+				DisplayName "Fireworks - Sparkle"
+				Command "e fireworksparkle"
+				StoreProduct cucpnysp
+			}
+		}
+
+		Menu "Steam Punk"
+		{
+			LockedOption
+			{
+				DisplayName "Inspiration"
+				Command "e inspiration"
+				Authbit Steampunk
+				StoreProduct cucpsins
+			}
+			LockedOption
+			{
+				DisplayName "Hot Temper"
+				Command "e hottemper"
+				Authbit Steampunk
+				StoreProduct cucpshot
+			}
+			LockedOption
+			{
+				DisplayName "Train Whistle"
+				Command "e trainwhistle"
+				Authbit Steampunk
+				StoreProduct cucpstrw
+			}
+		}
+	}
+	Menu Idle
+	{
+		Option "Afraid"				"e Afraid"
+		Option "Fish"				"e Fishing"
+		Option "Binoculars"			"e Binoculars"
+		Option "Flashlight"			"e Flashlight"
+		Option "Flashlight (Up)"		"e FlashlightUp"
+		Option "Flashlight (Down)"		"e FlashlightDown"
+		Option "Clipboard"			"e Clipboard"
+		Option "Invent"				"e Invent"
+		Option "Panhandle"			"e Panhandle"
+		Option "Stunned"			"e Wounded"
+		Option "Plotting"			"e Plotting"
+		Option "Floating Books"			"e Floatbooks"
+		Option "Pamphlet"			"e Pamphlet"
+		Option "Vendor"				"e Vendor"
+		Option "Protest"			"e Protest"
+		Option "Listen To Policeband"		"e ListenPoliceBand"
+		LockedOption
+		{
+			DisplayName "Protest Loyalists"
+			Command "e ProtestLoyalist"
+			Authbit RogueAccess
+			StoreProduct cucplpro
+		}
+		LockedOption
+		{
+			DisplayName "Protest Resistance"
+			Command "e ProtestResistance"
+			Authbit RogueAccess
+			StoreProduct cucprpro
+		}
+		Divider
+		LockedOption
+		{
+			DisplayName "Robot Power Up"
+			Command "e PowerUp"
+			Authbit CyborgPack
+			StoreProduct cucpcbpu
+		}
+		LockedOption
+		{
+			DisplayName "Robot Power Down"
+			Command "e PowerDown"
+			Authbit CyborgPack
+			StoreProduct cucpcbpd
+		}
+		LockedOption
+		{
+			DisplayName "Listen To Stolen Policeband"
+			Command "e ListenStolenPoliceBand"
+			Badge MayhemOutlaw
+		}
+		LockedOption
+		{
+			DisplayName "Tablet Write"
+			Command "e MATablet"
+			Badge ArchitectAccolade
+		}
+		LockedOption
+		{
+			DisplayName "Calculate Theories"
+			Command "e Calculate"
+			Authbit SupersciencePack
+			StoreProduct cucpssce
+		}
+		LockedOption
+		{
+			DisplayName "Mix Formula"
+			Command "e MixFormula"
+			Authbit SupersciencePack
+			StoreProduct cucpssee
+		}
+		LockedOption
+		{
+			DisplayName "Talk Pool"
+			Command "e Pool"
+			Authbit RecreationPack
+			StoreProduct cucppppe
+		}
+		LockedOption
+		{
+			DisplayName "Soccer Kick"
+			Command "e Soccer"
+			Authbit RecreationPack
+			StoreProduct cucpppse
+		}
+		LockedOption
+		{
+			DisplayName "Basketball Dribble"
+			Command "e Basketball"
+			Authbit RecreationPack
+			StoreProduct cucpppbb
+		}
+		LockedOption
+		{
+			DisplayName "Catch Breath"
+			Command "e catchbreath"
+			RewardToken EmoteCatchBreath
+		}
+		Divider
+		Option "Drink"				"e Drink"
+		Option "Eat Food"			"e Eatfood"
+		Option "Eat Donut"			"e Donut"
+		Option "Drink Tea"			"e Teabag"
+		Divider
+		Menu Away
+		{
+			Option "Cellphone"			"e Cellphone"
+			Option "Crouch"				"e Crouch"
+			Option "Kneel"				"e Kneel"
+			Option "Use Laptop"			"e Laptop"
+			Option "Lotus"				"e Lotus"
+			Option "Read Newspaper"			"e Newspaper"
+			Option "AFK Sleep"			"e Sleep"
+			Option "Sit on Ground"			"e Sit"
+			Option "Wait"				"e Waiting"
+		 }
+		Menu Evil
+		{
+			Option "Hold Bat"			"e BatLookout"
+			Option "Evil Laugh"			"e EvilLaugh"
+			Option "Hold Torch"			"e Holdtorch"
+			Option "Scheme"				"e Plot"
+		}
+		Menu Magic
+		{
+			LockedOption
+			{
+				DisplayName "Card Trick"
+				Command "e CardTrick"
+				Authbit MagicPack
+				StoreProduct cucpmpct
+			}
+			LockedOption
+			{
+				DisplayName "Juggle"
+				Command "e Juggle"
+				Authbit MagicPack
+				StoreProduct cucpmpju
+			}
+			LockedOption
+			{
+				DisplayName "Juggle Magic"
+				Command "e JuggleMagic"
+				Authbit MagicPack
+				StoreProduct cucpmpjm
+			}
+			LockedOption
+			{
+				DisplayName "Juggle Fire"
+				Command "e JuggleFire"
+				Authbit MagicPack
+				StoreProduct cucpmpjf
+			}
+			LockedOption
+			{
+				DisplayName "Juggle Electricity"
+				Command "e JuggleElectricity"
+				Authbit MagicPack
+				StoreProduct cucpmpje
+
+			}
+		}
+		Menu Stances
+		{
+			Option "Center Stance"			"e Idle2"
+			Option "Cross Arms"			"e Crossarms"
+			Option "Hands on Hips"			"e Akimbo"
+			Option "Neutral Stance"			"e Idle1"
+
+
+			LockedOption
+			{
+				DisplayName "Hero Stance 1"
+				Command "e StanceHero1"
+				Authbit RogueCompleteBox
+				StoreProduct cucpcchs
+			}
+			LockedOption
+			{
+				DisplayName "Hero Stance 2"
+				Command "e StanceHero2"
+				Authbit RogueCompleteBox
+				StoreProduct cucpcchs
+			}
+			LockedOption
+			{
+				DisplayName "Villain Stance 1"
+				Command "e StanceVillain1"
+				Authbit RogueCompleteBox
+				StoreProduct cucpccvs
+			}
+			LockedOption
+			{
+				DisplayName "Villain Stance 2"
+				Command "e StanceVillain2"
+				Authbit RogueCompleteBox
+				StoreProduct cucpccvs
+			}
+		}
+
+		Menu Loyalty
+		{
+			LockedOption
+			{
+				DisplayName "Hero Loyal"
+				Command "e HeroLoyal"
+				Authbit VanguardPack
+				StoreProduct cucpvghl
+			}
+			LockedOption
+			{
+				DisplayName "Vigilante Loyal"
+				Command "e VigilanteLoyal"
+				Authbit VanguardPack
+				StoreProduct cucpvgvi
+			}
+			LockedOption
+			{
+				DisplayName "Villain Loyal"
+				Command "e VillainLoyal"
+				Authbit VanguardPack
+				StoreProduct cucpvgvl
+			}
+			LockedOption
+			{
+				DisplayName "Rogue Loyal"
+				Command "e RogueLoyal"
+				Authbit VanguardPack
+				StoreProduct cucpvgrl
+			}
+		}
+	}
+	Menu Music
+	{
+		Option "Boombox"				"e BoomBox"
+		Menu Tracklist
+		{
+			Option "Track - Altitude"		"e BBAltitude"
+			Option "Track - Beat"			"e BBBeat"
+			Option "Track - Catch Me"		"e BBCatchMe"
+			Option "Track - Dance"			"e BBDance"
+			Option "Track - ElectroVibe"		"e BBElectroVibe"
+			Option "Track - Disco Freak"		"e BBDiscoFreak"
+			Option "Track - Dog Walk"		"e BBDogWalk"
+			Option "Track - Heavy Dude"		"e BBHeavyDude"
+			Option "Track - Info Overload"		"e BBInfoOverload"
+			Option "Track - Jumpy"			"e BBJumpy"
+			Option "Track - Kick It"		"e BBKickIt"
+			Option "Track - Looker"			"e BBLooker"
+			Option "Track - Meaty"			"e BBMeaty"
+			Option "Track - Notorious"		"e BBNotorious"
+			Option "Track - Move On"		"e BBMoveOn"
+			Option "Track - Peace"			"e BBPeace"
+			Option "Track - Quickie"		"e BBQuickie"
+			Option "Track - Raver"			"e BBRaver"
+			Option "Track - Shuffle"		"e BBShuffle"
+			Option "Track - Technoid"		"e BBTechnoid"
+			Option "Track - Wind It Up"		"e BBWindItUp"
+			Option "Track - Venus"			"e BBVenus"
+			Option "Track - Wah Wah"		"e BBWahWah"
+			Option "Track - Yellow"			"e BBYellow"
+			Option "Track - Spaz"			"e BBSpaz"
+		}
+		Divider
+		Option "Dance"				"e Dance"
+		Option "Shuffle"			"e Dance1"
+		Option "Rock It"			"e Dance2"
+		Option "The Washer"			"e Dance3"
+		Option "Raise the Roof"			"e Dance4"
+		Option "Bounce"				"e Dance5"
+		Option "The Monkey"			"e Dance6"
+		Option "Drum Dance"			"e Drumdance"
+		LockedOption
+		{
+			DisplayName "Robot Dance"
+			Command "e RobotDance"
+			Authbit CyborgPack
+			StoreProduct cucpcbrd
+		}
+		LockedOption
+		{
+			DisplayName "Karate Dance"
+			Command "e KarateDance"
+			Authbit RecreationPack
+			StoreProduct cucpppkd
+		}
+		LockedOption
+		{
+			DisplayName "Pop Dance"
+			Command "e PopDance"
+			Authbit RecreationPack
+			StoreProduct cucppppd
+		}
+		LockedOption
+		{
+			DisplayName "Air Guitar"
+			Command "e AirGuitar"
+			Authbit RecreationPack
+			StoreProduct cucpppag
+		}
+		LockedOption
+		{
+			DisplayName "Disco Dance"
+			Command "e DiscoDance"
+			Authbit RecreationPack
+			StoreProduct cucpppdd
+		}
+		Divider
+		Option "Big Drum"			"e Drum"
+		Option "Small Drum"			"e Drumlow"
+	}
+}
+// Data Past here is NOT in the Quickchat Menu
+           LockedOption
+           {
+                      DisplayName "Double Facepalm"
+                      Command "e doublefacepalm"
+          		Authbit Facepalm
+           }
+
+Menu "Costumes"
+	{
+		Menu "Back Flip"
+			{
+			Option "Costume Slot 1"				"cce 0 CCBackFlip"
+			Option "Costume Slot 2"				"cce 1 CCBackFlip"
+			Option "Costume Slot 3"				"cce 2 CCBackFlip"
+			Option "Costume Slot 4"				"cce 3 CCBackFlip"
+			Option "Costume Slot 5"				"cce 4 CCBackFlip"
+			}
+		Menu "Evil Laugh"
+			{
+			Option "Costume Slot 1"				"cce 0 CCEvilLaugh"
+			Option "Costume Slot 2"				"cce 1 CCEvilLaugh"
+			Option "Costume Slot 3"				"cce 2 CCEvilLaugh"
+			Option "Costume Slot 4"				"cce 3 CCEvilLaugh"
+			Option "Costume Slot 5"				"cce 4 CCEvilLaugh"
+			}
+		Menu "Howl"
+			{
+			Option "Costume Slot 1"				"cce 0 CCHowl"
+			Option "Costume Slot 2"				"cce 1 CCHowl"
+			Option "Costume Slot 3"				"cce 2 CCHowl"
+			Option "Costume Slot 4"				"cce 3 CCHowl"
+			Option "Costume Slot 5"				"cce 4 CCHowl"
+			}
+		Menu "Salute"
+			{
+			Option "Costume Slot 1"				"cce 0 CCSalute"
+			Option "Costume Slot 2"				"cce 1 CCSalute"
+			Option "Costume Slot 3"				"cce 2 CCSalute"
+			Option "Costume Slot 4"				"cce 3 CCSalute"
+			Option "Costume Slot 5"				"cce 4 CCSalute"
+			}
+
+		Menu "Inner Will"
+			{
+			Option "Costume Slot 1"				"cce 0 CCInnerWill"
+			Option "Costume Slot 2"				"cce 1 CCInnerWill"
+			Option "Costume Slot 3"				"cce 2 CCInnerWill"
+			Option "Costume Slot 4"				"cce 3 CCInnerWill"
+			Option "Costume Slot 5"				"cce 4 CCInnerWill"
+			}
+		Divider
+		Menu Purchased
+		{
+		Menu "Magic Pack"
+		{
+			Menu "Cast"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCCast"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsc
+		            }
+			}
+			Menu "Lightning"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCLightning"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmplc
+		            }
+			}
+			Menu "Presto Chango"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCPrestoChango"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmppc
+		            }
+			}
+			Menu "Spin"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCSpin"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmpsp
+		            }
+			}
+		}
+		Menu "Martial Arts"
+		{
+			Menu "Ninja Leap"
+			{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCNinjaLeap"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmanl
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCNinjaLeap"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmanl
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCNinjaLeap"
+		           		Authbit MagicPack
+		           		StoreProduct cucpmanl
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCNinjaLeap"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmanl
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCNinjaLeap"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmanl
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCNinjaLeap"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmanl
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCNinjaLeap"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmanl
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCNinjaLeap"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmanl
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCNinjaLeap"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmanl
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCNinjaLeap"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmanl
+		            }
+			}
+			Menu "Smoke Bomb"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCSmokeBomb"
+		           		Authbit MartialArtsPack
+		           		StoreProduct cucpmasb
+		            }
+			}
+		}
+		Menu "Mutant Pack"
+		{
+			Menu "Dimension Shift"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCDimensionShift"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuds
+		            }
+			}
+			Menu "Energy Morph"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCEnergyMorph"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmuem
+		            }
+			}
+			Menu "Rapid Boil"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCRapidBoil"
+		           		Authbit MutantPack
+		           		StoreProduct cucpmurb
+		            }
+			}
+		}
+		Menu "Animal Pack"
+		{
+			Menu "Feather Burst"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCFeatherBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafeb
+		            }
+			}
+			Menu "Fur Burst"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCFurBurst"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafub
+		            }
+			}
+			Menu "Fur Spin"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCFurSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafuf
+		            }
+			}
+			Menu "Feather Spin"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCFeatherSpin"
+		           		Authbit AnimalPack
+		           		StoreProduct cucpafef
+		            }
+			}
+		}
+		Menu "Holiday Pack"
+		{
+			Menu "Gift Burst"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCGiftBurst"
+		           		Authbit HolidayPack
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCGiftBurst"
+		           		Authbit HolidayPack
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCGiftBurst"
+		           		Authbit HolidayPack
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCGiftBurst"
+		           		Authbit HolidayPack
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCGiftBurst"
+		           		Authbit HolidayPack
+		            }
+			}
+			Menu "Confetti Throw"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCConfettiThrow"
+		           		Authbit HolidayPack
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCConfettiThrow"
+		           		Authbit HolidayPack
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCConfettiThrow"
+		           		Authbit HolidayPack
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCConfettiThrow"
+		           		Authbit HolidayPack
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCConfettiThrow"
+		           		Authbit HolidayPack
+		            }
+			}
+		}
+		Menu "Science Pack"
+		{
+			Menu "Drink Formula"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCDrinkFormula"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssdf
+		            }
+			}
+			Menu "Super Serum"
+				{
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 1"
+		                        Command "cce 0 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 2"
+		                        Command "cce 1 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 3"
+		                        Command "cce 2 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 4"
+		                        Command "cce 3 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 5"
+		                        Command "cce 4 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 6"
+		                        Command "cce 5 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 7"
+		                        Command "cce 6 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 8"
+		                        Command "cce 7 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 9"
+		                        Command "cce 8 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+		            LockedOption
+		            {
+		                        DisplayName "Costume Slot 10"
+		                        Command "cce 9 CCSuperSerum"
+		           		Authbit SupersciencePack
+		           		StoreProduct cucpssse
+		            }
+				}
+			}
+		}

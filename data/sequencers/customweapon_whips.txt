@@ -1,0 +1,240 @@
+#########################################################
+## CustomWeapon_Claws.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Whip_Base
+	BaseSkeleton	CustomWeapons_Whips\Skel_ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		Whip_Base
+	  Anim		CustomWeapons_Whips\Skel_ready 2
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Cycle
+	Requires	RIGHTHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<AttackIRQ>
+	Flags		Cycle
+
+	Type		Whip_Base
+	  Anim		CustomWeapons_Whips\Skel_ready 2
+	TEnd
+MEnd
+
+### WHIP CORRUPTION #######################################################
+
+Move Whip_Attack1
+	Requires	COMBAT WEAPON WHIP ATTACK LOW
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <MoveIRQ> <IRQEmotesRighthand>
+	NextMove        Whip_Attack1_Post
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\DS_whip_corruption 1 38
+	  #PlayFX	GENERIC\quick_entityFadeOut.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Whip_Attack1_Post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Combat_Cycle
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\DS_whip_corruption 38
+	  #PlayFX	GENERIC\quick_entityFadeOut.fx 0 CONSTANT
+	TEnd
+MEnd
+
+### AIR WHIP CORRUPTION #######################################################
+
+Move A_Whip_Attack1
+	Requires	FLY COMBAT WEAPON WHIP ATTACK LOW
+	Priority        17
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <MoveIRQ> <IRQEmotesRighthand>
+	NextMove        A_Whip_Attack1_Post
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\air_DS_whip_corruption 1 38
+	  #PlayFX	GENERIC\quick_entityFadeOut.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move A_Whip_Attack1_Post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Combat_Cycle
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\air_DS_whip_corruption 38
+	  #PlayFX	GENERIC\quick_entityFadeOut.fx 0 CONSTANT
+	TEnd
+MEnd
+
+### WHIP LASH #######################################################
+
+Move Whip_Attack2
+	Requires	COMBAT WEAPON WHIP ATTACK HIGH
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <MoveIRQ> <IRQEmotesRighthand>
+	NextMove        Whip_Attack2_Post
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\DS_whip_lash 1 55
+	TEnd
+MEnd
+
+Move Whip_Attack2_Post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Combat_Cycle
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\DS_whip_lash 55
+	TEnd
+MEnd
+
+### AIR WHIP LASH #######################################################
+
+Move A_Whip_Attack2
+	Requires	FLY COMBAT WEAPON WHIP ATTACK HIGH
+	Priority        17
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <MoveIRQ> <IRQEmotesRighthand>
+	NextMove        A_Whip_Attack2_Post
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\air_DS_whip_lash 1 55
+	TEnd
+MEnd
+
+Move A_Whip_Attack2_Post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Combat_Cycle
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\air_DS_whip_lash 55
+	TEnd
+MEnd
+
+### WHIP STRIKE #######################################################
+
+Move Whip_Attack3
+	Requires	COMBAT WEAPON WHIP ATTACK CONE
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <MoveIRQ> <IRQEmotesRighthand>
+	NextMove        Whip_Attack3_Post
+	Scale		2
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\DS_whip_strike 1 140
+	TEnd
+MEnd
+
+Move Whip_Attack3_Post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Combat_Cycle
+	Scale		2
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\DS_whip_strike 140
+	TEnd
+MEnd
+
+### AIR WHIP STRIKE #######################################################
+
+Move A_Whip_Attack3
+	Requires	FLY COMBAT WEAPON WHIP ATTACK CONE
+	Priority        17
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <MoveIRQ> <IRQEmotesRighthand>
+	NextMove        A_Whip_Attack3_Post
+	Scale		2
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\air_DS_whip_strike 1 140
+	TEnd
+MEnd
+
+Move A_Whip_Attack3_Post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Combat_Cycle
+	Scale		2
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\air_DS_whip_strike 140
+	TEnd
+MEnd
+
+
+### WHIP BUFF #######################################################
+
+Move Whip_Buff
+	Requires	COMBAT WEAPON WHIP ATTACK DEMONBUFF SPAWNSIDE
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Whip_Attack3_Post
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\DS_whip_buff 1 121
+	TEnd
+MEnd
+
+Move Whip_Buff_Post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Combat_Cycle
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\DS_whip_buff 122
+	TEnd
+MEnd
+
+### WHIP BUFF #######################################################
+
+Move A_Whip_Buff
+	Requires	FLY COMBAT WEAPON WHIP ATTACK DEMONBUFF SPAWNSIDE
+	Priority        17
+	Interrupts	<AttackIRQ> Ready Combat_Cycle
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        A_Whip_Buff_Post
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\air_DS_whip_buff 1 121
+	TEnd
+MEnd
+
+Move A_Whip_Buff_Post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Combat_Cycle
+
+	Type		Whip_Base
+	  Anim          CustomWeapons_Whips\air_DS_whip_buff 122
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,179 @@
+Texture x_TerrainTest
+	Base1 Plaza_Grass_FreshCut_01_D.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 50 50
+
+	Multiply1 Plaza_Concrete_LinedSlab_02_Z.tga
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType Normal
+	Multiply1Scale 2 2
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 white.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+	
+	//CubeMap generic_cubemap_face0.tga
+
+	BumpMap1 none
+	//ReflectivityBase .3
+  //ReflectivityScale 0.7
+  //ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 50 50	
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .125 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask TerrainTest_Mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+  MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 canal_cobblestones2.tga
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 100 100
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 100 100
+
+	SpecularColor1 20 20 20
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 50
+	SpecularExponent2 50
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags none // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0	
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base grass_plate1_d.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+Texture x_TerrainTest02
+	Base1 Plaza_Grass_FreshCut_01_D.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 50 50
+
+	Multiply1 Plaza_Concrete_LinedSlab_02_Z.tga
+	Multiply1Scroll 0 0 
+	Multiply1ScrollType Normal
+	Multiply1Scale 2 2
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 white.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+	
+	//CubeMap generic_cubemap_face0.tga
+
+	BumpMap1 none
+	//ReflectivityBase .3
+  //ReflectivityScale 0.7
+  //ReflectivityPower 6
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1	
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale .125 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material instead of the first material
+
+	Mask TerrainTest_Mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+  MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Plaza_Grass_Brown_01_Z.tga
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 10 10
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale .03125 .03125
+
+	SpecularColor1 20 20 20
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 50
+	SpecularExponent2 50
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags none // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0	
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base grass_plate1_d.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End

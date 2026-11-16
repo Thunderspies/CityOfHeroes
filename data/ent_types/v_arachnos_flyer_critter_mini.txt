@@ -1,0 +1,47 @@
+
+######################################
+## Arachnos flyer "Critter" version
+## 
+Type
+
+Sequencer	Arachnos_flyer_Critter_Mini.txt 
+SequencerType	Critter_flyer
+
+Graphics	player_library/v_Critter_flyer.geo 
+
+FadeOutStart	800
+FadeOutFinish	1000
+
+Flags	UseCapsuleForRangeFinding
+
+Selection	Capsule
+NoStrafe 1
+
+cameraheight 1
+
+VisSphereRadius 21.12  
+Placement         DeadOn
+
+GeomScale	4 4 4 
+CapsuleSize	16 16 32 
+CapsuleOffset 0.0 6.8 -18 
+
+FX ENEMYFX\V_Arachnos\Critter_Flyer\FX_Flyer_Doors_critter.fx
+FX ENEMYFX\V_Arachnos\Critter_Flyer\FX_Flyer_spotlight_critter.fx
+FX ENEMYFX\V_Arachnos\Critter_Flyer\FX_Flyer_propulsion.fx
+FX ENEMYFX\V_Arachnos\Flyer\FX_Flyer_CritterLights.fx
+
+ReticleHeightBias -3.0  
+
+TicksToLingerAfterDeath     10     
+
+TicksToFadeAwayAfterDeath   10
+
+HealthFx
+	Range	0 0.001
+	#ContinuingFX	<fxName>
+	OneShotFX	Explosions/MetalExplosion/BlackMetalPartsFireExplosion.Fx
+End
+
+
+End

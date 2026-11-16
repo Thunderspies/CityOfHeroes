@@ -1,0 +1,574 @@
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef bis
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef bis_Fat
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef ghost
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef drunk
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef drunk_fat
+	BaseSkeleton	male\skel_ready2
+	ParentType	drunk
+TypeDefEnd
+
+TypeDef Bum
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef Bum_fat
+	BaseSkeleton	male\skel_ready2
+	ParentType	Bum
+TypeDefEnd
+
+TypeDef DemutatedLost
+	BaseSkeleton	male\skel_ready2
+	ParentType	Bum
+TypeDefEnd
+
+TypeDef worker
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef clipboard
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef cellphone
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef newspaper
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef briefcase
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef baton
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+TypeDef shotgun
+	BaseSkeleton	male\skel_ready2
+	ParentType	bis
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<MoveIRQ>
+
+
+#############################################################
+## READY
+#############################################################
+
+Move Ready
+	Include sequencers\Members\readies.inc
+	Flags		Cycle
+	Scale		0.5
+	CycleMove       Ready_shift
+	CycleMove	Ready_trans_Xarms
+	CycleMove	Ready_scratchneck
+
+	Type		bis
+	  Anim          male\npc_neutral_look 1
+	TEnd
+MEnd
+
+Move Ready_shift
+	Include sequencers\Members\readies.inc
+	Flags		Cycle
+	CycleMove	Ready_scratchneck
+	CycleMove       Ready_cough
+	CycleMove	Ready_trans_Xarms
+
+	Type		bis
+	  Anim          male\npc_neutral_shift 1
+	TEnd
+MEnd
+
+Move Ready_cough
+	Include sequencers\Members\readies.inc
+	Flags		Cycle
+	CycleMove       Ready
+	CycleMove       Ready_shift
+	CycleMove	Ready_look_L
+
+	Type		bis
+	  Anim          male\npc_neutral_cough 1
+	  PlayFX		NPCFX\NPC_ClothShort_SFX.fx 5
+	  PlayFX		NPCFX\NPC_Male_Cough_SFX.fx 10
+	  PlayFX		NPCFX\NPC_ClothLong_SFX.fx 50
+	TEnd
+MEnd
+
+Move Ready_scratchneck
+	Include sequencers\Members\readies.inc
+	Flags		Cycle
+	CycleMove       Ready
+	CycleMove       Ready_shift
+	CycleMove	Ready_look_L
+	CycleMove	Ready_cough
+
+	Type		bis
+	  Anim          male\npc_neutral_scratchneck 1
+	  PlayFX	NPCFX\NPC_ClothLong_SFX.fx 1
+	  PlayFX	NPCFX\NPC_ClothShort_SFX.fx 20
+	  PlayFX	NPCFX\NPC_ClothShort_SFX.fx 30
+	  PlayFX	NPCFX\NPC_ClothShort_SFX.fx 37
+	  PlayFX	NPCFX\NPC_ClothShort_SFX.fx 44
+	  PlayFX	NPCFX\NPC_ClothShort_SFX.fx 51
+	TEnd
+MEnd
+
+Move Ready_look_L
+	Include sequencers\Members\readies.inc
+	Flags		Cycle
+	Scale		0.3
+	CycleMove       Ready
+	CycleMove       Ready_shift
+	CycleMove       Ready_cough
+	CycleMove	Ready_trans_Xarms
+
+	Type		bis
+	  Anim          male\npc_neutral_look 1 60
+	TEnd
+MEnd
+
+
+### trans to Xarms mode  ######
+
+Move Ready_trans_Xarms
+	Include sequencers\Members\readies.inc
+	Flags		Cycle
+	CycleMove       Ready_Xarms_look
+
+	Type		bis
+	  Anim          male\npc_neutral_t_xarms 1
+	  PlayFX	NPCFX\NPC_ClothLong_SFX.fx 12
+	TEnd
+MEnd
+
+Move Ready_Xarms_look
+	Include sequencers\Members\readies.inc
+	Flags		Cycle
+	Scale		0.5
+	CycleMove       Ready_Xarms_look
+	CycleMove       Ready_Xarms_coughtransout
+
+	Type		bis
+	  Anim          male\npc_xarms_look 1
+	TEnd
+MEnd
+
+
+Move Ready_Xarms_coughtransout
+	Include sequencers\Members\readies.inc
+	Flags		Cycle
+	CycleMove       Ready
+	CycleMove       Ready_scratchneck
+
+	Type		bis
+	  Anim          male\npc_xarms_coughtransout 1
+	  PlayFX	NPCFX\NPC_ClothShort_SFX.fx 5
+	  PlayFX	NPCFX\NPC_Male_Cough_SFX.fx 10
+	  PlayFX	NPCFX\NPC_ClothLong_SFX.fx 50
+	TEnd
+MEnd
+
+#############################################################
+## PROP READY
+#############################################################
+
+Move Prop_ready_1
+	Requires	PROP
+	Priority        1
+	Interrupts	Ready
+	Include sequencers\Members\readies.inc
+	Flags		Cycle
+	Interpolate	8
+
+	Type		bis
+	  Anim          male\briefcase_look 1
+	  PlayFx        GENERIC\FX_briefcase_R.fx  0 CONSTANT
+	  Scale		0.4
+	TEnd
+
+	Type		clipboard
+	  Anim          male\clipboard_write 1
+	  PlayFx        GENERIC\FX_clipboard.FX  0 CONSTANT
+	  Scale		0.6
+	TEnd
+
+	Type		cellphone
+	  Anim          male\cellphone_talk 1
+	  PlayFx        GENERIC\FX_cellphone.FX  0 CONSTANT
+	  Scale		0.4
+	TEnd
+
+	Type		newspaper
+	  Anim          male\newspaper_cycle 1 156
+	  PlayFx        GENERIC\FX_newspaper.FX  0 CONSTANT
+	  PlayFX		NPCFX\NPC_Newspaper_Rustle_SFX.fx
+	TEnd
+
+	Type		briefcase
+	  Anim          male\briefcase_look 1
+	  PlayFx        GENERIC\FX_briefcase_R.fx  0 CONSTANT
+	  Scale		0.4
+	TEnd
+
+	Type		baton
+	  Anim          male\bat_twirl 1
+	  PlayFx        WEAPONS\Riot_Baton.fx  0 CONSTANT
+	TEnd
+
+	Type		shotgun
+	  Anim          male\shotgun_observe_L 1
+	  PlayFx        WEAPONS\SHOTGUN.FX  0 CONSTANT
+	  Scale		0.5
+	TEnd
+MEnd
+
+###################
+###### Fear Ready ######  Seems very broken
+###################
+#
+#Move Fear_A
+#	Requires	FEAR
+#	Priority        1
+#	Interrupts	<Ready> <PostMoveCycle>
+#	Member		<ReactIRQ> <DeathIRQ> <Scared>
+#	Flags		Cycle NoSizeScale
+#	NextMove	Fear_runCycle
+#
+#	Type		bis
+#	  Anim          bis\scared 11 89
+#	TEnd
+#MEnd
+
+Move Fear_B
+	Requires	VARIATIONB FEAR
+	Interrupts	<Ready>
+	Member		<ReactIRQ> <DeathIRQ> <Scared>
+	Flags		Cycle NoSizeScale
+	Priority        2
+
+	Type		bis
+	  Anim          bis\fear_cycle 1
+	TEnd
+MEnd
+
+#############################################################
+## MOTION
+#############################################################
+
+###################
+### Run Forward ##
+###################
+
+Move RunPre
+	Requires	FORWARD
+	Priority        1
+	Interrupts	<Ready> <PostMoveCycle>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	NextMove        RunCycle
+
+	Type		bis
+	  Anim          bis\run 13 25
+	  PlayFx        FEET\NPCMALERIGHT.FX  11
+	  PlayFx	FEET\Foot_NPCMale.fx 10
+	  PlayFx	FEET\Foot_NPCMale.fx 22
+	TEnd
+MEnd
+
+Move RunCycle
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle MoveScale
+	NextMove        WalkPost
+	MoveRate	0.7
+
+	Type		bis
+	  Anim          bis\run 1 25
+	  PlayFx	FEET\Foot_NPCMale.fx 10
+	  PlayFx	FEET\Foot_NPCMale.fx 22
+	TEnd
+MEnd
+
+
+#############################################################
+## ENCOUNTERS
+#############################################################
+
+###################
+###### Far Wave ######
+###################
+
+Move FarWave
+	Requires	FAR WAVE
+	Priority        2
+	Interrupts	<Ready>
+	Member		<ReactIRQ> <DeathIRQ>
+
+	Type		bis
+	  Anim          bis\far_wave 2
+	TEnd
+MEnd
+
+###################
+###### Close Wave ######
+###################
+
+Move CloseWave
+	Requires	CLOSE WAVE
+	Priority        2
+	Interrupts	<Ready>
+	Member		<ReactIRQ> <DeathIRQ>
+
+	Type		bis
+	  Anim          bis\close_wave 2
+	TEnd
+MEnd
+
+###################
+### Purse tug  #####
+###################
+
+Move BF_PurseTug
+	Requires	PURSETUG
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        BF_P_GetPushed
+
+	Type		bis
+	  Anim          BF\purse_tug 1
+	  PlayFx        GENERIC\PURSE.FX  0 CONSTANT
+	TEnd
+MEnd
+
+Move BF_P_GetPushed
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        BF_P_shy
+	Sets            CANTMOVE
+
+	Type		bis
+	  Anim          BF\purse_getpushed 12
+	TEnd
+MEnd
+
+Move BF_P_shy
+	Member		<Ready> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+
+	Type		bis
+	  Anim          BF\purse_shy 1
+	TEnd
+MEnd
+
+###################
+### Relic "Purse" tug  #####
+###################
+
+Move BM_RelicTug
+	Requires	RELICTUG
+	Priority        3
+	Interrupts	<MonsterGroup> <Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	NextMove        BF_P_GetPushed
+	Sets            CANTMOVE NOCOLLISION
+
+	Type		bis
+	  Anim          BF\purse_tug 1
+	  PlayFx        GENERIC\PURSE_RELIC.FX  0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+## Demutated Lost Spawn
+#############################################################
+
+Move Demutated_Spawn
+	Requires	SPAWNEDASPET
+	Priority        1
+	Interrupts	<MonsterGroup> <Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	Member		<DeathIRQ>
+	NextMove        Demutated_Spawn_Post
+
+	Type		bis
+	  Anim          male\npc_neutral_look 1
+	TEnd
+
+	Type		DemutatedLost
+	  Anim          male\freezestun 1 30
+	TEnd
+MEnd
+
+Move Demutated_Spawn_Post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove	Ready
+
+	Type		bis
+	  Anim          male\npc_neutral_look 1
+	TEnd
+
+	Type		DemutatedLost
+	  Anim          male\drain 40 100
+	TEnd
+MEnd
+
+## FEAR RUN FORWARD ###########################################################
+
+Move Fear_runCycle
+	Requires	FORWARD FEAR
+	Priority	3 # changed from 2 to 3 because the male npc would continue to switch back to FearStun every occasionally
+	Include sequencers\Interrupts\Encounters_Motion.inc
+	Include sequencers\Members\Encounters_Motion.inc
+	Flags		Cycle MoveScale
+	Scale           1.45
+	MoveRate	0.7
+	NextMove	WalkCycle
+
+	Type		male
+	  Anim          bis\bookrun 1 25
+	  PlayFx	FEET\Foot_NPCFemale.fx 10
+	  PlayFx	FEET\Foot_NPCFemale.fx 22
+	TEnd
+MEnd
+
+#############################################################
+
+Move Fear_runCycle_B
+	Requires	FORWARD FEAR
+	Include sequencers\Interrupts\Encounters_Motion.inc
+	Include sequencers\Members\Encounters_Motion.inc
+	Flags		Cycle MoveScale
+	Scale           1.45
+	MoveRate	0.7
+	NextMove	WalkCycle
+
+	Type		male
+	  Anim          bis\armsrun 1 25
+	  PlayFx	FEET\Foot_NPCMale.fx 10
+	  PlayFx	FEET\Foot_NPCMale.fx 22
+	TEnd
+MEnd
+
+#############################################################
+
+Move Fear_runCycle_C
+	Requires	FORWARD FEAR
+	Include sequencers\Interrupts\Encounters_Motion.inc
+	Include sequencers\Members\Encounters_Motion.inc
+	Flags		Cycle MoveScale
+	Scale           1.45
+	MoveRate	0.7
+	NextMove	WalkCycle
+
+	Type		male
+	  Anim          bis\scaredrun 1 25
+	  PlayFx	FEET\Foot_NPCMale.fx 10
+	  PlayFx	FEET\Foot_NPCMale.fx 22
+	TEnd
+MEnd
+####### INC files #####################################################
+
+Include sequencers\BIS\walks.inc
+
+Include sequencers\player\encounters.inc
+##Include sequencers\player\encounters_motion.inc
+
+Include sequencers\player\emotes.inc
+Include sequencers\player\emotes_air.inc
+
+Include sequencers\player\deaths.inc
+Include sequencers\player\reactions.inc
+Include sequencers\player\reactions_air.inc
+
+#############################################################
+
+SeqEnd

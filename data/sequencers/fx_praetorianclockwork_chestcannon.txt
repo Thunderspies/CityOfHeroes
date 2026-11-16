@@ -1,0 +1,148 @@
+#############################################################
+## FX_PraetorianClockwork_ChestCannon.txt
+#############################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef ChestCannon_Male
+	BaseSkeleton	FX_PraetorianClockwork_ChestCannon_Male\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef ChestCannon_Huge
+	BaseSkeleton	FX_PraetorianClockwork_ChestCannon_Huge\skel_ready
+	ParentType	ChestCannon_Male
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<Combat>
+
+#########################################################
+
+Move Ready
+	Member		<DeathIRQ> <Ready>
+	Flags		Cycle
+	Priority	0
+
+	Type		ChestCannon_Male
+	  Anim		FX_PraetorianClockwork_ChestCannon_Male\skel_ready 1 1
+	TEnd
+
+	Type		ChestCannon_Huge
+	  Anim		FX_PraetorianClockwork_ChestCannon_Huge\skel_ready 1 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Combat
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready>
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle
+	CycleMove	Combat_Cycle
+	NextMove	Post_Combat
+
+	Type		ChestCannon_Male
+	  Anim		FX_PraetorianClockwork_ChestCannon_Male\skel_ready 1 32
+	  PlayFX	Costumes\PraetorianClockwork\AntiMatterReactor_Glow01.fx 0 CONSTANT
+	TEnd
+
+	Type		ChestCannon_Huge
+	  Anim		FX_PraetorianClockwork_ChestCannon_Huge\skel_ready 1 32
+	  PlayFX	Costumes\PraetorianClockwork\AntiMatterReactor_Glow01.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle
+	NextMove	Post_Combat
+
+	Type		ChestCannon_Male
+	  Anim		FX_PraetorianClockwork_ChestCannon_Male\skel_ready 32 36
+	  PlayFX	Costumes\PraetorianClockwork\AntiMatterReactor_Glow01.fx 0 CONSTANT
+	TEnd
+
+	Type		ChestCannon_Huge
+	  Anim		FX_PraetorianClockwork_ChestCannon_Huge\skel_ready 32 36
+	  PlayFX	Costumes\PraetorianClockwork\AntiMatterReactor_Glow01.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+Move Post_Combat
+	Member		<Ready>
+	NextMove	Ready
+
+	Type		ChestCannon_Male
+	  Anim		FX_PraetorianClockwork_ChestCannon_Male\skel_ready 36
+	TEnd
+
+	Type		ChestCannon_Huge
+	  Anim		FX_PraetorianClockwork_ChestCannon_Huge\skel_ready 36
+	TEnd
+MEnd
+
+#########################################################
+
+Move Encounter_Diagnostics_Open
+	Requires	POSE TYPING LOW
+	Priority        3
+	Interrupts	<Ready>
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle
+	CycleMove	Encounter_Diagnostics_Cycle
+
+	Type		ChestCannon_Male
+	  Anim		FX_PraetorianClockwork_ChestCannon_Male\skel_ready 1 32
+	  PlayFX	Costumes\PraetorianClockwork\AntiMatterReactor_Glow01.fx 0 CONSTANT
+	TEnd
+
+	Type		ChestCannon_Huge
+	  Anim		FX_PraetorianClockwork_ChestCannon_Huge\skel_ready 1 32
+	  PlayFX	Costumes\PraetorianClockwork\AntiMatterReactor_Glow01.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Encounter_Diagnostics_Cycle
+	Requires	POSE TYPING LOW
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle
+	NextMove	Encounter_Diagnostics_Cycle_Close
+
+	Type		ChestCannon_Male
+	  Anim		FX_PraetorianClockwork_ChestCannon_Male\skel_ready 32 36
+	  PlayFX	Costumes\PraetorianClockwork\AntiMatterReactor_Glow01.fx 0 CONSTANT
+	TEnd
+
+	Type		ChestCannon_Huge
+	  Anim		FX_PraetorianClockwork_ChestCannon_Huge\skel_ready 32 36
+	  PlayFX	Costumes\PraetorianClockwork\AntiMatterReactor_Glow01.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Encounter_Diagnostics_Cycle_Close
+	Member		<Ready>
+	NextMove	Ready
+
+	Type		ChestCannon_Male
+	  Anim		FX_PraetorianClockwork_ChestCannon_Male\skel_ready 36
+	TEnd
+
+	Type		ChestCannon_Huge
+	  Anim		FX_PraetorianClockwork_ChestCannon_Huge\skel_ready 36
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

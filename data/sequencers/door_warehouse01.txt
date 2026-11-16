@@ -1,0 +1,88 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_warehouse01 
+	BaseSkeleton	Door_warehouse01\skel_door_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_warehouse01
+	  Anim          Door_warehouse01\skel_door_ready 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_warehouse01
+	  Anim          Door_warehouse01\skel_door_ready 5 19 
+	  PlayFX	fx\doors\Wdoor1.fx
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Interpolate     0
+	Sets            WALKTHROUGH 
+
+	Type		Door_warehouse01
+	  Anim          Door_warehouse01\skel_door_ready 20 59 
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_warehouse01
+	  Anim          Door_warehouse01\skel_door_ready 60 70 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_warehouse01
+	  Anim          Door_warehouse01\skel_door_ready 71 98
+	  PlayFX	fx\doors\Wdoor2.fx
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		Door_warehouse01
+	  Anim          Door_warehouse01\skel_door_ready 99  
+	TEnd
+MEnd
+
+SeqEnd
+

@@ -1,0 +1,61 @@
+// Cut Scene
+
+> < 0 Boss
+		Action PL_NEWSPAPER
+		Target Charlie
+
+> < 0 Charlie
+		Action PL_NONE
+		Target Boss
+
+> < 2 Camera
+		Position	Charlie
+
+> < 0 Charlie	"<f=a>Say a Frank?" 
+
+> < 3 Camera
+		Position	Boss
+
+> < 0 Boss		"<f=a>Hmm?"
+
+> < 1 Camera 
+		Position	Encounter
+
+> < 0 Charlie	"<em lecture>What would we do if heroes should show up?<em none>"
+
+> < 3 Boss		"If we can't handle them ourselves, then we'll let it out."
+
+> < 4 Charlie	"<em DontAttack>Are you nuts?  We're supposed to be guarding it, not letting it rampage!<em crossarms>"
+
+> < 4 Boss		"Well, don't worry.  Nobody's going to find us down here.<em>We'll deliver the thing to the suckers who bought it as planned."
+
+> < 5 Charlie	"<em laugh>Heh, hee. Yeah.<em> I hope it eats 'em."
+
+> < 4 Camera	
+		Position	1
+
+> < 0 Boss
+		Action	PL_NONE
+
+> < 1 Boss		"Eat this."
+		Action	Power:Heavy_Sonic_Blast
+
+> < 3 Charlie	"<em no>OW! Quit it!"
+
+> < 2 Boss		"Hee hee, it wasn't on. I can't wait to use this baby on a hero."
+
+> < 2 Charlie	"<em point f=marker:look>What's that?"
+
+> < 1 Boss		"<em f=marker:look>Where?"
+		Action	PL_NONE
+
+> < 0 Charlie	
+		Action	Power:BestAttack
+		Target	Boss
+
+> < 1 Charlie	"<f=a>Made you look."
+
+> < 2 Boss		"<f=a>Jerk."
+
+> < 4 End 
+		

@@ -1,0 +1,126 @@
+#############################################################
+## FreezeRay.fx
+#############################################################
+
+FxInfo
+
+LifeSpan 200
+
+#############################################################
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		Ename   LeftHandMist
+		Type	Local
+		At	WepL
+		Part1	:snowburst.part
+		Part2	:ColdArmMist.part
+		LifeSpan 37
+	End
+
+	Event
+		Ename   RightHandMist
+		Type	Local
+		At	WepR
+		Part1	:snowburst.part
+		Part2	:ColdArmMist.part
+		Sound FreezeRay2 100.0 100.0 .8
+		LifeSpan 37
+	End
+End
+
+#############################################################
+
+Condition
+	On	Time
+	Time	8
+
+	Event
+		Ename   RightHandMist
+		Type	Local
+		At	WepR
+		Part1	:IceChunksHands.part
+		LifeSpan 15
+	End
+End
+
+Condition
+	On 	Time
+	Time 	18
+
+	Event
+		Type	start
+		At	WepR
+		Part1	:IceBoltSnowSkatter.part
+		LifeSpan 60
+	End
+End
+
+#############################################################
+
+Condition
+	On 	Time
+	Time 	17
+
+	Event
+		EName 	Prime
+		Type	Start
+		At	WepR
+		Bhvr	behaviors\powers\coldcontrol\iceblast.bhvr
+		Geom	FX_IceBlast
+		Part1	:FreezeRayGlowA.part
+		Part2	:FreezeRayIceChuncks2A.part
+		Part3	:FreezeRayIceChuncksA.part
+		Part4	:FreezeRayIceDebris.part
+		Part5	:FreezeRayIceDebris2.part
+		Magnet	Target
+		LookAt	Target
+	End
+
+	Event
+		EName 	trail
+		Type	Start
+		At	WepR
+		Bhvr	behaviors\powers\coldcontrol\iceblast.bhvr
+		Part1	:FreezeRayMistA.part
+		Part2	:FreezeRaycrystalStreakA.part
+		Part3	:FreezeRaycrystalStreakA.part
+		Part4	:FreezeRaycrystalStreakA.part
+		Part5	:IceBoltSnowtrail2.part
+		Magnet	Target
+		LookAt	Target
+	End
+End
+
+#############################################################
+
+Condition
+	On	PrimeHit
+
+	Event
+		Ename	Prime
+		Type	Destroy
+	End
+
+	Event
+		Ename	trail
+		Type	Destroy
+	End
+
+#	Event
+#		Ename   IceShards
+#		Type	Posit
+#		At	target
+#		Part1	:IceBoltMist.part
+#		Part2	:ChillTouchSnow.part
+#		Part3   :ChillingTouchFlash.part
+#		LifeSpan 20
+#	End
+End
+
+#############################################################
+
+End

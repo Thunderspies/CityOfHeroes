@@ -1,0 +1,86 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Sewer_Hatch
+	BaseSkeleton	Door_Sewer_Hatch\Skel_Sewer_Hatch
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Sewer_Hatch
+	  Anim          Door_Sewer_Hatch\Skel_Sewer_Hatch 1 5
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_Sewer_Hatch
+	  Anim          Door_Sewer_Hatch\Skel_Sewer_Hatch 6 13
+	  PlayFX		Doors\Sewer_Hatch_Open.FX
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Sewer_Hatch
+	  Anim          Door_Sewer_Hatch\Skel_Sewer_Hatch 14 20
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Sewer_Hatch
+	  Anim          Door_Sewer_Hatch\Skel_Sewer_Hatch 20 25
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Sewer_Hatch
+	  Anim          Door_Sewer_Hatch\Skel_Sewer_Hatch 26 33
+	  PlayFX		Doors\Sewer_Hatch_Close.FX
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Sewer_Hatch
+	  Anim          Door_Sewer_Hatch\Skel_Sewer_Hatch 34 45
+	TEnd
+MEnd
+
+SeqEnd
+

@@ -1,0 +1,222 @@
+RootMod _tankArn01_cnnod
+End
+
+RootMod _tankArn01_main
+End
+
+RootMod _tankArn01_trt
+End
+
+RootMod _tankArn02_trt
+End
+
+RootMod _tankArn01_tracks
+End
+
+RootMod _tankArn01_whls
+End
+
+RootMod _tankArn01_cnn
+End
+
+RootMod _tankArn01_cnnbase
+End
+
+RootMod _tankArn02_whls
+End
+
+RootMod _tankArn01_lod
+End
+
+RootMod _tankArn01_whls_lod
+End
+
+RootMod _tankArn01_trtlod
+End
+
+RootMod _tankArn02_cnnbase
+End
+
+RootMod _tankArn02_cnn
+End
+
+RootMod _tankArn02_main
+End
+
+RootMod _tankArn01_basket
+End
+
+RootMod _tankArn01_basketmesh
+End
+
+RootMod _tankArn02_basket
+End
+
+RootMod _tankArn02_basketmesh
+End
+
+RootMod _tankArn02_trt_lod
+End
+
+RootMod _tankArn01_det
+End
+
+RootMod _tankArn02_det
+End
+
+RootMod _tankArn02_whls_lod
+End
+
+RootMod _tankArn02_lod
+End
+
+RootMod _tankArn01_trt_det
+End
+
+RootMod _tankArn02_trt_det
+End
+
+RootMod _tankArn02_cnnod
+End
+
+RootMod _tankArn01_trackslod
+End
+
+RootMod _tankArn01_skirt
+End
+
+RootMod _tankArn02_skirt
+End
+
+Def tankArn_body01_1&
+	Group _tankArn01_whls_lod
+	End
+	Group _tankArn01_whls
+	End
+End
+
+Def tankArn_body01_2&
+	Group _tankArn01_trackslod
+	End
+	Group _tankArn01_tracks
+	End
+End
+
+Def tankArn_body01_3&
+	Group _tankArn01_det
+	End
+	Group _tankArn01_lod
+	End
+	Group _tankArn01_main
+	End
+End
+
+Def tankArn_body01
+	Group tankArn_body01_1&
+	End
+	Group tankArn_body01_2&
+	End
+	Group tankArn_body01_3&
+	End
+	Group _tankArn01_skirt
+	End
+End
+
+Def tankArn_trt01_1&
+	Group _tankArn01_cnn
+	End
+	Group _tankArn01_cnnod
+	End
+	Group _tankArn01_cnnbase
+	End
+End
+
+Def tankArn_trt01
+	Group tankArn_trt01_1&
+		PYR 0 0 -14.999978
+		Pos 5.459839 7.782837 0.31604
+	End
+	Group _tankArn01_trt_det
+	End
+	Group _tankArn01_trt
+	End
+	Group _tankArn01_trtlod
+	End
+End
+
+Def tankArn_body02_1&
+	Group _tankArn02_whls_lod
+	End
+	Group _tankArn02_whls
+	End
+End
+
+Def tankArn_body02_2&
+	Group _tankArn02_det
+	End
+	Group _tankArn02_main
+	End
+End
+
+Def tankArn_body02
+	Group tankArn_body02_1&
+	End
+	Group _tankArn02_skirt
+	End
+	Group tankArn_body02_2&
+	End
+End
+
+Def tankArn_trt02_1&
+	Group _tankArn02_cnn
+	End
+	Group _tankArn02_cnnod
+	End
+	Group _tankArn02_cnnbase
+	End
+End
+
+Def tankArn_trt02_3&
+	Group _tankArn02_basket
+	End
+	Group _tankArn02_basketmesh
+	End
+End
+
+Def tankArn_trt02_2&
+	Group _tankArn02_trt_det
+	End
+	Group _tankArn02_trt_lod
+	End
+	Group _tankArn02_trt
+	End
+	Group tankArn_trt02_3&
+	End
+End
+
+Def tankArn_trt02
+	Group tankArn_trt02_1&
+		Pos 5.223724 7.229736 -0.100586
+	End
+	Group tankArn_trt02_2&
+	End
+End
+
+Def tank_A_ruin_full_1&
+	Group Omni/PARTICLE_100
+	End
+	Type WORLD\Ruins\Fire_Small.fx
+End
+
+Def tank_A_ruin_full
+	Group tankArn_body01
+		PYR 0 90 -0
+	End
+	Group tankArn_trt01
+		PYR 0 90 -0
+	End
+	Group tank_A_ruin_full_1&
+		Pos -3.5 6.431335 -5
+	End
+End
+

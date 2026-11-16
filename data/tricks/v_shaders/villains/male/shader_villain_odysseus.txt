@@ -1,0 +1,79 @@
+//	Shader for Odysseus Enemy Boss Dude
+
+Texture Glove_V_Odysseus_GlowScroll.tga
+	Flags RepeatS RepeatT
+End
+
+Texture X_Glove_V_Odysseus		// Name of shader
+	Base1 Glove_V_Odysseus
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none //DE_SacRef
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 Glove_V_Odysseus_Mask
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Glove_V_Odysseus_Normal
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Glove_V_Odysseus_GlowScroll //DE_RayBubbles_g
+	AddGlow1Scroll 0 0.02
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 .1
+	AddGlowMat2  0        // <- applies the addglow effect to the second material
+
+	Mask Glove_V_Odysseus_Glow
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2  Glove_V_Odysseus
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 Glove_V_Odysseus_Mask
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Glove_V_Odysseus_Normal
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 200 200
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 4
+	SpecularExponent2 8
+
+//	ReflectionDesaturate  1		// Remove these and it will use ugly reflection
+//	ReflectionTint  0
+//	ReflectivityBase 0.1
+//	ReflectivityScale 0.7
+//	ReflectivityPower 3
+
+	AmbientScale 2
+
+	Flags NoRandomAddGlow AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+End

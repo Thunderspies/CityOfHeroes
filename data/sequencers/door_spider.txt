@@ -1,0 +1,91 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Spider
+	BaseSkeleton	Door_Spider\Skel_Door_Spider
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Spider
+	  Anim          Door_Spider\Skel_Door_Spider 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Opened   ##Open2
+	Priority        1
+	Scale           0.70
+
+	Type		Door_Spider
+	  Anim          Door_Spider\Skel_Door_Spider 6 20 
+	  PlayFX	fx\doors\woodopen.fx
+	TEnd
+MEnd
+
+
+#Move Open2		##(note this is not used because door opens really fast)
+#	Requires	OPEN 
+#	NextMove        Opened
+#	Priority        1
+#	Scale           0.70
+#	Sets            WALKTHROUGH 
+#
+#	Type		Door_Spider
+#	  Anim          Door_Spider\Skel_Door_Spider 31 34 
+#	  PlayFX	fx\doors\woodopen.fx
+#	TEnd
+#MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Spider
+	  Anim          Door_Spider\Skel_Door_Spider 22 25
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Ready  ##Shut2
+	Priority        1
+##	Sets            WALKTHROUGH 
+
+	Type		Door_Spider
+	  Anim          Door_Spider\Skel_Door_Spider 26 
+	  PlayFX	fx\doors\woodclose.fx
+	TEnd
+MEnd
+
+
+#Move Shut2		##(note this is not used because door opens really fast)
+#	Requires	SHUT 
+#	NextMove        Ready
+#	Priority        1
+#
+#	Type		Door_Spider
+#	  Anim          Door_Spider\Skel_Door_Spider 67 80 
+#	  #PlayFX	fx\doors\woodclose.fx
+#	TEnd
+#MEnd
+
+SeqEnd
+

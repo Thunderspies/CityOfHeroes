@@ -1,0 +1,392 @@
+#############################################################
+## Giant.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef huge
+	BaseSkeleton	huge\skel_ready
+	ParentType	male
+TypeDefEnd
+
+TypeDef Giant
+	BaseSkeleton	huge\skel_ready
+	ParentType	Huge
+TypeDefEnd
+
+TypeDef MindsOfMayhem_JackInIrons
+	BaseSkeleton	huge\skel_ready
+	ParentType	Huge
+TypeDefEnd
+
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<MoveIRQ>
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	SticksOnChild   WEPSPAWN3
+	Scale		1.5
+
+	Type		male
+	  Anim          huge\giant_club_cycle 1 60
+	TEnd
+MEnd
+
+###### Motion  ###########################################################
+##  Note: Giant uses both motion here and from the motion.inc files	##
+##	You Must name each move with a unique prefix "G_" and set the	##
+##	priority one higher than the motion.inc file			##
+##########################################################################
+
+###################
+#### run Forward ##
+####################
+
+Move G_RunPre
+	Requires	FORWARD
+	Priority        2
+	Interrupts	<Ready>  <PostMoveCycle> <Block> <HitIRQ> RH_RunPre RH_RunCycle
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        G_RunCycle
+	Interpolate	8
+
+	Type		male
+	  Anim          huge\giant_club_prerun 1
+	  PlayFx        FEET\MALERIGHT.FX 10
+	  Scale		1.2
+	   MoveRate     0.7
+	TEnd
+MEnd
+
+Move G_RunCycle
+	Requires	FORWARD
+	Priority        2
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove	G_RunPost
+	Interpolate	8
+
+	Type		male
+	  Anim          huge\giant_head_run 1
+	  PlayFx        FEET\MALELEFT.FX 10
+	  PlayFx        FEET\MALERIGHT.FX 21
+	  Scale		1.2
+	  MoveRate      0.7
+	TEnd
+MEnd
+
+Move G_RunPost
+	Interrupts	RunPost
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Interpolate	8
+
+	Type		male
+	  Anim          huge\giant_club_postrun 1
+	  PlayFx	FEET\LAND3.FX:LAND  3
+	  PlayFx	FEET\MALERIGHT.FX:FOOTFALLRIGHT 12
+	  Scale		1.5
+	TEnd
+MEnd
+
+#########################################################
+####### Jumppost - replaces old jumppost in motion.inc  ######
+#########################################################
+
+Move G_JumpPost
+	Interrupts	JumpPost
+	Include sequencers\Members\Readies.inc
+	NextMove        G_JumpPost_cycle
+	Interpolate     1
+
+	Type		male
+	  Anim          huge\monster_postjump 1
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+MEnd
+
+Move G_JumpPost_cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          huge\monster_postjump 35
+	TEnd
+MEnd
+
+#############################################################
+## POWERS
+#############################################################
+
+##############################
+###### giantClub Smash ######
+###############################
+
+Move G_Club_Smash
+	Requires	CLUB SMASH
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Club_Smash_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          huge\giant_club_smash 1 40
+	TEnd
+MEnd
+
+Move G_Club_Smash_post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Ready
+	Interpolate     0
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          huge\giant_club_smash 40
+	TEnd
+MEnd
+
+##############################
+###### giantClub BigSwing ######
+###############################
+
+Move G_Club_BigSwing
+	Requires	CLUB UPPERCUT
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Club_BigSwing_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          huge\giant_club_bigswing 1 40
+	TEnd
+MEnd
+
+Move G_Club_BigSwing_post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          huge\giant_club_bigswing 40
+	TEnd
+MEnd
+
+################################
+###### Draw Severed Head  ######
+################################
+
+Move Draw_Dead
+	Requires	HEAD SPAWNSIDE
+	Priority        2
+	Interrupts	<Ready> PostWepReady
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Draw_Head_2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          huge\giant_headcast 1 30
+	TEnd
+MEnd
+
+Move Draw_Head_2
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          huge\giant_headcast 30 50
+	TEnd
+MEnd
+
+################################
+###### Severed Head Cast  ######
+################################
+
+Move 1st_HeadCast
+	Requires	HEAD HEADCAST SPAWNSIDE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_HeadCast2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          huge\giant_headcast 1 30
+	TEnd
+MEnd
+
+Move 1st_HeadCast2
+	Requires	HEAD HEADCAST
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_HeadCast_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          huge\giant_headcast 30 90
+	TEnd
+MEnd
+
+Move 1st_HeadCast_post
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim          huge\giant_headcast 90
+	TEnd
+MEnd
+
+###############################
+####### Ground Summon w\club  ######
+###############################
+
+Move G_Summon_club
+	Requires	COMBAT GROUNDSUMMON
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        G_Summonpost_club
+	Sets            CANTMOVE
+
+	Type		male
+	  Anim          huge\ground_summon 1 104
+	TEnd
+MEnd
+
+Move G_Summonpost_club
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Ready
+	Scale		1.5
+	Interpolate	20
+
+	Type		male
+	  Anim          huge\giant_club_cycle 1 60
+	TEnd
+MEnd
+
+#############################################################
+## HIT REACTIONS
+#############################################################
+
+## HIT QUICK ###########################################################
+
+Move G_HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Flags		HitReact
+	Priority        3
+
+	Type		male
+	  Anim          huge\giant_club_HQ
+	TEnd
+MEnd
+
+###  Inc files ###############################################
+
+##Include sequencers\player\readies.inc
+
+Include sequencers\player\motion.inc
+Include sequencers\player\Swim.inc
+
+Include sequencers\player\powers.inc
+Include sequencers\player\powers_air.inc
+Include sequencers\player\Taunts.inc
+
+Include sequencers\player\weapons.inc
+Include sequencers\player\weapons_a.inc
+
+Include sequencers\player\deaths.inc
+Include sequencers\player\reactions.inc
+Include sequencers\player\reactions_air.inc
+
+Include sequencers\player\encounters.inc
+
+Include sequencers\player\emotes.inc
+Include sequencers\player\emotes_air.inc
+
+Include sequencers\player\Events.inc
+
+#Include sequencers\player\UpDate.inc
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,53 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_StatesmanGuard
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_StatesmanGuard01
+	BaseSkeleton	male\skel_ready2
+	ParentType	FX_StatesmanGuard
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>  
+	NextMove	Teleport
+	#Interpolate	15
+
+	Type		FX_StatesmanGuard
+	  Anim          FX_StatesmanGuard\Skel_kneel 1 255
+	  PlayFX	V_COV\EnemyPowers\Guards\F_FadeIn_Entity.fx 1 CONSTANT	
+	TEnd
+
+	Type		FX_StatesmanGuard01
+	  Anim          FX_StatesmanGuard\Defender 1 255
+	  PlayFX	V_COV\EnemyPowers\Guards\F_FadeIn_Entity.fx 1 CONSTANT
+	TEnd
+MEnd
+
+Move Teleport
+	Flags		Cycle CantMove
+	Priority        2
+	Interpolate	0
+
+	Type		FX_StatesmanGuard
+	  Anim          FX_StatesmanGuard\Skel_kneel 256 285
+	  PlayFX	V_COV\EnemyPowers\Guards\F_FadeOut_EntityChild.fx 0 
+	TEnd
+
+	Type		FX_StatesmanGuard01
+	  Anim          FX_StatesmanGuard\Defender 256 285
+	  PlayFX	V_COV\EnemyPowers\Guards\F_FadeOut_EntityChild.fx 0 
+	TEnd
+MEnd
+
+SeqEnd

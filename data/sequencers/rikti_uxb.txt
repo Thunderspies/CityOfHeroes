@@ -1,0 +1,115 @@
+#########################################################
+## Rikti_UXB.txt - Rikti Unexploded Bomb
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Rikti_UXB
+	BaseSkeleton	Rikti_Bomb\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Rikti_XB
+	BaseSkeleton	Rikti_Bomb\skel_ready
+	ParentType	Rikti_UXB
+TypeDefEnd
+
+#########################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<Ready>
+
+## SPAWN - Teleport in and Fall #######################################################
+
+Move Spawn
+	NextMove        Spawn_2
+	Sets            CANTMOVE NOCOLLISION
+	Flags		NotSelectable NOSIZESCALE
+
+	Type		Rikti_UXB
+	  Anim          Rikti_Bomb\spawn 1 10
+	TEnd
+MEnd
+
+Move Spawn_2
+	NextMove        Ready
+	Sets            CANTMOVE NOCOLLISION
+	Flags		NotSelectable NOSIZESCALE
+
+	Type		Rikti_UXB
+	  Anim          Rikti_Bomb\spawn 11 91
+	TEnd
+MEnd
+
+## READY #######################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		CYCLE NoSizeScale
+
+	Type		Rikti_UXB
+	  Anim          Rikti_Bomb\skel_ready 1 31
+	TEnd
+MEnd
+
+## DEATH #######################################################
+
+Move Death
+	Requires	DEATH
+	Interrupts	<Ready>
+	Member		<DeathIRQ>
+	Priority        1
+	Flags		CYCLE NOCOLLISION NotSelectable
+	NextMove	Ready
+
+	Type		Rikti_UXB
+	  Anim          Rikti_Bomb\skel_ready 1 31
+	  PlayFx        GENERIC\ENTITYVANISH.FX
+	  #PlayFX	EnemyFx\Rikti\UXB\UXB_Death.fx 1 CONSTANT
+	TEnd
+
+	Type		Rikti_XB
+	  Anim          Rikti_Bomb\skel_ready 1 31
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+## INSTANT DEATH #######################################################
+
+Move Instant_Death
+	Requires	DEATH INSTANTDEATH
+	Interrupts	<Ready>
+	Member		<DeathIRQ>
+	Priority        2
+	Flags		CYCLE NotSelectable NOCOLLISION
+	NextMove	Ready
+
+	Type		Rikti_UXB
+	  Anim          Rikti_Bomb\skel_ready 1 31
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+## SPAWN - Teleport on Ground #######################################################
+
+#Move Spawn_Teleport
+#	Requires	SPAWN TELEPORT
+#	Interrupts	<DeathIRQ>
+#	Member		<ReactIRQ> <DeathIRQ>
+#	NextMove        Ready
+#	Priority        2
+#	Flags		NOSIZESCALE
+#
+#	Type		Rikti_UXB
+#	  Anim          Rikti_Bomb\skel_ready 1 31
+#	  PlayFx        POWERS\Teleport\Teleport.fx  0
+#	  PlayFx        GENERIC\entityFadeIn.fx 0
+#	TEnd
+#MEnd
+
+#########################################################
+
+SeqEnd

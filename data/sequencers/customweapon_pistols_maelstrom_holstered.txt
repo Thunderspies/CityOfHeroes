@@ -1,0 +1,51 @@
+#########################################################
+## CustomWeapon_Pistols.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef PistolRight_Maelstrom_Holstered
+	BaseSkeleton	CustomWeapons_Pistols_SemiAuto\MaelstromPistol_Ready
+	ParentType	PistolRight_SemiAuto
+TypeDefEnd
+
+TypeDef PistolLeft_Maelstrom_Holstered
+	BaseSkeleton	CustomWeapons_Pistols_SemiAuto\MaelstromPistol_Ready
+	ParentType	PistolRight_Maelstrom_Holstered
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Cycle
+	Requires	DUALHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle NoDraw
+
+	Type		PistolRight_SemiAuto
+	  Anim		CustomWeapons_Pistols_SemiAuto\skel_ready 1 1
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

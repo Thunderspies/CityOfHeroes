@@ -1,0 +1,34 @@
+#########################################################
+
+FxInfo
+
+Flags    InheritAlpha InheritGeoScale
+#########################################################
+
+Condition
+	On 	Time
+	Time 	0
+
+	Event
+		Type	Local
+		At	Hips
+		BhvrOverride
+			PositionOffset	0 0 -0.09
+			TintGeom	1
+		End
+		GEOM	FX_Hips_SuperPack2_01_male
+	End
+
+End
+
+Condition
+
+	Event
+		EName	CapeTest
+		Type	Local
+		Cape	:SP2_Male_Belt_02.cape
+	End
+
+End
+
+End

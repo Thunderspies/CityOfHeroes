@@ -1,0 +1,885 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage CompleteStage
+DisplayName P3772161090
+EventVolume EventVolume_Hellions
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action CreateStuff
+		{
+			SpawnCreate HellionStatic1
+			{
+				Location HellionStatic1
+				Group HellionStatic1
+				Team HellionStatic1
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionStatic1
+			}
+			SpawnCreate HellionStatic2
+			{
+				Location HellionStatic2
+				Group HellionStatic2
+				Team HellionStatic2
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionStatic2
+			}
+			SpawnCreate HellionStatic3
+			{
+				Location HellionStatic3
+				Group HellionStatic3
+				Team HellionStatic3
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionStatic3
+			}
+			SpawnCreate HellionStatic4
+			{
+				Location HellionStatic4
+				Group HellionStatic4
+				Team HellionStatic4
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionStatic4
+			}
+			SpawnCreate PPDStatic
+			{
+				Location PPDStatic
+				Group PPDStatic
+				Team PPDStatic
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team PPDStatic
+			}
+			SpawnCreate HellionBoss
+			{
+				Location HellionBoss
+				Group HellionBoss
+				Team HellionBoss
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionBoss
+			}
+			SpawnCreate DemonSpawn
+			{
+				Location DemonSpawn
+				Group DemonSpawn
+				Team DemonSpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team DemonSpawn
+			}
+			SpawnCreate HellionFountainSpawn
+			{
+				Location HellionFountainSpawn
+				Group HellionFountainSpawn
+				Team HellionFountainSpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionFountainSpawn
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   4
+				Count   2,   2,   5
+				Count   3,   3,   7
+				Count   8,   3,   9
+				Count   10,   4,   10
+				Count   12,   6,   15
+				Count   21,   7,   19
+				Count   23,   9,   22
+				Count   38,   10,   24
+				Count   43,   10,   26
+			}
+			SpawnCreate HellionFountainSpawn2
+			{
+				Location HellionFountainSpawn2
+				Group HellionFountainSpawn2
+				Team HellionFountainSpawn2
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionFountainSpawn2
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   4
+				Count   2,   2,   5
+				Count   3,   3,   7
+				Count   8,   3,   9
+				Count   10,   4,   10
+				Count   12,   6,   15
+				Count   21,   7,   19
+				Count   23,   9,   22
+				Count   38,   10,   24
+				Count   43,   10,   26
+			}
+			SpawnCreate HellionFountainSpawn3
+			{
+				Location HellionFountainSpawn3
+				Group HellionFountainSpawn3
+				Team HellionFountainSpawn3
+				MoveToMarker BattleMarker
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionFountainSpawn3
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   4
+				Count   2,   2,   5
+				Count   3,   3,   7
+				Count   8,   3,   9
+				Count   10,   4,   10
+				Count   12,   6,   15
+				Count   21,   7,   19
+				Count   23,   9,   22
+				Count   38,   10,   24
+				Count   43,   10,   26
+			}
+			SpawnCreate PPDFountainSpawn
+			{
+				Location PPDFountainSpawn
+				Group PPDFountainSpawn
+				Team PPDFountainSpawn
+				MoveToMarker BattleMarker
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team PPDFountainSpawn
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   4
+				Count   2,   2,   5
+				Count   3,   3,   7
+				Count   8,   3,   9
+				Count   10,   4,   10
+				Count   12,   6,   15
+				Count   21,   7,   19
+				Count   23,   9,   22
+				Count   38,   10,   24
+				Count   43,   10,   26
+			}
+			SpawnCreate ObeliskSpawn
+			{
+				Location ObeliskSpawn
+				Group ObeliskSpawn
+				Team ObeliskSpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ObeliskSpawn
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage NeutralStage
+	}
+}
+
+Stage CompleteStage
+{
+	DisplayName P2439318476
+	StartUp
+	{
+		Action TurnOffDemon
+		{
+			TeamControl Pantheon
+			{
+				Type Deactivate
+				Team DemonSpawn
+			}
+		}
+		Action TurnOffObelisks
+		{
+			TeamControl Pantheon
+			{
+				Type Deactivate
+				Team ObeliskSpawn
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:30
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		NextStage PPDvHellion
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down stage Reset>>
+		}
+	}
+	UICollection Protestreset
+	{
+		UIItem TimeToNextEvent
+		{
+			Type Timer
+			Timer ResetTimer
+			Text P2969292143
+			ShortText P1957261162
+		}
+	}
+}
+
+Stage NeutralStage
+{
+	DisplayName P2360237160
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Stage Protest>>
+		}
+		Action TurnOnSpawns
+		{
+			TeamControl TriggerHellionFountain
+			{
+				Type Activate
+				Team HellionFountainSpawn
+			}
+		}
+		Action TurnOnSpawns
+		{
+			TeamControl TriggerHellionFountain2
+			{
+				Type Activate
+				Team HellionFountainSpawn2
+			}
+		}
+		Action TurnOnMeteor
+		{
+			TeamControl PPDActivate
+			{
+				Type Activate
+				Team PPDStatic
+			}
+		}
+		Action TurnOnStatic1
+		{
+			TeamControl HellionStaticRemove
+			{
+				Type Deactivate
+				Team HellionStatic1
+			}
+		}
+		Action ProtestKillsDone
+		{
+			Floater Victory
+			{
+				Message P1474098038
+				Color 00ff00
+				Volume EventVolume_Hellions
+			}
+		}
+		Action TurnOnObelisks
+		{
+			TeamControl Obelisks
+			{
+				Type Activate
+				Team Obeliskspawn
+			}
+		}
+		Action MakeObelisksInvuln
+		{
+			TeamControl InvulnObelisks
+			{
+				Type DoBehavior
+				Team ObeliskSpawn
+				Behavior <<Untargetable(1),Unselectable(1),Invincible(1)>>
+			}
+		}
+		Action TurnOffBosses
+		{
+			TeamControl HellionBosses
+			{
+				Type Deactivate
+				Team HellionBoss
+			}
+		}
+		Action HellionFountainSpawn3
+		{
+			TeamControl NewFountainSpawn
+			{
+				Type Deactivate
+				Team HellionFountainSpawn3
+			}
+		}
+	}
+	Counter HellionKills
+	{
+		Type VillainGroup
+		Count 25
+		VillainGroup Hellions
+	}
+	Counter ParagonPoliceKills
+	{
+		Type VillainGroup
+		Count 5
+		VillainGroup ParagonPolice
+	}
+	UICollection Stage1KillCount
+	{
+		UIItem HellionKills
+		{
+			Type BarBlue
+			Text P3833793833
+			ShortText P1391944229
+			Current HellionKills count>
+			Target 25
+		}
+		UIItem PPDKills
+		{
+			Type BarBlue
+			Text P3812303450
+			ShortText P1492594559
+			Current ParagonPoliceKills count>
+			Target 5
+		}
+	}
+	Trigger BadStuffHappens
+	{
+		Requires ParagonPoliceKills complete>
+		Action ProtestKillsDone
+		{
+			DebugPrint <<Paragon Police are falling back!>>
+			Floater Victory
+			{
+				Message P1531687539
+				Color 00ff00
+				Volume EventVolume_Hellions
+			}
+		}
+		NextStage NegativeStage1
+	}
+	Trigger GoodStuffHappens
+	{
+		Requires HellionKills complete>
+		Action HellionKillsDone
+		{
+			DebugPrint <<Hellions are being pushed back!>>
+			Floater Victory
+			{
+				Message P2022749481
+				Color 00ff00
+				Volume EventVolume_Hellions
+			}
+		}
+		NextStage PositiveStage1
+	}
+}
+
+Stage PositiveStage1
+{
+	DisplayName P1890313204
+	StartUp
+	{
+		Action RemoveOldHellions
+		{
+			TeamControl HellionFountains
+			{
+				Type Deactivate
+				Team HellionFountainSpawn
+			}
+		}
+		Action RemoveOldHellions2
+		{
+			TeamControl HellionFountains2
+			{
+				Type Deactivate
+				Team HellionFountainSpawn2
+			}
+		}
+		Action TurnOnStatic1
+		{
+			TeamControl HellionBosses
+			{
+				Type Activate
+				Team HellionBoss
+			}
+		}
+		Action HellionFountainSpawn3
+		{
+			TeamControl NewFountainSpawn
+			{
+				Type Activate
+				Team HellionFountainSpawn3
+			}
+		}
+		Action PPDFountainSpawn
+		{
+			TeamControl PPDFountainSpawns
+			{
+				Type Activate
+				Team PPDFountainSpawn
+			}
+		}
+		Action TurnOffStatic
+		{
+			TeamControl PPD
+			{
+				Type Deactivate
+				Team PPDStatic
+			}
+		}
+		Action TurnOffPhase3
+		{
+			TeamControl hellionStatic
+			{
+				Type Deactivate
+				Team HellionStatic2
+			}
+		}
+	}
+	Counter HellionBossKills
+	{
+		Type Team
+		Count 4
+		Team HellionBoss
+	}
+	Counter ParagonPoliceKills2
+	{
+		Type VillainGroup
+		Count 15
+		VillainGroup ParagonPolice
+	}
+	UICollection PositiveStage1UI
+	{
+		UIItem PositiveStage1HellionCount
+		{
+			Type BarBlue
+			Text P1938479073
+			ShortText P1391944229
+			Current HellionBossKills count>
+			Target 4
+		}
+		UIItem Positivestage1PPDCount
+		{
+			Type BarRed
+			Text P3812303450
+			ShortText P2312836997
+			Current ParagonPoliceKills2 count>
+			Target 15
+		}
+	}
+	Trigger EventOver
+	{
+		Requires HellionBossKills complete>
+		Action HellionsDefeatedNextStage
+		{
+			DebugPrint <<The Hellions are in a last ditch effort!>>
+			Floater Victory
+			{
+				Message P2818986949
+				Color 00ff00
+				Volume EventVolume_Hellions
+			}
+		}
+		NextStage PositiveStage2
+	}
+	Trigger PositiveStage1Revert
+	{
+		Requires ParagonPoliceKills2 complete>
+		NextStage NeutralStage
+	}
+}
+
+Stage PositiveStage2
+{
+	DisplayName P935650468
+	StartUp
+	{
+		Action TurnOffStatic1
+		{
+			TeamControl HellionBosses
+			{
+				Type Deactivate
+				Team HellionBoss
+			}
+		}
+		Action HellionFountainSpawn3TurnOff
+		{
+			TeamControl NewFountainSpawn
+			{
+				Type Deactivate
+				Team HellionFountainSpawn3
+			}
+		}
+		Action PPDFountainSpawnTurnOff
+		{
+			TeamControl PPDFountainSpawns
+			{
+				Type Deactivate
+				Team PPDFountainSpawn
+			}
+		}
+		Action TurnOnDemon
+		{
+			TeamControl DemonRise
+			{
+				Type Activate
+				Team DemonSpawn
+			}
+		}
+		Action TurnOffPhase3
+		{
+			TeamControl hellionStatic
+			{
+				Type Deactivate
+				Team HellionStatic2
+			}
+		}
+		Action ObelisksVulnerable
+		{
+			TeamControl ObelisksVulnerable
+			{
+				Type DoBehavior
+				Team ObeliskSpawn
+				Behavior <<Untargetable(0),Unselectable(0),Invincible(0)>>
+			}
+		}
+	}
+	Counter DemonSpawnKilled
+	{
+		Type Team
+		Count 1
+		Team DemonSpawn
+	}
+	Counter ObelisksDestroyed
+	{
+		Type Team
+		Count 3
+		Team ObeliskSpawn
+	}
+	Counter DemonsHealth
+	{
+		Type BossHealth
+		Team DemonSpawn
+	}
+	Timer Timercountdown
+	{
+		Duration 0:30
+	}
+	UICollection PositiveStage2UI
+	{
+		UIItem Positivestage2DemonHealth
+		{
+			Type BarRed
+			Text P1405850808
+			ShortText P1405850808
+			Current DemonsHealth count>
+			Target 100
+		}
+		UIItem PositiveStage2ObeliskCount
+		{
+			Type BarRed
+			Text P2842445329
+			ShortText P594524974
+			Current ObelisksDestroyed count>
+			Target 3
+		}
+		UIItem PositiveStage2Timer
+		{
+			Type Timer
+			Timer TimerCountdown
+			Text P2416938476
+			ShortText P292933325
+		}
+	}
+	Trigger PositiveStage2GoodComplete
+	{
+		Requires DemonSpawnKilled complete>
+		Action PositiveStage2ToCompleteStage
+		{
+			DebugPrint <<The demon is defeated and the day is won!>>
+			Floater Victory
+			{
+				Message P727128823
+				Color 00ff00
+				Volume EventVolume_Hellions
+			}
+		}
+		NextStage CompleteStage
+	}
+	Trigger PositiveStage2Failure
+	{
+		Requires Timercountdown complete>
+		Action PositiveStage2ToNegativeStage2
+		{
+			DebugPrint <<The demon is defeated and the day is won!>>
+			Floater Victory
+			{
+				Message P3634508536
+				Color 00ff00
+				Volume EventVolume_Hellions
+			}
+		}
+		NextStage NegativeStage2
+	}
+}
+
+Stage NegativeStage1
+{
+	DisplayName P3277003442
+	StartUp
+	{
+		Action RemoveOldHellions
+		{
+			TeamControl HellionFountains
+			{
+				Type Deactivate
+				Team HellionFountainSpawn
+			}
+		}
+		Action RemoveOldHellions2
+		{
+			TeamControl HellionFountains2
+			{
+				Type Deactivate
+				Team HellionFountainSpawn2
+			}
+		}
+		Action TurnOnStatic1
+		{
+			TeamControl Pantheon
+			{
+				Type Activate
+				Team HellionStatic1
+			}
+		}
+		Action TurnOffStatic
+		{
+			TeamControl PPD
+			{
+				Type Deactivate
+				Team PPDStatic
+			}
+		}
+		Action TurnOffPhase3
+		{
+			TeamControl hellionStatic
+			{
+				Type Deactivate
+				Team HellionStatic2
+			}
+		}
+		Action HellionFloater
+		{
+			Floater Victory
+			{
+				Message P1130015707
+				Color 00ff00
+				Volume EventVolume_Hellions
+			}
+		}
+		Action TurnOffBosses
+		{
+			TeamControl HellionBosses
+			{
+				Type Deactivate
+				Team HellionBoss
+			}
+		}
+	}
+	Timer HellionCountdownTimer
+	{
+		Duration 0:25
+	}
+	Counter HellionKill2
+	{
+		Type VillainGroup
+		Count 5
+		VillainGroup Hellions
+	}
+	UICollection Stage2KillCount
+	{
+		UIItem HellionKillCount
+		{
+			Type BarBlue
+			Text P3009148453
+			ShortText P1391944229
+			Current HellionKill2 count>
+			Target 5
+		}
+		UIItem TimeToNextEvent
+		{
+			Type Timer
+			Timer HellionCountdownTimer
+			Text P1225139192
+			ShortText P3980808842
+		}
+	}
+	Trigger EventOver
+	{
+		Requires HellionKill2 complete>
+		Action HellionsKilled
+		{
+			DebugPrint <<Hellions pushed back further. Moving back to initial stage.>>
+			Floater Victory
+			{
+				Message P1157695743
+				Color 00ff00
+				Volume EventVolume_Hellions
+			}
+		}
+		NextStage NeutralStage
+	}
+	Trigger HellionsWinNextRound
+	{
+		Requires HellionCountdownTimer complete>
+		NextStage NegativeStage2
+	}
+}
+
+Stage NegativeStage2
+{
+	DisplayName P3688948141
+	StartUp
+	{
+		Action TurnOffStaticSpawn1
+		{
+			TeamControl TurnOffPreviousHellions
+			{
+				Type Deactivate
+				Team HellionStatic1
+			}
+		}
+		Action DemonSpawn
+		{
+			TeamControl TurnOffDemon
+			{
+				Type Deactivate
+				Team DemonSpawn
+			}
+		}
+		Action ResetObelisks
+		{
+			TeamControl TurnOffObelisks
+			{
+				Type Deactivate
+				Team ObeliskSpawn
+			}
+		}
+		Action ReactivateObelisks
+		{
+			TeamControl TurnOnObelisks
+			{
+				Type Activate
+				Team ObeliskSpawn
+			}
+		}
+		Action MakeObelisksInvuln
+		{
+			TeamControl InvulnObelisks
+			{
+				Type DoBehavior
+				Team ObeliskSpawn
+				Behavior <<Untargetable(1),Unselectable(1),Invincible(1)>>
+			}
+		}
+		Action TurnOnNextStatic
+		{
+			TeamControl TurnOnNewHellions
+			{
+				Type Activate
+				Team HellionStatic2
+			}
+		}
+	}
+	Counter HellionKill3
+	{
+		Type VillainGroup
+		Count 5
+		VillainGroup Hellions
+	}
+	UICollection Stage2KillCount2
+	{
+		UIItem HellionKillCount2
+		{
+			Type BarBlue
+			Text P3833793833
+			ShortText P1391944229
+			Current HellionKill3 count>
+			Target 5
+		}
+	}
+	Trigger EventOver
+	{
+		Requires HellionKill3 complete>
+		Action HellionsFullydefated
+		{
+			DebugPrint <<Hellions pushed back. Moving back to Hellion Win Stage 1.>>
+			Floater Victory
+			{
+				Message P1157695743
+				Color 00ff00
+				Volume EventVolume_Hellions
+			}
+		}
+		NextStage NegativeStage2
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action TurnOffPantheon
+		{
+			TeamControl Pantheon
+			{
+				Type Deactivate
+				Team PantheonSpawn
+			}
+		}
+		Action TurnOffPantheon
+		{
+			TeamControl Pantheon
+			{
+				Type Deactivate
+				Team FireSpawn
+			}
+		}
+		Action StopStart
+		{
+			RemoveWaypoints
+			DebugPrint <<Starting Stop stage>>
+		}
+}

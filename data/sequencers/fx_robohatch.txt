@@ -1,0 +1,36 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_RoboHatch 
+	BaseSkeleton	FX_RoboHatch\Skel_RoboHatch
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_RoboHatch_upgrade 
+	BaseSkeleton	FX_RoboHatch\Skel_RoboHatch
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move ReadyA
+	Member		<Ready> 
+##	Flags		Cycle 
+
+	Type		FX_RoboHatch
+	  Anim          FX_RoboHatch\Skel_RoboHatch 1
+	TEnd
+
+	Type		FX_RoboHatch_upgrade
+	  Anim          FX_RoboHatch\upgrade 1
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

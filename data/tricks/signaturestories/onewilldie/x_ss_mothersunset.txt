@@ -1,0 +1,94 @@
+Texture X_SS_MotherSunset
+	Base1 SS_MotherSunset_d //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_MotherSunset_d.tga
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale  1 1 // 1 1
+
+	Multiply1 none //_texture_library\World\Filler\white.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 // 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 SS_MayhemSunset_d //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_MayhemSunset_d.tga
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 none //
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale  1 1 // 1 1
+
+	AddGlow1 SS_MotherSunset_d //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_MotherSunset_d.tga
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none //
+	MaskScroll 0 0.04
+	MaskScrollType Normal
+	MaskScale  1 1 // 1 1
+	MaskWeight  1 // 1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 black //Texture_Library\WORLD\Filler\black.tga
+	Base2Scroll 0 0 // 0 0
+	Base2ScrollType  Normal //Normal
+	Base2Scale  1 1 // 1 1
+
+	Multiply2 none //
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 SS_nothing //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_nothing.tga
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none //
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  3 3
+
+	CubeMap generic_cubemap_face0 //Texture_Library\static_cubemaps\generic\generic_cubemap_face0.tga
+	ReflectivityBase 0.1
+	ReflectivityScale 0.1
+	ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 200 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 4
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags FullBright AlwaysAddGlow   // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 100
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SS_MotherSunset_d //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_MotherSunset_d.tga
+		BumpMap none //
+		Blend SS_MayhemSunset_d //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_MayhemSunset_d.tga
+		BlendType ColorBlendDual
+		ScaleST0 1 1.0
+		ScaleST1 1.0 1.0
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+

@@ -1,0 +1,483 @@
+RootMod _sound
+End
+
+RootMod _fog
+End
+
+RootMod _ENEMY
+End
+
+RootMod _NAV
+End
+
+RootMod _DIR
+End
+
+RootMod _CAR
+End
+
+RootMod _BLIMP
+End
+
+RootMod store_counter
+End
+
+RootMod _PARTICLE
+End
+
+RootMod _Omni
+End
+
+RootMod PARTICLE_50
+End
+
+RootMod PARTICLE_10
+End
+
+RootMod PARTICLE_15
+End
+
+RootMod PARTICLE_25
+End
+
+RootMod PARTICLE_100
+End
+
+RootMod PARTICLE_5
+End
+
+RootMod PIVOT
+End
+
+RootMod _LightDir
+End
+
+RootMod _GIANTNAVCMBT
+End
+
+RootMod _return_door
+End
+
+RootMod _CAR_KILLER
+End
+
+RootMod _NPC
+End
+
+RootMod _Persistent_NPC
+End
+
+RootMod _EXTENTS_MARKER
+End
+
+RootMod Minimap_location_marker
+End
+
+RootMod _EmergeFromMe
+End
+
+RootMod _EXTENTS_MARKER_01
+End
+
+RootMod _EXTENTS_MARKER_02
+End
+
+RootMod _EXTENTS_MARKER_03
+End
+
+RootMod _EXTENTS_MARKER_04
+End
+
+RootMod critter_platform
+End
+
+RootMod Launcher_Guide_01
+End
+
+RootMod _trajectory_marker_01
+End
+
+RootMod PARTICLE_1000
+End
+
+RootMod PARTICLE_200
+End
+
+RootMod _camera_01
+End
+
+RootMod DF_Ad_Orientator
+End
+
+Def ENEMY
+	Group _ENEMY
+	End
+	Flags Ungroupable
+	Property	"Generator"	"DummyGenerator"	0
+End
+
+Def NPC
+	Group _NPC
+	End
+	Flags Ungroupable
+	Property	"Generator"	"NPCGenerator"	0
+End
+
+Def CAR
+	Group _CAR
+	End
+	Flags Ungroupable
+	Property	"Generator"	"CarGenerator"	0
+End
+
+Def omnilight
+	Group _Omni
+	End
+	Omni 5 48 54 15.140531 
+	Flags Ungroupable
+End
+
+Def CAR_DESTRUCTOR
+	Group _CAR_KILLER
+	End
+	Property	"MarkerAI"	"CarDestructor"	0
+End
+
+Def return_door
+	Group _return_door
+	End
+	Property	"unTracked"	"ReturnDoor"	0
+End
+
+Def NAV
+	Group _NAV
+	End
+	Flags Ungroupable
+	Beacon BasicBeacon 64.000000
+End
+
+Def ValidBeacon
+	Group _NAV
+	End
+	Group _GIANTNAVCMBT
+		Pos 0 2 0
+	End
+	Group _NAV
+		Pos 0 4 0
+	End
+	Flags Ungroupable
+	Property	"ValidBeacon"	"2"	0
+End
+
+Def BeaconizeHere
+	Group _NAV
+	End
+	Group _GIANTNAVCMBT
+		Pos 0 2 0
+	End
+	Group _NAV
+		Pos 0 4 0
+	End
+	Flags Ungroupable
+	Property	"ValidBeacon"	"1"	0
+End
+
+Def LightDir
+	Group _LightDir
+	End
+	Omni 58 58 58 10.379429 
+	Flags Ungroupable
+End
+
+Def Particle
+	Group _PARTICLE
+	End
+	Type WORLD\Lairs\cot\CrystalShine.fx
+	Lod
+		Scale 1.230018
+	End
+	Flags Ungroupable
+End
+
+Def soundsphere
+	Group _sound
+	End
+	Sound Waterfall_Loop 0.500000 50.000000 20.000000 
+	Flags Ungroupable
+End
+
+Def fognode
+	Group _fog
+	End
+	Flags Ungroupable
+	Fog 156.509720 5.000000 450.000000  107 90 66  107 90 66  0
+End
+
+Def NAV_DIR
+	Group _DIR
+	End
+	Flags Ungroupable
+	Beacon TrafficBeacon 68.169701
+End
+
+Def NAV_GIANT
+	Group _GIANTNAVCMBT
+	End
+End
+
+Def Persistent_NPC
+	Group _Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"0"	0
+End
+
+Def Temp_Test_Door
+	Group _Persistent_NPC
+	End
+End
+
+Def Extents_Marker.txt
+	Group _EXTENTS_MARKER
+	End
+	Property	"extentsMarkerGroup"	"0"	0
+End
+
+Def ExitPoint
+	Group _NPC
+	End
+	Property	"ExitPoint"	"True"	0
+End
+
+Def Entrypoint
+	Group _EmergeFromMe
+	End
+	Property	"EntryPoint"	"True"	0
+End
+
+Def EmergeFromMe
+	Group _EmergeFromMe
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+End
+
+Def extents_marker_01
+	Group _EXTENTS_MARKER_01
+	End
+	Property	"extentsMarkerGroup"	"1"	0
+End
+
+Def extents_marker_02
+	Group _EXTENTS_MARKER_02
+	End
+	Property	"extentsMarkerGroup"	"2"	0
+End
+
+Def extents_marker_03
+	Group _EXTENTS_MARKER_03
+	End
+	Property	"extentsMarkerGroup"	"3"	0
+End
+
+Def extents_marker_04
+	Group _EXTENTS_MARKER_04
+	End
+	Property	"extentsMarkerGroup"	"4"	0
+End
+
+Def tank
+	Group _CAR
+	End
+	Flags Ungroupable
+	Property	"Generator"	"TankGenerator"	0
+End
+
+Def ScriptMarker
+	Group MissionBeacons/_cohscrpt_scriptmarker
+	End
+	Property	"ScriptMarker"	"0"	0
+End
+
+Def OUTDOOR_EXTENTS_MARKER
+	Group _EXTENTS_MARKER
+	End
+	Property	"outdoorextentsMarkerGroup"	"0"	0
+	TexSwap red_orange brown 1
+End
+
+Def OUTDOOR_EXTENTS_MARKER_01
+	Group _EXTENTS_MARKER_01
+	End
+	Property	"outdoorextentsMarkerGroup"	"1"	0
+	TexSwap NPCspawn teal 1
+End
+
+Def OUTDOOR_EXTENTS_MARKER_02
+	Group _EXTENTS_MARKER_02
+	End
+	Property	"outdoorextentsMarkerGroup"	"2"	0
+	TexSwap red grey 0
+End
+
+Def OUTDOOR_EXTENTS_MARKER_03
+	Group _EXTENTS_MARKER_03
+	End
+	Property	"outdoorextentsMarkerGroup"	"3"	0
+	TexSwap NAVspawn white 1
+End
+
+Def OUTDOOR_EXTENTS_MARKER_04
+	Group _EXTENTS_MARKER_04
+	End
+	Property	"outdoorextentsMarkerGroup"	"4"	0
+	TexSwap orange purple 1
+End
+
+Def Warp_Exit_2&
+	Group _EmergeFromMe
+	End
+	Property	"EmergeAnimationBits"	"ARENAEMERGE"	0
+	Property	"EmergeFromMe"	"0"	0
+End
+
+Def Warp_Exit_5&
+	Group MissionBeacons/_PlayerSpawn
+	End
+	Property	"ExitPoint"	"True"	0
+End
+
+Def Warp_Exit_6&
+	Group MissionBeacons/_PlayerSpawn
+	End
+	Property	"ExitPoint"	"True"	0
+End
+
+Def Warp_Exit_7&
+	Group MissionBeacons/_PlayerSpawn
+	End
+	Property	"ExitPoint"	"True"	0
+End
+
+Def Warp_Exit_8&
+	Group MissionBeacons/_PlayerSpawn
+	End
+	Property	"ExitPoint"	"True"	0
+End
+
+Def Warp_Exit_9&
+	Group MissionBeacons/_PlayerSpawn
+	End
+	Property	"ExitPoint"	"True"	0
+End
+
+Def Warp_Exit_10&
+	Group MissionBeacons/_PlayerSpawn
+	End
+	Property	"ExitPoint"	"True"	0
+End
+
+Def Warp_Exit_11&
+	Group MissionBeacons/_PlayerSpawn
+	End
+	Property	"ExitPoint"	"True"	0
+End
+
+Def Warp_Exit_4&
+	Group Warp_Exit_5&
+		PYR 0 140 0
+		Pos -7.5 -2.069092 8.75
+	End
+	Group Warp_Exit_6&
+		PYR 0 89.999985 0
+		Pos -12.5 -2.069092 0.75
+	End
+	Group Warp_Exit_7&
+		PYR 0 50.000019 0
+		Pos -8.5 -2.069092 -6.75
+	End
+	Group Warp_Exit_8&
+		Pos -0.5 -2.069092 -10.25
+	End
+	Group Warp_Exit_9&
+		PYR 0 -50.000019 0
+		Pos 9 -2.069092 -6.75
+	End
+	Group Warp_Exit_10&
+		PYR 0 -89.999985 0
+		Pos 12.5 -2.069092 0.75
+	End
+	Group Warp_Exit_10&
+		PYR 0 -130 0
+		Pos 9 -2.069092 7.75
+	End
+	Group Warp_Exit_11&
+		PYR 0 -179.999969 0
+		Pos 0 -2.069092 10.25
+	End
+End
+
+Def Warp_Exit
+	Group Warp_Exit_2&
+	End
+	Group Warp_Exit_4&
+		Pos 0.5 2.069092 -0.75
+	End
+End
+
+Def ScalableVolume
+	Group collision_box/collision_box_16x16
+	End
+	Volume 16.000000 16.000000 16.000000
+	Flags Ungroupable
+End
+
+Def ScalableMissionTray
+	Group collision_box/tray_collision_box_16x16
+	End
+	Volume 16.000000 16.000000 16.000000
+	Flags Ungroupable
+End
+
+Def ScalablePowerVolume
+	Group Power_Volumes/vol_power_16_16
+	End
+	Volume 16.000000 16.000000 16.000000
+	Flags Ungroupable
+End
+
+Def MissionSpawnChild
+	Group MissionEditor/generic_encounter_position
+	End
+	TexSwap Color_Bar2 lava 0
+End
+
+Def MissionSpawn
+	Group MissionSpawnChild
+	End
+	Flags Ungroupable
+End
+
+Def MissionObjectiveChild
+	Group MissionEditor/generic_objective_position
+	End
+	TexSwap Color_Bar lava 0
+End
+
+Def MissionObjective
+	Group MissionObjectiveChild
+	End
+	Flags Ungroupable
+End
+
+Def MissionScript
+	Group MissionBeacons/Marker_Script
+	End
+	TexSwap lightblue lava 0
+End
+
+Def CutsceneCamera
+	Obj DF_Ad_Orientator
+	Property	"CutSceneCamera"	"-1"	0
+End
+

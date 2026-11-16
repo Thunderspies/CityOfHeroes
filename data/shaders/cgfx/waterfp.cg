@@ -1,0 +1,196 @@
+// waterfp.cg
+#include "variants.cgh"
+
+// definitions required for this program,
+// so we don't bother putting them in a variant
+#define PIXEL_LIT	BUMP_ALL
+// @todo fed like MULTI with either RGBS or 1.0...does it ever use RGBS?
+#define VERTEX_LIT	PRELIT
+
+/*
+ #fragment let slimshady know this is a fragment program
+ Variants and options to be verified/analyzed by slimshady script:
+	#option	USE_SHADOWMAP
+	#option BIT_PLANAR_REFLECTION
+	#option DEBUG_SHOW_ONLY_REFLECTION
+*/
+
+#ifdef BIT_HIGH_QUALITY
+// @todo there is currently no HIGH_QUALITY variant of this material so
+// it always needs to be paired with the non HQ vertex shader variant
+#error BIT_HIGH_QUALITY is not currently supported by this shader. Please contact tech support.
+#endif
+
+#if defined(BIT_PLANAR_REFLECTION)
+    #define USE_PLANAR_REFLECTION
+#endif
+
+//#define DEBUG_SHOW_ONLY_REFLECTION
+
+#include "shadows.cgh"
+#include "constants_fp.cgh"
+#include "functions.cgh"
+
+uniform sampler2D texture0 : TEXUNIT0;		// base1
+uniform sampler2D texture1 : TEXUNIT1;		// multiply1
+uniform sampler2D texture2 : TEXUNIT2;		// bumpmap1
+uniform sampler2D texture3 : TEXUNIT3;		// source texture for reflection
+uniform sampler2D texture5 : TEXUNIT5;		// source texture for refraction
+uniform sampler2D texture6 : TEXUNIT6;		// depth texture for refraction
+uniform sampler2D texture7 : TEXUNIT7;		// bumpmap2
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+#include "nexus.cgh"			// (#extract) define vertex program structure/semantics <=> fragment program input
+
+//----------------------------------------------------------------------------
+// main
+//----------------------------------------------------------------------------
+float4 main( VP2FP IN ) : COLOR
+{
+	float3 out_color;
+
+	float2 uv0			= IN.uv0_uv1.xy;
+	float2 uv_reflect	= IN.uv0_uv1.zw;		// faux spheremap reflection uv calc'd by vertex shader FAUX_MULIT variant
+
+	// Use the reflection selector to determine the 'multiply' texture coordinates
+	// are either the base or the faux spheremap refection coords supplied in uv1
+	float2 uv_multiply1;
+	if (isBumpMultiReflectUV1Set())
+		uv_multiply1	= uv_reflect;
+	else
+		uv_multiply1	= uv0;
+
+	//****
+	// populate lighting vectors and tangent basis conversions as necessary
+	// renormalize direction vectors received from interpolators
+#if !defined(HIGH_QUALITY)
+	float3 light_ts		= normalize(IN.light_ts.xyz);	// renormalize from interpolation
+	float3 view_ts		= normalize(IN.view_ts.xyz);
+	float3 half_ts		= normalize( view_ts + light_ts );
+	#ifdef USE_SHADOWMAP
+	float3 position_vs	= IN.position_vs.xyz;
+	#endif
+#else
+	#error HIGH_QUALITY is not currently supported by this shader. Please contact tech support.
+#endif
+
+	float4 texBase1		= tex2D( texture0, scroll_scale(0, uv0) );
+	float4 texMultiply1	= tex2D( texture1, scroll_scale(1, uv_multiply1) );
+	float4 texNormal1	= tex2D( texture2, scroll_scale(2, uv0) );
+	float4 texNormal2	= tex2D( texture7, scroll_scale(7, uv0) );
+
+	//****
+	// Setup light prop structs with the lighting constants and properties for material 1
+	float4 normal1_ts = map_color_to_normal(texNormal1);	// gloss in alpha channel
+	float4 normal2_ts = map_color_to_normal(texNormal2);
+	float4 normal_ts = 0.5 * (normal1_ts + normal2_ts);
+
+	float nDOTv = saturate(dot(normal_ts.xyz,view_ts.xyz));
+
+	#ifdef USE_SHADOWMAP
+		// determine fragment raw shadowing factor once up front and apply to all material lighting
+		float shade_factor = shadow_csm( position_vs, IN.fragment_pos );
+	#else
+		float shade_factor = 1; // set to one and compiler will optimize away operations
+	#endif
+
+	LightProps light = get_default_light_properties(shade_factor,g_GlossParamFP.x);
+
+	// Calculate lighting factors
+	float3 light_factors = calc_lighting_factors( normal_ts, light_ts, half_ts, light.spec_color_and_exp.a );
+
+	#ifdef USE_SHADOWMAP
+		light_factors = shadow_light_factors( light_factors, light.shade_factor ); // apply shadow factors to light factors
+	#endif
+
+	//****
+	// Calculate the base material color
+	out_color = 2 * IN.color.rgb * texMultiply1.rgb * texBase1.rgb;	// basic 'modulate' material
+
+	// Refraction stuff
+	//float2 skewScale = {0.13, 10};
+	float2 texCoord_raw = IN.fragment_pos.xy * g_WaterRefractionTransformFP.xy;
+	float2 skewFromNormal = normal_ts.xy * g_WaterRefractionTransformFP.xy * float2(1024);
+
+	float z = IN.fragment_pos.z;
+
+	float4 depthBuffer = saturate(g_WaterRefractionParamsFP.y * (tex2D(texture6, texCoord_raw.xy) - z) / IN.fragment_pos.w);
+	float2 texCoord = skewFromNormal * g_WaterRefractionParamsFP.x + texCoord_raw;
+
+	// Sample what we're about to draw, make sure we don't sample something in front of it
+	float4 depthBuffer2 = saturate(g_WaterRefractionParamsFP.y * (tex2D(texture6, texCoord.xy) - IN.fragment_pos.z) / IN.fragment_pos.w);
+	float skewAmount = min(g_WaterRefractionParamsFP.z, depthBuffer2.x * depthBuffer.x * g_WaterRefractionParamsFP.x);
+	texCoord.xy = skewFromNormal * skewAmount + texCoord_raw;
+	float4 refracted = tex2D(texture5, texCoord.xy);
+
+#ifdef USE_PLANAR_REFLECTION
+	// Reflection
+	float2 reflectionTexCoord = IN.fragment_pos.xy * g_WaterReflectionTransformFP.xy;
+	reflectionTexCoord.y = (reflectionTexCoord.y * -1) + 1;
+
+#ifndef DEBUG_SHOW_ONLY_REFLECTION
+	reflectionTexCoord += skewFromNormal * g_WaterReflectionParamsFP.x/*0.3f*/;
+#endif
+
+//#ifdef PROFILE_FP40
+//	float4 reflectionTexCoordLod = float4(reflectionTexCoord.x, reflectionTexCoord.y, 0, texCoord7.w * -4 + 4);
+//	float4 reflection = tex2Dlod(texture3, reflectionTexCoordLod);
+//#else
+	float4 reflection = tex2D(texture3, reflectionTexCoord);
+//#endif
+
+#else
+	float4 reflection = float4(0);
+#endif // 
+
+
+#ifdef DEBUG_SHOW_ONLY_REFLECTION
+	out_color = reflection.rgb;
+#else
+	// Combine it all together
+	float3 surfaceColor = lerp(g_ConstColor1FP.xyz, g_ConstColor0FP.xyz, nDOTv );
+	out_color = out_color * surfaceColor * texBase1.a;
+
+	// Apply ambient and diffuse
+	out_color = apply_lighting_no_gloss(out_color, light_factors, light);
+
+	// Apply refraction
+	out_color = lerp( out_color, refracted.xyz, g_GlossParamFP.w );
+
+#ifdef USE_PLANAR_REFLECTION
+	// Apply reflection
+	// gloss calculation should be the same as in functions.cgh
+	float3 gloss	= saturate( light_factors.z * light.glossConst * light.spec_color_and_exp.rgb );
+	// Fresnel reflectivity
+	float fresnelTerm = calc_reflectivity_hq( view_ts, normal_ts.xyz, g_WaterFresnelParamsFP );
+	float3 reflectionGloss = (1 - gloss) * float3(g_WaterReflectionParamsFP.y/*0.6f*/ * fresnelTerm);
+
+	out_color = lerp(out_color, reflection.rgb, reflectionGloss);
+
+	// Apply gloss
+	// Since we've already calculated the gloss, just apply it instead of calling apply_lighting_gloss_only()
+	out_color += gloss;
+#else
+
+	// Apply gloss
+	out_color = apply_lighting_gloss_only(out_color, light_factors, light);
+
+#endif
+#endif //DEBUG_SHOW_ONLY_REFLECTION
+
+	//****
+	// Finally fog color and return
+	out_color = calc_fogged_color( out_color, IN.fogCoord );
+
+	// Get Alpha
+	float alpha = g_Env0FP.a;
+
+	if (isBumpMultiAlphaWaterSet())
+	{
+		alpha *= texBase1.a;
+	}
+
+	return float4( out_color, alpha );
+}

@@ -1,0 +1,195 @@
+#############################################################
+## FX_Deco_Elevators.txt
+#############################################################
+
+Sequencer
+
+TypeDef FX_Deco_Elevator_03
+	BaseSkeleton	FX_Deco_Elevator_03\skel_ready1
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<Ready>
+Group	<FlyReady>
+Group	<Flycycle>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicDeath>
+Group	<RagdollBellyIRQ>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<PreMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Launch>
+Group	<RunIn>
+Group	<Emote>
+Group	<Encounter>
+Group	<MonsterGroup>
+Group	<Defiance>
+
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Priority	0
+	NextMove	Elevator_Stance
+	Scale		0.25
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 140 160
+
+	TEnd
+
+MEnd
+
+Move Elevator_Stance
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Elevator_Stance_Stance
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 160 320
+
+	TEnd
+
+MEnd
+
+Move Elevator_Stance_Stance
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready_Stance_One
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 320 340
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_One
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready_Stance_Two
+		Scale		0.25
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 340 520
+
+	TEnd
+MEnd
+
+Move Ready_Stance_Two
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready_Stance_Three
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 520 540
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Three
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready_Stance_Four
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 520 540
+
+	TEnd
+MEnd
+
+Move Ready_Stance_Four
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready_Stance_Five
+		Scale		0.25
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 540 800
+
+	TEnd
+MEnd
+
+
+Move Ready_Stance_Five
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready_Stance_Six
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 800 810
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Six
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready_Stance_Seven
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 800 810
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Seven
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready_Stance_Eight
+		Scale		0.25
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 1 140
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Eight
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready_Stance_Nine
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 140 160
+
+	TEnd
+
+MEnd
+
+Move Ready_Stance_Nine
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	Ready
+		Scale		0.1
+
+	Type		FX_Deco_Elevator_03
+	  Anim          FX_Deco_Elevator_03\ready1 140 160
+
+	TEnd
+
+MEnd
+###################################################
+
+SeqEnd
+

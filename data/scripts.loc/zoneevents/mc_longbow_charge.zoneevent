@@ -1,0 +1,173 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage ResetStage
+EventVolume EventVolume_Longbow
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup. NOTE TO ANYONE LOOKING AT THIS. THIS IS A NON ZONE EVENT, THIS IS MEANT TO ADD FLAVOR TO THE WORLD>>
+		}
+		Action CreateStuff
+		{
+			SpawnCreate LongbowCharger1
+			{
+				Location LongbowCharger1
+				Group LongbowCharger1
+				Team LongbowCharger1
+				MoveToMarker Charger1
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowCharger1
+			}
+			SpawnCreate LongbowCharger2
+			{
+				Location LongbowCharger2
+				Group LongbowCharger2
+				Team LongbowCharger2
+				MoveToMarker Charger2
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowCharger2
+			}
+			SpawnCreate LongbowCharger3
+			{
+				Location LongbowCharger3
+				Group LongbowCharger3
+				Team LongbowCharger3
+				MoveToMarker Charger3
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowCharger3
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage ChargeStage
+	}
+}
+
+Stage ResetStage
+{
+	StartUp
+	{
+		Action TurnOffLongbow1
+		{
+			TeamControl DeTriggerLongbow1
+			{
+				Type Deactivate
+				Team LongbowCharger1
+			}
+		}
+		Action TurnOffLongbow2
+		{
+			TeamControl DeTriggerLongbow2
+			{
+				Type DeActivate
+				Team LongbowCharger2
+			}
+		}
+		Action TurnOffLongbow3
+		{
+			TeamControl DeTriggerLongbow3
+			{
+				Type DeActivate
+				Team LongbowCharger3
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:30
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		NextStage ChargeStage
+	}
+}
+
+Stage ChargeStage
+{
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Longbow Charge>>
+		}
+		Action TurnOnLongbow1
+		{
+			TeamControl TriggerLongbow1
+			{
+				Type Activate
+				Team LongbowCharger1
+			}
+		}
+		Action TurnOnLongbow2
+		{
+			TeamControl TriggerLongbow2
+			{
+				Type Activate
+				Team LongbowCharger2
+			}
+		}
+		Action TurnOnLongbow3
+		{
+			TeamControl TriggerLongbow3
+			{
+				Type Activate
+				Team LongbowCharger3
+			}
+		}
+	}
+	Timer TimerFinished
+	{
+		Duration 0:30
+	}
+	Trigger GoToReset
+	{
+		Requires TimerFinished complete>
+		NextStage ResetStage
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action TurnOffLongbow1
+		{
+			TeamControl DeTriggerLongbow1
+			{
+				Type Deactivate
+				Team LongbowCharger1
+			}
+		}
+		Action TurnOffLongbow2
+		{
+			TeamControl DeTriggerLongbow2
+			{
+				Type DeActivate
+				Team LongbowCharger2
+			}
+		}
+		Action TurnOffLongbow3
+		{
+			TeamControl DeTriggerLongbow3
+			{
+				Type DeActivate
+				Team LongbowCharger3
+			}
+		}
+}

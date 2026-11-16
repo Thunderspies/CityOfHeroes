@@ -1,0 +1,1 @@
+Member		<Ready> <IRQEmotesALL> <DeathIRQ> <HitIRQ> <ReactIRQ> <Block> <AttackIRQ> <Jumps> <MoveIRQ>

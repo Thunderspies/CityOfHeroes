@@ -1,0 +1,47 @@
+
+######################################
+## v_destcldrn_cauldron_100
+## 
+Type
+
+
+HealthFX
+	Range		0.0001 100
+	LibraryPiece	v_destcldrn_cauldron_100
+End
+
+#WorldGroup	v_destcldrn_cauldron_100
+
+CapsuleSize 12 5 12
+CapsuleOffset   0 0 -6
+
+Sequencer	Prop_basic.txt   	 		#In data/sequencers...
+
+FadeOutStart	500				##Distance to start fading out
+FadeOutFinish	550
+
+ShadowType	None			#Splat Stencil or None
+
+GeomScale	1.0 1.0 1.0			##Scale Factor
+
+##ReticleHeightBias	0
+ReticleBaseBias	-6
+
+Selection		Capsule 
+
+TicksToLingerAfterDeath			10
+TicksToFadeAwayAfterDeath		1
+
+HealthFx
+	Range           0.0001 100
+	OneshotFx       Explosions\CauldronExplosion\CauldronSteam.Fx
+End
+
+HealthFx
+	Range           0 0.0001 
+	OneShotFx       Explosions\CauldronExplosion\CauldronExplosion.Fx
+End
+
+MinimumAmbient	0.15
+
+End

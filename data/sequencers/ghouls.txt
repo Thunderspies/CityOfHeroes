@@ -1,0 +1,2374 @@
+#############################################################
+## ghouls.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef ghoul
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+TypeDef Psychotics
+	BaseSkeleton	male\skel_ready2
+	ParentType	ghoul
+TypeDefEnd
+
+#############################################################
+Group	<Ready>
+Group	<HitIRQ>
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicDeath>
+Group	<RagdollBellyIRQ>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<PreMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Launch>
+Group	<RunIn>
+Group	<Emote>
+Group	<Encounter>
+Group	<Defiance>
+## GROUP TAGS - MOTION ###########################################################
+
+Group	<BasicMove>
+Group	<StunMove>
+Group	<Fall>
+Group	<FlyFall>
+Group	<Jumps>
+Group	<jumpFall>
+Group	<iceslide>
+Group	<Swim>
+Group	<MoveIRQ>
+## GROUP TAGS - GLOBAL ###########################################################
+
+Group	<GroundMoveALL>
+Group	<AttackIRQ>
+
+## GROUP TAGS - COMBAT #######################################################
+
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+
+
+## GROUP TAGS - WEAPON #######################################################
+
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+
+
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ghouls_Ready_A
+
+	Type		Ghoul
+	  Anim          male\ghouls_ready_A 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 20
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Ghouls_Ready_A
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ghouls_Ready_A
+	CycleMove	Ghouls_Ready_A
+	CycleMove	Ghouls_idle_break_A
+
+	Type		Ghoul
+	  Anim          male\ghouls_ready_A 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 20
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Ghouls_idle_break_A
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ghouls_Ready_B
+
+	Type		Ghoul
+	  Anim          male\ghouls_idle_break_A 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_BreakA_SFX.fx
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_Run_SFX.fx 50
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 105
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Ghouls_Ready_B
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ghouls_Ready_B
+	CycleMove	Ghouls_Ready_B
+	CycleMove	Ghouls_Ready_B
+	CycleMove	Ghouls_idle_break_B
+	CycleMove	Ghouls_idle_break_C
+
+	Type		Ghoul
+	  Anim          male\ghouls_ready_B 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 20
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Ghouls_idle_break_B
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ghouls_Ready_B
+
+	Type		Ghoul
+	  Anim          male\ghouls_idle_break_B 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_BreakB_SFX.fx
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 50
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Ghouls_idle_break_C
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ghouls_Ready_A
+
+	Type		Ghoul
+	  Anim          male\ghouls_idle_break_C 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 20
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 50
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 70
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 100
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 120
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Ghouls_idle_transition
+	Include sequencers\Members\Readies.inc
+	NextMove	Ghouls_Ready_B
+	Interpolate	1
+	Scale           1.2
+
+	Type		Ghoul
+	  Anim          male\ghouls_idle_transition 1
+	TEnd
+
+MEnd
+
+
+
+#############################################################
+## MOVEMENT
+#############################################################
+
+## RUN FORWARD	###########################################################
+
+Move RunPre
+	Requires	FORWARD
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		ReqInputs MoveScale SmoothSprint
+	MoveRate	0.7  ##	0.7 x 30 = I animated this to move at 21 feet per second
+	NextMove	RunCycle
+	Interpolate	5
+
+	Type		Ghoul
+	  Anim		male\ghouls_run_forward 10 34
+	  PlayFx	FEET\Ghoul_Right.fx 10
+	  PlayFx	FEET\Ghoul_Left.fx 22
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_Run_SFX.fx 1
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_Run_SFX.fx 20
+	  MoveRate	0.7  ##	0.7 x 30 = I animated this to move at 21 feet per second
+	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+MEnd
+
+Move RunCycle
+	Requires	FORWARD
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle MoveScale	SmoothSprint
+	MoveRate	0.7  ##	0.7 x 30 = I animated this to move at 21 feet per second
+	NextMove	RunPost
+
+	Type		Ghoul
+	  Anim		male\ghouls_run_forward 10 34
+
+	  PlayFx	FEET\Ghoul_Left.fx 10
+	  PlayFx	FEET\Ghoul_Right.fx	22
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_Run_SFX.fx 1
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_Run_SFX.fx 20
+	  MoveRate	0.7  ##	0.7 x 30 = I animated this to move at 21 feet per second
+	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+MEnd
+
+## RUN POST ###########################################################
+
+Move RunPost
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	8
+
+	Type		Ghoul
+	  Anim		male\ghouls_run_forward_post 4
+	  PlayFx	FEET\Ghoul_Land1.fx  3
+	  PlayFx	FEET\Ghoul_Right.fx 12
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_Run_SFX.fx 1
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_Ready_SFX.fx 20
+	TEnd
+
+MEnd
+
+
+## JUMP ###########################################################
+
+Move jumpPre
+	Requires	JUMP
+	Priority        1
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpUp
+
+	Type		ghoul
+	  Anim          male\ghouls_jump 1 3
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Swipe_SFX.fx 1
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Priority        1
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle
+	NextMove        jumpApex
+
+	Type		ghoul
+	  Anim          male\ghouls_jump 6 40
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Priority        1
+	Member		<DeathIRQ> <Jumps>
+	NextMove        jumpFall
+
+	Type		ghoul
+	  Anim          male\ghouls_jump 41 42
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Priority        1
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+
+	Type		ghoul
+	  Anim          male\ghouls_jump 43 60
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Priority        1
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		ghoul
+	  Anim          male\ghouls_jump 60 80
+	TEnd
+MEnd
+
+Move JumpPost
+	Include sequencers\Members\Readies.inc
+	NextMove        Ghouls_Ready_A
+	Interpolate     0
+	Flags		CantMove
+
+	Type		ghoul
+	  Anim          male\ghouls_jump 81 100
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_HitQuick_SFX.fx
+	  PlayFx        FEET\Ghoul_Land1.fx  1
+	  PlayFx        FEET\Ghoul_Land2.fx  3
+	TEnd
+MEnd
+
+
+#############################################################
+## COMBAT
+#############################################################
+
+
+#############################################################
+## POWERS
+#############################################################
+
+######################
+###### Swipe  ######
+#####################
+
+Move Swipe_R
+	Requires	COMBAT HAND SWIPE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Swipe_R_post
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\ghouls_swipe_right 1 30
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Swipe_SFX.fx 10
+
+	TEnd
+
+MEnd
+
+Move Swipe_R_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+
+	Type		ghoul
+	  Anim          male\ghouls_swipe_right 31
+	TEnd
+
+MEnd
+
+Move Swipe_L
+	Requires	COMBAT HAND SWIPE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Swipe_L_post
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\ghouls_swipe_left 1 30
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Swipe_SFX.fx 10
+	TEnd
+
+MEnd
+
+Move Swipe_L_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+	Priority        1
+
+	Type		ghoul
+	  Anim          male\ghouls_swipe_left 31
+	TEnd
+
+MEnd
+
+###################
+###### Swipe Flurry ######
+###################
+
+Move Swipe_Flurry
+	Requires	COMBAT HAND CLAWFLURRY
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Swipe_Flurry_post
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\ghouls_flurry 1 60
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Flurry_SFX.fx 5
+	TEnd
+MEnd
+
+Move Swipe_Flurry_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+
+	Type		ghoul
+	  Anim          male\ghouls_flurry 61
+	TEnd
+MEnd
+
+#################################
+###### Ghoul Throw  ######
+#################################
+
+Move Ghoul_Throw
+	Requires	COMBAT HAND THROWBRAWL
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Ghoul_Throw_post
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		ghoul
+	  Anim          male\ghouls_throw 1 60
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Throw_SFX.fx
+	TEnd
+MEnd
+
+Move Ghoul_Throw_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+
+	Type		ghoul
+	  Anim          male\ghouls_throw 61
+	TEnd
+MEnd
+
+###################
+###### Ghoul_Haymaker  ######
+###################
+
+Move Ghoul_Haymaker
+	Requires	COMBAT SMASH
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Ghoul_Haymaker_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		ghoul
+	  Anim          male\2Hsmash 1 45
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Haymaker_SFX.fx
+	TEnd
+
+MEnd
+
+Move Ghoul_Haymaker_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+	Scale           0.80
+	Flags		NoSizeScale ReqInputs
+
+	Type		ghoul
+	  Anim          male\2Hsmash 45
+	TEnd
+
+MEnd
+
+###################
+###### Short Toss ######
+###################
+
+Move ShortToss
+	Requires	COMBAT SHORTTOSS ALTERNATE
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        ShortToss_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale FixArmReg
+	Scale           1
+
+	Type		male
+	  Anim          male\short_toss 1 115
+	  PlayFX	ENEMYFX\Ghouls\Ghoul_ShortToss_SFX.fx 5
+	TEnd
+
+MEnd
+
+Move ShortToss_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+	Scale		0.5
+	Flags		NoSizeScale ReqInputs FixArmReg
+
+	Type		male
+	  Anim          male\short_toss 115 120
+	TEnd
+
+MEnd
+
+#################################
+###### Marked of Death  ######
+#################################
+
+Move Marked_Death
+	Requires	COMBAT HAND POINT
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Marked_Death_post
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		ghoul
+	  Anim          male\ghouls_mark_of_death 1 117
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Haymaker_SFX.fx 1
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Flurry_SFX.fx 30
+	TEnd
+MEnd
+
+Move Marked_Death_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+
+
+
+	Type		ghoul
+	  Anim          male\ghouls_mark_of_death 118
+	TEnd
+MEnd
+
+#################################
+###### Ghoulish Inspiration  ######
+#################################
+
+Move ghouls_inspiration
+	Requires	COMBAT CHEER
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Marked_Death_post
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		ghoul
+	  Anim          male\ghouls_inspiration 1 140
+	TEnd
+MEnd
+
+Move ghouls_inspiration_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+
+
+
+	Type		ghoul
+	  Anim          male\ghouls_inspiration 141
+	TEnd
+MEnd
+
+###################
+###### Death Frenzy   ######
+###################
+
+Move Death_Frenzy
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Death_Frenzy_post
+	Sets            NOCOLLISION
+
+	Type		ghoul
+	  Anim          male\ghouls_death_frenzy 1 150
+  	  PlayFX		ENEMYFX\Ghouls\Ghoul_Death_SFX.fx
+	  Ragdoll	0
+	TEnd
+
+MEnd
+
+Move Death_Frenzy_post
+	Requires	DEATH
+	Priority        1
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		ghoul
+	  Anim          male\ghouls_death_frenzy 150
+	  Ragdoll	0
+	TEnd
+
+MEnd
+#############################################################
+## HIT REACTIONS
+#############################################################
+
+## HIT QUICK ###########################################################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ghouls_idle_transition
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\ghouls_hitquick_c 1 20
+  	  PlayFX		ENEMYFX\Ghouls\Ghoul_HitQuick_SFX.fx
+	TEnd
+
+MEnd
+
+###################
+###### Combat Hit Quick  ######
+###################
+
+Move C_HitQuick
+	Requires	COMBAT QUICK HIT
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ghouls_idle_transition
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\ghouls_hitquick_c 1 20
+  	  PlayFX		ENEMYFX\Ghouls\Ghoul_HitQuick_SFX.fx
+	TEnd
+
+MEnd
+
+###################
+###### Weapon Hit Quick  ######
+###################
+
+Move W_HitQuick
+	Requires	COMBAT WEAPON QUICK HIT
+	Priority        4
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\ghouls_hitquick_c 1 20
+  	  PlayFX		ENEMYFX\Ghouls\Ghoul_HitQuick_SFX.fx
+	TEnd
+
+MEnd
+
+Move W_HitQuick2
+	Requires	COMBAT WEAPON
+	Priority        2
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	NextMove        WepReady
+	Scale           0.50
+
+	Type		ghoul
+	  Anim          male\wep_cycle 15 31
+  	  PlayFX		ENEMYFX\Ghouls\Ghoul_HitQuick_SFX.fx
+	TEnd
+
+MEnd
+
+##########################
+###### Hit Placate React ######
+##########################
+
+Move Hit_Placate
+	Requires	HIT PLACATEHIT
+	Priority        2
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Hit_Placate_cycle
+
+	Type		ghoul
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+Move Hit_Placate_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+
+	Type		ghoul
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+###################
+######cage react\wriggle  ######
+###################
+
+Move cage_wriggle
+	Requires	HIT WRIGGLE
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        cage_wriggle2
+	Scale           0.60
+
+	Type		ghoul
+	  Anim          male\wriggle 1 17
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\wriggle 1 17
+	TEnd
+
+	Type		fem
+	  Anim          fem\wriggle 1 17
+	TEnd
+MEnd
+
+Move cage_wriggle2
+	Requires	HIT WRIGGLE
+	Priority        2
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        postReady
+	Scale           0.60
+
+	Type		ghoul
+	  Anim          male\wriggle 18
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\wriggle 18
+	TEnd
+
+	Type		fem
+	  Anim          fem\wriggle 18
+	TEnd
+MEnd
+
+###################
+######electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\electro 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1
+	TEnd
+MEnd
+
+###################
+###### electro_pain_LONG  ######
+###################
+
+Move electro_react_Long
+	Requires	HIT ENERGY STRONG
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        electro_react_Long2
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\electro 1 115
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1 115
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1 115
+	TEnd
+MEnd
+
+Move electro_react_Long2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\electro 1 20
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1 20
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1 20
+	TEnd
+MEnd
+
+###################
+######weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\drain 40 100
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\drain 40 100
+	TEnd
+
+	Type		fem
+	  Anim          fem\drain 40 100
+	TEnd
+MEnd
+
+###################
+######drain react  ######
+###################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\drain 1 100
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\drain 1 100
+	TEnd
+
+	Type		fem
+	  Anim          fem\drain 1 100
+	TEnd
+MEnd
+
+###################
+######sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\sonicpain 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sonic_pain 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\sonic_pain 1
+	TEnd
+MEnd
+
+###################
+######choke react  ######
+###################
+
+Move choke_react
+	Requires	HIT MAGIC
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\choke 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\choke 1
+	TEnd
+MEnd
+
+###################
+######Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\speed_react 3
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\speed_react 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\speed_react 3
+	TEnd
+MEnd
+
+
+##################
+######Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\ghouls_idle_break_A 1
+	TEnd
+
+MEnd
+
+Move hit_Boost_D
+	Requires	HIT BOOSTDOWN
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Flags		HitReact
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+
+	Type		ghoul
+	  Anim          male\boost 1
+	TEnd
+
+MEnd
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Priority        5
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Interpolate     3
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\knockback_fierce 3 15
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 3 15
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 3 16
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move KHF_travel
+	Requires	AIR
+	Priority        1
+	Flags		Cycle
+	NextMove        KHF_impact
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\knockback_fierce 15 16
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 15 16
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 16 17
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Priority        2
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\knockback_fierce 17 24
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 17 24
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 18 25
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move KHF_fallcycle
+	Requires	AIR
+	Priority        1
+	Flags		Cycle
+	NextMove        KHF_impact
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\knockback_fierce 24 25
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 24 25
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 25 26
+	  Ragdoll	1
+	TEnd
+MEnd
+
+Move KHF_impact
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\knockback_fierce 25
+	  PlayFx        FEET\MALEDEATH7.FX
+	  Ragdoll	1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 25
+	  Ragdoll	1
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 27
+	  Ragdoll	1
+	TEnd
+MEnd
+
+###############################################################
+### Slow default get up is for bad guys ############
+###############################################################
+
+Move getup_back
+	NextMove        getup_back2
+	Interpolate     0
+	Sets            CANTMOVE
+	Member 		<ReactIRQ> <RagdollBellyIRQ>
+	Flags		NoSizeScale
+
+	Type		ghoul
+	  Anim          male\getup_back 5 53
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_back 5 53
+	TEnd
+
+	Type		fem
+	  Anim          fem\getup_back 5 53
+	TEnd
+MEnd
+
+Move getup_back2
+	NextMove        Ready
+	Include sequencers\Members\Readies.inc
+	Flags		NoSizeScale
+
+	Type		ghoul
+	  Anim          male\getup_back 53 100
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_back 53 100
+	TEnd
+
+	Type		fem
+	  Anim          fem\getup_back 53 100
+	TEnd
+MEnd
+
+
+###################
+###### Impact Death   ######
+###################
+
+Move Impact_Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	getup_back2
+	NextMove        Impact_postdeath
+	Sets            NOCOLLISION
+
+	Type		ghoul
+	  Anim          male\knockback_fierce 27
+	  PlayFx        FEET\MALEDEATH4.FX
+	  Ragdoll	0
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 27
+	  PlayFx        FEET\MALEDEATH4.FX
+	  Ragdoll	0
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 27
+	  PlayFx        FEET\MALEDEATH4.FX
+	  Ragdoll	0
+	TEnd
+MEnd
+
+Move Impact_postdeath
+	Requires	DEATH
+	Priority        1
+	Flags		Cycle
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		ghoul
+	  Anim          male\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+MEnd
+
+###############################
+###### Ragdoll Belly getup   ######
+##############################
+
+Move Ragdoll_belly
+	Requires	RAGDOLLBELLY
+	Priority        1
+	Interrupts	<ReactIRQ> <DeathIRQ> <RagdollBellyIRQ>
+	NextMove        KnockDown_cycle
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\getup_belly 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_belly 1
+	TEnd
+MEnd
+
+###################
+###### Sweeps  ######
+###################
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Priority        3
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\sweep 3 31
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sweep 3 31
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\sweep 3 31
+	TEnd
+MEnd
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\knockback_fierce 26
+	  PlayFx        FEET\MALEDEATH7.FX
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\knockback_fierce 26
+	  PlayFx        FEET\MALEDEATH6.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\knockback_fierce 26
+	TEnd
+MEnd
+
+#############################################################
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Priority        3
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\sweep_flip 2 28
+	  PlayFx        FEET\MALEDEATH7.FX
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sweep_flip 2 28
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+
+	Type		fem
+	  Anim          fem\sweep_flip 2 28
+	TEnd
+MEnd
+
+###################
+###### MA Palm stun ######
+###################
+
+Move Stun
+	Requires	STUN HIT
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	NextMove        Stun_cycle
+
+	Type		ghoul
+	  Anim          male\stun_hit 2
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\stun_hit 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\stun_hit 2
+	TEnd
+MEnd
+
+Move Stun_cycle
+	Requires	STUN
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	Flags		Cycle
+	NextMove        Ready
+	Scale           0.50
+
+	Type		ghoul
+	  Anim          male\stun_cycle 1 31
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\stun_cycle 1 31
+	TEnd
+
+	Type		fem
+	  Anim          fem\stun_cycle 1 31
+	TEnd
+MEnd
+
+Move Dizzy_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+	Scale           0.50
+
+	Type		ghoul
+	  Anim          male\dizzy_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move Stun_forward
+	Requires	STUN FORWARD
+	Priority        8
+	Interrupts	Stun Stun_cycle <BasicMove> <CombatMove> <WepMove> <TwoHandMove> dizzy <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Stun_cycle
+	Scale		0.5
+	Flags		Cycle
+	Interpolate	20
+
+	Type		ghoul
+	  Anim          male\stun_walk 1 27 ##zombie_walk_armsdown 1 27
+	TEnd
+MEnd
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	HIT STUN SLEEP
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Sleep2
+	Scale           0.40
+
+	Type		ghoul
+	  Anim          male\sleep 1 12
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sleep 1 12
+	TEnd
+
+	Type		fem
+	  Anim          fem\sleep 1 12
+	TEnd
+MEnd
+
+Move Sleep2
+	Requires	STUN SLEEP
+	Priority        2
+	Interrupts	<ReactIRQ> <AttackIRQ> <HitIRQ>
+	Member		<DeathIRQ> <ReactIRQ>
+	NextMove        Sleep_cycle
+	Scale           0.20
+	Interpolate     0
+	Flags		ReqInputs
+
+	Type		ghoul
+	  Anim          male\sleep 13 52
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sleep 13 52
+	TEnd
+
+	Type		fem
+	  Anim          fem\sleep 13 52
+	TEnd
+MEnd
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Priority        2
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Scale           0.20
+
+	Type		ghoul
+	  Anim          male\sleep 55 85
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sleep 55 85
+	TEnd
+
+	Type		fem
+	  Anim          fem\sleep 55 85
+	TEnd
+MEnd
+
+###################
+###### choke Stun  ######
+###################
+
+Move chokeStun
+	Requires	STUN HIT CHOKESTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        chokeStun_cycle
+
+	Type		ghoul
+	  Anim          male\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		fem
+	  Anim          fem\choke 1
+	  PlayFx        FEET\CHOKE2.fx
+	TEnd
+MEnd
+
+Move chokeStun_cycle
+	Requires	STUN CHOKESTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		ghoul
+	  Anim          male\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\choke 1
+	  PlayFx        FEET\CHOKE1.fx
+	TEnd
+
+	Type		fem
+	  Anim          fem\choke 1
+	  PlayFx        FEET\CHOKE2.fx
+	TEnd
+MEnd
+
+###################
+###### Sonic Stun  ######
+###################
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        SonicStun_cycle
+
+	Type		ghoul
+	  Anim          male\sonicpain 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sonic_pain 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\sonic_pain 1
+	TEnd
+MEnd
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		ghoul
+	  Anim          male\sonicpain 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\sonic_pain 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\sonic_pain 1
+	TEnd
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        ElectroStun_cycle
+
+	Type		ghoul
+	  Anim          male\electro 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1
+	TEnd
+MEnd
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		ghoul
+	  Anim          male\electro 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\electro 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\electro 1
+	TEnd
+MEnd
+
+###################
+###### Lasso Stun  ######
+###################
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        LassoStun_cycle
+	Scale           0.60
+
+	Type		ghoul
+	  Anim          male\wriggle 1 17
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\wriggle 1 17
+	TEnd
+
+	Type		fem
+	  Anim          fem\wriggle 1 17
+	TEnd
+MEnd
+
+Move LassoStun_cycle
+	Requires	STUN LASSOSTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Scale           0.60
+
+	Type		ghoul
+	  Anim          male\wriggle 18
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\wriggle 18
+	TEnd
+
+	Type		fem
+	  Anim          fem\wriggle 18
+	TEnd
+MEnd
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Priority        4
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+
+	Type		ghoul
+	  Anim          male\freezestun 1 20
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\freeze 1 20
+	TEnd
+
+	Type		fem
+	  Anim          fem\freeze 1 20
+	TEnd
+MEnd
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Priority        3
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		ghoul
+	  Anim          male\freezestun 20 30
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\freeze 20 30
+	TEnd
+
+	Type		fem
+	  Anim          fem\freeze 20 30
+	TEnd
+MEnd
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		ghoul
+	  Anim          male\freezestun 20 30
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\freeze 20 30
+	TEnd
+MEnd
+
+###################
+###### Levitate Stun  ######
+###################
+
+Move Lev_Stun
+	Requires	STUN HIT FLOATSTUN
+	Priority        3
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Lev_Stun_cycle
+
+	Type		ghoul
+	  Anim          male\pre_fly 2
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\pre_fly 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\pre_fly 2
+	TEnd
+MEnd
+
+Move Lev_Stun_cycle
+	Requires	STUN FLOATSTUN
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		ghoul
+	  Anim          male\float2 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\float 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\float 1
+	TEnd
+MEnd
+
+###################
+###### Lev_Stun Hit Quick  ######
+###################
+
+Move Lev_Stun_HitQuick
+	Requires	HIT
+	Priority        1
+	Interrupts	Lev_Stun Lev_Stun_cycle
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Lev_Stun_cycle
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\float_HQ 2
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\float_HQ 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\float_HQ 2
+	TEnd
+MEnd
+
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	FEAR
+	Priority        2
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+
+	Type		ghoul
+	  Anim          male\zombie_fear_stun 1
+	TEnd
+MEnd
+
+Move FearStun_cycle
+	Requires	FEAR
+	Priority        2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Interpolate	8
+
+	Type		ghoul
+	  Anim          male\zombie_fear_stun 25 60
+	TEnd
+MEnd
+
+
+###################
+###### Knock Down  ######
+###################
+
+Move KnockDown
+	Requires	HIT KNOCKDOWN
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	NextMove        KnockDown2
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\impact_belly 2
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\impact_belly 2
+	TEnd
+
+	Type		fem
+	  Anim          fem\impact_belly 2
+	TEnd
+MEnd
+
+Move KnockDown2
+	Member		<DeathIRQ> <ReactIRQ>
+	NextMove        KnockDown_cycle
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\getup_belly 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_belly 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\getup_belly 1
+	TEnd
+MEnd
+
+Move KnockDown_cycle
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	Scale           0.50
+	Interpolate     0
+
+	Type		ghoul
+	  Anim          male\claw_cycle 1 31
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\claw_cycle 1 31
+	TEnd
+
+	Type		fem
+	  Anim          fem\claw_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### Raise Dead   ######
+###################
+
+Move RaiseDead
+	Requires	RAISEDEAD
+	Priority        1
+	Interrupts	<RaiseDeadIRQ> <RaiseDeadBackIRQ>
+	Member		<DeathIRQ>
+	NextMove        RaiseDead_post
+	Flags		NotSelectable
+	Scale           0.50
+
+	Type		ghoul
+	  Anim          male\raisedead 1 98
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\raisedead 1 98
+	TEnd
+
+	Type		fem
+	  Anim          fem\raisedead 1 98
+	TEnd
+MEnd
+
+Move RaiseDead_post
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Scale           0.70
+	Interpolate     0
+
+	Type		ghoul
+	  Anim          male\raisedead_post 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\raisedead_post 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\raisedead_post 1
+	TEnd
+MEnd
+
+###################
+###### Revive (GetUp)  ######
+###################
+
+Move Revive_belly
+	Requires	HIT GETUP
+	Priority        2
+	Interrupts	<RaiseDeadIRQ>
+	NextMove        KnockDown_cycle
+	Flags		NotSelectable
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\getup_belly 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_belly 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Revive_back
+	Requires	HIT GETUP
+	Priority        2
+	Interrupts	<RaiseDeadBackIRQ>
+	Flags		NotSelectable
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\getup_back 5 66
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\getup_back 5 66
+	TEnd
+MEnd
+
+###################################
+###### Reclaim (reclaimationpad)  ######
+##################################
+
+Move Reclaim
+	Requires	RECLAIM
+	Priority        1
+	Interrupts	<DeathIRQ>
+	NextMove        Reclaim2
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\drain 100 160
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\drain 100 160
+	TEnd
+
+	Type		fem
+	  Anim          fem\drain 100 160
+	TEnd
+MEnd
+
+Move Reclaim2
+	Requires	RECLAIM
+	Priority        1
+	Member		<ReactIRQ> <DeathIRQ>
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\absorb 1
+	TEnd
+
+	Type		huge_zombie
+	  Anim          huge\boostup 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\boostup 1
+	TEnd
+MEnd
+
+###############################
+###### Fallout (after death)  ######
+##############################
+
+Move Fallout
+	Requires	STRONG RAISEDEAD
+	Priority        2
+	Interrupts	<RaiseDeadIRQ> <RaiseDeadBackIRQ> <ReactIRQ>
+	NextMove        KHF_Deathcycle
+	Sets            NOCOLLISION
+	Flags		NoSizeScale NotSelectable
+
+	Type		male
+	  Anim          male\fallout 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\fallout 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\fallout 1
+	TEnd
+MEnd
+
+##### deaths ###################################################################
+
+###################
+###### Default Death   ######
+###################
+
+#Move Default_Death
+#	Requires	DEATH
+#	Priority        1
+#	Interrupts	<DeathIRQ>
+#	Member		<RaiseDeadIRQ>
+#	NextMove        Default_postdeath
+#	Sets            NOCOLLISION
+#
+#	Type		ghoul
+#	  Anim          male\death_front 47 129
+#	  PlayFx        FEET\MALEDEATH1.FX
+#	  Ragdoll	1
+#	TEnd
+#
+#MEnd
+#
+#Move Default_postdeath
+#	Requires	DEATH
+#	Priority        1
+#	Member		<RaiseDeadIRQ>
+#	Flags		Cycle
+#	Sets            NOCOLLISION DIENOW TARGET
+#
+#	Type		ghoul
+#	  Anim          male\death_front 129 130
+#	  Ragdoll	1
+#	TEnd
+#
+#	Type		huge_zombie
+#	  Anim          huge\death_front 129 130
+#	  Ragdoll	1
+#	TEnd
+#
+#	Type		fem
+#	  Anim          fem\death_front 129 130
+#	  Ragdoll	1
+#	TEnd
+#MEnd
+
+#############################
+### Spawn Pet (popup in combat)  #####
+############################
+
+Move Z_Spawn_Pet
+	Requires	LOW SPAWN SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat>
+	NextMove        Z_Spawn
+	Priority        3
+	Interpolate     0
+
+	Type		ghoul
+	  Anim          male\zombie_sleep 1 60
+	TEnd
+MEnd
+
+###################
+### Dismiss    ####
+###################
+
+Move Dismiss
+	Requires	DISMISS
+	Interrupts	<AttackIRQ> <ReactIRQ> <DeathIRQ>
+	NextMove        Dismiss_cycle
+	Priority        8
+	Flags		NotSelectable NOCOLLISION
+	Sets		CANTMOVE
+	Interpolate     0
+
+	Type		ghoul
+	  Anim          male\death_front 47 107
+	  ##PlayFx	powers\DarknessControl\Zero_DarkArmorCloak.fx 0 Constant
+	TEnd
+
+	Type		skeleton
+	  Anim          male\death_front 47 107
+	  ##PlayFx	powers\DarknessControl\Zero_DarkArmorCloak.fx 0 Constant
+	TEnd
+MEnd
+
+Move Dismiss_cycle
+	Requires	DISMISS
+	Member		<RaiseDeadIRQ>
+	Priority        5
+	Flags		NotSelectable NOCOLLISION
+	Sets		CANTMOVE
+	Interpolate     0
+
+	Type		ghoul
+	  Anim          male\death_front 108
+	  PlayFx	Generic\entityVanish.fx 0 Constant
+	##PlayFX	V_COV\Powers\Necromacy\Dismiss_zombie.fx 0
+	TEnd
+
+	Type		skeleton
+	  Anim          male\death_front 108
+	  PlayFx	Generic\entityVanish.fx 0 Constant
+	  ##PlayFX	V_COV\Powers\Necromacy\Dismiss_zombie.fx 0
+	TEnd
+MEnd
+
+
+###################
+###### Falling from run  ######
+###################
+
+Move RunFall
+	Requires	BIGFALL
+	Interrupts	<BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <Combat> <WepCombat> <TwoHandCombat> <iceslide>
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RunFall_2
+	Priority        1
+
+	Type		male
+	  Anim          male\superjump 67 93
+	TEnd
+
+	Type		huge
+	  Anim          huge\superjump 67 93
+	TEnd
+
+	Type		fem
+	  Anim          fem\superjump 67 93
+	TEnd
+MEnd
+
+
+Move RunFall_2
+	Requires	AIR
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        1
+
+	Type		male
+	  Anim          male\superjump 93
+	TEnd
+
+	Type		huge
+	  Anim          huge\superjump 93
+	TEnd
+
+	Type		fem
+	  Anim          fem\superjump 93
+	TEnd
+MEnd
+
+#############################################################
+##BRAWLING CUSTOM HIT REACTION
+#############################################################
+
+## Initial Strike Hit Quick #############################################
+
+Move Ghoul_Initial_Strike_HQ
+	Requires	BRAWLING QUICK HIT
+	Priority        3
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	NextMove        Fake_CombatCycle
+	Flags		HitReact
+#	SticksOnChild	QUICK HIT
+
+	Type		ghoul
+	  Anim          male\brawling_initial_strike_HQ_ghoul 1
+	TEnd
+MEnd
+
+Move Ghoul_C_Brawling_HitQuick
+	Requires	COMBAT BRAWLING QUICK HIT
+	Priority        4
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	NextMove        CombatReady
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\brawling_initial_strike_HQ_ghoul 1
+	TEnd
+
+MEnd
+
+## Spinning Strike Hit #############################################
+
+Move Ghoul_Spinning_Strike_Hit
+	Requires	BRAWLING HIT SPIN
+	Priority        3
+	Interrupts	<HitIRQ>
+	Include sequencers\Members\Reactions.inc
+	NextMove        Fake_CombatCycle
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\brawling_spinning_strike_Hit_ghoul 1 53
+	TEnd
+
+MEnd
+
+Move Ghoul_C_Spinning_Strike_Hit
+	Requires	COMBAT BRAWLING HIT SPIN
+	Priority        4
+	Interrupts	<HitIRQ>
+	Include sequencers\Members\Reactions.inc
+	NextMove        CombatReady
+	Flags		HitReact
+
+	Type		ghoul
+	  Anim          male\brawling_spinning_strike_Hit_ghoul 1 53
+	TEnd
+
+MEnd
+
+#############################################################
+## Psychotic Minion
+#############################################################
+
+######################
+###### Psionic Snap  ######
+#####################
+
+Move PsionicSnap_R
+	Requires	COMBAT PSIONIC SLASH
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PsionicSnap_R_post
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\ghouls_swipe_right 1 30
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Swipe_SFX.fx 10
+
+	TEnd
+
+MEnd
+
+Move PsionicSnap_R_post
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+
+	Type		ghoul
+	  Anim          male\ghouls_swipe_right 31
+	TEnd
+
+MEnd
+
+Move PsionicSnap_L
+	Requires	COMBAT PSIONIC SLASH
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PsionicSnap_L_post
+	Sets            CANTMOVE
+
+	Type		ghoul
+	  Anim          male\ghouls_swipe_left 1 30
+	  PlayFX		ENEMYFX\Ghouls\Ghoul_Swipe_SFX.fx 10
+	TEnd
+
+MEnd
+
+Move PsionicSnap_L_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+	Priority        1
+
+	Type		ghoul
+	  Anim          male\ghouls_swipe_left 31
+	TEnd
+
+MEnd
+
+#################################
+## PSIONIC ROAR ###########################################################
+#################################
+
+Move PsionicRoar
+	Requires	COMBAT SCREAM SPEECH
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        PsionicRoar_post
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		ghoul
+	  Anim          male\psychotic_psionic_roar 10 58
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+
+
+MEnd
+
+Move PsionicRoar_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+	Priority        1
+
+	Type		ghoul
+	  Anim          male\psychotic_psionic_roar 58
+	TEnd
+
+MEnd
+
+##############################################################
+#
+#Move A_PsionicRoar
+#	Requires	FLY COMBAT PSIONIC SCREAM
+#	Priority        4
+#	Interrupts	<AttackIRQ>
+#	Member		<DeathIRQ> <AttackIRQ>
+#	NextMove        A_Blowpost
+#	Sets            CANTMOVE
+#	Flags		PitchToTarget NoSizeScale
+#
+#	Type		male
+#	  Anim          male\air_blow_cast 1 79
+#	  PitchStart	12
+#	  PitchAngle	0.2
+#	TEnd
+#
+#MEnd
+
+#################################
+###### PSIONIC DART  ######
+#################################
+
+Move PsionicDart
+	Requires	COMBAT PSIONIC CAST QUICK
+	Priority        4
+	Interrupts	<AttackIRQ> <Defiance>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        PsionicDart_post
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		ghoul
+	  Anim          male\psychotic_psionic_dart 1 55
+	TEnd
+MEnd
+
+Move PsionicDart_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ghouls_Ready_B
+	Flags		NoSizeScale
+
+	Type		ghoul
+	  Anim          male\psychotic_psionic_dart 56
+	TEnd
+MEnd
+
+
+#############################################################
+
+Include sequencers\Ghouls\ghouls_encounters.inc
+Include sequencers\player\Swim.inc
+#Include sequencers\player\encounters.inc   cant use this since ready stance gets boinked.
+#############################################################
+
+SeqEnd

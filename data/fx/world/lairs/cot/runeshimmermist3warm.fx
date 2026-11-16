@@ -1,0 +1,109 @@
+#########################################################
+##	FireRing
+##
+FxInfo
+	
+
+Input  
+	InpName	Origin
+End
+
+#########################################################
+
+Condition
+	On 	Time
+	Time 	0
+
+	Event
+		EName 	OrbMist
+		Type	Local 
+		At	Origin
+		geom	FX_RuneStreak
+		bhvr	behaviors/Rune_spinFast.bhvr
+		part1	World/Lairs/COT/RuneMist.part
+		
+	End
+
+	Event
+		EName 	OrbStreak
+		Type	Local 
+		At	Origin
+		geom	FX_RuneStreak
+		bhvr	behaviors/Rune_spinFaster.bhvr
+				
+	End
+
+	Event
+		EName 	Orb
+		Type	Local 
+		At	OrbStreak
+		altpiv  1
+		Part1	World/Lairs/COT/GlowOrbStar2Warm.part
+		part3	World/Lairs/COT/GlowOrbTailWarm.part
+			
+		
+	End
+
+End	
+
+
+
+
+
+Condition
+	On 	Time
+	Time 	70
+
+Event
+		EName 	OrbStreak2
+		Type	Local 
+		At	Origin
+		geom	FX_RuneStreak
+		bhvr	behaviors/Rune_spinFaster.bhvr
+				
+	End
+
+	Event
+		EName 	Orb
+		Type	Local 
+		At	OrbStreak2
+		altpiv  1
+		Part1	World/Lairs/COT/GlowOrbStar2Warm.part
+		part3	World/Lairs/COT/GlowOrbTailWarm.part
+			
+		
+	End
+
+End
+
+
+Condition
+	On 	Time
+	Time 	130
+
+Event
+		EName 	OrbStreak3
+		Type	Local 
+		At	Origin
+		geom	FX_RuneStreak
+		bhvr	behaviors/Rune_spinFaster.bhvr
+				
+	End
+
+	Event
+		EName 	Orb
+		Type	Local 
+		At	OrbStreak3
+		altpiv  1
+		Part1	World/Lairs/COT/GlowOrbStar2Warm.part
+		part3	World/Lairs/COT/GlowOrbTailWarm.part
+			
+		
+	End
+
+
+
+
+End
+
+End			

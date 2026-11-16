@@ -1,0 +1,54 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Motorcycle
+	BaseSkeleton	FX_Motorcycle\skel_FX_Motorcycle
+	ParentType	None
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+
+
+Move ThugMoto_Spawn
+	Requires	SPAWNEDASPET  
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        ThugMoto_Post
+	Priority        10
+	Interpolate     0   
+	Flags		NoSizeScale NotSelectable CANTMOVE 
+
+	Type		FX_Motorcycle
+	  Anim          FX_Motorcycle\Moto_SpawnSkid 1
+	TEnd
+
+MEnd
+
+Move ThugMoto_Post
+	Interpolate     0
+	Flags		NoSizeScale NotSelectable Cycle CANTMOVE 
+
+	Type		FX_Motorcycle
+	  Anim          FX_Motorcycle\Moto_SpawnSkid 100
+	TEnd
+
+MEnd
+SeqEnd

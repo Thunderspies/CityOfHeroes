@@ -1,0 +1,300 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Stop
+DisplayName "Cathedral of Pain"
+
+Stage Setup
+{
+	StartUp
+	{
+		Action
+		{
+			WaypointCreate WP-MissionExit map_enticon_neighborhood "Trial Exit"
+			WaypointCreate WP-PortalToRularuu map_enticon_neighborhood "Portal to Cathedral"
+			WaypointCreate WP-Obelisk1 map_enticon_neighborhood "Psionic Resonator of Woe"
+			WaypointCreate WP-Obelisk2 map_enticon_neighborhood "Psionic Resonator of Despair"
+			WaypointCreate WP-Obelisk3 map_enticon_neighborhood "Psionic Resonator of Gloom"
+			DoorCreate PortalToRularuu
+			SpawnCreate Rularuu
+			{
+				Location Rularuu
+				Group Rularuu
+				Team Rularuu
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team Rularuu
+			}
+			SpawnCreate Obelisk1
+			{
+				Location Obelisk1
+				Group Obelisk1
+				Team Obelisk1
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team Obelisk1
+			}
+			SpawnCreate Obelisk2
+			{
+				Location Obelisk2
+				Group Obelisk2
+				Team Obelisk2
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team Obelisk2
+			}
+			SpawnCreate Obelisk3
+			{
+				Location Obelisk3
+				Group Obelisk3
+				Team Obelisk3
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team Obelisk3
+			}
+		}
+	}
+
+	Trigger SetupDone
+	{
+		NextStage Obelisks
+	}
+}
+
+Stage Obelisks
+{
+	DisplayName "Destroy All Obelisks"
+	Tooltip "You must defeat the nearby guardians spawned by the Willforge. Once these creatures are dealt with, a protective field around the nearby Polypsionic Resonator will drop, leaving it vulnerable to attack. If all three resonators are destroyed within 35 seconds of each other, the portal to the Cathedral of Pain will open."
+
+	Startup
+	{
+		Action
+		{
+			WaypointPlace WP-MissionExit MissionExit
+			WaypointPlace WP-Obelisk1 Obelisk1
+			WaypointPlace WP-Obelisk2 Obelisk2
+			WaypointPlace WP-Obelisk3 Obelisk3
+		}
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door PortalToRularuu
+			}
+			TeamControl
+			{
+				Type Activate
+				Team Obelisk1
+			}
+			TeamControl
+			{
+				Type Activate
+				Team Obelisk2
+			}
+			TeamControl
+			{
+				Type Activate
+				Team Obelisk3
+			}
+		}
+	}
+
+	Counter Obelisk1HP
+	{
+		Type BossHealth
+		Team Obelisk1
+	}
+
+	Counter Obelisk2HP
+	{
+		Type BossHealth
+		Team Obelisk2
+	}
+
+	Counter Obelisk3HP
+	{
+		Type BossHealth
+		Team Obelisk3
+	}
+
+	Counter Obelisk1Ents
+	{
+		Type Team
+		Team Obelisk1
+		Direction Down
+	}
+
+	Counter Obelisk2Ents
+	{
+		Type Team
+		Team Obelisk2
+		Direction Down
+	}
+
+	Counter Obelisk3Ents
+	{
+		Type Team
+		Team Obelisk3
+		Direction Down
+	}
+
+	UICollection ObelisksUI
+	{
+		UIItem Obelisk1Bar
+		{
+			Type BarRed
+			Text "Psionic Resonator of Woe"
+			ShortText "Psionic Resonator of Woe"
+			Current Obelisk1HP count>
+			Target 100
+			OnClickFindEnt Obelisk1
+		}
+		UIItem Obelisk2Bar
+		{
+			Type BarRed
+			Text "Psionic Resonator of Despair"
+			ShortText "Psionic Resonator of Despair"
+			Current Obelisk2HP count>
+			Target 100
+			OnClickFindEnt Obelisk2
+		}
+		UIItem Obelisk3Bar
+		{
+			Type BarRed
+			Text "Psionic Resonator of Gloom"
+			ShortText "Psionic Resonator of Gloom"
+			Current Obelisk3HP count>
+			Target 100
+			OnClickFindEnt Obelisk3
+		}
+	}
+
+	Trigger ObelisksDone
+	{
+		Requires Obelisk1Ents count> 0 == Obelisk2Ents count> 0 == && Obelisk3Ents count> 0 == &&
+		NextStage Cathedral
+	}
+}
+
+Stage Cathedral
+{
+	DisplayName "Release the Item of Power"
+	ToolTip "You must again battle the spawns of the Willforge. When they are defeated, you can attack the Aspect of Rularuu that guards the treasure you seek."
+
+	StartUp
+	{
+		Action
+		{
+			RemoveWaypoints
+			WaypointPlace WP-MissionExit MissionExit
+			WaypointPlace WP-PortalToRularuu PortalToRularuu
+		}
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door PortalToRularuu
+			}
+			TeamControl
+			{
+				Type Activate
+				Team Rularuu
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team Obelisk1
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team Obelisk2
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team Obelisk3
+			}
+		}
+	}
+
+	Counter RularuuHP
+	{
+		Type BossHealth
+		Team Rularuu
+	}
+
+	Counter RularuuEnts
+	{
+		Type Team
+		Team Rularuu
+		Direction Down
+	}
+
+	UICollection CathedralUI
+	{
+		UIItem RularuuBar
+		{
+			Type BarRed
+			Text "Aspect of Rularuu"
+			ShortText "Aspect of Rularuu"
+			Current RularuuHP count>
+			Target 100
+			OnClickFindEnt Rularuu
+		}
+	}
+
+	Trigger CathedralDone
+	{
+		Requires RularuuEnts count> 0 ==
+		Action
+		{
+			Floater
+			{
+				Message "Cathedral of Pain Completed!"
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Reward CoPRandomIoPTable
+		}
+		NextStage Stop
+	}
+}
+
+Stage Stop
+{
+	StartUp
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team Rularuu
+			}
+		}
+		Action
+		{
+			Objective ScriptMissionComplete
+		}
+		Action ShutDownInstancedEvent
+		{
+			TrialComplete Success
+		}
+	}	
+	Trigger Never
+	{
+		Requires 0
+	}
+}

@@ -1,0 +1,85 @@
+#############################################################
+
+Sequencer
+
+
+TypeDef Faathim_Imprison
+	BaseSkeleton	Rularuu_Field_Marshal\Skel_Field_Marshal
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> <AttackIRQ>
+	Flags		NoSizeScale
+	Scale           1
+
+
+	Type		Faathim_Imprison
+	  Anim          male\mystic_imprison 1
+	TEnd
+
+
+MEnd
+
+
+
+################################
+###### Vanish Death (instant)  ######
+################################	
+
+Move Vanish_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ> 
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Faathim_Imprison
+	  Anim          male\mystic_imprison 1
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH 
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		Faathim_Imprison
+	  Anim          male\mystic_imprison 1 
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+
+
+SeqEnd
+
+
+
+

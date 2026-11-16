@@ -1,0 +1,459 @@
+RootMod _ENEMY_Unique
+End
+
+RootMod _NAV_Chase
+End
+
+RootMod _ENEMY_Minion
+End
+
+RootMod _ENEMY_Boss
+End
+
+RootMod _NPC_Hostage
+End
+
+RootMod _NPC_Special
+End
+
+RootMod _ITEM_Bomb
+End
+
+RootMod _LOCATION_Ambush
+End
+
+RootMod _LOCATION_EndZone
+End
+
+RootMod _ITEM_Clue
+End
+
+RootMod _ITEM_Recover
+End
+
+RootMod _LOCATION_Guard
+End
+
+RootMod _LOCATION_DoorTrig
+End
+
+RootMod _PlayerSpawn
+End
+
+RootMod _Marker_MissionSwap
+End
+
+RootMod _ITEM_PutItem
+End
+
+RootMod _LOCATION_NPCExit
+End
+
+RootMod _PlayerHospitalSpawn
+End
+
+RootMod _ENEMY_Flyer
+End
+
+RootMod _Marker_CombatDoor
+End
+
+RootMod Marker_Temp_Encounter
+End
+
+RootMod Marker_Temp_?
+End
+
+RootMod Marker_Temp_Contact
+End
+
+RootMod Marker_Encounter
+End
+
+RootMod Marker_?
+End
+
+RootMod _TURRET_01
+End
+
+RootMod _FIRE_SML_01
+End
+
+RootMod _OBJECTIVE_SPAWN_MED
+End
+
+RootMod _OBJCTV_SPWN_FLR_MED
+End
+
+RootMod _Marker_MapSwap_shrt
+End
+
+RootMod _Marker_MapSwap
+End
+
+RootMod Marker_Door_Removal
+End
+
+RootMod _Marker_MapSwap_XSML
+End
+
+RootMod _crystal_spawn_01
+End
+
+RootMod _lock_mission_01
+End
+
+RootMod _Marker_Script
+End
+
+RootMod _OBJECTIVE_GENERATOR
+End
+
+RootMod _OBJECTIVE_GENERATOR_MD
+End
+
+RootMod _OBJECTIVE_GENERATOR_SM
+End
+
+RootMod _OBJECTIVE_GENERATOR_WALL
+End
+
+RootMod Marker_script_small
+End
+
+RootMod _Marker_script_small
+End
+
+RootMod _cohscrpt_scriptmarker
+End
+
+RootMod _Stealth_Camera_EP
+End
+
+RootMod _Marker_MapSwapBackup
+End
+
+Def Objective_Spawn_generator_lrg
+	Group _OBJECTIVE_GENERATOR
+	End
+End
+
+Def MapSwap_Map
+	Group _Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoMap"	"0"	0
+	Property	"GotoSpawn"	"0"	0
+End
+
+Def MapSwap_MissionExit
+	Group _Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoSpawn"	"MissionReturn"	0
+End
+
+Def ITEM_Clue
+	Group _ITEM_Clue
+	End
+	Property	"MarkerItem"	"0"	0
+	Property	"Scenario"	"ClueRecovery"	0
+End
+
+Def ITEM_Recover
+	Group _ITEM_Recover
+	End
+	Property	"MarkerItem"	"0"	0
+	Property	"Scenario"	"ItemRecovery"	0
+End
+
+Def ITEM_Bomb
+	Group _ITEM_Bomb
+	End
+	Property	"MarkerItem"	"0"	0
+	Property	"Scenario"	"BombRecovery"	0
+End
+
+Def NPC_Hostage
+	Group _NPC_Hostage
+	End
+	Property	"Generator"	"HostageGenerator"	0
+	Property	"Scenario"	"HostageRecovery"	0
+End
+
+Def ENEMY_Minion
+	Group _ENEMY_Minion
+	End
+	Property	"Generator"	"MinionGenerator"	0
+End
+
+Def PlayerSpawn_Hospital
+	Group _PlayerHospitalSpawn
+	End
+	Property	"SpawnLocation"	"Gurney"	0
+End
+
+Def NPC_Special
+	Group _NPC_Special
+	End
+	Property	"Generator"	"SpecialGenerator"	0
+End
+
+Def ENEMY_Unique
+	Group _ENEMY_Unique
+	End
+	Property	"Generator"	"UniqueGenerator"	0
+	Property	"Scenario"	"UniqueVillain"	0
+End
+
+Def NAV_Chase
+	Group _NAV_Chase
+	End
+	Property	"MarkerName"	"NoName"	0
+End
+
+Def ENEMY_Boss
+	Group _ENEMY_Boss
+	End
+	Property	"Generator"	"BossGenerator"	0
+	Property	"Scenario"	"BossVillain"	0
+End
+
+Def LOCATION_Ambush
+	Group _LOCATION_Ambush
+	End
+	Property	"MarkerAI"	"AmbushLocation"	0
+	Property	"Scenario"	"Ambush"	0
+End
+
+Def LOCATION_EndZone
+	Group _LOCATION_EndZone
+	End
+	Property	"MarkerAI"	"EndZoneMonitor"	0
+	Property	"MarkerItem"	"0"	0
+	Property	"Scenario"	"EndZone"	0
+End
+
+Def LOCATION_Guard
+	Group _LOCATION_Guard
+	End
+	Property	"MarkerAI"	"GuardLocation"	0
+	Property	"MarkerItem"	"0"	0
+End
+
+Def LOCATION_DoorTrig
+	Group _LOCATION_DoorTrig
+	End
+	Property	"MarkerAI"	"DoorController"	0
+	Property	"Scenario"	"Combat"	0
+End
+
+Def PlayerSpawn
+	Group _PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"MissionStart"	0
+End
+
+Def PlayerSpawn_Lobby
+	Group _PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"_lobby"	0
+End
+
+Def MapSwap_Mission
+	Group _Marker_MissionSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"LairType"	"0"	0
+End
+
+Def ITEM_PutItem
+	Group _ITEM_PutItem
+	End
+	Property	"MarkerItem"	"0"	0
+	Property	"Scenario"	"ItemToItem"	0
+End
+
+Def LOCATION_NPCExit
+	Group _LOCATION_NPCExit
+	End
+	Property	"MarkerAI"	"HostageDestructor"	0
+	Property	"MarkerName"	"Exit"	0
+End
+
+Def ENEMY_Flyer
+	Group _ENEMY_Flyer
+	End
+	Property	"Generator"	"FlyerMinionGenerator"	0
+End
+
+Def ITEM_Obvious
+	Group _ITEM_Recover
+	End
+	Property	"ItemPosition"	"0"	0
+End
+
+Def ITEM_Hidden
+	Group _ITEM_Clue
+	End
+	Property	"ItemPosition"	"0"	0
+End
+
+Def ITEM_Wall_Obvious
+	Group _ITEM_Recover
+	End
+	Property	"ItemWallPosition"	"0"	0
+End
+
+Def ITEM_Wall_Hidden
+	Group _ITEM_Clue
+	End
+	Property	"ItemWallPosition"	"0"	0
+End
+
+Def Objective_Spawn_Med
+	Group _OBJECTIVE_SPAWN_MED
+		PYR 0 179.999969 0
+	End
+	Property	"ItemPosition"	"0"	0
+End
+
+Def Objective_Spawn_AgainstWall_Med
+	Group _OBJECTIVE_SPAWN_MED
+		Pos 0.01886 0 0.060867
+	End
+	Property	"ItemPosition"	"0"	0
+End
+
+Def Objective_Spawn_Floor_Med
+	Group _OBJCTV_SPWN_FLR_MED
+	End
+	Property	"ItemPosition"	"0"	0
+End
+
+Def Objective_Spawn_Floor_Roof_Med
+	Group _OBJCTV_SPWN_FLR_MED
+	End
+	Property	"ItemPosition"	"0"	0
+End
+
+Def _Crystal_Pos_1
+	Group _crystal_spawn_01
+	End
+	Property	"EncounterPosition"	"1"	0
+End
+
+Def _Crystal_Pos_2
+	Group _crystal_spawn_01
+	End
+	Property	"EncounterPosition"	"2"	0
+End
+
+Def _Crystal_Pos_3
+	Group _crystal_spawn_01
+	End
+	Property	"EncounterPosition"	"3"	0
+End
+
+Def _Crystal_Pos_4
+	Group _crystal_spawn_01
+	End
+	Property	"EncounterPosition"	"4"	0
+End
+
+Def Crystal_Spawn_CoT_01
+	Group _Crystal_Pos_4
+		PYR 0 130 0
+		Pos 5 0 -6
+	End
+	Group _Crystal_Pos_3
+		PYR 0 130 0
+		Pos 7.5 0 -3
+	End
+	Group _Crystal_Pos_2
+		PYR 0 130 0
+		Pos 4.5 0 0.5
+	End
+	Group _Crystal_Pos_1
+		PYR 0 130 0
+	End
+	Flags Ungroupable
+	Property	"CanSpawn1"	"SpawnDefs\MissionDehomogenization\COT_Crystal_D1_V0.Spawndef"	0
+	Property	"CanSpawn2"	"SpawnDefs\MissionDehomogenization\COT_Crystal_D1_V1.Spawndef"	0
+	Property	"CanSpawn3"	"SpawnDefs\MissionDehomogenization\COT_Crystal_D1_V2.Spawndef"	0
+	Property	"CanSpawn4"	"SpawnDefs\MissionDehomogenization\COT_Crystal_D1_V3.Spawndef"	0
+	Property	"CanSpawn5"	"SpawnDefs\MissionDehomogenization\COT_Crystal_D1_V4.Spawndef"	0
+	Property	"CanSpawn6"	"SpawnDefs\MissionDehomogenization\COT_Crystal_D1_V5.Spawndef"	0
+	Property	"CanSpawn7"	"SpawnDefs\MissionDehomogenization\COT_Crystal_D1_V6.Spawndef"	0
+	Property	"CanSpawn8"	"SpawnDefs\MissionDehomogenization\COT_Crystal_D1_V7.Spawndef"	0
+	Property	"CanSpawn9"	"SpawnDefs\MissionDehomogenization\COT_Crystal_D1_V8.Spawndef"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"EncounterSpawn"	"COTCrystal"	0
+	Property	"HonorGrouping"	"0"	0
+	Property	"SpawnProbability"	"15"	0
+End
+
+Def Lock_Front
+	Group _lock_mission_01
+	End
+	Property	"keydoor"	"key_front"	0
+End
+
+Def Lock_Middle
+	Group _lock_mission_01
+	End
+	Property	"keydoor"	"key_middle"	0
+End
+
+Def Lock_Back
+	Group _lock_mission_01
+	End
+	Property	"keydoor"	"key_back"	0
+End
+
+Def Lock_unlocked
+	Group _lock_mission_01
+	End
+	Property	"OpenDoor"	"0"	0
+End
+
+Def Marker_Script
+	Group _Marker_Script
+	End
+End
+
+Def Objective_Spawn_generator_md
+	Group _OBJECTIVE_GENERATOR_MD
+	End
+End
+
+Def Objective_Spawn_generator_sm
+	Group _OBJECTIVE_GENERATOR_SM
+	End
+End
+
+Def Objective_Spawn_generator_wall
+	Group _OBJECTIVE_GENERATOR_WALL
+	End
+End
+
+Def MapSwap_MissionExit_Short
+	Group _Marker_MapSwap_shrt
+	End
+	Property	"GotoSpawn"	"MissionReturn"	0
+End
+
+Def MapSwap_Map_AbsPos
+	Group _Marker_MapSwap
+	End
+	Property	"GotoMap"	"0"	0
+	Property	"GotoSpawnAbsPos"	"0"	0
+End
+

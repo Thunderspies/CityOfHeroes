@@ -1,0 +1,7789 @@
+#############################################################
+
+Sequencer
+
+TypeDef Rikti_Flesh
+	BaseSkeleton	Rikti_Flesh\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<basicTHREAT>
+Group	<basicMENACE>
+Group	<basicLOOKOUT>
+Group	<basicCHEER>
+Group	<basicVANDAL>
+Group	<basicSPAWN>
+Group	<RagdollBellyIRQ>
+
+
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ> Spawned_Cycle
+	Flags		Cycle
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\skel_ready 1
+	TEnd
+MEnd
+
+
+
+###################
+### run Forward ##
+###################
+
+Move RunPre
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RunCycle
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\run 4 9
+	  PlayFx        FEET\MALERIGHT.FX  10
+	TEnd
+
+MEnd
+
+
+Move RunCycle
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale SmoothSprint
+	MoveRate        0.7  ## 0.7 x 30 = I animated this to move at 21 feet per second
+	NextMove        RunPost
+	Priority        1
+
+
+	Type		Rikti_Flesh
+	  Anim          male\run 10 34
+	  PlayFx        FEET\MALELEFT.FX  10
+	  PlayFx        FEET\MALERIGHT.FX  21
+	  MoveRate      0.7  ## 0.7 x 30 = I animated this to move at 21 feet per second
+	  SmoothSprint  3.3 ##feet from root to hip position you want to use to smooth sprinting
+	TEnd
+
+MEnd
+
+
+Move RunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Rikti_Flesh
+	  Anim          male\run 40
+	  PlayFx        FEET\LAND3.FX  3
+	TEnd
+
+
+MEnd
+
+
+
+###################
+###### Combat Super Jump  ######
+###################
+
+Move C_jumpPre
+	Requires	JUMP
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <CombatMove> <iceslide> <Swim> <CombatAttack> <jumpFall> <Claw> C_RunJumpCycleB <Block> <HitIRQ> <StunMove>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        C_jumpUp
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\superjump 3 6
+	PlayFx        FEET\SUPERJUMP1.FX
+	TEnd
+
+MEnd
+
+
+Move C_jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_jumpApex
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\superjump 7 64
+	TEnd
+
+MEnd
+
+
+Move C_jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        C_jumpFall
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\superjump 65 66
+	TEnd
+
+MEnd
+
+
+Move C_jumpFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_jumpFall2
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\superjump 67 89
+	TEnd
+
+MEnd
+
+
+Move C_jumpFall2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\superjump 89
+	TEnd
+
+MEnd
+
+
+Move C_JumpPost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Interpolate     1
+
+
+	Type		Rikti_Flesh
+	  Anim          male\comb_postjump 1
+	  PlayFx        FEET\LAND1.FX
+	  Scale		0.7
+	TEnd
+
+
+MEnd
+
+###################
+###### Combat Run Jump  ######
+###################
+
+Move C_HopPre
+	Requires	JUMP Forward
+	Interrupts	<BasicMove> <PostMoveCycle> <Combat> <CombatMove> <iceslide> <Swim> <CombatAttack> C_runjumpPre <jumpFall> <Block> <HitIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_Hop
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\test_hop 10 11
+	TEnd
+
+MEnd
+
+
+Move C_Hop
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_Hop2
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\test_hop 12 91
+	  PlayFx        FEET\JUMP1.FX
+	TEnd
+
+MEnd
+
+
+Move C_Hop2
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_HopApex
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\test_hop 91 92
+	TEnd
+
+MEnd
+
+
+Move C_HopApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        C_HopFall
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\test_hop 92 93
+	TEnd
+
+MEnd
+
+
+Move C_HopFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_HopFall_2
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\test_hop 94 128
+	TEnd
+
+MEnd
+
+
+Move C_HopFall_2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\test_hop 128
+	TEnd
+
+MEnd
+
+
+
+
+
+###################
+### Idle Walk Forward ##
+###################
+
+Move IdleWalkCycle
+	Requires	FORWARD IDLE WALK
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <CombatAttack>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\walk 1
+	TEnd
+MEnd
+
+###################
+### Idle Pistol Walk Forward ##
+###################
+
+Move Idlepistol_WalkCycle
+	Requires	FORWARD IDLE COMBAT WEAPON WALK HANDGUN
+	Interrupts	<WepCombat> <PostMoveCycle> <MoveIRQ> <WepAttack>
+	Member		<WepMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        P_RunPost
+	Priority        6
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_march 1
+	TEnd
+MEnd
+
+###################
+### Idle Sword Walk Forward ##
+###################
+
+Move Idlesword_WalkCycle
+	Requires	FORWARD IDLE COMBAT WEAPON WALK BLADE
+	Interrupts	<WepCombat> <PostMoveCycle> <MoveIRQ> <WepAttack>
+	Member		<WepMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        W_RunPost
+	Priority        6
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_march 1
+	TEnd
+MEnd
+
+###################
+### Idle Shotgun Walk Forward ##
+###################
+
+Move IdleShotgun_WalkCycle
+	Requires	FORWARD IDLE COMBAT WEAPON GUN WALK
+	Interrupts	<TwoHandCombat> <TwoHandAttack> <PostMoveCycle> <MoveIRQ>
+	Member		<TwoHandMove> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	NextMove        Sg_RunPost
+	Priority        6
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_sneek 1
+	TEnd
+MEnd
+
+###################
+###### Pistol Mode (wep mode) ######
+###################
+
+Move PrePistol
+	Requires	COMBAT WEAPON HANDGUN
+	Interrupts	<Ready> PostWepReady
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	NextMove        PistolReady
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 5
+	TEnd
+MEnd
+
+
+Move PistolReady
+	Requires	COMBAT WEAPON HANDGUN
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_cycle 1 31
+	TEnd
+MEnd
+
+###################
+### Pistol run Forward ##
+###################
+
+Move P_RunPre
+	Requires	FORWARD COMBAT WEAPON HANDGUN
+	Interrupts	<WepCombat> <PostMoveCycle> <WepCombatAttack>
+	Member		<WepCombatMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        P_RunCycle
+	Priority        4
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pistol_run 1 23
+	TEnd
+MEnd
+
+
+Move P_RunCycle
+	Requires	FORWARD COMBAT WEAPON HANDGUN
+	Member		<WepCombatMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        P_RunPost
+	Priority        4
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pistol_run 1 23
+	TEnd
+MEnd
+
+
+Move P_RunPost
+	Requires	COMBAT WEAPON HANDGUN
+	Member		<WepCombatMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        PistolReady
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pistol_postrun 1
+	TEnd
+MEnd
+
+######## Hand combat mode  #########################################################
+###################
+###### Combat Mode ######
+###################
+
+Move PreCombat
+	Requires	COMBAT
+	Interrupts	<Ready> PostWepReady
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Priority        1
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\pre_combat 3
+	TEnd
+
+MEnd
+
+
+Move CombatReady
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	Flags		Cycle
+	NextMove        postReady_back
+	Priority        1
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\combat_cycle 1 31
+	TEnd
+
+MEnd
+
+### combatblends ####
+
+Move CombatBlend
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Priority        1
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\combat_cycle 1 31
+	TEnd
+
+MEnd
+
+
+Move Combat_half
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Priority        1
+	Scale           0.70
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\combat_cycle 15 31
+	TEnd
+
+MEnd
+
+
+####### combat motion  ####################################################
+
+###################
+### Combat run Forward ##
+###################
+
+Move C_RunPre
+	Requires	FORWARD COMBAT
+	Interrupts	<Combat> <PostMoveCycle> <Claw> PreClaw <CombatAttack> <Block> <HitIRQ>
+	Member		<CombatMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_RunCycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\comb_run 4 9
+##	  PlayFx        FEET\MALERIGHT.FX  10
+	TEnd
+
+MEnd
+
+
+Move C_RunCycle
+	Requires	FORWARD COMBAT
+	Member		<CombatMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale SmoothSprint
+	MoveRate        0.7
+	NextMove        C_RunPost
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\comb_run 10 34
+##	  PlayFx        FEET\MALELEFT.FX  10
+##	  PlayFx        FEET\MALERIGHT.FX  21
+	  SmoothSprint  3.3
+	TEnd
+
+
+MEnd
+
+
+Move C_RunPost
+	Requires	COMBAT
+	Member		<CombatMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Priority        1
+
+
+	Type		Rikti_Flesh
+	  Anim          male\comb_run 39
+##	  PlayFx        FEET\LAND3.FX  3
+	  scale		0.7
+	TEnd
+
+
+MEnd
+
+
+
+
+######## Weapon combat mode  #########################################################
+
+
+###################
+###### Sword Mode ######
+###################
+
+Move WepReady
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        PostWepReady
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\1sword_cycle 1 31
+	TEnd
+MEnd
+
+
+Move PostWepReady
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\1sword_cycle 1 31
+	TEnd
+MEnd
+
+
+Move WepReady_half
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	NextMove        WepReady
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\1sword_cycle 16 31
+	TEnd
+MEnd
+
+###################
+### Weapon run Forward ##
+###################
+
+Move W_RunPre
+	Requires	FORWARD COMBAT WEAPON BLADE
+	Interrupts	<WepCombat> <WepAttack> <PostMoveCycle> <Block> Alt_SwordReady
+	Member		<WepMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        W_RunCycle
+	Priority        4
+	Scale           0.70
+	Interpolate     8
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sword_run 1 23
+	TEnd
+MEnd
+
+
+Move W_RunCycle
+	Requires	FORWARD COMBAT WEAPON BLADE
+	Member		<WepMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        W_RunPost
+	Priority        4
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sword_run 1 23
+	TEnd
+MEnd
+
+
+Move W_RunPost
+	Requires	COMBAT WEAPON BLADE
+	Member		<WepMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Draw_Sword_cycle
+	Priority        3
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sword_postrun 1
+	TEnd
+MEnd
+
+###################
+###### Rikti Sword ATTACK  ######
+###################
+
+Move Draw_Sword
+	Requires	COMBAT WEAPON BLADE SPAWNBACK
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ>
+	NextMove        Draw_Sword_post
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\draw_axe 1 30
+	TEnd
+MEnd
+
+
+Move Draw_Sword_post
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ> <PostMoveCycle>
+	NextMove        Draw_Sword_cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\draw_axe 31
+	TEnd
+MEnd
+
+
+Move Draw_Sword_cycle
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ> <PostMoveCycle>
+	Flags		Cycle
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_cycle 1 31
+	TEnd
+MEnd
+
+####
+
+Move 1st_Sword
+	Requires	COMBAT WEAPON ATTACK BLADE SPAWNBACK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Sword2
+	Priority        5
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\draw_axe 1 30
+	TEnd
+MEnd
+
+
+Move 1st_Sword2
+	Requires	COMBAT WEAPON BLADE
+	Member		<DeathIRQ>
+	NextMove        1st_Sword_post
+	Priority        3
+	Interpolate     8
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_upcut 1 27
+	TEnd
+MEnd
+
+
+Move 1st_Sword_post
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ> <PostMoveCycle>
+	NextMove        2swordcycle_15
+	Priority        3
+	Scale           0.70
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_upcut 28
+	TEnd
+MEnd
+
+
+Move 2swordcycle
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack>
+	Flags		Cycle
+	NextMove        postReady
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_cycle 1 31
+	TEnd
+MEnd
+
+
+Move 2swordcycle_15
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack>
+	NextMove        2swordcycle
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_cycle 15 31
+	TEnd
+MEnd
+
+####
+
+Move 2nd_Sword
+	Requires	COMBAT WEAPON ATTACK BLADE
+	Interrupts	2swordcycle 2swordcycle_15
+	Member		<DeathIRQ>
+	NextMove        2nd_Sword_post
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_chop 1 25
+	TEnd
+MEnd
+
+
+Move 2nd_Sword_post
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <PostMoveCycle>
+	NextMove        2swordcycle_15
+	Priority        3
+	Scale           0.70
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_chop 26
+	TEnd
+MEnd
+
+
+Move 2nd_Sword_alt
+	Requires	COMBAT WEAPON ATTACK BLADE
+	Interrupts	2swordcycle 2swordcycle_15
+	Member		<DeathIRQ>
+	NextMove        1st_Sword_post
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_upcut 1 27
+	TEnd
+MEnd
+
+###
+
+Move 3rd_Bat
+	Requires	COMBAT WEAPON ATTACK BLADE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Sword_post
+	Priority        4
+	Interpolate     8
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_upcut 1 27
+	TEnd
+MEnd
+
+###################
+###### shotgun Mode ######
+###################
+
+Move PreShotgun
+	Requires	COMBAT WEAPON GUN
+	Interrupts	<Ready> <WepCombat> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandCombat> <BlockIRQ> <AttackIRQ>
+	NextMove        ShotgunReady
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_cycle 1 31
+	TEnd
+MEnd
+
+
+Move ShotgunReady
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandCombat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        PostShotgun
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_cycle 1 31
+	TEnd
+MEnd
+
+
+Move ShotgunReady_15
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandCombat> <BlockIRQ> <AttackIRQ>
+	NextMove        ShotgunReady
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_cycle 15 31
+	TEnd
+MEnd
+
+
+Move Shotguncycle
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandCombat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        PostShotgun
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_cycle 1 31
+	TEnd
+MEnd
+
+###################
+### Shotgun run Forward ##
+###################
+
+Move Sg_Run
+	Requires	FORWARD COMBAT WEAPON GUN
+	Interrupts	<TwoHandCombat> <TwoHandAttack> <PostMoveCycle>
+	Member		<TwoHandMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Sg_RunPost
+	Priority        4
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_run 1 23
+	TEnd
+MEnd
+
+
+Move Sg_RunPost
+	Requires	COMBAT WEAPON GUN
+	Member		<TwoHandMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        ShotgunReady_15
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_postrun 3
+	TEnd
+MEnd
+
+
+### Powers  ######################################################
+
+
+###################
+###### Cast  ######
+###################
+
+Move Cast
+	Requires	COMBAT CAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Castpost
+	Priority        2
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          male\palmcast 1 30
+	  PitchStart	5
+	  PitchAngle	-0.5
+	TEnd
+
+MEnd
+
+
+Move Castpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatBlend
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\palmcast 31 45
+	TEnd
+
+MEnd
+
+
+
+
+
+
+###################
+###### Stomp  ######
+###################
+
+Move Stomp
+	Requires	COMBAT STOMP
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Stomp2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\stomp 1 62
+	TEnd
+
+MEnd
+
+
+Move Stomp2
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_half
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\stomp 63
+	TEnd
+
+MEnd
+
+
+
+
+################################
+###### Rapidblast  ######
+################################
+
+Move Rapid
+	Requires	COMBAT RAPIDBLAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Rapidpost
+	Flags		PITCHTOTARGET
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\energy_rapid 1 59
+	TEnd
+
+
+MEnd
+
+
+Move Rapidpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Priority        1
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\energy_rapid 60
+	TEnd
+
+
+MEnd
+
+
+
+###################
+###### Radius Attack  ######
+###################
+
+Move RadiusAttack
+	Requires	COMBAT RADIUSATTACK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PostRadAttack
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\radiusattack 1 30
+	TEnd
+
+MEnd
+
+
+Move PostRadAttack
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        RadAttackcycle
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\radiusattack 31
+	TEnd
+
+MEnd
+
+
+Move RadAttackcycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\combat_cycle 1 31
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### Wall  ######
+###################
+
+Move Wall
+	Requires	COMBAT WALL
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Wallpost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\wall 2 30
+	TEnd
+
+MEnd
+
+
+Move Wallpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        CombatReady
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\wall 31
+	TEnd
+
+MEnd
+
+
+
+
+
+###################
+###### Long_Quick Boost Aura (built-in pause for TELEPORT)  ######
+###################
+
+Move Boostaura_long
+	Requires	QUICK STRONG BOOSTAURA
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Boostaura_long2
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\flameaura 1 54
+	TEnd
+
+MEnd
+
+
+Move Boostaura_long2
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        Boostaura_long3
+	Priority        1
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\fireaura_pose 1 30
+	TEnd
+
+MEnd
+
+
+Move Boostaura_long3
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\flameaura 55
+	TEnd
+
+
+MEnd
+
+
+
+
+###################
+###### Radius Effect  ######
+###################
+
+Move RadiusEffect
+	Requires	COMBAT RADIUSEFFECT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        RadiusEffePost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\radiuseffect 1 60
+	TEnd
+
+
+MEnd
+
+
+Move RadiusEffePost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        RadEffecycle
+	Interpolate     0
+
+	Type           Rikti_Flesh
+	  Anim          male\radiuseffect 61
+	TEnd
+
+MEnd
+
+
+Move RadEffecycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\combat_cycle 1 31
+	TEnd
+
+
+MEnd
+
+###################
+###### Boost_down  ######
+###################
+
+Move Boost_D
+	Requires	BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Boost_Dpost
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\boost 1 10
+	TEnd
+
+MEnd
+
+
+Move Boost_Dpost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        BoostDnReady
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\boost 11
+	TEnd
+
+MEnd
+
+Move BoostDnReady
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Rikti_Flesh
+	  Anim          male\Skel_ready2 1 60
+	TEnd
+
+MEnd
+
+
+###################
+###### Stop cast ######
+###################
+
+Move Stop
+	Requires	COMBAT STOPCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Stop_cycle
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\stop 1 32
+	TEnd
+
+MEnd
+
+
+Move Stop_cycle
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        Stop_post
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\stop 33 60
+	TEnd
+
+MEnd
+
+
+Move Stop_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Stop_post_half
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\stop 61
+	TEnd
+
+
+MEnd
+
+
+Move Stop_post_half
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        RadEffecycle
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\combat_cycle 15
+	TEnd
+
+
+MEnd
+
+###################
+###### Psionic Blast  ######
+###################
+
+Move PsiBlast
+	Requires	COMBAT PSIONICBLAST
+	Interrupts	<Ready> <Combat> <CombatMove> <CombatAttack> <WepAttack> PsiBlastpost <HitIRQ> <AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PsiBlast2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\psionic 2 50
+	TEnd
+
+MEnd
+
+
+Move PsiBlast2
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	NextMove        PsiBlast3
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\psionic 96 114
+	TEnd
+
+MEnd
+
+
+Move PsiBlast3
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        PsiBlastpost
+	Priority        1
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\psionic 115 162
+	TEnd
+
+MEnd
+
+
+Move PsiBlastpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        RadEffecycle
+	Priority        1
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\psionic 163
+	TEnd
+
+MEnd
+
+
+###################
+###### mouth_eye blast  ######
+###################
+
+Move Mouth
+	Requires	COMBAT HEADCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        PostMouth
+	Priority        2
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          male\eye 1 49
+	  PitchStart	1
+	  PitchAngle	0.1
+	  #PlayFX	feet\MaleTaunt9.fx
+	TEnd
+
+MEnd
+
+
+Move PostMouth
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Mouth_cycle
+	Interpolate     0
+
+
+	Type		Rikti_Flesh
+	  Anim          male\eye 50 60
+	TEnd
+
+MEnd
+
+Move Mouth_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\combat_cycle 1 31
+	TEnd
+
+
+MEnd
+
+###################
+###### hypnotize ######
+###################
+
+Move Hypnotize
+	Requires	COMBAT HYPNOTIZE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Hypnotize2
+	Priority        2
+	Scale           1.50
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\hypnotize 1 133
+	TEnd
+
+
+MEnd
+
+
+Move Hypnotize2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ>
+	NextMove        Hypnotize_post
+	Priority        1
+	Scale           1.50
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\hypnotize 134 175
+	TEnd
+
+
+MEnd
+
+
+Move Hypnotize_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <Combat> <AttackIRQ>
+	NextMove        RadEffecycle
+	Priority        1
+	Scale           0.50
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\hypnotize 176
+	TEnd
+
+
+MEnd
+
+
+###############################
+###### Gadget fix (tricorder) ######
+###############################
+
+Move Gadget_Fix
+	Requires	MEDOTHER STRONG HIGH
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Gadget_Fix_look
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\med_other 1
+	  PlayFx        POWERS\Medicine\MAidWindUp.fx  0 Constant
+	  PlayFx        POWERS\Medicine\MAid.fx  56 Constant
+	TEnd
+
+MEnd
+
+Move Gadget_Fix_look
+	Requires	MEDOTHER STRONG HIGH
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Gadget_Fix
+	Priority        3
+	Scale		0.5
+
+	Type		Rikti_Flesh
+	  Anim          male\idle_look 1
+	TEnd
+
+MEnd
+
+
+###################
+###### Med Other Windup (tricorder) ######
+###################
+
+Move Pre_MedOther
+	Requires	STARTOFFENSESTANCE MEDOTHER
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <CombatAttack>
+	NextMove        MedOther
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\med_other 1 87
+	TEnd
+
+MEnd
+
+###################
+###### Med Other Windup (tricorder) ######
+###################
+
+Move MedOther
+	Requires	MEDOTHER
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack>
+	Flags		Cycle
+	NextMove        MedOther_post
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\med_other 88 138
+	TEnd
+
+MEnd
+
+
+Move MedOther_post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+
+	Type		Rikti_Flesh
+	  Anim          male\med_other 139
+	TEnd
+
+MEnd
+
+
+
+
+#### weapons ##########################################################
+
+
+###################
+###### gun Shoot  ######
+###################
+
+Move Draw_Pistol
+	Requires	COMBAT WEAPON HANDGUN SPAWNSIDE
+	Interrupts	<Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Draw_Pistol_post
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\draw_pistol 1 30
+	TEnd
+MEnd
+
+##	Scale		0.5
+
+Move Draw_Pistol_post
+	Requires	COMBAT WEAPON HANDGUN
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <AttackIRQ> <PostMoveCycle>
+	NextMove        PistolReady
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\draw_pistol 29 30
+	TEnd
+MEnd
+
+##	Scale		0.5
+
+Move 1st_Pistol_shoot
+	Requires	COMBAT WEAPON ATTACK HANDGUN SPAWNSIDE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Pistol_shoot2
+	Priority        5
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\draw_pistol 1 30
+	TEnd
+MEnd
+
+
+Move 1st_Pistol_shoot2
+	Requires	COMBAT WEAPON HANDGUN
+	Member		<DeathIRQ>
+	NextMove        1st_Pistol_shoot_post
+	Priority        3
+	Interpolate     8
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pistol_shoot 1 34
+	TEnd
+MEnd
+
+
+Move 1st_Pistol_shoot_post
+	Requires	COMBAT WEAPON HANDGUN
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ> <AttackIRQ>
+	NextMove        PistolReady
+	Priority        3
+	Interpolate     0
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pistol_shoot 35
+	  PitchAngle	0
+	  PitchEnd	40
+	TEnd
+MEnd
+
+####
+
+Move 2nd_Pistol_shoot
+	Requires	COMBAT WEAPON ATTACK HANDGUN
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_Pistol_shoot_post
+	Priority        4
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pistol_shoot 1 34
+	TEnd
+MEnd
+
+###################
+###### SHOTGUN Shoot  ######
+###################
+
+Move Draw_Shotgun
+	Requires	COMBAT WEAPON GUN SPAWNBACK
+	Interrupts	<Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Draw_Shotgun_post
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\draw_shotgun 1 39
+	TEnd
+MEnd
+
+
+Move Draw_Shotgun_post
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandCombat> <AttackIRQ> <BlockIRQ>
+	NextMove        D_Shotgun_cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\draw_shotgun 40
+	TEnd
+MEnd
+
+
+Move D_Shotgun_cycle
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandCombat> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	NextMove        PostShotgun
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_cycle 1
+	TEnd
+MEnd
+
+###
+
+Move 1st_BuckShot
+	Requires	COMBAT WEAPON GUN LOW SPAWNBACK SHOTGUN
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_BuckShot2
+	Priority        6
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\draw_shotgun 1 39
+	  PitchAngle	0.3
+	TEnd
+MEnd
+
+
+Move 1st_BuckShot2
+	Requires	COMBAT WEAPON GUN
+	Member		<DeathIRQ>
+	NextMove        1st_BuckShot_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_shoot 31 34
+	  PitchAngle	0.3
+	TEnd
+MEnd
+
+
+Move 1st_BuckShot_post
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        D_Shotgun_cycle
+	Priority        3
+	Scale           0.70
+	Interpolate     0
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_shoot 35
+	  PitchAngle	0.3
+	  PitchEnd	38
+	TEnd
+MEnd
+
+###
+
+Move 2nd_shotgunshoot
+	Requires	COMBAT WEAPON GUN LOW SHOTGUN
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        1st_BuckShot_post
+	Priority        5
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_shoot 1 34
+	  PitchAngle	0.3
+	TEnd
+MEnd
+
+### blocks  ##################################################################
+###################
+###### Pistol Block ######
+###################
+
+Move P_Dodge_R
+	Requires	COMBAT WEAPON BLOCK HANDGUN
+	Interrupts	<WepCombat> <WepCombatMove> <PostMoveCycle> <BlockIRQ> P_Block_L
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        PistolReady
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_dodge 1 49
+	TEnd
+MEnd
+
+
+Move P_Dodge_L
+	Requires	COMBAT WEAPON BLOCK HANDGUN
+	Interrupts	<WepCombat> <WepCombatMove> <PostMoveCycle> <BlockIRQ> P_Block_R
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        PistolReady
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_dodge 52
+	TEnd
+MEnd
+
+###################
+###### wep Block  ######
+###################
+
+Move SwordBlock
+	Requires	COMBAT WEAPON BLOCK BLADE
+	Interrupts	<Ready> <BasicMove> <PostMoveCycle> <BlockIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        SwordBlockpost
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_block 1 21
+	TEnd
+MEnd
+
+
+Move SwordBlockpost
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <WepAttack>
+	NextMove        2swordcycle_15
+	Priority        3
+	Scale           0.70
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_block 22 44
+	TEnd
+MEnd
+
+
+Move SwordBlock_L
+	Requires	COMBAT WEAPON BLOCK BLADE
+	Interrupts	<Ready> <BasicMove> <PostMoveCycle> <BlockIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        SwordBlockpost_L
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_block 46 68
+	TEnd
+MEnd
+
+
+Move SwordBlockpost_L
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <WepAttack>
+	NextMove        2swordcycle_15
+	Priority        3
+	Scale           0.70
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_block 69
+	TEnd
+MEnd
+
+###################
+###### Shotgun Block  ######
+###################
+
+Move SG_Block
+	Requires	COMBAT WEAPON GUN BLOCK
+	Interrupts	<BlockIRQ> SG_Block_L
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        Shotguncycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_dodge 1 48
+	TEnd
+MEnd
+
+
+Move SG_Block_L
+	Requires	COMBAT WEAPON GUN BLOCK
+	Interrupts	<BlockIRQ> SG_Block_R
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        Shotguncycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_dodge 50 92
+	TEnd
+MEnd
+
+
+Move SG_Block_R
+	Requires	COMBAT WEAPON GUN BLOCK
+	Interrupts	<BlockIRQ> SG_Block
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        Shotguncycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_dodge 95
+	TEnd
+MEnd
+
+####### hit reacts  #############################################################
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick2
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ> <Block> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_HQ 3   ##sword_HQ 3 30
+	TEnd
+MEnd
+
+###################
+###### Pistol Hit Quick  ######
+###################
+
+Move P_HitQuick
+	Requires	COMBAT WEAPON QUICK HIT HANDGUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        PistolReady
+	Flags		HitReact
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_HQ 3
+	TEnd
+MEnd
+
+
+Move P_HitQuick2
+	Requires	COMBAT WEAPON QUICK HIT HANDGUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	NextMove        PistolReady
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_HQ_mid 3
+	TEnd
+MEnd
+
+###################
+###### Weapon Hit Quick  ######
+###################
+
+Move W_HitQuick
+	Requires	COMBAT WEAPON QUICK HIT BLADE
+	Interrupts	<ReactIRQ> <Block>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        WepReady
+	Flags		HitReact
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sword_HQ 3
+	TEnd
+MEnd
+
+###################
+###### Shotgun Hit Quick  ######
+###################
+
+Move Sg_HitQuick
+	Requires	COMBAT WEAPON GUN QUICK HIT
+	Interrupts	<ReactIRQ> <Block>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ShotgunReady
+	Flags		HitReact
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_HQ 3
+	TEnd
+MEnd
+
+
+
+##########################
+###### Hit Placate React ######
+##########################
+
+Move Hit_Placate
+	Requires	Hit PLACATEHIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Hit_Placate_cycle
+##	Flags		HitReact
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+
+MEnd
+
+
+Move Hit_Placate_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Interpolate     0
+##	Flags		HitReact
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Priority        5
+	Interpolate     3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knockback_fierce 3 14
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move KHF_travel
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knockback_fierce 15 16
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knockback_fierce 17 23
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move KHF_fallcycle
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knockback_fierce 24 25
+	  Ragdoll	1
+	TEnd
+MEnd
+
+
+Move KHF_impact
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knockback_fierce 27
+	  PlayFx        FEET\BIGBODYFALL.FX
+	  Ragdoll	1
+	TEnd
+MEnd
+
+##	Member		<ReactIRQ>
+
+Move getup_back
+	NextMove        getup_back2
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	Member 		<ReactIRQ> <RagdollBellyIRQ>
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\getup_back 5 7
+	TEnd
+MEnd
+
+
+Move getup_back2
+	NextMove        Ready
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	Member 		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ> <RagdollBellyIRQ>
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\getup_back 8 100
+	TEnd
+MEnd
+
+
+Move KHF_Deathcycle
+	Requires	DEATH
+	Interrupts	getup_back Ragdoll_belly
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION CANTMOVE DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knockback_fierce 71 75
+	   Ragdoll	1
+	TEnd
+MEnd
+
+###################
+###### Impact Death   ######
+###################
+
+Move Impact_Death
+	Requires	DEATH
+	Interrupts	getup_back getup_back2
+	NextMove        Impact_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knockback_fierce 27
+	  PlayFx        FEET\MALEDEATH4.FX
+	   Ragdoll	1
+	TEnd
+MEnd
+
+
+Move Impact_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knockback_fierce 71 75
+	  Ragdoll	0
+	TEnd
+MEnd
+
+
+
+###############################
+###### Ragdoll Belly getup   ######
+##############################
+
+Move Ragdoll_belly
+	Requires	RAGDOLLBELLY
+	Interrupts	<ReactIRQ> <DeathIRQ> <RagdollBellyIRQ>
+	NextMove        KnockDown_cycle
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\getup_belly 1
+	TEnd
+
+MEnd
+
+
+###################
+###### Sweeps  ######
+###################
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sweep 3 31
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+MEnd
+
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knockback_fierce 26
+	  PlayFx        FEET\MALEDEATH6.FX
+	TEnd
+MEnd
+
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sweep_flip 2 28
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+MEnd
+
+###################
+###### Stun  ######
+###################
+
+Move Stun
+	Requires	STUN HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Stun_cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\stun_hit 2
+	TEnd
+MEnd
+
+
+Move Stun_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\stun_cycle 1 31
+	TEnd
+MEnd
+
+
+
+###################
+### Stun forward  #####
+###################
+
+Move Stun_forward
+	Requires	STUN  Forward
+	Interrupts	Stun Stun_cycle <BasicMove> <CombatMove> <WepMove> <TwoHandMove> dizzy <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Stun_cycle
+	Priority        8
+	Scale		0.5
+	Flags		Cycle
+	Interpolate	20
+
+	Type		Rikti_Flesh
+	  Anim          male\stun_walk 1 27 ##zombie_walk_armsdown 1 27
+	TEnd
+
+MEnd
+
+
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Sleep_cycle
+	Priority        3
+	Scale           0.40
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sleep 1 52
+	TEnd
+MEnd
+
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        2
+	Scale           0.20
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sleep 55 85
+	TEnd
+MEnd
+
+###################
+###### choke Stun  ######
+###################
+
+Move chokeStun
+	Requires	STUN HIT CHOKESTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        chokeStun_cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\choke 1
+	TEnd
+MEnd
+
+
+Move chokeStun_cycle
+	Requires	STUN CHOKESTUN
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\choke 1
+	TEnd
+MEnd
+
+###################
+###### Sonic Stun  ######
+###################
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        SonicStun_cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sonicpain 1
+	TEnd
+MEnd
+
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\sonicpain 1
+	TEnd
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ElectroStun_cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\electro 1
+	TEnd
+MEnd
+
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\electro 1
+	TEnd
+MEnd
+
+###################
+###### Lasso Stun  ######
+###################
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        LassoStun_cycle
+	Priority        3
+	Scale           0.60
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wriggle 1 17
+	TEnd
+MEnd
+
+
+Move LassoStun_cycle
+	Requires	STUN LASSOSTUN
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+	Scale           0.60
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wriggle 18
+	TEnd
+MEnd
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\freezestun 1 20
+	TEnd
+MEnd
+
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\freezestun 20 30
+	TEnd
+MEnd
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\freezestun 20 30
+	TEnd
+
+MEnd
+
+
+
+
+###################
+###### Levitate Stun  ######
+###################
+
+Move Lev_Stun
+	Requires	STUN HIT FLOATSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Lev_Stun_cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_fly 2
+	TEnd
+MEnd
+
+
+Move Lev_Stun_cycle
+	Requires	STUN FLOATSTUN
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\float 1
+	TEnd
+MEnd
+
+###################
+###### Lev_Stun Hit Quick  ######
+###################
+
+Move Lev_Stun_HitQuick
+	Requires	HIT
+	Interrupts	Lev_Stun Lev_Stun_cycle
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Lev_Stun_cycle
+	Flags		HitReact
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\float_HQ 2
+	TEnd
+MEnd
+
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	Fear
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\fear_stun 1
+	TEnd
+
+MEnd
+
+Move FearStun_cycle
+	Requires	Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	Interpolate	8
+
+	Type		Rikti_Flesh
+	  Anim          male\fear_stun 25 60
+	TEnd
+
+MEnd
+
+
+
+###################
+###### Knock Down  ######
+###################
+
+Move KnockDown
+	Requires	HIT KNOCKDOWN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	NextMove        KnockDown2
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\impact_belly 2
+	TEnd
+MEnd
+
+
+Move KnockDown2
+	NextMove        KnockDown_cycle
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\getup_belly 1
+	TEnd
+MEnd
+
+##	Member		<DeathIRQ> <ReactIRQ>
+
+Move KnockDown_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\claw_cycle 1 31
+	TEnd
+MEnd
+
+###################
+###### electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\electro 1
+	TEnd
+MEnd
+
+###################
+###### electro_pain_LONG  ######
+###################
+
+Move electro_react_Long
+	Requires	STRONG HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        electro_react_Long2
+	Flags		HitReact
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\electro 1 115
+	TEnd
+MEnd
+
+
+Move electro_react_Long2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Flags		HitReact
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\electro 1 20
+	TEnd
+MEnd
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 40
+	TEnd
+MEnd
+
+###################
+###### drain react  ######
+###################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Flags		HitReact
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 1
+	TEnd
+MEnd
+
+###################
+###### sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	NextMove        weak_post
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 1
+	TEnd
+MEnd
+
+###################
+###### choke react  ######
+###################
+
+Move choke_react
+	Requires	HIT MAGIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	NextMove        weak_post
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\choke 1
+	TEnd
+MEnd
+
+###################
+###### tele_attack react  ######
+###################
+#Move tele_react
+#	Requires       	Hit Teleattack
+#	Interrupts	<ReactIRQ>
+#       Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	Anim            models\tele_react 1
+#	NextMove	CombatReady
+###################
+###### Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	NextMove        weak_post
+	Priority        2
+	Scale           0.75
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\speed_react 3 34
+	TEnd
+MEnd
+
+###################
+###### Kungfu_speed react  ######
+###################
+
+Move KungfuSpeed_react
+	Requires	HIT KUNGFUSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react2
+	Flags		HitReact
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\speed_react 3 39
+	TEnd
+MEnd
+
+#	Scale		0.75
+
+Move KungfuSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 40 52
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        WepReady
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_HQ 3
+	TEnd
+MEnd
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Flags		HitReact
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\speed_react 3 39
+	TEnd
+MEnd
+
+#	Scale		0.75
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 40 53
+	TEnd
+MEnd
+
+
+Move ClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        WepReady
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_HQ 3
+	TEnd
+MEnd
+
+
+##################
+###### Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 1
+	TEnd
+MEnd
+
+###################
+###### Boost_down react  ######
+###################
+
+Move Hit_Boost_D
+	Requires	HIT BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 1
+	TEnd
+MEnd
+
+#### Deaths  ########################################################################
+
+
+#######################
+###### Vanish Death   ######
+######################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\freezestun 20 30
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 47 129
+	TEnd
+MEnd
+
+
+Move Default_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 129 130
+	TEnd
+MEnd
+
+###################
+###### Hit Death   ######
+###################
+
+Move HitDeath
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ> <ReactIRQ>
+	NextMove        postdeath2
+	Priority        2
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_sideL 3 300
+	TEnd
+MEnd
+
+
+Move postdeath2
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_sideL 200 300
+	TEnd
+MEnd
+
+###################
+###### Hit Death 4  ######
+###################
+
+Move HitDeath4
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        postdeath4
+	Priority        2
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 3 129
+	TEnd
+MEnd
+
+
+Move postdeath4
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 129 130
+	TEnd
+MEnd
+
+###################
+###### Electro Death  ######
+###################
+
+Move ElectroDeath
+	Requires	HIT DEATH ENERGY
+	Interrupts	<DeathIRQ>
+	NextMove        ElectroDeath2
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\electro 1
+	TEnd
+MEnd
+
+
+Move ElectroDeath2
+	Requires	DEATH
+	NextMove        ElectroDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 53 127
+	TEnd
+MEnd
+
+
+Move ElectroDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 128 129
+	TEnd
+MEnd
+
+###################
+###### Disrupt Death  ######
+###################
+
+Move DisruptDeath
+	Requires	HIT DEATH DISRUPT
+	Interrupts	<DeathIRQ>
+	NextMove        DisruptDeath2
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\electro 1 47
+	TEnd
+MEnd
+
+
+Move DisruptDeath2
+	Requires	DEATH
+	NextMove        DisruptDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_sideL 3 100
+	TEnd
+MEnd
+
+
+Move DisruptDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_sideL
+	TEnd
+MEnd
+
+###################
+###### Choke Death  ######
+###################
+
+Move ChokeDeath
+	Requires	HIT DEATH MAGIC
+	Interrupts	<DeathIRQ> <BasicDeath>
+	NextMove        ChokeDeath2
+	Priority        3
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\choke 1 137
+	TEnd
+MEnd
+
+
+Move ChokeDeath2
+	Requires	DEATH
+	NextMove        ChokeDeath3
+	Priority        1
+	Interpolate     12
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 46
+	TEnd
+MEnd
+
+
+Move ChokeDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 128 129
+	TEnd
+MEnd
+
+###################
+###### Sonic Death  ######
+###################
+
+Move SonicDeath
+	Requires	HIT DEATH PSIONIC
+	Interrupts	<DeathIRQ>
+	NextMove        SonicDeath2
+	Priority        3
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 1 34
+	TEnd
+MEnd
+
+
+Move SonicDeath2
+	Requires	DEATH
+	NextMove        SonicDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 46
+	TEnd
+MEnd
+
+
+Move SonicDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_front 128 129
+	TEnd
+MEnd
+
+###################
+###### Speed Death  ######
+###################
+
+Move SpeedDeath
+	Requires	HIT DEATH SPEEDPUNCH
+	Interrupts	<DeathIRQ>
+	NextMove        SpeedDeath2
+	Priority        3
+	Scale           0.75
+	Interpolate     2
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\speed_react 3 65
+	TEnd
+MEnd
+
+
+Move SpeedDeath2
+	Requires	DEATH
+	NextMove        SpeedDeath3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knock_down 4 42
+	TEnd
+MEnd
+
+
+Move SpeedDeath3
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knock_down 43
+	TEnd
+MEnd
+
+###################
+###### Kungfu_speed Death  ######
+###################
+
+Move KungfuSpeed_death
+	Requires	HIT DEATH KUNGFUSPEED
+	Interrupts	<DeathIRQ>
+	NextMove        KungfuSpeed_death2
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\speed_react 3 39
+	TEnd
+MEnd
+
+#	Scale		0.75
+
+Move KungfuSpeed_death2
+	NextMove        KungfuSpeed_death3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 40 52
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_death3
+	Requires	DEATH
+	NextMove        KungfuSpeed_death4
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knock_down 4 42
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_death4
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knock_down 43
+	TEnd
+MEnd
+
+###################
+###### Claw_speed Death  ######
+###################
+
+Move ClawSpeed_death
+	Requires	HIT DEATH CLAWSPEED
+	Interrupts	<DeathIRQ>
+	NextMove        ClawSpeed_death2
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\speed_react 3 19
+	TEnd
+MEnd
+
+#	Scale		0.75
+
+Move ClawSpeed_death2
+	Requires	DEATH
+	NextMove        ClawSpeed_death3
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\drain 40 53
+	TEnd
+MEnd
+
+
+Move ClawSpeed_death3
+	Requires	DEATH
+	NextMove        ClawSpeed_death4
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knock_down 4 42
+	TEnd
+MEnd
+
+
+Move ClawSpeed_death4
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\knock_down 43
+	TEnd
+MEnd
+
+
+##### encounters ###########################################
+
+
+##  Spawns  ###########################################
+
+Move Pistol_Spawn
+	Requires	COMBAT WEAPON HANDGUN SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION
+	NextMove        Pull_gun
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 1 5
+	TEnd
+MEnd
+
+
+Move Pull_gun
+	Requires	COMBAT WEAPON HANDGUN
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Pull_gun2
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 5 35
+	TEnd
+MEnd
+
+
+Move Pull_gun2
+	Requires	COMBAT WEAPON HANDGUN
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	NextMove        Pistol_postcycle
+	Priority        3
+	Scale           0.50
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 36
+	TEnd
+MEnd
+
+
+Move Pistol_postcycle
+	Requires	COMBAT WEAPON HANDGUN
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\wep_cycle 1
+	TEnd
+MEnd
+
+#######
+
+Move Pistol_Spawn_B
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION
+	NextMove        Pull_gun_B
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 1 5
+	TEnd
+MEnd
+
+
+Move Pull_gun_B
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Pull_gun2_B
+	Priority        4
+	Scale           0.80
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 5 35
+	TEnd
+MEnd
+
+
+Move Pull_gun2_B
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	NextMove        Pistol_postcycle
+	Priority        4
+	Scale           0.80
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 36
+	TEnd
+MEnd
+
+#######
+
+Move Pistol_Spawn_C
+	Requires	COMBAT WEAPON VARIATIONC HANDGUN SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION
+	NextMove        Pull_gun_C
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 1 5
+	TEnd
+MEnd
+
+
+Move Pull_gun_C
+	Requires	COMBAT WEAPON VARIATIONC HANDGUN
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Pull_gun2_C
+	Priority        4
+	Scale           0.80
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 5 35
+	TEnd
+MEnd
+
+
+Move Pull_gun2_C
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	NextMove        Pistol_postcycle
+	Priority        4
+	Scale           0.80
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_pistol 36
+	TEnd
+MEnd
+
+#############################################
+
+Move Sword_Spawn
+	Requires	COMBAT WEAPON BLADE SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat> Pistol_Spawn
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION
+	NextMove        Pull_Sword
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_sword 1 5
+	TEnd
+MEnd
+
+
+Move Pull_Sword
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Sword_postcycle
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_sword 5
+	TEnd
+MEnd
+
+
+Move Sword_postcycle
+	Requires	COMBAT WEAPON BLADE
+	Member		<ReactIRQ> <DeathIRQ> <WepCombat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\bow_cycle 1
+	TEnd
+MEnd
+
+######
+
+Move Sword_Spawn_B
+	Requires	COMBAT WEAPON VARIATIONB BLADE SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat> Pistol_Spawn
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION
+	NextMove        Pull_Sword_B
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_sword 1 5
+	TEnd
+MEnd
+
+
+Move Pull_Sword_B
+	Requires	COMBAT WEAPON VARIATIONB BLADE
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Sword_postcycle
+	Priority        4
+	Scale           0.90
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_sword 5
+	TEnd
+MEnd
+
+######
+
+Move Sword_Spawn_C
+	Requires	COMBAT WEAPON VARIATIONC BLADE SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat> Pistol_Spawn
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION
+	NextMove        Pull_Sword_C
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_sword 1 5
+	TEnd
+MEnd
+
+
+Move Pull_Sword_C
+	Requires	COMBAT WEAPON VARIATIONC BLADE
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Sword_postcycle
+	Priority        4
+	Scale           0.30
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_sword 5
+	TEnd
+MEnd
+
+#############################################
+
+Move Shotgun_Spawn
+	Requires	COMBAT WEAPON GUN SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION
+	NextMove        Pull_Shotgun
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_shotgun 1 5
+	TEnd
+MEnd
+
+
+Move Pull_Shotgun
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Shotgun_postcycle
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_shotgun 5
+	TEnd
+MEnd
+
+
+Move Shotgun_postcycle
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandCombat> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\rocket_cycle 1
+	TEnd
+MEnd
+
+#####
+
+Move Shotgun_Spawn_B
+	Requires	COMBAT WEAPON GUN VARIATIONB SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Flags		Cycle
+	NextMove        Pull_Shotgun_B
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_shotgun 1 5
+	TEnd
+MEnd
+
+
+Move Pull_Shotgun_B
+	Requires	COMBAT WEAPON GUN VARIATIONB
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Shotgun_postcycle
+	Priority        4
+	Scale           0.30
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_shotgun 5
+	TEnd
+MEnd
+
+######
+
+Move Shotgun_Spawn_C
+	Requires	COMBAT WEAPON GUN VARIATIONC SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION
+	NextMove        Pull_Shotgun_C
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_shotgun 1 5
+	TEnd
+MEnd
+
+
+Move Pull_Shotgun_C
+	Requires	COMBAT WEAPON GUN VARIATIONC
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Shotgun_postcycle
+	Priority        4
+	Scale           0.90
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\pre_shotgun 5
+	TEnd
+MEnd
+
+
+
+
+##################
+###  Loot ready  #####
+##################
+
+Move Loot_readypre
+	Requires	LOOT
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Loot_ready
+	Priority        1
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          male\Loot 3 19
+	TEnd
+
+	Type		huge
+	  Anim          huge\Loot 3 19
+	TEnd
+
+	Type		fem
+	  Anim          fem\Loot 3 19
+	TEnd
+MEnd
+
+##################
+###  Loot ready  #####
+##################
+
+Move Loot_ready
+	Requires	LOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Loot_Post
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\Loot 20 25
+	TEnd
+MEnd
+
+
+Move Loot_Post
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\Loot 26
+	TEnd
+MEnd
+
+
+
+################
+### Kneel	#####
+################
+
+
+Move Pre_Kneel
+	Requires	KNEEL
+	Interrupts	<Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Kneel
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\rest_kneel 1 50
+	TEnd
+
+MEnd
+
+Move Kneel
+	Requires	KNEEL
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Kneel_getup
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\rest_kneel 50 60
+	TEnd
+
+
+MEnd
+
+
+################
+### Kneel Low	#####
+################
+
+Move Kneel_Low
+	Requires	LOW KNEEL
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Kneel_getup
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\kneel_comp 12 14
+	TEnd
+
+	Type		huge
+	  Anim          huge\kneel_comp 12 14
+	TEnd
+
+MEnd
+
+################
+### Kneel getup	#####
+################
+
+Move Kneel_getup
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate     8
+
+	Type		Rikti_Flesh
+	  Anim          male\Loot 26
+	TEnd
+
+	Type		huge
+	  Anim          huge\Loot 26
+	TEnd
+
+MEnd
+
+################
+### Dojo Kneel 	#####
+################
+
+Move DojoKneel
+	Requires	KUNGFU KNEEL
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        DojoKneel_getup
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\kneel_comp 24 26
+	TEnd
+
+	Type		huge
+	  Anim          huge\kneel_comp 24 26
+	TEnd
+
+MEnd
+
+####################
+### Dojo Kneel Low #####
+####################
+
+Move DojoKneel_Low
+	Requires	KUNGFU LOW KNEEL
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        DojoKneel_getup
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\kneel_comp 29 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\kneel_comp 29 31
+	TEnd
+
+MEnd
+
+
+####################
+### Dojo Kneel getup #####
+####################
+
+Move DojoKneel_getup
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate     8
+
+	Type		Rikti_Flesh
+	  Anim          male\Loot 26
+	TEnd
+
+	Type		huge
+	  Anim          huge\Loot 26
+	TEnd
+
+MEnd
+
+
+
+
+######## Idle mode  #################################
+
+#Move IdleReady
+#	Requires	IDLE
+#	Interrupts	<Ready> <Combat> <WepCombat>
+#	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+#	Flags		Cycle
+#	Priority        1
+#
+#	Type		Rikti_Flesh
+#	  Anim          male\skel_ready2 1
+#	TEnd
+#
+#	Type		Vahzilok
+#	  Anim          Vahzilok\skel_vah_combat_cycle 1
+#	TEnd
+#MEnd
+
+###################
+### Idle Walk Forward ##
+###################
+
+#Move IWalkPreReady
+#	Requires	FORWARD IDLE
+#	Interrupts	<Ready> <BasicMove> <CombatMove> <WepMove> <TwoHandMove>
+#	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+#	Flags		ReqInputs
+#	NextMove        IWalkCycleReady
+#	Priority        2
+#
+#	Type		Rikti_Flesh
+#	  Anim          male\walk 37 48
+#	TEnd
+#
+#	Type		Vahzilok
+#	  Anim          Vahzilok\vah_walk 24 25
+#	TEnd
+#MEnd
+#
+#
+#Move IWalkCycleReady
+#	Requires	FORWARD IDLE
+#	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+#	Flags		Cycle
+#	NextMove        IWalkPostReady
+#	Priority        2
+#
+#	Type		Rikti_Flesh
+#	  Anim          male\walk 1 48
+#	TEnd
+#
+#	Type		Vahzilok
+#	  Anim          Vahzilok\vah_walk 1 25
+#	TEnd
+#MEnd
+#
+#
+#Move IWalkPostReady
+#	Requires	IDLE
+#	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+#	NextMove        Ready
+#	Priority        1
+#
+#	Type		Rikti_Flesh
+#	  Anim          male\walk 47 48
+#	TEnd
+#
+#	Type		Vahzilok
+#	  Anim          Vahzilok\vah_postrun 4 28
+#	TEnd
+#MEnd
+
+####### Limp mode  ###########################
+###################
+### Limp Forward ##
+##################
+
+Move LimpPreReady
+	Requires	FORWARD LIMP
+	Interrupts	<BasicMove> <CombatMove> <WepMove> <TwoHandMove>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		ReqInputs
+	NextMove        LimpCycleReady
+	Priority        2
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          male\weak_walk 10 28
+	TEnd
+MEnd
+
+
+Move LimpCycleReady
+	Requires	FORWARD LIMP
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	NextMove        LimpPostReady
+	Priority        2
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          male\weak_walk 1 28
+	TEnd
+MEnd
+
+
+Move LimpkPostReady
+	Requires	LIMP
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\weak_walk 27 28
+	TEnd
+MEnd
+
+###################
+### Threat   #####
+###################
+
+Move Threat_A
+	Requires	THREAT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\threat_combo_A 1 134
+	TEnd
+MEnd
+
+
+Move Threat_B
+	Requires	VARIATIONB THREAT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\threat_combo_B 1 134
+	TEnd
+MEnd
+
+
+Move Threat_C
+	Requires	VARIATIONC THREAT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\threat_combo_C 1 134
+	TEnd
+MEnd
+
+###################
+### Knife Threat   #####
+###################
+
+Move Knife_Threat_A
+	Requires	COMBAT WEAPON BLADE THREAT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicTHREAT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\knife_threat_combo_A 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Threat_B
+	Requires	COMBAT WEAPON VARIATIONB BLADE THREAT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicTHREAT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          male\knife_threat_combo_B 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Threat_C
+	Requires	COMBAT WEAPON VARIATIONC BLADE THREAT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicTHREAT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	Scale           1.50
+
+	Type		Rikti_Flesh
+	  Anim          male\knifetoss 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Gun Threat   #####
+###################
+
+Move Gun_Threat_A
+	Requires	COMBAT WEAPON HANDGUN THREAT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicTHREAT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Gun_Threat_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_left 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Threat_A2
+	Requires	COMBAT WEAPON HANDGUN THREAT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Gun_Threat_A
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_right 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+###################
+### Bat Threat   #####
+###################
+
+Move Bat_Threat_A
+	Requires	COMBAT WEAPON BLUNT THREAT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicTHREAT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_threat_combo_A 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Bat_Threat_B
+	Requires	COMBAT WEAPON VARIATIONB BLUNT THREAT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicTHREAT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          male\knife_threat_combo_B 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Bat_Threat_C
+	Requires	COMBAT WEAPON VARIATIONC BLUNT THREAT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicTHREAT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_cycle 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+#####################################################################
+###################
+### Menace   #####
+###################
+
+Move Menace_A
+	Requires	MENACE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Menace_A2
+	CycleMove       Menace_A3
+
+	Type		Rikti_Flesh
+	  Anim          male\smackhands_long 12
+	  PlayFx        FEET\TAUNT.FX  33
+	  PlayFx        FEET\TAUNT.FX  71
+	  PlayFx        FEET\TAUNT.FX  109
+	  PlayFx        FEET\TAUNT.FX  147
+	TEnd
+MEnd
+
+
+Move Menace_A2
+	Requires	MENACE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Menace_A
+
+	Type		Rikti_Flesh
+	  Anim          male\threat_D 1 52
+	TEnd
+MEnd
+
+
+Move Menace_A3
+	Requires	MENACE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        1
+	Scale           0.50
+	CycleMove       Menace_A
+
+	Type		Rikti_Flesh
+	  Anim          male\yell 65 92
+	TEnd
+MEnd
+
+
+
+Move Menace_C
+	Requires	VARIATIONC MENACE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        2
+	Scale           1.50
+
+	Type		Rikti_Flesh
+	  Anim          male\knifetoss 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+##########################################################################
+###################
+### Crazy Menace (temp anims, later we might put in more crazy anims  #####
+###################
+
+Move CrazyMenace_A
+	Requires	STRONG MENACE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        2
+	Scale           0.70
+	CycleMove       CrazyMenace_Aa
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 1 50
+	TEnd
+MEnd
+
+
+Move CrazyMenace_Aa
+	Requires	STRONG MENACE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        2
+	CycleMove       CrazyMenace_Ab
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 1 50
+	TEnd
+MEnd
+
+
+Move CrazyMenace_Ab
+	Requires	STRONG MENACE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        2
+	Scale           0.70
+	Interpolate     8
+	CycleMove       CrazyMenace_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 63
+	TEnd
+MEnd
+
+
+Move CrazyMenace_A2
+	Requires	STRONG MENACE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        2
+	CycleMove       CrazyMenace_A3
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 63
+	TEnd
+MEnd
+
+
+Move CrazyMenace_A3
+	Requires	STRONG MENACE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        2
+	CycleMove       CrazyMenace_A4
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+
+Move CrazyMenace_A4
+	Requires	STRONG MENACE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        2
+	CycleMove       CrazyMenace_A5
+
+	Type		Rikti_Flesh
+	  Anim          male\threat_C 1
+	TEnd
+MEnd
+
+
+Move CrazyMenace_A5
+	Requires	STRONG MENACE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+	Priority        2
+	CycleMove       CrazyMenace_A
+
+	Type		Rikti_Flesh
+	  Anim          male\vandal_kick_low 1
+	TEnd
+MEnd
+
+###################
+### Knife Menace   #####
+###################
+
+Move Knife_Menace_A
+	Requires	COMBAT WEAPON BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	Scale           1.50
+	CycleMove       Knife_Menace_A
+	CycleMove       Knife_Menace_A2
+	CycleMove       Knife_Menace_A4
+
+	Type		Rikti_Flesh
+	  Anim          male\knifetoss 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_A2
+	Requires	COMBAT WEAPON BLADE MENACE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Knife_Menace_A3
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_right 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_A3
+	Requires	COMBAT WEAPON BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Knife_Menace_A
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_left 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_A4
+	Requires	COMBAT WEAPON BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Knife_Menace_A
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_B
+	Requires	COMBAT WEAPON VARIATIONB BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Knife_Menace_B2
+
+	Type		Rikti_Flesh
+	  Anim          male\threat_cycle 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_B2
+	Requires	COMBAT WEAPON VARIATIONB BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Knife_Menace_B
+
+	Type		Rikti_Flesh
+	  Anim          male\root 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_B3
+	Requires	COMBAT WEAPON VARIATIONB BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	Scale           0.70
+	CycleMove       Knife_Menace_B
+
+	Type		Rikti_Flesh
+	  Anim          male\yell 35 63
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_B4
+	Requires	COMBAT WEAPON VARIATIONB BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Knife_Menace_B
+
+	Type		Rikti_Flesh
+	  Anim          male\knife_threatD 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_C
+	Requires	COMBAT WEAPON VARIATIONC BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Knife_Menace_C2
+	CycleMove       Knife_Menace_C3
+	CycleMove       Knife_Menace_C5
+
+	Type		Rikti_Flesh
+	  Anim          male\knifetoss 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_C2
+	Requires	COMBAT WEAPON VARIATIONC BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Knife_Menace_C
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_C3
+	Requires	COMBAT WEAPON VARIATIONC BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Knife_Menace_C4
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_overheadshake 1 50
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_C4
+	Requires	COMBAT WEAPON VARIATIONC BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Knife_Menace_C
+
+	Type		Rikti_Flesh
+	  Anim          male\root 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Knife_Menace_C5
+	Requires	COMBAT WEAPON VARIATIONC BLADE MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Knife_Menace_C
+
+	Type		Rikti_Flesh
+	  Anim          male\chant_1arm 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Gun Menace   #####
+###################
+
+Move Gun_Menace_A
+	Requires	COMBAT WEAPON HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_aim_frantic 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_B
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Gun_Menace_B2
+	CycleMove       Gun_Menace_B3
+	CycleMove       Gun_Menace_B6
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_left 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_B2
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Gun_Menace_B
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_right 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_B3
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Gun_Menace_B4
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_2hand_point 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_B4
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Gun_Menace_B4
+	CycleMove       Gun_Menace_B2
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_2hand_point 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_B6
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Gun_Menace_B
+
+	Type		Rikti_Flesh
+	  Anim          male\knife_comehere 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_C
+	Requires	COMBAT WEAPON VARIATIONC HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	Scale           0.50
+	CycleMove       Gun_Menace_C2
+	CycleMove       Gun_Menace_C3
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_suspicious 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_C2
+	Requires	COMBAT WEAPON VARIATIONC HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	Scale           0.50
+	CycleMove       Gun_Menace_C
+
+	Type		Rikti_Flesh
+	  Anim          male\yell 35 63
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_C3
+	Requires	COMBAT WEAPON VARIATIONC HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Gun_Menace_C4
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_left 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_C4
+	Requires	COMBAT WEAPON VARIATIONC HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Gun_Menace_C5
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_gangsta 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_Menace_C5
+	Requires	COMBAT WEAPON VARIATIONC HANDGUN MENACE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       Gun_Menace_C
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_gangsta_post 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+###################
+### Bat Menace   #####
+###################
+
+Move Bat_Menace_A
+	Requires	ENCOUNTER COMBAT WEAPON BLUNT MENACE
+	Priority        5
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_twirl 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+Move Bat_Menace_B
+	Requires	ENCOUNTER COMBAT WEAPON BLUNT MENACE
+	Priority        5
+	Interrupts	<Ready> <Combat> <WepCombat> <basicMENACE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove       Bat_Menace_B
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_cycle 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+##################################################################
+###################
+### Lookout   #####
+###################
+
+Move Lookout_A
+	Requires	LOOKOUT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOOKOUT>
+	Flags		Cycle
+	Priority        1
+	Scale           0.60
+	CycleMove       Lookout_A
+	CycleMove       Lookout_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 1
+	TEnd
+MEnd
+
+
+Move Lookout_A2
+	Requires	LOOKOUT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOOKOUT>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Lookout_A
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+
+Move Lookout_B
+	Requires	VARIATIONB LOOKOUT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOOKOUT>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Lookout_B2
+	CycleMove       Lookout_B3
+
+	Type		Rikti_Flesh
+	  Anim          male\Look_R 1
+	TEnd
+MEnd
+
+
+Move Lookout_B2
+	Requires	VARIATIONB LOOKOUT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOOKOUT>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Lookout_B
+
+	Type		Rikti_Flesh
+	  Anim          male\Look_L 1
+	TEnd
+MEnd
+
+
+Move Lookout_B3
+	Requires	VARIATIONB LOOKOUT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOOKOUT>
+	Flags		Cycle
+	Priority        2
+	Scale           0.60
+	CycleMove       Lookout_B
+
+	Type		Rikti_Flesh
+	  Anim          male\Look_R 1
+	TEnd
+MEnd
+
+###################
+### Knife Lookout   #####
+###################
+
+Move knifeLookout_A
+	Requires	COMBAT WEAPON BLADE LOOKOUT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       knifeLookout_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\Look_L 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move knifeLookout_A2
+	Requires	COMBAT WEAPON BLADE LOOKOUT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       knifeLookout_A
+
+	Type		Rikti_Flesh
+	  Anim          male\Look_R 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move knifeLookout_B
+	Requires	COMBAT WEAPON VARIATIONB BLADE LOOKOUT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_suspicious 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Gun Lookout   #####
+###################
+
+Move GunLookout_A
+	Requires	COMBAT WEAPON HANDGUN LOOKOUT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       GunLookout_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\pointpistol_look_R 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move GunLookout_A2
+	Requires	COMBAT WEAPON HANDGUN LOOKOUT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       GunLookout_A
+
+	Type		Rikti_Flesh
+	  Anim          male\pointpistol_look_L 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move GunLookout_B
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN LOOKOUT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       GunLookout_B2
+	CycleMove       GunLookout_B3
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move GunLookout_B2
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN LOOKOUT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	Scale           0.50
+	CycleMove       GunLookout_B
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move GunLookout_B3
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN LOOKOUT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       GunLookout_B4
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_left 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move GunLookout_B4
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN LOOKOUT
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       GunLookout_B
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_right 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+###################
+### Bat Lookout   #####
+###################
+
+Move BatLookout_A
+	Requires	ENCOUNTER COMBAT WEAPON BLUNT LOOKOUT
+	Priority        5
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_suspicious 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+Move BatLookout_B
+	Requires	ENCOUNTER COMBAT WEAPON BLUNT LOOKOUT
+	Priority        5
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.70
+	CycleMove       BatLookout_B2
+
+	Type		Rikti_Flesh
+	  Anim          male\bathold_lookright 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+Move BatLookout_B2
+	Requires	ENCOUNTER COMBAT WEAPON BLUNT LOOKOUT
+	Priority        5
+	Interrupts	<Ready> <Combat> <WepCombat> <basicLOOKOUT>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.90
+	CycleMove       BatLookout_B
+
+	Type		Rikti_Flesh
+	  Anim          male\bathold_lookleft 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+
+#######################################################################
+###################
+### Cheer   #####
+###################
+
+Move Cheer_A
+	Requires	CHEER
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicCHEER>
+	Flags		Cycle
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\chant_high 1
+	TEnd
+MEnd
+
+
+Move Cheer_B
+	Requires	VARIATIONB CHEER
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicCHEER>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\chant_1arm 1
+	TEnd
+MEnd
+
+
+Move Cheer_C
+	Requires	VARIATIONC CHEER
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicCHEER>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\listen_1 1 200
+	TEnd
+MEnd
+
+###################
+### Knife Cheer   #####
+###################
+
+Move knifeCheer_A
+	Requires	COMBAT WEAPON BLADE CHEER
+	Interrupts	<Ready> <Combat> <WepCombat> <basicCHEER>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	Scale           0.80
+
+	Type		Rikti_Flesh
+	  Anim          male\Chant_low 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move knifeCheer_B
+	Requires	COMBAT WEAPON VARIATIONB BLADE CHEER
+	Interrupts	<Ready> <Combat> <WepCombat> <basicCHEER>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	Scale           0.90
+
+	Type		Rikti_Flesh
+	  Anim          male\Chant_1arm 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Pistol Cheer   #####
+###################
+
+Move PistolCheer_A
+	Requires	COMBAT WEAPON HANDGUN CHEER
+	Interrupts	<Ready> <Combat> <WepCombat> <basicCHEER>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	Scale           0.80
+
+	Type		Rikti_Flesh
+	  Anim          male\Chant_1arm 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move PistolCheer_B
+	Requires	COMBAT WEAPON VARIATIONB HANDGUN CHEER
+	Interrupts	<Ready> <Combat> <WepCombat> <basicCHEER>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	Scale           0.90
+
+	Type		Rikti_Flesh
+	  Anim          male\Chant_low 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+###################
+### Bat Cheer   #####
+###################
+
+Move BatCheer_A
+	Requires	COMBAT WEAPON BLUNT CHEER
+	Interrupts	<Ready> <Combat> <WepCombat> <basicCHEER>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\Chant_1arm 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move BatCheer_B
+	Requires	COMBAT WEAPON VARIATIONB BLUNT CHEER
+	Interrupts	<Ready> <Combat> <WepCombat> <basicCHEER>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       BatCheer_B2
+	CycleMove       BatCheer_B3
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_cycle 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move BatCheer_B2
+	Requires	COMBAT WEAPON VARIATIONB BLUNT CHEER
+	Interrupts	<Ready> <Combat> <WepCombat> <basicCHEER>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       BatCheer_B
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_overheadshake 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move BatCheer_B3
+	Requires	COMBAT WEAPON VARIATIONB BLUNT CHEER
+	Interrupts	<Ready> <Combat> <WepCombat> <basicCHEER>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        5
+	CycleMove       BatCheer_B
+
+	Type		Rikti_Flesh
+	  Anim          male\yell 35 63
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+#######################################################################
+###################
+### Vandalize   #####
+###################
+
+Move Vandal_A
+	Requires	VANDALIZE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicVANDAL>
+	Flags		Cycle
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\kneel_pound 1
+	  PlayFx        GENERIC\VANDAL_HAMMER.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Sword Vandalize   #####
+###################
+
+Move SwordVandal_A
+	Requires	COMBAT WEAPON BLADE VANDALIZE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicVANDAL>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	SwordVandal_A
+	CycleMove	SwordVandal_B
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_chop 1
+	  PlayFx        WEAPONS\Rikti_Sword_02.fx  0 Constant
+	TEnd
+MEnd
+
+Move SwordVandal_B
+	Requires	COMBAT WEAPON BLADE VANDALIZE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicVANDAL>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	SwordVandal_A
+	CycleMove	SwordVandal_B
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\2sword_upcut 1
+	  PlayFx        WEAPONS\Rikti_Sword_02.fx  0 Constant
+	TEnd
+MEnd
+
+###################
+### Pistol Vandalize   #####
+###################
+
+Move PistolVandal_A
+	Requires	COMBAT WEAPON HANDGUN VANDALIZE
+	Interrupts	<Ready> <Combat> <WepCombat> <basicVANDAL>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\vandal_kick_low 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+##############################################################
+###################
+### Dealing  #####
+###################
+
+Move Deal_A
+	Requires	DEALING
+	Interrupts	<Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\deal_A 1 238
+	TEnd
+MEnd
+
+###################
+### Receiving  #####
+###################
+
+Move Receiving_A
+	Requires	RECEIVING
+	Interrupts	<Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\deal_B 1 238
+	TEnd
+MEnd
+
+##############################################################
+
+
+###################
+### Observe  #####
+###################
+
+Move Observe
+	Requires	OBSERVE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basic0BSERVE>
+	Flags		Cycle
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\Look_R 1
+	TEnd
+MEnd
+
+###################
+### Knife Observe  #####
+###################
+
+Move KnifeObserve
+	Requires	COMBAT WEAPON BLADE OBSERVE
+	Interrupts	<Ready> <Combat> <WepCombat> <basic0BSERVE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\Look_L 1
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Gun Observe  #####
+###################
+
+Move GunObserve
+	Requires	COMBAT WEAPON HANDGUN OBSERVE
+	Interrupts	<Ready> <Combat> <WepCombat> <basic0BSERVE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\pointpistol_look_R 1
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+###################
+### Shotgun Observe  #####
+###################
+
+Move ShotgunObserve
+	Requires	COMBAT WEAPON SHOTGUN OBSERVE
+	Interrupts	<Ready> <Combat> <WepCombat> <basic0BSERVE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	ShotgunObserve
+	CycleMove	ShotgunObserve2
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\shotgun_observe_L 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+Move ShotgunObserve2
+	Requires	COMBAT WEAPON SHOTGUN OBSERVE
+	Interrupts	<Ready> <Combat> <WepCombat> <basic0BSERVE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	ShotgunObserve2
+	CycleMove	ShotgunObserve
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\shotgun_observe_R 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+
+
+###################
+### Bat Observe  #####
+###################
+
+Move BatObserve
+	Requires	COMBAT WEAPON BLUNT OBSERVE
+	Interrupts	<Ready> <Combat> <WepCombat> <basic0BSERVE>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          male\bathold_lookleft 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+#### Loiter  #####################
+###################
+### Loiter  #####
+###################
+
+Move Loiter
+	Requires	LOITER
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOITER>
+	Flags		Cycle
+	Priority        1
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 1
+	TEnd
+MEnd
+
+
+Move Loiter_B
+	Requires	VARIATIONB LOITER
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOITER>
+	Flags		Cycle
+	Priority        2
+	Scale           0.30
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 1
+	TEnd
+MEnd
+
+### Variation_C ##
+
+Move Loiter_C
+	Requires	VARIATIONC LOITER
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOITER>
+	Flags		Cycle
+	Priority        2
+	Scale           0.80
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 1
+	TEnd
+MEnd
+
+######
+###################
+### Loiter Sneak  #####
+###################
+
+Move LoiterSneak
+	Requires	FORWARD LOITER
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <basicLOITER>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\sneek 1
+	TEnd
+MEnd
+
+###################
+### Loot (search body)   #####
+###################
+
+Move Loot_A
+	Requires	LOOT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOOT>
+	Flags		Cycle
+	NextMove        PostLoot
+	Priority        1
+	Scale           0.50
+	CycleMove       Loot_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\examine_body 1
+	TEnd
+MEnd
+
+
+Move Loot_A2
+	Requires	LOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOOT>
+	Flags		Cycle
+	NextMove        PostLoot
+	Priority        1
+	CycleMove       Loot_A3
+
+	Type		Rikti_Flesh
+	  Anim          male\examine_pullguts 1 76
+	TEnd
+MEnd
+
+
+Move Loot_A3
+	Requires	LOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOOT>
+	Flags		Cycle
+	NextMove        PostLoot
+	Priority        1
+	CycleMove       Loot_A4
+
+	Type		Rikti_Flesh
+	  Anim          male\examine_pullguts 1 76
+	TEnd
+MEnd
+
+
+Move Loot_A4
+	Requires	LOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicLOOT>
+	Flags		Cycle
+	NextMove        PostLoot
+	Priority        1
+	CycleMove       Loot_A
+
+	Type		Rikti_Flesh
+	  Anim          male\examine_post_pullguts 1 76
+	TEnd
+MEnd
+
+
+Move PostLoot
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+
+	Type		Rikti_Flesh
+	  Anim          male\loot 29
+	TEnd
+MEnd
+
+###################
+###### Loot Death   ######
+###################
+
+Move LootDeath
+	Requires	HIT DEATH LOOT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          male\knockback2 65 67
+	TEnd
+MEnd
+
+##################
+###  Bomb Loot ready  #####
+##################
+
+Move BombLoot_pre
+	Requires	LOW LOOT
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        BombLoot
+	Priority        2
+	Scale           0.70
+
+	Type		Rikti_Flesh
+	  Anim          male\Loot 3 19
+	TEnd
+MEnd
+
+##################
+###  Bomb Loot ready  #####
+##################
+
+Move BombLoot
+	Requires	LOW LOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Loot_Post
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\Loot 20 25
+	TEnd
+MEnd
+
+#### Purse tug  #####################
+###################
+### Purse tug  #####
+###################
+
+Move PurseTug
+	Requires	PURSETUG
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        P_PushDown
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\purse_tug 1
+	TEnd
+MEnd
+
+
+Move P_PushDown
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        P_lookaround
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\push 1 52
+	TEnd
+MEnd
+
+
+Move P_lookaround
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+###################
+### Shake\Choke   #####
+###################
+
+Move Shake
+	Requires	SHAKE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        P_PushDown
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\shake 1
+	TEnd
+MEnd
+
+###################
+### Shake React  #####
+###################
+
+Move Shake_react
+	Requires	LOW SHAKE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        P_GetPushed
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\shake_react 1
+	TEnd
+MEnd
+
+
+Move P_GetPushed
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Post_push_cycle
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\pushdown_react 12 190
+	TEnd
+MEnd
+
+
+Move Post_push_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Rikti_Flesh
+	  Anim          male\pushdown_react 191 229
+	TEnd
+MEnd
+
+###################
+### Ground Punch   #####
+###################
+
+Move Ground_punch
+	Requires	GROUNDPUNCH
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\crouch_punch 1
+	TEnd
+MEnd
+
+Move Ground_punch_hit
+	Requires	LOW GROUNDPUNCH
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        Revive_back
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\crouch_punch_react 1
+	TEnd
+MEnd
+
+
+######## rumbles  ##########################################
+
+###################
+### Magic Rumble A   #####
+###################
+
+Move Magic_Rumble_A
+	Requires	RUMBLEA MAGIC CAST
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_ranged_rumble_A 1 254
+	TEnd
+MEnd
+
+###################
+### Tso "kick" Rumble A   #####
+###################
+
+Move Kick_Rumble_A
+	Requires	RUMBLEA KICK ATTACK
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\tso_ranged_rumble_A 1 254
+	TEnd
+MEnd
+
+
+
+###################
+### Rumble A   #####
+###################
+
+Move Rumble_A
+	Requires	RUMBLEA
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\rumble_fists_A 1 124
+	TEnd
+MEnd
+
+###################
+### Rumble B   #####
+###################
+
+Move Rumble_B
+	Requires	RUMBLEB
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\rumble_fists_B 1 124
+	TEnd
+MEnd
+
+###################
+### Rumble Dizzy A   #####
+###################
+
+Move Rumble_dizzy_A
+	Requires	LOW RUMBLEA
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\rumble_dizzy_A 1 219
+	TEnd
+MEnd
+
+###################
+### Rumble Dizzy B   #####
+###################
+
+Move Rumble_dizzy_B
+	Requires	LOW RUMBLEB
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\rumble_dizzy_B 1 219
+	TEnd
+MEnd
+
+###################
+### Rumble Knife A   #####
+###################
+
+Move Rumble_knife_A
+	Requires	RUMBLEA KNIFE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\rumble_knife_A 1 119
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Rumble Knife B   #####
+###################
+
+Move Rumble_knife_B
+	Requires	RUMBLEB KNIFE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\rumble_knife_B 1 119
+	  PlayFx        WEAPONS\KNIFE.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Sword Rumble Dizzy B   #####
+###################
+
+Move SwordRumble_dizzy_B
+	Requires	LOW SWORD RUMBLEB
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\sword_rumble_dizzy_B 1 219
+	TEnd
+MEnd
+
+###################
+### Rumble Bat Smash A   #####
+###################
+
+Move Rumble_Batsmash_A
+	Requires	BLUNT RUMBLEA
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_smash_simple 1 47
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Rumble Bat Smash B   #####
+###################
+
+Move Rumble_Batsmash_B
+	Requires	BLUNT RUMBLEB
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle NoSizeScale
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_smash_react 1 47
+	TEnd
+MEnd
+
+###################
+### Chanting   #####
+###################
+
+Move Chant_A
+	Requires	CHANTING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Chant_A
+	CycleMove       Chant_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_chant 1
+	TEnd
+MEnd
+
+
+Move Chant_A2
+	Requires	CHANTING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Chant_A
+	CycleMove       Chant_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_chantB 1
+	TEnd
+MEnd
+
+
+Move Chant_B
+	Requires	VARIATIONB CHANTING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Chant_B2
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_chantB 5
+	TEnd
+MEnd
+
+
+Move Chant_B2
+	Requires	VARIATIONB CHANTING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Chant_B3
+	CycleMove       Chant_B2
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_chantB 1
+	TEnd
+MEnd
+
+
+Move Chant_B3
+	Requires	VARIATIONB CHANTING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Chant_B2
+	CycleMove       Chant_B3
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_chant 1
+	TEnd
+MEnd
+
+
+Move Chant_C
+	Requires	VARIATIONC CHANTING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Chant_C2
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_chant 3
+	TEnd
+MEnd
+
+
+Move Chant_C2
+	Requires	VARIATIONC CHANTING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Chant_C3
+	CycleMove       Chant_C2
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_chant 1
+	TEnd
+MEnd
+
+
+Move Chant_C3
+	Requires	VARIATIONC CHANTING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	Scale           0.90
+	CycleMove       Chant_C2
+	CycleMove       Chant_C3
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_chantB 1
+	TEnd
+MEnd
+
+###################
+### Bowing   #####
+###################
+
+Move Bowing_A
+	Requires	BOWING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	Scale           0.60
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_kneel_bow 1
+	TEnd
+MEnd
+
+
+Move Bowing_B
+	Requires	VARIATIONB BOWING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_kneel_chantB 1
+	TEnd
+MEnd
+
+
+Move Bowing_C
+	Requires	VARIATIONC BOWING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	Scale           0.60
+	CycleMove       Bowing_C2
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_kneel_bow 32
+	TEnd
+MEnd
+
+
+Move Bowing_C2
+	Requires	VARIATIONC BOWING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	Scale           0.60
+	CycleMove       Bowing_C2
+
+	Type		Rikti_Flesh
+	  Anim          male\cot_kneel_bow 1
+	TEnd
+MEnd
+
+###################
+### Speech (recruit)   #####
+###################
+
+Move Pre_Speech
+	Requires	SPEECH
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Speech
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\recruit 670 799
+	  PlayFx        GENERIC\RECRUIT_BOX.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Speech (recruit)   #####
+###################
+
+Move Speech
+	Requires	SPEECH
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        PostSpeech
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\recruit 1 800
+	  PlayFx        GENERIC\RECRUIT_BOX.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move PostSpeech
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+
+	Type		Rikti_Flesh
+	  Anim          male\comb_postjump 1
+	TEnd
+MEnd
+
+###################
+### Listen to Speech (recruit)   #####
+###################
+
+Move Listen_Speech
+	Requires	SPEECH LISTEN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\listen_1 1 200
+	TEnd
+MEnd
+
+### Variation_B ##
+
+Move Listen_Speech_B
+	Requires	VARIATIONB SPEECH LISTEN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	CycleMove       Listen_Speech_B2
+
+	Type		Rikti_Flesh
+	  Anim          male\stand_1armhips 1 200
+	TEnd
+MEnd
+
+
+Move Listen_Speech_B2
+	Requires	VARIATIONB SPEECH LISTEN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	CycleMove       Listen_Speech_B
+
+	Type		Rikti_Flesh
+	  Anim          male\stand_clap 1 200
+	TEnd
+MEnd
+
+### Variation_C ##
+
+Move Listen_Speech_C
+	Requires	VARIATIONC SPEECH LISTEN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\Look_L 1
+	TEnd
+MEnd
+
+###################
+### Listen to Speech HIGH (recruit)   #####
+###################
+
+Move Listen_Speech_High
+	Requires	HIGH SPEECH LISTEN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\listen_2 1 200
+	TEnd
+MEnd
+
+### Variation_B ##
+
+Move Listen_Speech_HighB
+	Requires	VARIATIONB HIGH SPEECH LISTEN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Listen_Speech_HighB2
+
+	Type		Rikti_Flesh
+	  Anim          male\stand_Xarms 1 200
+	TEnd
+MEnd
+
+
+Move Listen_Speech_HighB2
+	Requires	VARIATIONB HIGH SPEECH LISTEN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Listen_Speech_HighB
+
+	Type		Rikti_Flesh
+	  Anim          male\stand_clap 1 200
+	TEnd
+MEnd
+
+### Variation_C ##
+
+Move Listen_Speech_HighC
+	Requires	VARIATIONC HIGH SPEECH LISTEN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Listen_Speech_HighC
+	CycleMove       Listen_Speech_HighC2
+	CycleMove       Listen_Speech_HighC
+
+	Type		Rikti_Flesh
+	  Anim          male\threat_cycle 1
+	TEnd
+MEnd
+
+
+Move Listen_Speech_HighC2
+	Requires	VARIATIONC HIGH SPEECH LISTEN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Listen_Speech_HighC
+	CycleMove       Listen_Speech_HighC3
+	CycleMove       Listen_Speech_HighC4
+
+	Type		Rikti_Flesh
+	  Anim          male\smackhands_long 12
+	  PlayFx        FEET\TAUNT.FX  33
+	  PlayFx        FEET\TAUNT.FX  71
+	  PlayFx        FEET\TAUNT.FX  109
+	  PlayFx        FEET\TAUNT.FX  147
+	TEnd
+MEnd
+
+
+Move Listen_Speech_HighC3
+	Requires	VARIATIONC HIGH SPEECH LISTEN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	Scale           0.60
+	CycleMove       Listen_Speech_HighC3
+	CycleMove       Listen_Speech_HighC4
+	CycleMove       Listen_Speech_HighC
+	CycleMove       Listen_Speech_HighC2
+
+	Type		Rikti_Flesh
+	  Anim          male\yell 1 35
+	TEnd
+MEnd
+
+
+Move Listen_Speech_HighC4
+	Requires	VARIATIONC HIGH SPEECH LISTEN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Listen_Speech_HighC5
+	CycleMove       Listen_Speech_HighC3
+	CycleMove       Listen_Speech_HighC4
+
+	Type		Rikti_Flesh
+	  Anim          male\menace_look_N_nod 1
+	TEnd
+MEnd
+
+
+Move Listen_Speech_HighC5
+	Requires	VARIATIONC HIGH SPEECH LISTEN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Listen_Speech_HighC2
+	CycleMove       Listen_Speech_HighC3
+	CycleMove       Listen_Speech_HighC4
+
+	Type		Rikti_Flesh
+	  Anim          male\menace_wistle 1
+	TEnd
+MEnd
+
+###################
+### Listen to Speech LOW (recruit)   #####
+###################
+
+Move Listen_Speech_Low
+	Requires	LOW SPEECH LISTEN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\listen_3 1 200
+	TEnd
+MEnd
+
+### Variation_B ##
+
+Move Listen_Speech_LowB
+	Requires	VARIATIONB LOW SPEECH LISTEN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\stand_1armhips 1 200
+	TEnd
+MEnd
+
+#	CycleMove	Listen_Speech_LowB2
+#Move Listen_Speech_LowB2	##(start from cheering)
+#	Requires       	Speech Listen Low VariationB
+#	Member         <ReactIRQ> <DeathIRQ> <AttackIRQ>
+#	Anim            models\stand_clap 1 200
+#	Flags		Cycle
+#	CycleMove	Listen_Speech_LowB
+### Variation_C ##
+
+Move Listen_Speech_LowC
+	Requires	VARIATIONC LOW SPEECH LISTEN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Listen_Speech_LowC
+	CycleMove       Listen_Speech_LowC2
+	CycleMove       Listen_Speech_LowC4
+
+	Type		Rikti_Flesh
+	  Anim          male\chant_1arm 1
+	TEnd
+MEnd
+
+
+Move Listen_Speech_LowC2
+	Requires	VARIATIONC LOW SPEECH LISTEN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	Scale           0.70
+	CycleMove       Listen_Speech_LowC
+	CycleMove       Listen_Speech_LowC3
+
+	Type		Rikti_Flesh
+	  Anim          male\yell 35 63
+	TEnd
+MEnd
+
+
+Move Listen_Speech_LowC3
+	Requires	VARIATIONC LOW SPEECH LISTEN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Listen_Speech_LowC
+	CycleMove       Listen_Speech_LowC4
+
+	Type		Rikti_Flesh
+	  Anim          male\menace_look_N_nod 1
+	TEnd
+MEnd
+
+
+Move Listen_Speech_LowC4
+	Requires	VARIATIONC LOW SPEECH LISTEN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	CycleMove       Listen_Speech_LowC
+	CycleMove       Listen_Speech_LowC2
+
+	Type		Rikti_Flesh
+	  Anim          male\menace_clap 1
+	TEnd
+MEnd
+
+###################
+### Training (jumping jax)  #####
+###################
+
+Move Train
+	Requires	EMOTE TRAIN LOW STRONG
+	Priority        4
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+
+	Type		Rikti_Flesh
+	  Anim          male\jumpingjax 1
+	TEnd
+MEnd
+
+Move Exercise
+	Requires	EMOTE KUNGFU TRAIN STRONG
+	Priority        4
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicMENACE>
+	Flags		Cycle
+
+	Type		Rikti_Flesh
+	  Anim          male\train_kungfu_A 1
+	TEnd
+MEnd
+
+###################
+### Repair   #####
+###################
+
+Move Repair_A1
+	Requires	REPAIR
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Repair_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\repair_pound 10 80
+	TEnd
+MEnd
+
+
+Move Repair_A2
+	Requires	REPAIR
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Repair_A3
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+
+Move Repair_A3
+	Requires	REPAIR
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Repair_A4
+
+	Type		Rikti_Flesh
+	  Anim          male\repair_pullguts 1
+	TEnd
+MEnd
+
+
+Move Repair_A4
+	Requires	REPAIR
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	Scale           0.80
+	CycleMove       Repair_A1
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+###################
+### Broken (sprocket)   #####
+###################
+
+Move Broken
+	Requires	LOW REPAIR
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Boostup
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\broken 1 5
+	TEnd
+MEnd
+
+###################
+### SprayPaint Vandal   #####
+###################
+
+Move Spray_A
+	Requires	SPRAYCAN
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Spray_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\spray_lookquick 1
+	TEnd
+MEnd
+
+
+Move Spray_A2
+	Requires	SPRAYCAN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Spray_A3
+
+	Type		Rikti_Flesh
+	  Anim          male\spray_shakecan 1
+	TEnd
+MEnd
+
+
+Move Spray_A3
+	Requires	SPRAYCAN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Spray_A
+	CycleMove       Spray_A4
+
+	Type		Rikti_Flesh
+	  Anim          male\spray_cycle 1
+	TEnd
+MEnd
+
+
+Move Spray_A4
+	Requires	SPRAYCAN
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        1
+	CycleMove       Spray_A
+	CycleMove       Spray_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\spray_cycle 15
+	TEnd
+MEnd
+
+###################
+### Vandal Kick   #####
+###################
+
+Move Vandal_Kick_A1
+	Requires	KICK VANDALIZE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Vandal_Kick_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\vandal_kick_low 1
+	TEnd
+MEnd
+
+
+Move Vandal_Kick_A2
+	Requires	KICK VANDALIZE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Vandal_Kick_A1
+
+	Type		Rikti_Flesh
+	  Anim          male\vandal_stompkick 1
+	TEnd
+MEnd
+
+###################
+### Vandal Jumping   #####
+###################
+
+Move Vandal_Jump_A1
+	Requires	HIGH VANDALIZE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\multi_jump 1
+	TEnd
+MEnd
+
+###################
+### Vandal Bat Smash   #####
+###################
+
+Move Vandal_Bat
+	Requires	BLUNT VANDALIZE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\bat_smashcycle 1
+	  PlayFx        WEAPONS\BASEBALL_BAT.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### loiter (warm hands)  #####
+###################
+
+Move Loiter_A1
+	Requires	HAND LOITER
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Loiter_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\loiter_warmhands 1
+	TEnd
+MEnd
+
+
+Move Loiter_A2
+	Requires	HAND LOITER
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Loiter_A3
+
+	Type		Rikti_Flesh
+	  Anim          male\loiter_warmdance 1
+	TEnd
+MEnd
+
+
+Move Loiter_A3
+	Requires	HAND LOITER
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Loiter_A1
+
+	Type		Rikti_Flesh
+	  Anim          male\loiter_blowhands 1
+	TEnd
+MEnd
+
+### Variation_B ##
+
+Move Loiter_B1
+	Requires	VARIATIONB HAND LOITER
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	Scale           0.80
+
+	Type		Rikti_Flesh
+	  Anim          male\loiter_warmhands 1
+	TEnd
+MEnd
+
+### Variation_C ##
+
+Move Loiter_C1
+	Requires	VARIATIONC HAND LOITER
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\loiter_blowhands 1
+	TEnd
+MEnd
+
+###################
+### Roll Dice   #####
+###################
+
+Move RollDice
+	Requires	ROLLDICE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicRumble>
+	Flags		Cycle
+	Priority        1
+
+	Type		Rikti_Flesh
+	  Anim          male\roll_dice 1
+	TEnd
+MEnd
+
+###################
+### Sit_Meditate   #####
+###################
+
+Move Sit_Meditate
+	Requires	SIT MEDITATE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Sit_Low_getup
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\astro 63 64
+	TEnd
+MEnd
+
+###################
+### Sit_Low   #####
+###################
+
+Move Sit_Low_A
+	Requires	SIT LOW
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Sit_Low_getup
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\sit_comp 1 4
+	TEnd
+MEnd
+
+
+Move Sit_Low_B
+	Requires	SIT VARIATIONB LOW
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Sit_Low_getup
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\sit_comp 5 9
+	TEnd
+MEnd
+
+
+Move Sit_Low_C
+	Requires	SIT VARIATIONC LOW
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Sit_Low_getup
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\sit_comp 10 14
+	TEnd
+MEnd
+
+###################
+###### Sit_Low getup ######
+###################
+
+Move Sit_Low_getup
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate     8
+
+	Type		Rikti_Flesh
+	  Anim          male\astro 78
+	TEnd
+MEnd
+
+###################
+### Sit_High   #####
+###################
+
+Move Sit_High_A
+	Requires	SIT HIGH
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        P_lookaround
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\sit_comp 15 19
+	  PlayFx        GENERIC\BUCKET.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Sit_High_B
+	Requires	SIT VARIATIONB HIGH
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        P_lookaround
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\sit_comp 20 24
+	  PlayFx        GENERIC\BOX_SMALL.FX  0 Constant
+	TEnd
+MEnd
+
+
+Move Sit_High_C
+	Requires	SIT VARIATIONC HIGH
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        P_lookaround
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\sit_comp 25 29
+	  PlayFx        GENERIC\BOX_BIG.FX  0 Constant
+	TEnd
+MEnd
+
+
+#######################################
+###### SledgeHammer ATTACK   ######
+#######################################
+
+Move Sledgehammer
+	Requires	WEAPON RAMPAGE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\sledgehammer 1 60
+	  PlayFx        GENERIC\SLEDGEHAMMER.FX  0 Constant
+	  PlayFx        GENERIC\SLEDGEHAMMER_HIT.FX
+	TEnd
+MEnd
+
+###################
+### Throw junk (2hands)  #####
+###################
+
+Move Throw_Junk_A1
+	Requires	HIGH RAMPAGE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	CycleMove       Throw_Junk_A2
+
+	Type		Rikti_Flesh
+	  Anim          male\throw_chunk 1 165
+	  PlayFx        GENERIC\CHUNK_TOSS.FX
+	TEnd
+MEnd
+
+
+Move Throw_Junk_A2
+	Requires	HIGH RAMPAGE
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+	Scale           0.80
+	CycleMove       Throw_Junk_A1
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+###################
+### Throw junk (1 hand)  #####
+###################
+
+Move 1H_Throw_Junk_A1
+	Requires	LOW RAMPAGE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\1H_throw_chunk 1
+	  PlayFx        GENERIC\1H_PULL_CHUNK.FX  0 Constant
+	TEnd
+MEnd
+
+#################################
+### Walk w\ Junk (over sholder  #####
+#################################
+
+Move Walk_Junk
+	Requires	FORWARD CARRY HIGH
+	Interrupts	<Ready> <Combat> <Ready> <BasicMove> <CombatMove> <WepMove> <TwoHandMove>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          male\plank_walk 1
+	  PlayFx        GENERIC\PROP_GURDER.FX  0 Constant
+	TEnd
+MEnd
+
+###################
+### Flashlight  #####
+###################
+
+Move Flashlight
+	Requires	HIGH OBSERVE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\flashlight 1
+	  PlayFx        GENERIC\FLASHLIGHT.FX  0 Constant
+	TEnd
+MEnd
+
+Move Greedy
+	Requires	LOW OBSERVE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\greedy 1
+	TEnd
+MEnd
+
+###################
+### Box Ready  #####
+###################
+
+Move Box_Ready
+	Requires	CARRY BOX LOOT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	Priority        3
+
+	Type		Rikti_Flesh
+	  Anim          male\box_ready 1
+	  PlayFx        GENERIC\PROP_THEFT.FX  0 Constant
+	  PlayFx        GENERIC\PROP_THEFT_EXTRA.FX  0 Constant
+	TEnd
+MEnd
+
+##	Sets		CantMove
+###
+
+Move Box_Ditch_Run
+	Requires	FORWARD
+	Interrupts	Box_Ready Box_Cycle
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	NextMove        Box_Ditch_Run2
+	Priority        1
+	Sets            CANTMOVE
+	SetsOnChild     SHORTTOSS
+
+	Type		Rikti_Flesh
+	  Anim          male\box_ditch 1 12
+	  PlayFx        GENERIC\PROP_THEFT_TOSS.FX
+	TEnd
+MEnd
+
+
+Move Box_Ditch_Run2
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	NextMove        WalkCycle
+	Priority        1
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\box_ditch 13
+	TEnd
+MEnd
+
+###################
+### Box Sneek\Walk Forward ##
+###################
+
+Move Box_Sneek
+	Requires	FORWARD CARRY HIGH BOX LOOT
+	Interrupts	Box_Cycle <Ready> <BasicMove> <CombatMove> <WepMove> <TwoHandMove>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <BlockIRQ>
+	Flags		Cycle
+	NextMove        Box_Cycle
+	Priority        5
+	Scale           0.40
+
+	Type		Rikti_Flesh
+	  Anim          male\box_sneek 1
+	  PlayFx        GENERIC\PROP_THEFT.FX 0 Constant
+	TEnd
+MEnd
+
+###
+
+Move Box_Cycle
+	Requires	CARRY HIGH BOX LOOT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim          male\box_ready 1
+	  PlayFx        GENERIC\PROP_THEFT.FX 0 Constant
+	TEnd
+MEnd
+
+###################
+### Battle Rifle  #####
+###################
+
+Move Batt_Rifle_A1
+	Requires	ATTACK RIFLE DEALING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	CycleMove       Batt_Rifle_A2
+	CycleMove       Batt_Rifle_A3
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_shoot 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	  PlayFx        WEAPONFX\Encounter_Gunfire_RiktiAssault.fx  30
+	TEnd
+MEnd
+
+
+Move Batt_Rifle_A2
+	Requires	ATTACK RIFLE DEALING
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	CycleMove       Batt_Rifle_A1
+	CycleMove       Batt_Rifle_A3
+	CycleMove       Batt_Rifle_A4
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\rocket_shoot 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	  PlayFx        WEAPONFX\Encounter_Gunfire_RiktiAssault.fx  34
+	TEnd
+MEnd
+
+
+Move Batt_Rifle_A3
+	Requires	ATTACK RIFLE DEALING
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	CycleMove       Batt_Rifle_A1
+	CycleMove       Batt_Rifle_A2
+	CycleMove       Batt_Rifle_A4
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_cycle 1 31
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Batt_Rifle_A4
+	Requires	ATTACK RIFLE DEALING
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	CycleMove       Batt_Rifle_A1
+	CycleMove       Batt_Rifle_A2
+	CycleMove       Batt_Rifle_A3
+	Scale           0.50
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\cock_shotgun 1 31
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+
+###################
+### Battle Rifle Low  #####
+###################
+
+Move Batt_Rifle_Low_1
+	Requires	LOW ATTACK RIFLE DEALING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Batt_Rifle_Low_1
+	CycleMove	Batt_Rifle_Low_2
+	CycleMove	Batt_Rifle_Low_2
+	Priority        4
+	Interpolate     8
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\rocket_shoot_kneel 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	  PlayFx        WEAPONFX\Encounter_Gunfire_RiktiAssault.fx  52
+	TEnd
+MEnd
+
+
+Move Batt_Rifle_Low_2
+	Requires	LOW ATTACK RIFLE DEALING
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Batt_Rifle_Low_2
+	CycleMove	Batt_Rifle_Low_1
+	Priority        4
+	Interpolate     8
+	Scale	0.5
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\shotgun_kneel_cycle 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+###################
+### Salute Formal  #####
+###################
+
+Move Salute_Formal
+	Requires	HIGH SALUTE
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        2
+
+	Type		Rikti_Flesh
+	  Anim          male\salute_formal 1 5
+	TEnd
+MEnd
+
+
+##################################
+### Spawn Pet (popup in combat)  #####
+##################################
+
+Move Spawn_Pet
+	Requires	LOW SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat>
+	NextMove        Spawn
+	Priority        2
+	Interpolate     0
+	Scale		0.5
+
+
+	Type		male
+	  Anim          male\zombie_sleep 1 50
+	  PlayFx        GENERIC\FX_sprocket_spawn.FX  0
+	TEnd
+
+	Type		Gollem
+	  Anim          male\zombie_sleep 1 50
+	  PlayFx        GENERIC\FX_gollem_spawn.FX  0
+	TEnd
+
+MEnd
+
+
+###################################
+###### Spawn Teleport        ######
+##################################
+
+Move Teleport_hide
+	Requires	SPAWN TELEPORT
+	Interrupts	<DeathIRQ>
+	NextMove        Teleport_Spawn
+	Priority        3
+	Sets            CANTMOVE NOCOLLISION
+	Flags		Cycle NotSelectable
+
+	Type		Rikti_Flesh
+	  Anim          male\drain 150 160
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+Move Teleport_Spawn
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Teleport_lookquick
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Rikti_Flesh
+	  Anim          male\absorb 1
+	  PlayFx        POWERS\Teleport\Teleport.fx  0
+	  PlayFx        GENERIC\entityFadeIn.fx  0
+	TEnd
+
+MEnd
+
+Move Teleport_lookquick
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Teleport_SpawnReady
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+
+Move Teleport_SpawnReady
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale		0.5
+
+	Type		Rikti_Flesh
+	  Anim          male\suspicious 1
+
+	TEnd
+MEnd
+
+
+
+######################################
+###### Teleport  "Delay" 30 seconds  ######
+######################################
+Move Teleport_sleep_30	##(cycle before activated)
+	Requires	SPAWN TELEPORT WAIT LOW
+	Interrupts	<DeathIRQ>
+	NextMove        Teleport_ActiveDelay_30
+	Priority        4
+	Sets            CANTMOVE NOCOLLISION
+	Flags		Cycle NoSizeScale NotSelectable
+
+	Type		Rikti_Flesh
+	  Anim          male\drain 150 160
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+Move Teleport_ActiveDelay_30
+	NextMove        Teleport_Spawn
+	Sets            CANTMOVE
+	Scale		0.333
+	Flags		NoSizeScale
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_sideL 1 300
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+######################################
+###### Teleport  "Delay" 90 seconds  ######
+######################################
+Move Teleport_sleep_90	##(cycle before activated)
+	Requires	SPAWN TELEPORT WAIT MID
+	Interrupts	<DeathIRQ>
+	NextMove        Teleport_ActiveDelay_90
+	Priority        4
+	Sets            CANTMOVE NOCOLLISION
+	Flags		Cycle NoSizeScale NotSelectable
+
+	Type		Rikti_Flesh
+	  Anim          male\drain 150 160
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+Move Teleport_ActiveDelay_90
+	NextMove        Teleport_Spawn
+	Sets            CANTMOVE
+	Scale		0.111
+	Flags		NoSizeScale
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_sideL 1 300
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+######################################
+###### Teleport  "Delay" 120 seconds  ######
+######################################
+Move Teleport_sleep_120	##(cycle before activated)
+	Requires	SPAWN TELEPORT WAIT HIGH
+	Interrupts	<DeathIRQ>
+	NextMove        Teleport_ActiveDelay_120
+	Priority        4
+	Sets            CANTMOVE NOCOLLISION
+	Flags		Cycle NoSizeScale NotSelectable
+
+	Type		Rikti_Flesh
+	  Anim          male\drain 150 160
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+Move Teleport_ActiveDelay_120
+	NextMove        Teleport_Spawn
+	Sets            CANTMOVE
+	Scale		0.083
+	Flags		NoSizeScale
+
+	Type		Rikti_Flesh
+	  Anim          Rikti_Flesh\death_sideL 1 300
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+
+
+#####################
+### Shotgun Aleart  #####
+####################
+
+Move Shotgun_Aleart_A
+	Requires	SHOTGUN POSE MID
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PICKRANDOMLY
+	Priority        3
+	Scale		0.5
+
+	Type		Rikti_Flesh
+	  Anim          male\rocket_cycle 1 31
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+Move Shotgun_Aleart_B
+	Requires	SHOTGUN POSE MID
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PICKRANDOMLY
+	Priority        3
+	Scale		0.4
+
+	Type		Rikti_Flesh
+	  Anim          male\shotgun_cycle 1 31
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+#####################
+### Shotgun Point  #####
+####################
+
+Move Shotgun_Point
+	Requires	SHOTGUN POSE POINT HIGH
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	Scale		0.5
+
+	Type		Rikti_Flesh
+	  Anim          male\sniper_new 83 85
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+############################
+### Shotgun RollOut Left  #####
+############################
+
+Move Sg_RollOut_Left
+	Requires	SHOTGUN POSE LOOKOUT LEFT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+##	CycleMove	Sg_RollOut_L_sniper
+	CycleMove	Sg_RollOut_L_shotgun
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\rollout_L 1 85
+	  PlayFx        WEAPONS\Left_Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+#Move Sg_RollOut_L_sniper
+#	Requires	SHOTGUN POSE LOOKOUT LEFT
+#	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+#	Flags		Cycle
+#	CycleMove	Sg_RollBack_L
+#	Priority        4
+#
+#
+#	Type		Rikti_Flesh
+#	  Anim          male\rollout_L_sniper 13 97
+#	  PlayFx        WEAPONS\Left_Rikti_Gun_02.fx  0 Constant
+#	  PlayFx        WEAPONFX\BASIC_SHOTGUNBUCKSHOT.FX  47
+#	TEnd
+#MEnd
+
+
+
+Move Sg_RollOut_L_shotgun
+	Requires	SHOTGUN POSE LOOKOUT LEFT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_RollBack_L
+	CycleMove	Sg_RollOut_L_shotgun
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\rollout_L_shotgun 1
+	  PlayFx        WEAPONS\Left_Rikti_Gun_02.fx  0 Constant
+	  PlayFx        WEAPONFX\Encounter_Gunfire_RiktiAssault.fx  1
+	TEnd
+
+MEnd
+
+
+Move Sg_RollBack_L
+	Requires	SHOTGUN POSE LOOKOUT LEFT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_RollOut_Left
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\rollout_L 86
+	  PlayFx        WEAPONS\Left_Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+
+############################
+### Shotgun RollOut Right  #####
+############################
+
+Move Sg_RollOut_Right
+	Requires	SHOTGUN POSE LOOKOUT RIGHT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_RollOut_R_sniper
+	CycleMove	Sg_RollOut_R_shotgun
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\rollout_R 1 85 ##shotgun_observe_R 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Sg_RollOut_R_sniper
+	Requires	SHOTGUN POSE LOOKOUT RIGHT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_RollBack_R
+	CycleMove	Sg_RollOut_R_shotgun
+	CycleMove	Sg_RollBack_R
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\rollout_R_sniper 13 97
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	  PlayFx        WEAPONFX\Encounter_Gunfire_RiktiAssault.fx  47
+	TEnd
+MEnd
+
+
+
+Move Sg_RollOut_R_shotgun
+	Requires       SHOTGUN POSE LOOKOUT RIGHT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_RollBack_R
+	CycleMove	Sg_RollOut_R_shotgun
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\rollout_R_shotgun 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	  PlayFx        WEAPONFX\Encounter_Gunfire_RiktiAssault.fx  2
+	TEnd
+MEnd
+
+
+Move Sg_RollBack_R
+	Requires	SHOTGUN POSE LOOKOUT RIGHT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_RollOut_Right
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\rollout_R 86
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+
+############################
+### Shotgun Duck & Shoot  #####
+############################
+
+Move Sg_Crouch_cycle
+	Requires	SHOTGUN LOW HIDE SHOOT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_PopUp
+	CycleMove	Sg_Crouch_cycle
+	CycleMove	Sg_PopUp
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\shotgun_duck 60 100 ##shotgun_observe_R 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Sg_PopUp
+	Requires	SHOTGUN LOW HIDE SHOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_PopUp_sniper_quick
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\shotgun_duck 1 26
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+Move Sg_PopUp_sniper_quick
+	Requires	SHOTGUN LOW HIDE SHOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_Duck
+	CycleMove	Sg_PopUp_sniper_quick
+	CycleMove	Sg_Duck
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\sniper_quickblast 1
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	  PlayFx        WEAPONFX\Encounter_Gunfire_RiktiAssault.fx  1
+	TEnd
+
+MEnd
+
+
+Move Sg_Duck
+	Requires	SHOTGUN LOW HIDE SHOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Sg_Crouch_cycle
+	Priority        4
+	Interpolate	8
+
+
+	Type		Rikti_Flesh
+	  Anim          male\shotgun_duck 30 60
+	  PlayFx        WEAPONS\Rikti_Gun_02.fx  0 Constant
+	TEnd
+MEnd
+
+
+
+
+############################
+### Gun Duck & Shoot  #####
+############################
+
+Move Gun_Crouch_cycle
+	Requires	GUN LOW HIDE SHOOT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Gun_Crouch_cycle
+	CycleMove	Gun_PopUp
+	CycleMove	Gun_Crouch_cycle
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_duck 50 100
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+Move Gun_PopUp
+	Requires	GUN LOW HIDE SHOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Gun_PopUp_shoot_quick
+	Priority        4
+
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_duck 1 24
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+Move Gun_PopUp_shoot_quick
+	Requires	GUN LOW HIDE SHOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Gun_Duck
+	CycleMove	Gun_PopUp_shoot_quick
+	Priority        4
+	Interpolate	0
+
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_center_shoot 1 25
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	  PlayFx        WEAPONFX\Encounter_Gunfire_RiktiPistol.fx 1
+	TEnd
+
+MEnd
+
+
+Move Gun_Duck
+	Requires	GUN LOW HIDE SHOOT
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	Gun_Crouch_cycle
+	Priority        4
+
+
+
+	Type		Rikti_Flesh
+	  Anim          male\pistol_duck 28 50
+	  PlayFx        WEAPONS\Rikti_Gun_01.fx  0 Constant
+	TEnd
+MEnd
+
+
+#######################
+### Wall Sneek Cycle  #####
+#######################
+
+Move WallSneek_cycle
+	Requires	SNEAK POSE LOOKOUT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        3
+	Scale		0.7
+
+	Type		Rikti_Flesh
+	  Anim		male\sneekwall_cycle 1
+	TEnd
+MEnd
+
+
+#######################
+### Wall Peak Right  #####
+#######################
+
+Move WallPeak_Right
+	Requires	SNEAK POSE LOOKOUT RIGHT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+
+	Type		Rikti_Flesh
+	  Anim		male\corner_peak_R 1     ##rollout_R 1 59
+	TEnd
+MEnd
+
+
+#######################
+### Wall Peak Left  #####
+#######################
+
+Move WallPeak_Left
+	Requires	SNEAK POSE LOOKOUT LEFT
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	Priority        4
+	Scale		0.8
+
+	Type		Rikti_Flesh
+	  Anim		male\corner_peak_L 1     ##rollout_L 1 59
+	TEnd
+MEnd
+
+
+##  Spawns  ###########################################
+
+
+
+#######################
+#####  Spawn Robot ####
+#######################
+
+#FixMe
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_Cycle
+	Priority        2
+	Interpolate     0
+	scale		0.75
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE NOCOLLISION
+
+	Type		Rikti_Flesh
+	  Anim          Male\Rikti_StasisSpawn 1 69
+	TEnd
+
+MEnd
+
+
+
+Move Spawned_Cycle
+	Member		<BasicMove> <Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove	Ready
+	Sets            NOCOLLISION
+	Interpolate     0
+
+
+	Type		Rikti_Flesh
+	  Anim          Male\Rikti_StasisSpawn 70 103
+	TEnd
+
+MEnd
+
+
+#Move Spawned_Leap
+##	Requires	SPAWNEDASPET
+##	Member		<BasicMove> <Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+#	NextMove	IDLEWALKCYCLE
+##	Interpolate     0
+#
+#
+#	Type		Rikti_Flesh
+#	  Anim          Male\Rikti_StasisSpawn02 9 19
+#	TEnd
+#
+#MEnd
+
+##Move Spawned_cycle_Loop
+##	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+##	Flags		Cycle
+####	Interpolate     0
+##	CycleMove	Spawned_cycle_Loop
+##	CycleMove	Spawned_cycle_Loop
+##	CycleMove	Spawned_cycle
+##
+##
+##	Type		Rikti_Flesh   ##Drop
+##	  Anim          5cw\Spawn_Ready 200
+##	TEnd
+##
+##MEnd
+##
+##
+##
+##Move Spawned_cycle
+##	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+##	Flags		Cycle
+##	Interpolate     0
+#	CycleMove	Spawned_cycle_Loop
+#
+#
+#	Type		Rikti_Flesh   ##Drop
+#	  Anim          5cw\Spawn_Ready 1 199
+#	TEnd
+#
+#MEnd
+#
+#
+
+
+################################################
+####### Rikti Shapeshifter transform Post   ###
+################################################
+
+Move RiktiShapeshiftTransform_post
+	Requires	RIKTISHAPESHIFTTRANSFORMPOST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        RiktiShapeshiftTransform_cycle
+	Priority        1
+	Interpolate	0
+	Flags		CANTMOVE PitchToTarget
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	  PlayFX	GENERIC\entityFadein.fx 0
+	TEnd
+
+MEnd
+
+
+Move RiktiShapeshiftTransform_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Interpolate     0
+
+	Type		Rikti_Flesh
+	  Anim          male\lookquick 1
+	TEnd
+
+MEnd
+
+
+SeqEnd
+

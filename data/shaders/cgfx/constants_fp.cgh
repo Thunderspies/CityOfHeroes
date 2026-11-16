@@ -1,0 +1,136 @@
+/******************************************************************************
+	Constants_h
+
+	This header defines the common uniform shader constants and uniform buffers
+	for fragment programs.
+
+	See shaders.html for more information on shader/material details and
+	Cg usage.
+*****************************************************************************/
+
+#ifndef _CONSTANTS_FP_CGH_
+#define _CONSTANTS_FP_CGH_
+
+//--------------------------------------------------
+// Global Samplers
+//--------------------------------------------------
+// These samplers are always used for the same purpose
+
+#ifdef USE_CUBEMAP
+    uniform samplerCUBE	g_sampler_cubemap	: TEXUNIT10;
+#endif
+#ifdef USE_SHADOWMAP
+	uniform sampler2D	g_sampler_shadow	: TEXUNIT11; // one sampler with atlas of cascades
+#endif
+
+//--------------------------------------------------
+// Fragment Program Constants
+//--------------------------------------------------
+
+//~~~~~~~~~~~~~~~~~~~~
+// 'Classic' CoX Params
+//~~~~~~~~~~~~~~~~~~~~
+
+// These are currently the same assignments as the legacy ARB programs used
+uniform float4 g_FogParamsFP					TIE( state.fog.params );	// @todo put these in the ENV params as they are most likely global?
+uniform float4 g_FogColorFP						TIE( state.fog.color );
+
+uniform float4 g_LightProd0DiffuseFP			TIE( state.lightprod[0].diffuse );
+uniform float4 g_LightProd0AmbientFP			TIE( state.lightprod[0].ambient );
+
+uniform float4 g_AmbientColorFP					TIE( ENV0 );
+uniform float4 g_DiffuseColorFP					TIE( ENV1 );
+
+uniform float4 g_GlossParamFP					TIE( ENV2 );	// 0 = gloss1, 1 = gloss2, 2 = alphaMask bit, 3=MaskWeight
+uniform float4 g_GlowParamFP					TIE( ENV3 );	// 'lights on' param used by addGlow material
+uniform float4 g_ConstColor0FP					TIE( ENV3 );	// tinting colors for material 2 in multi-material, @todo name better along with g_Env0FP
+uniform float4 g_ConstColor1FP					TIE( ENV4 );	// tinting colors for material 2 in multi-material, @todo name better along with g_Env1FP
+uniform float4 g_Specular1ColorAndExponentFP	TIE( ENV5 );	// a = power of specular
+uniform float4 g_Specular2ColorAndExponentFP	TIE( ENV6 );	// a = power of specular
+uniform float4 g_WaterReflectionTransformFP		TIE( ENV6 );	// @todo shouldn't this be ultra mode?
+uniform float4 g_WaterRefractionTransformFP		TIE( ENV7 );	
+uniform float4 g_MiscParamFP					TIE( ENV7 );	// 'lights on' param used by multi9 material (@todo can this be same as g_GlowParamFP?)
+
+uniform float4 g_Env0FP							TIE( ENV8 );		// this is engine global constColor0 (env[0] in original ARB programs)
+uniform float4 g_Env1FP							TIE( ENV9 );		// this is engine global constColor1 (env[1] in original ARB programs)
+
+// Revised MULTI9 constants (in lieu of interpolants)
+uniform float4 g_BumpMultiFlagsFP				TIE( ENV10 );	// See BumpMulti Flag Macros below
+uniform float4 g_LightDirFP						TIE( ENV11 );	// Pass view space light direction for HQ multi9
+
+uniform float4 g_ScrollScaleArrFP[10]			TIE( ENV12 );	// e12-e21 !!!!N.B.!!!! Must be kept in sync with TEXLAYER_MAX_SCROLLABLE from runtime
+
+uniform float4 g_WaterRefractionParamsFP		TIE( ENV22 );
+uniform float4 g_WaterReflectionParamsFP		TIE( ENV23 );	// @todo shouldn't this be ultra mode?
+
+// these GL light state params are used by the optional per pixel lighting on
+// simple blend modes like 'MULTIPLY'
+uniform float4		g_Light0PositionFP			TIE( state.light[0].position );
+uniform float4		g_Light0DiffuseFP			TIE( state.light[0].diffuse );
+uniform float4		g_Light0AmbientFP			TIE( state.light[0].ambient );
+uniform float4		g_Light0SpecularFP			TIE( state.light[0].specular );
+uniform float4		g_MaterialShininessFP		TIE( state.material.shininess );
+
+//~~~~~~~~~~~~~~~~~~~~
+// 'Ultra Mode' CoX Params
+// Only supported on runtime configurations that allow more than the minimum 32
+// fragment program uniform env constants.
+//~~~~~~~~~~~~~~~~~~~~
+
+uniform float4 g_WaterFresnelParamsFP			TIE( ENV24 );
+uniform float4 g_FresnelParamsFP				TIE( ENV24 );	// @todo make these the same constant in code?
+
+uniform float4 g_DistortionParamsFP				TIE( ENV25 );
+
+
+uniform float4 g_PlanarReflectionTransformFP	TIE( ENV26 );	// @todo can be same as g_WaterReflectionTransformFP
+
+uniform float3 g_InverseCubemapViewMatrixFP[3]	TIE( ENV27 );	// ...e29	
+
+//~~~~~~~~~~~~~~~~~~~~
+#ifdef USE_SHADOWMAP
+
+// Shadow Mapping
+
+// these matrices convert from view space to the texture space of each individual shadow map
+// @todo can make these 3x4 and set column major to save a constant in each matrix
+// @todo can turn into a matrix array once the Cg constant wrapper is updated
+
+uniform float4 g_ShadowMap1MatrixFP[4]			TIE( ENV32 );
+uniform float4 g_ShadowMap2MatrixFP[4]			TIE( ENV36 );
+uniform float4 g_ShadowMap3MatrixFP[4]			TIE( ENV40 );
+uniform float4 g_ShadowMap4MatrixFP[4]			TIE( ENV44 );
+
+uniform float4 g_ShadowParamsFP					TIE( ENV48 );     // xyz - shadow strength clamps (ambient, diffuse, specular) when lit per pixel, w - shadow strength clamp when lit per vertex
+uniform float4 g_ShadowSplitsFP					TIE( ENV49 );     // cascade view space z split values (absolute values)
+uniform float4 g_ShadowParams2FP				TIE( ENV50 );     // x - number of maps, y - last cascade fade factor, z - extra N*L rolloff clamp, w - map size scale (for texel offsets)
+uniform float4 g_ShadowParams3FP				TIE( ENV51 );     // x - unused, yzw - cascade blend distances for casscades 2,3,4
+
+#endif // USE_SHADOWMAP
+
+//~~~~~~~~~~~~~~~~~~~~
+// DEBUGGING and NEW FEATURE DEMONSTRATION
+uniform float4 g_NewFeatureFP					TIE( ENV60 );
+uniform float4 g_TestFlagsFP					TIE( ENV61 );
+
+//--------------------------------------------------
+// BumpMulti Flag Macros
+//--------------------------------------------------
+// Note that g_BumpMultiFlagsFP is a float4 so only about 24 bits
+// are usuable in each component.  But, all 4 components should be available.
+#define isBumpMultiReflectUV1Set()			isBitSet(g_BumpMultiFlagsFP.x, 1 << 0)	// faux reflection uv selector for multi texture mat 1
+#define isBumpMultiReflectUV2Set()			isBitSet(g_BumpMultiFlagsFP.x, 1 << 1)	// faux reflection uv selector for multi texture mat 2
+#define isBumpMultAddGlowMat2Set()			isBitSet(g_BumpMultiFlagsFP.x, 1 << 2)	// do addglow on mat2 instead of mat1
+#define isBumpMultiAlphaWaterSet()			isBitSet(g_BumpMultiFlagsFP.x, 1 << 3)	// respect alpha channel of water texture
+#define isBumpMultiTintGlowSet()			isBitSet(g_BumpMultiFlagsFP.x, 1 << 4)	// tint glows by 'const color 1'
+#define isBumpMultiTintReflectionSet()		isBitSet(g_BumpMultiFlagsFP.x, 1 << 5)	// tint reflection by materials current mixed blending color at fragment
+#define isBumpMultiDesaturateReflection()	isBitSet(g_BumpMultiFlagsFP.x, 1 << 6)	// use desaturated reflection, currently completely to grayscale (TBD allow partial)
+
+// Blend modes that used to be compiled shader variants that are now controlled by constants
+// in order to reduce the number of compiled shaders.
+#define isBumpMultiBitOldTint()				isBitSet(g_BumpMultiFlagsFP.y, 1 << 0)	// Does the trick have the 'oldtint' flag? 
+
+//------------------------------------------------------------------------
+//-----------------------------------------------------------------------
+
+#endif  //_CONSTANTS_FP_CGH_

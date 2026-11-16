@@ -1,0 +1,103 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_5col_Mission
+	BaseSkeleton	Door_5col_Mission\Skel_5col_Mission
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_5col_Mission
+	  Anim          Door_5col_Mission\Skel_5col_Mission 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+	Scale           0.70
+
+	Type		Door_5col_Mission
+	  Anim          Door_5col_Mission\Skel_5col_Mission 5 20 
+	  PlayFX	fx\doors\5thdoor.fx
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Scale           0.70
+	Sets            WALKTHROUGH 
+
+	Type		Door_5col_Mission
+	  Anim          Door_5col_Mission\Skel_5col_Mission 21 52 
+	TEnd
+MEnd
+
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_5col_Mission
+	  Anim          Door_5col_Mission\Skel_5col_Mission 60 70 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_5col_Mission
+	  Anim          Door_5col_Mission\Skel_5col_Mission 71 111 
+	  PlayFX	fx\doors\5thdoor.fx
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_5col_Mission
+	  Anim          Door_5col_Mission\Skel_5col_Mission 112 131 
+	TEnd
+MEnd
+
+SeqEnd
+

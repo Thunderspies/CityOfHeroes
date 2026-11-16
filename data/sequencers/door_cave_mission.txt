@@ -1,0 +1,90 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Cave_Mission
+	BaseSkeleton	Door_Cave_Mission\Skel_Door_Cave_Mission
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Cave_Mission
+	  Anim          Door_Cave_Mission\Skel_Door_Cave_Mission 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+	Scale           0.70
+
+	Type		Door_Cave_Mission
+	  Anim          Door_Cave_Mission\Skel_Door_Cave_Mission 5 25 
+	  PlayFX	fx\doors\cavedoor1.fx
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Scale           0.70
+	Sets            WALKTHROUGH 
+
+	Type		Door_Cave_Mission
+	  Anim          Door_Cave_Mission\Skel_Door_Cave_Mission 26 43 
+
+	TEnd
+MEnd
+
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Cave_Mission
+	  Anim          Door_Cave_Mission\Skel_Door_Cave_Mission 44 50 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Cave_Mission
+	  Anim          Door_Cave_Mission\Skel_Door_Cave_Mission 51 77 
+	  PlayFX	fx\doors\cavedoor2.fx
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Cave_Mission
+	  Anim          Door_Cave_Mission\Skel_Door_Cave_Mission 78 90 
+	TEnd
+MEnd
+
+SeqEnd
+

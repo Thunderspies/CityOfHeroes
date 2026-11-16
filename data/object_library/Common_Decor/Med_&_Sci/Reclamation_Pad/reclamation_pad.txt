@@ -1,0 +1,126 @@
+RootMod _Reclamation_Padglow
+End
+
+RootMod _Reclamation_Base
+End
+
+Def Reclamation_Machine_01_1&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def Reclamation_Machine_01_2&
+	Group _Reclamation_Base
+		Rot 0 3.141592 0
+	End
+	Property	"Generator"	"Door_reclpad"	0
+End
+
+Def Reclamation_Machine_01_3&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"reclaim"	0
+End
+
+Def Reclamation_Machine_01_4&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"lockeddoor"	"0"	0
+End
+
+Def Reclamation_Machine_01
+	Group _Reclamation_Padglow
+		Rot 0 3.141592 0
+	End
+	Group Omni/ExitPoint
+		Rot 0 -3.141592 0
+		Pos 0 0.5 0
+	End
+	Group Omni/MissionBeacons/PlayerSpawn_Hospital
+		Pos 0.000002 0 2.5
+	End
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Rot 0 3.141592 0
+	End
+	Group Reclamation_Machine_01_1&
+		Pos 0 0 4.5
+	End
+	Group Reclamation_Machine_01_2&
+	End
+	Group Reclamation_Machine_01_3&
+		Pos 0 0.5 -0.5
+	End
+	Group Reclamation_Machine_01_4&
+		Pos 0 8 0
+	End
+End
+
+Def ArchEnt_RecPad_H_1&
+	Group Omni/PARTICLE_100
+	End
+	Type WORLD\Bases\ReactorBeamOutput.fx
+End
+
+Def ArchEnt_RecPad_H_3&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def ArchEnt_RecPad_H_4&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterMe"	"0"	0
+	Property	"emergeanimationbits"	"MissionArchitect Emerge"	0
+End
+
+Def ArchEnt_RecPad_H_5&
+	Group Omni/_EmergeFromMe
+	End
+	Property	"lockeddoor"	"0"	0
+End
+
+Def ArchEnt_RecPad_H_2&
+	Group Omni/ExitPoint
+		Rot 0 -3.141592 0
+		Pos 0 0.5 0
+	End
+	Group Doors/City_Doors/_Door_City_direction_arrow
+		Rot 0 3.141592 0
+	End
+	Group ArchEnt_RecPad_H_3&
+		Pos 0 0 4.5
+	End
+	Group ArchEnt_RecPad_H_4&
+		Pos 0 0.5 -0.5
+	End
+	Group ArchEnt_RecPad_H_5&
+		Pos 0 8 0
+	End
+End
+
+Def ArchEnt_RecPad_H_6&
+	Group Omni/MissionBeacons/_PlayerHospitalSpawn
+	End
+	Property	"SpawnLocation"	"ArchitectGurney"	0
+End
+
+Def ArchEnt_RecPad_H
+	Group Special_Buildings/Architect_Entertainment/_ArchEnt_INT_RCore_ContactPad
+		Pos 0 -0.44413 28
+	End
+	Group ArchEnt_RecPad_H_1&
+		Pos 0 0.636615 0
+	End
+	Group ArchEnt_RecPad_H_2&
+		Pos 0 0.5 0.5
+	End
+	Group ArchEnt_RecPad_H_6&
+		Pos 0 0.64901 3
+	End
+End
+

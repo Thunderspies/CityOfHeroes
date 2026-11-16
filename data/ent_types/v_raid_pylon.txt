@@ -1,0 +1,37 @@
+######################################
+## Raid Pylon
+## 
+Type
+
+Sequencer Prop_basic.txt   	 		
+
+HealthFx
+	Range            0.001 100
+	ContinuingFx	V_COV\BaseFx\Raid_Pylon\PylonCombine.fx
+End
+
+HealthFx
+	Range          0 0.001
+	LibraryPiece	_Raid_PylonDESTROYED
+	OneShotFx	Explosions\Large\Expolsion_large.fx
+End
+
+FadeOutStart	500				
+FadeOutFinish	550
+
+ShadowType	None			
+
+GeomScale	1.0 1.0 1.0			
+CapsuleSize	3.0 8.5 3.0
+CapsuleOffset	0.0 2.0 0.0
+
+CollisionType	LibraryPiece
+Selection	LibraryPiece 
+Placement         DeadOn  
+
+TicksToLingerAfterDeath			25
+TicksToFadeAwayAfterDeath		1
+
+TicksToLingerAfterDeath			900
+
+End

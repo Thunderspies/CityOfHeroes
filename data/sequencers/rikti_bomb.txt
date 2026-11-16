@@ -1,0 +1,119 @@
+#########################################################
+## Rikti_Bomb.txt - Rikti Bomb droppaed by Shuttles
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Rikti_Bomb 
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<Ready>
+Group	<RaiseDeadIRQ>
+
+## READY #######################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		CYCLE NoSizeScale
+
+	Type		Rikti_Bomb
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## DEATH #######################################################
+
+Move Death
+	Requires	DEATH
+	Interrupts	<Ready>
+	Member		<DeathIRQ> 
+	Priority        1
+	Flags		CYCLE NOCOLLISION
+	NextMove	Ready
+
+	Type		Rikti_Bomb
+	  Anim          Prop_basic\skel_test 1 10
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT 
+	  PlayFX	EnemyFx\Rikti\UXB\UXB_Death.fx 0 CONSTANT 
+	TEnd
+MEnd
+
+## SPAWN #######################################################
+
+Move Spawn
+	Requires	SPAWNEDASPET  
+	Interrupts	<Ready> <RaiseDeadIRQ>
+	NextMove        Spawned_post
+	Priority        10
+	Interpolate     0
+	Sets		CANTMOVE 
+	Flags		NoSizeScale NotSelectable
+       
+
+	Type		Rikti_Bomb
+	  Anim          male\basic_runout 47 88   ##absorb 1 60    
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+MEnd
+
+Move Spawned_post
+	Member		<DeathIRQ> <Ready>
+	NextMove	Ready
+	Flags		NoSizeScale ##NotSelectable
+	Priority	0
+
+	Type		Rikti_Bomb
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+## FALL #######################################################
+
+Move Fall_pre
+	Requires	AIR 
+	Member		<DeathIRQ>
+	Flags		ReqInputs 
+	NextMove        Fall_Cycle
+	Priority        1
+
+	Type		Rikti_Bomb
+	  Anim          male\superjump 67 93 
+	TEnd
+MEnd
+
+Move Fall_Cycle
+	Requires	AIR 
+	Member		<DeathIRQ>
+	Flags		Cycle 
+	NextMove        JumpPost
+	Priority        1
+
+	Type		Rikti_Bomb
+	  Anim          male\superjump 93  
+	TEnd
+MEnd
+
+Move Land
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> 
+	NextMove        postReady_back
+	Interpolate     1
+	Scale		0.7
+	SticksOnChild	LAND
+
+	Type		Rikti_Bomb
+	  Anim          male\comb_postjump 1  
+	  PlayFx        FEET\LAND1.FX:LAND
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

@@ -1,0 +1,405 @@
+#############################################################
+
+Sequencer
+
+TypeDef Minion_guns
+	BaseSkeleton	Arachnos_backpack\Skel_sideguns
+	ParentType	None
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+##Gun attack anims
+##
+##Idle_combat		0	35
+##Idle-Reload both	35	70
+##Reload Both		50	65
+##Idle-Reload Left	70	105
+##Reload Left		85	100
+##Idle-Reload Right	105	140
+##Reload Right		120	135
+##Shot_weak-both	140	150
+##Shot_strong-both	150	165
+##Shot_weak-left	165	175
+##Shot_strong-left	175	190
+##Shot_weak-right	190	200
+##Shot_strong-right	200	215
+##Shot_triple		215	245
+##Shot_rapid		260	290
+##Disarm		300	315
+##arm			330	345
+##Disarm Idle		315	330
+
+###################
+### Ready ##
+###################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Skel_sideguns 315 330
+	TEnd
+
+MEnd
+
+####################
+#### Run Forward ##
+####################
+
+Move RunPre
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        RunCycle
+	Priority        2
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Skel_sideguns 330 345
+
+	TEnd
+MEnd
+
+Move RunCycle
+	Requires	FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        Combat_Cycle
+	Priority        2
+	Interpolate	3
+
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Skel_sideguns 0 35
+
+
+	  ##playfx WeaponFx\Gunfire_Jager_Cannon.fx
+	TEnd
+
+
+
+
+MEnd
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Skel_sideguns 0 35
+
+	TEnd
+
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Skel_sideguns 0 35
+
+	TEnd
+MEnd
+
+
+
+
+
+
+#############3  attacks  ##################
+
+
+############################
+###### dual gun MG burst ######
+##########################
+
+Move attack_burst
+	Requires	ARACHMGBURST Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        attack_burst_post
+	Priority        3
+	Sets            CANTMOVE
+	interpolate	30
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 180 235
+	TEnd
+MEnd
+
+Move attack_burst_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_Cycle
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 235 250
+	TEnd
+
+MEnd
+
+############################
+###### Single shot ######
+##########################
+
+Move attack_backL
+	Requires	ARACHMGSHOT Combat Left
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        attack_backL_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 60 105
+	TEnd
+
+
+MEnd
+
+Move attack_backL_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_Cycle
+	Interpolate	0
+	Flags		PitchToTarget
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 105 120
+	TEnd
+
+MEnd
+
+
+Move attack_backR
+	Requires	ARACHMGSHOT Combat right
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        attack_backR_post
+	Priority        3
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 120 165
+	TEnd
+
+MEnd
+
+Move attack_backR_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_Cycle
+	Flags		PitchToTarget
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 165 180
+	TEnd
+
+MEnd
+
+
+############################
+###### Double Barrel shot ####
+##########################
+
+Move attack_doubleshot
+	Requires	ARACHMGBOTH Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        attack_doubleshot_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 0 40
+	TEnd
+
+MEnd
+
+Move attack_doubleshot_post
+	Requires	Combat
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Combat_Cycle
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 40 60
+	TEnd
+MEnd
+
+
+###########################################
+###### FullAuto (long burst) ######
+###########################################
+
+Move FullAuto_pre
+	Requires	ARACHMGFULLAUTO Combat
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        FullAuto_cycle1
+	Flags		PitchToTarget FixArmReg
+	Priority        6
+	Sets            CANTMOVE
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 250 284
+	TEnd
+
+MEnd
+
+
+Move FullAuto_cycle1
+	Requires	ARACHMGFULLAUTO Combat
+	Member		<DeathIRQ>
+	NextMove        FullAuto_cycle2
+	Flags		PitchToTarget FixArmReg
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 285 315
+	TEnd
+
+MEnd
+
+Move FullAuto_cycle2
+	Member		<DeathIRQ>
+	NextMove        FullAuto_cycle3
+	Flags		PitchToTarget FixArmReg
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 285 315
+	TEnd
+
+MEnd
+
+Move FullAuto_cycle3
+	Member		<DeathIRQ>
+	NextMove        FullAuto_cycle4
+	Flags		PitchToTarget FixArmReg
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 285 315
+	TEnd
+
+MEnd
+
+Move FullAuto_cycle4
+	Member		<DeathIRQ>
+	NextMove        FullAuto_post
+	Flags		PitchToTarget FixArmReg
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 285 315
+	TEnd
+
+MEnd
+
+
+Move FullAuto_post
+	Requires	COMBAT WEAPON GUN
+	Member		<ReactIRQ> <DeathIRQ> <TwoHandAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Combat_Cycle
+	Priority        3
+	Flags		FixArmReg
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Sideguns_attacks 315 335
+	TEnd
+MEnd
+
+Move Combat_Cycle  ## faking combat mode
+#	Requires	COMBAT
+	Flags		Cycle NoSizeScale
+	Interrupts	<Ready>
+	Member		<Combat> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Priority        1
+	scale		0.2
+#	NextMove        Combat_disarm
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Skel_sideguns 0 35
+	TEnd
+
+MEnd
+
+Move Combat_disarm
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+
+	Type		Minion_guns
+	  Anim          Arachnos_backpack\Skel_sideguns 300 315
+	TEnd
+
+MEnd
+
+
+
+
+SeqEnd ## Don't cut
+
+
+

@@ -1,0 +1,60 @@
+######################################
+## supermale player character
+##
+Type
+
+Sequencer	player.txt
+SequencerType	Parachute
+ConstantState 	MALE
+
+Graphics	player_library/g_male_blobby.geo
+
+ShadowType	Splat
+ShadowTexture	PlayerShadowCircle
+ShadowQuality	High
+ShadowSize	0 15 0
+
+LOD1_Dist	40
+LOD2_Dist	100
+
+FadeOutStart	500
+FadeOutFinish	540
+
+GeomScale	.95 .97 .95
+GeomScaleMax	1.05 1.07 1.05
+
+MinimumAmbient	0.2
+
+pushable 1
+
+#######################################################################
+######################## GEOMETRY SCALING #############################
+#######################################################################
+
+GeomScale		1.0	 1.0	1.0
+ShoulderScaleSkinny    -0.16	 0.0	0.0
+ShoulderScaleFat        0.16	-0.05	0.0
+NeckScale		0.0	-0.045	0.0
+HipScale		0.07	 0.0	0.0
+
+LegScaleMin		-.10
+LegScaleMax		.02
+headScaleMax		0.065    0.075  0.055
+headScaleMin		0.05     0.07   0.05
+
+shoulderScaleRange                  1.0
+chestScaleRange                     .75
+waistScaleRange                     1.1
+hipScaleRange			    1.0
+
+BoneScaleSkinny player_library/MALE_BONES_SCALE_S.geo
+BoneScaleFat	player_library/MALE_BONES_SCALE_L.geo
+
+#######################################################################
+
+#VisSphereRadius 6
+
+ReticleHeightBias 0.5
+ReticleWidthBias  1
+
+End

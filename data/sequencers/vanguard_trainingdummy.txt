@@ -1,0 +1,329 @@
+#############################################################
+## Vanguard_TrainingDummy.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Vanguard_TrainingDummy
+	BaseSkeleton	VanguardTrainingDummy\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<Ready>
+Group	<HitIRQ>
+Group	<DeathIRQ>
+Group	<ReactIRQ>
+
+#############################################################
+
+Move Ready
+	Member		<Ready> <HitIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+
+	Type		Vanguard_TrainingDummy
+	  Anim          VanguardTrainingDummy\skel_ready 1 1
+	TEnd
+MEnd
+
+#############################################################
+## HIT REACTIONS
+#############################################################
+
+## HIT QUICK ###########################################################
+
+Move HitQuick_One
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<Ready> <HitIRQ> Ready
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ>
+	NextMove        Ready
+
+	Type		Vanguard_TrainingDummy
+	  Anim          VanguardTrainingDummy\skel_ready 2 22
+	TEnd
+MEnd
+
+Move HitQuick_Two
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<Ready> <HitIRQ> Ready
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ>
+	NextMove        Ready
+
+	Type		Vanguard_TrainingDummy
+	  Anim          VanguardTrainingDummy\skel_ready 23 44
+	TEnd
+MEnd
+
+## SPEED_ATTACK REACT ###########################################################
+
+Move Speed_React
+	Requires	HIT SPEEDPUNCH
+	Priority        2
+	Interrupts	<Ready> <HitIRQ> Ready
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ>
+	NextMove        Speed_React_Post
+
+	Type		Vanguard_TrainingDummy
+	  Anim          VanguardTrainingDummy\skel_ready 45
+	TEnd
+MEnd
+
+### KNOCKBACK ###########################################################
+#
+#Move KHF
+#	Requires	HIT KNOCKBACK
+#	Interrupts	<ReactIRQ>
+#	Member		<DeathIRQ>
+#	NextMove        KHF_travel
+#	Priority        2
+#	Interpolate     4
+#
+#	Type		Mu
+#	  Anim          Male\mu_hitquick 1 5
+#	TEnd
+#MEnd
+#
+#Move KHF_travel
+#	Requires	HIT KNOCKBACK
+#	Member		<DeathIRQ>
+#	Flags		Cycle
+#	NextMove        KHF_fallcycle
+#	Priority        2
+#	scale 5
+#
+#	Type		Mu
+#	  Anim          Male\mu_knockback 1 31
+#	TEnd
+#MEnd
+#
+#Move KHF_fallcycle
+#	Requires	AIR
+#	Member		<DeathIRQ>
+#	Flags		Cycle
+#	NextMove        KHF_impact
+#	Priority        1
+#
+#	Type		Mu
+#	  Anim          Male\mu_knockback 31 31
+#	TEnd
+#MEnd
+#
+#Move KHF_impact
+#	Member		<DeathIRQ> <AttackIRQ>
+#	NextMove        CombatReady
+#	##scale 2
+#	interpolate 20
+#
+#	Type		Mu
+#	  Anim          Male\mu_knockback 32
+#	TEnd
+#MEnd
+#
+### ELECTROPAIN ###########################################################
+#
+#Move electro_react
+#	Requires	HIT ENERGY
+#	Interrupts	<ReactIRQ>
+#	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        weak_post
+#	Priority        2
+#
+#	Type		Mu
+#	  Anim          Male\mu_electropain 1 57
+#	TEnd
+#MEnd
+#
+### ELECTROPAIN LONG ###########################################################
+#
+#Move electro_react_Long
+#	Requires	STRONG HIT ENERGY
+#	Interrupts	<ReactIRQ>
+#	Member		<DeathIRQ> <AttackIRQ>
+#	NextMove        electro_react_Long2
+#	Priority        3
+#
+#	Type		Mu
+#	  Anim          Male\mu_electropain 1 115
+#	TEnd
+#MEnd
+#
+#Move electro_react_Long2
+#	Member		<DeathIRQ> <AttackIRQ>
+#	NextMove        weak_post
+#
+#	Type		Mu
+#	  Anim          Male\mu_electropain 1 20
+#	TEnd
+#MEnd
+#
+### WEAK POST ###########################################################
+#
+#Move weak_post
+#	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        Ready
+#
+#	Type		Mu
+#	  Anim          Male\mu_wriggle 40
+#	TEnd
+#MEnd
+#
+### DRAIN REACT ###########################################################
+#
+#Move Drain_react
+#	Requires	HIT DRAINED
+#	Interrupts	<ReactIRQ>
+#	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        weak_post
+#	Priority        2
+#
+#	Type		Mu
+#	  Anim          Male\mu_electropain 41 68
+#	TEnd
+#MEnd
+#
+### SONIC\PSI PAIN REACT ###########################################################
+#
+#Move sonic_react
+#	Requires	HIT PSIONIC
+#	Interrupts	<ReactIRQ>
+#	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        weak_post
+#	Priority        2
+#
+#	Type		Mu
+#	  Anim          Male\mu_electropain 1 57
+#	TEnd
+#MEnd
+#
+### CHOKE REACT ###########################################################
+#
+#Move choke_react
+#	Requires	HIT MAGIC
+#	Interrupts	<ReactIRQ>
+#	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        weak_post
+#	Priority        2
+#
+#	Type		Mu
+#	  Anim          Male\mu_electropain 1 57
+#	TEnd
+#MEnd
+
+### KUNGFU_SPEED REACT ###########################################################
+#
+#Move KungfuSpeed_react
+#	Requires	HIT KUNGFUSPEED
+#	Interrupts	<ReactIRQ>
+#	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        KungfuSpeed_react2
+#	Priority        2
+#
+#	Type		Mu
+#	  Anim          Male\mu_speedhit 1 36
+#	TEnd
+#MEnd
+#
+#Move KungfuSpeed_react2
+#	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        KungfuSpeed_react3
+#
+#	Type		Mu
+#	  Anim          Male\mu_speedhit 1 12
+#	TEnd
+#MEnd
+#
+#Move KungfuSpeed_react3
+#	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        Ready
+#
+#	Type		Mu
+#	  Anim          Male\mu_hitquick 1
+#	TEnd
+#MEnd
+#
+### CLAW_SPEED REACT ###########################################################
+#
+#Move ClawSpeed_react
+#	Requires	HIT CLAWSPEED
+#	Interrupts	<ReactIRQ>
+#	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        ClawSpeed_react3
+#	Priority        2
+#
+#	Type		Mu
+#	  Anim          Male\mu_electropain 1 45
+#	TEnd
+#MEnd
+#
+#Move ClawSpeed_react3
+#	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+#	NextMove        Ready
+#
+#	Type		Mu
+#	  Anim          Male\mu_hitquick 1
+#	TEnd
+#MEnd
+#
+### KNOCK DOWN ###########################################################
+#
+#Move KnockDown
+#	Requires	HIT KNOCKDOWN
+#	Interrupts	<ReactIRQ>
+#	Member		<DeathIRQ>
+#	NextMove        KnockDown2
+#	Priority        2
+#	Sets            CANTMOVE
+#
+#	Type		Mu
+#	  Anim          Male\mu_impact_back 1
+#	TEnd
+#MEnd
+#
+### BOOST_UP REACT ###########################################################
+#
+#Move Hit_Boostup
+#	Requires	HIT BOOSTUP
+#	Interrupts	<ReactIRQ>
+#	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+#	Priority        2
+#
+#	Type		Mu
+#	  Anim          Male\mu_boostup 1 120
+#	TEnd
+#MEnd
+#
+### BOOST_DOWN REACT ###########################################################
+#
+#Move Boost_D
+#	Requires	HIT BOOSTDOWN
+#	Interrupts	<ReactIRQ>
+#	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+#	Priority        2
+#
+#	Type		Mu
+#	  Anim          Male\mu_boostdown 1 120
+#	TEnd
+#MEnd
+
+## DEATH ###########################################################
+
+Move Death
+	Requires	DEATH
+	Priority        5
+	Interrupts	<Ready> <DeathIRQ> Ready
+	Flags		Cycle
+	NextMove	Ready
+
+	Type		Vanguard_TrainingDummy
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

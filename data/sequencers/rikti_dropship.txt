@@ -1,0 +1,46 @@
+#############################################################
+## Rikti_dropship - Rikti Drop Ship
+#############################################################
+
+Sequencer
+
+TypeDef Rikti_dropship
+	BaseSkeleton	Rikti_dropship\skel_test
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+	NextMove	Ready
+
+	Type		Rikti_dropship
+	  Anim          Rikti_dropship\straif 1 200
+	TEnd
+MEnd
+
+#############################################################
+
+
+SeqEnd

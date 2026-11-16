@@ -1,0 +1,139 @@
+#############################################################
+
+Sequencer
+
+TypeDef npc_swat 
+	BaseSkeleton	npc_swat\skel_shield_idle
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+###################
+### shield Ready
+###################
+
+Move Shield_idle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle 
+	Scale           0.70
+	Interpolate     0
+	CycleMove       Shield_idle_B
+	CycleMove       Shield_idle_C
+
+	Type		npc_swat
+	  Anim          npc_swat\skel_shield_idle 1  
+	TEnd
+MEnd
+
+
+Move Shield_idle_B
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle 
+	Scale           0.70
+	Interpolate     0
+	CycleMove       Shield_idle
+	CycleMove       Shield_idle_C
+
+	Type		npc_swat
+	  Anim          npc_swat\shield_lookleft 1  
+	TEnd
+MEnd
+
+
+Move Shield_idle_C
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle 
+	Scale           0.70
+	Interpolate     0
+	CycleMove       Shield_idle
+	CycleMove       Shield_idle_B
+
+	Type		npc_swat
+	  Anim          npc_swat\shield_lookright 1  
+	TEnd
+MEnd
+
+###################
+### Shield Forward ##
+###################
+
+Move ShieldPre_F
+	Requires	FORWARD 
+	Interrupts	<Ready> <PostMoveCycle> <Block> <HitIRQ> 
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ> 
+	Flags		ReqInputs 
+	NextMove        ShieldCycle_F
+	Priority        1
+	Scale           0.50
+
+	Type		npc_swat
+	  Anim          male\shield_march 9 25 
+	TEnd
+MEnd
+
+
+Move ShieldCycle_F
+	Requires	FORWARD 
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ> 
+	Flags		Cycle 
+	NextMove        ShieldPost_F
+	Priority        1
+	Scale           0.50
+
+	Type		npc_swat
+	  Anim          male\shield_march 1 25 
+	TEnd
+MEnd
+
+
+Move ShieldPost_F
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> 
+	NextMove        Ready
+
+	Type		npc_swat
+	  Anim          male\shield_march 24 25 
+	TEnd
+MEnd
+
+SeqEnd
+

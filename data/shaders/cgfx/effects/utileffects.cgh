@@ -1,0 +1,110 @@
+#ifndef __UTILS_EFFECTS_CGH__
+#define __UTILS_EFFECTS_CGH__
+
+#include "do_desaturatefp.cgh"
+
+
+float utilDistanceFromDepth(in float4 project, in float depth, in float4 params, in sampler1D texSampler)
+{
+    // Calculate distance from depth
+
+    // distance from camera plane
+    float distFromCameraPlaneXY = (( project.x * depth ) + -project.y );
+    float distFromCameraPlaneZW = (( project.z * depth ) + -project.w );
+    float distXYOverZW = ( distFromCameraPlaneXY / distFromCameraPlaneZW );
+
+    // scaled to 0..1 for min..maxDistance
+    float distBiasScale = ( ( distXYOverZW - params.x ) * params.z );
+    float dist = tex1D( texSampler, distBiasScale ).x;
+
+    return dist;
+}
+
+float4 utilBlurredToneMap(inout float4 sample, in float4 middleGray, in float4 avgLum, in float4 blurred, in float scale)
+{
+#if defined(DO_TONEMAP)
+    const float TONEMAP_WEIGHT = middleGray.y;
+
+    float scaleCalc = ( middleGray.x - avgLum.x ) * TONEMAP_WEIGHT * scale;
+
+    // Tonemap input sample
+    sample += ( sample * abs(scaleCalc) );  // sample * 1 + scale.y
+
+    // Shift if scaleCalc is negative
+    const float scaleNeg = ( scaleCalc < 0 ) ? 1.0 : 0.0;
+    sample += scaleCalc * scaleNeg;
+
+    // Tonemap blurred sample
+    float4 blurredTonemapped = (( blurred * abs(scaleCalc) ) + blurred );  // sample * 1 + scale.y
+    // Shift
+    blurredTonemapped += scaleCalc;
+
+    return blurredTonemapped;
+#else
+    return blurred;
+#endif // DO_TONEMAP
+
+}
+
+void utilBloomGlow(inout float4 sample, in float4 middleGray, in float4 blurredToneMap, in float4 blurred)
+{
+    const float blur = 1.5;
+    const float GLOW_WEIGHT = middleGray.z;
+   
+    #if defined(ORIGINAL_BLOOM)
+        float blurBloom = dot(blurred.xyz, LUMINANCE_VECTOR); 
+        //blurred = saturate( (( blurred * 0.333 ) + 0.666 ) ); // MAD_SAT
+        //  blurred not used after this point, so no need to update value
+    #else
+        float4 blurBiased = (( blurred * 3 ) + -2 );
+        float blurBloom = dot(blurBiased.xyz, LUMINANCE_VECTOR); 
+    #endif
+    
+    blurBloom = saturate( ( blur * blurBloom ) ); // MUL_SAT
+    blurBloom = saturate( ( blurBloom * GLOW_WEIGHT ) ); // MUL_SAT
+
+    // apply amount of blurred image to use for Bloom
+    float4 sampleLerp = lerp( sample, blurredToneMap, blurBloom );
+    sample = max( sample, sampleLerp );
+}
+
+float4 utilShrinkSample(in float4 texTrans, in float4 texCoord, in sampler2D texSampler)
+{
+    float4 texcoord[4] = {
+        (( texTrans.xyzz * 1 ) + texCoord ),
+        (( texTrans.zyzz * 1 ) + texCoord ),
+        (( texTrans.xwzz * 1 ) + texCoord ),
+        (( texTrans.zwzz * 1 ) + texCoord )
+    };
+
+    float4 c = 0;
+    for(int i = 0; i < 4; i++)  {
+        c += tex2D( texSampler, texcoord[i].xy );
+    }
+
+    c *= 0.25;
+
+    return c;
+}
+
+float4 utilFinalColor(in float4 colorIn)
+{
+    float3 outColor = colorIn.xyz;
+
+    #if defined(HIGH_RANGE)
+        outColor = saturate( (( outColor * 3 ) - 2 ) ); 
+    #endif
+
+    #if defined(EXTEND_COLORS)
+        float3 t = (( outColor * 3 ) - 2 );
+        outColor += ( max(t, 0) * 0.5 );
+    #endif
+
+    #if defined(CAPTHEM)
+        outColor = min( outColor, 1 );
+    #endif
+
+    return float4( outColor, 1 );
+}
+
+#endif //__UTILS_EFFECTS_CGH__

@@ -1,0 +1,20 @@
+{ // Texture unit 0
+	Texture 0
+	rgb {
+		result = lerp(texture.rgb, constant.rgb, texture.alpha)
+	}
+	alpha {
+		result = constant.alpha
+	}
+}
+{ // Texture unit 1
+	Texture 1
+	rgb {
+//		result = previous + texture.rgb // This would add lights
+		result = previous * primary		// This gets diffuse shading
+		Scale 4
+	}
+	alpha {
+		result = previous // * texture.alpha
+	}
+}

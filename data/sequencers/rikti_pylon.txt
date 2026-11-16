@@ -1,0 +1,129 @@
+#############################################################
+## Rikti_Pylon.txt - Rikti Pylon
+#############################################################
+
+Sequencer
+
+TypeDef Rikti_Pylon
+	BaseSkeleton	Rikti_Pylon\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+## READY ###########################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Priority	0
+	Flags		Cycle
+	NextMove	Ready
+	Scale		0.25
+
+	Type		Rikti_Pylon
+	  Anim		Rikti_Pylon\RiktiPylon_ready 2
+	TEnd
+MEnd
+
+## SPAWN ###########################################################
+
+Move Spawn_pre
+	Requires	SPAWN WAITING
+	Interrupts	<RaiseDeadIRQ>
+	Member		<DeathIRQ>
+	Priority	2
+	NextMove	Spawn
+	Sets		CANTMOVE
+	Flags		CYCLE NOTSELECTABLE
+
+	Type		Rikti_Pylon
+	  Anim		Rikti_Pylon\skel_ready 1 2
+	TEnd
+MEnd
+
+Move Spawn
+	Member		<DeathIRQ>
+	Priority	0
+	NextMove	Ready
+	Scale		0.5
+	Sets		CANTMOVE
+
+	Type		Rikti_Pylon
+	  Anim		Rikti_Pylon\skel_ready 2
+	TEnd
+MEnd
+
+## ATTACK 1 ###########################################################
+
+Move Attack1_Pre
+	Requires	COMBAT ATTACK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	Priority	2
+	Flags		#PitchToTarget
+	NextMove	Attack1_Cycle
+
+	Type		Rikti_Pylon
+	  Anim		Rikti_Pylon\RiktiPylon_ready 1 2
+	TEnd
+MEnd
+
+Move Attack1_Cycle
+	Requires	COMBAT
+	Member		<DeathIRQ>
+	Priority	1
+	Flags		CYCLE #PITCHTOTARGET
+	NextMove	Ready
+
+	Type		Rikti_Pylon
+	  Anim		Rikti_Pylon\RiktiPylon_ready 1 2
+	TEnd
+MEnd
+
+## DEATH ###########################################################
+
+Move Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	Sets		NOCOLLISION #TARGET
+	NextMove	Death_Cycle
+	Flags		NOTSELECTABLE
+
+	Type		Rikti_Pylon
+	  Anim		Rikti_Pylon\skel_ready 2
+	TEnd
+MEnd
+
+Move Death_Cycle
+	Member		<Ready> <RaiseDeadIRQ>
+	Priority        1
+	Sets		NOCOLLISION DIENOW #TARGET
+	Flags		CYCLE NOTSELECTABLE
+
+	Type		Rikti_Pylon
+	  Anim		Rikti_Pylon\skel_ready 2
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

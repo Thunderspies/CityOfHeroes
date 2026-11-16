@@ -1,0 +1,97 @@
+#############################################################
+## Vamp_chamber.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Vamp_chamber
+	BaseSkeleton	Vamp_chamber\Skel_Vamp_chamber
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+#############################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Vamp_chamber
+	  Anim          Vamp_chamber\Skel_Vamp_chamber 1 5
+	TEnd
+MEnd
+
+#############################################################
+
+Move Make_Vamp
+	Requires	SPAWN ATTACK
+	Priority        2
+	Interrupts	<Ready> <AttackIRQ>
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Make_Vamp2
+
+	Type		Vamp_chamber
+	  Anim          Vamp_chamber\Skel_Vamp_chamber 1 200
+	  PlayFx	ENEMYFX\Council\Chamber\Chamber_Bake.fx
+	  PlayFX	World\Lairs\tech\VampiryCoffin.fx 0
+	TEnd
+MEnd
+
+Move Make_Vamp2
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Vamp_chamber
+	  Anim          Vamp_chamber\Skel_Vamp_chamber 221 300
+	TEnd
+MEnd
+
+#############################################################
+
+Move Vanish_Death
+	Requires	DEATH
+	Priority        5
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Vamp_chamber
+	  Anim          Vamp_chamber\Skel_Vamp_chamber 1 5
+	TEnd
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Priority        1
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION DIENOW
+
+	Type		Vamp_chamber
+	  Anim          Vamp_chamber\Skel_Vamp_chamber 1 5
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

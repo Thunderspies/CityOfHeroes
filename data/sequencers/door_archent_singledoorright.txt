@@ -1,0 +1,87 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_ArchEnt_SingleDoorRight
+	BaseSkeleton	Door_ArchEnt_SingleDoorRight\Skel_Door_ArchEnt_SingleDoorRight
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		Door_ArchEnt_SingleDoorRight
+	  Anim          Door_ArchEnt_SingleDoorRight\Skel_Door_ArchEnt_SingleDoorRight 0 1
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN
+	Interrupts	<Ready>
+	NextMove        Open2
+	Priority        1
+	Scale           1
+
+	Type		Door_ArchEnt_SingleDoorRight
+	  Anim          Door_ArchEnt_SingleDoorRight\Skel_Door_ArchEnt_SingleDoorRight 2 20
+	  PlayFX	fx\doors\woodopen.fx1
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN
+	NextMove        Opened
+	Priority        1
+	Scale           1
+	Sets            WALKTHROUGH
+
+	Type		Door_ArchEnt_SingleDoorRight
+	  Anim          Door_ArchEnt_SingleDoorRight\Skel_Door_ArchEnt_SingleDoorRight 21 28
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle
+	Sets            WALKTHROUGH
+
+	Type		Door_ArchEnt_SingleDoorRight
+	  Anim          Door_ArchEnt_SingleDoorRight\Skel_Door_ArchEnt_SingleDoorRight 29 32
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT
+	Interrupts	Opened
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH
+
+	Type		Door_ArchEnt_SingleDoorRight
+	  Anim          Door_ArchEnt_SingleDoorRight\Skel_Door_ArchEnt_SingleDoorRight 33 54
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_ArchEnt_SingleDoorRight
+	  Anim          Door_ArchEnt_SingleDoorRight\Skel_Door_ArchEnt_SingleDoorRight 55 63
+	TEnd
+MEnd
+
+SeqEnd
+

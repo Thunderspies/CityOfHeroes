@@ -1,0 +1,131 @@
+// bumpmapColorblendDualfp.cg
+#include "variants.cgh"
+
+// definitions required for this program,
+// so we don't bother putting them in a variant
+#define PIXEL_LIT	BUMP_ALL
+
+/*
+ #fragment let slimshady know this is a fragment program
+ Variants and options to be verified/analyzed by slimshady script:
+	#option	BIT_HIGH_QUALITY				// all the variants are also optionally compiled with these defined
+	#option	BIT_CUBEMAP						
+	#option	BIT_SHADOWMAP					
+	#option	BIT_DEBUG					
+*/
+
+#ifdef BIT_HIGH_QUALITY
+    #define HIGH_QUALITY
+#endif
+
+#ifdef BIT_CUBEMAP
+	#define USE_CUBEMAP
+#endif
+
+#include "shadows.cgh"
+#include "constants_fp.cgh"
+#include "functions.cgh"
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+#include "nexus.cgh"			// (#extract) define vertex program structure/semantics <=> fragment program input
+
+#ifndef BIT_DEBUG
+
+uniform sampler2D sampler_base_1				: TEXUNIT0;
+uniform sampler2D sampler_dual_1				: TEXUNIT1;		// also known as the 'blend' or 'generic' texture for simple blend modes
+uniform sampler2D sampler_normal_and_gloss_1	: TEXUNIT2;
+
+//----------------------------------------------------------------------------
+// main
+//----------------------------------------------------------------------------
+float4 main( VP2FP IN ) : COLOR
+{
+	float2 uv0 = IN.uv0_uv1.xy;
+	float2 uv1 = IN.uv0_uv1.zw;
+
+	//****
+	// populate lighting vectors and tangent basis conversions as necessary
+	// renormalize direction vectors received from interpolators
+#if defined(HIGH_QUALITY)
+    float3 normal_vs	= normalize(IN.normal_vs.xyz);   
+	float4 tangent_vs	= float4( normalize(IN.tangent_vs.xyz), IN.tangent_vs.w );	// normalize tangent but keep binormal sign in w
+    float3 light_vs		= g_LightDirFP.xyz;	// light direction in view space, should already be normalized
+	float3 position_vs	= IN.position_vs.xyz;
+
+	LightingVectorsHQ	light_vectors	= populate_lighting_vectors_hq( normal_vs, tangent_vs, position_vs, light_vs );
+	float3				light_ts		= light_vectors.light_ts;
+	float3				half_ts			= light_vectors.half_ts;
+#else
+	float3 light_ts		= normalize(IN.light_ts.xyz);	// renormalize from interpolation
+	float3 half_ts		= normalize( normalize(IN.view_ts.xyz) + light_ts );
+	#ifdef USE_SHADOWMAP
+	float3 position_vs	= IN.position_vs.xyz;
+	#endif
+#endif
+
+	//****
+	// Setup light prop structs with the lighting constants and properties for material 1
+    float4 normal_gloss = map_color_to_normal( tex2D( sampler_normal_and_gloss_1, uv1) ); // normal in tangent space, also contains gloss map in alpha channel
+
+	#ifdef USE_SHADOWMAP
+		// determine fragment raw shadowing factor once up front and apply to all material lighting
+		float shade_factor = shadow_csm( position_vs, IN.fragment_pos );
+	#else
+		float shade_factor = 1; // set to one and compiler will optimize away operations
+	#endif
+
+	LightProps light = get_default_light_properties(shade_factor,g_GlossParamFP.w);
+
+	//****
+	// Calculate the base material color, in this case a dual tint
+	float4 tex_base		= tex2D( sampler_base_1, uv0 );
+    float4 tex_dual		= tex2D( sampler_dual_1, uv1 );
+	float4 out_color	= calc_dual_tint( g_Env0FP, g_Env1FP, tex_base, tex_dual );
+
+	//****
+	// Calculate reflection 
+    #ifdef USE_CUBEMAP	// calculate reflection and apply to material
+		#ifdef HIGH_QUALITY
+			// use normal map perturbed normal to compute reflection and fresnel for reflectivity
+			float	reflectivity		= calc_reflectivity_hq( light_vectors.u_to_eye, normal_vs );
+			float3	perturbed_normal_vs = convert_ts_to_vs( normal_gloss.xyz, light_vectors );
+			float3	reflection_color	= sample_reflection_cubemap( position_vs, perturbed_normal_vs ).rgb;
+		#else
+			// low quality uses single reflectivity constant (no fresnel) and uses reflection
+			// vector supplied by vertex shader
+			float	reflectivity		= g_FresnelParamsFP.x; 
+            float3	reflection_color	= texCUBE(g_sampler_cubemap, IN.reflection.xyz).rgb;
+		#endif //HIGH_QUALITY
+
+		// blend reflection into material according to reflectivity (do this before adding specular lighting)
+		out_color.rgb = lerp( out_color.rgb, reflection_color, reflectivity );
+	#endif // USE_CUBEMAP
+
+    //****
+	// Calculate and apply lighting to material
+	float3 light_factors = calc_lighting_factors( normal_gloss, light_ts, half_ts, light.spec_color_and_exp.a );
+	#ifdef USE_SHADOWMAP
+		light_factors = shadow_light_factors( light_factors, light.shade_factor ); // apply shadow factors to light factors
+	#endif
+	out_color.rgb = apply_lighting( out_color.rgb, light_factors, light );
+
+	//****
+	// Finally fog color and return
+	out_color.rgb = calc_fogged_color( out_color.rgb, IN.fogCoord );
+
+	return out_color;
+}
+#else
+//--------------------------------------------------
+// Debug Variant
+//--------------------------------------------------
+
+#include "debug.cgh"
+
+float4 main( VP2FP IN ) : COLOR
+{
+	return debug_common_bumpmap_main( BLENDMODE_BUMPMAP_COLORBLEND_DUAL, IN );
+}
+#endif // BIT_DEBUG

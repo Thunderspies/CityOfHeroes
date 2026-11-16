@@ -1,0 +1,79 @@
+#############################################################
+
+Sequencer
+
+TypeDef Car_Compact 
+	BaseSkeleton	Car_Compact\skel_car_ready
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove	Ready
+	CycleMove	Ready
+	CycleMove	Ready
+	CycleMove	Ready_Break
+
+	Type		Car_Compact
+	  Anim          Car_Compact\skel_car_ready 1  
+	TEnd
+MEnd
+
+Move Ready_Break
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove	Ready
+	CycleMove	Ready
+	CycleMove	Ready_Break1
+	CycleMove	Ready_Break2
+
+	Type		Car_Compact
+	  Anim          Car_Compact\skel_car_ready 1  
+	TEnd
+MEnd
+
+Move Ready_Break1
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove	Ready
+
+	Type		Car_Compact
+	  Anim          Car_Compact\skel_car_ready 1  
+	  PlayFX	EntitySounds\Car_Compact_Horn.fx 1
+	TEnd
+MEnd
+
+Move Ready_Break2
+	Member		<Ready> 
+	Flags		Cycle 
+	CycleMove	Ready
+
+	Type		Car_Compact
+	  Anim          Car_Compact\skel_car_ready 1  
+	  PlayFX	EntitySounds\Car_Compact2_Horn.fx 1
+	TEnd
+MEnd
+
+SeqEnd
+

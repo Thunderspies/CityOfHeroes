@@ -1,0 +1,1276 @@
+#############################################################
+
+Sequencer
+
+TypeDef daemon
+	BaseSkeleton	daemon\Skel_DAE_combat_cycle
+	ParentType	None
+TypeDefEnd
+
+TypeDef Male
+	BaseSkeleton	daemon\Skel_DAE_combat_cycle
+	ParentType	male
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	Scale           0.50
+
+	Type		daemon
+	  Anim          daemon\Skel_DAE_combat_cycle 1 31
+	TEnd
+MEnd
+
+
+Move PostReady
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+	Scale           0.50
+
+	Type		daemon
+	  Anim          daemon\Skel_DAE_combat_cycle 17 31
+	TEnd
+MEnd
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkPreReady
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ> <CombatAttack> <AttackIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <BlockIRQ>
+	NextMove        WalkCycleReady
+	Priority        1
+
+	Type		daemon
+	  Anim          daemon\DAE_run 4 12
+	TEnd
+MEnd
+
+
+Move WalkCycleReady
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        PostReady
+	Priority        1
+
+	Type		daemon
+	  Anim          daemon\DAE_run 13
+	TEnd
+MEnd
+
+#Move WalkPostReady
+#	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <BlockIRQ>
+#	Anim            models\run 36
+#	NextMove        Ready
+
+
+
+#### powers  ###################################################
+
+###################
+###### Brawling ######
+###################
+
+Move Brawl
+	Requires	COMBAT PUNCH
+	Interrupts	<AttackIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack>
+	NextMove        Brawl_post
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\DAE_claw_mid 1 18
+	TEnd
+MEnd
+
+
+Move Brawl_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Brawlcycle
+	Priority        1
+
+	Type		daemon
+	  Anim          daemon\DAE_claw_mid 19 65
+	TEnd
+MEnd
+
+
+Move Brawlcycle
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        postReady
+	Priority        1
+	Scale           0.50
+
+	Type		daemon
+	  Anim          daemon\Skel_DAE_combat_cycle 1 31
+	TEnd
+MEnd
+
+
+Move Brawl2
+	Requires	COMBAT PUNCH
+	Interrupts	<AttackIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack>
+	NextMove        Brawl2_post
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\DAE_claw_mid 75 87
+	TEnd
+MEnd
+
+
+Move Brawl2_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Brawlcycle2
+	Priority        1
+
+	Type		daemon
+	  Anim          daemon\DAE_claw_mid 88
+	TEnd
+MEnd
+
+
+Move Brawlcycle2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <BlockIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        postReady
+	Priority        1
+	Scale           0.50
+
+	Type		daemon
+	  Anim          daemon\Skel_DAE_combat_cycle 1 31
+	TEnd
+MEnd
+
+
+
+######################
+###### 2 Hand Swipe  ######
+#####################
+
+Move 2H_Swipe
+	Requires	COMBAT 2HAND SWIPE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Ready
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		daemon
+	  Anim          male\claw_mid2 1 31
+	TEnd
+MEnd
+
+
+Move 2H_Swipe_L
+	Requires	COMBAT 2HAND SWIPE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Ready
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		daemon
+	  Anim          male\claw_mid2 40 71
+	TEnd
+MEnd
+
+
+
+
+
+
+
+
+
+
+###################
+###### mouth_eye blast  ######
+###################
+
+Move Mouth
+	Requires	COMBAT HEADCAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Ready
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		daemon
+	  Anim          daemon\eye 1 54
+	TEnd
+
+MEnd
+
+
+
+###################
+###### Throw Knife  ######
+###################
+
+Move Throwkinfe
+	Requires	COMBAT THROWKNIFE
+	Interrupts	<AttackIRQ> <Block>
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack>
+	NextMove        Throwkinfepost
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\knifethrow 1 23
+	TEnd
+
+MEnd
+
+
+Move Throwkinfepost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <WepAttack> <BlockIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		daemon
+	  Anim          daemon\knifethrow 24
+	TEnd
+
+MEnd
+
+
+
+
+
+
+########################################################################################
+###################
+###### Block  ######
+###################
+
+Move Block_L
+	Requires	BLOCK
+	Interrupts	<BlockIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		daemon
+	  Anim          daemon\DAE_block_left 1
+	TEnd
+MEnd
+
+
+Move Block_R
+	Requires	BLOCK
+	Interrupts	<BlockIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <Block> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		daemon
+	  Anim          daemon\DAE_block_right 1
+	TEnd
+MEnd
+
+## hit reacts################################################################
+
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\DAE_HQ_high 1
+	TEnd
+MEnd
+
+###################
+###### Combat Hit Quick  ######
+###################
+
+Move C_HitQuick
+	Requires	COMBAT QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        3
+
+	Type		daemon
+	  Anim          daemon\DAE_HQ_high 1
+	TEnd
+MEnd
+
+###################
+###### knockback Hit  ######
+###################
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Priority        5
+	Interpolate     3
+
+	Type		daemon
+	  Anim          daemon\knockback2 3 16
+	TEnd
+MEnd
+
+
+Move KHF_travel
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+
+	Type		daemon
+	  Anim          daemon\knockback2 16 17
+	TEnd
+MEnd
+
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\knockback2 18 25
+	TEnd
+MEnd
+
+
+Move KHF_fallcycle
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+
+	Type		daemon
+	  Anim          daemon\knockback2 25 26
+	TEnd
+MEnd
+
+
+Move KHF_impact
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		daemon
+	  Anim          daemon\knockback2 27
+	  PlayFx        FEET\BIGBODYFALL.FX
+	TEnd
+MEnd
+
+##	Member		<ReactIRQ>
+
+Move getup_back
+	NextMove        getup_back2
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		daemon
+	  Anim          daemon\getup_back 5 7
+	TEnd
+MEnd
+
+##	Member		<ReactIRQ>
+
+Move getup_back2
+	NextMove        Ready
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		daemon
+	  Anim          daemon\getup_back 8 100
+	TEnd
+MEnd
+
+##	Member		<ReactIRQ>
+
+Move KHF_Deathcycle
+	Requires	DEATH
+	Interrupts	getup_back
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION CANTMOVE DIENOW TARGET
+
+	Type		daemon
+	  Anim          daemon\knockback2 71 75
+	TEnd
+MEnd
+
+###################
+###### Impact Death   ######
+###################
+
+Move Impact_Death
+	Requires	DEATH
+	Interrupts	getup_back2
+	NextMove        Impact_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		daemon
+	  Anim          daemon\knockback2 27
+	  PlayFx        FEET\MALEDEATH4.FX
+	TEnd
+MEnd
+
+
+Move Impact_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		daemon
+	  Anim          daemon\knockback2 71 75
+	TEnd
+MEnd
+
+###################
+###### Sweeps  ######
+###################
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		daemon
+	  Anim          daemon\sweep 3 31
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+MEnd
+
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	NextMove        getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		daemon
+	  Anim          daemon\knockback2 26
+	  PlayFx        FEET\MALEDEATH6.FX
+	TEnd
+MEnd
+
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		daemon
+	  Anim          daemon\sweep_flip 2 28
+	  PlayFx        FEET\MALEDEATH5.FX
+	TEnd
+MEnd
+
+###################
+###### Stun  ######
+###################
+
+Move Stun
+	Requires	STUN HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Stun_cycle
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\stun_hit 2 98
+	TEnd
+MEnd
+
+
+Move Stun_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+	Scale           0.50
+
+	Type		daemon
+	  Anim          daemon\stun_hit 100
+	TEnd
+MEnd
+
+
+
+###################
+### Stun forward  #####
+###################
+
+Move Stun_forward
+	Requires	STUN  Forward
+	Interrupts	Stun Stun_cycle <BasicMove> <CombatMove> <WepMove> <TwoHandMove> dizzy <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Stun_cycle
+	Priority        8
+	Scale		0.5
+	Flags		Cycle
+	Interpolate	20
+
+	Type		daemon
+	  Anim          male\stun_walk 1 27 ##zombie_walk_armsdown 1 27
+	TEnd
+
+MEnd
+
+
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Sleep_cycle
+	Priority        3
+	Scale           0.40
+
+	Type		daemon
+	  Anim          daemon\sleep 1 52
+	TEnd
+MEnd
+
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        2
+	Scale           0.20
+
+	Type		daemon
+	  Anim          daemon\sleep 55 85
+	TEnd
+MEnd
+
+###################
+###### choke Stun  ######
+###################
+
+Move chokeStun
+	Requires	STUN HIT CHOKESTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        chokeStun_cycle
+	Priority        3
+
+	Type		daemon
+	  Anim          daemon\choke 1
+	TEnd
+MEnd
+
+
+Move chokeStun_cycle
+	Requires	STUN CHOKESTUN
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\choke 1
+	TEnd
+MEnd
+
+###################
+###### Sonic Stun  ######
+###################
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        SonicStun_cycle
+	Priority        3
+
+	Type		daemon
+	  Anim          daemon\sonicpain 1
+	TEnd
+MEnd
+
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\sonicpain 1
+	TEnd
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ElectroStun_cycle
+	Priority        3
+
+	Type		daemon
+	  Anim          daemon\electro 1
+	TEnd
+MEnd
+
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\electro 1
+	TEnd
+MEnd
+
+###################
+###### Lasso Stun  ######
+###################
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        LassoStun_cycle
+	Priority        3
+	Scale           0.60
+
+	Type		daemon
+	  Anim          daemon\wriggle 1 17
+	TEnd
+MEnd
+
+
+Move LassoStun_cycle
+	Requires	STUN LASSOSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+	Scale           0.60
+
+	Type		daemon
+	  Anim          daemon\wriggle 18
+	TEnd
+MEnd
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+
+	Type		daemon
+	  Anim          daemon\freeze 1 20
+	TEnd
+MEnd
+
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        3
+
+	Type		daemon
+	  Anim          daemon\freeze 20 30
+	TEnd
+MEnd
+
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        3
+
+	Type		daemon
+	  Anim          daemon\freeze 20 30
+	TEnd
+
+MEnd
+
+
+
+###################
+###### Levitate Stun  ######
+###################
+
+Move Lev_Stun
+	Requires	STUN HIT FLOATSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Lev_Stun_cycle
+	Priority        3
+
+	Type		daemon
+	  Anim          daemon\pre_fly 2
+	TEnd
+MEnd
+
+
+Move Lev_Stun_cycle
+	Requires	STUN FLOATSTUN
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\float 1
+	TEnd
+MEnd
+
+###################
+###### Lev_Stun Hit Quick  ######
+###################
+
+Move Lev_Stun_HitQuick
+	Requires	HIT
+	Interrupts	Lev_Stun Lev_Stun_cycle
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Lev_Stun_cycle
+	Priority        1
+
+	Type		daemon
+	  Anim          daemon\float_HQ 2
+	TEnd
+MEnd
+
+
+
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	STUN Fear
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+	Priority        2
+
+	Type		daemon
+	  Anim          male\fear_stun 1
+	TEnd
+
+MEnd
+
+Move FearStun_cycle
+	Requires	STUN Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	Interpolate	8
+
+	Type		daemon
+	  Anim          male\fear_stun 25 60
+	TEnd
+
+MEnd
+
+
+
+
+
+
+###################
+###### cage react\wriggle  ######
+###################
+
+Move cage_wriggle
+	Requires	HIT WRIGGLE
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ>
+	Flags		ReqInputs
+	NextMove        cage_wriggle2
+	Priority        2
+	Scale           0.60
+
+	Type		daemon
+	  Anim          daemon\wriggle 1 17
+	TEnd
+MEnd
+
+
+Move cage_wriggle2
+	Requires	HIT WRIGGLE
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        postReady
+	Priority        2
+	Scale           0.60
+
+	Type		daemon
+	  Anim          daemon\wriggle 18
+	TEnd
+MEnd
+
+###################
+###### electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ>
+	NextMove        postReady
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\electro 1
+	TEnd
+MEnd
+
+###################
+###### electro_pain_LONG  ######
+###################
+
+Move electro_react_Long
+	Requires	STRONG HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        electro_react_Long2
+	Priority        3
+
+	Type		daemon
+	  Anim          daemon\electro 1 115
+	TEnd
+MEnd
+
+
+Move electro_react_Long2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+
+	Type		daemon
+	  Anim          daemon\electro 1 20
+	TEnd
+MEnd
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		daemon
+	  Anim          daemon\DAE_drain 40
+	TEnd
+MEnd
+
+###################
+###### drain react  ######
+###################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        postReady
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\DAE_drain 1
+	TEnd
+MEnd
+
+###################
+###### sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\DAE_sonic_pain 1
+	TEnd
+MEnd
+
+###################
+###### choke react  ######
+###################
+
+Move choke_react
+	Requires	HIT MAGIC
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\DAE_choke 1
+	TEnd
+MEnd
+
+###################
+###### tele_attack react  ######
+###################
+
+Move tele_react
+	Requires	HIT TELEATTACK
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\tele_react 1
+	TEnd
+MEnd
+
+###################
+###### Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\DAE_speed_react 3
+	TEnd
+MEnd
+
+##################
+###### Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\absorb 1
+	TEnd
+MEnd
+
+###################
+###### Boost_down react  ######
+###################
+
+Move Boost_D
+	Requires	HIT BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Priority        2
+
+	Type		daemon
+	  Anim          daemon\boost 1
+	TEnd
+MEnd
+
+########  deaths  ############################
+
+
+#######################
+###### Vanish Death   ######
+######################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		daemon
+	  Anim          male\freezestun 20 30
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		daemon
+	  Anim          male\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		daemon
+	  Anim          daemon\DAE_death_front 47 129
+	TEnd
+MEnd
+
+
+Move Default_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		daemon
+	  Anim          daemon\DAE_death_front 129 130
+	TEnd
+MEnd
+
+###################
+###### Hit Death   ######
+###################
+
+Move HitDeath
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        postdeath2
+	Priority        2
+	Sets            NOCOLLISION
+
+	Type		daemon
+	  Anim          daemon\DAE_death_side 2 200
+	TEnd
+MEnd
+
+
+Move postdeath2
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		daemon
+	  Anim          daemon\DAE_death_side 200 250
+	TEnd
+MEnd
+
+###################
+###### Hit Death 4  ######
+###################
+
+Move HitDeath4
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        postdeath4
+	Priority        2
+	Sets            NOCOLLISION
+
+	Type		daemon
+	  Anim          daemon\DAE_death_front 2 91
+	TEnd
+MEnd
+
+
+Move postdeath4
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		daemon
+	  Anim          daemon\DAE_death_front 91 95
+	TEnd
+MEnd
+
+
+##### Run outs ########################################
+
+###################
+### Snake Hole Jump IN  ####
+###################
+
+Move SnakeHole_Jump_IN
+	Requires	RUNIN JUMPINHOLE
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Truck_Jump_In_post
+	Sets			CANTMOVE RUNIN
+	Flags			NotSelectable
+	Priority        9
+	Interpolate	8
+
+	Type		male
+	  Anim          male\Hole_jump_IN 1
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+MEnd
+
+########### (Continues in the truck jump in animation, but RUNIN bit isn't set, so the transfer begins)
+
+
+Move SnakeHole_Jump_In_post
+	NextMove        Ready
+	Priority        5
+	Member		<RunIn>
+	Sets            CANTMOVE
+	Flags		cycle NotSelectable
+
+	Type		male
+	  Anim          male\absorb 60
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+MEnd
+
+###################
+### Snake Hole Jump OUT  ####
+###################
+
+Move SnakeHole_Jump_OUT
+	Requires	EMERGE JUMPOUTOFHOLE
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	NextMove        Truck_post_cycle
+	Priority        10
+	Sets            CANTMOVE
+	Flags		NotSelectable DoNotDelay
+
+	Type		male
+	  Anim          male\hole_jump_out 1
+##	  PlayFx	Generic\entityFadeIn.fx
+	TEnd
+
+MEnd
+
+Move SnakeHole_post_cycle
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\lookquick 1
+	TEnd
+
+MEnd
+
+
+
+
+
+
+SeqEnd
+

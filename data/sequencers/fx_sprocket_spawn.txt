@@ -1,0 +1,48 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_sprocket_spawn 
+	BaseSkeleton	FX_sprocket_spawn\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_gollem_spawn 
+	BaseSkeleton	FX_gollem_spawn\skel_gollem
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_titan_spawn 
+	BaseSkeleton	FX_gollem_spawn\skel_gollem
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move ReadyA
+	Member		<Ready> 
+	Flags		Cycle 
+	Interpolate	0
+
+
+	Type		FX_sprocket_spawn
+	  Anim          FX_sprocket_spawn\skel_test    
+	TEnd
+
+	Type		FX_gollem_spawn
+	  Anim          FX_gollem_spawn\skel_gollem    
+	TEnd
+
+	Type		FX_titan_spawn
+	  Anim          FX_sprocket_spawn\titan_spawn 1    
+	TEnd
+
+
+MEnd
+
+SeqEnd
+

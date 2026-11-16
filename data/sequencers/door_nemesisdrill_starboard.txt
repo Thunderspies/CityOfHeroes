@@ -1,0 +1,85 @@
+######################################
+## Door - Nemesis Drill (starboard Side) ##
+######################################
+
+Sequencer
+
+TypeDef Door_NemesisDrill_Starboard
+	BaseSkeleton	Door_NemesisDrill_Starboard\Skel_Door_NemesisDrill_Starboard
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_NemesisDrill_Starboard
+	  Anim          Door_NemesisDrill_Starboard\Skel_Door_NemesisDrill_Starboard 1 2
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_NemesisDrill_Starboard
+	  Anim          Door_NemesisDrill_Starboard\Skel_Door_NemesisDrill_Starboard 2 35
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_NemesisDrill_Starboard
+	  Anim          Door_NemesisDrill_Starboard\Skel_Door_NemesisDrill_Starboard 36 41
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_NemesisDrill_Starboard
+	  Anim          Door_NemesisDrill_Starboard\Skel_Door_NemesisDrill_Starboard 42 43
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_NemesisDrill_Starboard
+	  Anim          Door_NemesisDrill_Starboard\Skel_Door_NemesisDrill_Starboard 43 51
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_NemesisDrill_Starboard
+	  Anim          Door_NemesisDrill_Starboard\Skel_Door_NemesisDrill_Starboard 52 83
+	TEnd
+MEnd
+
+SeqEnd

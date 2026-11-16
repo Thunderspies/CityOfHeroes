@@ -1,0 +1,226 @@
+RootMod paper1
+End
+
+RootMod paper2
+End
+
+RootMod paper3
+End
+
+RootMod chips1
+End
+
+RootMod _dmpstr_Wheels
+End
+
+RootMod _dmpstr_closed
+End
+
+RootMod _dmpstr_sm
+End
+
+RootMod OilDrum
+End
+
+RootMod TrashBag_black
+End
+
+RootMod TrashBag_white
+End
+
+RootMod Box_sm_01
+End
+
+RootMod _dmpstr_open
+End
+
+RootMod _Trashcan_Collision
+End
+
+Def TrashCan_bag_1&
+	Group Omni/PARTICLE_5
+		Pos -0.02832 0.02832 0.02832
+	End
+	Type Explosions\TrashExplosion\Trash_ForceReact.Fx
+	Lod
+		Scale 0.500000
+	End
+End
+
+RootMod TrashCan_bag
+	Group _Trashcan_Collision
+	End
+	Group TrashCan_bag_1&
+		Pos 0.02832 1.97168 -0.02832
+	End
+End
+
+RootMod TrashCan_empty
+	Group _Trashcan_Collision
+	End
+End
+
+Def TrashCan_crap_1&
+	Group Omni/PARTICLE_5
+		Pos -0.028259 0.02832 0.02832
+	End
+	Type Explosions\TrashExplosion\Trash_ForceReact.Fx
+	Lod
+		Scale 0.500000
+	End
+End
+
+RootMod TrashCan_crap
+	Group _Trashcan_Collision
+	End
+	Group TrashCan_crap_1&
+		Pos 0.028259 1.97168 -0.02832
+	End
+End
+
+RootMod Box_med_02
+End
+
+RootMod Box_med_01
+End
+
+RootMod _dumpster_sm_parts
+End
+
+RootMod _dumpster_sm
+End
+
+RootMod bottle1
+End
+
+RootMod bottle2
+End
+
+RootMod Soccer_Ball
+End
+
+RootMod Soccer_Ball_floating
+End
+
+RootMod Basketball
+End
+
+Def dumpster_sm
+	Group _dumpster_sm_parts
+	End
+	Group _dumpster_sm
+	End
+End
+
+Def Dmpstr_Open_1&
+	Group Omni/PARTICLE_5
+		PYR 20.000008 0 0
+		Pos -0.02832 0.036255 0.016907
+	End
+	Type Explosions\TrashExplosion\TrashDumpster_ForceReact.Fx
+	Lod
+		Scale 0.500000
+	End
+End
+
+Def Dmpstr_Open
+	Group _dmpstr_open
+		Pos 0 0.094635 0
+	End
+	Group _dmpstr_Wheels
+	End
+	Group TrashBag_white
+		PYR 7.644288 -49.567554 6.466345
+		Pos 1.356323 6.067368 0.744415
+	End
+	Group TrashBag_black
+		PYR 7.644288 30.432421 6.466345
+		Pos 2.865967 4.937271 -0.297699
+	End
+	Group TrashBag_black
+		PYR 7.644289 -179.567535 6.466345
+		Pos 3.541748 5.748688 0.805603
+	End
+	Group paper1
+		PYR 7.644288 -9.567536 6.466345
+		Pos 2.367554 5.09874 -2.527771
+	End
+	Group chips1
+		PYR 7.644288 10.432472 6.466345
+		Pos 4.609863 5.809158 -0.818634
+	End
+	Group Dmpstr_Open_1&
+		Pos 3 5 -2
+	End
+End
+
+Def Dmpstr_Closed
+	Group _dmpstr_closed
+	End
+	Group _dmpstr_Wheels
+	End
+End
+
+Def Dmpstr_sm
+	Group _dmpstr_sm
+	End
+	Group _dmpstr_Wheels
+	End
+End
+
+Def OilDrum_Phys_1&
+	Group Omni/PARTICLE_10
+	End
+	Type V_COV\PhysicsEnabled\WorldObjects\BarrelOilDrum.fx
+	Lod
+		Scale 0.480000
+	End
+End
+
+Def OilDrum_Phys
+	Group OilDrum_Phys_1&
+	End
+End
+
+Def TrashBag_Phys_1&
+	Group Omni/PARTICLE_10
+	End
+	Type V_COV\PhysicsEnabled\WorldObjects\Trash_Bag.fx
+	Lod
+		Scale 0.480000
+	End
+End
+
+Def TrashBag_Phys
+	Group TrashBag_Phys_1&
+	End
+End
+
+Def TrashCan_full_Phys_1&
+	Group Omni/PARTICLE_10
+	End
+	Type V_COV\PhysicsEnabled\WorldObjects\Trash_Can_Full.fx
+	Lod
+		Scale 0.480000
+	End
+End
+
+Def TrashCan_full_Phys
+	Group TrashCan_full_Phys_1&
+	End
+End
+
+Def TrashCan_empty_Phys_1&
+	Group Omni/PARTICLE_10
+	End
+	Type V_COV\PhysicsEnabled\WorldObjects\Trash_Can_Empty.fx
+	Lod
+		Scale 0.480000
+	End
+End
+
+Def TrashCan_empty_Phys
+	Group TrashCan_empty_Phys_1&
+	End
+End
+

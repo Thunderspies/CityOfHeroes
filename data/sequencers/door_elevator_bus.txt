@@ -1,0 +1,84 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Elevator_Bus 
+	BaseSkeleton	Door_Elevator_Bus\Skel_Door_Elevator_Bus
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Elevator_Bus
+	  Anim          Door_Elevator_Bus\Skel_Door_Elevator_Bus 1 5
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_Elevator_Bus
+	  Anim          Door_Elevator_Bus\Skel_Door_Elevator_Bus 6 9
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Elevator_Bus
+	  Anim          Door_Elevator_Bus\Skel_Door_Elevator_Bus 10 15
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Elevator_Bus
+	  Anim          Door_Elevator_Bus\Skel_Door_Elevator_Bus 15 20
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Elevator_Bus
+	  Anim          Door_Elevator_Bus\Skel_Door_Elevator_Bus 21 31
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Elevator_Bus
+	  Anim          Door_Elevator_Bus\Skel_Door_Elevator_Bus 32
+	TEnd
+MEnd
+
+SeqEnd
+

@@ -1,0 +1,58 @@
+
+RentPeriodSeconds 1209600 // 2 weeks
+
+// FORMAT: List of:
+//   RentRange PrestigeInt PercentFloat
+// NOTES: 
+//   List must be in ascending prestige order. 
+//   No two Prestige values may be equal.
+//   Percent values are LERP'd between Prestige values.
+//   If the SG's prestige is higher than the last Prestige value, 
+//     the rent is clamped to the last Rent value.
+
+// the first line is required to have Prestige = 0
+RentRange  0          0.00			
+
+// Percent is capped at this last Prestige value
+	 
+
+// --------------------
+// late rent period. A player is always within the range of late periods (if nothing owed period 0, if a million periods late, still uses the last one)
+//
+// add these flags for behavior:
+//		ShutBaseDown - removes power from the base
+//		DenyBaseEntry - don't let players enter base
+
+RentDueDateResetPeriod 2
+		// if the player is this or more periods late, then
+		// reset the rent due date to current_time + RentPeriodSecs.
+		// The reason for this is that if a player lets the base shut
+		// itself down, they should pay rent as if they just started
+		// the base. Alternatively, if a player is paying for rent due
+		// within the last few days, we don't want to give incentive
+		// to wait as long as possible to pay the rent.  
+		// ex:
+		//   - player pays rent one week (march 8) after it is due
+		//     (march 1), rent period is two weeks: next rent = march
+		//     15 (march 1 + 14)
+		//   - player restarts base on October 13, where rent lapsed
+		//     six periods ago: next rent = Oct 27 (Oct 13 + 14)
+
+
+LatePeriod 0 // first period after you are notified
+{
+	// nothing, not late yet
+}
+LatePeriod 1 
+{
+	// player is in grace period
+}
+LatePeriod 2
+{
+	ShutBaseDown
+}
+LatePeriod 3
+{
+	ShutBaseDown
+	DenyBaseEntry
+}

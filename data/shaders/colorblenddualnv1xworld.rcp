@@ -1,0 +1,40 @@
+!!RC1.0
+#
+#	BLENDMODE_COLORBLEND_DUAL (Non-NV20)
+#	Only gets 1 tint color on NV1X cards for the world
+{
+  rgb {
+    spare0 = unsigned(col0) * unsigned(tex0);
+    scale_by_four();
+  }
+  alpha {
+    spare0 = unsigned(const0) * unsigned(tex1);
+  }
+}
+
+# Original second stage
+#{
+#  rgb {
+#    discard = unsigned(tex1) * unsigned(const0);
+#    discard = unsigned_invert(tex1) * unsigned(const1);
+#    spare1 = sum();
+#  }
+#}
+
+{
+  rgb {
+    discard = unsigned(tex0.a);
+    discard = unsigned_invert(tex0.a) * unsigned(const0);
+    spare1 = sum();
+  }
+}
+
+final_product = spare1 * spare0;
+clamp_color_sum();
+# Original:
+#out.rgb = lerp(tex0.a, spare0, final_product) + col1;
+# Loses color tinting (could remove a stage?):
+#out.rgb = lerp(fog.a, spare0, fog) + col1;
+# Loses second color tinting (could remove a stage?):
+out.rgb = lerp(fog.a, final_product, fog) + col1;
+out.a = spare0;

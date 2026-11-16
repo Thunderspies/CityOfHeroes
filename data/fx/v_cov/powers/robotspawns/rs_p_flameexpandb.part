@@ -1,0 +1,65 @@
+##############################
+#Particle System 
+#
+System
+
+Name 			fire_flame2.part
+
+NewPerFrame		10
+Burst			5
+EmissionType		2 			#Tokened: 0 = Point  1 = Line
+EmissionRadius		1.0
+EmissionStartJitter	.013 0 .013
+
+WorldOrLocalPosition	1
+
+
+Spin			0
+SpinJitter		0
+
+#Magnetism		0.0008
+Gravity			-.05
+
+InitialVelocity		0 0.1 0
+InitialVelocityJitter	.025 0.01 .025
+VelocityJitter		0.0 0.0 0.0 #Per Frame change in Velocity
+
+TightenUp		0
+
+FadeInBy 		0
+FadeOutStart		0
+FadeOutBy   		1
+
+StartSize		.75
+StartSizeJitter		.1
+ExpandRate		.2
+ EndSize		10
+
+StreakType		3			#1 Velocty  3 Origin
+ StreakScale		1.1
+ StreakOrient		1 			#1 Orient   0 No Orient
+ StreakDirection	0 			#0 Pull     1 Push 
+
+OrientationJitter	180
+
+Alpha			255
+
+Blend_mode		1 			#Tokened: 0 = Normal 1 = Additive  		
+TextureName		smoke.tga
+
+StartColor		200 30 30
+ColorChangeType		0 
+
+#ByTime1			3  
+##BeColor1		200 10 10
+#BeColor1		255 176 19
+#
+#ByTime2			5
+##BeColor1		200 10 10
+#BeColor2		230 128 10
+#
+#ByTime3			8  
+##BeColor1		200 10 10
+#BeColor3		50 50 50
+#
+End

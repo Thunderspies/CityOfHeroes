@@ -1,0 +1,77 @@
+RootMod _Arac_TVdoor_base
+End
+
+RootMod _Arac_TVdoor_screen
+End
+
+Def Arach_tvDoorscreen_01
+	Obj _Arac_TVdoor_screen
+End
+
+Def Arach_tvDoorframe_01_1&
+	Group Omni/PARTICLE_200
+	End
+	Type WORLD\Ruins\StreetSparks.fx
+End
+
+Def Arach_tvDoorframe_01
+	Group Arach_tvDoorframe_01_1&
+		Rot 0.043171 0.676359 0.019517
+		Pos -6.2771 0.858154 3.039551
+	End
+	Group Arach_tvDoorframe_01_1&
+		Rot -0.79347 -0.126941 0.476007
+		Pos 8.543701 21.688721 3.226013
+	End
+	Group _Arac_TVdoor_base
+	End
+End
+
+Def Arach_tvDoorcomplete_2&
+	Group Doors/Door_Beacons/_drbeacon_hub_med
+	End
+	Property	"EmergeAnimationBits"	"EMERGE TVWARPOUT"	0
+	Property	"EmergeFromMe"	"0"	0
+	Property	"EnterAnimationBits"	"RUNIN TVWARPIN"	0
+	Property	"EnterMe"	"0"	0
+End
+
+Def Arach_tvDoorcomplete_1&
+	Group Doors/Door_Beacons/drbeacon_exit
+		Pos 0 0 7.5
+	End
+	Group Doors/Door_Beacons/drbeacon_enter
+		Pos 0 0 9.5
+	End
+	Group Arach_tvDoorcomplete_2&
+		Pos 0 0 -4
+	End
+	Group Doors/Door_Beacons/drbeacon_animgen_square01
+		Pos 5 1 0
+	End
+	Group Doors/Door_Beacons/drbeacon_animgen_square01
+		Pos -5 1 0
+	End
+	Group Doors/Door_Beacons/drbeacon_animgen_square01
+		Pos -5 11 0
+	End
+	Group Doors/Door_Beacons/drbeacon_animgen_square01
+		Pos 5 11 0
+	End
+End
+
+Def Arach_tvDoorcomplete_3&
+	Group Arach_tvDoorscreen_01
+	End
+	Group Arach_tvDoorframe_01
+	End
+End
+
+Def Arach_tvDoorcomplete
+	Group Arach_tvDoorcomplete_1&
+		Pos 0 0 2.5
+	End
+	Group Arach_tvDoorcomplete_3&
+	End
+End
+

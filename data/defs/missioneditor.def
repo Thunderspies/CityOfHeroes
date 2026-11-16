@@ -1,0 +1,641 @@
+MissionList
+{
+	// All StoryTask Fields will be listed under here
+	Properties
+	{
+		Name	"Main"
+		Type	Category
+
+		Properties
+		{
+			Name	"Name"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"VillainGroup"
+			Type	ComboBox
+			ForceAutoSave
+		}
+		Properties
+		{
+			Name	"MinPlayerLevel"
+			Type	IntegerSlider
+			Min	1
+			Max	50
+		}
+		Properties
+		{
+			Name	"MaxPlayerLevel"
+			Type	IntegerSlider
+			Min	1
+			Max	50
+		}
+		Properties
+		{
+			Name	"ForceTaskLevel"
+			Type	IntegerSlider
+			Min	0
+			Max	50
+		}
+		Properties
+		{
+			Name	"TimeToComplete"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"RandomNPCs"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"CityZone"
+			Type	ComboTextBox
+			Strings "", "WhereIssued", "City_00_01", "City_01_01", "City_01_02", "City_01_03", "City_02_01", "City_02_02", "City_02_03", "City_02_04", "City_03_01", "City_03_02", "City_03_03", "City_04_01", "City_04_02", "City_05_01", "Hazard_01_01", "Hazard_01_02", "Hazard_01_03", "Hazard_01_02c", "Hazard_02_01", "Hazard_03_01", "Hazard_03_02", "Hazard_04_01", "Hazard_05_01", "Hazard_06_01", "Hazard_06_02", "Hazard_06_03", "Hazard_06_03_chantry", "Trial_01_01", "Trial_01_02", "Trial_02_01", "Trial_03_01", "Trial_04_01", "Trial_04_02", "Trial_05_01", "Trial_06_01", "V_City_00_01", "V_City_01_01", "V_City_01_02", "V_City_02_01", "V_City_03_01", "V_City_03_02", "V_City_04_01", "V_City_05_01", "V_PvP_02_01", "V_PvP_03_01", "V_PvP_04_01", "V_PvP_05_01"
+		}
+		Properties
+		{
+			Name	"DoorType"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"LocationName"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"DayNightCycle"
+			Type	ComboBox
+			Strings "Normal", "AlwaysNight", "AlwaysDay", "FastCycle"
+		}
+		Properties
+		{
+			Name	"ClueDef"
+			Type	Button
+			Strings	"Edit Clues"
+			Callback "meditClueList"
+		}
+	}
+
+	// All strings for the task/mission are located here
+	Properties
+	{
+		Name	"Strings"
+		Type	Category
+
+		Properties
+		{
+			Name	"IntroString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"AcceptString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"SendoffString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"YoureStillBusyString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"ActiveTaskString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"TaskCompleteDescription"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"TaskFailedDescription"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"EntryString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"ExitStringFail"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"ExitStringSuccess"
+			Type	TextBox
+		}
+	}
+
+	// All task/mission flags are in this dropdown menu
+	Properties
+	{
+		Name	"Mission Flags"
+		Type	Category
+
+		Properties
+		{
+			Name	"Flags"
+			Type	CheckBoxList
+			Strings "NoTeleportOnComplete", "NoBaseHospital"
+		}
+		Properties
+		{
+			Name	"TaskFlags"
+			Type	CheckBoxList
+			Strings "taskLong", "taskShort", "taskRequired", "taskRepeatOnFailure", "taskRepeatOnSuccess", "taskUrgent", "taskUnique", "taskDontReturnToContact", "taskHeist", "taskNoTeamComplete", "taskSupergroup", "taskEnforceTimeLimit"
+		}
+	}
+
+	// All task related reward are in this dropdown menu
+	Properties
+	{
+		Name	"Rewards"
+		Type	Category
+
+		Properties
+		{
+			Name	"CanCompleteWith"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"CanFailWith"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"TaskBegin"
+			Type	Button
+			Strings	"Edit Reward"
+			Callback "meditReward"
+		}
+		Properties
+		{
+			Name	"TaskSuccess"
+			Type	Button
+			Strings	"Edit Reward"
+			Callback "meditReward"
+		}
+		Properties
+		{
+			Name	"TaskFailure"
+			Type	Button
+			Strings	"Edit Reward"
+			Callback "meditReward"
+		}
+		Properties
+		{
+			Name	"ReturnSuccess"
+			Type	Button
+			Strings	"Edit Reward"
+			Callback "meditReward"
+		}
+		Properties
+		{
+			Name	"ReturnFailure"
+			Type	Button
+			Strings	"Edit Reward"
+			Callback "meditReward"
+		}
+	}
+}
+
+MissionObjectiveList
+{
+	Properties
+	{		
+		Name	"Objective"
+		Type	Category
+
+		Properties
+		{
+			Name	"ObjectiveName"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"Model"
+			Type	ComboTextBox
+			Strings "", "OO_All_Bomb_Large_01", "OO_Ofc1_File_Cabinet_Sml_01", "OO_Tek1_Crate_01", "OO_Ofc1_Garbage_Pail_01", "OO_Ofc1_Computer_01", "OO_Wrhs_Crate_01", "OO_Wrhs_Crate_01", "OO_Ofc1_Computer_01", "OO_Ofc1_Computer_01", "OO_Ofc1_Safe_Wall_01", "OO_Tek1_Machine_03", "OO_All_Robot_Parts_01", "OO_Tek1_Machine_02", "OO_Tek1_Gascanister_01", "OO_Tek1_Refrigerator_01", "OO_Wrhs_Desk_01", "OO_Tek1_Machine_02", "OO_All_WeaponRack_Tech_01", "OO_Tek1_Safe_Wall_01", "OO_All_WeaponRack_Tech_01", "OO_Ofc1_Safe_Floor_01", "OO_Tek1_Crate_01", "OO_Aofc1_Laptop_01", "OO_Ofc1_Computer_01", "OO_Ofc1_Computer_01", "OO_Cav_Cardboard_Box_Open_01", "OO_Aofc1_Laptop_01", "OO_Tek1_Safe_Wall_01", "OO_Cav_Cardboard_Box_Open_01"
+		}
+		Properties
+		{
+			Name	"Description"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"SingularDescription"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"ModelDisplayName"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"ObjectiveReward"
+			Type	Button
+			Strings	"Edit Reward"
+			Callback "meditReward"
+		}
+	}
+
+	Properties
+	{		
+		Name	"Effects"
+		Type	Category
+
+		Properties
+		{
+			Name	"EffectInActive"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"EffectActive"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"EffectCooldown"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"EffectCompletion"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"EffectFailure"
+			Type	TextBox
+		}
+	}
+
+	Properties
+	{
+		Name	"Interaction"
+		Type	Category
+
+		Properties
+		{
+			Name	"InteractDelay"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"InteractBeginString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"InteractCompleteString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"InteractInterruptedString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"InteractActionString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"InteractResetString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"InteractWaitingString"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"InteractOutcome"
+			Type	ComboBox
+			Strings "None", "Remove"
+		}
+		Properties
+		{
+			Name	"SimultaneousObjective"
+			Type	CheckBox
+		}
+	}
+}
+
+ActorList
+{
+	Properties
+	{		
+		Name	"Actor"
+		Type	Category
+
+		Properties
+		{
+			Name	"Name"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"MinimumHeroesRequired"
+			Type	IntegerSlider
+			Min	0
+			Max	8
+		}
+		Properties
+		{
+			Name	"MaximumHeroesRequired"
+			Type	IntegerSlider
+			Min	0
+			Max	8
+		}
+		Properties
+		{
+			Name	"ExactHeroesRequired"
+			Type	IntegerSlider
+			Min	0
+			Max	8
+		}
+		Properties
+		{
+			Name	"Ally"
+			Type	ComboBox
+			Strings "Default", "Hero", "Villain", "Monster"
+		}
+		Properties
+		{
+			Name	"Gang"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"ShoutRange"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"ShoutChance"
+			Type	IntegerSlider
+			Min	0
+			Max	100
+		}
+		Properties
+		{
+			Name	"WalkRange"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"Model"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"ActorReward"
+			Type	Button
+			Strings	"Edit Reward"
+			Callback "meditReward"
+		}
+	}
+
+	Properties
+	{		
+		Name	"ActorFlags"
+		Type	Category
+
+		Properties
+		{
+			Name	"NotRequired"
+			Type	CheckBox
+		}
+		Properties
+		{
+			Name	"NoGroundSnap"
+			Type	CheckBox
+		}
+		Properties
+		{
+			Name	"NoUnroll"
+			Type	CheckBox
+		}
+		Properties
+		{
+			Name	"SucceedOnDeath"
+			Type	CheckBox
+		}
+		Properties
+		{
+			Name	"Flags"
+			Type	CheckBoxList
+			Strings "AlwaysCon", "SeeThroughWalls", "Invisible"
+		}
+	}
+
+	Properties
+	{
+		Name	"AI"
+		Type	Category
+
+		Properties
+		{
+			Name	"AI_Group"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"Dialog_InActive"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"AI_InActive"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"Dialog_Active"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"AI_Active"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"Dialog_Alerted"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"AI_Alerted"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"Dialog_Completion"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"AI_Completion"
+			Type	TextBox
+		}
+		Properties
+		{
+			Name	"Dialog_ThankHero"
+			Type	TextBox
+		}
+	}
+}
+
+RewardList
+{
+	Properties
+	{
+		Name	"PrimaryReward"
+		Type	ComboTextBox
+		Strings "", "MissionOwner", "Failure", "InMissionBonus", "UnlockGlowie"
+	}
+	Properties
+	{
+		Name	"SecondaryReward"
+		Type	ComboTextBox
+		Strings "", "MissionHelper", "Failure"
+	}
+	Properties
+	{
+		Name	"AddClue"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"RemoveClue"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"Dialog"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"RandomFameString"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"ContactPoints"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"SouvenirClue"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"BadgeStat"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"BonusTime"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"NewContactReward"
+		Type	CheckBox
+	}
+	Properties
+	{
+		Name	"CostumeSlot"
+		Type	CheckBox
+	}
+}
+
+ClueList
+{
+	Properties
+	{
+		Name	"ClueName"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"Display"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"DetailString"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"Icon"
+		Type	ComboTextBox
+		Strings	"", "value"
+	}
+	Properties
+	{
+		Name	"IntroString"
+		Type	TextBox
+	}
+}
+
+GroupList
+{
+	Properties
+	{
+		Name	"Flags"
+		Type	CheckBoxList
+		Strings	"AllowAddingActors", "IgnoreRadius", "AutoStart", "MissionRespawn"
+	}
+	Properties
+	{
+		Name	"CreateOnObjectiveComplete"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"ActivateOnObjectiveComplete"
+		Type	TextBox
+	}
+	Properties
+	{
+		Name	"EncounterAlliance"
+		Type	ComboBox
+		Strings "Default", "Hero", "Villain"
+	}
+	Properties
+	{
+		Name	"MissionTeamOverride"
+		Type	ComboBox
+		Strings "None",	"Player", "Mission"
+	}
+	Properties
+	{
+		Name	"Objective"
+		Type	Button
+		Strings	"Edit Objective"
+		Callback "meditGroupObjective"
+	}
+}

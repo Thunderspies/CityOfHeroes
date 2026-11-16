@@ -1,0 +1,51 @@
+######################################
+## 
+## 
+Type
+
+HealthFx
+	Range            75 100
+	LibraryPiece     OO_strg_gen_wall01_100
+	ContinuingFx	EntitySounds/StrigaGen1.fx
+End
+
+HealthFx
+	Range          45 75
+	LibraryPiece    OO_strg_gen_wall01_dmg1
+	ContinuingFx	EntitySounds/StrigaGen1b.fx
+End
+
+HealthFx
+	Range          1 45
+	LibraryPiece    OO_strg_gen_wall01_dmg2
+	ContinuingFx	EntitySounds/StrigaGen1c.fx
+End
+
+HealthFx
+	Range          0 1
+	LibraryPiece    OO_strg_gen_wall01_dmg3
+	ContinuingFx	EntitySounds/StrigaExplo1.fx
+	OneShotFx	Explosions\MetalExplosion\MetalFireExplosion.Fx
+End
+
+CapsuleSize 22 22 25
+CapsuleOffset   0 0 -3
+
+Sequencer	Prop_basic.txt   	 		
+
+FadeOutStart	500				
+FadeOutFinish	550
+
+ShadowType	None			
+
+GeomScale	1.0 1.0 1.0			
+
+Placement       DeadOn   
+CollisionType	LibraryPiece
+Selection	LibraryPiece 
+
+
+TicksToLingerAfterDeath			40000
+TicksToFadeAwayAfterDeath		256
+
+End

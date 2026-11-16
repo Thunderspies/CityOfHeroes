@@ -1,0 +1,346 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName "Hamidon Attacks!"
+// EventVolume EventVolume // ZoneEventName = HamidonAttack
+// 
+// DevouringEarth_Hamidon_Mission
+// DevouringEarth_Mitochondria_Blaster_Mission
+// DevouringEarth_Mitochondria_Healer_Mission
+// DevouringEarth_Mitochondria_Controller_Mission
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint "Starting Stage Setup"
+		}
+		Action CreateStuff
+		{
+			SpawnCreate Hamidon  //NPC_Pets_Penelope_Yin
+			{
+				Location HamidonWave
+				Group HamidonWave
+				Team Hamidonteam
+				SpawnBehavior PL_Combat
+				//MoveToMarker Villagesquare_01
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Hamidonteam
+				Heartbeat 150
+				MinimumCount 1
+				RespawnRate 4
+			}
+			SpawnCreate DESpawn
+			{
+				Location DEWave
+				Group DEWave
+				Team DEteam
+				SpawnBehavior PL_Combat
+				MoveToMarker Villagesquare_01
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team DEteam
+				Heartbeat 10
+				MinimumCount 20
+				RespawnRate 1
+			}
+			SpawnCreate MitoSpawn
+			{
+				Location MitoWave
+				Group MitoWave
+				Team Mitoteam
+				SpawnBehavior PL_Combat
+				MoveToMarker Villagesquare_01
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Mitoteam
+				Heartbeat 10
+				MinimumCount 20
+				RespawnRate 1
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage DefeatDE
+	}
+}
+Stage DefeatDE
+{
+	DisplayName "Defeat the Devouring Earth"
+	StartUp
+	{
+		Action StartKillDE
+		{
+			DebugPrint "Starting Stage DefeatDE"
+		}
+		Action TurnOnDE
+		{
+			TeamControl StartDE
+			{
+				Type Activate
+				Team DEteam
+			}
+		}
+	}
+	Counter DEKills
+	{
+		Type VillainGroup
+		Count 10
+		Team DEteam
+		VolumeName EventVolume
+		DisplayProgress "DE to defeat:"
+	}
+	Trigger Done
+	{
+		Requires DEKills complete>
+		Action GotoProtest
+		{
+			DebugPrint "DefeatDE done: switching to DefeatMito"
+		}
+		NextStage DefeatHamidon
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			TeamControl StartDE
+			{
+				Type Deactivate
+				Team DEteam
+			}
+			DebugPrint "Shutting down Stage DefeatDE"
+		}
+	}
+}
+Stage DefeatHamidon
+{
+	DisplayName "Hamidon is attacking!"
+	StartUp
+	{
+		Action StartKillDE
+		{
+			DebugPrint "Starting Stage DefeatHamidon"
+		}
+		Action TurnOffDE
+		{
+			TeamControl StopDE
+			{
+				Type Deactivate
+				Team DEteam
+			}
+		}
+		Action TurnOnMito
+		{
+			TeamControl StartMito
+			{
+				Type Activate
+				Team Mitoteam
+			}
+		}
+		Action TurnOnHamidon
+		{
+			TeamControl StartHamidon
+			{
+				Type Activate
+				Team Hamidonteam
+			}
+		}
+	}
+	Counter HamidonKills
+	{
+		Type Team
+		Count 10
+		Team Hamidonteam
+		VolumeName EventVolume
+		//DisplayProgress "Super DE to defeat:"
+	}
+	Timer HamidonTimer
+	{
+		Duration 2:00
+		Display
+	}
+	Trigger HamidonDestroyedFail
+	{
+		Requires HamidonTimer complete>
+		Action GotoReset
+		{
+			DebugPrint "DefeatHamidon failed: Zone Reset"
+		}
+		NextStage Reset
+	}
+	Trigger Done
+	{
+		Requires HamidonKills complete>
+		Action GotoProtest
+		{
+			DebugPrint "DefeatHamidon done: switching to RewardWinners"
+		}
+		NextStage RewardWinners
+	}
+	ShutDown
+	{
+		Action TurnOffMito
+		{
+			TeamControl StopMito
+			{
+				Type Deactivate
+				Team Mitoteam
+			}
+		}
+		Action TurnOffDE
+		{
+			TeamControl StopDE
+			{
+				Type Deactivate
+				Team Mitoteam
+			}
+		}
+		Action Shutdown
+		{
+			TeamControl StartHamidon
+			{
+				Type Deactivate
+				Team Hamidonteam
+			}
+			DebugPrint "Shutting down Stage DefeatHamidon"
+		}
+	}
+}
+Stage RewardWinners
+{
+	StartUp
+	{
+		Action RewardStart
+		{
+			DebugPrint "Starting Reward stage"
+		}
+		Action Bling
+		{
+			Reward BrainStormToAllRar
+		}
+		Action TurnOffNPCs
+		{
+			TeamControl StopMito
+			{
+				Type Deactivate
+				Team Mitoteam
+			}
+			TeamControl StopHamidon
+			{
+				Type Deactivate
+				Team Hamidonteam
+			}
+		}
+	}
+	Trigger Reset
+	{
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint "Switching to Reset from Reward"
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint "Shutting down Stage Reward"
+		}
+	}
+}
+Stage Reset
+{
+	DisplayName "Event Complete"
+	StartUp
+	{
+		Action ResetStart
+		{
+			TeamControl StopDE
+			{
+				Type Deactivate
+				Team DEteam
+			}
+			TeamControl StopMito
+			{
+				Type Deactivate
+				Team Mitoteam
+			}
+			TeamControl StopHamidon
+			{
+				Type Deactivate
+				Team Hamidonteam
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 1:00
+		//Display
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action GotoReset
+		{
+			DebugPrint "Reset complete: Going to DefeatDE."
+		}
+		NextStage DefeatDE
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint "Shutting down stage Reset"
+		}
+	}
+}
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint "Starting Stop stage"
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopDE
+			{
+				Type Deactivate
+				Team DEteam
+			}
+			TeamControl StopMito
+			{
+				Type Deactivate
+				Team Mitoteam
+			}
+			TeamControl StartHamidon
+			{
+				Type Deactivate
+				Team Hamidonteam
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint "Shutting down Stage Stop"
+		}
+	}
+}

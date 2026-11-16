@@ -1,0 +1,607 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName "Nemesis and Monkies"
+EventVolume EventVolume
+
+Stage Setup
+{
+    StartUp
+    {
+        Action StartSetup
+        {
+            DebugPrint "Starting Stage Setup"
+        }
+        Action CreateStuff
+        {
+            GlowieCreate glowie
+            {
+                DisplayName "Hackable computer"
+                Location clickable
+                Quantity 6
+                ResetDelay 30
+                Model OO_RV_FC_Terminal01
+                Interact "You start to hack the computer"
+                Interrupt "Something stopped you"
+                Complete "You hacked the computer"
+                BarText "Hacking.."
+                InteractTime 4
+            }
+            DoorCreate DoorMarker
+            PorterCreate MonkeyStage
+            SpawnCreate MonkeySpawn
+            {
+                Location MonkeyWave
+                Group MonkeyWave
+                Team Monkeyteam
+                KillBehavior PL_DestroyMe
+            }
+            SpawnCreate BossSpawn
+            {
+                Location BossWave
+                Group BossWave
+                Team BossTeam
+                KillBehavior PL_DestroyMe
+            }
+            SpawnCreate Presents
+            {
+                Location Presents
+                Group Presents
+                Team Freaks
+                Friendly
+                KillBehavior PL_DestroyMe
+            }
+            SpawnCreate Cimerora1
+            {
+                Location Cimerora1
+                Group Cimerora1
+                Team Cimerora
+                SpawnBehavior PL_Combat
+                MoveToMarker Presents
+                KillBehavior PL_DestroyMe
+            }
+            SpawnCreate Cimerora2
+            {
+                Location Cimerora2
+                Group Cimerora2
+                Team Cimerora
+                SpawnBehavior PL_Combat
+                MoveToMarker Presents
+                KillBehavior PL_DestroyMe
+            }
+            SpawnCreate Cimerora3
+            {
+                Location Cimerora3
+                Group Cimerora3
+                Team Cimerora
+                SpawnBehavior PL_Combat
+                MoveToMarker Presents
+                KillBehavior PL_DestroyMe
+            }
+            SpawnCreate Cimerora4
+            {
+                Location Cimerora4
+                Group Cimerora4
+                Team Cimerora
+                SpawnBehavior PL_Combat
+                MoveToMarker Presents
+                KillBehavior PL_DestroyMe
+            }
+	    TeamCreate
+	    {
+	        Team Monkeyteam
+	        Heartbeat 3
+	        MinimumCount 20
+	        RespawnRate 1
+	    }
+	    TeamCreate
+	    {
+	        Team Cimerora
+	        Heartbeat 10
+	        MinimumCount 8
+	        RespawnRate 1
+	    }
+        }
+        Action InitStuff
+        {
+            DoorControl InitLock
+            {
+            	Type Lock
+            	Door DoorMarker
+            }
+            PorterControl InitPort
+            {
+            	Type Activate
+            	Porter MonkeyStage
+            }
+        }
+    }
+    Trigger End
+    {
+        NextStage KillNemesis
+    }
+    ShutDown
+    {
+    }
+}
+
+Stage Reset
+{
+    DisplayName "Event Complete"
+    StartUp
+    {
+        Action ResetStart
+        {
+            DebugPrint "Starting stage Reset"
+        }
+    }
+    Timer ResetTimer
+    {
+        Duration 1:00
+        Display
+    }
+    Trigger End
+    {
+        Requires ResetTimer complete>
+        NextStage KillNemesis
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint "Shutting down stage Reset"
+        }
+    }
+}
+
+Stage ResetFromMonkies
+{
+    DisplayName "Event Complete"
+    StartUp
+    {
+        Action ResetStart
+        {
+            DebugPrint "Starting stage ResetFromMonkies"
+        }
+    }
+    Timer ResetPort
+    {
+        Duration 5
+    }
+    Timer ResetTimer
+    {
+        Duration 1:00
+        Display
+    }
+    Trigger PortOut
+    {
+        Requires ResetPort complete>
+        Action StartResetPort
+        {
+            PorterControl ResetPort
+            {
+            	Type Activate
+            	Porter MonkeyStage
+            }
+        }
+    }
+    Trigger End
+    {
+        Requires ResetTimer complete>
+        NextStage KillNemesis
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint "Shutting down stage ResetFromMonkies"
+        }
+    }
+}
+
+Stage KillNemesis
+{
+    DisplayName "Defeat Nemesis"
+    StartUp
+    {
+        Action StartKillNemesis
+        {
+            DebugPrint "Starting Stage KillNemesis"
+        }
+    }
+    Counter NemesisKills
+    {
+    	Type VillainGroup
+    	Count 10
+    	VillainGroup Nemesis
+    	VolumeName EventVolume
+        DisplayProgress "Nemesis to defeat"
+    }
+    Trigger Done
+    {
+        Requires NemesisKills complete>
+	Action GotoMonkies
+	{
+	    DebugPrint "KillNemesis done: switching to KillMonkies"
+	}
+        NextStage KillMonkies
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint "Shutting down Stage KillNemesis"
+        }
+    }
+}
+
+Stage KillMonkies
+{
+    DisplayName "Defeat Monkies"
+    StartUp
+    {
+        Action StartKillMonkies
+        {
+            DebugPrint "Starting Stage KillMonkies"
+        }
+        Action UnlockMonkeyDoor
+        {
+            DoorControl Unlock
+            {
+            	Type Unlock
+            	Door DoorMarker
+            }
+            PorterControl StopPort
+            {
+            	Type Deactivate
+            	Porter MonkeyStage
+            }
+            TeamControl StartMonkies
+            {
+            	Type Activate
+            	Team Monkeyteam
+            }
+        }
+    }
+    Counter MonkeyKills
+    {
+    	Type VillainGroup
+    	Count 50
+    	VillainGroup Rikti
+        DisplayProgress "Monkies to defeat"
+    }
+    Timer MonkeyTimer
+    {
+        Duration 3:00
+        Display
+    }
+    Trigger Success
+    {
+        Requires MonkeyKills complete>
+	Action GotoClickies
+	{
+	    DebugPrint "KillMonkies success: switching to GlowieClick"
+	}
+        NextStage GlowieClick
+    }
+    Trigger Failed
+    {
+        Requires MonkeyTimer complete>
+	Action GotoReset
+	{
+	    DebugPrint "KillMonkies failed: switching to Reset"
+	}
+        NextStage ResetFromMonkies
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint "Shutting down Stage KillMonkies"
+        }
+        Action LockMonkeyDoor
+        {
+            DoorControl Relock
+            {
+            	Type Lock
+            	Door DoorMarker
+            }
+            TeamControl StopMonkies
+            {
+            	Type Deactivate
+            	Team Monkeyteam
+            }
+            Floater PortOut
+            {
+                Message "Emergency evacuation system activated"
+	        Color 00ffff
+                Volume MonkeyStage
+            }
+        }
+    }
+}
+
+Stage GlowieClick
+{
+    DisplayName "Click Glowies"
+    Startup
+    {
+    	Action Debug
+    	{
+    	    DebugPrint "Starting stage GlowieClick"
+    	}
+    	Action GlowieSetup
+    	{
+    	    GlowieControl Place
+    	    {
+    	    	Type Place
+                Glowie glowie
+            }
+      	    GlowieControl Activate
+      	    {
+      	        Type Activate
+      	    	Glowie glowie
+      	    }
+        }
+    }
+    Counter GlowieClicks
+    {
+    	Type Click
+    	Count 10
+    	Glowie glowie
+        DisplayProgress "Computers to hack"
+    }
+    Timer PortTimer
+    {
+    	Duration 5
+    }
+    Timer GlowieTimer
+    {
+        Duration 5:00
+        Display
+    }
+    Trigger PortOut
+    {
+        Requires PortTimer complete>
+        Action StartSuccessPort
+        {
+            PorterControl RestartPort
+            {
+            	Type Activate
+            	Porter MonkeyStage
+            }
+	}
+    }
+    Trigger Success
+    {
+        Requires GlowieClicks complete>
+	Action GotoBossFight
+	{
+	    DebugPrint "GlowieClick success: switching to FreakProtect"
+	}
+        NextStage FreakProtect
+    }
+    Trigger Failed
+    {
+        Requires GlowieTimer complete>
+	Action GotoReset
+	{
+	    DebugPrint "GlowieClick failed: switching to Reset"
+	}
+        NextStage Reset
+    }
+    ShutDown
+    {
+    	Action Debug
+    	{
+    	    DebugPrint "Shutting down stage GlowieClick"
+    	}
+    	Action GlowieTeardown
+    	{
+    	    GlowieControl Deactivate
+    	    {
+    	    	Type Deactivate
+                Glowie glowie
+            }
+      	    GlowieControl Remove
+      	    {
+      	        Type Remove
+      	    	Glowie glowie
+      	    }
+    	}
+    }
+}
+
+Stage FreakProtect
+{
+    DisplayName "Protect Freaks"
+    Startup
+    {
+    	Action Debug
+    	{
+    	    DebugPrint "Starting stage FreakProtect"
+    	}
+    	Action FreakSetup
+    	{
+    	    TeamControl SpawnFreaks
+    	    {
+    	    	Type Activate
+                Team Freaks
+            }
+      	    TeamControl SpawnCimerorans
+      	    {
+      	        Type Activate
+      	    	Team Cimerora
+      	    }
+        }
+    }
+    Counter FreakCounter
+    { 
+    	Type Team
+    	Count 2
+    	Team Freaks
+    	Direction Down
+        DisplayProgress "Freaks still alive"
+    }
+    Timer FreakTimer
+    {
+        Duration 5:00
+        Display
+    }
+    Trigger Success
+    {
+        Requires FreakTimer complete>
+	Action GotoBossFight
+	{
+	    DebugPrint "FreakProtect success: switching to BossFight"
+	}
+        NextStage BossFight
+    }
+    Trigger Failed
+    {
+        Requires FreakCounter complete>
+	Action GotoReset
+	{
+	    DebugPrint "FreakProtect failed: switching to Reset"
+	}
+        NextStage Reset
+    }
+    ShutDown
+    {
+    	Action Debug
+    	{
+    	    DebugPrint "Shutting down stage FreakProtect"
+    	}
+    	Action FreakTeardown
+    	{
+    	    TeamControl DespawnFreaks
+    	    {
+    	    	Type Deactivate
+                Team Freaks
+            }
+      	    TeamControl DespawnCimerorans
+      	    {
+      	        Type Deactivate
+      	    	Team Cimerora
+      	    }
+    	}
+    }
+}
+
+Stage BossFight
+{
+    DisplayName "Defeat Burkholder and minions"
+    StartUp
+    {
+        Action StartBossFight
+        {
+            DebugPrint "Starting Stage BossFight"
+        }
+        Action SpawnBoss
+        {
+            TeamControl SpawnBoss
+            {
+            	Type Activate
+            	Team BossTeam
+            }
+        }
+    }
+    Counter BossGroup
+    {
+    	Type Team
+    	Direction Down
+    	Count 0
+    	Team BossTeam
+    }
+    Timer BossTimer
+    {
+        Duration 5:00
+        Display
+    }
+    Trigger Success
+    {
+        Requires BossGroup complete>
+	Action GotoReward
+	{
+	    DebugPrint "BossFight success: switching to Reward"
+	}
+        NextStage Reward
+    }
+    Trigger Failed
+    {
+        Requires BossTimer complete>
+	Action GotoReset
+	{
+	    DebugPrint "Bossfight failed: switching to Reset"
+	}
+        NextStage Reset
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint "Shutting down Stage BossFight"
+        }
+        Action KillBoss
+        {
+            TeamControl KillBoss
+            {
+            	Type Deactivate
+            	Team BossTeam
+            }
+        }
+    }
+}
+
+Stage Reward
+{
+    StartUp
+    {
+        Action RewardStart
+        {
+            DebugPrint "Starting Reward stage"
+        }
+        Action Bling
+        {
+            Reward BrainStormToAllRar
+        }
+    }
+    Trigger Reset
+    {
+        NextStage Reset
+        Action RewardReset
+        {
+            DebugPrint "Switching to Reset from Reward"
+        }
+    }
+    ShutDown
+    {
+        Action Shutdown
+        {
+            DebugPrint "Shutting down Stage Reward"
+        }
+    }
+}
+
+Stage Stop
+{
+    StartUp
+    {
+        Action StopStart
+        {
+            DebugPrint "Starting Stop stage"
+        }
+    }
+    Trigger Never
+    {
+        requires 0
+    }
+    ShutDown
+    {
+        Action ShutdownStop
+        {
+            DebugPrint "Shutting down Stage Stop"
+        }
+    }
+}

@@ -1,0 +1,83 @@
+#############################################################
+## FX_AbandonedTechContainment.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_AbandonedTechContainment
+	BaseSkeleton	FX_AbandonedTechContainment\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<Ready>
+Group	<DeathIRQ>
+
+#############################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		FX_AbandonedTechContainment
+	  Anim          FX_AbandonedTechContainment\skel_ready 1 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Closed_Pre
+	Requires	EMOTE CAPTURED REICHSMAN ONE
+	Priority        4
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove	Closed_Cycle
+
+	Type		FX_AbandonedTechContainment
+	  Anim          FX_AbandonedTechContainment\skel_ready 1 1
+	  PlayFX	Scripted\CapturedReichsman\ContainmentField.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Closed_Cycle
+	Member		<Ready>
+	Flags		Cycle
+	NextMove	Open
+
+	Type		FX_AbandonedTechContainment
+	  Anim          FX_AbandonedTechContainment\skel_ready 1 1
+	  PlayFX	Scripted\CapturedReichsman\ContainmentField.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+Move Open
+	Requires	EMOTE CAPTURED REICHSMAN TWO
+	Priority        4
+	Interrupts	<Ready>
+	NextMove        Open_Cycle
+	Scale		0.25
+
+	Type		FX_AbandonedTechContainment
+	  Anim          FX_AbandonedTechContainment\skel_ready 1 37
+	  PlayFX	Scripted\CapturedReichsman\ContainmentField.fx 0 1 CONSTANT
+	  PlayFX	Scripted\CapturedReichsman\ContainmentField_PowerDown.fx 0 30
+	TEnd
+MEnd
+
+Move Open_Cycle
+	Flags		Cycle
+	Scale		0.25
+
+	Type		FX_AbandonedTechContainment
+	  Anim          FX_AbandonedTechContainment\skel_ready 37 37
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,1018 @@
+
+//-----------------------------------------------------------------------------
+// Utility Functions
+//-----------------------------------------------------------------------------
+
+float3 toBasis(float4 b_x, float4 b_y, float4 b_z, float4 v)
+{
+	return float3(dot(v, b_x), dot(v, b_y), dot(v, b_z));
+}
+
+float3 toBasis(float3 b_x, float3 b_y, float3 b_z, float3 v)
+{
+	return float3(dot(v, b_x), dot(v, b_y), dot(v, b_z));
+}
+
+// Range compress vector from [-1,1] to [0,1]
+// Useful for storing in textures or color only interpolators.
+// (older hardware had special interpolators on color semantics)
+float3 range_compress(float3 v)
+{
+	return (v * 0.5) + 0.5;
+}
+
+float4 range_compress(float4 v)
+{
+	return (v * 0.5) + 0.5;
+}
+
+
+float4 rangeExpand(float4 v)
+{
+	return float4(v.xyz * 2 - 1, v.w);  // Expand a range-compressed vector
+}
+
+// restore normal vector  back to [-1,1] range from normal map color channel [0,1] range
+// w component is left unchanged (as some assets piggy back gloss etc in the normal map alpha channel)
+// We also normalize the normal map normal to deal with maps that are not properly normalized or filtered
+// or for range compressed data coming from interpolators
+float4 map_color_to_normal(in float4 inVal)
+{
+    #ifdef DXT5NM_NORMAL_MAPS
+        inVal = map_color_to_normal_dxt5nm(inVal);
+    #else
+        inVal.xyz = (inVal.xyz * 2.0) - 1.0;
+        inVal.xyz = normalize(inVal.xyz);
+    #endif
+	return inVal;
+}
+
+float4 map_color_to_normal_dxt5nm(in float4 inVal)
+{
+    //
+    // dxt5nm with specular is arranged this way:
+    //   R (x) = 0
+    //   G (y) = normal.y
+    //   B (z) = Specular
+    //   A (w) = normal.x
+    //
+    // We compute normal.z from normal.x and normal.y, assuming it
+    // was normalized before it was compressed.
+    //
+    float spec_tmp = inVal.z;
+    inVal.xy = (inVal.wy * 2.0) - 1.0;
+    inVal.z = sqrt( 1.0 - (inVal.x * inVal.x) - (inVal.y * inVal.y) );
+    inVal.w = spec_tmp;
+	return inVal;
+}
+
+float3 map_color_to_normal(in float3 inVal)
+{
+    inVal = (inVal * 2.0) - 1.0;
+    inVal = normalize(inVal);
+	return inVal;
+}
+
+// This function allows us to use 'bit tests' on floating
+// point values which is useful for grouping flags into
+// a single constant channel.
+// Since we need to shift the desired bit to test down
+// into the fraction (first position past binary point, 0.5)
+// We need to shift down by one extra bit which is an extra
+// factor of 2.
+// Note that the bit to test for is supplied as a
+// power of 2 and not the bit position, e.g. 32.0 and not 5
+
+bool isBitSet(const float bits, const float bitToTestFor)
+{
+	return frac(bits/(bitToTestFor * 2)) >= 0.5;
+}
+
+// In order to avoid that extra operation on each test this
+// function requests that the caller supply the bit to test
+// for already pre shifted. Note that if you are explicitly
+// supplying a constant as the argument to isBitSet() then
+// you shouldn't need this version since the compiler will
+// optimize away the multiply for you.
+
+bool isBitX2Set(const float bits, const float bitToTestForX2)
+{
+	return frac(bits/bitToTestForX2) >= 0.5;
+}
+
+//-----------------------------------------------------------------------------
+// Utility Functions
+//-----------------------------------------------------------------------------
+
+/*
+	Calculate the Tangent Space coordinate system at the current fragment.
+
+	 Tangent Bitangent Normal (TBN) basis
+	 
+	Note that the TBN matrix assigned to a particular vertex does not in general
+	need to be an orthogonal frame (i.e., basis vectors form an orthonormal set).
+	However, it usualy is nearly so as artist do not generally waste texture
+	resolution by shearing the normal map on the geometry.
+
+	Some engines may be designed to honor non orthogonal TBN. This is not
+	one of those engines.
+
+	At the fragment level the normal and tangent coming in from the interpolators
+	are certainly no longer going to be orthonormal and we at least have to
+	normalize them as subsequent lighting calculations will expect these vectors
+	to be unit.
+
+	If we need to accurately invert the TBN then adjusting the basis to be orthormal
+	(e.g. Gram-Schmidt) allows for fast inversion using the transpose.
+	We don't do that here as it isn't necessary for our quality level, purposes.
+
+	Orthogonal TBN basis will also have a unit determinant and preserve lengths
+	when transforming. Thus, if the system is orthogonal you can also avoid some
+	post tranform normalizations of direction vectors.
+
+	N.B.  We are assuming inputs have already been normalized
+	'handedness' is the bitangent sign
+*/
+float3x3 calc_TBN( in float3 normal, in float3 tangent, in float handedness )
+{
+	// calculate bitangent using the supplied handedness sign 
+	float3 bitangent	= cross( tangent, normal ) * handedness;
+	
+	// note: could apply Gram-Schmidt to ensure system is orthogonal here.
+	
+	float3x3 TBN = 
+	{
+		tangent,
+		bitangent,
+		normal
+	};
+	
+	return TBN;
+}
+
+//-----------------------------------------------------------------------------
+// Fog Functions
+//-----------------------------------------------------------------------------
+
+float3 calc_fogged_color( in float3 color_in, float fogCoord )
+{
+	float fogAmount  = g_FogParamsFP.z - fogCoord;
+	fogAmount = saturate( g_FogParamsFP.w * fogAmount );
+	float3 color_fogged = lerp( g_FogColorFP.xyz, color_in, fogAmount );
+	return color_fogged;
+}
+
+//-----------------------------------------------------------------------------
+// Lighting Functions
+//-----------------------------------------------------------------------------
+
+struct LightingVectorsHQ	// High Quality Per Pixel Calculation Lighting Vectors
+{
+	// Tangent space basis (input from vertex shader in HQ mode)
+	float3 tangent_vs;		
+	float3 binormal_vs;
+	float3 normal_vs;
+
+	float3 position_vs;		// position of fragment
+	float3 u_to_eye;		// unit vector pointing back to eye from fragment
+
+	float3 light_ts;		// Light direction in tangent space
+	float3 half_ts;			// Half vector in tangent space for specular calcs
+};
+
+LightingVectorsHQ populate_lighting_vectors_hq(
+						in float3 i_normal_vs,		// view space geometric normal vector  (expected to be a unit vector)
+						in float4 i_tangent_vs,		// view space geometric tangent vector (expected to be a unit vector)
+						in float3 i_position_vs,	// view space position
+						in float3 i_light_vs		// view space light vector (expected to be a unit vector)
+						)
+{
+	LightingVectorsHQ result;
+
+	//
+	// Setup Tangent Space coord frame
+	// normalize inputs as they probably come from interpolation? But don't want to be normalizing unneccessarily
+	result.normal_vs	= i_normal_vs.xyz;
+	result.tangent_vs	= i_tangent_vs.xyz;
+	// calculate binormal, i_tangent_vs.w has binormal sign
+	result.binormal_vs	= cross( result.tangent_vs, result.normal_vs ) * i_tangent_vs.w;
+	
+	//
+	// position vector of fragment and unit vector back to eye
+	result.position_vs	= i_position_vs.xyz;
+	result.u_to_eye		= normalize(-i_position_vs.xyz);	// unit vector to eye
+
+	//
+	// calculate light/half vector in tangent space
+	// @todo Light direction SHOULD BE A CONSTANT FOR HQ (i.e. not interpolated and pre normalized)
+	// Once that is true we can save a normalize on the half vector (just * 0.5)
+	// @todo If tangent space basis is orthonormal then change of basis will preserve length
+	// and we can skip the post xform normalize
+	float3 light_vs = i_light_vs.xyz;	
+	result.light_ts = normalize(toBasis(result.tangent_vs, result.binormal_vs, result.normal_vs, light_vs));
+
+	// @todo
+	// NOTE: The original ARB programs normalize light_ts but do NOT normalize half_ts here.
+	// (This is the case for bumpmapColorBlendDual.fp and multi9.fp)
+	// If you do so you will notice a difference in the specular lighting.
+	float3 h_vs = normalize( result.u_to_eye + light_vs );	// half vector
+//	result.half_ts = normalize(toBasis(result.tangent_vs, result.binormal_vs, result.normal_vs, h_vs));
+	result.half_ts = toBasis(result.tangent_vs, result.binormal_vs, result.normal_vs, h_vs);
+	
+	return result;
+}
+
+// calculate the ambient, diffuse, and specular lighting factors
+// for the given geometry
+float3 calc_lighting_factors(
+					 in float4 normal_xyz_gloss_w,	// normal map normal in xyz and gloss map value in w
+					 in float3 v_light,				// light vector
+					 in float3 v_half,				// half vector
+					 in float  specular_exp		// specular shinniness
+					 )
+{
+	float n_dot_l	= dot(normal_xyz_gloss_w.xyz, v_light);
+	float n_dot_h	= dot(normal_xyz_gloss_w.xyz, v_half);
+
+	// could use lit() here if want n*l>0 test applied for specular
+	float specular	= pow( saturate(n_dot_h), specular_exp );
+	specular *= normal_xyz_gloss_w.w;
+
+	#ifdef NO_SPECULAR
+		specular = 0;
+	#endif
+	return float3( 1.0, saturate(n_dot_l), specular );
+}
+
+void calc_lighting_diffuse_and_specular(
+					 in float4 normal_xyz_gloss_w,	// normal map normal in xyz and gloss map value in w
+					 in float3 v_light,				// light vector
+					 in float3 v_half,				// half vector
+					 in float3 diffuse_color,		// diffuse light color
+					 in float4 spec_color_and_exp,	// spec color in rgb, shinniness exponent in alpha
+					 out float3 o_lit_diffuse,		// output diffuse light contribution (to be combined later)
+					 out float3 o_lit_gloss			// output specular lighting contribution (to be combined later)
+					 )
+{
+	float n_dot_l	= dot(normal_xyz_gloss_w.xyz, v_light);
+	float n_dot_h	= dot(normal_xyz_gloss_w.xyz, v_half);
+	// could use lit() here if want n*l>0 test applied for specular
+	float specular	= pow( saturate(n_dot_h), spec_color_and_exp.a );
+	float3 diffuse	= saturate(n_dot_l * diffuse_color);
+
+	o_lit_diffuse = diffuse;
+	o_lit_gloss = normal_xyz_gloss_w.w * specular * spec_color_and_exp.rgb;
+
+	#ifdef NO_SPECULAR
+		o_lit_gloss = 0;
+	#endif
+}
+
+// calculate 'default' lighting using the main lighting constants
+void calc_lighting(
+					 in float4 normal_xyz_gloss_w,	// normal map normal in xyz and gloss map value in w
+					 in float3 v_light,				// light vector (tangent space)
+					 in float3 v_half,				// half vector (tangent space)
+					 in float4 spec_color_and_exp,	// spec color in rgb, shinniness exponent in alpha
+					 out float3 o_lit_base,			// output diffuse + ambient lighting
+					 out float3 o_lit_gloss			// output specular lighting contribution (to be combined later)
+					 )
+{
+	float3 lit_diffuse, lit_specular;
+	calc_lighting_diffuse_and_specular(normal_xyz_gloss_w, v_light, v_half, g_DiffuseColorFP.rgb, spec_color_and_exp, lit_diffuse, lit_specular);
+
+	o_lit_base = lit_diffuse + g_AmbientColorFP.rgb;
+	o_lit_gloss = lit_specular;
+}
+
+// apply simple lighting model to color_in and return lit color
+struct LightProps
+{
+	float3	ambient_color;
+	float3	diffuse_color;
+	float4	spec_color_and_exp;		// spec color in rgb, shinniness exponent in alpha
+	float	glossConst;				// material constant gloss factor
+	float	shade_factor;			// used when applying shadow maps, raw shadow factor (ambient factor, diffuse factor, specular factor)
+};
+
+// setup light prop structs with the usual lighting constants and properties
+LightProps get_default_light_properties( in float shadow_factor, in float glossConst )
+{
+	LightProps light;
+	light.ambient_color		= g_AmbientColorFP.rgb;
+	light.diffuse_color		= g_DiffuseColorFP.rgb;
+	light.spec_color_and_exp= g_Specular1ColorAndExponentFP;
+	light.glossConst		= glossConst;
+	light.shade_factor		= shadow_factor;
+	return light;
+}
+
+// Calc the (optional) per pixel lighting factors for the old style legacy materials which rely on
+// GL light 0 state params. Historically all the old style (e.g. not 'multi') blend modes only did
+// vertex lighting with the exception of bumpmapColorBlendDual and the per pixel specular done by bumpmapMultiply.
+// Ultra mode added the ability to do per pixel lighting calculations on these legacy blend modes as well.
+// This works much better with shadow maps and currently per pixel modes are always used when shadow maps are
+// used in the shader.
+// @todo can we switch the old legacy material support programs to use the same lighting constants as the 
+// bumpmap/multi shaders and remove the dependency on GL light state constants. It's probably this way 
+// for historical reasons and since those materials had to use the GL light state when vertex shaders are not available.
+LightProps get_gl_light0_properties( in float shadow_factor, in float glossConst )
+{
+	LightProps light;
+	light.ambient_color		= g_Light0AmbientFP.rgb;
+	light.diffuse_color		= g_Light0DiffuseFP.rgb;
+	light.spec_color_and_exp= float4( g_Light0SpecularFP.rgb, g_MaterialShininessFP.x );
+	light.glossConst		= glossConst;
+	light.shade_factor		= shadow_factor;
+	return light;
+}
+
+float3 apply_lighting(
+					 in float3		color_in,
+					 in float3		light_factors,		// (ambient, NdotL, specular)
+					 in LightProps	light_props			// constants and factors needed for lighting
+					 )
+{
+	// apply light factors to light colors
+	float3 ambient	= light_factors.x*light_props.ambient_color;
+	float3 diffuse	= light_factors.y*light_props.diffuse_color;
+	float3 gloss	= saturate( light_factors.z * light_props.glossConst * light_props.spec_color_and_exp.rgb );
+
+	float3 lit_color = color_in*(ambient + diffuse) + gloss;
+	return lit_color;
+}
+
+float3 apply_lighting_no_gloss(
+					 in float3		color_in,
+					 in float3		light_factors,		// (ambient, NdotL, specular)
+					 in LightProps	light_props			// constants and factors needed for lighting
+					 )
+{
+	// apply light factors to light colors
+	float3 ambient	= light_factors.x*light_props.ambient_color;
+	float3 diffuse	= light_factors.y*light_props.diffuse_color;
+
+	float3 lit_color = color_in*(ambient + diffuse);
+	return lit_color;
+}
+
+float3 apply_lighting_gloss_only(
+					 in float3		color_in,
+					 in float3		light_factors,		// (ambient, NdotL, specular)
+					 in LightProps	light_props			// constants and factors needed for lighting
+					 )
+{
+	// apply light factors to light colors
+	float3 gloss	= saturate( light_factors.z * light_props.glossConst * light_props.spec_color_and_exp.rgb );
+
+	float3 lit_color = color_in + gloss;
+	return lit_color;
+}
+
+// calc tangent space quantities for low quality variants
+void calc_tangent_space_lq( in float3 normal_vs, in float3 tangent_vs, in float binormal_sign, in float3 position_vs, in float3 light_vs, out float3 o_position_ts, out float3 o_light_ts )
+{
+	//****
+	// Low-quality version and Non-ARBfp version
+	// Calculate light and half vector in tangent space to supply fragment program
+
+	// calc binormal from tangent/normal
+    float3 binormal_vs = cross( tangent_vs, normal_vs) * binormal_sign;
+
+	// Form a change of basis matrix out of the vectors
+	float3x3 M_ts = float3x3(tangent_vs, binormal_vs, normal_vs);
+    
+	// Compute light vector in tangent space
+	o_light_ts = mul(M_ts, light_vs);  
+
+	// Compute position in tangent space (used by fragment shader to determine half vector)
+	o_position_ts = mul(M_ts, position_vs); 
+}
+
+void calc_tangent_space_light_and_position( in float3 normal_vs, in float3 tangent_vs, in float binormal_sign, in float3 position_vs, in float3 light_vs, out float3 o_position_ts, out float3 o_light_ts )
+{
+	// Calculate light and position(view) vector in tangent space to supply fragment program
+
+	// calc binormal from tangent/normal
+    float3 binormal_vs = cross( tangent_vs, normal_vs) * binormal_sign;
+
+	// Form a change of basis matrix out of the vectors
+	float3x3 M_ts = float3x3(tangent_vs, binormal_vs, normal_vs);
+    
+	// Compute light vector in tangent space
+	o_light_ts = mul(M_ts, light_vs);  
+
+	// Compute position in tangent space (used by fragment shader to determine half vector)
+	o_position_ts = mul(M_ts, position_vs); 
+}
+
+// Calculate light and half vector in tangent space to supply fragment program
+// it is required that all the input vectors are in the same reference coordinate frame
+void calc_tangent_space_light_and_half( in float3 normal, in float3 tangent, in float binormal_sign, in float3 view, in float3 light, out float3 o_half_ts, out float3 o_light_ts )
+{
+	// calc binormal from tangent/normal
+    float3 binormal = cross( tangent, normal) * binormal_sign;
+
+	// Form a change of basis matrix out of the vectors
+	float3x3 M_ts = float3x3(tangent, binormal, normal);
+    
+	// Compute light vector in tangent space
+	o_light_ts = mul(M_ts, light);  
+
+    // Compute half vector
+    float3 half = normalize(view + light);
+
+    // Transform half vector to tangent space 
+    o_half_ts = mul(M_ts, half);
+}
+
+//-----------------------------------------------------------------------------
+// Reflection Functions
+//-----------------------------------------------------------------------------
+
+
+// Calculate a perturbed surface normal to be used for reflection calculations
+// For the HQ case we mix the base normal map with the distortion map so that we get some deviation at the
+// window pane boundaries amd across the surface and tone down the distortion only map
+// @todo This can be enhanced with some procedural effects using material/mask data
+float3 calc_perturbed_normal( in float3 normal1, in float3 normal2, in float3 position_vs )
+{    
+    float distortionStrength	= g_FresnelParamsFP.w;
+    float baseStrength			= g_DistortionParamsFP.w;
+    float3 k = float3(0,0,1);
+    
+	float3 baseNormal = normalize( lerp(k, normal1.xyz, baseStrength) );
+	float3 distNormal = normalize( lerp(k, normal2.xyz, distortionStrength) );
+    
+    float distortMix			=  g_DistortionParamsFP.x;
+    float distortionFadeNear	=  g_FresnelParamsFP.y;
+    float distortionFadeFar		=  g_FresnelParamsFP.z;
+    
+    // eliminate the base normal map contribution as we get
+    // further away to reduce aliasing/moire patterns
+    // @todo can calc view space z of fragment from WPOS
+	float baseDistFactor =  smoothstep( g_DistortionParamsFP.y, g_DistortionParamsFP.z, -position_vs.z);
+	distortMix += (1.0f - distortMix)*baseDistFactor;
+
+	float3 normal3 = lerp(baseNormal, distNormal, distortMix);
+	return normalize( normal3 ); 
+}
+
+// calculate world space reflection vector from eye space fragment loc and unit surface normal
+float3 calc_ws_reflection_vector( in float3 position_vs, in float3 normal_vs )
+{
+	// as long as the normal vector is unit it shouldn't be necessary to normalize any of the other vectors
+	float3 reflect_vs = reflect(position_vs, normal_vs);
+
+	// transform back to world space for cubemap lookup
+	//float3x3 invViewMat = float3x3( float3(1,0,0), float3(0,1,0), float3(0,0,1) );
+	float3x3	invViewMat = float3x3( g_InverseCubemapViewMatrixFP[0], g_InverseCubemapViewMatrixFP[1], g_InverseCubemapViewMatrixFP[2] );
+	float3		reflect_ws = mul( reflect_vs, invViewMat );
+	return reflect_ws;
+}
+
+float4 calc_ws_reflection_vector4(in float3 vIncident, in float3 vNormal, float3x3 invView)
+{
+    // calculate the reflection vector, for use with cubemaps
+    float3 reflect_vs = reflect(vIncident, vNormal);
+    float3 reflect_ws = mul(reflect_vs, invView);
+    return float4( reflect_ws, 0 );
+}
+
+float2 calc_planar_texcoord_lq( in float2 fragmentPOS )
+{
+	float2 reflectionTexCoord = fragmentPOS * g_PlanarReflectionTransformFP.xy;
+	reflectionTexCoord.x = 1 - reflectionTexCoord.x;
+	return reflectionTexCoord;
+}
+
+float2 calc_planar_texcoord_hq( in float2 fragmentPOS, in float3 pixel_normal_vs, in float3 geo_normal_vs )
+{
+	float2 reflectionTexCoord = calc_planar_texcoord_lq( fragmentPOS );
+
+	// Do special high-quality lookup using "reflection vector for each pixel" from cubemap lookup
+	reflectionTexCoord += pixel_normal_vs.xy - geo_normal_vs.xy;
+	return reflectionTexCoord;
+}
+
+// hq version incorporates fresnel effect
+float	calc_reflectivity_hq( in float3 unit_to_eye, in float3 normal, in float4 fresnelParams )
+{
+	float reflectivity = fresnelParams.x;	// base strength
+
+	// Add Fresnel effect
+	float nDotV = saturate(dot(unit_to_eye, normal));
+	float fresnelTerm = saturate(fresnelParams.y * pow(1 - nDotV, fresnelParams.z));
+	reflectivity = saturate(reflectivity + fresnelTerm);
+	return reflectivity;
+}
+
+float	calc_reflectivity_hq( in float3 unit_to_eye, in float3 normal )
+{
+	return calc_reflectivity_hq( unit_to_eye, normal, g_FresnelParamsFP );
+}
+
+float4 sample_reflection_cubemap( in float3 position_vs, in float3 normal_vs )
+{
+	float3 reflect_ws = calc_ws_reflection_vector(position_vs, normal_vs);
+	return texCUBE(g_sampler_cubemap, reflect_ws);
+}
+
+// Convert a vector from tangent space to view space
+// @todo might be simpler/clearer to pass around the tangent space 
+// change of basis matrix and just use that everywhere instead of LightingVectorsHQ
+float3 convert_ts_to_vs( in float3 v_ts, LightingVectorsHQ lighting )
+{
+	float3 v_vs;
+	v_vs =  ( v_ts.x * lighting.tangent_vs );
+	v_vs += ( v_ts.y * lighting.binormal_vs );
+	v_vs += ( v_ts.z * lighting.normal_vs );
+	return v_vs;
+}
+
+float calc_planar_reflection_amount( in float3 normal_vs, in float3 position_vs )
+{
+	float planar_dot = dot(normal_vs, g_PlanarReflectionPlaneVP.xyz);
+	// change dotproduct from (-1, 1) to 0 or 1
+	float planar_reflect = floor(0.05f + (planar_dot + 1.0f) * 0.5f);
+	float planar_distance = dot(position_vs, g_PlanarReflectionPlaneVP.xyz) + g_PlanarReflectionPlaneVP.w;
+	// change distance to 0 or 1 and multiply with dotproduct result
+	// we want small distances (almost close) to be 1
+	float reflect_amount = planar_reflect * max(floor(1.5f - abs(planar_distance)), 0.0f);
+	return reflect_amount;
+}
+
+// The CoX engine originally just supported a simple 'faux' reflection lookup
+// into a 'spherical' environment map texture.
+// This function calculates the reflection uv coordinates for the env map
+// lookup according to the legacy formula
+float2 calc_faux_reflection_uv( in float3 vNormal, in float3 vIncident )
+{
+    // Compute spherical env mapping uv texture coordinates for reflection
+    // legacy comments indicate that this is intended to mimic
+    // "Sphere mapping fron nVidia fixed-function path"
+    float3 Rr = reflect(vIncident, vNormal);        // reflection vector using incident ray and surface normal
+    float3 Ro = normalize( Rr + float3(0, 0, 1) );  // Why adding k vector? to bias to 'sweet' spot of map?
+    float2 Rs = (0.5 * Ro.xy) + 0.5;				// map to texture coords in shperical env map
+    return Rs;
+}
+
+//-----------------------------------------------------------------------------
+// Skinning Functions
+//-----------------------------------------------------------------------------
+
+// calculate the blended position from two bone transforms for skinning
+float4 blend_bone_positions( in float4 position, in float3x4 boneMatrix0, in float3x4 boneMatrix1, in float weight )
+{
+    // Transform position using blend between bone 0 & 1
+	// since only two bones lerp results (potentially more efficient)
+	// (also guarantees that bone weights add to one)
+	float4 position0	= float4( mul( boneMatrix0, position ), 1.0f );
+	float4 position1	= float4( mul( boneMatrix1, position ), 1.0f );
+	return lerp( position0, position1, weight );
+}
+
+// calculate the blended direction vector (e.g. normal, tangent) from two bone transforms for skinning
+float3 blend_bone_normals( in float3 normal, in float3x4 boneMatrix0, in float3x4 boneMatrix1, in float weight )
+{
+    // Transform direction vector using blend between bone 0 & 1
+	// since only two bones lerp results (potentially more efficient)
+	// (also guarantees that bone weights add to one)
+    float3 normal0 		= mul( (float3x3)boneMatrix0, normal.xyz );
+    float3 normal1		= mul( (float3x3)boneMatrix1, normal.xyz );
+	return normalize( lerp( normal0, normal1, weight ) );
+}
+
+//-----------------------------------------------------------------------------
+// CoX Material Functions
+//-----------------------------------------------------------------------------
+
+// texture coordinate transform from CoX material scroll scale constants
+float2 scroll_scale( int iTexUnit, float2 uv )
+{
+	return uv * g_ScrollScaleArrFP[iTexUnit].zw + g_ScrollScaleArrFP[iTexUnit].xy;
+}
+
+// do "new" style (i.e., CoV) dual color tinting with supplied color constants
+// tex0 is base texture, tex1 is dual texture
+float4 calc_dual_tint(in float4 const0, in float4 const1, in float4 tex0, in float4 tex1)
+{
+    float4 dualColor;
+    dualColor.rgb	= lerp( const1.rgb, const0.rgb, tex1.rgb );
+    dualColor.rgb	= lerp( dualColor.rgb, float3(1), tex0.a );
+    dualColor.rgb  *= tex0.rgb;
+	dualColor.a		= tex1.a * const0.a;
+    return dualColor;
+}
+
+// this version of the calc_dual_tint function also returns the intermediate 'tint' color at this
+// fragment which can be used in tinting reflections, etc
+float4 calc_dual_tint_and_get_tint(in float4 const0, in float4 const1, in float4 tex0, in float4 tex1, out float3 o_tint )
+{
+    float4 dualColor;
+    dualColor.rgb	= lerp( const1.rgb, const0.rgb, tex1.rgb );
+    dualColor.rgb	= lerp( dualColor.rgb, float3(1), tex0.a );
+	o_tint.rgb		= dualColor.rgb;	// save the tinting color off for the caller to use
+    dualColor.rgb  *= tex0.rgb;
+	dualColor.a		= tex1.a * const0.a;
+    return dualColor;
+}
+
+// do "old" style (i.e., BIT_OLDTINTMODE) color tinting with supplied color constant
+float4 calc_old_tint(in float4 color, in float4 tex)
+{
+	float3 tinted = lerp(color.rgb, tex.rgb, tex.a);
+	return float4( tinted, color.a );
+}
+
+// does the masking/mixing between the dual materials (and/or reflections)
+float4 mix_material_colors( in float4 mixmask, in float4 color1, in float4 color2 )
+{
+	float4 lerpValue = lerp(mixmask, mixmask.a, g_GlossParamFP.z);
+	lerpValue = lerp(float4(1, 1, 1, 1), lerpValue, g_GlossParamFP.w);	
+	return lerp(color2, color1, lerpValue.xyzx);
+}
+
+// Randomness in the AddGlow texture
+// The random lights turning on and off is determined by a texture, e.g., texture_library/btest/buildingLightPattern.tga.
+// This texture MUST be 128x128.
+// i_glow_params is g_GlowParamFP (addGlowfp) or g_MiscParamFP (multi9fp)
+//	.x - the minimum needed lookup level to trigger glowing (if 255 then always glow)
+//	.y - random seed value
+//	.z - always set to 0
+//  .w - not set for multi9 (bug?), 0 for addGlow blend mode
+int has_glow(sampler2D tex_glow_mask, in float2 i_uv, in float4 i_glow_params)
+{
+	// note: 0.0078125 = 1/128
+	float2 uv = floor(i_uv) * 0.0078125 + i_glow_params.yw;
+	float mask = tex2D(tex_glow_mask, uv).r;
+	return mask < i_glow_params.x;
+}
+
+void add_glow( inout float4 color, sampler2D tex_glow, in float2 i_uv, sampler2D tex_glow_mask, in float2 i_uv_mask, in float4 i_glow_params, in float3 tint )
+{
+	if (has_glow(tex_glow_mask, i_uv_mask, i_glow_params))
+	{
+		float3 texAddGlow = tex2D( tex_glow, i_uv ).rgb;
+		if ( isBumpMultiTintGlowSet() )
+			texAddGlow *= tint;
+		color.rgb += texAddGlow;
+	}
+}
+
+void add_glow_orig( inout float4 color, sampler2D tex_glow, in float2 i_uv, sampler2D tex_glow_mask, in float2 i_uv_mask, in float4 i_glow_params )
+{
+	if (has_glow(tex_glow_mask, i_uv_mask, i_glow_params))
+	{
+		float3 texAddGlow = tex2D( tex_glow, i_uv ).rgb;
+		color.rgb += texAddGlow;
+	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// SHADOW MAPPING FRAGMENT PROGRAM UTILITIES
+///////////////////////////////////////////////////////////////////////////////
+
+float shadow_lookup(sampler2D map, float4 loc, float2 mapscale, float2 offset )
+{
+  return tex2Dproj(map, float4(loc.xy + offset * mapscale * loc.w, loc.z, loc.w)).r;
+}
+
+// 4x4 => 16 samples per fragment, (when PCF is on each texture fetch is the
+// result of 4 depth comparisons)
+float shadow_pcf_16(sampler2D shadowmap, float2 mapscale, float4 uvsq )
+{
+  float sum = 0;
+  float x, y;
+
+  for (y = -1.5; y <= 1.5; y += 1.0)
+    for (x = -1.5; x <= 1.5; x += 1.0)
+      sum += shadow_lookup(shadowmap, uvsq, mapscale, float2(x, y));
+
+  return sum / 16.0;
+}
+
+float2 mod(const float2 a, const float2 b)
+{
+  // emulate integer mod operations in a float-only environment
+  return floor(frac(a/b) * b);
+}
+
+float shadow_pcf_dither(sampler2D shadowmap, float4 uvsq, float2 mapscale, float2 posXY )
+{
+  // use a modulus of the current fragment xy position to vary the sample pattern
+  float2 offset = (float)(frac(posXY * 0.5) > 0.25);  // mod
+  offset.y += offset.x;  // y ^= x in floating point
+  if (offset.y > 1.1)
+    offset.y = 0;
+  
+  float   shadowCoeff  = shadow_lookup(shadowmap, uvsq, mapscale, offset + float2(-1.5, 0.5));
+          shadowCoeff += shadow_lookup(shadowmap, uvsq, mapscale, offset + float2(0.5, 0.5));
+          shadowCoeff += shadow_lookup(shadowmap, uvsq, mapscale, offset + float2(-1.5, -1.5));
+          shadowCoeff += shadow_lookup(shadowmap, uvsq, mapscale, offset + float2(0.5, -1.5));
+
+  return shadowCoeff * 0.25f;
+}
+
+float _shadow
+    (
+      sampler2D shadowmap,
+      float4    uvsq,
+      float2    pos_fragment,
+      float     mapSizeScale
+    )
+{
+  #if   defined( SHADOWMAP_RUNTIME_PCF_4x4 )
+      float2 mapScale = float2(mapSizeScale,mapSizeScale);
+      return shadow_pcf_16( shadowmap, mapScale, uvsq );
+  #elif defined( SHADOWMAP_RUNTIME_PCF_2x2 )
+      float2 mapScale = float2(mapSizeScale,mapSizeScale);
+      return shadow_pcf_dither( shadowmap, uvsq, mapScale, pos_fragment );
+  #else
+      return tex2Dproj(shadowmap, uvsq).x;
+  #endif
+}
+
+/*
+	Cascaded Shadowm Mapping (CSM) Calculations
+
+	N.B. If we were using a more sophisticated target profile this would
+	be written differently. e.g. dynamic branching and indexing would help
+	because of the pixel coherency in cascade lookups.
+  
+	But since we are targetting arbfp1 it is better just to up front do a
+	bunch of the calculations and reduce the number of predicates.
+*/
+
+// Compute fragment position texture coordinates for querying projective shadowmap texture
+// N.B. if we define condtionally compile csm lookups for different numbers of cascades
+// we can still use this function as the compiler will optimize away the operations on the
+// coordnates for unreferenced cascades.
+void calc_csm_coords( in float3 position, out float4 tc1, out float4 tc2, out float4 tc3, out float4 tc4 )
+{	  
+	float4x4 m1,m2,m3,m4;
+
+	// @todo - have to jump through these hoops because Cg wrapper is having trouble with setting array params
+	// after changing to support combo shaders
+	m1 = float4x4(
+				  g_ShadowMap1MatrixFP[0],
+				  g_ShadowMap1MatrixFP[1],
+				  g_ShadowMap1MatrixFP[2],
+				  g_ShadowMap1MatrixFP[3]
+				  );
+	m2 = float4x4(
+				  g_ShadowMap2MatrixFP[0],
+				  g_ShadowMap2MatrixFP[1],
+				  g_ShadowMap2MatrixFP[2],
+				  g_ShadowMap2MatrixFP[3]
+				  );
+	m3 = float4x4(
+				  g_ShadowMap3MatrixFP[0],
+				  g_ShadowMap3MatrixFP[1],
+				  g_ShadowMap3MatrixFP[2],
+				  g_ShadowMap3MatrixFP[3]
+				  );
+	m4 = float4x4(
+				  g_ShadowMap4MatrixFP[0],
+				  g_ShadowMap4MatrixFP[1],
+				  g_ShadowMap4MatrixFP[2],
+				  g_ShadowMap4MatrixFP[3]
+				  );
+	
+	// these matrix multiplies are reverse ordered because Cg wrapper code is currently setting matrices as column major
+	tc1 = mul( float4(position, 1), m1 );
+	tc2 = mul( float4(position, 1), m2 );
+	tc3 = mul( float4(position, 1), m3 );
+	tc4 = mul( float4(position, 1), m4 );
+}
+
+// Shadows are faded out towards the end of the shadowing region to make a gentle
+// transition from shadowed to unshadowed. The engine supplies us with the boundary
+// distance and a scale factor that represents the size of the transition zone.
+// Usually, the engine does the fading as some percentage of the last cascade
+// but that is not important to the shader and we could fade out across several
+// cascades if desired.
+
+// Calculate and apply that fading here
+float shadow_apply_fade( in float z, in float lightAmount )
+{
+	// calculate the distance from the shadowing boundary
+	//  g_ShadowParams2FP.x = eye space z of shadowing boundary (abs)
+	//  g_ShadowParams2FP.y = scale factor for transition zone
+	float dz = g_ShadowParams2FP.x - z;
+
+	// use that to calculate the shadow strength by scaling by the
+	// transition zone and clamping [0,1]
+	float shadow_strength = saturate(dz * g_ShadowParams2FP.y);
+
+	// do the linear interpolation over the zone,
+	// if shadow strength is 0, light amount is 1,
+	// if shadow_srength is 1, light amount stays the same
+	return lerp( 1, lightAmount, shadow_strength);
+}
+
+float _shadow_csm_plain
+    (
+      float3    position_vs,    // view space position of fragment
+      float4    pos_fragment
+	 )
+{
+	float4 uvSM1,uvSM2,uvSM3,uvSM4;
+	float4 uvSM;
+
+	// calculate all the cascade coords up front (reduces predication w/ arbfp)
+	calc_csm_coords( position_vs, uvSM1, uvSM2, uvSM3, uvSM4 );
+
+	// Select cascade
+	float z_eye = abs(position_vs.z);
+
+	if ( z_eye <= g_ShadowSplitsFP.x )
+	{
+		uvSM = uvSM1;
+	}
+	else if ( z_eye <= g_ShadowSplitsFP.y )
+	{
+		uvSM = uvSM2;
+	}
+	else if ( z_eye <= g_ShadowSplitsFP.z )
+	{
+		uvSM = uvSM3;
+	}
+	else if ( z_eye <= g_ShadowSplitsFP.w )
+	{
+		uvSM = uvSM4;
+	}
+	else
+	{
+		uvSM = uvSM4;
+		return 1.0;	// not in any split
+	}
+
+	float lightAmount = _shadow( g_sampler_shadow, uvSM, pos_fragment.xy, g_ShadowParams2FP.w );
+	lightAmount = shadow_apply_fade( z_eye, lightAmount );	// fade out shadows as approach shadowing boundary
+
+	return lightAmount;
+}
+
+// this is used with shadow_csm_blend to use some of the
+// pcf samples to potentially come from the next cascade
+// to soften transitions between cascades.
+float _shadow_blend
+    (
+      sampler2D shadowmap,
+      float4    uvsq,
+      float4    uvsq2,
+	  float		factor,
+      float2    pos_fragment,
+      float     mapSizeScale
+    )
+{
+	float2 mapscale = float2(mapSizeScale,mapSizeScale);
+	float sum = 0;
+	float4x4 T;
+	float x, y;
+	float2 anchor = float2(-1.5,-1.5);	// start of sample offsets
+
+	for (y = 0; y < 4; y += 1.0)
+	{
+		float4 uvwq_base;
+		if (y < factor*4)
+			uvwq_base = uvsq2;
+		else
+			uvwq_base = uvsq;
+
+		for (x = 0; x < 4; x += 1.0)
+		{
+			float2 offset = anchor + float2(x, y);
+			sum += shadow_lookup(shadowmap, uvwq_base, mapscale, offset);
+		}
+	}
+
+	return sum / 16.0;
+}
+
+// This version of the cascade shadow map (csm) lookup is to be
+// used with the 4x4 pcf texture lookups.
+// It calculates a 'blend' factor with the next cascade and uses
+// some of the pcf texture lookups to blend in samples from the
+// next cascade to help smooth out and break up the delineation
+// between cascades, especially when the camera is moving.
+// This does not require any additional texture lookups and just
+// involves extra ALU instructions which should not overly impact
+// performance. (in fact this method has roughly same number of instructions
+// as the old high quality shader used during i17 closed beta)
+
+// When more flexible high quality shadowmap mode is in place
+// (e.g. exponential shadow maps) then better cascade blending can
+// be put in place with additional texture samples.
+float _shadow_csm_blend
+    (
+      float3    position_vs,    // view space position of fragment
+      float4    pos_fragment
+	 )
+{
+	float4 uvSM1,uvSM2,uvSM3,uvSM4;
+	float4 uvSMa, uvSMb;
+	float next_split  = g_ShadowSplitsFP.w;	// set default as last split
+	float4 split_blend_deltas = g_ShadowParams3FP;	// blend distance over which to mix cascades
+	float blend_delta = 0;
+
+	// calculate all the cascade coords up front (reduces predication w/ arbfp)
+	calc_csm_coords( position_vs, uvSM1, uvSM2, uvSM3, uvSM4 );
+
+	// Select cascade
+	float z_eye = abs(position_vs.z);
+
+	if ( z_eye <= g_ShadowSplitsFP.x )
+	{
+		uvSMa = uvSM1;
+		uvSMb = uvSM2;
+		next_split = g_ShadowSplitsFP.x;
+		blend_delta = split_blend_deltas.y;
+	}
+	else if ( z_eye <= g_ShadowSplitsFP.y )
+	{
+		uvSMa = uvSM2;
+		uvSMb = uvSM3;
+		next_split = g_ShadowSplitsFP.y;
+		blend_delta = split_blend_deltas.z;
+	}
+	else if ( z_eye <= g_ShadowSplitsFP.z )
+	{
+		uvSMa = uvSM3;
+		uvSMb = uvSM4;
+		next_split = g_ShadowSplitsFP.z;
+		blend_delta = split_blend_deltas.w;
+	}
+	else if ( z_eye <= g_ShadowSplitsFP.w )
+	{
+		uvSMa = uvSM4;
+		uvSMb = uvSM4;
+	}
+	else
+	{
+		uvSMa = 0;
+		uvSMb = 0;
+		return 1.0;	// not in any split
+	}
+
+	float blend_next = 0;
+	if ( blend_delta > 0 )
+		blend_next = 1 - saturate((next_split - z_eye)/blend_delta);
+
+	float lightAmount = _shadow_blend( g_sampler_shadow, uvSMa, uvSMb, blend_next, pos_fragment.xy, g_ShadowParams2FP.w );
+	lightAmount = shadow_apply_fade( z_eye, lightAmount );	// fade out shadows as approach shadowing boundary
+
+	return lightAmount;
+}
+
+// given view space position caculate the appropriate shadowing factor
+float shadow_csm
+    (
+      float3    position_vs,    // view space position of fragment
+      float4    pos_fragment
+	 )
+{
+#if defined( SHADOWMAP_RUNTIME_PCF_4x4 )
+	return _shadow_csm_blend( position_vs, pos_fragment );
+#else
+	return _shadow_csm_plain( position_vs, pos_fragment );
+#endif
+}
+
+// return massaged shadowing coefficient at this location
+// x - ambient modulation clamped shadow factor (when lit per pixel)
+// y - diffuse modulation clamped shadow factor (when lit per pixel)
+// z - specular modulation clamped shadow factor (when lit per pixel)
+float3 calc_shadow_factors
+    (
+      float	raw_factor,		// raw shadow factor from pcf, etc.
+	  float	NdotL			// saturated N*L
+    )
+{
+	// We essentially light materials that will be shadowed with a 
+	// steeper diffuse falloff, (N*L)^2, which isn't physically based
+	// but helps to reduce shadow artifacts significantly and also
+	// to enhance the lighting 'volume' given the strong ambient
+	// used on most maps.
+	float diffuseReduction = clamp( NdotL, g_ShadowParams2FP.z, 1.0);
+    float adjustedShadowFactor = saturate( raw_factor * diffuseReduction );
+
+    float ambientFactor		= clamp( adjustedShadowFactor, g_ShadowParamsFP.x, 1.0);
+    float diffuseFactor		= clamp( adjustedShadowFactor, g_ShadowParamsFP.y, 1.0);
+    float specularFactor	= clamp( raw_factor, g_ShadowParamsFP.z, 1.0);
+
+	return float3( ambientFactor, diffuseFactor, specularFactor );
+}
+
+// return massaged light factors at this location from shadowing
+float3 shadow_light_factors
+    (
+	  in float3 light_factors,		// input lighting factors (ambient, diffuse, specular)
+      in float	raw_shade_factor	// raw shadow factor from pcf, etc.
+    )
+{
+	float3 shadow_factors = calc_shadow_factors( raw_shade_factor, light_factors.y /*saturate(N*L)*/);
+	return light_factors * shadow_factors; // apply shadow factors to light factors
+}

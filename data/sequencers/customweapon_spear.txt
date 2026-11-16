@@ -1,0 +1,75 @@
+#########################################################
+## CustomWeapon_Spear.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Spear_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+Group	<DeathIRQ>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+#	Flags		Cycle NoDraw NoSizeScale
+	Priority	0
+
+	Type		Spear_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Spawn
+	Requires	RIGHTHAND SPAWNBACK
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Priority        2
+#	Flags		NoDraw NoSizeScale
+
+	Type		Spear_Base
+	  Anim		Prop_basic\skel_test 1 9
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Pre
+	Requires	RIGHTHAND
+	Interrupts	<Ready>
+	Member		<WepCombat> <DeathIRQ>
+	NextMove	Combat_Cycle
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Spear_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	RIGHTHAND
+	Member		<WepCombat> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+	Priority        1
+
+	Type		Spear_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+###########################################################
+
+SeqEnd

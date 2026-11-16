@@ -1,0 +1,263 @@
+Def grp_PS_Und_Monorail
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"Linkfrom_Monorail_Underground"	0
+End
+
+Def grp_MS_Und_Monorail
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoSpawn"	"Linkfrom_Monorail_Underground"	0
+	Property	"MonorailLine"	"UndergroundTransit"	0
+	Property	"miniMapLocation"	"Praetoria_Monorail_Underground"	0
+	Property	"specialMapIcon"	"TrainStation"	0
+End
+
+Def grp_Monorail_Underground
+	Group grp_PS_Und_Monorail
+		PYR 0 -179.999985 -0
+		Pos -3.856934 -0.000031 -2.214233
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 -179.999985 -0
+		Pos 0.143066 -0.000031 -3.214233
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 -179.999985 -0
+		Pos 3.643066 -0.000031 -2.214233
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 -179.999985 -0
+		Pos 3.643066 -0.000031 0.785767
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 -179.999985 -0
+		Pos 0.143066 -0.000031 -0.214233
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 -179.999985 -0
+		Pos -3.856934 -0.000031 0.785767
+	End
+	Group grp_MS_Und_Monorail
+		Pos 0.143066 -0.000031 6.285767
+	End
+End
+
+Def grp_Arvin_Mission_PlSpwn
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"DrArvinMission"	0
+End
+
+Def grp_UNP_ResHub_Spawn_IN
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"ResHub_In"	0
+End
+
+Def grp_UNP_ResHub_GoTo_OUT
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoSpawn"	"ResHub_Out"	0
+End
+
+Def grp_UNP_ResHub_Spawn_OUT
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"ResHub_Out"	0
+End
+
+Def grp_UNP_ResHub_GoTo_IN
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"AllowThrough1"	"True"	0
+	Property	"AllowThrough2"	"False"	0
+	Property	"GotoSpawn"	"ResHub_In"	0
+	Property	"LockedText1"	"UNP_ResHub_ForRes"	0
+	Property	"LockedText2"	"UNP_ResHub_ForLoy"	0
+	Property	"Requires1"	"CanEnterHeroZone char> praetorianprogress char> normal eq ! &&"	0
+	Property	"Requires2"	"1"	0
+	Property	"miniMapLocation"	"Resistance Hub"	0
+	Property	"specialMapIcon"	"ResistanceHub"	0
+End
+
+Def grp_UNP_ResHub_Access
+	Group grp_UNP_ResHub_Spawn_IN
+		PYR 0 -179.999985 -0
+		Pos -468 -0.084351 -6
+	End
+	Group grp_UNP_ResHub_GoTo_OUT
+		PYR 0 -179.999985 -0
+		Pos -468 0 0
+	End
+	Group grp_UNP_ResHub_Spawn_OUT
+		Pos 468 0 6
+	End
+	Group grp_UNP_ResHub_GoTo_IN
+		Pos 468 0.084351 0
+	End
+End
+
+Def grp_UGR_ResAcc_Spawn_UNP
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"LinkFrom_P_City_00_01_R"	0
+End
+
+Def grp_UGR_ResAcc_GoTo_NP
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"AllowThrough1"	"True"	0
+	Property	"AllowThrough2"	"False"	0
+	Property	"GotoMap"	"P_City_00_01.txt"	0
+	Property	"GotoSpawn"	"LinkFrom_P_City_00_06_R"	0
+	Property	"LockedText1"	"UNP_WelcomeResistance"	0
+	Property	"LockedText2"	"UNP_NoLoyalist"	0
+	Property	"Requires1"	"CanEnterHeroZone char> praetorianprogress char> normal eq ! &&"	0
+	Property	"Requires2"	"1"	0
+	Property	"miniMapLocation"	"NPAccessR"	0
+	Property	"specialMapIcon"	"ResistanceIcon"	0
+End
+
+Def grp_UGR_ResAcc_Door_UNP
+	Group grp_UGR_ResAcc_Spawn_UNP
+		PYR 0 90 -0
+		Pos -0.083252 0 -6.583374
+	End
+	Group grp_UGR_ResAcc_Spawn_UNP
+		PYR 0 90 -0
+		Pos 1.916748 0 -3.083374
+	End
+	Group grp_UGR_ResAcc_Spawn_UNP
+		PYR 0 90 -0
+		Pos -0.083252 0 6.416626
+	End
+	Group grp_UGR_ResAcc_Spawn_UNP
+		PYR 0 90 -0
+		Pos 1.916748 0 2.916626
+	End
+	Group grp_UGR_ResAcc_Spawn_UNP
+		PYR 0 90 -0
+		Pos 0.416748 0 -0.083374
+	End
+	Group grp_UGR_ResAcc_GoTo_NP
+		PYR 0 90 -0
+		Pos -4.083252 0 0.416626
+	End
+End
+
+Def grp_UGR_LoyAcc_Spawn_UNP
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"LinkFrom_P_City_00_01_L"	0
+End
+
+Def grp_UGR_LoyAcc_GoTo_NP
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"AllowThrough1"	"True"	0
+	Property	"AllowThrough2"	"False"	0
+	Property	"GotoMap"	"P_City_00_01.txt"	0
+	Property	"GotoSpawn"	"LinkFrom_P_City_00_06_L"	0
+	Property	"LockedText1"	"UNP_WelcomeLoyalist"	0
+	Property	"LockedText2"	"UNP_NoResistance"	0
+	Property	"Requires1"	"CanEnterVillainZone char> praetorianprogress char> normal eq ! &&"	0
+	Property	"Requires2"	"1"	0
+	Property	"miniMapLocation"	"NPAccessL"	0
+	Property	"specialMapIcon"	"LoyalistIcon"	0
+End
+
+Def grp_UGR_LoyAcc_Door_UNP
+	Group grp_UGR_LoyAcc_Spawn_UNP
+		PYR 0 -90 -0
+		Pos 0.75 0 4.833252
+	End
+	Group grp_UGR_LoyAcc_Spawn_UNP
+		PYR 0 -90 -0
+		Pos -1.75 0 2.833252
+	End
+	Group grp_UGR_LoyAcc_Spawn_UNP
+		PYR 0 -90 -0
+		Pos 0.75 0 -4.666748
+	End
+	Group grp_UGR_LoyAcc_Spawn_UNP
+		PYR 0 -90 -0
+		Pos -1.75 0 -2.666748
+	End
+	Group grp_UGR_LoyAcc_Spawn_UNP
+		PYR 0 -90 -0
+		Pos -3.75 0 -0.166748
+	End
+	Group grp_UGR_LoyAcc_GoTo_NP
+		PYR 0 -90 -0
+		Pos 5.75 0 -0.166748
+	End
+End
+
+Def grp_UGR_QuickAccess_UNP
+	Group grp_UGR_ResAcc_Door_UNP
+		Pos -326.583252 -66.425507 -568.291626
+	End
+	Group grp_UGR_LoyAcc_Door_UNP
+		Pos 326.583496 66.425476 568.291748
+	End
+End
+
+Def grp_Beacons
+	Group grp_Monorail_Underground
+		PYR 0 -90 0
+		Pos -3664.5 480.252686 1519.5
+	End
+	Group grp_Arvin_Mission_PlSpwn
+		PYR 0 -90.000015 -0
+		Pos -4357 598.184998 -1392.5
+	End
+	Group grp_Arvin_Mission_PlSpwn
+		PYR 0 -90.000015 -0
+		Pos -4357.5 598.184998 -1396.5
+	End
+	Group grp_Arvin_Mission_PlSpwn
+		PYR 0 -90.000015 -0
+		Pos -4357 598.184998 -1401
+	End
+	Group Omni/ValidBeacon
+		Pos -2151.5 470.183228 3522.5
+	End
+	Group grp_UNP_ResHub_Access
+		Pos -4395 469.062073 1371.5
+	End
+	Group grp_UGR_QuickAccess_UNP
+		Pos -3739.333496 531.574524 2035.375
+	End
+	Group Omni/ValidBeacon
+		Pos -4830.5 466 1021.5
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Beacons
+	Pos 727 42 -1435.5
+End
+

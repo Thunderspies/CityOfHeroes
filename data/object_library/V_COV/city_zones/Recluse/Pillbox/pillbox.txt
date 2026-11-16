@@ -1,0 +1,143 @@
+RootMod _pillbox_hero_shieldinner
+End
+
+RootMod _pillbox_hero_shieldouter
+End
+
+RootMod _pillbox_hero_shieldbrace
+End
+
+RootMod _pillbox_hero_base
+End
+
+RootMod _pillbox_villain_shieldouter
+End
+
+RootMod _pillbox_villain_shieldbrace
+End
+
+RootMod _pillbox_villain_shieldinner
+End
+
+RootMod _pillbox_villain_base
+End
+
+RootMod _pillbox_neutral_base
+End
+
+RootMod _pillbox_neutral_shieldbrace
+End
+
+RootMod _pillbox_villain_base_LOD
+End
+
+RootMod _pillbox_computer_OFF
+End
+
+RootMod _pillbox_hero_base_LOD
+End
+
+RootMod _pillbox_neutral_base_LOD
+End
+
+RootMod _pillbox_computer_ON
+End
+
+RootMod _pillbox_hero_base_LOD1
+End
+
+RootMod _pillbox_villain_base_LOD1
+End
+
+RootMod _pillbox_neutral_base_LOD1
+End
+
+Def pillbox_villain_2&
+	Group _pillbox_villain_shieldinner
+	End
+	Group _pillbox_villain_shieldouter
+	End
+End
+
+Def pillbox_villain_1&
+	Group pillbox_villain_2&
+		Rot 0 3.141592 0
+	End
+	Group pillbox_villain_2&
+		Rot 0 -1.570796 0
+	End
+	Group pillbox_villain_2&
+		Rot 0 1.570796 0
+	End
+	Group pillbox_villain_2&
+	End
+	Group _pillbox_villain_shieldbrace
+	End
+End
+
+Def pillbox_villain
+	Group _pillbox_villain_base
+	End
+	Group _pillbox_villain_base_LOD
+	End
+	Group pillbox_villain_1&
+	End
+	Group _pillbox_computer_ON
+	End
+End
+
+Def pillbox_neutral
+	Group _pillbox_neutral_base
+	End
+	Group _pillbox_neutral_base_LOD
+	End
+	Group _pillbox_neutral_shieldbrace
+	End
+	Group _pillbox_computer_ON
+	End
+End
+
+Def pillbox_hero_3&
+	Group _pillbox_hero_shieldinner
+	End
+	Group _pillbox_hero_shieldouter
+	End
+End
+
+Def pillbox_hero_2&
+	Group pillbox_hero_3&
+	End
+	Group pillbox_hero_3&
+		Rot 0 1.570796 0
+	End
+	Group pillbox_hero_3&
+		Rot 0 3.141592 0
+	End
+	Group pillbox_hero_3&
+		Rot 0 -1.570796 0
+	End
+End
+
+Def pillbox_hero_1&
+	Group _pillbox_hero_shieldbrace
+	End
+	Group pillbox_hero_2&
+	End
+End
+
+Def pillbox_hero
+	Group pillbox_hero_1&
+	End
+	Group _pillbox_hero_base
+	End
+	Group _pillbox_hero_base_LOD
+	End
+	Group _pillbox_computer_ON
+	End
+End
+
+Def pillbox_inactive_holo
+	Group _pillbox_computer_OFF
+	End
+End
+

@@ -1,0 +1,442 @@
+#########################################################
+## CustomWeapon_Bow.txt	- Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef	Bow_Base
+	BaseSkeleton	FX_New_bow\Skel_New_bow
+	ParentType	None
+TypeDefEnd
+
+TypeDef Bow_Composite
+	BaseSkeleton	FX_New_bow\Longbow_Skel
+	ParentType	Bow_Base
+TypeDefEnd
+
+TypeDef Bow_Longbow
+	BaseSkeleton	FX_New_bow\Longbow2_Skel
+	ParentType	Bow_Base
+TypeDefEnd
+
+TypeDef Bow_Mongolian
+	BaseSkeleton	FX_New_bow\Mongolian_Skel
+	ParentType	Bow_Base
+TypeDefEnd
+
+TypeDef Bow_Manticore
+	BaseSkeleton	FX_New_bow\Manticore_Skel
+	ParentType	Bow_Base
+TypeDefEnd
+
+TypeDef RularuuBow
+	BaseSkeleton	FX_New_bow\RularuuBow_Skel
+	ParentType	Bow_Base
+TypeDefEnd
+
+TypeDef Bow_Compound
+	BaseSkeleton	FX_New_bow\CompoundBow_Skel
+	ParentType	Bow_Base
+TypeDefEnd
+
+TypeDef Bow_Talsorian
+	BaseSkeleton	FX_New_bow\Talsorian_Skel
+	ParentType	Bow_Composite
+TypeDefEnd
+
+TypeDef Bow_Cupid
+	BaseSkeleton	FX_New_bow_Cupid\Skel_New_Bow_Cupid
+	ParentType	Bow_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\Skel_New_bow 1 5
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 5
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 5
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	LEFTHAND SPAWNHIP
+	Priority	2
+	Interrupts	<Ready> Ready
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Flags		NoDraw
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\Skel_New_bow 1 9
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 9
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 9
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	LEFTHAND
+	Interrupts	<Ready> Ready
+	Member		<WepCombat>
+	Flags		Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\Skel_New_bow 1 5
+	  PlayFx	GENERIC\bowstring_dead.fx 0 CONSTANT
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 5
+	  PlayFx	GENERIC\bowstring_dead.fx 0 CONSTANT
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 5
+	  PlayFx	GENERIC\bowstring_dead.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#########################################################
+
+Move Goblin_Shoot
+	Requires	LEFTHAND BOW MID LAUNCH
+	Priority	4
+	Interrupts	<Ready>	<WepCombat>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_midshoot	1 60
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 60
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 60
+	TEnd
+MEnd
+
+#########################################################
+
+Move QuickShoot
+	Requires	LEFTHAND BOWQUICK
+	Priority	2
+	Interrupts	<Ready>	<WepCombat>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_quickshoot 1 31
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 31
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 31
+	TEnd
+MEnd
+
+#########################################################
+
+Move MidShoot
+	Requires	LEFTHAND BOWMID
+	Priority	2
+	Interrupts	<Ready>	<WepCombat>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_midshoot	18 48
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 18 48
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 18 48
+	TEnd
+MEnd
+
+#########################################################
+
+Move HeavyShoot
+	Requires	LEFTHAND BOWHEAVY
+	Priority	2
+	Interrupts	<Ready>	<WepCombat>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_snipershoot 15 68
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 15 68
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 15 68
+	TEnd
+MEnd
+
+#########################################################
+
+Move ConeShoot
+	Requires	LEFTHAND BOWCONE
+	Priority	2
+	Interrupts	<Ready>	<WepCombat>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_coneshoot 15 70
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 15 70
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 15 70
+	TEnd
+MEnd
+
+#########################################################
+
+Move ArcShoot
+	Requires	LEFTHAND BOWARCH
+	Priority	2
+	Interrupts	<Ready>	<WepCombat>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_arc 1 140
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 120
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 120
+	TEnd
+MEnd
+
+#########################################################
+
+Move 1st_WindUpSniper_Pre
+	Requires	LEFTHAND COMBAT WEAPON DUAL ARCHERY WINDUP SPAWNHIP
+	Priority	7
+	Interrupts	<Ready>	<WepCombat>
+	NextMove	1st_WindUpSniper_cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_snipershoot_windup_1st 1	69
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 69
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 69
+	TEnd
+MEnd
+
+Move 1st_WindUpSniper_cycle
+	Requires	LEFTHAND COMBAT WEAPON DUAL ARCHERY WINDUP
+	Flags		Cycle
+	NextMove	1st_WindUpSniper_Shoot
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_snipershoot_windup_1st 70 80
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 70 80
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 70 80
+	TEnd
+MEnd
+
+Move 1st_WindUpSniper_Shoot
+	Requires	LEFTHAND COMBAT WEAPON DUAL ARCHERY SHOOT
+	Priority	6
+	Interrupts	1st_WindUpSniper_cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_snipershoot_windup_1st 81 88
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 81 88
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 81 88
+	TEnd
+MEnd
+
+Move 2nd_WindUpSniper_Pre
+	Requires	LEFTHAND COMBAT WEAPON DUAL ARCHERY WINDUP
+	Priority	6
+	Interrupts	<Ready>	<WepCombat>
+	NextMove	2nd_WindUpSniper_cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_snipershoot 1 49
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 49
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 49
+	TEnd
+MEnd
+
+Move 2nd_WindUpSniper_cycle
+	Requires	LEFTHAND COMBAT WEAPON DUAL ARCHERY WINDUP
+	Flags		Cycle
+	NextMove	2nd_WindUpSniper_Shoot
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_snipershoot 50 60
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 50 60
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 50 60
+	TEnd
+MEnd
+
+Move 2nd_WindUpSniper_Shoot
+	Requires	LEFTHAND COMBAT WEAPON DUAL ARCHERY SHOOT
+	Priority	6
+	Interrupts	1st_WindUpSniper_cycle
+	NextMove	Combat_Cycle
+	Interpolate	0
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_snipershoot 61 75
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 61 75
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 61 75
+	TEnd
+MEnd
+
+#############################################################
+## ENCOUNTERS
+#############################################################
+
+Move Enc_MidShoot_2nd
+	Requires	ENCOUNTER COMBAT WEAPON DUAL REV BOW MID LEFTHAND
+	Priority	8
+	Interrupts	<Ready>	<WepCombat>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_midshoot	1 120
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 120
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 120
+	TEnd
+MEnd
+
+#########################################################
+
+Move Enc_SniperShoot
+	Requires	ENCOUNTER COMBAT WEAPON DUAL REV BOW STRONG LEFTHAND
+	Priority	8
+	Interrupts	<Ready>	<WepCombat>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_snipershoot 1 130
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 130
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 130
+	TEnd
+MEnd
+
+#########################################################
+
+Move Enc_ConeShoot
+	Requires	ENCOUNTER COMBAT WEAPON DUAL REV BOW CONE LEFTHAND
+	Priority	8
+	Interrupts	<Ready>	<WepCombat>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		Bow_Base
+	  Anim		FX_New_bow\bow_coneshoot 1 120
+	TEnd
+
+	Type		Bow_Compound
+	  Anim		FX_New_bow\CompoundBow_Skel 1 120
+	TEnd
+
+	Type		Bow_Talsorian
+	  Anim		FX_New_bow\CompoundBow_Skel 1 120
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

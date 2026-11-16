@@ -1,0 +1,50 @@
+RootMod _Merit_WrkStn_ScanRay
+End
+
+RootMod _Merit_WrkStn_ScanBed
+End
+
+RootMod _Merit_WrkStn_Main
+End
+
+RootMod _Merit_WrkStn_Screen
+End
+
+RootMod _Merit_WrkStn_Interlace
+End
+
+Def Merit_WorkStation_Active
+	Group _Merit_WrkStn_Screen
+	End
+	Group _Merit_WrkStn_Main
+	End
+	Group _Merit_WrkStn_ScanRay
+	End
+	Group _Merit_WrkStn_ScanBed
+	End
+	Group _Merit_WrkStn_Interlace
+	End
+End
+
+Def Merit_WorkStation_Inactive
+	Group _Merit_WrkStn_Interlace
+	End
+	Group _Merit_WrkStn_Main
+	End
+	Group _Merit_WrkStn_ScanRay
+	End
+	Group _Merit_WrkStn_ScanBed
+	End
+End
+
+Def Merit_WorkStation_Off_1&
+	Group _Merit_WrkStn_Main
+	End
+	TexSwap X_Merit_Workstation_Main X_Merit_Workstation_Main_OFF 1
+End
+
+Def Merit_WorkStation_Off
+	Group Merit_WorkStation_Off_1&
+	End
+End
+

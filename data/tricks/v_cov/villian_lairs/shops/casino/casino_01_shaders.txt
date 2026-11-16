@@ -1,0 +1,71 @@
+###Casino Camera Shader###
+Texture x_casino_camera_01
+	Base1 casino_camera_01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 casino_camera_01_mask.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask casino_camera_01_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 1 
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 20 20 20
+	SpecularColor2 20 20 20
+	SpecularExponent 50
+
+
+	DiffuseScale .7
+	AmbientScale 1.4
+	
+	AmbientMinVec .30 .28 .28 //Tinted Ambient Min Vec to match x_arac_bnk_found
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 0 
+	MaxAddGlow 0
+
+	Fallback
+		UseFallback 1
+		Base casino_camera_01.tga
+		Blend casino_camera_01_bump.tga
+		Bumpmap casino_camera_01_BUMP.tga
+		BlendType AlphaDetail  // Multiply, ColorBlendDual, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		AmbientScale .6
+		DiffuseScale .9
+	End
+End

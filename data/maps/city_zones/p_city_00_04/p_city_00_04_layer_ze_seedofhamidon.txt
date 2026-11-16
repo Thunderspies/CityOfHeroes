@@ -1,0 +1,118 @@
+Def grp_RT-SeedOfHamidon
+	Group Omni/Patrol_Beacons/Patrol_20
+		Pos -560 -512.989136 -208
+	End
+	Group Omni/Patrol_Beacons/Patrol_19
+		Pos -576 -516.292114 -352
+	End
+	Group Omni/Patrol_Beacons/Patrol_18
+		Pos -624 -527.392944 -512
+	End
+	Group Omni/Patrol_Beacons/Patrol_17
+		Pos -816 -500.009216 -768
+	End
+	Group Omni/Patrol_Beacons/Patrol_16
+		Pos -1040 -472.60144 -944
+	End
+	Group Omni/Patrol_Beacons/Patrol_15
+		Pos -1520 -480.000061 -1056
+	End
+	Group Omni/Patrol_Beacons/Patrol_14
+		Pos -1888 -368.000061 -1072
+	End
+	Group Omni/Patrol_Beacons/Patrol_13
+		Pos -2064 -339.011902 -848
+	End
+	Group Omni/Patrol_Beacons/Patrol_12
+		Pos -2352 -352.000061 -464
+	End
+	Group Omni/Patrol_Beacons/Patrol_11
+		Pos -3184 -432.000061 -592
+	End
+	Group Omni/Patrol_Beacons/Patrol_10
+		Pos -3408 -496.000061 -1143.5
+	End
+	Group Omni/Patrol_Beacons/Patrol_9
+		Pos -3824 -544.000061 -1200
+	End
+	Group Omni/Patrol_Beacons/Patrol_8
+		Pos -4032 -560.000061 -944
+	End
+	Group Omni/Patrol_Beacons/Patrol_7
+		Pos -3808 -496.000061 -400
+	End
+	Group Omni/Patrol_Beacons/Patrol_6
+		Pos -3440 -340.476135 160
+	End
+	Group Omni/Patrol_Beacons/Patrol_5
+		Pos -2832 -380.296448 432
+	End
+	Group Omni/Patrol_Beacons/Patrol_4
+		Pos -2384 -432 640
+	End
+	Group Omni/Patrol_Beacons/Patrol_3
+		Pos -1696 -560 496
+	End
+	Group Omni/Patrol_Beacons/Patrol_2
+		Pos -1108 -511.999969 158
+	End
+	Group Omni/Patrol_Beacons/Patrol_Circle
+		Pos -644 -512 -49.5
+	End
+	Property	"NamedPatrolRoute"	"RT-SeedOfHamidon"	0
+End
+
+Def grpvolume132084
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 4200.000000 1000.000000 2400.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"ZE-SeedOfHamidon"	0
+End
+
+Def grp_Script-SeedTeam
+	Group Omni/MissionBeacons/_cohscrpt_scriptmarker
+	End
+	Property	"ScriptMarker"	"SeedOfHamidon"	0
+End
+
+Def grp_SbSpwn-SeedTeam
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Property	"CanSpawn0"	"SpawnDefs/P_City_00_04/ZE_SeedOfHamidon_D1_V0.spawndef"	0
+	Property	"EncounterSpawn"	"SeedOfHamidon"	0
+End
+
+Def grp_SpwnDf-SeedTeam
+	Group grp_SbSpwn-SeedTeam
+	End
+	Property	"EncounterGroup"	"SeedOfHamidon"	0
+	Property	"IgnoreRadius"	"1"	0
+	Property	"ManualSpawn"	"0"	0
+	Property	"SpawnProbability"	"0"	0
+End
+
+Def grp_SeedOfHamidon
+	Group grp_Script-SeedTeam
+	End
+	Group grp_SpwnDf-SeedTeam
+	End
+End
+
+Def grp_ZE_SeedOfHamidon
+	Group grp_RT-SeedOfHamidon
+		Pos 5792 411.677795 -4416
+	End
+	Group grpvolume132084
+		Pos 3483.5 -435.482239 -4668
+	End
+	Group grp_SeedOfHamidon
+		Pos 5516 -68.322266 -4507
+	End
+	Property	"Layer"	"ZE_SeedOfHamidon"	0
+End
+
+Ref grp_ZE_SeedOfHamidon
+	Pos -2848 432.588501 4416
+End
+

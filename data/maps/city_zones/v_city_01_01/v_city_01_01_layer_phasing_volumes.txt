@@ -1,0 +1,91 @@
+Def grpvolume_DrWeberMission1
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 600.000000 350.000000 380.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"OperativeKuzmin_Mission1Phase"	0
+	Property	"VolumePower"	"Temporary_Powers.Phasing.KuzminMission1Phase"	0
+End
+
+Def grpvolume_ContactPhase
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 8000.000000 8000.000000 8000.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"MercyIslandContactPhase"	0
+	Property	"VolumePower"	"Temporary_Powers.Phasing.MercyContactPhase"	0
+End
+
+Def grp_OperativeKuzmin
+	Group grpvolume_DrWeberMission1
+		Pos -96 0 0
+	End
+	Group grpvolume_ContactPhase
+		PYR 0 44.999996 -0
+		Pos -699.5 -515.161987 -699.5
+	End
+End
+
+Def grpvolume_DrWeberMission111
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 130.000000 80.000000 200.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"FireWire_Mission2"	0
+	Property	"VolumePower"	"Temporary_Powers.SilentPowers.Arachnos_Disguise"	0
+End
+
+Def grp_DrWeber
+	Group Omni/NAV
+	End
+	Group grpvolume_DrWeberMission111
+		Pos -1089 -108.5 72
+	End
+End
+
+Def grpvolume118807
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 500.000000 500.000000 500.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"LtHarrisMission2Part1"	0
+End
+
+Def grpvolume_LtHarrisMissionPhase
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 1800.000000 1300.000000 1000.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"LtHarris_Arc_Phase"	0
+	Property	"VolumePower"	"Temporary_Powers.Phasing.LtHarrisArcPhase"	0
+End
+
+Def grp_LtHarris
+	Group grpvolume118807
+		Pos 0 -128 64
+	End
+	Group grpvolume_LtHarrisMissionPhase
+		PYR 0 78.750008 -0
+		Pos -1992 -287.099976 -1336
+	End
+End
+
+Def grp_Phasing_Volumes
+	Group Omni/NAV
+	End
+	Group grp_OperativeKuzmin
+		Pos 6 -0.5 -55.5
+	End
+	Group grp_DrWeber
+		Pos 1098 3.5 381
+	End
+	Group grp_LtHarris
+		Pos -287 -138.900024 -1539
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Phasing_Volumes
+	Pos -1585 235 -101
+End
+

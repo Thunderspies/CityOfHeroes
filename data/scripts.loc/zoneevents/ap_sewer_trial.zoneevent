@@ -1,0 +1,2414 @@
+Name LowLevelSewerTrial
+FirstStage Setup
+StopStage Stop
+RestartStage ResetStage
+DisplayName P2107816475
+// EventVolume EventVolume_AT_Tutorial
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Setting up all the entities that will be used in the zone event>>
+		}
+		Action SettingMaxLevelto2StartUp
+		{
+			SetMaxPlayerLevel 2
+		}
+		Action CreateDoors
+		{
+			DoorCreate Door-FirstLeveltoSecondLevel
+			DoorControl
+			{
+				Type Lock
+				Door Door-FirstLeveltoSecondLevel
+			}
+			DoorCreate Door-SecondLeveltoThirdLevel
+			DoorControl
+			{
+				Type Lock
+				Door Door-SecondLeveltoThirdLevel
+			}
+			DoorCreate Door-ThirdLeveltoFourthLevel
+			DoorControl
+			{
+				Type Lock
+				Door Door-ThirdLeveltoFourthLevel
+			}
+			DoorCreate Door-Hospital
+			DoorControl
+			{
+				Door Door-Hospital
+				Type Lock
+			}
+		}
+		Action CreatePorters
+		{
+			PorterCreate ST-Level2
+			PorterCreate ST-Level3
+			PorterCreate ST-Level4
+		}
+		Action CreateSpawns
+			SpawnCreate HellionSpawn1
+			{
+				Location HellionSpawn1
+				Group HellionSpawn1
+				Team HellionSpawn1
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionSpawn1
+			}
+			SpawnCreate Rune
+			{
+				Location Rune
+				Group Rune
+				Team Rune
+				SpawnBehavior <<DoNotMove(1),DoNotFaceTarget(1),Unselectable(1),Untargetable(1),Invincible(1),CombatOverride(Aggressive)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Rune
+			}
+			SpawnCreate VahzBomb
+			{
+				Location VahzBomb
+				Group VahzBomb
+				Team VahzBomb
+				SpawnBehavior <<DoNotMove(1),DoNotFaceTarget(1),Unselectable(1),Untargetable(1),Invincible(1),CombatOverride(Aggressive)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VahzBomb
+			}
+			SpawnCreate CaptionManagerHero
+			{
+				Location CaptionManagerHero
+				Group CaptionManagerHero
+				Team CaptionManagerHero
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CaptionManagerHero
+			}
+			SpawnCreate Teleporter
+			{
+				Location Teleporter
+				Group Teleporter
+				Team Teleporter
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Teleporter
+			}
+			SpawnCreate CaptionManagerVillain
+			{
+				Location CaptionManagerVillain
+				Group CaptionManagerVillain
+				Team CaptionManagerVillain
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CaptionManagerVillain
+			}
+			SpawnCreate HellionSpawn2
+			{
+				Location HellionSpawn2
+				Group HellionSpawn2
+				Team HellionSpawn2
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionSpawn2
+			}
+			SpawnCreate HellionSpawn3
+			{
+				Location HellionSpawn3
+				Group HellionSpawn3
+				Team HellionSpawn3
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionSpawn3
+			}
+			SpawnCreate HellionSpawn4
+			{
+				Location HellionSpawn4
+				Group HellionSpawn4
+				Team HellionSpawn4
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionSpawn4
+			}
+			SpawnCreate HellionBossSpawn
+			{
+				Location HellionBossSpawn
+				Group HellionBossSpawn
+				Team HellionBossSpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionBossSpawn
+			}
+			SpawnCreate HellionBossAllySpawn
+			{
+				Location HellionBossAllySpawn
+				Group HellionBossAllySpawn
+				Team HellionBossAllySpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HellionBossAllySpawn
+			}
+			SpawnCreate Stage1CompleteTrainer
+			{
+				Location Stage1CompleteTrainer
+				Group Stage1CompleteTrainer
+				Team Stage1CompleteTrainer
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Stage1CompleteTrainer
+			}
+			SpawnCreate VahzilokSpawn1
+			{
+				Location VahzilokSpawn1
+				Group VahzilokSpawn1
+				Team VahzilokSpawn1
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VahzilokSpawn1
+			}
+			SpawnCreate VahzilokSpawn2
+			{
+				Location VahzilokSpawn2
+				Group VahzilokSpawn2
+				Team VahzilokSpawn2
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VahzilokSpawn2
+			}
+			SpawnCreate VahzilokSpawn3
+			{
+				Location VahzilokSpawn3
+				Group VahzilokSpawn3
+				Team VahzilokSpawn3
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VahzilokSpawn3
+			}
+			SpawnCreate VahzilokSpawn4
+			{
+				Location VahzilokSpawn4
+				Group VahzilokSpawn4
+				Team VahzilokSpawn4
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VahzilokSpawn4
+			}
+			SpawnCreate VahzilokSpawn5
+			{
+				Location VahzilokSpawn5
+				Group VahzilokSpawn5
+				Team VahzilokSpawn5
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VahzilokSpawn5
+			}
+			SpawnCreate VahzilokBossSpawn
+			{
+				Location VahzilokBossSpawn
+				Group VahzilokBossSpawn
+				Team VahzilokBossSpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VahzilokBossSpawn
+			}
+			SpawnCreate Cadaver
+			{
+				Location Cadaver
+				Group Cadaver
+				Team Cadaver
+				SpawnBehavior <<DoNotGoToSleep,Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Cadaver
+				Creator VahzilokBossSpawn
+			}
+			SpawnCreate VahzilokAbominations
+			{
+				Location VahzilokAbominations
+				Group VahzilokAbominations
+				Team VahzilokAbominations
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team VahzilokAbominations
+			}
+			SpawnCreate Stage2CompleteTrainer
+			{
+				Location Stage2CompleteTrainer
+				Group Stage2CompleteTrainer
+				Team Stage2CompleteTrainer
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Stage2CompleteTrainer
+			}
+			SpawnCreate LostSpawn1
+			{
+				Location LostSpawn1
+				Group LostSpawn1
+				Team LostSpawn1
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LostSpawn1
+			}
+			SpawnCreate LostSpawn2
+			{
+				Location LostSpawn2
+				Group LostSpawn2
+				Team LostSpawn2
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LostSpawn2
+			}
+			SpawnCreate LostSpawn3
+			{
+				Location LostSpawn3
+				Group LostSpawn3
+				Team LostSpawn3
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LostSpawn3
+			}
+			SpawnCreate LostSpawn4
+			{
+				Location LostSpawn4
+				Group LostSpawn4
+				Team LostSpawn4
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LostSpawn4
+			}
+			SpawnCreate LostSpawn5
+			{
+				Location LostSpawn5
+				Group LostSpawn5
+				Team LostSpawn5
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LostSpawn5
+			}
+			SpawnCreate LostSpawn6
+			{
+				Location LostSpawn6
+				Group LostSpawn6
+				Team LostSpawn6
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LostSpawn6
+			}
+			SpawnCreate LostEndRoomSpawn
+			{
+				Location LostEndRoomSpawn
+				Group LostEndRoomSpawn
+				Team LostEndRoomSpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LostEndRoomSpawn
+				Creator LostBossSpawn
+			}
+			SpawnCreate LostBossSpawn
+			{
+				Location LostBossSpawn
+				Group LostBossSpawn
+				Team LostBossSpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LostBossSpawn
+			}
+			SpawnCreate LostBossAllySpawn
+			{
+				Location LostBossSpawn
+				Group LostBossSpawn
+				Team LostBossSpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LostBossAllySpawn
+			}
+			SpawnCreate LostUXBSpawn
+			{
+				Location UXB
+				Group UXB
+				Team UXB
+				SpawnBehavior <<DoNotMove(1),DoNotFaceTarget(1),Unselectable(1),Untargetable(1),Invincible(1),CombatOverride(Aggressive)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team UXB
+			}
+			SpawnCreate Stage3CompleteTrainer
+			{
+				Location Stage3CompleteTrainer
+				Group Stage3CompleteTrainer
+				Team Stage3CompleteTrainer
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Stage3CompleteTrainer
+			}
+			SpawnCreate HydraSpawn
+			{
+				Location HydraSpawn
+				Group HydraSpawn
+				Team HydraSpawn
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HydraSpawn
+			}
+			SpawnCreate HydraBossSpawn
+			{
+				Location HydraBossSpawn
+				Group HydraBossSpawn
+				Team HydraBossSpawn
+				SpawnBehavior <<DoNotMove(1),DoNotFaceTarget(1),CombatOverride(Aggressive)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HydraBossSpawn
+			}
+			SpawnCreate HydraFountain
+			{
+				Location HydraFountain
+				Group HydraFountain
+				Team HydraFountain
+				SpawnBehavior <<Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team HydraFountain
+				Creator HydraBossSpawn
+				MinRespawnTime 60
+				MaxRespawnTime 80
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   6
+				Count   2,   2,   6
+				Count   3,   2,   6
+				Count   8,   2,   6
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage Stage1Hellions
+	}
+}
+
+Stage CompleteStage
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Event is complete!>>
+		}
+		Action HydraBossTurnOff
+		{
+			TeamControl TurnOffHydraBossSpawn
+			{
+				Type Deactivate
+				Team HydraBossSpawn
+			}
+		}
+		Action ShutDownInstancedEvent
+	        {
+			TrialComplete Success
+		}
+		Action TurnOffMusic
+		{
+			FadeSound BattleMusic
+			{
+				Channel Music
+				FadeTime 10
+			}
+		}
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action SettingMaxLevelto50
+		{
+			SetMaxPlayerLevel 50
+		}
+	}
+}
+
+Stage Stage1Hellions
+{
+	DisplayName P16755696
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Starting Hellion First Stage>>
+		}
+		Action SettingMaxLevelto2
+		{
+			SetMaxPlayerLevel 2
+		}
+		Action TurnOffTeleporters
+		{
+			PorterControl
+			{
+				Porter ST-Level2
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter ST-Level3
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter ST-Level4
+				Type Deactivate
+			}
+			SetScriptValue CaptionStarted 0
+		}
+		Action TurnonHellions
+		{
+			TeamControl StartHellions1
+			{
+				Type Activate
+				Team HellionSpawn1
+			}
+			TeamControl StartRunes
+			{
+				Type Activate
+				Team Rune
+			}
+			TeamControl StartHellions2
+			{
+				Type Activate
+				Team HellionSpawn2
+			}
+			TeamControl StartHellions3
+			{
+				Type Activate
+				Team HellionSpawn3
+			}
+			TeamControl StartHellions4
+			{
+				Type Activate
+				Team HellionSpawn4
+			}
+			TeamControl StartCaptionsVillain
+			{
+				Type Activate
+				Team CaptionManagerVillain
+			}
+			TeamControl StartCaptionsHero
+			{
+				Type Activate
+				Team CaptionManagerHero
+			}
+		}
+	}
+	Counter PlayersInFirstRoom
+	{
+		Type ZEPlayers
+		VolumeName SewerTrialFirstRoom
+	}
+	Trigger StartCaption
+	{
+		Requires PlayersInFirstRoom count> 1 >= SoundStarted scriptvalue> 0 == &&
+		Action
+		{
+			DebugPrint <<Starting Captions>>
+			TeamControl
+			{
+				Team CaptionManagerVillain
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth99")>>
+			}
+			TeamControl
+			{
+				Team CaptionManagerHero
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth99")>>
+			}
+			SetScriptValue CaptionStarted 1
+		}
+	}
+// Start Hospital Door Block
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+
+	Counter HellionTeam1Kills
+	{
+		Type Team
+		Count 11
+		Team HellionSpawn1
+	}
+	Counter HellionTeam2Kills
+	{
+		Type Team
+		Count 11
+		Team HellionSpawn2
+	}
+	Counter HellionTeam3Kills
+	{
+		Type Team
+		Count 11
+		Team HellionSpawn3
+	}
+	Counter HellionTeam4Kills
+	{
+		Type Team
+		Count 11
+		Team HellionSpawn4
+	}
+	UICollection FirstStageUI
+	{
+		UIItem HellionKill1Count
+		{
+			Type BarBlue
+			Text P3302687991
+			ShortText P3302687991
+			Current HellionTeam1Kills count>
+			HideIf HellionTeam1Kills complete>
+			Target 11
+		}
+		UIItem HellionKill2Count
+		{
+			Type BarBlue
+			Text P1951467123
+			ShortText P1951467123
+			Current HellionTeam2Kills count>
+			HideIf HellionTeam2Kills complete>
+			Target 11
+		}
+		UIItem HellionKill3Count
+		{
+			Type BarBlue
+			Text P3826383723
+			ShortText P3826383723
+			Current HellionTeam3Kills count>
+			HideIf HellionTeam3Kills complete>
+			Target 11
+		}
+		UIItem HellionKill4Count
+		{
+			Type BarBlue
+			Text P2073625483
+			ShortText P2073625483
+			Current HellionTeam4Kills count>
+			HideIf HellionTeam4Kills complete>
+			Target 11
+		}
+	}
+	Trigger FirstStageDone
+	{
+		Requires HellionTeam1Kills complete> HellionTeam2Kills complete> && HellionTeam3Kills complete> && HellionTeam4Kills complete> &&
+		Action HellionsDefeatedNextStage
+		{
+			DebugPrint <<Hellions defeated, triggering boss>>
+			Floater Victory
+			{
+				Message P2758138359
+				Color 00ff00
+			}
+		}
+		NextStage Stage2HellionBoss
+	}
+}
+
+Stage Stage2HellionBoss
+{
+	DisplayName P16755696
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Starting Hellion Boss Stage>>
+		}
+		Action Stage2SetUp
+		{
+			TeamControl Remove1Hellions
+			{
+				Type Deactivate
+				Team HellionSpawn1
+			}
+			TeamControl Remove2Hellions
+			{
+				Type Deactivate
+				Team HellionSpawn2
+			}
+			TeamControl Remove3Hellions
+			{
+				Type Deactivate
+				Team HellionSpawn3
+			}
+			TeamControl Remove4Hellions
+			{
+				Type Deactivate
+				Team HellionSpawn4
+			}
+			TeamControl AddHellionBoss
+			{
+				Type Activate
+				Team HellionBossSpawn
+			}
+		}
+	}
+	Counter HellionBossDefeated
+	{
+		Type Team
+		Count 1
+		Team HellionBossSpawn
+	}
+	UICollection SecondStageUI
+	{
+		UIItem HellionBossDefeated
+		{
+			Type BarBlue
+			Text P2121508829
+			ShortText P3454045601
+			Current HellionBossDefeated count>
+			Target 1
+		}
+	}
+	Trigger SecondStageDone
+	{
+		Requires HellionBossDefeated complete>
+		Action HellionBossDefeated
+		{
+			DebugPrint <<HellionBoss defeated, triggering next stage>>
+			Floater Victory
+			{
+				Message P3015916867
+				Color 00ff00
+			}
+		}
+		NextStage Stage3Vahzilok
+	}
+	Trigger StartCaption2
+	{
+		Requires HellionBossDefeated complete>
+		Action
+		{
+			DebugPrint <<Hellions defeated, triggering captions>>
+			TeamControl
+			{
+				Team CaptionManagerVillain
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth89")>>
+			}
+			TeamControl
+			{
+				Team CaptionManagerHero
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth89")>>
+			}
+		}
+	}
+// Start Hospital Door Block
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+}
+
+
+Stage Stage3Vahzilok
+{
+	DisplayName P1045891675
+	StartUp
+	{
+		Action DebugStartStage3
+		{
+			DebugPrint <<Starting Vahzilok Spawn Stage>>
+		}
+		Action SettingMaxLevelto3
+		{
+			SetMaxPlayerLevel 3
+		}
+		Action UnlockDoor1
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-FirstLeveltoSecondLevel
+			}
+		}
+		Action Stage2SetUp
+		{
+			TeamControl RemoveHellions
+			{
+				Type Deactivate
+				Team HellionBossSpawn
+			}
+			TeamControl AddVahzilok1
+			{
+				Type Activate
+				Team VahzilokSpawn1
+			}
+			TeamControl AddVahzilok2
+			{
+				Type Activate
+				Team VahzilokSpawn2
+			}
+			TeamControl AddVahzilok3
+			{
+				Type Activate
+				Team VahzilokSpawn3
+			}
+			TeamControl AddVahzilok4
+			{
+				Type Activate
+				Team VahzilokSpawn4
+			}
+			TeamControl AddVahzilok5
+			{
+				Type Activate
+				Team VahzilokSpawn5
+			}
+			TeamControl ActivateTeleporter
+			{
+				Type Activate
+				Team Teleporter
+			}
+			TeamControl AddVahzBombs
+			{
+				Type Activate
+				Team VahzBomb
+			}
+		}
+		Action TurnOnTeleporter2
+		{
+			PorterControl
+			{
+				Porter ST-Level2
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter ST-Level3
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter ST-Level4
+				Type Deactivate
+			}
+		}
+	}
+	Counter VahzilokDefeated1
+	{
+		Type Team
+		Count 11
+		Team VahzilokSpawn1
+	}
+	Counter VahzilokDefeated2
+	{
+		Type Team
+		Count 11
+		Team VahzilokSpawn2
+	}
+	Counter VahzilokDefeated3
+	{
+		Type Team
+		Count 11
+		Team VahzilokSpawn3
+	}
+	Counter VahzilokDefeated4
+	{
+		Type Team
+		Count 11
+		Team VahzilokSpawn4
+	}
+	Counter VahzilokDefeated5
+	{
+		Type Team
+		Count 11
+		Team VahzilokSpawn5
+	}
+	UICollection ThirdStageUI
+	{
+		UIItem VahzilokGangDefeated1
+		{
+			Type BarBlue
+			Text P377595738
+			ShortText P377595738
+			Current VahzilokDefeated1 count>
+			HideIf VahzilokDefeated1 complete>
+			Target 11
+		}
+		UIItem VahzilokGangDefeated2
+		{
+			Type BarBlue
+			Text P1766739634
+			ShortText P1766739634
+			Current VahzilokDefeated2 count>
+			HideIf VahzilokDefeated2 complete>
+			Target 11
+		}
+		UIItem VahzilokGangDefeated3
+		{
+			Type BarBlue
+			Text P2979856936
+			ShortText P2979856936
+			Current VahzilokDefeated3 count>
+			HideIf VahzilokDefeated3 complete>
+			Target 11
+		}
+		UIItem VahzilokGangDefeated4
+		{
+			Type BarBlue
+			Text P3736894901
+			ShortText P3736894901
+			Current VahzilokDefeated4 count>
+			HideIf VahzilokDefeated4 complete>
+			Target 11
+		}
+		UIItem VahzilokGangDefeated5
+		{
+			Type BarBlue
+			Text P2552054606
+			ShortText P2552054606
+			Current VahzilokDefeated5 count>
+			HideIf VahzilokDefeated5 complete>
+			Target 11
+		}
+		UIItem TeleporterExplain1
+		{
+			Type Text
+			Text P3162573033
+		}
+		UIItem TeleporterExplain2
+		{
+			Type Text
+			Text P1528484377
+		}
+		UIItem TeleporterExplain3
+		{
+			Type Text
+			Text P438204408
+		}
+	}
+	Trigger ThirdStageDone
+	{
+		Requires VahzilokDefeated1 complete> VahzilokDefeated2 complete> && VahzilokDefeated3 complete> && VahzilokDefeated4 complete> && VahzilokDefeated5 complete> &&
+		Action VahzilokDefeated
+		{
+			DebugPrint <<Vahzilok spawns defeated, triggering next stage>>
+			Floater Victory
+			{
+				Message P2315940581
+				Color 00ff00
+			}
+		}
+		NextStage Stage4VahzilokBoss
+	}
+// Start Hospital Door Block
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+}
+
+Stage Stage4VahzilokBoss
+{
+	DisplayName P1045891675
+	StartUp
+	{
+		Action DebugStartStage4
+		{
+			DebugPrint <<Starting Vahzilok Boss Stage>>
+		}
+		Action Stage4SetUp
+		{
+			TeamControl RemoveVahz1
+			{
+				Type Deactivate
+				Team VahzilokSpawn1
+			}
+			TeamControl RemoveVahz2
+			{
+				Type Deactivate
+				Team VahzilokSpawn2
+			}
+			TeamControl RemoveVahz3
+			{
+				Type Deactivate
+				Team VahzilokSpawn3
+			}
+			TeamControl RemoveVahz4
+			{
+				Type Deactivate
+				Team VahzilokSpawn4
+			}
+			TeamControl RemoveVahz5
+			{
+				Type Deactivate
+				Team VahzilokSpawn5
+			}
+			TeamControl AddVahzilok
+			{
+				Type Activate
+				Team VahzilokBossSpawn
+			}
+		}
+		Action Stage4SetUpZombies
+		{
+			Delay 2
+			TeamControl StartCadavers
+			{
+				Type Activate
+				Team Cadaver
+			}
+		}
+	}
+	Counter VahzilokBossDefeated
+	{
+		Type Team
+		Count 1
+		Team VahzilokBossSpawn
+	}
+	Counter VahzilokCadaversKilled
+	{
+		Type Team
+		Count 1
+		Team Cadaver
+	}
+	UICollection FourthStageUI
+	{
+		UIItem VahzilokBossDefeated
+		{
+			Type BarBlue
+			Text P3516034506
+			ShortText P3516034506
+			Current VahzilokBossDefeated count>
+			Target 1
+		}
+	}
+	Trigger FourthStageDone
+	{
+		Requires VahzilokBossDefeated complete>
+		Action LostStage
+		{
+			DebugPrint <<Vahzilok spawns defeated, triggering next stage>>
+			Floater Victory
+			{
+				Message P1339518911
+				Color 00ff00
+			}
+		}
+		NextStage Stage5Lost
+	}
+	Trigger GiveBadgeNoCadaversKilled
+	{
+		Requires VahzilokCadaversKilled complete> ! VahzilokBossDefeated complete> &&
+		Action RewardBadgeCadaversSpared
+		{
+			DebugPrint <<You got the badge for killing all the worshippers.>>
+			Reward SL1_SewerTrial_VahzCadaversSpared
+		}
+	}
+	Trigger StartCaption3
+	{
+		Requires VahzilokBossDefeated complete>
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerVillain
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth79")>>
+			}
+			TeamControl
+			{
+				Team CaptionManagerHero
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth79")>>
+			}
+		}
+	}
+// Start Hospital Door Block
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+}
+
+Stage Stage5Lost
+{
+	DisplayName P4158397168
+	StartUp
+	{
+		Action DebugStartStage4
+		{
+			DebugPrint <<Starting Lost Spawns Stage>>
+		}
+		Action SettingMaxLevelto4
+		{
+			SetMaxPlayerLevel 4
+		}
+		Action UnlockNextDoor
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-SecondLeveltoThirdLevel
+			}
+		}
+		Action Stage2SetUp
+		{
+			TeamControl RemoveVahzilokBoss
+			{
+				Type Deactivate
+				Team VahzilokBossSpawn
+			}
+			TeamControl AddUXB
+			{
+				Type Activate
+				Team UXB
+			}
+			TeamControl AddLost1
+			{
+				Type Activate
+				Team LostSpawn1
+			}
+			TeamControl AddLost2
+			{
+				Type Activate
+				Team LostSpawn2
+			}
+			TeamControl AddLost3
+			{
+				Type Activate
+				Team LostSpawn3
+			}
+			TeamControl AddLost4
+			{
+				Type Activate
+				Team LostSpawn4
+			}
+			TeamControl AddLost5
+			{
+				Type Activate
+				Team LostSpawn5
+			}
+			TeamControl AddLost6
+			{
+				Type Activate
+				Team LostSpawn6
+			}
+		}
+		Action TurnOnTeleporter3
+		{
+			PorterControl
+			{
+				Porter ST-Level2
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter ST-Level3
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter ST-Level4
+				Type Deactivate
+			}
+		}
+	}
+	Counter LostSpawnsDefeated
+	{
+		Type VillainGroup
+		Count 66
+		VillainGroup TheLost
+	}
+	UICollection FifthStageUI
+	{
+		UIItem VahzilokBossDefeated
+		{
+			Type BarBlue
+			Text P1895229491
+			ShortText P1895229491
+			Current LostSpawnsDefeated count>
+			Target 66
+		}
+	}
+	Trigger FifthStageDone
+	{
+		Requires LostSpawnsDefeated complete>
+		Action LostStage
+		{
+			DebugPrint <<Vahzilok spawns defeated, triggering next stage>>
+			Floater Victory
+			{
+				Message P1061477928
+				Color 00ff00
+			}
+		}
+		NextStage Stage6LostBoss
+	}
+// Start Hospital Door Block
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+}
+
+Stage Stage6LostBoss
+{
+	DisplayName P4158397168
+	StartUp
+	{
+		Action DebugStartStage6
+		{
+			DebugPrint <<Starting Lost Boss Stage>>
+		}
+		Action Stage6SetUp
+		{
+			TeamControl RemoveLostSpawns1
+			{
+				Type Deactivate
+				Team LostSpawn1
+			}
+			TeamControl RemoveLostSpawns2
+			{
+				Type Deactivate
+				Team LostSpawn2
+			}
+			TeamControl RemoveLostSpawns3
+			{
+				Type Deactivate
+				Team LostSpawn3
+			}
+			TeamControl RemoveLostSpawns4
+			{
+				Type Deactivate
+				Team LostSpawn4
+			}
+			TeamControl RemoveLostSpawns5
+			{
+				Type Deactivate
+				Team LostSpawn5
+			}
+			TeamControl RemoveLostSpawns6
+			{
+				Type Deactivate
+				Team LostSpawn6
+			}
+			TeamControl AddLost
+			{
+				Type Activate
+				Team LostBossSpawn
+			}
+			TeamControl AddLost
+			{
+				Type Activate
+				Team LostBossSpawn
+			}
+			TeamControl DoBehaviorOnLostBoss
+			{
+				Type DoBehavior
+				Team LostBossSpawn
+				Behavior <<Invincible(1)>>
+			}
+		}
+		Action
+		{
+			Delay 2
+			TeamControl AddLostEndRoomSpawn
+			{
+				Type Activate
+				Team LostEndRoomSpawn
+			}
+		}
+	}
+	Counter LostBossDefeated
+	{
+		Type Team
+		Count 1
+		Team LostBossSpawn
+	}
+	Counter LostFollowersDefeated
+	{
+		Type Team
+		Count 1
+		Team LostBossSpawn
+	}
+	Counter LostFollowersAllDefeated
+	{
+		Type VillainGroup
+		Count 11
+		VillainGroup TheLost
+	}
+	UICollection SixthStageUI
+	{
+		UIItem LostSpawnDefeated
+		{
+			Type BarBlue
+			Text P1581845553
+			ShortText P1581845553
+			Current LostBossDefeated count>
+			Target 1
+		}
+	}
+	Trigger SixthStageDone
+	{
+		Requires LostBossDefeated complete>
+		Action LostStage
+		{
+			DebugPrint <<Lost boss defeated, going to the final stage>>
+			Floater Victory
+			{
+				Message P3864145723
+				Color 00ff00
+			}
+		}
+		NextStage Stage7Hydra
+	}
+	Trigger GiveBadgeLostFollowersDefeatedBeforeBoss
+	{
+		Requires LostFollowersAllDefeated complete> LostBossDefeated complete> ! &&
+		Action RewardBadgeLostWorshippersKilled
+		{
+			DebugPrint <<You got the badge for killing all the worshippers.>>
+			Reward SL1_SewerTrial_LostWorshippersKilled
+		}
+	}
+	Trigger StartCaption4
+	{
+		Requires LostBossDefeated complete>
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerVillain
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth69")>>
+			}
+			TeamControl
+			{
+				Team CaptionManagerHero
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth69")>>
+			}
+		}
+	}
+// Start Hospital Door Block
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+}
+
+Stage Stage7Hydra
+{
+	DisplayName P394180362
+	StartUp
+	{
+		Action DebugStartStage7
+		{
+			DebugPrint <<Starting Lost Boss Stage>>
+		}
+		Action SettingMaxLevelto5
+		{
+			SetMaxPlayerLevel 5
+		}
+		Action UnlockFinalDoor
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-ThirdLeveltoFourthLevel
+			}
+		}
+		Action Stage6SetUp
+		{
+			TeamControl RemoveLostBossSpawns
+			{
+				Type Deactivate
+				Team LostBossSpawn
+			}
+			TeamControl AddHydraBoss
+			{
+				Type Activate
+				Team HydraBossSpawn
+			}
+			SetScriptValue SoundStarted 0
+		}
+		Action HydraFountainSpawnSetUp
+		{
+			Delay 2
+			TeamControl StartUpHydraFountain
+			{
+				Type Activate
+				Team HydraFountain
+			}
+		}
+		Action TurnOnTeleporter4
+		{
+			PorterControl
+			{
+				Porter ST-Level2
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter ST-Level3
+				Type Deactivate
+			}
+			PorterControl
+			{
+				Porter ST-Level4
+				Type Activate
+			}
+		}
+	}
+	Counter HydraBossDefeated
+	{
+		Type Team
+		Count 2
+		Team HydraBossSpawn
+	}
+	Counter PlayersInFinalRoom
+	{
+		Type ZEPlayers
+		VolumeName SewerTrialFinalRoom
+	}
+	Trigger StartSound
+	{
+		Requires PlayersInFinalRoom count> 1 >= SoundStarted scriptvalue> 0 == &&
+		Action TurnOnSound
+		{
+			PlaySound GiantMonsterRoar
+			{
+				Sound i20_01High_b_Loop
+				Channel Music
+				VolumeLevel 1
+			        VolumeName SewerTrialFinalRoom
+		        }
+			SetScriptValue SoundStarted 1
+		}
+	}
+	UICollection SeventhStageUI
+	{
+		UIItem HydraBossDefeated
+		{
+			Type BarBlue
+			Text P1477283105
+			ShortText P1477283105
+			Current HydraBossDefeated count>
+			Target 2
+		}
+	}
+	Trigger ZoneEventCompleted
+	{
+		Requires HydraBossDefeated complete>
+		Action HydraEventcompleted
+		{
+			DebugPrint <<Zone Event is Complete>>
+			Floater Victory
+			{
+				Message P3524077292
+				Color 00ff00
+			}
+			TeamControl DeactiveHydraFountain
+			{
+				Type Deactivate
+				Team HydraFountain
+			}
+		}
+	}
+	Trigger TeleportAway
+	{
+		Requires HydraBossDefeated complete>
+		Action
+		{
+			Reward SL1SewerTrialRewardtable
+		}
+		Action
+		{
+			Reward SL1_SewerTrial_Complete
+		}
+		Action
+		{
+			Reward SL1_SewerTrial_Complete_Timer
+		}
+		NextStage CompleteStage
+	}
+	Trigger StartCaption5
+	{
+		Requires HydraBossDefeated complete>
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerVillain
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth59")>>
+			}
+			TeamControl
+			{
+				Team CaptionManagerHero
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth59")>>
+			}
+		}
+	}
+// Start Hospital Door Block
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action TurnOffLongbow1
+		{
+			TeamControl DeTriggerLongbow1
+			{
+				Type Deactivate
+				Team LongbowCharger1
+			}
+		}
+		Action TurnOffLongbow2
+		{
+			TeamControl DeTriggerLongbow2
+			{
+				Type DeActivate
+				Team LongbowCharger2
+			}
+		}
+		Action TurnOffLongbow3
+		{
+			TeamControl DeTriggerLongbow3
+			{
+				Type DeActivate
+				Team LongbowCharger3
+			}
+		}
+	}
+// Start Hospital Door Block
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+}

@@ -1,0 +1,33 @@
+#########################################################
+## CustomWeapon_Shields.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Shields_GloveOffsetNode
+	BaseSkeleton	CustomShield_GloveOffsetNode\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+	Priority	0
+
+	Type		Shields_GloveOffsetNode
+	  Anim		CustomShield_GloveOffsetNode\skel_ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

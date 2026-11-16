@@ -1,0 +1,41 @@
+#############################################################
+## FX_BulletRain.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_BulletRain
+	BaseSkeleton	FX_BulletRain\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	NextMove	Ready_Post
+	Scale		2.0
+
+	Type		FX_BulletRain
+	  Anim          FX_BulletRain\skel_ready 1 40
+	TEnd
+MEnd
+
+Move Ready_Post
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		FX_BulletRain
+	  Anim          FX_BulletRain\skel_ready 40
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

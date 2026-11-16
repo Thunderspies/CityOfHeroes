@@ -1,0 +1,1178 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P2401495450
+//EventVolume EventVolume // ZoneEventName = 50plusHospital
+//NamedVolume RejuvenationPorter Rejuvenation
+//NamedVolume SeerNetworkPorter SeerNetwork
+//NamedVolume MotherMayhemPorter MotherMayhem
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint P1007512383
+		}
+		Action CreateStuff
+		{
+			DoorCreate RejuvenationPodsDoor // Requires ZoneEventName.Door.MarkerName ZoneEvent>
+			PorterCreate RejuvenationPodsPorter // This needs a named volume with the name given here as well as a scriptmarker with the same name.
+			DoorCreate SeerNetworkDoor // Requires ZoneEventName.Door.MarkerName ZoneEvent>
+			PorterCreate SeerNetworkPorter // This needs a named volume with the name given here as well as a scriptmarker with the same name.
+			DoorCreate MotherMayhemDoor // Requires ZoneEventName.Door.MarkerName ZoneEvent>
+			PorterCreate MotherMayhemPorter // This needs a named volume with the name given here as well as a scriptmarker with the same name.
+			PorterCreate InteriorPorter // This needs a named volume with the name given here as well as a scriptmarker with the same name.
+			DoorControl InitLock
+			{
+				Type Lock
+				Door RejuvenationPodsDoor
+			}
+			PorterControl InitPort
+			{
+				Type Activate
+				Porter RejuvenationPorter
+			}
+			DoorControl InitLock
+			{
+				Type Lock
+				Door SeerNetworkDoor
+			}
+			PorterControl InitPort
+			{
+				Type Activate
+				Porter SeerNetworkPorter
+			}
+			DoorControl InitLock
+			{
+				Type Lock
+				Door MotherMayhemDoor
+			}
+			PorterControl InitPort
+			{
+				Type Activate
+				Porter MotherMayhemPorter
+			}
+			SpawnCreate MotherMayhem
+			{
+				Location MotherMayhemWave
+				Group MotherMayhemWave
+				Team MotherMayhemteam
+				SpawnBehavior PL_Combat
+				//MoveToMarker Villagesquare_01
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team MotherMayhemteam
+			}
+			SpawnCreate Malaise
+			{
+				Location MalaiseWave
+				Group MalaiseWave
+				Team Malaiseteam
+				SpawnBehavior PL_Combat
+				//MoveToMarker Villagesquare_01
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Malaiseteam
+			}
+			SpawnCreate SeerSpawn
+			{
+				Location SeerWave
+				Group SeerWave
+				Team Seerteam
+				SpawnBehavior Combat
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Seerteam
+				Heartbeat 2
+				//RespawnMinCount 40
+				RespawnRate 4
+			}
+			SpawnCreate SeerSpawn2
+			{
+				Location SeerWave2
+				Group SeerWave2
+				Team Seerteam2
+				SpawnBehavior Combat
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Seerteam2
+				Heartbeat 2
+				//RespawnMinCount 40
+				RespawnRate 4
+			}
+			SpawnCreate GuardSpawn
+			{
+				Location GuardWave
+				Group GuardWave
+				Team Guardteam
+				SpawnBehavior PL_Combat
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Guardteam
+				Heartbeat 10
+				//RespawnMinCount 50
+				RespawnRate 4
+			}
+			SpawnCreate PodGuardSpawn
+			{
+				Location PodGuardWave
+				Group PodGuardWave
+				Team PodGuardteam
+				SpawnBehavior PL_Combat
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team PodGuardteam
+				Heartbeat 10
+				//RespawnMinCount 50
+				RespawnRate 4
+			}
+			SpawnCreate PodSpawn
+			{
+				Location PodWave
+				Group PodWave
+				Team Podteam
+				//SpawnBehavior DoNothing
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Podteam
+				Heartbeat 1
+				//RespawnMinCount 10
+				RespawnRate 1
+			}
+			GlowieCreate GlowieGas
+			{
+				DisplayName P3886168906
+				Location GasCan
+				Quantity 14
+				ResetDelay 30
+				Model OO_Wrhs_Gascanister_01
+				Interact P736801142
+				Interrupt P2589200594
+				Complete P3423616233
+				BarText P4162231445
+				InteractTime 4
+				VanishOnComplete
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage DefeatSeers
+	}
+}
+Stage DefeatSeers
+{
+	DisplayName P1235620222
+	StartUp
+	{
+		Action StartKillSeer
+		{
+			DebugPrint P3021948036
+		}
+		Action TurnOnSeer
+		{
+			TeamControl StartSeer
+			{
+				Type Activate
+				Team Seerteam
+			}
+			TeamControl StartSeer
+			{
+				Type Activate
+				Team Seerteam2
+			}
+		}
+	}
+	Counter SeerKills
+	{
+		Type VillainGroup
+		Count 50
+		VillainGroup PraetorianIDFEndgame
+		//VolumeName EventVolume
+		DisplayProgress P117671590
+	}
+	Objective Kills
+	{
+		Type VillainGroup
+		VillainGroup PraetorianIDFEndgame
+		Value 4
+	}
+	MaxPoints 100
+	Trigger Done
+	{
+		Requires SeerKills complete>
+		Action GotoRejuvenation
+		{
+			DebugPrint P2751747879
+		}
+		NextStage Rejuvenation
+	}
+	UICollection seers
+	{
+		UIItem seersbar
+		{
+			Type BarBlue
+			Text P117671590
+			ShortText P795899662
+			Current SeerKills count>
+			Target 50
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint P1969371068
+		}
+	}
+}
+Stage Rejuvenation
+{
+	DisplayName P2525525819
+	StartUp
+	{
+		Action StartDestroyCache
+		{
+			DebugPrint P597831041
+		}
+		Action TurnOnPods
+		{
+			TeamControl StartPods
+			{
+				Type Activate
+				Team Podteam
+			}
+			TeamControl StartPods
+			{
+				Type Activate
+				Team PodGuardteam
+			}
+		}
+		Action OpenUpRejuvenationPods
+		{
+			DoorControl Unlock
+			{
+				Type Unlock
+				Door RejuvenationPodsDoor
+			}
+			PorterControl StopPort
+			{
+				Type Deactivate
+				Porter RejuvenationPorter
+			}
+		}
+		Action LockUpSeerNetwork
+		{
+			DoorControl Lock
+			{
+				Type Lock
+				Door SeerNetworkDoor
+			}
+			PorterControl StopPort
+			{
+				Type Deactivate
+				Porter SeerNetworkPorter
+			}
+		}
+	}
+	Counter PodsDestroyed
+	{
+		Type Team
+		Count 16
+		Team Podteam
+		VolumeName RejuvenationPorter
+		DisplayProgress P3796580740
+	}
+	Objective Kills
+	{
+		Type VillainGroup
+		VillainGroup PraetorianIDFEndgame
+		Value 4
+	}
+	Objective Destructibles
+	{
+		Type Team
+		Team Podteam
+		Value 30
+	}
+	MaxPoints 250
+	Timer PodsTimer
+	{
+		Duration 30:00
+		Display
+	}
+	UICollection pods
+	{
+		UIItem podsbar
+		{
+			Type BarBlue
+			Text P3773689308
+			ShortText P1702304639
+			Current PodsDestroyed count>
+			Target 16
+		}
+	}
+	Trigger PodsDestroyedSuccess
+	{
+		Requires PodsDestroyed complete>
+		Action PodsDestroyedDone
+		{
+			DebugPrint P3891582259
+		}
+		NextStage DisruptSeerNetwork
+	}
+	Trigger RejuvenationFail
+	{
+		Requires PodsTimer complete>
+		Action GotoReset
+		{
+			DebugPrint P3047514335
+		}
+		NextStage Reset
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			TeamControl StopPods
+			{
+				Type Deactivate
+				Team Podteam
+			}
+			TeamControl StopPods
+			{
+				Type Deactivate
+				Team PodGuardteam
+			}
+			DoorControl Relock
+			{
+				Type Lock
+				Door RejuvenationPodsDoor
+			}
+			PorterControl RestartPortRejuvenationPorter
+			{
+				Type Activate
+				Porter RejuvenationPorter
+			}
+			DebugPrint P190965868
+		}
+	}
+}
+Stage DisruptSeerNetwork
+{
+	DisplayName P1802644778
+	StartUp
+	{
+		Action StartDisruptSeerNetwork
+		{
+			DebugPrint P4141268806
+		}
+		Action Setupglowies
+		{
+			GlowieControl Place
+			{
+				Type Place
+				Glowie GlowieGas
+			}
+	  		GlowieControl Activate
+	  		{
+	  			Type Activate
+	  			Glowie GlowieGas
+	  		}
+		}
+		Action TurnOffPods
+		{
+			TeamControl StopPods
+			{
+				Type Deactivate
+				Team Podteam
+			}
+		}
+		Action OpenUpSeerNetwork
+		{
+			DoorControl Unlock
+			{
+				Type Unlock
+				Door SeerNetworkDoor
+			}
+			PorterControl StopPort
+			{
+				Type Deactivate
+				Porter SeerNetworkPorter
+			}
+		}
+	}
+	Counter GasDistributed
+	{
+		Type Click
+		Count 14
+		Glowie GlowieGas
+		DisplayProgress P849472716
+	}
+	Objective Kills
+	{
+		Type VillainGroup
+		VillainGroup PraetorianIDFEndgame
+		Value 4
+	}
+	Objective Click
+	{
+		Type Glowie
+		Glowie GlowieGas
+		Value 30
+	}
+	MaxPoints 250
+	Timer GasTimer
+	{
+		Duration 30:00
+		Display
+	}
+	UICollection gas
+	{
+		UIItem gassbar
+		{
+			Type BarBlue
+			Text P2029601489
+			ShortText P795899662
+			Current GasDistributed count>
+			Target 14
+		}
+	}
+	Trigger GasDistributedSuccess
+	{
+		Requires GasDistributed complete>
+		Action GlowieClicksDone
+		{
+			DebugPrint P2977018969
+		}
+		NextStage MotherMayhem  ///WAS FightMalaise
+	}
+	Trigger GasDistributedFail
+	{
+		Requires GasTimer complete>
+		Action GotoReset
+		{
+			DebugPrint P2933754642
+		}
+		NextStage Reset
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+	  		GlowieControl Deactivate
+	  		{
+	  			Type Deactivate
+	  			Glowie GlowieGas
+	  		}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieGas
+			}
+			DoorControl Relock
+			{
+				Type Lock
+				Door SeerNetworkDoor
+			}
+			DoorControl Relock
+			{
+				Type Lock
+				Door RejuvenationPodsDoor
+			}
+			DebugPrint P190965868
+		}
+	}
+}
+
+
+
+
+
+
+
+Stage MotherMayhem
+{
+	DisplayName P973847670
+	StartUp
+	{
+		Action StartFightMotherMayhem
+		{
+			DebugPrint P2589129535
+		}
+		Action TurnOnMalaise
+		{
+			TeamControl StartMalaise
+			{
+				Type Activate
+				Team Malaiseteam
+			}
+		}
+		Action TurnOffCanisters
+		{
+	  		GlowieControl Deactivate
+	  		{
+	  			Type Deactivate
+	  			Glowie GlowieGas
+	  		}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieGas
+			}
+		}
+		Action OpenUpMotherMayhem
+		{
+			DoorControl Unlock
+			{
+				Type Unlock
+				Door MotherMayhemDoor
+			}
+			PorterControl StopPort
+			{
+				Type Deactivate
+				Porter MotherMayhemPorter
+			}
+		}
+		Action CloseInteriors
+		{
+			DoorControl Relock
+			{
+				Type Lock
+				Door RejuvenationPodsDoor
+			}
+			Floater PortOut
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message P3527806459
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ff0000
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume RejuvenationPorter
+			}
+			DoorControl Relock
+			{
+				Type Lock
+				Door SeerNetworkDoor
+			}
+			Floater PortOut
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message P3527806459
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ff0000
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume SeerNetworkPorter
+			}
+		}
+		Action TurnOnMotherMayhem
+		{
+			TeamControl StartMotherMayhem
+			{
+				Type Activate
+				Team MotherMayhemteam
+			}
+			TeamControl StartGuard
+			{
+				Type Activate
+				Team Guardteam
+			}
+			PorterControl StopPort
+			{
+				Type Deactivate
+				Porter InteriorPorter
+			}
+		}
+	}
+	Timer PortTimer
+	{
+		// It has a 5 second duration ...
+		Duration 5
+	}
+	// five seconds after the stage starts, turn on the teleporter
+	Trigger PortToMalaise
+	{
+		// This waits for the five second timer to elapse
+		Requires PortTimer complete>
+		// When it does, this action block enables the port volume
+		Action StartSuccessPort
+		{
+			PorterControl StartPortInteriorPorter
+			{
+				Type Activate
+				Porter InteriorPorter
+			}
+		}
+	}
+	Counter GuardteamKills
+	{
+		Type Team
+		Count 10
+		Team Guardteam
+	}
+	Counter GuardteamKills2nd
+	{
+		Type Team
+		Count 20
+		Team Guardteam
+	}
+	Counter GuardteamKills3rd
+	{
+		Type Team
+		Count 30
+		Team Guardteam
+	}
+	Counter MalaiseKills
+	{
+		Type Team
+		Count 1
+		Team Malaiseteam
+	}
+	Counter MotherMayhemKills
+	{
+		Type Team
+		Count 1
+		Team MotherMayhemteam
+	}
+	Objective Kills
+	{
+		Type VillainGroup
+		VillainGroup PraetorianIDFEndgame
+		Value 4
+	}
+	Objective Kills
+	{
+		Type Team
+		Team MotherMayhemteam
+		Value 500
+	}
+	Objective Kills
+	{
+		Type Team
+		Team Malaiseteam
+		Value 200
+	}
+	MaxPoints 500
+	Timer MotherMayhemTimer
+	{
+		Duration 10:00
+		Display
+	}
+	UICollection mothermayhem
+	{
+		UIItem mothermayhembar
+		{
+			Type BarBlue
+			Text P2536741527
+			ShortText P2013985415
+			Current MotherMayhemKills count>
+			Target 1
+		}
+		UIItem malaisebar
+		{
+			Type BarBlue
+			Text P3890619902
+			ShortText P3666629215
+			Current MalaiseKills count>
+			Target 1
+		}
+	}
+	Trigger MotherMayhem_1stAmbushSpawn_Event
+	{
+		Requires MotherMayhem_1stAmbushSpawn objectivesucceeded>
+		Action Spawn_First_GuardWave
+		{
+			TeamControl StartGuard
+			{
+				Type Activate
+				Team Guardteam
+			}
+			Timer GuardTimer1st
+			{
+				Duration 0:30
+			}
+			DebugPrint P3514021837
+
+		}
+	}
+	Trigger GuardsSlain1stAmbush
+	{
+		Requires GuardteamKills complete> GuardTimer1st complete> ||
+		Action SendOffObjectiveComplete1stAmbush
+		{
+			Objective 1st_ambush_down
+			DebugPrint P2523452687
+		}
+	}
+	Trigger MotherMayhem_2ndAmbushSpawn_Event
+	{
+		Requires MotherMayhem_2ndAmbushSpawn objectivesucceeded>
+		Action Spawn_Second_GuardWave
+		{
+			TeamControl StartGuard
+			{
+				Type Deactivate
+				Team Guardteam
+			}
+		}
+		Action Spawn_Second_GuardWave
+		{
+			TeamControl StartGuard
+			{
+				Type Activate
+				Team Guardteam
+			}
+			Timer GuardTimer2nd
+			{
+				Duration 0:30
+			}
+			DebugPrint P702943169
+		}
+	}
+	Trigger GuardsSlain2ndAmbush
+	{
+		Requires GuardteamKills2nd complete> GuardTimer2nd complete> ||
+		Action SendOffObjectiveComplete2ndAmbush
+		{
+			Objective 2nd_ambush_down
+			DebugPrint P3797570971
+		}
+	}
+
+	Trigger MotherMayhem_3rdAmbushSpawn_Event
+	{
+		Requires MotherMayhem_3rdAmbushSpawn objectivesucceeded>
+		Action Spawn_Third_GuardWave
+		{
+			TeamControl StartGuard
+			{
+				Type Deactivate
+				Team Guardteam
+			}
+		}
+		Action Spawn_Second_GuardWave
+		{
+			TeamControl StartGuard
+			{
+				Type Activate
+				Team Guardteam
+			}
+			Timer GuardTimer3rd
+			{
+				Duration 0:30
+			}
+			DebugPrint P4014287316
+		}
+	}
+	Trigger GuardsSlain3rdAmbush
+	{
+		Requires GuardteamKills3rd complete> GuardTimer3rd complete> ||
+		Action SendOffObjectiveComplete3rdAmbush
+		{
+			Objective 3rd_ambush_down
+			DebugPrint P400958258
+		}
+	}
+
+	Trigger Done
+	{
+		Requires MalaiseKills complete> MotherMayhemKills complete> &&
+		Action GotoProtest
+		{
+			DebugPrint P1793796905
+		}
+		NextStage RewardWinners
+	}
+	Trigger MotherMayhemDestroyedFail
+	{
+		Requires MotherMayhemTimer complete>
+		Action GotoReset
+		{
+			DebugPrint P344995369
+		}
+		NextStage Reset
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			TeamControl StopMalaise
+			{
+				Type Deactivate
+				Team Malaiseteam
+			}
+			TeamControl StopMotherMayhem
+			{
+				Type Deactivate
+				Team MotherMayhemteam
+			}
+			TeamControl StopGuard
+			{
+				Type Deactivate
+				Team Guardteam
+			}
+			DebugPrint P2995863250
+		}
+	}
+}
+
+
+
+
+
+
+Stage RewardWinners
+{
+	StartUp
+	{
+		Action RewardStart
+		{
+			DebugPrint P1316453986
+		}
+		Action PhatLewt
+		{
+			RewardGroup reward
+			{
+				EventMax 1000
+				RandomRoll 500
+				BonusGroup MotherOfMercy
+				Reward class1
+				{
+					Class 1
+					PointsNeeded 300
+					Count 1000
+					RewardTable MotherOfMercyHospitalClass1
+				}
+				Reward class2
+				{
+					Class 2
+					PointsNeeded 600
+					Count 1000
+					RewardTable MotherOfMercyHospitalClass2
+				}
+				Reward class3
+				{
+					Class 3
+					PointsNeeded 750
+					Count 8
+					Display
+					RewardTable MotherOfMercyHospitalClass3
+				}
+				Reward class4
+				{
+					Class 4
+					PointsNeeded 1050
+					Count 5
+					Display
+					RewardTable MotherOfMercyHospitalClass4
+				}
+				Reward class5
+				{
+					Class 5
+					PointsNeeded 1200
+					Count 4
+					Display
+					RewardTable MotherOfMercyHospitalClass5
+				}
+			}
+		}
+	}
+	Trigger Reset
+	{
+		Action RewardReset
+		{
+			DebugPrint P549301538
+		}
+		NextStage Reset
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint P199603962
+		}
+	}
+}
+
+
+Stage Reset
+{
+	DisplayName P528691065
+	StartUp
+	{
+		Action ResetStart
+		{
+			ResetObjectives MotherMayhem_1stAmbushSpawn 1st_ambush_down MotherMayhem_2ndAmbushSpawn 2nd_ambush_down MotherMayhem_3rdAmbushSpawn 3rd_ambush_down
+			PorterControl StopPort
+			{
+				Type Deactivate
+				Porter InteriorPorter
+			}
+			Floater PortOut
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message P3357996744
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ff0000
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume MotherMayhemPorter
+			}
+			Floater PortOut
+			{
+				Message P3357996744
+				Color ff0000
+				Volume RejuvenationPorter
+			}
+			Floater PortOut
+			{
+				Message P3357996744
+				Color ff0000
+				Volume SeerNetworkPorter
+			}
+			DebugPrint P3474001301
+			DoorControl Relock
+			{
+				Type Lock
+				Door SeerNetworkDoor
+			}
+			DoorControl Relock
+			{
+				Type Lock
+				Door RejuvenationPodsDoor
+			}
+			DoorControl Relock
+			{
+				Type Lock
+				Door MotherMayhemDoor
+			}
+			PorterControl RestartPortRejuvenationPorter
+			{
+				Type Activate
+				Porter MotherMayhemPorter
+			}
+			PorterControl RestartPortRejuvenationPorter
+			{
+				Type Activate
+				Porter RejuvenationPorter
+			}
+			PorterControl RestartPortSeerNetworkPorter
+			{
+				Type Activate
+				Porter SeerNetworkPorter
+			}
+			TeamControl StopMotherMayhemteam
+			{
+				Type Deactivate
+				Team MotherMayhemteam
+			}
+			TeamControl StopGuard
+			{
+				Type Deactivate
+				Team Guardteam
+			}
+			TeamControl StopMalaiseteam
+			{
+				Type Deactivate
+				Team Malaiseteam
+			}
+			TeamControl StopSeer
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopSeer
+			{
+				Type Deactivate
+				Team Seerteam2
+			}
+			TeamControl StopPodteam
+			{
+				Type Deactivate
+				Team Podteam
+			}
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie GlowieGas
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieGas
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 1:00
+		Display
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action GotoReset
+		{
+			DebugPrint P537353603
+		}
+		NextStage DefeatSeers
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint P1033497783
+		}
+	}
+}
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint P3498339945
+		}
+		Action GlowieTeardown
+		{
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie GlowieGas
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieGas
+			}
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopMotherMayhemteam
+			{
+				Type Deactivate
+				Team MotherMayhemteam
+			}
+			TeamControl StopMalaiseteam
+			{
+				Type Deactivate
+				Team Malaiseteam
+			}
+			TeamControl StopSeer
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopPodteam
+			{
+				Type Deactivate
+				Team Podteam
+			}
+			TeamControl StopGuard
+			{
+				Type Deactivate
+				Team Guardteam
+			}
+		}
+		Action LockTheDoors
+		{
+			DoorControl Relock
+			{
+				Type Lock
+				Door SeerNetworkDoor
+			}
+			DoorControl Relock
+			{
+				Type Lock
+				Door RejuvenationPodsDoor
+			}
+			DoorControl Relock
+			{
+				Type Lock
+				Door MotherMayhemDoor
+			}
+			PorterControl StopPort
+			{
+				Type Deactivate
+				Porter InteriorPorter
+			}
+			PorterControl RestartPortMotherMayhemPorter
+			{
+				Type Activate
+				Porter MotherMayhemPorter
+			}
+			PorterControl RestartPortRejuvenationPorter
+			{
+				Type Activate
+				Porter RejuvenationPorter
+			}
+			PorterControl RestartPortSeerNetworkPorter
+			{
+				Type Activate
+				Porter SeerNetworkPorter
+			}
+		}
+		Action ResetStart
+		{
+			Floater PortOut
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message P3357996744
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ff0000
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume MunitionsDepotPorter
+			}
+			Floater PortOut
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message P3357996744
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ff0000
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume TrainingFacilityPorter
+			}
+			Floater PortOut
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message P3357996744
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ff0000
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume MotherMayhemPorter
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint P800851059
+		}
+	}
+}

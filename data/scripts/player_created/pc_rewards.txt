@@ -1,0 +1,54 @@
+//
+// MAKE SURE YOU RUN   \tools\scripts\xlatePlayer_Created.bat before you check in.
+//
+
+          // +1  +2  +3   +4
+LevelBonus 1.1, 1.2, 1.3, 1.4
+	
+	   // -1   -2   -3   -4 -5
+LevelPenalty .71, .47, .28, .12, 0
+
+RankReward  // Avg 1.3 tickets (1.3)
+{
+	Ranks Minion
+	DropValue    2,  3,   4,  0
+	DropChance .25, .2, .05, .5
+}
+
+RankReward // Avg drop 4.2 tickets (4.2)
+{
+	Ranks Lieutenant, Sniper
+	DropValue    6, 10,  14,  0
+	DropChance .25, .2, .05, .5
+}
+
+RankReward  // Avg drop 12.65 tickets (12.65)
+{
+	Ranks Boss, Unique
+	DropValue   20,   25,  53,  0
+	DropChance .25,  .20, .05, .5
+}
+
+RankReward  // Avg drop 16.67 tickets ( 16.65)
+{
+	Ranks Archvillain, Archvillain2, BigMonster, Hamidon, Gargantuan
+	DropValue    28,  35,  53,  0
+	DropChance  .25, .20, .05, .5
+}
+
+// IF
+Bonus2Requires Temporary_Powers.Day_Job_Powers.Architect_Ticket_Greater ownPower?
+MissionCompleteBonus2 1.10, 1.15, 1.20, 1.25, 1.30
+
+// ELSE IF
+Bonus1Requires Temporary_Powers.Day_Job_Powers.Architect_Ticket_Lesser ownPower?
+MissionCompleteBonus1 1.05, 1.10, 1.15, 1.20, 1.25
+
+// ELSE
+MissionCompleteBonus 1.00, 1.05, 1.10, 1.15, 1.20
+
+// OriginalMissionCap 8400		// 50 encounters times two because of the end of mission bonus
+// OriginalTicketsPerSpawnCap 84   // Based off max spawn with 4 bosses, 4 lts, and 13 minions
+MissionCap 1500		// Nerfed by MPM 4.21.09
+TicketsPerSpawnCap 53   // Nerfed by MPM 4.21.09
+TicketCap 9999		// This might be a bit low now

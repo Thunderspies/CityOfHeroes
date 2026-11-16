@@ -1,0 +1,307 @@
+RootMod _nbrhood_wall_coll_32
+End
+
+RootMod _nbrhood_wall_panel_32
+End
+
+RootMod _nbrhood_wall_warp_vol
+End
+
+RootMod _nbrhood_wall_warning_vol
+End
+
+RootMod _nbrhood_wall_fx_str
+End
+
+RootMod _nbrhood_wall_fx_crn
+End
+
+Def nbrhood_wall_32_2&
+	Group _nbrhood_wall_panel_32
+		Pos 0 8 0
+	End
+	Group _nbrhood_wall_panel_32
+		Pos -8 8 0
+	End
+	Group _nbrhood_wall_panel_32
+		Pos -8 0 0
+	End
+	Group _nbrhood_wall_panel_32
+	End
+End
+
+Def nbrhood_wall_32_3&
+	Group nbrhood_wall_32_2&
+		Pos 0 16 0
+	End
+	Group nbrhood_wall_32_2&
+		Pos -16 16 0
+	End
+	Group nbrhood_wall_32_2&
+		Pos -16 0 0
+	End
+	Group nbrhood_wall_32_2&
+	End
+End
+
+Def nbrhood_wall_32_4&
+	Group nbrhood_wall_32_3&
+		Pos 0 64 0
+	End
+	Group nbrhood_wall_32_3&
+		Pos 0 96 0
+	End
+	Group nbrhood_wall_32_3&
+		Pos 0 32 0
+	End
+	Group nbrhood_wall_32_3&
+	End
+End
+
+Def nbrhood_wall_32_5&
+	Group nbrhood_wall_32_4&
+		Pos 0 128 0
+	End
+	Group nbrhood_wall_32_4&
+	End
+End
+
+Def nbrhood_wall_32_6&
+	Group nbrhood_wall_32_5&
+		Pos 0 256 0
+	End
+	Group nbrhood_wall_32_5&
+	End
+End
+
+Def nbrhood_wall_32
+	Group _nbrhood_wall_coll_32
+	End
+	Group nbrhood_wall_32_6&
+		Pos 12 4 0
+	End
+	Group nbrhood_wall_32_6&
+		Pos 12 516 0
+	End
+End
+
+Def nbrhood_exit_32_2&
+	Group Omni/MissionBeacons/_Marker_MapSwap_shrt
+	End
+	Property	"GotoSpawn"	"MissionReturn"	0
+End
+
+Def nbrhood_exit_32_1&
+	Group nbrhood_exit_32_2&
+		Pos 71 0 0
+	End
+	Group _nbrhood_wall_warp_vol
+		PYR 0 89.999985 0
+	End
+End
+
+Def nbrhood_exit_32_3&
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 32 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 64 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 64 0 32
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 64 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 32 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 0 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 0 0 32
+	End
+	Property	"NHoodName"	"WARNING: You are about to exit this zone"	0
+	Property	"NHoodSound"	"0"	0
+End
+
+Def nbrhood_exit_32_4&
+	Group _nbrhood_wall_warning_vol
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 32 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 64 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 32
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 96
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 64 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 32 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 0 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 96
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 32
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 0
+	End
+	Property	"NHoodName"	" "	0
+	Property	"NHoodSound"	"0"	0
+End
+
+Def nbrhood_exit_32
+	Group nbrhood_exit_32_1&
+	End
+	Group nbrhood_wall_32
+		PYR 0 89.999985 0
+	End
+	Group nbrhood_exit_32_3&
+		Pos 0 0 -32
+	End
+	Group nbrhood_exit_32_4&
+		Pos -16 0 -48
+	End
+	Group _nbrhood_wall_fx_str
+		Pos 0 0.061867 0
+	End
+End
+
+Def nbrhood_exit_NB_32_1&
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 32 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 64 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 64 0 32
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 64 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 32 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 0 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		PYR 0 89.999985 0
+		Pos 0 0 32
+	End
+	Property	"NHoodName"	"WARNING: You are about to exit this zone"	0
+	Property	"NHoodSound"	"0"	0
+End
+
+Def nbrhood_exit_NB_32_2&
+	Group _nbrhood_wall_warning_vol
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 32 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 64 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 0
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 32
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 96
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 96 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 64 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 32 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos 0 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 128
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 96
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 64
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 32
+	End
+	Group _nbrhood_wall_warning_vol
+		Pos -32 0 0
+	End
+	Property	"NHoodName"	" "	0
+	Property	"NHoodSound"	"0"	0
+End
+
+Def nbrhood_exit_NB_32
+	Group nbrhood_wall_32
+		PYR 0 89.999985 0
+	End
+	Group nbrhood_exit_NB_32_1&
+		Pos 0 0 -32
+	End
+	Group nbrhood_exit_NB_32_2&
+		Pos -16 0 -48
+	End
+End
+

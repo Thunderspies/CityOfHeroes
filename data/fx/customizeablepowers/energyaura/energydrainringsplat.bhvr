@@ -1,0 +1,53 @@
+#############################################################
+## EnergyDrainRingSplat.bhvr
+#############################################################
+
+Behavior
+
+#############################################################
+
+Spin			0.0 0.0 0.0
+SpinJitter		0.000 0.2 0.0000
+
+FadeInLength		12
+FadeOutLength		55
+
+########################  SPLAT  #########################################
+
+Scale			40 20 40		### Y= Height of Cylinder from center
+ScaleRate		1.85 1.5 1.85
+EndScale		11  45  11
+
+########################  SPLAT ONLY #########################################
+
+SplatFlags		ADDITIVE
+SplatSetBack		0.5
+
+SplatFalloffType	BOTH
+SplatFadeCenter		1.0
+
+#StAnim			0.05000 0.050000 aqua
+#StAnim			0.600000 1.000000 light_pulse2 FRAMESNAP
+#StAnim			1.0 0.1 spin_counter  #just like other fx
+
+#Wish list: fade the intensity of the shadow with the angle of the collision
+#SplatNormalFade	0.9
+#SplatFlags ADDBASE # is broken
+#SplatFalloffType
+
+#############################################################
+
+Alpha			64
+
+StartColor		255 255 255
+PrimaryTint		33
+SecondaryTint		66
+
+BeColor1		255 255 255
+ByTime1			30
+PrimaryTint1		100
+SecondaryTint1		0
+
+#############################################################
+
+End

@@ -1,0 +1,46 @@
+#############################################################
+## Veteran Reward Combat Pet - Red Drone
+#############################################################
+
+Type
+
+#############################################################
+
+Sequencer	Prop_basic.txt
+SequencerType	Bees
+
+ConstantState	FLY
+
+## HEALTH FX #######################################################
+
+HealthFx
+     Range		0.001 100
+     ContinuingFX	ENEMYFX\VeteranPets\Drone\Drone_Red.fx
+End
+
+HealthFx
+     Range		0 0.001
+     OneShotFX		ENEMYFX\VeteranPets\Drone\Drone_Explosion.fx
+End
+
+#############################################################
+
+FadeOutStart		300
+FadeOutFinish		400
+
+Placement 		DeadOn
+Selection		Capsule
+
+CapsuleSize		1.25 1.0 1.25
+CapsuleOffset		0.0 4.75 0.0
+
+CollisionType		None
+
+Shadowtype		None
+
+TicksToLingerAfterDeath     0
+TicksToFadeAwayAfterDeath   0
+
+#############################################################
+
+End

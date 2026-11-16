@@ -1,0 +1,44 @@
+#############################################################
+## OO_5th_Column_Portal.txt
+#############################################################
+
+Type
+
+#############################################################
+
+Sequencer        Prop_Basic.txt
+SequencerType    Prop_Basic
+
+#############################################################
+
+HealthFx
+	Range		0.001 100
+	LibraryPiece	FW_TalonShrine
+	ContinuingFX    Scripted\Praetorian\Fury_Ritual\Fury_Ritual_Completed.fx
+End
+
+HealthFx
+	Range		0 0.001
+	LibraryPiece	FW_TalonShrine
+	OneShotFX	Scripted\Praetorian\Fury_Ritual\Fury_Ritual_End.fx
+End
+
+#############################################################
+
+CapsuleSize    3.8 7.3 3.8
+CapsuleOffset  0 0 0
+
+FadeOutStart     500
+FadeOutFinish    550
+ShadowType       None
+
+Placement        DeadOn
+Selection        LibraryPiece
+CollisionType    LibraryPiece
+
+TicksToLingerAfterDeath        200
+TicksToFadeAwayAfterDeath      1
+
+#############################################################
+
+End

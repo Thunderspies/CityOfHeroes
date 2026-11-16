@@ -1,0 +1,44 @@
+Def grp_WarpPlane
+	Group Omni/City_Volumes/citywarp_volume_2048
+		Pos -2048 0 2048
+	End
+	Group Omni/City_Volumes/citywarp_volume_2048
+		Pos 2048 0 2048
+	End
+	Group Omni/City_Volumes/citywarp_volume_2048
+		Pos 2048 0 -2048
+	End
+	Group Omni/City_Volumes/citywarp_volume_2048
+		Pos -2048 0 -2048
+	End
+End
+
+Def grp_WarpSpawns
+	Group Omni/City_Volumes/citywarp_spawn_01
+		Pos 0 0 -96
+	End
+	Group Omni/City_Volumes/citywarp_spawn_01
+		Pos 0 0 96
+	End
+	Group Omni/City_Volumes/citywarp_spawn_01
+		Pos -96 0 0
+	End
+	Group Omni/City_Volumes/citywarp_spawn_01
+		Pos 134 0.5 0
+	End
+End
+
+Def grp_WarpVolume
+	Group grp_WarpPlane
+		Pos -256 -479.788788 128
+	End
+	Group grp_WarpSpawns
+		Pos 0 31.45813 0
+	End
+	Property	"Layer"	"WarpVolume"	0
+End
+
+Ref grp_WarpVolume
+	Pos -4864 0 -256
+End
+

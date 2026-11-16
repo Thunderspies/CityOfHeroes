@@ -1,0 +1,101 @@
+Def grpvolume_DJ_University
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 600.000000 200.000000 1200.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_University"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Scholar_Message"	0
+End
+
+Def grp_DayJob_University
+	Group grpvolume_DJ_University
+		PYR 0 45.000008 -0
+		Pos 341.886169 -256.053711 755.543579
+	End
+End
+
+Def grpvolume_DJ_Hospital
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 340.000000 490.000000 300.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Hospital"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Caregiver_Message"	0
+End
+
+Def grp_DayJob_Hospital
+	Group grpvolume_DJ_Hospital
+		PYR 0 -90 -0
+		Pos 96.269531 -234.361084 -20.209106
+	End
+End
+
+Def grpvolume_DJ_Auction
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 135.000000 160.000000 360.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_AuctionHouse"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Auctioneer_Message"	0
+End
+
+Def grp_DayJob_Auction
+	Group grpvolume_DJ_Auction
+		PYR 0 90.999992 -0
+		Pos -260.5 -272.821716 1935.666748
+	End
+End
+
+Def grpvolume_DJ_Vault
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 105.000000 100.000000 100.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Vault"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Banker_Message"	0
+End
+
+Def grpvolume_DJ_Vault1
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 400.000000 50.000000 170.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+	Property	"NamedVolume"	"DJ_Vault"	0
+	Property	"VolumePower"	"Temporary_Powers.Day_Job_Powers.Banker_Message"	0
+End
+
+Def grp_DayJob_Vault
+	Group grpvolume_DJ_Vault
+		Pos -11.587891 0 17.333252
+	End
+	Group grpvolume_DJ_Vault1
+		Pos -100.587891 -157.5 53.605225
+	End
+End
+
+Def grp_Day_Job_Volumes
+	Group grp_DayJob_University
+		PYR 0 -135 -0
+		Pos -997.583374 1172.470459 1340.583496
+	End
+	Group grp_DayJob_Hospital
+		Pos -2601.690186 1201.936157 1174.574951
+	End
+	Group grp_DayJob_Auction
+		Pos -1801.083374 1162.879883 1421.416748
+	End
+	Group grp_DayJob_Vault
+		Pos -2415.995361 1184.416748 3291.478271
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Day_Job_Volumes
+	Pos 260.583344 -1218.916748 -2333.083496
+End
+

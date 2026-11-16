@@ -1,0 +1,42 @@
+#############################################################
+## Arachnos Giant Spider
+#############################################################
+
+Type
+
+## SEQUENCER #######################################################
+
+Sequencer	Monster_Spider.txt
+SequencerType	MonsterSpider
+NoStrafe	1
+Placement	DeadOn
+ConstantState	MONSTER
+
+## GRAPHICS #######################################################
+Graphics			player_library/V_Arachnos_Tarantulas_Green_Giant.geo
+GeomScale			9.5 9.5 9.5
+VisSphereRadius			200
+TicksToLingerAfterDeath		0
+TicksToFadeAwayAfterDeath	0
+CameraHeight			8.25
+
+FadeOutStart			1000
+FadeOutFinish			1500
+
+## FX #######################################################
+
+FX			ENEMYFX\V_Arachnos\GiantSpider\GiantSpider.fx
+RejectContinuingFX	1
+
+## COLLISION AND PHYSICS #######################################################
+
+Selection		Capsule
+CapsuleSize		25 40 30
+CapsuleOffset		0 20 0
+
+Flags			UseCapsuleForRangeFinding
+BigMonster		1
+
+#############################################################
+
+End

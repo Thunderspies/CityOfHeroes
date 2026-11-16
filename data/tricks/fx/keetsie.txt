@@ -1,0 +1,573 @@
+Texture X_5thColumnForceField
+	Base1 5thColumnForceField //Texture_Library\FX\Villain\5thColumn\5thColumnForceField.tga
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale  1 1 // 1 1
+
+	Multiply1 none //_texture_library\World\Filler\white.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 // 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none //
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 none //
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale  1 1 // 1 1
+
+	AddGlow1 none //
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none //
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 // 1 1
+	MaskWeight  1 // 1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none //
+	Base2Scroll 0 0 // 0 0
+	Base2ScrollType  Normal //Normal
+	Base2Scale  1 1 // 1 1
+
+	Multiply2 none //
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none //
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1 // 1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 1
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base none //Texture_Library\FX\Villain\5thColumn\5thColumnForceField.tga
+		BumpMap none //
+		Blend none //
+		BlendType Multiply
+		ScaleST0 1.0 1.0
+		ScaleST1 1.0 1.0
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_HalloweenSigil_Rays
+	Base1 Tintable_Dark_Wave1.tga
+	Base1Scroll 0.0025 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 lightRay_Scroller.tga
+	Multiply1Scroll 0.0025 0.025
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+#	Fallback
+#		UseFallback 1
+#		Base PowerAnalyzer_01
+#		Bumpmap None
+#		DiffuseScale 1.0
+#		AmbientScale 1.0
+#	End
+End
+
+Texture X_Tintable_Boil
+	Base1 Tintable_Cosmic_Scroller
+	Base1Scroll -0.01 -0.01
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	DualColor1 Tintable_Cosmic_Scroller_Mask
+	DualColor1Scroll 0.01 0.01
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+End
+
+Texture X_HeatDistortion
+        Base1 Cold_Wave2.tga
+        Base1Scroll 0.0006 0.0004
+        Base1Scale 1 1
+
+        Multiply1 Cold_Wave2.tga
+        Multiply1Scroll 0.0 0.01
+        Multiply1Scale 1.0 1.0
+	   Multiply1reflect 1
+
+        BumpMap1 Cold_Wave2.tga
+        BumpMap1Scroll  0.0 0.01
+        BumpMap1Scale 1.0 1.0
+
+        BumpMap2 Cold_Wave2.tga
+        BumpMap2Scroll  0.0 0.01
+        BumpMap2Scale 1.0 1.0
+
+	MaskWeight 1
+
+        DiffuseScale 1
+        AmbientScale 1
+
+#        Color4 56 0 126
+#        Color3 255 80 100
+
+	ObjFlags FancyWater FullBright
+
+	ReflectivityBase 0
+	ReflectivityScale 0
+	ReflectivityPower 0
+#
+	Fallback
+		UseFallback 1
+		Base vat_glass_fallback01.tga
+		Blend tank_water_bump_a.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+Texture X_VictorianDecor
+	Base1 VictorianDecor
+	Base1Scroll 0.0 0.00
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+        Multiply1 Generic_Scroll
+        Multiply1Scroll 0.0 0.01
+        Multiply1Scale 1.0 1.0
+
+	Mask white.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+End
+
+Texture X_VictorianDecor2
+	Base1 VictorianDecor
+	Base1Scroll 0.0 0.0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+        Multiply1 Generic_Scroll
+        Multiply1Scroll 0.0 -0.01
+        Multiply1Scale 1.0 1.0
+
+	Mask white.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+End
+
+Texture X_VictorianDecor3
+	Base1 VictorianDecor
+	Base1Scroll 0.0 0.00
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+        Multiply1 Generic_Scroll_Offset2
+        Multiply1Scroll 0.0 -0.01
+        Multiply1Scale 1.0 1.0
+
+	Mask white.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+End
+
+Texture X_VictorianDecor4
+	Base1 VictorianDecor
+	Base1Scroll 0.0 0.00
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+        Multiply1 Generic_Scroll_Offset
+        Multiply1Scroll 0.0 0.01
+        Multiply1Scale 1.0 1.0
+
+	Mask white.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+End
+
+Texture X_Yakuza_UpperBody
+	Base1 Yakuza_UpperBody
+	Base1Scroll 0.0 0.00
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+        Multiply1 Generic_Scroll
+        Multiply1Scroll 0.0 -0.01
+        Multiply1Scale 1.0 1.0
+
+	Mask white.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+End
+
+Texture X_Yakuza_UpperBody2
+	Base1 Yakuza_UpperBody
+	Base1Scroll 0.0 0.00
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+        Multiply1 Generic_Scroll
+        Multiply1Scroll 0.0 -0.01
+        Multiply1Scale 1.0 1.0
+
+	Mask white.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+End
+
+Texture X_Fog_Plane
+
+	Base1 Tintable_Dark_Wave #CoS_Death_Cloud
+	Base1Scroll 0.001 0.001
+	Base1ScrollType Normal
+	Base1Scale 1.0 1.0
+
+        Multiply1 PlayerShadowCircle
+        Multiply1Scroll 0.0 0.0
+        Multiply1Scale 1.0 1.0
+
+	DualColor1 Tintable_Dark_Wave
+	DualColor1Scroll -0.001 0.0015
+	DualColor1Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Tintable_Dark_Wave
+		BumpMap none //
+		Blend PlayerShadowCircle
+		BlendType Multiply
+		ScaleST0 1.0 1.0
+		ScaleST1 1.0 1.0
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_Fog_Plane_Mot
+
+	Base1 Tintable_Dark_Wave #CoS_Death_Cloud
+	Base1Scroll 0.001 0.001
+	Base1ScrollType Normal
+	Base1Scale 1.0 1.0
+
+        Multiply1 MotAlpha
+        Multiply1Scroll 0.0 0.0
+        Multiply1Scale 1.0 1.0
+
+	DualColor1 Tintable_Dark_Wave
+	DualColor1Scroll -0.001 0.0015
+	DualColor1Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Tintable_Dark_Wave
+		BumpMap none //
+		Blend PlayerShadowCircle
+		BlendType Multiply
+		ScaleST0 1.0 1.0
+		ScaleST1 1.0 1.0
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_Crow_Tintable
+	Base1 Tintable_Crow //Texture_Library\NPCS\Birds\Tintable_Crow.tga
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale  1 1 // 1 1
+
+	Multiply1 none //_texture_library\World\Filler\white.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 // 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 Tintable_Primary_Mask //Texture_Library\FX\customizeablepowers\Tintable_Primary_Mask.tga
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 none //
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale  1 1 // 1 1
+
+	AddGlow1 none //
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none //
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 // 1 1
+	MaskWeight  1 // 1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none //
+	Base2Scroll 0 0 // 0 0
+	Base2ScrollType  Normal //Normal
+	Base2Scale  1 1 // 1 1
+
+	Multiply2 none //
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none //
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1 // 1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags FullBright    // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 1
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base none //Texture_Library\NPCS\Birds\Tintable_Crow.tga
+		BumpMap none //
+		Blend none //
+		BlendType Multiply
+		ScaleST0 1.0 1.0
+		ScaleST1 1.0 1.0
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture X_CrowWings_Tintable
+	Base1 Tintable_BirdWing //Texture_Library\NPCS\Birds\Tintable_BirdWing.tga
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale  1 1 // 1 1
+
+	Multiply1 none //_texture_library\World\Filler\white.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 // 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 Tintable_Primary_Mask //Texture_Library\FX\customizeablepowers\Tintable_Primary_Mask.tga
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 none //
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale  1 1 // 1 1
+
+	AddGlow1 none //
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none //
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 // 1 1
+	MaskWeight  1 // 1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none //
+	Base2Scroll 0 0 // 0 0
+	Base2ScrollType  Normal //Normal
+	Base2Scale  1 1 // 1 1
+
+	Multiply2 none //
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none //
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1 // 1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+	SpecularExponent2 1
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 1
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 0
+		Base none //Texture_Library\FX\customizeablepowers\Tintable_Primary_Bright.tga
+		BumpMap none //
+		Blend none //
+		BlendType Multiply
+		ScaleST0 1.0 1.0
+		ScaleST1 1.0 1.0
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Trick  HalloweenSigilRays
+	ObjFlags FullBright 
+	TrickFlags NoZWrite Additive DoubleSided NoColl 
+	SortBias  9999.00000 
+End
+
+Trick DemonRunes
+	SortBias 9999
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZWrite Additive
+End
+
+Trick FogPlane
+	SortBias 9999
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Trick FogPlaneMot
+	SortBias 9999
+	ObjFlags DontCastShadowMap ForceAlphaSort
+	TrickFlags NoColl
+End
+
+Trick MaskCoL
+	SortBias 9999
+#	Sway 1.0 0.3
+	ObjFlags FullBright
+	TrickFlags NoColl
+
+End
+
+Trick MaskCoLADD
+	SortBias 9999
+#	Sway 1.0 0.3
+	ObjFlags FullBright
+	TrickFlags NoColl Additive NoZWrite
+End
+
+Texture Circle_Thin
+	Flags ClampT ClampS 
+End
+
+Texture MapGrid.tga
+	Flags ClampS ClampT #TrueColor
+End
+
+Texture Mito_Outer_01.tga
+	Flags ClampS ClampT #TrueColor
+End
+
+Texture Mito_Outer_Glow.tga
+	Flags ClampS ClampT #TrueColor
+End
+
+Texture crackedearth.tga
+	Flags ClampS ClampT #TrueColor
+End
+
+Texture Sigil_Effect.tga
+	Flags ClampS ClampT #TrueColor
+End
+
+Texture HamiSplatter.tga
+	Flags ClampS ClampT #TrueColor
+End
+

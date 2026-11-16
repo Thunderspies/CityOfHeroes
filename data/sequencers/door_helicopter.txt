@@ -1,0 +1,87 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Helicopter 
+	BaseSkeleton	Door_Helicopter\skel_Door_Helicopter
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Helicopter
+	  Anim          Door_Helicopter\skel_Door_Helicopter 1 5
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_Helicopter
+	  Anim          Door_Helicopter\skel_Door_Helicopter 6 31
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Interpolate     0
+	Sets            WALKTHROUGH 
+
+	Type		Door_Helicopter
+	  Anim          Door_Helicopter\skel_Door_Helicopter 32 45
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	NextMove        Shut
+	Sets            WALKTHROUGH 
+
+	Type		Door_Helicopter
+	  Anim          Door_Helicopter\skel_Door_Helicopter 45 50
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Helicopter
+	  Anim          Door_Helicopter\skel_Door_Helicopter 51 58
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		Door_Helicopter
+	  Anim          Door_Helicopter\skel_Door_Helicopter 59
+	TEnd
+MEnd
+
+SeqEnd
+

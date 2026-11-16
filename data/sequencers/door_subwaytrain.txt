@@ -1,0 +1,112 @@
+#############################################################
+## Door_train.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Door_subwaytrain
+	BaseSkeleton	Door_train\subwaytrain
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+#############################################################
+
+#Move Lighttest
+#	NextMove        train_leave
+#
+#	Type		Door_subwaytrain
+#	  Anim          Door_train\skel_light 1 10
+#	TEnd
+#MEnd
+
+#############################################################
+
+Move InTunnel
+	Requires	TRAIN
+	Member		<Ready>
+	Flags		Cycle
+	Interpolate     0
+
+	Type		Door_subwaytrain
+	  Anim          Door_train\subwaytrain 574 799
+	TEnd
+MEnd
+
+#############################################################
+
+Move train_comes
+	Requires	TRAIN YES
+	Priority        2
+	Interrupts	InTunnel
+	NextMove        Dooropen
+	Interpolate     0
+
+	Type		Door_subwaytrain
+	  Anim          Door_train\subwaytrain 1 160
+	  PlayFX	fx\doors\CTATrainIn.fx
+	TEnd
+MEnd
+
+#############################################################
+
+Move Dooropen
+	Requires	TRAIN
+	Member		<Ready>
+	NextMove        Wait
+	Sets            WALKTHROUGH
+
+	Type		Door_subwaytrain
+	  Anim          Door_train\subwaytrain 160 177
+
+	TEnd
+MEnd
+
+Move Wait
+	Requires	TRAIN
+	Member		<Ready>
+	Flags		Cycle
+	NextMove        Doorclose
+	Sets            WALKTHROUGH
+
+	Type		Door_subwaytrain
+	  Anim          Door_train\subwaytrain 177 180
+	TEnd
+MEnd
+
+#############################################################
+
+Move Doorclose
+	Requires	CLOSE TRAIN
+	Priority        2
+	Interrupts	Wait
+	NextMove        train_leave
+	Sets            WALKTHROUGH
+	Interpolate     0
+
+	Type		Door_subwaytrain
+	  Anim          Door_train\subwaytrain 403 416
+	  PlayFX	fx\doors\CTATrainOut.fx
+	TEnd
+MEnd
+
+#############################################################
+
+Move train_leave
+	Requires	TRAIN
+	Member		<Ready>
+	NextMove        InTunnel
+
+	Type		Door_subwaytrain
+	  Anim          Door_train\subwaytrain 416 574
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

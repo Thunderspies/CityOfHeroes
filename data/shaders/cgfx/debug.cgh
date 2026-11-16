@@ -1,0 +1,620 @@
+/******************************************************************************
+	Debug
+
+	This header defines the values and selectors used to
+	provide the shader debug fundtionality and variants.
+*****************************************************************************/
+
+#ifndef _DEBUG_CGH_
+#define _DEBUG_CGH_
+
+#include "blendmode_common.cgh"
+
+ // .x Lighting, .y Material, .z Feature, .w misc
+ uniform float4 g_DebugEnableFlagSetsFP					TIE( ENV65 );
+ // color and alpha to render materials that are completely 'disabled' by current debug settings
+ uniform float4 g_DebugDisabledColorFP					TIE( ENV66 );
+
+#define debug_do_lighting()			(g_DebugEnableFlagSetsFP.x != 0.0f)		// some lighting feature is enabled so process lighting
+#define debug_do_material()			(g_DebugEnableFlagSetsFP.y != 0.0f)		// some material feature is enabled so process material
+
+// lighting
+#define debug_is_enabled_ambient()				isBitSet(g_DebugEnableFlagSetsFP.x, 1 << 0)
+#define debug_is_enabled_diffuse()				isBitSet(g_DebugEnableFlagSetsFP.x, 1 << 1)
+#define debug_is_enabled_specular()				isBitSet(g_DebugEnableFlagSetsFP.x, 1 << 2)
+#define debug_is_enabled_light_color()			isBitSet(g_DebugEnableFlagSetsFP.x, 1 << 3)
+#define debug_is_enabled_gloss_factor()			isBitSet(g_DebugEnableFlagSetsFP.x, 1 << 4)
+#define debug_is_enabled_bump()					isBitSet(g_DebugEnableFlagSetsFP.x, 1 << 5)
+#define debug_is_enabled_shadowed()         	isBitSet(g_DebugEnableFlagSetsFP.x, 1 << 6)
+
+// material
+#define debug_is_enabled_vertex_color()			isBitSet(g_DebugEnableFlagSetsFP.y, 1 << 0)
+#define debug_is_enabled_blend_base()			isBitSet(g_DebugEnableFlagSetsFP.y, 1 << 1)
+#define debug_is_enabled_blend_dual()			isBitSet(g_DebugEnableFlagSetsFP.y, 1 << 2)
+#define debug_is_enabled_blend_multiply()		isBitSet(g_DebugEnableFlagSetsFP.y, 1 << 3)
+#define debug_is_enabled_blend_addglow()		isBitSet(g_DebugEnableFlagSetsFP.y, 1 << 4)
+#define debug_is_enabled_blend_alpha()			isBitSet(g_DebugEnableFlagSetsFP.y, 1 << 5)
+#define debug_is_enabled_lod_alpha()			isBitSet(g_DebugEnableFlagSetsFP.y, 1 << 6)
+
+// features
+#define debug_is_enabled_fog()		            isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 0)
+#define debug_is_enabled_reflection()           isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 1)
+#define debug_is_enabled_sub_material_1()		isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 2)
+#define debug_is_enabled_sub_material_2()		isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 3)
+#define debug_is_enabled_material_building()	isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 4)
+//#define debug_is_enabled_blend()			    isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 5)
+//#define debug_is_enabled_faux_reflection()	isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 6)
+
+#define debug_is_mode_show_texture()		    isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 8)
+#define debug_is_mode_show_rgba()				isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 9)
+#define debug_is_mode_show_rgb()				isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 10)
+#define debug_is_mode_show_alpha()				isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 11)
+
+#define debug_is_mode_visualize()		        isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 15)
+#define debug_use_visualize_texture()			isBitSet(g_DebugEnableFlagSetsFP.z, 1 << 16)
+
+// adjust the given variables according to the debug flags
+void debug_apply_settings(
+							inout float4 color0,			// const color 0 for tinting
+							inout float4 color1,			// const color 1 for tinting
+							inout float4 tex_base,			// base texture tap
+							inout float4 tex_multiply,		// multiply texture tap
+							inout float4 tex_dual,			// dual texture tap
+							inout float3 vertex_color		// prebaked ligthing (if any)
+					)
+{
+	// -- adjust inputs for debug flags
+	if ( !debug_is_enabled_blend_base() )		// mimic Base 'none'
+		tex_base = 1;
+	if ( !debug_is_enabled_blend_dual() )		// mimic Dual 'none'
+		tex_dual = 1;
+	if ( !debug_is_enabled_blend_multiply() )	// mimic Multiply 'none'
+		tex_multiply = 1;
+	if ( !debug_is_enabled_lod_alpha() )
+		color0.a = 1;							// turn off the lod alpha applied via const color 0 alpha	
+	if ( !debug_is_enabled_blend_alpha() )		// material alpha for full dual comes from dual alpha
+		tex_dual.a = 1;
+	if ( !debug_is_enabled_vertex_color() )
+		vertex_color = 1;
+}
+
+// for a static blendmode compiler will only fold in the relevant branches
+float4 debug_calc_blendmode(
+				in const int	blendmode,
+				in VP2FP		IN			// input attributes from vertex shader
+				)
+{
+	float4 out_color = 1;               // color we use if material completely disabled
+	float4 dummy = 0;					// dummy parameter used for unused shader values when we apply debug settings
+	
+	float3 vertex_color = 1;
+#if VERTEX_LIT == VERT_COLOR
+	vertex_color = IN.color.rgb;
+#endif
+	float2 uv0 = IN.uv0_uv1.xy;
+	float2 uv1 = IN.uv0_uv1.zw;
+	
+	// do the actual blend mode calculation for the target blendmode
+	if ( blendmode == BLENDMODE_MULTIPLY || blendmode == BLENDMODE_MODULATE || blendmode == BLENDMODE_BUMPMAP_MULTIPLY)
+	{ 
+		// straight modulation of base by blend texture (alpha also)
+		float4 tex_base		= tex2D( sampler_base, uv0 );
+		float4 tex_multiply	= tex2D( sampler_blend, uv1 );
+		debug_apply_settings( g_Env0FP, g_Env1FP, tex_base, tex_multiply, dummy, vertex_color );
+		out_color			= tex_base * tex_multiply;
+		out_color.rgb		*= 8;					// (x8 to match multiplyReg register combiner program and old assets)
+		if ( blendmode == BLENDMODE_BUMPMAP_MULTIPLY)
+		{
+		#ifndef HIGH_QUALITY
+				out_color.rgb		*= vertex_color;	// modulate by vertex color (if any)
+		#endif
+		}
+		else
+			out_color.rgb		*= vertex_color;		// modulate by vertex color (if any)
+	}
+	else if ( blendmode == BLENDMODE_COLORBLEND_DUAL )
+	{ 
+		// a 'modern' dual tint
+		float4 tex_base		= tex2D( sampler_base, uv0 );
+		float4 tex_dual		= tex2D( sampler_blend, uv1 );
+		debug_apply_settings( g_Env0FP, g_Env1FP, tex_base, dummy, tex_dual, vertex_color );
+		out_color			= calc_dual_tint( g_Env0FP, g_Env1FP, tex_base, tex_dual );
+		out_color.rgb		*= vertex_color;		// modulate by vertex color (if any)
+		out_color.rgb		*= 4;					// (x4 to match legacy register combiner program and old assets)
+	}
+	else if ( blendmode == BLENDMODE_BUMPMAP_COLORBLEND_DUAL )
+	{ 
+		// a 'modern' dual tint
+		float4 tex_base		= tex2D( sampler_base, uv0 );
+		float4 tex_dual		= tex2D( sampler_blend, uv1 );
+		debug_apply_settings( g_Env0FP, g_Env1FP, tex_base, dummy, tex_dual, vertex_color );
+		out_color			= calc_dual_tint( g_Env0FP, g_Env1FP, tex_base, tex_dual );
+	}
+	else if ( blendmode == BLENDMODE_ALPHADETAIL )
+	{
+		// Compute material color: 'BLENDMODE_ALPHADETAIL'
+		float4 tex_base		= tex2D( sampler_base, uv0 );
+		float4 tex_blend	= tex2D( sampler_blend, uv1 );
+		
+		// Uses texture 0 (base) alpha as a blend mask between texture 0 and 1.
+		// Uses texture 1 (blend) alpha to modulate current constant alpha
+		debug_apply_settings( g_Env0FP, g_Env1FP, tex_base, dummy, tex_blend, vertex_color );
+		float4 out_color;
+		out_color.rgb	= lerp( tex_blend.rgb, tex_base.rgb, tex_base.a );
+		out_color.rgb	*= vertex_color;	// modulate by vertex color (if any)
+		out_color.rgb	*= 4;	// x4 (matches old assets and reg combiner programs)
+		out_color.a		= g_Env0FP.a * tex_blend.a;
+	}
+	else if ( blendmode == BLENDMODE_ADDGLOW )
+	{
+		// Compute material color: 'BLENDMODE_ADDGLOW'
+		// Compute tinted base texture old school style without a dual texture (e.g. BMB_OLDTINTMODE)
+		float4 tex_base = tex2D( sampler_base, uv0 );
+		debug_apply_settings( g_Env0FP, g_Env1FP, tex_base, dummy, dummy, vertex_color );
+		float4 out_color = calc_old_tint(g_Env0FP, tex_base );
+		out_color.rgb	*= 4;	// x4 (matches old assets and reg combiner programs)
+		
+		if ( debug_is_enabled_blend_addglow() )	// before fogging
+		{
+			// check glow mask and add glow texture if appropriate to output
+			add_glow_orig( out_color, sampler_legacy_glow, uv1, sampler_legacy_glow_mask, uv0, g_GlowParamFP );
+		}
+	}
+	else
+	{
+		out_color = float4(0.9f, 0.5f, 0.5f, 1.0f);	// error color, unknown blendmode
+	}
+    
+    return out_color;
+}
+
+
+float3 debug_apply_lighting(
+					 in float3		color_in,
+					 in float3		light_factors,		// (ambient, NdotL, specular)
+					 in LightProps	light				// constants and factors needed for lighting
+					 )
+{
+	float3 out_color = color_in;
+	
+	float3 ambient	= light_factors.x;
+	float3 diffuse	= light_factors.y;
+	float3 specular	= light_factors.z;
+	float3 gloss	= light.glossConst;
+
+	// ambient factor is constant 1.0
+	// always apply ambient light value or it will clamp output full white
+	ambient	*= light.ambient_color;		
+	if ( debug_is_enabled_light_color() )
+	{
+		// apply light factors to light colors
+		diffuse	*= light.diffuse_color;
+		specular *= light.spec_color_and_exp.rgb;
+	}
+	if ( debug_is_enabled_gloss_factor() )
+		specular *= gloss;
+	
+	float3 out_light = 0;
+	if ( debug_is_enabled_ambient() )
+		out_light += ambient;
+	if ( debug_is_enabled_diffuse() )
+		out_light += diffuse;
+	
+	out_color.rgb *= out_light;		// modulate material by (ambient+diffuse)
+		
+	if ( debug_is_enabled_specular() )	// add specular on top
+		out_color.rgb += saturate(specular);
+		
+	return out_color;
+}
+
+#if PIXEL_LIT >= BUMP_SPEC
+float3  debug_apply_bumpmap_lighting(
+					 in float3		color_in,		// input color to apply lighting and shadowing 
+					 in VP2FP		IN,				// input attributes from vertex shader
+					 in float4		normal_gloss,	// tangent space normal and gloss map in w
+					 in LightProps	light			// light properties, including shadowing and gloss factors
+													// currently set it for BLENDMODE_BUMPMAP_MULTIPLY
+													// @todo, though it should for consistency
+					 )
+{
+	float3 out_color = color_in;
+		
+	if ( debug_do_lighting() )
+	{
+		// calculate necessary tangent space vectors for lighting calculations
+#if defined(HIGH_QUALITY)
+		float3 normal_vs	= normalize(IN.normal_vs.xyz);		// renormalize direction vectors received from interpolators
+		float3 tangent_vs	= normalize(IN.tangent_vs.xyz);
+		// calculate tangent space basis
+		float3x3 TBN = calc_TBN( normal_vs, tangent_vs, IN.tangent_vs.w);	// bitangent sign is supplied in w component
+				
+		// calculate light/half vector in tangent space
+		float3 light_vs		= g_LightDirFP.xyz;	// light direction in view space, should already be normalized (@todo BUT ISN'T!!)
+//		light_vs = normalize(light_vs);	// @todo FIX: light param isn't being normalized before being set		
+		float3 light_ts		= normalize( mul(TBN,light_vs) );	// (if TBN is orthogonal we can skip the normalizations as it will preserve length)
+		float3 half_vs		= normalize( normalize(-IN.position_vs.xyz) + light_vs );	// half vector
+		float3 half_ts		=  mul(TBN,half_vs);				// NOTE: The original ARB programs DID NOT normalize half_ts here.
+#else
+		float3 light_ts		= normalize(IN.light_ts.xyz);		// renormalize from interpolation
+		float3 half_ts		= normalize( normalize(IN.view_ts.xyz) + light_ts );
+#endif
+
+		if ( !debug_is_enabled_bump() )
+			normal_gloss.xyz = float3(0,0,1);	// just point along surface normal
+					
+		float3 light_factors = calc_lighting_factors( normal_gloss, light_ts, half_ts, light.spec_color_and_exp.a );
+#ifdef USE_SHADOWMAP
+		if ( debug_is_enabled_shadowed())
+		{
+			light_factors = shadow_light_factors( light_factors, light.shade_factor ); // apply shadow factors to light factors
+		}
+#endif
+		out_color.rgb = debug_apply_lighting( out_color.rgb, light_factors, light );
+	}
+	
+	return out_color;
+}
+
+float3  debug_common_apply_bumpmap_lighting(
+					 in float3		color_in,		// input color to apply lighting and shadowing 
+					 in VP2FP		IN,				// input attributes from vertex shader
+					 in float		gloss_factor	// usually g_GlossParamFP component, but engine doesn't
+													// currently set it for BLENDMODE_BUMPMAP_MULTIPLY
+													// @todo, though it should for consistency
+					 )
+{
+	float3 out_color = color_in;
+
+	// determine fragment raw shadowing factor once up front for application to all material lighting
+	float shade_factor = 1; // set to one and compiler will optimize away operations
+#ifdef USE_SHADOWMAP
+	if ( debug_is_enabled_shadowed() )
+	{
+		shade_factor = shadow_csm( IN.position_vs.xyz, IN.fragment_pos );
+	}
+#endif
+	LightProps light = get_default_light_properties(shade_factor,gloss_factor);
+
+	float2 uv1 = IN.uv0_uv1.zw;
+	float4 normal_gloss = map_color_to_normal( tex2D( sampler_normal_and_gloss, uv1) ); // normal in tangent space, also contains gloss map in alpha channel		
+
+	out_color = debug_apply_bumpmap_lighting( out_color, IN, normal_gloss, light );
+	
+	return out_color;
+}
+
+#elif PIXEL_LIT == LIT
+
+// simple per pixel lighting (no bump map)
+float3  debug_common_apply_simple_lighting(
+					 in float3		color_in,	// input color to apply lighting and shadowing 
+					 in VP2FP		IN			// input attributes from vertex shader	
+					 )
+{
+	float3 out_color = color_in;
+
+	if ( debug_do_lighting() )
+	{
+		// @todo Can we change these legacy modes to use same light constants as the bumpmap variants
+		// and not the GL lighting state values? Will make the shaders more consistent.
+		// Note that legacy code that uses register combiners/fixed function (e.g., no ARBFP) will need to stay
+		// the same.
+		float3 lightdir				= normalize( g_Light0PositionFP.xyz );						
+		float3 half_vs				= normalize( lightdir + normalize(-IN.position_vs.xyz) );
+		float4 normal_gloss			= float4(IN.normal_vs.xyz, 1);
+
+		LightProps light = get_gl_light0_properties(1.0f, 1.0f);
+
+		float3 light_factors = calc_lighting_factors( normal_gloss, lightdir, half_vs, light.spec_color_and_exp.a );
+
+		if ( debug_is_enabled_shadowed())
+		{
+			#ifdef USE_SHADOWMAP
+			float shade_factor = shadow_csm( IN.position_vs.xyz, IN.fragment_pos );	// determine fragment raw shadowing factor
+			light_factors = shadow_light_factors( light_factors, shade_factor); // apply shadow factors to light factors
+			#endif
+		}
+		out_color.rgb = debug_apply_lighting( out_color.rgb, light_factors, light );
+	}
+
+	return out_color;
+}
+
+#endif // PIXEL_LIT
+
+
+float3  debug_common_apply_bumpmap_reflection(
+					 in float3		color_in,	// input color to mix with reflection
+					 in VP2FP		IN			// input attributes from vertex shader	
+					 )
+{
+	float3 out_color = color_in;
+	//****
+	// Calculate reflection 
+    #ifdef USE_CUBEMAP	// calculate reflection and apply to material
+		#if PIXEL_LIT == NONE
+			// low quality uses single reflectivity constant (no fresnel) and uses reflection
+			// vector supplied by vertex shader
+			float	reflectivity		= g_FresnelParamsFP.x; 
+            float3	reflection_color	= texCUBE(g_sampler_cubemap, IN.reflection.xyz).rgb;
+        #elif PIXEL_LIT == LIT
+			// if cubemaps are used with a vanilla per pixel lit variant we do a 'hq'
+			// quality reflection by calculating the reflection vector at the fragment
+			float3 normal_vs	= normalize(IN.normal_vs.xyz);		// renormalize direction vectors received from interpolators
+			
+			// calculate fresnel reflectivity
+			float3	unit_to_eye			= normalize(-i_position_vs.xyz);	// unit vector from fragment to eye
+			float	reflectivity		= calc_reflectivity_hq( unit_to_eye, normal_vs );
+			float3	reflection_color	= sample_reflection_cubemap( IN.position_vs.xyz, normal_vs ).rgb;
+        #else	// bump mapping per pixel
+			// Note: Currently the engine always sets the HIGH QUALITY bit on batches
+			// with reflection regardless of distance so that reflections don't pop
+			// with the transition from hq to lq
+			#ifdef HIGH_QUALITY
+				float3 normal_vs	= normalize(IN.normal_vs.xyz);		// renormalize direction vectors received from interpolators
+				float3 tangent_vs	= normalize(IN.tangent_vs.xyz);
+				// calculate tangent space basis
+				float3x3 TBN = calc_TBN( normal_vs, tangent_vs, IN.tangent_vs.w);	// bitangent sign is supplied in w component
+				
+				// calculate fresnel reflectivity
+				// @todo currently this is using the geo surface normal and not the normal
+				// map perturbed normal
+				float3	unit_to_eye			= normalize(-IN.position_vs.xyz);	// unit vector from fragment to eye
+				float	reflectivity		= calc_reflectivity_hq( unit_to_eye, normal_vs );
+				
+				// use normal map perturbed normal when looking up reflection
+				float2 uv0 = IN.uv0_uv1.xy;
+				float2 uv1 = IN.uv0_uv1.zw;
+				float4 normal_gloss = map_color_to_normal( tex2D( sampler_normal_and_gloss, uv1) ); // normal in tangent space, also contains gloss map in alpha channel
+				if ( !debug_is_enabled_bump() )
+					normal_gloss.xyz = float3(0,0,1);	// just point along surface normal
+					
+				// need to transform normal map normal in tangent space back to view space
+				// we assume TBN is orthonormal so that we can just transpose for inverse transform
+				float3	perturbed_normal_vs = mul(normal_gloss.xyz,TBN);
+				float3	reflection_color	= sample_reflection_cubemap( IN.position_vs.xyz, perturbed_normal_vs ).rgb;
+			#else
+				// @todo - no longer ever used, see note about HQ above
+				// low quality uses single reflectivity constant (no fresnel) and uses reflection
+				// vector supplied by vertex shader
+				float	reflectivity		= g_FresnelParamsFP.x; 
+				float3	reflection_color	= texCUBE(g_sampler_cubemap, IN.reflection.xyz).rgb;
+			#endif //HIGH_QUALITY
+		#endif
+		
+		// blend reflection into material according to reflectivity (N.B. do this before adding specular lighting)
+		out_color.rgb = lerp( out_color.rgb, reflection_color, reflectivity );
+	#endif // USE_CUBEMAP
+	
+	return out_color;
+}
+
+float4 debug_show_texture(in const int blendmode, VP2FP IN)
+{
+	float4 out_color = float4(0,0,0,0);
+    float2 uv0 = IN.uv0_uv1.xy;
+    float2 uv1 = IN.uv0_uv1.zw;
+	
+	float selected_texture = g_DebugEnableFlagSetsFP.w;
+	
+	if (selected_texture == 0)
+		out_color = tex2D( sampler_base, uv0 );
+	else if (selected_texture == 1)
+		out_color = tex2D( sampler_blend, uv1 );
+	else if (selected_texture == 2)
+		out_color = tex2D( sampler_normal_and_gloss, uv1);	// normal + gloss
+	else
+		out_color = -1;
+	
+	if (out_color.x >= 0)
+	{
+		if ( debug_is_mode_show_rgb() )
+			out_color.a = 1;
+		else if ( debug_is_mode_show_alpha() )
+		{
+			out_color.rgb = out_color.a;
+			out_color.a = 1;
+		}
+	}
+		
+	// texture isn't used
+	return out_color;
+}
+
+float4  debug_visualize_blendmode(in const int blendmode, float2 uv)
+{
+    float3 blendcolor;
+    if ( blendmode == BLENDMODE_MODULATE)
+		blendcolor = float3(0.00f, 0.00f, 0.00f);
+    else if ( blendmode == BLENDMODE_MULTIPLY)
+		blendcolor = float3(0.50f, 0.00f, 0.00f);
+    else if ( blendmode == BLENDMODE_COLORBLEND_DUAL)
+		blendcolor = float3(0.00f, 0.50f, 0.00f);
+    else if ( blendmode == BLENDMODE_ADDGLOW)
+		blendcolor = float3(0.50f, 0.50f, 0.00f);
+    else if ( blendmode == BLENDMODE_ALPHADETAIL)
+		blendcolor = float3(0.00f, 0.00f, 0.50f);
+    else if ( blendmode == BLENDMODE_BUMPMAP_MULTIPLY)
+		blendcolor = float3(0.50f, 0.00f, 0.50f);
+    else if ( blendmode == BLENDMODE_BUMPMAP_COLORBLEND_DUAL)
+		blendcolor = float3(0.00f, 0.50f, 0.50f);
+    else if ( blendmode == BLENDMODE_WATER)
+		blendcolor = float3(1.00f, 0.50f, 0.50f);
+    else if ( blendmode == BLENDMODE_MULTI)
+		blendcolor = float3(0.25f, 0.00f, 0.50f);
+	else
+		blendcolor = float3(0.9f, 0.5f, 0.5f);	// error color, invalid blendmode
+		
+    #if defined(BIT_HIGH_QUALITY) || defined(BIT_SINGLE_MATERIAL) || defined(BIT_BUILDING) || defined(BIT_OLDTINTMODE)
+
+		#ifdef BIT_SINGLE_MATERIAL
+    		#ifdef BIT_HIGH_QUALITY
+	    		float3 colorA = (0.5, 0, 0);
+		    #else 
+			    float3 colorA = (0, 0, 0);
+			#endif
+    	#elif BIT_BUILDING
+	    	float3 colorA = (0.5, 0.5, 0);
+		#elif BIT_HIGH_QUALITY
+    		float3 colorA = (1, 0, 0);
+	    #elif BIT_OLDTINTMODE
+			float3 colorA = (0, 0.5, 0);
+		#endif
+
+    	#ifdef BIT_OLDTINTMODE
+	    	float3 colorB = (0, 0.5, 0);
+		#else
+    		float3 colorB = colorA;
+        #endif
+
+        float2 aa = floor(uv * 5).xy * 0.5;
+        float horiz = frac(aa.x) * 2;
+        float checker = frac( aa.x + aa.y ) * 2;
+        float3 colorLERP = lerp(colorB, colorA, horiz); 
+        return float4(lerp( colorLERP, blendcolor, checker ), 1);
+    #else
+        return float4( blendcolor, 1 );
+    #endif
+}
+
+float4  debug_show_visualization(in const int blendmode, VP2FP IN)
+{
+    float4 out_color = float4(0,0,0,0);
+    float2 uv0 = IN.uv0_uv1.xy;
+    float2 uv1 = IN.uv0_uv1.zw;
+
+	float selected_visualization = g_DebugEnableFlagSetsFP.w;
+	
+	if (selected_visualization == 0)
+	{
+		if (debug_use_visualize_texture())
+			return tex2D(g_sampler_debug_visualize, uv0);
+		else
+			return float4( frac(uv0).xy, 0, 1 );
+	}
+	else if (selected_visualization == 1)
+	{
+		if (debug_use_visualize_texture())
+			return tex2D(g_sampler_debug_visualize, uv1);
+		else
+			return float4( frac(uv1).xy, 0, 1 );
+	}
+#if defined(HIGH_QUALITY)
+	else if (selected_visualization == 2)
+    {
+		float3 normal_vs	= normalize(IN.normal_vs.xyz);		// renormalize direction vectors received from interpolators
+        float3 visualize = range_compress(normal_vs);
+        return float4( visualize, 1 );
+    }
+	else if (selected_visualization == 3)
+    {
+		float3 tangent_vs	= normalize(IN.tangent_vs.xyz);
+        float3 visualize = range_compress(tangent_vs);
+        return float4( visualize, 1 );
+    }
+	else if (selected_visualization == 4)
+    {
+		float3 normal_vs	= normalize(IN.normal_vs.xyz);		// renormalize direction vectors received from interpolators
+		float3 tangent_vs	= normalize(IN.tangent_vs.xyz);
+		// calculate tangent space basis
+		float3x3 TBN = calc_TBN( normal_vs, tangent_vs, IN.tangent_vs.w);	// bitangent sign is supplied in w component
+        float3 visualize = range_compress(TBN[1]);
+        return float4( visualize, 1 );
+    }
+#endif
+	else if (selected_visualization == 5)
+		return debug_visualize_blendmode( blendmode, uv0 );
+}
+
+float4 debug_common_simple_main( in const int blendmode, VP2FP IN )
+{
+	float4 out_color = g_DebugDisabledColorFP;
+
+    // Texture map display mode
+	if ( debug_is_mode_show_texture() )
+	{
+		return debug_show_texture(blendmode,IN);
+	}
+
+    // Visualization Mode
+	if ( debug_is_mode_visualize() )
+	{
+		return debug_show_visualization(blendmode,IN);
+	}
+
+    // Material
+	out_color = debug_calc_blendmode(blendmode, IN);
+	
+	if ( debug_is_enabled_reflection() )
+	{
+		// @todo Is ultra reflection ever used here? NOT BEING USED ON THE MAIN SHADER
+		// Does it need to be supported in the case of some materials w/o bump maps or with downgrades?
+	}
+	
+#if PIXEL_LIT == LIT
+	// Lighting - optionally apply lighting and shadowing as controlled by debug flags
+	out_color.rgb = debug_common_apply_simple_lighting(out_color.rgb, IN);
+#else
+	#ifdef USE_SHADOWMAP
+	if ( debug_is_enabled_shadowed())
+	{
+		float shade_factor = shadow_csm( IN.position_vs.xyz, IN.fragment_pos );
+		float clamped_factor = clamp( shade_factor, g_ShadowParamsFP.w, 1.0 );
+		out_color.rgb *= clamped_factor;
+	}
+	#endif
+#endif
+	
+	if ( debug_is_enabled_fog() )
+	{
+		out_color.rgb = calc_fogged_color( out_color.rgb, IN.fogCoord );
+	}
+	
+	return out_color;
+}
+
+float4 debug_common_bumpmap_main( in const int blendmode, VP2FP IN )
+{
+	float4 out_color = g_DebugDisabledColorFP;
+
+    // Texture map display mode
+	if ( debug_is_mode_show_texture() )
+	{
+		return debug_show_texture(blendmode,IN);
+	}
+
+    // Visualization Mode
+	if ( debug_is_mode_visualize() )
+	{
+		return debug_show_visualization(blendmode,IN);
+	}
+
+    // Material
+	out_color = debug_calc_blendmode(blendmode, IN);
+	
+	if ( debug_is_enabled_reflection() )
+	{
+		// hmm...probably don't want to just have lighting on reflection
+		// unless it can also be toggled quickly as part of the material
+		out_color.rgb = debug_common_apply_bumpmap_reflection(out_color.rgb, IN);
+	}
+	
+#if PIXEL_LIT > LIT
+	// Lighting - optionally apply bumpmap lighting and shadowing as controlled by debug flags
+
+	float gloss_factor = 1.0f;	// @todo engine should be setting GlossParamFP consistently for all bumped materials
+    if ( blendmode != BLENDMODE_BUMPMAP_MULTIPLY)
+		gloss_factor =  g_GlossParamFP.x;
+	out_color.rgb = debug_common_apply_bumpmap_lighting(out_color.rgb, IN,gloss_factor);
+#endif
+	
+	if ( debug_is_enabled_fog() )
+	{
+		out_color.rgb = calc_fogged_color( out_color.rgb, IN.fogCoord );
+	}
+	
+	return out_color;
+}
+
+#endif  //_DEBUG_CGH_

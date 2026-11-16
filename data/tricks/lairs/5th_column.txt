@@ -1,0 +1,1089 @@
+Texture x_5th_glass
+	Base1 v_glass_01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1 
+
+	Multiply1 ofc1_glass_b.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 0.7 0.7 
+	Multiply1reflect 3
+
+	DualColor1 v_glass_01.tga 
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	MaskWeight .5
+	AlphaMask 1	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 0.05 0.7
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 0.1 0.15
+	Multiply2reflect 20
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	//SpecularColor1 104 72 48
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0  // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 1
+
+End
+
+Texture x_Reichsman_carpet
+	Base1 5th_FB_Reichsman_carpet
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 dcarpet.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 10 10
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale .5 .5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2 //2 is default value
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base none
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_5th_floorpanel_03
+	Base1 5th_floorpanel3
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 5th_floorpanel3_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask 5th_floorpanel3_bump
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .25
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 indoor_arachnos_floor_reflection.tga //goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1 //.5 .5
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 59 31 31
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 16
+	SpecularExponent2 16
+
+	DiffuseScale 1
+	AmbientScale 2 //2 is default value
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base none
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_5th_wall_slope_01
+	Base1 5th_basecement
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 25 20
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .015
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1 //.5 .5
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 59 31 31
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2 //2 is default value
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base none
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_5th_machinery_sqr_02
+	Base1 5th_machinery_sqr_02
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .015
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1 //.5 .5
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 59 31 31
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2 //2 is default value
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 0
+		Base none
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_5th_tank_glass
+        Base1 vat_glass_02.tga
+        Base1Scroll 0.000 0.000
+        Base1Scale 1 1
+
+	   	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	Multiply1reflect 1
+
+	DualColor1 vat_glass_02.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	Mask vat_glass_01_mask.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale .25 .25
+	Multiply2reflect 1
+
+	BumpMap1 vat_glass_01_bump.tga
+        BumpMap1Scroll  0.000 0.00
+        BumpMap1Scale 1 1
+
+	SpecularColor1 120 170 195
+	SpecularColor2 126 0 255
+	SpecularExponent 16 //30
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Fallback
+		UseFallback 1
+		Base vat_glass_fallback02.tga
+		Blend V_Rikti_Pod_Reflection_01.tga
+		Bumpmap none //vat_glass_fallback02_bump.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+
+End
+
+Texture x_5th_tank_water_b
+        Base1 tank_water_a.tga
+        Base1Scroll 0.0006 0.0004
+        Base1Scale 1 1
+
+        Multiply1 tank_water_bump_a.tga
+        Multiply1Scroll 0.000 -0.001
+        Multiply1Scale 1 1
+	   Multiply1reflect 1
+
+        BumpMap1 tank_water_bump_a.tga
+        BumpMap1Scroll  0.0001 -0.001
+        BumpMap1Scale .5 .5 //1 1
+
+        BumpMap2 tank_water_bump_a.tga
+        BumpMap2Scroll  -0.0004 -0.00025
+        BumpMap2Scale 1 1
+
+        MaskWeight 2 //7
+
+        DiffuseScale 2 //3
+        AmbientScale 2 //3
+
+        Color4 56 0 126
+        Color3 80 80 100
+        
+        ObjFlags FancyWater // This is the flag that says to render as water!
+
+	Fallback
+		UseFallback 1
+		Base vat_glass_fallback01.tga
+		Blend tank_water_bump_a.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+
+End
+
+Texture x_5th_Empwrmnt_Detail_01  ## Red Metal##
+        Base1 5th_empwrment_detail_01
+        Base1Scroll 0 0
+        Base1Scale 1 1
+
+        Multiply1 5th_metal_01.tga
+        Multiply1Scroll 0 0
+        Multiply1Scale 12 12
+	   		Multiply1reflect 0
+
+        BumpMap1 none //5th_metal_01_bump
+        BumpMap1Scroll  0 0
+        BumpMap1Scale 12 12
+
+        Mask 5th_empwrment_detail_01_mask
+				MaskScroll 0 0
+				MaskScrollType Normal
+				MaskScale 1 1
+				MaskWeight 1
+				AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+			
+        Base2 5th_empwrment_detail_01
+				Base2Scroll 0 0
+				Base2Scale 1 1
+
+				Multiply2 5th_metal_01.tga
+				Multiply2Scroll 0 0
+				Multiply2Scale 12 12
+				Multiply2reflect 0
+
+				DualColor2 none
+				Color3 0 0 0
+				Color4 0 0 0
+				DualColor2Scroll 0 0
+				DualColor2Scale 1 1
+
+
+				BumpMap2 5th_metal_01_bump
+				BumpMap2Scroll 0 0
+				BumpMap2Scale 12 12
+     
+        
+        SpecularColor1 176 146 146 //250 213 213
+				SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+				SpecularExponent1 10
+				SpecularExponent2 5.5
+
+        DiffuseScale 1 //3 
+        AmbientScale 2 //3
+
+      
+        
+       
+
+	Fallback
+		UseFallback 1
+		Base 5th_empwrment_detail_01
+		Blend 5th_metal_01.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 12 12
+		ScaleST1 1 1
+		DiffuseScale .5
+		AmbientScale .5
+	End
+
+End
+
+Texture x_5th_Empwrmnt_Detail_02  ## Regular Metal##
+        Base1 5th_Empwrment_Detail_02
+        Base1Scroll 0 0
+        Base1Scale 1 1
+
+        Multiply1 5th_metal_02.tga
+        Multiply1Scroll 0 0
+        Multiply1Scale 15 15
+	   		Multiply1reflect 0
+
+        BumpMap1 none //5th_metal_02_bump
+        BumpMap1Scroll  0 0
+        BumpMap1Scale 15 15 //14 14
+        
+        Base1 5th_Empwrment_Detail_02
+        Base1Scroll 0 0
+        Base1Scale 1 1
+        
+        
+        Mask 5th_Empwrment_Detail_02_mask
+				MaskScroll 0 0
+				MaskScrollType Normal
+				MaskScale 1 1
+				MaskWeight 1
+				AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+			
+			
+				Base2 5th_Empwrment_Detail_02
+        Base2Scroll 0 0
+        Base2Scale 1 1
+        
+        Multiply2 5th_metal_02.tga
+        Multiply2Scroll 0 0
+        Multiply2Scale 15 15
+	   		Multiply2reflect 0
+			
+			
+
+        BumpMap2 5th_metal_02_bump
+        BumpMap2Scroll  0 0
+        BumpMap2Scale 15 15			
+        
+        
+        SpecularColor1 217 177 173 //175 175 175
+				SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+				SpecularExponent1 8
+				SpecularExponent2 8
+
+        DiffuseScale 1 //3 
+        AmbientScale 2 //3
+
+     
+        
+       
+
+	Fallback
+		UseFallback 1
+		Base 5th_empwrment_detail_02
+		Blend 5th_metal_02.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 15 15
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+
+End
+
+Texture x_5th_Empwrmnt_Detail_03  ## Dark Metal##
+        Base1 5th_empwrment_detail_03.tga
+        Base1Scroll 0 0
+        Base1Scale 1 1
+
+        Multiply1 5th_metal_03.tga
+        Multiply1Scroll 0 0
+        Multiply1Scale 8 8
+	   		Multiply1reflect 0
+
+        BumpMap1 5th_metal_03_bump
+        BumpMap1Scroll  0 0
+        BumpMap1Scale 8 8
+        
+        Mask 5th_Empwrment_Detail_03_mask
+				MaskScroll 0 0
+				MaskScrollType Normal
+				MaskScale 1 1
+				MaskWeight 1
+				AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+        
+        Base2 5th_empwrment_detail_03.tga
+        Base2Scroll 0 0
+        Base2Scale 1 1
+
+        Multiply2 5th_metal_03.tga
+        Multiply2Scroll 0 0
+        Multiply2Scale 8 8
+	   		Multiply2reflect 0
+
+        BumpMap2 none
+        BumpMap2Scroll  0 0
+        BumpMap2Scale 1 1
+
+       
+        
+        SpecularColor1 236 193 193
+				SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+				SpecularExponent1 8
+				SpecularExponent2 16
+
+        DiffuseScale 1 //3 
+        AmbientScale 2 //3
+
+     
+        
+       
+
+	Fallback
+		UseFallback 1
+		Base 5th_empwrment_detail_03
+		Blend 5th_metal_03.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 8 8
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+
+End
+
+Texture x_5th_Empwrmnt_Detail_04  ## base ##
+        Base1 5th_empwrment_detail_04.tga
+        Base1Scroll 0 0 
+        Base1Scale 1 1
+
+        Multiply1 5th_metal_02.tga
+        Multiply1Scroll 0 0
+        Multiply1Scale 5 5
+	   		Multiply1reflect 0
+
+        BumpMap1 5th_empwrment_detail_04_bump.tga
+        BumpMap1Scroll  0 0
+        BumpMap1Scale 1 1
+        
+        
+        AddGlow1 5th_empwrment_detail_04_glow.tga
+				AddGlow1Scroll 0 0
+				AddGlow1ScrollType Normal
+				AddGlow1Scale 1 1
+				Flags AlwaysAddGlow
+
+				Mask none //5th_empwrment_detail_04_mask.tga
+				MaskScroll 0 0
+				MaskScrollType Normal
+				MaskScale 1 1
+				MaskWeight 1
+				AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+				// of the Mask texture instead of all 4 channels
+
+        BumpMap2 none //5th_metal_02_bump.tga
+        BumpMap2Scroll  0 0
+        BumpMap2Scale 5 5
+
+        MaskWeight 1
+
+        DiffuseScale 1 //3 
+        AmbientScale 2 //3
+
+        Color4 56 0 126
+        Color3 80 80 100
+        
+       
+
+	Fallback
+		UseFallback 1
+		Base 5th_empwrment_detail_04
+		Blend 5th_metal_02.tga
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 5 5
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+
+End
+
+Texture x_5th_empwrmnt_pipe
+        Base1 5th_metal_03.tga
+        Base1Scroll 0 0 
+        Base1Scale 5 20
+
+        Multiply1 5th_pipe01.tga //5th_basemetallite
+        Multiply1Scroll 0 0
+        Multiply1Scale 5 20 //5 10
+	   		Multiply1reflect 0
+
+        BumpMap1 5th_metal_02_bump.tga
+        BumpMap1Scroll  0 0
+        BumpMap1Scale 5 20
+
+        BumpMap2 none
+        BumpMap2Scroll  0 0
+        BumpMap2Scale 1 1
+
+        MaskWeight 1
+				
+				SpecularColor1  100 78 78 //50 34 34 //100 78 78
+				SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+				SpecularExponent1 32
+				SpecularExponent2 16
+
+        DiffuseScale 1 //3 
+        AmbientScale 2 //3
+
+        
+       
+
+	Fallback
+		UseFallback 0
+		Base 5th_empwrment_detail_04
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+
+End
+
+Trick 5thneon
+	LodFar 310
+	LodFarFade 60
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Trick 5thglow
+	SortBias 5.000000
+	ScrollST0 0.009 0
+	ObjFlags FullBright
+	TrickFlags NoColl Additive NoZWrite
+End
+
+Trick 5thfan
+	StAnim 3.000000 1.000000 spin_counter 
+	TrickFlags NoColl
+End
+
+Trick 5thglass
+	ObjFlags FullBright
+	TrickFlags ReflectTex0 NoColl
+End
+
+Trick 5thglass2
+	ObjFlags FullBright
+	TrickFlags ReflectTex0
+End
+
+Trick 5thflag
+	TrickFlags NoColl
+End
+
+Trick 5thstripe
+	LodFar 250
+	TrickFlags NoColl
+End
+
+Trick 5thcage
+	ObjTexBias -2.000000
+	AlphaRef 130.000000
+	TrickFlags NoColl
+End
+
+Trick 5thcoll
+	TrickFlags NoDraw
+End
+
+Trick tekpipe
+	ScrollST1 0 0.0055
+End
+
+Trick 5th_spwnpad1
+	StAnim 3.000000 0.000000 spin 
+End
+
+Trick 5th_spawnbeam1
+	ScrollST0 0 0.0055
+	ScrollST1 0 0.0055
+	TrickFlags NoColl
+End
+
+Trick 5thholo1
+	SortBias 9.000000
+	ScrollST1 0 0.02
+	LodFar 300
+	LodFarFade 100
+	StAnim 0.020000 1.000000 light_pulse2 FRAMESNAP
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick 5thholo2
+	SortBias 9.000000
+	ScrollST1 0 0.014
+	LodFar 300
+	LodFarFade 100
+	StAnim 0.030000 1.000000 light_pulse2 FRAMESNAP
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick 5thholo3
+	SortBias 9.000000
+	ScrollST1 0 0.026
+	LodFar 300
+	LodFarFade 100
+	StAnim 0.040000 1.000000 light_pulse2 FRAMESNAP
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick 5thholoA
+	SortBias 9.000000
+	ScrollST0 0 0.001
+	LodFar 300
+	LodFarFade 100
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick 5thholob
+	SortBias 9.000000
+	ScrollST0 0 0.0017
+	LodFar 300
+	LodFarFade 100
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick 5thholoc
+	SortBias 9.000000
+	ScrollST0 0.0017 0
+	LodFar 300
+	LodFarFade 100
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick 5thprjctr
+	ScrollST0 0.1 0
+	LodFar 200
+	LodFarFade 100
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick 5thcnslglowA
+	ScrollST0 0 -0.004
+	LodFar 200
+	LodFarFade 100
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Trick 5thcnslglowB
+	ScrollST0 0 0.004
+	LodFar 200
+	LodFarFade 100
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Trick 5thcnslglowC
+	ScrollST0 0 -0.0045
+	LodFar 200
+	LodFarFade 100
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Trick 5thcnslglowD
+	ScrollST0 -0.015 0
+	LodFar 200
+	LodFarFade 100
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Trick 5thradar
+	SortBias 1.000000
+	LodFar 300
+	LodFarFade 100
+	StAnim 1.000000 1.000000 spin_counter 
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick 5thwhirl
+	LodFar 300
+	LodFarFade 100
+	StAnim 2.000000 1.000000 spin_counter 
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Trick 5thhndscan
+	LodFar 300
+	LodFarFade 100
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Trick 5thplankhi
+	LodFar 40
+End
+
+Trick 5thplanklo
+	LodNear 39
+	LodFar 400
+	LodFarFade 50
+	LodNear 39
+	TrickFlags NoColl
+End
+
+Trick skyline
+	TrickFlags NoColl
+End
+
+Trick 5thcellnmbr
+	SortBias 9.000000
+	LodFar 300
+	LodFarFade 100
+	TrickFlags NoColl
+End
+
+Trick 5thtrtlodA
+	LodFar 360
+	LodFarFade 60
+End
+
+Trick 5thtrtlitelodA
+	LodFar 360
+	LodFarFade 60
+	ObjFlags FullBright
+End
+
+Trick 5thtrtlodnodrawA
+	TrickFlags NoColl EditorVisible 
+End
+
+Texture 5th_metal_03.tga
+	Flags Truecolor
+End
+
+Texture 5th_empwrment_detail_04.tga
+	Flags Truecolor
+End
+
+Texture 5th_empwrment_detail_04_bump.tga
+	Flags Truecolor
+End
+
+Texture 5th_empwrment_detail_04_glow.tga
+	Flags Truecolor
+End
+
+Texture 5th_empwrment_detail_02.tga
+	Flags Truecolor
+End
+
+Texture 5th_railing1.tga
+	Flags ClampT
+End
+
+Texture paintbump_det.tga
+End
+
+Texture 5th_oiltank1.tga
+	Blend paintbump_det.tga
+	BlendType Multiply
+	ScaleST0 10 10
+End
+
+Texture 5th_techpipe.tga
+	Blend 5th_techlight
+	BlendType AlphaDetail
+End
+
+Texture 5th_spawnpadsm2.tga
+	Blend 5th_spawnpadsm1.tga
+	BlendType AlphaDetail
+End
+
+Texture marker1.tga
+	Blend wavemaster.tga
+	BlendType Multiply
+	ScaleST0 1 4
+End
+
+Texture 5th_scrollscrn1.tga
+	Blend 5th_scrollscrn_mask1.tga
+	BlendType Multiply
+	ScaleST0 1 8
+End
+
+Texture 5th_horzscrllscrn1.tga
+	Blend 5th_horzscrllscrn_mask1.tga
+	BlendType Multiply
+	ScaleST0 4 1
+End
+
+Texture 5th_Tile_Detail.tga
+End
+
+Texture 5th_Cell_Floor.tga
+	Blend 5th_Tile_Detail.tga
+	BlendType Multiply
+	ScaleST0 8 8
+End
+
+Texture 5th_FB_hang_flag.tga
+	Flags truecolor
+End
+

@@ -1,0 +1,7542 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Stop
+DisplayName P4200101291
+//EventVolume EventVolume // ZoneEventName = 50plusLambdaSector
+
+//Event Reward Structure
+// Stage 1: Defeat trash - No Karma, No Merits
+// Stage 2: Defeat Guard - No Karma, No Merits
+// Stage 3: Sabotage -No Karma, Astral Merit (no Karma) for gathering all 10 of a power type.
+// Stage 4: Defeat Marauder - Karma 10, Astral Merit for defeating 30 IDF, Empyrean Merit (subject to lockout)
+// Total: 1 Karma Stage 
+//	1 Completed stage: Component Drop Tables
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action
+		{
+			DebugPrint <<This is an 8-16 player event>>
+			SetScriptValue EventSize 8
+		}
+		Action CreateStuff
+		{
+			DoorCreate InteriorDoor // Requires ZoneEventName.Door.MarkerName ZoneEvent>
+			DoorCreate Door-LabElevatorA // Add the following property to the MapSwap: Requires 50plusLambdaSector.Door.Door-LabElevatorA ZoneEvent>
+			DoorCreate Door-LabElevatorB // Add the following property to the MapSwap: Requires 50plusLambdaSector.Door.Door-LabElevatorB ZoneEvent>
+			DoorCreate Door-LabElevatorC // Add the following property to the MapSwap: Requires 50plusLambdaSector.Door.Door-LabElevatorC ZoneEvent>
+			DoorCreate Door-WarehouseElevatorA // Add the following property to the MapSwap: Requires 50plusLambdaSector.Door.Door-WarehouseElevatorA ZoneEvent>
+			DoorCreate Door-WarehouseElevatorB // Add the following property to the MapSwap: Requires 50plusLambdaSector.Door.Door-WarehouseElevatorB ZoneEvent>
+			DoorCreate Door-WarehouseElevatorC // Add the following property to the MapSwap: Requires 50plusLambdaSector.Door.Door-WarehouseElevatorC ZoneEvent>
+			DoorCreate Door-Hospital // Add the following property to the MapSwap: Requires 50plusLambdaSector.Door.Door-Hospital ZoneEvent>
+			PorterCreate MunitionsPorter // This needs a named volume with the name given here as well as a scriptmarker with the same name.
+			PorterCreate TrainingPorter // This needs a named volume with the name given here as well as a scriptmarker with the same name.
+			WaypointCreate WP-DeliveryAcids map_enticon_neighborhood P2976564000
+			WaypointCreate WP-DeliveryGrenades map_enticon_neighborhood P554564519
+			WaypointCreate WP-MissionExit map_enticon_neighborhood P3301789151
+			WaypointCreate WP-HospitalExit map_enticon_neighborhood P2099690906
+
+			DoorControl
+			{
+				Type Lock
+				Door InteriorDoor
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-LabElevatorA
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-LabElevatorB
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-LabElevatorC
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-WarehouseElevatorA
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-WarehouseElevatorB
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-WarehouseElevatorC
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+			PorterControl
+			{
+				Type Activate
+				Porter MunitionsPorter
+			}
+			PorterControl
+			{
+				Type Activate
+				Porter TrainingPorter
+			}
+
+// Create Spawns: WarmthBuff
+			SpawnCreate WarmthBuff
+			{
+				Location WarmthBuff
+				Group WarmthBuff
+				Team WarmthBuff
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WarmthBuff
+			}
+
+// Create Spawns: Cutscene
+			SpawnCreate Cutscene
+			{
+				Location Cutscene
+				Group Cutscene
+				Team Cutscene
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Cutscene
+			}
+
+// Create Spawns: Caption Manager
+			SpawnCreate CaptionManagerA
+			{
+				Location CaptionManagerA
+				Group CaptionManagerA
+				Team CaptionManagerA
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team CaptionManagerA
+			}
+
+// Create Spawns: Marauder			
+			SpawnCreate Marauder
+			{
+				Location MarauderTeam
+				Group MarauderTeam
+				Team Marauder
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team Marauder
+			}
+
+//Create Spawns: Caches
+			SpawnCreate DestructibleCache
+			{
+				Location DestructibleCache
+				Group DestructibleCache
+				Team DestructibleCache
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team DestructibleCache
+			}
+
+//Create Spawns: Pods
+			SpawnCreate DestructiblePod
+			{
+				Location DestructiblePod
+				Group DestructiblePod
+				Team DestructiblePod
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team DestructiblePod
+			}
+
+// Create Spawns: Weapon Cache Restocking
+			SpawnCreate WeaponCache-Restock
+			{
+				Location WeaponCache-Restock
+				Group WeaponCache-Restock
+				Team WeaponCache-Restock
+				SpawnBehavior <<DoNotGoToSleep>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WeaponCache-Restock
+				MinRespawnTime 90000
+				Count	1,	1,	1
+
+			}
+			SpawnCreate WeaponCache-Guards
+			{
+				Location WeaponCache-Guards
+				Group WeaponCache-Guards
+				Team WeaponCache-Guards
+				SpawnBehavior <<DoNotGoToSleep>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team WeaponCache-Guards
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+
+// Create Spawns: Incubation Pod Restocking
+			SpawnCreate IncubationPod-Restock
+			{
+				Location IncubationPod-Restock
+				Group IncubationPod-Restock
+				Team IncubationPod-Restock
+				SpawnBehavior <<DoNotGoToSleep>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team IncubationPod-Restock
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+
+			SpawnCreate IncubationPod-Guards
+			{
+				Location IncubationPod-Guards
+				Group IncubationPod-Guards
+				Team IncubationPod-Guards
+				SpawnBehavior <<DoNotGoToSleep>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team IncubationPod-Guards
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+
+//Create Spawns: Rifts
+			SpawnCreate ReinforcementRiftA
+			{
+				Location ReinforcementRiftA
+				Group ReinforcementRiftA
+				Team ReinforcementRiftA
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftA
+			}
+
+			SpawnCreate ReinforcementRiftB
+			{
+				Location ReinforcementRiftB
+				Group ReinforcementRiftB
+				Team ReinforcementRiftB
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftB
+			}
+
+			SpawnCreate ReinforcementRiftC
+			{
+				Location ReinforcementRiftC
+				Group ReinforcementRiftC
+				Team ReinforcementRiftC
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftC
+			}
+
+
+			SpawnCreate ReinforcementRiftD
+			{
+				Location ReinforcementRiftD
+				Group ReinforcementRiftD
+				Team ReinforcementRiftD
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftD
+			}
+
+			SpawnCreate ReinforcementRiftE
+			{
+				Location ReinforcementRiftE
+				Group ReinforcementRiftE
+				Team ReinforcementRiftE
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftE
+			}
+
+			SpawnCreate ReinforcementRiftF
+			{
+				Location ReinforcementRiftF
+				Group ReinforcementRiftF
+				Team ReinforcementRiftF
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftF
+			}
+
+			SpawnCreate ReinforcementRiftG
+			{
+				Location ReinforcementRiftG
+				Group ReinforcementRiftG
+				Team ReinforcementRiftG
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftG
+			}
+
+			SpawnCreate ReinforcementRiftH
+			{
+				Location ReinforcementRiftH
+				Group ReinforcementRiftH
+				Team ReinforcementRiftH
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftH
+			}
+
+			SpawnCreate ReinforcementRiftI
+			{
+				Location ReinforcementRiftI
+				Group ReinforcementRiftI
+				Team ReinforcementRiftI
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftI
+			}
+
+			SpawnCreate ReinforcementRiftJ
+			{
+				Location ReinforcementRiftJ
+				Group ReinforcementRiftJ
+				Team ReinforcementRiftJ
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementRiftJ
+			}
+
+//Create Spawns: Turrets
+			SpawnCreate LambdaTurrets
+			{
+				Location LambdaTurrets
+				Group LambdaTurrets
+				Team LambdaTurrets
+				SpawnBehavior <<DoNotMove,NoPhysics,ProtectSpawnRadius(400),ProtectSpawnOuterRadius(500),ProtectSpawnDuration(30),FOVDegrees(360),OverridePerceptionRadius(500)>>
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team LambdaTurrets
+			}
+
+//Create Spawns: Reinforcement Door Block A
+			SpawnCreate ReinforcementDoorA
+			{
+				Location ReinforcementDoorA
+				Group ReinforcementDoorA
+				Team ReinforcementDoorA
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorA
+			}
+			SpawnCreate ReinforcementWaveA
+			{
+				Location ReinforcementWaveA
+				Group ReinforcementWaveA
+				Team ReinforcementWaveA
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveA
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+//Create Spawns: Reinforcement Door Block B
+			SpawnCreate ReinforcementDoorB
+			{
+				Location ReinforcementDoorB
+				Group ReinforcementDoorB
+				Team ReinforcementDoorB
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorB
+			}
+			SpawnCreate ReinforcementWaveB
+			{
+				Location ReinforcementWaveB
+				Group ReinforcementWaveB
+				Team ReinforcementWaveB
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveB
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+//Create Spawns: Reinforcement Door Block C
+			SpawnCreate ReinforcementDoorC
+			{
+				Location ReinforcementDoorC
+				Group ReinforcementDoorC
+				Team ReinforcementDoorC
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorC
+			}
+			SpawnCreate ReinforcementWaveC
+			{
+				Location ReinforcementWaveC
+				Group ReinforcementWaveC
+				Team ReinforcementWaveC
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveC
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+//Create Spawns: Reinforcement Door Block D
+			SpawnCreate ReinforcementDoorD
+			{
+				Location ReinforcementDoorD
+				Group ReinforcementDoorD
+				Team ReinforcementDoorD
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorD
+			}
+			SpawnCreate ReinforcementWaveD
+			{
+				Location ReinforcementWaveD
+				Group ReinforcementWaveD
+				Team ReinforcementWaveD
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveD
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+//Create Spawns: Reinforcement Door Block E
+			SpawnCreate ReinforcementDoorE
+			{
+				Location ReinforcementDoorE
+				Group ReinforcementDoorE
+				Team ReinforcementDoorE
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorE
+			}
+			SpawnCreate ReinforcementWaveE
+			{
+				Location ReinforcementWaveE
+				Group ReinforcementWaveE
+				Team ReinforcementWaveE
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveE
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+//Create Spawns: Reinforcement Door Block F
+			SpawnCreate ReinforcementDoorF
+			{
+				Location ReinforcementDoorF
+				Group ReinforcementDoorF
+				Team ReinforcementDoorF
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorF
+			}
+			SpawnCreate ReinforcementWaveF
+			{
+				Location ReinforcementWaveF
+				Group ReinforcementWaveF
+				Team ReinforcementWaveF
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveF
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+//Create Spawns: Reinforcement Door Block G
+			SpawnCreate ReinforcementDoorG
+			{
+				Location ReinforcementDoorG
+				Group ReinforcementDoorG
+				Team ReinforcementDoorG
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorG
+			}
+			SpawnCreate ReinforcementWaveG
+			{
+				Location ReinforcementWaveG
+				Group ReinforcementWaveG
+				Team ReinforcementWaveG
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveG
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+		
+//Create Spawns: Reinforcement Door Block H
+			SpawnCreate ReinforcementDoorH
+			{
+				Location ReinforcementDoorH
+				Group ReinforcementDoorH
+				Team ReinforcementDoorH
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorH
+			}
+			SpawnCreate ReinforcementWaveH
+			{
+				Location ReinforcementWaveH
+				Group ReinforcementWaveH
+				Team ReinforcementWaveH
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveH
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+//Create Spawns: Reinforcement Door Block I
+			SpawnCreate ReinforcementDoorI
+			{
+				Location ReinforcementDoorI
+				Group ReinforcementDoorI
+				Team ReinforcementDoorI
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorI
+			}
+			SpawnCreate ReinforcementWaveI
+			{
+				Location ReinforcementWaveI
+				Group ReinforcementWaveI
+				Team ReinforcementWaveI
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveI
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+//Create Spawns: Reinforcement Door Block J
+			SpawnCreate ReinforcementDoorJ
+			{
+				Location ReinforcementDoorJ
+				Group ReinforcementDoorJ
+				Team ReinforcementDoorJ
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team ReinforcementDoorJ
+			}
+			SpawnCreate ReinforcementWaveJ
+			{
+				Location ReinforcementWaveJ
+				Group ReinforcementWaveJ
+				Team ReinforcementWaveJ
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveJ
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	1,	1
+				Count	16,	1,	1
+			}
+
+//Create Spawns: Reinforcement Door Block K
+			SpawnCreate ReinforcementWaveK
+			{
+				Location ReinforcementWaveK
+				Group ReinforcementWaveK
+				Team ReinforcementWaveK
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveK
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	2,	2
+				Count	14,	2,	2
+				Count	15,	2,	2
+				Count	16,	3,	3
+			}
+
+//Create Spawns: Reinforcement Door Block L
+			SpawnCreate ReinforcementWaveL
+			{
+				Location ReinforcementWaveL
+				Group ReinforcementWaveL
+				Team ReinforcementWaveL
+				SpawnBehavior <<DoNotGoToSleep,BoostSpeed(2),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ReinforcementWaveL
+				Creator Marauder
+				MinRespawnTime 90000
+				Count	1,	1,	1
+				Count	8,	1,	1
+				Count	9,	1,	1
+				Count	10,	1,	1
+				Count	11,	1,	1
+				Count	12,	1,	1
+				Count	13,	1,	1
+				Count	14,	1,	1
+				Count	15,	2,	2
+				Count	16,	3,	3
+			}
+		}
+		Action CreateGeneratorSpawns
+		{
+//			SpawnCreate GenIDF-Ext01
+//			{
+//				Location GenIDF_Ext1
+//				Group GenIDF_Ext1
+//				Team GenIDF-Ext01
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext01
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+//			SpawnCreate GenIDF-Ext02
+//			{
+//				Location GenIDF_Ext2
+//				Group GenIDF_Ext2
+//				Team GenIDF-Ext02
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext02
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+			SpawnCreate GenIDF-Ext03
+			{
+				Location GenIDF_Ext3
+				Group GenIDF_Ext3
+				Team GenIDF-Ext03
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext03
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext04
+			{
+				Location GenIDF_Ext4
+				Group GenIDF_Ext4
+				Team GenIDF-Ext04
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext04
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+//			SpawnCreate GenIDF-Ext05
+//			{
+//				Location GenIDF_Ext5
+//				Group GenIDF_Ext5
+//				Team GenIDF-Ext05
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext05
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+//			SpawnCreate GenIDF-Ext06
+//			{
+//				Location GenIDF_Ext6
+//				Group GenIDF_Ext6
+//				Team GenIDF-Ext06
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext06
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+//			SpawnCreate GenIDF-Ext07
+//			{
+//				Location GenIDF_Ext7
+//				Group GenIDF_Ext7
+//				Team GenIDF-Ext07
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext07
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+			SpawnCreate GenIDF-Ext08
+			{
+				Location GenIDF_Ext8
+				Group GenIDF_Ext8
+				Team GenIDF-Ext08
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext08
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+//			SpawnCreate GenIDF-Ext09
+//			{
+//				Location GenIDF_Ext9
+//				Group GenIDF_Ext9
+//				Team GenIDF-Ext09
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext09
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+//			SpawnCreate GenIDF-Ext10
+//			{
+//				Location GenIDF_Ext10
+//				Group GenIDF_Ext10
+//				Team GenIDF-Ext10
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext10
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+			SpawnCreate GenIDF-Ext11
+			{
+				Location GenIDF_Ext11
+				Group GenIDF_Ext11
+				Team GenIDF-Ext11
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext11
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext12
+			{
+				Location GenIDF_Ext12
+				Group GenIDF_Ext12
+				Team GenIDF-Ext12
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext12
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+//			SpawnCreate GenIDF-Ext13
+//			{
+//				Location GenIDF_Ext13
+//				Group GenIDF_Ext13
+//				Team GenIDF-Ext13
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext13
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+//			SpawnCreate GenIDF-Ext14
+//			{
+//				Location GenIDF_Ext14
+//				Group GenIDF_Ext14
+//				Team GenIDF-Ext14
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext14
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+//			SpawnCreate GenIDF-Ext15
+//			{
+//				Location GenIDF_Ext15
+//				Group GenIDF_Ext15
+//				Team GenIDF-Ext15
+//				KillBehavior <<DestroyMe>>
+//			}
+//			TeamCreate
+//			{
+//				Team GenIDF-Ext15
+//				MinRespawnTime 90000
+//				Count	1,	1,	7
+//				Count	12,	1,	7
+//				Count	13,	1,	8
+//				Count	14,	1,	8
+//				Count	15,	1,	9
+//				Count	16,	1,	9
+//				Count	17,	1,	10
+//				Count	18,	1,	10
+//				Count	19,	1,	10
+//				Count	20,	1,	10
+//				Count	21,	1,	10
+//				Count	22,	1,	11
+//				Count	23,	1,	11
+//				Count	24,	1,	12
+//			}
+			SpawnCreate GenIDF-Ext16
+			{
+				Location GenIDF_Ext16
+				Group GenIDF_Ext16
+				Team GenIDF-Ext16
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext16
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext17
+			{
+				Location GenIDF_Ext17
+				Group GenIDF_Ext17
+				Team GenIDF-Ext17
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext17
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext18
+			{
+				Location GenIDF_Ext18
+				Group GenIDF_Ext18
+				Team GenIDF-Ext18
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext18
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext19
+			{
+				Location GenIDF_Ext19
+				Group GenIDF_Ext19
+				Team GenIDF-Ext19
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext19
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext20
+			{
+				Location GenIDF_Ext20
+				Group GenIDF_Ext20
+				Team GenIDF-Ext20
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext20
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext21
+			{
+				Location GenIDF_Ext21
+				Group GenIDF_Ext21
+				Team GenIDF-Ext21
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext21
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext22
+			{
+				Location GenIDF_Ext22
+				Group GenIDF_Ext22
+				Team GenIDF-Ext22
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext22
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext23
+			{
+				Location GenIDF_Ext23
+				Group GenIDF_Ext23
+				Team GenIDF-Ext23
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext23
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext24
+			{
+				Location GenIDF_Ext24
+				Group GenIDF_Ext24
+				Team GenIDF-Ext24
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext24
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext25
+			{
+				Location GenIDF_Ext25
+				Group GenIDF_Ext25
+				Team GenIDF-Ext25
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext25
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext26
+			{
+				Location GenIDF_Ext26
+				Group GenIDF_Ext26
+				Team GenIDF-Ext26
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext26
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext27
+			{
+				Location GenIDF_Ext27
+				Group GenIDF_Ext27
+				Team GenIDF-Ext27
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext27
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext28
+			{
+				Location GenIDF_Ext28
+				Group GenIDF_Ext28
+				Team GenIDF-Ext28
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext28
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext29
+			{
+				Location GenIDF_Ext29
+				Group GenIDF_Ext29
+				Team GenIDF-Ext29
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext29
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext30
+			{
+				Location GenIDF_Ext30
+				Group GenIDF_Ext30
+				Team GenIDF-Ext30
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext30
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-Ext31
+			{
+				Location GenIDF_Ext31
+				Group GenIDF_Ext31
+				Team GenIDF-Ext31
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-Ext31
+				MinRespawnTime 90000
+				Count	1,	1,	7
+				Count	12,	1,	7
+				Count	13,	1,	8
+				Count	14,	1,	8
+				Count	15,	1,	9
+				Count	16,	1,	9
+				Count	17,	1,	10
+				Count	18,	1,	10
+				Count	19,	1,	10
+				Count	20,	1,	10
+				Count	21,	1,	10
+				Count	22,	1,	11
+				Count	23,	1,	11
+				Count	24,	1,	12
+			}
+			SpawnCreate GenIDF-TF01
+			{
+				Location GenIDF_TF1
+				Group GenIDF_TF1
+				Team GenIDF-TF01
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF01
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF02
+			{
+				Location GenIDF_TF2
+				Group GenIDF_TF2
+				Team GenIDF-TF02
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF02
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF03
+			{
+				Location GenIDF_TF3
+				Group GenIDF_TF3
+				Team GenIDF-TF03
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF03
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF04
+			{
+				Location GenIDF_TF4
+				Group GenIDF_TF4
+				Team GenIDF-TF04
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF04
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF05
+			{
+				Location GenIDF_TF5
+				Group GenIDF_TF5
+				Team GenIDF-TF05
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF05
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF06
+			{
+				Location GenIDF_TF6
+				Group GenIDF_TF6
+				Team GenIDF-TF06
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF06
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF07
+			{
+				Location GenIDF_TF7
+				Group GenIDF_TF7
+				Team GenIDF-TF07
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF07
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF08
+			{
+				Location GenIDF_TF8
+				Group GenIDF_TF8
+				Team GenIDF-TF08
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF08
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF09
+			{
+				Location GenIDF_TF9
+				Group GenIDF_TF9
+				Team GenIDF-TF09
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF09
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF10
+			{
+				Location GenIDF_TF10
+				Group GenIDF_TF10
+				Team GenIDF-TF10
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF10
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF11
+			{
+				Location GenIDF_TF11
+				Group GenIDF_TF11
+				Team GenIDF-TF11
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF11
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF12
+			{
+				Location GenIDF_TF12
+				Group GenIDF_TF12
+				Team GenIDF-TF12
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF12
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF13
+			{
+				Location GenIDF_TF13
+				Group GenIDF_TF13
+				Team GenIDF-TF13
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF13
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF14
+			{
+				Location GenIDF_TF14
+				Group GenIDF_TF14
+				Team GenIDF-TF14
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF14
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF15
+			{
+				Location GenIDF_TF15
+				Group GenIDF_TF15
+				Team GenIDF-TF15
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF15
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF16
+			{
+				Location GenIDF_TF16
+				Group GenIDF_TF16
+				Team GenIDF-TF16
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF16
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF17
+			{
+				Location GenIDF_TF17
+				Group GenIDF_TF17
+				Team GenIDF-TF17
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF17
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF18
+			{
+				Location GenIDF_TF18
+				Group GenIDF_TF18
+				Team GenIDF-TF18
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF18
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF19
+			{
+				Location GenIDF_TF19
+				Group GenIDF_TF19
+				Team GenIDF-TF19
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF19
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF20
+			{
+				Location GenIDF_TF20
+				Group GenIDF_TF20
+				Team GenIDF-TF20
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF20
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF21
+			{
+				Location GenIDF_TF21
+				Group GenIDF_TF21
+				Team GenIDF-TF21
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF21
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-TF22
+			{
+				Location GenIDF_TF22
+				Group GenIDF_TF22
+				Team GenIDF-TF22
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-TF22
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD01
+			{
+				Location GenIDF_MD1
+				Group GenIDF_MD1
+				Team GenIDF-MD01
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD01
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD02
+			{
+				Location GenIDF_MD2
+				Group GenIDF_MD2
+				Team GenIDF-MD02
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD02
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD03
+			{
+				Location GenIDF_MD3
+				Group GenIDF_MD3
+				Team GenIDF-MD03
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD03
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD04
+			{
+				Location GenIDF_MD4
+				Group GenIDF_MD4
+				Team GenIDF-MD04
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD04
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD05
+			{
+				Location GenIDF_MD5
+				Group GenIDF_MD5
+				Team GenIDF-MD05
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD05
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD06
+			{
+				Location GenIDF_MD6
+				Group GenIDF_MD6
+				Team GenIDF-MD06
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD06
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD07
+			{
+				Location GenIDF_MD7
+				Group GenIDF_MD7
+				Team GenIDF-MD07
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD07
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD08
+			{
+				Location GenIDF_MD8
+				Group GenIDF_MD8
+				Team GenIDF-MD08
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD08
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD09
+			{
+				Location GenIDF_MD9
+				Group GenIDF_MD9
+				Team GenIDF-MD09
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD09
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD10
+			{
+				Location GenIDF_MD10
+				Group GenIDF_MD10
+				Team GenIDF-MD10
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD10
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD11
+			{
+				Location GenIDF_MD11
+				Group GenIDF_MD11
+				Team GenIDF-MD11
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD11
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD12
+			{
+				Location GenIDF_MD12
+				Group GenIDF_MD12
+				Team GenIDF-MD12
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD12
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD13
+			{
+				Location GenIDF_MD13
+				Group GenIDF_MD13
+				Team GenIDF-MD13
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD13
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD14
+			{
+				Location GenIDF_MD14
+				Group GenIDF_MD14
+				Team GenIDF-MD14
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD14
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD15
+			{
+				Location GenIDF_MD15
+				Group GenIDF_MD15
+				Team GenIDF-MD15
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD15
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD16
+			{
+				Location GenIDF_MD16
+				Group GenIDF_MD16
+				Team GenIDF-MD16
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD16
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenIDF-MD17
+			{
+				Location GenIDF_MD17
+				Group GenIDF_MD17
+				Team GenIDF-MD17
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenIDF-MD17
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenWW-MD01
+			{
+				Location GenWW_MD1
+				Group GenWW_MD1
+				Team GenWW-MD01
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW-MD01
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenWW-MD02
+			{
+				Location GenWW_MD2
+				Group GenWW_MD2
+				Team GenWW-MD02
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW-MD02
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenWW-MD03
+			{
+				Location GenWW_MD3
+				Group GenWW_MD3
+				Team GenWW-MD03
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW-MD03
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate GenWW-MD04
+			{
+				Location GenWW_MD4
+				Group GenWW_MD4
+				Team GenWW-MD04
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GenWW-MD04
+				MinRespawnTime 90000
+				Count	1,	1,	4
+				Count	12,	1,	4
+				Count	13,	1,	4
+				Count	14,	1,	4
+				Count	15,	1,	5
+				Count	16,	1,	5
+				Count	17,	1,	5
+				Count	18,	1,	5
+				Count	19,	1,	5
+				Count	20,	1,	5
+				Count	21,	1,	5
+				Count	22,	1,	6
+				Count	23,	1,	6
+				Count	24,	1,	6
+			}
+			SpawnCreate PatrolIDF-TF01
+			{
+				Location PatrolIDF-TF01
+				Group PatrolIDF-TF01
+				Team PatrolIDF-TF01
+				SpawnBehavior <<UseEnterable,Patrol>>
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team PatrolIDF-TF01
+				MinRespawnTime 60
+				Count	1,	2,	4
+				Count	12,	2,	4
+				Count	13,	2,	4
+				Count	14,	2,	4
+				Count	15,	2,	5
+				Count	16,	2,	5
+				Count	17,	2,	5
+				Count	18,	2,	5
+				Count	19,	2,	5
+				Count	20,	2,	5
+				Count	21,	2,	5
+				Count	22,	2,	6
+				Count	23,	2,	6
+				Count	24,	3,	6
+			}
+			SpawnCreate PatrolIDF-TF02
+			{
+				Location PatrolIDF-TF02
+				Group PatrolIDF-TF02
+				Team PatrolIDF-TF02
+				SpawnBehavior <<UseEnterable,Patrol>>
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team PatrolIDF-TF02
+				MinRespawnTime 60
+				Count	1,	2,	4
+				Count	12,	2,	4
+				Count	13,	2,	4
+				Count	14,	2,	4
+				Count	15,	2,	5
+				Count	16,	2,	5
+				Count	17,	2,	5
+				Count	18,	2,	5
+				Count	19,	2,	5
+				Count	20,	2,	5
+				Count	21,	2,	5
+				Count	22,	2,	6
+				Count	23,	2,	6
+				Count	24,	3,	6
+			}
+			SpawnCreate PatrolIDF-TF03
+			{
+				Location PatrolIDF-TF03
+				Group PatrolIDF-TF03
+				Team PatrolIDF-TF03
+				SpawnBehavior <<UseEnterable,Patrol>>
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team PatrolIDF-TF03
+				MinRespawnTime 60
+				Count	1,	2,	4
+				Count	12,	2,	4
+				Count	13,	2,	4
+				Count	14,	2,	4
+				Count	15,	2,	5
+				Count	16,	2,	5
+				Count	17,	2,	5
+				Count	18,	2,	5
+				Count	19,	2,	5
+				Count	20,	2,	5
+				Count	21,	2,	5
+				Count	22,	2,	6
+				Count	23,	2,	6
+				Count	24,	3,	6
+			}
+			SpawnCreate PatrolIDF-MD01
+			{
+				Location PatrolIDF-MD01
+				Group PatrolIDF-MD01
+				Team PatrolIDF-MD01
+				SpawnBehavior <<UseEnterable,Patrol>>
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team PatrolIDF-MD01
+				MinRespawnTime 60
+				Count	1,	2,	4
+				Count	12,	2,	4
+				Count	13,	2,	4
+				Count	14,	2,	4
+				Count	15,	2,	5
+				Count	16,	2,	5
+				Count	17,	2,	5
+				Count	18,	2,	5
+				Count	19,	2,	5
+				Count	20,	2,	5
+				Count	21,	2,	5
+				Count	22,	2,	6
+				Count	23,	2,	6
+				Count	24,	3,	6
+			}
+			SpawnCreate PatrolIDF-MD02
+			{
+				Location PatrolIDF-MD02
+				Group PatrolIDF-MD02
+				Team PatrolIDF-MD02
+				SpawnBehavior <<UseEnterable,Patrol>>
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team PatrolIDF-MD02
+				MinRespawnTime 60
+				Count	1,	2,	4
+				Count	12,	2,	4
+				Count	13,	2,	4
+				Count	14,	2,	4
+				Count	15,	2,	5
+				Count	16,	2,	5
+				Count	17,	2,	5
+				Count	18,	2,	5
+				Count	19,	2,	5
+				Count	20,	2,	5
+				Count	21,	2,	5
+				Count	22,	2,	6
+				Count	23,	2,	6
+				Count	24,	3,	6
+			}
+			SpawnCreate PatrolIDF-MD03
+			{
+				Location PatrolIDF-MD03
+				Group PatrolIDF-MD03
+				Team PatrolIDF-MD03
+				SpawnBehavior <<UseEnterable,Patrol>>
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team PatrolIDF-MD03
+				MinRespawnTime 60
+				Count	1,	2,	4
+				Count	12,	2,	4
+				Count	13,	2,	4
+				Count	14,	2,	4
+				Count	15,	2,	5
+				Count	16,	2,	5
+				Count	17,	2,	5
+				Count	18,	2,	5
+				Count	19,	2,	5
+				Count	20,	2,	5
+				Count	21,	2,	5
+				Count	22,	2,	6
+				Count	23,	2,	6
+				Count	24,	3,	6
+			}
+			SpawnCreate SecurityTeam-A
+			{
+				Location SecurityTeam-A
+				Group SecurityTeam-A
+				Team SecurityTeam-A
+				KillBehavior DestroyMe
+			}
+			TeamCreate
+			{
+				Team SecurityTeam-A
+				MinRespawnTime 90000
+				Count	1,	1,	1
+			}
+		}
+
+//Activate Caption Manager
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team CaptionManagerA
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage DefeatIDF
+	}
+}
+Stage DefeatIDF
+{
+	DisplayName P550975794
+	Tooltip P2705950578
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:00
+	}
+	
+	Trigger HospitalDoor-Unlock-Recovery
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1533101862
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//End Hospital Door Block
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage DefeatIDF>>
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+		}
+		Action TurnOnSpawns
+		{
+			TeamControl
+			{
+				Type Activate
+				Team LambdaTurrets
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext03
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext04
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext08
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext11
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext12
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext16
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext17
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext18
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext19
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext20
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext21
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext22
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext23
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext24
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext25
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext26
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext27
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext28
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext29
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext30
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-Ext31
+			}
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage1 0
+		}
+		Action
+		{
+			SetScriptValue WarmthBuffSpawned 0
+		}
+	}
+	Counter IDFKills
+	{
+		Type VillainGroup
+		Count 60
+		VillainGroup PraetorianIDFEndgame
+	}
+	Counter LambdaTurretsAlive
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team LambdaTurrets
+	}
+	Timer Captions-Start-Stage1-Timer
+	{
+		Duration 00:05
+	}
+
+//Start Warmth Spawn Block
+
+	Trigger WarmthBuffActivation
+	{
+		Requires eventLockedByGroup? ! WarmthBuffSpawned scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Warmth of Prometheus Granted>>
+			SetScriptValue WarmthBuffSpawned 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team WarmthBuff
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1172875117
+				Color FF9900
+			}
+		}
+	}
+
+	Trigger WarmthBuffBlocked
+	{
+		Requires eventLockedByGroup? WarmthBuffSpawned scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Warmth of Prometheus Disabled>>
+			SetScriptValue WarmthBuffSpawned 1
+		}
+	}
+
+//End Warmth Spawn Block
+
+	Trigger Captions-Start-Stage1
+	{
+		Requires Captions-Start-Stage1-Timer complete> Captions-Started-Stage1 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage1 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerA
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth99")>>
+			}
+		}
+	}
+
+	UICollection IDFkills
+	{
+		UIItem IDFBar
+		{
+			Type BarBlue
+			Text P1722591705
+			ShortText P2342519289
+			Current IDFKills count>
+			Target 60
+		}
+//		UIItem LambdaTurretsBar
+//		{
+//			Type BarRed
+//			Text P1521045172
+//			ShortText P2675884207
+//			Current LambdaTurretsAlive count>
+//			Target 12
+//		}
+	}
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianIDFEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type Team
+		Team LambdaTurrets
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 20
+		TeamKarmaLife 20
+	}
+	Trigger IDFKillsDone
+	{
+		Requires IDFKills complete>
+		Action
+		{
+			Floater
+			{
+				Message P2647093042
+				Color FF9900
+			}
+		}
+		Action
+		{
+			DebugPrint <<DefeatIDF done: switching to PreInterior>>
+		}
+		NextStage PreInterior
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage DefeatIDF>>
+		}
+		
+	}
+}
+
+Stage PreInterior
+{
+	DisplayName P74880033
+	ToolTip P1703567592
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:00
+	}
+	
+	Trigger HospitalDoor-Unlock-Recovery
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1533101862
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+//End Hospital Door Block
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage PreInterior>>
+		}
+		Action ActivateSecurityTeam
+		{
+			TeamControl
+			{
+				Type Activate
+				Team SecurityTeam-A
+			}
+		}		
+		Action TurnOnDestructibles
+		{
+			TeamControl
+			{
+				Type Activate
+				Team DestructibleCache
+			}
+			TeamControl
+			{
+				Type Activate
+				Team DestructiblePod
+			}
+		}
+		Action OpenUpDoors
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door InteriorDoor
+			}
+			PorterControl
+			{
+				Type Deactivate
+				Porter MunitionsPorter
+			}
+			PorterControl
+			{
+				Type Deactivate
+				Porter TrainingPorter
+			}
+			Floater
+			{
+				Message P2055141204
+				Color FF9900
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team PatrolIDF-TF01
+			}
+			TeamControl
+			{
+				Type Activate
+				Team PatrolIDF-TF02
+			}
+			TeamControl
+			{
+				Type Activate
+				Team PatrolIDF-TF03
+			}
+			TeamControl
+			{
+				Type Activate
+				Team PatrolIDF-MD01
+			}
+			TeamControl
+			{
+				Type Activate
+				Team PatrolIDF-MD02
+			}
+			TeamControl
+			{
+				Type Activate
+				Team PatrolIDF-MD03
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF01
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF02
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF03
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF04
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF05
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF06
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF07
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF08
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF09
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF10
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF11
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF12
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF13
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF14
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF15
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF16
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF17
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF18
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF19
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF20
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF21
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-TF22
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD01
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD02
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD03
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD04
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD05
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD06
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD07
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD08
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD09
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD10
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD11
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD12
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD13
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD14
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD15
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD16
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenIDF-MD17
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenWW-MD01
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenWW-MD02
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenWW-MD03
+			}
+			TeamControl
+			{
+				Type Activate
+				Team GenWW-MD04
+			}
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage2 0
+		}
+	}
+
+	Counter TrainingPorterEntered
+	{
+		Type ZEPlayers
+		VolumeName TrainingPorter
+	}
+
+	Counter MunitionsPorterEntered
+	{
+		Type ZEPlayers
+		VolumeName MunitionsPorter
+	}
+
+	Counter SecurityTeamDefeats
+	{
+		Type Team
+		Team SecurityTeam-A
+		Count 1
+	}
+
+	Trigger SecurityTeamDefeated
+	{
+		Requires SecurityTeamDefeats complete>
+		
+		Action
+		{
+			Floater
+			{
+				Message P3819083636
+				Color FF9900
+			}
+		}
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-LabElevatorA
+			}
+			DoorControl
+			{
+				Type Unlock
+				Door Door-LabElevatorB
+			}
+			DoorControl
+			{
+				Type Unlock
+				Door Door-LabElevatorC
+			}
+			DoorControl
+			{
+				Type Unlock
+				Door Door-WarehouseElevatorA
+			}
+			DoorControl
+			{
+				Type Unlock
+				Door Door-WarehouseElevatorB
+			}
+			DoorControl
+			{
+				Type Unlock
+				Door Door-WarehouseElevatorC
+			}
+		}
+		
+		Action
+		{
+			Floater
+			{
+				Message P2776867754
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2285230443
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2547333964
+				Color FF9900
+			}
+		}
+	}
+	Trigger InteriorStart
+	{
+		Requires TrainingPorterEntered count> MunitionsPorterEntered count> + 1 >=
+		NextStage Interior
+	}
+	Timer Captions-Start-Stage2-Timer
+	{
+		Duration 00:05
+	}
+
+	Trigger Captions-Start-Stage2
+	{
+		Requires Captions-Start-Stage2-Timer complete> Captions-Started-Stage2 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage2 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerA
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth89")>>
+			}
+		}
+	}
+
+
+	UICollection PreInteriorUI
+	{
+		UIItem DefeatSecurityTeam
+		{
+			Type BarBlue
+			Text P1774673560
+			ShortText P3045005486
+			Current SecurityTeamDefeats count>
+			Target 1
+		}
+		UIItem InteriorFacilityEntry
+		{
+			Type BarBlue
+			Text P3467237874
+			ShortText P477905692
+			Current TrainingPorterEntered count> MunitionsPorterEntered count> +
+			Target 1
+		}
+//		UIItem PreCacheBar
+//		{
+//			Type BarBlue
+//			Text P296994826
+//			ShortText P3055959709
+//			Current DestructibleCacheKills count>
+//			Target 10
+//		}
+//		UIItem PreChamberBar
+//		{
+//			Type BarBlue
+//			Text P2226655094
+//			ShortText P2152121228
+//			Current DestructiblePodKills count>
+//			Target 10
+//		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Pre-Interior>>
+		}
+		Action DeactivateSecurityTeam
+		TeamControl
+			{
+				Type Deactivate
+				Team SecurityTeam-A
+			}
+		}
+	}
+
+}
+
+Stage Interior
+{
+	DisplayName P74880033
+	ToolTip P1511176934
+
+//	AwardKarma
+//	KarmaThreshold 10
+
+	StageActiveRequires ZonePlayers count> 8 > ZonePlayersActive count> ZonePlayers count> / 0.25 > &&
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage Interior>>
+			Floater
+			{
+				Message P74536379
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P85957875
+				Color FF9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P3832609934
+				Color FF9900
+			}
+		}
+		Action
+		{
+			SetScriptValue GrenadeGatherStarted 0
+		}
+		Action
+		{
+			SetScriptValue AcidGatherStarted 0
+		}
+		Action
+		{
+			SetScriptValue GrenadeGathered 0
+		}
+		Action
+		{
+			SetScriptValue AcidGathered 0
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage3 0
+		}
+	}
+
+//	Objective
+//	{
+//		Type VillainGroup
+//		VillainGroup PraetorianIDFEndgame
+//		KarmaValue 10
+//		KarmaLife 20
+//		TeamKarmaValue 10
+//		TeamKarmaLife 20
+//	}
+//	Objective
+//	{
+//		Type VillainGroup
+//		VillainGroup PraetorianWarworksEndgame
+//		KarmaValue 10
+//		KarmaLife 20
+//		TeamKarmaValue 10
+//		TeamKarmaLife 20
+//	}
+//	Objective
+//	{
+//		Type Team
+//		Team DestructibleCache
+//		KarmaValue 30
+//		KarmaLife 60
+//		TeamKarmaValue 10
+//		TeamKarmaLife 60
+//	}
+//	Objective
+//	{
+//		Type Team
+//		Team DestructiblePod
+//		KarmaValue 30
+//		KarmaLife 60
+//		TeamKarmaValue 10
+//		TeamKarmaLife 60
+//	}
+
+	Counter DestructibleCacheKills
+	{
+		Type Team
+		Count 10
+		Team DestructibleCache
+	}
+	Counter DestructiblePodKills
+	{
+		Type Team
+		Count 10
+		Team DestructiblePod
+	}
+	Counter DestructibleCacheKills-Single
+	{
+		Type Team
+		Count 1
+		Team DestructibleCache
+	}
+	Counter DestructiblePodKills-Single
+	{
+		Type Team
+		Count 1
+		Team DestructiblePod
+	}
+	Timer InteriorTimer
+	{
+		Duration 5:00
+	}
+	Timer SimultaneousGather-Grenade
+	{
+		Duration 00:02
+	}
+	Timer SimultaneousGather-Acid
+	{
+		Duration 00:02
+	}
+	Timer Captions-Start-Stage3-Timer
+	{
+		Duration 00:05
+	}
+
+	Trigger Captions-Start-Stage3
+	{
+		Requires Captions-Start-Stage3-Timer complete> Captions-Started-Stage3 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage3 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerA
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth79")>>
+			}
+		}
+	}
+	UICollection InteriorUI
+	{
+		UIItem TimerShow
+		{
+			Type Timer
+			Text P3489946988
+			ShortText P298006919
+			Timer InteriorTimer
+
+		}
+		UIItem CacheBar
+		{
+			Type BarBlue
+			Text P296994826
+			ShortText P3055959709
+			Current DestructibleCacheKills count>
+			Target 10
+		}
+		UIItem ChamberBar
+		{
+			Type BarBlue
+			Text P2226655094
+			ShortText P2152121228
+			Current DestructiblePodKills count>
+			Target 10
+		}
+	}
+	
+	Trigger GatheringGrenadesBegun
+	{
+		Requires DestructibleCacheKills count> 1 == GrenadeGatherStarted scriptvalue> 0 == &&
+		Action
+		{
+			SetScriptValue GrenadeGatherStarted 1
+		}
+	}
+
+	Trigger GatheringAcidsBegun
+	{
+		Requires DestructiblePodKills count> 1 == AcidGatherStarted scriptvalue> 0 == &&
+		Action
+		{
+			SetScriptValue AcidGatherStarted 1
+		}
+	}	
+	
+	Trigger GatheringGrenadesProgress
+	{
+		Requires DestructibleCacheKills-Single complete> GrenadeGathered scriptvalue> 2 < &&
+		Action
+		{
+			SetScriptValue GrenadeGathered 1
+		}
+		Action
+		{
+			Reset DestructibleCacheKills-Single
+		}
+		Action
+		{
+			Reset SimultaneousGather-Grenade
+		}
+		Action
+		{
+			Reset GatheringGrenadesProgress
+		}
+	}
+
+	Trigger GatheringAcidsProgress
+	{
+		Requires DestructiblePodKills-Single complete> AcidGathered scriptvalue> 2 < &&
+
+		Action
+		{
+			SetScriptValue AcidGathered 1
+		}
+		Action
+		{
+			Reset DestructiblePodKills-Single
+		}
+		Action
+		{
+			Reset SimultaneousGather-Acid
+		}
+		Action
+		{
+			Reset GatheringAcidsProgress
+		}
+	}
+
+	Trigger AwardSimultaneousBadge
+	{
+		Requires GrenadeGathered scriptvalue> 1 == AcidGathered scriptvalue> 1 == && SimultaneousGather-Grenade complete> ! && SimultaneousGather-Acid complete> ! &&
+	
+		Action
+		{
+			DebugPrint <<Awarding SimultaneousDefeats badge>>
+			Reward IT_Lambda_Simultaneity
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+		Action
+		{
+			SetScriptValue GrenadeGathered 2
+		}
+		Action
+		{
+			SetScriptValue AcidGathered 2
+		}
+	}
+
+	Trigger ResetSimultaneous-Grenade
+	{
+		Requires SimultaneousGather-Grenade complete> GrenadeGathered scriptvalue> 1 == && AcidGathered scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue GrenadeGathered 0
+		}
+		Action
+		{
+			SetScriptValue AcidGathered 0
+		}
+		Action
+		{
+			Reset ResetSimultaneous-Grenade
+		}
+	}
+
+	Trigger ResetSimultaneous-Acid
+	{
+		Requires SimultaneousGather-Acid complete> GrenadeGathered scriptvalue> 0 == && AcidGathered scriptvalue> 1 == &&
+
+		Action
+		{
+			SetScriptValue GrenadeGathered 0
+		}
+		Action
+		{
+			SetScriptValue AcidGathered 0
+		}
+		Action
+		{
+			Reset ResetSimultaneous-Acid
+		}
+	}
+
+	Trigger OneSetKilled
+	{
+		Requires DestructibleCacheKills count> 1 >= DestructiblePodKills count> 1 >= &&
+		Action
+		{
+			Floater
+			{
+				Message P2891329672
+				Color 0099ff
+			}
+			TimerControl
+			{
+				Timer InteriorTimer
+				Type Add
+				Duration 1:00
+			}
+		}
+	}
+	Trigger TwoSetKilled
+	{
+		Requires DestructibleCacheKills count> 2 >= DestructiblePodKills count> 2 >= &&
+		Action
+		{
+			Floater
+			{
+				Message P2891329672
+				Color 0099ff
+			}
+			TimerControl
+			{
+				Timer InteriorTimer
+				Type Add
+				Duration 1:00
+			}
+		}
+	}
+	Trigger ThreeSetKilled
+	{
+		Requires DestructibleCacheKills count> 3 >= DestructiblePodKills count> 3 >= &&
+		Action
+		{
+			Floater
+			{
+				Message P2891329672
+				Color 0099ff
+			}
+			TimerControl
+			{
+				Timer InteriorTimer
+				Type Add
+				Duration 1:00
+			}
+		}
+	}
+	Trigger FourSetKilled
+	{
+		Requires DestructibleCacheKills count> 4 >= DestructiblePodKills count> 4 >= &&
+		Action
+		{
+			Floater
+			{
+				Message P2891329672
+				Color 0099ff
+			}
+			TimerControl
+			{
+				Timer InteriorTimer
+				Type Add
+				Duration 1:00
+			}
+		}
+	}
+	Trigger FiveSetKilled
+	{
+		Requires DestructibleCacheKills count> 5 >= DestructiblePodKills count> 5 >= &&
+		Action
+		{
+			Floater
+			{
+				Message P2891329672
+				Color 0099ff
+			}
+			TimerControl
+			{
+				Timer InteriorTimer
+				Type Add
+				Duration 1:00
+			}
+		}
+	}
+	Trigger SixSetKilled
+	{
+		Requires DestructibleCacheKills count> 6 >= DestructiblePodKills count> 6 >= &&
+		Action
+		{
+			Floater
+			{
+				Message P2891329672
+				Color 0099ff
+			}
+			TimerControl
+			{
+				Timer InteriorTimer
+				Type Add
+				Duration 1:00
+			}
+		}
+	}
+	Trigger SevenSetKilled
+	{
+		Requires DestructibleCacheKills count> 7 >= DestructiblePodKills count> 7 >= &&
+		Action
+		{
+			Floater
+			{
+				Message P2891329672
+				Color 0099ff
+			}
+			TimerControl
+			{
+				Timer InteriorTimer
+				Type Add
+				Duration 1:00
+			}
+		}
+	}
+	Trigger EightSetKilled
+	{
+		Requires DestructibleCacheKills count> 8 >= DestructiblePodKills count> 8 >= &&
+		Action
+		{
+			Floater
+			{
+				Message P2891329672
+				Color 0099ff
+			}
+			TimerControl
+			{
+				Timer InteriorTimer
+				Type Add
+				Duration 1:00
+			}
+		}
+	}
+	Trigger NineSetKilled
+	{
+		Requires DestructibleCacheKills count> 9 >= DestructiblePodKills count> 9 >= &&
+		Action
+		{
+			Floater
+			{
+				Message P2891329672
+				Color 0099ff
+			}
+			TimerControl
+			{
+				Timer InteriorTimer
+				Type Add
+				Duration 1:00
+			}
+		}
+	}
+
+	Trigger TimerOver
+	{
+		Requires InteriorTimer complete>
+		Action
+		{
+			Floater
+			{
+				Message P1933799532
+				Color ff9900
+			}
+			Floater
+			{
+				Message P3299004565
+				Color ff9900
+			}
+		}
+		NextStage Cutscene
+	}
+	Trigger CachesOver
+	{
+		Requires DestructibleCacheKills complete>
+		Action
+		{
+			Floater
+			{
+				Message P3988284462
+				Color ff9900
+			}
+			Floater
+			{
+				Message P2222516793
+				Color ff9900
+				Volume MunitionsPorter
+			}
+		}
+		Action
+		{
+			Delay 10
+			PorterControl
+			{
+				Type Activate
+				Porter MunitionsPorter
+			}
+		}
+		Action
+		{
+			SetScriptValue AllGrenadesGathered 1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger PodsOver
+	{
+		Requires DestructiblePodKills complete>
+		Action
+		{
+			Floater
+			{
+				Message P3242246131
+				Color ff9900
+			}
+			Floater
+			{
+				Message P2357475191
+				Color ff9900
+				Volume TrainingPorter
+			}
+		}
+		Action
+		{
+			Delay 10
+			PorterControl
+			{
+				Type Activate
+				Porter TrainingPorter
+			}
+		}
+		Action
+		{
+			SetScriptValue AllAcidsGathered 1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AllOver
+	{
+		Requires DestructibleCacheKills complete> DestructiblePodKills complete> &&
+		Action
+		{
+			Floater
+			{
+				Message P262369364
+				Color ff9900
+			}
+			Floater
+			{
+				Message P3299004565
+				Color ff9900
+			}
+		}
+		NextStage Cutscene
+	}
+
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Interior>>
+		}
+	}
+}
+
+Stage Cutscene
+{
+	DisplayName P2778452581
+	ToolTip P942593035
+	
+	Startup
+	{
+		Action
+		{
+			SetScriptValue CutsceneStarted 0
+		}
+		Action
+		{
+			SetScriptValue DoorsActivated 0
+		}
+		Action
+		{
+			SetScriptValue RiftsActivated 0
+		}
+	}
+
+//This timer is used to indicate when the cutscene is started.
+	Timer CutsceneTimer
+	{
+		Duration 00:08
+	}
+
+//This timer is used to indicate when the doors get lit up.
+	Timer DoorLightUp
+	{
+		Duration 00:18
+	}
+
+//This timer is used to indicate when the doors get rifts.
+	Timer RiftsStart
+	{
+		Duration 00:20
+	}
+
+
+//This timer is used to indicate when the cutscene has ended and the stage can be flipped.
+	Timer EndCutscene
+	{
+		Duration 00:65
+	}
+	
+	Trigger StartCutscene
+	
+		Requires CutsceneTimer complete> CutsceneStarted scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team Cutscene
+			}
+		}
+		Action
+		{
+			SetScriptValue CutsceneStarted 1
+		}
+	}
+
+	Trigger Cutscene-DoorsStart
+	{
+		Requires DoorLightUp complete> DoorsActivated scriptvalue> 0 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorA
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorB
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorC
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorD
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorJ
+			}
+
+		}
+		Action
+		{
+			SetScriptValue DoorsActivated 1
+		}
+	}
+
+	Trigger Cutscene-RiftsStart
+	{
+		Requires RiftsStart complete> RiftsActivated scriptvalue> 0 == &&
+
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftA
+			}			
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftB
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftC
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftD
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftJ
+			}
+		}
+		Action
+		{
+			SetScriptValue RiftsActivated 1
+		}
+	}
+
+	Trigger EndCutscene-Stage
+	{
+		Requires CutsceneStarted scriptvalue> 1 == EndCutscene complete> &&
+
+		NextStage Marauder
+	}
+
+	UICollection OpeningCutscene
+	{
+		UIItem Directions
+		{
+			Type Text
+			Text P1635334640
+		}
+		UIItem CutsceneAutostart
+		{
+			Type Timer
+			Timer EndCutscene
+			Text P2649032616
+			ShortText P1887705112
+		}
+	}	
+
+	Shutdown
+	{
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team Cutscene
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team DestructibleCache
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team DestructiblePod
+			}
+			DoorControl
+			{
+				Type Lock
+				Door InteriorDoor
+			}
+			Floater
+			{
+				Message P462586218
+				Color ff9900
+				Volume MunitionsPorter
+			}
+			Floater
+			{
+				Message P462586218
+				Color ff9900
+				Volume TrainingPorter
+			}
+		}
+		Action
+		{
+			Delay 10
+			PorterControl
+			{
+				Type Activate
+				Porter TrainingPorter
+			}
+			PorterControl
+			{
+				Type Activate
+				Porter MunitionsPorter
+			}
+		}
+	}
+}
+
+
+Stage Marauder
+{
+	DisplayName P2778452581
+	ToolTip P3286586938
+	
+	AwardKarma
+	KarmaThreshold 10
+	
+	StageActiveRequires ZonePlayers count> 8 > ZonePlayersActive count> ZonePlayers count> / 0.25 > &&
+
+//Start New Failsafe Block
+
+	Counter ZonePlayers
+        {
+                Type ZEPlayers
+        }
+        Counter ZonePlayersAlive
+        {
+                Type ZEPlayersAlive
+        }
+        Counter ZonePlayersActive
+        {
+                Type ZEPlayersActive
+        }
+	Counter FailsafePlayersAlive
+	{
+		Type ZEPlayersAlive
+	}
+	Counter FailsafePlayersPhased
+	{
+		Type ZEPlayersPhased
+	}
+	Timer FailsafeDelay
+	{
+		Duration 0:15
+	}
+	Timer FailsafeLongDelay
+	{
+		Duration 1:00
+	}
+
+	//Trigger the failsafe for an unlocked league if the number of players is less than 2.
+	Trigger FailsafeStart
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeStart
+		{
+			DebugPrint <<Starting Failsafe countdown for unlocked league>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the failsafe for a locked league if the number of players is less than 4 and the event is an 8-16 player event.
+	Trigger FailsafeStart-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 8>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Eight
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+	
+	//Trigger the failsafe for a locked league if the number of players is less than 6 and the event is a 12-24 player event.
+	Trigger FailsafeStart-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 0 == && FailsafeDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeStart-LockedTeam
+		{
+			DebugPrint <<Starting Failsafe countdown for locked league in Event Size 12>>
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+			Reset FailsafeStart-LockedTeam-Twelve
+		}
+		Action
+		{
+			SetScriptValue FailsafeInProcess 1
+		}
+	}
+
+	//Trigger the end of the failsafe for an unlocked league after 15s if it still has less than 2 players.
+	Trigger FailsafeConclude
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 <= FailsafeInProcess scriptvalue> 1 == && FailsafeDelay complete> && eventLockedByGroup? ! && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 4 players in an 8 player event.
+	Trigger FailsafeConclude-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the end of the failsafe for a locked league after 60s if it still has less than 6 players in an 12 player event.
+	Trigger FailsafeConclude-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 <= FailsafeInProcess scriptvalue> 1 == && FailsafeLongDelay complete> && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action FloatersFailsafeEnd
+		{
+			DebugPrint <<Failsafe triggered>>
+			Floater FailsafeEnd
+			{
+				Message P1191472153
+				Color ff0000
+			}
+			SetScriptValue FailsafeInProcess 0
+		}
+		NextStage Stop
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 2 before the 15s timer ends.
+	Trigger FailsafeReset
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 1 > FailsafeInProcess scriptvalue> 1 == && eventLockedByGroup? ! && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart 
+			Reset FailsafeReset
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 4 before the 15s timer ends.
+	Trigger FailsafeReset-LockedTeam-Eight
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 3 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 8 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Eight 
+			Reset FailsafeReset-LockedTeam-Eight 
+			Reset FailsafeDelay 
+			Reset FailsafeLongDelay
+		}
+	}
+
+	//Trigger the failsafe reset for an unlocked league if the number of players equals or exceeds 6 before the 60s timer ends.
+	Trigger FailsafeReset-LockedTeam-Twelve
+	{
+		Requires FailsafePlayersAlive count> FailsafePlayersPhased count> - 5 > FailsafeInProcess scriptvalue> 1 == && EventSize scriptvalue> 12 == && eventLockedByGroup? && devMode? ! &&
+		Action
+		{
+			SetScriptValue FailsafeInProcess 0
+		}
+		Action FloatersFailsafeReset
+		{
+			DebugPrint <<Failsafe aborted>>
+			Reset FailsafeStart-LockedTeam-Twelve 
+			Reset FailsafeReset-LockedTeam-Twelve 
+			Reset FailsafeDelay
+			Reset FailsafeLongDelay
+		}
+	}
+
+//End New Failsafe Block
+
+// Start Hospital Door Block
+
+	Timer HospitalDoor-Lock-Timer
+	{
+		Duration 00:10
+	}
+	Timer HospitalDoor-Notification1-Timer
+	{
+		Duration 00:20
+	}
+	Timer HospitalDoor-Notification2-Timer
+	{
+		Duration 00:25
+	}
+	Timer HospitalDoor-Unlock-Timer
+	{
+		Duration 00:30
+	}
+	
+	Trigger HospitalDoor-Lock
+	{
+		Requires HospitalDoor-Lock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P1420074300
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Notification1
+	{
+		Requires HospitalDoor-Notification1-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3661210205
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+	
+	Trigger HospitalDoor-Notification2
+	{
+		Requires HospitalDoor-Notification2-Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P177740375
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger HospitalDoor-Unlock
+	{
+		Requires HospitalDoor-Unlock-Timer complete>
+
+		Action
+		{
+			DoorControl
+			{
+				Type Unlock
+				Door Door-Hospital
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock-Timer
+			Reset HospitalDoor-Lock-Timer
+			Reset HospitalDoor-Notification1-Timer
+			Reset HospitalDoor-Notification2-Timer
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P2692826546
+				Color 00ff99
+				Volume Hospital
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			Reset HospitalDoor-Unlock
+			Reset HospitalDoor-Lock
+			Reset HospitalDoor-Notification1
+			Reset HospitalDoor-Notification2
+		}
+	}
+
+//End Hospital Door Block
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage Marauder>>
+			SetScriptValue InitialWaveTimerTime 30
+		}
+		Action
+		{
+			SetScriptValue MarauderDebuff 1
+		}
+		Action
+		{
+			SetScriptValue AnyAcidsUsed 0
+		}
+		Action
+		{
+			SetScriptValue AnyGrenadesUsed 0
+		}
+		Action
+		{
+			SetScriptValue Captions-Started-Stage4 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorADestroyed 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorBDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorCDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorDDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorEDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorFDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorGDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorHDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorIDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorJDestroyed 0
+		}
+		Action
+		{
+			SetScriptValue Restock-Started 0
+		}
+		Action
+		{
+			SetScriptValue Restock-Utilized 0
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team Marauder
+			}
+		}
+		Action
+		{
+			TimerControl
+			{
+				Timer WaveTimer
+				Type Add
+				Duration InitialWaveTimerTime
+			}
+		}		
+		Action
+		{
+//			TeamControl
+//			{
+//				Type Activate
+//				Team ReinforcementDoorA
+//			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveA
+			}
+//			TeamControl
+//			{
+//				Type Activate
+//				Team ReinforcementDoorB
+//			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveB
+			}
+//			TeamControl
+//			{
+//				Type Activate
+//				Team ReinforcementDoorC
+//			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveC
+			}
+//			TeamControl
+//			{
+//				Type Activate
+//				Team ReinforcementDoorD
+//			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveD
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorE
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftE
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveE
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorF
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftF
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveF
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorG
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftG
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveG
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorH
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftH
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveH
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementDoorI
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementRiftI
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveI
+			}
+//			TeamControl
+//			{
+//				Type Activate
+//				Team ReinforcementDoorJ
+//			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveJ
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveK
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ReinforcementWaveL
+			}
+		}
+	}
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianIDFEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Objective
+	{
+		Type VillainGroup
+		VillainGroup PraetorianWarworksEndgame
+		KarmaValue 10
+		KarmaLife 20
+		TeamKarmaValue 10
+		TeamKarmaLife 20
+	}
+	Counter ReinforcementTeamA-Kills
+	{
+		Type Team
+		Team ReinforcementWaveA
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamB-Kills
+	{
+		Type Team
+		Team ReinforcementWaveB
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamC-Kills
+	{
+		Type Team
+		Team ReinforcementWaveC
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamD-Kills
+	{
+		Type Team
+		Team ReinforcementWaveD
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamE-Kills
+	{
+		Type Team
+		Team ReinforcementWaveE
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamF-Kills
+	{
+		Type Team
+		Team ReinforcementWaveF
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamG-Kills
+	{
+		Type Team
+		Team ReinforcementWaveG
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamH-Kills
+	{
+		Type Team
+		Team ReinforcementWaveH
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamI-Kills
+	{
+		Type Team
+		Team ReinforcementWaveI
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamJ-Kills
+	{
+		Type Team
+		Team ReinforcementWaveJ
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamK-Kills
+	{
+		Type Team
+		Team ReinforcementWaveK
+		Direction Up
+		Count 100
+	}
+	Counter ReinforcementTeamL-Kills
+	{
+		Type Team
+		Team ReinforcementWaveL
+		Direction Up
+		Count 100
+	}
+	Counter MarauderKills
+	{
+		Type Team
+		Count 1
+		Team Marauder
+	}
+	Counter MarauderHealth
+	{
+		Type BossHealth
+		Team Marauder
+	}
+	Counter WeaponCache-Defeats
+	{
+		Type Team
+		Team WeaponCache-Restock
+		Count 1
+	}
+	Counter IncubationPod-Defeats
+	{
+		Type Team
+		Team IncubationPod-Restock
+		Count 1
+	}
+	Counter ReinforcementDoorDefeats
+	{
+		Type Name
+		Name Objects_Lambda_Reinforcement_Door
+		Count 1
+	}
+	Counter ReinforcementDoorAKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorA
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorA
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer FloaterInstructions
+	{
+		Duration 00:15
+	}
+	Timer ReinforcementWaveATimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveATimerInitial
+	{
+		Duration 00:60
+	}
+	Timer Captions-Start-Stage4-Timer
+	{
+		Duration 00:05
+	}
+	Timer DeliveryTimer
+	{
+		Duration 02:00
+	}
+	Timer DeliveryClear
+	{
+		Duration 01:56
+	}
+	Timer DeliveryDelay
+	{
+		Duration 01:00
+	}
+
+	Trigger Restock-Start
+	{
+		Requires DeliveryDelay complete> Restock-Started scriptvalue> 0 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P1944231975
+				Color FF9900
+				AlertType PriorityAlert
+			}
+			Floater
+			{
+				Message P4033004328
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Activate
+				Team WeaponCache-Restock
+			}
+			TeamControl
+			{
+				Type Activate
+				Team IncubationPod-Restock
+			}
+			TeamControl
+			{
+				Type Activate
+				Team WeaponCache-Guards
+			}
+			TeamControl
+			{
+				Type Activate
+				Team IncubationPod-Guards
+			}
+		}
+		Action
+		{
+			Reset DeliveryTimer
+		}
+		Action
+		{
+			Reset DeliveryClear
+		}
+		Action
+		{
+			SetScriptValue Restock-Started 1
+		}
+		Action
+		{
+			WaypointPlace WP-DeliveryAcids WP-DeliveryAcids
+			WaypointPlace WP-DeliveryGrenades WP-DeliveryGrenades
+			WaypointPlace WP-MissionExit WP-MissionExit
+			WaypointPlace WP-HospitalExit WP-HospitalExit
+		}
+	}
+
+	Trigger Restock-Clear
+	{
+		Requires DeliveryClear complete> Restock-Started scriptvalue> 1 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P3481312233
+				Color FF9900
+				AlertType PriorityAlert
+			}
+			TeamControl
+			{
+				Type DoBehavior
+				Team WeaponCache-Guards
+				Behavior <<Praetorian_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+			TeamControl
+			{
+				Type DoBehavior
+				Team IncubationPod-Guards
+				Behavior <<Praetorian_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+			TeamControl
+			{
+				Type DoBehavior
+				Team WeaponCache-Restock
+				Behavior <<Praetorian_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+			TeamControl
+			{
+				Type DoBehavior
+				Team IncubationPod-Restock
+				Behavior <<Praetorian_TeleportOut(Timer(1),CombatOverride(Passive)),DestroyMe>>
+			}
+		}
+	}
+
+	Trigger Restock-Cycle
+	{
+		Requires DeliveryTimer complete> Restock-Started scriptvalue> 1 == &&
+
+		Action
+		{
+			Floater
+			{
+				Message P2842170616
+				Color FF9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team WeaponCache-Restock
+			}
+			TeamControl
+			{
+				Type ForceSpawn
+				Team IncubationPod-Restock
+			}
+			TeamControl
+			{
+				Type ForceSpawn
+				Team WeaponCache-Guards
+			}
+			TeamControl
+			{
+				Type ForceSpawn
+				Team IncubationPod-Guards
+			}
+		}
+		Action
+		{
+			Reset DeliveryTimer
+		}
+		Action
+		{
+			Reset DeliveryClear
+		}
+		Action
+		{
+			Reset Restock-Clear
+		}
+		Action
+		{
+			Reset Restock-Cycle
+		}
+	}
+
+	Trigger Restock-Utilization-Detected
+	{
+		Requires  WeaponCache-Defeats complete> IncubationPod-Defeats complete> ||
+
+		Action
+		{
+			SetScriptValue Restock-Utilized 1
+		}
+	}
+
+	Trigger Captions-Start-Stage4
+	{
+		Requires Captions-Start-Stage4-Timer complete> Captions-Started-Stage4 scriptvalue> 0 == &&
+
+		Action
+		{
+			SetScriptValue Captions-Started-Stage4 1
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team CaptionManagerA
+				Type DoBehavior
+				Behavior <<UsePower("SetHealth69")>>
+			}
+		}
+	}
+	Trigger Instructions
+	{
+		Requires FloaterInstructions complete>
+
+		Action
+		{
+			Floater UseGrenades
+			{
+				Message P2881761246
+				Color FF9900
+			}
+			Floater UseAcids
+			{
+				Message P3039563170
+				Color FF9900
+			}
+		}
+	}
+	Trigger AcidUseStarted
+	{
+		Requires ReinforcementDoorDefeats complete>
+		
+		Action
+		{
+			SetScriptValue AnyAcidsUsed 1
+		}
+	}
+
+	Trigger ReinforcementWaveAPop
+	{
+		Requires ReinforcementDoorAKills complete> ! ReinforcementWaveATimer complete> && ReinforcementWaveATimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveA
+			}
+			Reset ReinforcementWaveATimer ReinforcementWaveAPop
+		}
+	}
+
+	Trigger ReinforcementRiftA-Disappear
+	{
+		Requires ReinforcementDoorAKills complete> ReinforcementDoorADestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftA
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorADestroyed 1
+		}
+	}
+
+	Counter ReinforcementDoorBKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorB
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorB
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer ReinforcementWaveBTimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveBTimerInitial
+	{
+		Duration 00:90
+	}
+	Trigger ReinforcementWaveBPop
+	{
+		Requires ReinforcementDoorBKills complete> ! ReinforcementWaveBTimer complete> && ReinforcementWaveBTimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveB
+			}
+			Reset ReinforcementWaveBTimer ReinforcementWaveBPop
+		}
+	}
+
+	Trigger ReinforcementRiftB-Disappear
+	{
+		Requires ReinforcementDoorBKills complete> ReinforcementDoorBDestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftB
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorBDestroyed 1
+		}
+	}
+
+	Counter ReinforcementDoorCKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorC
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorC
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer ReinforcementWaveCTimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveCTimerInitial
+	{
+		Duration 00:60
+	}
+	Trigger ReinforcementWaveCPop
+	{
+		Requires ReinforcementDoorCKills complete> ! ReinforcementWaveCTimer complete> && ReinforcementWaveCTimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveC
+			}
+			Reset ReinforcementWaveCTimer ReinforcementWaveCPop
+		}
+	}
+
+	Trigger ReinforcementRiftC-Disappear
+	{
+		Requires ReinforcementDoorCKills complete> ReinforcementDoorCDestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftC
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorCDestroyed 1
+		}
+	}
+
+	Counter ReinforcementDoorDKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorD
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorD
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer ReinforcementWaveDTimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveDTimerInitial
+	{
+		Duration 00:90
+	}
+	Trigger ReinforcementWaveDPop
+	{
+		Requires ZonePlayers count> 12 >= ReinforcementDoorDKills complete> ! && ReinforcementWaveDTimer complete> && ReinforcementWaveDTimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveD
+			}
+			Reset ReinforcementWaveDTimer ReinforcementWaveDPop
+		}
+	}
+
+	Trigger ReinforcementRiftD-Disappear
+	{
+		Requires ReinforcementDoorDKills complete> ReinforcementDoorDDestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftD
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorDDestroyed 1
+		}
+	}
+
+	Counter ReinforcementDoorEKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorE
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorE
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer ReinforcementWaveETimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveETimerInitial
+	{
+		Duration 00:60
+	}
+	Trigger ReinforcementWaveEPop
+	{
+		Requires ZonePlayers count> 14 >= ReinforcementDoorEKills complete> ! && ReinforcementWaveETimer complete> && ReinforcementWaveETimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveE
+			}
+			Reset ReinforcementWaveETimer ReinforcementWaveEPop
+		}
+	}
+
+	Trigger ReinforcementRiftE-Disappear
+	{
+		Requires ReinforcementDoorEKills complete> ReinforcementDoorEDestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftE
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorEDestroyed 1
+		}
+	}
+
+	Counter ReinforcementDoorFKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorF
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorF
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer ReinforcementWaveFTimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveFTimerInitial
+	{
+		Duration 00:90
+	}
+	Trigger ReinforcementWaveFPop
+	{
+		Requires ZonePlayers count> 14 >= ReinforcementDoorFKills complete> ! && ReinforcementWaveFTimer complete> && ReinforcementWaveFTimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveF
+			}
+			Reset ReinforcementWaveFTimer ReinforcementWaveFPop
+		}
+	}
+
+	Trigger ReinforcementRiftF-Disappear
+	{
+		Requires ReinforcementDoorFKills complete> ReinforcementDoorFDestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftF
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorFDestroyed 1
+		}
+	}
+
+	Counter ReinforcementDoorGKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorG
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorG
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer ReinforcementWaveGTimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveGTimerInitial
+	{
+		Duration 00:60
+	}
+	Trigger ReinforcementWaveGPop
+	{
+		Requires ZonePlayers count> 12 >= ReinforcementDoorGKills complete> ! && ReinforcementWaveGTimer complete> && ReinforcementWaveGTimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveG
+			}
+			Reset ReinforcementWaveGTimer ReinforcementWaveGPop
+		}
+	}
+
+	Trigger ReinforcementRiftG-Disappear
+	{
+		Requires ReinforcementDoorGKills complete> ReinforcementDoorGDestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftG
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorGDestroyed 1
+		}
+	}
+
+	Counter ReinforcementDoorHKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorH
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorH
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer ReinforcementWaveHTimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveHTimerInitial
+	{
+		Duration 00:90
+	}
+	Trigger ReinforcementWaveHPop
+	{
+		Requires ReinforcementDoorHKills complete> ! ReinforcementWaveHTimer complete> && ReinforcementWaveHTimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveH
+			}
+			Reset ReinforcementWaveHTimer ReinforcementWaveHPop
+		}
+	}
+
+	Trigger ReinforcementRiftH-Disappear
+	{
+		Requires ReinforcementDoorHKills complete> ReinforcementDoorHDestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftH
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorHDestroyed 1
+		}
+	}
+
+	Counter ReinforcementDoorIKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorI
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorI
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer ReinforcementWaveITimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveITimerInitial
+	{
+		Duration 00:60
+	}
+	Trigger ReinforcementWaveIPop
+	{
+		Requires ReinforcementDoorIKills complete> ! ReinforcementWaveITimer complete> && ReinforcementWaveITimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveI
+			}
+			Reset ReinforcementWaveITimer ReinforcementWaveIPop
+		}
+	}
+
+	Trigger ReinforcementRiftI-Disappear
+	{
+		Requires ReinforcementDoorIKills complete> ReinforcementDoorIDestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftI
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorIDestroyed 1
+		}
+	}
+
+	Counter ReinforcementDoorJKills
+	{
+		Type Team
+		Count 0
+		Direction Down
+		Team ReinforcementDoorJ
+	}
+	Objective
+	{
+		Type Team
+		Team ReinforcementDoorJ
+		KarmaValue 30
+		KarmaLife 60
+		TeamKarmaValue 20
+		TeamKarmaLife 60
+	}
+	Timer ReinforcementWaveJTimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveJTimerInitial
+	{
+		Duration 00:90
+	}
+	Trigger ReinforcementWaveJPop
+	{
+		Requires ReinforcementDoorJKills complete> ! ReinforcementWaveJTimer complete> && ReinforcementWaveJTimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveJ
+			}
+			Reset ReinforcementWaveJTimer ReinforcementWaveJPop
+		}
+	}
+
+	Trigger ReinforcementRiftJ-Disappear
+	{
+		Requires ReinforcementDoorJKills complete> ReinforcementDoorJDestroyed scriptvalue> 0 == &&
+		
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftJ
+			}
+		}
+		Action
+		{
+			SetScriptValue ReinforcementDoorJDestroyed 1
+		}
+	}
+
+//Spawn from Door K. This is a permanently spawning door.
+	Timer ReinforcementWaveKTimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveKTimerInitial
+	{
+		Duration 00:60
+	}
+	Trigger ReinforcementWaveKPop
+	{
+		Requires ReinforcementWaveKTimer complete> ReinforcementWaveKTimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveK
+			}
+			Reset ReinforcementWaveKTimer ReinforcementWaveKPop
+		}
+	}
+
+//Spawn from Door L. This is a permanently spawning door.
+	Timer ReinforcementWaveLTimer
+	{
+		Duration 00:60
+	}
+	Timer ReinforcementWaveLTimerInitial
+	{
+		Duration 00:90
+	}
+	Trigger ReinforcementWaveLPop
+	{
+		Requires ReinforcementWaveLTimer complete> ReinforcementWaveLTimerInitial complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type ForceSpawn
+				Team ReinforcementWaveL
+			}
+			Reset ReinforcementWaveLTimer ReinforcementWaveLPop
+		}
+	}
+
+//Wave Timers
+	Timer WaveTimer
+	{
+		Duration 00:30
+	}
+	Trigger WaveInititalize
+	{
+		Action
+		{
+			TimerControl
+			{
+				Timer WaveTimer
+				Type Add
+				Duration 0:30
+			}
+		}
+	}
+	Trigger WavePop
+	{
+		Requires WaveTimer complete>
+		Action
+		{
+			Reset WaveTimer WavePop
+		}
+	}
+
+	
+	Timer MarauderTimer
+	{
+		Duration 20:00
+	}
+
+	Counter MarauderOutOfPosition
+	{
+		Type Name
+		Name Objects_Lambda_Sector_Watcher
+		Count 1
+	}
+	Counter DebuffMarker
+	{
+		Type Name
+		Name Objects_Marauder_Debuff_Marker
+		Count 1
+	}
+
+	Trigger DebuffMarkerKill
+	{
+		Requires DebuffMarker complete>
+		Action
+		{
+			SetScriptValue MarauderDebuff 0
+			Reset DebuffMarker DebuffTimer
+		}
+		Action
+		{
+			Floater
+			{
+				Message P672603659
+				Color ff9900
+				AlertType PriorityAlert
+			}
+		}
+		Action
+		{
+			SetScriptValue AnyGrenadesUsed 1
+		}
+	}
+
+	Timer DebuffTimer
+	{
+		Duration 0:43
+	}
+
+	Trigger DebuffMarkerReset
+	{
+		Requires MarauderDebuff scriptvalue> 0 == DebuffTimer complete> &&
+		Action
+		{
+			SetScriptValue MarauderDebuff 1
+			Reset DebuffMarkerKill DebuffMarkerReset
+		}
+		Action
+		{
+			Floater
+			{
+				Message P2636241540
+				Color ff9900
+				AlertType PriorityAlert
+			}
+		}
+	}
+
+	Trigger ReinforcementDefeatCounter-Complete
+	{
+		Requires ReinforcementTeamA-Kills count> ReinforcementTeamB-Kills count> + ReinforcementTeamC-Kills count> + ReinforcementTeamD-Kills count> + ReinforcementTeamF-Kills count> + ReinforcementTeamG-Kills count> + ReinforcementTeamH-Kills count> + ReinforcementTeamI-Kills count> + ReinforcementTeamJ-Kills count> + ReinforcementTeamK-Kills count> + ReinforcementTeamL-Kills count> + 30 >=
+
+		Action
+		{
+			Floater
+			{
+				Message P3848923895
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+
+	UICollection MarauderUI
+	{
+		UIItem MarauderWarning
+		{
+			Type Text
+			Text P742283398
+		}
+		UIItem MarauderBar
+		{
+			Type BarRed
+			Text P1720191873
+			ShortText P2910650771
+			Current MarauderHealth count>
+			OnClickFindEnt Marauder
+			Target 100
+		}
+		UIItem MarauderBar
+		{
+			Type BarRed
+			Text P72082389
+			ShortText P2799972165
+			Current MarauderDebuff scriptvalue>
+			Target 1
+		}
+		UIItem DoorBar
+		{
+			Type BarRed
+			Text P2363292233
+			ShortText P1294360240
+			Current ReinforcementDoorAKills count> ReinforcementDoorBKills count> + ReinforcementDoorCKills count> + ReinforcementDoorDKills count> + ReinforcementDoorEKills count> + ReinforcementDoorFKills count> + ReinforcementDoorGKills count> + ReinforcementDoorHKills count> + ReinforcementDoorIKills count> + ReinforcementDoorJKills count> +
+			Target 10
+		}
+		UIItem SuperiorityBar
+		{
+			Type BarBlue
+			Text P232137675
+			ShortText P3631493705
+			Current ReinforcementTeamA-Kills count> ReinforcementTeamB-Kills count> + ReinforcementTeamC-Kills count> + ReinforcementTeamD-Kills count> + ReinforcementTeamF-Kills count> + ReinforcementTeamG-Kills count> + ReinforcementTeamH-Kills count> + ReinforcementTeamI-Kills count> + ReinforcementTeamJ-Kills count> + ReinforcementTeamK-Kills count> + ReinforcementTeamL-Kills count> +
+			Target 30
+		}
+		UIItem NextDelivery
+		{
+			Type Timer
+			Text P3583142897
+			ShortText P3472330310
+			Timer DeliveryTimer
+			HideIf Restock-Started scriptvalue> 0 ==
+		}
+		UIItem TimerShow
+		{
+			Type Timer
+			Text P1940695775
+			ShortText P3931244601
+			Timer WaveTimer
+
+		}
+		UIItem Timer2Show
+		{
+			Type Timer
+			Text P2719699290
+			ShortText P723186986
+			Timer MarauderTimer
+
+		}
+	}
+
+	Trigger Done
+	{
+		Requires MarauderKills complete>
+		Action
+		{
+			DebugPrint <<Stage Marauder done: switching to RewardWinners>>
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1759035138
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P136176503
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Reward EmpyreanMerit_Lambda
+		}
+		NextStage RewardWinners
+	}
+
+	Trigger FailureByKiting
+	// This trigger detects the death of the watcher spawns which exist in four volumes around Lambda Sector. If Marauder enters any of the volumes, the entity within SilentKills itself and the event is failed.
+	{
+		Requires MarauderOutOfPosition complete>
+		Action
+		{
+			Floater
+			{
+				Message P2944178968
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1498673322
+				Color ff9900
+			}
+		}
+		NextStage Stop
+	}
+	
+	
+	Trigger TimerOver
+	{
+		Requires MarauderTimer complete>
+		Action
+		{
+			Floater
+			{
+				Message P4113256531
+				Color ff9900
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1498673322
+				Color ff9900
+			}
+		}
+		NextStage Stop
+	}
+
+
+	ShutDown
+	{
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorA
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveA
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorB
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveB
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorC
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveC
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorD
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveD
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorE
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveE
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorF
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveF
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorG
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveG
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorH
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveH
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorI
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveI
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorJ
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveJ
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveK
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveL
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftA
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftB
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftC
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftD
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftE
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftF
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftG
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftH
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftI
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftJ
+			}
+		}
+	}
+}
+
+Stage RewardWinners
+{
+	StartUp
+	{
+		Action StartRewardWinners
+		{
+			DebugPrint <<Starting Stage RewardWinners>>
+		}
+		Action
+		{
+			SetScriptValue OpenLeagueAward 0
+		}
+	}
+	Trigger AwardBadge-Completion
+	{
+		Action
+		{
+			DebugPrint <<Awarding Completion Badge>>
+			Reward IT_Lambda_Complete
+		}
+	}
+	Trigger AwardAcidsBadge
+	{
+		Requires GrenadeGatherStarted scriptvalue> 0 == AcidGatherStarted scriptvalue> 1 == && AllAcidsGathered scriptvalue> 1 == && AnyAcidsUsed scriptvalue> 0 == && Restock-Utilized scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Awarding AcidsGatheredNotUsed badge>>
+			Reward IT_Lambda_NoAcids
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardGrenadesBadge
+	{
+		Requires GrenadeGatherStarted scriptvalue> 1 == AcidGatherStarted scriptvalue> 0 == && AllGrenadesGathered scriptvalue> 1 == && AnyGrenadesUsed scriptvalue> 0 == && Restock-Utilized scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Awarding GrenadesGatheredNotUsed badge>>
+			Reward IT_Lambda_NoGrenades
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardEverythingBadge
+	{
+		Requires GrenadeGatherStarted scriptvalue> 1 == AcidGatherStarted scriptvalue> 1 == && AllGrenadesGathered scriptvalue> 1 == && AllAcidsGathered scriptvalue> 1 == && AnyGrenadesUsed scriptvalue> 0 == && AnyAcidsUsed scriptvalue> 0 == && Restock-Utilized scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Awarding AllGatheredNotUsed badge>>
+			Reward IT_Lambda_NoPowers
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger AwardMerit-OpenLeague
+	{
+		Requires eventLockedByGroup? ! OpenLeagueAward scriptvalue> 0 == &&
+
+		Action
+		{
+			DebugPrint <<Bonus Merit for an Open League Awarded>>
+			SetScriptValue OpenLeagueAward 1
+		}
+		Action
+		{
+			Reward AstralMerit1
+		}
+	}
+	Trigger End
+	{
+		NextStage Stop
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage Reward>>
+		}
+		Action PhatLewt
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+					NumStagesRequired 0
+					RewardTable IncarnatePool1None
+				}
+				Reward class1
+				{
+					PercentileNeeded 0.00
+					NumStagesRequired 1
+					PointsNeeded 10
+					RewardTable Issue20EndKarma1
+				}
+			}
+		}
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint <<Starting Stop Stage>>
+			RemoveWaypoints
+		}
+		Action
+		{
+			DoorControl
+			{
+				Type Lock
+				Door InteriorDoor
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-LabElevatorA
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-LabElevatorB
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-LabElevatorC
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-WarehouseElevatorA
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-WarehouseElevatorB
+			}
+			DoorControl
+			{
+				Type Lock
+				Door Door-WarehouseElevatorC
+			}
+			PorterControl
+			{
+				Type Activate
+				Porter MunitionsPorter
+			}
+			PorterControl
+			{
+				Type Activate
+				Porter TrainingPorter
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team LambdaTurrets
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext03
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext04
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext08
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext11
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext12
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext16
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext17
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext18
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext19
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext20
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext21
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext22
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext23
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext24
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext25
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext26
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext27
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext28
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext29
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext30
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-Ext31
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team PatrolIDF-TF01
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team PatrolIDF-TF02
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team PatrolIDF-TF03
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team PatrolIDF-MD01
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team PatrolIDF-MD02
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team PatrolIDF-MD03
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF01
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF02
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF03
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF04
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF05
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF06
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF07
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF08
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF09
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF10
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF11
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF12
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF13
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF14
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF15
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF16
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF17
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF18
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF19
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF20
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF21
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-TF22
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD01
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD02
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD03
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD04
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD05
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD06
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD07
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD08
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD09
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD10
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD11
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD12
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD13
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD14
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD15
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD16
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenIDF-MD17
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenWW-MD01
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenWW-MD02
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenWW-MD03
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team GenWW-MD04
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team DestructibleCache
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team DestructiblePod
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team Marauder
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorA
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveA
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorB
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveB
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorC
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveC
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorD
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveD
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorE
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveE
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorF
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveF
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorG
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveG
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorH
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveH
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorI
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveI
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementDoorJ
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveJ
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveK
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementWaveL
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team SecurityTeam-A
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftA
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftB
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftC
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftD
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftE
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftF
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftG
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftH
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftI
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team ReinforcementRiftJ
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team WeaponCache-Restock
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team IncubationPod-Restock
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team WarmthBuff
+			}
+		}
+		Action ShutDownInstancedEvent
+	        {
+			TrialComplete Success
+		}
+	}	
+	Trigger Never
+	{
+		Requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting Down Stop Stage>>
+		}
+	}
+}

@@ -1,0 +1,947 @@
+#############################################################
+## Fx_PlayerTails.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef PlayerTail_Base
+	BaseSkeleton	FX_PlayerTails\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef PlayerTail_Feline01
+	BaseSkeleton	FX_PlayerTails\skel_ready
+	ParentType	PlayerTail_Base
+TypeDefEnd
+
+TypeDef PlayerTail_Lion01
+	BaseSkeleton	FX_PlayerTails\skel_ready
+	ParentType	PlayerTail_Base
+TypeDefEnd
+
+TypeDef PlayerTail_Rodent01
+	BaseSkeleton	FX_PlayerTails\skel_ready
+	ParentType	PlayerTail_Base
+TypeDefEnd
+
+TypeDef PlayerTail_Reptile01
+	BaseSkeleton	FX_PlayerTails\skel_ready
+	ParentType	PlayerTail_Base
+TypeDefEnd
+
+TypeDef PlayerTail_Demon01
+	BaseSkeleton	FX_PlayerTails\skel_ready
+	ParentType	PlayerTail_Base
+TypeDefEnd
+
+#############################################################
+## READIES - THIS MOVE MUST BE FIRST IN SEQUENCER
+#############################################################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\ready 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move ProfileReady
+	Requires	PROFILE
+	Priority        1
+	Interrupts	<Ready> Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Scale		0.5
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\profile_ready 1
+	TEnd
+MEnd
+
+####################
+#### Run Forward ##
+####################
+
+Move RunPreReady
+	Requires	FORWARD
+	Interrupts	<Ready> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove>
+	Priority	1
+	Flags		ReqInputs
+	NextMove        RunCycle
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\run 1 9
+	TEnd
+MEnd
+
+Move RunCycle
+	Requires	FORWARD
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove>
+	Priority	1
+	Flags		Cycle
+	NextMove        RunPostReady
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\run 10 34
+	TEnd
+
+MEnd
+
+## RUN POST ###########################################################
+
+Move RunPost
+	Include sequencers\Members\readies.inc
+	NextMove        Ready
+	Interpolate	8
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\run_post 40
+	TEnd
+
+MEnd
+
+## RUN BACKWARD	###########################################################
+
+Move Run_Back_Pre
+	Requires	BACKWARD
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle
+	CycleMove	Run_Back_Cycle
+	NextMove	Ready
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\run_back 1 9
+	TEnd
+
+MEnd
+
+Move Run_Back_Cycle
+	Requires	BACKWARD
+	Priority	1
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle
+	NextMove	Ready
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\run_back 10 34
+	TEnd
+
+MEnd
+
+## WALK FORWARD ###########################################################
+
+Move Player_Walk_Forward
+	Requires	PLAYER FORWARD PLAYERWALK
+	Priority	3
+	Interrupts	<AttackIRQ> <BasicMove> <Ready> <MoveIRQ>
+	NextMove	Player_Walk_Forward_Cycle
+	Flags		ReqInputs MoveScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\walk 24
+	TEnd
+
+MEnd
+
+Move Player_Walk_Forward_Cycle
+	Requires	PLAYER FORWARD PLAYERWALK
+	NextMove	Player_Walk_Post
+	Flags		Cycle MoveScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\walk 1
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Player_Walk_Post
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\ready 1
+	TEnd
+
+MEnd
+
+## WALK BACKWARD ###########################################################
+
+Move Player_Walk_Backward
+	Requires	PLAYER BACKWARD PLAYERWALK
+	Priority	3
+	Interrupts	<Ready> <MoveIRQ> <RunsALL> <AttackIRQ> <BasicMove>
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Backward_Cycle
+	Flags		ReqInputs MoveScale
+	Interpolate	10
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\ready 1
+	TEnd
+
+MEnd
+
+Move Player_Walk_Backward_Cycle
+	Requires	PLAYER BACKWARD PLAYERWALK
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Post
+	Flags		Cycle MoveScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\ready 1
+	TEnd
+
+MEnd
+
+## FLY FORWARD ###################################w########################
+
+Move flypre
+	Requires	FORWARD	FLY
+	Interrupts	<AttackIRQ> <BasicMove>
+	Priority	2
+	Flags		ReqInputs
+	NextMove	fly
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly 1 24
+	TEnd
+MEnd
+
+Move fly
+	Requires	FORWARD	FLY
+	Priority	2
+	Flags		Cycle ReqInputs
+	NextMove	flypost
+	Wind		FLY
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly 25 81
+	TEnd
+
+MEnd
+
+Move flyPost
+	Requires	FLY
+	Flags		ReqInputs
+	NextMove	flyready
+	Priority	1
+	#Scale		1.30
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly 82 137
+	TEnd
+
+MEnd
+
+## FLY BACKWARD	###########################################################
+
+Move BackflyPre
+	Requires	BACKWARD FLY
+	Interrupts	<AttackIRQ> <BasicMove> <Ready> <MoveIRQ>
+	Flags		ReqInputs
+	NextMove	BackflyCycle
+	Priority	2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_back 3 13
+	TEnd
+
+MEnd
+
+Move BackflyCycle
+	Requires	BACKWARD FLY
+	Flags		Cycle
+	NextMove	BackflyPost
+	Priority	2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_back 14 63
+	TEnd
+
+MEnd
+
+Move BackflyPost
+	Requires	FLY
+	Flags		ReqInputs
+	NextMove	flyready
+	Priority	1
+	#Scale		1.30
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_back 64
+	TEnd
+
+MEnd
+
+## FLY UP ###########################################################
+
+Move flyUPpre
+	Requires	JUMP FLY
+	Interrupts	<AttackIRQ> <BasicMove> <Ready> <MoveIRQ>
+	Flags		ReqInputs
+	NextMove	flyUPCycle
+	Priority	2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_up 1 24
+	TEnd
+MEnd
+
+Move flyUPCycle
+	Requires	JUMP FLY
+	Flags		Cycle
+	NextMove	flyUPPost
+	Priority	2
+	Wind		FLYUP
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_up 25 81
+	TEnd
+MEnd
+
+Move flyUPPost
+	Requires	FLY
+	Flags		ReqInputs
+	NextMove	flyready
+	Priority	1
+	Wind		FLY
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_up 82
+	TEnd
+MEnd
+
+
+## FLY RIGHT ###########################################################
+
+Move RightflyPre
+	Requires	STEPRIGHT FLY
+	Interrupts	<AttackIRQ> <BasicMove> <Ready> <MoveIRQ>
+	Flags		ReqInputs
+	NextMove	RightflyCycle
+	Priority	2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_right 3 9
+	TEnd
+MEnd
+
+Move RightflyCycle
+	Requires	STEPRIGHT FLY
+	Flags		Cycle
+	NextMove	RightflyPost
+	Priority	2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_right 10 54
+	TEnd
+MEnd
+
+Move RightflyPost
+	Requires	FLY
+	Flags		ReqInputs
+	NextMove	flyready
+	Priority	1
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_right 55
+	TEnd
+MEnd
+
+
+## FLY LEFT ###########################################################
+
+Move LeftflyPre
+	Requires	STEPLEFT FLY
+	Interrupts	<AttackIRQ> <BasicMove> <Ready> <MoveIRQ>
+	Flags		ReqInputs
+	NextMove	LeftflyCycle
+	Priority	2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_left 3 9
+	TEnd
+MEnd
+
+Move LeftflyCycle
+	Requires	STEPLEFT FLY
+	Flags		Cycle
+	NextMove	LeftflyPost
+	Priority	2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_left 10 54
+	TEnd
+MEnd
+
+Move LeftflyPost
+	Requires	FLY
+	Flags		ReqInputs
+	NextMove	flyready
+	Priority	1
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\fly_left 55
+	TEnd
+MEnd
+
+####################
+####### Jump  ######
+####################
+
+Move jumpPre
+	Requires	JUMP AIR
+	Priority	2
+	Interrupts	<MoveIRQ> <IRQJumps> <Ready> <GroundMoveALL> <Skill> <iceslide> <Swim> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        jumpUp
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\superjump 3 6
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        jumpApex
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\superjump 6 65
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpFall
+	Flags		Cycle
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\superjump 65 66
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\superjump 66 93
+	TEnd
+
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\superjump 93 154
+	TEnd
+MEnd
+
+## JUMP POST ###########################################################
+
+Move JumpPost
+	Include sequencers\Members\Readies.inc
+	NextMove 	Ready
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\superjump 155
+	TEnd
+
+MEnd
+
+## FALL ###########################################################
+
+Move PreFall
+	Requires	AIR
+	Priority	1
+	#Interrupts	<MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>  <Fall>
+	Flags		Cycle
+	NextMove	JumpPost
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\superjump 93 155
+	TEnd
+MEnd
+
+
+## JUMP FORWARD ###########################################################
+
+Move HopPre
+	Requires	FORWARD	JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	Hop
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\hop 10 11
+	TEnd
+MEnd
+
+Move Hop
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	Hop2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\hop 11 91
+	TEnd
+MEnd
+
+Move Hop2
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove	HopApex
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\hop 91 91
+	TEnd
+MEnd
+
+Move HopApex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	HopFall
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\hop 91 93
+	TEnd
+MEnd
+
+Move HopFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	HopFall_2
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\hop 93 128
+	TEnd
+MEnd
+
+Move HopFall_2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove	JumpPost
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\hop 128
+	TEnd
+MEnd
+
+###############################################################
+
+Move JumpToHop
+	Requires	FORWARD	JUMP AIR
+	Priority	3
+	Interrupts	jumppre	jumpup
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	Hop2
+	Interpolate	15
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\hop 10 91
+	TEnd
+MEnd
+
+
+#### DEATH ###########################################################
+
+Move Player_Default_Death
+	Requires	DEATH
+	Priority        102
+	Interrupts	<DeathIRQ> <AttackIRQ> <BasicMove> <Ready> <MoveIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Flags		NotSelectable NOCOLLISION
+	Sets            NOCOLLISION
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\death 47 129
+	TEnd
+
+MEnd
+
+Move Player_HitDeath
+	Requires	PLAYER HIT DEATH
+	Priority        103
+	Interrupts	<DeathIRQ> <HitIRQ> <AttackIRQ> <BasicMove> <Ready> <MoveIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Sets            NOCOLLISION
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\death 3 129
+	TEnd
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		NotSelectable Cycle
+	Sets            NOCOLLISION
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\death 129 130
+	TEnd
+
+MEnd
+
+###################################################
+#################   PL_OutCold  CUTSCENE ONLY  ##################
+###################################################
+
+Move OutCold01_Cutscene
+	Requires	ENCOUNTER OUTCOLD JUSTFUCKINDOIT
+	Priority        3
+	Include sequencers\Interrupts\Encounters_Scripted.inc
+	Flags		NoSizeScale NotSelectable Cycle
+	Sets            CANTMOVE
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\PL_OutCold 1 3
+	TEnd
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\PL_OutCold_fem 1 3
+	TEnd
+MEnd
+
+######################################################
+####### Hit Quick  ######
+######################################################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Priority	2
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun <AttackIRQ> <BasicMove> <Ready> <MoveIRQ> <DeathIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <HitIRQ> <IRQEmotesCombat>
+	NextMove        Ready
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\hq_react 1
+	TEnd
+MEnd
+
+#############################################################
+## electro\pain react
+#############################################################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Priority        2
+	Interrupts	<HitIRQ> <ready>
+	Include sequencers\Members\Reactions.inc
+	NextMove        postReady
+	Flags		HitReact
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\electro 1
+	TEnd
+MEnd
+
+#############################################################
+### electro_pain_LONG
+##############################################################
+
+Move electro_react_Long
+	Requires	STRONG HIT ENERGY
+	Priority        3
+	Interrupts	<HitIRQ> <ready>
+	Include sequencers\Members\Reactions.inc
+	NextMove        electro_react_Long2
+	Flags		HitReact
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\electro 1 115
+	TEnd
+MEnd
+
+Move electro_react_Long2
+	Include sequencers\Members\Reactions.inc
+	NextMove        weak_post
+	Interrupts	<HitIRQ> <ready>
+	Flags		HitReact
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\electro 1 20
+	TEnd
+MEnd
+
+#############################################################
+## weak post DRAIN
+#############################################################
+
+Move weak_post
+	Include sequencers\Members\Reactions.inc
+	Interrupts	<ready>
+	Flags		HitReact
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\drain 40 100
+	TEnd
+MEnd
+
+#############################################################
+## drain react
+#############################################################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Priority        2
+	Interrupts	<HitIRQ>
+	Include sequencers\Members\Reactions.inc
+	NextMove        postReady
+	Flags		HitReact
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\drain 1 100
+	TEnd
+MEnd
+
+#############################################################
+## Player only fast get up
+#############################################################
+
+Move Quick_getup_back
+	NextMove        Quick_getup_back2
+	Sets            CANTMOVE
+	Interrupts	<RaiseDeadIRQ> <RaiseDeadBackIRQ> <ready>
+	Flags		NoSizeScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\quick_getup 1 25
+	TEnd
+MEnd
+
+Move Quick_getup_back2
+	NextMove        Ready
+	Interrupts	<RaiseDeadIRQ> <RaiseDeadBackIRQ> <ready>
+	Include sequencers\Members\Readies.inc
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\superjump 155
+	TEnd
+MEnd
+
+############################################################
+# Revive(GetUp) - From Belly
+############################################################
+
+Move Revive_belly_Pre
+	Requires	HIT GETUP
+	Priority        2
+	Interrupts	<RaiseDeadIRQ> <RaiseDeadBackIRQ> <Ready>
+	NextMove        Revive_belly_post
+	Flags		NoSizeScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\getup_belly 1 120
+	TEnd
+MEnd
+
+Move Revive_belly_post
+	Include sequencers\Members\Readies.inc
+	Interrupts	<RaiseDeadIRQ> <RaiseDeadBackIRQ> <Ready>
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\getup_belly 120
+	TEnd
+MEnd
+
+
+#############################################################
+## Freeze Stun
+#############################################################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Priority        4
+	Interrupts	<HitIRQ>
+	Include sequencers\Members\Reactions.inc
+	NextMove        FreezeStun_cycle
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\drain 1 2
+	TEnd
+
+MEnd
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Include sequencers\Members\Reactions.inc
+	Flags		Cycle
+	NextMove        weak_post
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\drain 2 2
+	TEnd
+
+MEnd
+
+##############################################################
+### Player knockback
+##############################################################
+
+Move PlayerKnockback
+	Requires	HIT KNOCKBACK PLAYER
+	Priority        6
+	Interrupts	<HitIRQ> <DeathIRQ> <AttackIRQ> <BasicMove> <Ready> <MoveIRQ>
+	NextMove        PlayerKnockback_Travel
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	Interpolate     3
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\knockback_fierce 3 15
+	TEnd
+MEnd
+
+Move PlayerKnockback_Travel
+	Requires	AIR
+	NextMove        PlayerKnockback_Impact
+	Sets            CANTMOVE
+	Flags		Cycle NoSizeScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\knockback_fierce 14 15
+	TEnd
+MEnd
+
+Move PlayerKnockback_Apex
+	Requires	AIR APEX
+	Interrupts	PlayerKnockback PlayerKnockback_Travel
+	NextMove        PlayerKnockback_FallCycle
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\knockback_fierce 17 24
+	TEnd
+MEnd
+
+Move PlayerKnockback_FallCycle
+	Requires	AIR
+	NextMove        PlayerKnockback_Impact
+	Sets            CANTMOVE
+	Flags		Cycle NoSizeScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\knockback_fierce 23 24
+	TEnd
+MEnd
+
+Move PlayerKnockback_Impact
+	NextMove        Quick_getup_back
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\knockback_fierce 25
+	TEnd
+MEnd
+
+###########################################################
+#####################################
+## BobCat_Contact_On_Couch##############
+##########################################
+###########################################################
+
+Move BobCat_Contact_On_Couch
+	Requires	TAIL ENCOUNTER BOBCAT ONE
+	Priority        4
+	Interrupts	Ready
+	Member		<AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\bobcat_contact_on_couch 1
+	TEnd
+
+MEnd
+
+############################################################
+
+Move Emote_Swoon_Pre
+	Requires	EMOTE AFK ALTERNATE REWARD
+	Priority	4
+	Interrupts	<IRQEmotesALL> <IRQEmotesCombat> Ready
+	Include sequencers\Members\Emotes_Idle.inc
+	NextMove	Emote_Swoon
+	Flags		NoSizeScale
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\ready 1 40
+	TEnd
+
+MEnd
+
+Move Emote_Swoon
+	Include sequencers\Members\Emotes_Idle.inc
+	Flags		NoSizeScale
+	NextMove        Emote_Swoon_Post
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\ready 40 50
+	TEnd
+
+MEnd
+
+Move Emote_Swoon_Post
+	Include sequencers\Members\Emotes_Idle.inc
+	Flags		NoSizeScale
+	NextMove        Emote_Swoon_PostPost
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\death 90 130
+	TEnd
+MEnd
+
+Move Emote_Swoon_PostPost
+	Include sequencers\Members\Emotes_Idle.inc
+	Flags		NoSizeScale Cycle
+	NextMove        Ready
+	CycleMove	Emote_Swoon_PostPost
+
+	Type		PlayerTail_Base
+	  Anim          FX_PlayerTails\death 130 130
+	TEnd
+MEnd
+
+
+###########################################################
+
+SeqEnd

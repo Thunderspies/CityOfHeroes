@@ -1,0 +1,110 @@
+#############################################################
+
+Sequencer
+
+TypeDef Damaged_Vehicle
+	BaseSkeleton	Damaged_Vehicle\Skel_Dmg_Tank_A
+	ParentType	None
+TypeDefEnd
+
+
+TypeDef Damaged_tank_B
+	BaseSkeleton	Damaged_Vehicle\Dmg_Tank_B
+	ParentType	Damaged_Vehicle
+TypeDefEnd
+
+TypeDef Damaged_Millitary_Truck
+	BaseSkeleton	Damaged_Vehicle\Dmg_Millitary_Truck
+	ParentType	Damaged_Vehicle
+TypeDefEnd
+
+TypeDef Damaged_Truck
+	BaseSkeleton	Damaged_Vehicle\Dmg_Truck
+	ParentType	Damaged_Vehicle
+TypeDefEnd
+
+TypeDef Damaged_Car_Lux1
+	BaseSkeleton	Damaged_Vehicle\Dmg_Car_Lux1
+	ParentType	Damaged_Vehicle
+TypeDefEnd
+
+TypeDef Damaged_Car_Sport2
+	BaseSkeleton	Damaged_Vehicle\Dmg_Car_Sport2
+	ParentType	Damaged_Vehicle
+TypeDefEnd
+
+TypeDef Damaged_Car_Compact
+	BaseSkeleton	Damaged_Vehicle\Dmg_Car_Compact
+	ParentType	Damaged_Vehicle
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Damaged_Vehicle
+	  Anim          Damaged_Vehicle\Skel_Dmg_Tank_A 1
+	  PlayFx	WORLD\Ruins\Damaged_Vehicle_flame.fx 0 CONSTANT
+	  PlayFx	POWERS\FireControl\BurnPet.fx 0 CONSTANT
+	TEnd
+
+	Type		Damaged_tank_B
+	  Anim          Damaged_Vehicle\Dmg_Tank_B 1
+	  PlayFx	WORLD\Ruins\Damaged_Vehicle_flame.fx 0 CONSTANT
+	  PlayFx	POWERS\FireControl\BurnPet.fx 0 CONSTANT
+	TEnd
+
+	Type		Damaged_Millitary_Truck
+	  Anim          Damaged_Vehicle\Dmg_Millitary_Truck_side 1
+	  PlayFx	WORLD\Ruins\Damaged_Vehicle_flame.fx 0 CONSTANT
+	TEnd
+
+	Type		Damaged_Truck
+	  Anim          Damaged_Vehicle\Dmg_Truck 1
+	  PlayFx	WORLD\Ruins\Damaged_Vehicle_flame.fx 0 CONSTANT
+	  PlayFx	POWERS\FireControl\BurnPet.fx 0 CONSTANT
+	TEnd
+
+	Type		Damaged_Car_Lux1
+	  Anim          Damaged_Vehicle\Dmg_Car_Lux1 1
+	  PlayFx	WORLD\Ruins\Damaged_Vehicle_flame.fx 0 CONSTANT
+##	  PlayFx	POWERS\FireControl\BurnPet.fx 0 CONSTANT
+	TEnd
+
+	Type		Damaged_Car_Sport2
+	  Anim          Damaged_Vehicle\Dmg_Car_Sport2 1
+	  PlayFx	WORLD\Ruins\Damaged_Vehicle_flame.fx 0 CONSTANT
+##	  PlayFx	POWERS\FireControl\BurnPet.fx 0 CONSTANT
+	TEnd
+
+	Type		Damaged_Car_Compact
+	  Anim          Damaged_Vehicle\Dmg_Car_Compact 1
+	  PlayFx	WORLD\Ruins\Damaged_Vehicle_flame.fx 0 CONSTANT
+##	  PlayFx	POWERS\FireControl\BurnPet.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+
+SeqEnd
+

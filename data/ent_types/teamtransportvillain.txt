@@ -1,0 +1,51 @@
+
+######################################
+## Team Transport Vehicle (Arachnos Flier)
+##
+Type
+
+#Sequencer	Arachnos_flyer_seq.txt
+#SequencerType	flyer
+Sequencer	V_Team_Transport.txt
+SequencerType	V_TeamTransport
+
+Graphics	player_library/v_arachnos_flyer.geo
+
+FadeOutStart	800
+FadeOutFinish	1000
+
+Selection	Capsule
+NoStrafe 1
+
+Flags	UseCapsuleForRangeFinding
+
+VisSphereRadius 30.12
+Placement         DeadOn
+
+GeomScale		.3 .3 .3
+CapsuleSize	8.0 16 8.0
+CapsuleOffset 0.0 0.0 0.0
+
+#Fx GENERIC\Transport_Fade.fx
+Fx GENERIC\V_Transport_FX.fx
+
+
+ReticleHeightBias -5.0
+
+#TicksToLingerAfterDeath     5
+#
+#TicksToFadeAwayAfterDeath   0
+
+#HealthFx
+#	Range			0 0.0001
+#	OneShotFx		Explosions\VehicleExplosion\Expolsion_Flier_Arachnos.fx
+#
+#End
+
+FullBodyPortrait 0
+
+CollisionType None
+
+NotSelectable 1
+
+End

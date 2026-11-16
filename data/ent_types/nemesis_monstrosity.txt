@@ -1,0 +1,35 @@
+######################################
+## Nemesis Monstrosity
+##
+Type
+
+Sequencer	5cw.txt
+SequencerType	Nemesis_Heavy
+
+// LOD1_Dist	250
+// LOD2_Dist	500
+FadeOutStart	400
+FadeOutFinish	440
+
+GeomScale	9 9 9
+GeomScaleMax	9 9 9
+
+Selection	Capsule
+CapsuleSize	30 70 30
+CapsuleOffset	0 -15 0
+
+ReticleHeightBias 0.5    //Default 0.5. Amount to always raise the reticle (to get it out of headdresses, for example). This will raise or lower where the target reticle is on the entity.
+ReticleWidthBias 1.0     //Default 1.0. Amount to always widen the reticle (again, to get it out of the way of objects with geometry the protrudes past the bones
+ReticleBaseBias 0.0       //Default 0.0. Amount to always lower the reticle (as above, to get it out of the way)
+NotSelectable 0            //0(default) or 1. Players can't select this entity. (Still targetable by powers, just not selectable in the UI)
+
+Fx		EnemyFX/Nemesis/NemesisMonstrosityBackPac.fx
+#
+#Fx		powers/FireControl/VillainExplosionLargeDeath.fx
+#
+Fx		Scripted\SignatureStories\PandorasBox\Nemesis_Monstrocity.fx
+
+TicksToLingerAfterDeath 215
+TicksToFadeAwayAfterDeath 1
+
+End

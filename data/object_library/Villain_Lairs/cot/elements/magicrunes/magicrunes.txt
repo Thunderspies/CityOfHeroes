@@ -1,0 +1,331 @@
+Version 2
+RootMod cot_magic_spike_broken_med
+End
+
+RootMod cot_magic_spike_med
+End
+
+RootMod cot_magic_spike_sml
+End
+
+RootMod cot_magic_spike_lrg
+End
+
+RootMod cot_magic_spike_broken_lrg
+End
+
+RootMod cot_magic_spike_broken_sml
+End
+
+RootMod _cot_magicstand_base01
+End
+
+RootMod _cot_magicstand_magic
+End
+
+RootMod _cot_magic_spin_med
+End
+
+RootMod _cot_sigil_med
+End
+
+RootMod _cot_sigil_glow_med
+End
+
+RootMod _cot_magic_circle01_med
+End
+
+RootMod _cot_magic_spin_sml
+End
+
+RootMod _cot_sigil_sml
+End
+
+RootMod _cot_sigil_glow_sml
+End
+
+RootMod _cot_magic_circle01_sml
+End
+
+RootMod _cot_magic_spin_lrg
+End
+
+RootMod _cot_sigil_lrg
+End
+
+RootMod _cot_sigil_glow_lrg
+End
+
+RootMod _cot_magic_circle01_lrg
+End
+
+RootMod cot_altar_round_sml
+End
+
+RootMod cot_altar_4x4
+End
+
+RootMod cot_altar_8x8
+End
+
+RootMod cot_altar_4x8
+End
+
+RootMod cot_altar_round_med
+End
+
+RootMod _cot_warpgate_glow
+End
+
+RootMod _cot_teleporter_base
+End
+
+RootMod _cot_teleporter_glow
+End
+
+RootMod _cot_teleporter_warper
+End
+
+RootMod _cot_warpgate_base
+End
+
+Def cot_magic_podium1
+	Group _cot_magicstand_magic
+	End
+	Group _cot_magicstand_base01
+	End
+End
+
+Def cot_fx_sigil_med_warm_1&
+	Group object_library/Omni/PARTICLE_10
+	End
+	Type WORLD\Lairs\cot\RuneShimmerMist3Warm.fx
+End
+
+Def cot_fx_sigil_med_warm
+	Group cot_fx_sigil_med_warm_1&
+		Pos 0 0.801264 0
+	End
+	Group object_library/Omni/PIVOT
+	End
+End
+
+Def cot_teleporter_5&
+	Group object_library/Omni/_sound
+	End
+	Sound Portal_loop 0.296875 37.650269 37.650269
+	Flags Ungroupable
+End
+
+Def cot_teleporter_1&
+	Group _cot_teleporter_warper
+	End
+	Group cot_teleporter_5&
+	End
+	Property	"dbSrvrTracked"	"door"	0
+End
+
+Def cot_teleporter_2&
+	Group object_library/Omni/PARTICLE_25
+	End
+	Type WORLD\Lairs\cot\Portal.fx
+End
+
+Def cot_teleporter
+	Group _cot_teleporter_glow
+	End
+	Group cot_teleporter_1&
+		Pos 0 0 -0.740733
+	End
+	Group _cot_teleporter_base
+	End
+	Group cot_teleporter_2&
+		Rot -1.570796 0 0
+		Pos 0 6 -0.5
+	End
+End
+
+Def cot_sigil_1_lrg
+	Group _cot_sigil_glow_lrg
+	End
+	Group _cot_sigil_lrg
+	End
+End
+
+Def cot_magic_circle_lrg
+	Group _cot_magic_spin_lrg
+	End
+	Group _cot_magic_circle01_lrg
+	End
+End
+
+Def cot_fx_circle_lrg_cool
+	Group object_library/Omni/PARTICLE_15
+	End
+	Type WORLD\Lairs\cot\RuneShimmerCoolLarge.fx
+End
+
+Def cot_fx_sigil_lrg_cool_1&
+	Group object_library/Omni/PARTICLE_10
+	End
+	Type WORLD\Lairs\cot\RuneShimmerMist3CoolMedium.fx
+End
+
+Def cot_fx_sigil_lrg_cool
+	Group cot_fx_sigil_lrg_cool_1&
+		Pos 0 1.402288 0
+	End
+	Group object_library/Omni/PIVOT
+	End
+End
+
+Def cot_magic_circle_sml
+	Group _cot_magic_spin_sml
+	End
+	Group _cot_magic_circle01_sml
+	End
+End
+
+Def cot_sigil_1_med
+	Group _cot_sigil_glow_med
+	End
+	Group _cot_sigil_med
+	End
+End
+
+Def cot_fx_circle_sml_warm
+	Group object_library/Omni/PARTICLE_5
+	End
+	Type WORLD\Lairs\cot\RuneShimmerWarm.fx
+End
+
+Def cot_fx_sigil_med_cool_1&
+	Group object_library/Omni/PARTICLE_10
+	End
+	Type WORLD\Lairs\cot\RuneShimmerMist3Cool.fx
+End
+
+Def cot_fx_sigil_med_cool
+	Group cot_fx_sigil_med_cool_1&
+		Pos 0 0.801264 0
+	End
+	Group object_library/Omni/PIVOT
+	End
+End
+
+Def cot_magic_circle_med
+	Group _cot_magic_spin_med
+	End
+	Group _cot_magic_circle01_med
+	End
+End
+
+Def cot_fx_sigil_sml_cool_1&
+	Group object_library/Omni/PARTICLE_5
+	End
+	Type WORLD\Lairs\cot\RuneShimmerMist3CoolSmall.fx
+End
+
+Def cot_fx_sigil_sml_cool
+	Group object_library/Omni/PIVOT
+	End
+	Group cot_fx_sigil_sml_cool_1&
+		Pos 0 0.443584 0
+	End
+End
+
+Def cot_fx_circle_sml_cool
+	Group object_library/Omni/PARTICLE_5
+	End
+	Type WORLD\Lairs\cot\RuneShimmerCool.fx
+End
+
+Def cot_fx_sigil_sml_warm_1&
+	Group object_library/Omni/PARTICLE_5
+	End
+	Type WORLD\Lairs\cot\RuneShimmerMist3WarmSmall.fx
+End
+
+Def cot_fx_sigil_sml_warm
+	Group cot_fx_sigil_sml_warm_1&
+		Pos 0 0.443584 0
+	End
+	Group object_library/Omni/PIVOT
+	End
+End
+
+Def cot_fx_sigil_lrg_warm_1&
+	Group object_library/Omni/PARTICLE_10
+	End
+	Type WORLD\Lairs\cot\RuneShimmerMist3WarmMedium.fx
+End
+
+Def cot_fx_sigil_lrg_warm
+	Group cot_fx_sigil_lrg_warm_1&
+		Pos 0 1.402288 0
+	End
+	Group object_library/Omni/PIVOT
+	End
+End
+
+Def cot_fx_circle_med_cool
+	Group object_library/Omni/PARTICLE_10
+	End
+	Type WORLD\Lairs\cot\RuneShimmerCoolMedium.fx
+End
+
+Def cot_sigil_1_sml
+	Group _cot_sigil_glow_sml
+	End
+	Group _cot_sigil_sml
+	End
+End
+
+Def cot_teleporter_temp_1&
+	Group cot_magic_podium1
+		Rot 0 3.141592 0
+	End
+	TintColor 254 16 57   0 0 0
+End
+
+Def cot_teleporter_temp
+	Group cot_teleporter_temp_1&
+		Pos 0 0 5
+	End
+	Property	"dbSrvrTracked"	"door"	0
+End
+
+Def cot_fx_circle_med_warm
+	Group object_library/Omni/PARTICLE_10
+	End
+	Type WORLD\Lairs\cot\RuneShimmerWarmMedium.fx
+End
+
+Def cot_fx_circle_lrg_warm
+	Group object_library/Omni/PARTICLE_15
+	End
+	Type WORLD\Lairs\cot\RuneShimmerWarmLarge.fx
+End
+
+Def cot_enemy_gate_01_1&
+	Group object_library/Omni/PARTICLE_25
+	End
+	Type WORLD\Lairs\cot\Cot_EnemyPortal.fx
+End
+
+Def cot_enemy_gate_01
+	Group cot_enemy_gate_01_1&
+		Rot -1.570796 -1.570796 0
+		Pos 0.5 10.5 0
+	End
+	Group _cot_warpgate_base
+		Rot 0 -1.570796 0
+	End
+	Group _cot_warpgate_glow
+		Rot 0 -1.570796 0
+	End
+	TintColor 254 14 0   0 0 0
+End
+
+
+

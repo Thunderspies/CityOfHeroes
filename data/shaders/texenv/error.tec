@@ -1,0 +1,42 @@
+{ // Texture unit 0
+	rgb {
+//		result = constant.rgb
+		result = previous.rgb
+	}
+	alpha {
+		// mult
+		result = constant.alpha
+	}
+}
+{ // Texture unit 1
+	rgb {
+		result = previous.rgb
+	}
+	alpha {
+		// mult
+		result = previous.alpha
+	}
+}
+{ // Texture unit 2
+	rgb {
+		result = previous.rgb
+	}
+	alpha {
+		// mult
+		result = previous.alpha
+	}
+}
+//Flags NoLighting
+
+
+	// Operators:
+		//result = lerp(texture.alpha, previous.rgb, texture.rgb)
+		//result = previous.rgb * texture.rgb
+		//result = MUL previous.rgb, texture.rgb
+		//result = primary.rgb + texture.rgb
+		//result = ADD primary.rgb, texture.rgb
+		//result = primary.rgb - texture.rgb
+		//result = SUB primary.rgb, texture.rgb
+		//result = primary.rgb +- texture.rgb // does an "A + B - 0.5"
+		//result = ADDS primary.rgb, texture.rgb // does an "A + B - 0.5"
+	

@@ -1,0 +1,57 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_RappelRope
+	BaseSkeleton	FX_RappelRope\skel_FX_RappelRope
+	ParentType	None
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+	#Interpolate	15
+	Scale		.5
+
+	Type		FX_RappelRope
+	  Anim          FX_RappelRope\skel_FX_RappelRope 1 
+	TEnd
+MEnd
+
+##########################################
+###  Spawn Paramilitary Soldier Rappel ###
+##########################################
+
+Move Soldier_Spawn_Rappel
+	Requires	SPAWNEDASPET  
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ> 
+	NextMove        Soldier_Spawn_Rappel02 #Soldier_Spawned_post
+	Priority        1
+	Flags		NoSizeScale NotSelectable
+	Sets            CANTMOVE 
+
+	Type		FX_RappelRope
+	  Anim          FX_RappelRope\Rappel_FreeDrop 1 
+	TEnd
+MEnd
+
+SeqEnd

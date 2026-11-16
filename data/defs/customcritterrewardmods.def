@@ -1,0 +1,16 @@
+
+
+// This is the experience modifier for custom critters that are chosen from our default templates
+DifficultyMod	.75, 1.0, 1.0    // Standard, Hard, Extreme
+
+// This counts the powers on a custom critter and gives a bonus based off that number
+// For first pass I used this equation: Mod = .0031 * ( Count )^2
+// This creates a smooth curve with a mod of .25 at 9 powers and 1.0 at 18
+CustomPowerNumberMod 0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+// this is the penalty players will receive if the spawn system does not have critters from all ranks, 
+// in this case if they are missing zero ranks there is no penalty, one rank has a 50% penalty that will be applied,
+// two missing ranks and a 75% penalty will be applied.  3 missing ranks and no XP.
+MissingRankPenalty  1.0, .50,  .25, 0 
+
+ArchitectAmbushScaling .75

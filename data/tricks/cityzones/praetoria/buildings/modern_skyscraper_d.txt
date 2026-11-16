@@ -1,0 +1,372 @@
+Texture X_Bld_OFC_Modern_Skyscraper_Base_01
+
+	Base1 Bld_OFC_Modern_Skyscraper_Base_01_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	CubeMap generic_cubemap_face0.tga
+	
+	Multiply1 none //Bld_OFC_Modern_MidRise_Sqr_A_WND_Core_01_Z
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 white.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+	
+	BumpMap1 Bld_OFC_Modern_Skyscraper_Base_01_N 
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Bld_OFC_Modern_MidRise_WindowLights_06_D
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 0.25 .25
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+
+	Mask Bld_OFC_Modern_Skyscraper_Base_01_DC
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Bld_OFC_Modern_MidRise_WindowVariation_05_D.tga
+	Base2Scroll 0 .0
+	Base2ScrollType Normal
+	Base2Scale 0.25 .06125
+
+	Multiply2 reflect_general02.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.03125 0.03125
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+
+	ReflectivityBase .6
+  	ReflectivityScale .5
+  	ReflectivityPower 6
+
+	DiffuseScale .8
+	AmbientScale 2
+
+  Flags  FallbackForceOpaque //AlwaysAddGlow  //FullBright  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Bld_OFC_Modern_Skyscraper_Base_01_D
+		Blend none
+		Bumpmap Bld_OFC_Modern_Skyscraper_Base_01_N
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale .8
+		AmbientScale 1
+	End
+End
+
+Texture X_Bld_OFC_Modern_Skyscraper_Base_02
+
+	Base1 Bld_OFC_Modern_Skyscraper_Base_02_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none //Bld_OFC_Modern_MidRise_Sqr_A_WND_Core_01_Z
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 white.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+	
+	BumpMap1 Bld_OFC_Modern_Skyscraper_Base_02_N 
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 0.125 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 .0
+	Base2ScrollType Normal
+	Base2Scale 0.25 .06125
+
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.03125 0.03125
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+
+	ReflectivityBase 0
+  	ReflectivityScale 0
+  	ReflectivityPower 0
+
+	DiffuseScale .8
+	AmbientScale 2
+
+  #ObjFlags FancyWater 
+	Flags  none //AlwaysAddGlow  //FullBright  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 100
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Bld_OFC_Modern_Skyscraper_Base_02_D
+		Blend none
+		Bumpmap Bld_OFC_Modern_Skyscraper_Base_02_N
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture X_Bld_OFC_Modern_Skyscraper_Trim_01
+
+	Base1 Bld_OFC_Modern_Skyscraper_Trim_01_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none //Bld_OFC_Modern_MidRise_Sqr_A_WND_Core_01_Z
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 black.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+	
+	BumpMap1 Bld_OFC_Modern_Skyscraper_Trim_01_N 
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 0.125 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 .0
+	Base2ScrollType Normal
+	Base2Scale 0.25 .06125
+
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.03125 0.03125
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+
+	ReflectivityBase 0
+  	ReflectivityScale 0
+  	ReflectivityPower 0
+
+	DiffuseScale .7
+	AmbientScale 2
+
+  #ObjFlags FancyWater 
+	Flags  none //AlwaysAddGlow  //FullBright  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 100
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Bld_OFC_Modern_Skyscraper_Trim_01_D
+		Blend none
+		Bumpmap Bld_OFC_Modern_Skyscraper_Trim_01_N
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture X_Bld_OFC_Modern_Skyscraper_Bottom_01
+
+	Base1 Bld_OFC_Modern_Skyscraper_Bottom_01_D
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none //Bld_OFC_Modern_MidRise_Sqr_A_WND_Core_01_Z
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 white.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+	
+	BumpMap1 Bld_OFC_Modern_Skyscraper_Bottom_01_N 
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Bld_OFC_Modern_MidRise_WindowLights_06_D
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 0.25 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+
+	Mask Bld_OFC_Modern_Skyscraper_Bottom_01_M
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .4
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Bld_OFC_Modern_MidRise_WindowVariation_05_D.tga
+	Base2Scroll 0 .0
+	Base2ScrollType Normal
+	Base2Scale 0.25 .06125
+
+
+	Multiply2 reflect_general02.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Bld_OFC_Modern_MidRise_WindowDistortion_01_NS
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.03125 0.03125
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+
+	ReflectivityBase .6
+  	ReflectivityScale .5
+  	ReflectivityPower 6
+
+	DiffuseScale .5
+	AmbientScale 2
+
+  #ObjFlags FancyWater 
+	Flags  none //AlwaysAddGlow  //FullBright  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 254
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base Bld_OFC_Modern_Skyscraper_Bottom_01_D
+		Blend none
+		Bumpmap Bld_OFC_Modern_Skyscraper_Bottom_01_N
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+

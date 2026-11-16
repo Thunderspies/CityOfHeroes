@@ -1,0 +1,40 @@
+#############################################################
+## Lambda_Turret.txt
+#############################################################
+
+Type
+
+#############################################################
+
+Sequencer	Lambda_Turret.txt
+SequencerType	Lambda_Sector_Turret
+
+Graphics	player_library\G_Lambda_Sector_Turret.geo
+FX		WORLD\Objects\Lambda_Sector_Turret\Lambda_Sector_Turret_Base.fx
+
+GeomScale	1.0 1.0 1.0
+
+#############################################################
+
+FadeOutStart	1000
+FadeOutFinish	1050
+
+Placement         DeadOn
+
+Selection	Capsule
+CapsuleSize	15.0 40.2 60.0
+CapsuleOffset	0.0 10.0 -12.5
+
+CameraHeight	13.5
+
+TicksToLingerAfterDeath			25
+TicksToFadeAwayAfterDeath		1
+
+#############################################################
+HealthFx
+	Range	0 0.001
+	OneShotFX	Explosions/MetalExplosion/AlluminumMetalPartsFireExplosion.Fx
+End
+
+#############################################################
+End

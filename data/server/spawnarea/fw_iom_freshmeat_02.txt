@@ -1,0 +1,28 @@
+SpawnArea Global
+
+	// Redundent fields?
+	MaxActiveEntities 1000000
+	MaxCritterCount 100
+	MaxNPCCount 601
+	MaxCritterPerPlayer 850		// This can go.  Mission maps determine max critter count some other way now.	
+	MaxTriggerCount 10		// This can go.  Not used anymore.	
+	MaxCritterSpawnCount infinite
+
+	Generator CarGenerator
+
+		MaxSpawnCount infinite
+		// Turn Off
+		MaxActiveEntities 0
+		ActivationInterval 300
+		GeneratedTypes Car_Lux, Car_Compact, Car_Sport, Car_Truck
+	End
+
+	
+	Generator NPCGenerator
+		MaxSpawnCount infinite
+		MaxActiveEntities 0
+		ActivationInterval 150
+		GeneratedTypes MaleNPC, FemaleNPC,
+	End
+
+End

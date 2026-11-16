@@ -1,0 +1,1413 @@
+#############################################################
+## dog.txt
+#############################################################
+Sequencer
+
+## Dog #######################################################
+
+TypeDef UmbraBeast
+	BaseSkeleton	Dog\skel_ready
+	ParentType	none
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<IRQEmotesALL>
+Group	<Skill>
+Group	<SkillMode>
+Group	<MonsterGroup>
+Group	<MonsterMove>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+#########################################################
+## READIES
+#############################################################
+
+Move Ready
+	Interpolate	5
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Ready_cycle
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 1 14
+	TEnd
+MEnd
+
+
+#############################################################
+
+Move Ready_cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_cycle
+	CycleMove	Ready_cycle
+	CycleMove	Ready_cycle
+	CycleMove	Ready_cycle
+	CycleMove	Umbra_Bark
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Umbra_Bark
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_cycle
+
+	Type		UmbraBeast
+	  Anim          Dog\dog_bark 1 64
+	  PlayFX	NPCFX\Pets\Dog\Dog_Bark.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_Bark.fx 30
+	  PlayFX	NPCFX\Pets\Dog\Dog_Bark.fx 35
+	TEnd
+
+MEnd
+
+#############################################################
+
+#############################################################
+#############################################################
+## RUN FORWARD	###########################################################
+
+Move UmbraBeast_RunPre
+	Requires	FORWARD
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		Cycle HideWeapon HideShield SmoothSprint MoveScale
+	CycleMove	UmbraBeast_RunCycle
+	#NextMove	Idle_Walk_Post
+	Interpolate	5
+
+	Type		UmbraBeast
+	  Anim          Dog\dog_run_forward 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  MoveRate	1  ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+MEnd
+
+Move UmbraBeast_RunCycle
+	Requires	FORWARD
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		Cycle HideWeapon HideShield SmoothSprint MoveScale
+	NextMove	UmbraBeast_RunPost
+	Interpolate	5
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_run_forward 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_PantLong.fx 1 CONSTANT
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+
+	  MoveRate	1 ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+MEnd
+
+Move UmbraBeast_RunPost
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+	Flags 		HideWeapon HideShield
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_run_forward_post 6 24
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	TEnd
+
+MEnd
+
+
+## NPC WALK     ###########################################################
+### WALK FORWARD ###########################################################
+#
+#Move UmbraBeast_WalkCycle_Pre
+#	Requires	FORWARD	WALK
+#	Priority	2
+#	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+#	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+#	Flags		MoveScale
+#	NextMove	Dog_WalkCycle
+#
+#	Type		UmbraBeast
+#	  Anim		Dog\dog_walk_forward 1
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+#	  MoveRate	0.146
+#	  Scale		1.1
+#	TEnd
+#
+#
+#MEnd
+#
+#Move UmbraBeast_WalkCycle
+#	Requires	FORWARD	WALK
+#	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+#	Flags		Cycle MoveScale
+#	NextMove	UmbraBeast_WalkPost
+#	Priority	2
+#
+#	Type		UmbraBeast
+#	  Anim		Dog\dog_walk_forward 1 20
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+#	  MoveRate	5
+#	  Scale		2
+#	TEnd
+#
+#MEnd
+#
+#Move UmbraBeast_WalkPost
+#	Include sequencers\Members\readies.inc
+#	NextMove	Ready
+#	Interpolate	8
+#
+#	Type		UmbraBeast
+#	  Anim		Dog\dog_walk_forward 36
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+#	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+#	TEnd
+#
+#MEnd
+
+## JUMP FORWARD ###########################################################
+
+Move UmbraBeast_HopPre
+	Requires	FORWARD	JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	UmbraBeast_Hop
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_hop 1 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_Jump.fx 1
+	TEnd
+
+MEnd
+
+Move UmbraBeast_Hop
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	CycleMove 	UmbraBeast_HopCycle
+	NextMove	UmbraBeast_HopApex
+	Scale		0.75
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_hop 5 82
+	TEnd
+
+MEnd
+
+Move UmbraBeast_HopCycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle
+	NextMove	UmbraBeast_HopApex
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_hop 162 220
+	TEnd
+MEnd
+
+Move UmbraBeast_HopApex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	UmbraBeast_HopFall
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_hop 82 92
+	TEnd
+
+MEnd
+
+Move UmbraBeast_HopFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	UmbraBeast_HopFall_Cycle
+	NextMove	UmbraBeast_HopPost
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_hop 92 111
+	TEnd
+
+MEnd
+
+Move UmbraBeast_HopFall_Cycle
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove	UmbraBeast_HopPost
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_hop 222 280
+	TEnd
+
+MEnd
+
+Move UmbraBeast_HopPost
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	Interpolate	1
+	Scale		0.7
+	SticksOnChild	LAND
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_run_forward_post 6 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	TEnd
+
+MEnd
+
+
+## JUMP UP ###########################################################
+
+Move UmbraBeast_JumpPre
+	Requires	JUMP AIR #COMBAT
+	Priority	2
+	Interrupts	<MoveIRQ> <Ready> <Combat> <IRQJumps> <RunsALL> <GroundMoveALL> <Skill> <iceslide> <Swim> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	NextMove	UmbraBeast_JumpUp
+	Interpolate	5
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_jump 3 6
+	  PlayFX	NPCFX\Pets\Dog\Dog_Jump.fx 1
+
+	TEnd
+MEnd
+
+Move UmbraBeast_JumpUp
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle
+	NextMove	UmbraBeast_JumpApex
+	CycleMove	UmbraBeast_JumpCycle
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_jump 6 82
+	TEnd
+MEnd
+
+Move UmbraBeast_JumpCycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle
+	NextMove	UmbraBeast_JumpApex
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_jump 113 171
+	TEnd
+MEnd
+
+Move UmbraBeast_JumpApex #Apex is for short jumps
+	Requires	APEX AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	UmbraBeast_JumpFall
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_jump 82 92
+
+	TEnd
+MEnd
+
+Move UmbraBeast_JumpFall
+	Requires	AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	CycleMove	UmbraBeast_JumpFall_Cycle
+	NextMove	UmbraBeast_JumpPost
+	Interpolate	2
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_jump 92 111
+	TEnd
+MEnd
+
+Move UmbraBeast_JumpFall_Cycle
+	Requires	AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove	UmbraBeast_JumpPost
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_jump 111 173
+	TEnd
+MEnd
+
+Move UmbraBeast_JumpPost
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	SticksOnChild	LAND
+	Interpolate	1
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_run_forward_post 6 24
+	TEnd
+
+	Type		CameraShaker
+	  Anim		male\comb_postjump 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	TEnd
+MEnd
+
+
+## Dog JUMP UP INTO FORWARD TRANSITION ###########################################################
+
+Move UmbraBeast_JumpToHop
+	Requires	FORWARD JUMP AIR #COMBAT
+	Priority	3
+	Interrupts	<TravelJump>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	UmbraBeast_HopApex
+	Interpolate	20
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_hop 6 82
+	TEnd
+MEnd
+
+## FLY FORWARD FROM RUN ###########################################################
+
+Move UmbraBeast_flypre_Launch
+	Requires	FORWARD	FLY
+	Priority	12
+	Interrupts	RunPre RunCycle <GroundMoveALL> <Launch> <iceslide>
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt>
+	Flags		ReqInputs
+	NextMove	UmbraBeast_fly
+	Wind		FLY
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_fly_pre 2
+	  PlayFx	FEET\FlightForward.fx
+	TEnd
+
+MEnd
+
+## FLY READY ###########################################################
+
+Move UmbraBeast_flyready_pre
+	Requires	FLY
+	Priority	1
+	Interrupts	<Ready>	<Jumps>	<PostMoveCycle>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove	UmbraBeast_flyready
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_fly_pre 2
+	TEnd
+
+MEnd
+
+Move UmbraBeast_flyready
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		Cycle
+	NextMove	PreFall
+	Interpolate	3
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_fly_pre 60 110
+	TEnd
+
+MEnd
+
+## FLY FORWARD ###########################################################
+
+Move UmbraBeast_fly_forward_pre
+	Requires	FORWARD	FLY
+	Priority	12
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt>
+	Flags		ReqInputs
+	NextMove	UmbraBeast_fly_forward_cycle
+	Scale		0.8
+	Wind		FLY
+
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_fly_forward 1 15
+	TEnd
+
+MEnd
+
+Move UmbraBeast_fly_forward_cycle
+	Requires	FORWARD	FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt>
+	Flags		Cycle ReqInputs
+	NextMove	UmbraBeast_fly_forward_post
+	Wind		FLY
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_fly_forward 15 35
+	TEnd
+
+MEnd
+
+Move UmbraBeast_fly_forward_post
+	Requires	FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ>
+	Flags		ReqInputs
+	NextMove	UmbraBeast_flyready
+	Priority	11
+	Scale		0.7
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_fly_forward 35 55
+	TEnd
+
+MEnd
+
+## FLY UP ###########################################################
+
+Move UmbraBeast_fly_up_pre
+	Requires	JUMP FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <iceslide> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		ReqInputs
+	NextMove	UmbraBeast_fly_up_cycle
+	Priority	12
+	Scale		0.90
+	Wind		FLYUP
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_fly_up 1 15
+	TEnd
+
+MEnd
+
+Move UmbraBeast_fly_up_cycle
+	Requires	JUMP FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		Cycle
+	NextMove	UmbraBeast_fly_up_post
+	Priority	12
+	Wind		FLYUP
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_fly_up 15 65
+	TEnd
+
+MEnd
+
+Move UmbraBeast_fly_up_post
+	Requires	FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ>
+	Flags		ReqInputs
+	NextMove	UmbraBeast_flyready
+	Priority	11
+	Wind		FLY
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_fly_up 66 85
+	TEnd
+
+MEnd
+
+
+#############################################################
+## HOVERS
+#############################################################
+
+## DOG HOVER FORWARD ###########################################################
+
+Move UmbraBeast_hover_forward_pre
+	Requires	FORWARD	FLY HOVER
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicFlyMove> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	UmbraBeast_hover_forward
+	Scale		0.875
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_hover_forward 1 20
+	TEnd
+MEnd
+
+Move UmbraBeast_hover_forward
+	Requires	FORWARD	FLY HOVER
+	Priority	13
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		Cycle ReqInputs
+	NextMove	UmbraBeast_hover_forward_post
+	#Scale		0.625
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_hover_forward 20 70
+	TEnd
+MEnd
+
+Move UmbraBeast_hover_forward_post
+	Requires	FLY
+	Priority	11
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ> <MoveIRQ>
+	Flags		ReqInputs
+	NextMove	UmbraBeast_flyready
+	Scale		0.875
+
+	Type		UmbraBeast
+	  Anim		dog\dog_hover_forward_post 70 90
+	TEnd
+MEnd
+
+## DOG FALL ###########################################################
+
+Move UmbraBeast_pre_fall
+	Requires	AIR
+	Priority	1
+	Interrupts	<FlyReady>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <HoverMove> <FlyMoveALL> <Fall>
+	Flags		Cycle
+	CycleMove	UmbraBeast_JumpFall_Cycle
+	NextMove	UmbraBeast_JumpPost
+	Interpolate	2
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_jump 92 111
+	TEnd
+
+MEnd
+#############################################################
+## "SLIDE"
+#############################################################
+
+Move UmbraBeast_slidePre
+	Requires	FORWARD	SLIDING
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle
+	CycleMove	UmbraBeast_IceslideCycle
+	NextMove	UmbraBeast_Slide_Post
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_slide_forward 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move UmbraBeast_slideCycle
+	Requires	FORWARD	SLIDING
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle
+	NextMove	UmbraBeast_IceslidePost
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_slide_forward 1	30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move UmbraBeast_slidePost
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+
+	Type		UmbraBeast
+	  Anim          Dog\dog_slide_forward_post 1 20
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+#############################################################
+## "ICESLIDE" - Used by Prestige Power Slide
+#############################################################
+
+Move UmbraBeast_IceslidePre
+	Requires	FORWARD	ICESLIDE
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle
+	CycleMove	UmbraBeast_IceslideCycle
+	NextMove	UmbraBeast_Slide_Post
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_slide_forward 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move UmbraBeast_IceslideCycle
+	Requires	FORWARD	ICESLIDE
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle
+	NextMove	UmbraBeast_IceslidePost
+
+	Type		UmbraBeast
+	  Anim		Dog\Dog_slide_forward 1	30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move UmbraBeast_IceslidePost
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+
+	Type		UmbraBeast
+	  Anim          Dog\dog_slide_forward_post 1 20
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+## BASIC SPAWN ###########################################################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Priority	1
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_post
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale NotSelectable NOCOLLISION
+
+	Type		UmbraBeast
+	  Anim          dog\dog_run_in 1 50
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+
+MEnd
+
+Move Spawned_post
+	Include sequencers\Members\Readies.inc
+	NextMove	Idle_Cycle
+	Flags		NoSizeScale NotSelectable
+
+	Type		UmbraBeast
+	  Anim          dog\dog_run_in 50
+	TEnd
+
+MEnd
+
+####################
+#### Dismiss    ####
+####################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        101
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Flags		NotSelectable NOCOLLISION
+	Sets            NOCOLLISION
+	SticksOnChild	DEATH GROUND
+
+	Type		UmbraBeast
+	  Anim          dog\dog_run_out 1 33
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		NotSelectable cycle
+	Sets            NOCOLLISION
+
+	Type		UmbraBeast
+	  Anim          dog\dog_run_out 33 33
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+MEnd
+
+##  SWIM READY ###########################################################
+
+Move UmbraBeast_swim_readypre
+	Requires	SWIM
+	Priority        10
+	Interrupts	<Ready> Ready
+	Include sequencers\Members\Swim.inc
+	Flags		ReqInputs FixHipsReg
+	NextMove        UmbraBeast_swim_ready
+	Scale           0.65
+
+	Type		UmbraBeast
+	  Anim          dog\dog_swim_ready 1
+	  PlayFx        FEET\SWIMREADY.FX
+	TEnd
+
+
+MEnd
+
+Move UmbraBeast_swim_ready
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	Flags		Cycle FixHipsReg
+	NextMove        Ready
+	Scale           0.65
+
+	Type		UmbraBeast
+	  Anim          dog\dog_swim_ready 1
+	  PlayFx        FEET\SWIMREADY.FX
+	TEnd
+
+MEnd
+
+
+## SWIM FORWARD ###########################################################
+
+Move UmbraBeast_SwimPre
+	Requires	FORWARD SWIM
+	Priority        11
+	Interrupts	<SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle FixHipsReg
+	CycleMove	UmbraBeast_SwimCycle
+	NextMove        UmbraBeast_SwimPost
+	Scale           1
+
+	Type		UmbraBeast
+	  Anim          dog\dog_swim_forward 1
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move UmbraBeast_SwimCycle
+	Requires	FORWARD SWIM
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle FixHipsReg
+	NextMove        UmbraBeast_SwimPost
+	Scale           1
+
+	Type		UmbraBeast
+	  Anim          dog\dog_swim_forward 1 20
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move UmbraBeast_SwimPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        UmbraBeast_swim_ready
+	Flags		FixHipsReg
+	Scale           1
+	Interpolate     15
+
+	Type		UmbraBeast
+	  Anim          dog\dog_swim_forward 20
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+
+## SWIM POSTJUMP ###########################################################
+
+Move UmbraBeast_Swim_JumpPost
+	Requires	SWIM
+	Priority        10
+	Interrupts	<GroundJumpPost>
+	Include sequencers\Members\Swim.inc
+	NextMove        UmbraBeast_swim_ready
+	Flags		FixHipsReg
+	Interpolate     2
+
+	Type		UmbraBeast
+	  Anim          dog\dog_swim_jumppost 1
+	  # PlayFx        FEET\SPLASH.FX
+	TEnd
+
+MEnd
+
+#############################################################
+## Combat
+#############################################################
+
+## COMBAT READY ###########################################################
+
+Move UmbraBeast_PreCombat
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		ReqInputs
+	NextMove        UmbraBeast_CombatReady
+	Scale           1
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 1 14
+	TEnd
+
+MEnd
+
+Move UmbraBeast_CombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle
+	NextMove        UmbraBeast_postReady_back
+	Scale           1
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move UmbraBeast_postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        UmbraBeast_Ready
+	Priority        0
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 41 60
+	TEnd
+
+MEnd
+
+### Claw Attack #############################################
+#
+#Move Claw_Attack
+#	Requires	COMBAT ANIMAL QUICK
+#	Priority	3
+#	Interrupts	<AttackIRQ>
+#	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+#	NextMove	Claw_Attack_Post
+#	Sets            CANTMOVE
+#	Interpolate 	0
+#
+#	Type		UmbraBeast
+#	  Anim          dog\dog_claw_attack 1 30
+#	TEnd
+#
+#MEnd
+#
+#Move Claw_Attack_Post
+#	Requires	COMBAT
+#	Include 	sequencers\Members\Combat.inc
+#	NextMove	UmbraBeast_Combatready
+#	Flags		ReqInputs
+#	Interpolate 	0
+#
+#	Type		UmbraBeast
+#	  Anim          dog\dog_claw_attack 30
+#	TEnd
+#
+#
+#MEnd
+#
+### Bite Attack #############################################
+#
+#Move Bite_Attack
+#	Requires	COMBAT ANIMAL OPEN
+#	Priority	3
+#	Interrupts	<AttackIRQ>
+#	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+#	NextMove	Bite_Attack_Post
+#	Sets            CANTMOVE
+#	Flags		NOSIZESCALE
+#
+#
+#	Type		UmbraBeast
+#	  Anim          dog\dog_bite_short 1 41
+#	TEnd
+#
+#MEnd
+#
+#Move Bite_Attack_Post
+#	Requires	COMBAT
+#	Include 	sequencers\Members\Combat.inc
+#	NextMove	Dog_Combatready
+#	Flags		ReqInputs
+#
+#	Type		UmbraBeast
+#	  Anim          dog\dog_bite_short 42
+#	TEnd
+#
+#MEnd
+#
+### Roar Attack #############################################
+#
+#Move Roar_Attack
+#	Requires	COMBAT ANIMAL SPEECH
+#	Priority	3
+#	Interrupts	<AttackIRQ>
+#	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+#	NextMove	Roar_Attack_Post
+#	Sets            CANTMOVE
+#
+#	Type		UmbraBeast
+#	  Anim          dog\dog_roar_attack 1 90
+#	TEnd
+#
+#MEnd
+#
+#Move Roar_Attack_Post
+#	Requires	COMBAT
+#	Include 	sequencers\Members\Combat.inc
+#	NextMove	Dog_Combatready
+#	Flags		ReqInputs
+#
+#	Type		UmbraBeast
+#	  Anim          dog\dog_roar_attack 91
+#	TEnd
+#
+#MEnd
+
+#######################################
+#### Darkness Control Umbra Beast #####
+#######################################
+
+## Claw Rake #############################################
+
+Move Claw_Rake
+	Requires	COMBAT EVIL ANIMAL QUICK
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Claw_Rake_Post
+	Sets            CANTMOVE
+	Interpolate 	0
+
+	Type		UmbraBeast
+	  Anim          dog\dog_claw_attack 1 30
+	  PlayFX	NPCFX\Pets\Dog\Dog_Snarl.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whoosh.fx 10
+	TEnd
+
+MEnd
+
+Move Claw_Rake_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	UmbraBeast_Combatready
+	Flags		ReqInputs
+	Interpolate 	0
+
+	Type		UmbraBeast
+	  Anim          dog\dog_claw_attack 30
+	TEnd
+
+
+MEnd
+
+## Claw Swipe #############################################
+
+Move Claw_Swipe
+	Requires	COMBAT EVIL ANIMAL QUICK STRONG
+	Priority	5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Claw_Swipe_Post
+	Sets            CANTMOVE
+	Interpolate 	0
+
+	Type		UmbraBeast
+	  Anim          dog\dog_claw_swipe 1 42
+	  PlayFX	NPCFX\Pets\Dog\Dog_Snarl.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whoosh.fx 10
+	TEnd
+
+MEnd
+
+Move Claw_Swipe_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	UmbraBeast_Combatready
+	Flags		ReqInputs
+	Interpolate 	0
+
+	Type		UmbraBeast
+	  Anim          dog\dog_claw_swipe 43
+	TEnd
+
+
+MEnd
+
+## Umbra bite #############################################
+
+Move Umbra_bite
+	Requires	COMBAT EVIL ANIMAL OPEN
+	Priority	5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Umbra_bite_Post
+	Sets            CANTMOVE
+
+	Type		UmbraBeast
+	  Anim          dog\dog_bite_short 1 41
+	  PlayFX	NPCFX\Pets\Dog\Dog_Snarl.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whoosh.fx
+	TEnd
+
+MEnd
+
+Move Umbra_bite_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	UmbraBeast_Combatready
+	Flags		ReqInputs
+
+	Type		UmbraBeast
+	  Anim          dog\dog_bite_short 42
+	TEnd
+
+MEnd
+
+## Shadowy Binds #############################################
+
+Move Shadowy_binds
+	Requires	COMBAT EVIL ANIMAL SPEECH
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Shadowy_binds_Post
+	Sets            CANTMOVE
+
+	Type		UmbraBeast
+	  Anim          dog\dog_Howl 1 90
+	  PlayFX	NPCFX\Pets\Dog\Dog_Howl.fx 10
+	TEnd
+
+MEnd
+
+Move Shadowy_binds_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	UmbraBeast_Combatready
+	Flags		ReqInputs
+
+	Type		UmbraBeast
+	  Anim          dog\dog_Howl 91
+	TEnd
+
+MEnd
+
+## Terrifying Roar #############################################
+
+Move Terrifying_Roar
+	Requires	COMBAT EVIL ANIMAL SPEECH STRONG
+	Priority	5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Terrifying_Roar_Post
+	Sets            CANTMOVE
+
+	Type		UmbraBeast
+	  Anim          dog\dog_breath_attack 1 90
+	TEnd
+
+MEnd
+
+Move Terrifying_Roar_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	UmbraBeast_Combatready
+	Flags		ReqInputs
+
+	Type		UmbraBeast
+	  Anim          dog\dog_breath_attack 91
+	TEnd
+
+MEnd
+
+## Hit ###########################################################
+
+Move UmbraBeast_HitQuick
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	Include sequencers\Members\Reactions.inc
+	NextMove        UmbraBeast_CombatReady
+	Flags		HitReact
+	SticksOnChild	QUICK HIT
+
+	Type		UmbraBeast
+	  Anim          dog\dog_hit_quickA 5
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whimper.fx
+	TEnd
+MEnd
+
+#############################################################
+## Combat Hit Quick
+#############################################################
+
+Move C_UmbraBeast_HitQuick_A
+	Requires	COMBAT QUICK HIT
+	Priority        3
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	Include sequencers\Members\Reactions.inc
+	NextMove        UmbraBeast_CombatReady
+	Flags		HitReact
+
+	Type		UmbraBeast
+	  Anim          dog\dog_hit_quickA 5
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whimper.fx
+	TEnd
+
+MEnd
+
+Move C_UmbraBeast_HitQuick_B
+	Requires	COMBAT QUICK HIT
+	Priority        3
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	Include sequencers\Members\Reactions.inc
+	NextMove        UmbraBeast_CombatReady
+	Flags		HitReact
+
+	Type		UmbraBeast
+	  Anim          dog\dog_hit_quickB 5
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whimper.fx
+	TEnd
+
+MEnd
+
+#############################################################
+## Combat knockback
+#############################################################
+
+Move UmbraBeast_KnockBack_pre
+	Requires	HIT KNOCKBACK
+	Priority        5
+	Interrupts	<HitIRQ> <DeathIRQ>
+	NextMove        UmbraBeast_KnockBack
+	Interpolate     3
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		UmbraBeast
+	  Anim          dog\dog_knock_back 1 9
+	TEnd
+
+MEnd
+
+Move UmbraBeast_KnockBack
+	Requires	AIR
+	NextMove        UmbraBeast_KnockBack
+	Sets            CANTMOVE
+	Flags		Cycle NoSizeScale
+
+	Type		UmbraBeast
+	  Anim          dog\dog_knock_back 9 10
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whimper.fx
+	TEnd
+
+MEnd
+
+Move UmbraBeast_KnockBack_Apex
+	Requires	AIR APEX
+	Interrupts	UmbraBeast_KnockBack
+	NextMove        UmbraBeast_KnockBack_fall
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		UmbraBeast
+	  Anim          dog\dog_knock_back 10 15
+	TEnd
+
+MEnd
+
+Move UmbraBeast_KnockBack_fall
+	Requires	AIR
+	NextMove        UmbraBeast_KnockBack_impact
+	Sets            CANTMOVE
+	Flags		Cycle NoSizeScale
+
+	Type		UmbraBeast
+	  Anim          dog\dog_knock_back 15 16
+	TEnd
+
+MEnd
+
+Move UmbraBeast_KnockBack_impact
+	Requires	HIT KNOCKBACK
+	Priority        5
+	Interrupts	<HitIRQ> <DeathIRQ>
+	NextMove        UmbraBeast_KnockBack
+	Interpolate     3
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		UmbraBeast
+	  Anim          dog\dog_knock_back 16
+	TEnd
+
+MEnd
+
+#############################################################
+## Sweeps
+#############################################################
+
+Move UmbraBeast_Sweep
+	Requires	SWEEP LOW HIT
+	Priority        3
+	Interrupts	<HitIRQ> <DeathIRQ>
+	#Include sequencers\Members\Reactions.inc
+	NextMove        UmbraBeast_Sweep_impact
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		UmbraBeast
+	  Anim          dog\dog_sweep 2 26
+	TEnd
+
+MEnd
+
+Move UmbraBeast_Sweep_flip
+	Requires	SWEEP HIGH HIT
+	Priority        3
+	Interrupts	<HitIRQ> <DeathIRQ>
+	#Include sequencers\Members\Reactions.inc
+	NextMove        UmbraBeast_Sweep_impact
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		UmbraBeast
+	  Anim          dog\dog_sweep_flip 2 26
+	TEnd
+
+MEnd
+
+Move UmbraBeast_Sweep_impact
+	Member		<DeathIRQ>
+	NextMove        UmbraBeast_getup
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		UmbraBeast
+	  Anim          dog\dog_sweep 27
+	TEnd
+
+MEnd
+
+#############################################################
+# Get Up
+######################################################
+
+Move UmbraBeast_getup
+	Member		<RagdollBellyIRQ> #<ReactIRQ>
+	NextMove        UmbraBeast_getup_post
+	Interpolate     2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		UmberBeast
+	  Anim          dog\dog_getup 2 48
+	TEnd
+
+MEnd
+
+Move UmbraBeast_getup_post
+	NextMove        UmbraBeast_CombatReady
+	Include sequencers\Members\Reactions.inc
+	Flags		NoSizeScale
+
+	Type		UmberBeast
+	  Anim          dog\dog_getup 49
+	TEnd
+
+MEnd
+
+
+#
+#Include sequencers\Dog\dog_readies_air.inc
+
+
+
+SeqEnd
+

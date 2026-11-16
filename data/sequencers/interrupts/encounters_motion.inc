@@ -1,0 +1,1 @@
+Interrupts	<IRQEncounters> <Ready> <MoveIRQ> <RunsALL> #<RunsALL> #<Ready> <MonsterGroup> <PostMoveCycle> <Combat>

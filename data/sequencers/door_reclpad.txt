@@ -1,0 +1,66 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_reclpad 
+	BaseSkeleton	Door_reclpad\skel_test
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_reclpad
+	  Anim          Door_reclpad\skel_test 144 150 
+	TEnd
+MEnd
+
+
+Move RingsDown	
+	Requires	RECLAIM 
+	Interrupts	<Ready> 
+	NextMove        RingsDown_pause
+	Priority        1
+	Scale           0.70
+	
+
+	Type		Door_reclpad
+	  Anim          Door_reclpad\skel_test 1 45
+	TEnd
+MEnd
+
+
+
+Move RingsDown_pause
+	Member		<Ready> 
+	NextMove	RingsUp
+	Sets            WALKTHROUGH
+	 
+ 
+
+	Type		Door_reclpad
+	  Anim          Door_reclpad\skel_test 46 100 
+	TEnd
+MEnd
+
+
+Move RingsUp
+	Member		<Ready> 
+	NextMove        Ready
+
+
+	Type		Door_reclpad
+	  Anim          Door_reclpad\skel_test 101 130
+	TEnd
+MEnd
+
+
+SeqEnd
+

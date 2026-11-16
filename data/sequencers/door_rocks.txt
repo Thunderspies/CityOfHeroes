@@ -1,0 +1,86 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Rocks
+	BaseSkeleton	Door_Rocks\Skel_Door_Rocks
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Rocks
+	  Anim          Door_Rocks\Skel_Door_Rocks 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+
+	Type		Door_Rocks
+	  Anim          Door_Rocks\Skel_Door_Rocks 5 50 
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Rocks
+	  Anim          Door_Rocks\Skel_Door_Rocks 51 58 
+	TEnd
+MEnd
+
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Rocks
+	  Anim          Door_Rocks\Skel_Door_Rocks 60 70
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Rocks
+	  Anim          Door_Rocks\Skel_Door_Rocks 71 100
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Rocks
+	  Anim          Door_Rocks\Skel_Door_Rocks 101
+	TEnd
+MEnd
+
+SeqEnd
+

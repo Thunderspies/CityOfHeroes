@@ -1,0 +1,906 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName "Yin Yang"
+//EventVolume EventVolume // ZoneEventName = YinYang
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint "Starting Stage Setup TEST"
+		}
+		Action CreateStuff
+		{
+			SpawnCreate AspectOfYin  //NPC_Pets_Penelope_Yin
+			{
+				Location AspectYinWave
+				Group AspectYinWave
+				Team AspectYinteam
+				SpawnBehavior Combat
+				MoveToMarker AspectAllyWave
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team AspectYinteam
+				Heartbeat 150
+				RespawnMinCount 1
+				RespawnRate 4
+			}
+			SpawnCreate AspectOfAlly  //NPC_Pets_Penelope_Yin
+			{
+				Location AspectAllyWave
+				Group AspectAllyWave
+				Team AspectAllyteam
+				SpawnBehavior Combat
+				MoveToMarker AspectAllyWave
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team AspectAllyteam
+				Heartbeat 150
+				RespawnMinCount 1
+				RespawnRate 4
+			}
+			SpawnCreate GhostSpawn
+			{
+				Location GhostWave
+				Group GhostWave
+				Team Ghostteam
+				SpawnBehavior Combat
+				MoveToMarker AspectAllyWave
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Ghostteam
+				Heartbeat 2
+				RespawnMinCount 20
+				RespawnRate 4
+			}
+			SpawnCreate HorrorsSpawn
+			{
+				Location HorrorsWave
+				Group HorrorsWave
+				Team Horrorsteam
+				SpawnBehavior Combat
+				MoveToMarker AspectAllyWave
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Horrorsteam
+				Heartbeat 2
+				RespawnMinCount 20
+				RespawnRate 4
+			}
+			SpawnCreate SeerSpawn
+			{
+				Location SeerWave
+				Group SeerWave
+				Team Seerteam
+				SpawnBehavior Combat
+				MoveToMarker AspectAllyWave
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Seerteam
+				Heartbeat 2
+				RespawnMinCount 40
+				RespawnRate 4
+			}
+			SpawnCreate AnchorSpawn
+			{
+				Location AnchorWave
+				Group AnchorWave
+				Team Anchorteam
+				//SpawnBehavior Combat
+				//MoveToMarker AspectAllyWave
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team Anchorteam
+				Heartbeat 2000
+				RespawnMinCount 6
+				RespawnRate 4
+			}
+			GlowieCreate GlowieAnchor
+			{
+				DisplayName "Psychic Anchor"
+				Location PsychicAnchor
+				Quantity 6
+				ResetDelay 30
+				Model OO_COT_Obelisk_01
+				Interact "You begin destroying the psychic anchor"
+				Interrupt "Something stopped you"
+				Complete "You shut down the psychic anchor"
+				BarText "Destroying the anchor..."
+				InteractTime 4
+				VanishOnComplete
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage DefeatEnemies
+	}
+}
+Stage DefeatEnemies
+{
+	DisplayName "Distract the Seer Network"
+	StartUp
+	{
+		Action StartKillGhost
+		{
+			DebugPrint "Starting Stage DefeatEnemies"
+		}
+		Action TurnOnGhost
+		{
+			TeamControl StartSeers
+			{
+				Type Activate
+				Team Seerteam
+			} 
+		}
+	}
+	Counter SeerKills
+	{
+		Type VillainGroup
+		Count 40
+		VillainGroup PraetorianSeers
+		VolumeName EventVolume
+		DisplayProgress "Seers to defeat:"
+	}
+	Trigger DoneKills
+	{
+		Requires SeerKills complete>
+		Action GotoProtest
+		{
+			DebugPrint "DefeatEnemies done: switching to UnleashYin"
+		}
+		NextStage UnleashYin
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			TeamControl StopGhosts
+			{
+				Type Deactivate
+				Team Ghostteam
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopHorrors
+			{
+				Type Deactivate
+				Team Horrorsteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectYinteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectAllyteam
+			}
+	  		GlowieControl Deactivate
+	  		{
+	  			Type Deactivate
+	  			Glowie GlowieAnchor
+	  		}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieAnchor
+			}
+			DebugPrint "Shutting down Stage DefeatEnemies"
+		}
+	}
+}
+Stage UnleashYin
+{
+	DisplayName "Unleash the Aspect of Yin"
+	StartUp
+	{
+		Action StartKillGhost
+		{
+			DebugPrint "Starting Stage UnleashYin"
+		}
+		Action TurnOnGhost
+		{
+			TeamControl StartGhost
+			{
+				Type Activate
+				Team Ghostteam
+			}
+			Floater Victory
+			{
+				Message "Intense psychic activity detected!"
+				Color 00ff00
+				Volume EventVolume
+			}
+		}
+		Action TurnOnAnchors
+		{
+			DebugPrint "Delaying spawning destructibles"
+		}
+	}
+	Timer ClickieTimer
+	{
+		Duration 0:20
+	}
+	Trigger DoneLoyalist
+	{
+		Requires ClickieTimer complete>
+		Action SpawnClickies
+		{
+			TeamControl StartAnchor
+			{
+				Type Activate
+				Team Anchorteam
+			}
+			//GlowieControl Place
+			//{
+			//	Type Place
+			//	Glowie GlowieAnchor
+			//}
+	  		//GlowieControl Activate
+	  		//{
+	  		//	Type Activate
+	  		//	Glowie GlowieAnchor
+	  		//}
+			DebugPrint "Spawning destructibles"
+		}
+	}
+	Timer FailTimer
+	{
+		Duration 5:00
+	}
+	Trigger FailedEvent
+	{
+		Requires FailTimer complete>
+		Action Warning
+		{
+			Floater Victory
+			{
+				Message "Seers have regrouped!"
+				Color ff0000
+				Volume EventVolume
+			}
+			DebugPrint "Seers have regrouped"
+		}
+		NextStage DefeatEnemies
+	}
+    Objective Ghosties
+    {
+    	Type VillainGroup
+    	VillainGroup WinterHorde
+    	Value 5
+    }
+    Objective Destructibles
+    {
+    	//Type Glowie
+    	//Glowie GlowieAnchor
+    	Type Team
+    	Team Anchorteam
+    	Value 30
+    }
+    MaxPoints 120
+	Counter GhostKills
+	{
+		Type VillainGroup
+		Count 70
+		VillainGroup WinterHorde
+		VolumeName EventVolume
+		DisplayProgress "Apparitions to defeat:"
+	}
+	Counter OrMessage
+	{
+		Type team
+		Count 0
+		Team ProtestBossteam
+		DisplayProgress ".      - OR -"
+	}
+	Counter AnchorClicks
+	{
+		Type Team
+		Count 6
+		Team Anchorteam
+		DisplayProgress "Anchors to destroy:"
+	}
+	Trigger DoneLoyalist
+	{
+		Requires GhostKills complete>
+		Action GotoProtest
+		{
+			DebugPrint "UnleashYin done: switching to FightAspect"
+		}
+		NextStage FightAspect
+	}
+	Trigger DoneResistance
+	{
+		Requires AnchorClicks complete>
+		Action GotoProtest
+		{
+			DebugPrint "UnleashYin done: switching to DefendAspect"
+		}
+		NextStage DefendAspect
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			TeamControl StopGhosts
+			{
+				Type Deactivate
+				Team Ghostteam
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopHorrors
+			{
+				Type Deactivate
+				Team Horrorsteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectYinteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectAllyteam
+			}
+			TeamControl StopAnchor
+			{
+				Type Deactivate
+				Team Anchorteam
+			}
+	  		GlowieControl Deactivate
+	  		{
+	  			Type Deactivate
+	  			Glowie GlowieAnchor
+	  		}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieAnchor
+			}
+			DebugPrint "Shutting down Stage UnleashYin"
+		}
+	}
+}
+Stage DefendAspect
+{
+	DisplayName "Defend the Aspect of Yin"
+	StartUp
+	{
+		Action StartFightAspect
+		{
+			Floater Victory
+			{
+				Message "Aspect of Yin Unleashed! Defeat her!"
+				Color 00ff00
+				Volume EventVolume
+			}
+			DebugPrint "Starting Stage DefendAspect"
+		}
+		Action TurnOnAspect
+		{
+			TeamControl StartAspectAlly
+			{
+				Type Activate
+				Team AspectAllyteam
+			}
+			TeamControl StartSeers
+			{
+				Type Activate
+				Team Seerteam
+			} 
+		}
+	}
+	Counter AspectKills
+	{
+		Type Team
+		Count 1
+		Team AspectAllyteam
+		VolumeName EventVolume
+	}
+	Timer AspectTimer
+	{
+		Duration 5:00
+		Display
+	}
+    Objective Ghosties
+    {
+    	Type VillainGroup
+    	VillainGroup PraetorianSeers
+    	Value 5
+    }
+    MaxPoints 280
+	Trigger DoneLoyalist
+	{
+		Requires AspectTimer complete>
+		Action GotoProtest
+		{
+			Floater YinDefeated
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message "Aspect of Yin defended"
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ffaa00
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume MunitionsDepotPorter
+			}
+			DebugPrint "FightAspect done: switching to RewardLoyalists"
+		}
+		NextStage RewardLoyalists
+	}
+	Trigger AspectDestroyedFail
+	{
+		Requires AspectKills complete>
+		Action GotoReset
+		{
+			DebugPrint "FightAspect failed: Zone Reset"
+		}
+		NextStage Reset
+	}
+	ShutDown
+	{
+		Action TurnOffSpawns
+		{
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectAllyteam
+			}
+			DebugPrint "Shutting down Stage FightAspect"
+		}
+	}
+}
+Stage FightAspect
+{
+	DisplayName "Fight Aspect"
+	StartUp
+	{
+		Action StartFightAspect
+		{
+			Floater Victory
+			{
+				Message "Aspect of Yin Unleashed! Defend her!"
+				Color 00ff00
+				Volume EventVolume
+			}
+			DebugPrint "Starting Stage FightAspect"
+		}
+		Action TurnOnAspect
+		{
+			TeamControl StartAspect
+			{
+				Type Activate
+				Team AspectYinteam
+			}
+			TeamControl StartHorrors
+			{
+				Type Activate
+				Team Horrorsteam
+			} 
+		}
+	}
+	Counter AspectKills
+	{
+		Type Team
+		Count 1
+		Team AspectYinteam
+		VolumeName EventVolume
+		//DisplayProgress "Aspect to defeat:"
+	}
+    Objective Yin
+    {
+    	Type VillainGroup
+    	Team AspectYinteam
+    	Value 450
+    }
+    MaxPoints 450
+	Timer AspectTimer
+	{
+		Duration 5:00
+		Display
+	}
+	Trigger DoneLoyalist
+	{
+		Requires AspectKills complete>
+		Action GotoProtest
+		{
+			Floater YinDefeated
+			{
+				// Floater blocks must contain the actual text in a Message line
+				Message "Aspect of Yin defeated"
+				// They can optionally have a Color line, which gives the color in rrggbb format.
+				Color ffaa00
+				// Volume is optional, if provided the floater only goes to peopkle in the named volume. Otherwise it
+				// goes to everyone on the map
+				Volume MunitionsDepotPorter
+			}
+			DebugPrint "FightAspect done: switching to RewardLoyalists"
+		}
+		NextStage RewardLoyalists
+	}
+	Trigger AspectDestroyedFail
+	{
+		Requires AspectTimer complete>
+		Action GotoReset
+		{
+			DebugPrint "FightAspect failed: Zone Reset"
+		}
+		NextStage Reset
+	}
+	ShutDown
+	{
+		Action TurnOffSpawns
+		{
+			TeamControl StopGhost
+			{
+				Type Deactivate
+				Team Horrorsteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectYinteam
+			}
+			DebugPrint "Shutting down Stage FightAspect"
+		}
+	}
+}
+Stage RewardLoyalists
+{
+	StartUp
+	{
+		Action RewardStart
+		{
+			Floater Victory
+			{
+				Message "Aspect of Yin Defeated!"
+				Color 00ff00
+				Volume EventVolume
+			}
+			DebugPrint "Starting RewardLoyalists stage"
+		}
+
+        Action PhatLewt
+        {
+			DebugPrint "Starting RewardLoyalists stage LEWTS"
+            RewardGroup reward
+            {
+                EventMax 400
+                RandomRoll 400
+                BonusGroup YinYang
+                Reward class1
+                {
+                    Class 1
+                    PointsNeeded 320
+                    Count 1000
+                    RewardTable MotherofMercyHospitalClass1
+                }
+                Reward class2
+                {
+                    Class 2
+                    PointsNeeded 400
+                    Count 1000
+                    RewardTable MotherofMercyHospitalClass2
+                }
+                Reward class3
+                {
+                    Class 3
+                    PointsNeeded 480
+                    Count 3
+                    Bonus 40
+                    Display
+                    RewardTable MotherofMercyHospitalClass3
+                }
+                Reward class4
+                {
+                    Class 4
+                    PointsNeeded 600
+                    Count 2
+                    Bonus 40
+                    Display
+                    RewardTable MotherofMercyHospitalClass4
+                }
+                Reward class5
+                {
+                    Class 5
+                    PointsNeeded 680
+                    Count 1
+                    Bonus -40
+                    Display
+                    RewardTable MotherofMercyHospitalClass5
+                }
+            }
+        }
+
+		Action TurnOffNPCs
+		{
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Horrorsteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectYinteam
+			}
+		}
+	}
+	Trigger Reset
+	{
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint "Switching to Reset from RewardLoyalists"
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint "Shutting down Stage RewardLoyalists"
+		}
+	}
+}
+Stage RewardResistance
+{
+	StartUp
+	{
+		Action RewardStart
+		{
+			Floater Victory
+			{
+				Message "Aspect of Yin Defended!"
+				Color 00ff00
+				Volume EventVolume
+			}
+			DebugPrint "Starting RewardResistance stage"
+		}
+
+      Action PhatLewt
+        {
+			DebugPrint "Starting RewardResistance stage LEWTS"
+            RewardGroup reward
+            {
+                EventMax 400
+                RandomRoll 400
+                BonusGroup YinYang
+                Reward class1
+                {
+                    Class 1
+                    PointsNeeded 320
+                    Count 1000
+                    RewardTable MotherofMercyHospitalClass1
+                }
+                Reward class2
+                {
+                    Class 2
+                    PointsNeeded 400
+                    Count 1000
+                    RewardTable MotherofMercyHospitalClass2
+                }
+                Reward class3
+                {
+                    Class 3
+                    PointsNeeded 480
+                    Count 3
+                    Bonus 40
+                    Display
+                    RewardTable MotherofMercyHospitalClass3
+                }
+                Reward class4
+                {
+                    Class 4
+                    PointsNeeded 600
+                    Count 2
+                    Bonus 40
+                    Display
+                    RewardTable MotherofMercyHospitalClass4
+                }
+                Reward class5
+                {
+                    Class 5
+                    PointsNeeded 680
+                    Count 1
+                    Bonus -40
+                    Display
+                    RewardTable MotherofMercyHospitalClass5
+                }
+            }
+        }
+
+		Action TurnOffNPCs
+		{
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectAllyteam
+			}
+		}
+	}
+	Trigger Reset
+	{
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint "Switching to Reset from RewardResistance"
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint "Shutting down Stage RewardResistance"
+		}
+	}
+}
+Stage Reset
+{
+	DisplayName "Event Complete"
+	StartUp
+	{
+		Action ResetStart
+		{
+			TeamControl StopGhosts
+			{
+				Type Deactivate
+				Team Ghostteam
+			}
+			TeamControl StopHorrors
+			{
+				Type Deactivate
+				Team Horrorsteam
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StartAspect
+			{
+				Type Deactivate
+				Team AspectYinteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectAllyteam
+			}
+	  		GlowieControl Deactivate
+	  		{
+	  			Type Deactivate
+	  			Glowie GlowieAnchor
+	  		}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieAnchor
+			}
+			TeamControl StopAnchor
+			{
+				Type Deactivate
+				Team Anchorteam
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 1:00
+		//Display
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action GotoReset
+		{
+			DebugPrint "Reset complete: Going to DefeatEnemies."
+		}
+		NextStage DefeatEnemies
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint "Shutting down stage Reset"
+		}
+	}
+}
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint "Starting Stop stage"
+		}
+		Action TurnOffCritters
+		{
+			TeamControl StopGhosts
+			{
+				Type Deactivate
+				Team Ghostteam
+			}
+			TeamControl StopSeers
+			{
+				Type Deactivate
+				Team Seerteam
+			}
+			TeamControl StopHorrors
+			{
+				Type Deactivate
+				Team Horrorsteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectYinteam
+			}
+			TeamControl StopAspect
+			{
+				Type Deactivate
+				Team AspectAllyteam
+			}
+	  		GlowieControl Deactivate
+	  		{
+	  			Type Deactivate
+	  			Glowie GlowieAnchor
+	  		}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie GlowieAnchor
+			}
+			TeamControl StopAnchor
+			{
+				Type Deactivate
+				Team Anchorteam
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint "Shutting down Stage Stop"
+		}
+	}
+}

@@ -1,0 +1,93 @@
+Texture x_MM_Long_Bld_Frnt
+	Base1 FW_MM_Bricks
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale  7 3
+
+	Multiply1 FW_MM_Lng_Bldg_Frnt_Z.tga //FW_MM_Bld_Main_Side_Z
+	Multiply1Scroll 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1
+	Multiply1Reflect 0 
+
+	DualColor1 none 
+	DualColor1Scroll 0 0 
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 FW_MM_Bricks_NS.tga
+	BumpMap1Scroll 0 0 
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale  7 3
+
+	AddGlow1 none 
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  0.25 0.25
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none
+	MaskScroll 0 0 
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1
+	MaskWeight  1.5
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0 // 0 0
+	Base2ScrollType  Normal //Normal
+	Base2Scale  10 6
+
+	Multiply2 none
+	Multiply2Scroll 0 0 
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  10 6
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 250 250 250
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1.5
+	AmbientScale 2
+
+	Flags NoRandomAddGlow    FallbackForceOpaque // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base FW_MM_Bricks
+		BumpMap none
+		Blend FW_MM_Lng_Bldg_Frnt_Z //
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 7 3
+		DiffuseScale 0.8
+		AmbientScale 1
+	End
+End

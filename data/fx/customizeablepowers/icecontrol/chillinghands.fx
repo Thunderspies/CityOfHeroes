@@ -1,0 +1,52 @@
+#############################################################
+## ChillingHands.fx
+#############################################################
+
+FxInfo
+
+Lifespan 60
+
+#############################################################
+
+Condition
+	On	Time
+	Time	0
+
+	Event
+		Type	Local
+		At	WepL
+		Part1	CustomizeablePowers\IceControl\snowburst.part
+		Part2	CustomizeablePowers\IceControl\ColdArmMist.part
+		Sound chillhands 100 100 .8
+	End
+
+	Event
+		Type	Local
+		At	WepR
+		Part2	CustomizeablePowers\IceControl\ColdArmMist.part
+		Part1	CustomizeablePowers\IceControl\snowburst.part
+	End
+End
+
+#############################################################
+
+Condition
+	On	Time
+	Time	17
+
+	Event
+		Type	Local
+		At	WepL
+		Part1	CustomizeablePowers\IceControl\FreezingTouchRing.part
+	End
+
+	Event
+		Type	Local
+		At	WepR
+		Part1	CustomizeablePowers\IceControl\FreezingTouchRing.part
+	End
+End
+
+#############################################################
+
+End

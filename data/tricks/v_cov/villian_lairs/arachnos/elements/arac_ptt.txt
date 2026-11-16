@@ -1,0 +1,80 @@
+Trick AracGenerator
+	Sway 1 .05
+End
+
+Trick AracGeneratorLight
+	Sway 1 .05
+	ScrollST0 0 0.022
+	ObjFlags FullBright
+	TrickFlags NoColl
+End
+
+Texture x_arac_diamondplate
+	Base1 Arac_DiamondPlate01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 Arac_DiamondPlate01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScale 1 1
+	#AlphaMask	// Use the ALPHA channel of the Mask texture instead of all 4 channels
+
+	Base2 none 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 goth_reflect_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale -1 1
+	Multiply2reflect 5
+
+	DualColor2 none
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //arac_panel_02_bump.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 18 0 30
+	SpecularColor2 126 0 148
+	SpecularExponent 15
+
+	DiffuseScale 1
+	AmbientScale 1
+
+#	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+	
+	Fallback
+		UseFallback 1
+		Base Arac_DiamondPlate01.tga
+#		Blend arac_panel_02_glow.tga
+		Bumpmap Arac_DiamondPlate01_bump.tga
+#		BlendType AddGlow // DualColor, Multiply, AddGlow 
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End

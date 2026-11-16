@@ -1,0 +1,19 @@
+#ifndef __DO_DESATURATEFP_CGH__
+#define __DO_DESATURATEFP_CGH__
+
+const float3 LUMINANCE_VECTOR_LOW = float3(0.2125, 0.7154, 0.0721);
+const float3 LUMINANCE_VECTOR     = float3(0.35,   0.45,   0.20  );
+
+
+float4 DoDesaturate( float4 sample, const float4 desaturate_param /* by convention, program.local[3] */, const float3 kLuminanceVector )
+{
+    const float4 sepia = {1.0, 0.91, 0.65, 0};
+
+    float4 desat = sepia * dot(sample.xyz, kLuminanceVector);
+    sample = lerp( sample, desat, desaturate_param.x );
+
+    return sample;
+}
+
+// ifdef __DO_DESATURATEFP_CGH__
+#endif

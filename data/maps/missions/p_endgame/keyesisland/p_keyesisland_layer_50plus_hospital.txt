@@ -1,0 +1,194 @@
+Def grp_Swap_HospExit
+	Group Omni/MissionBeacons/_Marker_MapSwap_shrt
+	End
+	Property	"GotoSpawn"	"Hospital_Exit"	0
+End
+
+Def grp_Hospital_Geometry
+	Group Villain_Lairs/P_Tnl/Level_C/rooms/Custom/P_TnlStc_Water_Pmp_Station
+		Pos 0 0 138.666626
+	End
+	Group Villain_Lairs/P_Tnl/Level_C/Halls/Type_01/P_TnlStc_C_Str_Trans
+		PYR 0 -179.999985 -0
+		Pos 0 0 -21.333374
+	End
+	Group Villain_Lairs/P_Tnl/Level_C/Halls/door/P_TnlStc_C_Manhole
+		PYR 0 -179.999985 -0
+		Pos 0 0 -117.333374
+	End
+End
+
+Def grp_Hospital_Gurney
+	Group Omni/MissionBeacons/PlayerSpawn_Hospital
+		PYR 0 89.999992 -0
+		Pos 45.25 0 -11.5
+	End
+	Group Omni/MissionBeacons/PlayerSpawn_Hospital
+		PYR 0 -97.500015 -0
+		Pos 45.25 0 11.5
+	End
+	Group Omni/MissionBeacons/PlayerSpawn_Hospital
+		PYR 0 -30.000011 -0
+		Pos -45.25 0 11.5
+	End
+	Group Omni/MissionBeacons/PlayerSpawn_Hospital
+		PYR 0 -86.249992 -0
+		Pos -45.25 0 -11.5
+	End
+End
+
+Def grpvolume_MapWide_Prot
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 800.000000 150.000000 360.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+End
+
+Def grp_Protection_Spawn
+	Group grpvolume_MapWide_Prot
+		PYR 0 -90 -0
+		Pos -0.5 -14 -47.75
+	End
+	Group Omni/EncounterSpawns/P_City_07_01/EG_ZE_NoTowers_D1_P_City_07_01
+		Pos 0.5 14 47.75
+	End
+End
+
+Def grp101503
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Property	"CanSpawn0"	"SpawnDefs/P_City_07_01/ZE_RezTimer_D1_V0.spawndef"	0
+	Property	"EncounterSpawn"	"RezTimer"	0
+End
+
+Def grp101504
+	Group Omni/MissionBeacons/_cohscrpt_scriptmarker
+	End
+	Property	"ScriptMarker"	"RezTimer"	0
+End
+
+Def grp_RezTimer
+	Group grp101503
+	End
+	Group grp101504
+	End
+	Property	"EncounterGroup"	"RezTimer"	0
+	Property	"IgnoreRadius"	"1"	0
+	Property	"SpawnProbability"	"0"	0
+End
+
+Def grpvolume101450
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 300.000000 120.000000 120.000000
+	Flags Ungroupable
+	Property	"MaterialVolume"	"1"	0
+End
+
+Def grp_Resurrection_Spawn
+	Group grp_RezTimer
+		Pos 22 0.724976 5.75
+	End
+	Group grpvolume101450
+		PYR 0 -1.499997 -0
+		Pos -22 -0.725037 -5.75
+	End
+End
+
+Def grp_Hospital_Interior
+	Group grp_Swap_HospExit
+		PYR 0 -179.999985 -0
+		Pos 1.100098 -3.890747 -126.200195
+	End
+	Group Omni/ValidBeacon
+		Pos 1.600098 1.010193 110.799805
+	End
+	Group grp_Hospital_Geometry
+		Pos -0.899902 0.960205 5.133179
+	End
+	Group grp_Hospital_Gurney
+		Pos -2.649902 -3.039795 82.799805
+	End
+	Group grp_Protection_Spawn
+		Pos -1.399902 -12.989807 227.799805
+	End
+	Group grp_Resurrection_Spawn
+		Pos 13.100098 -3.764771 79.049805
+	End
+End
+
+Def grp101508
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"Hospital_Exit"	0
+End
+
+Def grp_Hospital_Exit
+	Group grp101508
+		PYR 0 -157.5 -0
+		Pos 2.125 0 -3.875
+	End
+	Group grp101508
+		PYR 0 -112.499992 -0
+		Pos -3.375 0 1.625
+	End
+	Group grp101508
+		PYR 0 -134.999985 -0
+		Pos -1.875 0 -1.875
+	End
+	Group grp101508
+		PYR 0 -112.499992 -0
+		Pos -2.875 0 4.124756
+	End
+	Group grp101508
+		PYR 0 -123.749992 -0
+		Pos -0.875 0 1.124756
+	End
+	Group grp101508
+		PYR 0 -146.249985 -0
+		Pos 1.125 0 -0.875244
+	End
+	Group grp101508
+		PYR 0 -146.249985 -0
+		Pos 4.125 0 -2.375244
+	End
+	Group Doors/Hatch_door/Hatch_Door
+		PYR 0 -135 -0
+		Pos 1.625 0 2.125
+	End
+End
+
+Def grp_CombatMedic
+	Group Omni/_Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"Contacts\StoreNPCs\Combat_Medic_Female_01.npc"	0
+End
+
+Def grp_Hospital_CombatMedic
+	Group grp_CombatMedic
+		PYR 0 -136.25 -0
+		Pos -509 -752 137.5
+	End
+End
+
+Def grp_50plus_Hospital
+	Group grp_Hospital_Interior
+		Pos -1084.100098 -818.460205 -4030.049805
+	End
+	Group grp_Hospital_Exit
+		Pos -1753.625 -64.947937 -4066.125
+	End
+	Group grp_Hospital_CombatMedic
+		Pos -600.5 -65.5 -4146
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_50plus_Hospital
+	Pos 6400 41.5 6016
+End
+

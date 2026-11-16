@@ -1,0 +1,60 @@
+#########################################################
+## CustomWeapon_Pistols.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef PistolRight_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		PistolRight_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	DUALHAND SPAWNHIP
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Flags		NoDraw
+
+	Type		PistolRight_Base
+	  Anim		Prop_basic\skel_test 1 12
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	DUALHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle
+
+	Type		PistolRight_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

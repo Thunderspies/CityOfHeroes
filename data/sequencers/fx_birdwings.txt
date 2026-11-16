@@ -1,0 +1,158 @@
+#############################################################
+## FX_birdwings.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_birdwings
+	BaseSkeleton	FX_birdwings\skel_wings
+	ParentType	None
+TypeDefEnd
+
+TypeDef crazychicken
+	BaseSkeleton	FX_birdwings\crazychicken_flap
+	ParentType	FX_birdwings
+TypeDefEnd
+
+TypeDef FX_DoveWings
+	BaseSkeleton	FX_birdwings\skel_wings #FX_birdwings\crazychicken_flap
+	ParentType	FX_birdwings
+TypeDefEnd
+
+TypeDef FX_CrowWings
+	BaseSkeleton	FX_birdwings\skel_wings #FX_birdwings\crazychicken_flap
+	ParentType	FX_birdwings
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+#############################################################
+
+Move Ready_A
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		FX_birdwings
+	  Anim          FX_birdwings\skel_wings 1 5
+	TEnd
+
+	Type		crazychicken
+	  Anim          FX_birdwings\crazychicken_flap 1
+	TEnd
+
+	Type		FX_DoveWings
+	  Anim          FX_birdwings\crazychicken_flap 1
+	  Scale		0.75
+	TEnd
+
+	Type		FX_CrowWings
+	  Anim          FX_birdwings\skel_wings 1 5
+	TEnd
+MEnd
+
+
+###################
+### Run Forward ##
+###################
+
+Move RunPreReady
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        RunCycleReady
+	Priority        1
+
+	Type		FX_birdwings
+	  Anim          FX_birdwings\takeoff 1 26
+	TEnd
+
+	Type		crazychicken
+	  Anim          FX_birdwings\crazychicken_flap 1
+	TEnd
+
+	Type		FX_DoveWings
+	  Anim          FX_birdwings\crazychicken_flap 1
+	  Scale		0.75
+	TEnd
+
+	Type		FX_CrowWings
+	  Anim          FX_birdwings\takeoff 1
+	TEnd
+MEnd
+
+Move RunCycleReady
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+
+	Type		FX_birdwings
+	  Anim          FX_birdwings\takeoff 27 48
+	TEnd
+	Type		crazychicken
+	  Anim          FX_birdwings\crazychicken_flap 1
+	TEnd
+
+	Type		FX_DoveWings
+	  Anim          FX_birdwings\crazychicken_flap 1
+	  Scale		0.75
+	TEnd
+MEnd
+
+
+####  Atmosphere  #######################################
+
+###################
+### Flock Flap   ##
+###################
+
+Move FlockFlap
+	Requires	test1
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Flags		Cycle
+	CycleMove	FlockFlap_2
+	CycleMove	FlockFlap
+	Priority        1
+	Scale		1.5
+
+	Type		FX_birdwings
+	  Anim          FX_birdwings\flyaround 1
+	TEnd
+MEnd
+
+Move FlockFlap_2
+	Requires	test1
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Flags		Cycle
+	CycleMove	FlockFlap
+	Priority        1
+	Scale		1.5
+
+	Type		FX_birdwings
+	  Anim          FX_birdwings\glide 1
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

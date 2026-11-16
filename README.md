@@ -4,6 +4,14 @@ Heroes up until the game was cancelled in 2012. This is a fork of the Ourodev's
 repo that was intended for porting to the latest Visual C compiler, but it also
 has some minor feature additions.
 
+The plain-text data for the unreleased City of Heroes Issue 24 (i24 data) is
+also included in this monorepo. It's intended as a baseline starting point with
+the data necessary to run and modify City of Heroes, so there will be no
+further additions or mods to the data outside of supporting changes to the
+parser in the engine source code. Large binary files such as textures, meshes,
+and sounds aren't included in the repo, but tools will be provided to fetch
+that content from elsewhere.
+
 [![Join our chat on the Thunderspy Discord](https://img.shields.io/badge/Join%20our%20chat-Thunderspy%20Discord-5865F2?logo=discord&logoColor=white)](https://discord.gg/eNPY22FbaB)
 
 # Building
@@ -25,11 +33,6 @@ cmake --build --preset vs2026-release
 The executables will be in the out/ folder.
 
 # Usage
-
-The [data repo](https://github.com/Thunderspies/i24) has all the other
-resources and instructions needed for running a local test and development
-server. Check that out for a quick start. The instructions here should explain
-in more detail than is necessary to get strted.
 
 For local testing, at the minimum, the DBServer, one MapServer, and the Game
 client need to run together. MapServer and Game won't run without all of the

@@ -1,0 +1,51 @@
+#############################################################
+## HEADER
+#############################################################
+
+Type
+
+#############################################################
+
+Sequencer	Arachnos_mine.txt
+SequencerType	Omega_Device
+
+Graphics	player_library\v_arachnos_mine.geo
+
+FadeOutStart	500
+FadeOutFinish	600
+
+#############################################################
+
+HealthFx
+	Range			0.0001 100
+	ContinuingFx		V_COV\EnemyPowers\Arachnos\OmegaDevice\OmegaDevice.fx
+	OneShotFx		V_COV\EnemyPowers\Arachnos\OmegaDevice\TeleportSpawn.fx
+End
+
+HealthFx
+	Range			0 0.0001
+	OneShotFx		V_COV\EnemyPowers\Arachnos\OmegaDevice\OmegaDevice_Explosion.fx
+End
+
+#############################################################
+
+Placement		DeadOn
+Selection		Capsule
+NoStrafe		1
+
+VisSphereRadius 	50
+
+CapsuleSize		2 3 2
+CapsuleOffset		0 3 0
+ReticleHeightBias	-0.1
+ReticleBaseBias		-0.1
+
+#TicksToLingerAfterDeath     10
+#TicksToFadeAwayAfterDeath   0
+
+TicksToLingerAfterDeath		30
+TicksToFadeAwayAfterDeath	1
+
+#############################################################
+
+End

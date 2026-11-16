@@ -1,0 +1,188 @@
+Texture X_Praet_GothChurchWin
+
+	Base1 P_GothChurchWin_d
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+	
+	CubeMap generic_cubemap_face0.tga
+
+	Multiply1 P_StainTile01
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .15 .3
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 white
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+	
+	BumpMap1 P_GothChurchWin_n
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Bld_OFC_Modern_MidRise_WindowLight_01_D
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 0.125 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+
+	Mask P_GothChurchWin_m
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 FW_GlassShat3_d
+	Base2Scroll 0 .0
+	Base2ScrollType Normal
+	Base2Scale 2 2
+
+
+	Multiply2 reflect_general02.tga
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none //Bld_OFC_Modern_MidRise_WindowDistortion_01_NS
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.03125 0.03125
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+	
+	ReflectivityBase .5
+  	ReflectivityScale .5
+  	ReflectivityPower 6
+
+	DiffuseScale 1
+	AmbientScale 2
+
+  #ObjFlags FancyWater 
+	Flags  FallbackForceOpaque   //AlwaysAddGlow //FullBright  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 100
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_GothChurchWin_d
+		Blend white
+		Bumpmap none
+		BlendType ColorBlendDual
+		ScaleST0 1 1
+		ScaleST1 1 1 
+		DiffuseScale 0.75
+		AmbientScale 0.75
+	End
+End
+
+Texture X_Praet_GothChurchWin_Ruined
+	Base1 P_GothChurchWin_d //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\Brick_MidRises\P_GothChurchWin_d.tga
+	Base1Scroll 0 0 // 0 0
+	Base1ScrollType  Normal //Normal
+	Base1Scale  1 1 // 1 1
+
+	Multiply1 P_StainTile01 //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\Brick_MidRises\P_StainTile01.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  0.15 0.3
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 white //Texture_Library\WORLD\Filler\white.tga
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 P_GothChurchWin_n //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\Brick_MidRises\P_GothChurchWin_n.tga
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale  1 1 // 1 1
+
+	AddGlow1 none //Texture_Library\WORLD\city_zones\Praetoria\Buildings\Office\Modern_MidRise\Bld_OFC_Modern_MidRise_WindowLight_01_D.tga
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  0.125 0.125
+	AddGlowMat2  1 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask P_GothChurchWin_m //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\Brick_MidRises\P_GothChurchWin_m.tga
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 // 1 1
+	MaskWeight  1 // 1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 FW_GlassShat3_d //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\SkyScrapers\FW_GlassShat3_d.tga
+	Base2Scroll 0 0 // 0 0
+	Base2ScrollType  Normal //Normal
+	Base2Scale  2 2
+
+	Multiply2 reflect_general02 //Texture_Library\WORLD\Filler\reflect_general02.tga
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none //
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  0.03125 0.03125
+
+	CubeMap generic_cubemap_face0 //Texture_Library\static_cubemaps\generic\generic_cubemap_face0.tga
+	ReflectivityBase 0.5
+	ReflectivityScale 0.5
+	ReflectivityPower 6
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 120 160 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags FallbackForceOpaque // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 100
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base P_GothChurchWin_d //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\Brick_MidRises\P_GothChurchWin_d.tga
+		BumpMap none //Texture_Library\WORLD\city_zones\Praetoria\First_Ward\Buildings\Brick_MidRises\P_GothChurchWin_n.tga
+		Blend white //Texture_Library\WORLD\Filler\white.tga
+		BlendType ColorBlendDual
+		ScaleST0 1.0 1.0
+		ScaleST1 1.0 1.0
+		DiffuseScale 0.75
+		AmbientScale 0.75
+	End
+End
+

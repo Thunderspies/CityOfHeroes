@@ -1,0 +1,68 @@
+// TBD! this file could be DEPRECATED, as the path that binds it currently always fails -> if (0 && "nVidia demo") 
+
+
+// TBD! OPTION ARB_precision_hint_fastest;
+
+#include "constants_vfx.cgh"
+#include "utilEffects.cgh"  //placed after #defines for util routines
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+    float4 texCoord0              : TEXCOORD0;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform sampler2D texSampler1 : TEXUNIT1;
+    // uniform float4 g_BlurAmtAndExposureFP	TIE( ENV0 ); // program.local[0];
+};
+
+const float blur = 1.5;
+const float exposure = 1.0;
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float4 oColor;
+
+    float4 orig    = tex2D( IN.texSampler0, IN.texCoord0.xy );
+    float4 blurred = tex2D( IN.texSampler1, IN.texCoord0.xy );
+
+    // Calc brightness of the blurred color
+    float brightness = saturate( ( blur * dot(blurred.xyz, LUMINANCE_VECTOR) ) );
+    //brightness = saturate((brightness * 2) - 1);
+
+    //// Calc brightness of the original pixel
+    //float origBrightness = dot(orig, LUMINANCE_VECTOR);
+
+    //brightness = saturate( (( brightness * 0.25 ) + 0.75 ) ); 
+    float4 blursat = saturate( (( blurred * 0.25 ) + 0.75 ) ); 
+
+
+    float4 a = lerp( orig, blursat, brightness );
+    //a = (brightness * blurred) + orig;
+    //a = max(a, orig);
+
+    // Exposure
+    a *= exposure;  
+
+    //TEX a.x, a.x, texture[2], 1D;
+    //TEX a.y, a.y, texture[2], 1D;
+    //TEX a.z, a.z, texture[2], 1D;
+
+    oColor = utilFinalColor(a);
+
+    //oColor.xyz = blurred;
+    //oColor.xyz = orig - 1.0;
+    //oColor.xyz = blurred * 1;
+    //oColor.xyz = blurred. - origBrightness.x;
+    //oColor.xyz = origBrightness.x;
+    //oColor.xyz = (orig * 4) - 3;
+
+    return oColor;
+}

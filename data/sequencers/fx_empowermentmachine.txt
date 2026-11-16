@@ -1,0 +1,92 @@
+#############################################################
+## EmpowermentMachine.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_EmpowermentMachine
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<Ready>
+
+#############################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoSizeScale
+
+	Type		FX_EmpowermentMachine
+	  Anim          Prop_basic\skel_test 1 10
+	  PlayFX	ENEMYFX\5thColumn\EnvironmentalFX\AlcoveTerminals_1.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+Move PowerupState_One
+	Requires	ENCOUNTER REICHSMAN WINDUP ONE
+	Priority	4
+	Interrupts	<Ready>
+	Member		<Ready>
+	Flags		Cycle NoSizeScale
+
+	Type		FX_EmpowermentMachine
+	  Anim          Prop_basic\skel_test 1 10
+	  PlayFX	ENEMYFX\5thColumn\EnvironmentalFX\AlcoveTerminals_2.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+Move PowerupState_Two
+	Requires	ENCOUNTER REICHSMAN WINDUP TWO
+	Priority	4
+	Interrupts	<Ready>
+	Member		<Ready>
+	Flags		Cycle NoSizeScale
+
+	Type		FX_EmpowermentMachine
+	  Anim          Prop_basic\skel_test 1 10
+	  PlayFX	ENEMYFX\5thColumn\EnvironmentalFX\AlcoveTerminals_3.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+Move PowerupState_Three
+	Requires	ENCOUNTER REICHSMAN WINDUP THREE
+	Priority	4
+	Interrupts	<Ready>
+	Member		<Ready>
+	Flags		Cycle NoSizeScale
+
+	Type		FX_EmpowermentMachine
+	  Anim          Prop_basic\skel_test 1 10
+	  PlayFX	ENEMYFX\5thColumn\EnvironmentalFX\AlcoveTerminals_4.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+Move PowerupState_Four
+	Requires	ENCOUNTER REICHSMAN WINDUP FOUR
+	Priority	4
+	Interrupts	<Ready>
+	Member		<Ready>
+	Flags		Cycle NoSizeScale
+
+	Type		FX_EmpowermentMachine
+	  Anim          Prop_basic\skel_test 1 10
+	  PlayFX	ENEMYFX\5thColumn\EnvironmentalFX\AlcoveTerminals_Juiced.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

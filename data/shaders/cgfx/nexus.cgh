@@ -1,0 +1,83 @@
+/******************************************************************************
+	Nexus
+
+	This header defines the common linking structures between vertex and
+	fragment programs
+*****************************************************************************/
+#ifndef _NEXUS_CGH_
+#define _NEXUS_CGH_
+
+
+//--------------------------------------------------
+// Vertex Output Declaration
+//--------------------------------------------------
+
+// nomenclature:
+// "_vs" - view space
+// "_ts" - tangent space
+
+struct VP2FP
+{
+    float4 position : POSITION;			// set by vertex shader, cannot be used by fragment shader use WPOS
+#if VERTEX_LIT != NONE				
+    float4 color    : COLOR;			// NOTE: resource can also be used by per pixel bump light vector below, either is exclusive
+#endif
+	float  fogCoord : FOG;
+	float4 fragment_pos : WPOS;			// supplied to fragment shader by hardware, cannot be set explicitly by vertex shader
+
+	float4 uv0_uv1  : TEXCOORD0;
+
+#if PIXEL_LIT == LIT
+	// interpolants for per pixel lighting, simple
+	float4 normal_vs		: TEXCOORD1;	//
+	float4 position_vs		: TEXCOORD2;	// = -view_vs used by ligthing and shadowmaps
+	// if cubemaps are used for the pp lit variants we do reflection calculation in the fragment program
+	// i.e., don't bother with lq reflection vector interpolatant
+#elif PIXEL_LIT != NONE
+	// interpolants for per pixel lighting, bump mapped
+	#ifdef HIGH_QUALITY
+		float4 tangent_vs		: TEXCOORD1;	// binormal sign is in w component
+		float4 normal_vs		: TEXCOORD2;	// can also use w component for planar reflectivity
+		float4 position_vs		: TEXCOORD3;	// = -view_vs used by ligthing and shadowmaps
+	#else
+		float4 view_ts			: TEXCOORD1;
+		float4 light_ts			: TEXCOORD2;
+
+		// Ultra mode feature interpolators (if not available already from HQ bumping)
+		#if defined(USE_CUBEMAP) && defined(USE_SHADOWMAP)
+			float4 reflection		: TEXCOORD3;	// lq - reflection vector calculated per vertex instead of per pixel
+			float4 position_vs		: TEXCOORD4;	// lq - need to supply position in view space for shadowmapping
+		#elif defined(USE_CUBEMAP)
+			float4 reflection		: TEXCOORD3;	// lq - reflection vector calculated per vertex instead of per pixel
+		#elif defined(USE_SHADOWMAP)
+			float4 position_vs		: TEXCOORD4;	// lq - need to supply position in view space for shadowmapping
+		#endif
+	#endif
+#else
+	// no per pixel bump lighting, need to supply interpolants for ultra features
+	// Ultra mode feature interpolators (if not available already from HQ bumping)
+	#if defined(USE_CUBEMAP) && defined(USE_SHADOWMAP)
+		float4 reflection		: TEXCOORD1;	// lq - reflection vector calculated per vertex instead of per pixel
+		float4 position_vs		: TEXCOORD2;	// lq - need to supply position in view space for shadowmapping
+	#elif defined(USE_CUBEMAP)
+		float4 reflection		: TEXCOORD1;	// lq - reflection vector calculated per vertex instead of per pixel
+	#elif defined(USE_SHADOWMAP)
+		float4 position_vs		: TEXCOORD2;	// lq - need to supply position in view space for shadowmapping
+	#endif
+#endif // !PIXEL_LIT
+
+	#if defined(USE_NV_CLIP_PLANES) && defined(PROFILE_VP40)
+    // User clip plane support on nVidia GPUs
+		float clip0 : CLP0;
+		float clip1 : CLP1;
+		float clip2 : CLP2;
+		float clip3 : CLP3;
+		float clip4 : CLP4;
+		float clip5 : CLP5;
+	#endif
+};
+
+//------------------------------------------------------------------------
+//-----------------------------------------------------------------------
+
+#endif  //_NEXUS_CGH_

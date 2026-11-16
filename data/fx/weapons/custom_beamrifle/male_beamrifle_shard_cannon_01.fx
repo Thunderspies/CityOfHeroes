@@ -1,0 +1,30 @@
+#############################################################
+## Costume Anim Entity - Assault Rifle - Base
+#############################################################
+
+FxInfo
+
+Flags InheritAlpha DontSuppress
+
+#############################################################
+
+Condition
+	On 	Time
+	Time 	0
+
+	Event
+		Type	Local
+		At	WepR
+		Anim	CustomWeapon_BeamRifle_Shard_Cannon_01
+		BhvrOverride
+			Scale			1 1 1
+			PositionOffset		0.1 0.15 0.02
+			PYRrotate 		0 0 0
+# 			PYRrotateJitter 	0 0 0
+		End
+	End
+End
+
+#############################################################
+
+End

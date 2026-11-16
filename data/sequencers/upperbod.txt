@@ -1,0 +1,190 @@
+#############################################################
+
+Sequencer
+
+##TypeDef male
+##	BaseSkeleton	male\skel_ready2
+##	ParentType	None
+##TypeDefEnd
+
+TypeDef UpperBod
+	BaseSkeleton	Upperbod\Skel_upperbod
+	ParentType	none  ##male
+TypeDefEnd
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+
+
+
+###################
+### Ready        ##
+###################
+
+
+Move Ready
+	Member		<Ready> <BasicEncounter> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	Scale		0.5
+	CycleMove       Ready_shift
+	CycleMove	Ready_trans_Xarms
+	CycleMove	Ready_scratchneck
+
+	Type		UpperBod
+	  Anim          male\npc_neutral_look 1
+	TEnd
+MEnd
+
+
+Move Ready_shift
+	Member		<Ready> <BasicEncounter> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove	Ready_scratchneck
+	CycleMove       Ready_cough
+	CycleMove	Ready_trans_Xarms
+
+
+	Type		UpperBod
+	  Anim          male\npc_neutral_shift 1
+	TEnd
+MEnd
+
+
+Move Ready_cough
+	Member		<Ready> <BasicEncounter> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove       Ready
+	CycleMove       Ready_shift
+	CycleMove	Ready_look_L
+
+	Type		UpperBod
+	  Anim          male\npc_neutral_cough 1
+	TEnd
+MEnd
+
+
+Move Ready_scratchneck
+	Member		<Ready> <BasicEncounter> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove       Ready
+	CycleMove       Ready_shift
+	CycleMove	Ready_look_L
+	CycleMove	Ready_cough
+
+
+
+	Type		UpperBod
+	  Anim          male\npc_neutral_scratchneck 1
+	TEnd
+MEnd
+
+Move Ready_look_L
+	Member		<Ready> <BasicEncounter> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	Scale		0.3
+	CycleMove       Ready
+	CycleMove       Ready_shift
+	CycleMove       Ready_cough
+	CycleMove	Ready_trans_Xarms
+
+	Type		UpperBod
+	  Anim          male\npc_neutral_look 1 60
+	TEnd
+MEnd
+
+
+### trans to Xarms mode  ######
+
+
+Move Ready_trans_Xarms
+	Member		<Ready> <BasicEncounter> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove       Ready_Xarms_look
+
+	Type		UpperBod
+	  Anim          male\npc_neutral_t_xarms 1
+	TEnd
+MEnd
+
+Move Ready_Xarms_look
+	Member		<Ready> <BasicEncounter> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	Scale		0.5
+	CycleMove       Ready_Xarms_look
+	CycleMove       Ready_Xarms_coughtransout
+
+	Type		UpperBod
+	  Anim          male\npc_xarms_look 1
+	TEnd
+MEnd
+
+
+Move Ready_Xarms_coughtransout
+	Member		<Ready> <BasicEncounter> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove       Ready
+	CycleMove       Ready_scratchneck
+
+	Type		UpperBod
+	  Anim          male\npc_xarms_coughtransout 1
+	TEnd
+MEnd
+
+
+
+
+
+
+SeqEnd
+

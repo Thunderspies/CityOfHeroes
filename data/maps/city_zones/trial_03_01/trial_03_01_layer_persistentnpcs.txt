@@ -1,0 +1,50 @@
+Def grp15422
+	Group Omni/_Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"StrikeTeams\Trial_Rooms\Contacts\JasonS.npc"	0
+End
+
+Def grp_TerraVolta_InfoNPC
+	Group Omni/EncounterSpawns/InfoNPCs/_ES_TerraVolta_Trial_Info
+	End
+	Property	"EncounterAutospawnEnd"	"0.001"	0
+	Property	"EncounterAutospawnStart"	"0.001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"IgnoreRadius"	"0"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def grp_Nurse_Store
+	Group Omni/_Persistent_NPC
+	End
+	Flags Ungroupable
+	Property	"PersistentNPC"	"Contacts/StoreNPCs/Trial_03_01_Nurse.npc"	0
+End
+
+Def grp_PersistentNPCs
+	Group Omni/EncounterSpawns/BaseTypes/EG_PoliceDrone
+		PYR 0 -179.999969 0
+		Pos 48 0 0
+	End
+	Group Omni/EncounterSpawns/BaseTypes/EG_PoliceDrone
+		PYR 0 -179.999969 0
+		Pos -48 0 0
+	End
+	Group grp15422
+		PYR 0 130 0
+		Pos -1611.5 92 4467.5
+	End
+	Group grp_TerraVolta_InfoNPC
+		Pos 0.5 -4 10.5
+	End
+	Group grp_Nurse_Store
+		Pos 68.5 0 20.5
+	End
+	Property	"Layer"	"PersistentNPCs"	0
+End
+
+Ref grp_PersistentNPCs
+	Pos 1216 188 -7128
+End
+

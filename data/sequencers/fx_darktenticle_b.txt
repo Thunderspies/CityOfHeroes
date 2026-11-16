@@ -1,0 +1,54 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_darktenticle_B 
+	BaseSkeleton	FX_darktenticle\skel_darktenticle
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	NextMove        Ready_A
+	Scale           0.50
+
+	Type		FX_darktenticle_B
+	  Anim          FX_darktenticle\skel_darktenticle 61  
+	TEnd
+MEnd
+
+
+Move Ready_A
+	Member		<Ready> 
+	Flags		Cycle 
+	Scale           0.50
+	CycleMove       Ready_A
+	CycleMove       Ready_B
+
+	Type		FX_darktenticle_B
+	  Anim          FX_darktenticle\skel_darktenticle 1  
+	TEnd
+MEnd
+
+
+Move Ready_B
+	Member		<Ready> 
+	Flags		Cycle 
+	Scale           0.80
+	CycleMove       Ready_A
+	CycleMove       Ready_B
+	CycleMove       Ready_A
+
+	Type		FX_darktenticle_B
+	  Anim          FX_darktenticle\skel_darktenticle 1  
+	TEnd
+MEnd
+
+SeqEnd
+

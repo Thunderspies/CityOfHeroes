@@ -1,0 +1,3550 @@
+############################################################
+# dog.txt
+############################################################
+Sequencer
+
+# Dog #######################################################
+
+TypeDef Dog
+	BaseSkeleton	Dog\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Coyote
+	BaseSkeleton	Dog\skel_ready
+	ParentType	Dog
+TypeDefEnd
+
+TypeDef UmbraBeast
+	BaseSkeleton	Dog\skel_ready
+	ParentType	Dog
+TypeDefEnd
+
+TypeDef Direwolf
+	BaseSkeleton	Dog\skel_ready
+	ParentType	Dog
+TypeDefEnd
+
+TypeDef Blackwolf
+	BaseSkeleton	Dog\skel_ready
+	ParentType	Dog
+TypeDefEnd
+
+TypeDef Germanshepherd
+	BaseSkeleton	Dog\skel_ready
+	ParentType	Dog
+TypeDefEnd
+
+TypeDef NightStalker
+	BaseSkeleton	Dog\skel_ready
+	ParentType	UmbraBeast
+TypeDefEnd
+
+TypeDef NightStalker_Wodan
+	BaseSkeleton	Dog\skel_ready
+	ParentType	UmbraBeast
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<IRQEmotesALL>
+Group	<Skill>
+Group	<SkillMode>
+Group	<MonsterGroup>
+Group	<MonsterMove>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+#########################################################
+## READIES
+#############################################################
+
+Move Ready
+	Interpolate	5
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_Ready
+
+	Type		Dog
+	  Anim          Dog\dog_ready01 1 60
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 1 14
+	TEnd
+MEnd
+
+#############################################################
+
+Move Dog_Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_Ready
+	CycleMove	Dog_Ready
+	CycleMove	Dog_Ready
+	CycleMove	Dog_stretch
+	CycleMove	Dog_ready_to_sit
+
+	Type		Dog
+	  Anim          Dog\dog_ready01 1 60
+	  PlayFX	NPCFX\Pets\Dog\Dog_Breath.fx 1 CONSTANT
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Dog_stretch
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle Nosizescale HideWeapon HideShield
+	CycleMove	Dog_Ready
+
+	Type		Dog
+	  Anim          Dog\dog_stretch 1 120
+	  PlayFX	NPCFX\PETS\Dog\Dog_Stretch.fx 10
+  	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 20
+  	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 98
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 103
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          Dog\dog_bark 1 64
+	  PlayFX	NPCFX\Pets\Dog\Dog_Bark.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_Bark.fx 30
+	  PlayFX	NPCFX\Pets\Dog\Dog_Bark.fx 35
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Dog_ready_to_sit
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_sit_cycle
+
+	Type		Dog
+	  Anim          Dog\dog_behavior 1 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 16
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 20
+
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Dog_sit_cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_sit_cycle
+	CycleMove	Dog_sit_cycle
+	CycleMove	Dog_tail_wag
+	CycleMove	Dog_scratching
+	CycleMove	Dog_sit_to_laying
+
+
+	Type		Dog
+	  Anim          Dog\dog_behavior 24 36
+	  PlayFX	NPCFX\PETS\Dog\Dog_PantShort.fx 1 CONSTANT
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Dog_tail_wag
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle nosizescale HideWeapon HideShield
+	CycleMove	Dog_tail_wag
+	CycleMove	Dog_tail_wag
+	CycleMove	Dog_tail_wag
+	CycleMove	Dog_sit_cycle
+
+	Type		Dog
+	  Anim          Dog\dog_behavior 36 72
+	  PlayFX	NPCFX\PETS\Dog\Dog_PantShort.fx 1 CONSTANT
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Dog_scratching
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_sit_cycle
+
+	Type		Dog
+	  Anim          Dog\dog_behavior 72 175
+	  PlayFX	NPCFX\Pets\Dog\Dog_Grunt.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 3
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 1
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 8
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 15
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 22
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 29
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 36
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 43
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 50
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 58
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 64
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 71
+	  PlayFX	NPCFX\PETS\Dog\Dog_Scratch.fx 78
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 88
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 95
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Dog_sit_to_laying
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_laying_cycle
+
+	Type		Dog
+	  Anim          Dog\dog_behavior 175 200
+	  PlayFX	NPCFX\Pets\Dog\Dog_Sigh.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 12
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 20
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Dog_laying_cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_laying_cycle
+	CycleMove	Dog_laying_cycle
+	CycleMove	Dog_laying_cycle
+	CycleMove	Dog_laying_cycle
+	CycleMove	Dog_laying_to_ready
+
+	Type		Dog
+	  Anim          Dog\dog_behavior 200 230
+	  PlayFX	NPCFX\Pets\Dog\Dog_Breath.fx 1 CONSTANT
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Dog_laying_to_ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_Ready
+
+	Type		Dog
+	  Anim          Dog\dog_behavior 230 270
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 12
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 35
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_combat_idle 15 40
+	TEnd
+
+MEnd
+
+#############################################################
+#############################################################
+## RUN FORWARD	###########################################################
+
+Move Dog_RunPre
+	Requires	FORWARD
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ>
+	Member		< IRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		Cycle HideWeapon HideShield MoveScale SmoothSprint NOSIZESCALE
+	CycleMove	Dog_RunCycle
+	#NextMove	Idle_Walk_Post
+	Interpolate	5
+
+	Type		Dog
+	  Anim          Dog\dog_run_forward 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+
+	  Scale		1.35
+	  MoveRate	1  ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		Coyote
+	  Anim          Dog\dog_run_forward 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  MoveRate	2  ##	0.7 x 30 = I animated this to move at 21 feet per second
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          Dog\dog_run_forward 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  Scale		1.35
+	  MoveRate	1.2  ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		NightStalker_Wodan
+	  Anim		Dog\dog_walk_stalk_forward 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.7
+	  Scale		0.85
+	TEnd
+
+MEnd
+
+
+
+Move Dog_RunCycle
+	Requires	FORWARD
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		Cycle HideWeapon HideShield MoveScale SmoothSprint NOSIZESCALE
+	NextMove	Dog_RunPost
+	Interpolate	5
+
+	Type		Dog
+	  Anim		Dog\dog_run_forward 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_PantLong.fx 1 CONSTANT
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+
+	Scale		1.35
+	MoveRate	1 ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_forward 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_PantLong.fx 1 CONSTANT
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	  MoveRate	2 ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_run_forward 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_PantLong.fx 1 CONSTANT
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  Scale		1.35
+	  MoveRate	1.2 ##	0.7 x 30 = I animated this to move at 21 feet per second
+#	  SmoothSprint	3.3 ##feet from	root to	hip position you want to use to	smooth sprinting
+	TEnd
+
+	Type		NightStalker_Wodan
+	  Anim		Dog\dog_walk_stalk_forward 1 37
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.7
+	  Scale		0.85
+	TEnd
+
+MEnd
+
+Move Dog_RunPost
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+    	Flags 		nosizescale HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_run_forward_post 6 24
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_forward_post 6 24
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	TEnd
+
+	Type		UmbraBeast
+	  Anim		Dog\dog_run_forward_post 6 24
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	TEnd
+
+	Type		NightStalker_Wodan
+	  Anim		Dog\dog_walk_forward 36
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	TEnd
+
+MEnd
+## RUN BACKWARD	###########################################################
+
+Move Dog_Run_Back_Pre
+	Requires	BACKWARD
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield MoveScale	SmoothSprint
+	CycleMove	Dog_Run_Back_Cycle
+	#NextMove	Idle_Walk_Post
+	Interpolate	5
+	MoveRate	0.8
+
+	Type		Dog
+	  Anim		Dog\dog_run_back_pre 1 14
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 2
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 5
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 12
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_back_pre 1 14
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 2
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 5
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 12
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	TEnd
+MEnd
+
+Move Dog_Run_Back_Cycle
+	Requires	BACKWARD
+	Priority	1
+	Interrupts	<BackMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield MoveScale	SmoothSprint
+	MoveRate	0.8
+	NextMove	Dog_Run_Back_Post
+
+	Type		Dog
+	  Anim		Dog\dog_run_back 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_back 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	  MoveRate	1.8
+	TEnd
+MEnd
+
+Move Dog_Run_Back_Post
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+	Scale 		0.9
+    Flags       HideWeapon HideShield
+	Type		Dog
+	  Anim		Dog\dog_run_back_post 6 28
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_back_post 6 28
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	  MoveRate	2
+	TEnd
+
+MEnd
+
+
+## RUN LEFT ###########################################################
+
+Move Dog_Run_Left_Pre
+	Requires	STEPLEFT
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ> RunPre
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle HideWeapon HideShield MoveScale	SmoothSprint
+	CycleMove	Dog_Run_Left_Cycle
+	#NextMove	Idle_Walk_Post
+	MoveRate	1
+	Interpolate	5
+
+	Type		Dog
+	  Anim		Dog\dog_run_left 1
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  SmoothSprint	3.3
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_left 1
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	  SmoothSprint	3.3
+	  MoveRate	2
+	TEnd
+
+MEnd
+
+Move Dog_Run_Left_Cycle
+	Requires	STEPLEFT
+	Priority	1
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle HideWeapon HideShield MoveScale	SmoothSprint
+	MoveRate	1  ##	0.7 x 30 = I animated this to move at 21 feet per second
+	NextMove	Dog_Run_Left_Post
+
+	Type		Dog
+	  Anim		Dog\dog_run_left 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  SmoothSprint	3.3
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_left 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	  SmoothSprint	3.3
+	  MoveRate	2
+	TEnd
+
+MEnd
+
+Move Dog_Run_Left_Post
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+	Scale 		1.1
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_slide_left_post 1 25
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_slide_left_post 1 25
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+  	  MoveRate	2
+	TEnd
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Dog_Run_Right_Pre
+	Requires	STEPRIGHT
+	Priority	1
+	Interrupts	<Ready> <MoveIRQ> RunPre
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle HideWeapon HideShield MoveScale SmoothSprint
+	CycleMove	Dog_Run_Right_Cycle
+	#NextMove	Idle_Walk_Post
+	MoveRate	1  ##	0.7 x 30 = I animated this to move at 21 feet per second
+	Interpolate	5
+
+	Type		Dog
+	  Anim		Dog\dog_run_right 1
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  SmoothSprint	3.3
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_right 1
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	  SmoothSprint	3.3
+	  MoveRate	2
+	TEnd
+
+MEnd
+
+Move Dog_Run_Right_Cycle
+	Requires	STEPRIGHT
+	Priority	1
+	Interrupts	<SideMoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <BackMoveIRQ>
+	Flags		Cycle HideWeapon HideShield MoveScale	 SmoothSprint
+	MoveRate	1
+	NextMove	Dog_run_Right_Post
+
+	Type		Dog
+	  Anim		Dog\dog_run_right 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  SmoothSprint	3.3
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_right 1 19
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 14
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	  SmoothSprint	3.3
+	  MoveRate	2
+	TEnd
+MEnd
+
+Move Dog_Run_Right_Post
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+	Scale 		1
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          Dog\dog_slide_right_post 1 25
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	TEnd
+
+	Type		Coyote
+	  Anim          Dog\dog_slide_right_post 1 25
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 3
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 6
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 11
+	  PlayFX	POWERS\CoyoteTravelPower\DustTrail.fx 1 CONSTANT
+	  MoveRate	2
+	TEnd
+
+MEnd
+
+## NPC WALK     ###########################################################
+## WALK FORWARD ###########################################################
+
+Move Dog_WalkCycle_Pre
+	Requires	FORWARD	WALK
+	Priority	2
+	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		MoveScale HideWeapon HideShield
+	NextMove	Dog_WalkCycle
+
+	Type		Dog
+	  Anim		Dog\dog_walk_forward 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.13
+	  Scale		5
+	TEnd
+
+
+MEnd
+
+Move Dog_WalkCycle
+	Requires	FORWARD	WALK
+	Member		<DeathIRQ> <AttackIRQ> <BasicMove> <IRQJumps> <IRQSwim> <IRQSlide> <RunsALL> <GroundMoveALL> <SideMoveIRQ>
+	Flags		Cycle HideWeapon HideShield MoveScale
+	NextMove	Dog_WalkPost
+	Priority	2
+
+	Type		Dog
+	  Anim		Dog\dog_walk_forward 1 20
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	5
+	  Scale		2
+	TEnd
+
+MEnd
+
+Move Dog_WalkPost
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	8
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_walk_forward 36
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	TEnd
+
+MEnd
+
+#############################################################
+## PLAYER WALK
+#############################################################
+
+## WALK FORWARD ###########################################################
+
+Move Player_Walk_Forward
+	Requires	PLAYER FORWARD PLAYERWALK
+	Priority	3
+	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Forward_Cycle
+	Flags		ReqInputs MoveScale HideWeapon HideShield
+	Interpolate	10
+	Wind		WALKFORWARD
+
+	Type		Dog
+	  Anim		Dog\dog_walk_forward 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.13
+	TEnd
+
+MEnd
+
+Move Player_Walk_Forward_Cycle
+	Requires	PLAYER FORWARD PLAYERWALK
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Post
+	Flags		Cycle HideWeapon HideShield MoveScale
+	Wind		WALKFORWARD
+
+	Type		Dog
+	  Anim		Dog\dog_walk_forward 1 37
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.13
+	TEnd
+
+MEnd
+
+## WALK RIGHT ###########################################################
+
+Move Player_Walk_Right
+	Requires	PLAYER STEPRIGHT PLAYERWALK
+	Priority	3
+	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Right_Cycle
+	Flags		ReqInputs MoveScale HideWeapon HideShield
+	Interpolate	10
+	Wind		WALKRIGHT
+
+	Type		Dog
+	  Anim		Dog\dog_walk_right_pre 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.13
+	TEnd
+
+MEnd
+
+Move Player_Walk_Right_Cycle
+	Requires	PLAYER STEPRIGHT PLAYERWALK
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Post
+	Flags		Cycle HideWeapon HideShield MoveScale
+	Wind		WALKRIGHT
+
+	Type		Dog
+	  Anim		Dog\dog_walk_right 1 37
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.13
+	TEnd
+
+MEnd
+
+## WALK LEFT ###########################################################
+
+Move Player_Walk_Left
+	Requires	PLAYER STEPLEFT PLAYERWALK
+	Priority	3
+	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Left_Cycle
+	Flags		ReqInputs MoveScale HideWeapon HideShield
+	Wind		WALKLEFT
+
+	Type		Dog
+	  Anim		Dog\dog_walk_left_pre 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.13
+	TEnd
+
+MEnd
+
+Move Player_Walk_Left_Cycle
+	Requires	PLAYER STEPLEFT PLAYERWALK
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Post
+	Flags		Cycle HideWeapon HideShield MoveScale
+	Wind		WALKLEFT
+
+	Type		Dog
+	  Anim		Dog\dog_walk_left 1 37
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.13
+	TEnd
+
+MEnd
+
+## WALK BACK ###########################################################
+
+Move Player_Walk_Back
+	Requires	PLAYER BACKWARD PLAYERWALK
+	Priority	3
+	Interrupts	<Ready> <MoveIRQ> <RunsALL>
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Back_Cycle
+	Flags		ReqInputs MoveScale HideWeapon HideShield
+	Interpolate	10
+	Wind		WALKBACK
+
+	Type		Dog
+	  Anim		Dog\dog_walk_back 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 9
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 16
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 28
+	  MoveRate	0.14
+	TEnd
+
+MEnd
+
+Move Player_Walk_Back_Cycle
+	Requires	PLAYER BACKWARD PLAYERWALK
+	Member		<DeathIRQ> <AttackIRQ> <WalkMove> <GroundMoveALL> <MoveStrafeIRQ> <MoveDiagonalIRQ> <Jumps> <IRQJumps> <IRQSwim> <IRQSlide>
+	NextMove	Player_Walk_Post
+	Flags		Cycle HideWeapon HideShield MoveScale
+	Wind		WALKBACK
+
+	Type		Dog
+	  Anim		Dog\dog_walk_back 1 37
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 9
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 16
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 28
+	  MoveRate	0.14
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Player_Walk_Post
+	Include sequencers\Members\readies.inc
+	NextMove	Ready
+	Interpolate	5
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_walk_forward 36
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Walk.fx 30
+	  MoveRate	0.142
+	TEnd
+
+MEnd
+
+## JUMP FORWARD ###########################################################
+
+Move Dog_HopPre
+	Requires	FORWARD	JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_Hop
+
+	Type		Dog
+	  Anim		Dog\Dog_hop 1 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_Jump.fx 1
+	TEnd
+
+MEnd
+
+Move Dog_Hop
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove 	Dog_HopCycle
+	NextMove	Dog_HopApex
+	Scale		0.75
+
+	Type		Dog
+	  Anim		Dog\Dog_hop 5 82
+	TEnd
+
+MEnd
+
+Move Dog_HopCycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_HopApex
+
+	Type		Dog
+	  Anim		Dog\Dog_hop 162 220
+	TEnd
+MEnd
+
+Move Dog_HopApex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	Dog_HopFall
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\Dog_hop 82 92
+	TEnd
+
+MEnd
+
+Move Dog_HopFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_HopFall_Cycle
+	NextMove	Dog_HopPost
+
+	Type		Dog
+	  Anim		Dog\Dog_hop 92 111
+	TEnd
+
+MEnd
+
+Move Dog_HopFall_Cycle
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_HopPost
+
+	Type		Dog
+	  Anim		Dog\Dog_hop 222 280
+	TEnd
+
+MEnd
+
+Move Dog_HopPost
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	Interpolate	1
+	Scale		0.7
+	SticksOnChild	LAND
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_run_forward_post 6 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_forward_post 6 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	  PlayFX	POWERS\NinjaRun\Land1_Ninja.fx 1 CONSTANT
+	TEnd
+MEnd
+
+## JUMP RIGHT ###########################################################
+
+Move Dog_Hop_Right_Pre
+	Requires	STEPRIGHT JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_Hop_Right
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_right 1 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_Jump.fx 1
+	TEnd
+
+MEnd
+
+Move Dog_Hop_Right
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove 	Dog_Hop_Right_Cycle
+	NextMove	Dog_Hop_Right_Apex
+	Scale		0.75
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_right 5 82
+	TEnd
+
+MEnd
+
+Move Dog_Hop_Right_Cycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_Hop_Right_Apex
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_right 162 220
+	TEnd
+MEnd
+
+Move Dog_Hop_Right_Apex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	Dog_Hop_Right_Fall
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_right 82 92
+	TEnd
+
+MEnd
+
+Move Dog_Hop_Right_Fall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_Hop_Right_Fall_Cycle
+	NextMove	Dog_Hop_Right_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_right 92 135
+	TEnd
+
+MEnd
+
+Move Dog_Hop_Right_Fall_Cycle
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_Hop_Right_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_right 222 280
+	TEnd
+
+MEnd
+
+Move Dog_Hop_Right_Post
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	Interpolate	1
+	Scale		0.7
+	SticksOnChild	LAND
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_run_right_post 6 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_right_post 6 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	  PlayFX	POWERS\NinjaRun\Land1_Ninja.fx 1 CONSTANT
+	TEnd
+
+MEnd
+
+## JUMP LEFT ###########################################################
+
+Move Dog_Hop_left_Pre
+	Requires	STEPLEFT JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_Hop_left
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_left 1 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_Jump.fx 1
+	TEnd
+
+MEnd
+
+Move Dog_Hop_left
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove 	Dog_Hop_left_Cycle
+	NextMove	Dog_Hop_left_Apex
+	Scale		0.75
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_left 5 82
+	TEnd
+
+MEnd
+
+Move Dog_Hop_left_Cycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_Hop_left_Apex
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_left 162 220
+	TEnd
+MEnd
+
+Move Dog_Hop_left_Apex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	Dog_Hop_left_Fall
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_left 82 92
+	TEnd
+
+MEnd
+
+Move Dog_Hop_left_Fall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_Hop_left_Fall_Cycle
+	NextMove	Dog_Hop_left_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_left 92 135
+	TEnd
+
+MEnd
+
+Move Dog_Hop_left_Fall_Cycle
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_Hop_left_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_left 222 280
+	TEnd
+
+MEnd
+
+Move Dog_Hop_left_Post
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	Interpolate	1
+	Scale		0.7
+	SticksOnChild	LAND
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_run_left_post 6 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_left_post 6 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	  PlayFX	POWERS\NinjaRun\Land1_Ninja.fx 1 CONSTANT
+	TEnd
+MEnd
+
+## JUMP BACK ###########################################################
+
+Move Dog_Hop_back_Pre
+	Requires	BACKWARD JUMP AIR
+	Priority	3
+	Interrupts	<IRQJumps> <PostMoveCycle> <Ready> <BasicMove> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_Hop_back
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_back 1 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_Jump.fx 1
+	TEnd
+
+MEnd
+
+Move Dog_Hop_back
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove 	Dog_Hop_back_Cycle
+	NextMove	Dog_Hop_back_Apex
+	Scale		0.75
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_back 5 82
+	TEnd
+
+MEnd
+
+Move Dog_Hop_back_Cycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_Hop_back_Apex
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_back 162 220
+	TEnd
+MEnd
+
+Move Dog_Hop_back_Apex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	Dog_Hop_back_Fall
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_back 82 92
+	TEnd
+
+MEnd
+
+Move Dog_Hop_back_Fall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_Hop_back_Fall_Cycle
+	NextMove	Dog_Hop_back_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_back 92 135
+	TEnd
+
+MEnd
+
+Move Dog_Hop_back_Fall_Cycle
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_Hop_back_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_hop_back 222 280
+	TEnd
+
+MEnd
+
+Move Dog_Hop_back_Post
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	Interpolate	1
+	Scale		1
+	SticksOnChild	LAND
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_run_back_post 6 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_back_post 6 24
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	  PlayFX	POWERS\NinjaRun\Land1_Ninja.fx 1 CONSTANT
+	TEnd
+MEnd
+
+## JUMP UP ###########################################################
+
+Move Dog_JumpPre
+	Requires	JUMP AIR #COMBAT
+	Priority	2
+	Interrupts	<MoveIRQ> <Ready> <Combat> <IRQJumps> <RunsALL> <GroundMoveALL> <Skill> <iceslide> <Swim> <jumpFall> <Block> <HitIRQ> <StunMove> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	NextMove	Dog_JumpUp
+	Interpolate	5
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\Dog_jump 3 6
+	  PlayFX	NPCFX\Pets\Dog\Dog_Jump.fx 1
+
+	TEnd
+MEnd
+
+Move Dog_JumpUp
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_JumpApex
+	CycleMove	Dog_JumpCycle
+
+	Type		Dog
+	  Anim		Dog\Dog_jump 6 82
+	TEnd
+MEnd
+
+Move Dog_JumpCycle
+	Requires	JUMP AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <TravelJump>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_JumpApex
+
+	Type		Dog
+	  Anim		Dog\Dog_jump 113 171
+	TEnd
+MEnd
+
+Move Dog_JumpApex #Apex is for short jumps
+	Requires	APEX AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove	Dog_JumpFall
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\Dog_jump 82 92
+
+	TEnd
+MEnd
+
+Move Dog_JumpFall
+	Requires	AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_JumpFall_Cycle
+	NextMove	Dog_JumpPost
+	Interpolate	2
+
+	Type		Dog
+	  Anim		Dog\Dog_jump 92 111
+	TEnd
+MEnd
+
+Move Dog_JumpFall_Cycle
+	Requires	AIR #COMBAT
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_JumpPost
+
+	Type		Dog
+	  Anim		Dog\Dog_jump 111 173
+	TEnd
+MEnd
+
+Move Dog_JumpPost
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesALL>
+	NextMove	Ready
+	SticksOnChild	LAND
+	Interpolate	1
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_run_forward_post 6 24
+	TEnd
+
+	Type		Coyote
+	  Anim		Dog\dog_run_forward_post 6 24
+	  PlayFX	POWERS\NinjaRun\Land1_Ninja.fx 1 CONSTANT
+	TEnd
+
+	Type		CameraShaker
+	  Anim		male\comb_postjump 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 2
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 4
+	  PlayFX	NPCFX\Pets\Dog\Dog_FF_Land.fx 5
+	TEnd
+MEnd
+
+
+## Dog JUMP UP INTO FORWARD TRANSITION ###########################################################
+
+Move Dog_JumpToHop
+	Requires	FORWARD JUMP AIR #COMBAT
+	Priority	3
+	Interrupts	<TravelJump>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_HopApex
+	Interpolate	20
+
+	Type		Dog
+	  Anim		Dog\Dog_hop 6 82
+	TEnd
+MEnd
+
+## FLY FORWARD FROM RUN ###########################################################
+
+Move Dog_flypre_Launch
+	Requires	FORWARD	FLY
+	Priority	12
+	Interrupts	RunPre RunCycle <GroundMoveALL> <Launch> <iceslide>
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_fly
+	Wind		FLY
+
+	Type		Dog
+	  Anim		Dog\dog_fly_pre 2
+	  PlayFx	FEET\FlightForward.fx
+	TEnd
+
+MEnd
+
+#############################################################
+## FALLS
+#############################################################
+
+## RUN FALL ###########################################################
+
+Move Dog_RunFall
+	Requires	BIGFALL
+	Priority	1
+	Interrupts	<BasicMove> <WalkMove> <DualPistolsMove> <CombatMove> <WepMove> <TwoHandMove> <TravelMove> <TravelWepMove> <TravelDualHandMove> <TravelLeftHandMove> <TravelShieldMove> <TravelShieldWepMove> <Ready> <Combat> <WepCombat> <TwoHandCombat> <iceslide> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ>  <Fall>
+	Flags		ReqInputs
+	NextMove	Dog_RunFall_2
+
+	Type		Dog
+	  Anim		Dog\Dog_jump 92 111
+	TEnd
+
+MEnd
+
+Move Dog_RunFall_2
+	Requires	AIR
+	Priority	1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ>  <Fall>
+	Flags		Cycle
+	NextMove	dog_JumpPost
+
+	Type		Dog
+	  Anim		Dog\Dog_jump 111 173
+	TEnd
+
+MEnd
+
+## FLY READY ###########################################################
+
+Move Dog_flyready_pre
+	Requires	FLY
+	Priority	1
+	Interrupts	<Ready>	<Jumps>	<PostMoveCycle>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove	Dog_flyready
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim		Dog\dog_fly_pre 2
+	TEnd
+
+MEnd
+
+Move Dog_flyready
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		Cycle HideWeapon HideShield
+	NextMove	PreFall
+	Interpolate	3
+
+	Type		Dog
+	  Anim		Dog\dog_fly_pre 60 110
+	TEnd
+
+MEnd
+
+## FLY FORWARD ###########################################################
+
+Move Dog_fly_forward_pre
+	Requires	FORWARD	FLY
+	Priority	12
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_fly_forward_cycle
+	Scale		0.8
+	Wind		FLY
+
+
+	Type		Dog
+	  Anim		Dog\dog_fly_forward 1 15
+	TEnd
+
+MEnd
+
+Move Dog_fly_forward_cycle
+	Requires	FORWARD	FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <FlyForwardAlt>
+	Flags		Cycle HideWeapon HideShield ReqInputs
+	NextMove	Dog_fly_forward_post
+	Wind		FLY
+
+	Type		Dog
+	  Anim		Dog\dog_fly_forward 15 35
+	TEnd
+
+MEnd
+
+Move Dog_fly_forward_post
+	Requires	FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_flyready
+	Priority	11
+	Scale		0.7
+
+	Type		Dog
+	  Anim		Dog\dog_fly_forward 35 55
+	TEnd
+
+MEnd
+
+## FLY UP ###########################################################
+
+Move Dog_fly_up_pre
+	Requires	JUMP FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <iceslide> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_fly_up_cycle
+	Priority	12
+	Scale		0.90
+	Wind		FLYUP
+
+	Type		Dog
+	  Anim		Dog\dog_fly_up 1 15
+	TEnd
+
+MEnd
+
+Move Dog_fly_up_cycle
+	Requires	JUMP FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_fly_up_post
+	Priority	12
+	Wind		FLYUP
+
+	Type		Dog
+	  Anim		Dog\dog_fly_up 15 65
+	TEnd
+
+MEnd
+
+Move Dog_fly_up_post
+	Requires	FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_flyready
+	Priority	11
+	Wind		FLY
+
+	Type		Dog
+	  Anim		Dog\dog_fly_up 66 85
+	TEnd
+
+MEnd
+
+## FLY BACKWARD	###########################################################
+
+Move Dog_back_fly_pre
+	Requires	BACKWARD FLY
+	Priority	12
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <Fall> <iceslide> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_back_fly_cycle
+	Scale		0.7
+
+	Type		Dog
+	  Anim		Dog\dog_fly_backward 2 15
+	TEnd
+
+MEnd
+
+Move Dog_back_fly_cycle
+	Requires	BACKWARD FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_back_fly_post
+
+
+	Type		Dog
+	  Anim		Dog\dog_fly_backward 15 65
+	TEnd
+
+MEnd
+
+Move Dog_back_fly_post
+	Requires	FLY
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <BasicFlyMove> <FlyMoveALL> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_flyready
+	Priority	11
+	Scale		1
+
+	Type		Dog
+	  Anim		Dog\dog_fly_backward 66 137
+	TEnd
+
+MEnd
+
+## FLY RIGHT ###########################################################
+
+Move Dog_fly_right_pre
+	Requires	STEPRIGHT FLY
+	Priority	12
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicFlyMove> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_fly_right_cycle
+	Scale		0.90
+
+
+	Type		Dog
+	  Anim		Dog\dog_fly_right 2 15
+	TEnd
+MEnd
+
+Move Dog_fly_right_cycle
+	Requires	STEPRIGHT FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_fly_right_post
+
+
+	Type		Dog
+	  Anim		Dog\dog_fly_right 15 65
+	TEnd
+MEnd
+
+Move Dog_fly_right_post
+	Requires	FLY
+	Priority	11
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_flyready
+	Wind		FLY
+	Scale		0.7
+
+	Type		Dog
+	  Anim		Dog\dog_fly_right 66 85
+	TEnd
+MEnd
+
+## FLY LEFT ###########################################################
+
+Move Dog_fly_left_pre
+	Requires	STEPLEFT FLY
+	Priority	12
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicFlyMove> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_fly_left_cycle
+	Scale		0.8
+
+	Type		Dog
+	  Anim		Dog\dog_fly_left 2 15
+	TEnd
+MEnd
+
+Move Dog_fly_left_cycle
+	Requires	STEPLEFT FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_fly_left_post
+
+	Type		Dog
+	  Anim		Dog\dog_fly_left 15 65
+	TEnd
+MEnd
+
+Move Dog_fly_left_post
+	Requires	FLY
+	Priority	12
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_flyready
+	Wind		FLY
+	Scale		0.7
+
+	Type		Dog
+	  Anim		Dog\dog_fly_left 66 85
+	TEnd
+MEnd
+
+#############################################################
+## HOVERS
+#############################################################
+
+## DOG HOVER FORWARD ###########################################################
+
+Move Dog_hover_forward_pre
+	Requires	FORWARD	FLY HOVER
+	Priority	13
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicFlyMove> <Fall> <Jumps> <MoveIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_hover_forward
+	Scale		0.875
+
+	Type		Dog
+	  Anim		Dog\dog_hover_forward 1 20
+	TEnd
+MEnd
+
+Move Dog_hover_forward
+	Requires	FORWARD	FLY HOVER
+	Priority	13
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ>
+	Flags		Cycle HideWeapon HideShield ReqInputs
+	NextMove	Dog_hover_forward_post
+	#Scale		0.625
+
+	Type		Dog
+	  Anim		Dog\dog_hover_forward 20 70
+	TEnd
+MEnd
+
+Move Dog_hover_forward_post
+	Requires	FLY
+	Priority	11
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <HoverMove> <FlyMoveALL> <AttackIRQ> <MoveIRQ>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove	Dog_flyready
+	Scale		0.875
+
+	Type		dog
+	  Anim		dog\dog_hover_forward_post 70 90
+	TEnd
+MEnd
+
+## DOG FALL ###########################################################
+
+Move Dog_pre_fall
+	Requires	AIR
+	Priority	1
+	Interrupts	<FlyReady>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <AttackIRQ> <HoverMove> <FlyMoveALL> <Fall>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_JumpFall_Cycle
+	NextMove	Dog_JumpPost
+	Interpolate	2
+
+	Type		Dog
+	  Anim		Dog\Dog_jump 92 111
+	TEnd
+
+MEnd
+#############################################################
+## "SLIDE"
+#############################################################
+
+Move Dog_slidePre
+	Requires	FORWARD	SLIDING
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_IceslideCycle
+	NextMove	Dog_Slide_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_forward 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_slideCycle
+	Requires	FORWARD	SLIDING
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_IceslidePost
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_forward 1	30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_slidePost
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          Dog\dog_slide_forward_post 1 20
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+### ICESLIDE BACKWARD ###########################################################
+
+Move Dog_slidePre_B
+	Requires	BACKWARD SLIDING
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_IceslideCycle_B
+	NextMove	Dog_Slide_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_backward 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_slideCycle_B
+	Requires	BACKWARD SLIDING
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_IceslidePost_B
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_backward 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_slidePost_B
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+	Interpolate	5
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          Dog\dog_slide_backward_post 1 20
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+## ICESLIDE LEFT ###########################################################
+
+Move Dog_slidePre_L
+	Requires	STEPLEFT SLIDING
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide> IceslidePre
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_IceslideCycle_L
+	NextMove	Dog_Slide_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_left 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_slideCycle_L
+	Requires	STEPLEFT SLIDING
+	Priority	12
+	Interrupts	Dog_IceslideCycle
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_IceslidePost_L
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_left 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_slidePost_L
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+	Interpolate	5
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          Dog\dog_slide_left_post 1 25
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+## ICESLIDE RIGHT ###########################################################
+
+Move Dog_slidePre_R
+	Requires	STEPRIGHT SLIDING
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide> IceslidePre
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_IceslideCycle_R
+	NextMove	Dog_Slide_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_right 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_slideCycle_R
+	Requires	STEPRIGHT SLIDING
+	Priority	12
+	Interrupts	Dog_IceslideCycle
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_IceslidePost_R
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_right 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_slidePost_R
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+	Interpolate	5
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          Dog\dog_slide_right_post 1 25
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+#############################################################
+## "ICESLIDE" - Used by Prestige Power Slide
+#############################################################
+
+Move Dog_IceslidePre
+	Requires	FORWARD	ICESLIDE
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_IceslideCycle
+	NextMove	Dog_Slide_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_forward 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_IceslideCycle
+	Requires	FORWARD	ICESLIDE
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_IceslidePost
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_forward 1	30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_IceslidePost
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          Dog\dog_slide_forward_post 1 20
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+### ICESLIDE BACKWARD ###########################################################
+
+Move Dog_IceslidePre_B
+	Requires	BACKWARD ICESLIDE
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_IceslideCycle_B
+	NextMove	Dog_Slide_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_backward 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_IceslideCycle_B
+	Requires	BACKWARD ICESLIDE
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide>
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_IceslidePost_B
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_backward 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_IceslidePost_B
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+	Interpolate	5
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          Dog\dog_slide_backward_post 1 20
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+## ICESLIDE LEFT ###########################################################
+
+Move Dog_IceslidePre_L
+	Requires	STEPLEFT ICESLIDE
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide> IceslidePre
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_IceslideCycle_L
+	NextMove	Dog_Slide_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_left 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_IceslideCycle_L
+	Requires	STEPLEFT ICESLIDE
+	Priority	12
+	Interrupts	Dog_IceslideCycle
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_IceslidePost_L
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_left 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_IceslidePost_L
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+	Interpolate	5
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          Dog\dog_slide_left_post 1 25
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+## ICESLIDE RIGHT ###########################################################
+
+Move Dog_IceslidePre_R
+	Requires	STEPRIGHT ICESLIDE
+	Priority	12
+	Interrupts	<Ready> <MoveIRQ> <IRQSlide> IceslidePre
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	CycleMove	Dog_IceslideCycle_R
+	NextMove	Dog_Slide_Post
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_right 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_IceslideCycle_R
+	Requires	STEPRIGHT ICESLIDE
+	Priority	12
+	Interrupts	Dog_IceslideCycle
+	Member		<DeathIRQ> <AttackIRQ> <BasicSlide> <GroundMoveALL>
+	Flags		Cycle HideWeapon HideShield
+	NextMove	Dog_IceslidePost_R
+
+	Type		Dog
+	  Anim		Dog\Dog_slide_right 1 30
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+Move Dog_IceslidePost_R
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready
+	Interpolate	5
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          Dog\dog_slide_right_post 1 25
+	  PlayFX	feet\oilslick.fx  0 Constant
+	TEnd
+
+MEnd
+
+## BASIC SPAWN ###########################################################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Priority	1
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_post
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale NotSelectable NOCOLLISION HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_run_in 1 50
+	  PlayFX	Generic\entityFadeIn.fx 0 CONSTANT
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_run_in 1 50
+	TEnd
+
+	Type		Direwolf
+	  Anim          dog\dog_howl 1 110
+	  PlayFX	Generic\entityFadeIn.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Spawned_post
+	Include sequencers\Members\Readies.inc
+	NextMove	Idle_Cycle
+	Flags		NoSizeScale NotSelectable HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_run_in 50
+	TEnd
+
+	Type		Direwolf
+	  Anim          dog\dog_howl 111
+	TEnd
+
+MEnd
+
+###################
+### Death    ####
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        101
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Flags		NotSelectable NOCOLLISION HideWeapon HideShield
+	Sets            NOCOLLISION
+	SticksOnChild	DEATH GROUND
+
+	Type		Dog
+	  Anim          dog\dog_death 1 37
+	  #PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_death 1 37
+	  PlayFX	CustomizeablePowers\DarknessControl\UmraBeast_Death.fx
+	TEnd
+
+	Type		NightStalker
+	  Anim          dog\dog_howl 1 50
+	  PlayFx	ENEMYFX\Praetorian\SpiritStalkers\ShadowHound_Death.fx 0 #constant
+	  #PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Blackwolf
+	  Anim          dog\dog_run_out 1 33
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Germanshepherd
+	  Anim          dog\dog_run_out 1 33
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+
+	Type		NightStalker_Wodan
+	  Anim          dog\dog_howl 1 50
+	  PlayFx	ENEMYFX\Praetorian\SpiritStalkers\Wodan_Death.fx 0 #constant
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		NotSelectable cycle HideWeapon HideShield
+	Sets            NOCOLLISION
+
+	Type		Dog
+	  Anim          dog\dog_death 38 38
+	 # PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		UmbraBeast
+	  Anim          dog\dog_death 38 38
+	  #PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Blackwolf
+	  Anim          dog\dog_run_out 33
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		Germanshepherd
+	  Anim          dog\dog_run_out 33
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+	Type		NightStalker
+	  Anim          dog\dog_howl 51 111
+	#  PlayFx	ENEMYFX\Praetorian\SpiritStalkers\ShadowHound_Death.fx 0 #constant
+	TEnd
+
+	Type		NightStalker_Wodan
+	  Anim          dog\dog_howl 51 111
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+MEnd
+
+####################
+#### Dismiss    ####
+####################
+
+Move Dismiss
+	Requires	DISMISS DEATH
+	Interrupts	<AttackIRQ> <ReactIRQ> <HitIRQ> <DeathIRQ>
+	NextMove        Dismiss_cycle
+	Priority        102
+	Flags		NotSelectable NOCOLLISION
+
+	Type		Dog
+	  Anim          dog\dog_run_out 1 33
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 2
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 5
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 9
+	  PlayFX	NPCFX\PETS\Dog\Dog_FF_Run.fx 12
+	TEnd
+
+MEnd
+
+Move Dismiss_cycle
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		NotSelectable NOCOLLISION Cycle
+	Interpolate     5
+
+	Type		Dog
+	  Anim          dog\dog_run_out 33
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+
+MEnd
+
+##  SWIM READY ###########################################################
+
+Move dog_swim_readypre
+	Requires	SWIM
+	Priority        10
+	Interrupts	<Ready> Ready
+	Include sequencers\Members\Swim.inc
+	Flags		ReqInputs FixHipsReg HideWeapon HideShield
+	NextMove        dog_swim_ready
+	Scale           0.65
+
+	Type		Dog
+	  Anim          dog\dog_swim_ready 1
+	  PlayFx        FEET\SWIMREADY.FX
+	TEnd
+
+
+MEnd
+
+Move dog_swim_ready
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        Ready
+	Scale           0.65
+
+	Type		Dog
+	  Anim          dog\dog_swim_ready 1
+	  PlayFx        FEET\SWIMREADY.FX
+	TEnd
+
+MEnd
+
+
+## SWIM FORWARD ###########################################################
+
+Move dog_SwimPre
+	Requires	FORWARD SWIM
+	Priority        11
+	Interrupts	<SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	CycleMove	dog_SwimCycle
+	NextMove        dog_SwimPost
+	Scale           1
+
+	Type		Dog
+	  Anim          dog\dog_swim_forward 1
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move dog_SwimCycle
+	Requires	FORWARD SWIM
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        dog_SwimPost
+	Scale           1
+
+	Type		Dog
+	  Anim          dog\dog_swim_forward 1 20
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move dog_SwimPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        dog_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Scale           1
+	Interpolate     15
+
+	Type		Dog
+	  Anim          dog\dog_swim_forward 20
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+## SWIM BACK ###########################################################
+
+Move dog_SwimBackPre
+	Requires	BACKWARD SWIM
+	Priority        11
+	Interrupts	<SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	CycleMove	dog_SwimBackCycle
+	NextMove        dog_SwimBackPost
+	Scale           0.75
+
+	Type		Dog
+	  Anim          dog\dog_swim_backward 1
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move dog_SwimBackCycle
+	Requires	BACKWARD SWIM
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        dog_SwimBackPost
+	Scale           0.75
+
+	Type		Dog
+	  Anim          dog\dog_swim_backward 1 20
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move dog_SwimBackPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        dog_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Scale           0.75
+	Interpolate     15
+
+	Type		Dog
+	  Anim          dog\dog_swim_backward 20
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+## SWIM RIGHT ###########################################################
+
+Move dog_SwimRightPre
+	Requires	STEPRIGHT SWIM
+	Priority        11
+	Interrupts	dog_SwimPre <SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	CycleMove	dog_SwimRightCycle
+	NextMove        dog_SwimRightPost
+	Scale           0.75
+
+	Type		Dog
+	  Anim          dog\dog_swim_right 1
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move dog_SwimRightCycle
+	Requires	STEPRIGHT SWIM
+	Priority        11
+	Interrupts	dog_SwimCycle <SwimReady> <GroundMoveALL> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        dog_SwimRightPost
+	Scale           0.75
+
+	Type		Dog
+	  Anim          dog\dog_swim_right 1 20
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move dog_SwimRightPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        dog_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Scale           0.75
+	Interpolate     15
+
+	Type		Dog
+	  Anim          dog\dog_swim_right 20
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+
+## SWIM LEFT ###########################################################
+
+Move dog_SwimLeftPre
+	Requires	STEPLEFT SWIM
+	Priority        11
+	Interrupts	dog_SwimPre <SwimReady> <GroundMoveALL> <IRQSwim> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	CycleMove	dog_SwimLeftCycle
+	NextMove        dog_SwimLeftPost
+	Scale           0.75
+
+	Type		Dog
+	  Anim          dog\dog_swim_left 1
+	  PlayFx        FEET\SWIMPRE.FX
+	TEnd
+
+MEnd
+
+Move dog_SwimLeftCycle
+	Requires	STEPLEFT SWIM
+	Priority	11
+	Interrupts	dog_SwimCycle <SwimReady> <GroundMoveALL> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove>
+	Flags		Cycle HideWeapon HideShield FixHipsReg
+	NextMove        dog_SwimLeftPost
+	Scale           0.75
+
+	Type		Dog
+	  Anim          dog\dog_swim_left 1 20
+	  PlayFx        FEET\SWIM1.FX
+	TEnd
+
+MEnd
+
+Move dog_SwimLeftPost
+	Requires	SWIM
+	Include sequencers\Members\Swim.inc
+	NextMove        dog_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Scale           0.75
+	Interpolate     15
+
+	Type		Dog
+	  Anim          dog\dog_swim_left 20
+	  PlayFx        FEET\SWIMPOST.FX
+	TEnd
+
+MEnd
+
+## SWIM POSTJUMP ###########################################################
+
+Move dog_Swim_JumpPost
+	Requires	SWIM
+	Priority        10
+	Interrupts	<GroundJumpPost>
+	Include sequencers\Members\Swim.inc
+	NextMove        dog_swim_ready
+	Flags		FixHipsReg HideWeapon HideShield
+	Interpolate     2
+
+	Type		Dog
+	  Anim          dog\dog_swim_jumppost 1
+	  # PlayFx        FEET\SPLASH.FX
+	TEnd
+
+MEnd
+
+#####TEST EMOTE ########################################################
+
+#Move Dog_howl
+#	Requires	COMBAT ANIMAL TEST1
+#	Priority	3
+#	Interrupts	<IRQEmotesALL> <IRQEmotesCombat> <IRQEmotesShield> <IRQEmotesRighthand> <IRQEmotesLefthand> <IRQEmotesDualhand>
+#	NextMove	dog_ready
+#    Flags       HideWeapon HideShield
+#
+#	Type		Dog
+#	  Anim          dog\dog_getup 1
+#	TEnd
+#MEnd
+#############################################################
+
+#############################################################
+## Combat
+#############################################################
+
+## COMBAT READY ###########################################################
+
+Move Dog_PreCombat
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		ReqInputs HideWeapon HideShield
+	NextMove        Dog_CombatReady
+	Scale           1
+
+	Type		Dog
+	  Anim          dog\dog_combat_idle 1 14
+	  PlayFX	NPCFX\Pets\Dog\Dog_Grunt.fx
+	TEnd
+
+MEnd
+
+Move Dog_CombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle HideWeapon HideShield
+	NextMove        Dog_postReady_back
+	Scale           1
+
+	Type		Dog
+	  Anim          dog\dog_combat_idle 15 40
+	  PlayFX	NPCFX\Pets\Dog\Dog_PantLong.fx 1 CONSTANT
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Dog_postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Dog_Ready
+	Priority        0
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_combat_idle 41 60
+	TEnd
+
+MEnd
+
+#############################################################
+## Hit Quick
+#############################################################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	NextMove        Dog_CombatReady
+	Flags		HitReact
+	SticksOnChild	QUICK HIT
+
+	Type		Dog
+	  Anim          dog\dog_hit_quickA 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whimper.fx
+	TEnd
+
+MEnd
+
+#############################################################
+## Combat Hit Quick
+#############################################################
+
+Move C_HitQuick
+	Requires	COMBAT QUICK HIT
+	Priority        3
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	NextMove        Dog_CombatReady
+	Flags		HitReact
+
+	Type		Dog
+	  Anim          dog\dog_hit_quickA 1
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whimper.fx
+	TEnd
+
+MEnd
+
+Move C_HitQuick_B
+	Requires	COMBAT QUICK HIT
+	Priority        3
+	Interrupts	<HitIRQ> FearStun_cycle FearStun
+	NextMove        Dog_CombatReady
+	Flags		HitReact
+
+	Type		Dog
+	  Anim          dog\dog_hit_quickB 1
+	TEnd
+
+MEnd
+
+#############################################################
+## knockback Hit
+#############################################################
+
+Move Knockback
+	Requires	HIT KNOCKBACK
+	Priority        5
+	Interrupts	<HitIRQ> <DeathIRQ>
+	NextMove        Knockback_travel
+	Interpolate     3
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Dog
+	  Anim          Dog\dog_knock_back 3 9
+	TEnd
+
+MEnd
+
+Move Knockback_travel
+	Requires	AIR
+	NextMove        Knockback_impact
+	Sets            CANTMOVE
+	Flags		Cycle NoSizeScale
+
+	Type		Dog
+	  Anim          Dog\Dog_knock_back 10 10
+	TEnd
+
+MEnd
+
+Move Knockback_Apex
+	Requires	AIR APEX
+	Interrupts	Knockback_travel Knockback
+	NextMove        Knockback_fallcycle
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Dog
+	  Anim          Dog\Dog_knock_back 11 15
+	TEnd
+
+MEnd
+
+Move Knockback_fallcycle
+	Requires	AIR
+#	Member		<RagdollBellyIRQ>
+	NextMove        Knockback_impact
+	Sets            CANTMOVE
+	Flags		Cycle NoSizeScale
+
+	Type		Dog
+	  Anim          Dog\Dog_knock_back 16 16
+	TEnd
+
+MEnd
+
+Move Knockback_impact
+	NextMove        getup
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+	Interpolate     0
+
+	Type		Dog
+	  Anim          Dog\Dog_knock_back 17 40
+	TEnd
+
+MEnd
+
+#############################################################
+## Sweeps
+#############################################################
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Priority        3
+	Interrupts	<HitIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Interpolate     2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Dog
+	  Anim          dog\dog_sweep 3 26
+	TEnd
+
+MEnd
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	NextMove        getup
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Dog
+	  Anim          dog\dog_sweep 27
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Priority        3
+	Interrupts	<HitIRQ> <DeathIRQ>
+	NextMove        Sweep_impact
+	Interpolate     2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Dog
+	  Anim          dog\dog_sweep_flip 3 26
+	TEnd
+
+MEnd
+
+#############################################################
+### GETUP
+#############################################################
+
+Move getup
+	NextMove        getup_post
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Dog
+	  Anim          Dog\Dog_getup 1 52
+	TEnd
+
+MEnd
+
+Move getup_post
+	NextMove        Dog_CombatReady
+#	Include sequencers\Members\Reactions.inc
+	Flags		NoSizeScale
+
+	Type		Dog
+	  Anim          Dog\Dog_getup 53
+	TEnd
+
+MEnd
+
+## Claw Attack #############################################
+
+Move Claw_Attack
+	Requires	COMBAT ANIMAL QUICK
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Claw_Attack_Post
+	Sets            CANTMOVE
+	Interpolate 	0
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_claw_attack 1 30
+	TEnd
+
+MEnd
+
+Move Claw_Attack_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+	Interpolate 	0
+
+	Type		Dog
+	  Anim          dog\dog_claw_attack 30
+	TEnd
+
+
+MEnd
+
+## Roar Attack #############################################
+
+Move Roar_Attack
+	Requires	COMBAT ANIMAL SPEECH
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Roar_Attack_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_roar_attack 1 90
+	TEnd
+
+MEnd
+
+Move Roar_Attack_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_roar_attack 91
+	TEnd
+
+MEnd
+
+
+###############################################
+## Beast Mastery
+################################################
+
+Move Vicious_bite
+	Requires	COMBAT ANIMAL OPEN
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Vicious_bite_Post
+	Sets            CANTMOVE
+
+	Type		Dog
+	  Anim          dog\dog_bite_short 1 41
+	  PlayFX	NPCFX\Pets\Dog\Dog_Snarl.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whoosh.fx
+	TEnd
+
+MEnd
+
+Move Vicious_bite_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_bite_short 42
+	TEnd
+
+MEnd
+
+## Howl #############################################
+
+Move Howl
+	Requires	COMBAT ANIMAL HOWL CHARGE
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Howl_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_howl 1 110
+	TEnd
+
+MEnd
+
+Move Howl_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_howl 111
+	TEnd
+
+MEnd
+
+## Wild Charge #############################################
+
+Move Wild_Charge
+	Requires	COMBAT ANIMAL BOAST
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Wild_Charge_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_roar_attack 1 18
+	  PlayFX	NPCFX\Pets\Dog\Dog_Howl.fx
+	TEnd
+
+	Type		Direwolf
+	  Anim          dog\dog_roar_attack 1 18
+	  PlayFX	CustomizeablePowers\BeastMastery\DireWolf_Roar.fx
+	TEnd
+
+
+MEnd
+
+Move Wild_Charge_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_roar_attack 19
+	TEnd
+
+MEnd
+
+## Feral Charge #############################################
+
+Move Feral_Charge
+	Requires	COMBAT ANIMAL HEAD ATTACK
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Feral_Charge_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_head_strike 1 42
+	TEnd
+
+MEnd
+
+Move Feral_Charge_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_head_strike 43
+	TEnd
+
+MEnd
+
+## Maiming Bite #############################################
+
+Move Maiming_Bite
+	Requires	COMBAT ANIMAL OPEN ATTACK STRONG
+	Priority	5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Maiming_Bite_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_bite_short_strong 1 74
+	  PlayFX	NPCFX\Pets\Dog\Dog_Snarl.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_SnarlTug.fx 10
+	  PlayFX	NPCFX\Pets\Dog\Dog_SnarlTug.fx 40
+	TEnd
+
+MEnd
+
+Move Maiming_Bite_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_bite_short_strong 75
+	TEnd
+
+MEnd
+
+## Chilling Howl #############################################
+
+Move Chilling_Howl
+	Requires	COMBAT ANIMAL ENERGY SHOOT
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Chilling_Howl_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_chilling_howl 1 56
+	TEnd
+
+MEnd
+
+Move Chilling_Howl_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_chilling_howl 57
+	TEnd
+
+MEnd
+
+## Growl #############################################
+
+Move Growl
+	Requires	COMBAT ANIMAL GROWL
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Growl_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_growl 1 58
+	TEnd
+
+MEnd
+
+Move Growl_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_growl 59
+	TEnd
+
+MEnd
+
+## Lick Wound #############################################
+
+Move Lick_Wound
+	Requires	COMBAT ANIMAL MOUTHSFX WOUNDED
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Lick_Wound_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_lick_wound 1 48
+	TEnd
+
+MEnd
+
+Move Lick_Wound_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_lick_wound 49
+	TEnd
+
+MEnd
+
+## Freezing Roar #############################################
+
+Move Freezing_Roar
+	Requires	COMBAT ANIMAL CHILLY OPEN YELL
+	Priority	5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Freezing_Roar_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_breath_attack  1 85
+	TEnd
+
+MEnd
+
+Move Freezing_Roar_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_breath_attack  86
+	TEnd
+
+MEnd
+
+## Will of the Wild #############################################
+
+Move Will_of_Wild
+	Requires	COMBAT ANIMAL BOOSTUPATTACK YELL
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Will_of_Wild_Post
+	Sets            CANTMOVE
+    Flags       HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_bark  1 45
+	TEnd
+
+MEnd
+
+Move Will_of_Wild_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_Combatready
+	Flags		ReqInputs HideWeapon HideShield
+
+	Type		Dog
+	  Anim          dog\dog_bark  46
+	TEnd
+
+MEnd
+
+#######################################
+#### Darkness Control Umbra Beast #####
+#######################################
+
+## Claw Rake #############################################
+
+Move Claw_Rake
+	Requires	COMBAT EVIL ANIMAL QUICK
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Claw_Rake_Post
+	Sets            CANTMOVE
+	Interpolate 	0
+
+	Type		UmbraBeast
+	  Anim          dog\dog_claw_attack 1 30
+	  PlayFX	NPCFX\Pets\Dog\Dog_Snarl.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whoosh.fx 10
+	TEnd
+
+MEnd
+
+Move Claw_Rake_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_CombatReady
+	Flags		ReqInputs
+	Interpolate 	0
+
+	Type		UmbraBeast
+	  Anim          dog\dog_claw_attack 30
+	TEnd
+
+
+MEnd
+
+## Claw Swipe #############################################
+
+Move Claw_Swipe
+	Requires	COMBAT EVIL ANIMAL QUICK STRONG
+	Priority	5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Claw_Swipe_Post
+	Sets            CANTMOVE
+	Interpolate 	0
+
+	Type		UmbraBeast
+	  Anim          dog\dog_claw_swipe 1 42
+	  PlayFX	NPCFX\Pets\Dog\Dog_Snarl.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whoosh.fx 10
+	TEnd
+
+MEnd
+
+Move Claw_Swipe_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_CombatReady
+	Flags		ReqInputs
+	Interpolate 	0
+
+	Type		UmbraBeast
+	  Anim          dog\dog_claw_swipe 43
+	TEnd
+
+
+MEnd
+
+## Umbra bite #############################################
+
+Move Umbra_bite
+	Requires	COMBAT EVIL ANIMAL OPEN
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Umbra_bite_Post
+	Flags		nosizescale
+	Sets            CANTMOVE
+
+	Type		Dog
+	  Anim          dog\dog_bite_short 1 41
+	  PlayFX	NPCFX\Pets\Dog\Dog_SnarlGrowl.fx
+	  PlayFX	NPCFX\Pets\Dog\Dog_Whoosh.fx
+	TEnd
+
+
+MEnd
+
+Move Umbra_bite_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_CombatReady
+	Flags		ReqInputs nosizescale
+
+	Type		Dog
+	  Anim          dog\dog_bite_short 42
+	TEnd
+
+MEnd
+
+## Shadowy Binds #############################################
+
+Move Shadowy_binds
+	Requires	COMBAT EVIL ANIMAL SPEECH
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Shadowy_binds_Post
+	Sets            CANTMOVE
+
+	Type		UmbraBeast
+	  Anim          dog\dog_Howl 1 90
+	  PlayFX	NPCFX\Pets\Dog\Dog_Howl.fx 10
+	TEnd
+
+MEnd
+
+Move Shadowy_binds_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_CombatReady
+	Flags		ReqInputs
+
+	Type		UmbraBeast
+	  Anim          dog\dog_Howl 91
+	TEnd
+
+MEnd
+
+## Terrifying Roar #############################################
+
+Move Terrifying_Roar
+	Requires	COMBAT EVIL ANIMAL SPEECH STRONG
+	Priority	5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Terrifying_Roar_Post
+	Sets            CANTMOVE
+
+	Type		UmbraBeast
+	  Anim          dog\dog_breath_attack 1 90
+	TEnd
+
+MEnd
+
+Move Terrifying_Roar_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_CombatReady
+	Flags		ReqInputs
+
+	Type		UmbraBeast
+	  Anim          dog\dog_breath_attack 91
+	TEnd
+
+MEnd
+
+## NightStalker - Nature Fury #############################################
+
+Move Nature_Fury
+	Requires	COMBAT ANIMAL CLAWFLURRY
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Nature_Fury_Post
+	Sets            CANTMOVE
+
+	Type		Dog
+	  Anim          dog\dog_bite_fury 1 85
+	TEnd
+
+MEnd
+
+Move Nature_Fury_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_CombatReady
+	Flags		ReqInputs
+
+	Type		Dog
+	  Anim          dog\dog_bite_fury 86
+	TEnd
+
+MEnd
+
+## NightStalker - Shadowfire #############################################
+
+Move Shadow_Fire
+	Requires	COMBAT ANIMAL YELL
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>  #<ReactIRQ> <HitIRQ>  <BlockIRQ>  <PostMoveCycle> <MoveIRQ> <IRQEmotesCombat>
+	NextMove	Shadow_Fire_Post
+	Sets            CANTMOVE
+
+	Type		Dog
+	  Anim          dog\dog_fireball 1 42
+	TEnd
+
+MEnd
+
+Move Shadow_Fire_Post
+	Requires	COMBAT
+	Include 	sequencers\Members\Combat.inc
+	NextMove	Dog_CombatReady
+	Flags		ReqInputs
+
+	Type		Dog
+	  Anim          dog\dog_fireball 43
+	TEnd
+
+MEnd
+
+#
+#Include sequencers\Dog\dog_readies_air.inc
+
+
+
+SeqEnd
+

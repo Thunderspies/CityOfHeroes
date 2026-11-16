@@ -1,0 +1,61 @@
+#########################################################
+## CustomWeapon_Katana.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Katana_Rularuu
+	BaseSkeleton	CustomWeapons_Rularuu_Katana\skel_ready
+	ParentType	Katana_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw NoSizeScale
+	Priority	0
+
+	Type		Katana_Rularuu
+	  Anim		CustomWeapons_Rularuu_Katana\skel_ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Pre
+	Requires	LEFTHAND
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Priority        1
+	Flags		Hide NoSizeScale
+	Scale		0.75
+
+	Type		Katana_Rularuu
+	  Anim		CustomWeapons_Rularuu_Katana\skel_ready 1
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	LEFTHAND
+	Member		<WepCombat>
+	Flags		Cycle NoSizeScale
+	Priority        1
+	Scale		0.75
+
+	Type		Katana_Rularuu
+	  Anim		CustomWeapons_Rularuu_Katana\skel_ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

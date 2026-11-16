@@ -1,0 +1,59 @@
+#############################################################
+
+
+Sequencer
+
+TypeDef male 
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef goblin 
+	BaseSkeleton	steve\skel_test
+	ParentType	male
+TypeDefEnd
+
+TypeDef FX_goblin_smother 
+	BaseSkeleton	steve\skel_test
+	ParentType	goblin
+TypeDefEnd
+
+TypeDef FX_goblin_fly
+	BaseSkeleton	steve\skel_test
+	ParentType	goblin
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+	Scale		1  ##1.5
+
+
+	Type		goblin
+	  Anim          male\goblin_dual_cycle 1   
+	  Scale		1
+	TEnd
+
+	Type		FX_goblin_smother
+	  Anim          male\goblin_smother 1
+	  Scale		1
+	TEnd
+
+	Type		FX_goblin_fly
+	  Anim          male\goblin_fly 1
+	  Scale		2
+	TEnd
+
+MEnd
+
+
+
+
+SeqEnd
+

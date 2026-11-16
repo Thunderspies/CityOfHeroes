@@ -1,0 +1,1333 @@
+###############################################
+################# Wolf Spider #################
+
+Texture X_Tarantula_Body
+	Base1 Hips_Tarantula_base
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 texture_name
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hips_Tarantula_Base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Hips_Tarantula_Base_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Hips_Tarantula_Base_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 2	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 black
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 shader_reflect_generic_08
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hips_Tarantula_Base_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 128 
+	MaxAddGlow 60
+
+	Fallback
+		UseFallback 1
+		Base Hips_Tarantula_base
+		Blend None
+		Bumpmap Hips_Tarantula_Base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 10
+End
+
+Texture X_Tarantula_Legs
+	Base1 Claw_Tarantula_base_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 texture_name
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Claw_Tarantula_base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask texture_name
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 texture_name
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 texture_name
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Claw_Tarantula_base_01
+		Blend None
+		Bumpmap Claw_Tarantula_base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 10
+End
+
+Texture X_Tarantula_Rear
+	Base1 Hair_Tarantula_base
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08 // shader_reflect_generic_04
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hair_Tarantula_base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask Hair_Tarantula_base_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Hair_Tarantula_base
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hair_Tarantula_base_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Hair_Tarantula_base
+		Blend None
+		Bumpmap Hair_Tarantula_base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 15
+End
+
+Texture X_Tarantula_Fire_Legs
+	Base1 Claw_Tarantula_Fire_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_11
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Claw_Tarantula_Fire_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Claw_Tarantula_Fire_01_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Claw_Tarantula_Fire_Mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Claw_Tarantula_Fire_01
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 shader_reflect_generic_08
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Claw_Tarantula_Fire_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+	
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 128 
+	MaxAddGlow 60
+
+	Fallback
+		UseFallback 1
+		Base Claw_Tarantula_Fire_01
+		Blend None
+		Bumpmap Claw_Tarantula_Fire_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+    
+	SpecularColor1 255 255 255 // 148 97 252
+	SpecularColor2 50 255 255 // BLACK means inherit color from SpecularColor
+	SpecularExponent1 20
+	SpecularExponent2 10 // 0 means inherit from SpecularExponent1
+End
+
+###############################################
+############# Tarantula Toxic ##############
+
+
+Texture X_Tarantula_Toxic_Legs
+	Base1 Claw_Tarantula_Toxic_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_12
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Claw_Tarantula_Fire_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Claw_Tarantula_Toxic_01_glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Claw_Tarantula_Fire_Mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Claw_Tarantula_Toxic_01
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 shader_reflect_generic_08
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Claw_Tarantula_Fire_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+	
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 128 
+	MaxAddGlow 60
+
+	Fallback
+		UseFallback 1
+		Base Claw_Tarantula_Toxic_01
+		Blend None
+		Bumpmap Claw_Tarantula_Fire_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+    
+	SpecularColor1 255 255 255 // 148 97 252
+	SpecularColor2 50 255 255 // BLACK means inherit color from SpecularColor
+	SpecularExponent1 20
+	SpecularExponent2 10 // 0 means inherit from SpecularExponent1
+End
+
+Texture X_Tarantula_Toxic_Body
+	Base1 Hips_Tarantula_Toxic
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 texture_name
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hips_Tarantula_Base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Hips_Tarantula_Toxic_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Hips_Tarantula_Base_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 2	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 black
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 shader_reflect_generic_08
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hips_Tarantula_Base_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 128 
+	MaxAddGlow 60
+
+	Fallback
+		UseFallback 1
+		Base Hips_Tarantula_Toxic
+		Blend None
+		Bumpmap Hips_Tarantula_Base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 10
+End
+
+###############################################
+############# Tarantula Mistress ##############
+
+Texture X_Tarantula_Mistress_Body
+	Base1 Hips_Tarantula_mistress
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 hips_Tarantula_mistress_dual
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hips_Tarantula_mistress_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask hips_Tarantula_mistress_dual2
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Hips_Tarantula_mistress
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 hips_Tarantula_mistress_dual
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hips_Tarantula_mistress_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Hips_Tarantula_mistress
+		Blend None
+		Bumpmap Hips_Tarantula_mistress_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor
+	SpecularExponent 15
+End
+
+Texture X_Tarantula_Mistress_Rear
+	Base1 Hair_Tarantula_mistress
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 Hair_Tarantula_mistress_dual
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hair_Tarantula_mistress_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask hair_Tarantula_mistress_dual2
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Hair_Tarantula_mistress
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 Hair_Tarantula_mistress_dual
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hair_Tarantula_mistress_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Hair_Tarantula_mistress
+		Blend None
+		Bumpmap Hair_Tarantula_mistress_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor
+	SpecularExponent 15
+End
+
+###############################################
+############# Tarantula Queen #################
+
+Texture X_Tarantula_Queen_Body
+	Base1 Hips_Tarantula_Queen
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_10
+
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 hips_Tarantula_mistress_dual
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hips_Tarantula_Queen_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask hips_Tarantula_mistress_dual2
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Hips_Tarantula_Queen
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 hips_Tarantula_mistress_dual
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hips_Tarantula_Queen_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Hips_Tarantula_Queen
+		Blend None
+		Bumpmap Hips_Tarantula_Queen_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 255 255 // 148 97 252
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor
+	SpecularExponent1 5
+	SpecularExponent2 50 // 0 means inherit from SpecularExponent1
+End
+
+Texture X_Tarantula_Queen_Rear
+	Base1 Hair_Tarantula_Queen
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_10
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 Hair_Tarantula_mistress_dual
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hair_Tarantula_queen_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask Hair_Tarantula_mistress_dual2
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Hair_Tarantula_Queen
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 Hair_Tarantula_mistress_dual2
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hair_Tarantula_queen_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Hair_Tarantula_Queen
+		Blend None
+		Bumpmap Hair_Tarantula_queen_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 255 255 // 148 97 252
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor
+	SpecularExponent1 20
+	SpecularExponent2 50 // 0 means inherit from SpecularExponent1
+
+End
+
+Texture X_Rogue_Tarantula_Rear
+	Base1 Hair_Rogue_Tarantula_base
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hair_Rogue_Tarantula_base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask Hair_Rogue_Tarantula_base_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Hair_Tarantula_base
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hair_Rogue_Tarantula_base_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Hair_Tarantula_base
+		Blend None
+		Bumpmap Hair_Rogue_Tarantula_base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 15
+End
+
+Texture X_Rogue_Tarantula_Queen_Rear
+	Base1 Hair_Rogue_Tarantula_Queen
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_10
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 Hair_Tarantula_mistress_dual
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hair_Rogue_Tarantula_queen_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask Hair_Tarantula_mistress_dual2
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Hair_Tarantula_Queen
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 Hair_Tarantula_mistress_dual2
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hair_Tarantula_queen_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Hair_Tarantula_Queen
+		Blend None
+		Bumpmap Hair_Tarantula_queen_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 255 255 // 148 97 252
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor
+	SpecularExponent1 20
+	SpecularExponent2 50 // 0 means inherit from SpecularExponent1
+
+End
+
+Texture X_Rogue_Tarantula_Mistress_Rear
+	Base1 Hair_Rogue_Tarantula_mistress
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 Hair_Tarantula_mistress_dual
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hair_Rogue_Tarantula_mistress_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask hair_Tarantula_mistress_dual2
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 Hair_Rogue_Tarantula_mistress
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 Hair_Tarantula_mistress_dual
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hair_Rogue_Tarantula_mistress_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Hair_Rogue_Tarantula_mistress
+		Blend None
+		Bumpmap Hair_Rogue_Tarantula_mistress_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor
+	SpecularExponent 15
+End
+
+###############################################
+################# Green Giant Spider #################
+
+Texture X_Green_Giant_Body
+	Base1 hips_Green_Giant_Base
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 texture_name
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hips_Tarantula_Base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Hips_Tarantula_Toxic_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Hips_Tarantula_Base_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 2	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 black
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 shader_reflect_generic_08
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hips_Tarantula_Base_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 128 
+	MaxAddGlow 60
+
+	Fallback
+		UseFallback 1
+		Base hips_Green_Giant_Base
+		Blend None
+		Bumpmap Hips_Tarantula_Base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 10
+End
+
+Texture X_Green_Giant_Legs
+	Base1 Claw_Green_Giant_Base_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 texture_name
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Claw_Tarantula_base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask texture_name
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 texture_name
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 texture_name
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Claw_Tarantula_base_01
+		Blend None
+		Bumpmap Claw_Tarantula_base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 10
+End
+
+Texture X_Green_Giant_Rear
+	Base1 hair_Green_Giant_base
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08 // shader_reflect_generic_04
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hair_Tarantula_base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	Mask Hair_Tarantula_base_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 hair_Green_Giant_base
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hair_Tarantula_base_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Fallback
+		UseFallback 1
+		Base Hair_Tarantula_base
+		Blend None
+		Bumpmap Hair_Tarantula_base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 15
+End
+
+###############################################
+################# Green Giant Damage Spider #################
+
+Texture X_Green_Giant_Damage_Body
+	Base1 hips_Green_Giant_Base
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 texture_name
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hips_Tarantula_Base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 hips_Green_Giant_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Hips_Tarantula_Base_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 2	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 black
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 shader_reflect_generic_08
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hips_Tarantula_Base_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 128 
+	MaxAddGlow 60
+
+	Fallback
+		UseFallback 1
+		Base hips_Green_Giant_Base
+		Blend None
+		Bumpmap Hips_Tarantula_Base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 10
+End
+
+Texture X_Green_Giant_Damage_Legs
+	Base1 Claw_Green_Giant_Base_01
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 texture_name
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Claw_Tarantula_base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 Claw_Green_Giant_Glow_01
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask texture_name
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 texture_name
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 texture_name
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 128 
+	MaxAddGlow 60
+
+	Fallback
+		UseFallback 1
+		Base Claw_Tarantula_base_01
+		Blend None
+		Bumpmap Claw_Tarantula_base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 10
+End
+
+Texture X_Green_Giant_Damage_Rear
+	Base1 hair_Green_Giant_base
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 shader_reflect_generic_08 // shader_reflect_generic_04
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 Hair_Tarantula_base_bump
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 hair_Green_Giant_Glow
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask Hair_Tarantula_base_mask
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 hair_Green_Giant_base
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 texture_name
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 Hair_Tarantula_base_bump
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 128 
+	MaxAddGlow 60
+
+	Fallback
+		UseFallback 1
+		Base Hair_Tarantula_base
+		Blend None
+		Bumpmap Hair_Tarantula_base_bump
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+	End
+
+	SpecularColor1 50 200 200 // 148 97 252
+	SpecularColor2 50 200 200 // BLACK means inherit color from SpecularColor
+	SpecularExponent 15
+End

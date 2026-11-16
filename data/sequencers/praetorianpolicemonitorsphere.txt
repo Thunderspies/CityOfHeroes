@@ -1,0 +1,1014 @@
+#############################################################
+
+Sequencer
+
+TypeDef PPD_Monitor_Sphere
+	BaseSkeleton	PPD_Monitor_Sphere\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+#############################################################
+
+
+Move Ready
+	Member		<Ready> <DeathIRQ>
+	Flags		Cycle
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\ready 1
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Idle.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+
+#############################################################
+
+Move PreCombat
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready> PostWepReady
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		ReqInputs
+	NextMove        CombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\precombat 1
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+	TEnd
+
+MEnd
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle
+	NextMove        postReady_back
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\combat_ready 1
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+
+MEnd
+
+Move postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+	Scale		1.2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\postback 1
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Idle.fx 1 CONSTANT
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_CombatClose.fx
+
+	TEnd
+
+MEnd
+
+###################
+### Walk Forward ##
+###################
+
+Move WalkPreReady
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        WalkCycleReady
+	Priority        1
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\run 2 24
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Idle.fx 1 CONSTANT
+
+	TEnd
+
+MEnd
+
+Move WalkCycleReady
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        WalkPostReady
+	Priority        1
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\run 25 50
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Idle.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+Move WalkPostReady
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\run 55
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Idle.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+### COMBAT Walk Forward ##
+###################
+
+Move COMBATWalkPreReady
+	Requires	COMBAT FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        COMBATWalkCycleReady
+	Priority        2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\combat_forward 2 24
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+
+MEnd
+
+Move COMBATWalkCycleReady
+	Requires	COMBAT FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        COMBATWalkPostReady
+	Priority        2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\combat_forward 25 50
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+Move COMBATWalkPostReady
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        COMBATReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\combat_forward 55
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+######## powers ##########################################
+
+
+###################
+###### Shoot  ######
+###################
+
+Move Sonic_Fire
+	Requires	COMBAT SONICBLAST QUICK
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Sonic_Fire_post
+	Sets            CANTMOVE
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\sonic_fire 1 21
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_CombatOpen.fx
+
+	TEnd
+MEnd
+
+Move Sonic_Fire_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove	CombatReady
+
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\sonic_fire 22
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+
+##############################################################
+
+Move CallReinforcements
+	Requires	COMBAT SONICBLAST SKYSUMMON
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        CallReinforcements_post
+	Priority        3
+	Sets            CANTMOVE
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\call_reinforcements 1 44
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_CallReinforcementsOpen.fx
+
+	TEnd
+MEnd
+
+Move CallReinforcements_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove	CombatReady
+	Interpolate     0
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\call_reinforcements 44
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_CallReinforcementsClose.fx
+
+	TEnd
+MEnd
+
+############################## REACTIONS ##############################
+## HIT QUICK ###########################################################
+
+Move HitQuick
+	Requires	HIT QUICK
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        PreCombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+
+	TEnd
+MEnd
+
+Move HitQuick_mid
+	Requires	QUICK HIT
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        PreCombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\HQ_mid 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+
+	TEnd
+MEnd
+
+###################
+###### electro\pain react  ######
+###################
+
+Move electro_react
+	Requires	HIT ENERGY
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\electro 1 57
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        PreCombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\drain 1
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### drain react  ######
+###################
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\electro 41 68
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### sonic\psi pain react  ######
+###################
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\electro 1 57
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### choke react  ######
+###################
+
+Move choke_react
+	Requires	HIT MAGIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\electro 1 57
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### Speed_attack react  ######
+###################
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Speed_react2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\speed_react 1
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+Move Speed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        PreCombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### Kungfu_speed react  ######
+###################
+
+Move KungfuSpeed_react
+	Requires	HIT KUNGFUSPEED
+	Priority        2
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\electro 1 36
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react3
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\drain 1 12
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+
+Move KungfuSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        PreCombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### Claw_speed react  ######
+###################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\electro 1 36
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react3
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\drain 1 13
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+Move ClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        PreCombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+##################
+###### Boost_up react  ######
+###################
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\electro 1 57
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+#############################################################
+## DEATHS
+#############################################################
+
+## VANISH DEATH  ###########################################################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+###################
+###### Default Death   ######
+##################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	NextMove        cam_Air_death_fall
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+#	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+
+MEnd
+
+################################
+### Special Camera Death (Air) ##
+################################
+
+Move cam_Pre_Air_Death
+	Requires	AIR DEATH
+	Priority        2
+	Interrupts	<ReactIRQ> <DeathIRQ> Air_Death
+	Flags		ReqInputs NotSelectable
+	NextMove        cam_Air_death_fall
+	SticksOnChild   DEATH
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\spin 45 50    ##air_death 1 5
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	TEnd
+
+MEnd
+
+Move cam_Air_death_fall
+	Requires	AIR DEATH ###Camera
+	Priority        2
+	Flags		Cycle NotSelectable
+	NextMove        cam_Air_death_impact
+	SticksOnChild   DEATH
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\spin 1 50     ##air_death 26 100
+	TEnd
+
+MEnd
+
+Move cam_Air_death_impact
+	Requires	DEATH ###Camera
+	Priority        1
+	NextMove        cam_Air_death_cycle
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+	SticksOnChild   DEATH
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\air_death 26 50
+#	  PlayFX	Explosions\TurretExplosion\LargeTurretExplosion.Fx
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+MEnd
+
+Move cam_Air_death_cycle
+	Requires	DEATH
+	Priority        1
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION DIENOW
+	SticksOnChild   DEATH
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+
+MEnd
+
+
+############################################################
+############## COMBAT REACTIONS ##############################
+###############################################################
+
+
+## COMBAT HIT QUICK ###########################################################
+
+Move COMBATHitQuick
+	Requires	COMBAT HIT QUICK
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+
+	TEnd
+MEnd
+
+Move COMBATHitQuick_mid
+	Requires	COMBAT QUICK HIT
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_HQ_mid 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_HitReact_SFX.fx
+
+	TEnd
+MEnd
+
+###################
+###### COMBAT electro\pain react  ######
+###################
+
+Move COMBATelectro_react
+	Requires	COMBAT HIT ENERGY
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATweak_post
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_electro 1 57
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+######COMBAT  weak post  ######
+###################
+
+Move COMBATweak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_drain 1
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### COMBAT drain react  ######
+###################
+
+Move COMBATDrain_react
+	Requires	COMBAT HIT DRAINED
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATweak_post
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_electro 41 68
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### COMBAT sonic\psi pain react  ######
+###################
+
+Move COMBATsonic_react
+	Requires	COMBAT HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATweak_post
+	Priority        3
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_electro 1 57
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### COMBAT choke react  ######
+###################
+
+Move COMBATchoke_react
+	Requires	COMBAT HIT MAGIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATweak_post
+	Priority        3
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_electro 1 57
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### COMBAT Speed_attack react  ######
+###################
+
+Move COMBATSpeed_react
+	Requires	COMBAT HIT SPEEDPUNCH
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATSpeed_react2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_speed_react 1
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+Move COMBATSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### COMBAT Kungfu_speed react  ######
+###################
+
+Move COMBATKungfuSpeed_react
+	Requires	COMBAT HIT KUNGFUSPEED
+	Priority        3
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATKungfuSpeed_react2
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_electro 1 36
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+
+Move COMBATKungfuSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATKungfuSpeed_react3
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_drain 1 12
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+
+Move COMBATKungfuSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+###################
+###### COMBAT Claw_speed react  ######
+###################
+
+Move COMBATClawSpeed_react
+	Requires	COMBAT HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATClawSpeed_react2
+	Priority        3
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_electro 1 36
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+Move COMBATClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATClawSpeed_react3
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_drain 1 13
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+Move COMBATClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_HQ 2
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+##################
+###### COMBAT Boost_up react  ######
+###################
+
+Move COMBATHit_Boostup
+	Requires	COMBAT HIT BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        COMBATweak_post
+	Priority        3
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_electro 1 57
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Combat.fx 1 CONSTANT
+
+	TEnd
+MEnd
+
+#############################################################
+## COMBAT DEATHS
+#############################################################
+
+## COMBAT VANISH DEATH  ###########################################################
+
+Move COMBATVanish_Death
+	Requires	COMBAT DEATH HIDE
+	Interrupts	<DeathIRQ>
+	NextMove        COMBATVanish_postdeath
+	Priority        6
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+Move COMBATVanish_postdeath
+	Requires	COMBAT DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        2
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_freezestun 20 30
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+###################
+######COMBAT  Default Death   ######
+##################
+
+Move COMBATDefault_Death
+	Requires	COMBAT DEATH
+	Priority        2
+	Interrupts	<DeathIRQ>
+	NextMove        COMBATcam_Air_death_fall
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_spin 45 50   ##air_death 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+
+MEnd
+
+################################
+### COMBAT Special Camera Death (Air) ##
+################################
+
+Move COMBATcam_Pre_Air_Death
+	Requires	COMBAT AIR DEATH
+	Priority        3
+	Interrupts	<ReactIRQ> <DeathIRQ> Air_Death
+	Flags		ReqInputs NotSelectable
+	NextMove        COMBATcam_Air_death_fall
+	SticksOnChild   DEATH
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_spin 45 50    ##air_death 1 5
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	TEnd
+
+MEnd
+
+Move COMBATcam_Air_death_fall
+	Requires	COMBAT AIR DEATH ###Camera
+	Priority        3
+	Flags		Cycle NotSelectable
+	NextMove        COMBATcam_Air_death_impact
+	SticksOnChild   DEATH
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_spin 1 50     ##air_death 26 100
+	TEnd
+
+MEnd
+
+Move COMBATcam_Air_death_impact
+	Requires	COMBAT DEATH ###Camera
+	Priority        2
+	NextMove        COMBATcam_Air_death_cycle
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+	SticksOnChild   DEATH
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_air_death 26 50
+#	  PlayFX	Explosions\TurretExplosion\LargeTurretExplosion.Fx
+	  PlayFx        Explosions\medium\Expolsion_med.fx
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+
+MEnd
+
+Move COMBATcam_Air_death_cycle
+	Requires	COMBAT DEATH
+	Priority        2
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION DIENOW
+	SticksOnChild   DEATH
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\COMBAT_air_death 26 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFx        WORLD\Ruins\MediumFireFast.fx 0 Constant
+	  PlayFx        Generic\dead_cambot.fx 0 Constant
+	TEnd
+
+MEnd
+
+#####################
+### Basic Spawn  #####
+#####################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+	Flags		NoSizeScale CANTMOVE  NotSelectable
+
+
+	Type		PPD_Monitor_Sphere
+	  Anim          PPD_Monitor_Sphere\ready 1
+	  PlayFX	ENEMYFX\V_PraetorianPolice\MonitorSphere\MonitorSphere_Idle.fx 1 CONSTANT
+	  PlayFX	Generic\entityFadeIn.fx 0
+	TEnd
+
+MEnd
+################################################################################################
+SeqEnd
+

@@ -1,0 +1,134 @@
+Version 2
+Scenefile scenes/ruin_warehouse_scene.txt
+
+Def grpvolume1
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 50.000000 40.000000 40.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"OBJ_TriggerVolumeFront"	0
+End
+
+Def grpvolume2
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 90.000000 40.000000 40.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"OBJ_TriggerVolumeMiddle"	0
+End
+
+Def grpvolume3
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 80.000000 40.000000 70.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"OBJ_TriggerVolumeBack"	0
+End
+
+Def grp1
+	Group villain_lairs/abandoned_warehouse/trays/start/awrhs_start_01
+		Pos 32 -8 -528
+	End
+	Group villain_lairs/abandoned_warehouse/trays/halls/awrhs_h_visstr_01
+		Pos 32 -8 -400
+	End
+	Group villain_lairs/abandoned_warehouse/trays/rooms/straight/awrhs_lr_str_02
+		Pos 32 -8 -144
+	End
+	Group villain_lairs/abandoned_warehouse/trays/rooms/dead_end/awrhs_lr_end_01
+		PYR 0 -179.999985 -0
+		Pos 32 -8 368
+	End
+	Group villain_lairs/abandoned_warehouse/trays/rooms/straight/awrhs_sr_str_01
+		Pos 32 -8 112
+	End
+	Group Omni/Extents_Marker.txt
+		PYR 0 89.999985 0
+		Pos 384 -8 -624
+	End
+	Group Omni/Extents_Marker.txt
+		PYR 0 -89.999985 0
+		Pos -384 -8 624
+	End
+	Group villain_lairs/WareHouse/trays/Doors/wrhs_d_door_01
+		Pos 32 -8 -336
+	End
+	Group villain_lairs/WareHouse/trays/Doors/wrhs_d_frame_01
+		Pos 32 -8 -464
+	End
+	Group villain_lairs/WareHouse/trays/Doors/wrhs_d_frame_01
+		Pos 32 -8 48
+	End
+	Group villain_lairs/WareHouse/trays/Doors/wrhs_d_frame_01
+		Pos 32 -8 176
+	End
+	Group Omni/MissionLabels/Mission_Start
+		Pos 0 -8 -432
+	End
+	Group Omni/MissionLabels/Mission_End
+		Pos 0 -8 368
+	End
+	Group Omni/MissionLabels/Mission_Objective_01
+		Pos 32 -8 400
+	End
+	Group Omni/MissionLabels/Mission_Objective_02
+		Pos 0 -8 -176
+	End
+	Group Omni/MissionLabels/Mission_Room_01
+		Pos 0 -8 -432
+	End
+	Group Omni/MissionLabels/Mission_Room_02
+		Pos 0 -8 -144
+	End
+	Group Omni/MissionLabels/Mission_Room_04
+		Pos 32 -2.658569 336
+	End
+	Group Omni/MissionLabels/Mission_Room_03
+		Pos 24.5 -7.990479 106.5
+	End
+	Group grpvolume1
+		Pos 26 -9.5 -497
+	End
+	Group grpvolume2
+		PYR 0 90 -0
+		Pos 32.5 -9.5 -301.5
+	End
+	Group grpvolume3
+		PYR 0 90 -0
+		Pos 34 -9.5 119
+	End
+End
+
+Def grpsound2
+	Group Omni/_sound
+	End
+	Sound AbandonWhse_loop 0.843750 4550796800.000000 4550796800.000000 
+	Flags Ungroupable
+End
+
+Def grpsound3
+	Group Omni/_sound
+	End
+	Sound Warehouse5_loop 0.164063 13290739.000000 13290739.000000 
+	Flags Ungroupable
+End
+
+Def grpsound4
+	Group grpsound2
+		Pos -8.795258 -10.489964 -38.696167
+	End
+	Group grpsound3
+		Pos 8.104103 9.289616 38.49617
+	End
+End
+
+Ref grp1
+	Pos -32 8 528
+End
+
+Ref grpsound4
+	Pos -55.204681 18.489964 -281.303894
+End
+
+
+

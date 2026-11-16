@@ -1,0 +1,326 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Nova_Tail
+	BaseSkeleton	FX_Nova_Tail\Skel_Nova_Tail
+	ParentType	None
+TypeDefEnd
+
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\ready 1
+	TEnd
+
+MEnd
+
+
+ ####### Motion #####################################################
+
+###################
+### Forward ##
+###################
+
+Move Pre_Forward
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+#	Flags		ReqInputs
+	NextMove        Forward_Cycle
+	Priority        1
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\pre_forward 11 39
+	TEnd
+
+MEnd
+
+
+Move Forward_Cycle
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Post_Forward
+	Priority        1
+	Interpolate	0
+
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\forward 1 41
+	TEnd
+
+
+
+MEnd
+
+
+Move Post_Forward
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate	15
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\post_forward 15 108
+	TEnd
+MEnd
+
+
+###################
+### Backward ##
+###################
+
+Move Pre_Backward
+	Requires	BACKWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Backward_Cycle
+	Priority        1
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\pre_backward 5 34
+	TEnd
+
+MEnd
+
+
+Move Backward_Cycle
+	Requires	BACKWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Post_Backward
+	Priority        1
+##	Interpolate	0
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\backward 1 41
+	TEnd
+
+
+MEnd
+
+
+Move Post_Backward
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate	15
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\post_backward 10
+	TEnd
+MEnd
+
+
+##########
+### Up  ##
+##########
+
+Move Pre_Up
+	Requires	JUMP
+	Interrupts	<Ready> <CombatAttack> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Up_Cycle
+	Priority        1
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\up 16 41
+	TEnd
+
+MEnd
+
+
+Move Up_Cycle
+	Requires	JUMP
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Post_Up
+	Priority        1
+##	Interpolate	0
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\up 1 41
+	TEnd
+
+
+
+MEnd
+
+
+Move Post_Up
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate	15
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\post_backward 10
+	TEnd
+MEnd
+
+
+
+###### Powers  #################################################
+
+#################################
+###### Quick spit  ######
+#################################
+
+Move Spit
+	Requires	COMBAT BLOW CAST QUICK
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Spitpost
+	Priority        4
+	Sets            CANTMOVE
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\quickspit 1 45
+	TEnd
+MEnd
+
+
+Move Spitpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\quickspit 46 152
+	TEnd
+MEnd
+
+
+###################
+###### Blow Cast  ######
+###################
+
+Move Blow
+	Requires	COMBAT BLOW
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Blowpost
+	Priority        2
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\blow 1 75
+	TEnd
+
+MEnd
+
+
+Move Blowpost
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\blow 76
+	TEnd
+
+
+MEnd
+
+
+###################
+###### Tail Cast  ######
+###################
+
+Move TailCast
+	Requires	COMBAT THROWKNIFE Cast
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        TailCast_post
+	Priority        3
+	Sets            CANTMOVE
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\tail_cast 1 40
+	TEnd
+
+MEnd
+
+
+Move TailCast_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\tail_cast 41 124
+	TEnd
+
+
+MEnd
+
+
+
+####  hit reacts  #################################################
+
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ> <MoveIRQ>
+	NextMove        Ready
+	Flags		HitReact
+	Priority        2
+
+	Type		FX_Nova_Tail
+	  Anim          FX_Nova_Tail\HQ 4
+	TEnd
+
+MEnd
+
+
+
+SeqEnd
+

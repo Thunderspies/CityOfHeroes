@@ -1,0 +1,431 @@
+##################################################
+## Arachnos PTT - Generators for Statesman's SF ##
+##################################################
+
+Sequencer
+
+TypeDef V_ArachnosPTT
+	BaseSkeleton	V_ArachnosPTT\Skel_ArachnosPTT
+	ParentType	None
+TypeDefEnd
+
+TypeDef V_ArachnosPTT_Protector
+	BaseSkeleton	V_ArachnosPTT\Skel_ArachnosPTT
+	ParentType	V_ArachnosPTT
+TypeDefEnd
+
+TypeDef V_ArachnosPTT_Power
+	BaseSkeleton	V_ArachnosPTT\Skel_ArachnosPTT
+	ParentType	V_ArachnosPTT
+TypeDefEnd
+
+TypeDef V_ArachnosPTT_Healer
+	BaseSkeleton	V_ArachnosPTT\Skel_ArachnosPTT
+	ParentType	V_ArachnosPTT
+TypeDefEnd
+
+TypeDef V_ArachnosPTT_TemporalManipulator
+	BaseSkeleton	V_ArachnosPTT\Skel_ArachnosPTT
+	ParentType	V_ArachnosPTT
+TypeDefEnd
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+
+###########
+## Ready ##
+###########
+
+Move Ready		
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <BlockIRQ> <AttackIRQ> 
+	Flags		NotSelectable CANTMOVE #Cycle
+	NextMove	Spawn
+	Scale		0.5
+
+	Type		V_ArachnosPTT
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+
+	Type		V_ArachnosPTT_Protector
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+
+	Type		V_ArachnosPTT_Power
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+
+	Type		V_ArachnosPTT_Healer
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+
+	Type		V_ArachnosPTT_TemporalManipulator
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+MEnd
+
+
+###################
+## Spawn\Respawn ##
+###################
+
+Move Spawn
+	Interrupts	<RaiseDeadIRQ> 
+	Member		<Ready> <DeathIRQ>
+	Flags		NotSelectable CANTMOVE #CycleNOCOLLISION
+	NextMove	Idle_Loop
+	Scale		0.5
+
+	Type		V_ArachnosPTT
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 1 91  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Protector
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 1 91  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Orange.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Power
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 1 91  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Healer
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 1 91  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Green.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_TemporalManipulator
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 1 91  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Blue.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+MEnd
+
+Move Idle_Loop		
+	Member		<Ready> <DeathIRQ>
+	Flags		Cycle #NotSelectable #NOCOLLISION
+	NextMove	Ready
+	Scale		0.25
+
+
+	Type		V_ArachnosPTT
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 92 167  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Protector
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 92 167  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_orange.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Power
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 92 167  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Healer
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 92 167  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Green.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_TemporalManipulator
+	  Anim          V_ArachnosPTT\skel_ArachnosPTT 92 167  
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Blue.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+MEnd
+
+
+######## REACTIONS ############################################################################################################
+
+###############################################################################################################################
+## Hit Quick
+###############################################################################################################################	
+
+Move HitQuick1
+	Requires	QUICK HIT 
+	Interrupts	<Ready>
+	Member		<HitIRQ> <DeathIRQ>
+	NextMove        idle_loop
+	Flags		HitReact
+	Priority        2
+
+	Type		V_ArachnosPTT
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick1 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Protector
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick1 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_orange.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Power
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick1 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Healer
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick1 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Green.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_TemporalManipulator
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick1 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Blue.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+MEnd
+
+Move HitQuick2
+	Requires	QUICK HIT 
+	Interrupts	<Ready>
+	Member		<HitIRQ> <DeathIRQ>
+	NextMove        idle_loop
+	Flags		HitReact
+	Priority        2
+
+	Type		V_ArachnosPTT
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick2 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Protector
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick2 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_orange.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Power
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick2 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Healer
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick2 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Green.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_TemporalManipulator
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitQuick2 1
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Blue.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+MEnd
+
+
+###############################################################################################################################
+## Speed_attack react
+###############################################################################################################################	
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH 
+	Interrupts	<Ready>
+	Member		<DeathIRQ>
+	NextMove        idle_loop
+	Flags		HitReact NoSizeScale
+	Priority        2
+
+	Type		V_ArachnosPTT 
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Protector
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_orange.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Power
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Healer
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Green.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_TemporalManipulator
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Blue.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+MEnd
+
+
+###############################################################################################################################
+## Claw_speed react
+###############################################################################################################################
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED 
+	Interrupts	<Ready>
+	Member		<HitIRQ> <DeathIRQ>
+	NextMove        idle_loop
+	Flags		HitReact NoSizeScale
+	Priority        2
+
+	Type		V_ArachnosPTT 
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Protector
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_orange.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Power
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Red.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_Healer
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Green.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+
+	Type		V_ArachnosPTT_TemporalManipulator
+	  Anim          V_ArachnosPTT\ArachnosPTT_HitShock 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTTGenerator_Blue.fx 0 constant
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_Jets.fx 0 constant
+	TEnd
+MEnd
+
+
+########  DEATHS  #############################################################################################################
+
+###############################################################################################################################
+##	Default Death
+###############################################################################################################################	
+
+Move Default_Death
+	Requires	DEATH 
+	Interrupts	<DeathIRQ> 
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        2
+	Sets            NOCOLLISION
+	#Flags		NotSelectable
+
+	Type		V_ArachnosPTT
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 1 
+	  PlayFx	V_COV\EnemyPowers\Arachnos\ArachnosPTT\ArachnosPTT_DeathExplosion.fx 0 constant
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH 
+	Member		<RaiseDeadIRQ> 
+	Priority        1
+	Sets            NOCOLLISION #TARGET 
+	Flags		Cycle # NotSelectable
+
+	Type		V_ArachnosPTT
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+MEnd
+
+
+########################
+## Closed and Waiting ##
+########################
+
+Move waiting_pre
+	Requires	WAITING
+	Interrupts	<MonsterGroup> <Ready> <Combat> <WepCombat>
+	Member		<DeathIRQ>
+	Flags		Cycle NotSelectable NOCOLLISION CANTMOVE
+	NextMove	Ready
+	Priority        11
+	Interpolate	0
+
+
+	Type		V_ArachnosPTT
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+
+	Type		V_ArachnosPTT_Protector
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+
+	Type		V_ArachnosPTT_Power
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+
+	Type		V_ArachnosPTT_Healer
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+
+	Type		V_ArachnosPTT_TemporalManipulator
+	  Anim          V_ArachnosPTT\ArachnosPTT_Death 66 
+	TEnd
+MEnd
+
+
+SeqEnd

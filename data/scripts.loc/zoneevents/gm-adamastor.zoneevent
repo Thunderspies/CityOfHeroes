@@ -1,0 +1,496 @@
+Name GiantMonster-Adamastor
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P3055942013
+EventVolume AdamastorEvent
+
+Stage Setup
+{
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage 0: Setup>>
+		}
+
+		Action
+		{
+			SetScriptValue AdamastorSummonState 0
+		}
+		Action
+		{
+			WaypointCreate WP-Adamastor map_enticon_pushpin P4269926586
+		}
+
+// Create Spawns: Adamastor
+		Action
+		{
+			SpawnCreate Adamastor
+			{
+				Location Adamastor
+				Group Adamastor
+				Team Adamastor
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Adamastor
+			}
+		}
+		Action
+		{
+			SpawnCreate Adamastor-Allies
+			{
+				Location Adamastor-Allies
+				Group Adamastor-Allies
+				Team Adamastor-Allies
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Adamastor-Allies
+				MinRespawnTime 90000
+				Creator Adamastor
+				Count   1,   11,   11
+			}
+		}
+	}
+	
+	Trigger End
+	{
+		NextStage AdamastorSummon
+//		NextStage Adamastor
+//		NextStage Cooldown
+//		NextStage Reset
+	}
+
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage 0: Setup>>
+		}
+	}
+}
+
+Stage AdamastorSummon
+{
+	DisplayName P2342342538
+	Tooltip P1302259133
+
+	AwardKarma
+	KarmaThreshold 0
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage 1: Awaiting Adamastor Summon>>
+		}
+	}
+
+//This trigger completes the stage when the a player has successfully used a power to summon Adamastor.
+	Trigger AdamastorSummon-Completed
+	{
+		Requires AdamastorSummonState scriptvalue> 1 >=
+
+		NextStage Adamastor
+	}
+
+//This is the UI Collection block to show players how many enemies to defeat to summon Adamastor.
+	UICollection Stage1
+	{
+		UIItem Stage1-AdamastorSummon
+		{
+			Type CenterText
+			Text P2842885173
+		}
+	}
+
+	ShutDown
+	{
+		Action
+		{
+			DebugPrint <<Ending Stage 1: Awaiting Adamastor Summon>>
+		}
+	}
+}
+
+Stage Adamastor
+{
+	DisplayName P3003998959
+	Tooltip P2092293015
+
+	AwardKarma
+	KarmaThreshold 0
+	
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage 2: Adamastor>>
+			WaypointPlace WP-Adamastor WP-Adamastor
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Adamastor
+				Type Activate
+			}
+		}
+		Action
+		{
+			Floater
+			{
+				Message P1546999832
+				Color FF0000
+				AlertType PriorityAlert
+				Volume AdamastorEvent
+			}
+		}
+	}
+
+//This counter detects Adamastor's current health.
+	Counter AdamastorHealth
+	{
+		Type BossHealth
+		Team Adamastor
+	}
+
+//This is used to check for Adamastor's defeat.
+	Counter Adamastor-Defeated
+	{
+		Type Team
+		Team Adamastor
+		Count 1
+	}
+
+//This timer indicates how long until Adamastor emerges.
+	Timer Adamastor-Emerge-Timer
+	{
+		Duration 00:06
+	}
+
+//This timer indicates how long player have to defeat Adamastor before he retreats.
+	Timer Adamastor-Retreat-Timer
+	{
+		Duration 20:00
+	}
+
+//This trigger has Adamastor speak when he emerges from the ground
+	Trigger Adamastor-Emerges
+	{
+		Requires Adamastor-Emerge-Timer complete>
+
+		Action
+		{
+			TeamControl
+			{
+				Team Adamastor-Allies
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Adamastor
+				Type DoBehavior
+				Behavior Say(P2161818337)
+			}
+			Caption
+			{
+				Message P2466484188
+			}
+		}
+	}
+
+//This trigger begins completes the stage when Adamastor has been defeated.
+	Trigger Adamastor-Completed
+	{
+		Requires Adamastor-Defeated complete>
+
+		Action
+		{
+			DebugPrint <<Success Stage 2: Adamastor defeated>>
+			Floater
+			{
+				Message P1205512933
+				Color FF0000
+				AlertType PriorityAlert
+				Volume AdamastorEvent
+			}
+		}
+
+		NextStage Cooldown-Success
+	}
+
+//This trigger begins completes the stage when Adamastor has not been defeated within 60 minutes.
+	Trigger Adamastor-Retreated
+	{
+		Requires Adamastor-Retreat-Timer complete>
+
+		Action
+		{
+			DebugPrint <<Failure Stage 2: Adamastor retreats>>
+			Floater
+			{
+				Message P3201003610
+				Color FF0000
+				AlertType PriorityAlert
+				Volume AdamastorEvent
+			}
+		}
+
+		NextStage Cooldown-Failure
+	}
+
+//This is the UI Collection block to show players information about the Adamastor battle.
+	UICollection Stage2
+	{
+		UIItem Stage2-AdamastorHealth
+		{
+			Type BarRed
+			Text P3702596057
+			ShortText P1683252912
+			Current AdamastorHealth count>
+			OnClickFindEnt Adamastor
+			Target 100
+		}
+		UIItem Stage2-AdamastorRetreat
+		{
+			Type Timer
+			Timer Adamastor-Retreat-Timer
+			Text P1705880555
+			ShortText P4086507441
+		}	
+	}
+
+	ShutDown
+	{
+		Action
+		{
+			DebugPrint <<Ending Stage 2: Adamastor>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Adamastor
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Adamastor-Allies
+				Type Deactivate
+			}
+		}
+	}
+}
+
+Stage Cooldown-Success
+{
+	DisplayName P609954084
+	Tooltip P1124226361
+
+	AwardKarma
+	KarmaThreshold 0
+	
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage 3A: Cooldown-Success>>
+			RemoveWaypoints
+		}
+	}
+
+//This timer indicates the cooldown for resummoning Adamastor.
+	Timer Adamastor-Cooldown-Success-Timer
+	{
+		Duration 60:00
+	}
+
+//This trigger completes the stage when the cooldown timer ends.
+	Trigger Cooldown-Success-Completed
+	{
+		Requires Adamastor-Cooldown-Success-Timer complete>
+
+		NextStage Reset
+	}
+
+//This is the UI Collection block to show players when Adamastor can be resummoned.
+	UICollection Stage3A
+	{
+		UIItem Stage3A-Timer
+		{
+			Type Timer
+			Timer Adamastor-Cooldown-Success-Timer
+			Text P2352516780
+			ShortText P2301996129
+		}
+	}
+
+	ShutDown
+	{
+		Action
+		{
+			DebugPrint <<Ending Stage 3A: Cooldown-Success>>
+		}
+	}
+}
+
+Stage Cooldown-Failure
+{
+	DisplayName P1138990843
+	Tooltip P2004483354
+
+	AwardKarma
+	KarmaThreshold 0
+	
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage 3B: Cooldown-Failure>>
+			RemoveWaypoints
+		}
+	}
+
+//This timer indicates the cooldown for resummoning Adamastor.
+	Timer Adamastor-Cooldown-Failure-Timer
+	{
+		Duration 60:00
+	}
+
+//This trigger completes the stage when the cooldown timer ends.
+	Trigger Cooldown-Failure-Completed
+	{
+		Requires Adamastor-Cooldown-Failure-Timer complete>
+
+		NextStage Reset
+	}
+
+//This is the UI Collection block to show players when Adamastor can be resummoned.
+	UICollection Stage3B
+	{
+		UIItem Stage3B-Timer
+		{
+			Type Timer
+			Timer Adamastor-Cooldown-Failure-Timer
+			Text P2352516780
+			ShortText P2301996129
+		}
+	}
+
+	ShutDown
+	{
+		Action
+		{
+			DebugPrint <<Ending Stage 3A: Cooldown-Success>>
+		}
+	}
+}
+
+Stage Reset
+{
+	DisplayName P2475493538
+	Tooltip P1302259133
+
+	AwardKarma
+	KarmaThreshold 0
+	
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage 4: Reset>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Adamastor
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Adamastor-Allies
+				Type Deactivate
+			}
+		}
+		Action
+		{
+			Reset BanishedPantheon-Completed
+			Reset AdamastorSummon-Completed
+			Reset Adamastor-Completed
+			Reset Adamastor-Retreated
+			Reset Cooldown-Success-Completed
+			Reset Cooldown-Failure-Completed
+		}
+	}
+
+
+//This trigger completes the reset stage.
+	Trigger Reset-Completed
+	{
+		NextStage AdamastorSummon
+	}
+
+//This is an empty UI block for the reset stage.
+	UICollection Stage4
+	{
+		UIItem Stage3B-Timer
+		{
+			Type CenterText
+			Text P3916222277
+		}
+	}
+
+	ShutDown
+	{
+		Action
+		{
+			SetScriptValue AdamastorSummonState 0
+		}
+		Action
+		{
+			DebugPrint <<Ending Stage 4: Reset>>
+		}
+	}
+}
+
+Stage Stop
+{
+
+	StartUp
+	{
+		Action
+		{
+			DebugPrint <<Starting Stage -1: Stop>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team Adamastor
+				Type Deactivate
+			}
+ 			TeamControl
+			{
+				Team Adamastor-Allies
+				Type Deactivate
+			}
+		}
+	}
+
+	ShutDown
+	{
+		Action
+		{
+			DebugPrint <<Ending Stage -1: Stop>>
+		}
+	}
+}	

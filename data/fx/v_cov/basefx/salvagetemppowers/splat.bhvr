@@ -1,0 +1,52 @@
+#################################
+##	Sample of Behavior file
+
+Behavior
+
+Spin			0.0 0.0 0.0              # Be very careful spinning splats, that causes them to be updated every frame. Only use if the splat is small and will be moving anyway
+SpinJitter		0.000 0 0.0000
+
+FadeInLength		40
+FadeOutLength		60
+
+########################  SPLAT  #########################################
+
+Scale			.5  5  .5		### Y= Height of Cylinder from center
+ScaleRate		1.02 1.0 1.02
+ EndScale		1.5 30 1.5
+ Stretch		1  ## 0 = No Stretch, 1 = Stretch to Lookat, 2 = Stretch to lookat and tile   		
+
+Rgb0			255 255 255
+
+########################  SPLAT ONLY #########################################
+
+SplatFlags			ADDITIVE
+SplatSetBack		0.5     #0 -> 1.0 splatSetBack = what percent of the splat should be behind the node, and what in front
+
+SplatFalloffType	BOTH			# UP DOWN NONE BOTH	
+SplatFadeCenter		1.0				# only for UP and DOWN falloff
+
+#StAnim			0.05000 0.050000 aqua		
+#StAnim			0.600000 1.000000 light_pulse2 FRAMESNAP
+#StAnim			1.0 0.1 spin_counter  #just like other fx
+
+
+#Wish list: fade the intensity of the shadow with the angle of the collision
+#SplatNormalFade	0.9	
+#SplatFlags ADDBASE # is broken
+#SplatFalloffType
+
+
+StartColor		180 130 255
+#ColorChangeType		2 
+
+#ByTime1			4 
+#BeColor1		 17 19 255 
+#
+#
+#ByTime2			34 
+#BeColor2		30 30 230
+
+End
+
+

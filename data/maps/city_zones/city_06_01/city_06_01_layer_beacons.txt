@@ -1,0 +1,43 @@
+Def grp_Ouroboros_Tourism
+	Group Streets/elements/kiosks/_tourism_volume_01
+	End
+	Group Streets/elements/kiosks/_tourism_marker_01
+	End
+	Property	"NamedVolume"	"Ouroboros1"	0
+End
+
+Def grp44604
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Property	"CanSpawn0"	"SpawnDefs/Universal/NoOuroborosPortal_Hero_D0_V0.spawndef"	0
+	Property	"EncounterSpawn"	"Single"	0
+End
+
+Def grp_No_Cast_Portal
+	Group grp44604
+	End
+	Property	"EncounterAutospawnEnd"	"0.0001"	0
+	Property	"EncounterAutospawnStart"	"0.0001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"ManualSpawn"	"1"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def grp_Beacons
+	Group Omni/ValidBeacon
+		Pos 1324 665.38208 339
+	End
+	Group grp_Ouroboros_Tourism
+		PYR 0 0 27.999987
+		Pos 1409.5 867.588074 366.222168
+	End
+	Group grp_No_Cast_Portal
+		Pos 1316 665.38208 468.5
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Beacons
+	Pos -866 -0.000366 -1134.5
+End
+

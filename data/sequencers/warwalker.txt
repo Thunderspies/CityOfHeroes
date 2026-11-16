@@ -1,0 +1,282 @@
+#############################################################
+## Warwalker.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Warworks_Warwalker
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+TypeDef Warworks_Siege
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	Warworks_Warwalker
+TypeDefEnd
+
+TypeDef Sentinel
+	BaseSkeleton	5cw\skel_monster_cycle
+	ParentType	5cw
+TypeDefEnd
+
+#############################################################
+## READIES
+#############################################################
+
+Move Ready
+	Interpolate	5
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		Warworks_Warwalker
+	  Anim          5cw\skel_monster_cycle 1
+	TEnd
+
+	Type		Sentinel
+	  Anim          5cw\skel_monster_cycle 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+
+	Type		Warworks_Warwalker
+	  Anim          5cw\monster_postback 5
+	TEnd
+
+	Type		Sentinel
+	  Anim          5cw\monster_postback 5
+	TEnd
+MEnd
+
+###################
+### Fly Mode  ####
+###################
+
+Move Fall_Fready
+	Requires	FLY
+	Interrupts	<FlyFall>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+	Priority        1
+
+	Type		Warworks_Warwalker
+	  Anim          5cw\pre_float 27
+	TEnd
+
+	Type		Sentinel
+	  Anim          5cw\pre_float 27
+	TEnd
+MEnd
+
+#############################################################
+
+Move postAir_C_W
+	Requires	FLY
+	Priority        1
+	Interrupts	C_PreFall W_PreFall
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+
+	Type		Warworks_Warwalker
+	  Anim          5cw\pre_float 27
+	TEnd
+
+	Type		Sentinel
+	  Anim          5cw\pre_float 27
+	TEnd
+MEnd
+
+#############################################################
+
+Move Preflyready
+	Requires	FLY
+	Priority        1
+	Interrupts	<Ready>  <Jumps> <PostMoveCycle> <MoveIRQ>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+	Type		Warworks_Warwalker
+	  Anim          5cw\pre_float 1
+	TEnd
+
+	Type		Sentinel
+	  Anim          5cw\pre_float 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move flyready
+	Requires	FLY
+	Priority        1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		Cycle
+	NextMove        PreFall
+
+	Type		Warworks_Warwalker
+	  Anim          5cw\mon_float 1
+	TEnd
+
+	Type		Sentinel
+	  Anim          5cw\mon_float 1
+	TEnd
+MEnd
+
+
+#############################################################
+
+Move CombatReady_15
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		Warworks_Warwalker
+	  Anim          5cw\combat_cycle 15 31
+	TEnd
+
+	Type		Sentinel
+	  Anim          5cw\combat_cycle 15 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle
+	NextMove        postReady_back
+	Scale           0.50
+
+	Type		Warworks_Warwalker
+	  Anim          5cw\combat_cycle 1 31
+	TEnd
+
+	Type		Sentinel
+	  Anim          5cw\combat_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+##  COMBAT FLY READYS
+#############################################################
+
+Move C_flyready
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+	Priority        2
+
+	Type		Warworks_Warwalker
+	  Anim          male\air_combatready 25 65
+	TEnd
+
+	Type		Sentinel
+	  Anim          male\air_combatready 25 65
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move C_flycycle_half
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flycycle
+	Scale           0.50
+	Wind		FLY
+
+	Type		Warworks_Warwalker
+	  Anim          male\air_combat_cycle 16 31
+	TEnd
+
+	Type		Sentinel
+	  Anim          male\air_combat_cycle 16 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move C_flycycle
+	Requires	FLY COMBAT
+	Priority        2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+	Scale           0.50
+	Wind		FLY
+
+	Type		Warworks_Warwalker
+	  Anim          male\air_combat_cycle 1 31
+	TEnd
+
+	Type		Sentinel
+	  Anim          male\air_combat_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move Fake_DualReady
+	Include sequencers\Members\Combat_DualWeapon.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		Warworks_Warwalker
+	  Anim          male\dual_cycle 1 31
+	TEnd
+
+	Type		Sentinel
+	  Anim          male\dual_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move A_Fake_DualReady
+	Requires	FLY
+	Priority        1
+	Include sequencers\Members\Combat_DualWeapon_Air.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		Warworks_Warwalker
+	  Anim          male\air_dual_cycle 1 31
+	TEnd
+
+	Type		Sentinel
+	  Anim          male\air_dual_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Include sequencers\5cw\motion.inc
+Include sequencers\5cw\powers.inc
+##Include sequencers\5cw\deaths.inc
+Include sequencers\5cw\reactions.inc
+Include sequencers\5cw\spawns.inc
+Include sequencers\5cw\encounters.inc
+Include sequencers\5cw\doors.inc
+Include sequencers\5cw\swim.inc
+Include sequencers\Warworks\warwalkers_seq.inc
+
+Include sequencers\player\emotes.inc
+Include sequencers\player\emotes_air.inc
+#Include sequencers\player\Swim.inc
+
+#############################################################
+
+SeqEnd

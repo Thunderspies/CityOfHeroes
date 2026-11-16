@@ -1,0 +1,196 @@
+Name MissionScript_SigArc1Ep7Finale
+FirstStage Setup
+StopStage Stop
+DisplayName P393872433
+RestartStage Stop
+
+//This zone event script is used for the zone event in mission 3 of sig arc 1 ,episode 7
+//This zone event is working on conjuction with the mission objectives that are being fired off in the finale mission of this event. The mission is mission 3 in the file scripts\Contacts\SignatureStoryArcs\OneWillDie_Story1\Hero\task\_src\SL_8_9_Issue7_Coop_Arc.xls
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Zone event for Sig Arc 1, Issue 7 is now beginning.>>
+		}
+		Action CreateStuff
+		{
+			SpawnCreate ApocalypseBeamPulse
+			{
+				Location ApocalypseBeamPulse
+				Group ApocalypseBeamPulse
+				Team ApocalypseBeamPulse
+				SpawnBehavior <<DoNotGoToSleep>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ApocalypseBeamPulse
+			}
+		}
+	}
+	Trigger GoToKillStage
+	{
+		NextStage KillStage
+	}
+}
+
+Stage KillStage
+{
+	Trigger ApocalypseBeamStage
+	{
+		Requires SSRunner objectivesucceeded>
+		NextStage ApocalypseBeamStage
+	}
+}
+
+Stage ApocalypseBeamStage
+{
+	DisplayName P1841776616
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Starting the stage to set up the apocalypse beam>>
+		}
+		Action CreatingApocalypseBeam
+		{
+			TeamControl TriggerBeams
+			{
+				Type Activate
+				Team ApocalypseBeamPulse
+			}
+		}
+	}
+	UICollection PenelopeYinStageUI
+	{
+		UIItem PenelopeYinProtectInformation
+		{
+			Type Text
+			Text P1786215497
+		}
+		UIItem RulaWadeBlast
+		{
+			Type Timer
+			Timer RulaWadeBlastTimer
+			Text P2615285755
+			ShortText P2615285755
+		}
+	}
+	Trigger GotoFinal
+	{
+		Requires ScriptMissonComplete objectivesucceeded>
+		NextStage Stop
+	}
+// The following is a timer to notify players when RulaWade's map-wide power will be going off.
+	Timer RulaWadeNotification1Timer
+	{
+		Duration 00:20
+	}
+	Timer RulaWadeNotification2Timer
+	{
+		Duration 00:25
+	}
+	Timer RulaWadeBlastTimer
+	{
+		Duration 00:30
+	}	
+	Trigger Notification1
+	{
+		Requires RulaWadeNotification1Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P886442625
+				Color 00ff99
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger Notification2
+	{
+		Requires RulaWadeNotification2Timer complete>
+		Action
+		{	
+			Floater
+			{
+				Message P3770130216
+				Color 00ff99
+				AlertType PriorityAlert
+			}
+		}
+	}
+	Trigger BlastReleased
+	{
+		Requires RulaWadeBlastTimer complete>
+		Action FireApocalypseBeamCannon
+		{
+			DebugPrint <<ApocalypseBeamCannon HIT!>>
+			TeamControl
+			{	
+				Type DoBehavior
+				Team ApocalypseBeamPulse
+				Behavior <<UsePower("Apocalypse_Blast")>>
+			}
+		}
+		Action
+		{
+			Reset RulaWadeNotification1Timer
+			Reset RulaWadeNotification2Timer
+			Reset RulaWadeBlastTimer
+		}
+		Action
+		{
+			Delay 1
+			Reset BlastReleased
+			Reset Notification1
+			Reset Notification2
+		}
+		Action
+		{	
+			Floater
+			{
+				Message P602259241
+				Color 00ff99
+				AlertType PriorityAlert
+			}
+		}
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Turning everything off>>
+		}
+		Action TurnOffFountainSpawns
+		{
+			TeamControl UnTriggerBrutes
+			{
+				Type Deactivate
+				Team BruteFountainSpawn
+			}
+			TeamControl UnTriggerWisps
+			{
+				Type Deactivate
+				Team WispFountainSpawn
+			}
+			TeamControl UnTriggerNatterlings
+			{
+				Type Deactivate
+				Team NatterlingFountainSpawn
+			}
+			TeamControl UnTriggerSentry
+			{
+				Type Deactivate
+				Team SentryFountainSpawn
+			}
+		}
+	}
+}

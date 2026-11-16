@@ -1,0 +1,26 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_teleportbase 
+	BaseSkeleton	FX_teleportbase\skel_teleportbase
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move ReadyA
+	Member		<Ready> 
+	Flags		Cycle NoInterp 
+
+	Type		FX_teleportbase
+	  Anim          FX_teleportbase\skel_teleportbase 1  
+	TEnd
+MEnd
+
+SeqEnd
+

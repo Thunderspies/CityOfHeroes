@@ -1,0 +1,84 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Cot_Slanted 
+	BaseSkeleton	Door_Cot_Slanted\skel_slanted
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Cot_Slanted
+	  Anim          Door_Cot_Slanted\skel_slanted 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_Cot_Slanted
+	  Anim          Door_Cot_Slanted\skel_slanted 6 15 
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Cot_Slanted
+	  Anim          Door_Cot_Slanted\skel_slanted 16 25 
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Cot_Slanted
+	  Anim          Door_Cot_Slanted\skel_slanted 25 30 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Cot_Slanted
+	  Anim          Door_Cot_Slanted\skel_slanted 31 37
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Cot_Slanted
+	  Anim          Door_Cot_Slanted\skel_slanted 38
+	TEnd
+MEnd
+
+SeqEnd
+

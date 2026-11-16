@@ -1,0 +1,913 @@
+Name MarshalBlitz
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P2719249738
+EventVolume ZE-MarshalBlitz
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+
+// Create Spawns: Martial Blitz
+		Action
+		{
+			SpawnCreate BlitzStage1
+			{
+				Location BlitzStage1
+				Group BlitzStage1
+				Team BlitzStage1
+				KillBehavior <<DoNothing(AnimList(Ghouls_Ambush_JumpUp), Timer(1)),DestroyMe>>
+			}
+			SpawnCreate BlitzStage2
+			{
+				Location BlitzStage2
+				Group BlitzStage2
+				Team BlitzStage2
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate BlitzStage3
+			{
+				Location BlitzStage3
+				Group BlitzStage3
+				Team BlitzStage3
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate Generator1
+			{
+				Location Generator1
+				Group Generator1
+				Team Generator1
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate Generator2
+			{
+				Location Generator2
+				Group Generator2
+				Team Generator2
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate Generator3
+			{
+				Location Generator3
+				Group Generator3
+				Team Generator3
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate Generator4
+			{
+				Location Generator4
+				Group Generator4
+				Team Generator4
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate Rocket
+			{
+				Location Rocket
+				Group Rocket
+				Team Rocket
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate SAM1
+			{
+				Location SAM1
+				Group SAM1
+				Team SAM1
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate SAM2
+			{
+				Location SAM2
+				Group SAM2
+				Team SAM2
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate SAM3
+			{
+				Location SAM3
+				Group SAM3
+				Team SAM3
+				KillBehavior <<DestroyMe>>
+			}
+			SpawnCreate SAM4
+			{
+				Location SAM4
+				Group SAM4
+				Team SAM4
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BlitzStage1
+			}
+			TeamCreate
+			{
+				Team BlitzStage2
+			}
+			TeamCreate
+			{
+				Team BlitzStage3
+			}
+			TeamCreate
+			{
+				Team Generator1
+				Creator BlitzStage1
+			}
+			TeamCreate
+			{
+				Team Generator2
+				Creator BlitzStage1
+			}
+			TeamCreate
+			{
+				Team Generator3
+				Creator BlitzStage1
+			}
+			TeamCreate
+			{
+				Team Generator4
+				Creator BlitzStage1
+			}
+			TeamCreate
+			{
+				Team Rocket
+			}
+			TeamCreate
+			{
+				Team SAM1
+			}
+			TeamCreate
+			{
+				Team SAM2
+			}
+			TeamCreate
+			{
+				Team SAM3
+			}
+			TeamCreate
+			{
+				Team SAM4
+			}
+// Create Glowies: SAM activation terminals			
+			GlowieCreate SAM1Glowie
+			{
+				DisplayName P2951641255
+				Location SAM1Glowie
+				Quantity 1
+				ResetDelay 30
+//				VanishOnComplete
+				Model V_OO_Arachnos_Comp_Floor_02
+				Interact P2894777210
+				Interrupt P1720911274
+				Complete P2781290439
+				BarText P3089117839
+				InteractTime 4
+			}
+			GlowieCreate SAM2Glowie
+			{
+				DisplayName P2951641255
+				Location SAM2Glowie
+				Quantity 1
+				ResetDelay 30
+//				VanishOnComplete
+				Model V_OO_Arachnos_Comp_Floor_02
+				Interact P2894777210
+				Interrupt P1720911274
+				Complete P2781290439
+				BarText P3089117839
+				InteractTime 4
+			}
+			GlowieCreate SAM3Glowie
+			{
+				DisplayName P2951641255
+				Location SAM3Glowie
+				Quantity 1
+				ResetDelay 30
+//				VanishOnComplete
+				Model V_OO_Arachnos_Comp_Floor_02
+				Interact P2894777210
+				Interrupt P1720911274
+				Complete P2781290439
+				BarText P3089117839
+				InteractTime 4
+			}
+			GlowieCreate SAM4Glowie
+			{
+				DisplayName P2951641255
+				Location SAM4Glowie
+				Quantity 1
+				ResetDelay 30
+//				VanishOnComplete
+				Model V_OO_Arachnos_Comp_Floor_02
+				Interact P2894777210
+				Interrupt P1720911274
+				Complete P2781290439
+				BarText P3089117839
+				InteractTime 4
+			}
+		}
+		Action SetupGlowies
+		{
+			GlowieControl
+			{
+				Type Place
+				Glowie SAM1Glowie
+			}
+			GlowieControl
+			{
+				Type Place
+				Glowie SAM2Glowie
+			}
+			GlowieControl
+			{
+				Type Place
+				Glowie SAM3Glowie
+			}
+			GlowieControl
+			{
+				Type Place
+				Glowie SAM4Glowie
+			}
+		}
+//Spawn Turrets
+		Action
+		{
+			TeamControl
+			{
+				Team SAM1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team SAM2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team SAM3
+				Type Activate
+			}
+			TeamControl
+			{
+				Team SAM4
+				Type Activate
+			}
+		}
+	}
+	Trigger End
+	{
+		Requires TriggerVolume_Outside objectivesucceeded>
+		NextStage Blitz1
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Setup>>
+		}
+	}
+}
+
+Stage Blitz1
+{
+	DisplayName P3399325348
+	Tooltip P2260268645
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Blitz1>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team BlitzStage1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Generator1
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Generator2
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Generator3
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Generator4
+				Type Activate
+			}
+			TeamControl
+			{
+				Team Rocket
+				Type Activate
+			}
+			Floater
+			{
+				Message P496669510
+				Color 0066cc
+				AlertType PriorityAlert
+			}
+		}
+//		This is where Script Value initializations go:
+//		Action
+//		{
+//			SetScriptValue GrantSeedling-Done 0
+//		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_01High_a_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+	}
+
+
+//This is used to update the UI as to Martial Blitz's current health.  Also used for trigger into stage2
+	Counter BlitzHealth
+	{
+		Type BossHealth
+		Team BlitzStage1
+	}
+
+//This is used to keep track of how many generators are left alive.
+	Counter Generators-Stage1
+	{
+		Type Name
+		Name Objects_Power_Generator_Sig3
+		Direction Down
+		Count 0
+	}
+
+//This is where timers go:
+//This is the timer which makes sure that Blitz has spawned before his health fail condition is met.
+
+	Timer BlitzLanded-Timer
+	{
+		Duration 00:05
+	}
+
+////Caption sample:
+//	Trigger CaptionIntro
+//	{
+//		Requires SeedHealth count> 95 <= CaptionIntro-Done scriptvalue> 0 == && GrantUntouchable-Timer complete> &&
+//
+//		Action
+//		{
+//			SetScriptValue CaptionIntro-Done 1
+//		}
+//		Action
+//		{
+//			Caption VanessaIntro
+//			{
+//				Message P341673908
+//				Volume ZE-SeedOfHamidon
+//			}
+//		}
+//	}
+
+//This trigger sets up the success condition for the event.
+	Trigger Success
+	{
+		Requires BlitzHealth count> 20 <= BlitzLanded-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<Marshal Blitz Low.>>
+		}
+
+		NextStage Blitz2
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection Blitz1
+	{
+		UIItem BlitzHealthBar
+		{
+			Type BarRed
+			Text P2811579100
+			ShortText P4267145610
+			Current BlitzHealth count>
+			OnClickFindEnt BlitzStage1
+			Target 100
+		}
+		UIItem BlitzDefense
+		{
+			Type CenterText
+			Text P1258041250
+			ShortText P2320040416
+			HideIf Generators-Stage1 count> 0 ==
+		}
+		UIItem BlitzLine
+		{
+			Type CenterText
+			Text P3916222277
+			ShortText P3916222277
+//			HideIf GrantUntouchable-Done scriptvalue> 2 ==
+		}
+		UIItem GeneratorPresenceBar
+		{
+			Type BarBlue
+			Text P1987073529
+			ShortText P3987961155
+			Current Generators-Stage1 count>
+			Target 4
+			HideIf Generators-Stage1 count> 0 ==
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Blitz1>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team BlitzStage1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Generator1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Generator2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Generator3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Generator4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Rocket
+				Type Deactivate
+			}
+		}
+	}
+}
+Stage Blitz2
+{
+	DisplayName P1243112807
+	Tooltip P1128130171
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Blitz2>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team BlitzStage2
+				Type Activate
+			}
+			Floater
+			{
+				Message P2944159027
+				Color 0066cc
+				AlertType PriorityAlert
+			}
+		}
+		Action ActivateGlowies
+		{
+			GlowieControl SAM1Glowie
+			{
+				Type Activate
+				Glowie SAM1Glowie
+			}
+			GlowieControl SAM2Glowie
+			{
+				Type Activate
+				Glowie SAM2Glowie
+			}
+			GlowieControl SAM3Glowie
+			{
+				Type Activate
+				Glowie SAM3Glowie
+			}
+			GlowieControl SAM4Glowie
+			{
+				Type Activate
+				Glowie SAM4Glowie
+			}
+		}
+//		Init vars here:
+//		Action
+//		{
+//			SetScriptValue RevokeDamage-Done 0
+//		}
+//		Action
+//		{
+//			Caption VanessaOutro
+//			{
+//				Message P1069376436
+//				Volume ZE-SeedOfHamidon
+//			}
+//		}
+	}
+
+//This is where timers go:
+//
+//	Timer NextNuke-Timer
+//	{
+//		Duration 00:20
+//	}
+//This is the timer which makes sure that Blitz has spawned before his health fail condition is met.
+
+	Timer BlitzLanded2-Timer
+	{
+		Duration 00:05
+	}
+
+//This is used to update the UI as to the Flier's current health.
+	Counter FlierHealth
+	{
+		Type BossHealth
+		Team BlitzStage2
+	}
+//This counts glowie clicks:
+	Counter SAM1Clicks
+	{
+		Type Click
+		Count 1
+		Glowie SAM1Glowie
+	}
+	Counter SAM2Clicks
+	{
+		Type Click
+		Count 1
+		Glowie SAM2Glowie
+	}
+	Counter SAM3Clicks
+	{
+		Type Click
+		Count 1
+		Glowie SAM3Glowie
+	}
+	Counter SAM4Clicks
+	{
+		Type Click
+		Count 1
+		Glowie SAM4Glowie
+	}
+//This is used to keep track of the defeat of the mini-flier.
+	Counter FlierDefeated
+	{
+		Type Name
+		Name RogueArachnos_Arachnos_Flier_Mini
+		VolumeName ZE_MarshalBlitz
+		Direction Up
+		Count 1
+	}
+//This trigger fires the SAM at the flier
+Trigger SAM1Success
+	{
+		Requires SAM1Clicks complete>
+		Action
+		{
+			Reset SAM1Clicks
+		}
+		Action
+		{
+			DebugPrint <<SAM 1 Hacked>>
+			TeamControl SAM1
+			{
+				Type DoBehavior
+				Team SAM1
+				Behavior <<UsePower("Incendiary_Swarm_Missiles")>>
+			}
+		}
+		Action
+		{
+			Reset SAM1Success
+		}
+	}
+//This trigger fires the SAM at the flier
+Trigger SAM2Success
+	{
+		Requires SAM2Clicks complete>
+		Action
+		{
+			Reset SAM2Clicks
+		}
+		Action
+		{
+			DebugPrint <<SAM 2 Hacked>>
+			TeamControl SAM2
+			{
+				Type DoBehavior
+				Team SAM2
+				Behavior <<UsePower("Incendiary_Swarm_Missiles")>>
+			}
+		}
+		Action
+		{
+			Reset SAM2Success
+		}
+	}
+//This trigger fires the SAM at the flier
+Trigger SAM3Success
+	{
+		Requires SAM3Clicks complete>
+		Action
+		{
+			Reset SAM3Clicks
+		}
+		Action
+		{
+			DebugPrint <<SAM 3 Hacked>>
+			TeamControl SAM3
+			{
+				Type DoBehavior
+				Team SAM3
+				Behavior <<UsePower("Incendiary_Swarm_Missiles")>>
+			}
+		}
+		Action
+		{
+			Reset SAM3Success
+		}
+	}
+//This trigger fires the SAM at the flier
+Trigger SAM4Success
+	{
+		Requires SAM4Clicks complete>
+		Action
+		{
+			Reset SAM4Clicks
+		}
+		Action
+		{
+			DebugPrint <<SAM 1 Hacked>>
+			TeamControl SAM4
+			{
+				Type DoBehavior
+				Team SAM4
+				Behavior <<UsePower("Incendiary_Swarm_Missiles")>>
+			}
+		}
+		Action
+		{
+			Reset SAM4Success
+		}
+	}
+//This trigger sets up the success condition for the event.
+	Trigger Success
+	{
+		Requires FlierDefeated complete> BlitzLanded2-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<Blitzkrieg Defeated.>>
+		}
+
+		NextStage Blitz3
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection BlitzStage2
+	{
+		UIItem BlitzkriegHealthBar
+		{
+			Type BarRed
+			Text P1113392484
+			ShortText P4066353091
+			Current FlierHealth count>
+			OnClickFindEnt BlitzStage2
+			Target 100
+		}
+		UIItem BlitzSAMTip
+		{
+			Type CenterText
+			Text P1749062102
+			ShortText P1749062102
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Blitz2>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team BlitzStage2
+				Type Deactivate
+			}
+		}
+	}
+}
+Stage Blitz3
+{
+	DisplayName P4166644729
+	Tooltip P2189860390
+	
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Blitz3>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team BlitzStage3
+				Type Activate
+			}
+		}
+//		This is where Script Value initializations go:
+//		Action
+//		{
+//			SetScriptValue GrantSeedling-Done 0
+//		}
+		Action
+		{
+			PlaySound
+			{
+				Sound i20_01High_b_Loop
+				Channel Music
+				VolumeLevel 1
+			}
+		}
+
+	}
+
+//This is used to update the UI as to Martial Blitz's current health.  Also used for trigger into stage2
+	Counter BlitzHealth3
+	{
+		Type BossHealth
+		Team BlitzStage3
+	}
+
+//This is used to keep track of the defeat of the Marshal Blitz.
+	Counter BlitzDefeated
+	{
+		Type Name
+		Name RogueArachnos_Marshal_Blitz_Stage3
+//		VolumeName ZE_MarshalBlitz
+		Direction Up
+		Count 1
+	}
+
+//This is where timers go:
+//This is the timer which ensures that Blitz spawns before the stage completes.
+
+	Timer SpawnGuard-Timer
+	{
+		Duration 00:02
+	}
+
+//This trigger sets up the success condition for the event.
+	Trigger Success
+	{
+		Requires BlitzHealth3 count> 0 <= SpawnGuard-Timer complete> &&
+	
+		Action
+		{
+			DebugPrint <<Marshal Blitz Defeated.>>
+		}
+		Action TriggerObjective
+		{
+			Objective ScriptBlitzDefeated
+		}
+		Action
+		{
+			FadeSound
+			{
+				Channel Music
+				FadeTime 10
+			}
+
+		}
+
+		NextStage Stop
+	}
+
+//This is the collection of UI items for the stage.
+	UICollection BlitzStage3
+	{
+		UIItem BlitzHealthBar3
+		{
+			Type BarRed
+			Text P2811579100
+			ShortText P4267145610
+			Current BlitzHealth3 count>
+			OnClickFindEnt BlitzStage3
+			Target 100
+		}
+	}
+	ShutDown
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Ending Stage Blitz3>>
+		}
+		Action
+		{
+			TeamControl
+			{
+				Team BlitzStage3
+				Type Deactivate
+			}
+		}
+	}
+}
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint <<Starting Stop Stage>>
+			RemoveWaypoints
+		}
+		Action
+		{
+			TeamControl
+			{
+				Type Deactivate
+				Team BlitzStage1
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BlitzStage2
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team BlitzStage3
+			}
+			TeamControl
+			{
+				Team Generator1
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Generator2
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Generator3
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Generator4
+				Type Deactivate
+			}
+			TeamControl
+			{
+				Team Rocket
+				Type Deactivate
+			}
+
+		}
+	}	
+	Trigger Never
+	{
+		Requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting Down Stop Stage>>
+		}
+	}
+}

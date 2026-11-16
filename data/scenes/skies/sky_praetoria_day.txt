@@ -1,0 +1,80 @@
+
+ignoreLightClamping 0
+
+
+
+
+#########################
+#
+#	Sky_Praetoria_Dynamic_A
+#
+#########################
+# Sky Color Domes
+# 
+# 00 - 1st Light
+# 01 = Pre-dawn
+# 02 = Dawn
+# 03 = Early Sunrise
+# 04 = Mid Sunrise
+# 05 = Late Sunrise
+# 06 = Morning
+# 07 = Mid Morning
+# 08 = Noon
+# 09 = Late Noon 
+# 10 = Early Evening
+
+
+sun
+  MoonName sun__		 0 0 0  # speed, pitch, yaw, roll # The first moon is the sun 
+	## MoonName moon__
+
+	CloudFadeTime 8 24 #19.5
+	CloudFadeMin 0
+
+	LampLightTime 0 24
+End
+
+
+cloud
+	Name		prae_cloud_noon_A__        
+end
+
+cloud 
+	Name		prae_sunskirt
+end
+
+
+###########################################################
+//-------------------------------------------------------------------------------------------------
+//  SUNTIME 12.0 
+//================================================================================================= 
+
+suntime	## 03_sunrise ##
+	Time 12.0 
+	SkyName prae_skydm_06_noon
+	diffuse1	250 250 240
+	diffuse2  000 010 020
+	ambient 	170 175 205
+	FogColor 	113 180 225
+	BackGroundColor 113 180 225
+	FogDist		500 4600 //500 4400   #
+	SunScale	1
+	MoonScale	1
+	ShadowColor	0 0 20
+	ShadowAlpha	100
+	
+//-------------------------------------------------------------------------------------------------
+// Depth of Field
+//=================================================================================================	 
+		DOFNearDist      	100    	#Changes the near distance for first point (should leave at 0.73) 
+		DOFFocusDist     	200    	#Changes the focus (mid) distance 
+		DOFFarDist       	3800   	#Changes the far distance 
+      
+		DOFNearValue    	0.05    #Changes the blurriness at the near point  (0 - 1 scale)
+		DOFFocusValue   	0.30    #Changes the blurriness at the focus (mid) point (should leave at 0) 
+		DOFFarValue     	0.47    #Changes the blurriness at the far point                              
+//=================================================================================================	
+End
+
+
+

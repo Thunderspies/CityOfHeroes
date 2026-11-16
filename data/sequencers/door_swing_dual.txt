@@ -1,0 +1,84 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Swing_Dual 
+	BaseSkeleton	Door_Swing_Dual\Skel_Door_Swing_Dual
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Swing_Dual
+	  Anim          Door_Swing_Dual\Skel_Door_Swing_Dual 1 5
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_Swing_Dual
+	  Anim          Door_Swing_Dual\Skel_Door_Swing_Dual 6 14
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Swing_Dual
+	  Anim          Door_Swing_Dual\Skel_Door_Swing_Dual 15 40
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Swing_Dual
+	  Anim          Door_Swing_Dual\Skel_Door_Swing_Dual 41 45
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Swing_Dual
+	  Anim          Door_Swing_Dual\Skel_Door_Swing_Dual 46 54
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Swing_Dual
+	  Anim          Door_Swing_Dual\Skel_Door_Swing_Dual 55
+	TEnd
+MEnd
+
+SeqEnd
+

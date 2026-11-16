@@ -1,0 +1,261 @@
+#############################################################
+
+Sequencer
+
+TypeDef Turrets_Ball 
+	BaseSkeleton	Turrets_Ball\Skel_Ball_Turrets
+	ParentType	None
+TypeDefEnd
+
+
+TypeDef Turrets_Base 
+	BaseSkeleton	Turrets_Ball\base
+	ParentType	Turrets_Ball
+TypeDefEnd
+
+
+TypeDef StealthCamera 
+	BaseSkeleton	Turrets_Ball\base
+	ParentType	Turrets_Ball
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready		##(HIDDEN)
+	Member		<Ready> <AttackIRQ>
+	Flags		Cycle NotSelectable 
+	Interpolate	20
+	Sets            NOCOLLISION
+
+
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\popup 1 5  
+	TEnd
+
+	Type		Turrets_Base
+	  Anim          Turrets_Ball\base_popup 1 5
+	TEnd
+
+
+MEnd
+
+Move Active_Ready	##(ready, but out in open)
+	Member		<DeathIRQ>
+	Flags		Cycle 
+
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\active 1 100
+	TEnd
+
+	Type		StealthCamera
+	  Anim          Turrets_Ball\active 1 100
+	  PlayFx	ENEMYFX\UNIQUE\STEALTHCAMERA\STEALTHCAMERA.FX 0 CONSTANT
+	TEnd
+
+
+MEnd
+
+Move CameraAlerted 
+	Requires	CAMERAALERTED	
+	Interrupts	<AttackIRQ> <DeathIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle 
+	NextMove	Active_Ready
+	Priority        1
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\active 1 100
+	TEnd
+
+	Type		StealthCamera
+	  Anim          Turrets_Ball\active 1 100
+	  PlayFx	ENEMYFX\UNIQUE\STEALTHCAMERA\STEALTHCAMERAALERTED.FX 0 CONSTANT
+	TEnd
+
+MEnd
+
+Move GoToActiveReady  ##If you want to go to active ready without actually firing the gun
+	Requires		HIGH
+	Member		<DeathIRQ>
+	Interrupts		Ready
+	NextMove		Active_Ready
+	Priority        1
+
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\popup 6 25
+	TEnd
+MEnd
+
+
+Move GoToActiveReady2  ##If you want to go to active ready without actually firing the gun
+	Requires		TURRETBASERISE
+	Member		<DeathIRQ>
+	Interrupts		Ready
+	NextMove		Active_Ready
+	Priority        1
+
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\popup 6 25
+	TEnd
+MEnd
+
+####################
+####### Active Mode  ######
+####################
+
+Move Active_mode	##(simulating 30 sec. combatmode delay)
+	Member		<Ready>  <DeathIRQ>
+	Flags		Cycle
+	NextMove	Active_Ready
+	Scale		0.33
+	Flags		PitchToTarget
+
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\active 1 100
+	TEnd
+
+MEnd
+
+
+###################
+###### AssultRifle Burst  ######
+###################
+
+Move 1st_Burst		##(POP UP)
+	Requires	COMBAT WEAPON GUN MACHINEGUN 
+	Interrupts	<AttackIRQ> 
+	Member		<DeathIRQ> 
+	NextMove        1st_Burst_2
+	Priority        4
+	Sets            CANTMOVE
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\popup 6 25
+	TEnd
+
+	Type		Turrets_Base
+	  Anim          Turrets_Ball\base_popup 6 25  
+	TEnd
+
+MEnd
+
+Move 1st_Burst_2	##(shoot)
+	Member		<DeathIRQ> 
+	NextMove        Active_mode 
+	Flags		PitchToTarget
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\popup 26 80
+	TEnd
+
+	Type		Turrets_Base
+	  Anim          Turrets_Ball\base_popup 26 80 
+	TEnd
+
+MEnd
+
+###
+
+Move 2nd_Burst		##(Just shoot)
+	Requires	COMBAT WEAPON GUN MACHINEGUN 
+	Interrupts	Active_mode Active_Ready GoToActiveReady GoToActiveReady2
+	Member		<DeathIRQ> 
+	NextMove        Active_mode
+	Priority        4 
+	Flags		PitchToTarget
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\active 6 80 
+	TEnd
+
+
+
+MEnd
+
+
+
+
+
+###### Deaths  ######################################
+
+
+
+###################
+###### Hit Death   ######
+###################	
+
+Move HitDeath
+	Requires	HIT DEATH 
+	Interrupts	<DeathIRQ> <ReactIRQ> 
+	NextMove        postdeath2
+	Priority        2
+	Sets            NOCOLLISION
+	Flags		NotSelectable  
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\active 1 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	PlayFX		Explosions\MetalExplosion\BallTurretPartsFireExplosion.Fx
+	TEnd
+
+MEnd
+
+
+Move postdeath2
+	Requires	DEATH 
+	Flags		Cycle 
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\active 1 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+##############  Test stuff  ###############################################################################
+
+####################
+####### test Mode  ######
+####################
+
+Move Test_mode
+	Requires	test1 
+	Interrupts	<AttackIRQ>
+	Member		<Ready>  <DeathIRQ>
+	Flags		Cycle
+	Flags		PitchToTarget
+
+
+	Type		Turrets_Ball
+	  Anim          Turrets_Ball\popup 6   ##active 1 100
+	TEnd
+
+MEnd
+
+SeqEnd
+

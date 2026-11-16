@@ -1,0 +1,201 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_PPD_Armguns
+	BaseSkeleton	FX_PPD_Armguns\skel_armguns
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_PPD_Armguns_Left
+	BaseSkeleton	FX_PPD_Armguns\skel_armguns
+	ParentType	FX_PPD_Armguns
+TypeDefEnd
+
+TypeDef FX_PPD_Armguns_Right
+	BaseSkeleton	FX_PPD_Armguns\skel_armguns
+	ParentType	FX_PPD_Armguns
+TypeDefEnd
+
+
+
+TypeDef FX_PPD_Laser_Left
+	BaseSkeleton	FX_PPD_Armguns\skel_armguns
+	ParentType	FX_PPD_Armguns_Left
+TypeDefEnd
+
+TypeDef FX_PPD_Laser_Right
+	BaseSkeleton	FX_PPD_Armguns\skel_armguns
+	ParentType	FX_PPD_Armguns_Right
+TypeDefEnd
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		FX_PPD_Armguns
+	  Anim          FX_PPD_Armguns\skel_armguns 1 5
+	TEnd
+
+
+MEnd
+
+
+##################
+#### Heavy Burst	###
+##################
+
+Move HeavyBurst		##(Right is active)
+	Requires	COMBAT WEAPON DUAL ARMGUNHEAVYBURST
+	Interrupts	Ready
+	NextMove        Ready
+	Priority        5
+
+	Type		FX_PPD_Armguns
+	  Anim          FX_PPD_Armguns\heavy_burst 1 115
+	TEnd
+
+	Type		FX_PPD_Laser_Right
+	  Anim          FX_PPD_Armguns\lazer_heavy_burst 1
+	TEnd
+
+	Type		FX_PPD_Armguns_Left
+	  Anim          FX_PPD_Armguns\skel_armguns 1 5
+	TEnd
+
+
+MEnd
+
+
+
+##################
+#### Burst	###
+##################
+
+Move Burst		##(Left is active)
+	Requires	COMBAT WEAPON DUAL ARMGUNBURST
+	Interrupts	Ready
+	NextMove        Ready
+	Priority        5
+
+	Type		FX_PPD_Armguns
+	  Anim          FX_PPD_Armguns\skel_armguns 1 90
+	TEnd
+
+	Type		FX_PPD_Laser_Left
+	  Anim          FX_PPD_Armguns\lazer_burst 1
+	TEnd
+
+	Type		FX_PPD_Armguns_Right
+	  Anim          FX_PPD_Armguns\skel_armguns 1 5
+	TEnd
+
+
+MEnd
+
+
+
+
+##################
+#### Quick Cone	###
+##################
+
+Move QuickCone		##(Right is active)
+	Requires	COMBAT WEAPON DUAL ARMGUNCONE
+	Interrupts	Ready
+	NextMove        Ready
+	Priority        5
+
+	Type		FX_PPD_Armguns
+	  Anim          FX_PPD_Armguns\heavy_burst 1 115
+	TEnd
+
+	Type		FX_PPD_Laser_Right
+	  Anim          FX_PPD_Armguns\lazer_quick_cone  1
+	TEnd
+
+	Type		FX_PPD_Armguns_Left
+	  Anim          FX_PPD_Armguns\skel_armguns 1 5
+	TEnd
+
+
+MEnd
+
+
+
+##################
+#### Blast	###
+##################
+
+Move Blast		##(Right is active)
+	Requires	COMBAT WEAPON DUAL ARMGUNBLAST
+	Interrupts	Ready
+	NextMove        Ready
+	Priority        5
+
+	Type		FX_PPD_Armguns
+	  Anim          FX_PPD_Armguns\heavy_burst 1 115
+	TEnd
+
+	Type		FX_PPD_Laser_Right
+	  Anim          FX_PPD_Armguns\lazer_blast  1
+	TEnd
+
+	Type		FX_PPD_Armguns_Left
+	  Anim          FX_PPD_Armguns\skel_armguns 1 5
+	TEnd
+
+
+MEnd
+
+
+
+
+
+##################
+#### test	###
+##################
+
+Move test		##(Right is active)
+	Requires	test8
+	Interrupts	Ready
+	Flags		cycle
+	Priority        1
+
+	Type		FX_PPD_Armguns
+	  Anim          FX_PPD_Armguns\lazer_heavy_burst  25 27
+	TEnd
+
+
+
+
+MEnd
+
+
+
+
+
+
+SeqEnd
+

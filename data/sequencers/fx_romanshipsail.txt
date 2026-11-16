@@ -1,0 +1,52 @@
+#############################################################
+## HEADER
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_RomanShipSail
+	BaseSkeleton	FX_RomanShipSail\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<Ready>
+
+#############################################################
+
+Move ReadyA
+	Member		<Ready>
+	Flags		Cycle PickRandomly
+	Scale		0.25
+
+	Type		FX_RomanShipSail
+	  Anim          FX_RomanShipSail\skel_ready 1
+	TEnd
+MEnd
+
+Move ReadyB
+	Member		<Ready>
+	Flags		Cycle PickRandomly
+	Scale		0.25
+
+	Type		FX_RomanShipSail
+	  Anim          FX_RomanShipSail\skel_ready 46
+	TEnd
+MEnd
+
+Move ReadyC
+	Member		<Ready>
+	Flags		Cycle PickRandomly
+	Scale		0.25
+
+	Type		FX_RomanShipSail
+	  Anim          FX_RomanShipSail\skel_ready 91
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

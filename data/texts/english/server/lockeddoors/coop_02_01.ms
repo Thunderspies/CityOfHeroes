@@ -1,0 +1,4 @@
+
+"RomeorBustMC"	"The <color deepskyblue>Aspect of the Pillar</color> remains dark despite your best efforts to coax it to life.<br><br><color orange>[You must be level 35 or higher to use this crystal.]<br>"
+"BlueDoorWarning_MC",	"<color deepskyblue>The passage in front of you leads to Paragon City.  Here you will find both Heroes who combat great evils and Vigilantes who do what they must to maintain the peace.  Are you brave enough to face the challenges of this city of heroes?</color>"
+"RedDoorWarning_MC",	"<color red>The passage in front of you leads to the Rogue Isles.  Throughout the Isles, you’ll find Villains performing heinous deeds and Rogues who think of no one other than themselves.  Are you strong enough to take on the dangers of this city of villains?</color>"

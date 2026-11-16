@@ -1,0 +1,211 @@
+Texture rave_floor_pocket_d.tga
+	Base1 rave_floor_pocket_d.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 32 32
+
+	Multiply1 rave_floor_pocket_d_detail.tga
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 32 32
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 32 32
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 32 32
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask rave_floor_pocket_d_mask.tga
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 32 32
+	MaskWeight 1.15
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 white
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 8 8
+
+	Multiply2 universal_window_reflect3.tga //rave_floor_pocket_d_glass.tga
+	Multiply2Scroll .002 .002
+	Multiply2ScrollType Normal
+	Multiply2Scale 4 4
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none 
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 8 8
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 8
+
+	DiffuseScale 2
+	AmbientScale 4
+
+	Flags // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base ofc1_glass.tga
+		Blend white
+		Bumpmap generic1_sheen_high
+		BlendType Multiply
+		ScaleST0 4 4
+		ScaleST1 4 4
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+
+End
+
+Texture rave_floor_pocket_d_overlay.tga
+	Base1 rave_floor_pocket_d_overlay.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 32 32
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 rave_floor_pocket_d_overlay_complex.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 32 32
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 32 32
+	MaskWeight 1.15
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 8 8
+
+	Multiply2 none
+	Multiply2Scroll .002 .002
+	Multiply2ScrollType Normal
+	Multiply2Scale 4 4
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none 
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 8 8
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 255 255 255
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 30
+	SpecularExponent2 8
+
+	DiffuseScale 2
+	AmbientScale 4
+
+	Flags // NoRandomAddGlow FullBright
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0 
+
+	Fallback
+		UseFallback 1
+		Base rave_floor_pocket_d_overlay.tga
+		//Blend some_detail
+		//Bumpmap some_bump
+		//BlendType Multiply
+		//ScaleST0 32
+		//ScaleST1 32
+		DiffuseScale 0.8
+		AmbientScale 0.8
+	End
+End
+
+Trick truck_floater
+	Sway 1.500000 0.060944
+	LodFar 500
+	LodFarFade 50
+End
+
+Trick pocket_d_cagelod_near
+	LodFar 60
+	LodFarFade 50
+End
+
+Trick pocket_d_cagelod_far 
+	LodNear 60
+	LodNearFade 0
+	LodFar 400
+	LodFarFade 50
+End
+
+Trick pocket_d_floor
+	TrickFlags  NoZWrite
+End
+
+Trick _pocket_d_floor
+	TrickFlags  NoZWrite
+End
+
+Trick _pocket_d_floor_overlay
+	//ObjFlags ForceAlphaSort
+	AlphaRef 90
+	//TrickFlags  AlphaCutOut
+End
+
+Trick PDfloor
+	TrickFlags  NoZWrite
+End
+
+Trick PDfloorOverlay
+	//ObjFlags ForceAlphaSort
+	AlphaRef 90
+	//TrickFlags  AlphaCutOut
+End
+

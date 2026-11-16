@@ -1,0 +1,1075 @@
+
+//=================================================================
+// Object Tricks, Texture Tricks and Materials for Praetoria Sky
+//=================================================================
+
+
+//=================================================================
+// Texture Tricks
+//=================================================================
+
+
+
+
+Texture prae_cloud_noon_A.tga
+	Flags TrueColor
+End
+
+Texture prae_cloud_noon_B.tga
+	Flags TrueColor
+End
+
+Texture prae_night_starfield_background.tga
+	Flags TrueColor
+End
+
+Texture NW_skydome_LightedPath.tga
+	Flags TrueColor
+End
+
+Texture NW_skydome_SpiritGlow.tga
+	Flags TrueColor
+End
+
+Texture prae_skydome_00_1stLight.tga
+	Flags TrueColor
+End
+
+
+Texture prae_skydome_01_predawn.tga
+	Flags TrueColor
+End
+
+Texture prae_skydome_02_dawn.tga
+	Flags TrueColor
+End
+
+Texture prae_skydome_03_sunrise.tga
+	Flags TrueColor
+End
+
+Texture prae_skydome_04_morning.tga
+	Flags TrueColor
+End
+
+Texture prae_skydome_05_latemorning.tga
+	Flags TrueColor
+End
+
+Texture prae_skydome_06_noon
+	Flags TrueColor
+End
+
+Texture prae_skydome_07_afternoon
+	Flags TrueColor
+End
+
+Texture prae_skydome_08_LateNoon
+	Flags TrueColor
+End
+
+Texture prae_skydome_09_Sunset
+	Flags TrueColor
+End
+
+Texture prae_skydome_10_Dusk
+	Flags TrueColor
+End
+
+
+Texture prae_skydome_11_Twilight
+	Flags TrueColor
+End
+
+
+Texture prae_skydome_12_NightGlow
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_00_1stLight
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_01_predawn
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_02_dawn
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_03_sunrise
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_04_morning
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_05_latemorning
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_06_noon
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_07_afternoon
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_08_LateNoon
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_09_Sunset
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_10_Dusk
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_11_Twilight
+	Flags TrueColor
+End
+
+Texture prae_skydome_imperial_12_NightGlow
+	Flags TrueColor
+End
+
+Texture 1stWard_skydome_ShadowPaths.tga
+	Flags TrueColor
+End
+
+Texture 1stWard_cloud_ShadowPathComets.tga
+	Flags TrueColor
+End
+
+
+#Texture Prae_Horizon_01_Mountains.tga
+#	Flags TrueColor
+#End
+//=================================================================
+// Object Tricks
+//=================================================================
+
+# SkyDome Object Properties
+Trick PraeSky
+	ObjFlags FullBright
+	TrickFlags NoColl DoubleSided NoZTest NoZWrite NoFog
+End
+
+# Horizon Ring Object Properties
+Trick PraeHorizRing
+	ObjFlags FullBright
+	TrickFlags  NoFog  #Unused  DoubleSided NoColl NoZTest NoZWrite
+End
+
+# Star Field Properties
+Trick PraeStars
+	ObjFlags FullBright
+	TrickFlags  Additive NoFog NoZWrite #Unused  DoubleSided NoColl NoZTest NoZWrite
+End
+
+# Cloud Properties
+Trick PraeCloud
+	#ObjFlags FullBright
+	TrickFlags Additive NoFog NoZWrite #NoZTest NoZWrite DoubleSided #Unused   NoColl NoZTest NoZWrite
+End
+
+
+# Cloud Properties
+Trick 1stWardCloud
+	## Rotate 10
+	TrickFlags Additive NoFog NoZWrite #NoZTest NoZWrite DoubleSided #Unused   NoColl NoZTest NoZWrite
+End
+
+
+
+
+//=================================================================
+// Materials
+//=================================================================
+
+
+///////////////////////////////////////////////////////////////////
+Texture x_prae_night_stars
+	Base1 prae_night_stars_color.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 prae_night_stars_shine_mask.tga
+	Multiply1Scroll .00123 -.00143
+	Multiply1ScrollType Normal
+	Multiply1Scale .25 .25
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 prae_night_stars_color.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base prae_night_stars_color
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+// Night Star Field
+
+Texture x_prae_sky_starfield
+	Base1 prae_night_starfield_background.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .25 .25
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 prae_night_starfield_background.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 sky_starfield_background.tga
+	AddGlow1Scroll 0 0 #-.00009 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 12 12
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 16 16
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base sky_space_background.tga
+		Blend sky_starfield_background.tga
+		Bumpmap none
+		BlendType addglow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 10 10
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+///////////////////////////////////////////////////////////////////
+//Cloud Noon A - Lower
+Texture x_prae_cloud_noon_a
+	Base1 prae_cloud_noon_a.tga
+	Base1Scroll .0001 .0001
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 prae_cloud_noon_a.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base prae_cloud_noon_a.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+//Cloud Noon A - Lower
+Texture x_prae_cloud_noon_b
+	Base1 prae_cloud_noon_b.tga
+	Base1Scroll .00001 .000025
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 prae_cloud_noon_a.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base prae_cloud_noon_b.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Imperial Cloud Noon A - Lower
+Texture x_Imperial_cloud_noon_a
+	Base1 imperialcity_noon_cloud_a.tga //prae_cloud_noon_a.tga
+	Base1Scroll .0001 .0001
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 imperialcity_noon_cloud_a.tga //prae_cloud_noon_a.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base imperialcity_noon_cloud_a.tga //prae_cloud_noon_a.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+//Imperial Cloud Noon A - Lower
+Texture x_Imperial_cloud_noon_b
+	Base1 imperialcity_noon_cloud_b.tga //prae_cloud_noon_b.tga
+	Base1Scroll .00001 .000025
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 imperialcity_noon_cloud_a.tga //prae_cloud_noon_a.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base imperialcity_noon_cloud_b.tga //prae_cloud_noon_b.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+// First Ward
+
+Texture FW_skydome_12_NightGlow.tga
+	Flags TrueColor
+End
+
+// Night Star Field
+
+
+//First Ward Cloud Noon A - Lower
+Texture x_1stWard_cloud_noon_A
+	Base1 1stward_noon_cloud_a.tga
+	Base1Scroll 0 0 //00001 .000025
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight 1
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base imperialcity_noon_cloud_b.tga //prae_cloud_noon_b.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+//Cloud - FirstWard - Shadowed Path Comets
+Texture X_1stWard_cloud_ShadowPathComets
+	Base1 1stWard_cloud_ShadowPathComets.tga
+	Base1Scroll -.0005 .01
+	Base1ScrollType Normal
+	Base1Scale 9 4
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 1stWard_cloud_ShadowPathComets.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 1stWard_cloud_ShadowPathComets.tga
+	AddGlow1Scroll -.0005 .01
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 9 4
+
+	Mask 1stWard_cloud_ShadowPathComets_M.tga
+	MaskScroll 0 -.02
+	MaskScrollType Normal
+	MaskScale 24 24
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 black
+	Base2Scroll -.0005 .01
+	Base2ScrollType Normal
+	Base2Scale 9 4
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 1stWard_cloud_ShadowPathComets.tga
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base 1stWard_cloud_ShadowPathComets.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+Texture X_1stWard_cloud_ShadowPathCometsB
+	Base1 1stWard_cloud_ShadowPathComets.tga
+	Base1Scroll -.001 .02
+	Base1ScrollType Normal
+	Base1Scale 6 2
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 1stWard_cloud_ShadowPathComets.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 1stWard_cloud_ShadowPathComets.tga
+	AddGlow1Scroll -.001 .02
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 6 2
+
+	Mask 1stWard_cloud_ShadowPathComets_M.tga
+	MaskScroll 0 -.03
+	MaskScrollType Normal
+	MaskScale 24 24
+	MaskWeight 1
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 black 
+	Base2Scroll -.001 .02
+	Base2ScrollType Normal
+	Base2Scale 6 2
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 1stWard_cloud_ShadowPathComets.tga
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 1
+
+	Flags AlwaysAddGlow // NoRandomAddGlow  AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base 1stWard_cloud_ShadowPathComets.tga
+		Blend none
+		Bumpmap none
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+
+Texture x_FW_ShdwPth_sky_starfield
+	Base1 prae_night_starfield_background.tga
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale .25 .25
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 prae_night_starfield_background.tga
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+
+	BumpMap1 none
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 1 1
+
+	AddGlow1 sky_starfield_backgroundB.tga
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 12 12
+
+	Mask none
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5
+	AlphaMask 1	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2ScrollType Normal
+	Base2Scale 16 16
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 1 1
+
+	SpecularColor1 155 150 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 5
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 0
+	MaxAddGlow 255
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base sky_space_background.tga
+		Blend sky_starfield_background.tga
+		Bumpmap none
+		BlendType addglow // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 10 10
+		ScaleST1 1 1
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End

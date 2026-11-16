@@ -1,0 +1,25 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_hoverbot 
+	BaseSkeleton	FX_hoverbot\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle 
+	Priority        1
+
+	Type		FX_hoverbot
+	  Anim          FX_hoverbot\skel_ready 1  
+	TEnd
+MEnd
+

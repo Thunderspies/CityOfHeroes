@@ -1,0 +1,62 @@
+/*****************************************************************************
+	This header defines common values and functions used by the shader
+	implementations for the various CoX BLENDMODES.
+	
+	The routines in this file expect to have access to feature define bits
+	(e.g., BIT_HIGH_QUALITY) and the input attributes structure supplied by
+	the vertex shader.
+	
+	Having a set of common routines makes it very clear where shaders share
+	common functionality and implementation and highlights where they may
+	differ.
+	
+	This is in contrast to a file like functions.cgh which is intended to have
+	pure utility functions which do not have any direct knowledge of the
+	conditional compilation defines nor the specifics of the input attribute
+	structure.
+*****************************************************************************/
+
+#ifndef _BLENDMODE_COMMON_CGH_
+#define _BLENDMODE_COMMON_CGH_
+
+
+// BLEND MODES
+#define BLENDMODE_MODULATE					0
+#define BLENDMODE_MULTIPLY					1	
+#define BLENDMODE_COLORBLEND_DUAL			2	
+#define BLENDMODE_ADDGLOW					3
+#define BLENDMODE_ALPHADETAIL				4	
+#define BLENDMODE_BUMPMAP_MULTIPLY			5	
+#define BLENDMODE_BUMPMAP_COLORBLEND_DUAL	6	
+#define BLENDMODE_WATER						7
+#define BLENDMODE_MULTI						8	
+
+
+// SAMPLERS
+// Names correspond to the texture names in the original legacy
+// blendmodes (still used for fallbacks, old texture tricks)
+
+uniform sampler2D sampler_base				: TEXUNIT0;
+uniform sampler2D sampler_blend				: TEXUNIT1;		// also known as the 'dual' or 'generic' texture for simple blend modes
+uniform sampler2D sampler_normal_and_gloss	: TEXUNIT2;
+
+uniform sampler2D sampler_legacy_glow		: TEXUNIT1;		// these are specific to legacy BLENDMODE_ADDGLOW
+uniform sampler2D sampler_legacy_glow_mask	: TEXUNIT2;
+
+//--------------------------------------------------
+// Global Samplers
+//--------------------------------------------------
+// These samplers are always used for the same purpose
+
+#ifdef USE_CUBEMAP
+ //   uniform samplerCUBE	g_sampler_cubemap	: TEXUNIT10;
+#endif
+#ifdef USE_SHADOWMAP
+//	uniform sampler2D	g_sampler_shadow	: TEXUNIT11; // one sampler with atlas of cascades
+#endif
+
+#ifdef BIT_DEBUG	// debug shaders only, must be unused sampler for normal rendering
+uniform sampler2D	g_sampler_debug_visualize	: TEXUNIT14; // graphics dev hud visualization texture 
+#endif
+
+#endif  // _BLENDMODE_COMMON_CGH_

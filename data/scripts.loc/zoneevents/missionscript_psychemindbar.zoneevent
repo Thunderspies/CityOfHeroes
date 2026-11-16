@@ -1,0 +1,129 @@
+Name MissionScript_PsycheMindBar
+FirstStage Setup
+StopStage Stop
+DisplayName P192630382
+RestartStage Stop
+
+//This zone event script is used to display Sister Psyche and Aurora Borealis' 'mind battle' in Sig Arc 1, Issue 4.
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Zone event for Sig Arc 1, Issue 4 is now beginning.>>
+		}
+		Action
+		{
+			SetScriptValue PsycheMind 90
+		}
+		Action
+		{
+			SetScriptValue AuroraMind 10
+		}
+	}
+	Trigger GoToTeleportOneStage
+	{
+		NextStage UIStage
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Everything is stopped. That's it. The END. >>
+		}
+	}
+
+
+}
+
+Stage UIStage
+{
+	DisplayName P3509344798
+	StartUp
+	{
+		Action DebugStartStage1
+		{
+			DebugPrint <<Starting the stage to display the UI for the minds.>>
+		}
+
+	}
+	UICollection MainStageUI
+	{
+		UIItem PsycheControl
+		{
+			Type BarBlue
+			Text P2362707679
+			ShortText P2362707679
+			Current PsycheMind ScriptValue>
+			Target 100
+		}
+		UIItem AuroraControl
+		{
+			Type BarRed
+			Text P2973515251
+			ShortText P2973515251
+			Current AuroraMind ScriptValue>
+			Target 100
+		}
+	}
+	Trigger MindMove1
+	{
+		Requires ScriptFirstFight objectivesucceeded>
+		Action
+		{
+			SetScriptValue PsycheMind 80
+		}
+		Action
+		{
+			SetScriptValue AuroraMind 20
+		}
+	}
+	Trigger MindMove2
+	{
+		Requires ScriptSecondFight objectivesucceeded>
+		Action
+		{
+			SetScriptValue PsycheMind 70
+		}
+		Action
+		{
+			SetScriptValue AuroraMind 30
+		}
+	}
+	Trigger MindMove3
+	{
+		Requires ScriptTalkedtoPsyche objectivesucceeded>
+		Action
+		{
+			SetScriptValue PsycheMind 60
+		}
+		Action
+		{
+			SetScriptValue AuroraMind 40
+		}
+	}
+	Trigger MindMove4
+	{
+		Requires ScriptMalaiseComplete objectivesucceeded>
+		Action
+		{
+			SetScriptValue PsycheMind 50
+		}
+		Action
+		{
+			SetScriptValue AuroraMind 50
+		}
+	}
+	Trigger Finish
+	{
+		Requires ScriptMissionComplete objectivesucceeded>
+		NextStage Stop
+	}
+}
+

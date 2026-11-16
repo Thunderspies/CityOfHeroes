@@ -1,0 +1,1283 @@
+#########################################################
+## Player.txt - Player model sequencer
+#########################################################
+
+Sequencer
+
+## MALE #######################################################
+
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef PraetorianPolice
+	BaseSkeleton	male\skel_ready2
+	ParentType	male
+TypeDefEnd
+
+## GROUP TAGS - BASIC #######################################################
+
+Group	<Ready>
+Group	<FlyReady>
+Group	<Flycycle>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicDeath>
+Group	<RagdollBellyIRQ>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<PreMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+##Group	<Claw>
+##Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Launch>
+Group	<RunIn>
+Group	<Emote>
+Group	<Encounter>
+Group	<MonsterGroup>
+Group	<Defiance>
+##Group	<Skill>
+##Group	<SkillMode>
+##Group	<Handcuff>
+##Group	<HandcuffAttack>
+##Group	<HandcuffMove>
+##Group	<HandcuffSwim>
+##Group	<FlyHandcuff>
+
+## GROUP TAGS - MOTION ###########################################################
+
+Group	<BasicMove>
+Group	<StunMove>
+Group	<Flymove>
+Group	<FlyForwardAlt>
+Group	<Fall>
+Group	<FlyFall>
+Group	<Jumps>
+Group	<jumpFall>
+Group	<iceslide>
+Group	<Swim>
+Group	<MoveIRQ>
+Group	<MonsterMove>
+Group	<FlyForward>
+Group	<FlyStrafe>
+
+## GROUP TAGS - GLOBAL ###########################################################
+
+Group	<GroundMoveALL>
+Group	<FlyMoveALL>
+Group	<AttackIRQ>
+
+## GROUP TAGS - COMBAT #######################################################
+
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+
+## GROUP TAGS - WEAPON #######################################################
+
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+
+## GROUP TAGS - SHIELD #######################################################
+
+Group	<ShieldCombat>
+Group	<ShieldMove>
+Group	<ShieldPostMove>
+Group	<ShieldJump>
+Group	<ShieldFall>
+Group	<ShieldFLYReady>
+Group	<ShieldFLYMove>
+
+### GROUP TAGS - RIGHTHAND #######################################################
+
+Group	<RightHandCombat>
+Group	<RightHandAttack>
+Group	<RightHandMove>
+Group	<FlyRightHandCombat>
+Group	<FlyRightHandAttack>
+Group	<FlyRightHandMove>
+
+### GROUP TAGS - LEFTHAND #######################################################
+
+Group	<LeftHandCombat>
+Group	<LeftHandAttack>
+Group	<LeftHandMove>
+Group	<FlyLeftHandCombat>
+Group	<FlyLeftHandAttack>
+Group	<FlyLeftHandMove>
+
+### GROUP TAGS - TWOHAND #######################################################
+
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandCombat>
+Group	<FlyTwoHandAttack>
+Group	<FlyTwoHandMove>
+
+### GROUP TAGS - DUALHAND #######################################################
+
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+
+#############################################################
+
+#############################################################
+## readies.inc - This should ALWAYS be the first include in any sequencer
+#############################################################
+
+## READY - This move HAS to be first in this sequencer ###########################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready2
+	Priority        0
+
+	Type		male
+	  Anim          male\Skel_ready2 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\Skel_ready2 1
+	TEnd
+
+	Type            huge
+	  Anim          huge\Skel_ready 1 60
+	TEnd
+MEnd
+
+#############################################################
+
+Move Ready2
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_Look
+	CycleMove	Ready_2Hips
+
+	Type		male
+	  Anim          male\Skel_ready2 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\Skel_ready2 1 60
+	TEnd
+
+	Type            huge
+	  Anim          huge\Skel_ready 1 60
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Ready_Look
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready2
+	CycleMove	Ready_2Hips
+	Scale		0.5
+
+	Type		male
+	  Anim          male\idle_look 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\idle_look 1
+	TEnd
+
+	Type            huge
+	  Anim          huge\idle_look 1
+	TEnd
+
+MEnd
+
+#############################################################
+## IDLE - HANDS ON HIPS
+#############################################################
+
+## READY TO HIPS ###########################################################
+
+Move Ready_2Hips
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_2Hips_look
+	CycleMove	Ready_2Hips_look
+#	CycleMove	Ready_Xarms
+	CycleMove	Ready_2Hips_post
+	Priority        0
+	Scale		0.5
+	Interpolate	15
+
+	Type		male
+	  Anim          male\stand_2Hhips 1 64
+	TEnd
+
+	Type		huge
+	  Anim          huge\stand_2Hhips 1 64
+	TEnd
+
+	Type		fem
+	  Anim          fem\stand_2Hhips 1 64
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move Ready_2Hips_look
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_2Hips_look
+#	CycleMove	Ready_Xarms
+#	CycleMove	Ready_Xarms
+	CycleMove	Ready_2Hips_post
+	Priority        0
+	Scale		0.5
+
+	Type		male
+	  Anim          male\idle_2hips_look 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\idle_2hips_look 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\idle_2hips_look 1
+	TEnd
+
+MEnd
+
+## HIPS TO READY ###########################################################
+
+Move Ready_2Hips_post
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Ready_Look
+	CycleMove	Ready2
+	Priority        0
+	Scale		0.5
+	Interpolate	15
+
+	Type		male
+	  Anim          male\stand_2Hhips 109
+	TEnd
+
+	Type		huge
+	  Anim          huge\stand_2Hhips 109
+	TEnd
+
+	Type		fem
+	  Anim          fem\stand_2Hhips 109
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move postReady
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+	Scale           0.80
+	Interpolate     8
+
+	Type		male
+	  Anim          male\post_ready 7 24
+	TEnd
+
+	Type		fem
+	  Anim          fem\post_ready 10
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move postReady_back
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+
+	Type		male
+	  Anim          male\postback 3
+	TEnd
+
+	Type		fem
+	  Anim          fem\post_ready 1
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move postReady_right
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+
+	Type		male
+	  Anim          male\postback_right 1
+	TEnd
+
+	Type		huge
+	  Anim		huge\postback_right 1
+	TEnd
+
+	Type		fem
+	  Anim		fem\post_ready 1
+	TEnd
+
+MEnd
+
+## PROFILE SCREEN READY ###########################################################
+
+Move ProfileReady
+	Requires	PROFILE
+	Interrupts	<Ready>
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Priority        1
+
+	Type		male
+	  Anim          male\Skel_ready2 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\Skel_ready 1 60
+	TEnd
+
+	Type		fem
+	  Anim          fem\Skel_ready2 1
+	TEnd
+MEnd
+
+## COSTUME SELECT SCREEN READY ###########################################################
+
+Move CostumeReady
+	Requires	PROFILE HIGH
+	Interrupts	<Ready> BodyReady
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Priority        2
+
+	Type		male
+	  Anim          male\costume_ready 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\costume_ready 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\costume_ready 1
+	TEnd
+MEnd
+
+## COSTUME SELECT SCREEN COMBAT READY ###########################################################
+
+Move Costume_CombatReady
+	Requires	PROFILE COMBAT
+	Interrupts	<Ready> BodyReady
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle FIXWEAPONREG
+	Priority        2
+	Scale		0.375
+
+	Type		male
+	  Anim          male\Profile_CombatReady 1
+	TEnd
+MEnd
+
+## COSTUME SELECT SCREEN RIGHTHAND WEAPON READY ###########################################################
+
+Move Costume_RightHand_Weapon_Ready
+	Requires	PROFILE WEAPON COMBAT RIGHTHAND
+	Interrupts	<Ready> BodyReady
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle FIXWEAPONREG
+	Priority        4
+	Scale           0.50
+
+	Type		male
+	  Anim          male\Profile_CombatReady_Righthand 1 31
+	TEnd
+MEnd
+
+
+## COSTUME SELECT SCREEN RIGHTHAND WEAPON READY ###########################################################
+
+Move Costume_EpicRightHand_Weapon_Ready
+	Requires	PROFILE WEAPON COMBAT EPICRIGHTHAND
+	Interrupts	<Ready> BodyReady
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle FIXWEAPONREG
+	Priority        4
+	Scale           0.50
+
+	Type		male
+	  Anim          male\wep_mace_projectile 112
+	TEnd
+MEnd
+
+## COSTUME SELECT SCREEN DUALHAND WEAPON READY ###########################################################
+
+Move Costume_DualHand_Weapon_Ready
+	Requires	PROFILE WEAPON COMBAT DUALHAND
+	Interrupts	<Ready> BodyReady
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle FIXWEAPONREG
+	Priority        4
+	Scale		0.50
+
+	Type		male
+	  Anim		male\Profile_CombatReady_Dualhand 1 31
+	TEnd
+MEnd
+
+## COSTUME SELECT SCREEN BOW READY ###########################################################
+
+Move Costume_Bow_Ready
+	Requires	PROFILE WEAPON COMBAT LEFTHAND
+	Interrupts	<Ready> BodyReady
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle FIXWEAPONREG
+	Priority        4
+	Scale		0.50
+
+	Type		male
+	  Anim		male\Profile_CombatReady_Bow 1 31
+	TEnd
+MEnd
+
+## COSTUME SELECT SCREEN SHIELD READY ###########################################################
+
+Move Costume_Shield_Ready
+	Requires	PROFILE WEAPON COMBAT SHIELD RIGHTHAND ##RIGHTHAND IS USED SO WEAPON WILL APPEAR TOO
+	Priority        5
+	Interrupts	<Ready> BodyReady
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle FIXWEAPONREG
+	Scale		0.50
+
+	Type		male
+	  Anim		male\shield_Ready 1 31
+	TEnd
+MEnd
+
+## COSTUME SELECT SCREEN RIFLE READY ###########################################################
+
+Move Costume_Rifle_Ready
+	Requires	PROFILE WEAPON COMBAT TWOHAND GUN
+	Interrupts	<Ready> BodyReady
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle FIXWEAPONREG
+	Priority        11
+	Scale		0.5
+
+	Type		male
+	  Anim          male\Profile_CombatReady_Shotgun 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\Profile_CombatReady_Shotgun 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\Profile_CombatReady_Shotgun 1
+	TEnd
+MEnd
+
+## COSTUME SELECT SCREEN KATANA READY ###########################################################
+
+Move Costume_Katana_Ready
+	Requires	PROFILE WEAPON COMBAT KATANA LEFTHAND
+	Interrupts	<Ready> BodyReady
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle FIXWEAPONREG
+	Priority        11
+	Scale           0.50
+
+	Type		male
+	  Anim          male\Profile_CombatReady_Katana 1 31
+	TEnd
+
+	Type		fem
+	  Anim          fem\Profile_CombatReady_Katana 1 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\Profile_CombatReady_Katana 1 31
+	TEnd
+MEnd
+
+## 'PROP' READY ###########################################################
+
+Move Prop_ready_1
+	Requires	PROP
+	Interrupts	Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Priority        1
+	Interpolate	8
+
+	Type		male
+	  Anim          male\shotgun_observe_L 1
+	  PlayFx        WEAPONS\SHOTGUN.FX  0 Constant
+	  Scale		0.5
+	TEnd
+
+	Type		swat
+	  Anim          male\shotgun_observe_L 1
+	  PlayFx        WEAPONS\SHOTGUN.FX  0 Constant
+	  Scale		0.5
+	TEnd
+
+	Type		shield
+	  Anim          male\shield_lookright 1
+	  Scale		0.5
+	TEnd
+MEnd
+
+Move Prop_ready_2
+	Requires	PROP
+	Interrupts	Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Priority        1
+	Interpolate	8
+
+	Type		male
+	  Anim          male\shotgun_look 1
+	  PlayFx        WEAPONS\SHOTGUN.FX  0 Constant
+	  Scale		0.3
+	TEnd
+
+	Type		swat
+	  Anim          male\shotgun_look 1
+	  PlayFx        WEAPONS\SHOTGUN.FX  0 Constant
+	  Scale		0.3
+	TEnd
+
+	Type		shield
+	  Anim          male\shield_lookright 1
+	  Scale		0.5
+	TEnd
+MEnd
+
+Move Prop_ready_3
+	Requires	PROP
+	Interrupts	Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Priority        1
+	Interpolate	8
+
+	Type		male
+	  Anim          male\shield_lookright 1
+	  PlayFx        WEAPONS\swat_shield.fx  0 Constant
+	  PlayFx        WEAPONS\Riot_Baton.fx  0 Constant
+	  Scale		0.5
+	TEnd
+
+	Type		swat
+	  Anim          male\shield_lookright 1
+	  PlayFx        WEAPONS\swat_shield.fx  0 Constant
+	  PlayFx        WEAPONS\Riot_Baton.fx  0 Constant
+	  Scale		0.5
+	TEnd
+
+	Type		shield
+	  Anim          male\shield_lookright 1
+	  Scale		0.5
+	TEnd
+MEnd
+
+## COMBAT READY ###########################################################
+
+Move PreCombat
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready> PostWepReady
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		male
+	  Anim          male\pre_combat 3
+	TEnd
+
+	Type		huge
+	  Anim          huge\precombat 1 27
+	TEnd
+
+	Type		fem
+	  Anim          fem\pre_combat 4
+	TEnd
+MEnd
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle
+	NextMove        postReady_back
+	Scale           0.50
+
+	Type		male
+	  Anim          male\combat_cycle 1 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\combat_cycle 1 31
+	TEnd
+
+	Type		fem
+	  Anim          fem\combat_cycle 1 31
+	TEnd
+
+MEnd
+
+Move CombatBlend
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Scale           0.50
+
+	Type		male
+	  Anim          male\combat_cycle 1 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\combat_cycle 1 31
+	TEnd
+
+	Type		fem
+	  Anim          fem\combat_cycle 1 31
+	TEnd
+
+MEnd
+
+Move Combat_half
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		ReqInputs
+	NextMove        CombatReady
+	Scale           0.70
+
+	Type		male
+	  Anim          male\combat_cycle 15 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\combat_cycle 16 31
+	TEnd
+
+	Type		fem
+	  Anim          fem\combat_cycle 15 31
+	TEnd
+MEnd
+
+Move Lazy_CombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle
+	NextMove        postReady_back
+	Scale           0.50
+
+	Type		male
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+Move Lazy_Combat_half
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		ReqInputs
+	NextMove        Lazy_CombatReady
+	Scale           0.70
+
+	Type		male
+	  Anim          male\combat_cycle 15 31
+	TEnd
+MEnd
+
+Move Lazy_Combat_Blend
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		ReqInputs
+	NextMove        Lazy_CombatReady
+	Scale           0.5
+	Interpolate     15
+
+	Type		male
+	  Anim          male\combat_cycle 1 31
+	TEnd
+MEnd
+
+## WEAPON COMBAT READY ###########################################################
+
+Move PreWep
+	Requires	COMBAT WEAPON
+	Priority        2
+	Interrupts	<Ready> PreCombat  ##<Combat>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <WepCombat> <AttackIRQ> <MoveIRQ> <IRQEmotesRightHand>
+	Flags		ReqInputs
+	NextMove        WepReady
+	Scale           0.50
+
+	Type		male
+	  Anim          male\pre_wep 3
+	TEnd
+MEnd
+
+#############################################################
+
+Move WepReady
+	Requires	COMBAT WEAPON
+	Priority        2
+	Interrupts	<Ready> <Combat>
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <WepCombat> <AttackIRQ> <MoveIRQ> <IRQEmotesRightHand>
+	Flags		Cycle
+	NextMove        postReady_back
+	Scale           0.50
+
+	Type		male
+	  Anim          male\wep_cycle 1 31
+	TEnd
+MEnd
+
+Move PostWepReady
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <WepCombat> <AttackIRQ> <MoveIRQ> <IRQEmotesRightHand>
+	NextMove        Ready
+	Priority        0
+
+	Type		male
+	  Anim          male\post_wep 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Wep_half
+	Requires	COMBAT WEAPON
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <WepCombat> <AttackIRQ> <MoveIRQ> <IRQEmotesRightHand>
+	Flags		ReqInputs
+	NextMove        WepReady
+	Priority        2
+	Scale           0.50
+
+	Type		male
+	  Anim          male\wep_cycle 15 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move Lazy_WepReady
+	Requires	COMBAT WEAPON
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <WepCombat> <AttackIRQ> <MoveIRQ> <IRQEmotesRightHand>
+	Flags		Cycle
+	NextMove        postReady_back
+	Priority        2
+	Scale           0.50
+
+	Type		male
+	  Anim          male\wep_cycle 1 31
+	TEnd
+MEnd
+
+Move Lazy_WepReady_half
+	Requires	COMBAT WEAPON
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <WepCombat> <AttackIRQ> <MoveIRQ> <IRQEmotesRightHand>
+	NextMove        Lazy_WepReady
+	Priority        2
+	Scale           0.50
+
+	Type		male
+	  Anim          male\wep_cycle 15 31
+	TEnd
+MEnd
+
+Move Blend_WepReady
+	Requires	COMBAT WEAPON
+	Priority        2
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <WepCombat> <AttackIRQ> <MoveIRQ> <IRQEmotesRightHand>
+	Flags		Cycle
+	NextMove        postReady_back
+	Scale           0.50
+
+	Type		male
+	  Anim          male\wep_cycle 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move DualWield_Ready
+	Requires	COMBAT WEAPON DUAL
+#	Priority	3
+#	Interrupts	<Ready> <combat> <WepCombat>
+	Include sequencers\Members\Combat_DualWeapon.inc
+	Flags		Cycle
+	NextMove	postReady_back
+	Scale		0.50
+
+	Type		male
+	  Anim		male\dual_cycle	1 31
+	TEnd
+MEnd
+
+## BACK TO READY ###########################################################
+
+Move BackToNeutralReady
+	Requires	CLEAR
+	Priority	1
+	Interrupts	<Ready> <MonsterGroup> <ReactIRQ> <HitIRQ> <Combat> <WepCombat> <TwoHandCombat> <PostMoveCycle> <Block>
+	Include sequencers\Members\Readies.inc
+	NextMove	Ready_2Hips_look
+	Interpolate     15
+	Scale		0.5
+
+	Type		male
+	  Anim          male\stand_2Hhips 1 64
+	TEnd
+
+	Type		huge
+	  Anim          huge\stand_2Hhips 1 64
+	TEnd
+
+	Type		fem
+	  Anim          fem\stand_2Hhips 1 64
+	TEnd
+MEnd
+
+## STAND CYCLE ###########################################################
+
+Move Stand_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\what 99 100
+	TEnd
+
+	Type		huge
+	  Anim          huge\thumbsup 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\thumbsup 1
+	TEnd
+MEnd
+
+## CROSS ARMS CYCLE ###########################################################
+
+Move Xarms_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\no 110 115
+	TEnd
+
+	Type		huge
+	  Anim          huge\no 91 95
+	TEnd
+
+	Type		fem
+	  Anim          fem\no 91 95
+	TEnd
+MEnd
+
+## HANDS ON HIPS CYCLE ###########################################################
+
+Move Hips_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\thumbsup 99 100
+	TEnd
+
+	Type		huge
+	  Anim          huge\yes 70 75
+	TEnd
+
+	Type		fem
+	  Anim          fem\yes 70 75
+	TEnd
+MEnd
+
+## THREAT CYCLE ###########################################################
+
+Move Threat_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		male
+	  Anim          male\threat_cycle 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\threat_cycle 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\threat_cycle 1
+	TEnd
+MEnd
+
+## ACTION CYCLE ###########################################################
+
+Move Action_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Scale           0.50
+
+	Type		male
+	  Anim          male\action_cycle 1 31
+	TEnd
+
+	Type		huge
+	  Anim          huge\thumbsup 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\thumbsup 1
+	TEnd
+MEnd
+
+## BRIAN EMOTE CYCLE ###########################################################
+
+Move Ready_2Hips_Bri
+	Include sequencers\Members\Readies.inc
+	Nextmove	Ready_2Hips_look_Bri
+	Scale		0.5
+	Interpolate	15
+
+	Type		male
+	  Anim          male\stand_2Hhips 1 64
+	TEnd
+
+	Type		huge
+	  Anim          huge\stand_2Hhips 1 64
+	TEnd
+
+	Type		fem
+	  Anim          fem\stand_2Hhips 1 64
+	TEnd
+MEnd
+
+Move Ready_2Hips_look_Bri
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Scale		0.5
+
+	Type		male
+	  Anim          male\idle_2hips_look 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\idle_2hips_look 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\idle_2hips_look 1
+	TEnd
+MEnd
+
+## SIMPLE READY ###########################################################
+
+Move Simple_Ready
+	Requires	SIMPLEREADY
+	Priority        1
+	Interrupts	Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Simple_Ready_Look
+	CycleMove	Simple_Ready
+
+	Type		male
+	  Anim          male\Skel_ready2 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\Skel_ready 1 60
+	TEnd
+
+	Type		fem
+	  Anim          fem\Skel_ready2 1 60
+	TEnd
+MEnd
+
+Move Simple_Ready_Look
+	Requires	SIMPLEREADY
+	Priority        1
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	CycleMove	Simple_Ready
+	CycleMove	Simple_Ready_Look
+	CycleMove	Simple_Ready
+	Scale		0.5
+
+	Type		male
+	  Anim          male\idle_look 1
+	TEnd
+
+	Type		huge
+	  Anim          huge\idle_look 1
+	TEnd
+
+	Type		fem
+	  Anim          fem\idle_look 1
+	TEnd
+MEnd
+
+#############################################################
+## KNEEL
+#############################################################
+
+Move Kneel
+	Requires	REST
+	Priority	51
+	Interrupts	<IRQRest> <MonsterGroup> <Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<DeathIRQ> <AttackIRQ> <MoveIRQ>
+	Flags		Cycle
+	CycleMove	Kneel_Cycle
+	##Sets		CANTMOVE
+
+	Type		male
+	  Anim          male\rest_kneel 1 50
+	TEnd
+MEnd
+
+Move Kneel_Cycle
+	Requires	REST
+	Member		<DeathIRQ> <AttackIRQ> <MoveIRQ>
+	Flags		Cycle
+	NextMove        Kneel_getup
+	##Sets		CANTMOVE
+
+	Type		male
+	  Anim          male\rest_kneel 50 60
+	TEnd
+MEnd
+
+Move Kneel_getup
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority	0
+	Interpolate     8
+
+	Type		male
+	  Anim          male\Loot 26
+	TEnd
+
+	Type		huge
+	  Anim          huge\Loot 26
+	TEnd
+MEnd
+
+#############################################################
+
+Move TeleportIn_Pre
+	Requires	SPAWNEDASPET
+	Priority        10
+	Interrupts	<MonsterGroup> <Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	Include sequencers\Members\Encounters_Idle.inc
+	NextMove        TeleportIn
+	Sets            CANTMOVE
+	Flags		NoSizeScale NotSelectable
+
+	Type		male
+	  Anim          male\drain 150 160
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+Move TeleportIn
+	Include sequencers\Members\Encounters_Idle.inc
+	NextMove        TeleportIn_LookQuick
+	Sets            CANTMOVE
+	Flags		NotSelectable
+
+	Type		male
+	  Anim          male\absorb 1
+	  #PlayFx        GENERIC\entityFadeIn.fx 0
+	  PlayFx        ENEMYFX\Seers\Summon_Portal.fx 0
+	TEnd
+MEnd
+
+Move TeleportIn_LookQuick
+	Include sequencers\Members\Encounters_Idle.inc
+	NextMove	TeleportIn_PostReady
+
+	Type		male
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+Move TeleportIn_PostReady
+	Include sequencers\Members\Encounters_Idle.inc
+	Flags		Cycle
+	Scale		0.5
+
+	Type		male
+	  Anim          male\suspicious 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move PlasmaVortex_Jump
+	Requires	COMBAT WEAPON DUAL CLAW CLAWAREA
+	Priority	5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	PlasmaVortex_Land
+	Sets		CANTMOVE
+	Wind		ATTACK
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim		male\claw_spin 1 32
+	TEnd
+MEnd
+
+Move PlasmaVortex_Land
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	PlasmaVortex_Post
+	Interpolate	0
+	Sets		CANTMOVE
+	Wind		ATTACK
+	Flags		NoSizeScale
+
+	Type		male
+	  Anim		male\claw_spinpost 1 45
+	  PlayFx	FEET\LAND1.FX 1
+	TEnd
+MEnd
+
+Move PlasmaVortex_Post
+	Requires	COMBAT
+	Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove	PlasmaVortex_Blend
+	Wind		ATTACK
+	Flags		NoSizeScale ReqInputs
+
+	Type		male
+	  Anim		male\claw_spinpost 46
+	TEnd
+MEnd
+
+Move PlasmaVortex_Blend
+	Requires	COMBAT
+	Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove	PlasmaVortex_PostCycle
+	Scale		0.50
+	Flags		NoSizeScale ReqInputs
+
+	Type		male
+	  Anim		male\claw_cycle	15
+	TEnd
+MEnd
+
+Move PlasmaVortex_PostCycle
+	Requires	COMBAT
+	Include sequencers\Members\Combat_DualWeapon.inc
+	Flags		Cycle NoSizeScale
+	NextMove	postReady_back
+	Scale		0.50
+
+	Type		male
+	  Anim		male\claw_cycle	1
+	TEnd
+MEnd
+
+#############################################################
+
+Include sequencers\player\readies_fake.inc
+Include sequencers\player\readies_air.inc
+
+#############################################################
+
+#Include sequencers\player\readies.inc
+#Include sequencers\player\Spawns.inc
+
+Include sequencers\player\motion.inc
+Include sequencers\player\Swim.inc
+#Include sequencers\player\wings.inc
+#Include sequencers\player\FlyForwardAltPoses.inc
+
+Include sequencers\player\powers.inc
+Include sequencers\player\powers_air.inc
+#Include sequencers\player\powers_prestige.inc
+#Include sequencers\player\Korea.inc
+Include sequencers\player\Taunts.inc
+#Include sequencers\player\Staff_Powers.inc
+Include sequencers\player\sonic.inc
+#Include sequencers\player\signature.inc
+Include sequencers\player\Brian_powers.inc
+Include sequencers\player\CBruce_powers.inc
+#Include sequencers\player\skills.inc
+#Include sequencers\player\Crabpack.inc
+
+#Include sequencers\player\weapons.inc
+#Include sequencers\player\weapons_a.inc
+#Include sequencers\player\Shields\Shields_Core.inc
+#Include sequencers\player\Shields\Shields_Powers.inc
+#Include sequencers\player\Shields\Shields_Weapons.inc
+
+Include sequencers\player\deaths.inc
+Include sequencers\PraetorianPolice\reactions.inc
+Include sequencers\PraetorianPolice\reactions_air.inc
+Include sequencers\player\blocks.inc
+
+Include sequencers\player\encounters.inc
+#Include sequencers\player\monster.inc
+
+#Include sequencers\player\CustomPowerAnimations\Custom_MartialArts_One.inc
+#Include sequencers\player\CustomPowerAnimations\Custom_MartialArts_Shields_One.inc
+#Include sequencers\player\CustomPowerAnimations\Custom_SuperStrength_One.inc
+#Include sequencers\player\CustomPowerAnimations\Custom_SuperStrength_Shields_One.inc
+
+Include sequencers\player\Stances.inc
+Include sequencers\player\emotes.inc
+#Include sequencers\player\emotes_air.inc
+#Include sequencers\player\emotes_CostumeChange.inc
+#Include sequencers\player\Boombox.inc
+
+#Include sequencers\player\Events.inc
+
+#Include sequencers\player\test.inc
+
+#########################################################
+
+SeqEnd

@@ -1,0 +1,342 @@
+#############################################################
+
+Sequencer
+
+#############################################################
+TypeDef Bees_Kheldian
+	BaseSkeleton	Prop_basic\bee_ready
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+#############################################################
+
+## READY - This move HAS to be first in this sequencer ###########################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Priority        0
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 10
+	TEnd
+
+MEnd
+
+###################
+###### Cast  ######
+###################
+
+Move Cast
+	Requires	COMBAT CAST
+	Priority        2
+	Interrupts	<AttackIRQ> <Defiance>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Castpost
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 30
+	TEnd
+
+MEnd
+
+Move Castpost
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 30 45
+	TEnd
+
+MEnd
+
+## HEADCAST ###########################################################
+
+Move Mouth
+	Requires	COMBAT HEADCAST
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Mouth_Post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 50
+	TEnd
+
+MEnd
+
+Move Mouth_Post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Flags		NoSizeScale ReqInputs
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 50 80
+	TEnd
+MEnd
+
+###################
+###### 2Hand Cast  ######
+###################
+
+Move 2HandCast
+	Requires	COMBAT 2HAND CAST
+	Priority        3
+	Interrupts	<AttackIRQ> <Defiance> #<Windups> #Pre_WindUp WindUp
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        2HandCastpost
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 50
+	TEnd
+
+MEnd
+
+Move 2HandCastpost
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 50 80
+	TEnd
+
+MEnd
+
+###################
+###### Energy Torrent ######
+###################
+
+Move Energy_Torrent
+	Requires	COMBAT ENERGYTORRENT
+	Priority        2
+	Interrupts	<AttackIRQ> <Defiance>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        E_Torrent_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 65
+	TEnd
+MEnd
+
+Move E_Torrent_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Scale           0.50
+	Flags		NoSizeScale ReqInputs
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 65 85
+	TEnd
+MEnd
+
+###################
+###### jumpNsmash ######
+###################
+
+Move jumpNsmash
+	Requires	COMBAT JUMPNSMASH
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        jumpNsmash_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 98
+	TEnd
+MEnd
+
+Move jumpNsmash_post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Scale           0.50
+	Flags		NoSizeScale ReqInputs
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 98 120
+	TEnd
+MEnd
+
+###################
+###### Blinding Cast  ######
+###################
+
+Move blinding
+	Requires	COMBAT BLINDING
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        blindingpost
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 88
+	TEnd
+MEnd
+
+Move blindingpost
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Scale           0.50
+	Flags		NoSizeScale ReqInputs
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 88 100
+	TEnd
+MEnd
+
+###################
+###### Cage  ######
+###################
+
+Move Cage
+	Requires	COMBAT CAGE
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Cagepost
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 35
+	TEnd
+MEnd
+
+Move Cagepost
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Scale           0.50
+	Flags		NoSizeScale ReqInputs
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 35 50
+	TEnd
+MEnd
+
+###################
+###### Sky Summon  ######
+###################
+
+Move S_Summon
+	Requires	COMBAT SKYSUMMON
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        S_Summonpost
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 60
+	TEnd
+MEnd
+
+Move S_Summonpost
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Flags		NoSizeScale ReqInputs
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 60 70
+	TEnd
+MEnd
+
+
+###################
+###### Poison Mode (MR.Spikey)  ######
+###################
+
+Move PrePoison
+	Requires	COMBAT POISON
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        PrePoison2
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 1 88
+	TEnd
+MEnd
+
+Move PrePoison2
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+	Scale           0.50
+	Flags		NoSizeScale
+
+	Type		Bees_Kheldian
+	  Anim          Prop_basic\bee_ready 88 100
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd
+

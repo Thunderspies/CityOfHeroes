@@ -1,0 +1,102 @@
+#############################################################
+## FX_banner.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_Fish
+	BaseSkeleton	FX_Fish\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_Fish_Leaping
+	BaseSkeleton	FX_Fish\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove	Ready
+	CycleMove	Ready_Two
+	CycleMove	Ready_Three
+	Scale		1
+
+	Type		FX_Fish
+	  Anim          FX_Fish\skel_ready 1
+	TEnd
+
+	Type		FX_Fish_Leaping
+	  Anim          FX_Fish\skel_ready 1
+	TEnd
+
+MEnd
+
+Move Ready_Two
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove	Ready
+	CycleMove	Ready_Two
+	CycleMove	Ready_Three
+	CycleMove	Ready_Four
+	Scale		1
+
+	Type		FX_Fish
+	  Anim          FX_Fish\skel_ready 1
+	TEnd
+
+	Type		FX_Fish_Leaping
+	  Anim          FX_Fish\skel_ready 1
+	TEnd
+
+MEnd
+
+Move Ready_Three
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove	Ready
+	CycleMove	Ready_Two
+	CycleMove	Ready_Four
+	Scale		1
+
+	Type		FX_Fish
+	  Anim          FX_Fish\skel_ready 1
+	TEnd
+
+	Type		FX_Fish_Leaping
+	  Anim          FX_Fish\skel_ready 1
+	TEnd
+
+MEnd
+
+Move Ready_Four
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove	Ready
+	Scale		1
+
+	Type		FX_Fish
+	  Anim          FX_Fish\skel_ready 1
+	TEnd
+
+	Type		FX_Fish_Leaping
+	  Anim          FX_Fish\fish_leaping 1
+	playfx		world/nature/Wildlife/FX_Fish_01_leaping.fx 0 constant
+	PlayFX		WORLD\Nature\FX_Fish_Leaping_SFX.fx
+	TEnd
+
+MEnd
+
+
+#############################################################
+
+SeqEnd

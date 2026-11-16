@@ -1,0 +1,3221 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage Reset
+DisplayName P740733200
+EventVolume GEExterior // ZoneEventName = TheGreatEscape
+
+Stage Setup
+{
+	StartUp
+	{
+		Action StartSetup
+		{
+			DebugPrint <<Starting Stage Setup>>
+		}
+		Action CreatePorters
+		{
+			PorterCreate GEInteriorTech
+			PorterCreate GEInteriorTunnels
+			PorterControl InitPortTech
+			{
+				Porter GEInteriorTech
+				Type Activate
+			}
+			PorterControl InitPortTunnels
+			{
+				Porter GEInteriorTunnels
+				Type Activate
+			}
+		}
+		Action CreateDoors
+		{
+			DoorCreate DoorTunlEntranceA
+			DoorCreate DoorTunlEntranceB
+			DoorControl LockTunnelA //TheGreatEscape.Door.DoorTunlEntranceA ZoneEvent>
+			{
+				Door DoorTunlEntranceA
+				Type Lock
+			}
+			DoorControl LockTunnelB //TheGreatEscape.Door.DoorTunlEntranceB ZoneEvent>
+			{
+				Door DoorTunlEntranceB
+				Type Lock
+			}
+			DoorCreate DoorTunlBossEntrance
+			DoorControl LockTunnelBoss //TheGreatEscape.Door.DoorTunlBossEntrance ZoneEvent>
+			{
+				Door DoorTunlBossEntrance
+				Type Lock
+			}
+			DoorCreate DoorTechEntrance
+			DoorControl LockTech //TheGreatEscape.Door.DoorTechEntrance ZoneEvent>
+			{
+				Door DoorTechEntrance
+				Type Lock
+			}
+			DoorCreate DoorTechLabArea
+			DoorControl LockLab //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door DoorTechLabArea
+				Type Lock
+			}
+			DoorCreate ExitLab1
+			DoorControl ExitLab1 //TheGreatEscape.Door.ExitLab1 ZoneEvent>
+			{
+				Door ExitLab1
+				Type Lock
+			}
+			DoorCreate 2ndFloor
+			DoorControl Door2ndFloor //TheGreatEscape.Door.2ndFloor ZoneEvent>
+			{
+				Door 2ndFloor
+				Type Lock
+			}
+			DoorCreate TechToTunnel
+			DoorControl DoorTechToTunnel //TheGreatEscape.Door.TechToTunnel ZoneEvent>
+			{
+				Door TechToTunnel
+				Type Lock
+			}
+		}
+		Action CreateGlowies
+		{
+			WaypointCreate GE_ExtWaypoint map_enticon_mission_b P740733200
+			WaypointCreate GE_TechDoorWaypoint map_enticon_mission_b P1275756903
+			WaypointCreate GE_TnlDoorWaypoint map_enticon_mission_b P3822615745
+			GlowieCreate SecurityTerminal
+			{
+				DisplayName P1793817844
+				Location Terminal
+				Quantity 1
+				ResetDelay 30000
+				Model P_SciDesk_drawers //OO_RV_FC_Terminal01
+				Interact P65950150
+				Interrupt P3992009480
+				Complete P2286966785
+				BarText P1042303282
+				InteractTime 5
+				Waypoint TerminalWaypoint
+			}
+			WaypointCreate TerminalWaypoint map_enticon_mission_b P350211643
+			GlowieCreate LucanTube
+			{
+				DisplayName P1793817844
+				Location tube
+				Quantity 4
+				ResetDelay 30000
+				Model OO_Tek1_Computer_01 //OO_RV_FC_Terminal01
+				Interact P65950150
+				Interrupt P3992009480
+				Complete P1148720634
+				BarText P3273156148
+				InteractTime 5
+				Waypoint SecuritySystemWaypoint
+			}
+			WaypointCreate SecuritySystemWaypoint map_enticon_mission_b P1793817844
+		}
+		Action CreateStuff
+		{
+			SpawnCreate NoTeleport-Tech
+			{
+				Location NoTeleport-Tech
+				Group NoTeleport-Tech
+				Team NoTeleport-Tech
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NoTeleport-Tech
+			}
+			SpawnCreate NoTeleport-Tunnel
+			{
+				Location NoTeleport-Tunnel
+				Group NoTeleport-Tunnel
+				Team NoTeleport-Tunnel
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NoTeleport-Tunnel
+			}
+			SpawnCreate NoRecall-Tech
+			{
+				Location NoRecall-Tech
+				Group NoRecall-Tech
+				Team NoRecall-Tech
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NoRecall-Tech
+			}
+			SpawnCreate NoRecall-Tunnel
+			{
+				Location NoRecall-Tunnel
+				Group NoRecall-Tunnel
+				Team NoRecall-Tunnel
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team NoRecall-Tunnel
+			}			
+			SpawnCreate TechPPDvsGhouls
+			{
+				Location TechPPDvsGhoulsWave
+				Group TechPPDvsGhoulsWave
+				Team TechPPDvsGhoulsteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team TechPPDvsGhoulsteam
+			}
+			SpawnCreate Lilith
+			{
+				Location LilithWave
+				Group LilithWave
+				Team Lilithteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur,Combat(IgnoreCombatMods(1))>>
+				MoveToMarker GotoLucanBossBattle
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team Lilithteam
+			}
+			SpawnCreate Res
+			{
+				Location ResWave
+				Group ResWave
+				Team Resteam
+				MoveToMarker GotoLucanBossBattle
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Resteam
+				MinRespawnTime 3
+				MaxRespawnTime 20
+				//	Plyrs	Minimum	Full
+				Count   1,   4,   5
+				Count   2,   4,   7
+				Count   3,   4,   9
+				Count   8,   4,   10
+				Count   10,   5,   14
+				Count   12,   9,   17
+				Count   21,   11,   19
+				Count   23,   12,   18
+				Count   38,   16,   20
+			}
+			SpawnCreate LucanUnleashed
+			{
+				Location LucanUnleashedWave
+				Group LucanUnleashedWave
+				Team LucanUnleashedteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur,IgnoreCombatMods,Gang(1),Ghouls_Beam_In(Timer(1)),DoNothing(Timer(2)),MoveToPos(marker:LucanRoomOneA,Radius(10),CombatOverride(Aggressive)),MoveToPos(marker:LucanRoomOneB,Radius(10),CombatOverride(Aggressive)),Combat>>	
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team LucanUnleashedteam
+			}
+			SpawnCreate LucanPtTwo
+			{
+				Location LucanPtTwoWave
+				Group LucanPtTwoWave
+				Team LucanPtTwoteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur,IgnoreCombatMods,Gang(1),DoNothing(Timer(15)),MoveToPos(marker:LucanRoomTwoA,Radius(10),CombatOverride(Aggressive)),MoveToPos(marker:LucanRoomTwoB,Radius(10),CombatOverride(Aggressive)),Combat>>
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team LucanPtTwoteam
+			}
+			SpawnCreate LucanPtThree
+			{
+				Location LucanPtThreeWave
+				Group LucanPtThreeWave
+				Team LucanPtThreeteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur,IgnoreCombatMods,Gang(1),DoNothing(Timer(15)),Patrol(NamedRoute(BattleEscape03),CombatOverride(Aggressive))>>
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team LucanPtThreeteam
+			}
+			SpawnCreate LucanFloating
+			{
+				Location LucanFloatingWave
+				Group LucanFloatingWave
+				Team LucanFloatingteam
+				SpawnBehavior <<Ghouls_Float(DoNotDrawAggro,Untargetable,Unselectable)>>
+				KillBehavior <<Ghouls_Beam_Out(Timer(1)),PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team LucanFloatingteam
+			}
+			SpawnCreate Hoffman
+			{
+				Location HoffmanWave
+				Group HoffmanWave
+				Team Hoffmanteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team Hoffmanteam
+			}
+			SpawnCreate HoffmanAlly
+			{
+				Location HoffmanAllyWave
+				Group HoffmanAllyWave
+				Team HoffmanAllyteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team HoffmanAllyteam
+			}
+			SpawnCreate BossHall
+			{
+				Location BossHallWave
+				Group BossHallWave
+				Team BossHallteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team BossHallteam
+			}
+			SpawnCreate DownedPPD
+			{
+				Location DownedPPDWave
+				Group DownedPPDWave
+				Team DownedPPDteam
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team DownedPPDteam
+			}
+			SpawnCreate TechGuards
+			{
+				Location TechGuardsWave
+				Group TechGuardsWave
+				Team TechGuardsteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team TechGuardsteam
+			}
+			SpawnCreate TunnelsBattles
+			{
+				Location TunnelBattleWave
+				Group TunnelBattleWave
+				Team TunnelBattleteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				//KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team TunnelBattleteam
+			}
+			SpawnCreate Feeding
+			{
+				Location FeedingWave
+				Group FeedingWave
+				Team Feedingteam
+				KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team Feedingteam
+			}
+			SpawnCreate ExperimentsSpawn
+			{
+				Location ExperimentsWave
+				Group ExperimentsWave
+				Team Experimentsteam
+				SpawnBehavior <<LeashedToSpawnDistance(430)>>
+				KillBehavior <<DoNothing(Timer(1)),Patrol(NamedRoute(RunToTunnels)),RunIntoDoor,PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team Experimentsteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   3,   5
+				Count   2,   5,   7
+				Count   3,   6,   8
+				Count   8,   7,   9
+				Count   10,   9,   11
+				Count   12,   12,   15
+				Count   21,   14,   18
+				Count   23,   17,   22
+				Count   38,   19,   24
+			}
+			SpawnCreate LucanGuardSpawn
+			{
+				Location LucanGuardWave
+				Group LucanGuardWave
+				Team LucanGuardteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				//Does Not Respawn
+				Team LucanGuardteam
+			}
+			SpawnCreate PPDWave01Spawn
+			{
+				Location PPDWave01Wave
+				Group PPDWave01Wave
+				Team PPDWave01team
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur,IgnoreCombatMods,Gang(2),Praetorian_TeleportIn(Timer(1)),Combat(TargetInstigator(1))>>
+				KillBehavior <<Praetorian_TeleportOut(Timer(1)),PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team PPDWave01team
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   4,   5
+				Count   2,   4,   7
+				Count   3,   4,   9
+				Count   8,   4,   10
+				Count   10,   5,   14
+				Count   12,   9,   17
+				Count   21,   11,   19
+				Count   23,   12,   18
+				Count   38,   16,   20
+			}
+			SpawnCreate PPDWave02Spawn
+			{
+				Location PPDWave02Wave
+				Group PPDWave02Wave
+				Team PPDWave02team
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur,IgnoreCombatMods,Gang(2),Praetorian_TeleportIn(Timer(1)),Combat(TargetInstigator(1))>>
+				KillBehavior <<Praetorian_TeleportOut(Timer(1)),PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team PPDWave02team
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   4,   5
+				Count   2,   4,   7
+				Count   3,   4,   9
+				Count   8,   4,   10
+				Count   10,   5,   14
+				Count   12,   9,   17
+				Count   21,   11,   19
+				Count   23,   12,   18
+				Count   38,   16,   20
+			}
+			SpawnCreate PPDWave03Spawn
+			{
+				Location PPDWave03Wave
+				Group PPDWave03Wave
+				Team PPDWave03team
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur,IgnoreCombatMods,Gang(2),Praetorian_TeleportIn(Timer(1)),Combat(TargetInstigator(1))>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team PPDWave03team
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   4,   6
+				Count   2,   4,   7
+				Count   3,   5,   10
+				Count   8,   5,   11
+				Count   10,   7,   16
+				Count   12,   10,   19
+				Count   21,   12,   21
+				Count   23,   13,   23
+				Count   38,   18,   25
+			}
+			SpawnCreate TunnelGhoulsSpawn
+			{
+				Location TunnelGhoulsWave
+				Group TunnelGhoulsWave
+				Team TunnelGhoulsteam
+				MoveToMarker GotoGhoulTunnelGuard
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				//KillBehavior PL_DestroyMe
+			}
+			TeamCreate
+			{
+				Team TunnelGhoulsteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   3
+				Count   2,   2,   4
+				Count   3,   3,   6
+				Count   8,   3,   7
+				Count   10,   4,   8
+				Count   12,   6,   12
+				Count   21,   7,   15
+				Count   23,   9,   18
+				Count   38,   10,   20
+			}
+			SpawnCreate BossGhoulsSpawn
+			{
+				Location BossGhoulsWave
+				Group BossGhoulsWave
+				Team BossGhoulsteam
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur>>
+				MoveToMarker GotoLucanBossBattle
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team BossGhoulsteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   5,   6
+				Count   2,   6,   7
+				Count   3,   7,   9
+				Count   8,   8,   10
+				Count   10,   9,   11
+				Count   12,   10,   14
+				Count   21,   11,   18
+				Count   23,   12,   19
+				Count   38,   14,   24
+			}
+			SpawnCreate SuperFESpawn
+			{
+				Location SuperFEWave
+				Group SuperFEWave
+				Team SuperFEteam
+				SpawnBehavior <<LeashedToSpawnDistance(430)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team SuperFEteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   2,   3
+				Count   3,   3,   5
+				Count   8,   3,   6
+				Count   10,   4,   7
+				Count   12,   6,   10
+				Count   21,   7,   13
+				Count   23,   9,   15
+				Count   38,   10,   18
+			}
+			SpawnCreate IDFSpawn
+			{
+				Location IDFWave
+				Group IDFWave
+				Team IDFteam
+				MoveToMarker GE_FEGoto
+				//KillBehavior P1608865791
+			}
+			TeamCreate
+			{
+				Team IDFteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   3
+				Count   2,   3,   4
+				Count   3,   3,   5
+				Count   8,   3,   6
+				Count   10,   4,   7
+				Count   12,   6,   10
+				Count   21,   7,   13
+				Count   23,   9,   15
+				Count   38,   10,   18
+			}
+			SpawnCreate PPDAllySpawn
+			{
+				Location PPDAllyWave
+				Group PPDAllyWave
+				Team PPDAllyteam
+				SpawnBehavior <<IgnoreCombatMods,Gang(1),RunOutOfDoor(Timer(2)),MoveToPos(marker:GE_FEGoto,Radius(20)),Combat(Timer(90)),RunIntoDoor>>
+				KillBehavior <<DoNothing(Timer(3)),Patrol(NamedRoute(RunToTunnels)),RunIntoDoor,PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team PPDAllyteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   2
+				Count   2,   2,   3
+			}
+			SpawnCreate PPDAllyTwoSpawn
+			{
+				Location PPDAllyTwoWave
+				Group PPDAllyTwoWave
+				Team PPDAllyTwoteam
+				MoveToMarker GotoLucanBossBattle
+				SpawnBehavior <<LeashedToSpawnDistance(0),OverrideSpawnPosCur,IgnoreCombatMods,Gang(1),Combat>>
+				KillBehavior <<Praetorian_TeleportOut(Timer(1)),PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team PPDAllyTwoteam
+				MinRespawnTime 1
+				MaxRespawnTime 10
+				//	Plyrs	Minimum	Full
+				Count   1,   2,   4
+				Count   2,   2,   5
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage UnleashTheHorde
+	}
+}
+Stage UnleashTheHorde
+{
+	DisplayName P2213595398
+	ToolTip P2944579040
+	StartUp
+	{
+		Action StartKillExperiments
+		{
+			RemoveWaypoints
+			WaypointPlace GE_ExtWaypoint FeedingWave
+			DebugPrint <<Starting Stage UnleashTheHorde>>
+			DoorControl //TheGreatEscape.Door.DoorTunlEntranceA ZoneEvent>
+			{
+				Door DoorTunlEntranceA
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTunlEntranceB ZoneEvent>
+			{
+				Door DoorTunlEntranceB
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTunlBossEntrance ZoneEvent>
+			{
+				Door DoorTunlBossEntrance
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTechEntrance ZoneEvent>
+			{
+				Door DoorTechEntrance
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door DoorTechLabArea
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.ExitLab1 ZoneEvent>
+			{
+				Door ExitLab1
+				Type Lock
+			}
+			DoorControl Door2ndFloor //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door 2ndFloor
+				Type Lock
+			}
+			DoorControl DoorTechToTunnel //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door TechToTunnel
+				Type Lock
+			}
+		}
+		Action StartGetThosePortersWorkin
+		{
+			PorterControl
+			{
+				Porter GEInteriorTech
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter GEInteriorTunnels
+				Type Activate
+			}
+		}
+		Action NoTeleports
+		{
+			TeamControl
+			{
+				Type Activate
+				Team NoTeleport-Tech
+			}
+			TeamControl
+			{
+				Type Activate
+				Team NoTeleport-Tunnel
+			}
+			TeamControl
+			{
+				Type Activate
+				Team NoRecall-Tech
+			}
+			TeamControl
+			{
+				Type Activate
+				Team NoRecall-Tunnel
+			}
+		}
+		Action TurnOnBattlers
+		{
+			TeamControl StartFeeding
+			{
+				Type Activate
+				Team Feedingteam
+			}
+			TeamControl StartFeeding
+			{
+				Type Activate
+				Team DownedPPDteam
+			}
+		}
+	}
+	Counter GhoulKills
+	{
+		Type Team
+		Count 1
+		Team Feedingteam
+		VolumeName GEExterior
+	}
+	Counter PPDKills
+	{
+		Type Team
+		Count 1
+		Team DownedPPDteam
+		VolumeName GEExterior
+	}
+	Timer WaitTimer
+	{
+		Duration 20:00
+		Display
+	}
+	Trigger RampageFail
+	{
+		Requires WaitTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<TunnelInterior failed: Reset>>
+		}
+		NextStage Reset
+	}
+	Trigger UpgradeGhouls
+	{
+		Requires GhoulKills complete>
+		Action TurnTheHorde
+		{
+			Floater Anger
+			{
+				Message P4187510074
+				Color ff0000
+				Volume GEExterior
+			}
+			TeamControl DownedPPDClear
+			{
+				Type DoBehavior
+				Team DownedPPDteam
+				Behavior <<Untargetable,Unselectable,DoNotMove,Corpse_KIA,BeStill,DoNotDrawAggro,FrozenInPlace(Timer(Rand(30,60))),PL_DestroyMe>>
+			}
+		}
+		NextStage DefeatExperiments
+	}
+	Trigger Done
+	{
+		Requires PPDKills complete>
+		Action TurnThePPD
+		{
+			Floater Alert
+			{
+				Message P30377505
+				Color ff0000
+				Volume GEExterior
+			}
+			TeamControl DownedPPDClear
+			{
+				Type DoBehavior
+				Team DownedPPDteam
+				Behavior <<Untargetable,Unselectable,DoNotMove,Corpse_KIA,BeStill,DoNotDrawAggro,FrozenInPlace(Timer(Rand(30,60))),PL_DestroyMe>>
+			}
+		}
+		NextStage DefeatPPD
+	}
+	UICollection GEOption
+	{
+		UIItem GhoulKills
+		{
+			Type CenterText
+			Text P3949206766
+		}
+		UIItem SeparatorLine
+		{
+			Type CenterText
+			Text P3072676397
+		}
+		UIItem PPDKills
+		{
+			Type CenterText
+			Text P579810647
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage UnleashTheHorde>>
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+Stage DefeatExperiments
+{
+	DisplayName P3400222018
+	ToolTip P1662272865
+	AwardKarma
+	KarmaThreshold	1
+	StartUp
+	{
+		Action StartKillExperiments
+		{
+			DebugPrint <<Starting Stage DefeatExperiments>>
+			TeamControl StartFeeding
+			{
+				Type Activate
+				Team Experimentsteam
+			}
+			TeamControl StartAllies
+			{
+				Type Activate
+				Team PPDAllyteam
+			}
+		}
+	}
+	Objective ObjBasicFEKillCount
+	{
+		Type team
+		Team Experimentsteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Counter BasicFEKillCount
+	{
+		Type Team
+		Count 30
+		Team Experimentsteam
+		//VolumeName GEExterior
+	}
+	Counter STPoliceExtKills
+	{
+		Type Team
+		Count 10
+		Team PPDAllyteam
+		VolumeName STExterior
+	}
+	Timer KillGhoulTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Trigger RampageFail
+	{
+		Requires KillGhoulTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<DefeatSuperFE failed: Reset>>
+		}
+		NextStage Reset
+	}
+	Trigger RampageFail
+	{
+		Requires STPoliceExtKills complete>
+		Action GotoReset
+		{
+			Floater Alert
+			{
+				Message P2651827808
+				Color ff0000
+				Volume GEExterior
+			}
+			RewardGroup reward
+			{
+				Reward class0
+				{
+				}
+			}
+			DebugPrint <<DefeatSuperFE failed: Reset>>
+		}
+		NextStage Reset
+	}
+	Trigger DoneLoyalist
+	{
+		Requires BasicFEKillCount complete>
+		Action GotoProtest
+		{
+			DebugPrint <<DefeatSuperFE done: switching to TunnelInterior>>
+			DoorControl
+			{
+				Door DoorTunlEntranceA
+				Type Unlock
+			}
+			DoorControl
+			{
+				Door DoorTunlEntranceB
+				Type Unlock
+			}
+			PorterControl OpenInterior
+			{
+				Porter GEInteriorTunnels
+				Type Deactivate
+			}
+			TeamControl StartFeeding
+			{
+				Type Deactivate
+				Team Experimentsteam
+			}
+			TeamControl StartAllies
+			{
+				Type Deactivate
+				Team PPDAllyteam
+			}
+		}
+		NextStage TunnelInterior
+	}
+	UICollection GESecondWave
+	{
+		UIItem GhoulKills
+		{
+			Type BarGold
+			Text P3139215551
+			ShortText P1004990008
+			Current BasicFEKillCount count>
+			Target 30
+		}
+		UIItem PPDDeaths
+		{
+			Type BarRed
+			Text P696912073
+			ShortText P1492594559
+			Current 10 STPoliceExtKills count> -
+			Target 10
+		}
+	}
+	ShutDown
+	{
+		Action TurnOffFeedingteam
+		{
+			TeamControl StopFeedingteam
+			{
+				Type Deactivate
+				Team Feedingteam
+			}
+			TeamControl StopGhouls
+			{
+				Type Deactivate
+				Team DownedPPDteam
+			}
+		}
+		Action Shutdown
+		{
+			TeamControl StartSuperFE
+			{
+				Type Deactivate
+				Team SuperFEteam
+			}
+			DebugPrint <<Shutting down Stage DefeatExperiments>>
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+Stage TunnelInterior
+{
+	DisplayName P2665972650
+	ToolTip P2144628557
+	AwardKarma
+	KarmaThreshold	10
+	StartUp
+	{
+		Action StartKillExperiments
+		{
+			RemoveWaypoints
+			WaypointPlace GE_TnlDoorWaypoint GE_TnlDoorWaypointM
+			TeamControl StartTunnelBattleteam
+			{
+				Type Activate
+				Team TunnelBattleteam
+			}
+			TeamControl StartTNLFE
+			{
+				Type Activate
+				Team TunnelGhoulsteam
+			}
+			DebugPrint <<Starting Stage TunnelInterior>>
+		}
+	}
+	Objective ObjSuperFEKills
+	{
+		Type team
+		Team TunnelGhoulsteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Counter SuperFEKillsFirst
+	{
+		Type Team
+		Count 1
+		Team TunnelBattleteam
+		//VolumeName GEExterior
+	}
+	Counter SuperFEKills
+	{
+		Type Team
+		Count 30
+		Team TunnelGhoulsteam
+		//VolumeName GEExterior
+	}
+	Timer RampageTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Trigger RampageFail
+	{
+		Requires RampageTimer complete>
+		Action GotoReset
+		{
+			Floater Alert
+			{
+				Message P3591156922
+				Color ff0000
+				Volume GEExterior
+			}
+			DebugPrint <<TunnelInterior failed: Reset>>
+		}
+		NextStage Reset
+	}
+	Trigger AllyTroops
+	{
+		Requires SuperFEKillsFirst complete>
+		Action GotoProtest
+		{
+			DebugPrint <<Here come some reinforcements>>
+			TeamControl FightLucan01
+			{
+				Type DoBehavior
+				Team TunnelBattleteam
+				Behavior <<Patrol(NamedRoute(RunToGhoulBoss),Unselectable(0),CombatOverride(Aggressive))>>
+			}
+			TeamControl FightLucan02
+			{
+				Type DoBehavior
+				Team TunnelGhoulsteam
+				Behavior <<Patrol(NamedRoute(RunToGhoulBoss),Unselectable(0),CombatOverride(Aggressive))>>
+			}
+		}
+	}
+	Trigger DoneLoyalist
+	{
+		Requires SuperFEKills complete>
+		Action GotoProtest
+		{
+			DebugPrint <<TunnelInterior done: switching to FightLilith>>
+			DoorControl
+			{
+				Door DoorTunlBossEntrance
+				Type Unlock
+			}
+		}
+		NextStage HuntLucan
+	}
+	UICollection GEInnerWave
+	{
+		UIItem GhoulGuardKills
+		{
+			Type BarGold
+			Text P2260079218
+			ShortText P1068058690
+			Current SuperFEKills count>
+			Target 30
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage TunnelInterior>>
+		}
+	}
+}
+Stage HuntLucan
+{
+	DisplayName P3286778173
+	ToolTip P638191593
+	AwardKarma
+	KarmaThreshold	10
+	StartUp
+	{
+		Action StartFightLilith
+		{
+			DebugPrint <<Starting Stage HuntLucan>>
+		}
+		Action TurnOnLilith
+		{
+			TeamControl FightLucan01
+			{
+				Type DoBehavior
+				Team TunnelBattleteam
+				Behavior <<Patrol(NamedRoute(RunToGhoulBoss)),Unselectable(0),RunIntoDoor,PL_DestroyMe>>
+			}
+			TeamControl FightLucan02
+			{
+				Type DoBehavior
+				Team TunnelGhoulsteam
+				Behavior <<Patrol(NamedRoute(RunToGhoulBoss)),RunIntoDoor,PL_DestroyMe>>
+			}
+			Floater Announcement
+			{
+				Message P1313618466
+				Color ff0000
+				Volume GETnlInterior
+			}
+			TeamControl StartHallBossFE
+			{
+				Type Activate
+				Team BossHallteam
+			}
+		}
+		Action TurnOffSpawns
+		{
+			TeamControl StopResistanceteam
+			{
+				Type Deactivate
+				Team TunnelBattleteam
+			}
+			TeamControl StopResistanceteam
+			{
+				Type Deactivate
+				Team TunnelGhoulsteam
+			}
+		}
+	}
+	Objective ObjTunnelGhoulsteamKills
+	{
+		Type team
+		Team TunnelGhoulsteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjTunnelBattleteamKills
+	{
+		Type team
+		Team TunnelBattleteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjBossGhoulsteamKills
+	{
+		Type team
+		Team BossGhoulsteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjBossHallteamKills
+	{
+		Type team
+		Team BossHallteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Counter HallKills
+	{
+		Type Team
+		Count 5
+		Team BossHallteam
+	}
+	Counter BossGhoulsteamKills
+	{
+		Type Team
+		Count 30
+		Team BossGhoulsteam
+	}
+	Timer BossHallTimer
+	{
+		Duration 10:00
+		Display
+	}
+	Trigger HeadToLilith
+	{
+		Requires HallKills complete>
+		Action PPDRunToBoss
+		{
+			TeamControl FightLucan04
+			{
+				Type DoBehavior
+				Team BossHallteam
+				Behavior <<Patrol(NamedRoute(RunToBoss),Unselectable(0),DoNotDrawAggro(0),CombatOverride(Aggressive)),Combat>>
+			}
+			TeamControl StartTnlBossFE
+			{
+				Type Activate
+				Team BossGhoulsteam
+			}
+			Floater Announcement
+			{
+				Message P2600337827
+				Color ff0000
+				Volume GETnlInterior
+			}
+		}
+	}
+	Trigger DoneLoyalist
+	{
+		Requires BossGhoulsteamKills complete>
+		Action GotoProtest
+		{
+			DebugPrint <<HuntLucan done: switching to FightLilith>>
+		}
+		NextStage FightLilith
+	}
+	Trigger HallKillsDestroyedFail
+	{
+		Requires BossHallTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<FightLucan failed: Zone Reset>>
+		}
+		NextStage Reset
+	}
+	UICollection GEOption02
+	{
+		UIItem GhoulBossGuardKills
+		{
+			Type BarGold
+			Text P1323279831
+			ShortText P4268879284
+			Current HallKills count>
+			Target 5
+		}
+		UIItem Divider
+		{
+			Type CenterText
+			Text P3300384583
+			ShortText P3300384583
+		}
+		UIItem GhoulBossGuardKills
+		{
+			Type BarGold
+			Text P3308973339
+			ShortText P3375642119
+			Current BossGhoulsteamKills count>
+			Target 30
+		}
+	}
+	ShutDown
+	{
+		Action TurnOffSuperFE
+		{
+			DebugPrint <<Shutting down Stage HuntLucan>>
+		}
+	}
+}
+Stage FightLilith
+{
+	DisplayName P1524992885
+	ToolTip P961304733
+	AwardKarma
+	KarmaThreshold	10
+	StartUp
+	{
+		Action StartFightLilith
+		{
+			DebugPrint <<Starting Stage FightLucan>>
+		}
+		Action TurnOnLilith
+		{
+			Floater Announcement
+			{
+				Message P1557384612
+				Color ff0000
+				Volume GETnlInterior
+			}
+			TeamControl StartTnlBossFE
+			{
+				Type Activate
+				Team Lilithteam
+			}
+			TeamControl StartTnlBossRes
+			{
+				Type Activate
+				Team Resteam
+			}
+			TeamControl StartPPDAllyTwoteam 
+			{
+				Type Activate
+				Team PPDAllyTwoteam
+			}
+		}
+	}
+	Objective ObjTunnelGhoulsteamKills
+	{
+		Type team
+		Team TunnelGhoulsteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjTunnelBattleteamKills
+	{
+		Type team
+		Team TunnelBattleteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjBossGhoulsteamKills
+	{
+		Type team
+		Team BossGhoulsteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjBossHallteamKills
+	{
+		Type team
+		Team BossHallteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjBossLilithKills
+	{
+		Type team
+		Team Lilithteam
+		KarmaValue 80
+		KarmaLife  15
+	}
+	Counter LilithKills
+	{
+		Type team
+		Count 1
+		Team Lilithteam
+	}
+	Counter LilithHealth
+	{
+		Type BossHealth
+		Team Lilithteam
+	}
+	Timer LilithTimer
+	{
+		Duration 5:00
+		Display
+	}
+	Trigger DoneLoyalist
+	{
+		Requires LilithKills complete>
+		Action GotoProtest
+		{
+			Floater PortOut
+			{
+				Message P1863320251
+				Color aaff00
+				Volume GETnlInterior
+			}
+			DebugPrint <<FightLucan done: switching to RewardLoyalists>>
+		}
+		NextStage RewardLoyalists
+	}
+	Trigger LilithDestroyedFail
+	{
+		Requires LilithTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<FightLucan failed: Zone Reset>>
+		}
+		NextStage Reset
+	}
+	UICollection BigBossTextUI
+	{
+		UIItem GhoulKills
+		{
+			Type CenterText
+			Text P1003443803
+		}
+		UIItem LucansToKill
+		{
+			Type BarRed
+			Text P3266408287
+			ShortText P2612883771
+			Current LilithHealth count>
+			Target 100
+		}
+	}
+	ShutDown
+	{
+		Action TurnOffSuperFE
+		{
+			TeamControl StopSuperFE
+			{
+				Type Deactivate
+				Team BossGhoulsteam
+			}
+			TeamControl StopLilith
+			{
+				Type Deactivate
+				Team Lilithteam
+			}
+			TeamControl StopTnlResteam
+			{
+				Type Deactivate
+				Team Resteam
+			}
+			TeamControl StopPPDAllyTwoteam 
+			{
+				Type Deactivate
+				Team PPDAllyTwoteam
+			}
+			DebugPrint <<Shutting down Stage FightLucan>>
+		}
+	}
+}
+Stage DefeatPPD
+{
+	DisplayName P2370932267
+	ToolTip P708060881
+	AwardKarma
+	KarmaThreshold 1
+	StartUp
+	{
+		Action StartKillExperiments
+		{
+			DebugPrint <<Starting Stage DefeatPPD>>
+			TeamControl StartPPD
+			{
+				Type Activate
+				Team IDFTeam
+			}
+		}
+	}
+	Objective ObjIDFTeamKills
+	{
+		Type team
+		Team IDFTeam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Counter ExtPPDKills
+	{
+		Type Team
+		Count 30
+		Team IDFTeam
+		//VolumeName GEExterior
+	}
+	Timer RampageTimer
+	{
+		Duration 8:00
+		Display
+	}
+	Trigger TimesUp
+	{
+		Requires RampageTimer complete>
+		Action GotoProtest
+		{
+			DebugPrint <<DefeatPPD failed: zone Reset>>
+		}
+		NextStage Reset
+	}
+	Trigger BustintoLabs
+	{
+		Requires ExtPPDKills complete>
+		Action GotoReset
+		{
+			DebugPrint <<DefeatPPD done: going to LabInterior>>
+			Floater Announcement
+			{
+				Message P1054052982
+				Color ff0000
+				Volume GEExterior
+			}
+			TeamControl FightLucan01
+			{
+				Type DoBehavior
+				Team IDFTeam
+				Behavior <<MoveToPos(marker:GE_TechDoorWaypointM,CombatOverride(Passive),Untargetable(1),Unselectable(1)),RunIntoDoor(CombatOverride(Passive)),PL_DestroyMe>>
+			}
+		}
+		Action SecondReset
+		{
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team IDFTeam
+			}
+			DoorControl UnlockTech
+			{
+				Door DoorTechEntrance
+				Type Unlock
+			}
+			PorterControl OpenInterior
+			{
+				Porter GEInteriorTech
+				Type Deactivate
+			}
+			PorterControl OpenInteriorTnl
+			{
+				Porter GEInteriorTunnels
+				Type Deactivate
+			}
+		}
+		NextStage LabInterior
+	}
+	UICollection PPDWave01
+	{
+		UIItem PPDKills
+		{
+			Type BarBlue
+			Text P919418918
+			ShortText P1492594559
+			Current ExtPPDKills count>
+			Target 30
+		}
+	}
+	ShutDown
+	{
+		Action TurnOffFeedingteam
+		{
+			TeamControl StopFeedingteam
+			{
+				Type Deactivate
+				Team Feedingteam
+			}
+			TeamControl StopGhouls
+			{
+				Type Deactivate
+				Team DownedPPDteam
+			}
+			TeamControl StopPPD
+			{
+				Type Deactivate
+				Team IDFTeam
+			}
+		}
+		Action Shutdown
+		{
+			TeamControl StartSuperFE
+			{
+				Type Deactivate
+				Team IDFTeam
+			}
+		}
+	}
+
+	Trigger OtherEventStarting
+	{
+		Requires ZoneEventMutex InstanceTokenVal system> UNKNOWN eq !
+		Action
+		{
+			DebugPrint <<Event Shutting Down Due To Other Event Grabbing The Mutex>>
+		}
+		NextStage ResetImmediateAndRecycle
+	}
+}
+Stage LabInterior
+{
+	DisplayName P2370932267
+	ToolTip P1558380583
+	AwardKarma
+	KarmaThreshold	5
+	StartUp
+	{
+		Action BreakingIntoLab
+		{
+			RemoveWaypoints
+			WaypointPlace GE_TechDoorWaypoint GE_TechDoorWaypointM
+			DebugPrint <<Starting Stage DefeatPPD>>
+			Floater Announcement
+			{
+				Message P1011367586
+				Color ff0000
+				Volume GEInteriorTech
+			}
+			TeamControl StartLabGuards
+			{
+				Type Activate
+				Team TechGuardsteam
+			}
+			TeamControl StartTechPPDvsGhouls
+			{
+				Type Activate
+				Team TechPPDvsGhoulsteam
+			}
+		}
+		Action Setupglowies
+		{
+			GlowieControl Place
+			{
+				Type Place
+				Glowie SecurityTerminal
+			}
+			GlowieControl Activate
+			{
+				Type Activate
+				Glowie SecurityTerminal
+			}
+			GlowieControl Mark
+			{
+				Type Mark
+				Glowie SecurityTerminal
+			}
+			WaypointPlace TerminalWaypoint map_enticon_mission_b
+		}
+	}
+	Objective ObjTechGuardsteamKills
+	{
+		Type Team
+		Team TechGuardsteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjPPDKills
+	{
+		Type VillainGroup
+		VillainGroup PraetorianPolice
+		KarmaValue 10
+		KarmaLife  15
+	}
+
+	Objective ObjSecurityTerminal
+	{
+		Type Glowie
+		Glowie SecurityTerminal
+		KarmaValue 10
+		KarmaLife  25
+	}
+	Counter FirstLabRoom-PPD
+	{
+		Type VillainGroup
+		VillainGroup PraetorianPolice
+		Direction Up
+		Count 8
+	}
+	Counter SecurityOverride
+	{
+		Type Click
+		Count 1
+		Direction Up
+		Glowie SecurityTerminal
+	}
+	Timer InteriorTimer
+	{
+		Duration 5:00
+		Display
+	}
+	Trigger TimesUp
+	{
+		Requires InteriorTimer complete>
+		Action GotoProtest
+		{
+			DebugPrint <<DefeatPPD failed: zone Reset>>
+		}
+		NextStage Reset
+	}
+	Trigger SecurityOverriden
+	{
+		Requires SecurityOverride complete> FirstLabRoom-PPD complete> &&
+		Action GotoFreeLucan
+		{
+			DebugPrint <<DefeatPPD done: going to LabInterior>>
+			Floater Announcement
+			{
+				Message P137933180
+				Color ff0000
+				Volume GEInteriorTech
+			}
+			RemoveWaypoints
+		}
+		NextStage FreeLucan
+	}
+	UICollection PPDWave02
+	{
+		UIItem HackInteriorSecurity
+		{
+			Type CenterText
+			Text P866984809
+		}
+		UIItem SecurityTerminalsHacked
+		{
+			Type BarGold
+			Text P2711711198
+			ShortText P2544615055
+			Current SecurityOverride count>
+			Target 1
+		}
+		UIItem DefeatFirstRoomPPD
+		{
+			Type BarBlue
+			Text P2969007410
+			ShortText P3572280765
+			Current FirstLabRoom-PPD count>
+			Target 8
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			GlowieControl Remove
+			{
+				Type Deactivate
+				Glowie SecurityTerminal
+			}
+		}
+	}
+}
+Stage FreeLucan
+{
+	DisplayName P3738441168
+	ToolTip P1238094343
+	AwardKarma
+	KarmaThreshold 5
+	StartUp
+	{
+		Action BreakingIntoLab
+		{
+			DebugPrint <<Starting Stage FreeLucan>>
+			DoorControl
+			{
+				Door DoorTechLabArea
+				Type Unlock
+			}
+			TeamControl StartLucanGuards
+			{
+				Type Activate
+				Team LucanGuardteam
+			}
+			TeamControl StartLucanFloating
+			{
+				Type Activate
+				Team LucanFloatingteam
+			}
+			GlowieControl Place
+			{
+				Type Place
+				Glowie LucanTube
+			}
+			GlowieControl Activate
+			{
+				Type Activate
+				Glowie LucanTube
+			}
+			GlowieControl Mark
+			{
+				Type Mark
+				Glowie LucanTube
+			}
+			WaypointPlace SecuritySystemWaypoint map_enticon_mission_b
+		}
+	}
+	Objective ObjTechGuardsteamKills
+	{
+		Type team
+		Team TechGuardsteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjLucanGuardteamKills
+	{
+		Type team
+		Team LucanGuardteam
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjLucanTube
+	{
+		Type Glowie
+		Glowie LucanTube
+		KarmaValue 15
+		KarmaLife  25
+	}
+	Counter LucanUnleashed
+	{
+		Type Click
+		Count 4
+		Glowie LucanTube
+	}
+	Timer UnleashTimer
+	{
+		Duration 5:00
+		Display
+	}
+	Trigger TimesUp
+	{
+		Requires UnleashTimer complete>
+		Action GotoProtest
+		{
+			DebugPrint <<FreeLucan failed: zone Reset>>
+		}
+		NextStage Reset
+	}
+	Trigger SecurityOverriden2
+	{
+		Requires LucanUnleashed complete>
+		Action GotoFreeLucan
+		{
+			DebugPrint <<FreeLucan done: going to EscortLucan>>
+			RemoveWaypoints
+			Floater Announcement
+			{
+				Message P4052918338
+				Color ff0000
+				Volume GEInteriorTech
+			}
+			TeamControl StopLucanFloating
+			{
+				Type Deactivate
+				Team LucanFloatingteam
+			}
+			TeamControl StartTechPPDvsGhouls
+			{
+				Type Deactivate
+				Team TechPPDvsGhoulsteam
+			}
+		}
+		NextStage EscortLucanPartA
+	}
+	UICollection PPDWave03
+	{
+		UIItem FreeLucanText
+		{
+			Type CenterText
+			Text P309365102
+		}
+		UIItem TubesToClick
+		{
+			Type BarBlue
+			Text P2164806341
+			ShortText P3226253355
+			Current LucanUnleashed count>
+			Target 4
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			GlowieControl Remove
+			{
+				Type Deactivate
+				Glowie LucanTube
+			}
+		}
+	}
+}
+Stage EscortLucanPartA
+{
+	DisplayName P3788167752
+	ToolTip P3228264123
+	StartUp
+	{
+		Action BreakingIntoLab
+		{
+			DebugPrint <<Starting Stage EscortLucan>>
+		}
+	}
+	Timer TeleportTimer
+	{
+		Duration 0:02
+	}
+	Timer PPDTeleportTimer
+	{
+		Duration 0:06
+	}
+	Objective ObjPPDWave01teamKills
+	{
+		Type team
+		Team PPDWave01team
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Counter PPDWave01teamKills
+	{
+		Type Team
+		Count 10
+		Team PPDWave01team
+	}
+	Counter LucanUnleashedteamKills
+	{
+		Type Team
+		Count 1
+		Team LucanUnleashedteam
+	}
+	Counter LucanPtTwoteamKills
+	{
+		Type Team
+		Count 1
+		Team LucanPtTwoteam
+	}
+	Counter LucanPtThreeteamKills
+	{
+		Type Team
+		Count 1
+		Team LucanPtThreeteam
+	}
+	Trigger TeleportingLucanIn
+	{
+		Requires TeleportTimer complete>
+		Action AddingLucan
+		{
+			DebugPrint <<Spawning Lucan to escort>>
+			TeamControl StartLucan
+			{
+				Type Activate
+				Team LucanUnleashedteam
+			}
+		}
+	}
+	Trigger TeleportingPPDIn
+	{
+		Requires PPDTeleportTimer complete>
+		Action AddingPPD
+		{
+			DebugPrint <<Spawning PPD Wave 01>>
+			TeamControl StartPPDWave01team
+			{
+				Type Activate
+				Team PPDWave01team
+			}
+		}
+	}
+	Trigger PPDWave01teamFight
+	{
+		Requires PPDWave01teamKills complete>
+		Action LeadingLucan01
+		{
+			DebugPrint <<Spawning PPD Wave 02>>
+			TeamControl StartPPDWave01team
+			{
+				Type Deactivate
+				Team PPDWave01team
+			}
+			TeamControl StartPPDWave02team
+			{
+				Type Activate
+				Team PPDWave02team
+			}
+			TeamControl StartLucanPtTwoteam
+			{
+				Type Activate
+				Team LucanPtTwoteam
+			}
+			DoorControl
+			{
+				Door ExitLab1
+				Type Unlock
+			}
+			Floater Announcement
+			{
+				Message P2551911766
+				Color 00ff00
+				Volume GEInteriorTech
+			}
+			TeamControl ExitRoom
+			{
+				Type DoBehavior
+				Team LucanUnleashedTeam
+				Behavior <<MoveToPos(marker:LucanRoomOneC,Radius(10),CombatOverride(Passive)),RunIntoDoor>>
+			}
+		}
+		NextStage EscortLucanPartB
+	}
+	Trigger LucanUnleashedteamDied
+	{
+		Requires LucanUnleashedteamKills complete> LucanPtTwoteamKills complete> || LucanPtThreeteamKills complete> ||
+		Action RewardResistanceAction
+		{
+			DebugPrint <<EscortLucan failed: going to reset>>
+			Floater Announcement
+			{
+				Message P1659765555
+				Color ff0000
+				Volume GEInteriorTech
+			}
+			TeamControl StartLucanPtTwoteam
+			{
+				Type Deactivate
+				Team LucanPtTwoteam
+			}
+		}
+		NextStage Reset
+	}
+	UICollection PPDWave04
+	{
+		UIItem FreeLucanText
+		{
+			Type CenterText
+			Text P1178656184
+		}
+		UIItem PPDWave01ToKill
+		{
+			Type BarGold
+			Text P1345543167
+			ShortText P1492594559
+			Current PPDWave01teamKills count>
+			Target 10
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+		}
+	}
+}
+Stage EscortLucanPartB
+{
+	DisplayName P3788167752
+	ToolTip P3228264123
+	StartUp
+	{
+		Action BreakingOuttaLab
+		{
+			DebugPrint <<Starting Stage EscortLucanPartB>>
+		}
+	}
+	Objective ObjPPDWave01teamKills
+	{
+		Type team
+		Team PPDWave01team
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjPPDWave02teamKills
+	{
+		Type team
+		Team PPDWave02team
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Counter LucanUnleashedteamKills
+	{
+		Type Team
+		Count 1
+		Team LucanUnleashedteam
+	}
+	Counter LucanPtTwoteamKills
+	{
+		Type Team
+		Count 1
+		Team LucanPtTwoteam
+	}
+	Counter LucanPtThreeteamKills
+	{
+		Type Team
+		Count 1
+		Team LucanPtThreeteam
+	}
+	Counter PPDWave02teamKills
+	{
+		Type Team
+		Count 15
+		Team PPDWave02team
+	}
+	Trigger PPDWave02teamFight
+	{
+		Requires PPDWave02teamKills complete>
+		Action LeadingLucan01
+		{
+			DebugPrint <<Spawning Hoffman Wave>>
+			TeamControl StartPPDWave01team
+			{
+				Type Deactivate
+				Team PPDWave02team
+			}
+			TeamControl Hoffmanteamteam
+			{
+				Type Activate
+				Team Hoffmanteam
+			}
+			TeamControl PPDWave02teamteam
+			{
+				Type Deactivate
+				Team PPDWave02team
+			}
+			TeamControl PPDWave03teamteam
+			{
+				Type Activate
+				Team PPDWave03team
+			}
+			TeamControl StartLucanPtThreeteam
+			{
+				Type Activate
+				Team LucanPtThreeteam
+			}
+			DoorControl
+			{
+				Door 2ndFloor
+				Type Unlock
+			}
+			DoorControl
+			{
+				Door TechToTunnel
+				Type Unlock
+			}
+			Floater Announcement
+			{
+				Message P3230568455
+				Color 00ff00
+				Volume GEInteriorTech
+			}
+			TeamControl ExitRoom
+			{
+				Type DoBehavior
+				Team LucanPtTwoteam
+				Behavior <<MoveToPos(marker:LucanRoomTwoC,Radius(10),CombatOverride(Passive)),RunIntoDoor>>
+			}
+
+		}
+		NextStage EscortLucanPartC
+	}
+	Trigger LucanUnleashedteamDied
+	{
+		Requires LucanUnleashedteamKills complete> LucanPtTwoteamKills complete> || LucanPtThreeteamKills complete> ||
+		Action RewardResistanceAction
+		{
+			DebugPrint <<EscortLucan failed: going to reset>>
+			Floater Announcement
+			{
+				Message P1659765555
+				Color ff0000
+				Volume GEInteriorTech
+			}
+			TeamControl StartLucanPtTwoteam
+			{
+				Type Deactivate
+				Team LucanPtTwoteam
+			}
+		}
+		NextStage Reset
+	}
+	UICollection PPDWave05
+	{
+		UIItem FreeLucanText
+		{
+			Type CenterText
+			Text P1178656184
+		}
+		UIItem PPDWave01ToKill
+		{
+			Type BarGold
+			Text P2065565756
+			ShortText P1492594559
+			Current PPDWave02teamKills count>
+			Target 15
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie SecurityTerminal
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie LucanTube
+			}
+		}
+	}
+}
+Stage EscortLucanPartC
+{
+	DisplayName P3788167752
+	ToolTip P3228264123
+	AwardKarma
+	KarmaThreshold	10
+	Objective ObjPPDWave02teamKills
+	{
+		Type team
+		Team PPDWave02team
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjPPDWave03teamKills
+	{
+		Type team
+		Team PPDWave03team
+		KarmaValue 10
+		KarmaLife  15
+	}
+	Objective ObjHoffmanteamKills
+	{
+		Type team
+		Team Hoffmanteam
+		KarmaValue 15
+		KarmaLife  15
+	}
+	Counter LucanUnleashedteamKills
+	{
+		Type Team
+		Count 1
+		Team LucanUnleashedteam
+	}
+	Counter LucanPtTwoteamKills
+	{
+		Type Team
+		Count 1
+		Team LucanPtTwoteam
+	}
+	Counter LucanPtThreeteamKills
+	{
+		Type Team
+		Count 1
+		Team LucanPtThreeteam
+	}
+	Counter PPDWave03teamKills
+	{
+		Type Team
+		Count 1
+		Team PPDWave03team
+	}
+	Counter PPDWave03teamFinishKills
+	{
+		Type Team
+		Count 20
+		Team PPDWave03team
+	}
+	Counter HoffmanteamKills
+	{
+		Type Team
+		Count 1
+		Team Hoffmanteam
+	}
+	Counter HoffmanteamHealth
+	{
+		Type BossHealth
+		Team Hoffmanteam
+	}
+	Trigger SecurityOverriden2
+	{
+		Requires HoffmanteamKills complete> PPDWave03teamFinishKills complete> &&
+		Action RewardResistanceAction
+		{
+			DebugPrint <<EscortLucan done: going to RewardResistance>>
+			Floater Announcement
+			{
+				Message P4052918338
+				Color 00ff00
+				Volume GEInteriorTech
+			}
+			TeamControl Hoffmanteamteam
+			{
+				Type Deactivate
+				Team Hoffmanteam
+			}
+			TeamControl PPDWave03teamteam
+			{
+				Type Deactivate
+				Team PPDWave03team
+			}
+			TeamControl PPDWave01teamteam
+			{
+				Type Deactivate
+				Team PPDWave01team
+			}
+		}
+		NextStage RewardResistance
+	}
+	Trigger LucanUnleashedteamDied
+	{
+		Requires LucanUnleashedteamKills complete> LucanPtTwoteamKills complete> || LucanPtThreeteamKills complete> ||
+		Action EndResistanceAction
+		{
+			DebugPrint <<EscortLucan failed: going to reset>>
+			Floater Announcement
+			{
+				Message P1659765555
+				Color ff0000
+				Volume GEInteriorTech
+			}
+			TeamControl StartLucanPtTwoteam
+			{
+				Type Deactivate
+				Team LucanPtTwoteam
+			}
+		}
+		NextStage Reset
+	}
+	UICollection PPDWave06
+	{
+		UIItem FreeLucanText
+		{
+			Type CenterText
+			Text P1178656184
+		}
+		UIItem HoffmansToKill
+		{
+			Type BarRed
+			Text P158613974
+			ShortText P2381724951
+			Current HoffmanteamHealth count>
+			Target 100
+		}
+		UIItem GuardssToKill
+		{
+			Type BarGold
+			Text P2256385894
+			ShortText P2397001397
+			Current PPDWave03teamFinishKills count>
+			Target 20
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+		}
+	}
+}
+
+Stage RewardLoyalists
+{
+	DisplayName P1698058928
+	ToolTip P3095224696
+	StartUp
+	{
+		Action RewardStart
+		{
+			DebugPrint <<Starting RewardLoyalists stage>>
+		}
+		Action Bling
+		{
+			RewardGroup reward
+			{
+				Reward class2
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					NumStagesRequired 2
+					RewardTable ZE_GreatEscape_Base_Low
+				}
+				Reward class2_5
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					NumStagesRequired 4
+					RewardTable ZE_GreatEscape_Base_Low
+				}
+				Reward class3
+				{
+					PercentileNeeded 0.33
+					PointsNeeded 19
+					NumStagesRequired 4
+					RewardTable ZE_GreatEscape_Base_Medium
+				}
+				Reward class4
+				{
+					PercentileNeeded 0.66
+					PointsNeeded 25
+					NumStagesRequired 4
+					RewardTable ZE_GreatEscape_Base_High_Kill
+				}
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:30
+		Display
+	}
+	Trigger Reset
+	{
+		Requires ResetTimer complete>
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint <<Switching to Reset from RewardLoyalists>>
+		}
+	}
+	UICollection GELVictory
+	{
+		UIItem VictoryMessageL
+		{
+			Type CenterText
+			Text P2300616671
+			ShortText P2971336827
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage RewardLoyalists>>
+		}
+	}
+}
+Stage RewardResistance
+{
+	DisplayName P600795979
+	ToolTip P1178030417
+	StartUp
+	{
+		Action RewardStart
+		{
+			DebugPrint <<Starting RewardResistance stage>>
+			TeamControl StopLucanPtThreeteam
+			{
+				Type Deactivate
+				Team LucanPtThreeteam
+			}
+		}
+		Action Bling
+		{
+			RewardGroup reward
+			{
+				Reward class2
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					NumStagesRequired 2
+					RewardTable ZE_GreatEscape_Base_Low
+				}
+				Reward class2_5
+				{
+					PercentileNeeded 0
+					PointsNeeded 1
+					NumStagesRequired 4
+					RewardTable ZE_GreatEscape_Base_Low
+				}
+				Reward class3
+				{
+					PercentileNeeded 0.33
+					PointsNeeded 17
+					NumStagesRequired 4
+					RewardTable ZE_GreatEscape_Base_Medium
+				}
+				Reward class4
+				{
+					PercentileNeeded 0.66
+					PointsNeeded 23
+					NumStagesRequired 4
+					RewardTable ZE_GreatEscape_Base_High_Free
+				}
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 0:30
+		Display
+	}
+	Trigger Reset
+	{
+		Requires ResetTimer complete>
+		NextStage Reset
+		Action RewardReset
+		{
+			DebugPrint <<Switching to Reset from RewardResistance>>
+		}
+	}
+	UICollection GERVictory
+	{
+		UIItem VictoryMessageR
+		{
+			Type CenterText
+			Text P1429956997
+			ShortText P2971336827
+		}
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down Stage RewardResistance>>
+		}
+	}
+}
+Stage Reset
+{
+	DisplayName P2263831078
+	StartUp
+	{
+		Action ResetStart
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+				}
+			}
+		}
+		Action
+		{
+			DoorControl //TheGreatEscape.Door.DoorTunlEntranceA ZoneEvent>
+			{
+				Door DoorTunlEntranceA
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTunlEntranceB ZoneEvent>
+			{
+				Door DoorTunlEntranceB
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTunlBossEntrance ZoneEvent>
+			{
+				Door DoorTunlBossEntrance
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTechEntrance ZoneEvent>
+			{
+				Door DoorTechEntrance
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door DoorTechLabArea
+				Type Lock
+			}
+			DoorControl Door2ndFloor //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door 2ndFloor
+				Type Lock
+			}
+			DoorControl DoorTechToTunnel //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door TechToTunnel
+				Type Lock
+			}
+		}
+		Action
+		{
+			PorterControl
+			{
+				Porter GEInteriorTech
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter GEInteriorTunnels
+				Type Activate
+			}
+		}
+		Action GlowieTeardown
+		{
+			RemoveWaypoints
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie SecurityTerminal
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie SecurityTerminal
+			}
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie LucanTube
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie LucanTube
+			}
+		}
+		Action
+		{
+			TeamControl StartLabGuards
+			{
+				Type Deactivate
+				Team TechPPDvsGhoulsteam
+			}
+			TeamControl StopLilithteam
+			{
+				Type Deactivate
+				Team Lilithteam
+			}
+			TeamControl StopLucanUnleashedteam
+			{
+				Type Deactivate
+				Team LucanUnleashedteam
+			}
+			TeamControl StopLucanPtTwoteam
+			{
+				Type Deactivate
+				Team LucanPtTwoteam
+			}
+			TeamControl StopLucanPtThreeteam
+			{
+				Type Deactivate
+				Team LucanPtThreeteam
+			}
+			TeamControl StopLucanFloatingteam
+			{
+				Type Deactivate
+				Team LucanFloatingteam
+			}
+			TeamControl StopHoffmanteam
+			{
+				Type Deactivate
+				Team Hoffmanteam
+			}
+			TeamControl StopHoffmanAllyteam
+			{
+				Type Deactivate
+				Team HoffmanAllyteam
+			}
+			TeamControl StartHallBossFE
+			{
+				Type Deactivate
+				Team BossHallteam
+			}
+			TeamControl StopDownedPPDteam
+			{
+				Type Deactivate
+				Team DownedPPDteam
+			}
+			TeamControl StopTechGuardsteam
+			{
+				Type Deactivate
+				Team TechGuardsteam
+			}
+			TeamControl StopTunnelBattleteam
+			{
+				Type Deactivate
+				Team TunnelBattleteam
+			}
+			TeamControl StopFeedingteam
+			{
+				Type Deactivate
+				Team Feedingteam
+			}
+			TeamControl StopExperimentsteam
+			{
+				Type Deactivate
+				Team Experimentsteam
+			}
+			TeamControl StopLucanGuardteam
+			{
+				Type Deactivate
+				Team LucanGuardteam
+			}
+			TeamControl StopPPDWave01team
+			{
+				Type Deactivate
+				Team PPDWave01team
+			}
+			TeamControl StopPPDWave02team
+			{
+				Type Deactivate
+				Team PPDWave02team
+			}
+			TeamControl StopPPDWave03team
+			{
+				Type Deactivate
+				Team PPDWave03team
+			}
+			TeamControl StopTunnelGhoulsteam
+			{
+				Type Deactivate
+				Team TunnelGhoulsteam
+			}
+			TeamControl StopBossGhoulsteam
+			{
+				Type Deactivate
+				Team BossGhoulsteam
+			}
+			TeamControl StopSuperFEteam
+			{
+				Type Deactivate
+				Team SuperFEteam
+			}
+			TeamControl StopIDFteam
+			{
+				Type Deactivate
+				Team IDFteam
+			}
+			TeamControl StopPPDAllyteam
+			{
+				Type Deactivate
+				Team PPDAllyteam
+			}
+			TeamControl StopTnlResteam
+			{
+				Type Deactivate
+				Team Resteam
+			}
+			TeamControl StopPPDAllyTwoteam 
+			{
+				Type Deactivate
+				Team PPDAllyTwoteam
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NoTeleport-Tech
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NoTeleport-Tunnel
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NoRecall-Tech
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NoRecall-Tunnel
+			}
+		}
+	}
+	Timer ResetTimer
+	{
+		Duration 60:00
+	}
+	UICollection TGEReset
+	{
+		UIItem TimeToNextEvent
+		{
+			Type Timer
+			Timer ResetTimer
+			Text P3201275388
+			ShortText P2655158753
+		}
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		Action GotoReset
+		{
+			DebugPrint <<Reset complete: Going to UnleashTheHorde.>>
+		}
+		NextStage UnleashTheHorde
+	}
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down stage Reset>>
+		}
+	}
+}
+
+Stage ResetImmediateAndRecycle
+{
+	StartUp
+	{
+		Action ResetStart
+		{
+			RewardGroup reward
+			{
+				Reward class0
+				{
+				}
+			}
+			DebugPrint <<Starting event reset due to presence of a map event>>
+			RemoveWaypoints
+		}
+		Action
+		{
+			DoorControl //TheGreatEscape.Door.DoorTunlEntranceA ZoneEvent>
+			{
+				Door DoorTunlEntranceA
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTunlEntranceB ZoneEvent>
+			{
+				Door DoorTunlEntranceB
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTunlBossEntrance ZoneEvent>
+			{
+				Door DoorTunlBossEntrance
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTechEntrance ZoneEvent>
+			{
+				Door DoorTechEntrance
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door DoorTechLabArea
+				Type Lock
+			}
+			DoorControl Door2ndFloor //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door 2ndFloor
+				Type Lock
+			}
+			DoorControl DoorTechToTunnel //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door TechToTunnel
+				Type Lock
+			}
+		}
+		Action GlowieTeardown
+		{
+			RemoveWaypoints
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie SecurityTerminal
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie SecurityTerminal
+			}
+			GlowieControl Deactivate
+			{
+				Type Deactivate
+				Glowie LucanTube
+			}
+			GlowieControl Remove
+			{
+				Type Remove
+				Glowie LucanTube
+			}
+		}			
+		Action
+		{
+			PorterControl
+			{
+				Porter GEInteriorTech
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter GEInteriorTunnels
+				Type Activate
+			}
+		}
+		Action
+		{
+			TeamControl StartLabGuards
+			{
+				Type Deactivate
+				Team TechPPDvsGhoulsteam
+			}
+			TeamControl StopLilithteam
+			{
+				Type Deactivate
+				Team Lilithteam
+			}
+			TeamControl StopLucanUnleashedteam
+			{
+				Type Deactivate
+				Team LucanUnleashedteam
+			}
+			TeamControl StopLucanPtTwoteam
+			{
+				Type Deactivate
+				Team LucanPtTwoteam
+			}
+			TeamControl StopLucanPtThreeteam
+			{
+				Type Deactivate
+				Team LucanPtThreeteam
+			}
+			TeamControl StopLucanFloatingteam
+			{
+				Type Deactivate
+				Team LucanFloatingteam
+			}
+			TeamControl StopHoffmanteam
+			{
+				Type Deactivate
+				Team Hoffmanteam
+			}
+			TeamControl StopHoffmanAllyteam
+			{
+				Type Deactivate
+				Team HoffmanAllyteam
+			}
+			TeamControl StartHallBossFE
+			{
+				Type Deactivate
+				Team BossHallteam
+			}
+			TeamControl StopDownedPPDteam
+			{
+				Type Deactivate
+				Team DownedPPDteam
+			}
+			TeamControl StopTechGuardsteam
+			{
+				Type Deactivate
+				Team TechGuardsteam
+			}
+			TeamControl StopTunnelBattleteam
+			{
+				Type Deactivate
+				Team TunnelBattleteam
+			}
+			TeamControl StopFeedingteam
+			{
+				Type Deactivate
+				Team Feedingteam
+			}
+			TeamControl StopExperimentsteam
+			{
+				Type Deactivate
+				Team Experimentsteam
+			}
+			TeamControl StopLucanGuardteam
+			{
+				Type Deactivate
+				Team LucanGuardteam
+			}
+			TeamControl StopPPDWave01team
+			{
+				Type Deactivate
+				Team PPDWave01team
+			}
+			TeamControl StopPPDWave02team
+			{
+				Type Deactivate
+				Team PPDWave02team
+			}
+			TeamControl StopPPDWave03team
+			{
+				Type Deactivate
+				Team PPDWave03team
+			}
+			TeamControl StopTunnelGhoulsteam
+			{
+				Type Deactivate
+				Team TunnelGhoulsteam
+			}
+			TeamControl StopBossGhoulsteam
+			{
+				Type Deactivate
+				Team BossGhoulsteam
+			}
+			TeamControl StopSuperFEteam
+			{
+				Type Deactivate
+				Team SuperFEteam
+			}
+			TeamControl StopIDFteam
+			{
+				Type Deactivate
+				Team IDFteam
+			}
+			TeamControl StopPPDAllyteam
+			{
+				Type Deactivate
+				Team PPDAllyteam
+			}
+			TeamControl StopTnlResteam
+			{
+				Type Deactivate
+				Team Resteam
+			}
+			TeamControl StopPPDAllyTwoteam 
+			{
+				Type Deactivate
+				Team PPDAllyTwoteam
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NoTeleport-Tech
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NoTeleport-Tunnel
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NoRecall-Tech
+			}
+			TeamControl
+			{
+				Type Deactivate
+				Team NoRecall-Tunnel
+			}
+		}
+	}
+
+//Start Event Reactivation Block
+	Timer WaitTimer
+	{
+		Duration 1:00
+	}
+	Trigger ClearToStart
+	{
+		Requires WaitTimer complete> ZoneEventMutex InstanceTokenVal system> UNKNOWN eq &&
+		Action
+		{
+			DebugPrint <<Event Restart Due To Other Event Ending>>
+		}
+		NextStage UnleashTheHorde
+	}
+	Trigger ResetWait
+	{
+		Requires WaitTimer complete> ZoneEventMutex InstanceTokenVal system> UNKNOWN eq ! &&
+		Action
+		{
+			Reset WaitTimer ResetWait
+		}
+	}
+//End Event Reactivation Block
+
+	ShutDown
+	{
+		Action Shutdown
+		{
+			DebugPrint <<Shutting down stage ResetImmediateAndRecycle>>
+		}
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action StopStart
+		{
+			DebugPrint <<Starting Stop stage>>
+		}
+		Action ResetStart
+		{
+			DoorControl //TheGreatEscape.Door.DoorTunlEntranceA ZoneEvent>
+			{
+				Door DoorTunlEntranceA
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTunlEntranceB ZoneEvent>
+			{
+				Door DoorTunlEntranceB
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTunlBossEntrance ZoneEvent>
+			{
+				Door DoorTunlBossEntrance
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTechEntrance ZoneEvent>
+			{
+				Door DoorTechEntrance
+				Type Lock
+			}
+			DoorControl //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door DoorTechLabArea
+				Type Lock
+			}
+			DoorControl Door2ndFloor //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door 2ndFloor
+				Type Lock
+			}
+			DoorControl DoorTechToTunnel //TheGreatEscape.Door.DoorTechLabArea ZoneEvent>
+			{
+				Door TechToTunnel
+				Type Lock
+			}
+			PorterControl
+			{
+				Porter GEInteriorTech
+				Type Activate
+			}
+			PorterControl
+			{
+				Porter GEInteriorTunnels
+				Type Activate
+			}
+			TeamControl StartLabGuards
+			{
+				Type Deactivate
+				Team TechPPDvsGhoulsteam
+			}
+			TeamControl StopLilithteam
+			{
+				Type Deactivate
+				Team Lilithteam
+			}
+			TeamControl StopLucanUnleashedteam
+			{
+				Type Deactivate
+				Team LucanUnleashedteam
+			}
+			TeamControl StopLucanPtTwoteam
+			{
+				Type Deactivate
+				Team LucanPtTwoteam
+			}
+			TeamControl StopLucanPtThreeteam
+			{
+				Type Deactivate
+				Team LucanPtThreeteam
+			}
+			TeamControl StopLucanFloatingteam
+			{
+				Type Deactivate
+				Team LucanFloatingteam
+			}
+			TeamControl StopHoffmanteam
+			{
+				Type Deactivate
+				Team Hoffmanteam
+			}
+			TeamControl StopHoffmanAllyteam
+			{
+				Type Deactivate
+				Team HoffmanAllyteam
+			}
+			TeamControl StartHallBossFE
+			{
+				Type Deactivate
+				Team BossHallteam
+			}
+			TeamControl StopDownedPPDteam
+			{
+				Type Deactivate
+				Team DownedPPDteam
+			}
+			TeamControl StopTechGuardsteam
+			{
+				Type Deactivate
+				Team TechGuardsteam
+			}
+			TeamControl StopTunnelBattleteam
+			{
+				Type Deactivate
+				Team TunnelBattleteam
+			}
+			TeamControl StopFeedingteam
+			{
+				Type Deactivate
+				Team Feedingteam
+			}
+			TeamControl StopExperimentsteam
+			{
+				Type Deactivate
+				Team Experimentsteam
+			}
+			TeamControl StopLucanGuardteam
+			{
+				Type Deactivate
+				Team LucanGuardteam
+			}
+			TeamControl StopPPDWave01team
+			{
+				Type Deactivate
+				Team PPDWave01team
+			}
+			TeamControl StopPPDWave02team
+			{
+				Type Deactivate
+				Team PPDWave02team
+			}
+			TeamControl StopPPDWave03team
+			{
+				Type Deactivate
+				Team PPDWave03team
+			}
+			TeamControl StopTunnelGhoulsteam
+			{
+				Type Deactivate
+				Team TunnelGhoulsteam
+			}
+			TeamControl StopBossGhoulsteam
+			{
+				Type Deactivate
+				Team BossGhoulsteam
+			}
+			TeamControl StopSuperFEteam
+			{
+				Type Deactivate
+				Team SuperFEteam
+			}
+			TeamControl StopIDFteam
+			{
+				Type Deactivate
+				Team IDFteam
+			}
+			TeamControl StopPPDAllyteam
+			{
+				Type Deactivate
+				Team PPDAllyteam
+			}
+			TeamControl StopTnlResteam
+			{
+				Type Deactivate
+				Team Resteam
+			}
+			TeamControl StopPPDAllyTwoteam 
+			{
+				Type Deactivate
+				Team PPDAllyTwoteam
+			}
+		}
+	}
+	Trigger Never
+	{
+		requires 0
+	}
+	ShutDown
+	{
+		Action ShutdownStop
+		{
+			DebugPrint <<Shutting down Stage Stop>>
+		}
+	}
+}

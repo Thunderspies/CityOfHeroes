@@ -1,0 +1,47 @@
+
+######################################
+## Arachnos flyer throwaway model
+## 
+Type
+
+Sequencer	Arachnos_flyer_seq.txt 
+SequencerType	flyer
+
+ConstantState	Fly
+
+Graphics	player_library/v_arachnos_flyer.geo 
+
+FadeOutStart	800
+FadeOutFinish	1000
+
+Selection	Capsule
+NoStrafe 1
+
+Flags	UseCapsuleForRangeFinding
+
+VisSphereRadius 30.12  
+Placement         DeadOn
+
+GeomScale		1 1 1
+CapsuleSize	42.0 62.1 42.0
+CapsuleOffset 0.0 0.0 0.0
+
+FX ENEMYFX\V_Arachnos\Flyer\FX_Flyer_Doors_critter.fx
+FX ENEMYFX\V_Arachnos\Flyer\FX_Flyer_spotlight.fx
+FX ENEMYFX\V_Arachnos\Flyer\FX_Flyer_Lights.fx
+FX ENEMYFX\V_Arachnos\Flyer\FX_Flyer_engine.fx
+
+ReticleHeightBias -5.0  
+
+TicksToLingerAfterDeath     5     
+
+TicksToFadeAwayAfterDeath   0      
+
+HealthFx
+	Range			0 0.0001  	
+	OneShotFx		Explosions\VehicleExplosion\Expolsion_Flier_Arachnos.fx
+End
+
+FullBodyPortrait	1
+
+End

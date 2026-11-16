@@ -1,0 +1,284 @@
+Dialog
+{
+// WARNING!!!
+// Before editing this file, read this page: 
+// http://ncncsvn01:8081/display/coh/Praetoria+-+Enemy+Groups+-+Praetorian+Clockwork+-+Dialog+Style+Guide
+//
+// Basic Dictionary for Standard Clockwork:
+// ALG = Algorithm
+// ALV = Alive. Used as a descriptor
+// ATK = Attack. Generally an action, sometimes a descriptor
+// ATM = Anti-Matter
+// BAF = Behavioral Adjustment Facility
+// BRK = Break
+// CIT = Citizen
+// CLN = Clean. Used as a descriptor
+// CMB = Combat
+// CMP = Complete.
+// CUR = Current
+// CWK = Clockwork. Used as a noun
+// DEF = Defend/Defense. Generally an action, sometimes a descriptor
+// DES = Destroyers.
+// DIA = Diagonstics.
+// EMP.MCL = Marcus Cole
+// ENM = Enemy.
+// EST = Estimate.
+// FCL = Facility.
+// FIX = Fixing something. Generally an action, sometimes a descriptor
+// GHU = Ghouls.
+// GRS = Grass.
+// INI = Initiate.
+// INT = Initialize.
+// MEM = Memory.
+// MGS = Magisterium
+// OBJ = Object.
+// PPL = People. Noun
+// PPD = Praetoria Police Department.
+// PRA = Praetoria Noun, also category of important Praetorians:
+// PRA.TIL,        PRA.BER,  PRA.WHT,   PRA.DUN,     PRA.SNC
+// Mother Mayhem,  Neuron,   Marauder,  Dominatrix,  Chimera
+// PRC = Process.
+// PRD = Procedure.
+// PRT = Protocol.
+// RCN = Reconnaisance
+// RES = Resistance. Noun
+// RFT = Rift.
+// RPG = Reprogam.
+// RPR = Repair.
+// RUN = Run.
+// SAF = Safe.
+// SDN = Shutdown.
+// SEE = See.
+// SRC = Source.
+// SRH = Search.
+// SRV = Serve.
+// SSP = Suspend.
+// SYN = Syndicate.
+// TIM = Time.
+// TRF = Traffic.
+// TRR = Turret.
+// TSK = Task.
+// UGR = Underground.
+// True or False = What it says on the box. These are constants, so are CamelCased.
+// = vs == - == is used to compare values. = is used to set a value.
+// ? = Why
+// ! = Not
+// + = And
+
+var UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: "Clockwork serves Antimatter. If Resistance attacks Antimatter, then Clockwork attacks Resistance.", "Clockwork's task is to defend Antimatter.", "If Clockwork sees Resistance perform reconaissance, then Clockwork attacks Resistance.", "If Resistance attacks Clockwork, then Clockwork attacks Resistance.", "If the clockwork's location is the Underground, then the Clockwork's enemies are the Resistance, the Syndicate, the Ghouls and the Destroyers and the clockwork's allies are the PPD. If the clockwork sees an enemy, the clockwork will attack the enemy."
+
+var UNDERGROUND_PATROL_HUNTNKILL_INACTIVE_TEXT = "If CWK.SEE.RES.ALV Then CWK.ATK(RES)", "If RES == ALV Then CWK.ATK.(RES)", "If RES.ATK(CIT) Then CWK.DEF(CIT)", "CUR.TSK == RCN + SRH.RES; If SEE.RES.PPL Then CWK.ATK(RES); If SEE.RES.CWK Then CWK.SDN(RES.CWK)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD"
+//Translations: "If Clockwork sees a living Resistance fighter, then Clockwork attacks the Resistance fighter.", "If Resistance are alive, Clockwork attacks Resistance.", "If Resistance attacks citizens, then Clockwork defends citizens.", "The current task is to perform reconaissance and search for Resistance. If Clockwork sees Resistance people, then Clockwork attacks Resistance. If Clockwork sees Resistance Clockwork, then Clockwork shuts down Resistance Clockwork.", "If the clockwork's location is the Underground, then the Clockwork's enemies are the Resistance, the Syndicate, the Ghouls and the Destroyers and the clockwork's allies are the PPD."
+
+var UNDERGROUND_PATROL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+var UNDERGROUND_DUOGUARD_INACTIVE_TEXT = "CWK.CUR.TSK == SRV(ATM) + DEF(UGR.FCL)", "If RES.ATK(CWK) Then CWK.ATK(RES); If RES.CWK.ATK(CWK) Then CWK.DSB(RES.CWK) + RPR(RES.CWK)", "P1232922256", "If TAR == PPD Then CWK.DEF(TAR) = True; If TAR != PPD Then CWK.DEF(TAR) != True"
+// Translations: "The Clockwork's current task is serving Antimatter and defending the Underground facility.", "If Resistance attacks the clockwork, then the clockwork attacks the Resistance. If Resistance clockwork attack the clockwork, then the clockwork disables Resistance clockwork and repairs Resistance clockwork.", "The Underground condition is not safe. If target is alive, then target is not safe.", "If clockwork's target is PPD, then the clockwork defending the target is true. If clockwork's target is not PPD, then the clockwork defending the target is not true."
+
+var UNDERGROUND_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+var UNDERGROUND_WELDING_INACTIVE_TEXT = "P2842145138", "CWK.TSK = FIX(OBJ); EST.TIM(TSK) = 25.MIN", "If CWK.FIX(OBJ) Then CWK.SRV(ATM)", "CWK.ALT; CWK.FND.HCK(CUR.OBJ); CWK.PRR.TSK = FIX(OBJ)", "CWK.TSK == FIX(OBJ); If ALV Then AVD.PLM", "RMN.TIM(TSK) == 15.MIN; CWK.EFF == 92.PCT", "If CWK.TSK == FIX(OBJ) Then UGR != CMP"
+// Translations: "The clockwork is searching object's records. Praetorian records for fixing this object equals six. Why is the object broken?", "The clockwork's task is to fix this object. The estimated time for this task is 25 minutes.", "If the clockwork fixes this object, then the clockwork has served Antimatter.", "Clockwork alert. Clockwork has found a hack in the current object. Clockwork priority task is to fix the object.", "The clockwork task is fixing this object. If alive, then avoid the plasma." "Remaining time for this task is 15 minutes. Clockwork's efficiency is 92%.", "If the clockwork's task is to fix an object, then the Underground is not complete."
+
+var UNDERGROUND_WELDING_ALERTED_TEXT = "?RES.TSK == BRK(OBJ)", "CWK.TSK.FIX(OBJ); ?ENT.ATK(CWK)", "SSP.CWK.TSK.FIX(OBJ); INI.CWK.TSK.CMB(ENT)", "If CWK.TAR != ALV Then CWK.TSK.FIX(UGR)"
+// Translations: "Why is the Resistance task to break objects?", "The clockwork's task is to fix the object. Why is the entity attacking the clockwork?", "Suspending the clockwork's task to fix the object. Initiating the clockwork's task to combat the entity.", "If the clockwork's target is dead, then the clockwork's task is to fix the Underground."
+
+var UNDERGROUND_CWK_ANTIMATTER_OBSERVEWELDING_INACTIVE_TEXT = "While CWK.FIX(OBJ); CWK.TSK = DIA(OBJ)", "CWK.SRH.OBJ.REC; PRA.REC.OBJ.STT == BKN; CWK.TSK = FIX(OBJ)", "While OBJ.STT == BKN; CWK.TSK.FIX(OBJ) > CWK.TSK.CLN(UGR)", "EFF.(ATM.CWK) > EFF(PRA.BER.CWK); ATM.CWK > PRA.BER.CWK"
+// Translations: "While clockwork fix this object, the clockwork's task equals diagnostics on the object.", "The clockwork is searching this object's records. Praetorian records for this object's state equal broken. The clockwork task is fixing this object.", "While the object's state equals broken, the clockwork's task to fix objects is more important that the clockwork's task to clean the Underground.", "The efficiency of Antimatter clockwork is greater than the efficiency of Neuron's clockwork. Antimatter's clockwork are greater than Neuron's clockwork."
+
+var UNDERGROUND_CWK_ANTIMATTER_OBSERVEWELDING_ALERTED_TEXT = "If RES.ATK(CWK), CWK.TSK.ATK(RES) > CWK.TSK.FIX(OBJ)", "CWK.ALT; RES.TSK.BRK(OBJ); CWK.TSK.DEF(OBJ)"
+// Translations; "If Resistance attack clockwork, then the clockwork task to attack Resistance is more important that the clockwork task to fix the object.", "Clockwork alert. The Resistance task is to break the object. The clockwork task is to defend the object."
+
+var UNDERGROUND_WELDING_ACTIVE_TEXT = "CWK.FIX(OBJ); If CWK.STP(TSK) Then !OBJ(FIX)", "While !FIX(OBJ); CWK.TSK = FIX(OBJ)", "If ENM.ATK(CWK), Then CWK.TSK.DEF(CWK) > CWK.TSK.FIX(OBJ)"
+// Translations: "Clockwork is fixing an object. If Clockwork stops task, then the object is not fixed.", "While the object is not fixed, the Clockwork task is fixing the object.", "If an enemy attacks Clockwork, then the Clockwork's task to defend Clockwork is more important than the Clockwork's task to fix objects."
+
+var UNDERGROUND_DIGGING_ATTACKED_TEXT = "CWK.TSK.DIG = SSP; CWK.ATK.(ENM)", "SET.CWK(TAR) = ENM.ATK(CWK)", "P1289837610", "P765636916"
+// Translations: "The Clockwork's task to dig is suspended. Clockwork attacks Enemy.", "Setting Clockwork's target to the Enemy attacking Clockwork.", "Searching algorithms for combat; Searching algorithms complete. Running attack protocols.", "The clockwork task to dig is not complete. The clockwork attacks the enemy."
+
+var UNDERGROUND_CWK_ANTIMATTER_CHATTY_GROUP_TEXT = "P3108364508", "UGR != BKN; ?CWK.TSK == FIX(UGR)", "P1920718882", "P2914019733", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "While UGR != BKN; CWK.TSK = FIX(UGR)"
+// Translations: "If Resistance are dead, then the Underground is safe.", "The Underground is not broken. Why do the clockwork still fix the Underground?", "The Underground is safe and is 100% efficient", "If Antimatter is alive, then Antimatter's clockwork are safe.", "If the clockwork serve Antimatter and Antimatter serves Emperor Marcus Cole, then the clockwork serve Emperor Marcus Cole.", "While the Underground is broken, the clockwork will fix the Underground."
+
+var UNDERGROUND_CWK_ANTIMATTER_BATTLE_CWK_RESISTANCE_INACTIVE = "?RES.CWK.ATK(ATM.CWK); EFF.ATM.CWK > EFF.RES.CWK; ATM.CWK > RES.CWK", "PRB.VCT(ATM.CWK) = 94.PCT", "ATM.CWK.TSK = ATK(RES.CWK); If CWK.TSK(ATK) == CMP Then ATM.CWK.RPR(RES.CWK)", "P540023151", "ATM.CWK.DEF(UGR); !RES.CWK.BRK(UGR)" 
+//Translations: "Why do the Resistance clockwork attack Antimatter's clockwork? The efficency of Antimatter's clockwork is better than the efficiency of the Resistance Clockwork. Antimatter's Clockwork are better than Resistance clockwork.", "The probability of victory for Antimatter's Clockwork is 94%.", "Antimatter's Clockwork task is to attack Resistance clockwork. If Antimatter Clockwork's attack task is complete, then Antimatter's Clockwork will repair the Resistance Clockwork.", "Resistance Clockwork is not equal to Antimatter's Clockwork." "Antimatter's Clockwork task is to defend the Underground. The Resistance Clockwork will not break the Underground."
+
+var UNDERGROUND_CWK_ANTIMATTER_BATTLE_CWK_RESISTANCE_ALERTED = "CWK.SEE(ENM); CWK.ATK.ENM; PRB.VCT(ATM.CWK) = 78.PCT", "If CWK.TAR == ALV Then CWK.TSK = ATK(TAR)", "If CWK.TAR == RES.CWK Then CWK.TSK = SRH.TAR(ALV); If TAR(ALV) == 0.NUM Then CWK.TSK = ATK(RES.CWK)"
+// Translations: "Clockwork sees an enemy. Clockwork attacks enemy. The probability of victory for Antimatter's clockwork is 78%.", "If the Clockwork's target is alive, then the clockwork's task is to attack the target.", "If the clockwork's target is Resistance clockwork, then the clockwork's task is to search for a target that is alive. If the number of living targets is 0, then the clockwork's task is to attack Resistance clockwork."
+
+var UNDERGROUND_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_ANTIMATTER_INACTIVE = "DIA(ATM.CWK) == CMP; CWK.TSK.RPR(ATM.CWK)", "EFF.TAR(ATM.CWK) < EFF.REQ(ATM.CWK); SDN(ATM.CWK) && RPR(ATM.CWK)", "?RES.ATK.CWK; If !RES.ATK(CWK) Then !CWK.RPR(ATM.CWK)", "DIA(ATM.CWK) == CMP; RPR(ATM.CWK) == CMP; CWK.TSK.INT(ATM.CWK)"
+// Translations: "Diagnostics on Antimatter's Clockwork are complete. Clockwork's task is to repair the Antimatter's Clockwork.", "The efficiency of the target Antimatter's Clockwork is less than the efficiency required of Antimatter's Clockwork. Shutdown the Antimatter's Clockwork and repair it.", "Why do Resistance attack clockwork? If Resistance did not attack clockwork, then clockwork do not need to repair Antimatter's Clockwork." "Diagnostics on Antimatter's Clockwork are complete. Repairs on Antimatter's Clockwork are complete. Clockwork's task is to initialize the Antimatter Clockwork."
+
+var UNDERGROUND_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_ANTIMATTER_ALERTED = "TAR(ATM.CWK) == SDN; CWK.TSK.DEF(ATM.CWK)", "CWK.TSK.DEF(ATM.CWK) > CWK.TSK.RPR(ATM.CWK); CWK.INT(CMB)", "If RES.STL(ATM.CWK) Then RES.RPG(ATM.CWK); !RES.STL(ATM.CWK)"
+// Translations: "The target Antimatter's Clockwork is shutdown. Clockwork's task is to defend Antimatter's Clockwork.", "The clockwork task to defend Antimatter's Clockwork is more important than the task to repair Antimatter's Clockwork. Clockwork initializing combat.", "If the Resistance steals Antimatter's Clockwork, then the Resistance will reprogram Antimatter's Clockwork. The Resistance will not steal Antimatter's Clockwork."
+
+var UNDERGROUND_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_INACTIVE = "DIA(RES.CWK) == CMP; CWK.TSK.RPG(RES.CWK)", "EFF.TAR(RES.CWK) < EFF.REQ(ATM.CWK); SDN(RES.CWK) && RPG(RES.CWK) && RPR(RES.CWK)", "?RES.CWK.ATK(CWK); If !RES.CWK.ATK.CWK Then !CWK.RPR.RES.CWK", "DIA(RES.CWK) == CMP; RPR(RES.CWK) == CMP; RPG(RES.CWK) == CMP; RES.CWK = ATM.CWK; CWK.TSK.INT(ATM.CWK)"
+// Translations: "Diagnostics on Resistance Clockwork are complete. Clockwork's task is to reprogram the Resistance Clockwork.", "The efficiency of the target Resistance Clockwork is less than that required of Antimatter's Clockwork. Shutdown the Resistance Clockwork, reprogram the Resistance Clockwork and repair the Resistance Clockwork.", "Why do Resistance Clockwork attack Clockwork? If Resistance Clockwork did not attack Clockwork, then Clockwork would not need to repair Resistance Clockwork.", "Diagnostics on the Resistance Clockwork are complete. Repairs on the Resistance Clockwork are complete. Reprogramming of the Resistance Clockwork is complete. Resistance Clockwork is now Antimatter's Clockwork. Clockwork task is to initialize the Antimatter's Clockwork."
+
+var UNDERGROUND_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_ALERTED = "TAR(RES.CWK) != SDN; CWK.TSK.ATK(RES.CWK)", "If TAR(RES.CWK) != SDN Then CWK.TSK.ATK(RES.CWK) > CWK.TSK.RPR(RES.CWK); CWK.INT(CMB)", "If RES.STL(RES.CWK) Then RES.RPR(RES.CWK) && !RES.RPG(RES.CWK); !RES.STL(RES.CWK)"
+// Translations: "The target Resistance Clockwork is not shutdown. Clockwork's task is to attack the Resistance Clockwork.", "If target Resistance Clockwork is not shutdown then the clockwork task to attack the Resistance Clockwork is more important than the task to repair the Resistance Clockwork.", "If the Resistance steals the Resistance Clockwork, then the Resistance will repair the Resistance Clockwork but not reprogram the Resistance Clockwork. The Resistance will not steal the Resistance Clockwork."
+
+var UNDERGROUND_NT_SOLOPATROL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+var UNDERGROUND_NT_PATROL_HUNTNKILL_INACTIVE_TEXT = "If CWK.SEE.RES.ALV Then CWK.ATK(RES)", "If RES == ALV Then CWK.ATK.(RES)", "If RES.ATK(CIT) Then CWK.DEF(CIT)", "CUR.TSK == RCN + SRH.RES; If SEE.RES.PPL Then CWK.ATK(RES); If SEE.RES.CWK Then CWK.SDN(RES.CWK)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD"
+//Translations: ---See UNDERGROUND_PATROL_HUNTNKILL_INACTIVE_TEXT---
+
+var UNDERGROUND_NT_PATROL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+var UNDERGROUND_NT_DUOGUARD_INACTIVE_TEXT = "CWK.CUR.TSK == SRV(ATM) + DEF(UGR.FCL)", "If RES.ATK(CWK) Then CWK.ATK(RES); If RES.CWK.ATK(CWK) Then CWK.DSB(RES.CWK) + RPR(RES.CWK)", "P1232922256", "If TAR == PPD Then CWK.DEF(TAR) = True; If TAR != PPD Then CWK.DEF(TAR) != True"
+// Translations: ---See UNDERGROUND_DUOGUARD_INACTIVE_TEXT---
+
+var UNDERGROUND_NT_DUOGUARD_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == UGR Then CWK.ENM = RES + SYN + GHU + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See UNDERGROUND_SOLOPATROL_DEFENSEMODE_ALERT_TEXT---
+
+var UNDERGROUND_NT_WELDING_INACTIVE_TEXT = "P2842145138", "CWK.TSK = FIX(OBJ); EST.TIM(TSK) = 25.MIN", "If CWK.FIX(OBJ) Then CWK.SRV(ATM)", "CWK.ALT; CWK.FND.HCK(CUR.OBJ); CWK.PRR.TSK = FIX(OBJ)", "CWK.TSK == FIX(OBJ); If ALV Then AVD.PLM", "RMN.TIM(TSK) == 15.MIN; CWK.EFF == 92.PCT", "If CWK.TSK == FIX(OBJ) Then UGR != CMP"
+// Translations: ---See UNDERGROUND_WELDING_INACTIVE_TEXT---
+
+var UNDERGROUND_NT_WELDING_ALERTED_TEXT = "?RES.TSK == BRK(OBJ)", "CWK.TSK.FIX(OBJ); ?ENT.ATK(CWK)", "SSP.CWK.TSK.FIX(OBJ); INI.CWK.TSK.CMB(ENT)", "If CWK.TAR != ALV Then CWK.TSK.FIX(UGR)"
+// Translations: ---See UNDERGROUND_WELDING_ALERTED_TEXT---
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_OBSERVEWELDING_INACTIVE_TEXT = "While CWK.FIX(OBJ); CWK.TSK = DIA(OBJ)", "CWK.SRH.OBJ.REC; PRA.REC.OBJ.STT == BKN; CWK.TSK = FIX(OBJ)", "While OBJ.STT == BKN; CWK.TSK.FIX(OBJ) > CWK.TSK.CLN(UGR)", "EFF.(ATM.CWK) > EFF(PRA.BER.CWK); ATM.CWK > PRA.BER.CWK"
+// Translations: ---See UNDERGROUND_CWK_ANTIMATTER_OBSERVEWELDING_INACTIVE_TEXT---
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_OBSERVEWELDING_ALERTED_TEXT = "If RES.ATK(CWK), CWK.TSK.ATK(RES) > CWK.TSK.FIX(OBJ)", "CWK.ALT; RES.TSK.BRK(OBJ); CWK.TSK.DEF(OBJ)",
+// Translations: ---See UNDERGROUND_CWK_ANTIMATTER_OBSERVEWELDING_ALERTED_TEXT---
+
+var UNDERGROUND_NT_WELDING_ACTIVE_TEXT = "CWK.FIX(OBJ); If CWK.STP(TSK) Then !OBJ(FIX)", "While !FIX(OBJ); CWK.TSK = FIX(OBJ)", "If ENM.ATK(CWK), Then CWK.TSK.DEF(CWK) > CWK.TSK.FIX(OBJ)"
+// Translations: ---See UNDERGROUND_WELDING_ACTIVE_TEXT---
+
+var UNDERGROUND_NT_DIGGING_ATTACKED_TEXT = "CWK.TSK.DIG = SSP; CWK.ATK.(ENM)", "SET.CWK(TAR) = ENM.ATK(CWK)", "P1289837610", "P765636916"
+// Translations: ---See UNDERGROUND_DIGGING_ATTACKED_TEXT---
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_CHATTY_GROUP_TEXT = "P3108364508", "UGR != BKN; ?CWK.TSK == FIX(UGR)", "P1920718882", "P2914019733", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "While UGR != BKN; CWK.TSK = FIX(UGR)"
+// Translations: ---See UNDERGROUND_CWK_ANTIMATTER_CHATTY_GROUP_TEXT---
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_BATTLE_CWK_RESISTANCE_INACTIVE = "?RES.CWK.ATK(ATM.CWK); EFF.ATM.CWK > EFF.RES.CWK; ATM.CWK > RES.CWK", "PRB.VCT(ATM.CWK) = 94.PCT", "ATM.CWK.TSK = ATK(RES.CWK); If CWK.TSK(ATK) == CMP Then ATM.CWK.RPR(RES.CWK)", "P540023151", "ATM.CWK.DEF(UGR); !RES.CWK.BRK(UGR)" 
+// Translations: ---See UNDERGROUND_CWK_ANTIMATTER_BATTLE_CWK_RESISTANCE_INACTIVE---
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_BATTLE_CWK_RESISTANCE_ALERTED = "CWK.SEE(ENM); CWK.ATK.ENM; PRB.VCT(ATM.CWK) = 78.PCT", "If CWK.TAR == ALV Then CWK.TSK = ATK(TAR)", "If CWK.TAR == RES.CWK Then CWK.TSK = SRH.TAR(ALV); If TAR(ALV) == 0.NUM Then CWK.TSK = ATK(RES.CWK)"
+// Translations: ---See UNDERGROUND_CWK_ANTIMATTER_BATTLE_CWK_RESISTANCE_ALERTED---
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_ANTIMATTER_INACTIVE = "DIA(ATM.CWK) == CMP; CWK.TSK.RPR(ATM.CWK)", "EFF.TAR(ATM.CWK) < EFF.REQ(ATM.CWK); SDN(ATM.CWK) && RPR(ATM.CWK)", "?RES.ATK.CWK; If !RES.ATK(CWK) Then !CWK.RPR(ATM.CWK)", "DIA(ATM.CWK) == CMP; RPR(ATM.CWK) == CMP; CWK.TSK.INT(ATM.CWK)"
+// Translations: ---See CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_ANTIMATTER_INACTIVE---
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_ANTIMATTER_ALERTED = "TAR(ATM.CWK) == SDN; CWK.TSK.DEF(ATM.CWK)", "CWK.TSK.DEF(ATM.CWK) > CWK.TSK.RPR(ATM.CWK); CWK.INT(CMB)", "If RES.STL(ATM.CWK) Then RES.RPG(ATM.CWK); !RES.STL(ATM.CWK)"
+// Translations: ---See UNDERGROUND_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_ANTIMATTER_ALERTED---
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_INACTIVE = "DIA(RES.CWK) == CMP; CWK.TSK.RPG(RES.CWK)", "EFF.TAR(RES.CWK) < EFF.REQ(ATM.CWK); SDN(RES.CWK) && RPG(RES.CWK) && RPR(RES.CWK)", "?RES.CWK.ATK(CWK); If !RES.CWK.ATK.CWK Then !CWK.RPR.RES.CWK", "DIA(RES.CWK) == CMP; RPR(RES.CWK) == CMP; RPG(RES.CWK) == CMP; RES.CWK = ATM.CWK; CWK.TSK.INT(ATM.CWK)"
+// Translations: ---See UNDERGROUND_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_INACTIVE---
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_ALERTED = "TAR(RES.CWK) != SDN; CWK.TSK.ATK(RES.CWK)", "If TAR(RES.CWK) != SDN Then CWK.TSK.ATK(RES.CWK) > CWK.TSK.RPR(RES.CWK); CWK.INT(CMB)", "If RES.STL(RES.CWK) Then RES.RPR(RES.CWK) && !RES.RPG(RES.CWK); !RES.STL(RES.CWK)"
+// Translations: ---See UNDERGROUND_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_ALERTED---
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_INACTIVE = "If DIA(RES.CWK) == CMP And TAR(RES.CWK) == BKN Then ATM.CWK.TSK == FIX(RES.CWK)", "EFF.TAR(RES.CWK) < EFF.REQ(ATM.CWK); ATM.CWK.TSK == INC.EFF(RES.CWK); TAR(INC.EFF) == 54.PCT", "DIA(RES.CWK) == CMP; CWK.TSK.RPG(RES.CWK)"
+// Translations: "If the diagnostics on the Resistance Clockwork are complete and the target Resistance Clockwork is broken then the Antimatter Clockwork's task is to fix the Resistance Clockwork.", "The efficiency of the target Resistance Clockwork is less than the efficiency requirement of Antimatter Clockwork. The Antimatter Clockwork's task is to increase the efficiency of the Resistance Clockwork. The target increased efficiency is 54 percent.", "Diagnostics on Resistance Clockwork are complete. Clockwork's task is to reprogram the Resistance Clockwork."
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_DIAGNOSTICS_DIAGNOSE_CWK_RESISTANCE_ALERTED = "P2528390931", "ENM.PRS.DET; ATM.CWK.TSK(DEF.NTP) > ATM.CWK.TSK(FIX.RES.CWK)", "THR.LVL == 80.PCT; If ATM.CWK(THR.LVL) == 100.PCT Then ATM.CWK.TSK == ATK.TAR.ENM"
+// Translations: "An enemy's presence has been detected. The Antimatter Clockwork task is to defend Neutropolis.", "An enemy's presence has been detected. The Antimatter Clockwork task to defend Neutropolis is greater than the Antimatter Clockwork task to fix the Resistance Clockwork.", "Threat level is 80 percent. If the Antimatter Clockwork's threat level is equal to 100 percent, then the Antimatter Clockwork task is to attack the target enemy."
+
+
+var NEUTROPOLIS_BERSERK_MALFUNCTIONING_INACTIVE_TEXT = "P3633185183", "P1071528763", "If !PPL.ALV Then !TRF; If !TRF Then CWK.TSK != CLN(PRA)", "CWK == !FIX; CWK.TSK = FIX(CWK)", "If CWK == !FIX Then CWK.FIX(CWK) == !FIX.CWK", "P1690270453", "!PRA.KEY.SRV(PRA); PRA.KEY.SRV(EMP.MCL)"
+// Translations: "Praetor Keyes does not make Praetoria safe.", "If you want to fix Praetoria, then Praetor Keyes must die.", "If there are no people alive, then there is no traffic. If there is no traffic, then the clockwork no longer have to clean Praetoria.", "Clockwork are broken. The clockwork need to fix the clockwork.", "If the clockwork are broken, then clockwork fixing clockwork will result in broken clockwork.", "Clockwork are not broken. Clockwork are safe. Clockwork are not dead.", "Praetor Keyes does not serve Praetoria. Praetor Keyes serves Emporer Marcus Cole."
+
+
+var NEUTROPOLIS_BERSERK_MALFUNCTIONING_ANTIMATTER_ALERT_TEXT = "CWK.SEE[GRS.CLR == GRN; SKY.CLR == BLU]; CWK.TSK = PPL.BBQ", "CWK == !ALV; PPL.TSK = FIX(CWK)", "If CWK.TSK == DEF(CWK) Then CWK.TSK = ATK(CIT.PRA)", "CWK.SEE[CIT.PRA]; CWK.ATK(CIT.PRA)", "CIT.PRA.TSK = CLN(PRA)", "!CWK.SRV(PRA); CIT.PRA.SRV(CWK)"
+// Translations: "I see grass that's green, sky that's blue, my task today is a people barbeque!", "The clockwork are not alive. People need to fix the clockwork.", "If the clockwork need to defend the clockwork, then the clockwork need to attack citizens of Praetoria.", "Clockwork see Praetorian citizen. Clockwork attack Praetorian citizen.", "Praetorian citizens must clean Praetoria.", "Clockwork don't serve Praetoria, citizens of Praetoria serve clockwork."
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_CHATTY_GROUP_TEXT = "If ENM.ATK(ATM.RCR) Then CWK.ATM.TSK == DEF(ATM.RCR)", "P2571058955", "EFF(ATM.CWK) = 94%; EFF(NEU.CWK) = 91%; ATM.CWK > NEU.CWK", "ATM.CWK.TSK(DEF.ATM.RCR) > ALL.CWK.TSK(NEU.CWK)"
+// Translations: "If enemies attack the antimatter reactors then the Antimatter Clockwork task is to defend the antimatter reactors.", "Praetor Keys is Antimatter. Praetor Berry is Neuron. If Antimatter Clockwork is better than Neuron Clockwork, then Praetor Keyes is greater than Praetor Berry.", The efficiency of Antimatter Clockwork is 94 percent. The efficiency of Neuron Clockwork is 91 percent. Antimatter Clockwork is greater than Neuron Clockwork.", "The Antimatter Clockwork task to defend the antimatter reactors is greather than all tasks of the Neuron Clockwork."
+
+
+var NEUTROPOLIS_DIGGING_ANTIMATTER_ATTACKED_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_DUOGUARD_ANTIMATTER_PROPAGANDA_INACTIVE_TEXT = "If ENM.ATK(ATM.RCR) Then CWK.ATM.TSK == DEF(ATM.RCR)", "P2571058955", "EFF(ATM.CWK) = 94%; EFF(NEU.CWK) = 91%; ATM.CWK > NEU.CWK", "ATM.CWK.TSK(DEF.ATM.RCR) > ALL.CWK.TSK(NEU.CWK)"
+// Translations: ---See NEUTROPOLIS_CWK_ANTIMATTER_CHATTY_GROUP_TEXT
+
+
+var NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: "Clockwork serves Antimatter. If enemies attack Antimatter, then Clockwork attacks enemies.", "Clockwork's task is to defend Antimatter.", "If Clockwork sees enemies perform reconaissance, then Clockwork attacks enemies.", "If Resistance attacks Clockwork, then Clockwork attacks Resistance.", "If the clockwork's location is Neutropolis, then the Clockwork's enemies are the Resistance, the Syndicate and the Ghouls and the Clockwork's allies are the PPD. If the clockwork sees an enemy, the clockwork will attack the enemy."
+
+
+var NEUTROPOLIS_MOVECRATE_ANTIMATTER_ATTACK_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: "If the Resistance attack Praetoria, then clockwork attack Resistance. If clockwork attack Resistance, then the Resistanc will die.", "People attack the clockwork. Defending clockwork is more imporant than cleaning Praetoria. Clockwork task is now defend clockwork.", "Don't attack clockwork!", "While clockwork are not safe, the clockwork task is defend clockwork.", "Clockwork see people attacking clockwork, clockwork defend Praetoria.", "Clockwork fix the people who are attacking", "Clockwork see people attacking, clockwork defend Praetoria.", "Citizens of Praetoria: Run! It is not safe here.", "Citizen task is to stop attacking.", "Citizen has escaped the Behavioral Adjustment Facility, the clockwork must take back to the BAF this citizen.", "If clockwork see a nearby attack, then clockwork will respond reciprocally."
+
+
+var NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_INACTIVE_TEXT = "P2445221007", "PRA == CLN; ?CWK.TSK == CLN(PRA)", "P3454281000", "P626358813", "If CWK.SRV(ATM) && ATM.SRV(EMP.MCL) Then CWK.SRV(EMP.MCL)", "If PPL.TRF(GRS) Then GRS != ALV", "TRF x PPL x 2 - CWK.TSK[CLN(PRA)] == PRA.CLN", "While PRA != CLN; CWK.TSK = CLN(PRA)", "!RES.NTP == True; ?CWK.TSK = RCN(NTP)", "P1549916616"
+// Translations: "If Resistance are dead, then Praetoria is safe.", "Praetoria is clean. Why do the clockwork still clean Praetoria?", "Neutropolis is safe and clean", "If Praetor Keyes and Praetor Berry are alive alive, then Praetoria is safe.", "If the clockwork serve Antimatter and Antimatter serves Emperor Marcus Cole, then the clockwork serve Emperor Marcus Cole.", "If people walk on the grass, then the grass will die.", "Traffic of people multiplied by thier feet minus the clockwork cleaning Praetoria equals a clean Praetoria.", "While Praetoria isn't clean, the clockwork will clean Praetoria.", "There are no Resistance in the Neutropolis, why are the clockwork doing recon in Neutropolis?", "Emperor Marcus Cole is greater than all Praetoria."
+
+
+var NEUTROPOLIS_REMOVEGRAFFITI_ANTIMATTER_ACTIVE_TEXT = "If RES.ATK(PRA) Then CWK.ATK(RES); If CWK.ATK(RES) Then RES = !ALV", "PPL.ATK(CWK); CWK.TSK[DEF(CWK)] > CWK.TSK[CLN(PRA)]; CWK.TSK = DEF(CWK)", "P746281162", "While !CWK.SAF; CWK.TSK = DEF(CWK)", "CWK.SEE[PPL.ATK(CWK)]; CWK.DEF(PRA)", "CWK.FIX(PPL.ATK())", "CWK.SEE[PPL.ATK()]; CWK.DEF(PRA)", "CIT.PRA.TSK = RUN(); !SAF", "CIT.TSK = Stop(ATK())", "CIT[ESC(BAF)]; CWK.TSK = RTN.BAF(CIT)", "If CWK.SEE[ATK(ADJ)] Then CWK.RSP(RCP)"
+// Translations: "If the Resistance attack Praetoria, then clockwork attack Resistance. If clockwork attack Resistance, then the Resistance will die.", "People attack the clockwork. Defending clockwork is more imporant than cleaning Praetoria. Clockwork task is now defend clockwork.", "Don't attack clockwork!", "While clockwork are not safe, the clockwork task is defend clockwork.", "Clockwork see people attacking clockwork, clockwork defend Praetoria.", "Clockwork fix the people who are attacking", "Clockwork see people attacking, clockwork defend Praetoria.", "Citizens of Praetoria: Run! It is not safe here.", "Citizen task is to stop attacking.", "Citizen has escaped the Behavioral Adjustment Facility, the clockwork must take back to the BAF this citizen.", "If clockwork see a nearby attack, then clockwork will respond reciprocally."
+
+
+var NEUTROPOLIS_GRPGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+
+var NOVAPRAETORIA_ALLHOODS_ALLHOODS_WASHWALL_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == NPR Then CWK.ENM = RES + DES && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: "Clockwork serves Antimatter. If Resistance attacks Antimatter, then Clockwork attacks Resistance.", "Clockwork's task is to defend Antimatter.", "If Clockwork sees Resistance perform reconaissance, then Clockwork attacks Resistance.", "If Resistance attacks Clockwork, then Clockwork attacks Resistance.", "If the clockwork's location is Nova Praetoria, then the Clockwork's enemies are the Resistance and the Destroyers and the Clockwork's allies are the PPD. If the clockwork sees an enemy, the clockwork will attack the enemy."
+
+
+var NEUTROPOLIS_WELDING_ANTIMATTER_ATTACK_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_WELDING_INACTIVE_TEXT = "P1660740850", "CWK.TSK = FIX(OBJ); EST.TIM(TSK) = 32.MIN", "If CWK.FIX(OBJ) Then CWK.SRV(ATM)", "CWK.ALT; CWK.FND.HCK(CUR.OBJ); CWK.PRR.TSK = FIX(OBJ)", "CWK.TSK == FIX(OBJ); If ALV Then AVD.PLM", "RMN.TIM(TSK) == 25.MIN; CWK.EFF == 84.PCT", "If CWK.TSK == FIX(OBJ) Then NTP !== CMP"
+// Translations: "The clockwork is searching object's records. Praetorian records for fixing this object equals eight. Why is the object broken?", "The clockwork's task is to fix this object. The estimated time for this task is 32 minutes.", "If the clockwork fixes this object, then the clockwork has served Antimatter.", "Clockwork alert. Clockwork has found a hack in the current object. Clockwork priority task is to fix the object.", "The clockwork task is fixing this object. If alive, then avoid the plasma." "Remaining time for this task is 25 minutes. Clockwork's efficiency is 84%.", "If the clockwork's task is to fix an object, then Neutropolis is not complete."
+
+
+var NEUTROPOLIS_WELDING_ALERTED_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_OBSERVEWELDING_INACTIVE_TEXT = "While CWK.FIX(OBJ); CWK.TSK = DIA(OBJ)", "CWK.SRH.OBJ.REC; PRA.REC.OBJ.STT == BKN; CWK.TSK = FIX(OBJ)", "While OBJ.STT == BKN; CWK.TSK.FIX(OBJ) > CWK.TSK.CLN(NTP)", "EFF(ATM.CWK) > EFF(NEU.CWK); ATM.CWK > NEU.CWK"
+// Translations: "While clockwork fix this object, the clockwork's task equals diagnostics on the object.", "The clockwork is searching this object's records. Praetorian records for this object's state equal broken. The clockwork task is fixing this object.", "While the object's state equals broken, the clockwork's task to fix objects is more important that the clockwork's task to clean Neutropolis.", "The efficiency of Antimatter clockwork is greater than the efficiency of Neuron's clockwork. Antimatter's clockwork are greater than Neuron's clockwork."
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_OBSERVEWELDING_ALERTED_TEXT = "CWK.SRV(ATM); If RES.ATK(ATM) Then CWK.ATK(RES)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(RES)", "If RES.ATK(CWK) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_BATTLE_CWK_RESISTANCE_INACTIVE = "P1657698741", "P2857060451", "P3446907378"
+//Translations: "The Antimatter clockwork's enemy is the Resistance clockwork. The chance of the enemy's victory is 15 percent.", "The Antimatter clockwork's enemy is equal to the Resistance clockwork. The Antimatter Clockwork task is to shutdown and reprogram the Resistance clockwork.", "The current Antimatter Clockwork task is equal to defeating the Resistance Clockwork."
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_BATTLE_CWK_RESISTANCE_ALERTED = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_BATTLE_FE_INACTIVE = "P1098088332", "ATM.CWK.ENM == CBL.GHU; ATM.CWK.WPN == PLS + FLM", "P3274939714"
+//Translations: "The Antimatter clockwork's enemy is the Ghoul carbon-based lifeform. The chance of the enemy's victory is 5 percent.", "The clockwork's enemy is equal to the Ghoul carbon-based lifeform. The Antimatter Clockwork weapons are equal to plasma and flame.", "The current Antimatter Clockwork task is equal to defeating the Ghoul carbon-based lifeform."
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_BATTLE_FE_ALERTED = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_BATTLE_RES_INACTIVE = "P1063037224", "ATM.CWK.ENM == CBL.RES; ATM.CWK.WPN == PLS + FLM", "P2232625057"
+//Translations: "The Antimatter clockwork's enemy is the Resistance carbon-based lifeform. The chance of the enemy's victory is 5 percent.", "The clockwork's enemy is equal to the Resistance carbon-based lifeform. The Antimatter Clockwork weapons are equal to plasma and flame.", "The current Antimatter Clockwork task is equal to defeating the Resistance carbon-based lifeform."
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_BATTLE_RES_ALERTED = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_BATTLE_SYN_INACTIVE = "P3839046519", "ATM.CWK.ENM == CBL.SYN; ATM.CWK.WPN == PLS + FLM", "P27294738"
+//Translations: "The Antimatter clockwork's enemy is the Syndicate carbon-based lifeform. The chance of the enemy's victory is 5 percent.", "The clockwork's enemy is equal to the Syndicate carbon-based lifeform. The Antimatter Clockwork weapons are equal to plasma and flame.", "The current Antimatter Clockwork task is equal to defeating the Syndicate carbon-based lifeform."
+
+
+var NEUTROPOLIS_CWK_ANTIMATTER_BATTLE_SYN_ALERTED = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+
+var UNDERGROUND_NT_CWK_ANTIMATTER_SWEEP_DEFENSEMODE_ALERT_TEXT = "CWK.SRV(ATM); If ENM.ATK(ATM) Then CWK.ATK(ENM)", "CWK.TSK = DEF(ATM)", "If SEE.REC.RES Then CWK.ATK(ENM)", "If CWK.ATK(ENM) Then CWK.ATK(RES)", "If CWK.LOC == NTP Then CWK.ENM = RES + SYN + GHU && CWK.ALY = PPD; If CWK.SEE.ENM Then CWK.ATK(ENM)"
+// Translations: ---See NEUTROPOLIS_DUOGUARD_ANTIMATTER_DEFENSEMODE_ALERT_TEXT
+
+} // End Dialog

@@ -1,0 +1,141 @@
+// Lightweight client stage definitions
+//-----------------------------------------------------------------------------------------------------------
+// Resource entries are the list of all root node resources that should be included in that stage.
+//   Resources which depend on the root node resources will automatically get pulled in as dependencies.
+//   Specify * to indicate all resource of a given type, eg power|*
+//   Files (indicated by lack of "|" character in the name) can be specified by data-relative path, and can
+//   have a single wildcard at the end (more complicated match expressions can be added if needed).
+//   Use '>>' after resource type/name to include only children of a particular resType, eg: code|*>>tex
+//-----------------------------------------------------------------------------------------------------------
+
+// Stage 1 is character creator -- anything essential to game startup goes here
+Stage 1
+{
+    // resource references
+	Resource costume|menu/costume/costume.ctm
+    Include code_deps.txt // include a list of resource files directly.  This list can be generated manually or using the writedeps command in assetQuery script.
+
+    // file references
+    Resource sound/ogg/n_ui/*
+
+    Resource texture_library/GUI/CREATION/Login/Login_*
+    Resource texture_library/GUI/CREATION/Common/frame/*
+    Resource texture_library/GUI/CREATION/HybridUI/*
+    Resource texture_library/WORLD/Filler/*
+    Resource texture_library/WORLD/world_fx/portal/invisible.texture
+    Resource texture_library/btest/font.texture
+    Resource texture_library/btest/dummy_bump.texture
+    Resource texture_library/btest/buildingLightPattern.texture
+    Resource texture_library/static_cubemaps/dummy_dynamic/*
+    Resource texture_library/static_cubemaps/generic/*
+    Resource texture_library/GUI/Cursors/*
+    Resource texture_library/GUI/HUD/Common/Frame/* // Ideally should go in stage 2
+    Resource player_library/G_Object.geo // hard-coded in initSplatNode in splat.c
+    Resource texture_library/GUI/HUD/Healthbar/healthbar_heartglow*
+    Resource texture_library/GUI/HUD/Healthbar/healthbar_framemain*
+    Resource texture_library/GUI/HUD/Healthbar/healthbar_label*
+    Resource texture_library/GUI/HUD/Healthbar/healthbar_slider*
+    Resource texture_library/GUI/HUD/Healthbar/healthbar_glow*
+        
+    // preloadgeometry wants these at startup, can probable whittle this down
+    Resource object_library/FX/*
+    Resource object_library/item_library/*
+
+    Resource player_library/MALE_BONES_SCALE_*
+    Resource player_library/FEM_BONES_SCALE_*
+    Resource player_library/HUGE_BONES_SCALE_*
+    Resource player_library/N_Male_UIbodytype.geo
+    Resource player_library/N_Fem_UIbodytype.geo
+    Resource player_library/N_Huge_UIbodytype.geo
+
+    // anim resources for char creator
+    Resource player_library/animations/tscroll/* // texture scroll animations loaded by tricks at startup (tiny)
+    Resource sequencer|*   // TBD, just player.txt here
+    Resource anim|male/thumbsup.anim // hard-coded to use this anim in place of missing anims
+    Resource player_library/animations/*/skel_*  // skeleton file references are contained in anim files themselves, but instead of processing we just include all skel_* files (this naming convention enforced by getanimation)
+
+    // Note: we don't need the sound resources that come in under klass resources (50MB of power fx sound), these gets excluded at stage file creation (see assetQuery script)
+    Resource klass|classes     // hero powers
+    Resource klass|v_classes   // villain powers
+
+    // TBD, game does a preload of geo that matches any part of "cape" and "door" under player_library dir, need these?
+    // fxPreloadGeometryHelper("player_library", "cape");
+	// fxPreloadGeometryHelper("player_library", "door");
+}
+
+// Stage 2 is neutral tutorial
+Stage 2
+{
+	Resource mapspec|N_City_00_01
+    Resource scene|scenes/default_scene.txt // hard-coded in gfxReload, called from login code when login a character, not sure why
+
+
+    Resource sound/ogg/frontend/*
+    Resource sound/ogg/ui/*  // not really much here, just a reminder to pull in front end only sounds rather than the full batch of sounds ref'ed by code
+    Resource sound/ogg/arena/*
+    Resource sound/ogg/countdown/klaxon1.ogg
+    Resource sound/ogg/frontend/missioncomplete1.ogg
+    Resource sound/ogg/music/v_frontend/v_missioncomplete1.ogg
+    Resource sound/ogg/praetoria_music/p_missioncomplete1.ogg
+
+
+
+	// Mainly for resourced needed in-game for the HUD
+    Include code_deps_stage2.txt // include a list of resource files directly.
+    Resource texture_library/gui/icons/*
+
+	Resource object_library/omni/encounterspawns/basetypes/basetypes.geo
+}
+
+// Stage 3 is initial hero/villain maps
+Stage 3
+{
+    Resource mapspec|City_01_01
+    Resource mapspec|V_City_01_01
+
+	Resource texture_library/loading_screens/def_ldg_scrn.texture
+
+	// Supergroup registration and mission architect textures
+	Resource texture_library/gui/creation/costume/*
+	Resource texture_library/gui/creation/registration/registration_form_background.texture
+	Resource texture_library/gui/creation/registration/registration_form_background#base.texture
+	Resource texture_library/gui/creation/registration/select_color_ring.texture
+	Resource texture_library/gui/creation/registration/select_logo_ring.texture
+	Resource texture_library/gui/creation/registration/v_registration_form_background.texture
+	Resource texture_library/gui/creation/registration/v_registration_form_background#base.texture
+
+    // Supergroup emblems
+    Resource texture_library/PLAYERS/AVATAR/Super_Shared/Emblem/*
+
+	// Custom boss identity card background
+	Resource texture_library/gui/creation/identity/architect_identity_card_background.texture
+}
+
+// Stage 4 is "the kitchen sink".  We dont create a stage 4 pigg file, but have this entry in order
+//   to reference things that we don't want to be marked as unreferenced (which would cause them to
+//   get added to the exclude list).
+Stage 4
+{
+    Resource texture_library/static_cubemaps/*
+    Resource texture_library/gui/hud/missionarchitect/*
+    Resource texture_library/gui/hud/missionpicker/*
+    Resource texture_library/loading_screens/*
+
+    // None-core resources don't need to be listed here (since they are in bin files), but tracking them here
+    //   so we know which resources we dont have tracking for yet (so they get at least 1 parent)
+    Resource pophelp|*
+    Resource recipe|*
+    Resource salvage|*
+    Resource scrollset|*
+    Resource tex|base_loading_screen // superbase loading screen
+    Resource map|*
+    Resource mapspec|*
+    Resource reward|*
+    Resource texword|*
+    Resource zoneevent|*
+    Resource costume|*
+
+    // code deps that aren't needed in earlier stages
+    Resource sound/ogg/music/arena/stats_loop.ogg
+    Resource texture_library/GUI/CREATION/Login/*
+}

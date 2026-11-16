@@ -1,0 +1,685 @@
+#########################################################
+## Player.txt - Player model sequencer
+#########################################################
+
+Sequencer
+
+## MALE #######################################################
+
+TypeDef male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef Maelstrom
+            BaseSkeleton    male\skel_ready2
+            ParentType      male
+TypeDefEnd
+
+TypeDef Maelstrom_StageOne
+            BaseSkeleton    male\skel_ready2
+            ParentType        Maelstrom
+TypeDefEnd
+
+TypeDef Maelstrom_StageTwo
+            BaseSkeleton    male\skel_ready2
+            ParentType        Maelstrom
+TypeDefEnd
+
+TypeDef Maelstrom_StageThree
+            BaseSkeleton    male\skel_ready2
+            ParentType        Maelstrom
+
+TypeDefEnd
+
+
+#############################################################
+
+Move Default
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+	Priority        0
+
+	Type		male
+	  Anim          male\Skel_ready2 1
+	TEnd
+
+	Type		Maelstrom
+	  Anim          male\Skel_ready2 1
+	TEnd
+
+MEnd
+
+#############################################################
+##Maelstrom_StageOne
+#############################################################
+
+#############################################################
+## DUAL WIELD
+#############################################################
+
+Move Maelstrom_DualWield_Draw
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOT STRONG SPAWNBACK
+	Priority        57
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Maelstrom_DualWield
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+
+	Type		Maelstrom
+	  Anim          male\DualPistols_Draw 1 26
+	TEnd
+MEnd
+
+Move Maelstrom_DualWield
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOT STRONG
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_DualWield_Post
+	Flags		PitchToTarget NOSIZESCALE
+	Sets            CANTMOVE
+
+	Type		Maelstrom
+	  Anim          male\DualPistols_DualWield 1 50
+	  PitchAngle	-0.1
+	  PitchEnd	45
+	TEnd
+MEnd
+
+Move Maelstrom_DualWield_Post
+	#Requires	COMBAT
+	Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove        Pistols_Ready_NoInterpolate
+	Flags		NOSIZESCALE ReqInputs
+	Scale		0.8
+
+	Type		Maelstrom
+	  Anim          male\DualPistols_DualWield 51
+	TEnd
+MEnd
+
+#############################################################
+## BULLET RAIN
+#############################################################
+
+Move Maelstrom_BulletRain_Draw
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOT LAUNCH SPAWNBACK
+	Priority        57
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_BulletRain
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+	Interpolate	0
+
+	Type		Maelstrom
+	  Anim          male\DualPistols_Draw 1 26
+	TEnd
+MEnd
+
+Move Maelstrom_BulletRain
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOT LAUNCH
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_BulletRain_Post
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+	Interpolate	0
+
+	Type		Maelstrom
+	  Anim          male\DualPistols_BulletRain 1 72
+	TEnd
+
+MEnd
+
+Move Maelstrom_BulletRain_Post
+	#Requires	COMBAT
+	Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove        Pistols_Ready_NoInterpolate
+	Flags		NOSIZESCALE ReqInputs
+	Interpolate	0
+
+	Type		Maelstrom
+	  Anim          male\DualPistols_BulletRain 73
+	TEnd
+
+MEnd
+
+#############################################################
+
+#############################################################
+## PIERCING ROUNDS
+#############################################################
+
+Move Maelstrom_PiercingRounds_Draw
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOT SNIPERBLAST SPAWNBACK
+	Priority        57
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_PiercingRounds
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+
+	Type		Maelstrom
+	  Anim          male\DualPistols_Draw 1 26
+	TEnd
+MEnd
+
+Move Maelstrom_PiercingRounds
+	Requires	COMBAT WEAPON DUAL PISTOLS SHOOT SNIPERBLAST
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_PiercingRounds_Post
+	Flags		PitchToTarget NOSIZESCALE
+	Sets            CANTMOVE
+
+	Type		Maelstrom
+	  Anim          male\DualPistols_PiercingRounds 1 75
+	  PitchStart	35
+	  PitchAngle	-0.25
+	  PitchEnd	70
+	TEnd
+MEnd
+
+Move Maelstrom_PiercingRounds_Post
+	#Requires	COMBAT
+	Include 	sequencers\Members\Combat_DualWeapon.inc
+	NextMove        Pistols_Ready_NoInterpolate
+	Flags		NOSIZESCALE ReqInputs
+	Scale		0.625
+
+	Type		Maelstrom
+	  Anim          male\DualPistols_PiercingRounds 76
+	TEnd
+MEnd
+
+
+#############################################################
+## Maelstrom_StageTwo
+#############################################################
+
+#############################################################
+## EXECUTIONER'S SHOT
+#############################################################
+Move Maelstrom_Executioner_Draw
+	Requires	COMBAT WEAPON HANDGUN PISTOLS EXECUTE SPAWNSIDE
+	Priority        56
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_Executioner
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+
+	Type		Maelstrom_StageTwo
+	  Anim          male\maelstrom_draw_singlepistol 3 32
+	TEnd
+MEnd
+
+Move Maelstrom_Executioner
+	Requires	COMBAT WEAPON HANDGUN PISTOLS EXECUTE
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_Executioner_Post
+	Flags		NOSIZESCALE PitchToTarget
+	Sets            CANTMOVE
+
+	Type		Maelstrom_StageTwo
+	  Anim          male\Maelstrom_executioner 1 77
+	  PitchStart	20
+	  PitchAngle	-0.75
+	  PitchEnd	70
+	TEnd
+MEnd
+
+Move Maelstrom_Executioner_Post
+	#Requires	COMBAT
+	Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove        WepReady
+	Flags		NOSIZESCALE ReqInputs
+
+	Type		Maelstrom_StageTwo
+	  Anim          male\Maelstrom_executioner 78
+	TEnd
+MEnd
+
+#############################################################
+## Shredder Round
+#############################################################
+
+Move Maelstrom_Shredder_Round_Draw
+	Requires	COMBAT WEAPON HANDGUN PISTOLS SHOOT MID SPAWNSIDE
+	Priority        57
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_Shredder_Round
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+
+	Type		Maelstrom_StageTwo
+	  Anim          male\maelstrom_draw_singlepistol 3 32
+	TEnd
+MEnd
+
+Move Maelstrom_Shredder_Round
+	Requires	COMBAT WEAPON HANDGUN PISTOLS SHOOT MID
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_Shredder_Round_Post
+	Flags		PitchToTarget NOSIZESCALE
+	Sets            CANTMOVE
+
+	Type		Maelstrom_StageTwo
+	  Anim          male\Maelstrom_shredder_round 1 106
+	  PitchAngle	0.2
+	  PitchEnd	50
+	TEnd
+MEnd
+
+Move Maelstrom_Shredder_Round_Post
+	#Requires	COMBAT
+	#Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove        WepReady
+	Flags		NOSIZESCALE ReqInputs
+
+	Type		Maelstrom_StageTwo
+	  Anim          male\Maelstrom_shredder_round 107
+	TEnd
+MEnd
+
+#############################################################
+## Marked for Death
+#############################################################
+
+Move Maelstrom_Markfordeath_Draw
+	Requires	COMBAT WEAPON HANDGUN PISTOLS LOCKDOWN MID SPAWNSIDE
+	Priority        57
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_Markfordeath
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+
+	Type		Maelstrom
+	  Anim          male\maelstrom_draw_singlepistol 3 32
+	TEnd
+MEnd
+
+Move Maelstrom_Markfordeath
+	Requires	COMBAT WEAPON HANDGUN PISTOLS LOCKDOWN MID
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_Markfordeath_Post
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+	SCALE		0.6
+
+	Type		Maelstrom
+	  Anim          male\Maelstrom_Markfordeath 1 95
+	TEnd
+MEnd
+
+Move Maelstrom_Markfordeath_Post
+	#Requires	COMBAT
+	#Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove        WepReady #_NoInterpolate
+	Flags		NOSIZESCALE ReqInputs
+
+	Type		Maelstrom
+	  Anim          male\Maelstrom_Markfordeath 96 138
+	TEnd
+MEnd
+
+#############################################################
+## Time to Die
+#############################################################
+
+Move Maelstrom_Time_to_Die_Draw
+	Requires	COMBAT WEAPON HANDGUN PISTOLS SHOOT SPIN SPAWNSIDE
+	Priority        57
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_Time_to_Die
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+
+	Type		Maelstrom
+	  Anim          male\maelstrom_draw_singlepistol 3 32
+	TEnd
+MEnd
+
+Move Maelstrom_Time_to_Die
+	Requires	COMBAT WEAPON HANDGUN PISTOLS SHOOT SPIN
+	Priority        6
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> #<AttackIRQ>
+	NextMove        Maelstrom_Time_to_Die_Post
+	Flags		NOSIZESCALE
+	Sets            CANTMOVE
+	SticksOnChild	SHOOT SPIN
+
+	Type		Maelstrom
+	  Anim          male\maelstrom_time_to_die 1 105
+	TEnd
+MEnd
+
+Move Maelstrom_Time_to_Die_Post
+	#Requires	COMBAT
+	#Include sequencers\Members\Combat_DualWeapon.inc
+	NextMove        WepReady #_NoInterpolate
+	Flags		NOSIZESCALE ReqInputs
+
+	Type		Maelstrom
+	  Anim          male\maelstrom_time_to_die 106
+	TEnd
+MEnd
+
+
+
+#############################################################
+#############################################################
+#############################################################
+## Maelstrom's Jaunt Crane Kick
+#############################################################
+
+Move Maelstrom_CraneKickJaunt_Pre
+	Requires	COMBAT KUNGFU HIGH KICK TELEPORT
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Maelstrom_CraneKickJaunt
+	Interpolate	8
+	Sets            CANTMOVE
+	Wind		ATTACK
+	Flags		NoSizeScale
+
+	Type		Maelstrom
+	  Anim          male\MA_ironkick 1 37
+	TEnd
+MEnd
+
+Move Maelstrom_CraneKickJaunt
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Maelstrom_CraneKickJaunt_Post
+	Wind		ATTACK
+	Flags		NoSizeScale
+
+	Type		Maelstrom
+	  Anim          male\MA_ironkick 38 72
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 0
+	TEnd
+MEnd
+
+Move Maelstrom_CraneKickJaunt_Post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Combat_half
+	Wind		ATTACK
+	Flags		NoSizeScale
+
+	Type		Maelstrom
+	  Anim          male\MA_ironkick 73
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt_FadeIn.fx 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+## Maelstrom's Jaunt Storm Kick
+#############################################################
+
+Move Maelstrom_StormKickJaunt_Pre
+	Requires	COMBAT KUNGFU KICK STRONG TELEPORT
+	Priority        5
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Maelstrom_StormKickJaunt
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Maelstrom
+	  Anim          male\kick_highspin 1 5
+	TEnd
+MEnd
+
+Move Maelstrom_StormKickJaunt
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Maelstrom_StormKickJaunt_Post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Maelstrom
+	  Anim          male\kick_highspin 6 29
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 0
+	TEnd
+MEnd
+
+Move Maelstrom_StormKickJaunt_Post
+	Include sequencers\Members\Combat.inc
+	NextMove        Maelstrom_StormKickJaunt_PostCycle
+	Flags		NoSizeScale
+
+	Type		Maelstrom
+	  Anim          male\kick_highspin 30
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt_FadeIn.fx 0
+
+	TEnd
+MEnd
+
+Move Maelstrom_StormKickJaunt_PostCycle
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	Flags		Cycle NoSizeScale ReqInputs
+	NextMove        postReady_back
+	Scale           0.50
+
+	Type		Maelstrom
+	  Anim          male\kick_cycle 1
+	TEnd
+MEnd
+
+#############################################################
+## Maelstrom's Jaunt Dragon's Tail
+#############################################################
+
+Move Maelstrom_DragonsTailJaunt_Pre
+	Requires	COMBAT KUNGFU KUNGFUAREA TELEPORT
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Maelstrom_DragonsTailJaunt
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Maelstrom
+	  Anim          male\short_sweepkick 1 5
+	TEnd
+MEnd
+
+Move Maelstrom_DragonsTailJaunt
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Maelstrom_DragonsTailJaunt_Post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Maelstrom
+	  Anim          male\short_sweepkick 6 32
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 0
+	TEnd
+MEnd
+
+Move Maelstrom_DragonsTailJaunt_Post
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        Combat_half
+	Flags		NoSizeScale ReqInputs
+
+	Type		Maelstrom
+	  Anim          male\short_sweepkick 33
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt_FadeIn.fx 0
+	TEnd
+MEnd
+
+#############################################################
+## Special Death
+#############################################################
+
+Move Maelstrom_PreDeath
+	Requires	DEATH
+	Priority        101
+	Interrupts	<DeathIRQ>
+	#Member		<RaiseDeadIRQ>
+	NextMove        Maelstrom_Death
+	Sets            NOCOLLISION
+	Flags		NotSelectable HideWeapon
+
+	Type		Maelstrom
+	  Anim          male\maelstrom_death 1 47
+	TEnd
+
+	Type		Maelstrom_StageOne
+	  Anim          male\maelstrom_disarm_left 1 38
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Disarm_LeftGun.fx 4 #synced to animation
+
+	TEnd
+
+	Type		Maelstrom_StageTwo
+	  Anim          male\maelstrom_disarm_right 1 65 #Right Gun shot out of hand, he jaunts away
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Disarm_RightGun.fx 4 #synced to animation
+	TEnd
+
+	Type		Maelstrom_StageThree
+	  Anim          male\maelstrom_death 1 65 #Defeated for last time, jaunts away
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Death_Maelstrom_Buildup.fx 1
+
+	TEnd
+MEnd
+
+Move Maelstrom_Death
+	Requires	DEATH
+	#Member		<RaiseDeadIRQ>
+	NextMove        Maelstrom_Dead
+	Flags		NotSelectable HideWeapon
+	Sets            NOCOLLISION DIENOW
+
+	Type		Maelstrom
+	  Anim          male\flameaura 1 47
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Jaunt.fx 20 #synced to animation, this should include the invisible behavior from ENTITYVANISH.FX
+	TEnd
+
+	Type		Maelstrom_StageThree
+	  Anim          male\maelstrom_death 66 76
+	  PlayFX	ENEMYFX\V_Signature\Maelstrom\Death_Maelstrom_Explosion.fx 5 #Repalce with Maelstrom power core explosion, this should include the invisible behavior from ENTITYVANISH.FX
+	TEnd
+MEnd
+
+Move Maelstrom_Dead
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable Hideweapon
+	Sets            NOCOLLISION DIENOW
+
+	Type		Maelstrom
+	  Anim          male\flameaura 48 49
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+#### Maelstrom Teleport In  #########################################################
+
+Move Maelstrom_TeleportIn
+	Requires	ENCOUNTER TELEPORT DOWN ENDGAME
+	Priority	4
+	Include sequencers\Interrupts\Encounters_Scripted.inc
+	Include sequencers\Members\Encounters_Scripted.inc
+	NextMove        Maelstrom_TeleportIn_LookQuick
+	Flags		NotSelectable
+
+	Type		male
+	  Anim          male\absorb 1
+	  PlayFx        GENERIC\entityFadeIn_Immediate.fx 0
+	  PlayFx        ENEMYFX\V_Signature\Maelstrom\Jaunt_TeleportIn.fx 0
+	TEnd
+MEnd
+
+Move Maelstrom_TeleportIn_LookQuick
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		Cycle
+
+
+	Type		male
+	  Anim          male\lookquick 1
+	TEnd
+
+MEnd
+
+####Praetorian Teleport Out  #########################################################
+
+Move Maelstrom_TeleportOut
+	Requires	ENCOUNTER TELEPORT HIGH ENDGAME
+	Include sequencers\Interrupts\Encounters_Scripted.inc
+	Include sequencers\Members\Encounters_Scripted.inc
+	NextMove        Maelstrom_TeleportOut_Post
+	Flags		NotSelectable
+
+	Type		male
+	  Anim          male\absorb 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 21 CONSTANT
+	  PlayFx        ENEMYFX\V_Signature\Maelstrom\Jaunt_TeleportOut.fx 20
+	TEnd
+MEnd
+
+Move Maelstrom_TeleportOut_Post
+	Include sequencers\Members\Encounters_Cycles.inc
+	Flags		NotSelectable Cycle
+	Sets            CANTMOVE
+	Scale		0.5
+
+	Type		male
+	  Anim          male\ready 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX 0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+Include sequencers\player\readies.inc
+Include sequencers\player\Spawns.inc
+
+Include sequencers\player\motion.inc
+Include sequencers\player\Swim.inc
+
+
+Include sequencers\player\powers.inc
+Include sequencers\player\powers_air.inc
+Include sequencers\player\powers_prestige.inc
+Include sequencers\player\Taunts.inc
+Include sequencers\player\Staff_Powers.inc
+Include sequencers\player\sonic.inc
+Include sequencers\player\signature.inc
+Include sequencers\player\Brian_powers.inc
+Include sequencers\player\CBruce_powers.inc
+Include sequencers\player\Kinetic_melee.inc
+Include sequencers\player\skills.inc
+
+Include sequencers\player\weapons.inc
+Include sequencers\player\weapons_a.inc
+
+##Include sequencers\player\deaths.inc
+Include sequencers\player\reactions.inc
+Include sequencers\player\reactions_air.inc
+Include sequencers\player\blocks.inc
+
+Include sequencers\player\emotes.inc
+Include sequencers\player\encounters.inc
+Include sequencers\player\Events.inc
+
+SeqEnd

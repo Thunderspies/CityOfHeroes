@@ -1,0 +1,93 @@
+Texture X_SS_MudSmudge
+
+	Base1 SS_MudSmudge_a
+	Base1Scroll 0 0
+	Base1ScrollType Normal
+	Base1Scale 4 4
+
+	CubeMap generic_cubemap_face0.tga
+
+	Multiply1 P_StainTile02
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 SS_MudSmudge_a
+	DualColor1Scroll 0 0
+	DualColor1ScrollType Normal
+	DualColor1Scale 1 1
+	
+	BumpMap1 FW_Grnd_Muck01_ns //FW_CrackedEdge1_ns
+	BumpMap1Scroll 0 0
+	BumpMap1ScrollType Normal
+	BumpMap1Scale 4 4
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 0.125 .125
+	AddGlowMat2  1        // <- applies the addglow effect to the second material
+
+	Mask black
+	MaskScroll 0 0
+	MaskScrollType Normal
+	MaskScale 1 1
+	MaskWeight .5
+	AlphaMask 0	// Optional flag indicating to use the ALPHA channel
+			// of the Mask texture instead of all 4 channels
+
+	Base2 SS_MudSmudge_a
+	Base2Scroll 0 .0
+	Base2ScrollType Normal
+	Base2Scale 4 4
+
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2ScrollType Normal
+	Multiply2Scale 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 SS_MudSmudge_a
+	DualColor2Scroll 0 0
+	DualColor2ScrollType Normal
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2ScrollType Normal
+	BumpMap2Scale 0.03125 0.03125
+
+	SpecularColor1 45 55 100
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8
+	SpecularExponent2 8
+
+	ReflectivityBase .2
+  	ReflectivityScale .2
+  	ReflectivityPower 1
+
+	DiffuseScale 1
+	AmbientScale 2
+
+  #ObjFlags FancyWater 
+	Flags  none //AlwaysAddGlow  //FullBright  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	MinAddGlow 100
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base FW_Grnd_Muck01_d
+		Blend SS_MudSmudge_a
+		Bumpmap none
+		BlendType AlphaDetail // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 4 4
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End

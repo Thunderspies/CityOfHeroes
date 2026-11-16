@@ -1,0 +1,61 @@
+Def grp_PS_Und_Monorail
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"Linkfrom_Monorail_Underground"	0
+End
+
+Def grp_MS_Und_Monorail
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoSpawn"	"Linkfrom_Monorail_Underground"	0
+	Property	"MonorailLine"	"UndergroundTransit"	0
+	Property	"miniMapLocation"	"Praetoria_Monorail_Underground"	0
+	Property	"specialMapIcon"	"TrainStation"	0
+End
+
+Def grp_Underground_Monorail
+	Group grp_PS_Und_Monorail
+		PYR 0 90 -0
+		Pos 2.571533 -0.080811 3.285889
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 90 -0
+		Pos 2.571533 -0.080811 -0.214111
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 90 -0
+		Pos 2.571533 -0.080811 -3.214111
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 90 -0
+		Pos -0.428467 -0.080811 3.285889
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 90 -0
+		Pos -0.428467 -0.080811 -0.214111
+	End
+	Group grp_PS_Und_Monorail
+		PYR 0 90 -0
+		Pos -0.428467 -0.080811 -3.214111
+	End
+	Group grp_MS_Und_Monorail
+		PYR 0 90 -0
+		Pos -6.428467 0.485229 0.285889
+	End
+End
+
+Def grp_Monorail
+	Group grp_Underground_Monorail
+		Pos 5 0 -2
+	End
+	Property	"Layer"	"0"	0
+End
+
+Ref grp_Monorail
+	Pos -2237.5 -1088 -2418
+End
+

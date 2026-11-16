@@ -1,0 +1,68 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_Skiff 
+	BaseSkeleton	FX_Skiff\Skel_Skiff
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_Skiff_Longbow 
+	BaseSkeleton	FX_Skiff\bones_longbow
+	ParentType	FX_Skiff
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle 
+	Priority        1
+
+	Type		FX_Skiff
+	  Anim          FX_Skiff\Skel_Skiff 1  
+	TEnd
+MEnd
+
+#######  Deaths  ######################################
+
+
+#######################
+###### Vanish Death   ######
+######################	
+
+#Move Death
+#	Requires	DEATH
+#	Interrupts	<DeathIRQ> 
+#	NextMove        Vanish_postdeath
+#	Priority        5
+#	Sets            NOCOLLISION
+#
+#	Type		FX_Skiff
+#	  Anim          FX_Skiff\Skel_Skiff 1  
+#	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+#	TEnd
+#
+#MEnd
+#
+#Move Vanish_postdeath
+#	Requires	DEATH 
+#	Member		<RaiseDeadIRQ> 
+#	Flags		Cycle 
+#	Priority        1
+#	Sets            NOCOLLISION DIENOW
+#
+#
+#	Type		FX_Skiff
+#	  Anim          FX_Skiff\Skel_Skiff 1 
+#	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+#	TEnd
+#MEnd
+#
+
+SeqEnd
+

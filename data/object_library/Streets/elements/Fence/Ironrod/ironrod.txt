@@ -1,0 +1,223 @@
+RootMod _ironrod_64
+End
+
+RootMod _ironrod_16
+End
+
+RootMod _ironrod_32
+End
+
+RootMod _ironrod_128
+End
+
+RootMod _ironrod_horizpost_hi
+End
+
+RootMod _ironrod_horizpost_hi_8
+End
+
+RootMod _ironrod_horizpost_hi_64
+End
+
+RootMod _ironrod_horizpost_hi_128
+End
+
+RootMod _ironrod_vertpost_hi
+End
+
+RootMod _ironrod_test
+End
+
+RootMod Object01
+End
+
+RootMod _ironrod_gate_det01
+End
+
+RootMod _ironrod_gate_frame
+End
+
+RootMod _ironrod_gate_lod01
+End
+
+RootMod _ironrod_gate_sides
+End
+
+RootMod ironrod_post_01
+End
+
+RootMod ironrod_gate_door
+End
+
+Def ironrod_16
+	Group _ironrod_vertpost_hi
+		Pos -8 0 0
+	End
+	Group _ironrod_vertpost_hi
+	End
+	Group _ironrod_16
+	End
+End
+
+Def ironrod_32
+	Group _ironrod_vertpost_hi
+	End
+	Group _ironrod_vertpost_hi
+		Pos -8 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -16 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -24 0 0
+	End
+	Group _ironrod_32
+	End
+End
+
+Def ironrod_64
+	Group _ironrod_64
+	End
+	Group _ironrod_vertpost_hi
+	End
+	Group _ironrod_vertpost_hi
+		Pos -8 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -16 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -24 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -32 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -40 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -48 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -56 0 0
+	End
+End
+
+Def ironrod_128
+	Group _ironrod_128
+	End
+	Group _ironrod_vertpost_hi
+	End
+	Group _ironrod_vertpost_hi
+		Pos -8 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -16 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -24 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -40 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -32 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -48 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -56 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -72 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -64 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -80 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -88 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -104 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -96 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -120 0 0
+	End
+	Group _ironrod_vertpost_hi
+		Pos -112 0 0
+	End
+End
+
+Def ironrod_gate_door01
+	Group _ironrod_gate_det01
+	End
+	Group _ironrod_gate_lod01
+	End
+End
+
+Def ironrod_gate_frame01
+	Group _ironrod_gate_sides
+	End
+	Group _ironrod_gate_frame
+	End
+End
+
+Def ironrod_gate_full_open_2&
+	Group Omni/PARTICLE_15
+	End
+	Type V_COV\PhysicsEnabled\PhysJointFX\IronRodGates.fx
+	Lod
+		Scale 0.750000
+	End
+End
+
+Def ironrod_gate_full_open
+	Group ironrod_gate_frame01
+	End
+	Group ironrod_gate_full_open_2&
+		PYR 0 89.999985 0
+	End
+End
+
+Def ironrod_gate_full_open_static
+	Group ironrod_gate_door01
+		PYR 0 -60.000031 0
+		Pos -10.5 0 0
+	End
+	Group ironrod_gate_door01
+		PYR 0 -130 0
+		Pos 10.5 0 0
+	End
+	Group ironrod_gate_frame01
+	End
+End
+
+Def ironrod_gate_full_closed_2&
+	Group ironrod_gate_door01
+		Pos 10.5 0 0
+	End
+	Group ironrod_gate_door01
+		PYR 0 179.999969 0
+		Pos -10.5 0 0
+	End
+	Group ironrod_gate_frame01
+	End
+End
+
+Def ironrod_gate_full_closed_1&
+	Group ironrod_gate_full_closed_2&
+	End
+End
+
+Def ironrod_gate_full_closed
+	Group ironrod_gate_full_closed_1&
+	End
+End
+

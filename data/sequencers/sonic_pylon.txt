@@ -1,0 +1,45 @@
+#############################################################
+## Sonic_Pylon.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Sonic_Pylon
+	BaseSkeleton	Sonic_Pylon\skel_ready
+	ParentType	None
+TypeDefEnd
+
+TypeDef Sonic_Pylon_Small
+	BaseSkeleton	Sonic_Pylon\skel_ready
+	ParentType	Sonic_Pylon
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+Group	<Combat>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle Notselectable NoSizeScale
+	NextMove	Ready
+	CycleMove	Ready
+	Scale		0.075
+
+	Type		Sonic_Pylon
+	  Anim		Sonic_Pylon\skel_ready 25 105
+	TEnd
+
+	Type		Sonic_Pylon_Small
+	  Anim		Sonic_Pylon\skel_ready 1 1
+	  PlayFX	"WORLD\City\SonicPylons_Tips_Damage.fx" 0 CONSTANT
+	TEnd
+MEnd
+
+##############################################################
+
+SeqEnd

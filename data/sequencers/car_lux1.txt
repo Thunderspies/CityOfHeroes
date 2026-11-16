@@ -1,0 +1,237 @@
+#############################################################
+
+Sequencer
+
+TypeDef Car_Lux1
+	BaseSkeleton	Car_Lux1\skel_car_ready
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\skel_car_ready 1
+	  PlayFX	EntitySounds\Car_Lux_Horn.fx 1
+	TEnd
+MEnd
+
+###################
+### run Forward ##
+###################
+
+Move WalkPre
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	Flags		ReqInputs
+	NextMove        WalkCycle
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_forward 1
+	TEnd
+MEnd
+
+
+Move WalkCycle
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove	WalkCycle
+	CycleMove	WalkCycle
+	CycleMove	WalkCycle
+	CycleMove	WalkCycle_Break
+	NextMove        WalkPost
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_forward 1
+	TEnd
+MEnd
+
+Move WalkCycle_Break
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove	WalkCycle
+	CycleMove	WalkCycle
+	CycleMove	WalkCycle_Break1
+	CycleMove	WalkCycle_Break2
+	NextMove        WalkPost
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_forward 1
+	TEnd
+MEnd
+
+Move WalkCycle_Break1
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove	WalkCycle
+	NextMove        WalkPost
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_forward 1
+	  PlayFX	EntitySounds\Car_Lux_Horn.fx 1
+	TEnd
+MEnd
+
+Move WalkCycle_Break2
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	CycleMove	WalkCycle
+	NextMove        WalkPost
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_forward 1
+	  PlayFX	EntitySounds\Car_Lux2_Horn.fx 1
+	TEnd
+MEnd
+
+
+Move WalkPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle>
+	NextMove        Ready
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_stop 2
+	TEnd
+MEnd
+
+###################
+### run Backward ##
+###################
+
+Move WalkBackPre
+	Requires	BACKWARD
+	Interrupts	<Ready> <PostMoveCycle>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	Flags		ReqInputs
+	NextMove        WalkBackCycle
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_back 1
+	TEnd
+MEnd
+
+
+Move WalkBackCycle
+	Requires	BACKWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle
+	NextMove        WalkBackPost
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_back 1
+	TEnd
+MEnd
+
+
+Move WalkBackPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle>
+	NextMove        Ready
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_stopback 2
+	TEnd
+MEnd
+
+############
+### Turns  ##########
+###########
+
+Move Turn_left
+	Requires	TURNLEFT
+	Interrupts	<Ready> <BasicMove>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_turn_left 1 30
+	TEnd
+MEnd
+
+
+Move Turn_right
+	Requires	TURNRIGHT
+	Interrupts	<Ready> <BasicMove>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_turn_right 1 30
+	TEnd
+MEnd
+
+################### test ##############################
+
+Move Test
+	Requires	TEST8
+	Interrupts	<Ready>
+	Flags		Cycle
+	NextMove        Ready
+	Priority        1
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_forward 1 30
+	TEnd
+MEnd
+
+
+Move Test_left
+	Requires	TEST5 TEST8
+	Interrupts	Test
+	Flags		Cycle
+	NextMove        Test
+	Priority        2
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_turn_left 1 30
+	TEnd
+MEnd
+
+Move Test_right
+	Requires	TEST6 TEST8
+	Interrupts	Test
+	Flags		Cycle
+	NextMove        Test
+	Priority        2
+
+	Type		Car_Lux1
+	  Anim          Car_Lux1\car_turn_right 1 30
+	TEnd
+MEnd
+
+SeqEnd
+

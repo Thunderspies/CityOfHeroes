@@ -1,0 +1,121 @@
+#########################################################
+## CustomWeapon_Mace.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Mace_Rularuu
+	BaseSkeleton	CustomWeapons_Rularuu_Hammer\skel_ready
+	ParentType	None
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw NoSizeScale
+	Priority	0
+
+	Type		Mace_Rularuu
+	  Anim		CustomWeapons_Rularuu_Hammer\skel_ready 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Spawn
+	Requires	RIGHTHAND SPAWNBACK
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Priority        2
+	Flags		NoDraw NoSizeScale
+
+	Type		Mace_Rularuu
+	  Anim		CustomWeapons_Rularuu_Hammer\skel_ready 1 9
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Pre
+	Requires	RIGHTHAND
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+	Priority        1
+	Flags		NoSizeScale
+	Scale		0.5
+
+	Type		Mace_Rularuu
+	  Anim		CustomWeapons_Rularuu_Hammer\skel_ready 1
+	  Scale		0.5
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	RIGHTHAND
+	Member		<WepCombat>
+	Flags		Cycle NoSizeScale
+	Priority        1
+	Scale		0.5
+
+	Type		Mace_Rularuu
+	  Anim		CustomWeapons_Rularuu_Hammer\skel_ready 1
+	  Scale		0.5
+	TEnd
+MEnd
+
+## THROW SPEAR #######################################################
+
+Move Shield_Weapon_ThrowSpear
+	Requires	RIGHTHAND HIDE QUICK ONE
+	Priority	4
+	Interrupts	<Ready> <WepCombat>
+	Member		<DeathIRQ>
+	NextMove	Combat_Pre
+	Flags		NoDraw NoSizeScale
+	Scale		0.5
+
+	Type		Mace_Rularuu
+	  Anim		CustomWeapons_Rularuu_Hammer\skel_ready 1 54
+	TEnd
+MEnd
+
+## LOB GRENADE #######################################################
+
+Move Shield_Weapon_GrenadeLob
+	Requires	RIGHTHAND HIDE QUICK TWO
+	Priority	4
+	Interrupts	<Ready> <WepCombat>
+	Member		<DeathIRQ>
+	NextMove	Shield_Weapon_GrenadeLob_Post
+	Flags		NoDraw NoSizeScale
+	Scale		0.5
+
+	Type		Mace_Rularuu
+	  Anim		CustomWeapons_Rularuu_Hammer\skel_ready 1 60
+	TEnd
+MEnd
+
+Move Shield_Weapon_GrenadeLob_Post
+	Member		<DeathIRQ>
+	NextMove	Combat_Pre
+	Flags		NoDraw NoSizeScale
+	Scale		0.5
+
+	Type		Mace_Rularuu
+	  Anim		CustomWeapons_Rularuu_Hammer\skel_ready 1 10
+	TEnd
+MEnd
+
+#########################################################
+
+SeqEnd

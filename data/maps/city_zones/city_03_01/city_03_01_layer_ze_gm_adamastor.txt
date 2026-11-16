@@ -1,0 +1,204 @@
+Def grpvolume_VOL-AdamastorEvent'
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 400.000000 400.000000 800.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"AdamastorEvent"	0
+End
+
+Def grp_Script-Adamastor
+	Group Omni/MissionBeacons/_cohscrpt_scriptmarker
+	End
+	Property	"ScriptMarker"	"Adamastor"	0
+End
+
+Def grp_SbSpwn-Adamastor
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Property	"CanSpawn0"	"SpawnDefs/ZoneEvents/GM_Adamastor/Adamastor_D1_V0.spawndef"	0
+	Property	"EncounterSpawn"	"Adamastor"	0
+End
+
+Def grp_SpwnDf-Adamastor
+	Group grp_SbSpwn-Adamastor
+	End
+	Property	"EncounterGroup"	"Adamastor"	0
+	Property	"IgnoreRadius"	"1"	0
+	Property	"ManualSpawn"	"1"	0
+	Property	"SpawnProbability"	"0"	0
+End
+
+Def grp_Adamastor
+	Group grp_Script-Adamastor
+		PYR 0 90 -0
+	End
+	Group grp_SpwnDf-Adamastor
+		PYR 0 -90 -0
+	End
+End
+
+Def grp_Script-Allies
+	Group Omni/MissionBeacons/_cohscrpt_scriptmarker
+	End
+	Property	"ScriptMarker"	"Adamastor-Allies"	0
+End
+
+Def grp_SpSpwn-Allies
+	Group Omni/EncounterSpawns/Encounter_E_01
+	End
+	Group Omni/EncounterSpawns/Encounter_E_10
+		Pos 6.5 0 2.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_11
+		Pos -6.5 0 3.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_02
+		Pos 5 0 9.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_03
+		Pos -4 0 9.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_04
+		PYR 0 -112.5 -0
+		Pos 11 0 15.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_05
+		PYR 0 90 -0
+		Pos -8 0 17.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_06
+		PYR 0 -112.5 -0
+		Pos 16 0 12.5
+	End
+	Group Omni/EncounterSpawns/Encounter_E_07
+		PYR 0 90 -0
+		Pos -10.5 0 23
+	End
+	Group Omni/EncounterSpawns/Encounter_E_08
+		PYR 0 -112.5 -0
+		Pos 13 0 24
+	End
+	Group Omni/EncounterSpawns/Encounter_E_09
+		PYR 0 67.5 -0
+		Pos -15 0 28.5
+	End
+	Property	"CanSpawn0"	"SpawnDefs/ZoneEvents/GM_Adamastor/AdamastorAllies_D1_V0.spawndef"	0
+	Property	"EncounterSpawn"	"Adamastor-Allies"	0
+End
+
+Def grp_SpwnDf-Allies
+	Group grp_SpSpwn-Allies
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"IgnoreRadius"	"1"	0
+	Property	"ManualSpawn"	"1"	0
+	Property	"SpawnProbability"	"0"	0
+End
+
+Def grp_Adamastor-Allies
+	Group grp_Script-Allies
+		Pos 0.25 0 0.25
+	End
+	Group grp_SpwnDf-Allies
+		PYR 0 179.999985 -0
+		Pos -0.25 0 -0.25
+	End
+End
+
+Def grp_WP-Adamastor
+	Group Omni/MissionBeacons/_cohscrpt_scriptmarker
+	End
+	Property	"ScriptMarker"	"WP-Adamastor"	0
+End
+
+Def grp108707
+	Group Omni/PARTICLE_10
+	End
+	Type ENEMYFX\BanishedPantheon\Pantheon_Spirits\Death\PantheonDeath_Ancient_RuneAndGlow.fx
+End
+
+Def grp108704
+	Group Omni/PARTICLE_10
+	End
+	Type ENEMYFX\BanishedPantheon\Spines\SpineCore.fx
+End
+
+Def grp108702
+	Group Omni/PARTICLE_10
+	End
+	Type ENEMYFX\Praetorian\DD\RepulsionField_Beams.fx
+End
+
+Def grp108706
+	Group grp108704
+		Pos -3.330078 0.036072 -0.344727
+	End
+	Group grp108702
+		PYR 0 -2 -0
+		Pos 1.159668 -0.001766 -0.30957
+	End
+	Group city_zones/Dark_Astoria_makeover/Mot/Destructible/DA_Mot_destructibleBone_original
+		PYR 0 179.999985 -0
+		Pos 2.169922 -0.034313 -0.344727
+	End
+End
+
+Def grp108705
+	Group grp108704
+		Pos -3.330078 0.036072 -0.344727
+	End
+	Group grp108702
+		Pos 1.159668 -0.001766 -0.30957
+	End
+	Group city_zones/Dark_Astoria_makeover/Mot/Destructible/DA_Mot_destructibleBone_original
+		PYR 0 179.999985 -0
+		Pos 2.169922 -0.034313 -0.344727
+	End
+End
+
+Def grp_LocationFlavor
+	Group grp108707
+		PYR 0 -90 -0
+		Pos 3.913086 8.786274 -1.680664
+	End
+	Group grp108707
+		PYR 0 45 -0
+		Pos -5.086914 6.786274 -6.680664
+	End
+	Group grp108707
+		Pos -0.086914 2.786274 -3.680664
+	End
+	Group grp108706
+		PYR 0 -173.999985 -0
+		Pos -17.256836 -9.179413 8.164063
+	End
+	Group grp108705
+		PYR 0 6 -0
+		Pos 18.518555 -9.179413 3.87793
+	End
+End
+
+Def grp_ZE_GM_Adamastor
+	Group grpvolume_VOL-AdamastorEvent'
+		Pos 0.5 -40 9
+	End
+	Group grp_Adamastor
+		PYR 0 -90 -0
+		Pos -5.5 0 -30
+	End
+	Group grp_Adamastor-Allies
+		Pos -3 0 -7
+	End
+	Group grp_WP-Adamastor
+		Pos -5.5 0 -24
+	End
+	Group grp_LocationFlavor
+		Pos -5.413086 9.213726 -26.319336
+	End
+	Property	"Layer"	"ZE_GM_Adamastor"	0
+End
+
+Ref grp_ZE_GM_Adamastor
+	Pos -4198.5 32 9201
+End
+

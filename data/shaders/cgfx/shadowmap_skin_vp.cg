@@ -1,0 +1,52 @@
+uniform float4x4 g_ProjectionMatrix : state.matrix.projection;  // Projection matrix
+
+uniform float4 g_BoneMatrixArrVP[48] : c8;          // 16 3x4 bone transform matrices (each xform has 3 rows considered row major)
+
+//--------------------------------------------------
+// Output struct def
+//--------------------------------------------------
+struct vpOutput
+{
+    float4 position : POSITION;
+};
+
+
+//----------------------------------------------------------------------------
+// main
+//----------------------------------------------------------------------------
+vpOutput main(
+        float4 vertex_position    : POSITION,
+        float2 boneWeights        : ATTR1,       // vertex.attrib[1];
+        float2 boneIndices        : ATTR5        // vertex.attrib[5];
+      )
+{
+  vpOutput OUT;
+
+  // Transform the vertex to view space via bone matrices
+
+  // bone indices are *3 for ARB bone matrix indices
+	int iBone0 = boneIndices.x;	
+  float3x4 boneMatrix0 = float3x4(
+                              g_BoneMatrixArrVP[iBone0+0],
+                              g_BoneMatrixArrVP[iBone0+1],
+                              g_BoneMatrixArrVP[iBone0+2] );
+  int iBone1 = boneIndices.y;
+  float3x4 boneMatrix1 = float3x4(
+                              g_BoneMatrixArrVP[iBone1+0],
+                              g_BoneMatrixArrVP[iBone1+1],
+                              g_BoneMatrixArrVP[iBone1+2] );
+
+  // Transform position using blend between bone 0 & 1
+  // since only two bones lerp results (potentially more efficient)
+  // (also guarantees that bone weights add to one)
+  
+  // todo probably can get by with single bone skinning on shadows?
+	float4 position0	= float4( mul( boneMatrix0, vertex_position ), 1.0f );
+	float4 position1	= float4( mul( boneMatrix1, vertex_position ), 1.0f );
+	float4 position_vs	= lerp( position0, position1, boneWeights.y );
+
+  // and then to homogeneous clip space
+  OUT.position = mul( g_ProjectionMatrix, position_vs );
+  
+  return OUT; 
+}

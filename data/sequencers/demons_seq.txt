@@ -1,0 +1,2650 @@
+#############################################################
+## Demons - Demon Summoning.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Male
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef huge
+	BaseSkeleton	huge\skel_ready
+	ParentType	male
+TypeDefEnd
+
+TypeDef Beast
+	BaseSkeleton	Beast\skel_ready
+	ParentType	huge
+TypeDefEnd
+
+TypeDef Demonling
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef DemonLieut
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+TypeDef DemonPrince
+	BaseSkeleton	Beast\skel_ready
+	ParentType	Beast
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<StunMove>
+Group	<RunIn>
+Group	<DualHandCombat>
+Group	<DualHandAttack>
+Group	<DualHandMove>
+Group	<FlyDualHandCombat>
+Group	<FlyDualHandAttack>
+Group	<FlyDualHandMove>
+Group	<PreMove>
+Group	<IRQEmotesALL>
+Group	<MonsterGroup>
+Group	<RagdollBellyIRQ>
+Group	<MoveIRQ>
+
+
+## READY - This move HAS to be first in this sequencer ###########################################################
+
+Move Ready
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	CycleMove	Idle_Cycle
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoOut_SFX.fx 17
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoIn_SFX.fx 34
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoOut_SFX.fx 51
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 15
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 29
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 43
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 18
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 36
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 54
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move BeastIdleToDemonIdle
+	Include sequencers\Members\Readies.inc
+	Flags		NoSizeScale
+	NextMove	Idle_Cycle
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_combat_to_idle 1
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_combat_to_idle 1
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_combat_to_idle 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Idle_Cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoSizeScale
+	Interpolate	8
+	CycleMove	Idle_Cycle
+	CycleMove	Idle_Cycle
+	CycleMove	Idle_Cycle
+	CycleMove	Idle_BreakCycle
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoOut_SFX.fx 17
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoIn_SFX.fx 34
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoOut_SFX.fx 51
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 15
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 29
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 43
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 18
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 36
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 54
+	TEnd
+MEnd
+
+#############################################################
+
+Move Idle_BreakCycle
+	Include sequencers\Members\Readies.inc
+	Flags		CYCLE NoSizeScale
+	CycleMove	Idle_Break_Common
+	CycleMove	Idle_Break_Common
+	CycleMove	Idle_Break_Common
+	CycleMove	Idle_Break_Rare
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoOut_SFX.fx 17
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoIn_SFX.fx 34
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathLoOut_SFX.fx 51
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiOut_SFX.fx 15
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiIn_SFX.fx 29
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiOut_SFX.fx 43
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_idle_cycle 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 18
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 36
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 54
+	TEnd
+MEnd
+
+#############################################################
+
+Move Idle_Break_Common
+	Include sequencers\Members\Readies.inc
+	Flags		CYCLE NoSizeScale
+	CycleMove	Idle_Cycle
+	SticksOnChild	TAIL ALTREADY ONE
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_break_common 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_Look1_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_Look2_SFX.fx 25
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_Look3_SFX.fx 50
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_idle_break_common 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_Look1_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_Look2_SFX.fx 50
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_Look3_SFX.fx 100
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_Look4_SFX.fx 150
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiOut_SFX.fx 165
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_break_common 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_Look1_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_Look2_SFX.fx 50
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_Look3_SFX.fx 90
+	TEnd
+MEnd
+
+#############################################################
+
+Move Idle_Break_Rare
+	Include sequencers\Members\Readies.inc
+	Flags		CYCLE NoSizeScale
+	CycleMove	Idle_Cycle
+	SticksOnChild	TAIL ALTREADY TWO
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_break_rare 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_Look1_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_Look2_SFX.fx 25
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_Look3_SFX.fx 85
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_Look1_SFX.fx 130
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathHiOut_SFX.fx 55
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_idle_break_rare 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_Taunt_SFX.fx
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_break_rare 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_Look1_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_Look2_SFX.fx 50
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_Look3_SFX.fx 70
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiOut_SFX.fx 75
+	TEnd
+MEnd
+
+###### FAKE COMBAT READIES #######################################################
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	NextMove        Idle_Cycle
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_combat_to_idle 1
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_combat_to_idle 1
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_combat_to_idle 1
+	TEnd
+
+MEnd
+
+#######################################################
+
+Move PostCombatReady
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	NextMove        Idle_Cycle
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_combat_to_idle 1
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_combat_to_idle 1
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_combat_to_idle 1
+	TEnd
+
+MEnd
+
+############# FAKE COMBAT HALF FINGERS ##########################################
+
+Move Combat_half_fingers
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	NextMove        Idle_Cycle
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_combat_to_idle 1
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_combat_to_idle 1
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_combat_to_idle 1
+	TEnd
+
+MEnd
+
+####### FAKE jumpost ###################################
+
+Move C_JumpPost
+	Requires	COMBAT
+	Member		<ReactIRQ> <HitIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <MoveIRQ> <GroundJumpPost> <IRQEmotesCombat>
+	Flags		ReqInputs
+	NextMove	Ready
+	Interpolate	1
+	SticksONChild	LAND
+
+	Type		Beast
+	  Anim		male\comb_postjump 1
+	  PlayFx	FEET\giantfoot1.fx:FOOTFALLLEFT	 2
+	  PlayFx	FEET\giantfoot2.fx:FOOTFALLRIGHT  3
+	  PlayFx	EnemyFx\BanishedPantheon\GiantEnemyTremorsRIGHT.FX:FOOTFALLRIGHT
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady_back
+	#Include sequencers\Members\Readies.inc
+	NextMove        Ready
+
+	Type		Beast
+	  #Anim          male\postback 3
+	  Anim          male\post_ready 7 24
+	TEnd
+MEnd
+
+#############################################################
+
+Move postReady
+	Include sequencers\Members\Readies.inc
+	NextMove        Ready
+	Priority        0
+	Scale           0.80
+	Interpolate     8
+
+	Type		Beast
+	  Anim          male\post_ready 7 24
+	TEnd
+MEnd
+
+## DEATH ###########################################################
+
+Move Death_Mid_Air
+	Requires	AIR DEATH
+	Priority	102
+	Interrupts	<DeathIRQ>
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		NotSelectable NOCOLLISION Cycle
+	Sets            NOCOLLISION
+	NextMove        Default_Death
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_jump 118 120
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_jump 93 93
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_jump 118 120
+	TEnd
+MEnd
+
+Move Default_Death
+	Requires	DEATH
+	Priority        101
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Flags		NotSelectable NOCOLLISION
+	Sets            NOCOLLISION
+	SticksOnChild	DEATH GROUND
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_death 1 19
+	  PlayFX	V_COV\Powers\DemonSummoning\DemonLing_Dismiss_SFX.fx
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_death 1 103
+	  PlayFX	V_COV\Powers\DemonSummoning\DemonLieu_Dismiss_SFX.fx
+	##  PlayFX	CustomizeablePowers\DemonSummoning\Death_Demon.fx
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_death 1 60
+	  PlayFX	V_COV\Powers\DemonSummoning\DemonPrince_Dismiss_SFX.fx
+	  PlayFx        Feet\Demon_Left.fx 48
+	TEnd
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		NotSelectable Cycle
+	Sets            NOCOLLISION
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_death 20 20
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_death 103 103
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_death 60 60
+	TEnd
+
+MEnd
+###################
+###### Falling from run  ######
+###################
+
+Move RunFall
+	Requires	BIGFALL
+	Priority	1
+	Interrupts	<BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready> <Combat> <WepCombat> <TwoHandCombat>
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RunFall_2
+
+	Type		Beast
+	  Anim          male\superjump 67 93
+	TEnd
+MEnd
+
+Move RunFall_2
+	Requires	AIR
+	Priority	1
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ> <jumpFall>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		Beast
+	  Anim          male\superjump 93
+	TEnd
+MEnd
+
+#############################################################
+## FLIGHT
+#############################################################
+
+Move Fall_Fready
+	Requires	FLY
+	Priority	1
+	Interrupts	<FlyFall>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\flydown 180
+	TEnd
+MEnd
+
+#############################################################
+
+Move postAir_C_W
+	Requires	FLY
+	Priority	1
+	Interrupts	C_PreFall W_PreFall
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\prefloat_combat 5
+	TEnd
+
+	Type		huge
+	  Anim          huge\prefloat_combat 5
+	TEnd
+MEnd
+
+
+###################
+### Hover forward  ####
+###################
+
+Move Hoverpre
+	Requires	FORWARD FLY HOVER
+	Priority	3
+	Interrupts	flypre_Launch flypre flyCycle <FlyReady> <PostMoveCycle> <BasicMove> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        HoverCycle
+	Scale           1.50
+
+	Type		Beast
+	  Anim          male\hover 1 54
+	TEnd
+MEnd
+
+Move HoverCycle
+	Requires	FORWARD FLY HOVER
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        HoverPost
+
+	Type		Beast
+	  Anim          male\hover 57 106
+	TEnd
+MEnd
+
+Move HoverPost
+	Requires	FLY HOVER
+	Priority	2
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\hover 107
+	TEnd
+
+MEnd
+
+#############################################################
+############# FLY READY ######################
+#############################################################
+Move Preflyready
+	Requires	FLY
+	Priority	1
+	Interrupts	<Ready> <Jumps> <PostMoveCycle>
+	Include sequencers\Members\Readies_Air.inc
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\pre_fly 2
+	TEnd
+MEnd
+
+#############################################################
+
+Move flyready
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		Cycle
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\float2 1
+	TEnd
+MEnd
+
+###########################
+### Fly forward from run  ####
+#########################
+
+Move flypre_Launch
+	Requires	FORWARD FLY
+	Priority	2
+	Interrupts	RunCycle <Launch>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        flyCycle
+
+	Type		Beast
+	  Anim          male\f_launch 3
+
+	TEnd
+MEnd
+
+###################
+### Fly forward  ####
+###################
+
+Move flypre
+	Requires	FORWARD FLY
+	Wind		FLY
+	Priority	2
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        flyCycle
+
+	Type		Beast
+	  Anim          male\fly 4 24
+	TEnd
+MEnd
+
+Move flyCycle
+	Requires	FORWARD FLY
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        flyPost
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\fly 25 81
+	TEnd
+MEnd
+
+Move flyPost
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Scale           1.30
+
+	Type		Beast
+	  Anim          male\fly 82
+	TEnd
+MEnd
+
+###################
+## fly Backward ##
+###################
+
+Move BackflyPre
+	Requires	BACKWARD FLY
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall>
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        BackflyCycle
+	Priority	2
+
+	Type		Beast
+	  Anim          male\flyback 3 13
+	TEnd
+MEnd
+
+Move BackflyCycle
+	Requires	BACKWARD FLY
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        BackflyPost
+	Priority	2
+
+	Type		Beast
+	  Anim          male\flyback 14 63
+	TEnd
+MEnd
+
+Move BackflyPost
+	Requires	FLY
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Priority	1
+	Scale           1.30
+
+	Type		Beast
+	  Anim          male\flyback 64
+	TEnd
+MEnd
+
+###################
+### Fly Up  ####
+###################
+
+Move flyUPpre
+	Requires	JUMP FLY
+	Priority	2
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        flyUPCycle
+	Scale           0.90
+	Wind		FLYUP
+
+	Type		Beast
+	  Anim          male\flyup 5 34
+	TEnd
+MEnd
+
+Move flyUPCycle
+	Requires	JUMP FLY
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        flyUPPost
+	Wind		FLYUP
+
+	Type		Beast
+	  Anim          male\flyup 36 93
+	TEnd
+MEnd
+
+Move flyUPPost
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\flyup 94
+	TEnd
+MEnd
+
+###################
+### fly Right ####
+###################
+
+Move RightflyPre
+	Requires	STEPRIGHT FLY
+	Priority	2
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> LeftflyCycle
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        RightflyCycle
+
+	Type		Beast
+	  Anim          male\ssflyR 3 9
+	TEnd
+MEnd
+
+Move RightflyCycle
+	Requires	STEPRIGHT FLY
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        RightflyPost
+
+	Type		Beast
+	  Anim          male\ssflyR 10 59
+	TEnd
+MEnd
+
+Move RightflyPost
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\ssflyR 60
+	TEnd
+
+MEnd
+
+###################
+### fly Left  ####
+###################
+
+Move LeftflyPre
+	Requires	STEPLEFT FLY
+	Priority	2
+	Interrupts	<FlyReady> <PostMoveCycle> <PostFLYCycle> <BasicMove> <FlyFall> RightflyCycle
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        LeftflyCycle
+
+	Type		Beast
+	  Anim          male\ssflyL 3 9
+	TEnd
+MEnd
+
+Move LeftflyCycle
+	Requires	STEPLEFT FLY
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        LeftflyPost
+
+	Type		Beast
+	  Anim          male\ssflyL 10 59
+	TEnd
+MEnd
+
+Move LeftflyPost
+	Requires	FLY
+	Priority	1
+	Include sequencers\Members\Readies_Air.inc
+	Flags		ReqInputs
+	NextMove        flyready
+
+	Type		Beast
+	  Anim          male\ssflyL 60
+	TEnd
+MEnd
+
+###################
+###### Fly Down  ######
+###################
+
+Move PreFall
+	Requires	AIR
+	Priority	1
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		Beast
+	  Anim          male\flydown 1
+	TEnd
+MEnd
+
+###################
+###### Fly Forward Down  ######
+###################
+
+Move Ffly_PreFall
+	Requires	FORWARD AIR
+	Priority	2
+	Interrupts	flyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        Ffly_PreFall_2
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+Move Ffly_PreFall_2
+	Requires	AIR
+	Priority	1
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		Beast
+	  Anim          male\flydown 4
+	TEnd
+MEnd
+
+###################
+###### Fly Backward Down  ######
+###################
+
+Move Bfly_PreFall
+	Requires	BACKWARD AIR
+	Priority	2
+	Interrupts	<FlyReady> BackflyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+###################
+###### Fly Left Down  ######
+###################
+
+Move Lfly_PreFall
+	Requires	STEPLEFT AIR
+	Priority	2
+	Interrupts	<FlyReady> LeftflyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+###################
+###### Fly Right Down  ######
+###################
+
+Move Rfly_PreFall
+	Requires	STEPRIGHT AIR
+	Priority	2
+	Interrupts	<FlyReady> RightflyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+###################
+###### Fly Upcycle Down  ######
+###################
+
+Move Ufly_PreFall
+	Requires	JUMP AIR
+	Priority	2
+	Interrupts	<FlyReady> flyUPPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	NextMove        PreFall
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+#############################################################
+## COMBAT MODE
+#############################################################
+
+
+###################
+### Combat Fly readys  ####
+###################
+
+Move C_Fall_Fready
+	Requires	FLY COMBAT
+	Priority	2
+	Interrupts	C_FallCycle C_PreFall C_Ffly_PreFall C_Ffly_PreFall_2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\flydown 180
+	TEnd
+MEnd
+
+Move C_Preflyready
+	Requires	FLY COMBAT
+	Priority	2
+	Interrupts	<Combat> <CombatMove> <Jumps> <Claw> <CombatAttack> Preflyready
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\pre_aircombat 2
+	TEnd
+MEnd
+
+Move air_T_airCombat
+	Requires	FLY COMBAT
+	Priority	2
+	Interrupts	<FlyReady>
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\air_combatready 2 24
+	TEnd
+MEnd
+
+#######################################
+### FAKE  combat fly ready
+#######################################
+
+Move Fake_C_FlyCycle
+	Requires	FLY
+	Flags		Cycle
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_PreFall
+
+	Type		Beast
+	  Anim          male\air_combatready 25 65
+	TEnd
+MEnd
+
+#######################################
+### actual combat fly ready
+#######################################
+Move C_flyready
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        C_PreFall
+
+	Type		Beast
+	  Anim          male\air_combatready 25 65
+	TEnd
+MEnd
+
+Move C_flycycle
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		Cycle
+	NextMove        flyready
+	Scale           0.50
+	Wind		FLY
+
+	Type		Beast
+	  #Anim          male\air_combatready 25 65
+	  Anim          male\air_combat_cycle 1 31
+	TEnd
+MEnd
+
+Move C_flycycle_half
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flycycle
+	Scale           0.50
+	Interpolate     0
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\air_combat_cycle 16 31
+	TEnd
+MEnd
+
+###################
+### Combat Hover forward  ####
+###################
+
+Move C_Hoverpre
+	Requires	FORWARD FLY COMBAT HOVER
+	Priority	4
+	Interrupts	<FlyCombat> <FlyCombatAttack> <CombatMove> <PostMoveCycle> <FlyFall> <Jumps>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_HoverCycle
+	Scale           1.50
+
+	Type		Beast
+	  Anim          male\combat_hover 1 54
+	TEnd
+MEnd
+
+Move C_HoverCycle
+	Requires	FORWARD FLY COMBAT HOVER
+	Member		<ReactIRQ> <DeathIRQ> <Flycycle> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_HoverPost
+	Priority	4
+
+	Type		Beast
+	  Anim          male\combat_hover 57 106
+	TEnd
+MEnd
+
+Move C_HoverPost
+	Requires	FLY COMBAT HOVER
+	Priority	3
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\combat_hover 107
+	TEnd
+MEnd
+
+###################
+### Combat Fly forward  ####
+###################
+
+Move C_flypre
+	Requires	FORWARD FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_RunJumpCycle C_RunJumpCycleB C_Ffly_PreFall
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_flyingCycle
+
+	Type		Beast
+	  Anim          male\air_comb_fly 4 24
+	TEnd
+MEnd
+
+Move C_flyingCycle
+	Requires	FORWARD FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_flyPost
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\air_comb_fly 25 81
+	TEnd
+MEnd
+
+Move C_flyPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+	Scale           1.30
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\air_comb_fly 82
+	TEnd
+MEnd
+
+###################
+## Combat fly Backward ##
+###################
+
+Move C_BackflyPre
+	Requires	BACKWARD FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_BackRunCycle
+	Member		<Flymove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_BackflyCycle
+
+	Type		Beast
+	  Anim          male\air_comb_flyback 10 13
+	TEnd
+MEnd
+
+Move C_BackflyCycle
+	Requires	BACKWARD FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_BackflyPost
+
+	Type		Beast
+	  Anim          male\air_comb_flyback 14 63
+	TEnd
+MEnd
+
+Move C_BackflyPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\air_comb_flyback 64
+	TEnd
+MEnd
+
+###################
+### Combat Fly Up  ####
+###################
+
+Move C_flyUPpre
+	Requires	JUMP FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <Jumps> <FlyCombatAttack> <PostFLYCycle>
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_flyUPCycle
+	Scale           0.90
+	Wind		FLYUP
+
+	Type		Beast
+	  Anim          male\air_comb_flyup 5 34
+	TEnd
+MEnd
+
+Move C_flyUPCycle
+	Requires	JUMP FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_flyUPPost
+	Wind		FLYUP
+
+	Type		Beast
+	  Anim          male\air_comb_flyup 36 93
+	TEnd
+MEnd
+
+Move C_flyUPPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+	Scale           1.30
+	Wind		FLY
+
+	Type		Beast
+	  Anim          male\air_comb_flyup 94
+	TEnd
+MEnd
+
+###################
+###### Combat Fly Down  ######
+###################
+
+Move C_PreFall
+	Requires	AIR COMBAT
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+
+	Type		Beast
+	  Anim          male\flydown 1
+	TEnd
+MEnd
+
+###################
+###### Combat Fly Forward Down  ######
+###################
+
+Move C_Ffly_PreFall
+	Requires	FORWARD AIR COMBAT
+	Priority	3
+	Interrupts	C_flyPost
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	NextMove        C_Ffly_PreFall_2
+
+	Type		Beast
+	  Anim          male\flydown 1 3
+	TEnd
+MEnd
+
+Move C_Ffly_PreFall_2
+	Requires	AIR COMBAT
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+
+	Type		Beast
+	  Anim          male\flydown 4
+	TEnd
+MEnd
+
+###################
+### Combat fly Right ####
+###################
+
+Move C_RightflyPre
+	Requires	STEPRIGHT FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_LeftflyCycle C_Ffly_Fready
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_RightflyCycle
+
+	Type		Beast
+	  Anim          male\air_comb_flyright 3 9
+	TEnd
+MEnd
+
+Move C_RightflyCycle
+	Requires	STEPRIGHT FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_RightflyPost
+
+	Type		Beast
+	  Anim          male\air_comb_flyright 10 59
+	TEnd
+MEnd
+
+Move C_RightflyPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\air_comb_flyright 60
+	TEnd
+MEnd
+
+###################
+### Combat fly Left  ####
+###################
+
+Move C_LeftflyPre
+	Requires	STEPLEFT FLY COMBAT
+	Priority	3
+	Interrupts	<FlyCombat> <FlyCombatAttack> <PostFLYCycle> C_RightflyCycle C_Ffly_Fready
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_LeftflyCycle
+
+	Type		Beast
+	  Anim          male\air_comb_flyleft 3 9
+	TEnd
+MEnd
+
+Move C_LeftflyCycle
+	Requires	STEPLEFT FLY COMBAT
+	Priority	3
+	Member		<ReactIRQ> <DeathIRQ> <FlyCombatMove> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_LeftflyPost
+
+	Type		Beast
+	  Anim          male\air_comb_flyleft 10 59
+	TEnd
+MEnd
+
+Move C_LeftflyPost
+	Requires	FLY COMBAT
+	Priority	2
+	Include sequencers\Members\Combat_Air.inc
+	Flags		ReqInputs
+	NextMove        C_flyready
+
+	Type		Beast
+	  Anim          male\air_comb_flyleft 60
+	TEnd
+MEnd
+
+###################
+###### Falling from combat run  ######
+###################
+
+Move C_RunFall
+	Requires	BIGFALL COMBAT
+	Priority	2
+	Interrupts	<CombatMove>
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        C_RunFall_2
+
+	Type		Beast
+	  Anim          male\superjump 67 89
+	TEnd
+MEnd
+
+Move C_RunFall_2
+	Requires	AIR COMBAT
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <FlyFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        C_JumpPost
+
+	Type		Beast
+	  Anim          male\superjump 89
+	TEnd
+MEnd
+
+
+###################
+### Run Forward ##
+###################
+
+Move RunPreReady
+	Requires	FORWARD
+	Priority	1
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <CombatAttack> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        RunCycle
+	Interpolate	10
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_run_forward 3 25
+	  PlayFx        Feet\Demonling_Left.fx 3
+	  PlayFx        Feet\Demonling_Right.fx 13
+	  MoveRate	0.75
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_run_forward 3 25
+	  PlayFx        Feet\Demon_Left.fx 1
+	  PlayFx        Feet\Demon_Right.fx 4
+	  PlayFx        Feet\Demonling_Left.fx 8
+	  PlayFx        Feet\Demonling_Right.fx 21
+	  MoveRate	0.3
+	  #SmoothSprint  3.3 ##feet from root to hip position you want to use to smooth sprinting
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\run 3 25
+	  PlayFx        Feet\Demon_Left.fx 1
+	  PlayFx        Feet\Demon_Right.fx 8
+	  MoveRate      0.6
+	  #S2moothSprint  3.3 ##feet from root to hip position you want to use to smooth sprinting
+	TEnd
+
+MEnd
+
+Move RunPreReady2
+	Requires	FORWARD
+	Priority	1
+	Interrupts	<Ready> <PostMoveCycle> <Combat> <CombatAttack> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        RunCycle
+	Interpolate	10
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_run_forward 14 25
+	  PlayFx        Feet\Demonling_Left.fx 3
+	  PlayFx        Feet\Demonling_Right.fx 13
+	  MoveRate	0.75
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_run_forward 14 25
+	  PlayFx        Feet\Demon_Left.fx 1
+	  PlayFx        Feet\Demon_Right.fx 4
+	  PlayFx        Feet\Demonling_Left.fx 8
+	  PlayFx        Feet\Demonling_Right.fx 21
+	  MoveRate	0.3
+	  #SmoothSprint  3.3 ##feet from root to hip position you want to use to smooth sprinting
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\run 14 25
+	  PlayFx        Feet\Demon_Left.fx 1
+	  PlayFx        Feet\Demon_Right.fx 8
+	  MoveRate      0.6
+	  #SmoothSprint  3.3 ##feet from root to hip position you want to use to smooth sprinting
+	TEnd
+
+MEnd
+
+#############################################################
+
+Move RunCycle
+	Requires	FORWARD
+	Priority	1
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        RunPostReady
+	Interpolate	0
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_run_forward 1 25
+	  MoveRate	0.75
+	  PlayFx        Feet\Demonling_Left.fx 1
+	  PlayFx        Feet\Demonling_Right.fx 13
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_run_forward 1 25
+	  MoveRate	0.3
+	  #SmoothSprint  3.3 ##feet from root to hip position you want to use to smooth sprinting
+	  PlayFx        Feet\Demon_Left.fx 1
+	  PlayFx        Feet\Demon_Right.fx 4
+	  PlayFx        Feet\Demonling_Left.fx 8
+	  PlayFx        Feet\Demonling_Right.fx 21
+
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\run 1 25
+	  MoveRate      0.6
+	  #SmoothSprint  3.3 ##feet from root to hip position you want to use to smooth sprinting
+	  PlayFx        Feet\Demon_Left.fx 1
+	  PlayFx        Feet\Demon_Right.fx 13
+	TEnd
+
+MEnd
+
+Move RunPostReady
+	Include sequencers\Members\Readies.inc
+	NextMove        Idle_Cycle
+	Flags		ReqInputs NoSizeScale
+
+	Type		Beast
+	  Anim          Beast\demons_demonling_run_post 1
+	  PlayFx        Feet\Demonling_Left.fx 1
+	  PlayFx        Feet\Demonling_Right.fx 10
+	  PlayFx        Feet\Demonling_Left.fx 20
+	  PlayFx        Feet\Demonling_Right.fx 30
+	  PlayFx        Feet\Demonling_Left.fx 38
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_run_post 1
+
+	  PlayFx        Feet\Demon_Left.fx 1
+	  PlayFx        Feet\Demon_Right.fx 4
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 17
+
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_runpost 1
+	  PlayFx        Feet\Demon_Left.fx 1
+	  PlayFx        Feet\Demon_Right.fx 8
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoIn_SFX.fx 1
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathLoOut_SFX.fx 17
+	TEnd
+MEnd
+
+##################
+##### Jump  ######
+##################
+
+Move jumpPre
+	Requires	JUMP AIR
+	Priority	2
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <WepMove> <jumpFall> <Block> <HitIRQ> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs NoSizeScale
+	NextMove        jumpUp
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_jump 10 90
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_jump 5 9
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_jump 10 90
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP AIR
+	Member		<DeathIRQ> <Jumps>
+	Flags		Cycle NoSizeScale
+	NextMove        jumpApex
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_jump 91 92
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_jump 9 64
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_jump 91 92
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX AIR
+	Member		<DeathIRQ> <Jumps>
+	Flags		NoSizeScale
+	NextMove        jumpFall
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_jump 93 94
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_jump 64 65
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_jump 93 94
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Priority	1
+	Member		<DeathIRQ> <Jumps>
+	Flags		ReqInputs NoSizeScale
+	NextMove        jumpFall2
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_jump 95 117
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_jump 65 93
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_jump 95 117
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Priority	1
+	Member		<DeathIRQ> <Jumps> <jumpFall>
+	Flags		Cycle NoSizeScale
+	NextMove        JumpPost
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_jump 118 120
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_jump 93 93
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_jump 118 120
+	TEnd
+MEnd
+
+Move JumpPost
+	Include sequencers\Members\Readies.inc
+	Interpolate     0
+	Flags		NoSizeScale
+	NextMove 	Idle_Cycle
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_jumppost 1
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_jump_post 4
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_jumppost 1
+	  PlayFx        FEET\LAND1.FX
+	TEnd
+
+MEnd
+
+###################
+###### Power Buff ######
+###################
+
+Move Power_Buff
+	Requires	HIT DEMONUPGRADE
+	Priority	3
+	Interrupts	<ReactIRQ> <AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Power_Buffpost
+	Flags		CANTMOVE
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_power_buff 1 52
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_AbyssalEmpowerment_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathHiOut_SFX.fx 40
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_power_buff 1 100
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_AbyssalEmpowerment_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiOut_SFX.fx 43
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_power_buff 1 108
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_AbyssalEmpowerment_SFX.fx
+	TEnd
+MEnd
+
+Move Power_Buffpost
+	NextMove        Idle_Cycle
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_power_buff 53
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_power_buff 100
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_power_buff 109
+	TEnd
+MEnd
+
+###################
+###### Whip Buff ######
+###################
+
+Move Whip_Buff
+	Requires	HIT DEMONBUFF
+	Priority	2
+	Interrupts	<ReactIRQ> <AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		CANTMOVE
+	NextMove        Whip_Buffpost
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_whip_buff 1 140
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLing_HellOnEarth_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathHiOut_SFX.fx 135
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_whip_buff 1 160
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_HellOnEarth_SFX.fx
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_whip_buff 1 140
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_HellOnEarth_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiIn_SFX.fx 115
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiOut_SFX.fx 135
+	TEnd
+MEnd
+
+Move Whip_Buffpost
+	NextMove        Idle_Cycle
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_whip_buff 141
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_whip_buff 160
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_whip_buff 141
+	TEnd
+MEnd
+
+###################
+###### Air Whip Buff ######
+###################
+
+Move A_Whip_Buff
+	Requires	FLY HIT DEMONBUFF
+	Priority	13
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	flags		nosizescale
+	NextMove        A_Whip_Buffpost
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_whip_buff_air 1 140
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLing_HellOnEarth_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_BreathHiOut_SFX.fx 135
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_whip_buff_air 1 160
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonLieu_HellOnEarth_SFX.fx
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonling_whip_buff_air 1 140
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_HellOnEarth_SFX.fx
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiIn_SFX.fx 115
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_BreathHiOut_SFX.fx 135
+	TEnd
+MEnd
+
+Move A_Whip_Buffpost
+	Requires	FLY HIT DEMONBUFF
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        Fake_C_FlyCycle
+	flags		nosizescale
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_whip_buff_air 141
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_whip_buff_air 160
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonling_whip_buff_air 141
+	TEnd
+MEnd
+
+## BASIC SPAWN ###########################################################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Priority	1
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawned_post
+	Interpolate     0
+	Sets            CANTMOVE
+	Flags		NoSizeScale NotSelectable NOCOLLISION
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_spawn 1 36
+	  PlayFX	V_COV\Powers\DemonSummoning\Demonling_Spawn_SFX.fx 1
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_spawn 1 190
+	  PlayFX	V_COV\Powers\DemonSummoning\DemonLieu_Spawn_SFX.fx 1
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_spawn 1 174
+	  PlayFX		V_COV\Powers\DemonSummoning\DemonPrince_Spawn_SFX.fx 1
+	  PlayFx        Feet\Demon_Left.fx 118
+	  PlayFx        Feet\Demon_Right.fx 121
+	TEnd
+MEnd
+
+Move Spawned_post
+	Include sequencers\Members\Readies.inc
+	NextMove	Idle_Cycle
+	Flags		NoSizeScale NotSelectable
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_spawn 37
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_spawn 190
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\demons_demonprince_spawn 175
+	TEnd
+MEnd
+
+
+###################
+#####  Enchant
+###################
+
+Move Enchant_Upgrade
+	Requires	HIT BOOSTUP ONE
+	Priority	3
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        BeastIdleToDemonIdle
+	#Flags		HitReact
+
+	Type		Demonling
+	  Anim          Beast\drain 1
+	  PlayFX	V_COV\Powers\DemonSummoning\Demonling_Enchant_SFX.fx
+	  PlayFX	V_COV\Powers\DemonSummoning\Demonling_BreathLoIn_SFX.fx 45
+	  PlayFX	V_COV\Powers\DemonSummoning\Demonling_BreathLoOut_SFX.fx 70
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\drain 1
+	  PlayFX	V_COV\Powers\DemonSummoning\DemonLieu_Enchant_SFX.fx
+	TEnd
+
+	Type		DemonPrince
+	  Anim          Beast\drain 1
+	  PlayFX	V_COV\Powers\DemonSummoning\DemonPrince_Enchant_SFX.fx
+	TEnd
+MEnd
+
+###################
+###### Air enchant react  ######
+###################
+
+Move A_Enchant_react
+	Requires	FLY HIT BOOSTUP ONE
+	Priority        14
+	Interrupts	<HitIRQ>
+	Include sequencers\Members\Reactions_Air.inc
+	NextMove        flycycle
+	#Flags		HitReact
+
+	Type		Beast
+	  Anim          male\air_drain 1
+	TEnd
+
+MEnd
+###################
+###### Telekinesis_quick  ######
+###################
+
+Move Demon_Telequick
+	Requires	COMBAT ATTACK TELEKINESIS
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Demon_Telequickpost
+	Sets            CANTMOVE
+#	Flags		PitchToTarget
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_buff 2 96
+	TEnd
+MEnd
+
+Move Demon_Telequickpost
+	Requires	COMBAT
+	Priority	2
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ> <IRQEmotesCombat>
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_buff 96
+	TEnd
+MEnd
+
+###################
+###### Air Telekinesis_quick  ######
+###################
+
+Move A_Demon_Telequick
+	Requires	FLY COMBAT ATTACK TELEKINESIS
+	Priority	14
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Demon_Telequickpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_buff_air 2 96
+	TEnd
+MEnd
+
+Move A_Demon_Telequickpost
+	Requires	FLY COMBAT
+	Priority	12
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ> <IRQEmotesCombat>
+	NextMove        Ready
+	Flags		NoSizeScale
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_buff_air 96
+	TEnd
+MEnd
+
+#############################
+###### claw rake (no draw) ######
+############################
+
+Move clawrake
+	Requires	COMBAT CLAW ATTACK ALTERNATE
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        clawrake_post
+	Sets            CANTMOVE
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_clawspeed 1 65
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_ClawSpeed_SFX.fx 5
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_claw_rake 1 40
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_ClawSwipe_SFX.fx 5
+	TEnd
+
+MEnd
+
+Move clawrake_post
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_clawspeed 65
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_claw_rake 40
+	TEnd
+
+MEnd
+
+#############################
+###### AIR claw rake (no draw) ######
+############################
+
+Move a_clawrake
+	Requires	FLY COMBAT CLAW ATTACK ALTERNATE
+	Priority	15
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        a_clawrake_post
+	Sets            CANTMOVE
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_clawspeed_air 1 65
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_ClawSpeed_SFX.fx 5
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_claw_rake_air 1 40
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_ClawSwipe_SFX.fx 5
+	TEnd
+
+MEnd
+
+Move a_clawrake_post
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flyready
+	interpolate	0
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_clawspeed_air 65
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_claw_rake_air 40
+	TEnd
+
+MEnd
+#############################
+###### claw slash (no draw) ######
+############################
+
+Move clawslash
+	Requires	COMBAT CLAW ALTERNATE
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        clawslash_post
+	Sets            CANTMOVE
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_clawspeed 1 65
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_ClawSpeed_SFX.fx 5
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_claw_swipe 1 45
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_ClawSwipe_SFX.fx 5
+	TEnd
+MEnd
+
+Move clawslash_post
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        Ready
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_clawspeed 65
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_claw_swipe 45
+	TEnd
+
+MEnd
+
+
+#############################
+###### air claw slash (no draw) ######
+############################
+
+Move a_clawslash
+	Requires	FLY COMBAT CLAW ALTERNATE
+	Priority	14
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        a_clawslash_post
+	Sets            CANTMOVE
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_clawspeed_air 1 65
+	  PlayFX		V_COV\Powers\DemonSummoning\Demonling_ClawSpeed_SFX.fx 5
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_claw_swipe_air 1 45
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_ClawSwipe_SFX.fx 5
+	TEnd
+MEnd
+
+Move a_clawslash_post
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flyready
+
+	Type		Demonling
+	  Anim          Beast\demons_demonling_clawspeed_air 65
+	TEnd
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_claw_swipe_air 45
+	TEnd
+
+MEnd
+
+###################
+###### Demon Cast  ######
+###################
+
+Move Demoncast
+	Requires	COMBAT CAST ALTERNATE HIGH
+	Priority	4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        ready
+	Sets            CANTMOVE
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_throwknife 1 36
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_ClawSwipe_SFX.fx 5
+	TEnd
+
+MEnd
+
+###################
+###### Air Demon Cast  ######
+###################
+
+Move A_Demoncast
+	Requires	FLY COMBAT CAST ALTERNATE HIGH
+	Priority	14
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        ready
+	Sets            CANTMOVE
+	flags		pitchtotarget
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_throwknife_air 1 36
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_ClawSwipe_SFX.fx 5
+	TEnd
+
+MEnd
+
+###################
+###### Throw Knife  ######
+###################
+
+Move Demon_Throwknife
+	Requires	COMBAT THROWKNIFE ALTERNATE
+	Priority	3
+	Interrupts	<AttackIRQ>
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        ready
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_throwknife 1 36
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_ClawSwipe_SFX.fx 5
+	TEnd
+
+MEnd
+
+#########################################################
+
+Move A_Demon_Throwknife
+	Requires	FLY COMBAT THROWKNIFE ALTERNATE
+	Priority	14
+	Interrupts	<AttackIRQ>
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        A_Demon_Throwknife_Post
+	flags		pitchtotarget
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_throwknife_air 1 27
+	  PlayFX		V_COV\Powers\DemonSummoning\Demon_ClawSwipe_SFX.fx 5
+	TEnd
+
+MEnd
+
+Move A_Demon_Throwknife_Post
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	NextMove        C_flyready
+
+	Type		DemonLieut
+	  Anim          Beast\demons_Lieutenant_throwknife_air 28
+	TEnd
+
+MEnd
+
+###################
+###### air Energy Torrent ######
+###################
+
+Move A_Energy_Torrent_Attack
+	Requires	FLY COMBAT ENERGYTORRENT
+	Priority	13
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	A_E_Torrent_Attack_post
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Beast
+	  Anim          male\air_energy_torrent 1 65
+	TEnd
+
+MEnd
+
+Move A_E_Torrent_Attack_post
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	NextMove	C_flycycle_half
+	Flags		NoSizeScale ReqInputs
+
+	Type		Beast
+	  Anim          male\air_energy_torrent 65
+	  Scale		0.50
+	TEnd
+
+MEnd
+
+###################
+###### Air Cast  ######
+###################
+
+Move airCast_power
+	Requires	FLY COMBAT CAST
+	Priority	13
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	airCast_power_post
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Beast
+	  Anim          male\air_palmcast 1 30
+	  PitchStart	5
+	  PitchAngle	-0.5
+	TEnd
+
+MEnd
+
+Move airCast_power_post
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	NextMove	C_flyready
+	Flags		NoSizeScale ReqInputs
+
+	Type		Beast
+	  Anim          male\air_palmcast 30
+	TEnd
+MEnd
+
+################################
+###### Air Rapidblast  ######
+################################
+
+Move A_Rapid_attack
+	Requires	FLY COMBAT RAPIDBLAST
+	Priority	14
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	A_Rapid_attack_post
+	Sets            CANTMOVE
+	Flags		PITCHTOTARGET NoSizeScale
+
+	Type		Beast
+	  Anim          male\air_energy_rapid 1 31
+	TEnd
+MEnd
+
+Move A_Rapid_attack_post
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	NextMove	C_flycycle
+	Flags		NoSizeScale ReqInputs
+
+	Type		Beast
+	  Anim          male\air_energy_rapid 31
+	TEnd
+MEnd
+
+###################
+###### Air Blow Cast  ######
+###################
+
+Move A_Blow
+	Requires	FLY COMBAT BLOW
+	Priority	13
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	A_Blowpost
+	Sets            CANTMOVE
+	Flags		PitchToTarget NoSizeScale
+
+	Type		Beast
+	  Anim          male\air_blow_cast 1 80
+	  PitchStart	12
+	  PitchAngle	0.2
+	TEnd
+
+MEnd
+
+Move A_Blowpost
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	NextMove	C_flycycle_half
+	Scale           0.50
+	Flags		PitchToTarget ReqInputs NoSizeScale
+
+	Type		Beast
+	  Anim          male\air_blow_cast 80
+	  PitchEnd	85
+	  PitchAngle	0.2
+	TEnd
+MEnd
+
+###################
+###### Wall  ######
+###################
+
+Move Wall
+	Requires	COMBAT WALL
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Wallpost
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Beast
+	  Anim          male\wall 2 30
+	TEnd
+
+MEnd
+
+Move Wallpost
+	Requires	COMBAT
+	Include sequencers\Members\Combat.inc
+	NextMove        CombatReady
+	Flags		NoSizeScale
+
+	Type		Beast
+	  Anim          male\wall 30
+	TEnd
+MEnd
+
+###################
+###### air Wall  ######
+###################
+
+Move A_Wall_power
+	Requires	FLY COMBAT WALL
+	Priority	13
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	A_Wallpost_power
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Beast
+	  Anim          male\air_wall 1 30
+	TEnd
+MEnd
+
+Move A_Wallpost_power
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	NextMove	C_flycycle_half
+	Flags		NoSizeScale ReqInputs
+
+	Type		Beast
+	  Anim          male\air_wall 30
+	TEnd
+
+MEnd
+
+###################
+###### icesword uppercut\smash  ######
+###################
+
+Move icesword_Upcut_Draw
+	Requires	COMBAT WEAPON SWORD SPAWNBACK
+	Priority        4
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        icesword_Upcut
+	Sets            CANTMOVE
+	Flags		NOSIZESCALE
+
+	Type		Beast
+	  Anim          male\draw_axe 1 30
+	TEnd
+MEnd
+
+Move icesword_Upcut
+	Requires	COMBAT WEAPON SWORD
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        icesword_Upcut_Post
+	Sets            CANTMOVE
+	Flags		NOSIZESCALE
+
+	Type		Beast
+	  Anim          male\wm_upcut 1 45
+	TEnd
+
+MEnd
+
+Move icesword_Upcut_Post
+	Requires	COMBAT WEAPON
+	Priority        2
+	Include sequencers\Members\Combat_Weapon.inc
+	NextMove        Wep_half
+
+	Type		Beast
+	  Anim          male\wm_upcut 46
+	TEnd
+
+MEnd
+
+###################
+###### Air IceSword uppercut\smash  ######
+###################
+
+Move A_IceSword_Upcut_Draw
+	Requires	FLY COMBAT WEAPON SWORD SPAWNBACK
+	Priority	15
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        A_IceSword_Upcut
+	Sets            CANTMOVE
+	Flags		NOSIZESCALE
+
+	Type		Beast
+	  Anim          male\air_draw_axe 1 30
+	TEnd
+
+MEnd
+
+Move A_IceSword_Upcut
+	Requires	FLY COMBAT WEAPON SWORD
+	Priority	14
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        A_IceSword_Upcut_Post
+	Sets            CANTMOVE
+	Flags		NOSIZESCALE
+
+	Type		Beast
+	  Anim          male\air_wm_upcut 1 50
+	TEnd
+
+MEnd
+
+Move A_IceSword_Upcut_Post
+	Requires	FLY COMBAT WEAPON
+	Priority	13
+	Include sequencers\Members\Combat_Weapon_air.inc
+	NextMove        W_flycycle_half
+	Flags		NOSIZESCALE
+
+	Type		Beast
+	  Anim          male\air_wm_upcut 51
+	TEnd
+MEnd
+
+###################
+###### Stomp  ######
+###################
+
+Move Stomped
+	Requires	COMBAT STOMP
+	Priority	2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Stomped2
+	Sets            CANTMOVE
+
+	Type		Beast
+	  Anim          Beast\stomp 1 62
+	TEnd
+
+MEnd
+
+Move Stomped2
+	Requires	COMBAT
+	Priority	1
+	Include sequencers\Members\Combat.inc
+	NextMove        Combat_half_fingers
+	Flags		NoSizeScale
+
+	Type		Beast
+	  Anim          Beast\stomp 62
+	TEnd
+
+MEnd
+
+###################
+###### Stomp  ######
+###################
+
+Move A_Stomped_Attack
+	Requires	FLY COMBAT STOMP
+	Priority	13
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove	A_Stomped2_Attack
+	Sets            CANTMOVE
+	Flags		NoSizeScale
+
+	Type		Beast
+	  Anim          male\air_stomp 1 62
+	TEnd
+MEnd
+
+Move A_Stomped2_Attack
+	Requires	FLY COMBAT
+	Include sequencers\Members\Combat_Air.inc
+	NextMove	Lazy_C_flycycle
+	Flags		NoSizeScale ReqInputs
+
+	Type		Beast
+	  Anim          male\air_stomp 62
+	TEnd
+MEnd
+
+###################
+### Truck Jump IN  ####
+###################
+
+Move Truck_Jump_IN
+	Requires	RUNIN JUMPINTRUCK
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready>  <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	Member		<RunIn>
+	NextMove        Truck_Jump_In_post
+	Sets		CANTMOVE RUNIN
+	Priority        9
+	Interpolate	8
+
+	Type		Beast
+	  Anim          male\Truck_jump_in 1
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 CONSTANT
+	TEnd
+MEnd
+
+Move Truck_Jump_In_post
+	NextMove        Ready
+	Member		<RunIn>
+	Sets            CANTMOVE
+	Flags		NotSelectable
+
+	Type		Beast
+	  Anim          male\absorb 60
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 CONSTANT
+	TEnd
+MEnd
+
+
+###################
+### Truck Jump OUT  ####
+###################
+
+Move Truck_Jump_OUT
+	Requires	EMERGE JUMPOUTOFTRUCK
+	Priority        10
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	NextMove        Ready
+	Sets            CANTMOVE
+	Flags		DoNotDelay
+
+	Type		Beast
+	  Anim          5cw\Truck_out 1
+	  PlayFx	Generic\entityFadeIn.fx
+	TEnd
+MEnd
+
+###################
+### Snake Hole Jump IN  ####
+###################
+
+Move SnakeHole_Jump_IN
+	Requires	RUNIN JUMPINHOLE
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Truck_Jump_In_post
+	Sets		CANTMOVE RUNIN
+	Flags		NotSelectable
+	Priority        9
+	Interpolate	8
+
+	Type		Beast
+	  Anim          male\Hole_jump_IN 1
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 CONSTANT
+	TEnd
+MEnd
+
+########### (Continues in the truck jump in animation, but RUNIN bit isn't set, so the transfer begins)
+
+Move SnakeHole_Jump_In_post
+	NextMove        Ready
+	Priority        5
+	Member		<RunIn>
+	Sets            CANTMOVE
+	Flags		NotSelectable
+
+	Type		Beast
+	  Anim          male\absorb 60
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 CONSTANT
+	TEnd
+MEnd
+
+###################
+### Snake Hole Jump OUT  ####
+###################
+
+Move SnakeHole_Jump_OUT
+	Requires	EMERGE JUMPOUTOFHOLE
+	Priority        10
+	Interrupts	<AttackIRQ> <BasicMove> <CombatMove> <WepMove> <TwoHandMove> <Ready> <PostMoveCycle> <Combat> <WepCombat> <TwoHandCombat> <RunIn>
+	NextMove        Truck_post_cycle
+	Sets            CANTMOVE
+	Flags		NotSelectable DoNotDelay
+
+	Type		Beast
+	  Anim          male\hole_jump_out 1
+	TEnd
+MEnd
+
+Move SnakeHole_post_cycle
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle
+
+	Type		Beast
+	  Anim          male\lookquick 1
+	TEnd
+MEnd
+
+###  Inc files ###############################################
+
+Include sequencers\Beast\powers.inc
+Include sequencers\Beast\weapons.inc
+Include sequencers\Beast\reactions.inc
+Include sequencers\player\encounters.inc
+Include sequencers\Beast\emotes.inc
+Include sequencers\player\Boombox.inc
+Include sequencers\player\Swim.inc
+
+#############################################################
+
+SeqEnd

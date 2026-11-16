@@ -1,0 +1,38 @@
+######################################
+## 
+## 
+Type
+
+HealthFx
+	Range            0.0001 100 
+	LibraryPiece		V_Mayhem_Mailbox_01_100
+	ContinuingFX		Explosions\MailBoxExplosion\Mailbox_ForceReact.Fx
+End
+
+HealthFx
+	Range           0 0.0001 
+	LibraryPiece		V_Mayhem_Scorch_Sml_01
+	OneShotFx		Explosions\MailBoxExplosion\MailboxExplosion.Fx
+End
+
+CapsuleSize	2.5 4 2.5	
+CapsuleOffset  0 0 0		
+
+Sequencer	Prop_basic.txt		
+
+FadeOutStart	600			
+FadeOutFinish	675			
+
+Placement		Deadon		
+
+ShadowType	None			
+
+GeomScale	1.0 1.0 1.0		
+
+CollisionType	LibraryPiece
+Selection	LibraryPiece 
+
+TicksToLingerAfterDeath			10
+TicksToFadeAwayAfterDeath		1
+
+End

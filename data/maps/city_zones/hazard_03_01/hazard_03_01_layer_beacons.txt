@@ -1,0 +1,47 @@
+Def grp_BaseTeleportSpawn
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"BaseTeleportSpawn"	0
+End
+
+Def grp_Portal_Warp_Exit
+	Group grp_BaseTeleportSpawn
+		PYR 0 89.999985 0
+		Pos -7.499512 0 -8
+	End
+	Group grp_BaseTeleportSpawn
+		PYR 0 89.999985 0
+		Pos -7.499512 0 0
+	End
+	Group grp_BaseTeleportSpawn
+		PYR 0 89.999985 0
+		Pos -7.499512 -0.038025 8
+	End
+	Group grp_BaseTeleportSpawn
+		PYR 0 89.999985 0
+		Pos 0.500488 0 8
+	End
+	Group grp_BaseTeleportSpawn
+		PYR 0 89.999985 0
+		Pos 0.500488 0 0
+	End
+	Group grp_BaseTeleportSpawn
+		PYR 0 89.999985 0
+		Pos 0.500488 0 -8
+	End
+End
+
+Def grp_beacons
+	Group grp_Portal_Warp_Exit
+		Pos 2316.00293 -10.345276 73.557129
+	End
+	Property	"Layer"	"beacons"	0
+End
+
+Ref grp_beacons
+	PYR 0 89.999985 0
+	Pos 3506.442139 10.383301 2940.00293
+End
+

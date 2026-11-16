@@ -1,0 +1,208 @@
+#########################################################
+##	forceBubble
+########################################################
+FxInfo
+
+Input  
+	Inpname	chest
+End
+
+Input  
+	Inpname	UlegR
+End
+
+Input  
+	Inpname	UlegL
+End
+
+Input  
+	Inpname	LlegR
+End
+
+Input  
+	Inpname	LlegL
+End
+
+Input  
+	Inpname	FootR
+End
+
+Input  
+	Inpname	FootL
+End
+
+Input  
+	Inpname	root
+End
+
+Input  
+	Inpname	hips
+End
+
+Input  
+	Inpname	head
+End
+
+#LifeSpan	200
+
+########################################################
+
+
+######################################################################################
+
+
+
+	Condition
+	On 	Time
+	Time 	0
+
+	Event
+		Type	Local
+		At	hips
+				
+		Sound shackleshit 70 70 .6
+	End
+
+	On 	Time
+	Time 	0
+
+	Event
+		Type	Local
+		At	hips
+				
+		Sound eleccage_loop 70 70 .4
+	End
+	
+	Event
+		EName 	HitFX
+		Type	local 
+		At	Chest
+		Part1	Powers/MartialArts/MAHitStar01Sml.part
+		Part2	Powers/MartialArts/MAHitStar02Sml.part
+		Part3	Powers/MartialArts/MAHitStar03Sml.part
+		Part4	Powers/MartialArts/MAHitGlow01Sml.part
+		Part5	Powers/MartialArts/MAHitRays01Sml.part
+		Part	Powers/MartialArts/MartialArtsHitRaysSmall.part
+		LifeSpan	10
+		
+	End
+
+	Event
+		EName	HandGlow1
+		Type	Local
+		At	hips
+		Part1	:ElectricityGlow2.part
+		Part2	:ElectricityGlowStar2.part
+		Part3	:ShaklesElectricityArch.part
+		Part3	:ShaklesElectricityArch2.part
+		Part3	:FenceElectricityArch1.part
+	End
+
+	Event
+		EName	HandGlow1
+		Type	Local
+		At	Chest
+		Part1	:ElectricityGlow2.part
+		Part2	:ElectricityGlowStar2.part
+		Part3	:ShaklesElectricityArch.part
+		Part3	:ShaklesElectricityArch2.part
+		
+
+	End
+
+	Event
+		EName	HandGlow1
+		Type	Local
+		At	Head
+
+		Part	:ElectricityGlowSmall.part
+		Part	:ElectricityGlowStarSmall.part
+		Part1	:ElectricityArchContinuing.part
+		Part2	:ElectricityArchContinuing2.part
+		Part3	:ShaklesElectricityArch.part
+		Part3	:ShaklesElectricityArch2.part
+
+	End
+	
+	Event
+		EName	continuingArchs
+		Type	Local
+		At	hips
+		Part1	:ElectricityArchContinuing.part
+		Part2	:ElectricityArchContinuing2.part
+		Part3	:ShaklesElectricityArch2.part
+		Part	:ShaklesElectricityArch.part
+	End
+
+	Event
+		EName	continuingArchs
+		Type	Local
+		At	UlegL
+		Part1	:ElectricityArchContinuing.part
+		Part2	:ElectricityArchContinuing2.part
+		Part3	:ShaklesElectricityArch2.part
+		Part3	:ShaklesElectricityArch.part
+	End
+
+	Event
+		EName	continuingArchs
+		Type	Local
+		At	UlegR
+		Part1	:ElectricityArchContinuing.part
+		Part2	:ElectricityArchContinuing2.part
+		Part3	:ShaklesElectricityArch2.part
+		Part3	:ShaklesElectricityArch.part
+	End
+
+	Event
+		EName	continuingArchs
+		Type	Local
+		At	LlegR
+		Part	:ElectricityGlowSmall.part
+		Part	:ElectricityGlowStarSmall.part
+		Part1	:ElectricityArchContinuing.part
+		Part2	:ElectricityArchContinuing2.part
+		Part3	:ShaklesElectricityArch2.part
+		Part3	:ShaklesElectricityArch.part
+	End
+
+	Event
+		EName	continuingArchs
+		Type	Local
+		At	LlegL
+		Part	:ElectricityGlowSmall.part
+		Part	:ElectricityGlowStarSmall.part
+		Part1	:ElectricityArchContinuing.part
+		Part2	:ElectricityArchContinuing2.part
+		Part3	:ShaklesElectricityArch2.part
+		Part3	:ShaklesElectricityArch.part
+	End
+
+	Event
+		EName	continuingArchs
+		Type	Local
+		At	FootL
+		Part	:ElectricityGlowSmall.part
+		Part	:ElectricityGlowStarSmall.part
+		Part1	:ElectricityArchContinuing.part
+		Part2	:ElectricityArchContinuing2.part
+		Part3	:ShaklesElectricityArch2.part
+		Part3	:ShaklesElectricityArch.part
+	End
+
+	Event
+		EName	continuingArchs
+		Type	Local
+		At	FootR
+		Part	:ElectricityGlowSmall.part
+		Part	:ElectricityGlowStarSmall.part
+		Part1	:ElectricityArchContinuing.part
+		Part2	:ElectricityArchContinuing2.part
+		Part3	:ShaklesElectricityArch2.part
+		Part3	:ShaklesElectricityArch.part
+	End
+
+End
+
+	
+End

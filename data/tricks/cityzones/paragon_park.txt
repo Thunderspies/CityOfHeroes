@@ -1,0 +1,321 @@
+Trick cattail
+	LodFar 50
+	LodFarFade 15
+	AlphaRef 100.000000
+	Sway 1.500000 0.02
+	TrickFlags NoColl DoubleSided 
+End
+
+Trick cattail2
+	LodFar 50
+	LodFarFade 15
+	AlphaRef 100.000000
+	Sway 1.700000 0.015
+	TrickFlags NoColl DoubleSided 
+End
+
+Trick cattail3
+	LodFar 50
+	LodFarFade 15
+	AlphaRef 100.000000
+	Sway 1.300000 0.025
+	TrickFlags NoColl DoubleSided 
+End
+
+Trick wildgrass
+	LodFar 40
+	LodFarFade 10
+	Sway 1.000000 0.006
+	TrickFlags NoColl DoubleSided
+End
+
+Trick wildgrasslrg
+	LodFar 50
+	LodFarFade 10
+	Sway 1.000000 0.006
+	TrickFlags NoColl DoubleSided
+End
+
+Trick wildgrasstall
+	LodFar 40
+	LodFarFade 15
+	Sway 1.300000 0.01
+	TrickFlags NoColl DoubleSided
+End
+
+Trick wildgrasstall2
+	LodFar 35
+	LodFarFade 15
+	Sway 1.25000 0.015
+	TrickFlags NoColl DoubleSided
+End
+
+Trick bushf
+	LodFar 90
+	LodFarFade 30
+	Sway 1.000000 0.009
+	TrickFlags DoubleSided 
+	ObjFlags NoLightAngle TreeDraw
+End
+
+Trick bushf2
+	LodFar 90
+	LodFarFade 30
+	Sway 1.35000 0.009
+	TrickFlags NoColl 
+	ObjFlags NoLightAngle TreeDraw
+End
+
+Trick sapling
+	LodFar 80
+	LodFarFade 20
+	AlphaRef 100.000000
+	Sway 1.500000 0.008
+	TrickFlags NoColl DoubleSided
+	ObjFlags NoLightAngle
+End
+
+Trick fernhi
+	LodFar 60
+	LodFarFade 20
+	Sway 1.300000 0.01
+	TrickFlags NoColl DoubleSided 
+	ObjFlags 
+End
+
+Trick fern2hi
+	LodFar	20	
+	LodFarFade 10
+	SortBias 2.0
+	Sway 1.500000 0.01
+	TrickFlags NoColl DoubleSided 
+End
+
+Trick fern2lo
+	LodFar 60
+	LodFarFade 20
+	Sway 1.500000 0.01
+	TrickFlags NoColl DoubleSided 
+	ObjFlags TreeDraw
+End
+
+Trick patchhi
+	LodFar 90
+	LodFarFade 30
+	SortBias 3.0
+	TrickFlags NoColl 
+End
+
+Trick mosspatch
+	LodFar 90
+	LodFarFade 30
+	SortBias 3.0	
+End
+
+Trick mossrcksml
+	LodFar 25
+	LodFarFade 10
+	SortBias 3.0
+	TrickFlags NoColl 
+End
+
+Trick mossrckmed
+	LodFar 55
+	LodFarFade 20
+	SortBias 3.0
+End
+
+
+
+//WATER//
+
+Trick fwater
+	ScrollST0 0.0004 0.0004
+	ObjFlags FullBright
+	TrickFlags NoColl Additive
+End
+
+Trick fwater1
+	//Sway 1.300000 0.003142
+	ScrollST0 0.001 0.0007
+	ScrollST1 -0.0008 -0.0011
+	LodFar 1800
+	LodFarFade 0
+	StAnim 0.005000 0.050000 aqua 
+	TrickFlags NoColl DoubleSided
+End
+
+
+
+
+//TEXTURES//
+
+Texture amp_stage.tga
+	Blend dC_metal_01.tga
+	BlendType Multiply
+	ScaleST0 8 8
+End
+
+
+Texture fwater_reflect1.tga
+End
+
+Texture f_water_1.tga
+	Base1 f_water_1
+	Base1Scroll 0.0006 0.0004
+	Base1Scale .5 .5
+
+	Multiply1 fwater_reflect1.tga
+	Multiply1Scale .5 .5
+	Multiply1Scroll 0 0 //0.0007 -0.0003
+
+	BumpMap1 newwater1bmp
+	BumpMap1Scale .5 .5 
+	BumpMap1Scroll 0.0004 0.00025 // 0.0006 0.0004 // 0.001 -0.001
+
+	SpecularColor1 75 75 75
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 8 
+	SpecularExponent2 8
+	
+	MaskWeight 1
+
+	
+	DiffuseScale 1 //2
+	AmbientScale 2
+
+  ObjFlags FancyWater
+ 	
+
+
+	Surface INWATER
+
+End
+
+Texture Fern_02a.tga
+End
+
+Texture Fern_02a_shape.tga
+	Flags ClampS ClampT
+	Blend Fern_02a.tga
+	BlendType Multiply
+	ScaleST0 4 4
+End
+
+Texture Forest_Dirt.tga
+	Fade 1 -1.0
+	Surface DIRT
+End
+
+Texture Forest_shadow.tga
+	Blend Forest_Dirt.tga
+	BlendType Multiply
+	ScaleST0 8 8
+	Surface GRASS
+End
+
+Texture forest_grass_plate_01.tga
+	Blend Forest_Dirt.tga
+	BlendType Multiply
+	ScaleST0 8 8
+	Surface GRASS
+End
+
+Texture grass_amphitheater.tga
+	Flags ClampS ClampT
+	Blend Forest_Dirt.tga
+	BlendType Multiply
+	ScaleST0 8 8
+	Surface GRASS
+End
+
+Texture leaf_pile_01.tga
+End
+
+Texture leaf_shp_01.tga
+	Flags ClampS ClampT
+	Blend leaf_pile_01.tga
+	BlendType Multiply
+	ScaleST0 4 2
+End
+
+Texture moss_patch_01.tga
+End
+
+Texture moss_shp_01.tga
+	Flags ClampS ClampT
+	Blend moss_patch_01.tga
+	BlendType Multiply
+	ScaleST0 6 6
+End
+
+Texture rock_gray.tga
+	Blend caverock_det.tga
+	BlendType Multiply
+	ScaleST0 6 6
+End
+
+Texture rock_mossy.tga
+	Blend caverock_det.tga
+	BlendType Multiply
+	ScaleST0 6 6
+End
+
+Texture Grass_Wild_03.tga
+	Flags ClampS ClampT
+End
+
+Texture Grass_Wild_02.tga
+	Flags ClampS ClampT
+End
+
+Texture Grass_Wild_01.tga
+	Flags ClampS ClampT
+End
+
+Texture g_d_trans_45.tga
+	Flags ClampS ClampT
+End
+
+Texture g_d_trans_45str_l.tga
+	Flags ClampS ClampT
+End
+
+Texture g_d_trans_45str_r.tga
+	Flags ClampS ClampT
+End
+
+Texture g_d_trans_90_in.tga
+	Flags ClampS ClampT
+End
+
+Texture g_d_trans_90_out.tga
+	Flags ClampS ClampT
+End
+
+Texture g_d_trans_str.tga
+	Flags ClampS ClampT
+End
+
+Texture g_d_trans_str45_l.tga
+	Flags ClampS ClampT
+End
+
+Texture g_d_trans_str45_r.tga
+	Flags ClampS ClampT
+End
+
+##############temp_shadow_shard############3
+
+Trick sstreetop
+	ObjFlags NoLightAngle TreeDraw
+	AlphaRef 80.000000
+End
+
+Trick ssfernhi
+	LodFar 350
+	LodFarFade 50
+	#Sway 1.300000 0.01
+	TrickFlags NoColl DoubleSided 
+	ObjFlags 
+End

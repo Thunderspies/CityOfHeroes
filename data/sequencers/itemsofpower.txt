@@ -1,0 +1,291 @@
+#############################################################
+## ItemsOfPower.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef ItemOfPower_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+#############################################################
+
+Group	<BasicReady>
+Group	<Ready>
+Group	<Captured>
+
+## READY ###########################################################
+
+Move Ready
+	Member		<BasicReady>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## CAPTURE ###########################################################
+
+Move Capture
+	Requires	CAGE UP
+	Priority        2
+	Interrupts	<BasicReady> <Ready>
+	Member		<Captured>
+	Sets		TARGET NOCOLLISION
+	Flags		ReqInputs NoDraw NotSelectable
+	NextMove	Capture_Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+MEnd
+
+Move Capture_Cycle
+	Requires	CAGE UP
+	Priority        2
+	Member		<Captured>
+	Sets		TARGET NOCOLLISION
+	Flags		CYCLE NoDraw NotSelectable
+	NextMove	Reclaim
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	  PlayFx	Generic\Faerie_entityFadeOut.fx 0 constant
+	TEnd
+MEnd
+
+## RECLAIM ###########################################################
+
+Move Reclaim
+	Requires	CAGE DOWN
+	Priority        2
+	Interrupts	<Captured>
+	NextMove	Ready
+	Flags		NotSelectable
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+#############################################################
+## POWERED UP STATES
+#############################################################
+
+## TEIR 1 - LEVEL 1 ###########################################################
+
+Move Ready_Tier1_Level1
+	Requires	TEN ONE
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 1 - LEVEL 2 ###########################################################
+
+Move Ready_Tier1_Level2
+	Requires	TEN TWO
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 1 - LEVEL 3 ###########################################################
+
+Move Ready_Tier1_Level3
+	Requires	TEN THREE
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 1 - LEVEL 4 ###########################################################
+
+Move Ready_Tier1_Level4
+	Requires	TEN FOUR
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 1 - LEVEL 5 ###########################################################
+
+Move Ready_Tier1_Level5
+	Requires	TEN FIVE
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+## TEIR 2 - LEVEL 1 ###########################################################
+
+Move Ready_Tier2_Level1
+	Requires	TWENTY ONE
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 2 - LEVEL 2 ###########################################################
+
+Move Ready_Tier2_Level2
+	Requires	TWENTY TWO
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 2 - LEVEL 3 ###########################################################
+
+Move Ready_Tier2_Level3
+	Requires	TWENTY THREE
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 2 - LEVEL 4 ###########################################################
+
+Move Ready_Tier2_Level4
+	Requires	TWENTY FOUR
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 2 - LEVEL 5 ###########################################################
+
+Move Ready_Tier2_Level5
+	Requires	TWENTY FIVE
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 3 - LEVEL 1 ###########################################################
+
+Move Ready_Tier3_Level1
+	Requires	THIRTY ONE
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 3 - LEVEL 2 ###########################################################
+
+Move Ready_Tier3_Level2
+	Requires	THIRTY TWO
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 3 - LEVEL 3 ###########################################################
+
+Move Ready_Tier3_Level3
+	Requires	THIRTY THREE
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 3 - LEVEL 4 ###########################################################
+
+Move Ready_Tier3_Level4
+	Requires	THIRTY FOUR
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+## TEIR 3 - LEVEL 5 ###########################################################
+
+Move Ready_Tier3_Level5
+	Requires	THIRTY FIVE
+	Priority        2
+	Interrupts	<BasicReady>
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		ItemOfPower_Base
+	  Anim          Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

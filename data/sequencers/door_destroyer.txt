@@ -1,0 +1,90 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Destroyer
+	BaseSkeleton	Door_Destroyer\Skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		Door_Destroyer
+	  Anim          Door_Destroyer\Skel_ready 1 5
+	TEnd
+
+MEnd
+
+Move Open
+	Requires	OPEN
+	Interrupts	<Ready>
+	NextMove        Open2
+	Priority        1
+	Scale           1
+
+	Type		Door_Destroyer
+	  Anim          Door_Destroyer\Skel_ready 2 28
+	  PlayFX	Doors\Battleship_Open.FX
+	TEnd
+
+MEnd
+
+Move Open2
+	Requires	OPEN
+	NextMove        Opened
+	Priority        1
+	Scale           1
+	Sets            WALKTHROUGH
+
+	Type		Door_Destroyer
+	  Anim          Door_Destroyer\Skel_ready 28 32
+	TEnd
+
+MEnd
+
+Move Opened
+	Flags		Cycle
+	Sets            WALKTHROUGH
+
+	Type		Door_Destroyer
+	  Anim          Door_Destroyer\Skel_ready 32 42
+	TEnd
+
+MEnd
+
+Move Shut
+	Requires	SHUT
+	Interrupts	Opened
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH
+
+	Type		Door_Destroyer
+	  Anim          Door_Destroyer\Skel_ready 42 68
+	  PlayFX	Doors\Battleship_Close.FX
+	TEnd
+
+MEnd
+
+Move Shut2
+	Requires	SHUT
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Destroyer
+	  Anim          Door_Destroyer\Skel_ready 68 73
+	TEnd
+
+MEnd
+
+#############################################################
+
+SeqEnd

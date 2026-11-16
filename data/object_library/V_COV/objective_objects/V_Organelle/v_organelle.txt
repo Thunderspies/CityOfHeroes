@@ -1,0 +1,101 @@
+RootMod _v_organelle_cage_inside
+End
+
+RootMod _v_organelle_cage_base
+End
+
+RootMod _v_organelle_cage_arms
+End
+
+RootMod _v_organelle_terminal_scrn
+End
+
+RootMod _v_organelle_terminal_scrn_scrl
+End
+
+RootMod _v_organelle_terminal
+End
+
+RootMod _v_organelle_terminal_scrn_scrl2
+End
+
+RootMod _v_organelle_cage_lenses
+End
+
+RootMod _v_organelle_cage_lense_main2
+End
+
+RootMod _v_organelle_cage_glass4
+End
+
+RootMod _v_organelle_cage_bars2
+End
+
+Def V_Organelle_Cage_1&
+	Group _v_organelle_terminal_scrn
+	End
+	Group _v_organelle_terminal_scrn_scrl
+	End
+	Group _v_organelle_terminal_scrn_scrl2
+	End
+	Group _v_organelle_terminal
+	End
+End
+
+Def V_Organelle_Cage_4&
+	Group Omni/_Omni
+	End
+	Omni 16 215 16 14.204097 
+	Flags Ungroupable
+End
+
+Def V_Organelle_Cage_3&
+	Group _v_organelle_cage_lense_main2
+	End
+	Group _v_organelle_cage_arms
+	End
+	Group _v_organelle_cage_lenses
+	End
+	Group _v_organelle_cage_inside
+	End
+	Group V_Organelle_Cage_4&
+		Pos 0 7 0
+	End
+	Ambient 9 30 57
+End
+
+Def V_Organelle_Cage_2&
+	Group _v_organelle_cage_bars2
+	End
+	Group _v_organelle_cage_base
+	End
+	Group _v_organelle_cage_glass4
+	End
+	Group V_Organelle_Cage_3&
+	End
+End
+
+Def V_Organelle_Cage_7&
+	Group Omni/PARTICLE_15
+		Pos 0.001465 -0.001343 -0.001221
+	End
+	Type V_COV\Destructible_Objects\Organelle\Organelle.fx
+End
+
+Def V_Organelle_Cage_5&
+	Group V_Organelle_Cage_2&
+		Pos 0.001465 -11.001343 -0.001221
+	End
+	Group V_Organelle_Cage_7&
+	End
+End
+
+Def V_Organelle_Cage
+	Group V_Organelle_Cage_1&
+		Pos 0 0 15
+	End
+	Group V_Organelle_Cage_5&
+		Pos -0.001465 11.001343 0.001221
+	End
+End
+

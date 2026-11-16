@@ -1,0 +1,450 @@
+Version 2
+Scenefile scenes/black_scene.txt
+
+Def grp3
+	Group Omni/EncounterSpawns/Base_Missions/ES_Mission_CenteredAround
+		PYR 0 39.999996 -0
+	End
+	Property	"EncounterGroup"	"0"	0
+	Property	"SingleUse"	"0"	0
+End
+
+Def grp4
+	Group Omni/MissionBeacons/_Marker_MapSwap_shrt
+	End
+	Property	"GotoSpawn"	"MissionReturn"	0
+	Property	"Requires"	"HomelessMan MissionObjective? !"	0
+End
+
+Def grp2
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlStc_A_Start
+	End
+	Group grp3
+		PYR 0 -174.499985 -0
+		Pos 5 0 -8
+	End
+	Group Omni/EncounterSpawns/Base_Missions/EG_Mission_Solo
+		PYR 0 159.500015 -0
+		Pos 8.5 0 -6.5
+	End
+	Group grp4
+		Pos 0.232056 0 16.120268
+	End
+	Group Omni/MissionBeacons/PlayerSpawn
+		PYR 0 -179.999985 -0
+		Pos -4.333374 0 13.323074
+	End
+	Group Omni/MissionBeacons/PlayerSpawn_Lobby
+		PYR 0 -179.999985 -0
+		Pos 0.166626 0 13.323074
+	End
+	Group Omni/MissionBeacons/PlayerSpawn
+		PYR 0 -179.999985 -0
+		Pos 4.666626 0 13.323074
+	End
+End
+
+Def grpvolume2
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 160.000000 60.000000 160.000000
+	Flags Ungroupable
+	Property	"VolumeTriggered"	"VolumeTriggerFront"	0
+End
+
+Def grplite8
+	Group Omni/_Omni
+	End
+	Omni 11 17 23 20.382271 
+	Flags Ungroupable
+End
+
+Def grplite9
+	Group Omni/_Omni
+	End
+	Omni 24 56 92 16.574028 
+	Flags Ungroupable
+End
+
+Def grplite10
+	Group Omni/_Omni
+	End
+	Omni 19 42 69 18.458511 
+	Flags Ungroupable
+End
+
+Def grp13
+	Group Omni/_EmergeFromMe
+	End
+	Property	"EntryPoint"	"0"	0
+End
+
+Def grp14
+	Group Omni/EmergeFromMe
+	End
+	Group Omni/ExitPoint
+		Pos 2 0 -5.704346
+	End
+	Group Omni/ExitPoint
+		Pos -2 0 -5.204346
+	End
+	Group Omni/ExitPoint
+		Pos 0 0 -4.204346
+	End
+End
+
+Def grp12
+	Group Doors/City_Doors/_Door_City_direction_arrow
+	End
+	Group grp13
+		Pos 0 0 -4.5
+	End
+	Group grp14
+		Pos 0 0 -0.295654
+	End
+End
+
+Def grp11
+	Group Villain_Lairs/P_Tnl/Level_B/Maint_Shafts_B/_P_Tnl_B_Stairs_UP_frame
+	End
+	Group grp12
+		PYR 0 -0.00001 -0
+		Pos 0 -0.017175 0.514755
+	End
+	Property	"Door"	"Door"	0
+	Property	"Generator"	"Maint_Shafts_B"	0
+End
+
+Def grp7
+	Obj Villain_Lairs/P_Tnl/trays/_P_Tnl_B_Shft_end_up_tray
+	Group grplite8
+		PYR 0 -179.999985 -0
+		Pos 0 11.558828 0
+	End
+	Group grplite9
+		PYR 0 -179.999985 -0
+		Pos 0 4 16
+	End
+	Group grplite10
+		PYR 0 -179.999985 -0
+		Pos 0.473297 4 0
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Maint_Shafts_B/_P_Tnl_B_Stairs_UP
+		Pos 0 0.30003 0
+	End
+	Group Villain_Lairs/P_Tnl/Elements/Lights/P_Tnl_Wall_Light_03
+		PYR 0 89.999992 -0
+		Pos -16.103825 0 0.824303
+	End
+	Group Villain_Lairs/P_Tnl/Elements/Lights/P_Tnl_Wall_Light_03
+		PYR 0 -90.000015 -0
+		Pos 16.117592 0 0.824318
+	End
+	Group grplite9
+		PYR 0 -179.999985 -0
+		Pos 11.864665 4 1.001358
+	End
+	Group grplite9
+		PYR 0 -179.999985 -0
+		Pos -11.196062 4 1.001358
+	End
+	Group grplite8
+		PYR 0 -179.999985 -0
+		Pos 0 16.539116 0
+	End
+	Group grplite8
+		PYR 0 -179.999985 -0
+		Pos -0.000003 16.539116 10.856842
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Maint_Shafts_B/_P_Tnl_B_Shft_End_Up
+	End
+	Group grp11
+		PYR 0 -179.999985 -0
+		Pos -0.000003 0.017175 9.5
+	End
+	Group Special_Buildings/trainstation/_trnstation_collblocker1
+		PYR -0.000003 -0.000006 90
+		Pos -3 10.531815 1
+	End
+	Ambient 4 4 4
+End
+
+Def grpsound15
+	Group Omni/_sound
+	End
+	Sound Waterfall_Loop 0.500000 40.092663 35.000000 
+	Flags Ungroupable
+	SoundScript Sewer_BedShaftl_B.txt
+End
+
+Def grp6
+	Group grp7
+	End
+	Group grpsound15
+		Pos -0.226196 8.333405 -0.188171
+	End
+	Group sound/Praetoria/Tunnels/BlueLightBar_02
+		Pos 14.862122 4.472005 0.990906
+	End
+	Group sound/Praetoria/Tunnels/BlueLightBar_01
+		Pos -13.5578 4.073581 0.966797
+	End
+End
+
+Def grp17
+	Group Omni/MissionLabels/_mission_room_01
+	End
+	Property	"MissionRoom"	"-1"	0
+End
+
+Def grp18
+	Group Omni/MissionBeacons/_PlayerSpawn
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"SpawnLocation"	"_lobby"	0
+End
+
+Def grp16
+	Group grp17
+		Pos -1.5 0 0.5
+	End
+	Group grp18
+		PYR 0 72 -0
+		Pos 1.5 0 -0.5
+	End
+End
+
+Def grp5
+	Group grp6
+		PYR 0 -179.999985 -0
+	End
+	Group grp16
+		PYR 0 89.999992 -0
+		Pos -9.499985 0 -11.5
+	End
+	Property	"MinimapTextureName"	"P_Tnl_B_Shft_End.tga"	0
+End
+
+Def grp_layout_30_04_01
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_90
+		PYR 0 90 -0
+		Pos -239.111115 63.221596 183.40741
+	End
+	Group grp2
+		PYR 0 -90 -0
+		Pos -335.111115 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_Str_01_B
+		PYR 0 90 -0
+		Pos -303.111115 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_90
+		Pos -239.111115 63.221596 119.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_90
+		PYR 0 -90 -0
+		Pos -175.11113 63.221596 119.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_Str_01_B
+		PYR 0 90 -0
+		Pos -271.111115 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_Hall_Trans
+		PYR 0 -89.999992 -0
+		Pos -111.111115 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlStc_A_3wy
+		PYR 0 -179.999985 -0
+		Pos -207.111115 63.221596 183.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_Transitions/Trans_A_to_B/P_TnlMis_A_B_Str_Start
+		PYR 0 -89.999985 -0
+		Pos -79.111115 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Walls_B/Wall_Sockets_B/P_Tnl_Wall_Socket_B
+		PYR 0 -90 -0
+		Pos 32.888889 31.221777 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_Transitions/Trans_A_to_B/P_TnlMis_A_to_B_Str
+		PYR 0 90.000015 -0
+		Pos -47.111118 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Subway_B/Subway_Halls_B/P_TnlMis_B_Sub_Start
+		PYR 0 -89.999992 -0
+		Pos 128.888885 31.221596 103.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Walls_B/Wall_Sockets_B/P_Tnl_Wall_Socket_Solid
+		PYR 0 -89.999992 -0
+		Pos 224.888885 31.221594 151.40741
+	End
+	Group Omni/Extents_Marker.txt
+		Pos 736.888916 -192.778412 327.40741
+	End
+	Group Omni/Extents_Marker.txt
+		PYR 0 -179.999985 0
+		Pos -383.111115 111.221596 -664.59259
+	End
+	Group Omni/MissionLabels/Mission_Start
+		Pos 128.5 31.221718 183.5
+	End
+	Group Omni/MissionLabels/Mission_Room_01
+		Pos 128.888885 31.221716 183.40744
+	End
+	Group Omni/MissionLabels/Mission_Room_02
+		Pos 128.888885 31.221716 -8.59259
+	End
+	Group Omni/MissionLabels/Mission_Objective_02
+		Pos 128.888885 31.221716 -8.59259
+	End
+	Group Omni/MissionLabels/Mission_Objective_03
+		Pos 128.888885 31.221716 183.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_90
+		PYR 0 179.999985 -0
+		Pos -175.111115 63.221596 183.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_4wy
+		Pos -239.111115 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_4wy
+		Pos -175.111115 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_Str_01_B
+		PYR 0 90 -0
+		Pos -143.111115 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_4wy
+		Pos -207.111115 63.221596 151.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_4wy
+		Pos -207.111115 63.221596 119.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_Str_01_B
+		PYR 0 -179.999985 -0
+		Pos -207.111115 63.221596 87.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_A/P_TnlMis_A_End_02
+		Pos -207.111115 63.221596 55.40741
+	End
+	Group grpvolume2
+		Pos 39 29.221596 152
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Subway_B/Subway_Halls_B/P_TnlMis_B_Sub_Str
+		PYR 0 -89.999992 -0
+		Pos 128.888885 31.221596 39.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Walls_B/Wall_Sockets_B/P_Tnl_Wall_Socket_Solid
+		PYR 0 -89.999992 -0
+		Pos 224.888916 31.221596 39.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Walls_B/Wall_Sockets_B/P_Tnl_Wall_Socket_Solid
+		PYR 0 90 -0
+		Pos 32.888916 31.221596 39.40741
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Subway_B/Subway_Halls_B/P_TnlMis_B_Sub_Trans_A
+		PYR 0 -89.999992 -0
+		Pos 128.888885 31.221596 -56.59259
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Subway_B/Subway_Tracks_B/P_TnlMis_Track_90
+		PYR 0 0.000007 -0
+		Pos 272.888916 31.221596 -216.59259
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Subway_B/Subway_Halls_B/P_TnlMis_B_Sub_Trans_A
+		PYR 0 0.000007 -0
+		Pos 336.888916 31.221596 -392.59259
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Subway_B/Subway_Halls_B/P_TnlMis_B_Sub_Start
+		PYR 0 0.000007 -0
+		Pos 368.888916 31.221596 -392.59259
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Walls_B/Wall_Sockets_B/P_Tnl_Wall_Socket_Solid
+		PYR 0 -179.999985 -0
+		Pos 416.888916 31.221596 -296.59259
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Walls_B/Wall_Sockets_B/P_Tnl_Wall_Socket_C
+		PYR 0 0.000007 -0
+		Pos 416.888916 31.221596 -488.59259
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Maint_Shafts_B/P_TnlStc_B_Shft_32
+		PYR 0 0.000007 -0
+		Pos 416.888916 31.221596 -536.59259
+	End
+	Group grp5
+		PYR 0 -179.999985 0
+		Pos 416.888916 31.221596 -568.59259
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Subway_B/Subway_Tracks_B/P_TnlMis_Track_32
+		PYR 0 90.000015 -0
+		Pos 112.888855 31.18235 -104.592392
+	End
+	Group Villain_Lairs/P_Tnl/Level_B/Subway_B/Subway_Tracks_B/P_TnlStc_Track_64
+		PYR 0 90.000015 -0
+		Pos 112.888855 31.18235 -152.592407
+	End
+End
+
+Def grp1
+	Group Omni/MissionBeacons/_Marker_MapSwap
+		PYR 0 -179.999969 0
+	End
+	Flags Ungroupable
+	Property	"GotoMap"	"P_City_00_06.txt"	0
+	Property	"GotoSpawn"	"DrArvinMission"	0
+	Property	"Requires"	"HomelessMan MissionObjective?"	0
+End
+
+Def grpvolume3
+	Group Omni/collision_box/collision_box_16x16
+	End
+	Volume 36.000000 26.000000 46.000000
+	Flags Ungroupable
+	Property	"NamedVolume"	"OBJ_TriggerVolume_01"	0
+End
+
+Ref grp_layout_30_04_01
+	Pos 336 -63.221596 -144
+End
+
+Ref Omni/MissionLabels/Mission_Room_03
+	Pos 496 -33.910324 -464
+End
+
+Ref Omni/MissionLabels/Mission_Objective_03
+	Pos 496 -31.989014 -464
+End
+
+Ref Omni/MissionLabels/Mission_Room_04
+	Pos 656 -32 -528
+End
+
+Ref Omni/MissionLabels/Mission_Objective_04
+	Pos 656 -32 -528
+End
+
+Ref Omni/MissionLabels/Mission_Room_05
+	Pos 736 -33.999939 -528
+End
+
+Ref Omni/MissionLabels/Mission_Objective_05
+	Pos 736 -34 -528
+End
+
+Ref Omni/MissionLabels/Mission_End
+	Pos 736 -32.329941 -528
+End
+
+Ref Omni/ValidBeacon
+	Pos 32 0 0
+End
+
+Ref grp1
+	Pos 754.5 -31.456844 -698.5
+End
+
+Ref grpvolume3
+	Pos 750 -32 -702
+End
+
+
+

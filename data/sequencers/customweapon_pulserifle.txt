@@ -1,0 +1,69 @@
+#########################################################
+## CustomWeapon_PulseRifle.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef PulseRifle_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef PulseRifle_SteampunkRifle
+	BaseSkeleton	CustomWeapons_PulseRifles\PulseRifle_SteampunkRifle
+	ParentType	PulseRifle_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw
+	Priority	0
+
+	Type		PulseRifle_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	TWOHAND SPAWNBACK
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	NextMove	Combat_Cycle
+
+	Type		PulseRifle_Base
+	  Anim		Prop_basic\skel_test 1 9
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	TWOHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat>
+	Flags		Cycle
+
+	Type		PulseRifle_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+
+	Type		PulseRifle_SteampunkRifle
+	  Anim		CustomWeapons_PulseRifles\PulseRifle_SteampunkRifle 1
+	TEnd
+
+MEnd
+
+#########################################################
+
+SeqEnd

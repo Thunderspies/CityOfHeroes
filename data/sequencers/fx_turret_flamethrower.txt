@@ -1,0 +1,65 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_turret_flamethrower 
+	BaseSkeleton	FX_turret_flamethrower\Skel_FX_turret_flamethrower 
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		FX_turret_flamethrower
+	  Anim          FX_turret_flamethrower\Skel_FX_turret_flamethrower 1 5
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+#### Flame Attack  ###################################
+
+
+Move Flame
+	Requires	COMBAT WEAPON GUN FLAMETHROWER MID
+	Interrupts	Ready <Ready>
+	NextMove        Active_cycle
+	Priority        5
+
+	Type		FX_turret_flamethrower
+	  Anim          FX_turret_flamethrower\Skel_FX_turret_flamethrower 6 100
+	TEnd
+MEnd
+
+
+
+Move Active_cycle
+	Requires	COMBAT
+	Flags		Cycle
+	NextMove        Active_Post
+	Priority        1
+
+	Type		FX_turret_flamethrower
+	  Anim          FX_turret_flamethrower\Skel_FX_turret_flamethrower 90 100
+	TEnd
+MEnd
+
+
+Move Active_Post
+	Member		<Ready> 
+	NextMove        Ready
+
+	Type		FX_turret_flamethrower
+	  Anim          FX_turret_flamethrower\Skel_FX_turret_flamethrower 101 120
+	TEnd
+MEnd
+
+SeqEnd
+

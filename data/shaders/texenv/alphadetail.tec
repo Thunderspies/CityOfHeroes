@@ -1,0 +1,32 @@
+  #orig:
+  #spare0.rgb = tex0.a * tex0.rgb + (1-tex0.a)*tex1.rgb
+  #spare0.rgb = spare0.rgb * col0.rgb * 4
+{
+  Texture 1
+  rgb {
+    result = texture.rgb // * primary.rgb
+  }
+  alpha {  #spare0.a = const0.a * tex1.a
+	result = constant.alpha
+  }
+}
+{
+  Texture 0
+  rgb {
+	result = lerp(texture.rgb, previous.rgb, texture.alpha)
+  }
+  alpha {  #spare0.a = const0.a * tex1.a
+	result = previous.alpha
+  }
+}
+{
+  Texture 1
+  rgb {
+	result = previous.rgb * primary.rgb
+    Scale 4
+  }
+  alpha {  #spare0.a = const0.a * tex1.a
+	result = previous.alpha
+  }
+}
+//Flags NoLighting

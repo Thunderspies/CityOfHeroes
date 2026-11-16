@@ -1,0 +1,70 @@
+#########################################################
+## Rikti Dropship/Shuttle
+#########################################################
+
+Type
+
+## SEQUENCER #######################################################
+
+Sequencer	Rikti_Shuttle.txt
+SequencerType	Rikti_Shuttle_Stationary
+Placement	DeadOn
+
+## GRAPHICS #######################################################
+
+FadeOutStart			2500
+FadeOutFinish			3000
+VisSphereRadius			1024
+
+TicksToLingerAfterDeath		600	//Ticks for entity to stay around on the server after it has died (600 is default) Set it to extremely high to never fade away. Needs to be at least 25 if it has powers it uses after death.
+TicksToFadeAwayAfterDeath	60	//Ticks to spend fading away on the client once you have been cleaned up (90 is default)
+
+RejectContinuingFX	1		//0(default) or 1. You don't get continuing fx played on you (i.e. you are a desk and don't show bubbles over your head when stunned)
+
+## HEALTH FX #######################################################
+
+HealthFx		//Indicates a Health State definition - The following parameters will define it:
+	Range		0.001 100
+	LibraryPiece	rikti_shuttle #Villain_Lairs\Rikti\Rikti_Shuttle\rikti_shuttle
+	ContinuingFX	EnemyFx\Rikti\Shuttle\Persistent.fx
+End
+
+HealthFx		//Indicates a Health State definition - The following parameters will define it:
+	Range		0.0 0.001
+	OneShotFX	EnemyFx\Rikti\Shuttle\Persistent_Death.fx
+End
+
+## SHADOW #######################################################
+
+ShadowType	None
+#ShadowTexture	PlayerShadowCircle
+#ShadowQuality	Medium	
+#ShadowSize	3.6 0.0 3.6
+#ShadowOffset	0.0 0.0 0.0
+
+## SELECTION RETICLE #######################################################
+
+#SelectCapsule		0		//0(default) or 1. Should I use the Capsule instead of the Animation for selection
+Selection		Capsule		//Bones(Default), WorldGroup, or Capsule. What to use for selecting (TO DO vs select capsule, etc)
+ReticleHeightBias	0.5		//Default 0.5. Amount to always raise the reticle (to get it out of headdresses, for example)
+ReticleWidthBias	1.0		//Default 1.0. Amount to always widen the reticle (again, to get it out of the way of objects with geometry the protrudes past the bones
+ReticleBaseBias		0.0		//Default 0.0. Amount to always lower the reticle (as above, to get it out of the way)
+NotSelectable		0		//0(default) or 1. Players can't select this entity. (Still targetable by powers, just not selectable in the UI)
+Flags			UseCapsuleForRangeFinding
+
+## COLLISION AND PHYSICS #######################################################
+
+CollisionType		Capsule		//Rigid(default), Door, WorldGroup, Repulsion, BounceUp, etc. (TO DO careful discussion of these)
+CapsuleSize		48 48 112
+CapsuleOffset		0 0 -41
+#BigMonster		0		//0(default) or 1. If I am a big monster, I don't collide with non big monsters
+#Flags			Nocollision	//If you have CollisionType LibraryPiece, ignore it for this
+
+## GENERAL #######################################################
+
+SpawnOffsetY		128.0		//Default 0.0. When this entity is spawned, always move it up (relative to the direction its facing) this much. For Ball turrets for example
+CameraHeight		32.0		//Default 6.0. Height of camera when playing a character with this entType (scaled by geomScale)
+
+#########################################################
+
+End

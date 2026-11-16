@@ -1,0 +1,84 @@
+#############################################################
+
+Sequencer
+
+TypeDef Door_Cot 
+	BaseSkeleton	Door_Cot\skel_door_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready> 
+	Flags		Cycle 
+
+	Type		Door_Cot
+	  Anim          Door_Cot\skel_door_ready 1 5 
+	TEnd
+MEnd
+
+
+Move Open
+	Requires	OPEN 
+	Interrupts	<Ready> 
+	NextMove        Open2
+	Priority        1
+
+	Type		Door_Cot
+	  Anim          Door_Cot\skel_door_ready 5 50 
+	TEnd
+MEnd
+
+
+Move Open2
+	Requires	OPEN 
+	NextMove        Opened
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Cot
+	  Anim          Door_Cot\skel_door_ready 51 100 
+	TEnd
+MEnd
+
+
+Move Opened
+	Flags		Cycle 
+	Sets            WALKTHROUGH 
+
+	Type		Door_Cot
+	  Anim          Door_Cot\skel_door_ready 100 105 
+	TEnd
+MEnd
+
+
+Move Shut
+	Requires	SHUT 
+	Interrupts	Opened 
+	NextMove        Shut2
+	Priority        1
+	Sets            WALKTHROUGH 
+
+	Type		Door_Cot
+	  Anim          Door_Cot\skel_door_ready 106 150 
+	TEnd
+MEnd
+
+
+Move Shut2
+	Requires	SHUT 
+	NextMove        Ready
+	Priority        1
+
+	Type		Door_Cot
+	  Anim          Door_Cot\skel_door_ready 151 200 
+	TEnd
+MEnd
+
+SeqEnd
+

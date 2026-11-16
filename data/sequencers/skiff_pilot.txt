@@ -1,0 +1,1012 @@
+#############################################################
+
+Sequencer
+
+TypeDef Skiff_pilot
+	BaseSkeleton	male\skel_ready2
+	ParentType	None
+TypeDefEnd
+
+TypeDef Longbow_skiff
+	BaseSkeleton	male\skel_ready2
+	ParentType	Skiff_pilot
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<Swim>
+Group	<iceslide>
+Group	<RaiseDeadIRQ>
+Group	<RaiseDeadBackIRQ>
+Group	<basicTHREAT>
+Group	<basicMENACE>
+Group	<basicLOOKOUT>
+Group	<basicCHEER>
+Group	<basicVANDAL>
+Group	<basic0BSERVE>
+Group	<basicLOITER>
+Group	<basicLOOT>
+Group	<basicRumble>
+
+
+Move Ready
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_ready3 1
+	TEnd
+MEnd
+
+Move Skel_Def
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Skiff_pilot
+	  Anim          male\skel_ready2 1
+	TEnd
+MEnd
+
+Move Pre_Forward
+	Requires	FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <MoveIRQ>
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Forward
+	Priority        1
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_forward 2 24
+	TEnd
+MEnd
+
+Move Forward
+	Requires	FORWARD
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Forward_post
+	Priority        1
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_forward 25 50
+	TEnd
+MEnd
+
+Move Forward_post
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_forward 55
+	TEnd
+MEnd
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ> <Ready>
+	NextMove        Ready
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_HQ 2
+	TEnd
+MEnd
+
+Move HitQuick_mid
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ> <Ready>
+	NextMove        Ready
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_HQmid 2
+	TEnd
+MEnd
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        Ready
+	Priority        5
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_drain 1
+	TEnd
+MEnd
+
+Move Sweep_low
+	Requires	SWEEP LOW HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	NextMove        Sweep_post
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_drain 1 80
+	TEnd
+MEnd
+
+Move Sweep_post
+	Member		<DeathIRQ>
+	NextMove        Ready
+	Interpolate     0
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_drain 81
+	TEnd
+MEnd
+
+Move Sweep_High
+	Requires	SWEEP HIGH HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	NextMove        Sweep_post
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_drain 1 80
+	TEnd
+MEnd
+
+Move Stun
+	Requires	STUN HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Ready
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_HQ 2
+	TEnd
+MEnd
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Ready
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_HQmid 2
+	TEnd
+MEnd
+
+Move chokeStun
+	Requires	STUN HIT CHOKESTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        chokeStun_cycle
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move chokeStun_cycle
+	Requires	STUN CHOKESTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        SonicStun_cycle
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        ElectroStun_cycle
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move LassoStun_hit
+	Requires	STUN HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Ready
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_HQmid 2
+	TEnd
+MEnd
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_freeze 1 14
+	TEnd
+MEnd
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        FreezeStun_post
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_freeze 15 20
+	TEnd
+MEnd
+
+Move FreezeStun_post
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <Ready>
+	NextMove        Ready
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_freeze 21
+	TEnd
+MEnd
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        FreezeStun_post
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_freeze 15 20
+	TEnd
+
+MEnd
+
+
+
+
+Move electro_react
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move electro_react_Long
+	Requires	STRONG HIT ENERGY
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        electro_react_Long2
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move electro_react_Long2
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        weak_post
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Sets            CANTMOVE
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_drain 1
+	TEnd
+MEnd
+
+Move Drain_react
+	Requires	HIT DRAINED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move sonic_react
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move Speed_react
+	Requires	HIT SPEEDPUNCH
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        weak_post
+	Priority        2
+	Scale           0.75
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_speed_react 3 34
+	TEnd
+MEnd
+
+Move KungfuSpeed_react
+	Requires	HIT KUNGFUSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react2
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_speed_react 3 39
+	TEnd
+MEnd
+
+Move KungfuSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        KungfuSpeed_react3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_drain 15 27
+	TEnd
+MEnd
+
+Move KungfuSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_HQ 1
+	TEnd
+MEnd
+
+Move ClawSpeed_react
+	Requires	HIT CLAWSPEED
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react2
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_speed_react 3 39
+	TEnd
+MEnd
+
+Move ClawSpeed_react2
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        ClawSpeed_react3
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_drain 40 53
+	TEnd
+MEnd
+
+Move ClawSpeed_react3
+	Member		<DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_HQ 1
+	TEnd
+MEnd
+
+Move Hit_Boostup
+	Requires	HIT BOOSTUP
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+Move Boost_D
+	Requires	HIT BOOSTDOWN
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        Ready
+	Priority        2
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_electro 1
+	TEnd
+MEnd
+
+
+
+##################################################################
+
+
+
+#######################
+###### Vanish Death   ######
+######################
+
+Move Vanish_Death
+	Requires	DEATH HIDE
+	Interrupts	<DeathIRQ>
+	NextMove        Vanish_postdeath
+	Priority        5
+	Sets            NOCOLLISION
+	Flags		NotSelectable
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_ready3 1
+	 PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+
+MEnd
+
+Move Vanish_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle NotSelectable
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_ready3 1
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+#######################
+###### Death   ######
+######################
+
+
+Move Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION
+	SticksOnChild   DEATH
+
+	Type		Skiff_pilot
+	  Anim          male\sweep_flip 2 28
+##	  PlayFx        POWERS\ENERGYBLAST\ZERO_NOVABLAST.FX
+	TEnd
+MEnd
+
+Move Sweep_impact
+	Requires	DEATH
+	NextMove        Death_cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION DIENOW TARGET
+	SticksOnChild   DEATH
+
+	Type		Skiff_pilot
+	  Anim          male\knockback_fierce 26 70
+	TEnd
+MEnd
+
+Move Death_cycle
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Interpolate     0
+	Sets            NOCOLLISION DIENOW TARGET
+	SticksOnChild   DEATH
+
+	Type		Skiff_pilot
+	  Anim          male\knockback_fierce 70 80
+	TEnd
+MEnd
+
+
+
+###  Air Death  ###############################
+
+
+
+Move Pre_Air_Death
+	Requires	AIR HIT DEATH
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        Air_Death
+	Priority        3
+	SticksOnChild   DEATH
+
+	Type		Skiff_pilot
+	  Anim          male\air_death 1 5
+##	  PlayFx        POWERS\ENERGYBLAST\ZERO_NOVABLAST.FX
+	TEnd
+MEnd
+
+Move Air_Death
+	Requires	AIR DEATH
+	Flags		ReqInputs
+	NextMove        Air_death_fall
+	Priority        2
+	SticksOnChild   DEATH
+
+	Type		Skiff_pilot
+	  Anim          male\air_death 6 51
+	TEnd
+MEnd
+
+Move Air_death_fall
+	Requires	AIR DEATH
+	Flags		Cycle
+	NextMove        Air_death_impact
+	Priority        2
+	SticksOnChild   DEATH
+
+	Type		Skiff_pilot
+	  Anim          male\air_death 53 78
+	TEnd
+MEnd
+
+Move Air_death_impact
+	Requires	DEATH
+	NextMove        Air_death_cycle
+	Priority        1
+	Sets            NOCOLLISION
+	SticksOnChild   DEATH
+
+	Type		Skiff_pilot
+	  Anim          male\impact_belly 4 47
+	TEnd
+MEnd
+
+Move Air_death_cycle
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	SticksOnChild   DEATH
+
+	Type		Skiff_pilot
+	  Anim          male\impact_belly 48 50
+	TEnd
+MEnd
+
+Move ElectroDeath
+	Requires	HIT DEATH ENERGY
+	Interrupts	<DeathIRQ>
+	NextMove        Air_Death
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\electro_death 1 196
+	TEnd
+MEnd
+
+Move DisruptDeath
+	Requires	HIT DEATH DISRUPT
+	Interrupts	<DeathIRQ>
+	NextMove        Air_Death
+	Priority        3
+	Sets            NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\electro_death 1 47
+	TEnd
+MEnd
+
+Move ChokeDeath
+	Requires	HIT DEATH MAGIC
+	Interrupts	<DeathIRQ> <BasicDeath>
+	NextMove        Air_Death
+	Priority        5
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\choke 1 137
+	TEnd
+MEnd
+
+Move SonicDeath
+	Requires	HIT DEATH PSIONIC
+	Interrupts	<DeathIRQ>
+	NextMove        Air_Death
+	Priority        3
+	Interpolate     8
+	Sets            NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\sonicpain 1 124
+	TEnd
+MEnd
+
+Move SpeedDeath
+	Requires	HIT DEATH SPEEDPUNCH
+	Interrupts	<DeathIRQ>
+	NextMove        Air_Death
+	Priority        3
+	Scale           0.75
+	Interpolate     2
+	Sets            NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\speed_react 3 65
+	TEnd
+MEnd
+
+Move KungfuSpeed_death
+	Requires	HIT DEATH KUNGFUSPEED
+	Interrupts	<DeathIRQ>
+	NextMove        KungfuSpeed_death2
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\speed_react 3 39
+	TEnd
+MEnd
+
+Move KungfuSpeed_death2
+	NextMove        Air_Death
+
+	Type		Skiff_pilot
+	  Anim          male\drain 40 52
+	TEnd
+MEnd
+
+Move ClawSpeed_death
+	Requires	HIT DEATH CLAWSPEED
+	Interrupts	<DeathIRQ>
+	NextMove        ClawSpeed_death2
+	Priority        3
+
+	Type		Skiff_pilot
+	  Anim          male\speed_react 3 19
+	TEnd
+MEnd
+
+Move ClawSpeed_death2
+	Requires	DEATH
+	NextMove        Air_Death
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\drain 40 53
+	TEnd
+MEnd
+
+
+
+###################
+### missle shoot ##
+###################
+
+
+Move Shoot_R
+	Requires	SHOOT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Shoot_R_post
+	Priority        1
+	Sets            CANTMOVE
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_shootR 1 40
+	TEnd
+
+	Type		Longbow_Skiff
+	  Anim          male\longbow_skiff_shootR 1 40
+	TEnd
+MEnd
+
+Move Shoot_R_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_shootR 41
+	TEnd
+
+	Type		Longbow_Skiff
+	  Anim          male\longbow_skiff_shootR 41
+	TEnd
+MEnd
+
+###
+
+Move Shoot_L
+	Requires	SHOOT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Shoot_L_post
+	Priority        1
+	Sets            CANTMOVE
+	Interpolate	0
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_shootL 1 40
+	TEnd
+
+	Type		Longbow_Skiff
+	  Anim          male\longbow_skiff_shootL 1 40
+	TEnd
+MEnd
+
+Move Shoot_L_post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Priority        1
+	Interpolate     0
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_shootL 41
+	TEnd
+
+	Type		Longbow_Skiff
+	  Anim          male\longbow_skiff_shootL 41
+	TEnd
+MEnd
+
+
+
+######## encounters  ####################################
+
+
+##############################
+### Skiff: Air 2 Air attacks  #####
+##############################
+
+Move Dogfight
+	Requires	ENCOUNTER LOITER ATTACK HIGH
+	Priority        4
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	Scale		0.5
+	Interpolate	0
+	Sets		NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_bank_A 1
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_HoverBot_flyby_A2.fx 0 Constant
+	TEnd
+MEnd
+
+
+##################################
+### Skiff: Air 2 Ground attacks  #####
+##################################
+
+Move Air2Ground_A1
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority        5
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_B2
+	CycleMove	Air2Ground_A2
+	NextMove	DriftDown
+	Scale		0.5
+	Interpolate	30
+	Sets		NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_turkeyshoot_A 1 80   ##223
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 30
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 40
+	TEnd
+MEnd
+
+Move Air2Ground_A2
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority        5
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_A1
+	CycleMove	Air2Ground_B1
+	CycleMove	Air2Ground_C
+	NextMove	DriftDown
+	Scale		0.5
+	Interpolate	30
+	Sets		NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_turkeyshoot_A 81 223
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 28
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 39
+	TEnd
+MEnd
+
+
+Move Air2Ground_B1
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority        5
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_A2
+	CycleMove	Air2Ground_B2
+	NextMove	DriftDown
+	Scale		0.7
+	Interpolate	30
+	Sets		NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_turkeyshoot_B 1 80
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 40
+	TEnd
+MEnd
+
+
+Move Air2Ground_B2
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority        5
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_B1
+	CycleMove	Air2Ground_C
+	CycleMove	Air2Ground_A1
+	CycleMove	Air2Ground_C
+	NextMove	DriftDown
+	Scale		0.7
+	Interpolate	30
+	Sets		NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_turkeyshoot_B 81 200
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 39
+	  PlayFx        ENEMYFX\5thColumn\HoverBot\FX_skiff_missle.fx 119
+	TEnd
+MEnd
+
+Move Air2Ground_C
+	Requires	ENCOUNTER LOITER ATTACK HIGH LOW
+	Priority        5
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+	CycleMove	Air2Ground_A1
+	CycleMove	Air2Ground_B2
+	CycleMove	Air2Ground_B1
+	NextMove	DriftDown
+	Scale		0.7
+	Interpolate	30
+	Sets		NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_turkeyshoot_C 1
+	  PlayFx        WEAPONFX\Enc_Skiff_machineguns.fx 45
+	TEnd
+MEnd
+
+Move DriftDown
+	NextMove	Ready
+	Interpolate	40
+	Sets		NOCOLLISION
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_ready3 1
+	TEnd
+MEnd
+
+#####################
+### night patrol #####
+####################
+
+Move Night_Patrol
+	Requires	ENCOUNTER LOOKOUT HIGH
+	Priority        3
+	Interrupts	<Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+
+	Type		Skiff_pilot
+	  Anim          male\skiff_ready3 1
+	  PlayFX	GENERIC\FX_skiff_spotlight.fx 0 Constant
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

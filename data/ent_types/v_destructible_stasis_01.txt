@@ -1,0 +1,51 @@
+######################################
+## 
+## 
+Type
+
+HealthFx
+	Range            75 100 
+	LibraryPiece		V_Dest_Stasis_01_100
+End
+
+HealthFx
+	Range				50 75
+	LibraryPiece		V_Dest_Stasis_01_50
+End
+
+HealthFx
+	Range           25 50 
+	LibraryPiece		V_Dest_Stasis_01_50
+End
+
+HealthFx
+	Range				0.0001 25
+	LibraryPiece		V_Dest_Stasis_01_50
+End
+
+HealthFx
+	Range           0 0.0001 
+	LibraryPiece		V_Dest_Stasis_01_000
+	OneShotFx		Explosions\MetalExplosion\MetalFireExplosion.Fx
+End
+
+CapsuleSize	7.25 11 7.25	
+CapsuleOffset  0 0 0		
+
+Sequencer	Prop_basic.txt		
+
+FadeOutStart	500			
+FadeOutFinish	750			
+
+Placement		Deadon		
+
+ShadowType	None			
+
+GeomScale	0.40 0.40 0.40		
+
+CollisionType	LibraryPiece
+Selection	LibraryPiece 
+TicksToLingerAfterDeath		100000000		
+TicksToFadeAwayAfterDeath	256			
+
+End

@@ -1,0 +1,923 @@
+#############################################################
+## Crab Spider Backpack Sequencer
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef crab_backpack
+	BaseSkeleton	crab_backpack\Skel_crab_backpack
+	ParentType	None
+TypeDefEnd
+
+TypeDef arachnoid
+	BaseSkeleton	crab_backpack\arachnoid_bones
+	ParentType	crab_backpack
+TypeDefEnd
+
+TypeDef MeatDoc
+	BaseSkeleton	crab_backpack\Skel_crab_backpack
+	ParentType	crab_backpack
+TypeDefEnd
+
+TypeDef	Recluse
+	BaseSkeleton	crab_backpack\Recluse_Bones
+	ParentType	crab_backpack
+TypeDefEnd
+
+# NOTE: PL's or spawns with the flag "Cycle" must have a pre move for them to be syncronized with parent entity
+# see SPINCOCOON for reference
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+#############################################################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> <MoveIRQ>
+	Flags		Cycle NoSizeScale
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Skel_crab_backpack 1
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_bones 1
+	TEnd
+MEnd
+
+## RUN FORWARD ###########################################################
+
+Move Run_Pre
+	Requires	FORWARD
+	Priority        1
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ> <MoveIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Run_Cycle
+
+	Type		crab_backpack
+	  Anim		crab_backpack\crab_run 19 24
+	TEnd
+MEnd
+
+Move Run_Cycle
+	Requires	FORWARD
+	Priority        1
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Run_Post
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_run 1 24   ##10 34
+	TEnd
+MEnd
+
+Move Run_Post
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Skel_crab_backpack 1
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_Bones 1
+	TEnd
+MEnd
+
+## RUN LEFT ###########################################################
+
+Move Run_Left_Pre
+	Requires	STEPLEFT
+	Priority        1
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ> <MoveIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        Run_Cycle
+
+	Type		crab_backpack
+	  Anim		crab_backpack\crab_run 19 24
+	TEnd
+MEnd
+
+## RUN RIGHT ###########################################################
+
+Move Run_Right_Pre
+	Requires	STEPRIGHT
+	Priority	1
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ> <MoveIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	Run_Cycle
+
+	Type		crab_backpack
+	  Anim		crab_backpack\crab_run 19 24
+	TEnd
+MEnd
+
+## WALK FORWARD ###########################################################
+
+Move WalkPre
+	Requires	FORWARD WALK
+	Priority	2
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ> <MoveIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove	WalkCycle
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Skel_crab_backpack 1
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_Bones 1
+	TEnd
+MEnd
+
+Move WalkCycle
+	Requires	FORWARD WALK
+	Priority        2
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        RunPost
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Skel_crab_backpack 1
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_Bones 1
+	TEnd
+MEnd
+
+## PLAYER WALK ###########################################################
+
+Move PlayerWalk_Cycle
+	Requires	PLAYERWALK
+	Priority	11
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ> <MoveIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove	PlayerWalk_Forward_Cycle
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Skel_crab_backpack 1
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_Bones 1
+	TEnd
+MEnd
+
+## SWIM ###########################################################
+
+Move Swim_Cycle
+	Requires	SWIM
+	Priority	21
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimReady> <JumpIRQ>
+	Flags		Cycle
+	NextMove	PlayerWalk_Forward_Cycle
+	Scale		0.5
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Skel_crab_backpack 1
+	TEnd
+MEnd
+
+#############################################################
+
+Move Swim_Forward
+	Requires	SWIM FORWARD
+	Priority	22
+	Interrupts	<Ready> <SwimReady> <PostMoveCycle> <Claw> <Block> <HitIRQ> <MoveIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <SwimMove> <JumpIRQ>
+	Flags		Cycle
+	NextMove        Swim_Cycle
+	Scale		0.5
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_run 1 24
+	TEnd
+MEnd
+
+## FLY ###########################################################
+
+Move Fly_Ready
+	Requires	FLY
+	Priority        11
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <FlyReady> <FLYFall> <MoveIRQ>
+	NextMove	FlyFall_Pre
+	Flags		Cycle NoSizeScale
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Skel_crab_backpack 1
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_bones 1
+	TEnd
+MEnd
+
+## FLY UP ###########################################################
+
+Move Fly_Up_Pre
+	Requires	FLY JUMP
+	Priority        12
+	Interrupts	<FlyReady> <MoveIRQ> <JumpIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <FLYFall>
+	Flags		ReqInputs
+	NextMove        Fly_Up_Cycle
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_hop 3 90
+	TEnd
+MEnd
+
+Move Fly_Up_Cycle
+	Requires	FLY JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ> <FLYFall>
+	Flags		Cycle
+	NextMove        Fly_Up_Post
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_hop 91 92
+	TEnd
+MEnd
+
+Move Fly_Up_Post
+	Requires	FLY
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <FLYFall>
+	NextMove	Fly_Ready
+	Interpolate	20
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Skel_crab_backpack 1
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_bones 1
+	TEnd
+MEnd
+
+## FLY FALL ###########################################################
+
+Move FlyFall_Pre
+	Requires	AIR
+	Priority        1
+	Interrupts	<FLYFall> <FlyReady> <MoveIRQ>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpFall
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_hop 115
+	TEnd
+MEnd
+
+## JUMP ###########################################################
+
+Move jumpPre
+	Requires	JUMP
+	Priority        1
+	Interrupts	<JumpIRQ> Pre_SkillMode <PostMoveCycle> <Ready> <BasicMove> <Skill> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ> <StunMove>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        jumpUp
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_hop 3 90
+	TEnd
+MEnd
+
+Move jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        jumpApex
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_hop 91 92
+	TEnd
+MEnd
+
+Move jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpFall
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_hop 93 94
+	TEnd
+MEnd
+
+Move jumpFall
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs
+	NextMove        jumpFall2
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_hop 95 114
+	TEnd
+MEnd
+
+Move jumpFall2
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle
+	NextMove        JumpPost
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_hop 115
+	TEnd
+MEnd
+
+#############################################################
+
+Move JumpPost
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        Ready
+	Interpolate     1
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_jumppost2 1
+	TEnd
+MEnd
+
+## MELEE RIGHT ###########################################################
+
+Move CrabPack_Mele
+	Requires	COMBAT CRABPACKMELE RIGHT
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        CrabPack_Mele2
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleRight 1 30
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_GutPunch 1 25
+	TEnd
+MEnd
+
+Move CrabPack_Mele2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleRight 30
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_GutPunch 25
+	TEnd
+MEnd
+
+## MELEE LEFT ###########################################################
+
+Move MeleLeft
+	Requires	COMBAT CRABPACKMELE LEFT
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        MeleLeft2
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleLeft 1 25
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_GutPunch 1 25
+	TEnd
+MEnd
+
+Move MeleLeft2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleLeft 25
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_GutPunch 25
+	TEnd
+MEnd
+
+## RECLUSE SLICE LEFT ###########################################################
+
+Move Recluse_SliceL
+	Requires	COMBAT RECLUSESLICE LEFT
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Recluse_SliceL2
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleLeft 1 25
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_MeleLeft 1 25
+	TEnd
+MEnd
+
+Move Recluse_SliceL2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleLeft 25
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_MeleLeft 25
+	TEnd
+MEnd
+
+## RECLUSE KNOCKUP ###########################################################
+
+Move Recluse_KnockUpR
+	Requires	COMBAT RECLUSEKNOCKUP RIGHT
+	Priority        3
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Recluse_KnockUpR2
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleRight 1 25
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_KnockUp 1 40
+	TEnd
+MEnd
+
+Move Recluse_KnockUpR2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleRight 25
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_KnockUp 40
+	TEnd
+MEnd
+
+## MELEE BURST ###########################################################
+
+Move MeleBurst
+	Requires	COMBAT CRABPACKMELEBURST
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        MeleBurst2
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleBurst 1 50
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_MeleCone 1 50
+	TEnd
+MEnd
+
+Move MeleBurst2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MeleBurst 50
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_MeleCone 50
+	TEnd
+MEnd
+
+## RECLUSE MELEE PBAOE ###########################################################
+
+Move Recluse_MelePBAoE
+	Requires	COMBAT RECLUSEPBAOE
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Recluse_MelePBAoE2
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MelePBAoE 1 60
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_MelePBAoE 1 60
+	TEnd
+MEnd
+
+Move Recluse_MelePBAoE2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_MelePBAoE 60
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_MelePBAoE 60
+	TEnd
+MEnd
+
+## PULSE FIRE RIGHT ###########################################################
+
+Move FireRight
+	Requires	COMBAT CRABPACKRANGED
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        FireRight2
+	Priority        2
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_FireRight 1 40
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_FireRight 1 40
+	TEnd
+MEnd
+
+Move FireRight2
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_FireRight 40
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_FireRight 40
+	TEnd
+MEnd
+
+## PULSE SPRAY RIGHT  ###########################################################
+
+Move SprayRight
+	Requires	COMBAT CRABPACKRANGEDSPRAY
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove	SprayRight_Post
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_SprayRight 1 60
+	TEnd
+
+	Type		MeatDoc
+	  Anim          crab_backpack\MeatDoc_BuzzSaw 1 80
+	TEnd
+MEnd
+
+Move SprayRight_Post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_SprayRight 60
+	TEnd
+
+	Type		MeatDoc
+	  Anim          crab_backpack\MeatDoc_BuzzSaw 80
+	TEnd
+MEnd
+
+## RANGED BURST ###########################################################
+
+Move RangeBurst
+	Requires	COMBAT CRABPACKRANGEDBURST
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        RangeBurst_Post
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Crab_RangedBurst 1 90
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_RangedCone 1 60
+	TEnd
+MEnd
+
+Move RangeBurst_Post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Crab_RangedBurst 90
+	TEnd
+
+	Type		Recluse
+	  Anim          crab_backpack\Recluse_RangedCone 60
+	TEnd
+MEnd
+
+## WEB GRENADE ###########################################################
+
+Move Grenade
+	Requires	COMBAT CRABPACKGRENADE
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Grenade_Post
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Crab_WebGrenade 1 50
+	TEnd
+MEnd
+
+Move Grenade_Post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ> <BlockIRQ>
+	NextMove        Lazy_CombatReady
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Crab_WebGrenade 50
+	TEnd
+MEnd
+
+## FREEZE STUN ###########################################################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG LASSOSTUN
+	Priority        4
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_Cycle
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Crab_freeze 1 19
+	TEnd
+MEnd
+
+Move FreezeStun_Cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Crab_freeze 19
+	TEnd
+MEnd
+
+## DEATH ###########################################################
+
+Move Default_Death
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_Death_Post
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_death 1 15
+	TEnd
+MEnd
+
+## HIT DEATH ###########################################################
+
+Move HitDeath
+	Requires	HIT DEATH
+	Priority        2
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_Death_Post
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_death 1 15
+	TEnd
+MEnd
+
+## DEATH POST ###########################################################
+
+Move Default_Death_Post
+	Requires	DEATH
+	Priority        1
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	NextMove	Revive
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_death 15
+	TEnd
+MEnd
+
+#############################################################
+
+Move Revive
+	Interrupts	<DeathIRQ> <ReactIRQ> <RaiseDeadIRQ>
+	NextMove	Ready
+
+	Type		crab_backpack
+	  Anim          crab_backpack\crab_death 15
+	TEnd
+MEnd
+
+## HANG AND DROP AMBUSH ###########################################################
+
+Move P_Arachnoid_Hang_Pre
+	Requires	ARACHSLEEP
+	Priority        10
+	Interrupts	<MonsterGroup> <Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		NoSizeScale
+	NextMove	P_Arachnoid_Hang
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Arachnoid_HangCeiling 1
+	TEnd
+MEnd
+
+Move P_Arachnoid_Hang
+	Requires	ARACHSLEEP
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		NoSizeScale cycle
+	NextMove	P_Arachnoid_DropAmbush
+	Interpolate	0
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Arachnoid_HangCeiling 1 80
+	TEnd
+MEnd
+
+Move P_Arachnoid_DropAmbush
+	Requires	ARACHSLEEP
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		NoSizeScale
+	NextMove	jumpFall
+	Interpolate	0
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Arachnoid_DropAmbush 1
+	TEnd
+MEnd
+
+## SPIN COCOON ###########################################################
+
+Move P_SpinCocoon_Idle_Pre
+	Requires	SPINCOCOON
+	Priority        10
+	Interrupts	<MonsterGroup> <Ready> <Combat>
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		NoSizeScale
+	NextMove	P_SpinCocoon_Idle
+
+	Type		crab_backpack
+	  Anim		crab_backpack\Arachnoid_SpinCocoon 1 240
+	TEnd
+MEnd
+
+Move P_SpinCocoon_Idle
+	Requires	SPINCOCOON #HIGH
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ> <basicTHREAT>
+	Flags		Cycle NoSizeScale
+
+	Type		crab_backpack
+	  Anim		crab_backpack\Arachnoid_SpinCocoon 1 240
+	TEnd
+MEnd
+
+## SPIN COCOON POWER ###########################################################
+
+Move P_SpinCocoon_Power
+	Requires	SPINCOCOON COMBAT
+	Priority        1
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	Flags		NoSizeScale
+
+	Type		crab_backpack
+	  Anim		crab_backpack\Arachnoid_SpinCocoon 1 100
+	TEnd
+MEnd
+
+## DEFAULT POSE ###########################################################
+
+Move DefPose_BackPack
+	Requires	TEST8
+	Priority        1
+	Flags		Cycle
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+
+	Type		crab_backpack
+	  Anim		crab_backpack\Recluse_SkinPose
+	TEnd
+
+	Type		Recluse
+	  Anim		crab_backpack\Recluse_SkinPose
+	TEnd
+MEnd
+
+#############################################################
+
+Move RecluseCollapse_In
+	Requires	ENCOUNTER COLLAPSE
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        RecluseCollapse_Cycle
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Recluse_Cutscene01 1 75
+	TEnd
+MEnd
+
+Move RecluseCollapse_Cycle
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Recluse_Cutscene02 1 105
+	TEnd
+MEnd
+
+#############################################################
+
+Move RecluseLookUp_In
+	Requires	ENCOUNTER LOOKUP
+	Priority        2
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        RecluseLookUp_Cycle
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Recluse_Cutscene03 1 83
+	TEnd
+MEnd
+
+Move RecluseLookUp_Cycle
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		crab_backpack
+	  Anim          crab_backpack\Recluse_Cutscene04 1 124
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

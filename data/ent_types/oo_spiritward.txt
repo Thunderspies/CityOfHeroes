@@ -1,0 +1,43 @@
+#############################################################
+## OO_5th_Column_Portal.txt
+#############################################################
+
+Type
+
+#############################################################
+
+Sequencer        Prop_Basic.txt
+SequencerType    Prop_Basic
+
+#############################################################
+
+HealthFx
+	Range		0.001 100
+	LibraryPiece	SummoningCircleMissionProp
+	ContinuingFX	Scripted\Praetorian\Summoning_Circle_Active\Summoning_Circle_Inactive.fx
+End
+
+HealthFx
+	Range		0 0.001
+	OneShotFX	fx\Scripted\Praetorian\Spirit_Ward_Destruction\SpiritWardDestruction.fx
+End
+
+#############################################################
+
+CapsuleSize	4.0 10.0 4.0
+CapsuleOffset  0 0 0
+
+FadeOutStart     500
+FadeOutFinish    550
+ShadowType       None
+
+Placement        DeadOn
+Selection        Capsule
+CollisionType    LibraryPiece
+
+TicksToLingerAfterDeath        25
+TicksToFadeAwayAfterDeath      1
+
+#############################################################
+
+End

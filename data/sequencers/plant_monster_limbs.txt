@@ -1,0 +1,985 @@
+#############################################################
+
+Sequencer
+
+TypeDef Arms
+	BaseSkeleton	Plant_Monster_Arms\Skel_Plant_Monster_Arms
+	ParentType	None
+TypeDefEnd
+
+TypeDef Head
+	BaseSkeleton	Plant_Monster_Head\Skel_Plant_Monster_Head
+	ParentType	None
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+####################
+### Ready ##
+###################
+
+Move Ready
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+	Cyclemove	Ready2
+	Cyclemove	Ready
+	Cyclemove	Ready3
+#	interpolate	15
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Skel_Plant_Monster_Arms 1 61
+	TEnd
+
+
+	Type		Head
+	  Anim          Plant_Monster_Head\Skel_Plant_Monster_Head 1 61
+	TEnd
+
+MEnd
+
+Move Ready2
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+	Cyclemove	Ready3
+	Cyclemove	Ready2
+	Cyclemove	Ready
+#	interpolate	15
+	scale		.9
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Skel_Plant_Monster_Arms 1 61
+	TEnd
+
+
+	Type		Head
+	  Anim          Plant_Monster_Head\Skel_Plant_Monster_Head 1 61
+	TEnd
+
+MEnd
+
+Move Ready3
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+	Cyclemove	Ready2
+	Cyclemove	Ready3
+	Cyclemove	Ready
+#	interpolate	15
+	scale		.75
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Skel_Plant_Monster_Arms 1 61
+	TEnd
+
+
+	Type		Head
+	  Anim          Plant_Monster_Head\Skel_Plant_Monster_Head 1 61
+	TEnd
+
+MEnd
+
+###################
+###### Super Jump  ######
+###################
+
+Move jumpPre
+	Requires	JUMP
+	Interrupts	<PostMoveCycle> <Ready> <BasicMove> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ> <StunMove>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpUp
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\jump 1 4
+	TEnd
+
+	Type		Head
+	  Anim          Plant_Monster_Arms\jump 1 4
+	TEnd
+MEnd
+
+
+Move jumpUp
+	Requires	JUMP
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        jumpApex
+	Priority        1
+	Scale		0.5
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\jump 5 25
+
+	TEnd
+	Type		Head
+	  Anim          Plant_Monster_Arms\jump 5 25
+
+	TEnd
+
+MEnd
+
+
+Move jumpApex
+	Requires	APEX
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	NextMove        jumpFall
+	Priority        1
+	Flags		NoSizeScale
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\jump 25 26   ##2fr
+	TEnd
+	Type		Head
+	  Anim          Plant_Monster_Arms\jump 25 26   ##2fr
+	TEnd
+
+MEnd
+
+
+Move jumpFall  ##transition to falling
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		ReqInputs NoSizeScale
+	NextMove        jumpFall2
+	Priority        1
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\jump 26 44  ##trans
+	TEnd
+	Type		Head
+	  Anim          Plant_Monster_Arms\jump 26 44  ##trans
+	TEnd
+
+
+MEnd
+
+
+Move jumpFall2	##falling
+	Requires	AIR
+	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+	Flags		Cycle NoSizeScale
+	NextMove        JumpEnd
+	Priority        1
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\jump 45 65
+	TEnd
+	Type		Head
+	  Anim          Plant_Monster_Arms\jump 45 65
+	TEnd
+
+MEnd
+
+
+Move JumpEnd
+	Member		<ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+	NextMove        postReady_back
+	Interpolate     6
+	Scale		.7
+	Flags		NoSizeScale
+
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\jump 66 80 #90
+	  ## PlayFx        FEET\LAND1.FX
+	TEnd
+	Type		Head
+	  Anim          Plant_Monster_Arms\jump 66 85 #90
+	  ## PlayFx        FEET\LAND1.FX
+	TEnd
+
+
+MEnd
+
+
+####################
+#### Stunned Walk ##
+####################
+
+Move WalkStunPre
+	Requires	STUN FORWARD
+	Interrupts	<Ready> <PostMoveCycle> <Claw> <Block> <HitIRQ>
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		ReqInputs MoveScale
+	NextMove        WalkStunCycle
+	Priority        4
+
+	Type		head
+	  Anim          Plant_Monster_Arms\weak 31 91
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\weak 31 91
+	TEnd
+
+MEnd
+
+
+Move WalkStunCycle
+	Requires	STUN FORWARD
+	Member		<BasicMove> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle MoveScale
+	NextMove        WalkStunPost
+	Priority        4
+	interpolate	0
+
+
+	Type		head
+	  Anim          Plant_Monster_Arms\weak 31 91
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\weak 31 91
+	TEnd
+
+MEnd
+
+
+Move WalkStunPost
+	Member		<BasicMove> <ReactIRQ> <DeathIRQ> <PostMoveCycle> <AttackIRQ>
+#	NextMove        weak_post
+	Priority        1
+	interpolate	15
+
+	Type		head
+	  Anim          Plant_Monster_Arms\weak 31 70
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\weak 31 70
+	TEnd
+
+MEnd
+
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ> FearStun_cycle FearStun
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	Priority        2
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\hit_quick 1
+	TEnd
+
+	Type		Head
+	  Anim          Plant_Monster_Arms\hit_quick 1
+	TEnd
+
+MEnd
+
+
+
+
+######################
+######  Spawn  ######
+#####################
+
+Move Spawn_Sleep
+	Requires	LOW SPAWN
+	Interrupts	<Ready> <Combat> <WepCombat>
+	Flags		Cycle NotSelectable
+	NextMove        Spawn_Ambush
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE NOCOLLISION
+
+	Type		arms
+	  Anim		Plant_Monster_Arms\Spawn 1 1
+	TEnd
+
+	Type		head
+	  Anim		Plant_Monster_Arms\Spawn 1 1
+#	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+Move Spawn_Ambush
+	Sets            CANTMOVE
+
+	Type		arms
+	  Anim		Plant_Monster_Arms\Spawn 2
+#	  PlayFx        V_COV\Powers\PlantControl\Flytrap\PlantMonster_Spawn.fx  0 CONSTANT
+	TEnd
+
+	Type		head
+	  Anim		Plant_Monster_Arms\Spawn 2
+#	  PlayFx        V_COV\Powers\PlantControl\Flytrap\PlantMonster_Spawn.fx  0 CONSTANT
+	TEnd
+MEnd
+
+
+########## Powers  #############
+
+#################################
+###### Bite Attacks ######
+#################################
+
+Move Bite
+	Requires	COMBAT TERRIFY
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Bite_Post
+	Priority        2
+	Sets            CANTMOVE
+##	Flags		PitchToTarget ## Bad Woomer! NO! NO! NO!
+
+
+	Type		head
+	  Anim          Plant_Monster_Arms\Bite 1 30
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Bite 1 30
+	TEnd
+
+MEnd
+
+
+Move Bite_Post
+#	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove        Combat_Cycle
+	Priority        1
+	##Interpolate     0
+
+	Type		head
+	  Anim          Plant_Monster_Arms\Bite 31
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Bite 31
+	TEnd
+
+MEnd
+
+
+############################
+###### Thorn Cone ######
+##########################
+
+
+Move Thorn_Cone
+	Requires	COMBAT THROWKNIFE CONE
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Thorn_Cone_Post
+	Priority        3
+	Sets            CANTMOVE
+##	Flags		PitchToTarget ## Bad Woomer! NO! NO! NO!
+
+
+	Type		head
+	  Anim          Plant_Monster_Arms\Thorns 1 26
+	TEnd
+
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Thorns 1 26
+	TEnd
+
+MEnd
+
+
+Move Thorn_Cone_Post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove        Combat_Cycle
+	Priority        1
+	##Interpolate     0
+
+	Type		head
+	  Anim          Plant_Monster_Arms\Thorns 27
+	TEnd
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Thorns 27
+	TEnd
+
+MEnd
+
+############################
+###### Thorn Shot ######
+##########################
+
+
+Move Thorn_Swipe
+	Requires	COMBAT THROWKNIFE POINT
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Thorn_Swipe_Post
+	Priority        3
+	Sets            CANTMOVE
+##	Flags		PitchToTarget ## Bad Woomer! NO! NO! NO!
+
+
+	Type		head
+	  Anim          Plant_Monster_arms\Swipe 1 30
+	TEnd
+
+
+	Type		arms
+	  Anim          Plant_Monster_arms\Swipe 1 30
+	TEnd
+
+MEnd
+
+
+Move Thorn_Swipe_Post
+	Requires	COMBAT
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove        Combat_Cycle
+	Priority        1
+	Interpolate     15
+
+	Type		head
+	  Anim          Plant_Monster_arms\Swipe 31
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_arms\Swipe 31
+	TEnd
+
+MEnd
+
+#############################################################
+## SPAWNS
+#############################################################
+
+## SPAWNEDASPET ###########################################################
+
+Move Vine_SpawneAsPet
+	Requires	SPAWNEDASPET
+	Priority        100
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	Sets            CANTMOVE
+
+	Type		arms
+	  Anim		Plant_Monster_Arms\Spawn 2
+	TEnd
+
+	Type		head
+	  Anim		Plant_Monster_Arms\Spawn 2
+	TEnd
+MEnd
+
+
+#################################
+###### Vine Pet Summon ######
+#################################
+
+Move Vine
+	Requires	SUMMON SPAWN FEET
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        Vinepost
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		head
+	  Anim          Plant_Monster_Arms\Vine 1 62
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Vine 1 62
+	TEnd
+MEnd
+
+Move Vinepost
+	Member		<ReactIRQ> <DeathIRQ> <CombatAttack> <AttackIRQ> <Right>
+	NextMove        Combat_Cycle
+
+	Type		head
+	  Anim          Plant_Monster_Arms\Vine 63 81
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Vine 63
+	TEnd
+MEnd
+
+################### Deaths  #####################
+
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	Member		<RaiseDeadIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Sets            NOCOLLISION
+
+	Type		head
+	  Anim          Plant_Monster_arms\Death 1
+	TEnd
+	Type		arms
+	  Anim          Plant_Monster_arms\Death 1
+	TEnd
+
+
+MEnd
+
+Move Default_postdeath
+	Requires	DEATH
+	Member		<RaiseDeadIRQ>
+	Flags		Cycle
+	Priority        1
+	Sets            NOCOLLISION DIENOW TARGET
+	Wind		DEATHWIND
+
+	Type		head
+	  Anim          Plant_Monster_arms\Death 110 111
+	TEnd
+	Type		arms
+	  Anim          Plant_Monster_arms\Death 110 111
+	TEnd
+
+MEnd
+
+##################  Reactions  ######################
+###################
+###### Fear Stun  ######
+###################
+
+Move FearStun
+	Requires	HIT Fear
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        FearStun_cycle
+	Priority        2
+
+	Type		Head
+	  Anim          Plant_Monster_arms\hit_quick 3 12
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_arms\hit_quick 3 12
+	TEnd
+
+
+MEnd
+
+
+Move FearStun_cycle
+	Requires	Fear
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	scale		1.5
+	NextMove        weak_post
+
+	Type		Head
+	  Anim          Plant_Monster_arms\Shock 1
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_arms\Shock 1
+	TEnd
+
+MEnd
+
+###################
+###### Pain  ######
+###################
+
+Move Pain
+	Requires	HIT ENERGY
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Pain_cycle
+	Priority        2
+
+	Type		Head
+	  Anim          Plant_Monster_arms\hit_quick 3 12
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_arms\hit_quick 3 12
+	TEnd
+
+
+
+MEnd
+
+
+Move Pain_cycle
+	Requires	ENERGY
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	scale		1.5
+	NextMove        weak_post
+
+	Type		Head
+	  Anim          Plant_Monster_arms\Shock 1
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_arms\Shock 1
+	TEnd
+
+MEnd
+
+###################
+###### Pain2  ######
+###################
+
+Move Pain2
+	Requires	HIT PSIONIC
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Pain2_cycle
+	Priority        2
+
+	Type		Head
+	  Anim          Plant_Monster_arms\hit_quick 3 12
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_arms\hit_quick 3 12
+	TEnd
+
+MEnd
+
+
+Move Pain2_cycle
+	Requires	PSIONIC
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        2
+	scale		1.5
+	NextMove        weak_post
+
+	Type		Head
+	  Anim          Plant_Monster_arms\Shock 1
+	TEnd
+
+	Type		Arms
+	  Anim          Plant_Monster_arms\Shock 1
+	TEnd
+
+MEnd
+
+
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+	Scale           .8
+
+	Type		Head
+	  Anim          Plant_Monster_Arms\Freeze 1 28
+	TEnd
+
+
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Freeze 1 28
+	TEnd
+
+MEnd
+
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        weak_post
+
+	Scale           0.01
+	Priority        3
+
+	Type		Head
+	  Anim          Plant_Monster_Arms\Freeze 29 30
+	TEnd
+	Type		Arms
+	  Anim          Plant_Monster_Arms\Freeze 29 30
+	TEnd
+
+MEnd
+
+
+###################
+###### knockback Hit  ######
+###################
+
+
+Move KHF
+	Requires	HIT KNOCKBACK
+	Interrupts	<ReactIRQ> <DeathIRQ>
+	NextMove        KHF_travel
+	Priority        5
+	Sets            CANTMOVE
+
+
+	Type		head
+	  Anim          Plant_Monster_Arms\knockback 26 31
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\knockback 26 31
+	TEnd
+
+
+MEnd
+
+Move KHF_travel
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+	Sets            CANTMOVE
+
+
+	Type		head
+	  Anim          Plant_Monster_Arms\knockback 1 31
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\knockback 1 31
+	TEnd
+
+
+MEnd
+
+
+Move KHF_Apex
+	Requires	AIR APEX
+	Interrupts	KHF_travel KHF
+	NextMove        KHF_fallcycle
+	Priority        2
+	Sets            CANTMOVE
+
+
+	Type		head
+	  Anim          Plant_Monster_Arms\knockback 31 32
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\knockback 31 32
+	TEnd
+
+
+MEnd
+
+
+Move KHF_fallcycle
+	Requires	AIR
+	Flags		Cycle
+	NextMove        KHF_impact
+	Priority        1
+	Sets            CANTMOVE
+	interpolate	20
+
+	Type		head
+	  Anim          Plant_Monster_Arms\knockback 1 31 # 100 130
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\knockback 1 31 # 100 130
+	TEnd
+
+MEnd
+
+
+Move KHF_impact
+	NextMove        getup_back
+	Sets            CANTMOVE
+	scale		2.0
+
+	Type		head
+	  Anim          Plant_Monster_Arms\knockback 32 46
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\knockback 32 46
+	TEnd
+
+MEnd
+
+Move getup_back
+	Sets            CANTMOVE
+
+	Type		head
+	  Anim          Plant_Monster_Arms\knockback 47 90
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\knockback 47 90
+	TEnd
+
+
+MEnd
+
+###################
+###### Sweeps  ######
+###################
+
+
+Move Sweep_low
+	Requires	SWEEP HIT
+	Interrupts	<ReactIRQ> <DeathIRQ>
+##	Member		<DeathIRQ>
+	NextMove        Sweep_impact
+	Priority        3
+	Interpolate     0
+	Sets            CANTMOVE
+	scale		.4
+
+	Type		head
+	  Anim          Plant_Monster_Arms\knockback 30 45
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_Arms\knockback 30 45
+	TEnd
+
+
+MEnd
+
+
+Move Sweep_impact
+	Member		<DeathIRQ>
+	Interpolate     5
+	Sets            CANTMOVE
+
+	Type		head
+	  Anim          Plant_Monster_Arms\knockback 47 90
+	TEnd
+	Type		arms
+	  Anim          Plant_Monster_Arms\knockback 47 90
+	TEnd
+
+MEnd
+
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Priority        3
+	Nextmove	Sleep_Cycle
+
+	Type		head
+	  Anim          Plant_Monster_arms\hit_quick 3 12
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_arms\hit_quick 3 12
+	TEnd
+
+
+MEnd
+
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	Priority        4
+	interpolate 30
+
+	Type		head
+	  Anim          Plant_Monster_arms\sleep 1 101
+	TEnd
+
+
+	Type		arms
+	  Anim          Plant_Monster_arms\sleep 1 101
+	TEnd
+
+MEnd
+
+
+###################
+###### weak post  ######
+###################
+
+Move weak_post
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	Flags		HitReact
+	nextmove	weak_post2
+	Priority        1
+
+	Type		head
+	  Anim          Plant_Monster_arms\weak 1
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_arms\weak 1
+	TEnd
+MEnd
+Move weak_post2
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+#	Flags		HitReact
+	Priority        1
+
+	Type		head
+	  Anim          Plant_Monster_arms\weak 31 75
+	TEnd
+
+	Type		arms
+	  Anim          Plant_Monster_arms\weak 31 60
+	TEnd
+MEnd
+
+
+SeqEnd ## Don't cut
+

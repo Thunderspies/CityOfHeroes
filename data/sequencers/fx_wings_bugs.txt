@@ -1,0 +1,202 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_wings_bugs
+	BaseSkeleton	FX_wings_bugs\skel_wings_bugs
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_wings_bugs_blur
+	BaseSkeleton	FX_wings_bugs\skel_wings_bugs
+	ParentType	FX_wings_bugs
+TypeDefEnd
+
+TypeDef FX_wings_bugs_blur_2
+	BaseSkeleton	FX_wings_bugs\skel_wings_bugs
+	ParentType	FX_wings_bugs_blur
+TypeDefEnd
+
+
+TypeDef FX_wings_butterfly
+	BaseSkeleton	FX_wings_bugs\skel_wings_bugs
+	ParentType	FX_wings_bugs
+TypeDefEnd
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+### Note: All sequencer stuff for wings must match exactly w\ player sequencer
+
+Move Wing_fly_post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove	Ready
+	Interpolate	1
+
+	Type		FX_wings_bugs
+	  Anim          FX_wings_bugs\bug_fluter_post 4
+	TEnd
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 1 5
+	TEnd
+
+MEnd
+
+## READY ###########################################################
+
+Move Ready ##(closed)
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+
+	Type		FX_wings_bugs
+	  Anim          FX_wings_bugs\skel_wings_bugs 1 5
+	TEnd
+
+	Type		FX_wings_bugs_blur
+	  Anim          FX_wings_bugs\skel_wings_bugs 1 5
+	TEnd
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 1 5
+	TEnd
+MEnd
+
+
+#### basic flight  ######################
+
+Move Wing_fly
+	Requires	FLY
+	Interrupts	<Ready> <Jumps> <PostMoveCycle>
+	Member		<ReactIRQ> <DeathIRQ> <FlyReady> <AttackIRQ>
+	Flags		Cycle ##NoInterp
+	NextMove        Wing_fly_post
+	Priority        1
+	Interpolate	0
+
+	Type		FX_wings_bugs
+	  Anim          FX_wings_bugs\bug_fluter 1 10
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  Scale		1
+	TEnd
+
+	Type		FX_wings_bugs_blur
+	  Anim          FX_wings_bugs\bug_fluter 1 10
+	  Scale		2
+	TEnd
+
+	Type		FX_wings_bugs_blur_2
+	  Anim          FX_wings_bugs\bug_fluter 1 10
+	  Scale		1
+	TEnd
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 6
+	  Scale		0.3
+	TEnd
+MEnd
+
+
+## JUMP - UP ###########################################################
+
+Move Wing_Jump_Up
+	Requires	JUMP
+	Interrupts	Pre_SkillMode <PostMoveCycle> <Ready>  <BasicMove> <Skill> <iceslide> <Swim> <jumpFall> <Claw> RunJumpCycleB <Block> <HitIRQ> <StunMove>
+	Member		<DeathIRQ> <Jumps> <AttackIRQ>
+	Flags		Cycle
+	NextMove        Wing_fly_post
+	Priority        1
+
+	Type		FX_wings_bugs
+	  Anim          FX_wings_bugs\bug_fluter 1 10
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	  Scale		1
+	TEnd
+
+	Type		FX_wings_bugs_blur
+	  Anim          FX_wings_bugs\bug_fluter 1 10
+	  Scale		2
+	TEnd
+
+	Type		FX_wings_bugs_blur_2
+	  Anim          FX_wings_bugs\bug_fluter 1 10
+	  Scale		1
+	TEnd
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 6
+	  Scale		0.3
+	TEnd
+MEnd
+
+#Move Wing_Jump_Up_Fall
+#	Requires	AIR
+#	Member		<DeathIRQ> <Jumps> <jumpFall> <AttackIRQ>
+#	Flags		Cycle
+#	NextMove        Wing_fly_post
+#	Priority        1
+#
+#	Type		FX_wings_bugs
+#	  Anim          FX_wings_bugs\bug_fluter 1 10
+#	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+#	  Scale		1
+#	TEnd
+#
+#	Type		FX_wings_bugs_blur
+#	  Anim          FX_wings_bugs\bug_fluter 1 10
+#	  Scale		2
+#	TEnd
+#
+#	Type		FX_wings_bugs_blur_2
+#	  Anim          FX_wings_bugs\bug_fluter 1 10
+#	  Scale		1
+#	TEnd
+#
+#	Type		FX_wings_butterfly
+#	  Anim          FX_wings_bugs\butterfly_fluter 6
+#	  Scale		0.3
+#	TEnd
+#
+#MEnd
+
+## DEATH ###########################################################
+
+Move Death ##(closed)
+	Requires	DEATH
+	Priority        1
+	Interrupts	<DeathIRQ>
+	Flags		Cycle
+	NextMove	Wing_fly_post
+
+	Type		FX_wings_bugs
+	  Anim          FX_wings_bugs\skel_wings_bugs 1 5
+	TEnd
+
+	Type		FX_wings_bugs_blur
+	  Anim          FX_wings_bugs\skel_wings_bugs 1 5
+	TEnd
+
+	Type		FX_wings_butterfly
+	  Anim          FX_wings_bugs\butterfly_fluter 1 5
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,51 @@
+#############################################################
+## Destructible_Halloween_Sigil_DF.txt
+#############################################################
+
+Type
+
+#############################################################
+
+Sequencer	Prop_Basic.txt
+SequencerType	Prop_Basic
+
+ConstantState	NONHUMAN
+#RejectContinuingFX	1
+
+FX		Events\Halloween\Sigils\Spawn_DF.fx
+FX		Events\Halloween\banners\HalloweenBanner_DF.fx
+
+#############################################################
+
+HealthFx
+	Range		0.001 100
+	LibraryPiece	halloween_sigil_DF
+	ContinuingFX	WORLD\Lairs\cot\Halloween_Sigil_DF.fx
+End
+
+HealthFx
+	Range		0 0.001
+	LibraryPiece	halloween_sigil_DF
+	OneShotFX	WORLD\Lairs\cot\Halloween_Sigil_Destruction_DF.fx
+End
+
+#############################################################
+
+CapsuleSize		8 10 8
+CapsuleOffset		0 0 0
+Flags			UseCapsuleForRangeFinding
+
+FadeOutStart		500
+FadeOutFinish		550
+ShadowType		None
+
+Placement		DeadOn
+Selection		Capsule
+CollisionType		LibraryPiece
+
+TicksToLingerAfterDeath        90
+TicksToFadeAwayAfterDeath      30
+
+#############################################################
+
+End

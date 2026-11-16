@@ -1,0 +1,43 @@
+Cape
+
+	GeoName		Geo_Cape_Long
+	GeoFile		Male_Cape.geo
+	HarnessName	Geo_CapeHarness_Tight
+	HarnessFile	Male_Cape.geo
+
+# If this cape is a costume piece, these values will be ignored
+	Tex1	x_JimbCape
+	Tex2	Cape_Special_DVD_01
+	Color1	0 0 0
+	Color2	255 10 10
+	Color1	60 160 60
+	Color2	255 10 10
+
+	Tex3	Cape_01
+	Tex4	Cape_Special_DVD_01
+	Color3	100 100 200
+	Color4	255 10 10
+
+		//  'stiffness' determines the amount of 'fold' allowed.
+		//     1.0 would attempt to keep the cloth completely flat
+		//     0.7 would allow the cloth to fold to angles of about 90 degrees.
+		//  Default: 0.9
+	Stiffness	0.9
+		//  'drag' is the wind resistance, and should remain in the range [0.10, 0.30]
+		//  Default: 0.10
+	Drag		0.1
+
+#	Scale 1.0
+		// Scale probably only works well with Flags, it scales the size of the cape and the harness (will not work well with harnesses skinned to characters)
+
+#	Wind	DEFAULT
+		// Specifies a wind profile name from cloth/WindInfo.txt that is used instead of the "DEFAULT" profile (useful for flags to make them hang vertically, etc)
+
+#	IsFlag
+		// Add this flag to have the cape be treated like a flag (not skinned to an entity)
+
+#	PointYScale 0.8
+
+		// Changes what entity type is looked up for collision (in ColInfo.txt)
+	Collision male
+End

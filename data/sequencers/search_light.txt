@@ -1,0 +1,104 @@
+#############################################################
+
+Sequencer
+
+TypeDef search_light
+	BaseSkeleton	search_light\skel_search_light
+	ParentType	None
+TypeDefEnd
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+###################
+### Ready ##
+###################
+
+Move Ready_A
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale
+	CycleMove	Ready_C
+	CycleMove	Ready_B
+	CycleMove	Ready_A
+	Scale		1
+	Interpolate	15
+
+	Type		search_light
+	  Anim          search_light\skel_search_light 1
+	TEnd
+
+MEnd
+
+Move Ready_B
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale
+	CycleMove	Ready_A
+	CycleMove	Ready_C
+	Scale		2
+	Interpolate	15
+
+	Type		search_light
+	  Anim          search_light\skel_search_light 1
+	TEnd
+
+MEnd
+
+Move Ready_C
+	Member		<Ready> <AttackIRQ> <ReactIRQ> <DeathIRQ> 
+	Flags		Cycle NoSizeScale
+	CycleMove	Ready_B
+	CycleMove	Ready_C
+	CycleMove	Ready_A
+	Scale		1.2
+	Interpolate	15
+
+	Type		search_light
+	  Anim          search_light\skel_search_light 1
+	TEnd
+
+MEnd
+
+
+
+SeqEnd ## Don't cut
+

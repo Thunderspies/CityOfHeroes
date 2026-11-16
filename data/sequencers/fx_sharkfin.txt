@@ -1,0 +1,36 @@
+#############################################################
+## FX_banner.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_SharkFin
+	BaseSkeleton	FX_Fish\skel_ready
+	ParentType	None
+TypeDefEnd
+
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove	Ready
+	Scale		0.5
+
+	Type		FX_SharkFin
+	  Anim          FX_Fish\skel_ready 1
+	TEnd
+
+MEnd
+
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,133 @@
+RootMod strggate_gate01
+End
+
+RootMod strggate_hinge
+End
+
+RootMod strggate_wall01
+End
+
+RootMod _strggate_strtA_hi
+End
+
+RootMod strggate_gate02
+End
+
+RootMod strggate_gate02_tract
+End
+
+RootMod strggate_gate02_sleeve
+End
+
+Def strg_gate_open
+	Group strggate_gate01
+		Rot 0 2.967059 0
+		Pos 0 0 0.5
+	End
+	Group strggate_wall01
+		Rot 0 1.570796 0
+		Pos 0 0 -15.5
+	End
+	Group strggate_hinge
+		Rot 0 -1.570796 0
+		Pos 0 0 26
+	End
+	Group strggate_gate01
+		Rot 0 -2.792527 0
+		Pos 0 0 25.5
+	End
+	Group strggate_wall01
+		Rot 0 -1.570796 0
+		Pos -0.5 0 41.5
+	End
+	Group strggate_hinge
+		Rot 0 1.570796 0
+	End
+End
+
+Def strg_gate_dynamic_2&
+	Group Omni/PARTICLE_50
+	End
+	Lod
+		Scale	.5
+	End
+	Type V_COV\PhysicsEnabled\PhysJointFX\StrigaGates.fx
+End
+
+Def strg_gate_dynamic
+	Group strggate_wall01
+		Rot 0 1.570796 0
+		Pos 0 0 -15.5
+	End
+	Group strggate_wall01
+		Rot 0 -1.570796 0
+		Pos -0.5 0 41.5
+	End
+	Group strg_gate_dynamic_2&
+	End
+End
+
+Def strg_gate_closed
+	Group strggate_wall01
+		Rot 0 1.570796 0
+		Pos 0 0 -15.5
+	End
+	Group strggate_gate01
+		Rot 0 1.570796 0
+		Pos 0 0 0.5
+	End
+	Group strggate_gate01
+		Rot 0 -1.570797 0
+		Pos 0 0 25.5
+	End
+	Group strggate_wall01
+		Rot 0 -1.570796 0
+		Pos -0.5 0 41.5
+	End
+	Group strggate_hinge
+		Rot 0 -1.570796 0
+		Pos 0 0 26
+	End
+	Group strggate_hinge
+		Rot 0 1.570796 0
+	End
+End
+
+Def strg_gate_tunnel_open01
+	Group strggate_gate02
+		Pos 14.5 0 0
+	End
+	Group strggate_gate02
+		Rot 0 3.141592 0
+		Pos -17.5 0 0
+	End
+	Group strggate_gate02_sleeve
+		Rot 0 3.141592 0
+		Pos -2 0 0
+	End
+	Group strggate_gate02_sleeve
+		Pos -2 0 0
+	End
+	Group strggate_gate02_tract
+	End
+End
+
+Def strg_gate_tunnel_open02
+	Group strggate_gate02
+		Pos 17 0 0
+	End
+	Group strggate_gate02
+		Rot 0 3.141592 0
+		Pos -20 0 0
+	End
+	Group strggate_gate02_sleeve
+		Rot 0 3.141592 0
+		Pos -2 0 0
+	End
+	Group strggate_gate02_sleeve
+		Pos -2 0 0
+	End
+	Group strggate_gate02_tract
+	End
+End
+

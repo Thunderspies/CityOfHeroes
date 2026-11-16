@@ -1,0 +1,90 @@
+#############################################################
+## Door_PraetorianTech_Elevator01.txt
+#############################################################
+
+Sequencer
+
+TypeDef Door_PraetorianTech_Elevator01
+	BaseSkeleton	Door_PraetorianTech_Elevator01\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready
+	Flags		Cycle NoSizeScale
+
+	Type		Door_PraetorianTech_Elevator01
+	  Anim		Door_PraetorianTech_Elevator01\skel_ready 1 3
+	TEnd
+MEnd
+
+### OPEN ###########################################################
+
+Move Open
+	Requires	OPEN
+	Priority	1
+	Interrupts	Ready
+	NextMove	Open2
+	Flags		NoSizeScale
+
+	Type		Door_PraetorianTech_Elevator01
+	  Anim		Door_PraetorianTech_Elevator01\skel_ready 3 20
+	  PlayFX	Doors\PraetorianTech_Elevator_Open.FX
+	TEnd
+MEnd
+
+Move Open2
+	Requires	OPEN
+	Priority	1
+	NextMove	Opened
+	Sets		WALKTHROUGH
+	Flags		NoSizeScale
+
+	Type		Door_PraetorianTech_Elevator01
+	  Anim		Door_PraetorianTech_Elevator01\skel_ready 20 46
+	TEnd
+MEnd
+
+Move Opened
+	Flags		Cycle NoSizeScale
+	Sets		WALKTHROUGH
+
+	Type		Door_PraetorianTech_Elevator01
+	  Anim		Door_PraetorianTech_Elevator01\skel_ready 46 48
+	TEnd
+MEnd
+
+## SHUT ###########################################################
+
+Move Shut
+	Requires	SHUT
+	Priority	1
+	Interrupts	Opened
+	NextMove	Shut2
+	Sets		WALKTHROUGH
+	Flags		NoSizeScale
+
+	Type		Door_PraetorianTech_Elevator01
+	  Anim		Door_PraetorianTech_Elevator01\skel_ready 48 68
+	  PlayFX	Doors\PraetorianTech_Elevator_Close.FX
+	TEnd
+MEnd
+
+Move Shut2
+	Requires	SHUT
+	NextMove	Ready
+	Flags		NoSizeScale
+
+	Type		Door_PraetorianTech_Elevator01
+	  Anim		Door_PraetorianTech_Elevator01\skel_ready 68 90
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

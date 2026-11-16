@@ -1,0 +1,45 @@
+###################################################
+## Arachnos Cable Piece - SM 2
+###################################################
+
+Type
+
+Sequencer        Prop_Basic.txt
+SequencerType    Prop_Basic
+
+HealthFx
+	Range	50 100
+	LibraryPiece	CablePiece_sm_02
+	#ContinuingFX	<fxName>
+	#OneShotFX	<fxName>
+End
+
+HealthFx
+	Range	0.001 50
+	LibraryPiece	CablePiece_sm_02_dmg
+	#ContinuingFX	<fxName>
+	#OneShotFX	<fxName>
+End
+
+HealthFx
+	Range	0 0.001
+	#LibraryPiece	
+	#ContinuingFX	<fxName>
+	OneShotFX	\Explosions\ArachnosWebCablePieces\Explosion_S_02.fx
+End
+
+CapsuleSize    3.8 7.3 3.8
+CapsuleOffset  0 0 0
+
+FadeOutStart     500
+FadeOutFinish    550
+ShadowType       None
+
+Placement        DeadOn
+Selection        LibraryPiece
+CollisionType    LibraryPiece
+
+TicksToLingerAfterDeath        25
+TicksToFadeAwayAfterDeath      1
+
+End

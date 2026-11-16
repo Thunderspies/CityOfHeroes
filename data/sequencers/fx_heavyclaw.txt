@@ -1,0 +1,172 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_heavyclaw
+	BaseSkeleton	FX_heavyclaw\skel_ready
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<Right>
+Group	<Left>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+
+## MOVES ###########################################################
+
+Move ReadyA
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoInterp
+	Scale           0.20
+	CycleMove       Snap
+	CycleMove       Spin
+	CycleMove       ReadyA
+	CycleMove       Snap
+
+	Type		FX_heavyclaw
+	  Anim          FX_heavyclaw\skel_ready 1 30
+	TEnd
+MEnd
+
+
+Move Snap
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoInterp
+	CycleMove       ReadyA
+	CycleMove       Spin
+
+	Type		FX_heavyclaw
+	  Anim          FX_heavyclaw\snap 1
+	TEnd
+MEnd
+
+
+Move Spin
+	Include sequencers\Members\Readies.inc
+	Flags		Cycle NoInterp
+	CycleMove       ReadyA
+	CycleMove       Snap
+
+	Type		FX_heavyclaw
+	  Anim          FX_heavyclaw\spin 1
+	TEnd
+MEnd
+
+
+Move CombatReady
+	Requires	COMBAT
+	Priority        1
+	Interrupts	<Ready> PostWepReady
+	Member		<DeathIRQ> <ReactIRQ> <HitIRQ> <Combat> <AttackIRQ> <MoveIRQ> <IRQEmotesCombat>
+	Flags		Cycle nosizescale
+	CycleMove	Combat_Cycle
+	NextMove	Post_Combat
+
+	Type		FX_heavyclaw
+	  Anim          FX_heavyclaw\skel_ready 1 30
+	TEnd
+
+Mend
+
+Move Combat_Cycle
+	Requires	COMBAT
+	Priority        1
+	Member		<DeathIRQ> <Combat>
+	Flags		Cycle nosizescale
+	NextMove	Post_Combat
+
+	Type		FX_heavyclaw
+	  Anim          FX_heavyclaw\skel_ready 1 30
+	TEnd
+
+Mend
+
+Move Post_Combat
+	Member		<Ready> <DeathIRQ>
+	NextMove	Ready
+	Flags		nosizescale
+
+	Type		FX_heavyclaw
+	  Anim          FX_heavyclaw\skel_ready 1 30
+	TEnd
+
+Mend
+
+
+### Nemesis Drill ####
+Move Nemesis_Claw_Drill_pre
+	Requires	COMBAT SPIN STAB ENDGAME
+	Priority        4
+	Interrupts	<Combat>
+	Member		<DeathIRQ> <AttackIRQ>
+	Flags		Cantmove nosizescale
+	NextMove        Nemesis_Claw_Drill
+
+	Type		FX_heavyclaw
+	  Anim          FX_heavyclaw\claw_drill 1 30
+   #	  PlayFX	ENEMYFX\Praetorian\Warworks\Warwalker_ServoHi.fx 20
+   #	  PlayFX	ENEMYFX\Praetorian\Warworks\Warwalker_FootSoft.fx 40
+   #	  PlayFX	ENEMYFX\Praetorian\Warworks\Warwalker_Smash.fx 45
+	TEnd
+MEnd
+
+Move Nemesis_Claw_Drill
+	Requires	COMBAT
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        Nemesis_Claw_Drill_post
+	flags            nosizescale CANTMOVE
+
+	Type		FX_heavyclaw
+	  Anim          FX_heavyclaw\claw_drill 31 110
+	TEnd
+MEnd
+
+Move Nemesis_Claw_Drill_post
+	Member		<DeathIRQ> <AttackIRQ>
+	NextMove        CombatReady
+
+	Type		FX_heavyclaw
+	  Anim          FX_heavyclaw\claw_drill 111
+	TEnd
+MEnd
+
+SeqEnd
+

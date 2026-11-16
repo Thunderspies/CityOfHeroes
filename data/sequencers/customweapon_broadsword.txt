@@ -1,0 +1,153 @@
+#########################################################
+## CustomWeapon_Broadsword.txt - Mirrors Player sequencers
+#########################################################
+
+Sequencer
+
+#########################################################
+
+TypeDef Broadsword_Base
+	BaseSkeleton	Prop_basic\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef Broadsword_Base_Flaming
+	BaseSkeleton	FX_CustomWeapons_Flaming_Sword\skel_ready
+	ParentType	Broadsword_Base
+TypeDefEnd
+
+#########################################################
+
+Group	<Ready>
+Group	<WepCombat>
+Group	<DeathIRQ>
+
+#########################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle NoDraw NoSizeScale
+	Priority	0
+
+	Type		Broadsword_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+#########################################################
+
+Move Combat_Draw
+	Requires	RIGHTHAND SPAWNBACK
+	Priority        2
+	Interrupts	<Ready>
+	Member		<WepCombat> <DeathIRQ>
+	NextMove	Combat_Cycle
+	Flags		NoDraw NoSizeScale
+
+	Type		Broadsword_Base
+	  Anim		Prop_basic\skel_test 1 9
+	TEnd
+MEnd
+
+Move Combat_Cycle
+	Requires	RIGHTHAND
+	Priority        1
+	Interrupts	<Ready>
+	Member		<WepCombat> <DeathIRQ>
+	Flags		Cycle NoSizeScale
+
+	Type		Broadsword_Base
+	  Anim		Prop_basic\skel_test 1
+	TEnd
+MEnd
+
+## THROW SPEAR #######################################################
+
+Move Shield_Weapon_ThrowSpear
+	Requires	RIGHTHAND HIDE QUICK ONE
+	Priority	4
+	Interrupts	<Ready> <WepCombat>
+	Member		<DeathIRQ>
+	NextMove	Combat_Pre
+	Flags		NoDraw NoSizeScale
+
+	Type		Broadsword_Base
+	  Anim		Prop_basic\skel_test 1 54
+	TEnd
+MEnd
+
+## LOB GRENADE #######################################################
+
+Move Shield_Weapon_GrenadeLob
+	Requires	RIGHTHAND HIDE QUICK TWO
+	Priority	4
+	Interrupts	<Ready> <WepCombat>
+	Member		<DeathIRQ>
+	NextMove	Shield_Weapon_GrenadeLob_Post
+	Flags		NoDraw NoSizeScale
+
+	Type		Broadsword_Base
+	  Anim		Prop_basic\skel_test 1 60
+	TEnd
+MEnd
+
+Move Shield_Weapon_GrenadeLob_Post
+	Member		<DeathIRQ>
+	NextMove	Combat_Pre
+	Flags		NoDraw NoSizeScale
+
+	Type		Broadsword_Base
+	  Anim		Prop_basic\skel_test 1 10
+	TEnd
+MEnd
+
+###########################################################
+#### Dropped weapon during death - Can't do until FX Geo's can pick up color tinting from parent node
+###########################################################
+##
+##Move Death
+##	Requires	WEAPON DEATH
+##	Interrupts	<DeathIRQ>
+##	Member		<RaiseDeadIRQ>
+##	NextMove	Dead_Cycle
+##	Priority	2
+##
+##	Type		Broadsword_Base
+##	  Anim		Prop_basic\skel_test 1
+##	TEnd
+##MEnd
+##
+##Move Dead_Cycle
+##	Requires	DEATH
+##	Member		<RaiseDeadIRQ>
+##	Flags		Cycle
+##	Priority	1
+##	NextMove	Revive
+##
+##	Type		Broadsword_Base
+##	  Anim		Prop_basic\skel_test 1
+##	  PlayFx        WEAPONS\Custom_Broadsword\Physics_Broadsword_Base.fx 0 CONSTANT
+##	TEnd
+##
+##	Type		Broadsword_01
+##	  Anim		Prop_basic\skel_test 1
+##	  PlayFx        WEAPONS\Custom_Broadsword\Physics_Broadsword_01.fx 0 CONSTANT
+##	TEnd
+##MEnd
+##
+###########################################################
+##
+##Move Revive
+##	Interrupts	<RaiseDeadIRQ>
+##	Member		<Ready>
+##	NextMove	Ready
+##	Priority	1
+##
+##	Type		Broadsword_Base
+##	  Anim		Prop_basic\skel_test 1
+##	TEnd
+##MEnd
+
+###########################################################
+
+SeqEnd

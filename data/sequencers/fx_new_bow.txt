@@ -1,0 +1,257 @@
+#############################################################
+## FX_New_bow.txt - Sequencer for animated bows - Mirrors player sequencers
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef FX_New_bow
+	BaseSkeleton	FX_New_bow\Skel_New_bow
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_Compound_bow
+	BaseSkeleton	FX_New_bow\CompoundBow_Skel
+	ParentType	FX_New_bow
+TypeDefEnd
+
+TypeDef FX_long_bow
+	BaseSkeleton	FX_New_bow\Longbow_Skel
+	ParentType	FX_New_bow
+TypeDefEnd
+
+TypeDef Manticore_bow
+	BaseSkeleton	FX_New_bow\Manticore_Skel
+	ParentType	FX_New_bow
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+#############################################################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\Skel_New_bow 1 5
+	  PlayFx        GENERIC\bowstring_dead.fx  0 CONSTANT
+	TEnd
+MEnd
+
+#############################################################
+
+Move Goblin_Shoot
+	Requires	Bow Mid Launch
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove        Ready
+	Priority        4
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_midshoot 1 60  ##goblin_bow_shoot 1 50
+	TEnd
+MEnd
+
+#############################################################
+
+Move QuickShoot
+	Requires	BOWQUICK
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove        Ready
+	Priority        1
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_quickshoot 1 31
+	TEnd
+MEnd
+
+#############################################################
+
+Move MidShoot
+	Requires	BOWMID
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove        Ready
+	Priority        6
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_midshoot 18 48
+	TEnd
+MEnd
+
+#############################################################
+
+Move HeavyShoot
+	Requires	BOWHEAVY
+	Interrupts	<Ready>
+	Member		SniperShoot2
+	NextMove        Ready
+	Priority        6
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_snipershoot 15 68
+	TEnd
+MEnd
+
+#############################################################
+
+Move ConeShoot
+	Requires	BOWCONE
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove        Ready
+	Priority        6
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_coneshoot 15 70
+	TEnd
+MEnd
+
+#############################################################
+
+Move ArcShoot
+	Requires	BOWARCH
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove        Ready
+	Priority        6
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_arc 1 140
+	TEnd
+MEnd
+
+#############################################################
+
+Move 1st_WindUpSniper
+	Requires	COMBAT WEAPON DUAL REV BLAST
+	Interrupts	<Ready>
+	NextMove        1st_WindUpSniper_cycle
+	Priority        5
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_snipershoot_windup_1st 1 69
+	TEnd
+MEnd
+
+Move 1st_WindUpSniper_cycle
+	Requires	COMBAT WEAPON DUAL REV BLAST
+	Flags		Cycle
+	Priority        5
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_snipershoot_windup_1st 70 80
+	TEnd
+MEnd
+
+Move 1st_WindUpSniper_Shoot
+	Requires	COMBAT WEAPON DUAL REV BOW SHOOT
+	Interrupts	1st_WindUpSniper_cycle
+	NextMove        Ready
+	Priority        7
+	Interpolate	0
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_snipershoot_windup_1st 81 88
+	TEnd
+MEnd
+
+Move 2nd_WindUpSniper
+	Requires	COMBAT WEAPON DUAL REV BLAST STRONG
+	Interrupts	<Ready>
+	NextMove        2nd_WindUpSniper_cycle
+	Priority        6
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_snipershoot 1 49
+	TEnd
+MEnd
+
+Move 2nd_WindUpSniper_cycle
+	Requires	COMBAT WEAPON DUAL REV BLAST STRONG
+	Flags		Cycle
+	Priority        7
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_snipershoot 50 60
+	TEnd
+MEnd
+
+Move 2nd_WindUpSniper_Shoot
+	Requires	COMBAT WEAPON DUAL REV BOW SHOOT
+	Interrupts	2nd_WindUpSniper_cycle
+	NextMove        Ready
+	Priority        7
+	Interpolate	0
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_snipershoot 61 75  ##140
+	TEnd
+MEnd
+
+## ENCOUNTERS ###########################################################
+
+Move Enc_MidShoot_2nd
+	Requires	COMBAT WEAPON DUAL REV BOW MID ENCOUNTER
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove        Ready
+	Priority        7
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_midshoot 1 120
+	TEnd
+MEnd
+
+
+#############################################################
+
+Move Enc_SniperShoot
+	Requires	COMBAT WEAPON DUAL REV BOW STRONG ENCOUNTER
+	Interrupts	<Ready>
+	Member		SniperShoot2
+	NextMove        Ready
+	Priority        7
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_snipershoot 1 130
+	TEnd
+MEnd
+
+#############################################################
+
+Move Enc_ConeShoot
+	Requires	COMBAT WEAPON DUAL REV BOW CONE ENCOUNTER
+	Interrupts	<Ready>
+	Member		<Ready>
+	NextMove        Ready
+	Priority        7
+
+	Type		FX_New_bow
+	  Anim          FX_New_bow\bow_coneshoot 1 120
+	TEnd
+MEnd
+
+#############################################################
+
+SeqEnd

@@ -1,0 +1,728 @@
+#############################################################
+## Tentacle.txt
+#############################################################
+
+Sequencer
+
+#############################################################
+
+TypeDef Tentacle
+	BaseSkeleton	Tentacle\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef OctopusTentacle
+	BaseSkeleton	Tentacle\skel_test
+	ParentType	Tentacle
+TypeDefEnd
+
+TypeDef Pet_Tentacle
+	BaseSkeleton	Tentacle\skel_test
+	ParentType	Tentacle
+TypeDefEnd
+
+#############################################################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<HitIRQ>
+Group	<FlyHitIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<PostFLYCycle>
+Group	<Ready>
+Group	<FlyReady>
+Group	<Combat>
+Group	<CombatAttack>
+Group	<CombatMove>
+Group	<FlyCombat>
+Group	<FlyCombatAttack>
+Group	<FlyCombatMove>
+Group	<Claw>
+Group	<ClawMove>
+Group	<Block>
+Group	<BlockIRQ>
+Group	<Jumps>
+Group	<Flymove>
+Group	<TwoHandCombat>
+Group	<TwoHandAttack>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepAttack>
+Group	<WepMove>
+Group	<FlyWepCombat>
+Group	<FlyWepAttack>
+Group	<FlyWepMove>
+Group	<Launch>
+Group	<Flycycle>
+Group	<FlyFall>
+Group	<Fall>
+Group	<jumpFall>
+Group	<BasicDeath>
+Group	<AttackIRQ>
+Group	<basicTHREAT>
+Group	<basicMENACE>
+Group	<basicLOOKOUT>
+Group	<basicCHEER>
+Group	<basicVANDAL>
+
+#############################################################
+
+Move ReadyA
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PickRandomly
+	CycleMove	ReadyA
+	CycleMove	ReadyC
+	CycleMove	ReadyD
+	CycleMove	ReadyB
+	Scale           0.5
+	Interpolate	0
+
+	Type		Tentacle
+	  Anim          Tentacle\skel_test 1
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_ready 1
+	TEnd
+MEnd
+
+Move ReadyB
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PickRandomly
+	CycleMove	ReadyD
+	CycleMove	ReadyC
+	CycleMove	ReadyA
+	CycleMove	ReadyB
+	Scale           0.4
+	Interpolate	0
+
+	Type		Tentacle
+	  Anim          Tentacle\skel_test 1
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_ready 1
+	TEnd
+MEnd
+
+Move ReadyC
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PickRandomly
+	CycleMove	ReadyD
+	CycleMove	ReadyB
+	CycleMove	ReadyA
+	CycleMove	ReadyC
+	Scale           0.3
+	Interpolate	0
+
+	Type		Tentacle
+	  Anim          Tentacle\skel_test 1
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_ready 1
+	TEnd
+MEnd
+
+Move ReadyD
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle PickRandomly
+	CycleMove	ReadyA
+	CycleMove	ReadyC
+	CycleMove	ReadyD
+	CycleMove	ReadyB
+	Scale           0.6
+	Interpolate	0
+
+	Type		Tentacle
+	  Anim          Tentacle\skel_test 1
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_ready 1
+	TEnd
+MEnd
+
+###################
+###### Spawn   ######
+###################
+
+Move PreSpawn
+	Requires	SPAWN
+	Interrupts	<Ready>
+	Flags		Cycle NotSelectable
+	Sets            NOCOLLISION
+	NextMove        Spawn
+	Priority        1
+	Scale           0.50
+
+	Type		Tentacle
+	  Anim          Tentacle\spawn 1 5
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_spawn 1 5
+	TEnd
+MEnd
+
+Move Spawn
+	Member		<ReactIRQ> <DeathIRQ>
+	NextMove        Spawnblend
+	Scale           0.50
+
+	Type		Tentacle
+	  Anim          Tentacle\spawn 8
+	  PlayFx        TENTACLE\TENTACLESPAWN.FX
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_spawn 8
+	  PlayFx        TENTACLE\TENTACLESPAWN.FX
+	TEnd
+MEnd
+
+Move Spawnblend
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        ReadyA
+	Scale           0.50
+
+	Type		Tentacle
+	  Anim          Tentacle\skel_test 45
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_ready 45
+	TEnd
+MEnd
+
+###################
+###### Tentacle swipe ######
+###################
+
+Move swipe_A
+	Requires	COMBAT PUNCH
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        swipepost_A
+	Priority        2
+	Scale           0.50
+	Sets            CANTMOVE
+
+	Type		Tentacle
+	  Anim          Tentacle\swipeA 14 27
+	  PlayFx        TENTACLE\TENTACLESWIPE.FX
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_swipe 1
+	  PlayFx        TENTACLE\TENTACLESWIPE.FX
+	TEnd
+MEnd
+
+Move swipepost_A
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        swipe_blend
+	Scale           0.50
+
+	Type		Tentacle
+	  Anim          Tentacle\swipeA 28
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_ready 23
+	TEnd
+MEnd
+
+Move swipe_blend
+	Member		<Ready> <ReactIRQ> <DeathIRQ>
+	NextMove        ReadyA
+	Scale           0.50
+
+	Type		Tentacle
+	  Anim          Tentacle\skel_test 23
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_ready 1
+	TEnd
+MEnd
+
+
+###################
+###### Spit Attack ######
+###################
+
+Move spit
+	Requires	COMBAT CAST
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ>
+	NextMove        spitpost_A
+	Priority        2
+	Sets            CANTMOVE
+
+	Type		Tentacle
+	  Anim          Tentacle_ranged\spitattack 1 19
+	TEnd
+MEnd
+
+Move spitpost_A
+	Member		<ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        swipe_blend
+
+	Type		Tentacle
+	  Anim          Tentacle_ranged\spitattack 20
+	TEnd
+MEnd
+
+
+############  hit reacts  ##################
+###################
+###### Hit Quick  ######
+###################
+
+Move HitQuick_L
+	Requires	QUICK HIT
+	Interrupts	<ReactIRQ>
+	Member		<ReactIRQ> <DeathIRQ> <HitIRQ> <AttackIRQ>
+	NextMove        HQ_blend
+	Priority        2
+	Scale           0.50
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ 1
+	  PlayFx        TENTACLE\TENTACLEHIT.FX
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_HQ 1 19
+	  PlayFx        TENTACLE\TENTACLEHIT.FX
+	TEnd
+MEnd
+
+Move HQ_blend
+	Member		<Ready> <ReactIRQ> <DeathIRQ>
+	NextMove        ReadyA
+	Scale           0.50
+
+
+	Type		Tentacle
+	  Anim          Tentacle\skel_test 20
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_HQ 20 56   ##Octo_ready 1
+	TEnd
+MEnd
+
+
+#####  Stuns  ###################################################
+
+###################
+###### Stun ######
+###################
+
+Move Stun
+	Requires	STUN HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	NextMove        Stun_cycle
+	Priority        2
+	Scale           0.50
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 1 41
+	TEnd
+MEnd
+
+
+Move Stun_cycle
+	Requires	STUN
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ> <StunMove>
+	Flags		Cycle
+	NextMove        Stun_post
+	Priority        1
+	Scale           0.50
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 41 42
+	TEnd
+
+MEnd
+
+Move Stun_post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	NextMove        Ready
+	Scale           0.50
+
+	Type		Tentacle
+	  Anim          Tentacle\spawn 73
+	TEnd
+MEnd
+
+###################
+###### Sleep  ######
+###################
+
+Move Sleep
+	Requires	STUN SLEEP HIT
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        Sleep_cycle
+	Priority        3
+	Scale           0.5
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 1 41
+	TEnd
+
+MEnd
+
+
+Move Sleep_cycle
+	Requires	STUN SLEEP
+	Member		<DeathIRQ> <ReactIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Stun_post
+	Priority        2
+	Scale           0.20
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 41 42
+	TEnd
+
+MEnd
+
+###################
+###### choke Stun  ######
+###################
+
+Move chokeStun
+	Requires	STUN HIT CHOKESTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        chokeStun_cycle
+	Priority        3
+	Scale		0.5
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 1 41
+	TEnd
+
+MEnd
+
+
+Move chokeStun_cycle
+	Requires	STUN CHOKESTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Stun_post
+	Priority        2
+	Scale		0.5
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 41 42
+	TEnd
+
+MEnd
+
+###################
+###### Sonic Stun  ######
+###################
+
+Move SonicStun_hit
+	Requires	STUN HIT SONICSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        SonicStun_cycle
+	Priority        3
+	Scale		0.5
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 1 41
+	TEnd
+
+MEnd
+
+
+Move SonicStun_cycle
+	Requires	STUN SONICSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Stun_post
+	Priority        2
+	Scale		0.5
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 41 42
+	TEnd
+
+MEnd
+
+###################
+###### Electro Stun  ######
+###################
+
+Move ElectroStun_hit
+	Requires	STUN HIT ELECTROSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	NextMove        ElectroStun_cycle
+	Priority        3
+	Scale		0.5
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 1 41
+	TEnd
+MEnd
+
+
+Move ElectroStun_cycle
+	Requires	STUN ELECTROSTUN
+	Member		<DeathIRQ> <AttackIRQ> <HitIRQ>
+	Flags		Cycle
+	NextMove        Stun_post
+	Priority        2
+	Scale		0.5
+
+	Type		Tentacle
+	  Anim          Tentacle\HQ_R 41 42
+	TEnd
+
+
+MEnd
+
+
+
+###################
+###### Freeze Stun  ######
+###################
+
+Move FreezeStun_hit
+	Requires	STUN STRONG HIT LASSOSTUN
+	Interrupts	<ReactIRQ> Stun Stun_cycle
+	Member		<DeathIRQ>
+	NextMove        FreezeStun_cycle
+	Priority        4
+	Scale		0.5
+
+
+	Type		Tentacle
+	  Anim          Tentacle\freezestun 1 20
+	TEnd
+
+MEnd
+
+
+Move FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        FreezeStun_post
+	Priority        3
+	Scale		0.5
+
+	Type		Tentacle
+	  Anim          Tentacle\freezestun 20 30
+	TEnd
+
+MEnd
+
+Move FreezeStun_post
+	Member		<Ready> <ReactIRQ> <DeathIRQ> <AttackIRQ>
+	Flags		Cycle
+	NextMove        ReadyA
+	Scale           0.50
+	Interpolate	20
+
+	Type		Tentacle
+	  Anim          Tentacle\Octo_ready 24
+	TEnd
+MEnd
+
+
+#############################################################
+###### MopUp Freeze Stun (will freeze after attack powers)  ######
+#############################################################
+
+Move MopUp_FreezeStun_cycle
+	Requires	STUN STRONG LASSOSTUN
+	Interrupts	<ReactIRQ>
+	Member		<DeathIRQ>
+	Flags		Cycle
+	NextMove        Stun_post
+	Priority        3
+	Scale		0.5
+
+	Type		Tentacle
+	  Anim          Tentacle\Octo_ready 24
+	TEnd
+
+MEnd
+
+
+#### Deaths  ########################################################################
+###################
+###### Default Death   ######
+###################
+
+Move Default_Death
+	Requires	DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        Default_postdeath
+	Priority        1
+	Scale           0.80
+	Sets            NOCOLLISION
+
+	Type		Tentacle
+	  Anim          Tentacle\spinning_death 2 133
+	  PlayFx        TENTACLE\TENTACLEATTACK.FX
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_spinning_death 2 133
+	  PlayFx        TENTACLE\OCTOPUSDEATH.FX
+	TEnd
+
+	Type		Pet_Tentacle
+	  Anim          Tentacle\spinning_death 2 133
+	  ##PlayFx        TENTACLE\TENTACLEATTACK.FX
+	TEnd
+MEnd
+
+
+Move Default_postdeath
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Scale           0.50
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tentacle
+	  Anim          Tentacle\spinning_death 133 140
+	TEnd
+MEnd
+
+###################
+###### Hit Death   ######
+###################
+
+Move HitDeath_L
+	Requires	HIT DEATH
+	Interrupts	<DeathIRQ>
+	NextMove        postdeathL
+	Priority        2
+	Scale           0.80
+	Sets            NOCOLLISION
+
+	Type		Tentacle
+	  Anim          Tentacle\spinning_death 2 133
+	  PlayFx        TENTACLE\TENTACLEATTACK.FX
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_spinning_death 2 133
+	  PlayFx        TENTACLE\TENTACLEATTACK.FX
+	TEnd
+MEnd
+
+
+Move postdeathL
+	Requires	DEATH
+	Flags		Cycle
+	Priority        1
+	Scale           0.50
+	Sets            NOCOLLISION DIENOW TARGET
+
+	Type		Tentacle
+	  Anim          Tentacle\spinning_death 133 140
+	TEnd
+MEnd
+
+###################
+###### Submerge and Emerge   ######
+###################
+
+Move Submerge
+	Requires	LOW POSE
+	Interrupts	<Ready> <AttackIRQ>
+	NextMove        PostSubmerge
+	Flags		NotSelectable
+	Priority        4
+	Scale           0.80
+	Sets            NOCOLLISION
+
+	Type		Tentacle
+	  Anim          Tentacle\spinning_death 2 133
+	  PlayFx        TENTACLE\TENTACLEATTACK.FX
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_spinning_death 2 133
+	  PlayFx        TENTACLE\TENTACLEATTACK.FX
+	TEnd
+MEnd
+
+
+Move PostSubmerge
+	Requires	LOW POSE
+	Flags		Cycle NotSelectable
+	Priority        4
+	Scale           0.50
+	Sets            NOCOLLISION TARGET
+	NextMove	Emerge
+
+	Type		Tentacle
+	  Anim          Tentacle\spinning_death 133 140
+	TEnd
+MEnd
+
+Move Emerge
+	Priority        1
+	Scale           0.50
+	Sets            NOCOLLISION TARGET
+	NextMove        Spawnblend
+
+	Type		Tentacle
+	  Anim          Tentacle\spawn 8
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_spawn 8
+	TEnd
+MEnd
+
+
+########  basic spawns  ###########################################3
+
+
+
+#####################
+### Basic Spawn  #####
+#####################
+
+Move Basic_Spawn
+	Requires	SPAWNEDASPET
+	Interrupts	<Ready> <Combat> <WepCombat> <FlyReady> <RaiseDeadIRQ>
+	NextMove        Spawnblend
+	Priority        2
+	Interpolate     0
+	Flags		NotSelectable
+	Sets            CANTMOVE
+	Scale           0.50
+
+
+	Type		Tentacle
+	  Anim          Tentacle\spawn 8
+	TEnd
+
+	Type		OctopusTentacle
+	  Anim          Tentacle\Octo_spawn 8
+	TEnd
+
+MEnd
+
+#############################################################
+
+SeqEnd

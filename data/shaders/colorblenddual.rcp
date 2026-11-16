@@ -1,0 +1,25 @@
+!!RC1.0
+#
+#	BLENDMODE_COLORBLEND_DUAL (Non-NV20)
+#
+{
+  rgb {
+    discard = unsigned(tex1) * unsigned(const0);
+    discard = unsigned_invert(tex1) * unsigned(const1);
+    spare1 = sum();
+  }
+  alpha {
+    spare0 = unsigned(const0) * unsigned(tex1);
+  }
+}
+{
+  rgb {
+    spare0 = unsigned(col0) * unsigned(tex0);
+#    spare1 = unsigned(col0) * unsigned(spare1);  # JE: Used to be multiplying by col0 here, getting squared lighting values
+    scale_by_four();
+  }
+}
+final_product = spare1 * spare0;
+clamp_color_sum();
+out.rgb = lerp(tex0.a, spare0, final_product) + col1;
+out.a = spare0;

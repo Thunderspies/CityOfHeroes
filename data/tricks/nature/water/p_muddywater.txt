@@ -1,0 +1,333 @@
+Texture x_p_muddywater
+	Base1 p_muddywater_b //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\p_muddywater_b.tga
+	Base1Scroll 0 0.0005
+	Base1ScrollType Normal
+	Base1Scale  2 2
+
+	Multiply1 none //_texture_library\World\Filler\white.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 // 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none //
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 p_muddywater_n //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\p_muddywater_n.tga
+	BumpMap1Scroll 0.0001 0.0005
+	BumpMap1ScrollType Normal
+	BumpMap1Scale  1 1 // 1 1
+
+	AddGlow1 none //
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none //
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 // 1 1
+	MaskWeight  0.3
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none //
+	Base2Scroll 0 0 // 0 0
+	Base2ScrollType  Normal //Normal
+	Base2Scale  1 1 // 1 1
+
+	Multiply2 none //
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 p_muddywater_n //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\p_muddywater_n.tga
+	BumpMap2Scroll 0.0001 0.0003
+	BumpMap2ScrollType Normal
+	BumpMap2Scale  1 1 // 1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 255 255 255
+	SpecularColor2 255 255 255 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 64
+	SpecularExponent2 64
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	ObjFlags FancyWater
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 1
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base p_muddywater_fallback_02 //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\p_muddywater_fallback_02.tga
+		BumpMap p_muddywater_n //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\p_muddywater_n.tga
+		Blend none //
+		BlendType Multiply
+		ScaleST0 1.0 1.0
+		ScaleST1 2 2
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_p_muddytoclean
+	Base1 FW_muddywaterCaustics_d //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\FW_muddywaterCaustics_d.tga
+	Base1Scroll 0.0003 0.0002
+	Base1ScrollType Normal
+	Base1Scale  200 200
+
+	Multiply1 FW_SeaFloor_m //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\FW_SeaFloor_m.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 // 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 none //
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 FW_Grnd_Muck01_ns //Texture_Library\WORLD\city_zones\Praetoria\Nature\FW_Grnd_Muck01_ns.tga
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale  200 200
+
+	AddGlow1 none //
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask FW_SeaFloor_b //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\FW_SeaFloor_b.tga
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 // 1 1
+	MaskWeight  1 // 1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 FW_MuckyRubble_d //Texture_Library\WORLD\city_zones\Praetoria\Nature\FW_MuckyRubble_d.tga
+	Base2Scroll 0 0 // 0.00015 -0.00015
+	Base2ScrollType  Normal //Normal
+	Base2Scale  120 120
+
+	Multiply2 FW_SeaFloor_m //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\FW_SeaFloor_m.tga
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none //
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  200 200
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 200 200 200
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 128
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags FallbackForceOpaque // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base FW_muddywaterCaustics_d //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\FW_muddywaterCaustics_d.tga
+		BumpMap none //Texture_Library\WORLD\city_zones\Praetoria\Nature\FW_Grnd_Muck01_ns.tga
+		Blend FW_SeaFloor_m //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\FW_SeaFloor_m.tga
+		BlendType Multiply
+		ScaleST0 1 1
+		ScaleST1 200 200
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture x_p_muddywater_caustics
+	Base1 alpha //Texture_Library\WORLD\Filler\alpha.tga
+	Base1Scroll -0.0002 0.0003
+	Base1ScrollType Normal
+	Base1Scale  8 8
+
+	Multiply1 none //Texture_Library\WORLD\Filler\white.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 // 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 alpha //Texture_Library\WORLD\Filler\alpha.tga
+	DualColor1Scroll -0.0002 0.0003
+	DualColor1ScrollType Normal
+	DualColor1Scale  1 1 // 0.5 0.5
+
+	BumpMap1 none //
+	BumpMap1Scroll 0 0.001
+	BumpMap1ScrollType Normal
+	BumpMap1Scale  1 1 // 1 1
+
+	AddGlow1 none //
+	AddGlow1Scroll 0 0 // 0 0
+	AddGlow1ScrollType  Normal //Normal
+	AddGlow1Scale  1 1 // 1 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask none //
+	MaskScroll 0 0 // 0 0
+	MaskScrollType  Normal //Normal
+	MaskScale  1 1 // 1 1
+	MaskWeight  0
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 none //
+	Base2Scroll 0 0 // 0 0
+	Base2ScrollType  Normal //Normal
+	Base2Scale  1 1 // 1 1
+
+	Multiply2 none //
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  1 1 // 1 1
+	Multiply2Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor2 none //
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none //
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  1 1 // 1 1
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 200 200 200
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 128
+	SpecularExponent2 8
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags None  // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 0
+	MaxAddGlow 128
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base p_muddywater_fallback_02 //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\p_muddywater_fallback_02.tga
+		BumpMap none //
+		Blend none //Texture_Library\WORLD\nature\LIQUIDS\muddy_water\FW_FalseBottom_d.tga
+		BlendType Multiply
+		ScaleST0 10 1
+		ScaleST1 2 2
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+
+Texture x_p_muddywater_cave
+	Base1 p_muddywater_b
+	Base1Scroll 0 0.00005
+	Base1Scale 2 2
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1
+	BumpMap1 p_muddywater_n
+	BumpMap1Scroll  0.00001 0.00005
+        Base1ScrollType normal
+	BumpMap1Scale 0.5 0.5
+	BumpMap2 p_muddywater_n
+	BumpMap2Scroll  0.00001 0.00003
+        Base1ScrollType normal
+	BumpMap2Scale 2 2
+        Mask none
+        MaskWeight 0.3
+
+	SpecularExponent 64
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Color4 0 0 0
+	Color3 0 0 0
+
+	ObjFlags FancyWater
+
+	Fallback
+		UseFallback 1
+		Base p_muddywater_fallback_02
+		Blend none
+		Bumpmap p_muddywater_n
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 2 2
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+Trick  ocean02
+	TrickFlags NoZWrite NoColl 
+	SortBias  -900.00000 
+	ScrollST0 0.00030 0.00020
+	ScrollST1 0.00030 0.00020
+	LodFar  5000.00000 
+	LodFarFade  350.00000 
+End
+

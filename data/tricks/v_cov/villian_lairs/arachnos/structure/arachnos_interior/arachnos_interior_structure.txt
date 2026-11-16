@@ -1,0 +1,1138 @@
+#########     ARACHNOS STRUCTURE SET       #########
+#########     Interior Mission Set For Arachnos       #########
+#########     AKA ARACHNOS INTERIOR MISSION SET OF DOOOOOM       #########
+
+//Arachnos Interior Object Tricks//
+
+Trick mesh_16ft
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_8ft
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_8ft_half
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_90in_angle_in
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_90in_angle_out
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_90out_angle_in
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_90out_angle_out
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_fill_angle_A
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_fill_angle_B
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_fill_angle_C
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_fill_angle_D
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_fill_square
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_straight_angle_in
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_straight_angle_inhalf
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_straight_angle_out
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+Trick mesh_straight_angle_outhalf
+	TrickFlags AlphaCutout
+	AlphaRef 180
+End
+
+
+
+//Arachnos Base Texture Tricks//
+
+Texture arach_border.tga
+	Surface METAL
+
+	End
+
+Texture arach_bracer.tga
+	Surface METAL
+
+	End
+
+Texture arach_bracer_wire.tga
+	Surface METAL
+
+	End
+
+Texture arach_mesh_01.tga
+	Surface METAL
+
+	End
+
+Texture arach_mesh_support.tga
+	Surface METAL
+
+	End
+
+Texture arach_plate_edge.tga
+	Surface METAL
+
+	End
+
+Texture arach_ribs.tga
+	Surface METAL
+
+	End
+
+Texture arach_struts.tga
+	Surface METAL
+
+	End
+
+Texture arach_struts_endcap_fill.tga
+	Surface METAL
+
+	End
+
+Texture arach_struts_hook.tga
+	Surface METAL
+
+	End
+
+//Arachnos Structural Components//
+
+Texture arach_border_BUMP.tga
+	flags isbumpmap
+
+	End
+
+Texture arach_bracer_BUMP.tga
+	flags isbumpmap
+
+	End
+
+Texture arach_bracer_wire_BUMP.tga
+	flags isbumpmap
+
+	End
+
+Texture arach_mesh_01_BUMP.tga
+	flags isbumpmap
+
+	End
+
+Texture arach_mesh_support_BUMP.tga
+	flags isbumpmap
+
+	End
+
+Texture arach_plate_edge_BUMP.tga
+	flags isbumpmap
+
+	End
+
+Texture arach_ribs_BUMP.tga
+	flags isbumpmap
+
+	End
+
+Texture arach_struts_BUMP.tga
+	flags isbumpmap
+
+	End
+
+Texture arach_struts_endcap_fill_BUMP.tga
+	flags isbumpmap
+
+	End
+
+Texture arach_struts_hook_BUMP.tga
+	flags isbumpmap
+
+	End
+
+//Arachnos Interior Shaders//
+
+Texture x_arach_mesh_01
+	Base1 arach_mesh_01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 arach_mesh_01.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_mesh_01_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask arach_mesh_01.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arach_mesh_01.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 arach_mesh_01.tga //none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+	AlphaMask 1
+
+	DualColor2 none //arach_mesh_01.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //arach_mesh_01_BUMP.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 127 120 127
+	SpecularColor2 64 62 64
+	SpecularExponent 125
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_mesh_01.tga
+		Blend none
+		Bumpmap arach_mesh_01_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_border
+	Base1 arach_border.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_border_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask arach_border_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 arach_border.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 160 140 200
+	SpecularColor2 50 35 40
+	SpecularExponent 25
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_border.tga
+		Blend none
+		Bumpmap arach_border_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_bracer
+	Base1 arach_bracer.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_bracer_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask arach_bracer_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arach_bracer.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 arach_bracer.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none //arach_bracer_BUMP.tga
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 160 140 200
+	SpecularColor2 100 70 80
+	SpecularExponent 10
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_bracer.tga
+		Blend none
+		Bumpmap arach_bracer_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_bracer_wire
+	Base1 arach_bracer_wire.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_bracer_wire_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arach_bracer_wire_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arach_bracer_wire.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 160 140 200
+	SpecularColor2 100 70 80
+	SpecularExponent 25
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_bracer_wire.tga
+		Blend none
+		Bumpmap arach_bracer_wire_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_mesh_support
+	Base1 arach_mesh_support.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_mesh_support_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask arach_mesh_support_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arach_mesh_support.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 arach_mesh_support.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 160 140 200
+	SpecularColor2 100 70 80
+	SpecularExponent 10
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_mesh_support.tga
+		Blend none
+		Bumpmap arach_mesh_support_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_plate_edge
+	Base1 arach_plate_edge.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arach_plate_edge.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_plate_edge_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arach_plate_edge_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arach_plate_edge.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //arach_plate_edge.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 180 140 200
+	SpecularColor2 100 75 90
+	SpecularExponent 45
+	SpecularExponent2 68
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_plate_edge.tga
+		Blend arach_plate_edge.tga
+		Bumpmap arach_plate_edge_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_ribs
+	Base1 arach_ribs.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arach_ribs.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1  
+	Multiply1reflect 0
+
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_ribs_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arach_ribs_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arach_ribs.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //arach_ribs.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 210 160 190
+	SpecularColor2 95 80 105
+	SpecularExponent 45
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_ribs.tga
+		Blend arach_ribs.tga
+		Bumpmap arach_ribs_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_struts
+	Base1 arach_struts.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 arach_struts_SPEC.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_struts_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arach_struts_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arach_struts.tga
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 arach_struts.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 70 120
+	SpecularColor2 92 87 100
+	SpecularExponent 45
+	SpecularExponent2 13
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_struts.tga
+		Blend arach_struts.tga
+		Bumpmap arach_struts_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1
+		AmbientScale 1
+	End
+End
+
+Texture x_arach_struts_endcap_fill
+	Base1 arach_struts_endcap_fill.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none //arach_struts_endcap_fill.tga
+	Multiply1Scroll 0 0
+	Multiply1Scale 1 1  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_struts_endcap_fill_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arach_struts_endcap_fill_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arach_struts_endcap_fill.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //arach_struts_endcap_fill.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 200 175 185
+	SpecularColor2 92 87 100
+	SpecularExponent 30
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_struts_endcap_fill.tga
+		Blend arach_struts_endcap_fill.tga
+		Bumpmap arach_struts_endcap_fill_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arach_struts_hook
+	Base1 arach_struts_hook.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1Scale 10 10  
+	
+	DualColor1 none
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arach_struts_hook_BUMP.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask none //arach_struts_hook_BUMP.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none //arach_struts_hook.tga 
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 none //arach_struts_hook.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+
+	DualColor2 texture_name.tga
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 90 70 120
+	SpecularColor2 92 87 100
+	SpecularExponent 45
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arach_struts_hook.tga
+		Blend arach_struts_hook.tga
+		Bumpmap arach_struts_hook_BUMP.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+//Additional Mesh Shaders -- aka Avery's Meshes//
+
+Texture x_arac_gratemesh_01
+	Base1 arac_gratemesh_01.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 arac_gratemesh_01.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_gratemesh_01_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask arach_mesh_01.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 arac_gratemesh_01.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+	AlphaMask 1
+
+	DualColor2 none 
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none 
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 127 120 127
+	SpecularColor2 64 62 64
+	SpecularExponent 125
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arac_gratemesh_01.tga
+		Blend none
+		Bumpmap arac_gratemesh_01_bump.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arac_gratemesh_02
+	Base1 arac_gratemesh_02.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 arac_gratemesh_02.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_gratemesh_02_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask arach_mesh_01.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 arac_gratemesh_02.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+	AlphaMask 1
+
+	DualColor2 none 
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none 
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 127 120 127
+	SpecularColor2 64 62 64
+	SpecularExponent 125
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arac_gratemesh_02.tga
+		Blend none
+		Bumpmap arac_gratemesh_02_bump.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+Texture x_arac_gratemesh_03
+	Base1 arac_gratemesh_03.tga
+	Base1Scroll 0 0
+	Base1Scale 1 1
+
+	Multiply1 none
+	Multiply1Scroll 0 0
+	Multiply1ScrollType Normal
+	Multiply1Scale 1 1
+	Multiply1Reflect 1 // Optional flag indicating this is a spheremap
+
+	DualColor1 arac_gratemesh_03.tga
+	DualColor1Scroll 0 0
+	DualColor1Scale 1 1
+
+	AddGlow1 none
+	AddGlow1Scroll 0 0
+	AddGlow1ScrollType Normal
+	AddGlow1Scale 1 1
+
+	BumpMap1 arac_gratemesh_03_bump.tga
+	BumpMap1Scroll 0 0
+	BumpMap1Scale 1 1
+
+	Mask arach_mesh_01.tga
+	MaskScroll 0 0
+	MaskScale 1 1
+	AlphaMask 1
+
+	Base2 none
+	Base2Scroll 0 0
+	Base2Scale 1 1
+
+	Multiply2 arac_gratemesh_03.tga
+	Multiply2Scroll 0 0
+	Multiply2Scale 1 1
+	Multiply2reflect 0
+	AlphaMask 1
+
+	DualColor2 none 
+	Color3 0 0 0
+	Color4 0 0 0
+	DualColor2Scroll 0 0
+	DualColor2Scale 1 1
+
+	BumpMap2 none 
+	BumpMap2Scroll 0 0
+	BumpMap2Scale 1 1
+
+	SpecularColor1 127 120 127
+	SpecularColor2 64 62 64
+	SpecularExponent 125
+	SpecularExponent2 0
+
+	DiffuseScale 2
+	AmbientScale 2
+
+	Flags NoRandomAddGlow // NoRandomAddGlow FullBright
+	MinAddGlow 1 
+	MaxAddGlow 65
+
+	Fallback
+		UseFallback 1
+		Base arac_gratemesh_03.tga
+		Blend none
+		Bumpmap arac_gratemesh_03_bump.tga
+		BlendType Multiply // DualColor, Multiply, AddGlow, or AlphaDetail
+		ScaleST0 1 1
+		ScaleST1 1 1
+		DiffuseScale 1.0
+		AmbientScale 1.0
+	End
+End
+
+//Arachnos Trays//
+
+Trick aractray
+	GroupFlags VisTray VisBlocker
+	ObjFlags ForceOpaque
+End

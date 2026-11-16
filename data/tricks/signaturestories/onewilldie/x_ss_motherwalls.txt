@@ -1,0 +1,94 @@
+Texture X_SS_MotherWalls
+	Base1 black //Texture_Library\WORLD\Filler\black.tga
+	Base1Scroll 0.0004 -0.002
+	Base1ScrollType Normal
+	Base1Scale  7 3
+
+	Multiply1 none //_texture_library\World\Filler\white.tga
+	Multiply1Scroll 0 0 // 0 0
+	Multiply1ScrollType  Normal //Normal
+	Multiply1Scale  1 1 // 1 1
+	Multiply1Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor1 SS_MotherWall_m //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_MotherWall_m.tga
+	DualColor1Scroll 0 0 // 0 0
+	DualColor1ScrollType  Normal //Normal
+	DualColor1Scale  1 1 // 1 1
+
+	BumpMap1 none //
+	BumpMap1Scroll 0 0 // 0 0
+	BumpMap1ScrollType  Normal //Normal
+	BumpMap1Scale  1 1 // 1 1
+
+	AddGlow1 SS_MotherNeuro_g //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_MotherNeuro_g.tga
+	AddGlow1Scroll 0 -0.005
+	AddGlow1ScrollType Normal
+	AddGlow1Scale  2 1
+	AddGlowMat2  0 //<- applies the addglow effect to the second material instead of the first material
+	AddGlowTint 0
+
+	Mask SS_Neurons_d //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_Neurons_d.tga
+	MaskScroll 0.0004 -0.001
+	MaskScrollType Normal
+	MaskScale  9 3
+	MaskWeight  1 // 1
+	AlphaMask 0 //Optional flag indicating to use the ALPHA channel
+	             // of the Mask texture instead of all 4 channels
+
+	Base2 black //Texture_Library\WORLD\Filler\black.tga
+	Base2Scroll 0.0004 -0.001
+	Base2ScrollType Normal
+	Base2Scale  1 1 // 1 1
+
+	Multiply2 SS_NeuronsPurple_d //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_NeuronsPurple_d.tga
+	Multiply2Scroll 0 0 // 0 0
+	Multiply2ScrollType  Normal //Normal
+	Multiply2Scale  9 3
+	Multiply2Reflect 0 // Optional flag indicating this is a spheremap
+
+	DualColor2 SS_MotherWall_m //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_MotherWall_m.tga
+	DualColor2Scroll 0 0 // 0 0
+	DualColor2ScrollType  Normal //Normal
+	DualColor2Scale  1 1 // 1 1
+
+	BumpMap2 none //
+	BumpMap2Scroll 0 0 // 0 0
+	BumpMap2ScrollType  Normal //Normal
+	BumpMap2Scale  3 3
+
+	// CubeMap  //
+	// ReflectivityBase 1
+	// ReflectivityScale 1
+	// ReflectivityPower 1
+	reflectionTint 0
+	ReflectionDesaturate 0
+
+	SpecularColor1 200 150 150
+	SpecularColor2 0 0 0 // BLACK means inherit color from SpecularColor1
+	SpecularExponent1 4
+	SpecularExponent2 4
+
+	DiffuseScale 1
+	AmbientScale 2
+
+	Flags AlwaysAddGlow   // NoRandomAddGlow FullBright AlwaysAddGlow OldTint
+	AlphaWater 0
+	MinAddGlow 100
+	MaxAddGlow 100
+
+	Color3 0 0 0 // Color tint for DualColor2, black inherits from colors 1 and 2
+	Color4 0 0 0
+
+	Fallback
+		UseFallback 1
+		Base SS_NeuronsPurple_d //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_NeuronsPurple_d.tga
+		BumpMap none //
+		Blend SS_MotherWall_m_FB //Texture_Library\WORLD\SignatureStories\OneWillDie\SS_MotherWall_m_FB.tga
+		BlendType Multiply
+		ScaleST0 9 1.0
+		ScaleST1 10 4
+		DiffuseScale 0.5
+		AmbientScale 0.5
+	End
+End
+

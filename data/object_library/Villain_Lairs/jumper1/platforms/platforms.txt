@@ -1,0 +1,190 @@
+Version 2
+RootMod _jmp1_platform_4
+End
+
+RootMod _jmp1_platform_8
+End
+
+RootMod _jmp1_platform_64
+End
+
+RootMod _jmp1_platform_128
+End
+
+RootMod _jmp1_ramp_8_A
+End
+
+RootMod _jmp1_entholder1
+End
+
+RootMod _jmp1_bounce_radius_32
+End
+
+RootMod _jmp1_entholder2
+End
+
+RootMod _jmp1_platform_16_lights
+End
+
+RootMod _jmp1_platform_16
+End
+
+RootMod _jmp1_platform_32
+End
+
+RootMod _jmp1_platform_32_lights
+End
+
+RootMod _jmp1_bounce1_glow
+End
+
+RootMod _jmp1_lifter1_glow
+End
+
+RootMod _jmp1_bounce_radius_8
+End
+
+RootMod _jmp1_booster1_glow
+End
+
+Def jmp1_trampoline_sml1_2&
+	Group object_library/Omni/_LightDir
+	End
+	Property	"EncounterPosition"	"1"	0
+End
+
+Def jmp1_trampoline_sml1_1&
+	Group jmp1_trampoline_sml1_2&
+	End
+	Property	"EncounterSpawn"	"SmallTrampoline"	0
+	Property	"SpawnProbability"	"100"	0
+	Property	"EncounterAutospawnEnd"	"0.0001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"EncounterAutospawnStart"	"0.0001"	0
+	Property	"CanSpawn1"	"StrikeTeams/StrikeTeamB/spawndefs/SmallTrampoline_D10_V0.spawndef"	0
+End
+
+Def jmp1_trampoline_sml1_3&
+	Group _jmp1_bounce_radius_32
+	End
+	Type WORLD\Lairs\jumper1\jmp1_trampoline_sml1\jmp1_trampoline_sml1.fx
+End
+
+Def jmp1_trampoline_sml1
+	Group jmp1_trampoline_sml1_1&
+		Pos 0 0.5 0
+	End
+	Group _jmp1_bounce1_glow
+		Pos 0 2.5 0
+	End
+	Group jmp1_trampoline_sml1_3&
+		Pos 0 12 0
+	End
+End
+
+Def jmp1_lifter1_2&
+	Group object_library/Omni/_LightDir
+	End
+	Property	"EncounterPosition"	"1"	0
+End
+
+Def jmp1_bumper1_2&
+	Group object_library/Omni/_LightDir
+	End
+	Property	"EncounterPosition"	"1"	0
+End
+
+Def jmp1_bumper1_1&
+	Group jmp1_bumper1_2&
+	End
+	Property	"EncounterSpawn"	"Bumper"	0
+	Property	"CanSpawn1"	"StrikeTeams/StrikeTeamB/spawndefs/Bumper_D10_V0.spawndef"	0
+	Property	"EncounterAutospawnEnd"	"0.0001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"EncounterAutospawnStart"	"0.0001"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def jmp1_lifter1_1&
+	Group jmp1_lifter1_2&
+	End
+	Property	"EncounterSpawn"	"Lifter"	0
+	Property	"CanSpawn1"	"StrikeTeams/StrikeTeamB/spawndefs/Lifter_D10_V0.spawndef"	0
+	Property	"EncounterAutospawnEnd"	"0.0001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"EncounterAutospawnStart"	"0.0001"	0
+	Property	"SpawnProbability"	"100"	0
+End
+
+Def jmp1_lifter1
+	Group jmp1_lifter1_1&
+	End
+	Group _jmp1_bounce_radius_32
+	End
+	Group _jmp1_lifter1_glow
+	End
+End
+
+Def jmp1_bumper1
+	Group jmp1_bumper1_1&
+	End
+	Group _jmp1_bounce_radius_32
+	End
+	Group _jmp1_entholder2
+	End
+End
+
+Def jmp1_platform_16
+	Group _jmp1_platform_16_lights
+	End
+	Group _jmp1_platform_16
+	End
+End
+
+Def jmp1_platform_8
+	Group _jmp1_platform_8
+	End
+End
+
+Def jmp1_platform_32
+	Group _jmp1_platform_32_lights
+	End
+	Group _jmp1_platform_32
+	End
+End
+
+Def jmp1_booster1_2&
+	Group object_library/Omni/_LightDir
+	End
+	Property	"EncounterPosition"	"1"	0
+End
+
+Def jmp1_booster1_1&
+	Group jmp1_booster1_2&
+	End
+	Property	"EncounterSpawn"	"trampoline"	0
+	Property	"SpawnProbability"	"100"	0
+	Property	"EncounterAutospawnEnd"	"0.0001"	0
+	Property	"EncounterGroup"	"0"	0
+	Property	"EncounterAutospawnStart"	"0.0001"	0
+	Property	"CanSpawn1"	"StrikeTeams/StrikeTeamB/spawndefs/SmallTrampoline_D10_V0.spawndef"	0
+End
+
+Def jmp1_booster1_3&
+	Group object_library/Omni/PARTICLE_25
+	End
+	Type Misc\booster\Booster.fx
+End
+
+Def jmp1_booster1
+	Group jmp1_booster1_1&
+		Rot 0 0.087267 0
+	End
+	Group _jmp1_bounce_radius_8
+	End
+	Group jmp1_booster1_3&
+	End
+	Group _jmp1_booster1_glow
+	End
+End
+

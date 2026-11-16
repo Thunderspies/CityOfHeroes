@@ -1,0 +1,72 @@
+#############################################################
+
+Sequencer
+
+TypeDef FX_seagull_flock
+	BaseSkeleton	FX_seagull\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_seagull_circle
+	BaseSkeleton	FX_seagull\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_crow_circle
+	BaseSkeleton	FX_seagull\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_crow_flock
+	BaseSkeleton	FX_seagull\skel_test
+	ParentType	None
+TypeDefEnd
+
+TypeDef FX_crow_flock_Tintable
+	BaseSkeleton	FX_seagull\skel_test
+	ParentType	None
+TypeDefEnd
+
+## GROUP TAGS ###########################################################
+
+Group	<Ready>
+
+## MOVES ###########################################################
+
+Move Ready_A
+	Member		<Ready>
+	Flags		Cycle
+	Scale           1
+	SticksOnChild   test1
+
+	Type		FX_seagull_flock
+	  Anim          FX_seagull\flyaround_cycle 1
+	  PlayFx	GENERIC\FX_birdwings.fx 1 CONSTANT
+	TEnd
+
+	Type		FX_seagull_circle
+	  Anim          FX_seagull\fly_circle 1 800
+	  PlayFx	GENERIC\FX_birdwings.fx 1 CONSTANT
+	TEnd
+
+	Type		FX_crow_flock
+	  Anim          FX_seagull\flyaround_cycle 1
+	  PlayFx	GENERIC\FX_crowwings.fx 1 CONSTANT
+	TEnd
+
+	Type		FX_crow_flock_Tintable
+	  Anim          FX_seagull\flyaround_cycle 1
+	  PlayFx	GENERIC\FX_crowwings_Tintable.fx 1 CONSTANT
+	TEnd
+
+
+	Type		FX_crow_circle
+	  Anim          FX_seagull\fly_circle 1 800
+	  PlayFx	GENERIC\FX_crowwings.fx 1 CONSTANT
+	TEnd
+
+MEnd
+
+
+SeqEnd
+

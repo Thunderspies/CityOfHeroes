@@ -1,0 +1,52 @@
+// Begin a Reward Definition
+// for a villain of the specified level.
+Level 1
+{
+	// Begin a RewardSet definition.
+	//   For each RewardSet defined, a random number between 0~99 is generated.
+	//   A RewardSet will be awarded to the player if the specified chance is greater
+	//   than the random number.
+	Chance 100
+	{
+		Archetype Class_Blaster	// This RewardSet only applies to Class_Blaster type players
+		Experience 100
+		Influence 11
+
+		// Begin a DropGroup definition.
+		//   Only one of the drop groups will be applied.
+		//   Each group is always assigned the correct chance of being picked
+		//   even if the chance numbers for the drop groups do no add up to 100.
+		DropGroup 20
+		{
+			// Begin a ItemSet definition
+			//   One item from each ItemSet will be given to the player.
+			//   Normally, all items have a equal chance of being picked.
+			//(See below if you want different weightings.)
+			ItemSet
+			{
+				Power Inspirations Inspirations Second_Wind
+				Power Inspirations Inspirations Respite
+			}
+
+			ItemSet
+			{
+				// If you want different weightings in an itemset, you can
+				//   prefix it with Chance [num]. Below, _Rage will be given
+				//   out 5/2 more often than _Hats.
+				Chance 5 Power Inspirations Inspirations Righteous_Rage
+				Chance 2 Power Inspirations Inspirations Righteous_Hats
+			}
+		}
+
+		DropGroup 20
+		{
+			ItemSet
+			{
+				// Enhancements (aka Boosts) can be awarded also. The level
+				//   of the boost you want to reward goes at the end.
+				//   Here's a level 10 Range boost.
+				Power Boosts Boosts Boost_Range 10
+			}
+		}
+	}
+}

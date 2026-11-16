@@ -1,0 +1,43 @@
+#############################################################
+
+Sequencer
+
+TypeDef Helicopter
+	BaseSkeleton	Helicopter\skel_ready
+	ParentType	None
+TypeDefEnd
+#################
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+#################
+
+Move Ready
+	Member		<Ready>
+	Flags		Cycle
+	CycleMove	Ready
+
+	Type		Helicopter
+	  Anim          Helicopter\skel_ready 1
+	  PlayFX		Vehicles\Helicopter\Helicopter_Flying_NoFX_Blade.fx 0 constant
+	TEnd
+MEnd
+#################
+
+SeqEnd
+

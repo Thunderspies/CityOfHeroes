@@ -1,0 +1,27 @@
+#############################################################
+## SoulCatcher_Beam.fx
+#############################################################
+
+FxInfo
+Lifespan 300
+
+#########################################################
+
+Condition
+	On 	Time
+	Time 	4
+
+	Event
+		EName 	Prime
+		Type	Local
+		At	WepR
+		Geom	GEO_WepR_Machine_Gun_1
+		Bhvr	Behaviors/Weapon_Fade_UP.bhvr
+		#Sound shotgunout 50 50 .3
+	End
+End
+
+
+#########################################################
+
+End

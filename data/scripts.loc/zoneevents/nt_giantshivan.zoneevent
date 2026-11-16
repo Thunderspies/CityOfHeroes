@@ -1,0 +1,828 @@
+Name KillBoss
+FirstStage Setup
+StopStage Stop
+RestartStage ResetStage
+DisplayName P0
+EventVolume EventVolume_GiantShivan
+
+Stage Setup
+{
+	StartUp
+	{
+		Action
+		{
+			SetScriptValue PauseTimerComplete 0
+		}
+		Action StartSetup
+		{
+			DebugPrint <<Setting up everything for the Giant Shivan event>>
+		}
+		Action CreateStuff
+			SpawnCreate GiantShivanMonster
+			{
+				Location GiantShivanMonster
+				Group GiantShivanMonster
+				Team GiantShivanMonster
+				SpawnBehavior <<DoAttackAI(0),DoNothing(AnimList(Shivan_Giant_Climb),Timer(.8)),ProtectSpawnRadius(500),ProtectSpawnOuterRadius(500),DoNotMove(1),DoNotFaceTarget(1),CombatOverride(Aggressive)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GiantShivanMonster
+			}
+			SpawnCreate GiantShivanKnockback
+			{
+				Location GiantShivanKnockback
+				Group GiantShivanKnockback
+				Team GiantShivanKnockback
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team GiantShivanKnockback
+			}
+			SpawnCreate ShivanTarget
+			{
+				Location ShivanTarget
+				Group ShivanTarget
+				Team ShivanTarget
+				SpawnBehavior <<Invincible(1),Untargetable(1),Unselectable(1)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanTarget
+			}
+			SpawnCreate ShivanArmCapsule1
+			{
+				Location ShivanArmCapsule1
+				Group ShivanArmCapsule1
+				Team ShivanArmCapsule1
+				SpawnBehavior <<Invincible(1),Untargetable(1),Unselectable(1)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanArmCapsule1
+			}
+			SpawnCreate ShivanArmCapsule2
+			{
+				Location ShivanArmCapsule2
+				Group ShivanArmCapsule2
+				Team ShivanArmCapsule2
+				SpawnBehavior <<Invincible(1),Untargetable(1),Unselectable(1)>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ShivanArmCapsule2
+			}
+			SpawnCreate LongbowSpawn2
+			{
+				Location LongbowSpawn2
+				Group LongbowSpawn2
+				Team LongbowSpawn2
+				MoveToMarker FightMarker
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<DeadCleanUp>>
+			}
+			TeamCreate
+			{
+				Team LongbowSpawn2
+				MinRespawnTime 15
+				MaxRespawnTime 15
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   6
+				Count   2,   1,   5
+				Count   3,   1,   4
+				Count   8,   1,   3
+				Count   10,   1,   2
+				Count   12,   1,   1
+				Count   16,   1,   1
+				Count   23,   1,   1
+				Count   38,   1,   1
+				Count   43,   1,   1
+			}
+			SpawnCreate LongbowSpawn3
+			{
+				Location LongbowSpawn3
+				Group LongbowSpawn3
+				Team LongbowSpawn3
+				MoveToMarker FightMarker
+				SpawnBehavior <<CombatOverride(Passive),Praetorian_TeleportIn(Timer(2),Invincible(1),Untargetable(1),Unselectable(1)),Invincible(0),Unselectable(0),Untargetable(0),CombatOverride(Aggressive),LeashedtoSpawnDistance(30),Combat>>
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team LongbowSpawn3
+				MinRespawnTime 15
+				MaxRespawnTime 15
+				//	Plyrs	Minimum	Full
+				Count   1,   1,   6
+				Count   2,   1,   5
+				Count   3,   1,   4
+				Count   8,   1,   3
+				Count   10,   1,   2
+				Count   12,   1,   1
+				Count   16,   1,   1
+				Count   23,   1,   1
+				Count   38,   1,   1
+				Count   43,   1,   1
+			}
+			SpawnCreate ArachnosTeam
+			{
+				Location ArachnosTeam
+				Group ArachnosTeam
+				Team ArachnosTeam
+				KillBehavior <<PL_DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ArachnosTeam
+			}
+			SpawnCreate ShivanFountainZoneEvent
+			{
+				Location ShivanFountainZoneEvent
+				Group ShivanFountainZoneEvent
+				Team ShivanFountainZoneEvent
+				SpawnBehavior <<DoNothing(AnimList(Shivan_Groundburst),Timer(2)),Combat>>
+				KillBehavior <<Untargetable(1),Unselectable(1),DeadCleanUp>>
+			}
+			TeamCreate
+			{
+				Team ShivanFountainZoneEvent
+				MinRespawnTime 1
+				MaxRespawnTime 15
+			}
+			SpawnCreate VanguardHeavySpawn
+			{
+				Location ZE_VanguardHeavy
+				Group ZE_VanguardHeavy
+				Team ZE_VanguardHeavy
+				SpawnBehavior <<DoNothing(Timer(2),AnimList(SpawnAsPet)),AlwaysAttack,OverridePerceptionRadius(500),Untargetable,CombatOverride(Aggressive)>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ZE_VanguardHeavy
+			}
+			SpawnCreate VanguardHeavySpawn2
+			{
+				Location ZE_VanguardHeavy2
+				Group ZE_VanguardHeavy2
+				Team ZE_VanguardHeavy2
+				SpawnBehavior <<DoNothing(Timer(2),AnimList(SpawnAsPet)),AlwaysAttack,OverridePerceptionRadius(500),Untargetable,CombatOverride(Aggressive)>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ZE_VanguardHeavy2
+			}
+			SpawnCreate VanguardHeavySpawn3
+			{
+				Location ZE_VanguardHeavy3
+				Group ZE_VanguardHeavy3
+				Team ZE_VanguardHeavy3
+				SpawnBehavior <<DoNothing(Timer(2),AnimList(SpawnAsPet)),Combat>>
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ZE_VanguardHeavy3
+			}
+			SpawnCreate ControlShortStrafe
+			{
+				Location Tutorial_Airstrike_Controller_Short_Strafe
+				Group Tutorial_Airstrike_Controller_Short_Strafe
+				Team ControlShortStrafe
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ControlShortStrafe
+			}
+			SpawnCreate ControlNoStrafe
+			{
+				Location Tutorial_Airstrike_Controller_NoStrafe
+				Group Tutorial_Airstrike_Controller_NoStrafe
+				Team ControlNoStrafe
+				KillBehavior <<DestroyMe>>
+			}
+			TeamCreate
+			{
+				Team ControlNoStrafe
+			}
+		}
+	}
+	Trigger End
+	{
+		NextStage FirstStage
+	}
+}
+
+Stage CompleteStage
+{
+	StartUp
+	{
+		Action TurnOffLongbow
+		{
+			TeamControl LongbowTrigger2
+			{
+				Type Deactivate
+				Team LongbowSpawn2
+			}
+			TeamControl LongbowTrigger3
+			{
+				Type Deactivate
+				Team LongbowSpawn3
+			}
+			TeamControl FakeTargetReset
+			{
+				Type Deactivate
+				Team ShivanTarget
+			}
+			TeamControl ShivanArmCapsule1Remove
+			{
+				Type Deactivate
+				Team ShivanArmCapsule1
+			}
+			TeamControl ShivanArmCapsule2Remove
+			{
+				Type Deactivate
+				Team ShivanArmCapsule2
+			}
+			TeamControl GiantShivanKnockbackRemove
+			{
+				Type Deactivate
+				Team GiantShivanKnockback
+			}
+		}
+		Action
+		{
+			Reset DelayBeforeAction
+		}
+		Action TurnOffArachnos
+		{
+			TeamControl DeTriggerLongbow2
+			{
+				Type DeActivate
+				Team ArachnosTeam
+			}
+		}
+		Action TurnOffShivan
+		{
+			TeamControl DeTriggerLongbow3
+			{
+				Type DeActivate
+				Team GiantShivanMonster
+			}
+		}
+	}
+	Timer TeleportTimer
+	{
+		Duration 0:06
+	}
+	Timer ResetTimer
+	{
+		Duration 0:10
+	}
+	Trigger TeleportAway
+	{
+		Requires TeleportTimer complete>
+		Action RewardTeleporter
+		{
+			Reward NT_GS_RewardTable
+		}
+	}
+	Trigger End
+	{
+		Requires ResetTimer complete>
+		NextStage FirstStage
+		Action RedestroytheShivanTarget
+		{
+			TeamControl ShivanTargetReDestroy
+			{
+				Type Deactivate
+				Team ShivanTarget
+			}
+		}
+	}
+}
+
+Stage FirstStage
+{
+	DisplayName P1901505839
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting first stage of Shivan event>>
+		}
+
+		Action ShivanFountainSpawn
+		{
+			TeamControl
+			{
+				Type Activate
+				Team ControlShortStrafe
+			}
+			TeamControl
+			{
+				Type Activate
+				Team ControlNoStrafe
+			}
+			TeamControl ShivanTargetStart
+			{
+				Type Activate
+				Team ShivanTarget
+			}
+			TeamControl NewFountainSpawn
+			{
+				Type Activate
+				Team ShivanFountainZoneEvent
+			}
+			TeamControl ShivanReset
+			{
+				Type Deactivate
+				Team GiantShivanMonster
+			}
+			TeamControl VanguardHeavyReset
+			{
+				Type Deactivate
+				Team ZE_VanguardHeavy
+			}
+			TeamControl VanguardHeavyReset2
+			{
+				Type Deactivate
+				Team ZE_VanguardHeavy2
+			}
+		}
+	}
+	Counter ShivanKills
+	{
+		Type Team
+		Count 15
+		Team ShivanFountainZoneEvent
+	}
+	UICollection Stage1KillCount
+	{
+		UIItem ShivanKillCount
+		{
+			Type BarBlue
+			Text P1411090204
+			ShortText P2122920009
+			Current ShivanKills count>
+			Target 15
+		}
+		UIItem Directions
+		{
+			Type Text
+			Text P1421988547
+			HideIf ShivanKills Count> 5 <= 
+		}
+	}
+	Trigger LongbowSpawn
+	{
+		Requires ShivanKills Count> 5 >= 
+		Action SpawnLongbow
+		{
+			Floater Victory
+			{
+				Message P1657922939
+				Color 8b8989
+				Volume EventVolume_GiantShivan
+			}
+		}
+	}
+	Trigger ShortStrafeActivate
+	{
+		Requires ShivanKills Count> 5 >= ShortStrafeTimer complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team ControlShortStrafe
+				Behavior <<UsePower(Short_Strafe)>>
+			}
+			Reset ShortStrafeActivate ShortStrafeTimer
+		}
+	}
+	Timer ShortStrafeTimer
+	{
+		Duration 0:30
+	}
+	Trigger GoodStuffHappens
+	{
+		Requires ShivanKills complete>
+		Action HellionKillsDone
+		{
+			DebugPrint <<Shivans are defeated, moving to the final stage.>>
+			Floater Victory
+			{
+				Message P1091788648
+				Color 00ff00
+				Volume EventVolume_GiantShivan
+			}
+		}
+		NextStage FinalStage
+	}
+}
+
+Stage FinalStage
+{
+	DisplayName P3802134686
+	StartUp
+	{
+		Action StartKillProtest
+		{
+			DebugPrint <<Starting Shivan Respawn>>
+		}
+		Action
+		{
+			SetScriptValue PauseTimerComplete 0
+		}
+		Action
+		{
+			SetScriptValue ShivanStrength 5
+		}
+		Action TurnonShivans
+		{
+			TeamControl DeactivateShivans
+			{
+				Type Deactivate
+				Team ShivanFountainZoneEvent
+			}
+			PlaySound GiantMonsterRoar
+			{
+				Sound ShivanGiant_TeaserVox_01
+				Channel SFX
+				VolumeLevel .5
+			        VolumeName EventVolume_GiantShivan
+		        }
+			PlaySound GiantMonsterMusic
+			{
+				Sound GiantShivanMissionReveal
+				Channel Music
+				VolumeLevel 1
+			        VolumeName EventVolume_GiantShivan
+		        }
+		}
+	}
+	Counter ShivanHealth
+	{
+		Type BossHealth
+		Team GiantShivanMonster
+	}
+	Counter PlayersAround
+	{
+		Type ZEPlayers
+		VolumeName EventVolume_GiantShivan
+	}
+// ShivanFIGHT timer adds OverridePerceptionRadius to the Giant Shivan. This HAS to go here or else he will go into combat too early and will not play his starting animation to climb up.
+	Timer ShivanFIGHT
+	{
+		Duration 0:10
+	}
+	Timer Pausetimer
+	{
+		Duration 0:07
+	}
+	Timer VanguardHeavyTimer
+	{
+		Duration 0:30
+	}
+	Timer VanguardHeavy2Timer
+	{
+		Duration 0:60
+	}
+	Timer VanguardHeavy3Timer
+	{
+		Duration 0:18
+	}
+
+	Timer CheckPlayers
+	{
+		Duration 0:05
+	}
+	TriggerDeck UpdatePlayerCount
+	{
+		Requires CheckPlayers complete>
+		NoShuffle
+		Type ShuffleAlways
+		Trigger
+		{
+			Requires PlayersAround count> 1 <=
+			Action
+			{
+				SetScriptValue DoubleNoStrafe 1
+				Reset UpdatePlayerCount CheckPlayers
+			}
+		}
+		Trigger
+		{
+			Action
+			{
+				SetScriptValue DoubleNoStrafe 0
+				Reset UpdatePlayerCount CheckPlayers
+			}
+		}
+	}
+			
+	Trigger TimerFinished
+	{
+		Requires Pausetimer complete> PauseTimerComplete scriptvalue> 0 == &&
+		Action
+		{
+			SetScriptValue PauseTimerComplete 1
+		}
+		Action TurnonShivans
+		{
+			TeamControl GiantShivanMonsterCreate
+			{
+				Type Activate
+				Team GiantShivanMonster
+			}
+			TeamControl GiantShivanKnockbackCreate
+			{
+				Type Activate
+				Team GiantShivanKnockback
+			}
+//			TeamControl FakeShivanCreate
+//			{
+//				Type Activate
+//				Team ShivanTarget
+//			}
+			TeamControl ShivanArmCapsule1
+			{
+				Type Activate
+				Team ShivanArmCapsule1
+			}
+			TeamControl ShivanArmCapsule2
+			{
+				Type Activate
+				Team ShivanArmCapsule2
+			}
+			Reward NT_GS_TokenTable
+		}
+//		Action
+//		{
+//			Reset ShivanHealth
+//		}
+	}
+	Trigger ShivanFightTimerFinished
+	{
+		Requires ShivanFIGHT complete>
+		Action TurnonShivan
+		{
+			TeamControl ShivanTargetStop
+			{
+				Type Deactivate
+				Team ShivanTarget
+			}
+			TeamControl
+			{
+				Type DoBehavior
+				Team GiantShivanMonster
+				Behavior <<OverridePerceptionRadius(500),DoAttackAI(1),AlwaysAttack(1)>>
+			}
+
+		}
+	}
+	Trigger SecondTimerFinished
+	{
+		Requires VanguardHeavyTimer complete>
+		Action TurnonHeavy
+		{
+			Floater VanguardSupportInbound
+			{
+				Message P840336806
+				Color 8b8989
+				Volume EventVolume_GiantShivan
+				AlertType PriorityAlert
+			}
+			TeamControl
+			{
+				Type DoBehavior
+				Team ControlNoStrafe
+				Behavior <<UsePower(NoStrafe)>>
+			}
+			PlaySound GiantMonsterBattleMusic
+			{
+				Sound GiantShivanMission_Loop
+				Channel Music
+				VolumeLevel 1
+			        VolumeName EventVolume_GiantShivan
+		        }
+			Reset VanguardHeavyTimer
+		}
+	}
+	Trigger SecondTimerFinished2
+	{
+		Requires VanguardHeavyTimer complete> VanguardHeavy2Timer complete> &&
+		Action
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team ControlNoStrafe
+				Behavior <<UsePower(NoStrafe)>>
+			}
+			Reset VanguardHeavyTimer SecondTimerFinished2
+		}
+	}
+//	Trigger SecondTimerFinished3
+//	{
+//		Requires VanguardHeavy3Timer complete>
+//		Action TurnonHeavy
+//		{
+//			TeamControl VanguardHeavy3Spawn
+//			{
+//				Type Activate
+//				Team ZE_VanguardHeavy3
+//			}
+//		}
+//	}
+	UICollection MainStageUI
+	{
+		UIItem PlaceholderText
+		{
+			Type Text
+			Text P197576367
+			HideIf PauseTimerComplete scriptvalue> 0 ==
+		}
+		UIItem Positivestage2DemonHealth
+		{
+			Type BarGold
+			Text P2452332320
+			ShortText P3557959745
+			Current ShivanStrength ScriptValue>
+			OnClickFindEnt GiantShivanMonster
+			Target 5
+			HideIf PauseTimerComplete scriptvalue> 0 ==
+		}
+		UIItem PlaceholderText
+		{
+			Type Text
+			Text P1091788648
+			HideIf Pausetimer complete>
+		}
+	}
+	Timer DelayBeforeAction
+	{
+		Duration 00:10
+	}
+	Trigger ShivanHurt1
+	{
+		Requires DelayBeforeAction complete> ShivanHealth count> 90 <= &&
+		Action
+		{
+			SetScriptValue ShivanStrength 4
+		}
+		Action ShivanReact1
+		{
+
+			TeamControl
+			{
+				Type DoBehavior
+				Team GiantShivanMonster
+				Behavior <<DoNothing(CombatOverride(Passive),AnimList(Shivan_Giant_HitReact),Timer(2))>>
+			}
+		}
+	}
+	Trigger ShivanHurt2
+	{
+		Requires DelayBeforeAction complete> ShivanHealth count> 80 <= &&
+		Action
+		{
+			SetScriptValue ShivanStrength 3
+		}
+		Action ShivanReact2
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team GiantShivanMonster
+				Behavior <<DoNothing(CombatOverride(Passive),AnimList(Shivan_Giant_HitReact),Timer(2))>>
+			}
+		}
+	}
+	Trigger ShivanHurt3
+	{
+		Requires DelayBeforeAction complete> ShivanHealth count> 70 <= &&
+		Action
+		{
+			SetScriptValue ShivanStrength 2
+		}
+		Action ShivanReact3
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team GiantShivanMonster
+				Behavior <<DoNothing(CombatOverride(Passive),AnimList(Shivan_Giant_HitReact),Timer(2))>>
+			}
+		}
+	}
+	Trigger ShivanHurt4
+	{
+		Requires DelayBeforeAction complete> ShivanHealth count> 60 <= &&
+		Action
+		{
+			SetScriptValue ShivanStrength 1
+		}
+		Action ShivanReact4
+		{
+			TeamControl
+			{
+				Type DoBehavior
+				Team GiantShivanMonster
+				Behavior <<DoNothing(CombatOverride(Passive),AnimList(Shivan_Giant_HitReact),Timer(2))>>
+			}
+		}
+	}
+	Trigger CompleteZoneEvent
+	{
+		Requires DelayBeforeAction complete> ShivanHealth count> 50 <= &&
+		Action
+		{
+			SetScriptValue ShivanStrength 0
+		}
+		Action ZoneEventCompleted
+		{
+			DebugPrint <<The Giant Shivan is weakened and defeated!>>
+			TeamControl
+			{
+				Type DoBehavior
+				Team GiantShivanMonster
+				Behavior <<Dead>>
+			}
+			TeamControl
+			{
+				Type DoBehavior
+				Team ShivanTarget
+				Behavior <<DestroyMe>>
+			}
+			TeamControl ShivanTargetReCreate
+			{
+				Type Activate
+				Team ShivanTarget
+			}
+			TeamControl ShivanArmCapsule1
+			{
+				Type DoBehavior
+				Team ShivanArmCapsule1
+				Behavior <<DestroyMe>>
+			}
+			TeamControl ShivanArmCapsule2
+			{
+				Type DoBehavior
+				Team ShivanArmCapsule2
+				Behavior <<DestroyMe>>
+			}
+			FadeSound BattleMusic
+			{
+				Channel Music
+				FadeTime 10
+				VolumeName EventVolume_GiantShivan
+			}
+			Floater
+			{
+				Message P3711926336
+				Color 00ff99
+				Volume EventVolume_GiantShivan
+			}
+		}
+		NextStage CompleteStage
+	}
+}
+
+Stage Stop
+{
+	StartUp
+	{
+		Action TurnOffLongbow1
+		{
+			TeamControl DeTriggerLongbow1
+			{
+				Type Deactivate
+				Team LongbowCharger1
+			}
+		}
+		Action TurnOffLongbow2
+		{
+			TeamControl DeTriggerLongbow2
+			{
+				Type DeActivate
+				Team LongbowCharger2
+			}
+		}
+		Action TurnOffLongbow3
+		{
+			TeamControl DeTriggerLongbow3
+			{
+				Type DeActivate
+				Team LongbowCharger3
+			}
+		}
+}

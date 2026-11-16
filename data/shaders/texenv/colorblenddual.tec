@@ -1,0 +1,46 @@
+{ // Texture unit 0
+	Texture 1
+	rgb {
+		// interpolate
+		//source0 = previous.rgb // fragment color (color0)
+		//source1 = constant.rgb // constant color (color1)
+		//source2 = texture.rgb // tex1.color
+		result = lerp(constant.rgb, previous.rgb, texture.rgb)
+		//result = previous
+	}
+	alpha {
+		// replace
+		result = constant.alpha * texture.alpha
+	}
+}
+
+{ // Texture unit 1
+	Texture 0
+	rgb {
+		// interpolate
+		//source0 = texture.rgb // tex0.color
+		//source1 = previous.rgb // lerp(color0, color1, tex1)
+		//source2 = texture.alpha  // tex0.alpha
+		result = lerp(texture.rgb, previous.rgb, texture.a)
+	}
+	alpha {
+		// replace (pass through)
+		result = previous.alpha
+	}
+}
+
+{ // Texture unit 2
+	Texture 0
+	rgb {
+		// modulate
+		//source0 = previous.rgb
+		//source1 = texture.rgb // tex0.color
+		result = previous.rgb * texture.rgb
+	}
+	alpha {
+		// replace (pass through)
+		result = previous.alpha
+	}
+}
+
+Flags NoLighting ConstantAsColor

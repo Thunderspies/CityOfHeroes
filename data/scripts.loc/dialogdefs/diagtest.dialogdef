@@ -1,0 +1,70 @@
+
+Dialog NoTasksRemaining
+{
+	PageList Intro
+	{
+		list Phased NotPhased
+		flags InOrder
+	}
+
+	Page Phased
+	{
+		Text "P3846410139"
+		Requires Phasing_FW_NadiaVisitsHelix TokenOwned? ! Phasing_FW_FB_PalatineStoryArcStart TokenOwned? Phasing_FW_FB_NadiaVisitsHelix TokenOwned? ! && || Phasing_FW_FB_MasterMidnightStoryArcStart TokenOwned? || !
+	}
+
+	Page NotPhased
+	{
+		Text "P3348752038"
+	}
+
+}
+
+
+Dialog DialogTree
+{
+	PageList Intro
+	{
+		list TaskIncomplete TaskComplete NotTaskOwner
+		Fallback NotTaskOwner
+		flags InOrder
+	}
+
+	Page TaskIncomplete
+	{
+		Text "P2798457843"
+		Requires TaskOwner? ScriptObjective MissionObjective? ! &&
+		Answer
+		{
+			Text "P1939340389"
+			Page "[Close]"
+		}
+
+	}
+
+	Page TaskComplete
+	{
+		Text "P3447255354"
+		Requires TaskOwner? ScriptObjective MissionObjective? &&
+		Answer
+		{
+			Text "P4060782435"
+			Page "[Close]"
+		}
+
+	}
+
+	Page NotTaskOwner
+	{
+		Text "P1407234927"
+		Requires TaskOwner? !
+		Answer
+		{
+			Text "P1443913718"
+			Page "[Close]"
+		}
+
+	}
+
+}
+

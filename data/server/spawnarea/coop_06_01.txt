@@ -1,0 +1,50 @@
+
+SpawnArea Global
+
+	// Redundent fields?
+	MaxActiveEntities 1000000
+	MaxCritterCount 100
+	MaxNPCCount 2000
+	MaxCritterPerPlayer 850		// This can go.  Mission maps determine max critter count some other way now.
+	MaxTriggerCount 10		// This can go.  Not used anymore.
+	MaxCritterSpawnCount infinite
+
+	NPC Ghost_MaleNPC
+		// Type <Villain name in NPC.dta>
+		Type Ghost_MaleNPC_01, Ghost_MaleNPC_02, Ghost_MaleNPC_03, Ghost_MaleNPC_04, Ghost_MaleNPC_05, 
+		Type Ghost_MaleNPC_06, Ghost_MaleNPC_07, Ghost_MaleNPC_08, Ghost_MaleNPC_09, Ghost_MaleNPC_10
+		// Turn Off
+		MaxActiveEntities 0
+		// was 100
+		RunSpeed 0.7
+	End
+
+	NPC Ghost_FemaleNPC
+		Type Ghost_FemaleNPC_01, Ghost_FemaleNPC_02, Ghost_FemaleNPC_03, Ghost_FemaleNPC_04, Ghost_FemaleNPC_05, 
+		Type Ghost_FemaleNPC_06, Ghost_FemaleNPC_07, Ghost_FemaleNPC_08, Ghost_FemaleNPC_09, Ghost_FemaleNPC_10
+		// Turn Off
+		MaxActiveEntities 0
+		// was 125
+		RunSpeed 0.7
+	End
+
+	Generator CarGenerator
+
+		MaxSpawnCount infinite
+		// Turn Off
+		MaxActiveEntities 0
+		ActivationInterval 300
+		GeneratedTypes Car_Lux, Car_Compact, Car_Sport, Car_Truck
+	End
+
+	// Only output ghosts
+	Generator NPCGenerator
+		MaxSpawnCount infinite
+		// Turn Off
+		MaxActiveEntities 0
+		// was 5
+		ActivationInterval 150
+		GeneratedTypes Ghost_MaleNPC, Ghost_FemaleNPC,
+	End
+
+End

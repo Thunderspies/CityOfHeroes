@@ -1,0 +1,77 @@
+// TBD! OPTION ARB_precision_hint_fastest;
+
+// #define ORIGINAL_BLOOM
+
+#define DO_TONEMAP
+// #define TONEMAP_SCALE
+// #define TONEMAP_SHIFT
+#define TONEMAP_SCALE_SHIFT
+#define DO_GLOW
+
+#if defined(TONEMAP_SCALE_SHIFT)
+	#define TONEMAP_SCALE
+	#define TONEMAP_SHIFT
+	#if defined(NO_HDR)
+		float scaleScale = 0.6;
+	#else
+		float scaleScale = 0.4;
+	#endif
+#else
+	float scaleScale = 0.7;
+#endif
+
+#if defined(DO_GLOW)
+    #define DO_BLOOM_GLOW(s, g, btm, b) utilBloomGlow(s, g, btm, b)
+#else
+    #define DO_BLOOM_GLOW(s, g, btm, b)
+#endif
+
+#include "constants_vfx.cgh"
+#include "utilEffects.cgh"  //placed after #defines for util routines
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+    float4 texCoord0              : TEXCOORD0;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform sampler2D texSampler1 : TEXUNIT1;
+    uniform sampler2D texSampler2 : TEXUNIT2;
+    uniform float4 g_Effects_ExpectedLumFP			TIE( ENV0 ); // program.local[0] // 0.18 is good for night time 0.5 for daytime
+    #if defined(DESATURATE)
+        uniform float4 g_Effects_DesaturateParamFP	TIE( ENV3 );   // program.local[3]
+    #endif
+};
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float4 oColor;
+
+    float4 sample  = tex2D( IN.texSampler0, IN.texCoord0.xy );
+    float4 avgLum  = tex2D( IN.texSampler1, float2(0.5, 0)  );
+    float4 blurred = tex2D( IN.texSampler2, IN.texCoord0.xy );
+
+    // hack to prevent screen from going black
+    avgLum = clamp(avgLum, float4(0.01, 0.01, 0.01, 0.01), float4(1.0, 1.0, 1.0, 1.0));
+
+    float4 blurredTonemapped = utilBlurredToneMap(sample, IN.g_Effects_ExpectedLumFP, avgLum, blurred, scaleScale);
+
+    DO_BLOOM_GLOW(sample, IN.g_Effects_ExpectedLumFP, blurredTonemapped, blurred);
+
+    #if defined(DESATURATE)
+        sample = DoDesaturate( sample, IN.g_Effects_DesaturateParamFP, LUMINANCE_VECTOR );
+    #endif
+
+    oColor = utilFinalColor(sample);
+
+    //oColor.xyz = blurred;
+
+    return oColor;
+}
+

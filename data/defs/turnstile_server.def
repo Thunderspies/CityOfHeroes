@@ -1,0 +1,884 @@
+// Turnstile server config
+
+// Mission defs
+// Mission name.  This is really an internal identifier.  There will be a corresponding localization
+// entry, the name of which is generated procedurally.
+//Mission         ITF
+//{
+// Category is Trial, IncarnateTrial, or HolidayTrial
+//    Category		Trial
+
+// MinimumPlayers is the minimum needed to start this
+//    MinimumPlayers	1
+
+// PickupMinPlayers is the minimum used by the turnstile when it auto groups
+// If not specified, it will use the minimum number of players
+// If a group owns the mission, it will not use this minimum
+    
+// Maximum players is the maximum this content can handle
+//    MaximumPlayers	8
+    
+// Delay after reaching MinimumPlayers at which the event get started, in seconds
+//  StartDelay          60
+    
+// Requires is a requires statement that determines if the player is eligible
+// TODO remove the quotes, use TOK_STRINGARRAY instead of TOK_STRING, and simply the code that actually evaluates these.
+//    Requires		"InTaskforce char> ! level char> 35 >= &&"
+
+// Type says what do do with the group when it's assembled
+//  Type		Instance
+    
+// Zone means port the party to a given location in a given zone
+// Instance means port everyone into an instance
+
+// For a Zone type mission, MapName specifies the map to send players to
+// For an Instance type mission, MapName specifies the mission map to use
+//  MapName             maps/Missions/David/David_Test_30/David_Test_30.txt
+    
+// For in Instance mission Location states the name of the door spawnin property.  Usually "MissionStart", except that breaks
+// if the map uses doors that have baked in MissionStart beacons.
+// For contact type events, the script is the contact name
+//  Location		EndGameStart
+
+// For a Zone type mission, Pos gives the x,y,z location
+//  Pos			0 0 0
+    
+// For a Zone type mission, Contact gives contact to teleport to
+// What is the syntax for this?  Check the Ouroboros cose that does the current "teleport to contact" trickery.  That *MIGHT* also
+// remove the need for the map.
+//  Contact		Statesman
+
+// For a Zone type mission, Radius specifies a random radius around pos
+// to spread players out, so they don't all arrive at exactly the same
+// place
+//  Radius             8
+
+// Script specifies thae name of the scriptdef to use to kick off the end game raid script.  If not given, nothing is started - this might
+// prove useful if we ever see our way to running hami raids in instances.  Just kick start the map,
+// For contact type events, the script is the contact name
+// Script		50plusLambdaSector
+//}
+
+//Mission         TestContact
+//{
+//    Category		TaskforceContact
+//    MinimumPlayers	4    
+//    PickupMinPlayers	6
+//    MaximumPlayers	8
+//    StartDelay          90
+//    LevelShift          0
+//    Type		Contact
+//    Script		Valkyrie
+//    Location		Valkyrie
+//}
+Mission         LambdaSectorLua
+{
+    Category		IncarnateTrial
+    MinimumPlayers	1
+    MaximumPlayers	16
+    StartDelay          0
+    LevelShift          4
+    Requires		"accesslevel char> 0 >"
+    HideIf		"accesslevel char> 0 <="
+    Type		Instance
+    MapName             maps/Missions/P_Endgame/LambdaSector/P_LambdaSector.txt
+    Location		MissionStart
+    Script		Lua/LuaLambda
+}
+Mission         Magisterium
+{
+    Category		IncarnateTrial
+    MinimumPlayers	12
+    MaximumPlayers	24
+    StartDelay          90
+    LevelShift          4
+    Requires		"isVIP? level char> 50 >= && IncarnateLoreSlot owned? && IncarnateDestinySlot owned? &&"
+    HideIf		"isVIP? level char> 50 >= && ! IncarnateLoreSlot owned? ! || IncarnateDestinySlot owned? ! ||"
+    Type		Instance
+    MapName             maps/Missions/P_Endgame/Magisterium/P_Magisterium.txt
+    Location		MissionStart
+    Script		50plusMagisterium
+}
+Mission         DilemmaDiabolique
+{
+    Category		IncarnateTrial
+    MinimumPlayers	8
+    MaximumPlayers	16
+    StartDelay          90
+    LevelShift          4
+    Requires		"isVIP? level char> 50 >= &&"
+    HideIf		"isVIP? level char> 50 >= && !"
+    Type		Instance
+    MapName             maps/Missions/Endgame/DilemmaDiabolique/DilemmaDiabolique.txt
+    Location		MissionStart
+    Script		50plusDilemmaDiabolique
+}
+Mission         MindsOfMayhem
+{
+    Category		IncarnateTrial
+    MinimumPlayers	8
+    MaximumPlayers	16
+    StartDelay          90
+    LevelShift          4
+    Requires		"isVIP? level char> 50 >= &&"
+    HideIf		"isVIP? level char> 50 >= && !"
+    Type		Instance
+    MapName             maps/Missions/P_Endgame/MindsOfMayhem/P_MindsOfMayhem.txt
+    Location		MissionStart
+    Script		50plusMindsOfMayhem
+}
+Mission         TPNCampus
+{
+    Category		IncarnateTrial
+    MinimumPlayers	12
+    MaximumPlayers	24
+    StartDelay          90
+    LevelShift          4
+    Requires		"isVIP? level char> 50 >= &&"
+    HideIf		"isVIP? level char> 50 >= && !"
+    Type		Instance
+    MapName             maps/Missions/P_Endgame/TPNCampus/P_TPN_Campus.txt
+    Location		MissionStart
+    Script		50plusTPNCampus
+}
+Mission         Underground
+{
+    Category		IncarnateTrial
+    MinimumPlayers	12
+    MaximumPlayers	24
+    StartDelay          90
+    LevelShift          4
+    Requires		"isVIP? level char> 50 >= &&"
+    HideIf		"isVIP? level char> 50 >= && !"
+    Type		Instance
+    MapName             maps/Missions/P_Endgame/Underground/P_Underground.txt
+    Location		MissionStart
+    Script		50plusUnderground
+}
+Mission         KeyesIsland
+{
+    Category		IncarnateTrial
+    MinimumPlayers	12
+    MaximumPlayers	24
+    StartDelay          90
+    LevelShift          4
+    Requires		"isVIP? level char> 50 >= &&"
+    HideIf		"isVIP? level char> 50 >= && !"
+    Type		Instance
+    MapName             maps/Missions/P_Endgame/KeyesIsland/P_KeyesIsland.txt
+    Location		MissionStart
+    Script		50plusKeyesIsland
+}
+Mission         LambdaSector
+{
+    Category		IncarnateTrial
+    MinimumPlayers	8
+    MaximumPlayers	16
+    StartDelay          90
+    LevelShift          4
+    Requires		"isVIP? level char> 50 >= &&"
+    HideIf		"isVIP? level char> 50 >= && !"
+    Type		Instance
+    MapName             maps/Missions/P_Endgame/LambdaSector/P_LambdaSector.txt
+    Location		MissionStart
+    Script		50plusLambdaSector
+}
+Mission         BAF
+{
+    Category		IncarnateTrial
+    MinimumPlayers	12
+    MaximumPlayers	24
+    LevelShift          4
+    StartDelay          90
+    Requires		"isVIP? level char> 50 >= &&"
+    HideIf		"isVIP? level char> 50 >= && !"
+    Type		Instance
+    MapName             maps/missions/P_Endgame/B.A.F/P_BAF.TXT
+    Location		MissionStart
+    Script		50plusPrison
+}
+
+// Regular TUT Trial Section
+
+Mission         LowLevelBloodyBayTrial_hero
+{
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    LevelShift          0
+    ForceMissionLevel	20
+    Requires		"allyID char> hero eq PraetorianProgress char> Tutorial eq ! && PraetorianProgress char> Praetoria eq ! && mapname> N_City_00_01 eq ! && level char> 15 >= &&"
+    HideIf		"allyID char> villain eq PraetorianProgress char> Tutorial eq || PraetorianProgress char> Praetoria eq || mapname> N_City_00_01 eq || level char> 15 < ||"
+    Type		Instance
+    MapName             maps/Missions/Outdoor_Missions/Outdoor_Bloody_Bay\Bloody_Bay_Trial.txt
+    Location		MissionStart
+    Script		BloodyBayTrial
+}
+Mission         LowLevelBloodyBayTrial_villain
+{
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    LevelShift          0
+    ForceMissionLevel	20
+    Requires		"allyID char> villain eq PraetorianProgress char> Tutorial eq ! && PraetorianProgress char> Praetoria eq ! && mapname> N_City_00_01 eq ! && level char> 15 >= &&"
+    HideIf		"allyID char> hero eq PraetorianProgress char> Tutorial eq || PraetorianProgress char> Praetoria eq || mapname> N_City_00_01 eq || level char> 15 < ||"
+    Type		Instance
+    MapName             maps/Missions/Outdoor_Missions/Outdoor_Bloody_Bay\Bloody_Bay_Trial.txt
+    Location		MissionStart
+    Script		BloodyBayTrial
+}
+Mission         LowLevelSewerTrial
+{
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    LevelShift          0
+    Requires		"allyID char> hero eq PraetorianProgress char> Tutorial eq ! && PraetorianProgress char> Praetoria eq ! && mapname> N_City_00_01 eq ! &&"
+    HideIf		"allyID char> villain eq PraetorianProgress char> Tutorial eq || PraetorianProgress char> Praetoria eq || mapname> N_City_00_01 eq ||"
+    Type		Instance
+    MapName             maps/Missions/unique/SewerNetworkRaid/SewerNetworkEvent_Low.txt
+    Location		MissionStart
+    Script		AP_Sewer_Trial
+}
+Mission         LowLevelSewerTrial
+{
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    LevelShift          0
+    Requires		"allyID char> villain eq PraetorianProgress char> Tutorial eq ! && PraetorianProgress char> Praetoria eq ! && mapname> N_City_00_01 eq ! &&"
+    HideIf		"allyID char> hero eq PraetorianProgress char> Tutorial eq || PraetorianProgress char> Praetoria eq || mapname> N_City_00_01 eq ||"
+    Type		Instance
+    MapName             maps/Missions/unique/SewerNetworkRaid/SewerNetworkEvent_Low.txt
+    Location		MissionStart
+    Script		AP_Sewer_Trial
+}
+
+// End Regular TUT Trial Section
+
+// Begin Holiday Section
+
+Mission         Halloween2011
+{
+    Category		HolidayTrial
+    MinimumPlayers	4
+    MaximumPlayers	4
+    LevelShift          0
+    StartDelay          5
+    Requires		"level char> 15 >= ShardEvent.Name system> scriptdefs/Halloween_11_Event.scriptdef eq &&"
+    HideIf		"level char> 15 < ShardEvent.Name system> scriptdefs/Halloween_11_Event.scriptdef eq ! ||"
+    Type		Instance
+    MapName		maps\Missions\unique\Halloween2011\Halloween2011.txt
+    Location		MissionStart
+    Script		Halloween_11_Trial
+}
+Mission         Winter2011
+{
+    Category		HolidayTrial
+    MinimumPlayers	12
+    MaximumPlayers	36
+    LevelShift          0
+    StartDelay          90
+    Requires		"level char> 10 >= ShardEvent.Name system> scriptdefs/Holiday_11_Event.scriptdef eq &&"
+    HideIf		"level char> 10 < ShardEvent.Name system> scriptdefs/Holiday_11_Event.scriptdef eq ! ||"
+    Type		Instance
+    MapName		maps/Missions/Outdoor_Missions/Outdoor_Winter09/Winter_09_Layout_01.txt
+    MapName		maps/Missions/Outdoor_Missions/Outdoor_Winter09/Winter_09_Layout_02.txt
+    MapName		maps/Missions/Outdoor_Missions/Outdoor_Winter09/Winter_09_Layout_03.txt
+    MapName		maps/Missions/Outdoor_Missions/Outdoor_Winter09/Winter_09_Layout_04.txt
+    MapName		maps/Missions/Outdoor_Missions/Outdoor_Winter09/Winter_09_Layout_05.txt
+    Location		MissionStart
+    Script		LordWintersRealmMission
+}
+Mission		Summer2012
+{
+    Category		HolidayTrial
+    MinimumPlayers	4
+    MaximumPlayers	4
+    LevelShift		0
+    StartDelay		5
+    Requires		"level char> 15 >= ShardEvent.Name system> scriptdefs/SummerBlockbusterEvent.scriptdef eq &&"
+    HideIf		"level char> 15 < ShardEvent.Name system> scriptdefs/SummerBlockbusterEvent.scriptdef eq ! ||"
+    Type		Instance
+    MapName		maps/Missions/unique/Summer_Event_2012/Summer_Event_2012.txt
+    Location		MissionStart
+    Script		SummerEvent2012
+}
+
+// End Holiday Section
+
+
+// Begin Co-Op / Endgame Section
+
+Mission		SL9_RWZ_Apex_TaskForce	// 8 min, Coop 50 + Alpha Slot
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Apex
+    Location		Apex
+    Requires		"PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || level char> 50 >= && IncarnateAlphaSlot owned? &&"
+    HideIf		"PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || level char> 50 >= && IncarnateAlphaSlot owned? && !"
+}
+Mission		SL9_RWZ_TinMage_TaskForce	// 8 min, Coop 50 + Alpha Slot
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Tin_Mage
+    Location		Tin_Mage
+    Requires		"PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || level char> 50 >= && IncarnateAlphaSlot owned? &&"
+    HideIf		"PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || level char> 50 >= && IncarnateAlphaSlot owned? && !"
+}
+Mission		SL9_Taskforce_ReturnoftheReichsman	// 4 min, Hero 45 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Dr_Kahn
+    Location		Dr_Kahn
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 45 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 45 >= && !"
+}
+Mission		SL9_ThusSpokeTheReichsman_StrikeForce	// 4 min, Villain 45 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Barracuda
+    Location		Barracuda
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 45 >= &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 45 >= && !"
+}
+Mission		SL9_RWZ_LADYGREY_TASKFORCE	// 8 min, Coop 45 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Lady_Grey
+    Location		Lady_Grey
+    Requires		"PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || level char> 45 >= &&"
+    HideIf		"PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || level char> 45 >= && !"
+}
+Mission		LVL9_TASKFORCE_STATESMAN	// 8 min, Hero 45 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Statesman
+    Location		Statesman
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 45 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 45 >= && !"
+}
+Mission		SL9_FUTUREOFFREEDOM_STRIKEFORCE	// 8 min, Villain 45 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Lord_Recluse
+    Location		Lord_Recluse
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 45 >= && DefeatRecluse Owned? &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 45 >= && !"
+}
+Mission		SL9_CP_IMPERIOUS_TASKFORCE	// 6 min, Coop 35 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	6
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Imperious
+    Location		Imperious
+    Requires		"PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || level char> 35 >= && MSMember Owned? &&"
+    HideIf		"PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || level char> 35 >= && !"
+}
+
+// End Co-Op / Endgame Section
+
+// Begin TF/SF Section (Mixed Hero/Villain for Rogues/Vigilantes)
+
+Mission		SL9_TASKFORCEFAATHIM	// 8 min, Hero 44 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Faathim_The_Kind
+    Location		Faathim_The_Kind
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 44 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 44 >= && !"
+}
+Mission		SL9_TASKFORCEAUGUSTINE	// 8 min, Hero 44 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Justin_Augustine
+    Location		Justin_Augustine
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 44 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 44 >= && !"
+}
+Mission		SL8_TASKFORCEMOORE	// 8 min, Hero 40 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Sara_Moore
+    Location		Sara_Moore
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 40 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 40 >= && !"
+}
+Mission		SL8_TASKFORCEQUATERFIELD	// 8 min, Hero 40 - 44
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Dr_Quaterfield
+    Location		Dr_Quaterfield
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 40 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 40 >= && !"
+}
+Mission		SL4-7_ISSUE20_ADMIRAL_SUTTER_H_TASKFORCE	// 4 min, Hero 20 - 40
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Admiral_Sutter
+    Location		Admiral_Sutter
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 20 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 20 >= && !"
+}
+Mission		SL4-7_SI_Issue20_Mortimer_Kal_StrikeForce	// 4 min, Villain 20 - 40
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Mortimer_Kal
+    Location		Mortimer_Kal
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 20 >= && MortimerKalTipComplete TokenOwned? &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 20 >= && !"
+}
+Mission		LVL7_TASKFORCE_NUMINA	// 4 min, Hero 35 - 40
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Numina
+    Location		Numina
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 35 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 35 >= && !"
+}
+Mission		SL7_CRYSTALOFSERAPHINA_STRIKEFORCE	// 4 min, Villain 35 - 40
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		V_Contacts\StrikeForces\Ice_Mistral.contact
+    Location		V_Contacts\StrikeForces\Ice_Mistral.contact
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 35 >= &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 35 >= && !"
+}
+Mission		LVL6_TASKFORCE_MANTICORE	// 7 min, Hero 30 - 35
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	7
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Manticore
+    Location		Manticore
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 30 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 30 >= && !"
+}
+Mission		CROATOA_KATIE_TF	// 6 min, Hero 25 - 30
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	6
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Katie_Hannon
+    Location		Katie_Hannon
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 30 >= && CroatoaComplete TokenOwned? &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 30 >= && !"
+}
+Mission		STRIGA_ERNESTO_TF	// 6 min, Hero 25 - 30
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	6
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Ernesto_Hess
+    Location		Ernesto_Hess
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 25 >= && StrigaComplete TokenOwned? &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 25 >= && !"
+}
+Mission		LVL5_TASKFORCE_BASTION	// 6 min, Hero 25 - 30
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	6
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Bastion
+    Location		Bastion
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 25 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 25 >= && !"
+}
+Mission		SL5_TEMPLEOFTHEWATERS_STRIKEFORCE	// 4 min, Villain 25 - 30
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Operative_Renault
+    Location		Operative_Renault
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 25 >= &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 25 >= && !"
+}
+Mission		STRIGA_MOONFIRE_TF	// 6 min, Hero 23 - 28
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	6
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Moonfire
+    Location		Moonfire
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 23 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 23 >= && !"
+}
+Mission		SL4-5_Issue22_Penelope_Yin_TaskForce	// 5 min, Hero 20 - 25
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	5
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Penelope_Yin_TF
+    Location		Penelope_Yin_TF
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 20 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 20 >= && !"
+}
+Mission		SL4_PIRATESOFTHESKIES_STRIKEFORCE	// 4 min, Villain 20 - 25
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Silver_Mantis_Sharkhead
+    Location		Silver_Mantis_Sharkhead
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 20 >= &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 20 >= && !"
+}
+Mission		LVL3_TASKFORCE_SYNAPSE		// 4 min, Hero 15 - 20
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Synapse
+    Location		Synapse
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 15 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 15 >= && !"
+}
+Mission		SL3_BEASTOFTHEMOUNTAIN_STRIKEFORCE	// 4 min, Villain 15 - 20
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Virgil_Tarikoss
+    Location		Virgil_Tarikoss
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 15 >= &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 15 >= && !"
+}
+Mission		SL2.5_Positron_Taskforce_Part2	// 3 min, Hero 11 - 16
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	3
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Positron_2
+    Location		Positron_2
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 11 >= && PositronRevampPart1 owned? &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 11 >= && !"
+}
+Mission		SL2.5_Positron_Taskforce_Part1	// 3 min, Hero 10 - 15
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		TaskforceContact
+    MinimumPlayers	3
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Positron_2
+    Location		Positron_2
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 10 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 10 >= && !"
+}
+
+// End TF/SF Section
+
+// Begin Old Trials Section
+
+Mission		TERRA_VOLTA_STORYARC_3	// 4 min, Hero 44 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Richard_Flagg
+    Location		Richard_Flagg
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 44 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 44 >= && !"
+}
+Mission		SL8-9_RESPEC44-50_STRIKEFORCE	// 4 min, Villain 44 - 50
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Ractespriel
+    Location		Ractespriel
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 44 >= &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 44 >= && !"
+}
+Mission		EDEN_TRIAL_ROOM	// 4 min, Hero 39 - 41
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Woodsman
+    Location		Woodsman
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 39 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 39 >= && !"
+}
+Mission		SEWERS_TRIAL_ROOM	// 4 min, Hero 38 - 40
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Mairenn_MacGregor
+    Location		Mairenn_MacGregor
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 38 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 38 >= && !"
+}
+Mission		TERRA_VOLTA_STORYARC_2	// 4 min, Hero 34 - 44
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		James_Harlan
+    Location		James_Harlan
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 34 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 34 >= && !"
+}
+Mission		SL6-7_RESPEC31-40_STRIKEFORCE	// 4 min, Villain 34 - 44
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Trepsarciel
+    Location		Trepsarciel
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 34 >= &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 34 >= && !"
+}
+Mission		TERRA_VOLTA_STORYARC_1	// 4 min, Hero 24 - 33
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Jane_Hallaway
+    Location		Jane_Hallaway
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 24 >= &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 24 >= && !"
+}
+Mission		SL5_RESPEC24-30_STRIKEFORCE	// 4 min, Villain 24 - 33
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		Trial
+    MinimumPlayers	4
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Sparcetriel
+    Location		Sparcetriel
+    Requires		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 24 >= &&"
+    HideIf		"alignment char> hero eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 24 >= && !"
+}
+Mission		HOLLOWS_KARSIS_TF	// 8 min, Hero 12 - 15
+{
+    //MinimumPlayers	1
+    //StartDelay	5
+
+    Category		Trial
+    MinimumPlayers	8
+    MaximumPlayers	8
+    StartDelay          90
+    Type		Contact
+    Script		Karsis
+    Location		Karsis
+    Requires		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 12 >= && HollowsComplete TokenOwned? &&"
+    HideIf		"alignment char> villain eq ! PraetorianProgress char> Normal eq PraetorianProgress char> Earth eq || && level char> 12 >= && !"
+}
+
+// End Old Trials Section

@@ -1,0 +1,64 @@
+// #define EXTEND_COLORS
+// #define CAPTHEM
+// #define HIGH_RANGE   passed in at loadProgram level for original shrinkfp.cg, not for what used to be shrink2xfp.cg
+
+//NOTE: the code related to DOF was moved here from shrink2xDoffp.cg, but 
+//  in that shader it was in a commented out state, with this comment: 
+//      "Looks nice, but sometimes loses small objects (like street lamps) against a blurred background"
+//
+//  The code has been moved over here, but left deprecated. If sometime in 
+//  the future it is desired to resurrect it, just remove the below #undef
+//  and it should work as before, passed in from rt_effects.c as an 
+//  extra define at loadProgram() callpoint
+#if defined(DOF_INTO_BLURRED_TEXTURE)
+    #undef DOF_INTO_BLURRED_TEXTURE
+#endif
+
+#include "constants_vfx.cgh"
+#include "utilEffects.cgh"  //placed after #defines for util routines
+
+
+// TBD! OPTION ARB_precision_hint_fastest;
+
+//--------------------------------------------------
+// Input struct def
+//--------------------------------------------------
+struct fpInput
+{
+    float4 texCoord0              : TEXCOORD0;
+    uniform sampler2D texSampler0 : TEXUNIT0;
+    uniform float4 g_Effects_TextTransformFP		TIE( ENV0 ); // program.local[0];
+
+    #if defined(DOF_INTO_BLURRED_TEXTURE)
+        uniform sampler2D texSampler3 : TEXUNIT3;
+        uniform sampler1D texSampler4 : TEXUNIT4;
+        uniform float4 g_Effects_DofParam2FP		TIE( ENV1 ); // program.local[1];
+        uniform float4 g_Effects_DofProjectFP		TIE( ENV2 ); // program.local[2];
+    #endif
+};
+
+
+//----------------------------------------------------------------------------
+//
+// main
+//
+//----------------------------------------------------------------------------
+float4 main( fpInput IN ) : COLOR
+{
+    float4 oColor;
+
+    float4 sample = utilShrinkSample(IN.g_Effects_TextTransformFP, IN.texCoord0, IN.texSampler0);
+
+    oColor = utilFinalColor(sample);
+    #if defined(DOF_INTO_BLURRED_TEXTURE)
+        float4 cd = utilShrinkSample(IN.g_Effects_TextTransformFP, IN.texCoord0, IN.texSampler3);
+
+        // Calculate distance from depth, distance = blur amount
+        oColor.w = utilDistanceFromDepth(IN.g_Effects_DofProjectFP, cd.x, IN.g_Effects_DofParam2FP, IN.texSampler4);
+    #else
+        oColor.w = 1;
+    #endif
+
+    return oColor;
+}
+

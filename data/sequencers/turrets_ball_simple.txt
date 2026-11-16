@@ -1,0 +1,165 @@
+#############################################################
+
+Sequencer
+
+TypeDef Turrets_Ball_simple 
+	BaseSkeleton	Turrets_Ball\Skel_Ball_Turrets
+	ParentType	None
+TypeDefEnd
+
+TypeDef Turrets_Ball_simple_offset 
+	BaseSkeleton	Turrets_Ball\bones_turret_RV
+	ParentType	Turrets_Ball_simple
+TypeDefEnd
+
+
+
+
+
+Group	<ReactIRQ>
+Group	<DeathIRQ>
+Group	<BasicMove>
+Group	<PostMoveCycle>
+Group	<Ready>
+Group	<Block>
+Group	<Jumps>
+Group	<Flymove>
+Group	<CombatMove>
+Group	<CombatFlymove>
+Group	<TwoHandCombat>
+Group	<TwoHandMove>
+Group	<FlyTwoHandMove>
+Group	<WepCombat>
+Group	<WepMove>
+Group	<Launchmove>
+
+
+
+Move Ready		
+	Member		<Ready> <AttackIRQ> <DeathIRQ> 
+	Flags		Cycle PICKRANDOMLY
+	CycleMove	Ready_B
+	CycleMove	Ready
+	CycleMove	Ready_C
+	Interpolate	20
+
+	Type		Turrets_Ball_simple
+	  Anim          Turrets_Ball\bones_turret_RV
+	TEnd
+MEnd
+
+Move Ready_B		
+	Member		<Ready> <AttackIRQ> <DeathIRQ> 
+	Flags		Cycle PICKRANDOMLY
+	CycleMove	Ready_C
+	CycleMove	Ready
+	CycleMove	Ready_B
+	Scale		0.6
+
+	Type		Turrets_Ball_simple
+	  Anim          Turrets_Ball\bones_turret_RV
+	TEnd
+MEnd
+
+Move Ready_C		
+	Member		<Ready> <AttackIRQ> <DeathIRQ> 
+	Flags		Cycle PICKRANDOMLY
+	CycleMove	Ready
+	CycleMove	Ready_B
+	Scale		0.3
+
+	Type		Turrets_Ball_simple
+	  Anim          Turrets_Ball\bones_turret_RV
+	TEnd
+MEnd
+
+
+
+
+
+###################
+###### Burst   ######
+###################
+
+Move 2nd_Burst		##(Just shoot)
+	Requires	COMBAT WEAPON GUN MACHINEGUN 
+	Interrupts	<AttackIRQ>
+	Member		<DeathIRQ> 
+	NextMove        Active_mode
+	Priority        4 
+	Interpolate	35
+	Flags		PitchToTarget
+
+	Type		Turrets_Ball_simple
+	  Anim          Turrets_Ball\active 6 80 
+	TEnd
+
+
+
+MEnd
+
+
+
+
+
+###### Deaths  ######################################
+
+
+
+###################
+###### Hit Death   ######
+###################	
+
+Move HitDeath
+	Requires	Hit DEATH 
+	Interrupts	<DeathIRQ> <ReactIRQ> 
+	NextMove        postdeath2
+	Priority        2
+	Sets            NOCOLLISION
+	Flags		NotSelectable  
+
+	Type		Turrets_Ball_simple
+	  Anim          Turrets_Ball\active 1 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+##	  PlayFx	Explosions\Large\Expolsion_large.fx 0
+	PlayFX		Explosions\TurretExplosion\TurretExplosion.Fx
+	TEnd
+
+MEnd
+
+
+Move postdeath2
+	Requires	DEATH 
+	Flags		Cycle 
+	Priority        1
+	Sets            NOCOLLISION DIENOW
+
+	Type		Turrets_Ball_simple
+	  Anim          Turrets_Ball\active 1 50
+	  PlayFx        GENERIC\ENTITYVANISH.FX  0 CONSTANT
+	TEnd
+MEnd
+
+
+##############  Test stuff  ###############################################################################
+
+####################
+####### test Mode  ######
+####################
+
+Move Test_mode
+	Requires	test1 
+	Interrupts	<AttackIRQ>
+	Member		<Ready>  <DeathIRQ>
+	Flags		Cycle
+	Flags		PitchToTarget
+
+
+	Type		Turrets_Ball_simple
+	  Anim          Turrets_Ball\popup 6   ##active 1 100
+	TEnd
+
+MEnd
+
+SeqEnd
+
