@@ -89,9 +89,12 @@ struct Retired {
  */
 static SRWLOCK config_lock = SRWLOCK_INIT;
 static SRWLOCK retired_lock = SRWLOCK_INIT;
-static volatile LONG current_mode = FILE_MODE_LOOSE;
+#define FILE_POLICY_LOOSE_FIRST (1L << 8)
+static volatile LONG current_configuration = FILE_MODE_LOOSE;
 static volatile LONG callbacks_enabled = 1;
-#define mode ((FileSystemMode)InterlockedCompareExchange(&current_mode, 0, 0))
+static LONG configuration(void)
+{ return InterlockedCompareExchange(&current_configuration, 0, 0); }
+#define mode ((FileSystemMode)(configuration() & ~FILE_POLICY_LOOSE_FIRST))
 static DWORD main_thread;
 static int dispatching;
 static FileSystem *systems;
@@ -397,7 +400,7 @@ static uint64_t source_order(
 	ReleaseSRWLockShared(&system->lock);
 	return result;
 }
-static int replaces(const Choice *best, const Choice *copy)
+static int replaces(const Choice *best, const Choice *copy, int loose_first)
 {
 	if (!best->source) return 1;
 	int native = copy->entry.format == PG_LOOSE;
@@ -411,6 +414,8 @@ static int replaces(const Choice *best, const Choice *copy)
 	if (best->entry.kind == PG_ENTRY_DIRECTORY) return 0;
 	if (native == (best->entry.format == PG_LOOSE))
 		return copy->source->priority >= best->source->priority;
+	if (loose_first)
+		return native;
 	/* Subtract only after checking the direction to avoid signed overflow. */
 	int equal_hour = copy->entry.mtime >= best->entry.mtime &&
 		(uint64_t)copy->entry.mtime - (uint64_t)best->entry.mtime == 3600;
@@ -447,6 +452,8 @@ static pg_status choose_unlocked(FileSystem *system, const char *path,
 	Choice *copies, size_t count, int fast, int exact, uint64_t prior,
 	Choice *out)
 {
+	LONG policy = configuration();
+	int loose_first = (policy & FILE_POLICY_LOOSE_FIRST) != 0;
 	int loose = 0, archive = 0, seen = 0;
 	pg_id pinned = 0;
 	for (Policy *p = system->policy[metadata_hash(path)]; p; p = p->next)
@@ -462,10 +469,9 @@ static pg_status choose_unlocked(FileSystem *system, const char *path,
 		} else
 			archive = 1;
 	}
-	if (is_ignored(path) ||
-		(!loose &&
-			(mode == FILE_MODE_DEVELOPMENT ||
-				(mode == FILE_MODE_DYNAMIC && !fast && !seen))))
+	if (is_ignored(path) || (!loose &&
+	    (policy == FILE_MODE_DEVELOPMENT ||
+	     (policy == FILE_MODE_DYNAMIC && !fast && !seen))))
 		return PG_NOT_FOUND;
 	if (loose && archive)
 		for (size_t i = 0; i < count; i++) {
@@ -486,13 +492,17 @@ static pg_status choose_unlocked(FileSystem *system, const char *path,
 	for (size_t i = 0; i < count; i++) {
 		Choice *copy = &copies[i];
 		if (!eligible(copy->source, path)) continue;
-		if (best == SIZE_MAX || replaces(&copies[best], copy)) best = i;
+		if (best == SIZE_MAX ||
+		    replaces(&copies[best], copy, loose_first))
+			best = i;
 		size_t *kind =
 			copy->entry.format == PG_LOOSE ? &best_loose : &best_archive;
-		if (*kind == SIZE_MAX || replaces(&copies[*kind], copy)) *kind = i;
+		if (*kind == SIZE_MAX ||
+		    replaces(&copies[*kind], copy, loose_first))
+			*kind = i;
 	}
 	if (best == SIZE_MAX) return PG_NOT_FOUND;
-	if (mode == FILE_MODE_DYNAMIC && loose && archive) {
+	if (policy == FILE_MODE_DYNAMIC && loose && archive) {
 		if (exact && !seen && copies[best].entry.kind == PG_ENTRY_FILE &&
 			best_loose != SIZE_MAX && best_archive != SIZE_MAX) {
 			best = copies[best_loose].entry.mtime ==
@@ -1078,6 +1088,7 @@ static pg_status stream_next(FileSystem *system, EntryStream *stream)
 static FileListing *listing(FileSystem *system, const char *prefix, int fast,
 	int recursive, int refresh)
 {
+	LONG policy = configuration();
 	size_t count, capacity = 0;
 	Source *local[8];
 	Source **sources = sources_copy(system, local, &count);
@@ -1090,9 +1101,9 @@ static FileListing *listing(FileSystem *system, const char *prefix, int fast,
 	for (size_t si = 0; si < count; si++) {
 		Source *s = sources[si];
 		if ((s->info.format == PG_LOOSE &&
-				(mode == FILE_MODE_ARCHIVES ||
-					(fast && mode == FILE_MODE_DYNAMIC))) ||
-			(s->info.format != PG_LOOSE && mode == FILE_MODE_LOOSE))
+		     (policy == FILE_MODE_ARCHIVES ||
+		      (fast && policy == FILE_MODE_DYNAMIC))) ||
+		    (s->info.format != PG_LOOSE && policy == FILE_MODE_LOOSE))
 			continue;
 		pg_status status = refresh
 			? discover(system, s, prefix,
@@ -1185,10 +1196,12 @@ pg_status fileSystemPrepareTree(FileSystem *system, const char *name, int fast)
 	if (!control(system)) return PG_BUSY;
 	char *prefix = normalize(system->context, name);
 	if (!prefix) return PG_INVALID;
+	LONG policy = configuration();
 	pg_status status = PG_OK;
 	for (Source *s = system->sources; s; s = s->next) {
 		if (s->info.format == PG_LOOSE &&
-			(mode == FILE_MODE_ARCHIVES || (fast && mode == FILE_MODE_DYNAMIC)))
+		    (policy == FILE_MODE_ARCHIVES ||
+		     (fast && policy == FILE_MODE_DYNAMIC)))
 			continue;
 		status = discover(system, s, prefix, PG_DISCOVER_RECURSIVE);
 		if (status == PG_CONFLICT) status = PG_OK;
@@ -1258,12 +1271,16 @@ void fileListingFree(FileListing **listing)
 }
 
 void fileSystemSetMode(FileSystemMode value)
-{ InterlockedExchange(&current_mode, value); }
+{ InterlockedExchange(&current_configuration, value); }
 FileSystemMode fileSystemGetMode(void) { return mode; }
 void fileSystemChooseMode(void)
 {
-	fileSystemSetMode(
-		fileIsUsingDevData() ? FILE_MODE_DYNAMIC : FILE_MODE_HYBRID);
+	LONG policy = FILE_MODE_HYBRID;
+
+	if (fileIsUsingDevData())
+		policy = FILE_MODE_DYNAMIC | FILE_POLICY_LOOSE_FIRST;
+
+	InterlockedExchange(&current_configuration, policy);
 }
 void fileSystemIgnoreAdd(const char *prefix)
 {
