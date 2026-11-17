@@ -12,12 +12,113 @@ static int make_archive(pg_context *context, const char *path, uint32_t format,
 	pg_archive_builder *builder = NULL;
 	pg_entry_options entry = { 0 };
 	entry.compression = PG_COMPRESS_FORCE;
+	CHECK(DeleteFileA(path) || GetLastError() == ERROR_FILE_NOT_FOUND);
 	CHECK(pg_archive_builder_create(context, path, format, PG_OVERWRITE,
 		&builder, NULL) == PG_OK);
 	CHECK(pg_archive_builder_write_all(builder, "dir/file", text, strlen(text),
 		&entry, NULL) == PG_OK);
 	CHECK(pg_archive_builder_finish(builder, NULL) == PG_OK);
 	CHECK(pg_archive_builder_close(&builder, NULL) == PG_OK);
+	return 0;
+}
+
+static int write_loose(pg_context *context, const char *path,
+	const char *text, int64_t mtime)
+{
+	pg_write_options options;
+	pg_writer *writer = NULL;
+	size_t length = strlen(text), accepted;
+
+	mkdirtree(path);
+	pg_write_options_init(&options, length);
+	options.entry.mtime = mtime;
+	CHECK(pg_writer_open_native(context, path, &options, PG_OVERWRITE,
+		&writer, NULL) == PG_OK);
+	CHECK(pg_writer_write(writer, text, length, &accepted, NULL) == PG_OK);
+	CHECK(accepted == length);
+	CHECK(pg_writer_finish(writer, NULL) == PG_OK);
+	CHECK(pg_writer_close(&writer, NULL) == PG_OK);
+	return 0;
+}
+
+static int read_asset(const char *name, const char *expected)
+{
+	char bytes[32];
+	FILE *file = fileOpen(name, "rb");
+	CHECK(file);
+	size_t count = fread(bytes, 1, sizeof(bytes), file);
+	CHECK(fclose(file) == 0);
+	CHECK(count == strlen(expected) && !memcmp(bytes, expected, count));
+	return 0;
+}
+
+static int packed_install(pg_context *context)
+{
+	const char *const tracks[] = {
+		"player_library/animations/5cw/archive_only.anim",
+		"player_library/animations/5cw/override_equal.anim",
+		"player_library/animations/5cw/override_older.anim"
+	};
+	const char *equal_time =
+		"./data/player_library/animations/5cw/override_equal.anim";
+	const char *hour_ahead =
+		"./data/player_library/animations/5cw/override_older.anim";
+	const char *packed = "packed animation";
+	const char *loose = "loose animation";
+	const char *archive_path = "./piggs/assets.hogg";
+	const int64_t mtime = 1700000000;
+	pg_archive_builder *builder = NULL;
+	pg_entry_options options = {0};
+	options.mtime = mtime;
+	options.compression = PG_COMPRESS_FORCE;
+	/* The fixture uses synthetic bytes rather than animation headers. */
+	options.cached_header_policy = PG_HEADER_CACHE_NONE;
+
+	mkdirtree(archive_path);
+	CHECK(DeleteFileA(archive_path) ||
+		GetLastError() == ERROR_FILE_NOT_FOUND);
+	CHECK(pg_archive_builder_create(context, archive_path, PG_HOGG10,
+		PG_OVERWRITE, &builder, NULL) == PG_OK);
+	for (size_t i = 0; i < sizeof(tracks) / sizeof(tracks[0]); i++)
+		CHECK(pg_archive_builder_write_all(builder, tracks[i], packed,
+			strlen(packed), &options, NULL) == PG_OK);
+	CHECK(pg_archive_builder_finish(builder, NULL) == PG_OK);
+	CHECK(pg_archive_builder_close(&builder, NULL) == PG_OK);
+	CHECK(!write_loose(context, "./data/sequencers/5cw.txt", "loose source",
+		mtime));
+	CHECK(!write_loose(context, equal_time, loose, mtime));
+	CHECK(!write_loose(context, hour_ahead, loose, mtime - 3600));
+
+	fileDisableAutoDataDir();
+	fileSystemChooseMode();
+	fileSystemCallbacksEnabled(0);
+	CHECK(!read_asset("sequencers/5cw.txt", "loose source"));
+	CHECK(!read_asset("player_library/animations/5CW/ARCHIVE_ONLY.anim",
+		packed));
+#ifdef FINAL
+	const char *expected = packed;
+	const uint32_t override_format = PG_HOGG10;
+#else
+	const char *expected = loose;
+	const uint32_t override_format = PG_LOOSE;
+#endif
+	CHECK(!read_asset(tracks[1], expected));
+	CHECK(!read_asset(tracks[2], expected));
+	FileListing *fast = fileSystemList(file_system,
+		"player_library/animations/5cw", 1);
+	CHECK(fast && fast->count == 3);
+	CHECK(fast->entries[0].format == PG_HOGG10);
+	CHECK(fast->entries[1].format == override_format);
+	CHECK(fast->entries[2].format == override_format);
+	fileListingFree(&fast);
+
+	CHECK(DeleteFileA(equal_time));
+	CHECK(DeleteFileA(hour_ahead));
+	fileSystemCallbacksEnabled(1);
+	fileSystemCallbacksEnabled(0);
+	CHECK(!read_asset(tracks[1], packed));
+	CHECK(!read_asset(tracks[2], packed));
+	fileSystemCallbacksEnabled(1);
 	return 0;
 }
 
@@ -85,6 +186,7 @@ int main(void)
 	CHECK(fseek(first, -4, SEEK_END) == 0 && fgetc(first) == 'l');
 	CHECK(fseek(first, 0, SEEK_SET) == 0 && fgetc(first) == 'f');
 	CHECK(fclose(first) == 0);
+	CHECK(packed_install(context) == 0);
 	CHECK(pg_context_close(&context, NULL) == PG_OK);
 	puts("Piggle FileWrapper checks passed");
 	return 0;

@@ -640,25 +640,32 @@ static void seqCacheMovesPerBit(SeqInfo* seqInfo, bool shared_memory)
     seqInfo->bits = newSeqBitInfo;
 }
 
-int seqAttachAnAnim( TypeGfx * typeGfx, int animLoadType )
+int seqAttachAnAnim(TypeGfx *typeGfx, int animLoadType)
 {
-    int success = 1;
+	const char *name = typeGfx->animP[0]->name;
+	int success = 1;
 
-    typeGfx->animTrack = animGetAnimTrack( typeGfx->animP[0]->name, animLoadType, typeGfx->filename );
+	typeGfx->animTrack = animGetAnimTrack(name, animLoadType,
+		typeGfx->filename);
+	if (!typeGfx->animTrack) {
+		const char *fallback = "MALE/THUMBSUP";
 
-    //Debug only
-    if( !typeGfx->animTrack )
-    {
-        ErrorFilenamef(typeGfx->filename, "MISSING ANIMATION %s ", typeGfx->animP[0]->name );
-        typeGfx->animTrack = animGetAnimTrack( "MALE/THUMBSUP", animLoadType, NULL );
-        success = 0;
-    } //End debug
+		ErrorFilenamef(typeGfx->filename, "MISSING ANIMATION %s ",
+			name);
+		typeGfx->animTrack = animGetAnimTrack(fallback, animLoadType,
+			NULL);
+		if (!typeGfx->animTrack)
+			FatalErrorFilenamef(typeGfx->filename,
+				"Missing animation '%s' and fallback '%s'.",
+				name, fallback);
+		success = 0;
+	}
 
-    //Calculate the last frame if needed
-    if (!typeGfx->animP[0]->lastFrame)
-        (cpp_const_cast(AnimP*)(typeGfx->animP[0]))->lastFrame = typeGfx->animTrack->length;
+	if (!typeGfx->animP[0]->lastFrame)
+		(cpp_const_cast(AnimP *)(typeGfx->animP[0]))->lastFrame =
+			typeGfx->animTrack->length;
 
-    return success;
+	return success;
 }
 
 

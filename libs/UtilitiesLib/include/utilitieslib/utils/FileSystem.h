@@ -15,9 +15,11 @@ extern "C" {
 typedef struct FileSystem FileSystem;
 typedef struct FileSelection FileSelection;
 
-/* CoX resolution modes. Development requires a loose counterpart; dynamic
- * discovers on demand. Hybrid permits archive-only files. Archive/loose modes
- * exclude the other storage kind. Initial process mode is LOOSE.
+/* CoX resolution modes. Development requires a loose counterpart. Dynamic
+ * discovers loose files on demand. Explicit DYNAMIC uses loose history for
+ * ordinary archive lookup. Hybrid permits archive-only files with
+ * timestamp-based precedence. Archive/loose modes exclude the other
+ * storage kind. Initial process mode is LOOSE.
  */
 typedef enum FileSystemMode {
 	FILE_MODE_DEVELOPMENT,
@@ -104,7 +106,8 @@ pg_status fileSystemOpenPath(const char *path, pg_reader **out);
  * prepared covering subtree. Capture effective entries, including empty
  * directories. NULL/empty prefix means root, excluded from result. Ignored
  * components are omitted. NULL on failure; absent prefix -> empty listing.
- * archive_fast permits archive-only results in DYNAMIC mode for quickload.
+ * archive_fast skips loose sources and permits archive-only results when
+ * DYNAMIC was selected explicitly.
  * Caller can prune by choosing which child directories to list next.
  */
 FileListing *fileSystemList(FileSystem *system, const char *prefix,
@@ -133,8 +136,10 @@ pg_status fileSystemCacheTree(FileSystem *system, const char *prefix,
 FileListing *fileSystemListNative(const char *path);
 void fileListingFree(FileListing **listing);
 
-/* Global policy configuration; choose DYNAMIC for development data and HYBRID
- * otherwise. Set mode before attaching sources. Get is thread-safe.
+/* Global policy configuration. Choose uses DYNAMIC discovery with loose-first
+ * precedence and archive fallback for development data, HYBRID otherwise.
+ * Set selects the mode's explicit policy. Set or Choose before attaching
+ * sources. Get returns the discovery mode and is thread-safe.
  */
 void fileSystemSetMode(FileSystemMode mode);
 FileSystemMode fileSystemGetMode(void);

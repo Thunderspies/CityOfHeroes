@@ -32,6 +32,9 @@ int main(int argc, char **argv)
 	CHECK(fileIsUsingDevData() == (COX_EXPECT_DEV_FEATURES && loose));
 	CHECK(isDevelopmentMode() == (COX_EXPECT_DEV_FEATURES && loose));
 	CHECK(isProductionMode() == !(COX_EXPECT_DEV_FEATURES && loose));
+	fileSystemChooseMode();
+	CHECK(fileSystemGetMode() == (COX_EXPECT_DEV_FEATURES && loose
+		? FILE_MODE_DYNAMIC : FILE_MODE_HYBRID));
 
 #ifndef FINAL
 	g_force_production_mode = 1;

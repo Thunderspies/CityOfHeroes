@@ -270,6 +270,47 @@ static int dynamic_selection(void)
 	return 0;
 }
 
+static int dynamic_archive_history(void)
+{
+	const char *loose = "dynamic-history/dir/file";
+	const char *name = "dir/file";
+	FileSystemEntry entry;
+
+	_mkdir("dynamic-history");
+	_mkdir("dynamic-history/dir");
+	DeleteFileA(loose);
+	CHECK(!archive("dynamic-history.pigg", 10000));
+	fileSystemSetMode(FILE_MODE_DYNAMIC);
+	FileSystem *system = fileSystemCreate();
+	CHECK(system);
+	CHECK(fileSystemAddSource(system, "dynamic-history", 0) == PG_OK);
+	CHECK(fileSystemAddSource(system, "dynamic-history.pigg", 0) == PG_OK);
+	CHECK(fileSystemQuery(system, name, &entry, NULL, 0) == PG_NOT_FOUND);
+
+	CHECK(fileSystemPrepareTree(system, "dir", 1) == PG_OK);
+	FileListing *fast = fileSystemList(system, "dir", 1);
+	CHECK(fast && fast->count == 1);
+	CHECK(!strcmp(fast->entries[0].path, name));
+	CHECK(fast->entries[0].format == PG_PIGG2);
+	fileListingFree(&fast);
+	CHECK(fileSystemQuery(system, name, &entry, NULL, 0) == PG_NOT_FOUND);
+	CHECK(fileSystemPrepareTree(system, "dir", 0) == PG_OK);
+	CHECK(fileSystemQuery(system, name, &entry, NULL, 0) == PG_NOT_FOUND);
+
+	CHECK(!put(loose, "native", 10001));
+	fileSystemCallbacksEnabled(0);
+	CHECK(fileSystemQuery(system, name, &entry, NULL, 0) == PG_OK);
+	CHECK(entry.format == PG_LOOSE);
+	CHECK(DeleteFileA(loose));
+	fileSystemCallbacksEnabled(1);
+	fileSystemCallbacksEnabled(0);
+	CHECK(fileSystemQuery(system, name, &entry, NULL, 0) == PG_OK);
+	CHECK(entry.format == PG_PIGG2);
+	fileSystemDestroy(&system);
+	fileSystemCallbacksEnabled(1);
+	return 0;
+}
+
 static int listing_refresh(void)
 {
 	_mkdir("refresh");
@@ -739,6 +780,7 @@ int main(void)
 	CHECK(cached_subtrees() == 0);
 	CHECK(lazy_callbacks() == 0);
 	CHECK(dynamic_selection() == 0);
+	CHECK(dynamic_archive_history() == 0);
 	CHECK(listing_refresh() == 0);
 	CHECK(callback_teardown() == 0);
 	CHECK(pg_context_close(&fixture_context, NULL) == PG_OK);
